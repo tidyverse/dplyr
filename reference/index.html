@@ -81,9 +81,15 @@
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -100,7 +106,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
         </div>
       </div>
     </div>
@@ -157,9 +163,6 @@
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -182,7 +185,7 @@
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -322,6 +325,12 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="setops.html">union_all()</a></code> </p>
+        </td>
+        <td><p>Set operations</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="mutate-joins.html">inner_join()</a></code> <code><a href="mutate-joins.html">left_join()</a></code> <code><a href="mutate-joins.html">right_join()</a></code> <code><a href="mutate-joins.html">full_join()</a></code> </p>
         </td>
         <td><p>Mutating joins</p></td>
@@ -384,9 +393,15 @@
       <tr>
         
         <td>
-          <p><code><a href="across.html">across()</a></code> <code><a href="across.html">c_across()</a></code> </p>
+          <p><code><a href="across.html">across()</a></code> <code><a href="across.html">if_any()</a></code> <code><a href="across.html">if_all()</a></code> </p>
         </td>
-        <td><p>Apply a function (or a set of functions) to a set of columns</p></td>
+        <td><p>Apply a function (or functions) across multiple columns</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="c_across.html">c_across()</a></code> </p>
+        </td>
+        <td><p>Combine values from multiple columns</p></td>
       </tr><tr>
         
         <td>
@@ -600,6 +615,12 @@
           <p><code><a href="with_groups.html">with_groups()</a></code> </p>
         </td>
         <td><p>Perform an operation with temporary groups</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rows.html">rows_insert()</a></code> <code><a href="rows.html">rows_update()</a></code> <code><a href="rows.html">rows_patch()</a></code> <code><a href="rows.html">rows_upsert()</a></code> <code><a href="rows.html">rows_delete()</a></code> </p>
+        </td>
+        <td><p>Manipulate individual rows</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -718,8 +739,7 @@
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
-             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -746,6 +766,8 @@
 </script>
 
 
+
+  
 
   </body>
 </html>

@@ -85,9 +85,15 @@ validate_grouped_df() validates the attributes of a grouped_df." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -104,7 +110,7 @@ validate_grouped_df() validates the attributes of a grouped_df." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
         </div>
       </div>
     </div>
@@ -161,9 +167,6 @@ validate_grouped_df() validates the attributes of a grouped_df." />
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -186,7 +189,7 @@ validate_grouped_df() validates the attributes of a grouped_df." />
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -221,9 +224,9 @@ to create valid values, and hence this is for expert use only.</p>
 <p><code>validate_grouped_df()</code> validates the attributes of a <code>grouped_df</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>new_grouped_df</span>(<span class='kw'>x</span>, <span class='kw'>groups</span>, <span class='kw'>...</span>, class = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>())
+    <pre class="usage"><span class='fu'>new_grouped_df</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>groups</span>, <span class='va'>...</span>, class <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>validate_grouped_df</span>(<span class='kw'>x</span>, check_bounds = <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>validate_grouped_df</span><span class='op'>(</span><span class='va'>x</span>, check_bounds <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -255,19 +258,21 @@ a list of 1 based integer vectors that all are between 1 and the number of rows 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># 5 bootstrap samples</span>
-<span class='kw'>tbl</span> <span class='op'>&lt;-</span> <span class='fu'>new_grouped_df</span>(
-  <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(x = <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>10</span>)),
-  groups = <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='st'>".rows"</span> <span class='op'>:=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>replicate</a></span>(<span class='fl'>5</span>, <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, replace = <span class='fl'>TRUE</span>), simplify = <span class='fl'>FALSE</span>))
-)
+<span class='va'>tbl</span> <span class='op'>&lt;-</span> <span class='fu'>new_grouped_df</span><span class='op'>(</span>
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span>,
+  groups <span class='op'>=</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span><span class='st'>".rows"</span> <span class='op'>:=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>replicate</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, simplify <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>)</span>
 <span class='co'># mean of each bootstrap sample</span>
-<span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>tbl</span>, x = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>x</span>))</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 1</span><span>
-#&gt;        x
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> -</span><span style='color: #BB0000;'>0.559</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> -</span><span style='color: #BB0000;'>0.332</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> -</span><span style='color: #BB0000;'>0.656</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span> -</span><span style='color: #BB0000;'>0.223</span><span>
-#&gt; </span><span style='color: #555555;'>5</span><span> -</span><span style='color: #BB0000;'>0.269</span><span></div><div class='input'></div></span></pre>
+<span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span><span class='va'>tbl</span>, x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 1</span><span>
+#&gt;         x
+#&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> -</span><span style='color: #BB0000;'>0.298</span><span> 
+#&gt; </span><span style='color: #555555;'>2</span><span> -</span><span style='color: #BB0000;'>0.127</span><span> 
+#&gt; </span><span style='color: #555555;'>3</span><span> -</span><span style='color: #BB0000;'>0.074</span><span style='color: #BB0000;text-decoration: underline;'>1</span><span>
+#&gt; </span><span style='color: #555555;'>4</span><span> -</span><span style='color: #BB0000;'>0.288</span><span> 
+#&gt; </span><span style='color: #555555;'>5</span><span> -</span><span style='color: #BB0000;'>0.605</span><span> </div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -284,8 +289,7 @@ a list of 1 based integer vectors that all are between 1 and the number of rows 
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
-             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -312,6 +316,8 @@ a list of 1 based integer vectors that all are between 1 and the number of rows 
 </script>
 
 
+
+  
 
   </body>
 </html>

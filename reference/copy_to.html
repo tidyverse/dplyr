@@ -84,9 +84,15 @@ temporary, limited to the current connection to the source." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -103,7 +109,7 @@ temporary, limited to the current connection to the source." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
         </div>
       </div>
     </div>
@@ -160,9 +166,6 @@ temporary, limited to the current connection to the source." />
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -185,7 +188,7 @@ temporary, limited to the current connection to the source." />
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -219,7 +222,7 @@ the table definition as needed. Wherever possible, the new object will be
 temporary, limited to the current connection to the source.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>copy_to</span>(<span class='kw'>dest</span>, <span class='kw'>df</span>, name = <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>(<span class='kw'>df</span>)), overwrite = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>copy_to</span><span class='op'>(</span><span class='va'>dest</span>, <span class='va'>df</span>, name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span><span class='op'>)</span>, overwrite <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -257,10 +260,11 @@ exists.</p></td>
 a local dbl.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>iris2</span> <span class='op'>&lt;-</span> <span class='kw'>dbplyr</span>::<span class='fu'><a href='https://dbplyr.tidyverse.org/reference/memdb_frame.html'>src_memdb</a></span>() <span class='op'>%&gt;%</span> <span class='fu'>copy_to</span>(<span class='kw'>iris</span>, overwrite = <span class='fl'>TRUE</span>)
-<span class='kw'>iris2</span>
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>iris2</span> <span class='op'>&lt;-</span> <span class='fu'>dbplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dbplyr.tidyverse.org/reference/memdb_frame.html'>src_memdb</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>copy_to</span><span class='op'>(</span><span class='va'>iris</span>, overwrite <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>iris2</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -277,8 +281,7 @@ a local dbl.</p></div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
-             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -305,6 +308,8 @@ a local dbl.</p></div>
 </script>
 
 
+
+  
 
   </body>
 </html>

@@ -84,9 +84,15 @@ appropriate SQL for remote tables." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -103,7 +109,7 @@ appropriate SQL for remote tables." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
         </div>
       </div>
     </div>
@@ -160,9 +166,6 @@ appropriate SQL for remote tables." />
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -185,7 +188,7 @@ appropriate SQL for remote tables." />
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -219,7 +222,7 @@ efficiently in C++ for local values, and translated to the
 appropriate SQL for remote tables.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>between</span>(<span class='kw'>x</span>, <span class='kw'>left</span>, <span class='kw'>right</span>)</pre>
+    <pre class="usage"><span class='fu'>between</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>left</span>, <span class='va'>right</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -230,27 +233,30 @@ appropriate SQL for remote tables.</p>
     </tr>
     <tr>
       <th>left, right</th>
-      <td><p>Boundary values</p></td>
+      <td><p>Boundary values (must be scalars).</p></td>
     </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>between</span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>12</span>, <span class='fl'>7</span>, <span class='fl'>9</span>)</div><div class='output co'>#&gt;  [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE</div><div class='input'>
-<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>1e2</span>)
-<span class='kw'>x</span>[<span class='fu'>between</span>(<span class='kw'>x</span>, <span class='op'>-</span><span class='fl'>1</span>, <span class='fl'>1</span>)]</div><div class='output co'>#&gt;  [1]  0.67638957 -0.23276176  0.63747287 -0.68326687 -0.97967535 -0.46251911
-#&gt;  [7]  0.74786883 -0.80534353  0.77599004  0.70359786  0.71540139  0.40152349
-#&gt; [13]  0.40427794 -0.77705556 -0.28045548  0.29738725 -0.23564615  0.04433469
-#&gt; [19] -0.32849189  0.46205231  0.69362435 -0.70859443 -0.20889688  0.35227917
-#&gt; [25] -0.77928540  0.70005531  0.11759261 -0.28362275  0.49790884  0.38624909
-#&gt; [31]  0.71752478  0.13191018 -0.92066340  0.26726762 -0.23854626 -0.78447669
-#&gt; [37] -0.82776894  0.94433756 -0.63969296 -0.21714460  0.57991478 -0.95260348
-#&gt; [43] -0.96767371  0.79245114 -0.93697260  0.86130054  0.62163991  0.48472168
-#&gt; [49] -0.44727427  0.54609708  0.24288873  0.16851210  0.23906467  0.23632142
-#&gt; [55] -0.25911917  0.64904570  0.84197042  0.26416593  0.09731070 -0.98868279
-#&gt; [61]  0.37043223</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>between</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>12</span>, <span class='fl'>7</span>, <span class='fl'>9</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE</div><div class='input'>
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>1e2</span><span class='op'>)</span>
+<span class='va'>x</span><span class='op'>[</span><span class='fu'>between</span><span class='op'>(</span><span class='va'>x</span>, <span class='op'>-</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>]</span>
+</div><div class='output co'>#&gt;  [1] -0.71128732  0.67638957 -0.23276176  0.63747287 -0.68326687 -0.97967535
+#&gt;  [7] -0.46251911  0.74786883 -0.80534353  0.77599004  0.70359786  0.71540139
+#&gt; [13]  0.40152349  0.40427794 -0.77705556 -0.28045548  0.29738725 -0.23564615
+#&gt; [19]  0.04433469 -0.32849189  0.46205231  0.69362435 -0.70859443 -0.20889688
+#&gt; [25]  0.35227917 -0.77928540  0.70005531  0.11759261 -0.28362275  0.49790884
+#&gt; [31]  0.38624909  0.71752478  0.13191018 -0.92066340  0.26726762 -0.23854626
+#&gt; [37] -0.78447669 -0.82776894  0.94433756 -0.63969296 -0.21714460  0.57991478
+#&gt; [43] -0.95260348 -0.96767371  0.79245114 -0.93697260  0.86130054  0.62163991
+#&gt; [49]  0.48472168 -0.44727427  0.54609708  0.24288873  0.16851210  0.23906467
+#&gt; [55]  0.23632142 -0.25911917  0.64904570  0.84197042  0.26416593  0.09731070
+#&gt; [61] -0.98868279</div><div class='input'>
 <span class='co'>## Or on a tibble using filter</span>
-<span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>starwars</span>, <span class='fu'>between</span>(<span class='kw'>height</span>, <span class='fl'>100</span>, <span class='fl'>150</span>))</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 14</span><span>
+<span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='va'>starwars</span>, <span class='fu'>between</span><span class='op'>(</span><span class='va'>height</span>, <span class='fl'>100</span>, <span class='fl'>150</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 14</span><span>
 #&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
 #&gt; </span><span style='color: #555555;'>1</span><span> Leia…    150    49 brown      light      brown             19 fema… femin…
@@ -276,8 +282,7 @@ appropriate SQL for remote tables.</p>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
-             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -304,6 +309,8 @@ appropriate SQL for remote tables.</p>
 </script>
 
 
+
+  
 
   </body>
 </html>

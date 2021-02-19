@@ -84,9 +84,15 @@ function." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -103,7 +109,7 @@ function." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
         </div>
       </div>
     </div>
@@ -160,9 +166,6 @@ function." />
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -185,7 +188,7 @@ function." />
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -219,9 +222,9 @@ function." />
 function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rename</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>rename</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>rename_with</span>(<span class='kw'>.data</span>, <span class='kw'>.fn</span>, .cols = <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span>(), <span class='kw'>...</span>)</pre>
+<span class='fu'>rename_with</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>.fn</span>, .cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -268,7 +271,7 @@ properties:</p><ul>
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.</p>
 <p>The following methods are currently available in loaded packages:
-dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</code>)
+dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/select.tbl_lazy.html'>tbl_lazy</a></code>), dplyr (<code>data.frame</code>)
 .</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -281,8 +284,9 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 <code><a href='summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>iris</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='kw'>iris</span>) <span class='co'># so it prints a little nicer</span>
-<span class='fu'>rename</span>(<span class='kw'>iris</span>, petal_length = <span class='kw'>Petal.Length</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 150 x 5</span><span>
+    <pre class="examples"><div class='input'><span class='va'>iris</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='va'>iris</span><span class='op'>)</span> <span class='co'># so it prints a little nicer</span>
+<span class='fu'>rename</span><span class='op'>(</span><span class='va'>iris</span>, petal_length <span class='op'>=</span> <span class='va'>Petal.Length</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    Sepal.Length Sepal.Width petal_length Petal.Width Species
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'> 1</span><span>          5.1         3.5          1.4         0.2 setosa 
@@ -296,7 +300,8 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa 
 #&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa 
 #&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'>
-<span class='fu'>rename_with</span>(<span class='kw'>iris</span>, <span class='kw'>toupper</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
+<span class='fu'>rename_with</span><span class='op'>(</span><span class='va'>iris</span>, <span class='va'>toupper</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    SEPAL.LENGTH SEPAL.WIDTH PETAL.LENGTH PETAL.WIDTH SPECIES
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'> 1</span><span>          5.1         3.5          1.4         0.2 setosa 
@@ -309,7 +314,8 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'> 8</span><span>          5           3.4          1.5         0.2 setosa 
 #&gt; </span><span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa 
 #&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa 
-#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='fu'>rename_with</span>(<span class='kw'>iris</span>, <span class='kw'>toupper</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
+#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='fu'>rename_with</span><span class='op'>(</span><span class='va'>iris</span>, <span class='va'>toupper</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"Petal"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    Sepal.Length Sepal.Width PETAL.LENGTH PETAL.WIDTH Species
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'> 1</span><span>          5.1         3.5          1.4         0.2 setosa 
@@ -322,7 +328,8 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 #&gt; </span><span style='color: #555555;'> 8</span><span>          5           3.4          1.5         0.2 setosa 
 #&gt; </span><span style='color: #555555;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa 
 #&gt; </span><span style='color: #555555;'>10</span><span>          4.9         3.1          1.5         0.1 setosa 
-#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='fu'>rename_with</span>(<span class='kw'>iris</span>, <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>tolower</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span>(<span class='st'>"."</span>, <span class='st'>"_"</span>, <span class='kw'>.x</span>, fixed = <span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
+#&gt; </span><span style='color: #555555;'># … with 140 more rows</span><span></div><div class='input'><span class='fu'>rename_with</span><span class='op'>(</span><span class='va'>iris</span>, <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>tolower</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span><span class='op'>(</span><span class='st'>"."</span>, <span class='st'>"_"</span>, <span class='va'>.x</span>, fixed <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 150 x 5</span><span>
 #&gt;    sepal_length sepal_width petal_length petal_width species
 #&gt;           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'> 1</span><span>          5.1         3.5          1.4         0.2 setosa 
@@ -352,8 +359,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
-             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -380,6 +386,8 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 </script>
 
 
+
+  
 
   </body>
 </html>

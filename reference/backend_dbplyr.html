@@ -86,9 +86,15 @@ method." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -105,7 +111,7 @@ method." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
         </div>
       </div>
     </div>
@@ -162,9 +168,6 @@ method." />
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -187,7 +190,7 @@ method." />
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -223,68 +226,68 @@ implementations in dbplyr typically just call the standard DBI S4
 method.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>db_desc</span>(<span class='kw'>x</span>)
+    <pre class="usage"><span class='fu'>db_desc</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
-<span class='fu'>sql_translate_env</span>(<span class='kw'>con</span>)
+<span class='fu'>sql_translate_env</span><span class='op'>(</span><span class='va'>con</span><span class='op'>)</span>
 
-<span class='fu'>db_list_tables</span>(<span class='kw'>con</span>)
+<span class='fu'>db_list_tables</span><span class='op'>(</span><span class='va'>con</span><span class='op'>)</span>
 
-<span class='fu'>db_has_table</span>(<span class='kw'>con</span>, <span class='kw'>table</span>)
+<span class='fu'>db_has_table</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>table</span><span class='op'>)</span>
 
-<span class='fu'>db_data_type</span>(<span class='kw'>con</span>, <span class='kw'>fields</span>)
+<span class='fu'>db_data_type</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>fields</span><span class='op'>)</span>
 
-<span class='fu'>db_save_query</span>(<span class='kw'>con</span>, <span class='kw'>sql</span>, <span class='kw'>name</span>, temporary = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)
+<span class='fu'>db_save_query</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>sql</span>, <span class='va'>name</span>, temporary <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>db_begin</span>(<span class='kw'>con</span>, <span class='kw'>...</span>)
+<span class='fu'>db_begin</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>db_commit</span>(<span class='kw'>con</span>, <span class='kw'>...</span>)
+<span class='fu'>db_commit</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>db_rollback</span>(<span class='kw'>con</span>, <span class='kw'>...</span>)
+<span class='fu'>db_rollback</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>db_write_table</span>(<span class='kw'>con</span>, <span class='kw'>table</span>, <span class='kw'>types</span>, <span class='kw'>values</span>, temporary = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)
+<span class='fu'>db_write_table</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>table</span>, <span class='va'>types</span>, <span class='va'>values</span>, temporary <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>db_create_table</span>(<span class='kw'>con</span>, <span class='kw'>table</span>, <span class='kw'>types</span>, temporary = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)
+<span class='fu'>db_create_table</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>table</span>, <span class='va'>types</span>, temporary <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>db_insert_into</span>(<span class='kw'>con</span>, <span class='kw'>table</span>, <span class='kw'>values</span>, <span class='kw'>...</span>)
+<span class='fu'>db_insert_into</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>table</span>, <span class='va'>values</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>db_create_indexes</span>(<span class='kw'>con</span>, <span class='kw'>table</span>, indexes = <span class='kw'>NULL</span>, unique = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)
+<span class='fu'>db_create_indexes</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>table</span>, indexes <span class='op'>=</span> <span class='cn'>NULL</span>, unique <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>db_create_index</span>(<span class='kw'>con</span>, <span class='kw'>table</span>, <span class='kw'>columns</span>, name = <span class='kw'>NULL</span>, unique = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)
+<span class='fu'>db_create_index</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>table</span>, <span class='va'>columns</span>, name <span class='op'>=</span> <span class='cn'>NULL</span>, unique <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>db_drop_table</span>(<span class='kw'>con</span>, <span class='kw'>table</span>, force = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)
+<span class='fu'>db_drop_table</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>table</span>, force <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>db_analyze</span>(<span class='kw'>con</span>, <span class='kw'>table</span>, <span class='kw'>...</span>)
+<span class='fu'>db_analyze</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>table</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>db_explain</span>(<span class='kw'>con</span>, <span class='kw'>sql</span>, <span class='kw'>...</span>)
+<span class='fu'>db_explain</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>sql</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>db_query_fields</span>(<span class='kw'>con</span>, <span class='kw'>sql</span>, <span class='kw'>...</span>)
+<span class='fu'>db_query_fields</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>sql</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>db_query_rows</span>(<span class='kw'>con</span>, <span class='kw'>sql</span>, <span class='kw'>...</span>)
+<span class='fu'>db_query_rows</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>sql</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>sql_select</span>(
-  <span class='kw'>con</span>,
-  <span class='kw'>select</span>,
-  <span class='kw'>from</span>,
-  where = <span class='kw'>NULL</span>,
-  group_by = <span class='kw'>NULL</span>,
-  having = <span class='kw'>NULL</span>,
-  order_by = <span class='kw'>NULL</span>,
-  limit = <span class='kw'>NULL</span>,
-  distinct = <span class='fl'>FALSE</span>,
-  <span class='kw'>...</span>
-)
+<span class='fu'>sql_select</span><span class='op'>(</span>
+  <span class='va'>con</span>,
+  <span class='va'>select</span>,
+  <span class='va'>from</span>,
+  where <span class='op'>=</span> <span class='cn'>NULL</span>,
+  group_by <span class='op'>=</span> <span class='cn'>NULL</span>,
+  having <span class='op'>=</span> <span class='cn'>NULL</span>,
+  order_by <span class='op'>=</span> <span class='cn'>NULL</span>,
+  limit <span class='op'>=</span> <span class='cn'>NULL</span>,
+  distinct <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
-<span class='fu'>sql_subquery</span>(<span class='kw'>con</span>, <span class='kw'>from</span>, name = <span class='fu'>random_table_name</span>(), <span class='kw'>...</span>)
+<span class='fu'>sql_subquery</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>from</span>, name <span class='op'>=</span> <span class='fu'>random_table_name</span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>sql_join</span>(<span class='kw'>con</span>, <span class='kw'>x</span>, <span class='kw'>y</span>, <span class='kw'>vars</span>, type = <span class='st'>"inner"</span>, by = <span class='kw'>NULL</span>, <span class='kw'>...</span>)
+<span class='fu'>sql_join</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>x</span>, <span class='va'>y</span>, <span class='va'>vars</span>, type <span class='op'>=</span> <span class='st'>"inner"</span>, by <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>sql_semi_join</span>(<span class='kw'>con</span>, <span class='kw'>x</span>, <span class='kw'>y</span>, anti = <span class='fl'>FALSE</span>, by = <span class='kw'>NULL</span>, <span class='kw'>...</span>)
+<span class='fu'>sql_semi_join</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>x</span>, <span class='va'>y</span>, anti <span class='op'>=</span> <span class='cn'>FALSE</span>, by <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>sql_set_op</span>(<span class='kw'>con</span>, <span class='kw'>x</span>, <span class='kw'>y</span>, <span class='kw'>method</span>)
+<span class='fu'>sql_set_op</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>x</span>, <span class='va'>y</span>, <span class='va'>method</span><span class='op'>)</span>
 
-<span class='fu'>sql_escape_string</span>(<span class='kw'>con</span>, <span class='kw'>x</span>)
+<span class='fu'>sql_escape_string</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>x</span><span class='op'>)</span>
 
-<span class='fu'>sql_escape_ident</span>(<span class='kw'>con</span>, <span class='kw'>x</span>)</pre>
+<span class='fu'>sql_escape_ident</span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -350,8 +353,7 @@ in favour of <code>db_write_table()</code>.</p>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
-             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -378,6 +380,8 @@ in favour of <code>db_write_table()</code>.</p>
 </script>
 
 
+
+  
 
   </body>
 </html>

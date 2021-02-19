@@ -89,9 +89,15 @@ dplyr.show_progress to FALSE." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -108,7 +114,7 @@ dplyr.show_progress to FALSE." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
         </div>
       </div>
     </div>
@@ -165,9 +171,6 @@ dplyr.show_progress to FALSE." />
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -190,7 +193,7 @@ dplyr.show_progress to FALSE." />
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -219,7 +222,7 @@ dplyr.show_progress to FALSE." />
     </div>
 
     <div class="ref-description">
-    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
+    <p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a></p>
 <p>This progress bar has been deprecated since providing progress bars is not
 the responsibility of dplyr. Instead, you might try the more powerful
 <a href='https://github.com/r-lib/progress'>progress</a> package.</p>
@@ -229,7 +232,7 @@ automatic progress bar can be disabled by setting option
 <code>dplyr.show_progress</code> to <code>FALSE</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>progress_estimated</span>(<span class='kw'>n</span>, min_time = <span class='fl'>0</span>)</pre>
+    <pre class="usage"><span class='fu'>progress_estimated</span><span class='op'>(</span><span class='va'>n</span>, min_time <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -251,28 +254,28 @@ seconds have elapsed before displaying any results.</p></td>
 <code>pause()</code>, and <code><a href='https://rdrr.io/r/base/stop.html'>stop()</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>p</span> <span class='op'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>3</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `progress_estimated()` is deprecated as of dplyr 1.0.0.</span>
-#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
-#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='input'><span class='kw'>p</span><span class='op'>$</span><span class='fu'>tick</span>()
-<span class='kw'>p</span><span class='op'>$</span><span class='fu'>tick</span>()
-<span class='kw'>p</span><span class='op'>$</span><span class='fu'>tick</span>()
+    <pre class="examples"><div class='input'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>progress_estimated</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: `progress_estimated()` was deprecated in dplyr 1.0.0.</span></div><div class='input'><span class='va'>p</span><span class='op'>$</span><span class='fu'>tick</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>p</span><span class='op'>$</span><span class='fu'>tick</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>p</span><span class='op'>$</span><span class='fu'>tick</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='kw'>p</span> <span class='op'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>3</span>)
-<span class='co'>for</span> (<span class='kw'>i</span> <span class='co'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>) <span class='kw'>p</span><span class='op'>$</span><span class='fu'>pause</span>(<span class='fl'>0.1</span>)<span class='op'>$</span><span class='fu'>tick</span>()<span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>()
+<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>progress_estimated</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: `progress_estimated()` was deprecated in dplyr 1.0.0.</span></div><div class='input'><span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span> <span class='va'>p</span><span class='op'>$</span><span class='fu'>pause</span><span class='op'>(</span><span class='fl'>0.1</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>tick</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>print</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='kw'>p</span> <span class='op'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>3</span>)
-<span class='kw'>p</span><span class='op'>$</span><span class='fu'>tick</span>()<span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>()<span class='op'>$</span>
- <span class='fu'>pause</span>(<span class='fl'>1</span>)<span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/stop.html'>stop</a></span>()
+<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>progress_estimated</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: `progress_estimated()` was deprecated in dplyr 1.0.0.</span></div><div class='input'><span class='va'>p</span><span class='op'>$</span><span class='fu'>tick</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>print</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span>
+ <span class='fu'>pause</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>$</span><span class='kw'>stop</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'># If min_time is set, progress bar not shown until that many</span>
 <span class='co'># seconds have elapsed</span>
-<span class='kw'>p</span> <span class='op'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>3</span>, min_time = <span class='fl'>3</span>)
-<span class='co'>for</span> (<span class='kw'>i</span> <span class='co'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>) <span class='kw'>p</span><span class='op'>$</span><span class='fu'>pause</span>(<span class='fl'>0.1</span>)<span class='op'>$</span><span class='fu'>tick</span>()<span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>()
+<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>progress_estimated</span><span class='op'>(</span><span class='fl'>3</span>, min_time <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: `progress_estimated()` was deprecated in dplyr 1.0.0.</span></div><div class='input'><span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span> <span class='va'>p</span><span class='op'>$</span><span class='fu'>pause</span><span class='op'>(</span><span class='fl'>0.1</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>tick</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>print</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>p</span> <span class='op'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>10</span>, min_time = <span class='fl'>3</span>)
-<span class='co'>for</span> (<span class='kw'>i</span> <span class='co'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>) <span class='kw'>p</span><span class='op'>$</span><span class='fu'>pause</span>(<span class='fl'>0.5</span>)<span class='op'>$</span><span class='fu'>tick</span>()<span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>()
-}</div></span></pre>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>progress_estimated</span><span class='op'>(</span><span class='fl'>10</span>, min_time <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span> <span class='va'>p</span><span class='op'>$</span><span class='fu'>pause</span><span class='op'>(</span><span class='fl'>0.5</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>tick</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>print</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -289,8 +292,7 @@ seconds have elapsed before displaying any results.</p></td>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel 
-             Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -317,6 +319,8 @@ seconds have elapsed before displaying any results.</p></td>
 </script>
 
 
+
+  
 
   </body>
 </html>
