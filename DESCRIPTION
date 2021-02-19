@@ -1,7 +1,7 @@
 Type: Package
 Package: dplyr
 Title: A Grammar of Data Manipulation
-Version: 1.0.4.9001
+Version: 1.0.5
 Authors@R: 
     c(person(given = "Hadley",
              family = "Wickham",
