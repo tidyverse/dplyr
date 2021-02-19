@@ -1,123 +1,26 @@
 # Revdeps
 
-## Failed to check (109)
+## Failed to check (19)
 
-|package              |version |error |warning |note |
-|:--------------------|:-------|:-----|:-------|:----|
-|accept               |?       |      |        |     |
-|ActCR                |0.2.0   |1     |        |     |
-|ADtools              |?       |      |        |     |
-|AIG                  |0.1.9   |1     |        |     |
-|AMPLE                |0.0.2   |1     |        |     |
-|Andromeda            |0.4.0   |1     |1       |     |
-|AQuadtree            |?       |      |        |     |
-|ARTool               |0.10.8  |1     |        |     |
-|BAwiR                |1.2.5   |1     |1       |     |
-|bayesdfa             |0.1.6   |1     |        |     |
-|BayesianReasoning    |0.3.2   |1     |        |     |
-|BENMMI               |4.3-7   |1     |        |1    |
-|BETS                 |0.4.9   |1     |        |     |
-|BGPhazard            |2.1.0   |1     |        |     |
-|BMTME                |?       |      |        |     |
-|butcher              |?       |      |        |     |
-|CamelUp              |2.0.2   |1     |        |     |
-|CARBayes             |?       |      |        |     |
-|CausalImpact         |?       |      |        |     |
-|CB2                  |?       |      |        |     |
-|cbar                 |?       |      |        |     |
-|CoordinateCleaner    |2.0-18  |1     |        |     |
-|Countr               |3.5.4   |1     |        |     |
-|CRANsearcher         |1.0.0   |1     |        |     |
-|crossmap             |?       |      |        |     |
-|CruzPlot             |?       |      |        |     |
-|CTShiny              |?       |      |        |     |
-|DAISIE               |?       |      |        |     |
-|DataVisualizations   |1.2.2   |1     |        |     |
-|DCPO                 |0.5.3   |1     |        |     |
-|diceR                |?       |      |        |     |
-|DirectEffects        |?       |      |        |     |
-|DLMtool              |?       |      |        |     |
-|DTAT                 |?       |      |        |     |
-|EdSurvey             |2.6.1   |1     |        |     |
-|EFDR                 |1.0     |1     |        |     |
-|EML                  |2.0.4   |1     |        |     |
-|EpiNow2              |?       |      |        |     |
-|EstimateGroupNetwork |0.3.1   |1     |        |     |
-|EValue               |4.1.1   |1     |        |     |
-|FRK                  |?       |      |        |     |
-|FSinR                |2.0.5   |1     |        |     |
-|FSK2R                |?       |      |        |     |
-|FunnelPlotR          |0.3.2   |1     |        |     |
-|GADMTools            |3.8-1   |1     |        |     |
-|gastempt             |0.5.1   |1     |        |     |
-|GenomicMating        |2.0     |1     |        |     |
-|GetBCBData           |?       |      |        |     |
-|glmmfields           |0.1.4   |1     |        |     |
-|GPSCDF               |0.1.1   |1     |        |     |
-|Greg                 |1.3.4   |1     |        |1    |
-|GuessCompx           |?       |      |        |     |
-|IAT                  |0.3     |1     |        |     |
-|IPDfromKM            |0.1.10  |1     |        |     |
-|JacobiEigen          |?       |      |        |     |
-|JFE                  |2.5.1   |1     |        |     |
-|KraljicMatrix        |0.2.1   |1     |        |1    |
-|LDAShiny             |0.9.2   |1     |        |     |
-|LexisPlotR           |0.4.0   |1     |        |     |
-|MAGNAMWAR            |2.0.4   |1     |        |     |
-|MarketMatching       |?       |      |        |     |
-|MetaboList           |2.0     |1     |        |     |
-|metagam              |?       |      |        |     |
-|mlr3db               |?       |      |        |     |
-|MLRShiny             |?       |      |        |     |
-|MLZ                  |?       |      |        |     |
-|Modelcharts          |?       |      |        |     |
-|multinma             |0.2.1   |1     |        |     |
-|NBShiny              |?       |      |        |     |
-|NetworkRiskMeasures  |0.1.4   |1     |        |     |
-|Nmisc                |?       |      |        |     |
-|OncoBayes2           |0.6-5   |1     |        |     |
-|OpenRepGrid.ic       |0.5.0   |1     |        |     |
-|OTrecod              |0.1.0   |1     |        |     |
-|pencal               |?       |      |        |     |
-|PHEindicatormethods  |?       |      |        |     |
-|PhenotypeSimulator   |0.3.3   |1     |        |1    |
-|PML                  |1.2     |1     |        |1    |
-|POFIBGE              |0.1.0   |1     |        |     |
-|PriceIndices         |?       |      |        |     |
-|PWFSLSmoke           |1.2.111 |1     |        |     |
-|RadialVisGadgets     |0.2.0   |1     |        |     |
-|Rarefy               |1.0     |1     |        |     |
-|RBaseX               |?       |      |        |     |
-|Rfssa                |1.0.0   |1     |        |     |
-|rmdcev               |1.2.4   |1     |        |     |
-|RNeXML               |?       |      |        |     |
-|Rpolyhedra           |0.4.2   |1     |        |     |
-|rstap                |1.0.3   |1     |        |     |
-|RtutoR               |1.2     |1     |        |     |
-|RVA                  |0.0.4   |1     |        |     |
-|SCtools              |0.3.1   |1     |        |1    |
-|ShinyItemAnalysis    |1.3.5   |1     |        |     |
-|SimplifyStats        |2.0.4   |1     |        |     |
-|SimRVSequences       |0.2.7   |1     |        |     |
-|SIPDIBGE             |0.1.1   |1     |        |     |
-|SOMEnv               |0.1.1   |1     |        |     |
-|SSLR                 |?       |      |        |     |
-|StratifiedMedicine   |1.0.3   |1     |1       |     |
-|StratifiedRF         |0.2.2   |1     |        |     |
-|SubgrPlots           |?       |      |        |     |
-|SWMPrExtension       |1.1.6   |1     |        |     |
-|TestDimorph          |0.4.0   |1     |        |     |
-|TextMiningGUI        |0.2     |1     |        |     |
-|trackr               |?       |      |        |     |
-|UCSCXenaShiny        |0.5.0   |1     |        |     |
-|UKgrid               |?       |      |        |     |
-|WebGestaltR          |0.4.4   |1     |        |     |
-|wrswoR               |?       |      |        |     |
-
-## New problems (2)
-
-|package                      |version |error  |warning |note     |
-|:----------------------------|:-------|:------|:-------|:--------|
-|[MXM](problems.md#mxm)       |1.5.0   |__+1__ |        |1        |
-|[rattle](problems.md#rattle) |5.4.0   |       |        |2 __+1__ |
+|package        |version |error |warning |note |
+|:--------------|:-------|:-----|:-------|:----|
+|bayesdfa       |0.1.6   |1     |        |     |
+|butcher        |?       |      |        |     |
+|CausalImpact   |?       |      |        |     |
+|CB2            |?       |      |        |     |
+|cbar           |?       |      |        |     |
+|crossmap       |?       |      |        |     |
+|diceR          |?       |      |        |     |
+|EpiNow2        |1.3.2   |1     |        |     |
+|gastempt       |0.5.1   |1     |        |     |
+|glmmfields     |0.1.4   |1     |        |     |
+|jstor          |?       |      |        |     |
+|MarketMatching |?       |      |        |     |
+|metagam        |?       |      |        |     |
+|multinma       |0.2.1   |1     |        |     |
+|pencal         |?       |      |        |     |
+|rmdcev         |1.2.4   |1     |        |     |
+|rstap          |1.0.3   |1     |        |     |
+|trackr         |?       |      |        |     |
+|wrswoR         |?       |      |        |     |
 
