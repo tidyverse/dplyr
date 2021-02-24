@@ -1,3 +1,7 @@
+# dplyr (development version)
+
+* Removed the `name` argument from the `compute()` generic (@ianmcook, #5783).
+
 # dplyr 1.0.5
 
 * Fixed edge case of `slice_sample()` when `weight_by=` is used and there 
@@ -12,8 +16,6 @@
 * `group_by()` keeps attributes unrelated to the grouping (#5760).
 
 * The `.cols=` argument of `if_any()` and `if_all()` defaults to `everything()`. 
-
-* Removed the `name` argument from the `compute()` generic (@ianmcook, #5783).
 
 # dplyr 1.0.4
 
