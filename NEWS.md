@@ -13,6 +13,8 @@
 
 * The `.cols=` argument of `if_any()` and `if_all()` defaults to `everything()`. 
 
+* Removed the `name` argument from the `compute()` generic (@ianmcook, #5783).
+
 # dplyr 1.0.4
 
 * Improved performance for `across()`. This makes `summarise(across())` and 
