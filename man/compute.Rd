@@ -6,7 +6,7 @@
 \alias{collapse}
 \title{Force computation of a database query}
 \usage{
-compute(x, name = random_table_name(), ...)
+compute(x, ...)
 
 collect(x, ...)
 
@@ -16,8 +16,6 @@ collapse(x, ...)
 \item{x}{A data frame, data frame extension (e.g. a tibble), or a lazy
 data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for more
 details.}
-
-\item{name}{Name of temporary table on database.}
 
 \item{...}{Other arguments passed on to methods}
 }
