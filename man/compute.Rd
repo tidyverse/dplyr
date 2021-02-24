@@ -17,7 +17,7 @@ collapse(x, ...)
 data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for more
 details.}
 
-\item{...}{Other arguments passed on to methods}
+\item{...}{Arguments passed on to methods}
 }
 \description{
 \code{compute()} stores results in a remote temporary table.

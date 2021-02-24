@@ -22,7 +22,7 @@
 #' @param x A data frame, data frame extension (e.g. a tibble), or a lazy
 #'   data frame (e.g. from dbplyr or dtplyr). See *Methods*, below, for more
 #'   details.
-#' @param ... Other arguments passed on to methods
+#' @param ... Arguments passed on to methods
 #' @seealso [copy_to()], the opposite of `collect()`: it takes a local data
 #'   frame and uploads it to the remote source.
 #' @export
