@@ -228,7 +228,7 @@ around bugs in dplyr's SQL generation.</p>
 <p>All functions preserve grouping and ordering.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>compute</span><span class='op'>(</span><span class='va'>x</span>, name <span class='op'>=</span> <span class='fu'>random_table_name</span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>compute</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='fu'>collect</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
@@ -244,12 +244,8 @@ data frame (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for more
 details.</p></td>
     </tr>
     <tr>
-      <th>name</th>
-      <td><p>Name of temporary table on database.</p></td>
-    </tr>
-    <tr>
       <th>...</th>
-      <td><p>Other arguments passed on to methods</p></td>
+      <td><p>Arguments passed on to methods</p></td>
     </tr>
     </table>
 
