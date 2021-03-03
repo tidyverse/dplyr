@@ -252,53 +252,53 @@ unnamed arguments.</p></td>
 <span class='co'># . becomes across()</span>
 <span class='va'>by_cyl</span> <span class='op'>&lt;-</span> <span class='va'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>cyl</span><span class='op'>)</span>
 <span class='va'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'>do</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>.</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 11</span><span>
-#&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 11</span><span>
+#&gt; </span><span style='color: #949494;'># Groups:   cyl [3]</span><span>
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-#&gt; </span><span style='color: #555555;'>2</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
-#&gt; </span><span style='color: #555555;'>3</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
-#&gt; </span><span style='color: #555555;'>4</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-#&gt; </span><span style='color: #555555;'>5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
-#&gt; </span><span style='color: #555555;'>6</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</div><div class='input'><span class='co'># -&gt;</span>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</div><div class='input'><span class='co'># -&gt;</span>
 <span class='va'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>`summarise()` has grouped output by 'cyl'. You can override using the `.groups` argument.</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 11</span><span>
-#&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
+</div><div class='output co'>#&gt; <span class='message'>`summarise()` has grouped output by 'cyl'. You can override using the `.groups` argument.</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 6 x 11</span><span>
+#&gt; </span><span style='color: #949494;'># Groups:   cyl [3]</span><span>
 #&gt;     cyl   mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     4  22.8  108     93  3.85  2.32  18.6     1     1     4     1
-#&gt; </span><span style='color: #555555;'>2</span><span>     4  24.4  147.    62  3.69  3.19  20       1     0     4     2
-#&gt; </span><span style='color: #555555;'>3</span><span>     6  21    160    110  3.9   2.62  16.5     0     1     4     4
-#&gt; </span><span style='color: #555555;'>4</span><span>     6  21    160    110  3.9   2.88  17.0     0     1     4     4
-#&gt; </span><span style='color: #555555;'>5</span><span>     8  18.7  360    175  3.15  3.44  17.0     0     0     3     2
-#&gt; </span><span style='color: #555555;'>6</span><span>     8  14.3  360    245  3.21  3.57  15.8     0     0     3     4</div><div class='input'><span class='va'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice_head</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 11</span><span>
-#&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     4  22.8  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     4  24.4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     6  21    160    110  3.9   2.62  16.5     0     1     4     4
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     6  21    160    110  3.9   2.88  17.0     0     1     4     4
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     8  18.7  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span>     8  14.3  360    245  3.21  3.57  15.8     0     0     3     4</div><div class='input'><span class='va'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice_head</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 6 x 11</span><span>
+#&gt; </span><span style='color: #949494;'># Groups:   cyl [3]</span><span>
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-#&gt; </span><span style='color: #555555;'>2</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
-#&gt; </span><span style='color: #555555;'>3</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
-#&gt; </span><span style='color: #555555;'>4</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-#&gt; </span><span style='color: #555555;'>5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
-#&gt; </span><span style='color: #555555;'>6</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</div><div class='input'>
 <span class='co'># Can refer to variables directly</span>
 <span class='va'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'>do</span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>$</span><span class='va'>vs</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
-#&gt; </span><span style='color: #555555;'># Rowwise: </span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 2</span><span>
+#&gt; </span><span style='color: #949494;'># Rowwise: </span><span>
 #&gt;     cyl mean     
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>   
-#&gt; </span><span style='color: #555555;'>1</span><span>     4 </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span>     6 </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span>     8 </span><span style='color: #555555;'>&lt;dbl [1]&gt;</span><span></div><div class='input'><span class='co'># -&gt;</span>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     4 </span><span style='color: #949494;'>&lt;dbl [1]&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     6 </span><span style='color: #949494;'>&lt;dbl [1]&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     8 </span><span style='color: #949494;'>&lt;dbl [1]&gt;</span><span></div><div class='input'><span class='co'># -&gt;</span>
 <span class='va'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>vs</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 2</span><span>
 #&gt;     cyl  mean
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     4 0.909
-#&gt; </span><span style='color: #555555;'>2</span><span>     6 0.571
-#&gt; </span><span style='color: #555555;'>3</span><span>     8 0    </div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     4 0.909
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     6 0.571
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     8 0    </div><div class='input'>
 <span class='co'># do() with named arguments becomes nest_by() + mutate() &amp; list()</span>
 <span class='va'>models</span> <span class='op'>&lt;-</span> <span class='va'>by_cyl</span> <span class='op'>%&gt;%</span> <span class='fu'>do</span><span class='op'>(</span>mod <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>mpg</span> <span class='op'>~</span> <span class='va'>disp</span>, data <span class='op'>=</span> <span class='va'>.</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># -&gt;</span>
@@ -306,41 +306,41 @@ unnamed arguments.</p></td>
   <span class='fu'><a href='nest_by.html'>nest_by</a></span><span class='op'>(</span><span class='va'>cyl</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span>mod <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>mpg</span> <span class='op'>~</span> <span class='va'>disp</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>models</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span>rsq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>mod</span><span class='op'>)</span><span class='op'>$</span><span class='va'>r.squared</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>`summarise()` has grouped output by 'cyl'. You can override using the `.groups` argument.</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
-#&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
+</div><div class='output co'>#&gt; <span class='message'>`summarise()` has grouped output by 'cyl'. You can override using the `.groups` argument.</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 2</span><span>
+#&gt; </span><span style='color: #949494;'># Groups:   cyl [3]</span><span>
 #&gt;     cyl    rsq
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     4 0.648 
-#&gt; </span><span style='color: #555555;'>2</span><span>     6 0.010</span><span style='text-decoration: underline;'>6</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span>     8 0.270 </div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     4 0.648 
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     6 0.010</span><span style='text-decoration: underline;'>6</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     8 0.270 </div><div class='input'>
 <span class='co'># use broom to turn models into data</span>
 <span class='va'>models</span> <span class='op'>%&gt;%</span> <span class='fu'>do</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
   var <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>$</span><span class='va'>mod</span><span class='op'>)</span><span class='op'>)</span>,
   <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>$</span><span class='va'>mod</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 5</span><span>
-#&gt; </span><span style='color: #555555;'># Rowwise: </span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 6 x 5</span><span>
+#&gt; </span><span style='color: #949494;'># Rowwise: </span><span>
 #&gt;   var         Estimate Std..Error t.value   Pr...t..
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> (Intercept) 40.9        3.59     11.4   0.000</span><span style='text-decoration: underline;'>001</span><span>20
-#&gt; </span><span style='color: #555555;'>2</span><span> disp        -</span><span style='color: #BB0000;'>0.135</span><span>      0.033</span><span style='text-decoration: underline;'>2</span><span>   -</span><span style='color: #BB0000;'>4.07</span><span>  0.002</span><span style='text-decoration: underline;'>78</span><span>   
-#&gt; </span><span style='color: #555555;'>3</span><span> (Intercept) 19.1        2.91      6.55  0.001</span><span style='text-decoration: underline;'>24</span><span>   
-#&gt; </span><span style='color: #555555;'>4</span><span> disp         0.003</span><span style='text-decoration: underline;'>61</span><span>    0.015</span><span style='text-decoration: underline;'>6</span><span>    0.232 0.826     
-#&gt; </span><span style='color: #555555;'>5</span><span> (Intercept) 22.0        3.35      6.59  0.000</span><span style='text-decoration: underline;'>025</span><span>9 
-#&gt; </span><span style='color: #555555;'>6</span><span> disp        -</span><span style='color: #BB0000;'>0.019</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span>     0.009</span><span style='text-decoration: underline;'>32</span><span>  -</span><span style='color: #BB0000;'>2.11</span><span>  0.056</span><span style='text-decoration: underline;'>8</span><span>    </div><div class='input'><span class='co'># -&gt;</span>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> (Intercept) 40.9        3.59     11.4   0.000</span><span style='text-decoration: underline;'>001</span><span>20
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> disp        -</span><span style='color: #BB0000;'>0.135</span><span>      0.033</span><span style='text-decoration: underline;'>2</span><span>   -</span><span style='color: #BB0000;'>4.07</span><span>  0.002</span><span style='text-decoration: underline;'>78</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> (Intercept) 19.1        2.91      6.55  0.001</span><span style='text-decoration: underline;'>24</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> disp         0.003</span><span style='text-decoration: underline;'>61</span><span>    0.015</span><span style='text-decoration: underline;'>6</span><span>    0.232 0.826     
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> (Intercept) 22.0        3.35      6.59  0.000</span><span style='text-decoration: underline;'>025</span><span>9 
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> disp        -</span><span style='color: #BB0000;'>0.019</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span>     0.009</span><span style='text-decoration: underline;'>32</span><span>  -</span><span style='color: #BB0000;'>2.11</span><span>  0.056</span><span style='text-decoration: underline;'>8</span><span>    </div><div class='input'><span class='co'># -&gt;</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"broom"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='va'>models</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'>broom</span><span class='fu'>::</span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>mod</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: broom</span></div><div class='output co'>#&gt; <span class='message'>`summarise()` has grouped output by 'cyl'. You can override using the `.groups` argument.</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 6</span><span>
-#&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
+</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: broom</span></div><div class='output co'>#&gt; <span class='message'>`summarise()` has grouped output by 'cyl'. You can override using the `.groups` argument.</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 6 x 6</span><span>
+#&gt; </span><span style='color: #949494;'># Groups:   cyl [3]</span><span>
 #&gt;     cyl term        estimate std.error statistic    p.value
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     4 (Intercept) 40.9       3.59       11.4   0.000</span><span style='text-decoration: underline;'>001</span><span>20
-#&gt; </span><span style='color: #555555;'>2</span><span>     4 disp        -</span><span style='color: #BB0000;'>0.135</span><span>     0.033</span><span style='text-decoration: underline;'>2</span><span>     -</span><span style='color: #BB0000;'>4.07</span><span>  0.002</span><span style='text-decoration: underline;'>78</span><span>   
-#&gt; </span><span style='color: #555555;'>3</span><span>     6 (Intercept) 19.1       2.91        6.55  0.001</span><span style='text-decoration: underline;'>24</span><span>   
-#&gt; </span><span style='color: #555555;'>4</span><span>     6 disp         0.003</span><span style='text-decoration: underline;'>61</span><span>   0.015</span><span style='text-decoration: underline;'>6</span><span>      0.232 0.826     
-#&gt; </span><span style='color: #555555;'>5</span><span>     8 (Intercept) 22.0       3.35        6.59  0.000</span><span style='text-decoration: underline;'>025</span><span>9 
-#&gt; </span><span style='color: #555555;'>6</span><span>     8 disp        -</span><span style='color: #BB0000;'>0.019</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span>    0.009</span><span style='text-decoration: underline;'>32</span><span>    -</span><span style='color: #BB0000;'>2.11</span><span>  0.056</span><span style='text-decoration: underline;'>8</span><span>    </div></span></pre>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     4 (Intercept) 40.9       3.59       11.4   0.000</span><span style='text-decoration: underline;'>001</span><span>20
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     4 disp        -</span><span style='color: #BB0000;'>0.135</span><span>     0.033</span><span style='text-decoration: underline;'>2</span><span>     -</span><span style='color: #BB0000;'>4.07</span><span>  0.002</span><span style='text-decoration: underline;'>78</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     6 (Intercept) 19.1       2.91        6.55  0.001</span><span style='text-decoration: underline;'>24</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     6 disp         0.003</span><span style='text-decoration: underline;'>61</span><span>   0.015</span><span style='text-decoration: underline;'>6</span><span>      0.232 0.826     
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     8 (Intercept) 22.0       3.35        6.59  0.000</span><span style='text-decoration: underline;'>025</span><span>9 
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span>     8 disp        -</span><span style='color: #BB0000;'>0.019</span><span style='color: #BB0000;text-decoration: underline;'>6</span><span>    0.009</span><span style='text-decoration: underline;'>32</span><span>    -</span><span style='color: #BB0000;'>2.11</span><span>  0.056</span><span style='text-decoration: underline;'>8</span><span>    </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -352,12 +352,12 @@ unnamed arguments.</p></td>
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

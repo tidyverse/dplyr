@@ -282,65 +282,65 @@ in the sorting of the data frame.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>
 <span class='fu'>arrange_all</span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 32 x 11</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 32 x 11</span><span>
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>  10.4     8  460    215  3     5.42  17.8     0     0     3     4
-#&gt; </span><span style='color: #555555;'> 2</span><span>  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4
-#&gt; </span><span style='color: #555555;'> 3</span><span>  13.3     8  350    245  3.73  3.84  15.4     0     0     3     4
-#&gt; </span><span style='color: #555555;'> 4</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
-#&gt; </span><span style='color: #555555;'> 5</span><span>  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4
-#&gt; </span><span style='color: #555555;'> 6</span><span>  15       8  301    335  3.54  3.57  14.6     0     1     5     8
-#&gt; </span><span style='color: #555555;'> 7</span><span>  15.2     8  276.   180  3.07  3.78  18       0     0     3     3
-#&gt; </span><span style='color: #555555;'> 8</span><span>  15.2     8  304    150  3.15  3.44  17.3     0     0     3     2
-#&gt; </span><span style='color: #555555;'> 9</span><span>  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
-#&gt; </span><span style='color: #555555;'>10</span><span>  15.8     8  351    264  4.22  3.17  14.5     0     1     5     4
-#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>  10.4     8  460    215  3     5.42  17.8     0     0     3     4
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>  13.3     8  350    245  3.73  3.84  15.4     0     0     3     4
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>  15       8  301    335  3.54  3.57  14.6     0     1     5     8
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>  15.2     8  276.   180  3.07  3.78  18       0     0     3     3
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>  15.2     8  304    150  3.15  3.44  17.3     0     0     3     2
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>  15.8     8  351    264  4.22  3.17  14.5     0     1     5     4
+#&gt; </span><span style='color: #949494;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
 <span class='fu'><a href='arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>df</span>, <span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 32 x 11</span><span>
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>  10.4     8  460    215  3     5.42  17.8     0     0     3     4
-#&gt; </span><span style='color: #555555;'> 2</span><span>  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4
-#&gt; </span><span style='color: #555555;'> 3</span><span>  13.3     8  350    245  3.73  3.84  15.4     0     0     3     4
-#&gt; </span><span style='color: #555555;'> 4</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
-#&gt; </span><span style='color: #555555;'> 5</span><span>  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4
-#&gt; </span><span style='color: #555555;'> 6</span><span>  15       8  301    335  3.54  3.57  14.6     0     1     5     8
-#&gt; </span><span style='color: #555555;'> 7</span><span>  15.2     8  276.   180  3.07  3.78  18       0     0     3     3
-#&gt; </span><span style='color: #555555;'> 8</span><span>  15.2     8  304    150  3.15  3.44  17.3     0     0     3     2
-#&gt; </span><span style='color: #555555;'> 9</span><span>  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
-#&gt; </span><span style='color: #555555;'>10</span><span>  15.8     8  351    264  4.22  3.17  14.5     0     1     5     4
-#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>  10.4     8  460    215  3     5.42  17.8     0     0     3     4
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>  13.3     8  350    245  3.73  3.84  15.4     0     0     3     4
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>  15       8  301    335  3.54  3.57  14.6     0     1     5     8
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>  15.2     8  276.   180  3.07  3.78  18       0     0     3     3
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>  15.2     8  304    150  3.15  3.44  17.3     0     0     3     2
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>  15.8     8  351    264  4.22  3.17  14.5     0     1     5     4
+#&gt; </span><span style='color: #949494;'># … with 22 more rows</span><span></div><div class='input'>
 <span class='fu'>arrange_all</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>desc</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 32 x 11</span><span>
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>  33.9     4  71.1    65  4.22  1.84  19.9     1     1     4     1
-#&gt; </span><span style='color: #555555;'> 2</span><span>  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
-#&gt; </span><span style='color: #555555;'> 3</span><span>  30.4     4  95.1   113  3.77  1.51  16.9     1     1     5     2
-#&gt; </span><span style='color: #555555;'> 4</span><span>  30.4     4  75.7    52  4.93  1.62  18.5     1     1     4     2
-#&gt; </span><span style='color: #555555;'> 5</span><span>  27.3     4  79      66  4.08  1.94  18.9     1     1     4     1
-#&gt; </span><span style='color: #555555;'> 6</span><span>  26       4 120.     91  4.43  2.14  16.7     0     1     5     2
-#&gt; </span><span style='color: #555555;'> 7</span><span>  24.4     4 147.     62  3.69  3.19  20       1     0     4     2
-#&gt; </span><span style='color: #555555;'> 8</span><span>  22.8     4 141.     95  3.92  3.15  22.9     1     0     4     2
-#&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4 108      93  3.85  2.32  18.6     1     1     4     1
-#&gt; </span><span style='color: #555555;'>10</span><span>  21.5     4 120.     97  3.7   2.46  20.0     1     0     3     1
-#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>  33.9     4  71.1    65  4.22  1.84  19.9     1     1     4     1
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>  30.4     4  95.1   113  3.77  1.51  16.9     1     1     5     2
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>  30.4     4  75.7    52  4.93  1.62  18.5     1     1     4     2
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>  27.3     4  79      66  4.08  1.94  18.9     1     1     4     1
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>  26       4 120.     91  4.43  2.14  16.7     0     1     5     2
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>  24.4     4 147.     62  3.69  3.19  20       1     0     4     2
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>  22.8     4 141.     95  3.92  3.15  22.9     1     0     4     2
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>  22.8     4 108      93  3.85  2.32  18.6     1     1     4     1
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>  21.5     4 120.     97  3.7   2.46  20.0     1     0     3     1
+#&gt; </span><span style='color: #949494;'># … with 22 more rows</span><span></div><div class='input'><span class='co'># -&gt;</span>
 <span class='fu'><a href='arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>df</span>, <span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>desc</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 32 x 11</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 32 x 11</span><span>
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>  33.9     4  71.1    65  4.22  1.84  19.9     1     1     4     1
-#&gt; </span><span style='color: #555555;'> 2</span><span>  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
-#&gt; </span><span style='color: #555555;'> 3</span><span>  30.4     4  95.1   113  3.77  1.51  16.9     1     1     5     2
-#&gt; </span><span style='color: #555555;'> 4</span><span>  30.4     4  75.7    52  4.93  1.62  18.5     1     1     4     2
-#&gt; </span><span style='color: #555555;'> 5</span><span>  27.3     4  79      66  4.08  1.94  18.9     1     1     4     1
-#&gt; </span><span style='color: #555555;'> 6</span><span>  26       4 120.     91  4.43  2.14  16.7     0     1     5     2
-#&gt; </span><span style='color: #555555;'> 7</span><span>  24.4     4 147.     62  3.69  3.19  20       1     0     4     2
-#&gt; </span><span style='color: #555555;'> 8</span><span>  22.8     4 141.     95  3.92  3.15  22.9     1     0     4     2
-#&gt; </span><span style='color: #555555;'> 9</span><span>  22.8     4 108      93  3.85  2.32  18.6     1     1     4     1
-#&gt; </span><span style='color: #555555;'>10</span><span>  21.5     4 120.     97  3.7   2.46  20.0     1     0     3     1
-#&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span></div></span></pre>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>  33.9     4  71.1    65  4.22  1.84  19.9     1     1     4     1
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>  30.4     4  95.1   113  3.77  1.51  16.9     1     1     5     2
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>  30.4     4  75.7    52  4.93  1.62  18.5     1     1     4     2
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>  27.3     4  79      66  4.08  1.94  18.9     1     1     4     1
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>  26       4 120.     91  4.43  2.14  16.7     0     1     5     2
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>  24.4     4 147.     62  3.69  3.19  20       1     0     4     2
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>  22.8     4 141.     95  3.92  3.15  22.9     1     0     4     2
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>  22.8     4 108      93  3.85  2.32  18.6     1     1     4     1
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>  21.5     4 120.     97  3.7   2.46  20.0     1     0     3     1
+#&gt; </span><span style='color: #949494;'># … with 22 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -352,12 +352,12 @@ in the sorting of the data frame.</p>
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

@@ -223,13 +223,13 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">flights2</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">planes</span>, by <span class="op">=</span> <span class="st">"tailnum"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 336,776 x 16</span>
-<span class="co">#&gt;   year.x month   day  hour origin dest  tailnum carrier year.y type </span>
-<span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;</span>
-<span class="co">#&gt; 1   2013     1     1     5 EWR    IAH   N14228  UA        1999 Fixe…</span>
-<span class="co">#&gt; 2   2013     1     1     5 LGA    IAH   N24211  UA        1998 Fixe…</span>
-<span class="co">#&gt; 3   2013     1     1     5 JFK    MIA   N619AA  AA        1990 Fixe…</span>
-<span class="co">#&gt; 4   2013     1     1     5 JFK    BQN   N804JB  B6        2012 Fixe…</span>
-<span class="co">#&gt; 5   2013     1     1     6 LGA    ATL   N668DN  DL        1991 Fixe…</span>
+<span class="co">#&gt;   year.x month   day  hour origin dest  tailnum carrier year.y type             </span>
+<span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;            </span>
+<span class="co">#&gt; 1   2013     1     1     5 EWR    IAH   N14228  UA        1999 Fixed wing multi…</span>
+<span class="co">#&gt; 2   2013     1     1     5 LGA    IAH   N24211  UA        1998 Fixed wing multi…</span>
+<span class="co">#&gt; 3   2013     1     1     5 JFK    MIA   N619AA  AA        1990 Fixed wing multi…</span>
+<span class="co">#&gt; 4   2013     1     1     5 JFK    BQN   N804JB  B6        2012 Fixed wing multi…</span>
+<span class="co">#&gt; 5   2013     1     1     6 LGA    ATL   N668DN  DL        1991 Fixed wing multi…</span>
 <span class="co">#&gt; # … with 336,771 more rows, and 6 more variables: manufacturer &lt;chr&gt;,</span>
 <span class="co">#&gt; #   model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;, engine &lt;chr&gt;</span></code></pre></div>
 <p>Note that the year columns in the output are disambiguated with a suffix.</p>
@@ -240,24 +240,24 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">flights2</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">airports</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dest"</span> <span class="op">=</span> <span class="st">"faa"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 336,776 x 15</span>
-<span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name    lat   lon   alt</span>
-<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      Geor…  30.0 -95.3    97</span>
-<span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      Geor…  30.0 -95.3    97</span>
-<span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      Miam…  25.8 -80.3     8</span>
-<span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      &lt;NA&gt;   NA    NA      NA</span>
-<span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      Hart…  33.6 -84.4  1026</span>
+<span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name      lat   lon   alt</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      George…  30.0 -95.3    97</span>
+<span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      George…  30.0 -95.3    97</span>
+<span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      Miami …  25.8 -80.3     8</span>
+<span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      &lt;NA&gt;     NA    NA      NA</span>
+<span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      Hartsf…  33.6 -84.4  1026</span>
 <span class="co">#&gt; # … with 336,771 more rows, and 3 more variables: tz &lt;dbl&gt;, dst &lt;chr&gt;,</span>
 <span class="co">#&gt; #   tzone &lt;chr&gt;</span>
 <span class="va">flights2</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">airports</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"origin"</span> <span class="op">=</span> <span class="st">"faa"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 336,776 x 15</span>
-<span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name    lat   lon   alt</span>
-<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      Newa…  40.7 -74.2    18</span>
-<span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      La G…  40.8 -73.9    22</span>
-<span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      John…  40.6 -73.8    13</span>
-<span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      John…  40.6 -73.8    13</span>
-<span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      La G…  40.8 -73.9    22</span>
+<span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name      lat   lon   alt</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA      Newark…  40.7 -74.2    18</span>
+<span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA      La Gua…  40.8 -73.9    22</span>
+<span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      John F…  40.6 -73.8    13</span>
+<span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      John F…  40.6 -73.8    13</span>
+<span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      La Gua…  40.8 -73.9    22</span>
 <span class="co">#&gt; # … with 336,771 more rows, and 3 more variables: tz &lt;dbl&gt;, dst &lt;chr&gt;,</span>
 <span class="co">#&gt; #   tzone &lt;chr&gt;</span></code></pre></div>
 </li>
@@ -467,7 +467,8 @@
 
 
       <footer><div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org" class="external-link">tidyverse.org</a>.</p>
+  <p></p>
+<p>Developed by <a href="http://hadley.nz" class="external-link external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
 <div class="author">

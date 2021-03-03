@@ -499,25 +499,25 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class='co'># All slice helpers operate per group, silently truncating to the group</span>
 <span class='co'># size, so the following code works without error</span>
 <span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>group</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_head</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 2</span><span>
-#&gt; </span><span style='color: #555555;'># Groups:   group [3]</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 2</span><span>
+#&gt; </span><span style='color: #949494;'># Groups:   group [3]</span><span>
 #&gt;   group     x
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> a     0.806
-#&gt; </span><span style='color: #555555;'>2</span><span> b     0.469
-#&gt; </span><span style='color: #555555;'>3</span><span> b     0.707
-#&gt; </span><span style='color: #555555;'>4</span><span> c     0.493
-#&gt; </span><span style='color: #555555;'>5</span><span> c     0.938</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> a     0.806
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> b     0.469
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> b     0.707
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> c     0.493
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> c     0.938</div><div class='input'>
 <span class='co'># When specifying the proportion of rows to include non-integer sizes</span>
 <span class='co'># are rounded down, so group a gets 0 rows</span>
 <span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>group</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_head</span><span class='op'>(</span>prop <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
-#&gt; </span><span style='color: #555555;'># Groups:   group [2]</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 2</span><span>
+#&gt; </span><span style='color: #949494;'># Groups:   group [2]</span><span>
 #&gt;   group     x
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> b     0.469
-#&gt; </span><span style='color: #555555;'>2</span><span> c     0.493
-#&gt; </span><span style='color: #555555;'>3</span><span> c     0.938</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> b     0.469
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> c     0.493
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> c     0.938</div><div class='input'>
 <span class='co'># Filter equivalents --------------------------------------------</span>
 <span class='co'># slice() expressions can often be written to use `filter()` and</span>
 <span class='co'># `row_number()`, which can also be translated to SQL. For many databases,</span>
@@ -567,12 +567,12 @@ individual methods for extra arguments and differences in behaviour.</p>
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

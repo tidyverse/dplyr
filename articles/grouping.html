@@ -189,23 +189,23 @@
 <code class="sourceCode R"><span class="va">by_species</span>
 <span class="co">#&gt; # A tibble: 87 x 14</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
-<span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span>
-<span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span>
-<span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
+<span class="co">#&gt;   name     height  mass hair_color skin_color  eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke Sk…    172    77 blond      fair        blue            19   male  mascu…</span>
+<span class="co">#&gt; 2 C-3PO       167    75 &lt;NA&gt;       gold        yellow         112   none  mascu…</span>
+<span class="co">#&gt; 3 R2-D2        96    32 &lt;NA&gt;       white, blue red             33   none  mascu…</span>
+<span class="co">#&gt; 4 Darth V…    202   136 none       white       yellow          41.9 male  mascu…</span>
 <span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 <span class="va">by_sex_gender</span>
 <span class="co">#&gt; # A tibble: 87 x 14</span>
 <span class="co">#&gt; # Groups:   sex, gender [6]</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
-<span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span>
-<span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span>
-<span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
+<span class="co">#&gt;   name     height  mass hair_color skin_color  eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke Sk…    172    77 blond      fair        blue            19   male  mascu…</span>
+<span class="co">#&gt; 2 C-3PO       167    75 &lt;NA&gt;       gold        yellow         112   none  mascu…</span>
+<span class="co">#&gt; 3 R2-D2        96    32 &lt;NA&gt;       white, blue red             33   none  mascu…</span>
+<span class="co">#&gt; 4 Darth V…    202   136 none       white       yellow          41.9 male  mascu…</span>
 <span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
 <p>Or use <code><a href="../reference/count.html">tally()</a></code> to count the number of rows in each group. The <code>sort</code> argument is useful if you want to see the largest groups up front.</p>
@@ -438,12 +438,12 @@
   <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">mass</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 87 x 14</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
-<span class="co">#&gt;   species  mass name  height hair_color skin_color eye_color birth_year sex  </span>
-<span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span>
-<span class="co">#&gt; 1 Hutt     1358 Jabb…    175 &lt;NA&gt;       green-tan… orange         600   herm…</span>
-<span class="co">#&gt; 2 Kaleesh   159 Grie…    216 none       brown, wh… green, y…       NA   male </span>
-<span class="co">#&gt; 3 Droid     140 IG-88    200 none       metal      red             15   none </span>
-<span class="co">#&gt; 4 Human     136 Dart…    202 none       white      yellow          41.9 male </span>
+<span class="co">#&gt;   species  mass name    height hair_color skin_color  eye_color birth_year sex  </span>
+<span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 Hutt     1358 Jabba …    175 &lt;NA&gt;       green-tan,… orange         600   herm…</span>
+<span class="co">#&gt; 2 Kaleesh   159 Grievo…    216 none       brown, whi… green, y…       NA   male </span>
+<span class="co">#&gt; 3 Droid     140 IG-88      200 none       metal       red             15   none </span>
+<span class="co">#&gt; 4 Human     136 Darth …    202 none       white       yellow          41.9 male </span>
 <span class="co">#&gt; # … with 83 more rows, and 5 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 
@@ -452,12 +452,12 @@
   <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">mass</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 87 x 14</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
-<span class="co">#&gt;   species  mass name  height hair_color skin_color eye_color birth_year sex  </span>
-<span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span>
-<span class="co">#&gt; 1 Aleena     15 Ratt…     79 none       grey, blue unknown           NA male </span>
-<span class="co">#&gt; 2 Besali…   102 Dext…    198 none       brown      yellow            NA male </span>
-<span class="co">#&gt; 3 Cerean     82 Ki-A…    198 white      pale       yellow            92 male </span>
-<span class="co">#&gt; 4 Chagri…    NA Mas …    196 none       blue       blue              NA male </span>
+<span class="co">#&gt;   species   mass name    height hair_color skin_color eye_color birth_year sex  </span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 Aleena      15 Ratts …     79 none       grey, blue unknown           NA male </span>
+<span class="co">#&gt; 2 Besalisk   102 Dexter…    198 none       brown      yellow            NA male </span>
+<span class="co">#&gt; 3 Cerean      82 Ki-Adi…    198 white      pale       yellow            92 male </span>
+<span class="co">#&gt; 4 Chagrian    NA Mas Am…    196 none       blue       blue              NA male </span>
 <span class="co">#&gt; # … with 83 more rows, and 5 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
 <p>Note that second example is sorted by <code>species</code> (from the <code><a href="../reference/group_by.html">group_by()</a></code> statement) and then by <code>mass</code> (within species).</p>
@@ -567,12 +567,12 @@
   <span class="fu"><a href="../reference/slice.html">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 38 x 14</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
-<span class="co">#&gt;   species name  height  mass hair_color skin_color eye_color birth_year sex  </span>
-<span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span>
-<span class="co">#&gt; 1 Aleena  Ratt…     79    15 none       grey, blue unknown           NA male </span>
-<span class="co">#&gt; 2 Besali… Dext…    198   102 none       brown      yellow            NA male </span>
-<span class="co">#&gt; 3 Cerean  Ki-A…    198    82 white      pale       yellow            92 male </span>
-<span class="co">#&gt; 4 Chagri… Mas …    196    NA none       blue       blue              NA male </span>
+<span class="co">#&gt;   species  name    height  mass hair_color skin_color eye_color birth_year sex  </span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 Aleena   Ratts …     79    15 none       grey, blue unknown           NA male </span>
+<span class="co">#&gt; 2 Besalisk Dexter…    198   102 none       brown      yellow            NA male </span>
+<span class="co">#&gt; 3 Cerean   Ki-Adi…    198    82 white      pale       yellow            92 male </span>
+<span class="co">#&gt; 4 Chagrian Mas Am…    196    NA none       blue       blue              NA male </span>
 <span class="co">#&gt; # … with 34 more rows, and 5 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
 <p>Similarly, we can use <code><a href="../reference/slice.html">slice_min()</a></code> to select the smallest <code>n</code> values of a variable:</p>
@@ -582,12 +582,12 @@
   <span class="fu"><a href="../reference/slice.html">slice_min</a></span><span class="op">(</span><span class="va">height</span>, n <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 48 x 14</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Ratt…     79    15 none       grey, blue unknown           NA male  mascu…</span>
-<span class="co">#&gt; 2 Dext…    198   102 none       brown      yellow            NA male  mascu…</span>
-<span class="co">#&gt; 3 Ki-A…    198    82 white      pale       yellow            92 male  mascu…</span>
-<span class="co">#&gt; 4 Mas …    196    NA none       blue       blue              NA male  mascu…</span>
+<span class="co">#&gt;   name      height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Ratts Ty…     79    15 none       grey, blue unknown           NA male  mascu…</span>
+<span class="co">#&gt; 2 Dexter J…    198   102 none       brown      yellow            NA male  mascu…</span>
+<span class="co">#&gt; 3 Ki-Adi-M…    198    82 white      pale       yellow            92 male  mascu…</span>
+<span class="co">#&gt; 4 Mas Amed…    196    NA none       blue       blue              NA male  mascu…</span>
 <span class="co">#&gt; # … with 44 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
 </div>
@@ -607,12 +607,12 @@
   <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>mod <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mass</span> <span class="op">~</span> <span class="va">height</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/context.html">cur_data</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 58 x 15</span>
 <span class="co">#&gt; # Groups:   species [9]</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
-<span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span>
-<span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span>
-<span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
+<span class="co">#&gt;   name     height  mass hair_color skin_color  eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke Sk…    172    77 blond      fair        blue            19   male  mascu…</span>
+<span class="co">#&gt; 2 C-3PO       167    75 &lt;NA&gt;       gold        yellow         112   none  mascu…</span>
+<span class="co">#&gt; 3 R2-D2        96    32 &lt;NA&gt;       white, blue red             33   none  mascu…</span>
+<span class="co">#&gt; 4 Darth V…    202   136 none       white       yellow          41.9 male  mascu…</span>
 <span class="co">#&gt; # … with 54 more rows, and 6 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, mod &lt;list&gt;</span></code></pre></div>
 </div>
@@ -656,7 +656,8 @@
 
 
       <footer><div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org" class="external-link">tidyverse.org</a>.</p>
+  <p></p>
+<p>Developed by <a href="http://hadley.nz" class="external-link external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
 <div class="author">

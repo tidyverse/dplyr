@@ -314,19 +314,19 @@
 <span class="co">#&gt; # A tibble: 10 x 1</span>
 <span class="co">#&gt;       x</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
-<span class="co">#&gt; 1     5</span>
-<span class="co">#&gt; 2     3</span>
-<span class="co">#&gt; 3     2</span>
-<span class="co">#&gt; 4     7</span>
+<span class="co">#&gt; 1    10</span>
+<span class="co">#&gt; 2     5</span>
+<span class="co">#&gt; 3     8</span>
+<span class="co">#&gt; 4     1</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 <span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/distinct.html">distinct</a></span><span class="op">(</span><span class="va">x</span>, .keep_all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># whole data frame</span>
 <span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1     5    10</span>
-<span class="co">#&gt; 2     3     1</span>
-<span class="co">#&gt; 3     2     8</span>
-<span class="co">#&gt; 4     7     4</span>
+<span class="co">#&gt; 1    10     2</span>
+<span class="co">#&gt; 2     5     9</span>
+<span class="co">#&gt; 3     8     4</span>
+<span class="co">#&gt; 4     1     3</span>
 <span class="co">#&gt; # … with 6 more rows</span></code></pre></div>
 <p>There are two equivalents in base R, depending on whether you want the whole data frame, or just selected variables:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -334,19 +334,19 @@
 <span class="co">#&gt; # A tibble: 10 x 1</span>
 <span class="co">#&gt;       x</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
-<span class="co">#&gt; 1     5</span>
-<span class="co">#&gt; 2     3</span>
-<span class="co">#&gt; 3     2</span>
-<span class="co">#&gt; 4     7</span>
+<span class="co">#&gt; 1    10</span>
+<span class="co">#&gt; 2     5</span>
+<span class="co">#&gt; 3     8</span>
+<span class="co">#&gt; 4     1</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 <span class="va">df</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">duplicated</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">x</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span> <span class="co"># whole data frame</span>
 <span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1     5    10</span>
-<span class="co">#&gt; 2     3     1</span>
-<span class="co">#&gt; 3     2     8</span>
-<span class="co">#&gt; 4     7     4</span>
+<span class="co">#&gt; 1    10     2</span>
+<span class="co">#&gt; 2     5     9</span>
+<span class="co">#&gt; 3     8     4</span>
+<span class="co">#&gt; 4     1     3</span>
 <span class="co">#&gt; # … with 6 more rows</span></code></pre></div>
 </div>
 <div id="filter-return-rows-with-matching-conditions" class="section level2">
@@ -356,87 +356,87 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 35 x 14</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
-<span class="co">#&gt; 2 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
-<span class="co">#&gt; 3 Leia…    150    49 brown      light      brown           19   fema… femin…</span>
-<span class="co">#&gt; 4 Owen…    178   120 brown, gr… light      blue            52   male  mascu…</span>
+<span class="co">#&gt;   name     height  mass hair_color  skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke Sk…    172    77 blond       fair       blue            19   male  mascu…</span>
+<span class="co">#&gt; 2 Darth V…    202   136 none        white      yellow          41.9 male  mascu…</span>
+<span class="co">#&gt; 3 Leia Or…    150    49 brown       light      brown           19   fema… femin…</span>
+<span class="co">#&gt; 4 Owen La…    178   120 brown, grey light      blue            52   male  mascu…</span>
 <span class="co">#&gt; # … with 31 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">mass</span> <span class="op">&gt;</span> <span class="fl">1000</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 1 x 14</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange           600 herm… mascu…</span>
+<span class="co">#&gt;   name    height  mass hair_color skin_color  eye_color birth_year sex    gender</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Jabba …    175  1358 &lt;NA&gt;       green-tan,… orange           600 herma… mascu…</span>
 <span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
 <span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">hair_color</span> <span class="op">==</span> <span class="st">"none"</span> <span class="op">&amp;</span> <span class="va">eye_color</span> <span class="op">==</span> <span class="st">"black"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 9 x 14</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Nien…    160    68 none       grey       black             NA male  mascu…</span>
-<span class="co">#&gt; 2 Gasg…    122    NA none       white, bl… black             NA male  mascu…</span>
-<span class="co">#&gt; 3 Kit …    196    87 none       green      black             NA male  mascu…</span>
-<span class="co">#&gt; 4 Plo …    188    80 none       orange     black             22 male  mascu…</span>
+<span class="co">#&gt;   name    height  mass hair_color skin_color  eye_color birth_year sex   gender </span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  </span>
+<span class="co">#&gt; 1 Nien N…    160    68 none       grey        black             NA male  mascul…</span>
+<span class="co">#&gt; 2 Gasgano    122    NA none       white, blue black             NA male  mascul…</span>
+<span class="co">#&gt; 3 Kit Fi…    196    87 none       green       black             NA male  mascul…</span>
+<span class="co">#&gt; 4 Plo Ko…    188    80 none       orange      black             22 male  mascul…</span>
 <span class="co">#&gt; # … with 5 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
 <p>The closest base equivalent (and the inspiration for <code><a href="../reference/filter.html">filter()</a></code>) is <code><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset()</a></code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 35 x 14</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
-<span class="co">#&gt; 2 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
-<span class="co">#&gt; 3 Leia…    150    49 brown      light      brown           19   fema… femin…</span>
-<span class="co">#&gt; 4 Owen…    178   120 brown, gr… light      blue            52   male  mascu…</span>
+<span class="co">#&gt;   name     height  mass hair_color  skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke Sk…    172    77 blond       fair       blue            19   male  mascu…</span>
+<span class="co">#&gt; 2 Darth V…    202   136 none        white      yellow          41.9 male  mascu…</span>
+<span class="co">#&gt; 3 Leia Or…    150    49 brown       light      brown           19   fema… femin…</span>
+<span class="co">#&gt; 4 Owen La…    178   120 brown, grey light      blue            52   male  mascu…</span>
 <span class="co">#&gt; # … with 31 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="va">mass</span> <span class="op">&gt;</span> <span class="fl">1000</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 1 x 14</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange           600 herm… mascu…</span>
+<span class="co">#&gt;   name    height  mass hair_color skin_color  eye_color birth_year sex    gender</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Jabba …    175  1358 &lt;NA&gt;       green-tan,… orange           600 herma… mascu…</span>
 <span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
 <span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="va">hair_color</span> <span class="op">==</span> <span class="st">"none"</span> <span class="op">&amp;</span> <span class="va">eye_color</span> <span class="op">==</span> <span class="st">"black"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 9 x 14</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Nien…    160    68 none       grey       black             NA male  mascu…</span>
-<span class="co">#&gt; 2 Gasg…    122    NA none       white, bl… black             NA male  mascu…</span>
-<span class="co">#&gt; 3 Kit …    196    87 none       green      black             NA male  mascu…</span>
-<span class="co">#&gt; 4 Plo …    188    80 none       orange     black             22 male  mascu…</span>
+<span class="co">#&gt;   name    height  mass hair_color skin_color  eye_color birth_year sex   gender </span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  </span>
+<span class="co">#&gt; 1 Nien N…    160    68 none       grey        black             NA male  mascul…</span>
+<span class="co">#&gt; 2 Gasgano    122    NA none       white, blue black             NA male  mascul…</span>
+<span class="co">#&gt; 3 Kit Fi…    196    87 none       green       black             NA male  mascul…</span>
+<span class="co">#&gt; 4 Plo Ko…    188    80 none       orange      black             22 male  mascul…</span>
 <span class="co">#&gt; # … with 5 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
 <p>You can also use <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">[</a></code> but this also requires the use of <code><a href="https://rdrr.io/r/base/which.html" class="external-link">which()</a></code> to remove <code>NA</code>s:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">starwars</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">$</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>
 <span class="co">#&gt; # A tibble: 35 x 14</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
-<span class="co">#&gt; 2 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
-<span class="co">#&gt; 3 Leia…    150    49 brown      light      brown           19   fema… femin…</span>
-<span class="co">#&gt; 4 Owen…    178   120 brown, gr… light      blue            52   male  mascu…</span>
+<span class="co">#&gt;   name     height  mass hair_color  skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke Sk…    172    77 blond       fair       blue            19   male  mascu…</span>
+<span class="co">#&gt; 2 Darth V…    202   136 none        white      yellow          41.9 male  mascu…</span>
+<span class="co">#&gt; 3 Leia Or…    150    49 brown       light      brown           19   fema… femin…</span>
+<span class="co">#&gt; 4 Owen La…    178   120 brown, grey light      blue            52   male  mascu…</span>
 <span class="co">#&gt; # … with 31 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 <span class="va">starwars</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">$</span><span class="va">mass</span> <span class="op">&gt;</span> <span class="fl">1000</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>
 <span class="co">#&gt; # A tibble: 1 x 14</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange           600 herm… mascu…</span>
+<span class="co">#&gt;   name    height  mass hair_color skin_color  eye_color birth_year sex    gender</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Jabba …    175  1358 &lt;NA&gt;       green-tan,… orange           600 herma… mascu…</span>
 <span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
 <span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 <span class="va">starwars</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">$</span><span class="va">hair_color</span> <span class="op">==</span> <span class="st">"none"</span> <span class="op">&amp;</span> <span class="va">starwars</span><span class="op">$</span><span class="va">eye_color</span> <span class="op">==</span> <span class="st">"black"</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>
 <span class="co">#&gt; # A tibble: 9 x 14</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Nien…    160    68 none       grey       black             NA male  mascu…</span>
-<span class="co">#&gt; 2 Gasg…    122    NA none       white, bl… black             NA male  mascu…</span>
-<span class="co">#&gt; 3 Kit …    196    87 none       green      black             NA male  mascu…</span>
-<span class="co">#&gt; 4 Plo …    188    80 none       orange     black             22 male  mascu…</span>
+<span class="co">#&gt;   name    height  mass hair_color skin_color  eye_color birth_year sex   gender </span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  </span>
+<span class="co">#&gt; 1 Nien N…    160    68 none       grey        black             NA male  mascul…</span>
+<span class="co">#&gt; 2 Gasgano    122    NA none       white, blue black             NA male  mascul…</span>
+<span class="co">#&gt; 3 Kit Fi…    196    87 none       green       black             NA male  mascul…</span>
+<span class="co">#&gt; 4 Plo Ko…    188    80 none       orange      black             22 male  mascul…</span>
 <span class="co">#&gt; # … with 5 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
 </div>
@@ -449,21 +449,21 @@
 <span class="co">#&gt; # A tibble: 100 x 4</span>
 <span class="co">#&gt;       x     y     z    z2</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     5    10    15   225</span>
-<span class="co">#&gt; 2     5     3     8    64</span>
-<span class="co">#&gt; 3     3     1     4    16</span>
-<span class="co">#&gt; 4     2     8    10   100</span>
+<span class="co">#&gt; 1    10     2    12   144</span>
+<span class="co">#&gt; 2     5     9    14   196</span>
+<span class="co">#&gt; 3     8     4    12   144</span>
+<span class="co">#&gt; 4     1     3     4    16</span>
 <span class="co">#&gt; # … with 96 more rows</span></code></pre></div>
 <p>The closest base equivalent is <code><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform()</a></code>, but note that it cannot use freshly created variables:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform</a></span><span class="op">(</span><span class="va">df</span>, z <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span>, z2 <span class="op">=</span> <span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;   x  y  z  z2</span>
-<span class="co">#&gt; 1 5 10 15 225</span>
-<span class="co">#&gt; 2 5  3  8  64</span>
-<span class="co">#&gt; 3 3  1  4  16</span>
-<span class="co">#&gt; 4 2  8 10 100</span>
-<span class="co">#&gt; 5 3  1  4  16</span>
-<span class="co">#&gt; 6 7  4 11 121</span></code></pre></div>
+<span class="co">#&gt;    x y  z  z2</span>
+<span class="co">#&gt; 1 10 2 12 144</span>
+<span class="co">#&gt; 2  5 9 14 196</span>
+<span class="co">#&gt; 3  8 4 12 144</span>
+<span class="co">#&gt; 4  1 3  4  16</span>
+<span class="co">#&gt; 5  3 4  7  49</span>
+<span class="co">#&gt; 6  7 8 15 225</span></code></pre></div>
 <p>Alternatively, you can use <code>$&lt;-</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mtcars</span><span class="op">$</span><span class="va">cyl2</span> <span class="op">&lt;-</span> <span class="va">mtcars</span><span class="op">$</span><span class="va">cyl</span> <span class="op">*</span> <span class="fl">2</span>
@@ -755,7 +755,7 @@
 <span class="co">#&gt;   ..- attr(*, "dimnames")=List of 2</span>
 <span class="co">#&gt;   .. ..$ : NULL</span>
 <span class="co">#&gt;   .. ..$ : chr [1:2] "mean" "n"</span></code></pre></div>
-<p>You can see a variety of other options at <a href="https://gist.github.com/hadley/c430501804349d382ce90754936ab8ec" class="external-link">https://gist.github.com/hadley/c430501804349d382ce90754936ab8ec</a>.</p>
+<p>You can see a variety of other options at <a href="https://gist.github.com/hadley/c430501804349d382ce90754936ab8ec" class="external-link uri">https://gist.github.com/hadley/c430501804349d382ce90754936ab8ec</a>.</p>
 </div>
 <div id="slice-choose-rows-by-position" class="section level2">
 <h2 class="hasAnchor">
@@ -878,7 +878,8 @@
 
 
       <footer><div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org" class="external-link">tidyverse.org</a>.</p>
+  <p></p>
+<p>Developed by <a href="http://hadley.nz" class="external-link external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
 <div class="author">

@@ -341,7 +341,7 @@
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_summarise3</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">mean_var</span>, <span class="va">sd_var</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">data</span> <span class="op">%&gt;%</span> 
-    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">mean_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">sd_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span><span class="op">)</span>
+    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">mean_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">sd_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
 <p>If you want to use the names of variables in the output, you can use glue syntax in conjunction with <code>:=</code>:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
@@ -356,7 +356,7 @@
   <span class="va">data</span> <span class="op">%&gt;%</span> 
     <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>
       <span class="st">"mean_{{mean_var}}"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">mean_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>, 
-      <span class="st">"sd_{{sd_var}}"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">sd_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>
+      <span class="st">"sd_{{sd_var}}"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">sd_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>
     <span class="op">)</span>
 <span class="op">}</span></code></pre></div>
 </div>
@@ -391,7 +391,7 @@
 <span class="co">#&gt; 3 male           masculine   81.0   179.</span>
 <span class="co">#&gt; 4 none           feminine   NaN      96 </span>
 <span class="co">#&gt; # … with 2 more rows</span></code></pre></div>
-<p>When you use <code>...</code> in this way, make sure that any other arguments start with <code>.</code> to reduce the chances of argument clashes; see <a href="https://design.tidyverse.org/dots-prefix.html" class="external-link">https://design.tidyverse.org/dots-prefix.html</a> for more details.</p>
+<p>When you use <code>...</code> in this way, make sure that any other arguments start with <code>.</code> to reduce the chances of argument clashes; see <a href="https://design.tidyverse.org/dots-prefix.html" class="external-link uri">https://design.tidyverse.org/dots-prefix.html</a> for more details.</p>
 </div>
 <div id="transforming-user-supplied-variables" class="section level3">
 <h3 class="hasAnchor">
@@ -456,14 +456,14 @@
   <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reactive.html" class="external-link">reactive</a></span><span class="op">(</span><span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">diamonds</span>, <span class="va">.data</span><span class="op">[[</span><span class="va">input</span><span class="op">$</span><span class="va">var</span><span class="op">]</span><span class="op">]</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span>
   <span class="va">output</span><span class="op">$</span><span class="va">output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderTable.html" class="external-link">renderTable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
-<p>See <a href="https://mastering-shiny.org/action-tidy.html" class="external-link">https://mastering-shiny.org/action-tidy.html</a> for more details and case studies.</p>
+<p>See <a href="https://mastering-shiny.org/action-tidy.html" class="external-link uri">https://mastering-shiny.org/action-tidy.html</a> for more details and case studies.</p>
 </div>
 </div>
 <div class="footnotes">
 <hr>
 <ol>
 <li id="fn1"><p>dplyr’s <code><a href="../reference/filter.html">filter()</a></code> is inspired by base R’s <code><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset()</a></code>. <code><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset()</a></code> provides data masking, but not with tidy evaluation, so the techniques described in this chapter don’t apply to it.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-<li id="fn2"><p>In R, arguments are lazily evaluated which means that until you attempt to use, they don’t hold a value, just a <strong>promise</strong> that describes how to compute the value. You can learn more at <a href="https://adv-r.hadley.nz/functions.html#lazy-evaluation" class="external-link">https://adv-r.hadley.nz/functions.html#lazy-evaluation</a><a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>In R, arguments are lazily evaluated which means that until you attempt to use, they don’t hold a value, just a <strong>promise</strong> that describes how to compute the value. You can learn more at <a href="https://adv-r.hadley.nz/functions.html#lazy-evaluation" class="external-link uri">https://adv-r.hadley.nz/functions.html#lazy-evaluation</a><a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>
@@ -479,7 +479,8 @@
 
 
       <footer><div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org" class="external-link">tidyverse.org</a>.</p>
+  <p></p>
+<p>Developed by <a href="http://hadley.nz" class="external-link external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
 <div class="author">

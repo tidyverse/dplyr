@@ -278,91 +278,91 @@ dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/distinct.tbl_lazy.
 </div><div class='output co'>#&gt; [1] 69</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='fu'>distinct</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 69</div><div class='input'>
 <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>x</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10 x 1</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10 x 1</span><span>
 #&gt;        x
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>     2
-#&gt; </span><span style='color: #555555;'> 2</span><span>    10
-#&gt; </span><span style='color: #555555;'> 3</span><span>     7
-#&gt; </span><span style='color: #555555;'> 4</span><span>     4
-#&gt; </span><span style='color: #555555;'> 5</span><span>     9
-#&gt; </span><span style='color: #555555;'> 6</span><span>     6
-#&gt; </span><span style='color: #555555;'> 7</span><span>     1
-#&gt; </span><span style='color: #555555;'> 8</span><span>     3
-#&gt; </span><span style='color: #555555;'> 9</span><span>     5
-#&gt; </span><span style='color: #555555;'>10</span><span>     8</div><div class='input'><span class='fu'>distinct</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>y</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 1</span><span>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     2
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>    10
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     7
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     4
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     9
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     6
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     1
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     3
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     5
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     8</div><div class='input'><span class='fu'>distinct</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>y</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 1</span><span>
 #&gt;        y
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>     3
-#&gt; </span><span style='color: #555555;'> 2</span><span>     1
-#&gt; </span><span style='color: #555555;'> 3</span><span>     9
-#&gt; </span><span style='color: #555555;'> 4</span><span>    10
-#&gt; </span><span style='color: #555555;'> 5</span><span>     2
-#&gt; </span><span style='color: #555555;'> 6</span><span>     8
-#&gt; </span><span style='color: #555555;'> 7</span><span>     4
-#&gt; </span><span style='color: #555555;'> 8</span><span>     7
-#&gt; </span><span style='color: #555555;'> 9</span><span>     5
-#&gt; </span><span style='color: #555555;'>10</span><span>     6</div><div class='input'>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     3
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     1
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     9
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>    10
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     2
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     8
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     4
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     7
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     5
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     6</div><div class='input'>
 <span class='co'># You can choose to keep all other variables as well</span>
 <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>x</span>, .keep_all <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 2</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 2</span><span>
 #&gt;        x     y
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>     2     3
-#&gt; </span><span style='color: #555555;'> 2</span><span>    10     1
-#&gt; </span><span style='color: #555555;'> 3</span><span>     7     9
-#&gt; </span><span style='color: #555555;'> 4</span><span>     4    10
-#&gt; </span><span style='color: #555555;'> 5</span><span>     9    10
-#&gt; </span><span style='color: #555555;'> 6</span><span>     6     4
-#&gt; </span><span style='color: #555555;'> 7</span><span>     1     2
-#&gt; </span><span style='color: #555555;'> 8</span><span>     3     2
-#&gt; </span><span style='color: #555555;'> 9</span><span>     5    10
-#&gt; </span><span style='color: #555555;'>10</span><span>     8     7</div><div class='input'><span class='fu'>distinct</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>y</span>, .keep_all <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 2</span><span>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     2     3
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>    10     1
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     7     9
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     4    10
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     9    10
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     6     4
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     1     2
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     3     2
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     5    10
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     8     7</div><div class='input'><span class='fu'>distinct</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>y</span>, .keep_all <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 2</span><span>
 #&gt;        x     y
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>     2     3
-#&gt; </span><span style='color: #555555;'> 2</span><span>    10     1
-#&gt; </span><span style='color: #555555;'> 3</span><span>     7     9
-#&gt; </span><span style='color: #555555;'> 4</span><span>     4    10
-#&gt; </span><span style='color: #555555;'> 5</span><span>     7     2
-#&gt; </span><span style='color: #555555;'> 6</span><span>    10     8
-#&gt; </span><span style='color: #555555;'> 7</span><span>     6     4
-#&gt; </span><span style='color: #555555;'> 8</span><span>     9     7
-#&gt; </span><span style='color: #555555;'> 9</span><span>     2     5
-#&gt; </span><span style='color: #555555;'>10</span><span>     6     6</div><div class='input'>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     2     3
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>    10     1
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     7     9
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     4    10
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     7     2
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>    10     8
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     6     4
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     9     7
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     2     5
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     6     6</div><div class='input'>
 <span class='co'># You can also use distinct on computed variables</span>
 <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>df</span>, diff <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>x</span> <span class='op'>-</span> <span class='va'>y</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 10 x 1</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 1</span><span>
 #&gt;     diff
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>     1
-#&gt; </span><span style='color: #555555;'> 2</span><span>     9
-#&gt; </span><span style='color: #555555;'> 3</span><span>     2
-#&gt; </span><span style='color: #555555;'> 4</span><span>     6
-#&gt; </span><span style='color: #555555;'> 5</span><span>     5
-#&gt; </span><span style='color: #555555;'> 6</span><span>     8
-#&gt; </span><span style='color: #555555;'> 7</span><span>     0
-#&gt; </span><span style='color: #555555;'> 8</span><span>     7
-#&gt; </span><span style='color: #555555;'> 9</span><span>     3
-#&gt; </span><span style='color: #555555;'>10</span><span>     4</div><div class='input'>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     9
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     2
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     6
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     5
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     8
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     0
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     7
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     3
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     4</div><div class='input'>
 <span class='co'># use across() to access select()-style semantics</span>
 <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>starwars</span>, <span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"color"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 67 x 3</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 67 x 3</span><span>
 #&gt;    hair_color    skin_color  eye_color
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'> 1</span><span> blond         fair        blue     
-#&gt; </span><span style='color: #555555;'> 2</span><span> </span><span style='color: #BB0000;'>NA</span><span>            gold        yellow   
-#&gt; </span><span style='color: #555555;'> 3</span><span> </span><span style='color: #BB0000;'>NA</span><span>            white, blue red      
-#&gt; </span><span style='color: #555555;'> 4</span><span> none          white       yellow   
-#&gt; </span><span style='color: #555555;'> 5</span><span> brown         light       brown    
-#&gt; </span><span style='color: #555555;'> 6</span><span> brown, grey   light       blue     
-#&gt; </span><span style='color: #555555;'> 7</span><span> brown         light       blue     
-#&gt; </span><span style='color: #555555;'> 8</span><span> </span><span style='color: #BB0000;'>NA</span><span>            white, red  red      
-#&gt; </span><span style='color: #555555;'> 9</span><span> black         light       brown    
-#&gt; </span><span style='color: #555555;'>10</span><span> auburn, white fair        blue-gray
-#&gt; </span><span style='color: #555555;'># … with 57 more rows</span><span></div><div class='input'>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> blond         fair        blue     
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> </span><span style='color: #BB0000;'>NA</span><span>            gold        yellow   
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> </span><span style='color: #BB0000;'>NA</span><span>            white, blue red      
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> none          white       yellow   
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> brown         light       brown    
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> brown, grey   light       blue     
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> brown         light       blue     
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> </span><span style='color: #BB0000;'>NA</span><span>            white, red  red      
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> black         light       brown    
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> auburn, white fair        blue-gray
+#&gt; </span><span style='color: #949494;'># … with 57 more rows</span><span></div><div class='input'>
 <span class='co'># Grouping -------------------------------------------------</span>
 <span class='co'># The same behaviour applies for grouped data frames,</span>
 <span class='co'># except that the grouping variables are always included</span>
@@ -371,13 +371,13 @@ dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/distinct.tbl_lazy.
   x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>1</span><span class='op'>)</span>
 <span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span>
 <span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
-#&gt; </span><span style='color: #555555;'># Groups:   g [2]</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 2</span><span>
+#&gt; </span><span style='color: #949494;'># Groups:   g [2]</span><span>
 #&gt;       g     x
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1     1
-#&gt; </span><span style='color: #555555;'>2</span><span>     2     2
-#&gt; </span><span style='color: #555555;'>3</span><span>     2     1</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1     1
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2     2
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     2     1</div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -390,12 +390,12 @@ dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/distinct.tbl_lazy.
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
