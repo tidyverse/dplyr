@@ -6,7 +6,7 @@
 \alias{collapse}
 \title{Force computation of a database query}
 \usage{
-compute(x, name = random_table_name(), ...)
+compute(x, ...)
 
 collect(x, ...)
 
@@ -17,9 +17,7 @@ collapse(x, ...)
 data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for more
 details.}
 
-\item{name}{Name of temporary table on database.}
-
-\item{...}{Other arguments passed on to methods}
+\item{...}{Arguments passed on to methods}
 }
 \description{
 \code{compute()} stores results in a remote temporary table.

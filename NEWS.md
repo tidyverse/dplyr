@@ -1,3 +1,7 @@
+# dplyr (development version)
+
+* Removed the `name` argument from the `compute()` generic (@ianmcook, #5783).
+
 # dplyr 1.0.5
 
 * Fixed edge case of `slice_sample()` when `weight_by=` is used and there 
