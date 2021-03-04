@@ -6,11 +6,29 @@
 \alias{if_all}
 \title{Apply a function (or functions) across multiple columns}
 \usage{
-across(.cols = everything(), .fns = NULL, ..., .names = NULL)
+across(
+  .cols = everything(),
+  .fns = NULL,
+  ...,
+  .names = NULL,
+  .call = sys.call()
+)
 
-if_any(.cols = everything(), .fns = NULL, ..., .names = NULL)
+if_any(
+  .cols = everything(),
+  .fns = NULL,
+  ...,
+  .names = NULL,
+  .call = sys.call()
+)
 
-if_all(.cols = everything(), .fns = NULL, ..., .names = NULL)
+if_all(
+  .cols = everything(),
+  .fns = NULL,
+  ...,
+  .names = NULL,
+  .call = sys.call()
+)
 }
 \arguments{
 \item{.fns}{Functions to apply to each of the selected columns.
@@ -33,6 +51,9 @@ columns. This can use \code{{.col}} to stand for the selected column name, and
 \code{{.fn}} to stand for the name of the function being applied. The default
 (\code{NULL}) is equivalent to \code{"{.col}"} for the single function case and
 \code{"{.col}_{.fn}"} for the case where a list is used for \code{.fns}.}
+
+\item{.call}{Call used by the caching mechanism. This is only useful when \code{across()}
+is called from another function, and should mostly just be ignored.}
 
 \item{cols, .cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.
 Because \code{across()} is used within functions like \code{summarise()} and
