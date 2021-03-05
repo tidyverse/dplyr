@@ -4,12 +4,16 @@
 \alias{c_across}
 \title{Combine values from multiple columns}
 \usage{
-c_across(cols = everything())
+c_across(cols = everything(), .names = NULL)
 }
 \arguments{
 \item{cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.
 Because \code{across()} is used within functions like \code{summarise()} and
 \code{mutate()}, you can't select or compute upon grouping variables.}
+
+\item{.names}{A glue specification that describes how to name the output
+vector. This can use \code{{.col}} to stand for the selected column name.
+The default (\code{NULL}) gives an unnamed output.}
 }
 \description{
 \code{c_across()} is designed to work with \code{\link[=rowwise]{rowwise()}} to make it easy to

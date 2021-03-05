@@ -175,6 +175,9 @@ if_all <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 #' * It uses [vctrs::vec_c()] in order to give safer outputs.
 #'
 #' @inheritParams across
+#' @param .names A glue specification that describes how to name the output
+#'   vector. This can use `{.col}` to stand for the selected column name.
+#'   The default (`NULL`) gives an unnamed output.
 #' @seealso [across()] for a function that returns a tibble.
 #' @export
 #' @examples
