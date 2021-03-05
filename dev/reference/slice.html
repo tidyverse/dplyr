@@ -93,9 +93,15 @@ each group." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -112,7 +118,7 @@ each group." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
         </div>
       </div>
     </div>
@@ -169,9 +175,6 @@ each group." />
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -194,7 +197,7 @@ each group." />
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -237,17 +240,17 @@ so that (e.g.) <code>slice_head(df, n = 5)</code> will select the first five row
 each group.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>slice</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .preserve = <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>slice</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .preserve <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>slice_head</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, <span class='kw'>n</span>, <span class='kw'>prop</span>)
+<span class='fu'>slice_head</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, <span class='va'>n</span>, <span class='va'>prop</span><span class='op'>)</span>
 
-<span class='fu'>slice_tail</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, <span class='kw'>n</span>, <span class='kw'>prop</span>)
+<span class='fu'>slice_tail</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, <span class='va'>n</span>, <span class='va'>prop</span><span class='op'>)</span>
 
-<span class='fu'>slice_min</span>(<span class='kw'>.data</span>, <span class='kw'>order_by</span>, <span class='kw'>...</span>, <span class='kw'>n</span>, <span class='kw'>prop</span>, with_ties = <span class='fl'>TRUE</span>)
+<span class='fu'>slice_min</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>order_by</span>, <span class='va'>...</span>, <span class='va'>n</span>, <span class='va'>prop</span>, with_ties <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>slice_max</span>(<span class='kw'>.data</span>, <span class='kw'>order_by</span>, <span class='kw'>...</span>, <span class='kw'>n</span>, <span class='kw'>prop</span>, with_ties = <span class='fl'>TRUE</span>)
+<span class='fu'>slice_max</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>order_by</span>, <span class='va'>...</span>, <span class='va'>n</span>, <span class='va'>prop</span>, with_ties <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>slice_sample</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, <span class='kw'>n</span>, <span class='kw'>prop</span>, weight_by = <span class='kw'>NULL</span>, replace = <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>slice_sample</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, <span class='va'>n</span>, <span class='va'>prop</span>, weight_by <span class='op'>=</span> <span class='cn'>NULL</span>, replace <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -328,17 +331,17 @@ operation, use <code><a href='filter.html'>filter()</a></code> and <code><a href
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.</p>
 <p>Methods available in currently loaded packages:</p><ul>
-<li><p><code>slice()</code>: base (<code><a href='https://rdrr.io/r/base/slice.index.html'>index</a></code>), dplyr (<code>data.frame</code>, <code>default</code>)
+<li><p><code>slice()</code>: base (<code><a href='https://rdrr.io/r/base/slice.index.html'>index</a></code>), dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>)
 .</p></li>
-<li><p><code>slice_head()</code>: dplyr (<code>data.frame</code>)
+<li><p><code>slice_head()</code>: dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>)
 .</p></li>
-<li><p><code>slice_tail()</code>: dplyr (<code>data.frame</code>)
+<li><p><code>slice_tail()</code>: dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>)
 .</p></li>
-<li><p><code>slice_min()</code>: dplyr (<code>data.frame</code>)
+<li><p><code>slice_min()</code>: dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>)
 .</p></li>
-<li><p><code>slice_max()</code>: dplyr (<code>data.frame</code>)
+<li><p><code>slice_max()</code>: dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>)
 .</p></li>
-<li><p><code>slice_sample()</code>: dplyr (<code>data.frame</code>)
+<li><p><code>slice_sample()</code>: dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>)
 .</p></li>
 </ul>
 
@@ -353,12 +356,12 @@ individual methods for extra arguments and differences in behaviour.</p>
 <code><a href='summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span>(<span class='fl'>1L</span>)
+    <pre class="examples"><div class='input'><span class='va'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1L</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;           mpg cyl disp  hp drat   wt  qsec vs am gear carb
 #&gt; Mazda RX4  21   6  160 110  3.9 2.62 16.46  0  1    4    4</div><div class='input'><span class='co'># Similar to tail(mtcars, 1):</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span>(<span class='fu'><a href='context.html'>n</a></span>())
+<span class='va'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span><span class='op'>(</span><span class='fu'><a href='context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;             mpg cyl disp  hp drat   wt qsec vs am gear carb
-#&gt; Volvo 142E 21.4   4  121 109 4.11 2.78 18.6  1  1    4    2</div><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span>(<span class='fl'>5</span><span class='op'>:</span><span class='fu'><a href='context.html'>n</a></span>())
+#&gt; Volvo 142E 21.4   4  121 109 4.11 2.78 18.6  1  1    4    2</div><div class='input'><span class='va'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>5</span><span class='op'>:</span><span class='fu'><a href='context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
 #&gt; Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
@@ -388,7 +391,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
 #&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
 #&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'><span class='co'># Rows can be dropped with negative indices:</span>
-<span class='fu'>slice</span>(<span class='kw'>mtcars</span>, <span class='op'>-</span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>))
+<span class='fu'>slice</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='op'>-</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
 #&gt; Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
@@ -419,13 +422,13 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
 #&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'>
 <span class='co'># First and last rows based on existing order</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_head</span>(n = <span class='fl'>5</span>)
+<span class='va'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_head</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
 #&gt; Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
 #&gt; Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
 #&gt; Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
 #&gt; Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
-#&gt; Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</div><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_tail</span>(n = <span class='fl'>5</span>)
+#&gt; Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</div><div class='input'><span class='va'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_tail</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                 mpg cyl  disp  hp drat    wt qsec vs am gear carb
 #&gt; Lotus Europa   30.4   4  95.1 113 3.77 1.513 16.9  1  1    5    2
 #&gt; Ford Pantera L 15.8   8 351.0 264 4.22 3.170 14.5  0  1    5    4
@@ -433,13 +436,13 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; Maserati Bora  15.0   8 301.0 335 3.54 3.570 14.6  0  1    5    8
 #&gt; Volvo 142E     21.4   4 121.0 109 4.11 2.780 18.6  1  1    4    2</div><div class='input'>
 <span class='co'># Rows with minimum and maximum values of a variable</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_min</span>(<span class='kw'>mpg</span>, n = <span class='fl'>5</span>)
+<span class='va'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_min</span><span class='op'>(</span><span class='va'>mpg</span>, n <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                      mpg cyl disp  hp drat    wt  qsec vs am gear carb
 #&gt; Cadillac Fleetwood  10.4   8  472 205 2.93 5.250 17.98  0  0    3    4
 #&gt; Lincoln Continental 10.4   8  460 215 3.00 5.424 17.82  0  0    3    4
 #&gt; Camaro Z28          13.3   8  350 245 3.73 3.840 15.41  0  0    3    4
 #&gt; Duster 360          14.3   8  360 245 3.21 3.570 15.84  0  0    3    4
-#&gt; Chrysler Imperial   14.7   8  440 230 3.23 5.345 17.42  0  0    3    4</div><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_max</span>(<span class='kw'>mpg</span>, n = <span class='fl'>5</span>)
+#&gt; Chrysler Imperial   14.7   8  440 230 3.23 5.345 17.42  0  0    3    4</div><div class='input'><span class='va'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_max</span><span class='op'>(</span><span class='va'>mpg</span>, n <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                 mpg cyl disp  hp drat    wt  qsec vs am gear carb
 #&gt; Toyota Corolla 33.9   4 71.1  65 4.22 1.835 19.90  1  1    4    1
 #&gt; Fiat 128       32.4   4 78.7  66 4.08 2.200 19.47  1  1    4    1
@@ -448,7 +451,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; Fiat X1-9      27.3   4 79.0  66 4.08 1.935 18.90  1  1    4    1</div><div class='input'>
 <span class='co'># slice_min() and slice_max() may return more rows than requested</span>
 <span class='co'># in the presence of ties. Use with_ties = FALSE to suppress</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_min</span>(<span class='kw'>cyl</span>, n = <span class='fl'>1</span>)
+<span class='va'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_min</span><span class='op'>(</span><span class='va'>cyl</span>, n <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                 mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Datsun 710     22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
 #&gt; Merc 240D      24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
@@ -460,70 +463,70 @@ individual methods for extra arguments and differences in behaviour.</p>
 #&gt; Fiat X1-9      27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
 #&gt; Porsche 914-2  26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
 #&gt; Lotus Europa   30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
-#&gt; Volvo 142E     21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_min</span>(<span class='kw'>cyl</span>, n = <span class='fl'>1</span>, with_ties = <span class='fl'>FALSE</span>)
+#&gt; Volvo 142E     21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'><span class='va'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_min</span><span class='op'>(</span><span class='va'>cyl</span>, n <span class='op'>=</span> <span class='fl'>1</span>, with_ties <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;             mpg cyl disp hp drat   wt  qsec vs am gear carb
 #&gt; Datsun 710 22.8   4  108 93 3.85 2.32 18.61  1  1    4    1</div><div class='input'>
 <span class='co'># slice_sample() allows you to random select with or without replacement</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_sample</span>(n = <span class='fl'>5</span>)
-</div><div class='output co'>#&gt;                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-#&gt; Dodge Challenger   15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
-#&gt; Pontiac Firebird   19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
-#&gt; Fiat 128           32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
-#&gt; Cadillac Fleetwood 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
-#&gt; Valiant            18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1</div><div class='input'><span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_sample</span>(n = <span class='fl'>5</span>, replace = <span class='fl'>TRUE</span>)
-</div><div class='output co'>#&gt;                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-#&gt; Camaro Z28         13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
-#&gt; Volvo 142E         21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
-#&gt; Toyota Corolla     33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
-#&gt; Maserati Bora      15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
-#&gt; Cadillac Fleetwood 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4</div><div class='input'>
+<span class='va'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_sample</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                 mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt; Toyota Corolla 33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+#&gt; Mazda RX4      21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+#&gt; Porsche 914-2  26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
+#&gt; Fiat 128       32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+#&gt; Duster 360     14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4</div><div class='input'><span class='va'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_sample</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>5</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                 mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt; Ford Pantera L 15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
+#&gt; Fiat 128       32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+#&gt; Merc 450SE     16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
+#&gt; Merc 280C      17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+#&gt; Toyota Corolla 33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1</div><div class='input'>
 <span class='co'># you can optionally weight by a variable - this code weights by the</span>
 <span class='co'># physical weight of the cars, so heavy cars are more likely to get</span>
 <span class='co'># selected</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_sample</span>(weight_by = <span class='kw'>wt</span>, n = <span class='fl'>5</span>)
-</div><div class='output co'>#&gt;                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-#&gt; Valiant            18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
-#&gt; AMC Javelin        15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
-#&gt; Merc 450SL         17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; Merc 240D          24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
-#&gt; Cadillac Fleetwood 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4</div><div class='input'>
+<span class='va'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_sample</span><span class='op'>(</span>weight_by <span class='op'>=</span> <span class='va'>wt</span>, n <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                     mpg cyl  disp  hp drat   wt  qsec vs am gear carb
+#&gt; Camaro Z28         13.3   8 350.0 245 3.73 3.84 15.41  0  0    3    4
+#&gt; Merc 230           22.8   4 140.8  95 3.92 3.15 22.90  1  0    4    2
+#&gt; Cadillac Fleetwood 10.4   8 472.0 205 2.93 5.25 17.98  0  0    3    4
+#&gt; Hornet Sportabout  18.7   8 360.0 175 3.15 3.44 17.02  0  0    3    2
+#&gt; Datsun 710         22.8   4 108.0  93 3.85 2.32 18.61  1  1    4    1</div><div class='input'>
 <span class='co'># Group wise operation ----------------------------------------</span>
-<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(
-  group = <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>4</span>)),
-  x = <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>7</span>)
-)
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>
+  group <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>,
+  x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>7</span><span class='op'>)</span>
+<span class='op'>)</span>
 
 <span class='co'># All slice helpers operate per group, silently truncating to the group</span>
 <span class='co'># size, so the following code works without error</span>
-<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>group</span>) <span class='op'>%&gt;%</span> <span class='fu'>slice_head</span>(n = <span class='fl'>2</span>)
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 5 x 2</span><span>
-#&gt; </span><span style='color: #555555;'># Groups:   group [3]</span><span>
+<span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>group</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_head</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 2</span><span>
+#&gt; </span><span style='color: #949494;'># Groups:   group [3]</span><span>
 #&gt;   group     x
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> a     0.925
-#&gt; </span><span style='color: #555555;'>2</span><span> b     0.233
-#&gt; </span><span style='color: #555555;'>3</span><span> b     0.336
-#&gt; </span><span style='color: #555555;'>4</span><span> c     0.149
-#&gt; </span><span style='color: #555555;'>5</span><span> c     0.589</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> a     0.806
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> b     0.469
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> b     0.707
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> c     0.493
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> c     0.938</div><div class='input'>
 <span class='co'># When specifying the proportion of rows to include non-integer sizes</span>
 <span class='co'># are rounded down, so group a gets 0 rows</span>
-<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>group</span>) <span class='op'>%&gt;%</span> <span class='fu'>slice_head</span>(prop = <span class='fl'>0.5</span>)
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
-#&gt; </span><span style='color: #555555;'># Groups:   group [2]</span><span>
+<span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>group</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>slice_head</span><span class='op'>(</span>prop <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 2</span><span>
+#&gt; </span><span style='color: #949494;'># Groups:   group [2]</span><span>
 #&gt;   group     x
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> b     0.233
-#&gt; </span><span style='color: #555555;'>2</span><span> c     0.149
-#&gt; </span><span style='color: #555555;'>3</span><span> c     0.589</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> b     0.469
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> c     0.493
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> c     0.938</div><div class='input'>
 <span class='co'># Filter equivalents --------------------------------------------</span>
 <span class='co'># slice() expressions can often be written to use `filter()` and</span>
 <span class='co'># `row_number()`, which can also be translated to SQL. For many databases,</span>
 <span class='co'># you'll need to supply an explicit variable to use to compute the row number.</span>
-<span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>mtcars</span>, <span class='fu'><a href='ranking.html'>row_number</a></span>() <span class='op'>==</span> <span class='fl'>1L</span>)
+<span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'><a href='ranking.html'>row_number</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>==</span> <span class='fl'>1L</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;           mpg cyl disp  hp drat   wt  qsec vs am gear carb
-#&gt; Mazda RX4  21   6  160 110  3.9 2.62 16.46  0  1    4    4</div><div class='input'><span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>mtcars</span>, <span class='fu'><a href='ranking.html'>row_number</a></span>() <span class='op'>==</span> <span class='fu'><a href='context.html'>n</a></span>())
+#&gt; Mazda RX4  21   6  160 110  3.9 2.62 16.46  0  1    4    4</div><div class='input'><span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'><a href='ranking.html'>row_number</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>==</span> <span class='fu'><a href='context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;             mpg cyl disp  hp drat   wt qsec vs am gear carb
-#&gt; Volvo 142E 21.4   4  121 109 4.11 2.78 18.6  1  1    4    2</div><div class='input'><span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>mtcars</span>, <span class='fu'><a href='between.html'>between</a></span>(<span class='fu'><a href='ranking.html'>row_number</a></span>(), <span class='fl'>5</span>, <span class='fu'><a href='context.html'>n</a></span>()))
+#&gt; Volvo 142E 21.4   4  121 109 4.11 2.78 18.6  1  1    4    2</div><div class='input'><span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'><a href='between.html'>between</a></span><span class='op'>(</span><span class='fu'><a href='ranking.html'>row_number</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='fl'>5</span>, <span class='fu'><a href='context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
 #&gt; Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
@@ -564,12 +567,12 @@ individual methods for extra arguments and differences in behaviour.</p>
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -596,6 +599,8 @@ individual methods for extra arguments and differences in behaviour.</p>
 </script>
 
 
+
+  
 
   </body>
 </html>

@@ -39,6 +39,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -53,8 +55,8 @@
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
-          <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.2.9000</span>
+          <span class="partof">part of the <a href="https://tidyverse.org" class="external-link">tidyverse</a></span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
         </div>
       </div>
     </div>
@@ -108,25 +110,22 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Releases</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/" class="external-link">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
+      <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/" class="external-link">Version 0.8.3</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
+      <a href="https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/" class="external-link">Version 0.8.2</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/">Version 0.8.2</a>
+      <a href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/" class="external-link">Version 0.8.1</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/">Version 0.8.1</a>
+      <a href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/" class="external-link">Version 0.8.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a>
-    </li>
-    <li>
-      <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a>
+      <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/" class="external-link">Version 0.7.5</a>
     </li>
     <li class="divider">
     <li>
@@ -135,8 +134,8 @@
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/tidyverse/dplyr/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -162,7 +161,7 @@
       <h1 data-toc-skip>Row-wise operations</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/master/vignettes/rowwise.Rmd"><code>vignettes/rowwise.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/master/vignettes/rowwise.Rmd" class="external-link"><code>vignettes/rowwise.Rmd</code></a></small>
       <div class="hidden name"><code>rowwise.Rmd</code></div>
 
     </div>
@@ -180,74 +179,70 @@
 <blockquote>
 <p>Of course, someone has to write loops. It doesn’t have to be you. — Jenny Bryan</p>
 </blockquote>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org">dplyr</a></span>, warn.conflicts = <span class="fl">FALSE</span>)
-</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <div id="creating" class="section level2">
 <h2 class="hasAnchor">
 <a href="#creating" class="anchor"></a>Creating</h2>
 <p>Row-wise operations require a special type of grouping where each group consists of a single row. You create this with <code><a href="../reference/rowwise.html">rowwise()</a></code>:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(x = <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y = <span class="fl">3</span><span class="op">:</span><span class="fl">4</span>, z = <span class="fl">5</span><span class="op">:</span><span class="fl">6</span>)
-<span class="kw">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span>()
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">4</span>, z <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>
+<span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt; # Rowwise: </span>
 <span class="co">#&gt;       x     y     z</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1     1     3     5</span>
-<span class="co">#&gt; 2     2     4     6</span>
-</pre></div>
+<span class="co">#&gt; 2     2     4     6</span></code></pre></div>
 <p>Like <code><a href="../reference/group_by.html">group_by()</a></code>, <code><a href="../reference/rowwise.html">rowwise()</a></code> doesn’t really do anything itself; it just changes how the other verbs work. For example, compare the results of <code><a href="../reference/mutate.html">mutate()</a></code> in the following code:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(m = <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">x</span>, <span class="kw">y</span>, <span class="kw">z</span>)))
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 x 4</span>
 <span class="co">#&gt;       x     y     z     m</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1     1     3     5   3.5</span>
 <span class="co">#&gt; 2     2     4     6   3.5</span>
-<span class="kw">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(m = <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">x</span>, <span class="kw">y</span>, <span class="kw">z</span>)))
+<span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 x 4</span>
 <span class="co">#&gt; # Rowwise: </span>
 <span class="co">#&gt;       x     y     z     m</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1     1     3     5     3</span>
-<span class="co">#&gt; 2     2     4     6     4</span>
-</pre></div>
+<span class="co">#&gt; 2     2     4     6     4</span></code></pre></div>
 <p>If you use <code><a href="../reference/mutate.html">mutate()</a></code> with a regular data frame, it computes the mean of <code>x</code>, <code>y</code>, and <code>z</code> across all rows. If you apply it to a row-wise data frame, it computes the mean for each row.</p>
 <p>You can optionally supply “identifier” variables in your call to <code><a href="../reference/rowwise.html">rowwise()</a></code>. These variables are preserved when you call <code><a href="../reference/summarise.html">summarise()</a></code>, so they behave somewhat similarly to the grouping variables passed to <code><a href="../reference/group_by.html">group_by()</a></code>:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(name = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Mara"</span>, <span class="st">"Hadley"</span>), x = <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y = <span class="fl">3</span><span class="op">:</span><span class="fl">4</span>, z = <span class="fl">5</span><span class="op">:</span><span class="fl">6</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Mara"</span>, <span class="st">"Hadley"</span><span class="op">)</span>, x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">4</span>, z <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>
 
-<span class="kw">df</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(m = <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">x</span>, <span class="kw">y</span>, <span class="kw">z</span>)))
-<span class="co">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
+<span class="va">df</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; `summarise()` has ungrouped output. You can override using the `.groups` argument.</span>
 <span class="co">#&gt; # A tibble: 2 x 1</span>
 <span class="co">#&gt;       m</span>
 <span class="co">#&gt;   &lt;dbl&gt;</span>
 <span class="co">#&gt; 1     3</span>
 <span class="co">#&gt; 2     4</span>
 
-<span class="kw">df</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span>(<span class="kw">name</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(m = <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">x</span>, <span class="kw">y</span>, <span class="kw">z</span>)))
-<span class="co">#&gt; `summarise()` regrouping output by 'name' (override with `.groups` argument)</span>
+<span class="va">df</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; `summarise()` has grouped output by 'name'. You can override using the `.groups` argument.</span>
 <span class="co">#&gt; # A tibble: 2 x 2</span>
 <span class="co">#&gt; # Groups:   name [2]</span>
 <span class="co">#&gt;   name       m</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 Mara       3</span>
-<span class="co">#&gt; 2 Hadley     4</span>
-</pre></div>
+<span class="co">#&gt; 2 Hadley     4</span></code></pre></div>
 <p><code><a href="../reference/rowwise.html">rowwise()</a></code> is just a special form of grouping, so if you want to remove it from a data frame, just call <code><a href="../reference/group_by.html">ungroup()</a></code>.</p>
 </div>
 <div id="per-row-summary-statistics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#per-row-summary-statistics" class="anchor"></a>Per row summary statistics</h2>
 <p><code><a href="../reference/summarise.html">dplyr::summarise()</a></code> makes it really easy to summarise values across rows within one column. When combined with <code><a href="../reference/rowwise.html">rowwise()</a></code> it also makes it easy to summarise values across columns within one row. To see how, we’ll start by making a little dataset:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(id = <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, w = <span class="fl">10</span><span class="op">:</span><span class="fl">15</span>, x = <span class="fl">20</span><span class="op">:</span><span class="fl">25</span>, y = <span class="fl">30</span><span class="op">:</span><span class="fl">35</span>, z = <span class="fl">40</span><span class="op">:</span><span class="fl">45</span>)
-<span class="kw">df</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, w <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">15</span>, x <span class="op">=</span> <span class="fl">20</span><span class="op">:</span><span class="fl">25</span>, y <span class="op">=</span> <span class="fl">30</span><span class="op">:</span><span class="fl">35</span>, z <span class="op">=</span> <span class="fl">40</span><span class="op">:</span><span class="fl">45</span><span class="op">)</span>
+<span class="va">df</span>
 <span class="co">#&gt; # A tibble: 6 x 5</span>
 <span class="co">#&gt;      id     w     x     y     z</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
@@ -255,15 +250,13 @@
 <span class="co">#&gt; 2     2    11    21    31    41</span>
 <span class="co">#&gt; 3     3    12    22    32    42</span>
 <span class="co">#&gt; 4     4    13    23    33    43</span>
-<span class="co">#&gt; # … with 2 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 2 more rows</span></code></pre></div>
 <p>Let’s say we want compute the sum of <code>w</code>, <code>x</code>, <code>y</code>, and <code>z</code> for each row. We start by making a row-wise data frame:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="kw">rf</span> <span class="op">&lt;-</span> <span class="kw">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span>(<span class="kw">id</span>)
-</pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rf</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span></code></pre></div>
 <p>We can then use <code><a href="../reference/mutate.html">mutate()</a></code> to add a new column to each row, or <code><a href="../reference/summarise.html">summarise()</a></code> to return just that one summary:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw">rf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(total = <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">w</span>, <span class="kw">x</span>, <span class="kw">y</span>, <span class="kw">z</span>)))
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">w</span>, <span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 6</span>
 <span class="co">#&gt; # Rowwise:  id</span>
 <span class="co">#&gt;      id     w     x     y     z total</span>
@@ -273,8 +266,8 @@
 <span class="co">#&gt; 3     3    12    22    32    42   108</span>
 <span class="co">#&gt; 4     4    13    23    33    43   112</span>
 <span class="co">#&gt; # … with 2 more rows</span>
-<span class="kw">rf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(total = <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">w</span>, <span class="kw">x</span>, <span class="kw">y</span>, <span class="kw">z</span>)))
-<span class="co">#&gt; `summarise()` regrouping output by 'id' (override with `.groups` argument)</span>
+<span class="va">rf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">w</span>, <span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; `summarise()` has grouped output by 'id'. You can override using the `.groups` argument.</span>
 <span class="co">#&gt; # A tibble: 6 x 2</span>
 <span class="co">#&gt; # Groups:   id [6]</span>
 <span class="co">#&gt;      id total</span>
@@ -283,11 +276,10 @@
 <span class="co">#&gt; 2     2   104</span>
 <span class="co">#&gt; 3     3   108</span>
 <span class="co">#&gt; 4     4   112</span>
-<span class="co">#&gt; # … with 2 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 2 more rows</span></code></pre></div>
 <p>Of course, if you have a lot of variables, it’s going to be tedious to type in every variable name. Instead, you can use <code><a href="../reference/c_across.html">c_across()</a></code> which uses tidy selection syntax so you can to succinctly select many variables:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="kw">rf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(total = <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="fu"><a href="../reference/c_across.html">c_across</a></span>(<span class="kw">w</span><span class="op">:</span><span class="kw">z</span>)))
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="../reference/c_across.html">c_across</a></span><span class="op">(</span><span class="va">w</span><span class="op">:</span><span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 6</span>
 <span class="co">#&gt; # Rowwise:  id</span>
 <span class="co">#&gt;      id     w     x     y     z total</span>
@@ -297,7 +289,7 @@
 <span class="co">#&gt; 3     3    12    22    32    42   108</span>
 <span class="co">#&gt; 4     4    13    23    33    43   112</span>
 <span class="co">#&gt; # … with 2 more rows</span>
-<span class="kw">rf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(total = <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="fu"><a href="../reference/c_across.html">c_across</a></span>(<span class="fu">where</span>(<span class="kw">is.numeric</span>))))
+<span class="va">rf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="../reference/c_across.html">c_across</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 6</span>
 <span class="co">#&gt; # Rowwise:  id</span>
 <span class="co">#&gt;      id     w     x     y     z total</span>
@@ -306,14 +298,13 @@
 <span class="co">#&gt; 2     2    11    21    31    41   104</span>
 <span class="co">#&gt; 3     3    12    22    32    42   108</span>
 <span class="co">#&gt; 4     4    13    23    33    43   112</span>
-<span class="co">#&gt; # … with 2 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 2 more rows</span></code></pre></div>
 <p>You could combine this with column-wise operations (see <code><a href="../articles/colwise.html">vignette("colwise")</a></code> for more details) to compute the proportion of the total for each column:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="kw">rf</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(total = <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="fu"><a href="../reference/c_across.html">c_across</a></span>(<span class="kw">w</span><span class="op">:</span><span class="kw">z</span>))) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/group_by.html">ungroup</a></span>() <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="kw">w</span><span class="op">:</span><span class="kw">z</span>, <span class="op">~</span> <span class="kw">.</span> <span class="op">/</span> <span class="kw">total</span>))
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rf</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="../reference/c_across.html">c_across</a></span><span class="op">(</span><span class="va">w</span><span class="op">:</span><span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="va">w</span><span class="op">:</span><span class="va">z</span>, <span class="op">~</span> <span class="va">.</span> <span class="op">/</span> <span class="va">total</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 6</span>
 <span class="co">#&gt;      id     w     x     y     z total</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;</span>
@@ -321,14 +312,13 @@
 <span class="co">#&gt; 2     2 0.106 0.202 0.298 0.394   104</span>
 <span class="co">#&gt; 3     3 0.111 0.204 0.296 0.389   108</span>
 <span class="co">#&gt; 4     4 0.116 0.205 0.295 0.384   112</span>
-<span class="co">#&gt; # … with 2 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 2 more rows</span></code></pre></div>
 <div id="row-wise-summary-functions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#row-wise-summary-functions" class="anchor"></a>Row-wise summary functions</h3>
 <p>The <code><a href="../reference/rowwise.html">rowwise()</a></code> approach will work for any summary function. But if you need greater speed, it’s worth looking for a built-in row-wise variant of your summary function. These are more efficient because they operate on the data frame as whole; they don’t split it into rows, compute the summary, and then join the results back together again.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="kw">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(total = <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu">where</span>(<span class="kw">is.numeric</span>))))
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 6</span>
 <span class="co">#&gt;      id     w     x     y     z total</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
@@ -337,7 +327,7 @@
 <span class="co">#&gt; 3     3    12    22    32    42   111</span>
 <span class="co">#&gt; 4     4    13    23    33    43   116</span>
 <span class="co">#&gt; # … with 2 more rows</span>
-<span class="kw">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(mean = <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span>(<span class="fu"><a href="../reference/across.html">across</a></span>(<span class="fu">where</span>(<span class="kw">is.numeric</span>))))
+<span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 6</span>
 <span class="co">#&gt;      id     w     x     y     z  mean</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
@@ -345,190 +335,176 @@
 <span class="co">#&gt; 2     2    11    21    31    41  21.2</span>
 <span class="co">#&gt; 3     3    12    22    32    42  22.2</span>
 <span class="co">#&gt; 4     4    13    23    33    43  23.2</span>
-<span class="co">#&gt; # … with 2 more rows</span>
-</pre></div>
-<p><strong>NB</strong>: I use <code>df</code> (not <code>rf</code>) and <code><a href="../reference/across.html">across()</a></code> (not <code><a href="../reference/c_across.html">c_across()</a></code>) here because <code><a href="https://rdrr.io/r/base/colSums.html">rowMeans()</a></code> and <code><a href="https://rdrr.io/r/base/colSums.html">rowSums()</a></code> take a multi-row data frame as input.</p>
+<span class="co">#&gt; # … with 2 more rows</span></code></pre></div>
+<p><strong>NB</strong>: I use <code>df</code> (not <code>rf</code>) and <code><a href="../reference/across.html">across()</a></code> (not <code><a href="../reference/c_across.html">c_across()</a></code>) here because <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans()</a></code> and <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums()</a></code> take a multi-row data frame as input.</p>
 </div>
 </div>
 <div id="list-columns" class="section level2">
 <h2 class="hasAnchor">
 <a href="#list-columns" class="anchor"></a>List-columns</h2>
-<p><code><a href="../reference/rowwise.html">rowwise()</a></code> operations are a natural pairing when you have list-columns. They allow you to avoid explicit loops and/or functions from the <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> or <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> families.</p>
+<p><code><a href="../reference/rowwise.html">rowwise()</a></code> operations are a natural pairing when you have list-columns. They allow you to avoid explicit loops and/or functions from the <code><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply()</a></code> or <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> families.</p>
 <div id="motivation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#motivation" class="anchor"></a>Motivation</h3>
 <p>Imagine you have this data frame, and you want to count the lengths of each element:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="kw">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(
-  x = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fl">1</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">4</span><span class="op">:</span><span class="fl">6</span>)
-)
-</pre></div>
-<p>You might try calling <code><a href="https://rdrr.io/r/base/length.html">length()</a></code>:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="kw">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(l = <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="kw">x</span>))
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>
+  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
+<p>You might try calling <code><a href="https://rdrr.io/r/base/length.html" class="external-link">length()</a></code>:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>l <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt;   x             l</span>
 <span class="co">#&gt;   &lt;list&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1 &lt;dbl [1]&gt;     3</span>
 <span class="co">#&gt; 2 &lt;int [2]&gt;     3</span>
-<span class="co">#&gt; 3 &lt;int [3]&gt;     3</span>
-</pre></div>
+<span class="co">#&gt; 3 &lt;int [3]&gt;     3</span></code></pre></div>
 <p>But that returns the length of the column, not the length of the individual values. If you’re an R documentation aficionado, you might know there’s already a base R function just for this purpose:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="kw">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(l = <span class="fu"><a href="https://rdrr.io/r/base/lengths.html">lengths</a></span>(<span class="kw">x</span>))
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>l <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 3 x 2</span>
+<span class="co">#&gt;   x             l</span>
+<span class="co">#&gt;   &lt;list&gt;    &lt;int&gt;</span>
+<span class="co">#&gt; 1 &lt;dbl [1]&gt;     1</span>
+<span class="co">#&gt; 2 &lt;int [2]&gt;     2</span>
+<span class="co">#&gt; 3 &lt;int [3]&gt;     3</span></code></pre></div>
+<p>Or if you’re an experienced R programmer, you might know how to apply a function to each element of a list using <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply()</a></code>, <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">vapply()</a></code>, or one of the purrr <code>map()</code> functions:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>l <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">length</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt;   x             l</span>
 <span class="co">#&gt;   &lt;list&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1 &lt;dbl [1]&gt;     1</span>
 <span class="co">#&gt; 2 &lt;int [2]&gt;     2</span>
 <span class="co">#&gt; 3 &lt;int [3]&gt;     3</span>
-</pre></div>
-<p>Or if you’re an experienced R programmer, you might know how to apply a function to each element of a list using <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code>, <code><a href="https://rdrr.io/r/base/lapply.html">vapply()</a></code>, or one of the purrr <code>map()</code> functions:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="kw">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(l = <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="kw">x</span>, <span class="kw">length</span>))
+<span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>l <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_int</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">length</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt;   x             l</span>
 <span class="co">#&gt;   &lt;list&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1 &lt;dbl [1]&gt;     1</span>
 <span class="co">#&gt; 2 &lt;int [2]&gt;     2</span>
-<span class="co">#&gt; 3 &lt;int [3]&gt;     3</span>
-<span class="kw">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(l = <span class="kw">purrr</span>::<span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_int</a></span>(<span class="kw">x</span>, <span class="kw">length</span>))
-<span class="co">#&gt; # A tibble: 3 x 2</span>
-<span class="co">#&gt;   x             l</span>
-<span class="co">#&gt;   &lt;list&gt;    &lt;int&gt;</span>
-<span class="co">#&gt; 1 &lt;dbl [1]&gt;     1</span>
-<span class="co">#&gt; 2 &lt;int [2]&gt;     2</span>
-<span class="co">#&gt; 3 &lt;int [3]&gt;     3</span>
-</pre></div>
-<p>But wouldn’t it be nice if you could just write <code><a href="https://rdrr.io/r/base/length.html">length(x)</a></code> and dplyr would figure out that you wanted to compute the length of the element inside of <code>x</code>? Since you’re here, you might already be guessing at the answer: this is just another application of the row-wise pattern.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="kw">df</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(l = <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="kw">x</span>))
+<span class="co">#&gt; 3 &lt;int [3]&gt;     3</span></code></pre></div>
+<p>But wouldn’t it be nice if you could just write <code><a href="https://rdrr.io/r/base/length.html" class="external-link">length(x)</a></code> and dplyr would figure out that you wanted to compute the length of the element inside of <code>x</code>? Since you’re here, you might already be guessing at the answer: this is just another application of the row-wise pattern.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>l <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt; # Rowwise: </span>
 <span class="co">#&gt;   x             l</span>
 <span class="co">#&gt;   &lt;list&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1 &lt;dbl [1]&gt;     1</span>
 <span class="co">#&gt; 2 &lt;int [2]&gt;     2</span>
-<span class="co">#&gt; 3 &lt;int [3]&gt;     3</span>
-</pre></div>
+<span class="co">#&gt; 3 &lt;int [3]&gt;     3</span></code></pre></div>
 </div>
 <div id="subsetting" class="section level3">
 <h3 class="hasAnchor">
 <a href="#subsetting" class="anchor"></a>Subsetting</h3>
 <p>Before we continue on, I wanted to briefly mention the magic that makes this work. This isn’t something you’ll generally need to think about (it’ll just work), but it’s useful to know about when something goes wrong.</p>
 <p>There’s an important difference between a grouped data frame where each group happens to have one row, and a row-wise data frame where every group always has one row. Take these two data frames:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit">
-<span class="kw">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(g = <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="st">"a"</span>))
-<span class="kw">gf</span> <span class="op">&lt;-</span> <span class="kw">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw">g</span>)
-<span class="kw">rf</span> <span class="op">&lt;-</span> <span class="kw">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span>(<span class="kw">g</span>)
-</pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>g <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="st">"a"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">gf</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span>
+<span class="va">rf</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span></code></pre></div>
 <p>If we compute some properties of <code>y</code>, you’ll notice the results look different:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit">
-<span class="kw">gf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(type = <span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span>(<span class="kw">y</span>), length = <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="kw">y</span>))
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/typeof.html" class="external-link">typeof</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 x 4</span>
 <span class="co">#&gt; # Groups:   g [2]</span>
 <span class="co">#&gt;       g y         type  length</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;list&gt;    &lt;chr&gt;  &lt;int&gt;</span>
 <span class="co">#&gt; 1     1 &lt;int [3]&gt; list       1</span>
 <span class="co">#&gt; 2     2 &lt;chr [1]&gt; list       1</span>
-<span class="kw">rf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(type = <span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span>(<span class="kw">y</span>), length = <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="kw">y</span>))
+<span class="va">rf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/typeof.html" class="external-link">typeof</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 x 4</span>
 <span class="co">#&gt; # Rowwise:  g</span>
 <span class="co">#&gt;       g y         type      length</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;list&gt;    &lt;chr&gt;      &lt;int&gt;</span>
 <span class="co">#&gt; 1     1 &lt;int [3]&gt; integer        3</span>
-<span class="co">#&gt; 2     2 &lt;chr [1]&gt; character      1</span>
-</pre></div>
-<p>They key difference is that when <code><a href="../reference/mutate.html">mutate()</a></code> slices up the columns to pass to <code><a href="https://rdrr.io/r/base/length.html">length(y)</a></code> the grouped mutate uses <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> and the row-wise mutate uses <code><a href="https://rdrr.io/r/base/Extract.html">[[</a></code>. The following code gives a flavour of the differences if you used a for loop:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit">
-<span class="co"># grouped</span>
-<span class="kw">out1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">integer</a></span>(<span class="fl">2</span>)
-<span class="co">for</span> (<span class="kw">i</span> <span class="co">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>) {
-  <span class="kw">out1</span>[[<span class="kw">i</span>]] <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="kw">df</span><span class="op">$</span><span class="kw">y</span>[<span class="kw">i</span>])
-}
-<span class="kw">out1</span>
+<span class="co">#&gt; 2     2 &lt;chr [1]&gt; character      1</span></code></pre></div>
+<p>They key difference is that when <code><a href="../reference/mutate.html">mutate()</a></code> slices up the columns to pass to <code><a href="https://rdrr.io/r/base/length.html" class="external-link">length(y)</a></code> the grouped mutate uses <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">[</a></code> and the row-wise mutate uses <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">[[</a></code>. The following code gives a flavour of the differences if you used a for loop:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># grouped</span>
+<span class="va">out1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">out1</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">y</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>
+<span class="op">}</span>
+<span class="va">out1</span>
 <span class="co">#&gt; [1] 1 1</span>
 
 <span class="co"># rowwise</span>
-<span class="kw">out2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">integer</a></span>(<span class="fl">2</span>)
-<span class="co">for</span> (<span class="kw">i</span> <span class="co">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>) {
-  <span class="kw">out2</span>[[<span class="kw">i</span>]] <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="kw">df</span><span class="op">$</span><span class="kw">y</span>[[<span class="kw">i</span>]])
-}
-<span class="kw">out2</span>
-<span class="co">#&gt; [1] 3 1</span>
-</pre></div>
+<span class="va">out2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">out2</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">y</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+<span class="op">}</span>
+<span class="va">out2</span>
+<span class="co">#&gt; [1] 3 1</span></code></pre></div>
 <p>Note that this magic only applies when you’re referring to existing columns, not when you’re creating new rows. This is potentially confusing, but we’re fairly confident it’s the least worst solution, particularly given the hint in the error message.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit">
-<span class="kw">gf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(y2 = <span class="kw">y</span>)
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>y2 <span class="op">=</span> <span class="va">y</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt; # Groups:   g [2]</span>
 <span class="co">#&gt;       g y         y2       </span>
 <span class="co">#&gt;   &lt;int&gt; &lt;list&gt;    &lt;list&gt;   </span>
 <span class="co">#&gt; 1     1 &lt;int [3]&gt; &lt;int [3]&gt;</span>
 <span class="co">#&gt; 2     2 &lt;chr [1]&gt; &lt;chr [1]&gt;</span>
-<span class="kw">rf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(y2 = <span class="kw">y</span>)
+<span class="va">rf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>y2 <span class="op">=</span> <span class="va">y</span><span class="op">)</span>
 <span class="co">#&gt; Error: Problem with `mutate()` input `y2`.</span>
 <span class="co">#&gt; ✖ Input `y2` can't be recycled to size 1.</span>
 <span class="co">#&gt; ℹ Input `y2` is `y`.</span>
 <span class="co">#&gt; ℹ Input `y2` must be size 1, not 3.</span>
 <span class="co">#&gt; ℹ Did you mean: `y2 = list(y)` ?</span>
 <span class="co">#&gt; ℹ The error occurred in row 1.</span>
-<span class="kw">rf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(y2 = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">y</span>))
+<span class="va">rf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>y2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt; # Rowwise:  g</span>
 <span class="co">#&gt;       g y         y2       </span>
 <span class="co">#&gt;   &lt;int&gt; &lt;list&gt;    &lt;list&gt;   </span>
 <span class="co">#&gt; 1     1 &lt;int [3]&gt; &lt;int [3]&gt;</span>
-<span class="co">#&gt; 2     2 &lt;chr [1]&gt; &lt;chr [1]&gt;</span>
-</pre></div>
+<span class="co">#&gt; 2     2 &lt;chr [1]&gt; &lt;chr [1]&gt;</span></code></pre></div>
 </div>
 <div id="modelling" class="section level3">
 <h3 class="hasAnchor">
 <a href="#modelling" class="anchor"></a>Modelling</h3>
 <p><code><a href="../reference/rowwise.html">rowwise()</a></code> data frames allow you to solve a variety of modelling problems in what I think is a particularly elegant way. We’ll start by creating a nested data frame:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit">
-<span class="kw">by_cyl</span> <span class="op">&lt;-</span> <span class="kw">mtcars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/nest_by.html">nest_by</a></span>(<span class="kw">cyl</span>)
-<span class="co">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
-<span class="kw">by_cyl</span>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_cyl</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/nest_by.html">nest_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span>
+<span class="va">by_cyl</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt; # Rowwise:  cyl</span>
 <span class="co">#&gt;     cyl data              </span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;            </span>
 <span class="co">#&gt; 1     4 &lt;tibble [11 × 10]&gt;</span>
 <span class="co">#&gt; 2     6 &lt;tibble [7 × 10]&gt; </span>
-<span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt;</span>
-</pre></div>
+<span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt;</span></code></pre></div>
 <p>This is a little different to the usual <code><a href="../reference/group_by.html">group_by()</a></code> output: we have visibly changed the structure of the data. Now we have three rows (one for each group), and we have a list-col, <code>data</code>, that stores the data for that group. Also note that the output is <code><a href="../reference/rowwise.html">rowwise()</a></code>; this is important because it’s going to make working with that list of data frames much easier.</p>
 <p>Once we have one data frame per row, it’s straightforward to make one model per row:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit">
-<span class="kw">mods</span> <span class="op">&lt;-</span> <span class="kw">by_cyl</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(mod = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="kw">mpg</span> <span class="op">~</span> <span class="kw">wt</span>, data = <span class="kw">data</span>)))
-<span class="kw">mods</span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mods</span> <span class="op">&lt;-</span> <span class="va">by_cyl</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>mod <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">wt</span>, data <span class="op">=</span> <span class="va">data</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="va">mods</span>
 <span class="co">#&gt; # A tibble: 3 x 3</span>
 <span class="co">#&gt; # Rowwise:  cyl</span>
 <span class="co">#&gt;     cyl data               mod   </span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;             &lt;list&gt;</span>
 <span class="co">#&gt; 1     4 &lt;tibble [11 × 10]&gt; &lt;lm&gt;  </span>
 <span class="co">#&gt; 2     6 &lt;tibble [7 × 10]&gt;  &lt;lm&gt;  </span>
-<span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt; &lt;lm&gt;</span>
-</pre></div>
+<span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt; &lt;lm&gt;</span></code></pre></div>
 <p>And supplement that with one set of predictions per row:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit">
-<span class="kw">mods</span> <span class="op">&lt;-</span> <span class="kw">mods</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(pred = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="kw">mod</span>, <span class="kw">data</span>)))
-<span class="kw">mods</span>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mods</span> <span class="op">&lt;-</span> <span class="va">mods</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>pred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod</span>, <span class="va">data</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="va">mods</span>
 <span class="co">#&gt; # A tibble: 3 x 4</span>
 <span class="co">#&gt; # Rowwise:  cyl</span>
 <span class="co">#&gt;     cyl data               mod    pred      </span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;             &lt;list&gt; &lt;list&gt;    </span>
 <span class="co">#&gt; 1     4 &lt;tibble [11 × 10]&gt; &lt;lm&gt;   &lt;dbl [11]&gt;</span>
 <span class="co">#&gt; 2     6 &lt;tibble [7 × 10]&gt;  &lt;lm&gt;   &lt;dbl [7]&gt; </span>
-<span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt; &lt;lm&gt;   &lt;dbl [14]&gt;</span>
-</pre></div>
+<span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt; &lt;lm&gt;   &lt;dbl [14]&gt;</span></code></pre></div>
 <p>You could then summarise the model in a variety of ways:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit">
-<span class="kw">mods</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(rmse = <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>((<span class="kw">pred</span> <span class="op">-</span> <span class="kw">data</span><span class="op">$</span><span class="kw">mpg</span>) <span class="op">^</span> <span class="fl">2</span>)))
-<span class="co">#&gt; `summarise()` regrouping output by 'cyl' (override with `.groups` argument)</span>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mods</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>rmse <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">pred</span> <span class="op">-</span> <span class="va">data</span><span class="op">$</span><span class="va">mpg</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; `summarise()` has grouped output by 'cyl'. You can override using the `.groups` argument.</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt; # Groups:   cyl [3]</span>
 <span class="co">#&gt;     cyl  rmse</span>
@@ -536,8 +512,8 @@
 <span class="co">#&gt; 1     4 3.01 </span>
 <span class="co">#&gt; 2     6 0.985</span>
 <span class="co">#&gt; 3     8 1.87</span>
-<span class="kw">mods</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(rsq = <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">mod</span>)<span class="op">$</span><span class="kw">r.squared</span>)
-<span class="co">#&gt; `summarise()` regrouping output by 'cyl' (override with `.groups` argument)</span>
+<span class="va">mods</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>rsq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">$</span><span class="va">r.squared</span><span class="op">)</span>
+<span class="co">#&gt; `summarise()` has grouped output by 'cyl'. You can override using the `.groups` argument.</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt; # Groups:   cyl [3]</span>
 <span class="co">#&gt;     cyl   rsq</span>
@@ -545,8 +521,8 @@
 <span class="co">#&gt; 1     4 0.509</span>
 <span class="co">#&gt; 2     6 0.465</span>
 <span class="co">#&gt; 3     8 0.423</span>
-<span class="kw">mods</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw">broom</span>::<span class="fu"><a href="https://rdrr.io/pkg/generics/man/glance.html">glance</a></span>(<span class="kw">mod</span>))
-<span class="co">#&gt; `summarise()` regrouping output by 'cyl' (override with `.groups` argument)</span>
+<span class="va">mods</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; `summarise()` has grouped output by 'cyl'. You can override using the `.groups` argument.</span>
 <span class="co">#&gt; # A tibble: 3 x 13</span>
 <span class="co">#&gt; # Groups:   cyl [3]</span>
 <span class="co">#&gt;     cyl r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC</span>
@@ -554,12 +530,11 @@
 <span class="co">#&gt; 1     4     0.509         0.454  3.33      9.32  0.0137     1 -27.7   61.5  62.7</span>
 <span class="co">#&gt; 2     6     0.465         0.357  1.17      4.34  0.0918     1  -9.83  25.7  25.5</span>
 <span class="co">#&gt; 3     8     0.423         0.375  2.02      8.80  0.0118     1 -28.7   63.3  65.2</span>
-<span class="co">#&gt; # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</span>
-</pre></div>
+<span class="co">#&gt; # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</span></code></pre></div>
 <p>Or easily access the parameters of each model:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit">
-<span class="kw">mods</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="kw">broom</span>::<span class="fu"><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy</a></span>(<span class="kw">mod</span>))
-<span class="co">#&gt; `summarise()` regrouping output by 'cyl' (override with `.groups` argument)</span>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mods</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; `summarise()` has grouped output by 'cyl'. You can override using the `.groups` argument.</span>
 <span class="co">#&gt; # A tibble: 6 x 6</span>
 <span class="co">#&gt; # Groups:   cyl [3]</span>
 <span class="co">#&gt;     cyl term        estimate std.error statistic    p.value</span>
@@ -568,8 +543,7 @@
 <span class="co">#&gt; 2     4 wt             -5.65      1.85     -3.05 0.0137    </span>
 <span class="co">#&gt; 3     6 (Intercept)    28.4       4.18      6.79 0.00105   </span>
 <span class="co">#&gt; 4     6 wt             -2.78      1.33     -2.08 0.0918    </span>
-<span class="co">#&gt; # … with 2 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 2 more rows</span></code></pre></div>
 </div>
 </div>
 <div id="repeated-function-calls" class="section level2">
@@ -580,50 +554,47 @@
 <h3 class="hasAnchor">
 <a href="#simulations" class="anchor"></a>Simulations</h3>
 <p>I think this is a particularly elegant way to perform simulations, because it lets you store simulated values along with the parameters that generated them. For example, imagine you have the following data frame that describes the properties of 3 samples from the uniform distribution:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit">
-<span class="kw">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(
-  <span class="op">~</span> <span class="kw">n</span>, <span class="op">~</span> <span class="kw">min</span>, <span class="op">~</span> <span class="kw">max</span>,
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
+  <span class="op">~</span> <span class="va">n</span>, <span class="op">~</span> <span class="va">min</span>, <span class="op">~</span> <span class="va">max</span>,
     <span class="fl">1</span>,     <span class="fl">0</span>,     <span class="fl">1</span>,
     <span class="fl">2</span>,    <span class="fl">10</span>,   <span class="fl">100</span>,
     <span class="fl">3</span>,   <span class="fl">100</span>,  <span class="fl">1000</span>,
-)
-</pre></div>
-<p>You can supply these parameters to <code><a href="https://rdrr.io/r/stats/Uniform.html">runif()</a></code> by using <code><a href="../reference/rowwise.html">rowwise()</a></code> and <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit">
-<span class="kw">df</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(data = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="kw">n</span>, <span class="kw">min</span>, <span class="kw">max</span>)))
+<span class="op">)</span></code></pre></div>
+<p>You can supply these parameters to <code><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif()</a></code> by using <code><a href="../reference/rowwise.html">rowwise()</a></code> and <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">min</span>, <span class="va">max</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 x 4</span>
 <span class="co">#&gt; # Rowwise: </span>
 <span class="co">#&gt;       n   min   max data     </span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;list&gt;   </span>
 <span class="co">#&gt; 1     1     0     1 &lt;dbl [1]&gt;</span>
 <span class="co">#&gt; 2     2    10   100 &lt;dbl [2]&gt;</span>
-<span class="co">#&gt; 3     3   100  1000 &lt;dbl [3]&gt;</span>
-</pre></div>
-<p>Note the use of <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> here - <code><a href="https://rdrr.io/r/stats/Uniform.html">runif()</a></code> returns multiple values and a <code><a href="../reference/mutate.html">mutate()</a></code> expression has to return something of length 1. <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> means that we’ll get a list column where each row is a list containing multiple values. If you forget to use <code><a href="https://rdrr.io/r/base/list.html">list()</a></code>, dplyr will give you a hint:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit">
-<span class="kw">df</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(data = <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="kw">n</span>, <span class="kw">min</span>, <span class="kw">max</span>))
+<span class="co">#&gt; 3     3   100  1000 &lt;dbl [3]&gt;</span></code></pre></div>
+<p>Note the use of <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> here - <code><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif()</a></code> returns multiple values and a <code><a href="../reference/mutate.html">mutate()</a></code> expression has to return something of length 1. <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> means that we’ll get a list column where each row is a list containing multiple values. If you forget to use <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>, dplyr will give you a hint:</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">min</span>, <span class="va">max</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Error: Problem with `mutate()` input `data`.</span>
 <span class="co">#&gt; ✖ Input `data` can't be recycled to size 1.</span>
 <span class="co">#&gt; ℹ Input `data` is `runif(n, min, max)`.</span>
 <span class="co">#&gt; ℹ Input `data` must be size 1, not 2.</span>
 <span class="co">#&gt; ℹ Did you mean: `data = list(runif(n, min, max))` ?</span>
-<span class="co">#&gt; ℹ The error occurred in row 2.</span>
-</pre></div>
+<span class="co">#&gt; ℹ The error occurred in row 2.</span></code></pre></div>
 </div>
 <div id="multiple-combinations" class="section level3">
 <h3 class="hasAnchor">
 <a href="#multiple-combinations" class="anchor"></a>Multiple combinations</h3>
-<p>What if you want to call a function for every combination of inputs? You can use <code><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid()</a></code> (or <code><a href="https://tidyr.tidyverse.org/reference/expand_grid.html">tidyr::expand_grid()</a></code>) to generate the data frame and then repeat the same pattern as above:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit">
-<span class="kw">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span>(mean = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>), sd = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">10</span>, <span class="fl">100</span>))
+<p>What if you want to call a function for every combination of inputs? You can use <code><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid()</a></code> (or <code><a href="https://tidyr.tidyverse.org/reference/expand_grid.html" class="external-link">tidyr::expand_grid()</a></code>) to generate the data frame and then repeat the same pattern as above:</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span>
 
-<span class="kw">df</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span>() <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(data = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fl">10</span>, <span class="kw">mean</span>, <span class="kw">sd</span>)))
+<span class="va">df</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10</span>, <span class="va">mean</span>, <span class="va">sd</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 9 x 3</span>
 <span class="co">#&gt; # Rowwise: </span>
 <span class="co">#&gt;    mean    sd data      </span>
@@ -632,32 +603,30 @@
 <span class="co">#&gt; 2     0     1 &lt;dbl [10]&gt;</span>
 <span class="co">#&gt; 3     1     1 &lt;dbl [10]&gt;</span>
 <span class="co">#&gt; 4    -1    10 &lt;dbl [10]&gt;</span>
-<span class="co">#&gt; # … with 5 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 5 more rows</span></code></pre></div>
 </div>
 <div id="varying-functions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#varying-functions" class="anchor"></a>Varying functions</h3>
-<p>In more complicated problems, you might also want to vary the function being called. This tends to be a bit more of an awkward fit with this approach because the columns in the input tibble will be less regular. But it’s still possible, and it’s a natural place to use <code><a href="https://rdrr.io/r/base/do.call.html">do.call()</a></code>:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit">
-<span class="kw">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(
-   <span class="op">~</span><span class="kw">rng</span>,     <span class="op">~</span><span class="kw">params</span>,
-   <span class="st">"runif"</span>,  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(n = <span class="fl">10</span>), 
-   <span class="st">"rnorm"</span>,  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(n = <span class="fl">20</span>),
-   <span class="st">"rpois"</span>,  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(n = <span class="fl">10</span>, lambda = <span class="fl">5</span>),
-) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span>()
+<p>In more complicated problems, you might also want to vary the function being called. This tends to be a bit more of an awkward fit with this approach because the columns in the input tibble will be less regular. But it’s still possible, and it’s a natural place to use <code><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call()</a></code>:</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
+   <span class="op">~</span><span class="va">rng</span>,     <span class="op">~</span><span class="va">params</span>,
+   <span class="st">"runif"</span>,  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, 
+   <span class="st">"rnorm"</span>,  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>,
+   <span class="st">"rpois"</span>,  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span>, lambda <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,
+<span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="kw">df</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(data = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(<span class="kw">rng</span>, <span class="kw">params</span>)))
+<span class="va">df</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rng</span>, <span class="va">params</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 x 3</span>
 <span class="co">#&gt; # Rowwise: </span>
 <span class="co">#&gt;   rng   params           data      </span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;list&gt;           &lt;list&gt;    </span>
 <span class="co">#&gt; 1 runif &lt;named list [1]&gt; &lt;dbl [10]&gt;</span>
 <span class="co">#&gt; 2 rnorm &lt;named list [1]&gt; &lt;dbl [20]&gt;</span>
-<span class="co">#&gt; 3 rpois &lt;named list [2]&gt; &lt;int [10]&gt;</span>
-</pre></div>
+<span class="co">#&gt; 3 rpois &lt;named list [2]&gt; &lt;int [10]&gt;</span></code></pre></div>
 </div>
 </div>
 <div id="previously" class="section level2">
@@ -668,7 +637,7 @@
 <a href="#rowwise" class="anchor"></a><code>rowwise()</code>
 </h3>
 <p><code><a href="../reference/rowwise.html">rowwise()</a></code> was also questioning for quite some time, partly because I didn’t appreciate how many people needed the native ability to compute summaries across multiple variables for each row. As an alternative, we recommended performing row-wise operations with the purrr <code>map()</code> functions. However, this was challenging because you needed to pick a map function based on the number of arguments that were varying and the type of result, which required quite some knowledge of purrr functions.</p>
-<p>I was also resistant to <code><a href="../reference/rowwise.html">rowwise()</a></code> because I felt like automatically switching between <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> to <code><a href="https://rdrr.io/r/base/Extract.html">[[</a></code> was too magical in the same way that automatically <code><a href="https://rdrr.io/r/base/list.html">list()</a></code>-ing results made <code><a href="../reference/do.html">do()</a></code> too magical. I’ve now persuaded myself that the row-wise magic is good magic partly because most people find the distinction between <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> and <code><a href="https://rdrr.io/r/base/Extract.html">[[</a></code> mystifying and <code><a href="../reference/rowwise.html">rowwise()</a></code> means that you don’t need to think about it.</p>
+<p>I was also resistant to <code><a href="../reference/rowwise.html">rowwise()</a></code> because I felt like automatically switching between <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">[</a></code> to <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">[[</a></code> was too magical in the same way that automatically <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>-ing results made <code><a href="../reference/do.html">do()</a></code> too magical. I’ve now persuaded myself that the row-wise magic is good magic partly because most people find the distinction between <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">[</a></code> and <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">[[</a></code> mystifying and <code><a href="../reference/rowwise.html">rowwise()</a></code> means that you don’t need to think about it.</p>
 <p>Since <code><a href="../reference/rowwise.html">rowwise()</a></code> clearly is useful it is not longer questioning, and we expect it to be around for the long term.</p>
 </div>
 <div id="do" class="section level3">
@@ -679,59 +648,53 @@
 <ul>
 <li>
 <p>Without argument names: you could call functions that input and output data frames using <code>.</code> to refer to the “current” group. For example, the following code gets the first row of each group:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit">
-<span class="kw">mtcars</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw">cyl</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/do.html">do</a></span>(<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">.</span>, <span class="fl">1</span>))
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mtcars</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">.</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 x 11</span>
 <span class="co">#&gt; # Groups:   cyl [3]</span>
 <span class="co">#&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1</span>
 <span class="co">#&gt; 2  21       6   160   110  3.9   2.62  16.5     0     1     4     4</span>
-<span class="co">#&gt; 3  18.7     8   360   175  3.15  3.44  17.0     0     0     3     2</span>
-</pre></div>
+<span class="co">#&gt; 3  18.7     8   360   175  3.15  3.44  17.0     0     0     3     2</span></code></pre></div>
 <p>This has been superseded <code><a href="../reference/context.html">cur_data()</a></code> plus the more permissive <code><a href="../reference/summarise.html">summarise()</a></code> which can now create multiple columns and multiple rows.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit">
-<span class="kw">mtcars</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw">cyl</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fu"><a href="../reference/context.html">cur_data</a></span>(), <span class="fl">1</span>))
-<span class="co">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mtcars</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/context.html">cur_data</a></span><span class="op">(</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 x 11</span>
 <span class="co">#&gt;     cyl   mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1     4  22.8   108    93  3.85  2.32  18.6     1     1     4     1</span>
 <span class="co">#&gt; 2     6  21     160   110  3.9   2.62  16.5     0     1     4     4</span>
-<span class="co">#&gt; 3     8  18.7   360   175  3.15  3.44  17.0     0     0     3     2</span>
-</pre></div>
+<span class="co">#&gt; 3     8  18.7   360   175  3.15  3.44  17.0     0     0     3     2</span></code></pre></div>
 </li>
 <li>
 <p>With arguments: it worked like <code><a href="../reference/mutate.html">mutate()</a></code> but automatically wrapped every element in a list:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit">
-<span class="kw">mtcars</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw">cyl</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/do.html">do</a></span>(nrows = <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw">.</span>))
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mtcars</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span>nrows <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt; # Rowwise: </span>
 <span class="co">#&gt;     cyl nrows    </span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;   </span>
 <span class="co">#&gt; 1     4 &lt;int [1]&gt;</span>
 <span class="co">#&gt; 2     6 &lt;int [1]&gt;</span>
-<span class="co">#&gt; 3     8 &lt;int [1]&gt;</span>
-</pre></div>
+<span class="co">#&gt; 3     8 &lt;int [1]&gt;</span></code></pre></div>
 <p>I now believe that behaviour is both too magical and not very useful, and it can be replaced by <code><a href="../reference/summarise.html">summarise()</a></code> and <code><a href="../reference/context.html">cur_data()</a></code> .</p>
-<div class="sourceCode" id="cb33"><pre class="downlit">
-<span class="kw">mtcars</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw">cyl</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(nrows = <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="fu"><a href="../reference/context.html">cur_data</a></span>()))
-<span class="co">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mtcars</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>nrows <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/context.html">cur_data</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt;     cyl nrows</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1     4    11</span>
 <span class="co">#&gt; 2     6     7</span>
-<span class="co">#&gt; 3     8    14</span>
-</pre></div>
+<span class="co">#&gt; 3     8    14</span></code></pre></div>
 <p>If needed (unlike here), you can wrap the results in a list yourself.</p>
 </li>
 </ul>
@@ -751,13 +714,14 @@
 
 
       <footer><div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p></p>
+<p>Developed by <a href="http://hadley.nz" class="external-link external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info">Kirill Müller</a>, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
-    Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
+    Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Site built by <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>.
   </p>
 </div>
 

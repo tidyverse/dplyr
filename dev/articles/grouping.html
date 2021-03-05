@@ -39,6 +39,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -53,8 +55,8 @@
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
-          <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.2.9000</span>
+          <span class="partof">part of the <a href="https://tidyverse.org" class="external-link">tidyverse</a></span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
         </div>
       </div>
     </div>
@@ -108,25 +110,22 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Releases</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/" class="external-link">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
+      <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/" class="external-link">Version 0.8.3</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
+      <a href="https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/" class="external-link">Version 0.8.2</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/">Version 0.8.2</a>
+      <a href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/" class="external-link">Version 0.8.1</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/">Version 0.8.1</a>
+      <a href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/" class="external-link">Version 0.8.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a>
-    </li>
-    <li>
-      <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a>
+      <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/" class="external-link">Version 0.7.5</a>
     </li>
     <li class="divider">
     <li>
@@ -135,8 +134,8 @@
   </ul>
 </li>
         <li>
-  <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/tidyverse/dplyr/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -162,7 +161,7 @@
       <h1 data-toc-skip>Grouped data</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/master/vignettes/grouping.Rmd"><code>vignettes/grouping.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/master/vignettes/grouping.Rmd" class="external-link"><code>vignettes/grouping.Rmd</code></a></small>
       <div class="hidden name"><code>grouping.Rmd</code></div>
 
     </div>
@@ -176,46 +175,43 @@
 <li><p>How to access data about the “current” group from within a verb.</p></li>
 </ul>
 <p>We’ll start by loading dplyr:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org">dplyr</a></span>)
-</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></code></pre></div>
 <div id="group_by" class="section level2">
 <h2 class="hasAnchor">
 <a href="#group_by" class="anchor"></a><code>group_by()</code>
 </h2>
 <p>The most important grouping verb is <code><a href="../reference/group_by.html">group_by()</a></code>: it takes a data frame and one or more variables to group by:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw">by_species</span> <span class="op">&lt;-</span> <span class="kw">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw">species</span>)
-<span class="kw">by_sex_gender</span> <span class="op">&lt;-</span> <span class="kw">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw">sex</span>, <span class="kw">gender</span>)
-</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span>
+<span class="va">by_sex_gender</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">sex</span>, <span class="va">gender</span><span class="op">)</span></code></pre></div>
 <p>You can see the grouping when you print the data:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw">by_species</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span>
 <span class="co">#&gt; # A tibble: 87 x 14</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
-<span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span>
-<span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span>
-<span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
+<span class="co">#&gt;   name     height  mass hair_color skin_color  eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke Sk…    172    77 blond      fair        blue            19   male  mascu…</span>
+<span class="co">#&gt; 2 C-3PO       167    75 &lt;NA&gt;       gold        yellow         112   none  mascu…</span>
+<span class="co">#&gt; 3 R2-D2        96    32 &lt;NA&gt;       white, blue red             33   none  mascu…</span>
+<span class="co">#&gt; 4 Darth V…    202   136 none       white       yellow          41.9 male  mascu…</span>
 <span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
-<span class="kw">by_sex_gender</span>
+<span class="va">by_sex_gender</span>
 <span class="co">#&gt; # A tibble: 87 x 14</span>
 <span class="co">#&gt; # Groups:   sex, gender [6]</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
-<span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span>
-<span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span>
-<span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
+<span class="co">#&gt;   name     height  mass hair_color skin_color  eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke Sk…    172    77 blond      fair        blue            19   male  mascu…</span>
+<span class="co">#&gt; 2 C-3PO       167    75 &lt;NA&gt;       gold        yellow         112   none  mascu…</span>
+<span class="co">#&gt; 3 R2-D2        96    32 &lt;NA&gt;       white, blue red             33   none  mascu…</span>
+<span class="co">#&gt; 4 Darth V…    202   136 none       white       yellow          41.9 male  mascu…</span>
 <span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
-<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
-</pre></div>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
 <p>Or use <code><a href="../reference/count.html">tally()</a></code> to count the number of rows in each group. The <code>sort</code> argument is useful if you want to see the largest groups up front.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">by_species</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/count.html">tally</a></span>()
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 38 x 2</span>
 <span class="co">#&gt;   species      n</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt;</span>
@@ -225,7 +221,7 @@
 <span class="co">#&gt; 4 Chagrian     1</span>
 <span class="co">#&gt; # … with 34 more rows</span>
 
-<span class="kw">by_sex_gender</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/count.html">tally</a></span>(sort = <span class="fl">TRUE</span>)
+<span class="va">by_sex_gender</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span>sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 3</span>
 <span class="co">#&gt; # Groups:   sex [5]</span>
 <span class="co">#&gt;   sex    gender        n</span>
@@ -234,15 +230,14 @@
 <span class="co">#&gt; 2 female feminine     16</span>
 <span class="co">#&gt; 3 none   masculine     5</span>
 <span class="co">#&gt; 4 &lt;NA&gt;   &lt;NA&gt;          4</span>
-<span class="co">#&gt; # … with 2 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 2 more rows</span></code></pre></div>
 <p>As well as grouping by existing variables, you can group by any function of existing variables. This is equivalent to performing a <code><a href="../reference/mutate.html">mutate()</a></code> <strong>before</strong> the <code><a href="../reference/group_by.html">group_by()</a></code>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw">bmi_breaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">18.5</span>, <span class="fl">25</span>, <span class="fl">30</span>, <span class="fl">Inf</span>)
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">bmi_breaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">18.5</span>, <span class="fl">25</span>, <span class="fl">30</span>, <span class="cn">Inf</span><span class="op">)</span>
 
-<span class="kw">starwars</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(bmi_cat = <span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span>(<span class="kw">mass</span><span class="op">/</span>(<span class="kw">height</span><span class="op">/</span><span class="fl">100</span>)<span class="op">^</span><span class="fl">2</span>, breaks=<span class="kw">bmi_breaks</span>)) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/count.html">tally</a></span>()
+<span class="va">starwars</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span>bmi_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">mass</span><span class="op">/</span><span class="op">(</span><span class="va">height</span><span class="op">/</span><span class="fl">100</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span>, breaks<span class="op">=</span><span class="va">bmi_breaks</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 5 x 2</span>
 <span class="co">#&gt;   bmi_cat       n</span>
 <span class="co">#&gt;   &lt;fct&gt;     &lt;int&gt;</span>
@@ -250,45 +245,42 @@
 <span class="co">#&gt; 2 (18.5,25]    24</span>
 <span class="co">#&gt; 3 (25,30]      13</span>
 <span class="co">#&gt; 4 (30,Inf]     12</span>
-<span class="co">#&gt; # … with 1 more row</span>
-</pre></div>
+<span class="co">#&gt; # … with 1 more row</span></code></pre></div>
 </div>
 <div id="group-metadata" class="section level2">
 <h2 class="hasAnchor">
 <a href="#group-metadata" class="anchor"></a>Group metadata</h2>
 <p>You can see underlying group data with <code><a href="../reference/group_data.html">group_keys()</a></code>. It has one row for each group and one column for each grouping variable:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="kw">by_species</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_data.html">group_keys</a></span>()
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_data.html">group_keys</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 38 x 1</span>
 <span class="co">#&gt;   species </span>
-<span class="co">#&gt; * &lt;chr&gt;   </span>
+<span class="co">#&gt;   &lt;chr&gt;   </span>
 <span class="co">#&gt; 1 Aleena  </span>
 <span class="co">#&gt; 2 Besalisk</span>
 <span class="co">#&gt; 3 Cerean  </span>
 <span class="co">#&gt; 4 Chagrian</span>
 <span class="co">#&gt; # … with 34 more rows</span>
 
-<span class="kw">by_sex_gender</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_data.html">group_keys</a></span>()
+<span class="va">by_sex_gender</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_data.html">group_keys</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 2</span>
 <span class="co">#&gt;   sex            gender   </span>
-<span class="co">#&gt; * &lt;chr&gt;          &lt;chr&gt;    </span>
+<span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;    </span>
 <span class="co">#&gt; 1 female         feminine </span>
 <span class="co">#&gt; 2 hermaphroditic masculine</span>
 <span class="co">#&gt; 3 male           masculine</span>
 <span class="co">#&gt; 4 none           feminine </span>
-<span class="co">#&gt; # … with 2 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 2 more rows</span></code></pre></div>
 <p>You can see which group each row belongs to with <code><a href="../reference/group_data.html">group_indices()</a></code>:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw">by_species</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_data.html">group_indices</a></span>()
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_data.html">group_indices</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt;  [1] 11  6  6 11 11 11 11  6 11 11 11 11 34 11 24 12 11 11 36 11 11  6 31 11 11</span>
 <span class="co">#&gt; [26] 18 11 11  8 26 11 21 11 10 10 10 38 30  7 38 11 37 32 32 33 35 29 11  3 20</span>
 <span class="co">#&gt; [51] 37 27 13 23 16  4 11 11 11  9 17 17 11 11 11 11  5  2 15 15 11  1  6 25 19</span>
-<span class="co">#&gt; [76] 28 14 34 11 38 22 11 11 11  6 38 11</span>
-</pre></div>
+<span class="co">#&gt; [76] 28 14 34 11 38 22 11 11 11  6 38 11</span></code></pre></div>
 <p>And which rows each group contains with <code><a href="../reference/group_data.html">group_rows()</a></code>:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="kw">by_species</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_data.html">group_rows</a></span>() <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>()
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_data.html">group_rows</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; &lt;list_of&lt;integer&gt;[6]&gt;</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; [1] 72</span>
@@ -306,23 +298,21 @@
 <span class="co">#&gt; [1] 67</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[6]]</span>
-<span class="co">#&gt; [1]  2  3  8 22 73 85</span>
-</pre></div>
+<span class="co">#&gt; [1]  2  3  8 22 73 85</span></code></pre></div>
 <p>Use <code><a href="../reference/group_data.html">group_vars()</a></code> if you just want the names of the grouping variables:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="kw">by_species</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_data.html">group_vars</a></span>()
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "species"</span>
-<span class="kw">by_sex_gender</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_data.html">group_vars</a></span>()
-<span class="co">#&gt; [1] "sex"    "gender"</span>
-</pre></div>
+<span class="va">by_sex_gender</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; [1] "sex"    "gender"</span></code></pre></div>
 <div id="changing-and-adding-to-grouping-variables" class="section level3">
 <h3 class="hasAnchor">
 <a href="#changing-and-adding-to-grouping-variables" class="anchor"></a>Changing and adding to grouping variables</h3>
 <p>If you apply <code><a href="../reference/group_by.html">group_by()</a></code> to an already grouped dataset, will overwrite the existing grouping variables. For example, the following code groups by <code>homeworld</code> instead of <code>species</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="kw">by_species</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw">homeworld</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/count.html">tally</a></span>()
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 49 x 2</span>
 <span class="co">#&gt;   homeworld       n</span>
 <span class="co">#&gt;   &lt;chr&gt;       &lt;int&gt;</span>
@@ -330,13 +320,12 @@
 <span class="co">#&gt; 2 Aleen Minor     1</span>
 <span class="co">#&gt; 3 Bespin          1</span>
 <span class="co">#&gt; 4 Bestine IV      1</span>
-<span class="co">#&gt; # … with 45 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 45 more rows</span></code></pre></div>
 <p>To <strong>augment</strong> the grouping, using <code>.add = TRUE</code><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. For example, the following code groups by species and homeworld:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="kw">by_species</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw">homeworld</span>, .add = <span class="fl">TRUE</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/count.html">tally</a></span>()
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span>, .add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 58 x 3</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
 <span class="co">#&gt;   species  homeworld       n</span>
@@ -345,34 +334,31 @@
 <span class="co">#&gt; 2 Besalisk Ojom            1</span>
 <span class="co">#&gt; 3 Cerean   Cerea           1</span>
 <span class="co">#&gt; 4 Chagrian Champala        1</span>
-<span class="co">#&gt; # … with 54 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 54 more rows</span></code></pre></div>
 </div>
 <div id="removing-grouping-variables" class="section level3">
 <h3 class="hasAnchor">
 <a href="#removing-grouping-variables" class="anchor"></a>Removing grouping variables</h3>
 <p>To remove all grouping variables, use <code><a href="../reference/group_by.html">ungroup()</a></code>:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="kw">by_species</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/group_by.html">ungroup</a></span>() <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/count.html">tally</a></span>()
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 1 x 1</span>
 <span class="co">#&gt;       n</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
-<span class="co">#&gt; 1    87</span>
-</pre></div>
+<span class="co">#&gt; 1    87</span></code></pre></div>
 <p>You can also choose to selectively ungroup by listing the variables you want to remove:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="kw">by_sex_gender</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/group_by.html">ungroup</a></span>(<span class="kw">sex</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/count.html">tally</a></span>()
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_sex_gender</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt;   gender        n</span>
 <span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt;</span>
 <span class="co">#&gt; 1 feminine     17</span>
 <span class="co">#&gt; 2 masculine    66</span>
-<span class="co">#&gt; 3 &lt;NA&gt;          4</span>
-</pre></div>
+<span class="co">#&gt; 3 &lt;NA&gt;          4</span></code></pre></div>
 </div>
 </div>
 <div id="verbs" class="section level2">
@@ -384,13 +370,12 @@
 <a href="#summarise" class="anchor"></a><code>summarise()</code>
 </h3>
 <p><code><a href="../reference/summarise.html">summarise()</a></code> computes a summary for each group. This means that it starts from <code><a href="../reference/group_data.html">group_keys()</a></code>, adding summary variables to the right hand side:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="kw">by_species</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(
-    n = <span class="fu"><a href="../reference/context.html">n</a></span>(),
-    height = <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw">height</span>, na.rm = <span class="fl">TRUE</span>)
-  )
-<span class="co">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>
+    n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,
+    height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">height</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+  <span class="op">)</span>
 <span class="co">#&gt; # A tibble: 38 x 3</span>
 <span class="co">#&gt;   species      n height</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt;  &lt;dbl&gt;</span>
@@ -398,33 +383,30 @@
 <span class="co">#&gt; 2 Besalisk     1    198</span>
 <span class="co">#&gt; 3 Cerean       1    198</span>
 <span class="co">#&gt; 4 Chagrian     1    196</span>
-<span class="co">#&gt; # … with 34 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 34 more rows</span></code></pre></div>
 <p>The <code>.groups=</code> argument controls the grouping structure of the output. The historical behaviour of removing the right hand side grouping variable corresponds to <code>.groups = "drop_last"</code> without a message or <code>.groups = NULL</code> with a message (the default).</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="kw">by_sex_gender</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(n = <span class="fu"><a href="../reference/context.html">n</a></span>()) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/group_data.html">group_vars</a></span>()
-<span class="co">#&gt; `summarise()` regrouping output by 'sex' (override with `.groups` argument)</span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_sex_gender</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; `summarise()` has grouped output by 'sex'. You can override using the `.groups` argument.</span>
 <span class="co">#&gt; [1] "sex"</span>
 
-<span class="kw">by_sex_gender</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(n = <span class="fu"><a href="../reference/context.html">n</a></span>(), .groups = <span class="st">"drop_last"</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/group_data.html">group_vars</a></span>()
-<span class="co">#&gt; [1] "sex"</span>
-</pre></div>
+<span class="va">by_sex_gender</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop_last"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; [1] "sex"</span></code></pre></div>
 <p>Since version 1.0.0 the groups may also be kept (<code>.groups = "keep"</code>) or dropped (<code>.groups = "drop"</code>).</p>
-<div class="sourceCode" id="cb16"><pre class="downlit">
-<span class="kw">by_sex_gender</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(n = <span class="fu"><a href="../reference/context.html">n</a></span>(), .groups = <span class="st">"keep"</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/group_data.html">group_vars</a></span>()
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_sex_gender</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"keep"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "sex"    "gender"</span>
 
-<span class="kw">by_sex_gender</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/summarise.html">summarise</a></span>(n = <span class="fu"><a href="../reference/context.html">n</a></span>(), .groups = <span class="st">"drop"</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/group_data.html">group_vars</a></span>()
-<span class="co">#&gt; character(0)</span>
-</pre></div>
+<span class="va">by_sex_gender</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; character(0)</span></code></pre></div>
 <p>When the output no longer have grouping variables, it becomes ungrouped (i.e. a regular tibble).</p>
 </div>
 <div id="select-rename-and-relocate" class="section level3">
@@ -432,8 +414,8 @@
 <a href="#select-rename-and-relocate" class="anchor"></a><code>select()</code>, <code>rename()</code>, and <code>relocate()</code>
 </h3>
 <p><code><a href="../reference/rename.html">rename()</a></code> and <code><a href="../reference/relocate.html">relocate()</a></code> behave identically with grouped and ungrouped data because they only affect the name or position of existing columns. Grouped <code><a href="../reference/select.html">select()</a></code> is almost identical to ungrouped select, except that it always includes the grouping variables:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit">
-<span class="kw">by_species</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="kw">mass</span>)
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span>
 <span class="co">#&gt; Adding missing grouping variables: `species`</span>
 <span class="co">#&gt; # A tibble: 87 x 2</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
@@ -443,8 +425,7 @@
 <span class="co">#&gt; 2 Droid      75</span>
 <span class="co">#&gt; 3 Droid      32</span>
 <span class="co">#&gt; 4 Human     136</span>
-<span class="co">#&gt; # … with 83 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 83 more rows</span></code></pre></div>
 <p>If you don’t want the grouping variables, you’ll have to first <code><a href="../reference/group_by.html">ungroup()</a></code>. (This design is possibly a mistake, but we’re stuck with it for now.)</p>
 </div>
 <div id="arrange" class="section level3">
@@ -452,35 +433,34 @@
 <a href="#arrange" class="anchor"></a><code>arrange()</code>
 </h3>
 <p>Grouped <code><a href="../reference/arrange.html">arrange()</a></code> is the same as ungrouped <code><a href="../reference/arrange.html">arrange()</a></code>, unless you set <code>.by_group = TRUE</code>, in which case it will order first by the grouping variables.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit">
-<span class="kw">by_species</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/arrange.html">arrange</a></span>(<span class="fu"><a href="../reference/desc.html">desc</a></span>(<span class="kw">mass</span>)) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/relocate.html">relocate</a></span>(<span class="kw">species</span>, <span class="kw">mass</span>)
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">mass</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 87 x 14</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
-<span class="co">#&gt;   species  mass name  height hair_color skin_color eye_color birth_year sex  </span>
-<span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span>
-<span class="co">#&gt; 1 Hutt     1358 Jabb…    175 &lt;NA&gt;       green-tan… orange         600   herm…</span>
-<span class="co">#&gt; 2 Kaleesh   159 Grie…    216 none       brown, wh… green, y…       NA   male </span>
-<span class="co">#&gt; 3 Droid     140 IG-88    200 none       metal      red             15   none </span>
-<span class="co">#&gt; 4 Human     136 Dart…    202 none       white      yellow          41.9 male </span>
+<span class="co">#&gt;   species  mass name    height hair_color skin_color  eye_color birth_year sex  </span>
+<span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 Hutt     1358 Jabba …    175 &lt;NA&gt;       green-tan,… orange         600   herm…</span>
+<span class="co">#&gt; 2 Kaleesh   159 Grievo…    216 none       brown, whi… green, y…       NA   male </span>
+<span class="co">#&gt; 3 Droid     140 IG-88      200 none       metal       red             15   none </span>
+<span class="co">#&gt; 4 Human     136 Darth …    202 none       white       yellow          41.9 male </span>
 <span class="co">#&gt; # … with 83 more rows, and 5 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 
-<span class="kw">by_species</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/arrange.html">arrange</a></span>(<span class="fu"><a href="../reference/desc.html">desc</a></span>(<span class="kw">mass</span>), .by_group = <span class="fl">TRUE</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/relocate.html">relocate</a></span>(<span class="kw">species</span>, <span class="kw">mass</span>)
+<span class="va">by_species</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span>, .by_group <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">mass</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 87 x 14</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
-<span class="co">#&gt;   species  mass name  height hair_color skin_color eye_color birth_year sex  </span>
-<span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span>
-<span class="co">#&gt; 1 Aleena     15 Ratt…     79 none       grey, blue unknown           NA male </span>
-<span class="co">#&gt; 2 Besali…   102 Dext…    198 none       brown      yellow            NA male </span>
-<span class="co">#&gt; 3 Cerean     82 Ki-A…    198 white      pale       yellow            92 male </span>
-<span class="co">#&gt; 4 Chagri…    NA Mas …    196 none       blue       blue              NA male </span>
+<span class="co">#&gt;   species   mass name    height hair_color skin_color eye_color birth_year sex  </span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 Aleena      15 Ratts …     79 none       grey, blue unknown           NA male </span>
+<span class="co">#&gt; 2 Besalisk   102 Dexter…    198 none       brown      yellow            NA male </span>
+<span class="co">#&gt; 3 Cerean      82 Ki-Adi…    198 white      pale       yellow            92 male </span>
+<span class="co">#&gt; 4 Chagrian    NA Mas Am…    196 none       blue       blue              NA male </span>
 <span class="co">#&gt; # … with 83 more rows, and 5 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,</span>
-<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
-</pre></div>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
 <p>Note that second example is sorted by <code>species</code> (from the <code><a href="../reference/group_by.html">group_by()</a></code> statement) and then by <code>mass</code> (within species).</p>
 </div>
 <div id="mutate-and-transmute" class="section level3">
@@ -488,11 +468,11 @@
 <a href="#mutate-and-transmute" class="anchor"></a><code>mutate()</code> and <code>transmute()</code>
 </h3>
 <p>In simple cases with vectorised functions, grouped and ungrouped <code><a href="../reference/mutate.html">mutate()</a></code> give the same results. They differ when used with summary functions:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit">
-<span class="co"># Subtract off global mean</span>
-<span class="kw">starwars</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="kw">name</span>, <span class="kw">homeworld</span>, <span class="kw">mass</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(standard_mass = <span class="kw">mass</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw">mass</span>, na.rm = <span class="fl">TRUE</span>))
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Subtract off global mean</span>
+<span class="va">starwars</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">homeworld</span>, <span class="va">mass</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>standard_mass <span class="op">=</span> <span class="va">mass</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mass</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 87 x 4</span>
 <span class="co">#&gt;   name           homeworld  mass standard_mass</span>
 <span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;     &lt;dbl&gt;         &lt;dbl&gt;</span>
@@ -503,10 +483,10 @@
 <span class="co">#&gt; # … with 83 more rows</span>
 
 <span class="co"># Subtract off homeworld mean</span>
-<span class="kw">starwars</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="kw">name</span>, <span class="kw">homeworld</span>, <span class="kw">mass</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw">homeworld</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(standard_mass = <span class="kw">mass</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw">mass</span>, na.rm = <span class="fl">TRUE</span>))
+<span class="va">starwars</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">homeworld</span>, <span class="va">mass</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>standard_mass <span class="op">=</span> <span class="va">mass</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mass</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 87 x 4</span>
 <span class="co">#&gt; # Groups:   homeworld [49]</span>
 <span class="co">#&gt;   name           homeworld  mass standard_mass</span>
@@ -515,14 +495,13 @@
 <span class="co">#&gt; 2 C-3PO          Tatooine     75        -10.4 </span>
 <span class="co">#&gt; 3 R2-D2          Naboo        32        -32.2 </span>
 <span class="co">#&gt; 4 Darth Vader    Tatooine    136         50.6 </span>
-<span class="co">#&gt; # … with 83 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 83 more rows</span></code></pre></div>
 <p>Or with window functions like <code><a href="../reference/ranking.html">min_rank()</a></code>:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit">
-<span class="co"># Overall rank</span>
-<span class="kw">starwars</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="kw">name</span>, <span class="kw">homeworld</span>, <span class="kw">height</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(rank = <span class="fu"><a href="../reference/ranking.html">min_rank</a></span>(<span class="kw">height</span>))
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Overall rank</span>
+<span class="va">starwars</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">homeworld</span>, <span class="va">height</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu"><a href="../reference/ranking.html">min_rank</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 87 x 4</span>
 <span class="co">#&gt;   name           homeworld height  rank</span>
 <span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;      &lt;int&gt; &lt;int&gt;</span>
@@ -533,10 +512,10 @@
 <span class="co">#&gt; # … with 83 more rows</span>
 
 <span class="co"># Rank per homeworld</span>
-<span class="kw">starwars</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="kw">name</span>, <span class="kw">homeworld</span>, <span class="kw">height</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/group_by.html">group_by</a></span>(<span class="kw">homeworld</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(rank = <span class="fu"><a href="../reference/ranking.html">min_rank</a></span>(<span class="kw">height</span>))
+<span class="va">starwars</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">homeworld</span>, <span class="va">height</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu"><a href="../reference/ranking.html">min_rank</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 87 x 4</span>
 <span class="co">#&gt; # Groups:   homeworld [49]</span>
 <span class="co">#&gt;   name           homeworld height  rank</span>
@@ -545,18 +524,17 @@
 <span class="co">#&gt; 2 C-3PO          Tatooine     167     4</span>
 <span class="co">#&gt; 3 R2-D2          Naboo         96     1</span>
 <span class="co">#&gt; 4 Darth Vader    Tatooine     202    10</span>
-<span class="co">#&gt; # … with 83 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 83 more rows</span></code></pre></div>
 </div>
 <div id="filter" class="section level3">
 <h3 class="hasAnchor">
 <a href="#filter" class="anchor"></a><code>filter()</code>
 </h3>
 <p>A grouped <code><a href="../reference/filter.html">filter()</a></code> effectively does a <code><a href="../reference/mutate.html">mutate()</a></code> to generate a logical variable, and then only keeps the rows where the variable is <code>TRUE</code>. This means that grouped filters can be used with summary functions. For example, we can find the tallest character of each species:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit">
-<span class="kw">by_species</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="kw">name</span>, <span class="kw">species</span>, <span class="kw">height</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="kw">height</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="kw">height</span>))
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">species</span>, <span class="va">height</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">height</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 35 x 3</span>
 <span class="co">#&gt; # Groups:   species [35]</span>
 <span class="co">#&gt;   name                  species        height</span>
@@ -565,13 +543,12 @@
 <span class="co">#&gt; 2 Jabba Desilijic Tiure Hutt              175</span>
 <span class="co">#&gt; 3 Yoda                  Yoda's species     66</span>
 <span class="co">#&gt; 4 Bossk                 Trandoshan        190</span>
-<span class="co">#&gt; # … with 31 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 31 more rows</span></code></pre></div>
 <p>You can also use <code><a href="../reference/filter.html">filter()</a></code> to remove entire groups. For example, the following code eliminates all groups that only have a single member:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit">
-<span class="kw">by_species</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="fu"><a href="../reference/context.html">n</a></span>() != <span class="fl">1</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/count.html">tally</a></span>()
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span> <span class="op">!=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 9 x 2</span>
 <span class="co">#&gt;   species      n</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt;</span>
@@ -579,44 +556,41 @@
 <span class="co">#&gt; 2 Gungan       3</span>
 <span class="co">#&gt; 3 Human       35</span>
 <span class="co">#&gt; 4 Kaminoan     2</span>
-<span class="co">#&gt; # … with 5 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 5 more rows</span></code></pre></div>
 </div>
 <div id="slice-and-friends" class="section level3">
 <h3 class="hasAnchor">
 <a href="#slice-and-friends" class="anchor"></a><code>slice()</code> and friends</h3>
 <p><code><a href="../reference/slice.html">slice()</a></code> and friends (<code><a href="../reference/slice.html">slice_head()</a></code>, <code><a href="../reference/slice.html">slice_tail()</a></code>, <code><a href="../reference/slice.html">slice_sample()</a></code>, <code><a href="../reference/slice.html">slice_min()</a></code> and <code><a href="../reference/slice.html">slice_max()</a></code>) select rows within a group. For example, we can select the first observation within each species:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit">
-<span class="kw">by_species</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/relocate.html">relocate</a></span>(<span class="kw">species</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/slice.html">slice</a></span>(<span class="fl">1</span>)
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/slice.html">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 38 x 14</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
-<span class="co">#&gt;   species name  height  mass hair_color skin_color eye_color birth_year sex  </span>
-<span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span>
-<span class="co">#&gt; 1 Aleena  Ratt…     79    15 none       grey, blue unknown           NA male </span>
-<span class="co">#&gt; 2 Besali… Dext…    198   102 none       brown      yellow            NA male </span>
-<span class="co">#&gt; 3 Cerean  Ki-A…    198    82 white      pale       yellow            92 male </span>
-<span class="co">#&gt; 4 Chagri… Mas …    196    NA none       blue       blue              NA male </span>
+<span class="co">#&gt;   species  name    height  mass hair_color skin_color eye_color birth_year sex  </span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 Aleena   Ratts …     79    15 none       grey, blue unknown           NA male </span>
+<span class="co">#&gt; 2 Besalisk Dexter…    198   102 none       brown      yellow            NA male </span>
+<span class="co">#&gt; 3 Cerean   Ki-Adi…    198    82 white      pale       yellow            92 male </span>
+<span class="co">#&gt; 4 Chagrian Mas Am…    196    NA none       blue       blue              NA male </span>
 <span class="co">#&gt; # … with 34 more rows, and 5 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,</span>
-<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
-</pre></div>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
 <p>Similarly, we can use <code><a href="../reference/slice.html">slice_min()</a></code> to select the smallest <code>n</code> values of a variable:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit">
-<span class="kw">by_species</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="kw">height</span>)) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/slice.html">slice_min</a></span>(<span class="kw">height</span>, n = <span class="fl">2</span>)
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/slice.html">slice_min</a></span><span class="op">(</span><span class="va">height</span>, n <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 48 x 14</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Ratt…     79    15 none       grey, blue unknown           NA male  mascu…</span>
-<span class="co">#&gt; 2 Dext…    198   102 none       brown      yellow            NA male  mascu…</span>
-<span class="co">#&gt; 3 Ki-A…    198    82 white      pale       yellow            92 male  mascu…</span>
-<span class="co">#&gt; 4 Mas …    196    NA none       blue       blue              NA male  mascu…</span>
+<span class="co">#&gt;   name      height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Ratts Ty…     79    15 none       grey, blue unknown           NA male  mascu…</span>
+<span class="co">#&gt; 2 Dexter J…    198   102 none       brown      yellow            NA male  mascu…</span>
+<span class="co">#&gt; 3 Ki-Adi-M…    198    82 white      pale       yellow            92 male  mascu…</span>
+<span class="co">#&gt; 4 Mas Amed…    196    NA none       blue       blue              NA male  mascu…</span>
 <span class="co">#&gt; # … with 44 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
-<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
-</pre></div>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
 </div>
 </div>
 <div id="computing-on-grouping-information" class="section level2">
@@ -628,32 +602,31 @@
 <a href="#cur_data" class="anchor"></a><code>cur_data()</code>
 </h3>
 <p><code><a href="../reference/context.html">cur_data()</a></code> returns the current group, excluding grouping variables. It’s useful to feed to functions that take a whole data frame. For example, the following code fits a linear model of <code>mass ~ height</code> to each species:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit">
-<span class="kw">by_species</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/filter.html">filter</a></span>(<span class="fu"><a href="../reference/context.html">n</a></span>() <span class="op">&gt;</span> <span class="fl">1</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(mod = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="kw">mass</span> <span class="op">~</span> <span class="kw">height</span>, data = <span class="fu"><a href="../reference/context.html">cur_data</a></span>())))
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>mod <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mass</span> <span class="op">~</span> <span class="va">height</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/context.html">cur_data</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 58 x 15</span>
 <span class="co">#&gt; # Groups:   species [9]</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
-<span class="co">#&gt; 2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   none  mascu…</span>
-<span class="co">#&gt; 3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   none  mascu…</span>
-<span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
+<span class="co">#&gt;   name     height  mass hair_color skin_color  eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Luke Sk…    172    77 blond      fair        blue            19   male  mascu…</span>
+<span class="co">#&gt; 2 C-3PO       167    75 &lt;NA&gt;       gold        yellow         112   none  mascu…</span>
+<span class="co">#&gt; 3 R2-D2        96    32 &lt;NA&gt;       white, blue red             33   none  mascu…</span>
+<span class="co">#&gt; 4 Darth V…    202   136 none       white       yellow          41.9 male  mascu…</span>
 <span class="co">#&gt; # … with 54 more rows, and 6 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
-<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, mod &lt;list&gt;</span>
-</pre></div>
+<span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, mod &lt;list&gt;</span></code></pre></div>
 </div>
 <div id="cur_group-and-cur_group_id" class="section level3">
 <h3 class="hasAnchor">
 <a href="#cur_group-and-cur_group_id" class="anchor"></a><code>cur_group()</code> and <code>cur_group_id()</code>
 </h3>
 <p><code><a href="../reference/context.html">cur_group_id()</a></code> gives a unique numeric identifier for the current group. This is sometimes useful if you want to index into an external data structure.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit">
-<span class="kw">by_species</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/arrange.html">arrange</a></span>(<span class="kw">species</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/select.html">select</a></span>(<span class="kw">name</span>, <span class="kw">species</span>, <span class="kw">homeworld</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/mutate.html">mutate</a></span>(id = <span class="fu"><a href="../reference/context.html">cur_group_id</a></span>())
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">by_species</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">species</span>, <span class="va">homeworld</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="../reference/context.html">cur_group_id</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 87 x 4</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
 <span class="co">#&gt;   name            species  homeworld      id</span>
@@ -662,8 +635,7 @@
 <span class="co">#&gt; 2 Dexter Jettster Besalisk Ojom            2</span>
 <span class="co">#&gt; 3 Ki-Adi-Mundi    Cerean   Cerea           3</span>
 <span class="co">#&gt; 4 Mas Amedda      Chagrian Champala        4</span>
-<span class="co">#&gt; # … with 83 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 83 more rows</span></code></pre></div>
 </div>
 </div>
 <div class="footnotes">
@@ -685,13 +657,14 @@
 
 
       <footer><div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p></p>
+<p>Developed by <a href="http://hadley.nz" class="external-link external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info">Kirill Müller</a>, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
-    Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
+    Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Site built by <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>.
   </p>
 </div>
 

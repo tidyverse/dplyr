@@ -84,9 +84,15 @@ it will modify the order clause of the OVER function." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -103,7 +109,7 @@ it will modify the order clause of the OVER function." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
         </div>
       </div>
     </div>
@@ -160,9 +166,6 @@ it will modify the order clause of the OVER function." />
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -185,7 +188,7 @@ it will modify the order clause of the OVER function." />
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -219,7 +222,7 @@ in R that don't have a specific ordering parameter. When translated to SQL
 it will modify the order clause of the OVER function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>order_by</span>(<span class='kw'>order_by</span>, <span class='kw'>call</span>)</pre>
+    <pre class="usage"><span class='fu'>order_by</span><span class='op'>(</span><span class='va'>order_by</span>, <span class='va'>call</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -241,25 +244,25 @@ is the vector being operated on</p></td>
 <code><a href='with_order.html'>with_order()</a></code> with the appropriate arguments.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>order_by</span>(<span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>))
-</div><div class='output co'>#&gt;  [1] 55 54 52 49 45 40 34 27 19 10</div><div class='input'><span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>
-<span class='kw'>y</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>
-<span class='fu'>order_by</span>(<span class='kw'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='kw'>y</span>))
+    <pre class="examples"><div class='input'><span class='fu'>order_by</span><span class='op'>(</span><span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] 55 54 52 49 45 40 34 27 19 10</div><div class='input'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>
+<span class='fu'>order_by</span><span class='op'>(</span><span class='va'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] 55 54 52 49 45 40 34 27 19 10</div><div class='input'>
-<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(year = <span class='fl'>2000</span><span class='op'>:</span><span class='fl'>2005</span>, value = (<span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span>) <span class='op'>^</span> <span class='fl'>2</span>)
-<span class='kw'>scrambled</span> <span class='op'>&lt;-</span> <span class='kw'>df</span>[<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>df</span>)), ]
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>year <span class='op'>=</span> <span class='fl'>2000</span><span class='op'>:</span><span class='fl'>2005</span>, value <span class='op'>=</span> <span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span> <span class='op'>^</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='va'>scrambled</span> <span class='op'>&lt;-</span> <span class='va'>df</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span><span class='op'>)</span>, <span class='op'>]</span>
 
-<span class='kw'>wrong</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>scrambled</span>, running = <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='kw'>value</span>))
-<span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='kw'>wrong</span>, <span class='kw'>year</span>)
+<span class='va'>wrong</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='va'>scrambled</span>, running <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='va'>value</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>wrong</span>, <span class='va'>year</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   year value running
-#&gt; 1 2000     0       4
+#&gt; 1 2000     0       0
 #&gt; 2 2001     1      55
-#&gt; 3 2002     4       4
-#&gt; 4 2003     9      13
-#&gt; 5 2004    16      54
-#&gt; 6 2005    25      38</div><div class='input'>
-<span class='kw'>right</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>scrambled</span>, running = <span class='fu'>order_by</span>(<span class='kw'>year</span>, <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='kw'>value</span>)))
-<span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='kw'>right</span>, <span class='kw'>year</span>)
+#&gt; 3 2002     4      54
+#&gt; 4 2003     9      50
+#&gt; 5 2004    16      16
+#&gt; 6 2005    25      41</div><div class='input'>
+<span class='va'>right</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='va'>scrambled</span>, running <span class='op'>=</span> <span class='fu'>order_by</span><span class='op'>(</span><span class='va'>year</span>, <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='va'>value</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>right</span>, <span class='va'>year</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   year value running
 #&gt; 1 2000     0       0
 #&gt; 2 2001     1       1
@@ -278,12 +281,12 @@ is the vector being operated on</p></td>
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -310,6 +313,8 @@ is the vector being operated on</p></td>
 </script>
 
 
+
+  
 
   </body>
 </html>

@@ -93,9 +93,15 @@ existing code, so we created a new alternative." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -112,7 +118,7 @@ existing code, so we created a new alternative." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
         </div>
       </div>
     </div>
@@ -169,9 +175,6 @@ existing code, so we created a new alternative." />
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -194,7 +197,7 @@ existing code, so we created a new alternative." />
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -223,7 +226,7 @@ existing code, so we created a new alternative." />
     </div>
 
     <div class="ref-description">
-    <p><a href='https://www.tidyverse.org/lifecycle/#superseded'><img src='figures/lifecycle-superseded.svg' alt='Superseded lifecycle'></a>
+    <p><a href='https://lifecycle.r-lib.org/articles/stages.html#superseded'><img src='figures/lifecycle-superseded.svg' alt='[Superseded]' /></a>
 
 <code>top_n()</code> has been superseded in favour of <code><a href='slice.html'>slice_min()</a></code>/<code><a href='slice.html'>slice_max()</a></code>.
 While it will not be deprecated in the near future, retirement means
@@ -237,9 +240,9 @@ see an easy way to fix the existing <code>top_n()</code> function without breaki
 existing code, so we created a new alternative.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>top_n</span>(<span class='kw'>x</span>, <span class='kw'>n</span>, <span class='kw'>wt</span>)
+    <pre class="usage"><span class='fu'>top_n</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>n</span>, <span class='va'>wt</span><span class='op'>)</span>
 
-<span class='fu'>top_frac</span>(<span class='kw'>x</span>, <span class='kw'>n</span>, <span class='kw'>wt</span>)</pre>
+<span class='fu'>top_frac</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>n</span>, <span class='va'>wt</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -265,31 +268,31 @@ specified, defaults to the last variable in the tbl.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(x = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>6</span>, <span class='fl'>4</span>, <span class='fl'>1</span>, <span class='fl'>10</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>1</span>))
+    <pre class="examples"><div class='input'><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>6</span>, <span class='fl'>4</span>, <span class='fl'>1</span>, <span class='fl'>10</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>top_n</span>(<span class='fl'>2</span>)  <span class='co'># highest values</span>
+<span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>top_n</span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>  <span class='co'># highest values</span>
 </div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;    x
 #&gt; 1  6
-#&gt; 2 10</div><div class='input'><span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>top_n</span>(<span class='op'>-</span><span class='fl'>2</span>) <span class='co'># lowest values</span>
+#&gt; 2 10</div><div class='input'><span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>top_n</span><span class='op'>(</span><span class='op'>-</span><span class='fl'>2</span><span class='op'>)</span> <span class='co'># lowest values</span>
 </div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;   x
 #&gt; 1 1
 #&gt; 2 1
 #&gt; 3 1</div><div class='input'><span class='co'># now use</span>
-<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice_max</a></span>(<span class='kw'>x</span>, n = <span class='fl'>2</span>)
+<span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice_max</a></span><span class='op'>(</span><span class='va'>x</span>, n <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    x
 #&gt; 1 10
-#&gt; 2  6</div><div class='input'><span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice_min</a></span>(<span class='kw'>x</span>, n = <span class='fl'>2</span>)
+#&gt; 2  6</div><div class='input'><span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice_min</a></span><span class='op'>(</span><span class='va'>x</span>, n <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   x
 #&gt; 1 1
 #&gt; 2 1
 #&gt; 3 1</div><div class='input'>
 <span class='co'># top_frac() -&gt; prop argument of slice_min()/slice_max()</span>
-<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>top_frac</span>(<span class='fl'>.5</span>)
+<span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>top_frac</span><span class='op'>(</span><span class='fl'>.5</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;    x
 #&gt; 1  6
 #&gt; 2  4
 #&gt; 3 10</div><div class='input'><span class='co'># -&gt;</span>
-<span class='kw'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice_max</a></span>(<span class='kw'>x</span>, prop = <span class='fl'>0.5</span>)
+<span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='slice.html'>slice_max</a></span><span class='op'>(</span><span class='va'>x</span>, prop <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    x
 #&gt; 1 10
 #&gt; 2  6
@@ -305,12 +308,12 @@ specified, defaults to the last variable in the tbl.</p></td>
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -337,6 +340,8 @@ specified, defaults to the last variable in the tbl.</p></td>
 </script>
 
 
+
+  
 
   </body>
 </html>

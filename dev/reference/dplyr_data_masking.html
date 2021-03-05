@@ -56,7 +56,7 @@
 
 
 <meta property="og:title" content="Argument type: data-masking — dplyr_data_masking" />
-<meta property="og:description" content="This page the describes the &amp;lt;data-masking&amp;gt; argument modifier which
+<meta property="og:description" content="This page describes the &amp;lt;data-masking&amp;gt; argument modifier which
 indicates that the argument uses tidy evaluation with data masking.
 If you've never heard of tidy evaluation before, start with
 vignette(&quot;programming&quot;)." />
@@ -85,9 +85,15 @@ vignette(&quot;programming&quot;)." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -104,7 +110,7 @@ vignette(&quot;programming&quot;)." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
         </div>
       </div>
     </div>
@@ -161,9 +167,6 @@ vignette(&quot;programming&quot;)." />
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -186,7 +189,7 @@ vignette(&quot;programming&quot;)." />
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -215,7 +218,7 @@ vignette(&quot;programming&quot;)." />
     </div>
 
     <div class="ref-description">
-    <p>This page the describes the <code>&lt;data-masking&gt;</code> argument modifier which
+    <p>This page describes the <code>&lt;data-masking&gt;</code> argument modifier which
 indicates that the argument uses tidy evaluation with <strong>data masking</strong>.
 If you've never heard of tidy evaluation before, start with
 <code><a href='../articles/programming.html'>vignette("programming")</a></code>.</p>
@@ -249,19 +252,19 @@ indirection, i.e. instead of directly typing the name of a variable you
 want to supply it in a function argument or character vector.</p>
 <p>There are two main cases:</p><ul>
 <li><p>If you want the user to supply the variable (or function of variables)
-in a function argument, embrace the argument, e.g. <code><a href='filter.html'>filter(df, {{ var }})</a></code>.</p><pre><span class='kw'>dist_summary</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>df</span>, <span class='kw'>var</span>) {
-  <span class='kw'>df</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='summarise.html'>summarise</a></span>(n = <span class='fu'><a href='context.html'>n</a></span>(), min = <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span>({{ <span class='kw'>var</span> }}), max = <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>({{ <span class='kw'>var</span> }}))
-}
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>dist_summary</span>(<span class='kw'>mpg</span>)
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>cyl</span>) <span class='op'>%&gt;%</span> <span class='fu'>dist_summary</span>(<span class='kw'>mpg</span>)
+in a function argument, embrace the argument, e.g. <code><a href='filter.html'>filter(df, {{ var }})</a></code>.</p><pre><span class='va'>dist_summary</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>var</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>df</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fu'><a href='context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span>, min <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='op'>{</span><span class='op'>{</span> <span class='va'>var</span> <span class='op'>}</span><span class='op'>}</span><span class='op'>)</span>, max <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='op'>{</span><span class='op'>{</span> <span class='va'>var</span> <span class='op'>}</span><span class='op'>}</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='va'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'>dist_summary</span><span class='op'>(</span><span class='va'>mpg</span><span class='op'>)</span>
+<span class='va'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>cyl</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>dist_summary</span><span class='op'>(</span><span class='va'>mpg</span><span class='op'>)</span>
 </pre></li>
 <li><p>If you have the column name as a character vector, use the <code>.data</code>
-pronoun, e.g. <code><a href='summarise.html'>summarise(df, mean = mean(.data[[var]]))</a></code>.</p><pre><span class='co'>for</span> (<span class='kw'>var</span> <span class='co'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>mtcars</span>)) {
-  <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='count.html'>count</a></span>(<span class='kw'>.data</span>[[<span class='kw'>var</span>]]) <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>()
-}
+pronoun, e.g. <code><a href='summarise.html'>summarise(df, mean = mean(.data[[var]]))</a></code>.</p><pre><span class='kw'>for</span> <span class='op'>(</span><span class='va'>var</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='count.html'>count</a></span><span class='op'>(</span><span class='va'>.data</span><span class='op'>[[</span><span class='va'>var</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>mtcars</span>), <span class='fu'>function</span>(<span class='kw'>var</span>) <span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='count.html'>count</a></span>(<span class='kw'>.data</span>[[<span class='kw'>var</span>]]))
+<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>var</span><span class='op'>)</span> <span class='va'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='count.html'>count</a></span><span class='op'>(</span><span class='va'>.data</span><span class='op'>[[</span><span class='va'>var</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
 </pre></li>
 </ul>
 
@@ -269,16 +272,16 @@ pronoun, e.g. <code><a href='summarise.html'>summarise(df, mean = mean(.data[[va
 
     <p>When this modifier is applied to <code>...</code>, there is one other useful technique
 which solves the problem of creating a new variable with a name supplied by
-the user. Use the interpolation syntax from the glue package: <code>"{var}" := expression</code>. (Note the use of <code>:=</code> instead of <code><a href='https://rdrr.io/r/base/assignOps.html'>=</a></code> to enable this syntax).</p><pre><span class='kw'>var_name</span> <span class='op'>&lt;-</span> <span class='st'>"l100km"</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='st'>"{var_name}"</span> <span class='op'>:=</span> <span class='fl'>235</span> <span class='op'>/</span> <span class='kw'>mpg</span>)
+the user. Use the interpolation syntax from the glue package: <code>"{var}" := expression</code>. (Note the use of <code>:=</code> instead of <code><a href='https://rdrr.io/r/base/assignOps.html'>=</a></code> to enable this syntax).</p><pre><span class='va'>var_name</span> <span class='op'>&lt;-</span> <span class='st'>"l100km"</span>
+<span class='va'>mtcars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"{var_name}"</span> <span class='op'>:=</span> <span class='fl'>235</span> <span class='op'>/</span> <span class='va'>mpg</span><span class='op'>)</span>
 </pre>
 
 <p>Note that <code>...</code> automatically provides indirection, so you can use it as is
-(i.e. without embracing) inside a function:</p><pre><span class='kw'>grouped_mean</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>df</span>, <span class='kw'>var</span>, <span class='kw'>...</span>) {
-  <span class='kw'>df</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>...</span>) <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='summarise.html'>summarise</a></span>(mean = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>({{ <span class='kw'>var</span> }}))
-}
+(i.e. without embracing) inside a function:</p><pre><span class='va'>grouped_mean</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>var</span>, <span class='va'>...</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>df</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='op'>{</span><span class='op'>{</span> <span class='va'>var</span> <span class='op'>}</span><span class='op'>}</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
 </pre>
 
 
@@ -293,12 +296,12 @@ the user. Use the interpolation syntax from the glue package: <code>"{var}" := e
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -325,6 +328,8 @@ the user. Use the interpolation syntax from the glue package: <code>"{var}" := e
 </script>
 
 
+
+  
 
   </body>
 </html>

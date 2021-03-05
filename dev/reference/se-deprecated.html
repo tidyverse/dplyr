@@ -94,9 +94,15 @@ argument. See vignette(&quot;programming&quot;) for more information." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -113,7 +119,7 @@ argument. See vignette(&quot;programming&quot;) for more information." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
         </div>
       </div>
     </div>
@@ -170,9 +176,6 @@ argument. See vignette(&quot;programming&quot;) for more information." />
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -195,7 +198,7 @@ argument. See vignette(&quot;programming&quot;) for more information." />
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -224,7 +227,7 @@ argument. See vignette(&quot;programming&quot;) for more information." />
     </div>
 
     <div class="ref-description">
-    <p><img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle' /></p>
+    <p><a href='https://lifecycle.r-lib.org/articles/stages.html#deprecated'><img src='figures/lifecycle-deprecated.svg' alt='[Deprecated]' /></a></p>
 <p>dplyr used to offer twin versions of each verb suffixed with an
 underscore. These versions had standard evaluation (SE) semantics:
 rather than taking arguments by code, like NSE verbs, they took
@@ -239,45 +242,45 @@ value or an expression to be evaluated later with the rest of the
 argument. See <code><a href='../articles/programming.html'>vignette("programming")</a></code> for more information.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>add_count_</span>(<span class='kw'>x</span>, <span class='kw'>vars</span>, wt = <span class='kw'>NULL</span>, sort = <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>add_count_</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>vars</span>, wt <span class='op'>=</span> <span class='cn'>NULL</span>, sort <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>add_tally_</span>(<span class='kw'>x</span>, <span class='kw'>wt</span>, sort = <span class='fl'>FALSE</span>)
+<span class='fu'>add_tally_</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>wt</span>, sort <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>arrange_</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>arrange_</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .dots <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>count_</span>(<span class='kw'>x</span>, <span class='kw'>vars</span>, wt = <span class='kw'>NULL</span>, sort = <span class='fl'>FALSE</span>, .drop = <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='kw'>x</span>))
+<span class='fu'>count_</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>vars</span>, wt <span class='op'>=</span> <span class='cn'>NULL</span>, sort <span class='op'>=</span> <span class='cn'>FALSE</span>, .drop <span class='op'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>distinct_</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, <span class='kw'>.dots</span>, .keep_all = <span class='fl'>FALSE</span>)
+<span class='fu'>distinct_</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, <span class='va'>.dots</span>, .keep_all <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>do_</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>do_</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .dots <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>filter_</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>filter_</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .dots <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>funs_</span>(<span class='kw'>dots</span>, args = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), env = <span class='fu'>base_env</span>())
+<span class='fu'>funs_</span><span class='op'>(</span><span class='va'>dots</span>, args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>, env <span class='op'>=</span> <span class='fu'>base_env</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>group_by_</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), add = <span class='fl'>FALSE</span>)
+<span class='fu'>group_by_</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .dots <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>, add <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>group_indices_</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>group_indices_</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .dots <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>mutate_</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>mutate_</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .dots <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>tally_</span>(<span class='kw'>x</span>, <span class='kw'>wt</span>, sort = <span class='fl'>FALSE</span>)
+<span class='fu'>tally_</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>wt</span>, sort <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>transmute_</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>transmute_</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .dots <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>rename_</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>rename_</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .dots <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>rename_vars_</span>(<span class='kw'>vars</span>, <span class='kw'>args</span>)
+<span class='fu'>rename_vars_</span><span class='op'>(</span><span class='va'>vars</span>, <span class='va'>args</span><span class='op'>)</span>
 
-<span class='fu'>select_</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>select_</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .dots <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>select_vars_</span>(<span class='kw'>vars</span>, <span class='kw'>args</span>, include = <span class='fu'>chr</span>(), exclude = <span class='fu'>chr</span>())
+<span class='fu'>select_vars_</span><span class='op'>(</span><span class='va'>vars</span>, <span class='va'>args</span>, include <span class='op'>=</span> <span class='fu'>chr</span><span class='op'>(</span><span class='op'>)</span>, exclude <span class='op'>=</span> <span class='fu'>chr</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>slice_</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>slice_</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .dots <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>summarise_</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())
+<span class='fu'>summarise_</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .dots <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>summarize_</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .dots = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre>
+<span class='fu'>summarize_</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .dots <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -358,12 +361,12 @@ include/exclude.</p></td>
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -390,6 +393,8 @@ include/exclude.</p></td>
 </script>
 
 
+
+  
 
   </body>
 </html>

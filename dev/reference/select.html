@@ -125,9 +125,15 @@ for which the function returns TRUE.
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -144,7 +150,7 @@ for which the function returns TRUE.
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
         </div>
       </div>
     </div>
@@ -201,9 +207,6 @@ for which the function returns TRUE.
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -226,7 +229,7 @@ for which the function returns TRUE.
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -259,7 +262,7 @@ for which the function returns TRUE.
 mini-language that makes it easy to refer to variables based on their name
 (e.g. <code>a:f</code> selects all columns from <code>a</code> on the left to <code>f</code> on the
 right). You can also use predicate functions like <a href='https://rdrr.io/r/base/numeric.html'>is.numeric</a> to select
-variables based on their properties.</p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Overview of selection features</h3>
+variables based on their properties.</p><h3 class='hasAnchor' id='overview-of-selection-features'><a class='anchor' href='#overview-of-selection-features'></a>Overview of selection features</h3>
 
 
 <p>Tidyverse selections implement a dialect of R where operators make
@@ -301,7 +304,7 @@ for which the function returns <code>TRUE</code>.</p></li>
 
     </div>
 
-    <pre class="usage"><span class='fu'>select</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>select</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -340,7 +343,7 @@ order. Columns will be renamed if <code>new_name = old_name</code> form is used.
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.</p>
 <p>The following methods are currently available in loaded packages:
-dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</code>), utils (<code><a href='https://rdrr.io/r/utils/select.list.html'>list</a></code>)
+dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/select.tbl_lazy.html'>tbl_lazy</a></code>), dplyr (<code>data.frame</code>), utils (<code><a href='https://rdrr.io/r/utils/select.list.html'>list</a></code>)
 .</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
 
@@ -351,12 +354,12 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 specific help pages to learn about helpers like <code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with()</a></code>.</p>
 <p>The selection language can be used in functions like
 <code>dplyr::select()</code> or <code><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>tidyr::pivot_longer()</a></code>. Let's first attach
-the tidyverse:<div class="r"></p><pre><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>tidyverse</span>)
+the tidyverse:<div class="r"></p><pre><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
 
 <span class='co'># For better printing</span>
-<span class='kw'>iris</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='kw'>iris</span>)
+<span class='va'>iris</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='va'>iris</span><span class='op'>)</span>
 </pre><p></div></p>
-<p>Select variables by name:<div class="r"></p><pre><span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span>(<span class='kw'>height</span>)
+<p>Select variables by name:<div class="r"></p><pre><span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>height</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 87 x 1</span>
 <span class='co'>#&gt;   height</span>
 <span class='co'>#&gt;    &lt;int&gt;</span>
@@ -366,7 +369,7 @@ the tidyverse:<div class="r"></p><pre><span class='fu'><a href='https://rdrr.io/
 <span class='co'>#&gt; 4    202</span>
 <span class='co'>#&gt; # ... with 83 more rows</span>
 
-<span class='kw'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>pivot_longer</span>(<span class='kw'>Sepal.Length</span>)
+<span class='va'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>pivot_longer</span><span class='op'>(</span><span class='va'>Sepal.Length</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 150 x 6</span>
 <span class='co'>#&gt;   Sepal.Width Petal.Length Petal.Width Species name         value</span>
 <span class='co'>#&gt;         &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;   &lt;chr&gt;        &lt;dbl&gt;</span>
@@ -377,7 +380,7 @@ the tidyverse:<div class="r"></p><pre><span class='fu'><a href='https://rdrr.io/
 <span class='co'>#&gt; # ... with 146 more rows</span>
 </pre><p></div></p>
 <p>Select multiple variables by separating them with commas. Note how
-the order of columns is determined by the order of inputs:<div class="r"></p><pre><span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span>(<span class='kw'>homeworld</span>, <span class='kw'>height</span>, <span class='kw'>mass</span>)
+the order of columns is determined by the order of inputs:<div class="r"></p><pre><span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>homeworld</span>, <span class='va'>height</span>, <span class='va'>mass</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 87 x 3</span>
 <span class='co'>#&gt;   homeworld height  mass</span>
 <span class='co'>#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt;</span>
@@ -388,7 +391,7 @@ the order of columns is determined by the order of inputs:<div class="r"></p><pr
 <span class='co'>#&gt; # ... with 83 more rows</span>
 </pre><p></div></p>
 <p>Functions like <code><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>tidyr::pivot_longer()</a></code> don't take variables with
-dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code> to select multiple variables:<div class="r"></p><pre><span class='kw'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>pivot_longer</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>Sepal.Length</span>, <span class='kw'>Petal.Length</span>))
+dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code> to select multiple variables:<div class="r"></p><pre><span class='va'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>pivot_longer</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>Sepal.Length</span>, <span class='va'>Petal.Length</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 300 x 5</span>
 <span class='co'>#&gt;   Sepal.Width Petal.Width Species name         value</span>
 <span class='co'>#&gt;         &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;   &lt;chr&gt;        &lt;dbl&gt;</span>
@@ -397,10 +400,10 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 <span class='co'>#&gt; 3         3           0.2 setosa  Sepal.Length   4.9</span>
 <span class='co'>#&gt; 4         3           0.2 setosa  Petal.Length   1.4</span>
 <span class='co'>#&gt; # ... with 296 more rows</span>
-</pre><p></div></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Operators:</h3>
+</pre><p></div></p><h3 class='hasAnchor' id='operators-'><a class='anchor' href='#operators-'></a>Operators:</h3>
 
 
-<p>The <code><a href='https://rdrr.io/r/base/Colon.html'>:</a></code> operator selects a range of consecutive variables:<div class="r"></p><pre><span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span>(<span class='kw'>name</span><span class='op'>:</span><span class='kw'>mass</span>)
+<p>The <code><a href='https://rdrr.io/r/base/Colon.html'>:</a></code> operator selects a range of consecutive variables:<div class="r"></p><pre><span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>name</span><span class='op'>:</span><span class='va'>mass</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 87 x 3</span>
 <span class='co'>#&gt;   name           height  mass</span>
 <span class='co'>#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt;</span>
@@ -410,18 +413,17 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 <span class='co'>#&gt; 4 Darth Vader       202   136</span>
 <span class='co'>#&gt; # ... with 83 more rows</span>
 </pre><p></div></p>
-<p>The <code><a href='https://rdrr.io/r/base/Logic.html'>!</a></code> operator negates a selection:<div class="r"></p><pre><span class='kw'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span>(<span class='op'>!</span>(<span class='kw'>name</span><span class='op'>:</span><span class='kw'>mass</span>))
+<p>The <code><a href='https://rdrr.io/r/base/Logic.html'>!</a></code> operator negates a selection:<div class="r"></p><pre><span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='op'>!</span><span class='op'>(</span><span class='va'>name</span><span class='op'>:</span><span class='va'>mass</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 87 x 11</span>
-<span class='co'>#&gt;   hair_color skin_color eye_color birth_year sex   gender homeworld species</span>
-<span class='co'>#&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;  </span>
-<span class='co'>#&gt; 1 blond      fair       blue            19   male  mascu~ Tatooine  Human  </span>
-<span class='co'>#&gt; 2 &lt;NA&gt;       gold       yellow         112   none  mascu~ Tatooine  Droid  </span>
-<span class='co'>#&gt; 3 &lt;NA&gt;       white, bl~ red             33   none  mascu~ Naboo     Droid  </span>
-<span class='co'>#&gt; 4 none       white      yellow          41.9 male  mascu~ Tatooine  Human  </span>
-<span class='co'>#&gt; # ... with 83 more rows, and 3 more variables: films &lt;list&gt;, vehicles &lt;list&gt;,</span>
-<span class='co'>#&gt; #   starships &lt;list&gt;</span>
+<span class='co'>#&gt;   hair_color skin_color  eye_color birth_year sex   gender    homeworld species films     vehicles  starships</span>
+<span class='co'>#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;   &lt;list&gt;    &lt;list&gt;    &lt;list&gt;   </span>
+<span class='co'>#&gt; 1 blond      fair        blue            19   male  masculine Tatooine  Human   &lt;chr [5]&gt; &lt;chr [2]&gt; &lt;chr [2]&gt;</span>
+<span class='co'>#&gt; 2 &lt;NA&gt;       gold        yellow         112   none  masculine Tatooine  Droid   &lt;chr [6]&gt; &lt;chr [0]&gt; &lt;chr [0]&gt;</span>
+<span class='co'>#&gt; 3 &lt;NA&gt;       white, blue red             33   none  masculine Naboo     Droid   &lt;chr [7]&gt; &lt;chr [0]&gt; &lt;chr [0]&gt;</span>
+<span class='co'>#&gt; 4 none       white       yellow          41.9 male  masculine Tatooine  Human   &lt;chr [4]&gt; &lt;chr [0]&gt; &lt;chr [1]&gt;</span>
+<span class='co'>#&gt; # ... with 83 more rows</span>
 
-<span class='kw'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span>(<span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>Sepal.Length</span>, <span class='kw'>Petal.Length</span>))
+<span class='va'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>Sepal.Length</span>, <span class='va'>Petal.Length</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 150 x 3</span>
 <span class='co'>#&gt;   Sepal.Width Petal.Width Species</span>
 <span class='co'>#&gt;         &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  </span>
@@ -431,7 +433,7 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 <span class='co'>#&gt; 4         3.1         0.2 setosa </span>
 <span class='co'>#&gt; # ... with 146 more rows</span>
 
-<span class='kw'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span>(<span class='op'>!</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with</a></span>(<span class='st'>"Width"</span>))
+<span class='va'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with</a></span><span class='op'>(</span><span class='st'>"Width"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 150 x 3</span>
 <span class='co'>#&gt;   Sepal.Length Petal.Length Species</span>
 <span class='co'>#&gt;          &lt;dbl&gt;        &lt;dbl&gt; &lt;fct&gt;  </span>
@@ -441,7 +443,7 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 <span class='co'>#&gt; 4          4.6          1.5 setosa </span>
 <span class='co'>#&gt; # ... with 146 more rows</span>
 </pre><p></div></p>
-<p><code>&amp;</code> and <code><a href='https://rdrr.io/r/base/Logic.html'>|</a></code> take the intersection or the union of two selections:<div class="r"></p><pre><span class='kw'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"Petal"</span>) <span class='op'>&amp;</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with</a></span>(<span class='st'>"Width"</span>))
+<p><code>&amp;</code> and <code><a href='https://rdrr.io/r/base/Logic.html'>|</a></code> take the intersection or the union of two selections:<div class="r"></p><pre><span class='va'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"Petal"</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with</a></span><span class='op'>(</span><span class='st'>"Width"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 150 x 1</span>
 <span class='co'>#&gt;   Petal.Width</span>
 <span class='co'>#&gt;         &lt;dbl&gt;</span>
@@ -451,7 +453,7 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 <span class='co'>#&gt; 4         0.2</span>
 <span class='co'>#&gt; # ... with 146 more rows</span>
 
-<span class='kw'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"Petal"</span>) <span class='op'>|</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with</a></span>(<span class='st'>"Width"</span>))
+<span class='va'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"Petal"</span><span class='op'>)</span> <span class='op'>|</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with</a></span><span class='op'>(</span><span class='st'>"Width"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 150 x 3</span>
 <span class='co'>#&gt;   Petal.Length Petal.Width Sepal.Width</span>
 <span class='co'>#&gt;          &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;</span>
@@ -462,7 +464,7 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 <span class='co'>#&gt; # ... with 146 more rows</span>
 </pre><p></div></p>
 <p>To take the difference between two selections, combine the <code>&amp;</code> and
-<code><a href='https://rdrr.io/r/base/Logic.html'>!</a></code> operators:<div class="r"></p><pre><span class='kw'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span>(<span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span>(<span class='st'>"Petal"</span>) <span class='op'>&amp;</span> <span class='op'>!</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with</a></span>(<span class='st'>"Width"</span>))
+<code><a href='https://rdrr.io/r/base/Logic.html'>!</a></code> operators:<div class="r"></p><pre><span class='va'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"Petal"</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='op'>!</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with</a></span><span class='op'>(</span><span class='st'>"Width"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 150 x 1</span>
 <span class='co'>#&gt;   Petal.Length</span>
 <span class='co'>#&gt;          &lt;dbl&gt;</span>
@@ -494,12 +496,12 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -526,6 +528,8 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 </script>
 
 
+
+  
 
   </body>
 </html>

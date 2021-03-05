@@ -87,9 +87,15 @@ summarise() and summarize() are synonyms." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -106,7 +112,7 @@ summarise() and summarize() are synonyms." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
         </div>
       </div>
     </div>
@@ -163,9 +169,6 @@ summarise() and summarize() are synonyms." />
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -188,7 +191,7 @@ summarise() and summarize() are synonyms." />
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -225,9 +228,9 @@ for each of the summary statistics that you have specified.</p>
 <p><code>summarise()</code> and <code>summarize()</code> are synonyms.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>summarise</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .groups = <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>summarise</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .groups <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>summarize</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>, .groups = <span class='kw'>NULL</span>)</pre>
+<span class='fu'>summarize</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .groups <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -250,13 +253,13 @@ functions. The name will be the name of the variable in the result.</p>
     </tr>
     <tr>
       <th>.groups</th>
-      <td><p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a>
+      <td><p><a href='https://lifecycle.r-lib.org/articles/stages.html#experimental'><img src='figures/lifecycle-experimental.svg' alt='[Experimental]' /></a>
  Grouping structure of the result.</p><ul>
 <li><p>"drop_last": dropping the last level of grouping. This was the
 only supported option before version 1.0.0.</p></li>
 <li><p>"drop": All levels of grouping are dropped.</p></li>
 <li><p>"keep": Same grouping structure as <code>.data</code>.</p></li>
-<li><p>"rowwise": Each row is it's own group.</p></li>
+<li><p>"rowwise": Each row is its own group.</p></li>
 </ul>
 
 <p>When <code>.groups</code> is not specified, it is chosen
@@ -265,9 +268,9 @@ based on the number of rows of the results:</p><ul>
 <li><p>If the number of rows varies, you get "keep".</p></li>
 </ul>
 
-<p>In addition, a message informs you of that choice, unless the
-option "dplyr.summarise.inform" is set to <code>FALSE</code>, or when <code>summarise()</code>
-is called from a function in a package.</p></td>
+<p>In addition, a message informs you of that choice, unless the result is ungrouped,
+the option "dplyr.summarise.inform" is set to <code>FALSE</code>,
+or when <code>summarise()</code> is called from a function in a package.</p></td>
     </tr>
     </table>
 
@@ -318,7 +321,7 @@ creating multiple summaries.</p>
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.</p>
 <p>The following methods are currently available in loaded packages:
-dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</code>, <code>grouped_df</code>, <code>rowwise_df</code>)
+dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/summarise.tbl_lazy.html'>tbl_lazy</a></code>), dplyr (<code>data.frame</code>, <code>grouped_df</code>, <code>rowwise_df</code>)
 .</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -332,76 +335,76 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># A summary applied to ungrouped tbl returns a single row</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>summarise</span>(mean = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>disp</span>), n = <span class='fu'><a href='context.html'>n</a></span>())
+<span class='va'>mtcars</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarise</span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>disp</span><span class='op'>)</span>, n <span class='op'>=</span> <span class='fu'><a href='context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;       mean  n
 #&gt; 1 230.7219 32</div><div class='input'>
 <span class='co'># Usually, you'll want to group first</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>cyl</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>summarise</span>(mean = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>disp</span>), n = <span class='fu'><a href='context.html'>n</a></span>())
-</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 3</span><span>
+<span class='va'>mtcars</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>cyl</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarise</span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>disp</span><span class='op'>)</span>, n <span class='op'>=</span> <span class='fu'><a href='context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 3</span><span>
 #&gt;     cyl  mean     n
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     4  105.    11
-#&gt; </span><span style='color: #555555;'>2</span><span>     6  183.     7
-#&gt; </span><span style='color: #555555;'>3</span><span>     8  353.    14</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     4  105.    11
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     6  183.     7
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     8  353.    14</div><div class='input'>
 <span class='co'># dplyr 1.0.0 allows to summarise to more than one value:</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
-   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>cyl</span>) <span class='op'>%&gt;%</span>
-   <span class='fu'>summarise</span>(qs = <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='kw'>disp</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.75</span>)), prob = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.75</span>))
-</div><div class='output co'>#&gt; <span class='message'>`summarise()` regrouping output by 'cyl' (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
-#&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
+<span class='va'>mtcars</span> <span class='op'>%&gt;%</span>
+   <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>cyl</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+   <span class='fu'>summarise</span><span class='op'>(</span>qs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>disp</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='fl'>0.75</span><span class='op'>)</span><span class='op'>)</span>, prob <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='fl'>0.75</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>`summarise()` has grouped output by 'cyl'. You can override using the `.groups` argument.</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 6 x 3</span><span>
+#&gt; </span><span style='color: #949494;'># Groups:   cyl [3]</span><span>
 #&gt;     cyl    qs  prob
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     4  78.8  0.25
-#&gt; </span><span style='color: #555555;'>2</span><span>     4 121.   0.75
-#&gt; </span><span style='color: #555555;'>3</span><span>     6 160    0.25
-#&gt; </span><span style='color: #555555;'>4</span><span>     6 196.   0.75
-#&gt; </span><span style='color: #555555;'>5</span><span>     8 302.   0.25
-#&gt; </span><span style='color: #555555;'>6</span><span>     8 390    0.75</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     4  78.8  0.25
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     4 121.   0.75
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     6 160    0.25
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     6 196.   0.75
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     8 302.   0.25
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span>     8 390    0.75</div><div class='input'>
 <span class='co'># You use a data frame to create multiple columns so you can wrap</span>
 <span class='co'># this up into a function:</span>
-<span class='kw'>my_quantile</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>x</span>, <span class='kw'>probs</span>) {
-  <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(x = <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span>(<span class='kw'>x</span>, <span class='kw'>probs</span>), probs = <span class='kw'>probs</span>)
-}
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>cyl</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>summarise</span>(<span class='fu'>my_quantile</span>(<span class='kw'>disp</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.75</span>)))
-</div><div class='output co'>#&gt; <span class='message'>`summarise()` regrouping output by 'cyl' (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
-#&gt; </span><span style='color: #555555;'># Groups:   cyl [3]</span><span>
+<span class='va'>my_quantile</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>probs</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>probs</span><span class='op'>)</span>, probs <span class='op'>=</span> <span class='va'>probs</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='va'>mtcars</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>cyl</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarise</span><span class='op'>(</span><span class='fu'>my_quantile</span><span class='op'>(</span><span class='va'>disp</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='fl'>0.75</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>`summarise()` has grouped output by 'cyl'. You can override using the `.groups` argument.</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 6 x 3</span><span>
+#&gt; </span><span style='color: #949494;'># Groups:   cyl [3]</span><span>
 #&gt;     cyl     x probs
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     4  78.8  0.25
-#&gt; </span><span style='color: #555555;'>2</span><span>     4 121.   0.75
-#&gt; </span><span style='color: #555555;'>3</span><span>     6 160    0.25
-#&gt; </span><span style='color: #555555;'>4</span><span>     6 196.   0.75
-#&gt; </span><span style='color: #555555;'>5</span><span>     8 302.   0.25
-#&gt; </span><span style='color: #555555;'>6</span><span>     8 390    0.75</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     4  78.8  0.25
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     4 121.   0.75
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     6 160    0.25
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     6 196.   0.75
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     8 302.   0.25
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span>     8 390    0.75</div><div class='input'>
 <span class='co'># Each summary call removes one grouping level (since that group</span>
 <span class='co'># is now just a single row)</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>cyl</span>, <span class='kw'>vs</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>summarise</span>(cyl_n = <span class='fu'><a href='context.html'>n</a></span>()) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='group_data.html'>group_vars</a></span>()
-</div><div class='output co'>#&gt; <span class='message'>`summarise()` regrouping output by 'cyl' (override with `.groups` argument)</span></div><div class='output co'>#&gt; [1] "cyl"</div><div class='input'>
+<span class='va'>mtcars</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>cyl</span>, <span class='va'>vs</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarise</span><span class='op'>(</span>cyl_n <span class='op'>=</span> <span class='fu'><a href='context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='group_data.html'>group_vars</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>`summarise()` has grouped output by 'cyl'. You can override using the `.groups` argument.</span></div><div class='output co'>#&gt; [1] "cyl"</div><div class='input'>
 <span class='co'># BEWARE: reusing variables may lead to unexpected results</span>
-<span class='kw'>mtcars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>cyl</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>summarise</span>(disp = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>disp</span>), sd = <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span>(<span class='kw'>disp</span>))
-</div><div class='output co'>#&gt; <span class='message'>`summarise()` ungrouping output (override with `.groups` argument)</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
+<span class='va'>mtcars</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>cyl</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarise</span><span class='op'>(</span>disp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>disp</span><span class='op'>)</span>, sd <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span><span class='op'>(</span><span class='va'>disp</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 3</span><span>
 #&gt;     cyl  disp    sd
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     4  105.    </span><span style='color: #BB0000;'>NA</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span>     6  183.    </span><span style='color: #BB0000;'>NA</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span>     8  353.    </span><span style='color: #BB0000;'>NA</span><span></div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     4  105.    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     6  183.    </span><span style='color: #BB0000;'>NA</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     8  353.    </span><span style='color: #BB0000;'>NA</span><span></div><div class='input'>
 <span class='co'># Refer to column names stored as strings with the `.data` pronoun:</span>
-<span class='kw'>var</span> <span class='op'>&lt;-</span> <span class='st'>"mass"</span>
-<span class='fu'>summarise</span>(<span class='kw'>starwars</span>, avg = <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>.data</span>[[<span class='kw'>var</span>]], na.rm = <span class='fl'>TRUE</span>))
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 1</span><span>
+<span class='va'>var</span> <span class='op'>&lt;-</span> <span class='st'>"mass"</span>
+<span class='fu'>summarise</span><span class='op'>(</span><span class='va'>starwars</span>, avg <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.data</span><span class='op'>[[</span><span class='va'>var</span><span class='op'>]</span><span class='op'>]</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 1</span><span>
 #&gt;     avg
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>  97.3</div><div class='input'><span class='co'># Learn more in ?dplyr_data_masking</span>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>  97.3</div><div class='input'><span class='co'># Learn more in ?dplyr_data_masking</span>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -414,12 +417,12 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -446,6 +449,8 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>, <code>default</c
 </script>
 
 
+
+  
 
   </body>
 </html>

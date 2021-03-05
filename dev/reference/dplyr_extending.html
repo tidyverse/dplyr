@@ -90,9 +90,15 @@ implement them will find a home in what comes next." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -109,7 +115,7 @@ implement them will find a home in what comes next." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
         </div>
       </div>
     </div>
@@ -166,9 +172,6 @@ implement them will find a home in what comes next." />
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -191,7 +194,7 @@ implement them will find a home in what comes next." />
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -220,7 +223,7 @@ implement them will find a home in what comes next." />
     </div>
 
     <div class="ref-description">
-    <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
+    <p><a href='https://lifecycle.r-lib.org/articles/stages.html#experimental'><img src='figures/lifecycle-experimental.svg' alt='[Experimental]' /></a></p>
 <p>These three functions, along with <code>names&lt;-</code> and 1d numeric <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>
 (i.e. <code>x[loc]</code>) methods, provide a minimal interface for extending dplyr
 to work with new data frame subclasses. This means that for simple cases
@@ -231,11 +234,11 @@ the problem more generally, but it's likely that any code you write to
 implement them will find a home in what comes next.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dplyr_row_slice</span>(<span class='kw'>data</span>, <span class='kw'>i</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>dplyr_row_slice</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>i</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>dplyr_col_modify</span>(<span class='kw'>data</span>, <span class='kw'>cols</span>)
+<span class='fu'>dplyr_col_modify</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>cols</span><span class='op'>)</span>
 
-<span class='fu'>dplyr_reconstruct</span>(<span class='kw'>data</span>, <span class='kw'>template</span>)</pre>
+<span class='fu'>dplyr_reconstruct</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>template</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -327,12 +330,12 @@ you'll need to provide methods directly.</p>
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -359,6 +362,8 @@ you'll need to provide methods directly.</p>
 </script>
 
 
+
+  
 
   </body>
 </html>

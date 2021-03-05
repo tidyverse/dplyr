@@ -83,9 +83,15 @@ Nest a tibble using a grouping specification" />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -102,7 +108,7 @@ Nest a tibble using a grouping specification" />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
         </div>
       </div>
     </div>
@@ -159,9 +165,6 @@ Nest a tibble using a grouping specification" />
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -184,7 +187,7 @@ Nest a tibble using a grouping specification" />
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -213,11 +216,11 @@ Nest a tibble using a grouping specification" />
     </div>
 
     <div class="ref-description">
-    <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
+    <p><a href='https://lifecycle.r-lib.org/articles/stages.html#experimental'><img src='figures/lifecycle-experimental.svg' alt='[Experimental]' /></a></p>
 <p>Nest a tibble using a grouping specification</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_nest</span>(<span class='kw'>.tbl</span>, <span class='kw'>...</span>, .key = <span class='st'>"data"</span>, keep = <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>group_nest</span><span class='op'>(</span><span class='va'>.tbl</span>, <span class='va'>...</span>, .key <span class='op'>=</span> <span class='st'>"data"</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -271,44 +274,44 @@ the first argument, the grouped tibble, and warns when <code>...</code> is used.
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>#----- use case 1: a grouped data frame</span>
-<span class='kw'>iris</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>Species</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>group_nest</span>()
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 2</span><span>
-#&gt;   Species                  data
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;tbl_df[,4]&gt;&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> setosa               </span><span style='color: #555555;'>[50 × 4]</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> versicolor           </span><span style='color: #555555;'>[50 × 4]</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> virginica            </span><span style='color: #555555;'>[50 × 4]</span><span></div><div class='input'>
+<span class='va'>iris</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_nest</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span><span>
+#&gt;   Species              data
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;list&lt;tibble&gt;&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> setosa           </span><span style='color: #949494;'>[50 × 4]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> versicolor       </span><span style='color: #949494;'>[50 × 4]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> virginica        </span><span style='color: #949494;'>[50 × 4]</span><span></div><div class='input'>
 <span class='co'># this can be useful if the grouped data has been altered before nesting</span>
-<span class='kw'>iris</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>Species</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>Sepal.Length</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='kw'>Sepal.Length</span>)) <span class='op'>%&gt;%</span>
-  <span class='fu'>group_nest</span>()
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
-#&gt;   Species                  data
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;tbl_df[,4]&gt;&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> setosa               </span><span style='color: #555555;'>[22 × 4]</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> versicolor           </span><span style='color: #555555;'>[24 × 4]</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> virginica            </span><span style='color: #555555;'>[22 × 4]</span><span></div><div class='input'>
+<span class='va'>iris</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Sepal.Length</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>Sepal.Length</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_nest</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 2</span><span>
+#&gt;   Species              data
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;list&lt;tibble&gt;&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> setosa           </span><span style='color: #949494;'>[22 × 4]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> versicolor       </span><span style='color: #949494;'>[24 × 4]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> virginica        </span><span style='color: #949494;'>[22 × 4]</span><span></div><div class='input'>
 <span class='co'>#----- use case 2: using group_nest() on a ungrouped data frame with</span>
 <span class='co'>#                  a grouping specification that uses the data mask</span>
-<span class='kw'>starwars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_nest</span>(<span class='kw'>species</span>, <span class='kw'>homeworld</span>)
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 58 x 3</span><span>
-#&gt;    species  homeworld                  data
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;tbl_df[,12]&gt;&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Aleena   Aleen Minor            </span><span style='color: #555555;'>[1 × 12]</span><span>
-#&gt; </span><span style='color: #555555;'> 2</span><span> Besalisk Ojom                   </span><span style='color: #555555;'>[1 × 12]</span><span>
-#&gt; </span><span style='color: #555555;'> 3</span><span> Cerean   Cerea                  </span><span style='color: #555555;'>[1 × 12]</span><span>
-#&gt; </span><span style='color: #555555;'> 4</span><span> Chagrian Champala               </span><span style='color: #555555;'>[1 × 12]</span><span>
-#&gt; </span><span style='color: #555555;'> 5</span><span> Clawdite Zolan                  </span><span style='color: #555555;'>[1 × 12]</span><span>
-#&gt; </span><span style='color: #555555;'> 6</span><span> Droid    Naboo                  </span><span style='color: #555555;'>[1 × 12]</span><span>
-#&gt; </span><span style='color: #555555;'> 7</span><span> Droid    Tatooine               </span><span style='color: #555555;'>[2 × 12]</span><span>
-#&gt; </span><span style='color: #555555;'> 8</span><span> Droid    </span><span style='color: #BB0000;'>NA</span><span>                     </span><span style='color: #555555;'>[3 × 12]</span><span>
-#&gt; </span><span style='color: #555555;'> 9</span><span> Dug      Malastare              </span><span style='color: #555555;'>[1 × 12]</span><span>
-#&gt; </span><span style='color: #555555;'>10</span><span> Ewok     Endor                  </span><span style='color: #555555;'>[1 × 12]</span><span>
-#&gt; </span><span style='color: #555555;'># … with 48 more rows</span><span></div></span></pre>
+<span class='va'>starwars</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_nest</span><span class='op'>(</span><span class='va'>species</span>, <span class='va'>homeworld</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 58 x 3</span><span>
+#&gt;    species  homeworld             data
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;list&lt;tibble&gt;&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Aleena   Aleen Minor       </span><span style='color: #949494;'>[1 × 12]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Besalisk Ojom              </span><span style='color: #949494;'>[1 × 12]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Cerean   Cerea             </span><span style='color: #949494;'>[1 × 12]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Chagrian Champala          </span><span style='color: #949494;'>[1 × 12]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Clawdite Zolan             </span><span style='color: #949494;'>[1 × 12]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Droid    Naboo             </span><span style='color: #949494;'>[1 × 12]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Droid    Tatooine          </span><span style='color: #949494;'>[2 × 12]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Droid    </span><span style='color: #BB0000;'>NA</span><span>                </span><span style='color: #949494;'>[3 × 12]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Dug      Malastare         </span><span style='color: #949494;'>[1 × 12]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Ewok     Endor             </span><span style='color: #949494;'>[1 × 12]</span><span>
+#&gt; </span><span style='color: #949494;'># … with 48 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -320,12 +323,12 @@ the first argument, the grouped tibble, and warns when <code>...</code> is used.
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -352,6 +355,8 @@ the first argument, the grouped tibble, and warns when <code>...</code> is used.
 </script>
 
 
+
+  
 
   </body>
 </html>

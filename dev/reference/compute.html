@@ -87,9 +87,15 @@ All functions preserve grouping and ordering." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -106,7 +112,7 @@ All functions preserve grouping and ordering." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
         </div>
       </div>
     </div>
@@ -163,9 +169,6 @@ All functions preserve grouping and ordering." />
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -188,7 +191,7 @@ All functions preserve grouping and ordering." />
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -225,11 +228,11 @@ around bugs in dplyr's SQL generation.</p>
 <p>All functions preserve grouping and ordering.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>compute</span>(<span class='kw'>x</span>, name = <span class='fu'>random_table_name</span>(), <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>compute</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>collect</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)
+<span class='fu'>collect</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>collapse</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>collapse</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -241,12 +244,8 @@ data frame (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for more
 details.</p></td>
     </tr>
     <tr>
-      <th>name</th>
-      <td><p>Name of temporary table on database.</p></td>
-    </tr>
-    <tr>
       <th>...</th>
-      <td><p>Other arguments passed on to methods</p></td>
+      <td><p>Arguments passed on to methods</p></td>
     </tr>
     </table>
 
@@ -269,41 +268,41 @@ individual methods for extra arguments and differences in behaviour.</p>
 frame and uploads it to the remote source.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'><a href='https://dbplyr.tidyverse.org'>dbplyr</a></span>)) {
-  <span class='kw'>mtcars2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dbplyr.tidyverse.org/reference/memdb_frame.html'>src_memdb</a></span>() <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='copy_to.html'>copy_to</a></span>(<span class='kw'>mtcars</span>, name = <span class='st'>"mtcars2-cc"</span>, overwrite = <span class='fl'>TRUE</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://dbplyr.tidyverse.org/'>dbplyr</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>mtcars2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dbplyr.tidyverse.org/reference/memdb_frame.html'>src_memdb</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='copy_to.html'>copy_to</a></span><span class='op'>(</span><span class='va'>mtcars</span>, name <span class='op'>=</span> <span class='st'>"mtcars2-cc"</span>, overwrite <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-  <span class='kw'>remote</span> <span class='op'>&lt;-</span> <span class='kw'>mtcars2</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>cyl</span> <span class='op'>==</span> <span class='fl'>8</span>) <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='select.html'>select</a></span>(<span class='kw'>mpg</span><span class='op'>:</span><span class='kw'>drat</span>)
+  <span class='va'>remote</span> <span class='op'>&lt;-</span> <span class='va'>mtcars2</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='va'>cyl</span> <span class='op'>==</span> <span class='fl'>8</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='va'>mpg</span><span class='op'>:</span><span class='va'>drat</span><span class='op'>)</span>
 
   <span class='co'># Compute query and save in remote table</span>
-  <span class='fu'>compute</span>(<span class='kw'>remote</span>)
+  <span class='fu'>compute</span><span class='op'>(</span><span class='va'>remote</span><span class='op'>)</span>
 
   <span class='co'># Compute query bring back to this session</span>
-  <span class='fu'>collect</span>(<span class='kw'>remote</span>)
+  <span class='fu'>collect</span><span class='op'>(</span><span class='va'>remote</span><span class='op'>)</span>
 
   <span class='co'># Creates a fresh query based on the generated SQL</span>
-  <span class='fu'>collapse</span>(<span class='kw'>remote</span>)
-}
+  <span class='fu'>collapse</span><span class='op'>(</span><span class='va'>remote</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div><div class='output co'>#&gt; <span class='message'>Loading required package: dbplyr</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘dbplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:dplyr’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    ident, sql</span></div><div class='output co'>#&gt; <span style='color: #555555;'># Source:   SQL [?? x 5]</span><span>
-#&gt; </span><span style='color: #555555;'># Database: sqlite 3.30.1 [:memory:]</span><span>
+#&gt; <span class='message'>    ident, sql</span></div><div class='output co'>#&gt; <span style='color: #949494;'># Source:   SQL [?? x 5]</span><span>
+#&gt; </span><span style='color: #949494;'># Database: sqlite 3.34.1 [:memory:]</span><span>
 #&gt;      mpg   cyl  disp    hp  drat
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>  18.7     8  360    175  3.15
-#&gt; </span><span style='color: #555555;'> 2</span><span>  14.3     8  360    245  3.21
-#&gt; </span><span style='color: #555555;'> 3</span><span>  16.4     8  276.   180  3.07
-#&gt; </span><span style='color: #555555;'> 4</span><span>  17.3     8  276.   180  3.07
-#&gt; </span><span style='color: #555555;'> 5</span><span>  15.2     8  276.   180  3.07
-#&gt; </span><span style='color: #555555;'> 6</span><span>  10.4     8  472    205  2.93
-#&gt; </span><span style='color: #555555;'> 7</span><span>  10.4     8  460    215  3   
-#&gt; </span><span style='color: #555555;'> 8</span><span>  14.7     8  440    230  3.23
-#&gt; </span><span style='color: #555555;'> 9</span><span>  15.5     8  318    150  2.76
-#&gt; </span><span style='color: #555555;'>10</span><span>  15.2     8  304    150  3.15
-#&gt; </span><span style='color: #555555;'># … with more rows</span><span></div></span></pre>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>  18.7     8  360    175  3.15
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>  14.3     8  360    245  3.21
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>  16.4     8  276.   180  3.07
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>  17.3     8  276.   180  3.07
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>  15.2     8  276.   180  3.07
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>  10.4     8  472    205  2.93
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>  10.4     8  460    215  3   
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>  14.7     8  440    230  3.23
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>  15.5     8  318    150  2.76
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>  15.2     8  304    150  3.15
+#&gt; </span><span style='color: #949494;'># … with more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -315,12 +314,12 @@ frame and uploads it to the remote source.</p></div>
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -347,6 +346,8 @@ frame and uploads it to the remote source.</p></div>
 </script>
 
 
+
+  
 
   </body>
 </html>

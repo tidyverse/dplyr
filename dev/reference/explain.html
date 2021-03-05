@@ -84,9 +84,15 @@ str()." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -103,7 +109,7 @@ str()." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
         </div>
       </div>
     </div>
@@ -160,9 +166,6 @@ str()." />
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -185,7 +188,7 @@ str()." />
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -219,9 +222,9 @@ str()." />
 <code><a href='https://rdrr.io/r/utils/str.html'>str()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>explain</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>explain</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>show_query</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>show_query</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -250,24 +253,24 @@ diagnosing performance problems.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'><a href='https://dbplyr.tidyverse.org'>"dbplyr"</a></span>)) {
+<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'><a href='https://dbplyr.tidyverse.org/'>"dbplyr"</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
 
-<span class='kw'>lahman_s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dbplyr.tidyverse.org/reference/lahman.html'>lahman_sqlite</a></span>()
-<span class='kw'>batting</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='kw'>lahman_s</span>, <span class='st'>"Batting"</span>)
-<span class='kw'>batting</span> <span class='op'>%&gt;%</span> <span class='fu'>show_query</span>()
-<span class='kw'>batting</span> <span class='op'>%&gt;%</span> <span class='fu'>explain</span>()
+<span class='va'>lahman_s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dbplyr.tidyverse.org/reference/lahman.html'>lahman_sqlite</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>batting</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tbl.html'>tbl</a></span><span class='op'>(</span><span class='va'>lahman_s</span>, <span class='st'>"Batting"</span><span class='op'>)</span>
+<span class='va'>batting</span> <span class='op'>%&gt;%</span> <span class='fu'>show_query</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>batting</span> <span class='op'>%&gt;%</span> <span class='fu'>explain</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'># The batting database has indices on all ID variables:</span>
 <span class='co'># SQLite automatically picks the most restrictive index</span>
-<span class='kw'>batting</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>lgID</span> <span class='op'>==</span> <span class='st'>"NL"</span> <span class='op'>&amp;</span> <span class='kw'>yearID</span> <span class='op'>==</span> <span class='fl'>2000L</span>) <span class='op'>%&gt;%</span> <span class='fu'>explain</span>()
+<span class='va'>batting</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='va'>lgID</span> <span class='op'>==</span> <span class='st'>"NL"</span> <span class='op'>&amp;</span> <span class='va'>yearID</span> <span class='op'>==</span> <span class='fl'>2000L</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>explain</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'># OR's will use multiple indexes</span>
-<span class='kw'>batting</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='kw'>lgID</span> <span class='op'>==</span> <span class='st'>"NL"</span> <span class='op'>|</span> <span class='kw'>yearID</span> <span class='op'>==</span> <span class='fl'>2000</span>) <span class='op'>%&gt;%</span> <span class='fu'>explain</span>()
+<span class='va'>batting</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='va'>lgID</span> <span class='op'>==</span> <span class='st'>"NL"</span> <span class='op'>|</span> <span class='va'>yearID</span> <span class='op'>==</span> <span class='fl'>2000</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>explain</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'># Joins will use indexes in both tables</span>
-<span class='kw'>teams</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='kw'>lahman_s</span>, <span class='st'>"Teams"</span>)
-<span class='kw'>batting</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='mutate-joins.html'>left_join</a></span>(<span class='kw'>teams</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"yearID"</span>, <span class='st'>"teamID"</span>)) <span class='op'>%&gt;%</span> <span class='fu'>explain</span>()
-}
+<span class='va'>teams</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tbl.html'>tbl</a></span><span class='op'>(</span><span class='va'>lahman_s</span>, <span class='st'>"Teams"</span><span class='op'>)</span>
+<span class='va'>batting</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>teams</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"yearID"</span>, <span class='st'>"teamID"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>explain</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div><div class='output co'>#&gt; <span class='message'>Creating table: AllstarFull</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Appearances</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsManagers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsPlayers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsShareManagers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsSharePlayers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Batting</span></div><div class='output co'>#&gt; <span class='message'>Creating table: BattingPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: CollegePlaying</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Fielding</span></div><div class='output co'>#&gt; <span class='message'>Creating table: FieldingOF</span></div><div class='output co'>#&gt; <span class='message'>Creating table: FieldingOFsplit</span></div><div class='output co'>#&gt; <span class='message'>Creating table: FieldingPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: HallOfFame</span></div><div class='output co'>#&gt; <span class='message'>Creating table: HomeGames</span></div><div class='output co'>#&gt; <span class='message'>Creating table: LahmanData</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Managers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: ManagersHalf</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Master</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Parks</span></div><div class='output co'>#&gt; <span class='message'>Creating table: People</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Pitching</span></div><div class='output co'>#&gt; <span class='message'>Creating table: PitchingPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Salaries</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Schools</span></div><div class='output co'>#&gt; <span class='message'>Creating table: SeriesPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Teams</span></div><div class='output co'>#&gt; <span class='message'>Creating table: TeamsFranchises</span></div><div class='output co'>#&gt; <span class='message'>Creating table: TeamsHalf</span></div><div class='output co'>#&gt; &lt;SQL&gt;
 #&gt; SELECT *
 #&gt; FROM `Batting`
@@ -299,7 +302,7 @@ diagnosing performance problems.</p>
 #&gt; 4 16      4       0                                                    INDEX 2
 #&gt; 5 22     16       0 SEARCH TABLE Batting USING INDEX Batting_yearID (yearID=?)
 #&gt; &lt;SQL&gt;
-#&gt; SELECT `LHS`.`playerID` AS `playerID`, `LHS`.`yearID` AS `yearID`, `LHS`.`stint` AS `stint`, `LHS`.`teamID` AS `teamID`, `LHS`.`lgID` AS `lgID.x`, `LHS`.`G` AS `G.x`, `LHS`.`AB` AS `AB.x`, `LHS`.`R` AS `R.x`, `LHS`.`H` AS `H.x`, `LHS`.`X2B` AS `X2B.x`, `LHS`.`X3B` AS `X3B.x`, `LHS`.`HR` AS `HR.x`, `LHS`.`RBI` AS `RBI`, `LHS`.`SB` AS `SB.x`, `LHS`.`CS` AS `CS.x`, `LHS`.`BB` AS `BB.x`, `LHS`.`SO` AS `SO.x`, `LHS`.`IBB` AS `IBB`, `LHS`.`HBP` AS `HBP.x`, `LHS`.`SH` AS `SH`, `LHS`.`SF` AS `SF.x`, `LHS`.`GIDP` AS `GIDP`, `RHS`.`lgID` AS `lgID.y`, `RHS`.`franchID` AS `franchID`, `RHS`.`divID` AS `divID`, `RHS`.`Rank` AS `Rank`, `RHS`.`G` AS `G.y`, `RHS`.`Ghome` AS `Ghome`, `RHS`.`W` AS `W`, `RHS`.`L` AS `L`, `RHS`.`DivWin` AS `DivWin`, `RHS`.`WCWin` AS `WCWin`, `RHS`.`LgWin` AS `LgWin`, `RHS`.`WSWin` AS `WSWin`, `RHS`.`R` AS `R.y`, `RHS`.`AB` AS `AB.y`, `RHS`.`H` AS `H.y`, `RHS`.`X2B` AS `X2B.y`, `RHS`.`X3B` AS `X3B.y`, `RHS`.`HR` AS `HR.y`, `RHS`.`BB` AS `BB.y`, `RHS`.`SO` AS `SO.y`, `RHS`.`SB` AS `SB.y`, `RHS`.`CS` AS `CS.y`, `RHS`.`HBP` AS `HBP.y`, `RHS`.`SF` AS `SF.y`, `RHS`.`RA` AS `RA`, `RHS`.`ER` AS `ER`, `RHS`.`ERA` AS `ERA`, `RHS`.`CG` AS `CG`, `RHS`.`SHO` AS `SHO`, `RHS`.`SV` AS `SV`, `RHS`.`IPouts` AS `IPouts`, `RHS`.`HA` AS `HA`, `RHS`.`HRA` AS `HRA`, `RHS`.`BBA` AS `BBA`, `RHS`.`SOA` AS `SOA`, `RHS`.`E` AS `E`, `RHS`.`DP` AS `DP`, `RHS`.`FP` AS `FP`, `RHS`.`name` AS `name`, `RHS`.`park` AS `park`, `RHS`.`attendance` AS `attendance`, `RHS`.`BPF` AS `BPF`, `RHS`.`PPF` AS `PPF`, `RHS`.`teamIDBR` AS `teamIDBR`, `RHS`.`teamIDlahman45` AS `teamIDlahman45`, `RHS`.`teamIDretro` AS `teamIDretro`
+#&gt; SELECT `playerID`, `LHS`.`yearID` AS `yearID`, `stint`, `LHS`.`teamID` AS `teamID`, `LHS`.`lgID` AS `lgID.x`, `LHS`.`G` AS `G.x`, `LHS`.`AB` AS `AB.x`, `LHS`.`R` AS `R.x`, `LHS`.`H` AS `H.x`, `LHS`.`X2B` AS `X2B.x`, `LHS`.`X3B` AS `X3B.x`, `LHS`.`HR` AS `HR.x`, `RBI`, `LHS`.`SB` AS `SB.x`, `LHS`.`CS` AS `CS.x`, `LHS`.`BB` AS `BB.x`, `LHS`.`SO` AS `SO.x`, `IBB`, `LHS`.`HBP` AS `HBP.x`, `SH`, `LHS`.`SF` AS `SF.x`, `GIDP`, `RHS`.`lgID` AS `lgID.y`, `franchID`, `divID`, `Rank`, `RHS`.`G` AS `G.y`, `Ghome`, `W`, `L`, `DivWin`, `WCWin`, `LgWin`, `WSWin`, `RHS`.`R` AS `R.y`, `RHS`.`AB` AS `AB.y`, `RHS`.`H` AS `H.y`, `RHS`.`X2B` AS `X2B.y`, `RHS`.`X3B` AS `X3B.y`, `RHS`.`HR` AS `HR.y`, `RHS`.`BB` AS `BB.y`, `RHS`.`SO` AS `SO.y`, `RHS`.`SB` AS `SB.y`, `RHS`.`CS` AS `CS.y`, `RHS`.`HBP` AS `HBP.y`, `RHS`.`SF` AS `SF.y`, `RA`, `ER`, `ERA`, `CG`, `SHO`, `SV`, `IPouts`, `HA`, `HRA`, `BBA`, `SOA`, `E`, `DP`, `FP`, `name`, `park`, `attendance`, `BPF`, `PPF`, `teamIDBR`, `teamIDlahman45`, `teamIDretro`
 #&gt; FROM `Batting` AS `LHS`
 #&gt; LEFT JOIN `Teams` AS `RHS`
 #&gt; ON (`LHS`.`yearID` = `RHS`.`yearID` AND `LHS`.`teamID` = `RHS`.`teamID`)
@@ -324,12 +327,12 @@ diagnosing performance problems.</p>
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -356,6 +359,8 @@ diagnosing performance problems.</p>
 </script>
 
 
+
+  
 
   </body>
 </html>

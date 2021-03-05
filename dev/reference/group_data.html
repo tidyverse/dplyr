@@ -62,10 +62,11 @@ group_data() returns a data frame that defines the grouping structure.
 The columns give the values of the grouping variables. The last column,
 always called .rows, is a list of integer vectors that gives the
 location of the rows in each group. You can retrieve just the grouping
-data with group_data(), and just the locations with group_rows().
+data with group_keys(), and just the locations with group_rows().
 group_indices() returns an integer vector the same length as .data
 that gives the group that each row belongs to (cf. group_rows() which
-returns the rows which each group contains).
+returns the rows which each group contains). group_indices() with no
+argument is deprecated, superseded by cur_group_id().
 group_vars() gives names of grouping variables as character vector;
 groups() gives the names as a list of symbols.
 group_size() gives the size of each group, and n_groups() gives the
@@ -99,9 +100,15 @@ group." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -118,7 +125,7 @@ group." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
         </div>
       </div>
     </div>
@@ -175,9 +182,6 @@ group." />
       <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2019/10/dplyr-0-8-4/">Version 0.8.4</a>
-    </li>
-    <li>
       <a href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     </li>
     <li>
@@ -200,7 +204,7 @@ group." />
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -235,10 +239,11 @@ group." />
 The columns give the values of the grouping variables. The last column,
 always called <code>.rows</code>, is a list of integer vectors that gives the
 location of the rows in each group. You can retrieve just the grouping
-data with <code>group_data()</code>, and just the locations with <code>group_rows()</code>.</p></li>
+data with <code>group_keys()</code>, and just the locations with <code>group_rows()</code>.</p></li>
 <li><p><code>group_indices()</code> returns an integer vector the same length as <code>.data</code>
 that gives the group that each row belongs to (cf. <code>group_rows()</code> which
-returns the rows which each group contains).</p></li>
+returns the rows which each group contains). <code>group_indices()</code> with no
+argument is deprecated, superseded by <code><a href='context.html'>cur_group_id()</a></code>.</p></li>
 <li><p><code>group_vars()</code> gives names of grouping variables as character vector;
 <code>groups()</code> gives the names as a list of symbols.</p></li>
 <li><p><code>group_size()</code> gives the size of each group, and <code>n_groups()</code> gives the
@@ -249,21 +254,21 @@ total number of groups.</p></li>
 group.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_data</span>(<span class='kw'>.data</span>)
+    <pre class="usage"><span class='fu'>group_data</span><span class='op'>(</span><span class='va'>.data</span><span class='op'>)</span>
 
-<span class='fu'>group_keys</span>(<span class='kw'>.tbl</span>, <span class='kw'>...</span>)
+<span class='fu'>group_keys</span><span class='op'>(</span><span class='va'>.tbl</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>group_rows</span>(<span class='kw'>.data</span>)
+<span class='fu'>group_rows</span><span class='op'>(</span><span class='va'>.data</span><span class='op'>)</span>
 
-<span class='fu'>group_indices</span>(<span class='kw'>.data</span>, <span class='kw'>...</span>)
+<span class='fu'>group_indices</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>group_vars</span>(<span class='kw'>x</span>)
+<span class='fu'>group_vars</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
-<span class='fu'>groups</span>(<span class='kw'>x</span>)
+<span class='fu'>groups</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
-<span class='fu'>group_size</span>(<span class='kw'>x</span>)
+<span class='fu'>group_size</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
-<span class='fu'>n_groups</span>(<span class='kw'>x</span>)</pre>
+<span class='fu'>n_groups</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -282,32 +287,34 @@ instead.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(x = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>))
-<span class='fu'>group_vars</span>(<span class='kw'>df</span>)
-</div><div class='output co'>#&gt; character(0)</div><div class='input'><span class='fu'>group_rows</span>(<span class='kw'>df</span>)
+    <pre class="examples"><div class='input'><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>group_vars</span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; character(0)</div><div class='input'><span class='fu'>group_rows</span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[1]&gt;
 #&gt; [[1]]
 #&gt; [1] 1 2 3 4
-#&gt; </div><div class='input'><span class='fu'>group_data</span>(<span class='kw'>df</span>)
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 1</span><span>
+#&gt; </div><div class='input'><span class='fu'>group_data</span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 1</span><span>
 #&gt;         .rows
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;int&gt;&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>         </span><span style='color: #555555;'>[4]</span><span></div><div class='input'>
-<span class='kw'>gf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='kw'>df</span>, <span class='kw'>x</span>)
-<span class='fu'>group_vars</span>(<span class='kw'>gf</span>)
-</div><div class='output co'>#&gt; [1] "x"</div><div class='input'><span class='fu'>group_rows</span>(<span class='kw'>gf</span>)
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;list&lt;int&gt;&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>         </span><span style='color: #949494;'>[4]</span><span></div><div class='input'><span class='fu'>group_indices</span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1 1 1 1</div><div class='input'>
+<span class='va'>gf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>x</span><span class='op'>)</span>
+<span class='fu'>group_vars</span><span class='op'>(</span><span class='va'>gf</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "x"</div><div class='input'><span class='fu'>group_rows</span><span class='op'>(</span><span class='va'>gf</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[2]&gt;
 #&gt; [[1]]
 #&gt; [1] 1 2
 #&gt; 
 #&gt; [[2]]
 #&gt; [1] 3 4
-#&gt; </div><div class='input'><span class='fu'>group_data</span>(<span class='kw'>gf</span>)
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 2</span><span>
+#&gt; </div><div class='input'><span class='fu'>group_data</span><span class='op'>(</span><span class='va'>gf</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 2 x 2</span><span>
 #&gt;       x       .rows
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&lt;int&gt;&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1         </span><span style='color: #555555;'>[2]</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span>     2         </span><span style='color: #555555;'>[2]</span><span></div></span></pre>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&lt;int&gt;&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1         </span><span style='color: #949494;'>[2]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2         </span><span style='color: #949494;'>[2]</span><span></div><div class='input'><span class='fu'>group_indices</span><span class='op'>(</span><span class='va'>gf</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1 1 2 2</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -319,12 +326,12 @@ instead.</p></td>
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
@@ -351,6 +358,8 @@ instead.</p></td>
 </script>
 
 
+
+  
 
   </body>
 </html>
