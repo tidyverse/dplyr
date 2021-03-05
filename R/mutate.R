@@ -214,8 +214,8 @@ transmute <- function(.data, ...) {
 }
 
 #' @export
-transmute.data.frame <- function(.data, ...) {
-  mutate(.data, ..., .keep = "none")
+transmute.data.frame <- function(.data, ..., .keep = "none") {
+  mutate(.data, ..., .keep = .keep)
 }
 
 # Helpers -----------------------------------------------------------------
