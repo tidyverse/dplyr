@@ -388,3 +388,9 @@ test_that("selects and combines columns", {
   out <- df %>% summarise(z = list(c_across(x:y)))
   expect_equal(out$z, list(1:4))
 })
+
+test_that("c_across(.names=)", {
+  df <- data.frame(x = 1, y = 2)
+  out <- df %>% rowwise() %>% summarise(z = list(c_across(x:y, .names = "prefix_{.col}")))
+  expect_equal(out$z, list(c(prefix_x = 1, prefix_y = 2)))
+})

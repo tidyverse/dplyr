@@ -185,14 +185,19 @@ if_all <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 #'     sum = sum(c_across(w:z)),
 #'     sd = sd(c_across(w:z))
 #'  )
-c_across <- function(cols = everything()) {
+c_across <- function(cols = everything(), .names = NULL) {
   key <- key_deparse(sys.call())
   vars <- c_across_setup({{ cols }}, key = key)
 
   mask <- peek_mask("c_across()")
 
   cols <- mask$current_cols(vars)
-  vec_c(!!!cols, .name_spec = zap())
+  out <- vec_c(!!!cols, .name_spec = zap())
+  if (!is.null(.names)) {
+    glue_mask <- across_glue_mask(caller_env(), .fn = NULL, .col = vars)
+    names(out) <- vec_as_names(glue(.names, .envir = glue_mask), repair = "check_unique")
+  }
+  out
 }
 
 across_glue_mask <- function(.col, .fn, .caller_env) {
