@@ -23,7 +23,6 @@
     Error <dplyr_error>
       arrange() failed at implicit mutate() step. 
       * Problem with `mutate()` input `..1`.
-      x Input `..1` can't be recycled to size 1.
-      i Input `..1` is `rep(x, 2)`.
       i Input `..1` must be size 1, not 2.
+      i Input `..1` is `rep(x, 2)`.
 

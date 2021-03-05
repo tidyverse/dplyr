@@ -350,9 +350,8 @@ mutate_cols <- function(.data, ...) {
       size <- vec_size(rows[[mask$get_current_group()]])
       x_size <- e$x_size
       bullets <- c(
-        x = glue("Input `{error_name}` can't be recycled to size {size}."),
-        i = cnd_bullet_input_info(),
         i = glue("Input `{error_name}` must be size {or_1(size)}, not {x_size}."),
+        i = cnd_bullet_input_info(),
         i = cnd_bullet_rowwise_unlist()
       )
     } else if (inherits(e, "dplyr:::mutate_mixed_null")) {

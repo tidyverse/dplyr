@@ -84,9 +84,8 @@
       data.frame(x = c(2, 2, 3, 3)) %>% mutate(int = 1:5)
     Error <dplyr:::mutate_error>
       Problem with `mutate()` input `int`.
-      x Input `int` can't be recycled to size 4.
-      i Input `int` is `1:5`.
       i Input `int` must be size 4 or 1, not 5.
+      i Input `int` is `1:5`.
 
 ---
 
@@ -94,9 +93,8 @@
       data.frame(x = c(2, 2, 3, 3)) %>% group_by(x) %>% mutate(int = 1:5)
     Error <dplyr:::mutate_error>
       Problem with `mutate()` input `int`.
-      x Input `int` can't be recycled to size 2.
-      i Input `int` is `1:5`.
       i Input `int` must be size 2 or 1, not 5.
+      i Input `int` is `1:5`.
       i The error occurred in group 1: x = 2.
 
 ---
@@ -105,9 +103,8 @@
       data.frame(x = c(2, 3, 3)) %>% group_by(x) %>% mutate(int = 1:5)
     Error <dplyr:::mutate_error>
       Problem with `mutate()` input `int`.
-      x Input `int` can't be recycled to size 1.
-      i Input `int` is `1:5`.
       i Input `int` must be size 1, not 5.
+      i Input `int` is `1:5`.
       i The error occurred in group 1: x = 2.
 
 ---
@@ -116,9 +113,8 @@
       data.frame(x = c(2, 2, 3, 3)) %>% rowwise() %>% mutate(int = 1:5)
     Error <dplyr:::mutate_error>
       Problem with `mutate()` input `int`.
-      x Input `int` can't be recycled to size 1.
-      i Input `int` is `1:5`.
       i Input `int` must be size 1, not 5.
+      i Input `int` is `1:5`.
       i Did you mean: `int = list(1:5)` ?
       i The error occurred in row 1.
 
@@ -128,9 +124,8 @@
       tibble(y = list(1:3, "a")) %>% rowwise() %>% mutate(y2 = y)
     Error <dplyr:::mutate_error>
       Problem with `mutate()` input `y2`.
-      x Input `y2` can't be recycled to size 1.
-      i Input `y2` is `y`.
       i Input `y2` must be size 1, not 3.
+      i Input `y2` is `y`.
       i Did you mean: `y2 = list(y)` ?
       i The error occurred in row 1.
 
@@ -140,9 +135,8 @@
       data.frame(x = 1:10) %>% mutate(y = 11:20, y = 1:2)
     Error <dplyr:::mutate_error>
       Problem with `mutate()` input `y`.
-      x Input `y` can't be recycled to size 10.
-      i Input `y` is `1:2`.
       i Input `y` must be size 10 or 1, not 2.
+      i Input `y` is `1:2`.
 
 ---
 
