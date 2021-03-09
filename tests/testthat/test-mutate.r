@@ -465,6 +465,13 @@ test_that("can suppress or catch warnings from the outside (#5675)", {
   }
 })
 
+test_that("mutate() supports empty list columns in rowwise data frames (#5804", {
+  res <- tibble(a = list()) %>%
+    rowwise() %>%
+    mutate(n = lengths(a))
+  expect_equal(res$n, integer())
+})
+
 # Error messages ----------------------------------------------------------
 
 test_that("mutate() give meaningful errors", {
