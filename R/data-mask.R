@@ -2,7 +2,7 @@ DataMask <- R6Class("DataMask",
   public = list(
     initialize = function(data, caller) {
       rows <- group_rows(data)
-      # workaround for whene there are 0 groups
+      # workaround for when there are 0 groups
       if (length(rows) == 0) {
         rows <- list(integer())
       }

@@ -2,6 +2,8 @@
 
 * Removed the `name` argument from the `compute()` generic (@ianmcook, #5783).
 
+* row-wise data frames of 0 rows and list columns are supported again (#5804).
+
 # dplyr 1.0.5
 
 * Fixed edge case of `slice_sample()` when `weight_by=` is used and there 
