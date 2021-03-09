@@ -214,8 +214,18 @@ transmute <- function(.data, ...) {
 }
 
 #' @export
-transmute.data.frame <- function(.data, ..., .keep = "none") {
-  mutate(.data, ..., .keep = .keep)
+transmute.data.frame <- function(.data, ...) {
+  dots <- enquos(...)
+  if (".keep" %in% names(dots)) {
+    abort("`transmute()` does not support the `.keep` argument")
+  }
+  if (".before" %in% names(dots)) {
+    abort("`transmute()` does not support the `.before` argument")
+  }
+  if (".after" %in% names(dots)) {
+    abort("`transmute()` does not support the `.after` argument")
+  }
+  mutate(.data, !!!dots, .keep = "none")
 }
 
 # Helpers -----------------------------------------------------------------
