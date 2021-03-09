@@ -451,9 +451,8 @@
 <span class="co">#&gt; 2     2 &lt;chr [1]&gt; &lt;chr [1]&gt;</span>
 <span class="va">rf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>y2 <span class="op">=</span> <span class="va">y</span><span class="op">)</span>
 <span class="co">#&gt; Error: Problem with `mutate()` input `y2`.</span>
-<span class="co">#&gt; ✖ Input `y2` can't be recycled to size 1.</span>
-<span class="co">#&gt; ℹ Input `y2` is `y`.</span>
 <span class="co">#&gt; ℹ Input `y2` must be size 1, not 3.</span>
+<span class="co">#&gt; ℹ Input `y2` is `y`.</span>
 <span class="co">#&gt; ℹ Did you mean: `y2 = list(y)` ?</span>
 <span class="co">#&gt; ℹ The error occurred in row 1.</span>
 <span class="va">rf</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>y2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span>
@@ -579,9 +578,8 @@
   <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">min</span>, <span class="va">max</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Error: Problem with `mutate()` input `data`.</span>
-<span class="co">#&gt; ✖ Input `data` can't be recycled to size 1.</span>
-<span class="co">#&gt; ℹ Input `data` is `runif(n, min, max)`.</span>
 <span class="co">#&gt; ℹ Input `data` must be size 1, not 2.</span>
+<span class="co">#&gt; ℹ Input `data` is `runif(n, min, max)`.</span>
 <span class="co">#&gt; ℹ Did you mean: `data = list(runif(n, min, max))` ?</span>
 <span class="co">#&gt; ℹ The error occurred in row 2.</span></code></pre></div>
 </div>
