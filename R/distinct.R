@@ -126,7 +126,7 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
 }
 
 
-#' Efficiently count the number of unique values in a set or vector
+#' Efficiently count the number of unique values in a set of vectors
 #'
 #' This is a faster and more concise equivalent of `length(unique(x))`
 #'

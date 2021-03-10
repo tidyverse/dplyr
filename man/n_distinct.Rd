@@ -2,7 +2,7 @@
 % Please edit documentation in R/distinct.R
 \name{n_distinct}
 \alias{n_distinct}
-\title{Efficiently count the number of unique values in a set of vector}
+\title{Efficiently count the number of unique values in a set of vectors}
 \usage{
 n_distinct(..., na.rm = FALSE)
 }
