@@ -33,6 +33,8 @@
 #'   `{.fn}` to stand for the name of the function being applied. The default
 #'   (`NULL`) is equivalent to `"{.col}"` for the single function case and
 #'   `"{.col}_{.fn}"` for the case where a list is used for `.fns`.
+#' @param .call Call used by the caching mechanism. This is only useful when `across()`
+#'   is called from another function, and should mostly just be ignored.
 #'
 #' @returns
 #' `across()` returns a tibble with one column for each column in `.cols` and each function in `.fns`.
@@ -86,8 +88,8 @@
 #'
 #' @export
 #' @seealso [c_across()] for a function that returns a vector
-across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
-  key <- key_deparse(sys.call())
+across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL, .call = sys.call()) {
+  key <- key_deparse(.call)
   setup <- across_setup({{ .cols }}, fns = .fns, names = .names, key = key, .caller_env = caller_env())
 
   vars <- setup$vars
@@ -147,8 +149,8 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 
 #' @rdname across
 #' @export
-if_any <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
-  df <- across({{ .cols }}, .fns = .fns, ..., .names = .names)
+if_any <- function(.cols = everything(), .fns = NULL, ..., .names = NULL, .call = sys.call()) {
+  df <- across({{ .cols }}, .fns = .fns, ..., .names = .names, .call = .call)
   n <- nrow(df)
   df <- vec_cast_common(!!!df, .to = logical())
   .Call(dplyr_reduce_lgl_or, df, n)
@@ -156,8 +158,8 @@ if_any <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 
 #' @rdname across
 #' @export
-if_all <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
-  df <- across({{ .cols }}, .fns = .fns, ..., .names = .names)
+if_all <- function(.cols = everything(), .fns = NULL, ..., .names = NULL, .call = sys.call()) {
+  df <- across({{ .cols }}, .fns = .fns, ..., .names = .names, .call = .call)
   n <- nrow(df)
   df <- vec_cast_common(!!!df, .to = logical())
   .Call(dplyr_reduce_lgl_and, df, n)

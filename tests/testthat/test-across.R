@@ -367,6 +367,16 @@ test_that("if_any() and if_all() can be used in mutate() (#5709)", {
   expect_equal(res$all, c(FALSE, FALSE, FALSE, TRUE))
 })
 
+test_that("across() caching not confused when used from if_any() and if_all() (#5782)", {
+  res <- data.frame(x = 1:3) %>%
+    mutate(
+      any = if_any(x, ~ . >= 2) + if_any(x, ~ . >= 3),
+      all = if_all(x, ~ . >= 2) + if_all(x, ~ . >= 3)
+    )
+  expect_equal(res$any, c(0, 1, 2))
+  expect_equal(res$all, c(0, 1, 2))
+})
+
 test_that("if_any() and if_all() respect filter()-like NA handling", {
   df <- expand.grid(
     x = c(TRUE, FALSE, NA), y = c(TRUE, FALSE, NA)
