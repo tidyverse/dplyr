@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* Multiple calls to `if_any()` and/or `if_all()` in the same expression are now
+  properly disambiguated (#5782). 
+
 * Removed the `name` argument from the `compute()` generic (@ianmcook, #5783).
 
 * row-wise data frames of 0 rows and list columns are supported again (#5804).
