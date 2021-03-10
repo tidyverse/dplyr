@@ -1,11 +1,25 @@
 ## revdepcheck results
 
-We checked 2522 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 2570 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 0 new problems
- * We failed to check 19 packages
+ * We saw 3 new problems
+ * We failed to check 16 packages
 
 Issues with CRAN packages are summarised below.
+
+### New problems
+(This reports the first line of each new failure)
+
+* banR
+  checking tests ... ERROR
+
+* DeLorean
+  checking installed package size ... NOTE
+  checking dependencies in R code ... NOTE
+  checking for GNU extensions in Makefiles ... NOTE
+
+* imfr
+  checking examples ... ERROR
 
 ### Failed to check
 
@@ -14,12 +28,9 @@ Issues with CRAN packages are summarised below.
 * CausalImpact   (NA)
 * CB2            (NA)
 * cbar           (NA)
-* crossmap       (NA)
+* conos          (NA)
 * diceR          (NA)
-* EpiNow2        (NA)
-* gastempt       (NA)
 * glmmfields     (NA)
-* jstor          (NA)
 * MarketMatching (NA)
 * metagam        (NA)
 * multinma       (NA)

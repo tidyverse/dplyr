@@ -1,6 +1,6 @@
 # Revdeps
 
-## Failed to check (19)
+## Failed to check (16)
 
 |package        |version |error |warning |note |
 |:--------------|:-------|:-----|:-------|:----|
@@ -9,12 +9,9 @@
 |CausalImpact   |?       |      |        |     |
 |CB2            |?       |      |        |     |
 |cbar           |?       |      |        |     |
-|crossmap       |?       |      |        |     |
+|conos          |1.4.0   |1     |        |     |
 |diceR          |?       |      |        |     |
-|EpiNow2        |1.3.2   |1     |        |     |
-|gastempt       |0.5.1   |1     |        |     |
 |glmmfields     |0.1.4   |1     |        |     |
-|jstor          |?       |      |        |     |
 |MarketMatching |?       |      |        |     |
 |metagam        |?       |      |        |     |
 |multinma       |0.2.1   |1     |        |     |
@@ -23,4 +20,12 @@
 |rstap          |1.0.3   |1     |        |     |
 |trackr         |?       |      |        |     |
 |wrswoR         |?       |      |        |     |
+
+## New problems (3)
+
+|package                          |version |error    |warning |note   |
+|:--------------------------------|:-------|:--------|:-------|:------|
+|[banR](problems.md#banr)         |0.2.2   |__+1__   |        |       |
+|[DeLorean](problems.md#delorean) |1.5.0   |-1       |        |__+3__ |
+|[imfr](problems.md#imfr)         |0.1.9.1 |1 __+1__ |        |       |
 
