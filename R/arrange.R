@@ -131,24 +131,5 @@ arrange_rows <- function(.data, dots) {
 
   })
 
-  # we can't just use vec_compare_proxy(data) because we need to apply
-  # direction for each column, so we get a list of proxies instead
-  # and then mimic vctrs:::order_proxy
-  #
-  # should really be map2(quosures, directions, ...)
-  proxies <- map2(data, directions, function(column, direction) {
-    proxy <- vec_proxy_order(column)
-    desc <- identical(direction, "desc")
-    if (is.data.frame(proxy)) {
-      proxy <- order(vec_order(proxy,
-        direction = direction,
-        na_value = if(desc) "smallest" else "largest"
-      ))
-    } else if(desc) {
-      proxy <- desc(proxy)
-    }
-    proxy
-  })
-
-  exec("order", !!!unname(proxies), decreasing = FALSE, na.last = TRUE)
+  vctrs:::vec_order_radix(data, direction = directions)
 }
