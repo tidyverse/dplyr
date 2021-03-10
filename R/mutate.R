@@ -215,20 +215,24 @@ transmute <- function(.data, ...) {
 
 #' @export
 transmute.data.frame <- function(.data, ...) {
-  dots <- enquos(...)
-  if (".keep" %in% names(dots)) {
-    abort("`transmute()` does not support the `.keep` argument")
-  }
-  if (".before" %in% names(dots)) {
-    abort("`transmute()` does not support the `.before` argument")
-  }
-  if (".after" %in% names(dots)) {
-    abort("`transmute()` does not support the `.after` argument")
-  }
+  dots <- check_transmute_args(...)
   mutate(.data, !!!dots, .keep = "none")
 }
 
 # Helpers -----------------------------------------------------------------
+
+check_transmute_args <- function(..., .keep, .before, .after) {
+  if (!missing(.keep)) {
+    abort("`transmute()` does not support the `.keep` argument")
+  }
+  if (!missing(.before)) {
+    abort("`transmute()` does not support the `.before` argument")
+  }
+  if (!missing(.after)) {
+    abort("`transmute()` does not support the `.after` argument")
+  }
+  enquos(...)
+}
 
 mutate_cols <- function(.data, ...) {
   mask <- DataMask$new(.data, caller_env())
