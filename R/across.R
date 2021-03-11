@@ -370,7 +370,7 @@ top_across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 
   expressions <- vector(mode = "list", n_vars * n_fns)
   columns <- character(n_vars * n_fns)
-  extra_args <- list(...)
+  extra_args <- enquos(...)
 
   k <- 1L
   for (i in seq_vars) {
