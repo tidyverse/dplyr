@@ -391,6 +391,32 @@ test_that("if_any() and if_all() respect filter()-like NA handling", {
   )
 })
 
+test_that("across() correctly reset column", {
+  expect_error(cur_column())
+  res <- data.frame(x = 1) %>%
+    summarise(
+      a = { expect_error(cur_column()); 2},
+      across(x, ~{ expect_equal(cur_column(), "x"); 3}, .names = "b"),        # top_across()
+      c = { expect_error(cur_column()); 4},
+      force(across(x, ~{ expect_equal(cur_column(), "x"); 5}, .names = "d")),  # across()
+      e = { expect_error(cur_column()); 6}
+    )
+  expect_equal(res, data.frame(a = 2, b = 3, c = 4, d = 5, e = 6))
+  expect_error(cur_column())
+
+  res <- data.frame(x = 1) %>%
+    mutate(
+      a = { expect_error(cur_column()); 2},
+      across(x, ~{ expect_equal(cur_column(), "x"); 3}, .names = "b"),        # top_across()
+      c = { expect_error(cur_column()); 4},
+      force(across(x, ~{ expect_equal(cur_column(), "x"); 5}, .names = "d")),  # across()
+      e = { expect_error(cur_column()); 6}
+    )
+  expect_equal(res, data.frame(x = 1, a = 2, b = 3, c = 4, d = 5, e = 6))
+  expect_error(cur_column())
+})
+
+
 # c_across ----------------------------------------------------------------
 
 test_that("selects and combines columns", {
