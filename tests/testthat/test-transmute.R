@@ -65,15 +65,10 @@ test_that("transmute() can handle auto splicing", {
   )
 })
 
-test_that("transmute() forbids mutate() special arguments (#5799)", {
-  expect_error(transmute(mtcars, cyl2 = cyl, .keep = 'all'))
-  expect_error(transmute(mtcars, cyl2 = cyl, .before = disp))
-  expect_error(transmute(mtcars, cyl2 = cyl, .after = disp))
-})
-
 test_that("transmute() error messages", {
-  expect_snapshot(error = TRUE, transmute(mtcars, cyl2 = cyl, .keep = 'all'))
-  expect_snapshot(error = TRUE, transmute(mtcars, cyl2 = cyl, .before = disp))
-  expect_snapshot(error = TRUE, transmute(mtcars, cyl2 = cyl, .after = disp))
+  expect_snapshot(error = TRUE, {
+    transmute(mtcars, cyl2 = cyl, .keep = 'all')
+    transmute(mtcars, cyl2 = cyl, .before = disp)
+    transmute(mtcars, cyl2 = cyl, .after = disp)
+  })
 })
-
