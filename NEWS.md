@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* Fixed quosure handling in `dplyr::group_by()` that caused issues with extra
+  arguments (tidyverse/lubridate#959).
+
 * Multiple calls to `if_any()` and/or `if_all()` in the same expression are now
   properly disambiguated (#5782). 
 

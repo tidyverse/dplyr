@@ -212,15 +212,13 @@ quo_is_variable_reference <- function(quo) {
   if (quo_is_call(quo, n = 2)) {
     expr <- quo_get_expr(quo)
 
-    if (node_cadr(expr) == sym(".data")) {
-      fun <- node_car(expr)
-      param <- node_cadr(node_cdr(expr))
-
-      if (fun == sym("$") && (is_symbol(param) || is_string(param))) {
-        return(TRUE)
+    if (is_call(expr, c("$", "[["))) {
+      if (!identical(expr[[2]], sym(".data"))) {
+        return(FALSE)
       }
 
-      if (fun == sym("[[") && is_string(param)) {
+      param <- expr[[3]]
+      if (is_symbol(param) || is_string(param)) {
         return(TRUE)
       }
     }
