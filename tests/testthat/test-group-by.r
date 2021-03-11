@@ -543,6 +543,20 @@ test_that("group_by() keeps attributes unrelated to the grouping (#5760)", {
   expect_equal(attr(d2, "foo"), "bar")
 })
 
+test_that("group_by() works with quosures (tidyverse/lubridate#959)", {
+  ignore <- function(...) NA
+  f <- function(var) {
+    tibble(x = 1) %>% group_by(g = ignore({{ var }}))
+  }
+  g <- function(var) {
+    # This used to fail with the extra argument
+    tibble(x = 1) %>% group_by(g = ignore({{ var }}, 1))
+  }
+  expect_equal(f(), tibble(x = 1, g = NA) %>% group_by(g))
+  expect_equal(g(), tibble(x = 1, g = NA) %>% group_by(g))
+})
+
+
 # Errors ------------------------------------------------------------------
 
 test_that("group_by() and ungroup() give meaningful error messages", {
@@ -554,4 +568,3 @@ test_that("group_by() and ungroup() give meaningful error messages", {
 
   expect_snapshot(error = TRUE, df %>% group_by(z = a + 1))
 })
-
