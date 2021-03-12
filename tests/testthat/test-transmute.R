@@ -64,3 +64,11 @@ test_that("transmute() can handle auto splicing", {
     iris %>% select(Sepal.Length, Sepal.Width)
   )
 })
+
+test_that("transmute() error messages", {
+  expect_snapshot(error = TRUE, {
+    transmute(mtcars, cyl2 = cyl, .keep = 'all')
+    transmute(mtcars, cyl2 = cyl, .before = disp)
+    transmute(mtcars, cyl2 = cyl, .after = disp)
+  })
+})
