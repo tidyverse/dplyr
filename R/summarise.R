@@ -206,6 +206,9 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
 
 summarise_cols <- function(.data, ...) {
   mask <- DataMask$new(.data, caller_env())
+  old_current_column <- context_peek_bare("column")
+
+  on.exit(context_poke("column", old_current_column), add = TRUE)
   on.exit(mask$forget("summarise"), add = TRUE)
 
   dots <- dplyr_quosures(...)
@@ -223,6 +226,7 @@ summarise_cols <- function(.data, ...) {
   withCallingHandlers({
     for (i in seq_along(dots)) {
       mask$across_cache_reset()
+      context_poke("column", old_current_column)
 
       quosures <- expand_quosure(dots[[i]])
       quosures_results <- vector(mode = "list", length = length(quosures))
@@ -232,7 +236,9 @@ summarise_cols <- function(.data, ...) {
       for (k in seq_along(quosures)) {
         quo <- quosures[[k]]
         quo_data <- attr(quo, "dplyr:::data")
-        context_poke("column", quo_data$column)
+        if (!is.null(quo_data$column)) {
+          context_poke("column", quo_data$column)
+        }
 
         chunks_k <- mask$eval_all_summarise(quo)
         if (is.null(chunks_k)) {
