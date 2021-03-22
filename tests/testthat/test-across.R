@@ -416,16 +416,44 @@ test_that("across() correctly reset column", {
   expect_error(cur_column())
 })
 
-test_that("top_across() evaluates ... lazily (#5813)", {
+test_that("top_across() evaluates ... with promise semantics (#5813)", {
   df <- tibble(x = tibble(foo = 1), y = tibble(foo = 2))
 
   res <- mutate(df, across(
-      everything(),
-      mutate,
-      foo = foo + 1
-    ))
+    everything(),
+    mutate,
+    foo = foo + 1
+  ))
   expect_equal(res$x$foo, 2)
   expect_equal(res$y$foo, 3)
+
+  # Can omit dots
+  res <- mutate(df, across(
+    everything(),
+    list
+  ))
+  expect_equal(res$x[[1]]$foo, 1)
+  expect_equal(res$y[[1]]$foo, 2)
+
+  # Dots are evaluated only once
+  new_counter <- function() {
+    n <- 0L
+    function() {
+      n <<- n + 1L
+      n
+    }
+  }
+  counter <- new_counter()
+  list_second <- function(...) {
+    list(..2)
+  }
+  res <- mutate(df, across(
+    everything(),
+    list_second,
+    counter()
+  ))
+  expect_equal(res$x[[1]], 1)
+  expect_equal(res$y[[1]], 1)
 })
 
 

@@ -133,3 +133,7 @@ maybe_restart <- function(restart) {
     invokeRestart(restart)
   }
 }
+
+dots_get <- function(...) {
+  env_get(current_env(), "...", default = missing_arg())
+}
