@@ -376,28 +376,12 @@ top_across <- function(.cols = everything(),
   expressions <- vector(mode = "list", n_vars * n_fns)
   columns <- character(n_vars * n_fns)
 
-  # For convenience we call `top_across()` with `eval_tidy()` so the
-  # caller is a data mask. Find the original calling env.
-  caller <- data_mask_top(caller_env())
-  dots <- dots_get(...)
-
   # Create execution environments containing a binding to the function
   # and dots forwarded from here. These environments will become
   # maskable quosure envs and the variables created with `sym(var)`
   # will be reachable via data masking. This essentially reproduces
   # the mapping environments created for `lapply()` or `map()`.
-  #
-  # We Use `for` instead of `map()` to create these environments
-  # because `maybe_missing()` (and `is_missing()` on which it is
-  # based) don't work correctly in a child environment.
-  envs <- vector("list", n_fns)
-  for (j in seq_fns) {
-    envs[[j]] <- env(
-      caller,
-      .fn = fns[[j]],
-      ... = maybe_missing(dots)
-    )
-  }
+  envs <- map(fns, function(.fn) current_env())
 
   k <- 1L
   for (i in seq_vars) {
