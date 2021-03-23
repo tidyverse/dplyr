@@ -386,7 +386,7 @@ top_across <- function(.cols = everything(),
   k <- 1L
   for (i in seq_vars) {
     var <- vars[[i]]
-    call <- expr(.fn(!!sym(var), ...))
+    call <- call(".fn", sym(var), quote(...))
 
     for (j in seq_fns) {
       expressions[[k]] <- new_quosure(call, envs[[j]])
