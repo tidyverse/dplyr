@@ -238,7 +238,7 @@ across_setup_impl <- function(cols, fns, names, .caller_env, mask = peek_mask("a
   }
   # `across()` is evaluated in a data mask so we need to remove the
   # mask layer from the quosure environment (#5460)
-  cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = FALSE, inherit = TRUE))
+  cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = FALSE, inherit = FALSE))
 
   vars <- tidyselect::eval_select(cols, data = mask$across_cols())
   vars <- names(vars)
@@ -423,15 +423,34 @@ dplyr_quosures <- function(...) {
 expand_quosure <- function(quo) {
   quo_data <- attr(quo, "dplyr:::data")
   if (quo_is_call(quo, "across", ns = c("", "dplyr")) && !quo_data$is_named) {
-    # call top_across() instead of across()
-    quo_env <- quo_get_env(quo)
-
-    expr <- quo_get_expr(quo)
-    expr[[1]] <- top_across
-    quo <- new_quosure(expr, quo_env)
-
     mask <- peek_mask()
-    expressions <- eval_tidy(quo, mask$get_rlang_mask(), mask$get_caller_env())
+    caller_env <- mask$get_caller_env()
+
+    expr <- match.call(
+      definition = across,
+      call = quo_get_expr(quo),
+      expand.dots = FALSE,
+      envir = caller_env
+    )
+
+    # Differentiate between missing and null
+    if (".cols" %in% names(expr)) {
+      cols <- expr$.cols
+    } else {
+      cols <- quote(everything())
+    }
+    fns <- eval_tidy(expr$.fns, mask$get_rlang_mask(), caller_env)
+
+    # Match unhandled arguments programatically so we don't have to
+    # update `top_across()` when `across()` gains arguments
+    extra_args <- setdiff(names(formals(across)), c(".cols", ".fns", "..."))
+    args <- as.list(expr[-1])
+    extra <- args[match(extra_args, names(args), nomatch = 0)]
+
+    expressions <- inject(
+      (!!top_across)(!!cols, !!fns, !!!expr$..., !!!extra),
+      caller_env
+    )
     names_expressions <- names(expressions)
 
     # process the results of top_across()
