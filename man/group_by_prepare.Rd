@@ -6,11 +6,18 @@
 \title{Same basic philosophy as group_by_prepare(): lazy_dots comes in, list of data and
 vars (character vector) comes out.}
 \usage{
-distinct_prepare(.data, vars, group_vars = character(), .keep_all = FALSE)
+distinct_prepare(
+  .data,
+  vars,
+  group_vars = character(),
+  .keep_all = FALSE,
+  caller_env = caller_env(2)
+)
 
 group_by_prepare(
   .data,
   ...,
+  caller_env = caller_env(2),
   .add = FALSE,
   .dots = deprecated(),
   add = deprecated()

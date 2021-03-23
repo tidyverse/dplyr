@@ -87,7 +87,7 @@ group_by <- function(.data, ..., .add = FALSE, .drop = group_by_drop_default(.da
 
 #' @export
 group_by.data.frame <- function(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data)) {
-  groups <- group_by_prepare(.data, ..., .add = .add)
+  groups <- group_by_prepare(.data, ..., .add = .add, caller_env = caller_env())
   grouped_df(groups$data, groups$group_names, .drop)
 }
 
@@ -134,7 +134,12 @@ ungroup.data.frame <- function(x, ...) {
 #'   \item{groups}{Modified groups}
 #' @export
 #' @keywords internal
-group_by_prepare <- function(.data, ..., .add = FALSE, .dots = deprecated(), add = deprecated()) {
+group_by_prepare <- function(.data,
+                             ...,
+                             caller_env = caller_env(2),
+                             .add = FALSE,
+                             .dots = deprecated(),
+                             add = deprecated()) {
 
   if (!missing(add)) {
     lifecycle::deprecate_warn("1.0.0", "group_by(add = )", "group_by(.add = )")
@@ -145,11 +150,16 @@ group_by_prepare <- function(.data, ..., .add = FALSE, .dots = deprecated(), add
   if (!missing(.dots)) {
     # Used by dbplyr 1.4.2 so can't aggressively deprecate
     lifecycle::deprecate_warn("1.0.0", "group_by(.dots = )")
-    new_groups <- c(new_groups, compat_lazy_dots(.dots, env = caller_env()))
+    new_groups <- c(new_groups, compat_lazy_dots(.dots, env = caller_env))
   }
 
   # If any calls, use mutate to add new columns, then group by those
-  computed_columns <- add_computed_columns(.data, new_groups, "group_by")
+  computed_columns <- add_computed_columns(
+    .data,
+    new_groups,
+    "group_by",
+    caller_env = caller_env
+  )
 
   out <- computed_columns$data
   group_names <- computed_columns$added_names
@@ -173,7 +183,10 @@ group_by_prepare <- function(.data, ..., .add = FALSE, .dots = deprecated(), add
   )
 }
 
-add_computed_columns <- function(.data, vars, .fn = "group_by") {
+add_computed_columns <- function(.data,
+                                 vars,
+                                 .fn = "group_by",
+                                 caller_env) {
   is_symbol <- map_lgl(vars, quo_is_variable_reference)
   needs_mutate <- have_name(vars) | !is_symbol
 
@@ -181,7 +194,7 @@ add_computed_columns <- function(.data, vars, .fn = "group_by") {
     # TODO: use less of a hack
     if (inherits(.data, "data.frame")) {
       cols <- withCallingHandlers(
-        mutate_cols(ungroup(.data), !!!vars),
+        mutate_cols(ungroup(.data), !!!vars, caller_env = caller_env),
         error = function(e) {
           abort(c(
             glue("Problem adding computed columns in `{.fn}()`."),

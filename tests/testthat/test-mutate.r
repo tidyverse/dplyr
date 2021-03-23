@@ -472,6 +472,11 @@ test_that("mutate() supports empty list columns in rowwise data frames (#5804", 
   expect_equal(res$n, integer())
 })
 
+test_that("mutate() propagates caller env", {
+  expect_caller_env(mutate(mtcars, sig_caller_env()))
+})
+
+
 # Error messages ----------------------------------------------------------
 
 test_that("mutate() give meaningful errors", {

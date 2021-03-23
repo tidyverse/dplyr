@@ -556,6 +556,10 @@ test_that("group_by() works with quosures (tidyverse/lubridate#959)", {
   expect_equal(g(), tibble(x = 1, g = NA) %>% group_by(g))
 })
 
+test_that("group_by() propagates caller env", {
+  expect_caller_env(group_by(mtcars, sig_caller_env()))
+})
+
 
 # Errors ------------------------------------------------------------------
 

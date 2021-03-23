@@ -125,7 +125,7 @@ summarize <- summarise
 
 #' @export
 summarise.data.frame <- function(.data, ..., .groups = NULL) {
-  cols <- summarise_cols(.data, ...)
+  cols <- summarise_cols(.data, ..., caller_env = caller_env())
   out <- summarise_build(.data, cols)
   if (identical(.groups, "rowwise")) {
     out <- rowwise_df(out, character())
@@ -135,7 +135,7 @@ summarise.data.frame <- function(.data, ..., .groups = NULL) {
 
 #' @export
 summarise.grouped_df <- function(.data, ..., .groups = NULL) {
-  cols <- summarise_cols(.data, ...)
+  cols <- summarise_cols(.data, ..., caller_env = caller_env())
   out <- summarise_build(.data, cols)
   verbose <- summarise_verbose(.groups, caller_env())
 
@@ -177,7 +177,7 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
 
 #' @export
 summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
-  cols <- summarise_cols(.data, ...)
+  cols <- summarise_cols(.data, ..., caller_env = caller_env())
   out <- summarise_build(.data, cols)
   verbose <- summarise_verbose(.groups, caller_env())
 
@@ -204,8 +204,8 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
   out
 }
 
-summarise_cols <- function(.data, ...) {
-  mask <- DataMask$new(.data, caller_env())
+summarise_cols <- function(.data, ..., caller_env) {
+  mask <- DataMask$new(.data, caller_env)
   old_current_column <- context_peek_bare("column")
 
   on.exit(context_poke("column", old_current_column), add = TRUE)
