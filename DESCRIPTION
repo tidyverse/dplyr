@@ -63,7 +63,7 @@ Suggests:
     tidyr, 
     withr
 Remotes:
-    r-lib/rlang@defuse-numbered-dots
+    r-lib/rlang
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
