@@ -71,7 +71,7 @@ can install the development version of dplyr from GitHub.
 devtools::install_github("tidyverse/dplyr")
 ```
 
-## Cheatsheet
+## Cheat Sheet
 
 <a href="https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/master/pngs/thumbnails/data-transformation-cheatsheet-thumbs.png" width="630" height="252"/></a>
 
