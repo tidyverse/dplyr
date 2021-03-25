@@ -415,14 +415,13 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 </pre><p></div></p>
 <p>The <code><a href='https://rdrr.io/r/base/Logic.html'>!</a></code> operator negates a selection:<div class="r"></p><pre><span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='op'>!</span><span class='op'>(</span><span class='va'>name</span><span class='op'>:</span><span class='va'>mass</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 87 x 11</span>
-<span class='co'>#&gt;   hair_color skin_color eye_color birth_year sex   gender homeworld species</span>
-<span class='co'>#&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;  </span>
-<span class='co'>#&gt; 1 blond      fair       blue            19   male  mascu~ Tatooine  Human  </span>
-<span class='co'>#&gt; 2 &lt;NA&gt;       gold       yellow         112   none  mascu~ Tatooine  Droid  </span>
-<span class='co'>#&gt; 3 &lt;NA&gt;       white, bl~ red             33   none  mascu~ Naboo     Droid  </span>
-<span class='co'>#&gt; 4 none       white      yellow          41.9 male  mascu~ Tatooine  Human  </span>
-<span class='co'>#&gt; # ... with 83 more rows, and 3 more variables: films &lt;list&gt;, vehicles &lt;list&gt;,</span>
-<span class='co'>#&gt; #   starships &lt;list&gt;</span>
+<span class='co'>#&gt;   hair_color skin_color  eye_color birth_year sex   gender    homeworld species films     vehicles  starships</span>
+<span class='co'>#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;   &lt;list&gt;    &lt;list&gt;    &lt;list&gt;   </span>
+<span class='co'>#&gt; 1 blond      fair        blue            19   male  masculine Tatooine  Human   &lt;chr [5]&gt; &lt;chr [2]&gt; &lt;chr [2]&gt;</span>
+<span class='co'>#&gt; 2 &lt;NA&gt;       gold        yellow         112   none  masculine Tatooine  Droid   &lt;chr [6]&gt; &lt;chr [0]&gt; &lt;chr [0]&gt;</span>
+<span class='co'>#&gt; 3 &lt;NA&gt;       white, blue red             33   none  masculine Naboo     Droid   &lt;chr [7]&gt; &lt;chr [0]&gt; &lt;chr [0]&gt;</span>
+<span class='co'>#&gt; 4 none       white       yellow          41.9 male  masculine Tatooine  Human   &lt;chr [4]&gt; &lt;chr [0]&gt; &lt;chr [1]&gt;</span>
+<span class='co'>#&gt; # ... with 83 more rows</span>
 
 <span class='va'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>Sepal.Length</span>, <span class='va'>Petal.Length</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 150 x 3</span>
@@ -497,7 +496,7 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 
       <footer>
       <div class="tidyverse">
-  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
 <div class="author">
