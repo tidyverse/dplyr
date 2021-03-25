@@ -217,6 +217,12 @@ test_that("summarise() silently skips when all results are NULL (#5708)", {
   expect_error(summarise(df, x = if(g == 1) 42))
 })
 
+test_that("summarise() propagates caller env", {
+  expect_caller_env(summarise(mtcars, sig_caller_env()))
+  expect_caller_env(summarise(group_by(mtcars, cyl), sig_caller_env()))
+})
+
+
 # errors -------------------------------------------------------------------
 
 test_that("summarise() preserves the call stack on error (#5308)", {

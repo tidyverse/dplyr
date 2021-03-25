@@ -69,7 +69,11 @@ distinct <- function(.data, ..., .keep_all = FALSE) {
 #' vars (character vector) comes out.
 #' @rdname group_by_prepare
 #' @export
-distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = FALSE) {
+distinct_prepare <- function(.data,
+                             vars,
+                             group_vars = character(),
+                             .keep_all = FALSE,
+                             caller_env = caller_env(2)) {
   stopifnot(is_quosures(vars), is.character(group_vars))
 
   # If no input, keep all variables
@@ -82,7 +86,12 @@ distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = 
   }
 
   # If any calls, use mutate to add new columns, then distinct on those
-  computed_columns <- add_computed_columns(.data, vars, "distinct")
+  computed_columns <- add_computed_columns(
+    .data,
+    vars,
+    "distinct",
+    caller_env = caller_env
+  )
   .data <- computed_columns$data
   distinct_vars <- computed_columns$added_names
 
@@ -111,10 +120,12 @@ distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = 
 
 #' @export
 distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
-  prep <- distinct_prepare(.data,
+  prep <- distinct_prepare(
+    .data,
     vars = enquos(...),
     group_vars = group_vars(.data),
-    .keep_all = .keep_all
+    .keep_all = .keep_all,
+    caller_env = caller_env()
   )
 
   # out <- as_tibble(prep$data)

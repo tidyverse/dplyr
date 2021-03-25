@@ -152,6 +152,11 @@ test_that("distinct preserves grouping", {
   expect_equal(group_vars(out), "x")
 })
 
+test_that("distinct() propagates caller env", {
+  expect_caller_env(distinct(mtcars, sig_caller_env()))
+})
+
+
 # Errors ------------------------------------------------------------------
 
 

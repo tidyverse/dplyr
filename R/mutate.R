@@ -173,7 +173,7 @@ mutate.data.frame <- function(.data, ...,
                               .before = NULL, .after = NULL) {
   keep <- arg_match(.keep)
 
-  cols <- mutate_cols(.data, ...)
+  cols <- mutate_cols(.data, ..., caller_env = caller_env())
   out <- dplyr_col_modify(.data, cols)
 
   .before <- enquo(.before)
@@ -234,8 +234,8 @@ check_transmute_args <- function(..., .keep, .before, .after) {
   enquos(...)
 }
 
-mutate_cols <- function(.data, ...) {
-  mask <- DataMask$new(.data, caller_env())
+mutate_cols <- function(.data, ..., caller_env) {
+  mask <- DataMask$new(.data, caller_env)
   old_current_column <- context_peek_bare("column")
 
   on.exit(context_poke("column", old_current_column), add = TRUE)
