@@ -436,7 +436,7 @@
 <li><p><code><a href="../reference/combine.html">combine()</a></code>: please use <code><a href="https://vctrs.r-lib.org/reference/vec_c.html" class="external-link">vctrs::vec_c()</a></code> instead.</p></li>
 <li><p><code><a href="../reference/funs.html">funs()</a></code>: please use <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> instead.</p></li>
 <li><p><code><a href="../reference/group_by.html">group_by(add = )</a></code>: please use <code>.add</code> instead.</p></li>
-<li><p><code><a href="../reference/group_by.html">group_by(.dots = )</a></code>/<code><a href="../reference/distinct_prepare.html">group_by_prepare(.dots = )</a></code>: please use <code>!!!</code> instead (<a href='https://github.com/tidyverse/dplyr/issues/4734'>#4734</a>).</p></li>
+<li><p><code><a href="../reference/group_by.html">group_by(.dots = )</a></code>/<code><a href="../reference/group_by_prepare.html">group_by_prepare(.dots = )</a></code>: please use <code>!!!</code> instead (<a href='https://github.com/tidyverse/dplyr/issues/4734'>#4734</a>).</p></li>
 <li><p>The use of zero-arg <code><a href="../reference/group_data.html">group_indices()</a></code> to retrieve the group id for the “current” group is deprecated; instead use <code><a href="../reference/context.html">cur_group_id()</a></code>.</p></li>
 <li><p>Passing arguments to <code><a href="../reference/group_data.html">group_keys()</a></code> or <code><a href="../reference/group_data.html">group_indices()</a></code> to change the grouping has been deprecated, instead do grouping first yourself.</p></li>
 <li><p><code><a href="../reference/location.html">location()</a></code> and <code><a href="../reference/location.html">changes()</a></code>: please use <code><a href="https://rdrr.io/pkg/lobstr/man/ref.html" class="external-link">lobstr::ref()</a></code> instead.</p></li>
@@ -708,7 +708,7 @@
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/group_map.html">group_map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fl">2L</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </li>
-<li><p><code><a href="../reference/distinct_prepare.html">distinct_prepare()</a></code>, previously known as <code>distinct_vars()</code> is exported. This is mostly useful for alternative backends (e.g. <code>dbplyr</code>).</p></li>
+<li><p><code><a href="../reference/group_by_prepare.html">distinct_prepare()</a></code>, previously known as <code>distinct_vars()</code> is exported. This is mostly useful for alternative backends (e.g. <code>dbplyr</code>).</p></li>
 </ul>
 </div>
 <div id="major-changes" class="section level2">
@@ -1084,7 +1084,7 @@ select(mtcars, -(!! vars))</code></pre>
 <li><p>Joins now always reencode character columns to UTF-8 if necessary. This gives a nice speedup, because now pointer comparison can be used instead of string comparison, but relies on a proper encoding tag for all strings (<a href='https://github.com/tidyverse/dplyr/issues/2514'>#2514</a>).</p></li>
 <li><p>Fixed problems when joining factor or character encodings with a mix of native and UTF-8 encoded values (<a href='https://github.com/tidyverse/dplyr/issues/1885'>#1885</a>, <a href='https://github.com/tidyverse/dplyr/issues/2118'>#2118</a>, <a href='https://github.com/tidyverse/dplyr/issues/2271'>#2271</a>, <a href='https://github.com/tidyverse/dplyr/issues/2451'>#2451</a>).</p></li>
 <li><p>Fix <code><a href="../reference/group_by.html">group_by()</a></code> for data frames that have UTF-8 encoded names (<a href='https://github.com/tidyverse/dplyr/issues/2284'>#2284</a>, <a href='https://github.com/tidyverse/dplyr/issues/2382'>#2382</a>).</p></li>
-<li><p>New <code><a href="../reference/group_data.html">group_vars()</a></code> generic that returns the grouping as character vector, to avoid the potentially lossy conversion to language symbols. The list returned by <code><a href="../reference/distinct_prepare.html">group_by_prepare()</a></code> now has a new <code>group_names</code> component (<a href='https://github.com/tidyverse/dplyr/issues/1950'>#1950</a>, <a href='https://github.com/tidyverse/dplyr/issues/2384'>#2384</a>).</p></li>
+<li><p>New <code><a href="../reference/group_data.html">group_vars()</a></code> generic that returns the grouping as character vector, to avoid the potentially lossy conversion to language symbols. The list returned by <code><a href="../reference/group_by_prepare.html">group_by_prepare()</a></code> now has a new <code>group_names</code> component (<a href='https://github.com/tidyverse/dplyr/issues/1950'>#1950</a>, <a href='https://github.com/tidyverse/dplyr/issues/2384'>#2384</a>).</p></li>
 </ul>
 </div>
 <div id="colwise-functions" class="section level2">
@@ -1912,12 +1912,12 @@ starwars %&gt;%
 
       <footer>
       <div class="tidyverse">
-  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='https://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
