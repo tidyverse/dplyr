@@ -121,6 +121,8 @@ test_that("compact row names are retained", {
 })
 
 test_that("dplyr_reconstruct() strips attributes before dispatch", {
+  skip("reconsider if this is not abstract")
+
   local_methods(
     dplyr_reconstruct.dplyr_foobar = function(data, template) {
       out <<- data
