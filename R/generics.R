@@ -180,13 +180,18 @@ dplyr_col_modify.rowwise_df <- function(data, cols) {
 #' @export
 #' @rdname dplyr_extending
 dplyr_reconstruct <- function(data, template) {
+  # Strip attributes before dispatch to make it easier to implement
+  # methods and prevent unexpected leaking of irrelevant attributes.
+  data <- dplyr_new_data_frame(data)
+  return(dplyr_reconstruct_dispatch(data, template))
+  UseMethod("dplyr_reconstruct", template)
+}
+dplyr_reconstruct_dispatch <- function(data, template) {
   UseMethod("dplyr_reconstruct", template)
 }
 
 #' @export
 dplyr_reconstruct.data.frame <- function(data, template) {
-  data <- dplyr_new_data_frame(data)
-
   attrs <- attributes(template)
   attrs$names <- names(data)
   attrs$row.names <- .row_names_info(data, type = 0L)
@@ -197,19 +202,12 @@ dplyr_reconstruct.data.frame <- function(data, template) {
 
 #' @export
 dplyr_reconstruct.grouped_df <- function(data, template) {
-  initial_group_vars <- group_vars(data)
   group_vars <- group_intersect(template, data)
-  if (!identical(group_vars, initial_group_vars)) {
-    grouped_df(data, group_vars, drop = group_by_drop_default(template))
-  } else {
-    data
-  }
+  grouped_df(data, group_vars, drop = group_by_drop_default(template))
 }
 
 #' @export
 dplyr_reconstruct.rowwise_df <- function(data, template) {
-  data <- dplyr_new_data_frame(data)
-
   group_vars <- group_intersect(template, data)
   rowwise_df(data, group_vars)
 }
