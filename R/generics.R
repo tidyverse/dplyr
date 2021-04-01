@@ -247,9 +247,5 @@ dplyr_col_select <- function(.data, loc, names = NULL) {
     names(out) <- names
   }
 
-  if (identical(class(.data), "data.frame")) {
-    out <- dplyr_reconstruct(out, .data)
-  }
-
   out
 }
