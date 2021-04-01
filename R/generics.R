@@ -216,9 +216,6 @@ dplyr_col_select <- function(.data, loc, names = NULL) {
   loc <- vec_as_location(loc, n = ncol(.data), names = names(.data))
 
   out <- .data[loc]
-  if (identical(class(.data), "data.frame")) {
-    out <- dplyr_reconstruct(out, .data)
-  }
   if (!inherits(out, "data.frame")) {
     abort(c(
       "Can't reconstruct data frame.",
@@ -243,6 +240,13 @@ dplyr_col_select <- function(.data, loc, names = NULL) {
       )
     ))
   }
+
+  # Patch base data frames to restore extra attributes that `[.data.frame` drops.
+  # We require `[` methods to keep extra attributes for all data frame subclasses.
+  if (identical(class(.data), "data.frame")) {
+    out <- dplyr_reconstruct(out, .data)
+  }
+
   if (!is.null(names)) {
     names(out) <- names
   }
