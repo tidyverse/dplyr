@@ -197,10 +197,13 @@ dplyr_reconstruct.data.frame <- function(data, template) {
 
 #' @export
 dplyr_reconstruct.grouped_df <- function(data, template) {
-  data <- dplyr_new_data_frame(data)
-
+  initial_group_vars <- group_vars(data)
   group_vars <- group_intersect(template, data)
-  grouped_df(data, group_vars, drop = group_by_drop_default(template))
+  if (!identical(group_vars, initial_group_vars)) {
+    grouped_df(data, group_vars, drop = group_by_drop_default(template))
+  } else {
+    data
+  }
 }
 
 #' @export
@@ -213,7 +216,11 @@ dplyr_reconstruct.rowwise_df <- function(data, template) {
 
 dplyr_col_select <- function(.data, loc, names = NULL) {
   loc <- vec_as_location(loc, n = ncol(.data), names = names(.data))
+
   out <- .data[loc]
+  if (identical(class(.data), "data.frame")) {
+    out <- dplyr_reconstruct(out, .data)
+  }
   if (!inherits(out, "data.frame")) {
     abort(c(
       "Can't reconstruct data frame.",
@@ -241,5 +248,10 @@ dplyr_col_select <- function(.data, loc, names = NULL) {
   if (!is.null(names)) {
     names(out) <- names
   }
+
+  if (identical(class(.data), "data.frame")) {
+    out <- dplyr_reconstruct(out, .data)
+  }
+
   out
 }
