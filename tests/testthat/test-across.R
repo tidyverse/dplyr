@@ -494,6 +494,18 @@ test_that("arguments in dots are evaluated once per group", {
   expect_equal(out, rnorm(3))
 })
 
+test_that("can pass quosure through `across()`", {
+  summarise_mean <- function(data, vars) {
+    data %>% summarise(across({{ vars }}, mean))
+  }
+  gdf <- data.frame(g = c(1, 1, 2), x = 1:3) %>% group_by(g)
+
+  expect_equal(
+    gdf %>% summarise_mean(where(is.numeric)),
+    summarise(gdf, x = mean(x))
+  )
+})
+
 
 # c_across ----------------------------------------------------------------
 

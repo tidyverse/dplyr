@@ -367,7 +367,6 @@ expand_across <- function(quo) {
     return(list(quo))
   }
 
-
   # Expand dots in lexical env
   env <- quo_get_env(quo)
   expr <- match.call(
@@ -396,7 +395,7 @@ expand_across <- function(quo) {
   } else {
     cols <- quote(everything())
   }
-  cols <- new_quosure(cols, env)
+  cols <- as_quosure(cols, env)
 
   setup <- across_setup_impl(
     !!cols,
@@ -448,7 +447,7 @@ expand_across <- function(quo) {
 
     for (j in seq_fns) {
       fn_call <- call2(fns[[j]], sym(var))
-      fn_call <- new_quosure(fn_call, mask)
+      fn_call <- new_quosure(fn_call, env)
 
       name <- names[[k]]
       expressions[[k]] <- new_dplyr_quosure(
