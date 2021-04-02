@@ -361,7 +361,7 @@ dplyr_quosures <- function(...) {
 #   columns = c("x", "y")
 # )
 
-expand_quosure <- function(quo) {
+expand_across <- function(quo) {
   quo_data <- attr(quo, "dplyr:::data")
   if (!quo_is_call(quo, "across", ns = c("", "dplyr")) || quo_data$is_named) {
     return(list(quo))

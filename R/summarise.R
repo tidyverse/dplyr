@@ -228,7 +228,7 @@ summarise_cols <- function(.data, ..., caller_env) {
       mask$across_cache_reset()
       context_poke("column", old_current_column)
 
-      quosures <- expand_quosure(dots[[i]])
+      quosures <- expand_across(dots[[i]])
       quosures_results <- vector(mode = "list", length = length(quosures))
 
       # with the previous part above, for each element of ... we can
