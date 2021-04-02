@@ -97,7 +97,7 @@ iris \%>\%
 # A purrr-style formula
 iris \%>\%
   group_by(Species) \%>\%
-  summarise(across(starts_with("Sepal"), ~mean(.x, na.rm = TRUE)))
+  summarise(across(starts_with("Sepal"), ~ mean(.x, na.rm = TRUE)))
 
 # A named list of functions
 iris \%>\%
