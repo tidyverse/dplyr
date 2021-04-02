@@ -40,6 +40,32 @@
 #' `across()` returns a tibble with one column for each column in `.cols` and each function in `.fns`.
 #'
 #' `if_any()` and `if_all()` return a logical vector.
+#'
+#' @section Timing of evaluation:
+#' R code in dplyr verbs is generally evaluated once per group.
+#' Inside `across()` however, code is evaluated once for each
+#' combination of columns and groups. If the evaluation timing is
+#' important, for example if you're generating random variables, think
+#' about when it should happen and place your code in consequence.
+#'
+#' ```{r}
+#' gdf <-
+#'   tibble(g = c(1, 1, 2, 3), v1 = 10:13, v2 = 20:23) %>%
+#'   group_by(g)
+#'
+#' set.seed(1)
+#'
+#' # Outside: 1 normal variate
+#' n <- rnorm(1)
+#' gdf %>% mutate(across(v1:v2, ~ .x + n))
+#'
+#' # Inside a verb: 3 normal variates (ngroup)
+#' gdf %>% mutate(n = rnorm(1), across(v1:v2, ~ .x + n))
+#'
+#' # Inside `across()`: 6 normal variates (ncol * ngroup)
+#' gdf %>% mutate(across(v1:v2, ~ .x + rnorm(1)))
+#' ````
+#'
 #' @examples
 #' # across() -----------------------------------------------------------------
 #' # Different ways to select the same set of columns
