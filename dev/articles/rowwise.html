@@ -472,11 +472,11 @@
 <span class="va">by_cyl</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt; # Rowwise:  cyl</span>
-<span class="co">#&gt;     cyl data              </span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;            </span>
-<span class="co">#&gt; 1     4 &lt;tibble [11 × 10]&gt;</span>
-<span class="co">#&gt; 2     6 &lt;tibble [7 × 10]&gt; </span>
-<span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt;</span></code></pre></div>
+<span class="co">#&gt;     cyl data                   </span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;                 </span>
+<span class="co">#&gt; 1     4 &lt;tibble[,10] [11 × 10]&gt;</span>
+<span class="co">#&gt; 2     6 &lt;tibble[,10] [7 × 10]&gt; </span>
+<span class="co">#&gt; 3     8 &lt;tibble[,10] [14 × 10]&gt;</span></code></pre></div>
 <p>This is a little different to the usual <code><a href="../reference/group_by.html">group_by()</a></code> output: we have visibly changed the structure of the data. Now we have three rows (one for each group), and we have a list-col, <code>data</code>, that stores the data for that group. Also note that the output is <code><a href="../reference/rowwise.html">rowwise()</a></code>; this is important because it’s going to make working with that list of data frames much easier.</p>
 <p>Once we have one data frame per row, it’s straightforward to make one model per row:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
@@ -484,22 +484,22 @@
 <span class="va">mods</span>
 <span class="co">#&gt; # A tibble: 3 x 3</span>
 <span class="co">#&gt; # Rowwise:  cyl</span>
-<span class="co">#&gt;     cyl data               mod   </span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;             &lt;list&gt;</span>
-<span class="co">#&gt; 1     4 &lt;tibble [11 × 10]&gt; &lt;lm&gt;  </span>
-<span class="co">#&gt; 2     6 &lt;tibble [7 × 10]&gt;  &lt;lm&gt;  </span>
-<span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt; &lt;lm&gt;</span></code></pre></div>
+<span class="co">#&gt;     cyl data                    mod   </span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;                  &lt;list&gt;</span>
+<span class="co">#&gt; 1     4 &lt;tibble[,10] [11 × 10]&gt; &lt;lm&gt;  </span>
+<span class="co">#&gt; 2     6 &lt;tibble[,10] [7 × 10]&gt;  &lt;lm&gt;  </span>
+<span class="co">#&gt; 3     8 &lt;tibble[,10] [14 × 10]&gt; &lt;lm&gt;</span></code></pre></div>
 <p>And supplement that with one set of predictions per row:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mods</span> <span class="op">&lt;-</span> <span class="va">mods</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>pred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod</span>, <span class="va">data</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="va">mods</span>
 <span class="co">#&gt; # A tibble: 3 x 4</span>
 <span class="co">#&gt; # Rowwise:  cyl</span>
-<span class="co">#&gt;     cyl data               mod    pred      </span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;             &lt;list&gt; &lt;list&gt;    </span>
-<span class="co">#&gt; 1     4 &lt;tibble [11 × 10]&gt; &lt;lm&gt;   &lt;dbl [11]&gt;</span>
-<span class="co">#&gt; 2     6 &lt;tibble [7 × 10]&gt;  &lt;lm&gt;   &lt;dbl [7]&gt; </span>
-<span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt; &lt;lm&gt;   &lt;dbl [14]&gt;</span></code></pre></div>
+<span class="co">#&gt;     cyl data                    mod    pred      </span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;                  &lt;list&gt; &lt;list&gt;    </span>
+<span class="co">#&gt; 1     4 &lt;tibble[,10] [11 × 10]&gt; &lt;lm&gt;   &lt;dbl [11]&gt;</span>
+<span class="co">#&gt; 2     6 &lt;tibble[,10] [7 × 10]&gt;  &lt;lm&gt;   &lt;dbl [7]&gt; </span>
+<span class="co">#&gt; 3     8 &lt;tibble[,10] [14 × 10]&gt; &lt;lm&gt;   &lt;dbl [14]&gt;</span></code></pre></div>
 <p>You could then summarise the model in a variety of ways:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mods</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>rmse <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">pred</span> <span class="op">-</span> <span class="va">data</span><span class="op">$</span><span class="va">mpg</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>

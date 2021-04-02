@@ -315,19 +315,19 @@
 <span class="co">#&gt; # A tibble: 10 x 1</span>
 <span class="co">#&gt;       x</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
-<span class="co">#&gt; 1     2</span>
-<span class="co">#&gt; 2     9</span>
-<span class="co">#&gt; 3     6</span>
-<span class="co">#&gt; 4     7</span>
+<span class="co">#&gt; 1     1</span>
+<span class="co">#&gt; 2     5</span>
+<span class="co">#&gt; 3     3</span>
+<span class="co">#&gt; 4     2</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 <span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/distinct.html">distinct</a></span><span class="op">(</span><span class="va">x</span>, .keep_all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># whole data frame</span>
 <span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1     2     3</span>
-<span class="co">#&gt; 2     9     3</span>
-<span class="co">#&gt; 3     6     3</span>
-<span class="co">#&gt; 4     7     8</span>
+<span class="co">#&gt; 1     1     7</span>
+<span class="co">#&gt; 2     5     1</span>
+<span class="co">#&gt; 3     3     5</span>
+<span class="co">#&gt; 4     2     6</span>
 <span class="co">#&gt; # … with 6 more rows</span></code></pre></div>
 <p>There are two equivalents in base R, depending on whether you want the whole data frame, or just selected variables:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -335,19 +335,19 @@
 <span class="co">#&gt; # A tibble: 10 x 1</span>
 <span class="co">#&gt;       x</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
-<span class="co">#&gt; 1     2</span>
-<span class="co">#&gt; 2     9</span>
-<span class="co">#&gt; 3     6</span>
-<span class="co">#&gt; 4     7</span>
+<span class="co">#&gt; 1     1</span>
+<span class="co">#&gt; 2     5</span>
+<span class="co">#&gt; 3     3</span>
+<span class="co">#&gt; 4     2</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 <span class="va">df</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">duplicated</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">x</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span> <span class="co"># whole data frame</span>
 <span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1     2     3</span>
-<span class="co">#&gt; 2     9     3</span>
-<span class="co">#&gt; 3     6     3</span>
-<span class="co">#&gt; 4     7     8</span>
+<span class="co">#&gt; 1     1     7</span>
+<span class="co">#&gt; 2     5     1</span>
+<span class="co">#&gt; 3     3     5</span>
+<span class="co">#&gt; 4     2     6</span>
 <span class="co">#&gt; # … with 6 more rows</span></code></pre></div>
 </div>
 <div id="filter-return-rows-with-matching-conditions" class="section level2">
@@ -450,21 +450,21 @@
 <span class="co">#&gt; # A tibble: 100 x 4</span>
 <span class="co">#&gt;       x     y     z    z2</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     2     3     5    25</span>
-<span class="co">#&gt; 2     9     3    12   144</span>
-<span class="co">#&gt; 3     6     3     9    81</span>
-<span class="co">#&gt; 4     6     8    14   196</span>
+<span class="co">#&gt; 1     1     7     8    64</span>
+<span class="co">#&gt; 2     1     8     9    81</span>
+<span class="co">#&gt; 3     1     3     4    16</span>
+<span class="co">#&gt; 4     5     1     6    36</span>
 <span class="co">#&gt; # … with 96 more rows</span></code></pre></div>
 <p>The closest base equivalent is <code><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform()</a></code>, but note that it cannot use freshly created variables:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform</a></span><span class="op">(</span><span class="va">df</span>, z <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span>, z2 <span class="op">=</span> <span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;   x y  z  z2</span>
-<span class="co">#&gt; 1 2 3  5  25</span>
-<span class="co">#&gt; 2 9 3 12 144</span>
-<span class="co">#&gt; 3 6 3  9  81</span>
-<span class="co">#&gt; 4 6 8 14 196</span>
-<span class="co">#&gt; 5 2 5  7  49</span>
-<span class="co">#&gt; 6 7 8 15 225</span></code></pre></div>
+<span class="co">#&gt;   x y z z2</span>
+<span class="co">#&gt; 1 1 7 8 64</span>
+<span class="co">#&gt; 2 1 8 9 81</span>
+<span class="co">#&gt; 3 1 3 4 16</span>
+<span class="co">#&gt; 4 5 1 6 36</span>
+<span class="co">#&gt; 5 3 5 8 64</span>
+<span class="co">#&gt; 6 2 6 8 64</span></code></pre></div>
 <p>Alternatively, you can use <code>$&lt;-</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mtcars</span><span class="op">$</span><span class="va">cyl2</span> <span class="op">&lt;-</span> <span class="va">mtcars</span><span class="op">$</span><span class="va">cyl</span> <span class="op">*</span> <span class="fl">2</span>

@@ -299,25 +299,25 @@ dplyr (<code>data.frame</code>, <code>grouped_df</code>)
 <span class='va'>iris</span> <span class='op'>%&gt;%</span> <span class='fu'>nest_by</span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span><span>
 #&gt; </span><span style='color: #949494;'># Rowwise:  Species</span><span>
-#&gt;   Species              data
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;list&lt;tibble&gt;&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> setosa           </span><span style='color: #949494;'>[50 × 4]</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> versicolor       </span><span style='color: #949494;'>[50 × 4]</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> virginica        </span><span style='color: #949494;'>[50 × 4]</span><span></div><div class='input'><span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>nest_by</span><span class='op'>(</span><span class='va'>species</span><span class='op'>)</span>
+#&gt;   Species                  data
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;list&lt;tibble[,4]&gt;&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> setosa               </span><span style='color: #949494;'>[50 × 4]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> versicolor           </span><span style='color: #949494;'>[50 × 4]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> virginica            </span><span style='color: #949494;'>[50 × 4]</span><span></div><div class='input'><span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>nest_by</span><span class='op'>(</span><span class='va'>species</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 38 x 2</span><span>
 #&gt; </span><span style='color: #949494;'># Rowwise:  species</span><span>
-#&gt;    species             data
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;list&lt;tibble&gt;&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Aleena          </span><span style='color: #949494;'>[1 × 13]</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Besalisk        </span><span style='color: #949494;'>[1 × 13]</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Cerean          </span><span style='color: #949494;'>[1 × 13]</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Chagrian        </span><span style='color: #949494;'>[1 × 13]</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Clawdite        </span><span style='color: #949494;'>[1 × 13]</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Droid           </span><span style='color: #949494;'>[6 × 13]</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Dug             </span><span style='color: #949494;'>[1 × 13]</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Ewok            </span><span style='color: #949494;'>[1 × 13]</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Geonosian       </span><span style='color: #949494;'>[1 × 13]</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Gungan          </span><span style='color: #949494;'>[3 × 13]</span><span>
+#&gt;    species                  data
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;list&lt;tibble[,13]&gt;&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Aleena               </span><span style='color: #949494;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Besalisk             </span><span style='color: #949494;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Cerean               </span><span style='color: #949494;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Chagrian             </span><span style='color: #949494;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Clawdite             </span><span style='color: #949494;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Droid                </span><span style='color: #949494;'>[6 × 13]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Dug                  </span><span style='color: #949494;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Ewok                 </span><span style='color: #949494;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Geonosian            </span><span style='color: #949494;'>[1 × 13]</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Gungan               </span><span style='color: #949494;'>[3 × 13]</span><span>
 #&gt; </span><span style='color: #949494;'># … with 28 more rows</span><span></div><div class='input'>
 <span class='co'># The output is grouped by row, which makes modelling particularly easy</span>
 <span class='va'>models</span> <span class='op'>&lt;-</span> <span class='va'>mtcars</span> <span class='op'>%&gt;%</span>
@@ -326,11 +326,11 @@ dplyr (<code>data.frame</code>, <code>grouped_df</code>)
 <span class='va'>models</span>
 </div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 3</span><span>
 #&gt; </span><span style='color: #949494;'># Rowwise:  cyl</span><span>
-#&gt;     cyl           data model 
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&lt;tibble&gt;&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     4      </span><span style='color: #949494;'>[11 × 10]</span><span> </span><span style='color: #949494;'>&lt;lm&gt;</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     6       </span><span style='color: #949494;'>[7 × 10]</span><span> </span><span style='color: #949494;'>&lt;lm&gt;</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     8      </span><span style='color: #949494;'>[14 × 10]</span><span> </span><span style='color: #949494;'>&lt;lm&gt;</span><span>  </div><div class='input'>
+#&gt;     cyl                data model 
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&lt;tibble[,10]&gt;&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     4           </span><span style='color: #949494;'>[11 × 10]</span><span> </span><span style='color: #949494;'>&lt;lm&gt;</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     6            </span><span style='color: #949494;'>[7 × 10]</span><span> </span><span style='color: #949494;'>&lt;lm&gt;</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     8           </span><span style='color: #949494;'>[14 × 10]</span><span> </span><span style='color: #949494;'>&lt;lm&gt;</span><span>  </div><div class='input'>
 <span class='va'>models</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span>rsq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>model</span><span class='op'>)</span><span class='op'>$</span><span class='va'>r.squared</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>`summarise()` has grouped output by 'cyl'. You can override using the `.groups` argument.</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 2</span><span>
 #&gt; </span><span style='color: #949494;'># Groups:   cyl [3]</span><span>
