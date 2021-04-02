@@ -457,6 +457,43 @@ test_that("top_across() evaluates ... with promise semantics (#5813)", {
   expect_equal(res$y[[1]], 1)
 })
 
+test_that("group variables are in scope (#5832)", {
+  f <- function(x, z) x + z
+  gdf <- data.frame(x = 1:2, y = 3:4, g = 1:2) %>% group_by(g)
+  exp <- gdf %>% summarise(x = f(x, z = y))
+
+  expect_equal(
+    gdf %>% summarise(across(x, ~ f(.x, z = y))),
+    exp
+  )
+
+  expect_equal(
+    gdf %>% summarise(across(x, f, z = y)),
+    exp
+  )
+
+  expect_equal(
+    gdf %>% summarise((across(x, ~ f(.x, z = y)))),
+    exp
+  )
+
+  expect_equal(
+    gdf %>% summarise((across(x, f, z = y))),
+    exp
+  )
+})
+
+test_that("arguments in dots are evaluated once per group", {
+  set.seed(0)
+  out <- data.frame(g = 1:3, var = NA) %>%
+    group_by(g) %>%
+    mutate(across(var, function(x, y) y, rnorm(1))) %>%
+    pull(var)
+
+  set.seed(0)
+  expect_equal(out, rnorm(3))
+})
+
 
 # c_across ----------------------------------------------------------------
 

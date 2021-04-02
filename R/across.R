@@ -324,81 +324,6 @@ key_deparse <- function(key) {
   deparse(key, width.cutoff = 500L, backtick = TRUE, nlines = 1L, control = NULL)
 }
 
-# When mutate() or summarise() have an unnamed call to across() at the top level, e.g.
-# summarise(across(<...>)) or mutate(across(<...>))
-#
-# a call to top_across(<...>) is evaluated instead.
-# top_across() returns a flattened list of expressions along with some
-# information about the "current column" for each expression
-# in the "columns" attribute:
-#
-# For example with: summarise(across(c(x, y), mean, .names = "mean_{.col}")) top_across() will return
-# something like:
-#
-# structure(
-#   list(mean_x = expr(mean(x)), mean_y = expr(mean(y)))
-#   columns = c("x", "y")
-# )
-top_across <- function(.cols = everything(),
-                       .fns = NULL,
-                       ...,
-                       .names = NULL) {
-  setup <- across_setup_impl(
-    {{ .cols }},
-    fns = .fns,
-    names = .names,
-    .caller_env = caller_env(),
-    .top_level = TRUE
-  )
-  vars <- setup$vars
-
-  # nothing
-  if (length(vars) == 0L) {
-    return(list())
-  }
-
-  fns <- setup$fns
-  names <- setup$names
-
-  # no functions, so just return a list of symbols
-  if (is.null(fns)) {
-    expressions <- map(syms(vars), new_quosure, empty_env())
-    names(expressions) <- if (is.null(.names)) vars else names
-    return(expressions)
-  }
-
-  n_vars <- length(vars)
-  n_fns <- length(fns)
-
-  seq_vars <- seq_len(n_vars)
-  seq_fns  <- seq_len(n_fns)
-
-  expressions <- vector(mode = "list", n_vars * n_fns)
-  columns <- character(n_vars * n_fns)
-
-  # Create execution environments containing a binding to the function
-  # and dots forwarded from here. These environments will become
-  # maskable quosure envs and the variables created with `sym(var)`
-  # will be reachable via data masking. This essentially reproduces
-  # the mapping environments created for `lapply()` or `map()`.
-  envs <- map(fns, function(.fn) current_env())
-
-  k <- 1L
-  for (i in seq_vars) {
-    var <- vars[[i]]
-    call <- call(".fn", sym(var), quote(...))
-
-    for (j in seq_fns) {
-      expressions[[k]] <- new_quosure(call, envs[[j]])
-      columns[[k]] <- var
-      k <- k + 1L
-    }
-  }
-  names(expressions) <- names
-  attr(expressions, "columns") <- columns
-  expressions
-}
-
 new_dplyr_quosure <- function(quo, ...) {
   attr(quo, "dplyr:::data") <- list2(...)
   quo
@@ -420,55 +345,125 @@ dplyr_quosures <- function(...) {
   quosures
 }
 
+# When mutate() or summarise() have an unnamed call to across() at the top level, e.g.
+# summarise(across(<...>)) or mutate(across(<...>))
+#
+# a call to top_across(<...>) is evaluated instead.
+# top_across() returns a flattened list of expressions along with some
+# information about the "current column" for each expression
+# in the "columns" attribute:
+#
+# For example with: summarise(across(c(x, y), mean, .names = "mean_{.col}")) top_across() will return
+# something like:
+#
+# structure(
+#   list(mean_x = expr(mean(x)), mean_y = expr(mean(y)))
+#   columns = c("x", "y")
+# )
+
 expand_quosure <- function(quo) {
   quo_data <- attr(quo, "dplyr:::data")
-  if (quo_is_call(quo, "across", ns = c("", "dplyr")) && !quo_data$is_named) {
-    mask <- peek_mask()
-    caller_env <- mask$get_caller_env()
+  if (!quo_is_call(quo, "across", ns = c("", "dplyr")) || quo_data$is_named) {
+    return(list(quo))
+  }
 
-    expr <- match.call(
-      definition = across,
-      call = quo_get_expr(quo),
-      expand.dots = FALSE,
-      envir = caller_env
-    )
 
-    # Differentiate between missing and null
-    if (".cols" %in% names(expr)) {
-      cols <- expr$.cols
-    } else {
-      cols <- quote(everything())
-    }
-    fns <- eval_tidy(expr$.fns, mask$get_rlang_mask(), caller_env)
+  # Expand dots in lexical env
+  env <- quo_get_env(quo)
+  expr <- match.call(
+    definition = across,
+    call = quo_get_expr(quo),
+    expand.dots = FALSE,
+    envir = env
+  )
 
-    # Match unhandled arguments programatically so we don't have to
-    # update `top_across()` when `across()` gains arguments
-    extra_args <- setdiff(names(formals(across)), c(".cols", ".fns", "..."))
-    args <- as.list(expr[-1])
-    extra <- args[match(extra_args, names(args), nomatch = 0)]
+  # Abort expansion if there are any expression supplied because dots
+  # must be evaluated once per group in the data mask. Expanding the
+  # `across()` call would lead to either `n_group * n_col` evaluations
+  # if dots are delayed or only 1 evaluation if they are eagerly
+  # evaluated.
+  if (!is_null(expr$...)) {
+    return(list(quo))
+  }
 
-    expressions <- inject(
-      (!!top_across)(!!cols, !!fns, !!!expr$..., !!!extra),
-      caller_env
-    )
-    names_expressions <- names(expressions)
+  dplyr_mask <- peek_mask()
+  mask <- dplyr_mask$get_rlang_mask()
 
-    # process the results of top_across()
-    quosures <- vector(mode = "list", length(expressions))
-    for (j in seq_along(expressions)) {
-      name <- names_expressions[j]
-      quosures[[j]] <- new_dplyr_quosure(
-        expressions[[j]],
+  # Differentiate between missing and null (`match.call()` doesn't
+  # expand default argument)
+  if (".cols" %in% names(expr)) {
+    cols <- expr$.cols
+  } else {
+    cols <- quote(everything())
+  }
+  cols <- new_quosure(cols, env)
+
+  setup <- across_setup_impl(
+    !!cols,
+    fns = eval_tidy(expr$.fns, mask),
+    names = eval_tidy(expr$.names, mask),
+    .caller_env = dplyr_mask$get_caller_env(),
+    .top_level = TRUE
+  )
+
+  vars <- setup$vars
+
+  # Empty expansion
+  if (length(vars) == 0L) {
+    return(list())
+  }
+
+  fns <- setup$fns
+  names <- setup$names %||% vars
+
+  # No functions, so just return a list of symbols
+  if (is.null(fns)) {
+    expressions <- pmap(list(vars, names, seq_along(vars)), function(var, name, k) {
+      quo <- new_quosure(sym(var), empty_env())
+      quo <- new_dplyr_quosure(
+        quo,
         name_given = name,
         name_auto = name,
         is_named = TRUE,
-        index = c(quo_data$index, j),
-        column = attr(expressions, "columns")[j]
+        index = c(quo_data$index, k),
+        column = var
       )
-    }
-  } else {
-    quosures <- list(quo)
+    })
+    names(expressions) <- names
+    return(expressions)
   }
 
-  quosures
+  n_vars <- length(vars)
+  n_fns <- length(fns)
+
+  seq_vars <- seq_len(n_vars)
+  seq_fns  <- seq_len(n_fns)
+
+  expressions <- vector(mode = "list", n_vars * n_fns)
+  columns <- character(n_vars * n_fns)
+
+  k <- 1L
+  for (i in seq_vars) {
+    var <- vars[[i]]
+
+    for (j in seq_fns) {
+      fn_call <- call2(fns[[j]], sym(var))
+      fn_call <- new_quosure(fn_call, mask)
+
+      name <- names[[k]]
+      expressions[[k]] <- new_dplyr_quosure(
+        fn_call,
+        name_given = name,
+        name_auto = name,
+        is_named = TRUE,
+        index = c(quo_data$index, k),
+        column = var
+      )
+
+      k <- k + 1L
+    }
+  }
+
+  names(expressions) <- names
+  expressions
 }

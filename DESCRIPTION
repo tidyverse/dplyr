@@ -62,8 +62,6 @@ Suggests:
     testthat (>= 3.0.2),
     tidyr, 
     withr
-Remotes:
-    r-lib/rlang
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
