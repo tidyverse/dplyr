@@ -49,9 +49,7 @@
 #' by_cyl %>% arrange(desc(wt))
 #' # Unless you specifically ask:
 #' by_cyl %>% arrange(desc(wt), .by_group = TRUE)
-arrange <- function(.data, ..., .by_group = FALSE) {
-  UseMethod("arrange")
-}
+
 
 #' @param .by_group If `TRUE`, will sort first by grouping variable. Applies to
 #'   grouped data frames only.
