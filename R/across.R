@@ -33,8 +33,6 @@
 #'   `{.fn}` to stand for the name of the function being applied. The default
 #'   (`NULL`) is equivalent to `"{.col}"` for the single function case and
 #'   `"{.col}_{.fn}"` for the case where a list is used for `.fns`.
-#' @param .call Call used by the caching mechanism. This is only useful when `across()`
-#'   is called from another function, and should mostly just be ignored.
 #'
 #' @returns
 #' `across()` returns a tibble with one column for each column in `.cols` and each function in `.fns`.
@@ -114,9 +112,11 @@
 #'
 #' @export
 #' @seealso [c_across()] for a function that returns a vector
-across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL, .call = sys.call()) {
-  key <- key_deparse(.call)
-  setup <- across_setup({{ .cols }}, fns = .fns, names = .names, key = key, .caller_env = caller_env())
+across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
+  .cols <- enquo(.cols)
+  key <- key_deparse(.cols, enquo(.fns))
+
+  setup <- across_setup(!!.cols, fns = .fns, names = .names, key = key, .caller_env = caller_env())
 
   vars <- setup$vars
   if (length(vars) == 0L) {
@@ -175,8 +175,8 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL, .call 
 
 #' @rdname across
 #' @export
-if_any <- function(.cols = everything(), .fns = NULL, ..., .names = NULL, .call = sys.call()) {
-  df <- across({{ .cols }}, .fns = .fns, ..., .names = .names, .call = .call)
+if_any <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
+  df <- across({{ .cols }}, {{ .fns }}, ..., .names = .names)
   n <- nrow(df)
   df <- vec_cast_common(!!!df, .to = logical())
   .Call(dplyr_reduce_lgl_or, df, n)
@@ -184,8 +184,8 @@ if_any <- function(.cols = everything(), .fns = NULL, ..., .names = NULL, .call 
 
 #' @rdname across
 #' @export
-if_all <- function(.cols = everything(), .fns = NULL, ..., .names = NULL, .call = sys.call()) {
-  df <- across({{ .cols }}, .fns = .fns, ..., .names = .names, .call = .call)
+if_all <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
+  df <- across({{ .cols }}, {{ .fns }}, ..., .names = .names)
   n <- nrow(df)
   df <- vec_cast_common(!!!df, .to = logical())
   .Call(dplyr_reduce_lgl_and, df, n)
@@ -214,8 +214,9 @@ if_all <- function(.cols = everything(), .fns = NULL, ..., .names = NULL, .call 
 #'     sd = sd(c_across(w:z))
 #'  )
 c_across <- function(cols = everything()) {
-  key <- key_deparse(sys.call())
-  vars <- c_across_setup({{ cols }}, key = key)
+  cols <- enquo(cols)
+  key <- key_deparse(cols)
+  vars <- c_across_setup(!!cols, key = key)
 
   mask <- peek_mask("c_across()")
 
@@ -346,9 +347,24 @@ c_across_setup <- function(cols, key) {
   value
 }
 
-key_deparse <- function(key) {
-  deparse(key, width.cutoff = 500L, backtick = TRUE, nlines = 1L, control = NULL)
+# FIXME: Should not cache `cols` when it includes
+# env-expressions. Should only cache `fns` when it's a call to
+# `function` or `~`, otherwise we don't know whether evaluating again
+# will produce a different value.
+key_deparse <- function(cols, fns = quo(NULL)) {
+  paste(
+    deparse(quo_get_expr(cols)),
+    sexp_address(quo_get_env(cols)),
+    deparse(quo_get_expr(fns)),
+    sexp_address(quo_get_env(fns))
+  )
 }
+
+# TODO: This isn't exported from rlang yet - Import code in dplyr to
+# avoid this namespace plucking.
+on_load(
+  sexp_address <- env_get(ns_env("rlang"), "sexp_address")
+)
 
 new_dplyr_quosure <- function(quo, ...) {
   attr(quo, "dplyr:::data") <- list2(...)
