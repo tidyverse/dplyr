@@ -256,7 +256,7 @@ mutate_cols <- function(.data, ..., caller_env) {
 
       # get results from all the quosures that are expanded from ..i
       # then ingest them after
-      quosures <- expand_quosure(dots[[i]])
+      quosures <- expand_across(dots[[i]])
       quosures_results <- vector(mode = "list", length = length(quosures))
 
       for (k in seq_along(quosures)) {

@@ -212,11 +212,12 @@ test_that("across() uses environment from the current quosure (#5460)", {
   expect_equal(df %>% filter(if_all(all_of(y), ~ .x < 2)), df)
 
   # Inherited case
-  out <- df %>% summarise(local(across(all_of(y), mean)))
-  expect_equal(out, data.frame(x = 1))
+  expect_error(df %>% summarise(local(across(all_of(y), mean))))
 
-  # Recursive case fails because the `y` column has precedence (#5498)
-  expect_error(df %>% summarise(summarise(across(), across(all_of(y), mean))))
+  expect_equal(
+    df %>% summarise(summarise(cur_data(), across(all_of(y), mean))),
+    df %>% summarise(across(all_of(y), mean))
+  )
 })
 
 test_that("across() sees columns in the recursive case (#5498)", {
@@ -414,6 +415,95 @@ test_that("across() correctly reset column", {
     )
   expect_equal(res, data.frame(x = 1, a = 2, b = 3, c = 4, d = 5, e = 6))
   expect_error(cur_column())
+})
+
+test_that("top_across() evaluates ... with promise semantics (#5813)", {
+  df <- tibble(x = tibble(foo = 1), y = tibble(foo = 2))
+
+  res <- mutate(df, across(
+    everything(),
+    mutate,
+    foo = foo + 1
+  ))
+  expect_equal(res$x$foo, 2)
+  expect_equal(res$y$foo, 3)
+
+  # Can omit dots
+  res <- mutate(df, across(
+    everything(),
+    list
+  ))
+  expect_equal(res$x[[1]]$foo, 1)
+  expect_equal(res$y[[1]]$foo, 2)
+
+  # Dots are evaluated only once
+  new_counter <- function() {
+    n <- 0L
+    function() {
+      n <<- n + 1L
+      n
+    }
+  }
+  counter <- new_counter()
+  list_second <- function(...) {
+    list(..2)
+  }
+  res <- mutate(df, across(
+    everything(),
+    list_second,
+    counter()
+  ))
+  expect_equal(res$x[[1]], 1)
+  expect_equal(res$y[[1]], 1)
+})
+
+test_that("group variables are in scope (#5832)", {
+  f <- function(x, z) x + z
+  gdf <- data.frame(x = 1:2, y = 3:4, g = 1:2) %>% group_by(g)
+  exp <- gdf %>% summarise(x = f(x, z = y))
+
+  expect_equal(
+    gdf %>% summarise(across(x, ~ f(.x, z = y))),
+    exp
+  )
+
+  expect_equal(
+    gdf %>% summarise(across(x, f, z = y)),
+    exp
+  )
+
+  expect_equal(
+    gdf %>% summarise((across(x, ~ f(.x, z = y)))),
+    exp
+  )
+
+  expect_equal(
+    gdf %>% summarise((across(x, f, z = y))),
+    exp
+  )
+})
+
+test_that("arguments in dots are evaluated once per group", {
+  set.seed(0)
+  out <- data.frame(g = 1:3, var = NA) %>%
+    group_by(g) %>%
+    mutate(across(var, function(x, y) y, rnorm(1))) %>%
+    pull(var)
+
+  set.seed(0)
+  expect_equal(out, rnorm(3))
+})
+
+test_that("can pass quosure through `across()`", {
+  summarise_mean <- function(data, vars) {
+    data %>% summarise(across({{ vars }}, mean))
+  }
+  gdf <- data.frame(g = c(1, 1, 2), x = 1:3) %>% group_by(g)
+
+  expect_equal(
+    gdf %>% summarise_mean(where(is.numeric)),
+    summarise(gdf, x = mean(x))
+  )
 })
 
 

@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* Fixed behaviour of `...` in top-level `across()` calls (#5813, #5832).
+
 * Fixed quosure handling in `dplyr::group_by()` that caused issues with extra
   arguments (tidyverse/lubridate#959).
 
