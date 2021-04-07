@@ -304,6 +304,53 @@ Because <code>across()</code> is used within functions like <code><a href='summa
 
     <p><code>across()</code> returns a tibble with one column for each column in <code>.cols</code> and each function in <code>.fns</code>.</p>
 <p><code>if_any()</code> and <code>if_all()</code> return a logical vector.</p>
+    <h2 class="hasAnchor" id="timing-of-evaluation"><a class="anchor" href="#timing-of-evaluation"></a>Timing of evaluation</h2>
+
+    
+
+<p>R code in dplyr verbs is generally evaluated once per group.
+Inside <code>across()</code> however, code is evaluated once for each
+combination of columns and groups. If the evaluation timing is
+important, for example if you're generating random variables, think
+about when it should happen and place your code in consequence.<div class="r"></p><pre><span class='va'>gdf</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>g <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span><span class='op'>)</span>, v1 <span class='op'>=</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>13</span>, v2 <span class='op'>=</span> <span class='fl'>20</span><span class='op'>:</span><span class='fl'>23</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+
+<span class='co'># Outside: 1 normal variate</span>
+<span class='va'>n</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>gdf</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='va'>v1</span><span class='op'>:</span><span class='va'>v2</span>, <span class='op'>~</span> <span class='va'>.x</span> <span class='op'>+</span> <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
+</pre><p></div></p><pre><span class='co'>## # A tibble: 4 x 3</span>
+<span class='co'>## # Groups:   g [3]</span>
+<span class='co'>##       g    v1    v2</span>
+<span class='co'>##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class='co'>## 1     1  9.37  19.4</span>
+<span class='co'>## 2     1 10.4   20.4</span>
+<span class='co'>## 3     2 11.4   21.4</span>
+<span class='co'>## 4     3 12.4   22.4</span>
+</pre><p><div class="r"></p><pre><span class='co'># Inside a verb: 3 normal variates (ngroup)</span>
+<span class='va'>gdf</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>, <span class='fu'>across</span><span class='op'>(</span><span class='va'>v1</span><span class='op'>:</span><span class='va'>v2</span>, <span class='op'>~</span> <span class='va'>.x</span> <span class='op'>+</span> <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
+</pre><p></div></p><pre><span class='co'>## # A tibble: 4 x 4</span>
+<span class='co'>## # Groups:   g [3]</span>
+<span class='co'>##       g    v1    v2      n</span>
+<span class='co'>##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class='co'>## 1     1  10.2  20.2  0.184</span>
+<span class='co'>## 2     1  11.2  21.2  0.184</span>
+<span class='co'>## 3     2  11.2  21.2 -0.836</span>
+<span class='co'>## 4     3  14.6  24.6  1.60</span>
+</pre><p><div class="r"></p><pre><span class='co'># Inside `across()`: 6 normal variates (ncol * ngroup)</span>
+<span class='va'>gdf</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='va'>v1</span><span class='op'>:</span><span class='va'>v2</span>, <span class='op'>~</span> <span class='va'>.x</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</pre><p></div></p><pre><span class='co'>## # A tibble: 4 x 3</span>
+<span class='co'>## # Groups:   g [3]</span>
+<span class='co'>##       g    v1    v2</span>
+<span class='co'>##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class='co'>## 1     1  10.3  20.7</span>
+<span class='co'>## 2     1  11.3  21.7</span>
+<span class='co'>## 3     2  11.2  22.6</span>
+<span class='co'>## 4     3  13.5  22.7</span>
+</pre>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='c_across.html'>c_across()</a></code> for a function that returns a vector</p></div>
