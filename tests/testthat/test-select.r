@@ -140,6 +140,19 @@ test_that("select() keeps attributes of raw data frames (#5831)", {
   expect_equal(attr(select(df, x), "a"), "b")
 })
 
+test_that("select() not creating duplicate variables with grouped data frame (#5841)", {
+  df <- tibble(a = 1, b = 2, c = 3) %>% group_by(a)
+  expect_equal(df %>% select(a = b), tibble(a = 2))
+
+  df <- tibble(a = 1, b = 2, c = 3) %>% group_by(a, b)
+  expect_message(
+    expect_equal(df %>% select(a = c), tibble(b = 2, a = 3) %>% group_by(b))
+  )
+  expect_message(
+    expect_equal(df %>% select(b = c), tibble(a = 1, b = 3) %>% group_by(a))
+  )
+})
+
 # dplyr_col_select() ------------------------------------------------------
 
 test_that("dplyr_col_select() aborts when `[` implementation is broken", {

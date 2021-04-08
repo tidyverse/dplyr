@@ -137,13 +137,17 @@ ensure_group_vars <- function(loc, data, notify = TRUE) {
 
   if (length(missing) > 0) {
     vars <- names(data)[missing]
-    if (notify) {
+    added_group_loc <- set_names(missing, vars)
+    added_group_loc <- added_group_loc[! vars %in% names(loc)]
+
+    if (length(added_group_loc) > 0 && notify) {
       inform(glue(
         "Adding missing grouping variables: ",
-        paste0("`", names(data)[missing], "`", collapse = ", ")
+        paste0("`", names(added_group_loc), "`", collapse = ", ")
       ))
     }
-    loc <- c(set_names(missing, vars), loc)
+
+    loc <- c(added_group_loc, loc)
   }
 
   loc
