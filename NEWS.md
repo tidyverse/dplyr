@@ -1,6 +1,7 @@
 # dplyr (development version)
 
 * Fixed behaviour of `...` in top-level `across()` calls (#5813, #5832).
+* `dplyr_col_select()` keeps attributes for bare data frames (#5294, #5831).
 
 * Fixed quosure handling in `dplyr::group_by()` that caused issues with extra
   arguments (tidyverse/lubridate#959).

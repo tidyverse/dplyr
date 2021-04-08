@@ -134,6 +134,11 @@ test_that("select works on NA names (#3601)", {
   expect_identical(select(df, y)$y, 2)
 })
 
+test_that("select() keeps attributes of raw data frames (#5831)", {
+  df <- data.frame(x = 1)
+  attr(df, "a") <- "b"
+  expect_equal(attr(select(df, x), "a"), "b")
+})
 
 # dplyr_col_select() ------------------------------------------------------
 
