@@ -6,7 +6,7 @@
       Problem with `summarise()` column `res`.
       i `res = across(where(is.numeric), 42)`.
       x Problem with `across()` input `.fns`.
-      i Input `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
+      i `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
 
 ---
 

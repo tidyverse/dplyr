@@ -128,7 +128,7 @@
       filter(mtcars, x = 1)
     Error <rlang_error>
       Problem with `filter()` input `..1`.
-      x Input `..1` is named.
+      x `..1` is named.
       i This usually means that you've used `=` instead of `==`.
       i Did you mean `x == 1`?
 
@@ -138,7 +138,7 @@
       filter(mtcars, y > 2, z = 3)
     Error <rlang_error>
       Problem with `filter()` input `..2`.
-      x Input `..2` is named.
+      x `..2` is named.
       i This usually means that you've used `=` instead of `==`.
       i Did you mean `z == 3`?
 
@@ -148,7 +148,7 @@
       filter(mtcars, TRUE, x = 1)
     Error <rlang_error>
       Problem with `filter()` input `..2`.
-      x Input `..2` is named.
+      x `..2` is named.
       i This usually means that you've used `=` instead of `==`.
       i Did you mean `x == 1`?
 

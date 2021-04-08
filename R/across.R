@@ -289,7 +289,7 @@ across_setup_impl <- function(cols, fns, names, .caller_env, mask = peek_mask("a
 
   if (!is.list(fns)) {
     abort(c("Problem with `across()` input `.fns`.",
-      i = "Input `.fns` must be NULL, a function, a formula, or a list of functions/formulas."
+      i = "`.fns` must be NULL, a function, a formula, or a list of functions/formulas."
     ))
   }
 

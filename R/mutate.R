@@ -370,7 +370,7 @@ mutate_cols <- function(.data, ..., caller_env) {
       x_size <- e$x_size
       bullets <- c(
         i = cnd_bullet_column_info(),
-        i = glue("Input `{error_name}` must be size {or_1(size)}, not {x_size}."),
+        i = glue("`{error_name}` must be size {or_1(size)}, not {x_size}."),
         i = cnd_bullet_rowwise_unlist()
       )
     } else if (inherits(e, "dplyr:::mutate_mixed_null")) {
@@ -384,14 +384,14 @@ mutate_cols <- function(.data, ..., caller_env) {
     } else if (inherits(e, "dplyr:::mutate_not_vector")) {
       bullets <- c(
         i = cnd_bullet_column_info(),
-        x = glue("Input `{error_name}` must be a vector, not {friendly_type_of(e$result)}."),
+        x = glue("`{error_name}` must be a vector, not {friendly_type_of(e$result)}."),
         i = cnd_bullet_rowwise_unlist()
       )
     } else if(inherits(e, "dplyr:::error_mutate_incompatible_combine")) {
       show_group_details <- FALSE
       bullets <- c(
         i = cnd_bullet_column_info(),
-        x = glue("Input `{error_name}` must return compatible vectors across groups"),
+        x = glue("`{error_name}` must return compatible vectors across groups"),
         i = cnd_bullet_combine_details(e$parent$x, e$parent$x_arg),
         i = cnd_bullet_combine_details(e$parent$y, e$parent$y_arg)
       )

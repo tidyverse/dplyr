@@ -24,7 +24,7 @@
     Error <dplyr:::mutate_error>
       Problem with `mutate()` column `y`.
       i `y = mean`.
-      x Input `y` must be a vector, not a function.
+      x `y` must be a vector, not a function.
 
 ---
 
@@ -33,7 +33,7 @@
     Error <dplyr:::mutate_error>
       Problem with `mutate()` column `out`.
       i `out = env(a = 1)`.
-      x Input `out` must be a vector, not an environment.
+      x `out` must be a vector, not an environment.
 
 ---
 
@@ -42,7 +42,7 @@
     Error <dplyr:::mutate_error>
       Problem with `mutate()` column `out`.
       i `out = env(a = 1)`.
-      x Input `out` must be a vector, not an environment.
+      x `out` must be a vector, not an environment.
       i The error occurred in group 1: g = 1.
 
 ---
@@ -52,7 +52,7 @@
     Error <dplyr:::mutate_error>
       Problem with `mutate()` column `out`.
       i `out = rnorm`.
-      x Input `out` must be a vector, not a function.
+      x `out` must be a vector, not a function.
       i Did you mean: `out = list(rnorm)` ?
       i The error occurred in row 1.
 
@@ -64,7 +64,7 @@
     Error <dplyr:::mutate_error>
       Problem with `mutate()` column `val`.
       i `val = ifelse(x < 3, "foo", 2)`.
-      x Input `val` must return compatible vectors across groups
+      x `val` must return compatible vectors across groups
       i Result type for group 1 (x = 1): <character>.
       i Result type for group 3 (x = 3): <double>.
 
@@ -85,7 +85,7 @@
     Error <dplyr:::mutate_error>
       Problem with `mutate()` column `int`.
       i `int = 1:5`.
-      i Input `int` must be size 4 or 1, not 5.
+      i `int` must be size 4 or 1, not 5.
 
 ---
 
@@ -94,7 +94,7 @@
     Error <dplyr:::mutate_error>
       Problem with `mutate()` column `int`.
       i `int = 1:5`.
-      i Input `int` must be size 2 or 1, not 5.
+      i `int` must be size 2 or 1, not 5.
       i The error occurred in group 1: x = 2.
 
 ---
@@ -104,7 +104,7 @@
     Error <dplyr:::mutate_error>
       Problem with `mutate()` column `int`.
       i `int = 1:5`.
-      i Input `int` must be size 1, not 5.
+      i `int` must be size 1, not 5.
       i The error occurred in group 1: x = 2.
 
 ---
@@ -114,7 +114,7 @@
     Error <dplyr:::mutate_error>
       Problem with `mutate()` column `int`.
       i `int = 1:5`.
-      i Input `int` must be size 1, not 5.
+      i `int` must be size 1, not 5.
       i Did you mean: `int = list(1:5)` ?
       i The error occurred in row 1.
 
@@ -125,7 +125,7 @@
     Error <dplyr:::mutate_error>
       Problem with `mutate()` column `y2`.
       i `y2 = y`.
-      i Input `y2` must be size 1, not 3.
+      i `y2` must be size 1, not 3.
       i Did you mean: `y2 = list(y)` ?
       i The error occurred in row 1.
 
@@ -136,7 +136,7 @@
     Error <dplyr:::mutate_error>
       Problem with `mutate()` column `y`.
       i `y = 1:2`.
-      i Input `y` must be size 10 or 1, not 2.
+      i `y` must be size 10 or 1, not 2.
 
 ---
 

@@ -54,7 +54,7 @@
     Error <dplyr_error>
       Problem with `summarise()` column `a`.
       i `a = rlang::env(a = 1)`.
-      x Input `a` must be a vector, not an environment.
+      x `a` must be a vector, not an environment.
 
 ---
 
@@ -64,7 +64,7 @@
     Error <dplyr_error>
       Problem with `summarise()` column `a`.
       i `a = rlang::env(a = 1)`.
-      x Input `a` must be a vector, not an environment.
+      x `a` must be a vector, not an environment.
       i The error occurred in group 1: x = 1, y = 1.
 
 ---
@@ -75,7 +75,7 @@
     Error <dplyr_error>
       Problem with `summarise()` column `a`.
       i `a = lm(y ~ x)`.
-      x Input `a` must be a vector, not a `lm` object.
+      x `a` must be a vector, not a `lm` object.
       i Did you mean: `a = list(lm(y ~ x))` ?
       i The error occurred in row 1.
 
@@ -86,7 +86,7 @@
     Error <dplyr_error>
       Problem with `summarise()` column `a`.
       i `a = a[[1]]`.
-      x Input `a` must return compatible vectors across groups
+      x `a` must return compatible vectors across groups
       i Result type for group 1 (id = 1): <double>.
       i Result type for group 2 (id = 2): <character>.
 
@@ -97,7 +97,7 @@
     Error <dplyr_error>
       Problem with `summarise()` column `a`.
       i `a = a[[1]]`.
-      x Input `a` must return compatible vectors across groups
+      x `a` must return compatible vectors across groups
 
 ---
 
@@ -106,7 +106,7 @@
     Error <dplyr_error>
       Problem with `summarise()` column `y`.
       i `y = 1:2`.
-      x Input `y` must be size 3 or 1, not 2.
+      x `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
 
 ---
@@ -116,7 +116,7 @@
     Error <dplyr_error>
       Problem with `summarise()` column `y`.
       i `y = 1:2`.
-      x Input `y` must be size 3 or 1, not 2.
+      x `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
       i The error occurred in group 1: z = 1.
 
@@ -127,7 +127,7 @@
     Error <dplyr_error>
       Problem with `summarise()` column `y`.
       i `y = 1:2`.
-      x Input `y` must be size 3 or 1, not 2.
+      x `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
       i The error occurred in group 2: z = 3.
 
