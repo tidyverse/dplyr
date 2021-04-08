@@ -27,7 +27,7 @@
     Code
       mutate_all(mtcars, length, 0, 0)
     Error <dplyr:::mutate_error>
-      Problem with `mutate()` input `mpg`.
+      Problem with `mutate()` column `mpg`.
       x 3 arguments passed to 'length' which requires 1
       i Input `mpg` is `.Primitive("length")(mpg, 0, 0)`.
 
@@ -36,7 +36,7 @@
     Code
       mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE)
     Error <dplyr:::mutate_error>
-      Problem with `mutate()` input `mpg`.
+      Problem with `mutate()` column `mpg`.
       x formal argument "na.rm" matched by multiple actual arguments
       i Input `mpg` is `(function (x, ...) ...`.
 
