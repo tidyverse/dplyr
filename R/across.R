@@ -273,7 +273,21 @@ across_setup <- function(cols,
   # mask layer from the quosure environment (#5460)
   cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = FALSE, inherit = FALSE))
 
-  vars <- tidyselect::eval_select(cols, data = mask$across_cols())
+  vars <- withCallingHandlers(
+    tidyselect::eval_select(cols, data = mask$across_cols()),
+    error = function(e) {
+      msg <- conditionMessage(e)
+      if (any(grepl("Formula shorthand", msg))) {
+        abort(c(
+          "Misplaced formula shorthand.",
+          i = glue("You most likely meant to use `.fns = {as_label(cols)}`"),
+          i = glue("... or perhaps `where({as_label(cols)})`")
+        ), class = "dplyr:::across_misplaced_formula_shorthand", parent = e)
+      } else {
+        stop(e)
+      }
+    }
+  )
   vars <- names(vars)
 
   if (is.null(fns)) {
