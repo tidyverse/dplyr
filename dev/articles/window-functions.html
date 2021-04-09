@@ -236,15 +236,15 @@
 <p>These are useful if you want to select (for example) the top 10% of records within each group. For example:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">players</span>, <span class="fu"><a href="../reference/ranking.html">cume_dist</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">0.1</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1,047 x 7</span>
-<span class="co">#&gt; # Groups:   playerID [954]</span>
+<span class="co">#&gt; # A tibble: 1,057 x 7</span>
+<span class="co">#&gt; # Groups:   playerID [964]</span>
 <span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1 aaronha01   1963 ML1      161   631   121   201</span>
 <span class="co">#&gt; 2 aaronha01   1968 ATL      160   606    84   174</span>
 <span class="co">#&gt; 3 abbotji01   1991 CAL       34     0     0     0</span>
 <span class="co">#&gt; 4 abernte02   1965 CHN       84    18     1     3</span>
-<span class="co">#&gt; # … with 1,043 more rows</span></code></pre></div>
+<span class="co">#&gt; # … with 1,053 more rows</span></code></pre></div>
 <p>Finally, <code><a href="../reference/ranking.html">ntile()</a></code> divides the data up into <code>n</code> evenly sized buckets. It’s a coarse ranking, and it can be used in with <code><a href="../reference/mutate.html">mutate()</a></code> to divide the data into buckets for further summary. For example, we could use <code><a href="../reference/ranking.html">ntile()</a></code> to divide the players within a team into four ranked groups, and calculate the average number of games within each group.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">by_team_player</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">batting</span>, <span class="va">teamID</span>, <span class="va">playerID</span><span class="op">)</span>
@@ -255,10 +255,10 @@
 <span class="co">#&gt; # A tibble: 4 x 2</span>
 <span class="co">#&gt;   quartile `mean(G)`</span>
 <span class="co">#&gt;      &lt;int&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt; 1        1      23.1</span>
-<span class="co">#&gt; 2        2      93.0</span>
-<span class="co">#&gt; 3        3     257. </span>
-<span class="co">#&gt; 4        4     975.</span></code></pre></div>
+<span class="co">#&gt; 1        1      22.9</span>
+<span class="co">#&gt; 2        2      92.3</span>
+<span class="co">#&gt; 3        3     256. </span>
+<span class="co">#&gt; 4        4     974.</span></code></pre></div>
 <p>All ranking functions rank from lowest to highest so that small input values get small ranks. Use <code><a href="../reference/desc.html">desc()</a></code> to rank from highest to lowest.</p>
 </div>
 <div id="lead-and-lag" class="section level2">
@@ -342,7 +342,7 @@
 <p>Recycled aggregates are also useful in conjunction with <code><a href="../reference/mutate.html">mutate()</a></code>. For example, with the batting data, we could compute the “career year”, the number of years a player has played since they entered the league:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">players</span>, career_year <span class="op">=</span> <span class="va">yearID</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">yearID</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 19,978 x 8</span>
+<span class="co">#&gt; # A tibble: 20,087 x 8</span>
 <span class="co">#&gt; # Groups:   playerID [1,359]</span>
 <span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H career_year</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;       &lt;dbl&gt;</span>
@@ -350,11 +350,11 @@
 <span class="co">#&gt; 2 aaronha01   1955 ML1      153   602   105   189           2</span>
 <span class="co">#&gt; 3 aaronha01   1956 ML1      153   609   106   200           3</span>
 <span class="co">#&gt; 4 aaronha01   1957 ML1      151   615   118   198           4</span>
-<span class="co">#&gt; # … with 19,974 more rows</span></code></pre></div>
+<span class="co">#&gt; # … with 20,083 more rows</span></code></pre></div>
 <p>Or, as in the introductory example, we could compute a z-score:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">players</span>, G_z <span class="op">=</span> <span class="op">(</span><span class="va">G</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 19,978 x 8</span>
+<span class="co">#&gt; # A tibble: 20,087 x 8</span>
 <span class="co">#&gt; # Groups:   playerID [1,359]</span>
 <span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H    G_z</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;</span>
@@ -362,7 +362,7 @@
 <span class="co">#&gt; 2 aaronha01   1955 ML1      153   602   105   189  0.519</span>
 <span class="co">#&gt; 3 aaronha01   1956 ML1      153   609   106   200  0.519</span>
 <span class="co">#&gt; 4 aaronha01   1957 ML1      151   615   118   198  0.411</span>
-<span class="co">#&gt; # … with 19,974 more rows</span></code></pre></div>
+<span class="co">#&gt; # … with 20,083 more rows</span></code></pre></div>
 </div>
   </div>
 
@@ -377,8 +377,7 @@
 
 
       <footer><div class="tidyverse">
-  <p></p>
-<p>Developed by <a href="http://hadley.nz" class="external-link external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="https://krlmlr.info" class="external-link external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
+  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org" class="external-link">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
