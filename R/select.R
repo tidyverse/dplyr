@@ -139,8 +139,7 @@ ensure_group_vars <- function(loc, data, notify = TRUE) {
     vars <- names(data)[missing]
     added_group_loc <- set_names(missing, vars)
 
-    # not adding group variables that have the same name
-    # as something that is selected. #5841
+    # don't add grouping variables with same name as new variable (#5841)
     added_group_loc <- added_group_loc[! vars %in% names(loc)]
 
     if (length(added_group_loc) > 0 && notify) {

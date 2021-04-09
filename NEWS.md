@@ -1,6 +1,6 @@
 # dplyr (development version)
 
-* `select()` not creating duplicate variable with a grouped data frame (#5841).
+* `select()` no longer creates duplicate variables when renaming a variable to the same name as a grouping variable (#5841).
 
 * Fixed behaviour of `...` in top-level `across()` calls (#5813, #5832).
 
