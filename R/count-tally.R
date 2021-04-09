@@ -123,10 +123,7 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = depr
     out <- x
   }
   out <- add_tally(out, wt = !!enquo(wt), sort = sort, name = name)
-  if (is.data.frame(x)) {
-    out <- dplyr_reconstruct(out, x)
-  }
-  out
+  dplyr_reconstruct(out, x)
 }
 
 #' @rdname count

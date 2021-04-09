@@ -64,6 +64,7 @@ test_that("works with dbplyr", {
   df1 <- db %>% count(x) %>% as_tibble()
   expect_equal(df1, tibble(x = c(1, 2), n = c(3, 2)))
 
+  skip("until dplyr_reconsruct() implemented for tbl_lazy")
   df2 <- db %>% add_count(x) %>% as_tibble()
   expect_equal(df2, tibble(x = c(1, 1, 1, 2, 2), n = c(3, 3, 3, 2, 2)))
 })
