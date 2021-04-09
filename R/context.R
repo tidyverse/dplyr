@@ -90,9 +90,10 @@ cur_group_rows <- function() {
   peek_mask("cur_group_rows()")$current_rows()
 }
 
+#' @importFrom pillar format_glimpse
 group_labels_details <- function(keys) {
   glue_collapse(map2_chr(keys, names(keys), function(x, name) {
-    glue("{name} = {value}", value = format_v(x))
+    glue("{name} = {value}", value = format_glimpse(x))
   }), ", ")
 }
 

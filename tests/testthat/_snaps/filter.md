@@ -6,7 +6,7 @@
       Problem with `filter()` input `..1`.
       x Input `..1` must be a logical vector, not a integer.
       i Input `..1` is `1:n()`.
-      i The error occurred in group 1: Species = "setosa".
+      i The error occurred in group 1: Species = setosa.
 
 ---
 
@@ -25,7 +25,7 @@
       Problem with `filter()` input `..1`.
       x Input `..1` must be of size 50 or 1, not size 2.
       i Input `..1` is `c(TRUE, FALSE)`.
-      i The error occurred in group 1: Species = "setosa".
+      i The error occurred in group 1: Species = setosa.
 
 ---
 
@@ -54,7 +54,7 @@
       Problem with `filter()` input `..1`.
       x Input `..1` must be of size 50 or 1, not size 2.
       i Input `..1` is `data.frame(c(TRUE, FALSE))`.
-      i The error occurred in group 1: Species = "setosa".
+      i The error occurred in group 1: Species = setosa.
 
 ---
 
@@ -92,7 +92,7 @@
       Problem with `filter()` input `..1`.
       x Input `..1$X1.n..` must be a logical vector, not a integer.
       i Input `..1` is `data.frame(Sepal.Length > 3, 1:n())`.
-      i The error occurred in group 1: Species = "setosa".
+      i The error occurred in group 1: Species = setosa.
 
 ---
 
