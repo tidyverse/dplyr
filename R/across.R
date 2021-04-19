@@ -176,17 +176,45 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   new_data_frame(out, n = size, class = c("tbl_df", "tbl"))
 }
 
+
+check_cols_arg <- function(.cols, .fns, fn = "if_any") {
+  if (is.null(.fns) && quo_is_call(.cols, "~")) {
+    abort(c(
+      "Predicate used in lieu of column selection.",
+      i = "The first argument (`.cols=`) selects a set of columns.",
+      i = "The second argument (`.fns=`) operates on each selected columns to choose rows.",
+      i = glue("You most likely meant: `{fn}(everything(), {as_label(.cols)})`."),
+      i = glue("If this was truly meant as a column selection, you must wrap with: `{fn}(where({as_label(.cols)}))`.")
+    ))
+  }
+  .cols
+}
+
 #' @rdname across
 #' @export
 if_any <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
+<<<<<<< HEAD
   if_across(`|`, across({{ .cols }}, .fns, ..., .names = .names))
+=======
+  .cols <- check_cols_arg(enquo(.cols), .fns, "if_any")
+  df <- across(!!.cols, .fns = .fns, ..., .names = .names, .call = .call)
+  n <- nrow(df)
+  df <- vec_cast_common(!!!df, .to = logical())
+  .Call(dplyr_reduce_lgl_or, df, n)
+>>>>>>> 7ebb164b4 (only do it in if_any() and if_all())
 }
 #' @rdname across
 #' @export
 if_all <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
+<<<<<<< HEAD
   if_across(`&`, across({{ .cols }}, .fns, ..., .names = .names))
 }
 if_across <- function(op, df) {
+=======
+  df <- across({{ .cols }}, .fns, ..., .names = .names)
+  .cols <- check_cols_arg(enquo(.cols), .fns, "if_all")
+  df <- across(!!.cols, .fns = .fns, ..., .names = .names, .call = .call)
+>>>>>>> 7ebb164b4 (only do it in if_any() and if_all())
   n <- nrow(df)
 
   if (!length(df)) {
@@ -272,18 +300,6 @@ across_setup <- function(cols,
   # `across()` is evaluated in a data mask so we need to remove the
   # mask layer from the quosure environment (#5460)
   cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = FALSE, inherit = FALSE))
-
-  # TODO: it would be interesting to mention if_any() in the error
-  #       if this is what calls `across()`
-  if (is.null(fns) && quo_is_call(cols, "~")) {
-    abort(c(
-      "Predicate used in lieu of column selection.",
-      i = "The first argument (`.cols=`) selects a set of columns",
-      i = "The second argument (`.fns=`) operates on each selected columns",
-      i = glue("You most likely meant to use `.fns = {as_label(cols)}` or use `everything()` as the first argument"),
-      i = glue("If this was truly meant as a column selection, you must wrap with: `where({as_label(cols)})`")
-    ))
-  }
 
   vars <- tidyselect::eval_select(cols, data = mask$across_cols())
   vars <- names(vars)
