@@ -550,6 +550,77 @@ test_that("bind_rows() correctly restores (#2457)", {
   expect_s3_class(df$x, "vctrs_list_of")
 })
 
+test_that("bind_rows() validates lists (#5417)", {
+  out <- bind_rows(list(x = 1), list(x = 1, y = 1:2))
+  expect_identical(out, tibble(x = c(1, 1, 1), y = c(NA, 1:2)))
+
+  x <- vctrs::list_of(a = data.frame(x = 1), b = data.frame(y = 2:3))
+  out <- bind_rows(x)
+  exp <- tibble(
+    a = vctrs::data_frame(x = c(1, 1), y = int(NA, NA)),
+    b = vctrs::data_frame(x = dbl(NA, NA), y = 2:3)
+  )
+  expect_identical(out, exp)
+})
+
+test_that("bind_rows() handles missing, null, and empty elements (#5429)", {
+  x <- list(a = "A", b = 1)
+  y <- list(a = "B", b = 2)
+  l <- list(x, y)
+  expect_identical(
+    bind_rows(l),
+    tibble(a = c("A", "B"), b = c(1, 2))
+  )
+
+  x <- list(a = NA, b = NA)
+  y <- list(a = "B", b = 2)
+  l <- list(x, y)
+  expect_identical(
+    bind_rows(l),
+    tibble(a = c(NA, "B"), b = c(NA, 2))
+  )
+
+  x <- list(a = NULL, b = NULL)
+  y <- list(a = "B", b = 2)
+  l <- list(x, y)
+  expect_identical(
+    bind_rows(l),
+    tibble(a = "B", b = 2)
+  )
+
+  x <- list(a = NULL, b = 1)
+  y <- list(a = "B", b = 2)
+  l <- list(x, y)
+  expect_identical(
+    bind_rows(l),
+    tibble(b = c(1, 2), a = c(NA, "B"))
+  )
+
+  x <- list(a = character(0), b = 1)
+  y <- list(a = "B", b = 2)
+  l <- list(x, y)
+  expect_identical(
+    bind_rows(l),
+    tibble(a = "B", b = 2)
+  )
+
+  x <- list(a = character(0), b = 1:2)
+  y <- list(a = "B", b = 2)
+  l <- list(x, y)
+  expect_error(
+    bind_rows(l),
+    class = "vctrs_error_incompatible_size"
+  )
+
+  x <- list(a = letters[1:3], b = 1:2)
+  y <- list(a = "B", b = 2)
+  l <- list(x, y)
+  expect_error(
+    bind_rows(l),
+    class = "vctrs_error_incompatible_size"
+  )
+})
+
 
 # Errors ------------------------------------------------------------------
 

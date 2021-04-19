@@ -1,6 +1,10 @@
 # dplyr (development version)
 
+* Fixed issue in `bind_rows()` causing lists to be incorrectly transformed as
+  data frames (#5417, #5749).
+
 * `select()` no longer creates duplicate variables when renaming a variable to the same name as a grouping variable (#5841).
+
 
 * Fixed behaviour of `...` in top-level `across()` calls (#5813, #5832).
 
@@ -84,6 +88,7 @@
 * `mutate()` always keeps grouping variables, unconditional to `.keep=` (#5582).
 
 * dplyr now depends on R 3.3.0
+
 
 # dplyr 1.0.2
 
