@@ -3,6 +3,9 @@
 * Fixed issue in `bind_rows()` causing lists to be incorrectly transformed as
   data frames (#5417, #5749).
 
+* `select()` no longer creates duplicate variables when renaming a variable to the same name as a grouping variable (#5841).
+
+
 * Fixed behaviour of `...` in top-level `across()` calls (#5813, #5832).
 
 * `dplyr_col_select()` keeps attributes for bare data frames (#5294, #5831).
@@ -16,6 +19,8 @@
 * Removed the `name` argument from the `compute()` generic (@ianmcook, #5783).
 
 * row-wise data frames of 0 rows and list columns are supported again (#5804).
+
+* `add_count()` is now generic (#5837).
 
 # dplyr 1.0.5
 

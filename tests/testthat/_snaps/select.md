@@ -1,3 +1,21 @@
+# grouping variables preserved with a message, unless already selected (#1511, #5841)
+
+    Code
+      res <- select(df, x)
+    Message <message>
+      Adding missing grouping variables: `g`
+
+---
+
+    Code
+      expect_equal(df %>% select(a = c), tibble(b = 2, a = 3) %>% group_by(b))
+    Message <message>
+      Adding missing grouping variables: `b`
+    Code
+      expect_equal(df %>% select(b = c), tibble(a = 1, b = 3) %>% group_by(a))
+    Message <message>
+      Adding missing grouping variables: `a`
+
 # non-syntactic grouping variable is preserved (#1138)
 
     Code

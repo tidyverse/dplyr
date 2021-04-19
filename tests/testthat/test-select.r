@@ -6,11 +6,22 @@ test_that("select preserves grouping", {
   expect_equal(group_vars(out), "h")
 })
 
-test_that("grouping variables preserved with a message (#1511)", {
+test_that("grouping variables preserved with a message, unless already selected (#1511, #5841)", {
   df <- tibble(g = 1:3, x = 3:1) %>% group_by(g)
 
-  expect_message(res <- select(df, x), "Adding missing grouping variables")
+  expect_snapshot({
+    res <- select(df, x)
+  })
   expect_named(res, c("g", "x"))
+
+  df <- tibble(a = 1, b = 2, c = 3) %>% group_by(a)
+  expect_equal(df %>% select(a = b), tibble(a = 2))
+
+  df <- tibble(a = 1, b = 2, c = 3) %>% group_by(a, b)
+  expect_snapshot({
+    expect_equal(df %>% select(a = c), tibble(b = 2, a = 3) %>% group_by(b))
+    expect_equal(df %>% select(b = c), tibble(a = 1, b = 3) %>% group_by(a))
+  })
 })
 
 test_that("non-syntactic grouping variable is preserved (#1138)", {
