@@ -217,6 +217,7 @@
 <a href="#dplyr-development-version" class="anchor"></a>dplyr (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/select.html">select()</a></code> no longer creates duplicate variables when renaming a variable to the same name as a grouping variable (<a href='https://github.com/tidyverse/dplyr/issues/5841'>#5841</a>).</p></li>
 <li><p>Fixed behaviour of <code>...</code> in top-level <code><a href="../reference/across.html">across()</a></code> calls (<a href='https://github.com/tidyverse/dplyr/issues/5813'>#5813</a>, <a href='https://github.com/tidyverse/dplyr/issues/5832'>#5832</a>).</p></li>
 <li><p><code>dplyr_col_select()</code> keeps attributes for bare data frames (<a href='https://github.com/tidyverse/dplyr/issues/5294'>#5294</a>, <a href='https://github.com/tidyverse/dplyr/issues/5831'>#5831</a>).</p></li>
 <li><p>Fixed quosure handling in <code><a href="../reference/group_by.html">dplyr::group_by()</a></code> that caused issues with extra arguments (tidyverse/lubridate<a href='https://github.com/tidyverse/dplyr/issues/959'>#959</a>).</p></li>
