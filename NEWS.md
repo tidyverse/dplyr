@@ -1,6 +1,9 @@
 # dplyr (development version)
 
+* `select()` no longer creates duplicate variables when renaming a variable to the same name as a grouping variable (#5841).
+
 * Fixed behaviour of `...` in top-level `across()` calls (#5813, #5832).
+
 * `dplyr_col_select()` keeps attributes for bare data frames (#5294, #5831).
 
 * Fixed quosure handling in `dplyr::group_by()` that caused issues with extra
