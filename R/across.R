@@ -273,21 +273,19 @@ across_setup <- function(cols,
   # mask layer from the quosure environment (#5460)
   cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = FALSE, inherit = FALSE))
 
-  vars <- withCallingHandlers(
-    tidyselect::eval_select(cols, data = mask$across_cols()),
-    error = function(e) {
-      msg <- conditionMessage(e)
-      if (any(grepl("Formula shorthand", msg))) {
-        abort(c(
-          "Misplaced formula shorthand.",
-          i = glue("You most likely meant to use `.fns = {as_label(cols)}`"),
-          i = glue("... or perhaps `where({as_label(cols)})`")
-        ), class = "dplyr:::across_misplaced_formula_shorthand", parent = e)
-      } else {
-        stop(e)
-      }
-    }
-  )
+  # TODO: it would be interesting to mention if_any() in the error
+  #       if this is what calls `across()`
+  if (is.null(fns) && quo_is_call(cols, "~")) {
+    abort(c(
+      "Predicate used in lieu of column selection.",
+      i = "The first argument (`.cols=`) selects a set of columns",
+      i = "The second argument (`.fns=`) operates on each selected columns",
+      i = glue("You most likely meant to use `.fns = {as_label(cols)}` or use `everything()` as the first argument"),
+      i = glue("If this was truly meant as a column selection, you must wrap with: `where({as_label(cols)})`")
+    ))
+  }
+
+  vars <- tidyselect::eval_select(cols, data = mask$across_cols())
   vars <- names(vars)
 
   if (is.null(fns)) {
