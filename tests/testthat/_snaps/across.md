@@ -3,10 +3,10 @@
     Code
       tibble(x = 1) %>% summarise(res = across(where(is.numeric), 42))
     Error <dplyr_error>
-      Problem with `summarise()` input `res`.
+      Problem with `summarise()` column `res`.
+      i `res = across(where(is.numeric), 42)`.
       x Problem with `across()` input `.fns`.
-      i Input `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
-      i Input `res` is `across(where(is.numeric), 42)`.
+      i `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
 
 ---
 

@@ -4,8 +4,8 @@
       iris %>% group_by(Species) %>% filter(1:n())
     Error <dplyr_error>
       Problem with `filter()` input `..1`.
-      x Input `..1` must be a logical vector, not a integer.
       i Input `..1` is `1:n()`.
+      x Input `..1` must be a logical vector, not a integer.
       i The error occurred in group 1: Species = setosa.
 
 ---
@@ -14,8 +14,8 @@
       iris %>% filter(1:n())
     Error <dplyr_error>
       Problem with `filter()` input `..1`.
-      x Input `..1` must be a logical vector, not a integer.
       i Input `..1` is `1:n()`.
+      x Input `..1` must be a logical vector, not a integer.
 
 ---
 
@@ -23,8 +23,8 @@
       iris %>% group_by(Species) %>% filter(c(TRUE, FALSE))
     Error <dplyr_error>
       Problem with `filter()` input `..1`.
-      x Input `..1` must be of size 50 or 1, not size 2.
       i Input `..1` is `c(TRUE, FALSE)`.
+      x Input `..1` must be of size 50 or 1, not size 2.
       i The error occurred in group 1: Species = setosa.
 
 ---
@@ -33,8 +33,8 @@
       iris %>% rowwise(Species) %>% filter(c(TRUE, FALSE))
     Error <dplyr_error>
       Problem with `filter()` input `..1`.
-      x Input `..1` must be of size 1, not size 2.
       i Input `..1` is `c(TRUE, FALSE)`.
+      x Input `..1` must be of size 1, not size 2.
       i The error occurred in row 1.
 
 ---
@@ -43,8 +43,8 @@
       iris %>% filter(c(TRUE, FALSE))
     Error <dplyr_error>
       Problem with `filter()` input `..1`.
-      x Input `..1` must be of size 150 or 1, not size 2.
       i Input `..1` is `c(TRUE, FALSE)`.
+      x Input `..1` must be of size 150 or 1, not size 2.
 
 ---
 
@@ -52,8 +52,8 @@
       iris %>% group_by(Species) %>% filter(data.frame(c(TRUE, FALSE)))
     Error <dplyr_error>
       Problem with `filter()` input `..1`.
-      x Input `..1` must be of size 50 or 1, not size 2.
       i Input `..1` is `data.frame(c(TRUE, FALSE))`.
+      x Input `..1` must be of size 50 or 1, not size 2.
       i The error occurred in group 1: Species = setosa.
 
 ---
@@ -62,8 +62,8 @@
       iris %>% rowwise() %>% filter(data.frame(c(TRUE, FALSE)))
     Error <dplyr_error>
       Problem with `filter()` input `..1`.
-      x Input `..1` must be of size 1, not size 2.
       i Input `..1` is `data.frame(c(TRUE, FALSE))`.
+      x Input `..1` must be of size 1, not size 2.
       i The error occurred in row 1.
 
 ---
@@ -72,8 +72,8 @@
       iris %>% filter(data.frame(c(TRUE, FALSE)))
     Error <dplyr_error>
       Problem with `filter()` input `..1`.
-      x Input `..1` must be of size 150 or 1, not size 2.
       i Input `..1` is `data.frame(c(TRUE, FALSE))`.
+      x Input `..1` must be of size 150 or 1, not size 2.
 
 ---
 
@@ -81,8 +81,8 @@
       tibble(x = 1) %>% filter(c(TRUE, TRUE))
     Error <dplyr_error>
       Problem with `filter()` input `..1`.
-      x Input `..1` must be of size 1, not size 2.
       i Input `..1` is `c(TRUE, TRUE)`.
+      x Input `..1` must be of size 1, not size 2.
 
 ---
 
@@ -90,8 +90,8 @@
       iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3, 1:n()))
     Error <dplyr_error>
       Problem with `filter()` input `..1`.
-      x Input `..1$X1.n..` must be a logical vector, not a integer.
       i Input `..1` is `data.frame(Sepal.Length > 3, 1:n())`.
+      x Input `..1$X1.n..` must be a logical vector, not a integer.
       i The error occurred in group 1: Species = setosa.
 
 ---
@@ -100,8 +100,8 @@
       iris %>% filter(data.frame(Sepal.Length > 3, 1:n()))
     Error <dplyr_error>
       Problem with `filter()` input `..1`.
-      x Input `..1$X1.n..` must be a logical vector, not a integer.
       i Input `..1` is `data.frame(Sepal.Length > 3, 1:n())`.
+      x Input `..1$X1.n..` must be a logical vector, not a integer.
 
 ---
 
@@ -109,8 +109,8 @@
       mtcars %>% filter(`_x`)
     Error <dplyr_error>
       Problem with `filter()` input `..1`.
-      x object '_x' not found
       i Input `..1` is `_x`.
+      x object '_x' not found
 
 ---
 
@@ -118,8 +118,8 @@
       mtcars %>% group_by(cyl) %>% filter(`_x`)
     Error <dplyr_error>
       Problem with `filter()` input `..1`.
-      x object '_x' not found
       i Input `..1` is `_x`.
+      x object '_x' not found
       i The error occurred in group 1: cyl = 4.
 
 ---
@@ -167,8 +167,8 @@
       tibble() %>% filter(stop("{"))
     Error <dplyr_error>
       Problem with `filter()` input `..1`.
-      x {
       i Input `..1` is `stop("{")`.
+      x {
 
 ---
 
