@@ -354,8 +354,14 @@ test_that("if_any() and if_all() do not enforce logical", {
   expect_equal(filter(d, if_all(x:y, identity)), d)
   expect_equal(filter(d, if_any(x:y, identity)), d)
 
-  expect_error(mutate(d, ok = if_any(x:y, identity)))
-  expect_error(mutate(d, ok = if_all(x:y, identity)))
+  expect_equal(
+    mutate(d, ok = if_any(x:y, identity)),
+    mutate(d, ok = TRUE)
+  )
+  expect_equal(
+    mutate(d, ok = if_all(x:y, identity)),
+    mutate(d, ok = TRUE)
+  )
 })
 
 test_that("if_any() and if_all() can be used in mutate() (#5709)", {
@@ -541,6 +547,30 @@ test_that("if_any() and if_all() expansions deal with no inputs or single inputs
   )
   expect_equal(
     filter(d, if_all(x, ~ FALSE)),
+    filter(d, FALSE)
+  )
+})
+
+test_that("if_any() and if_all() wrapped deal with no inputs or single inputs", {
+  d <- data.frame(x = 1)
+
+  # No inputs
+  expect_equal(
+    filter(d, (if_any(starts_with("c"), ~ FALSE))),
+    filter(d)
+  )
+  expect_equal(
+    filter(d, (if_all(starts_with("c"), ~ FALSE))),
+    filter(d)
+  )
+
+  # Single inputs
+  expect_equal(
+    filter(d, (if_any(x, ~ FALSE))),
+    filter(d, FALSE)
+  )
+  expect_equal(
+    filter(d, (if_all(x, ~ FALSE))),
     filter(d, FALSE)
   )
 })

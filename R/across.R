@@ -179,19 +179,28 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 #' @rdname across
 #' @export
 if_any <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
-  df <- across({{ .cols }}, .fns, ..., .names = .names)
-  n <- nrow(df)
-  df <- vec_cast_common(!!!df, .to = logical())
-  .Call(dplyr_reduce_lgl_or, df, n)
+  if_across(`|`, across({{ .cols }}, .fns, ..., .names = .names))
 }
-
 #' @rdname across
 #' @export
 if_all <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
-  df <- across({{ .cols }}, .fns, ..., .names = .names)
+  if_across(`&`, across({{ .cols }}, .fns, ..., .names = .names))
+}
+if_across <- function(op, df) {
   n <- nrow(df)
-  df <- vec_cast_common(!!!df, .to = logical())
-  .Call(dplyr_reduce_lgl_and, df, n)
+
+  if (!length(df)) {
+    return(TRUE)
+  }
+
+  combine <- function(x, y) {
+    if (is_null(x)) {
+      y
+    } else {
+      op(x, y)
+    }
+  }
+  reduce(df, combine, .init = NULL)
 }
 
 #' Combine values from multiple columns
