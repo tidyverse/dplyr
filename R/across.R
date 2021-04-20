@@ -235,8 +235,9 @@ across_glue_mask <- function(.col, .fn, .caller_env) {
   glue_mask
 }
 
-# TODO: The usage of a cache in `across_setup()` and `c_across_setup()` is a stopgap solution, and
-# this idea should not be used anywhere else. This should be replaced by the
+# TODO: The usage of a cache in `c_across_setup()` is a stopgap solution, and
+# this idea should not be used anywhere else. This should be replaced by either
+# expansions of expressions (as we now use for `across()`) or the
 # next version of hybrid evaluation, which should offer a way for any function
 # to do any required "set up" work (like the `eval_select()` call) a single
 # time per top-level call, rather than once per group.
