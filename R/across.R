@@ -245,6 +245,16 @@ across_glue_mask <- function(.col, .fn, .caller_env) {
   glue_mask
 }
 
+abort_invalid_cols_arg <- function(.cols, fn = "across") {
+  abort(c(
+    "Predicate used in lieu of column selection.",
+    i = "The first argument `.cols` selects a set of columns.",
+    i = "The second argument `.fns` operates on each selected columns to choose rows.",
+    i = glue("You most likely meant: `{fn}(everything(), {as_label(.cols)})`."),
+    i = glue("If this was truly meant as a column selection, you must wrap with: `{fn}(where({as_label(.cols)}))`.")
+  ), class = "dplyr:::across_cols_formula")
+}
+
 # TODO: The usage of a cache in `c_across_setup()` is a stopgap solution, and
 # this idea should not be used anywhere else. This should be replaced by either
 # expansions of expressions (as we now use for `across()`) or the
