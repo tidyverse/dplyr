@@ -234,29 +234,11 @@ results into a single logical vector.</p>
 <code><a href='summarise_all.html'>summarise_at()</a></code>, <code><a href='summarise_all.html'>summarise_if()</a></code>, and <code><a href='summarise_all.html'>summarise_all()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>across</span><span class='op'>(</span>
-  .cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>,
-  .fns <span class='op'>=</span> <span class='cn'>NULL</span>,
-  <span class='va'>...</span>,
-  .names <span class='op'>=</span> <span class='cn'>NULL</span>,
-  .call <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>sys.call</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>)</span>
+    <pre class="usage"><span class='fu'>across</span><span class='op'>(</span>.cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>, .fns <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span>, .names <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>if_any</span><span class='op'>(</span>
-  .cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>,
-  .fns <span class='op'>=</span> <span class='cn'>NULL</span>,
-  <span class='va'>...</span>,
-  .names <span class='op'>=</span> <span class='cn'>NULL</span>,
-  .call <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>sys.call</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>)</span>
+<span class='fu'>if_any</span><span class='op'>(</span>.cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>, .fns <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span>, .names <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>if_all</span><span class='op'>(</span>
-  .cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>,
-  .fns <span class='op'>=</span> <span class='cn'>NULL</span>,
-  <span class='va'>...</span>,
-  .names <span class='op'>=</span> <span class='cn'>NULL</span>,
-  .call <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>sys.call</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+<span class='fu'>if_all</span><span class='op'>(</span>.cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>, .fns <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span>, .names <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -286,11 +268,6 @@ columns. This can use <code>{.col}</code> to stand for the selected column name,
 <code>{.fn}</code> to stand for the name of the function being applied. The default
 (<code>NULL</code>) is equivalent to <code>"{.col}"</code> for the single function case and
 <code>"{.col}_{.fn}"</code> for the case where a list is used for <code>.fns</code>.</p></td>
-    </tr>
-    <tr>
-      <th>.call</th>
-      <td><p>Call used by the caching mechanism. This is only useful when <code>across()</code>
-is called from another function, and should mostly just be ignored.</p></td>
     </tr>
     <tr>
       <th>cols, .cols</th>
