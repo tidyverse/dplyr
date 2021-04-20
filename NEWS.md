@@ -11,7 +11,6 @@
 
 * `select()` no longer creates duplicate variables when renaming a variable to the same name as a grouping variable (#5841).
 
-
 * Fixed behaviour of `...` in top-level `across()` calls (#5813, #5832).
 
 * `dplyr_col_select()` keeps attributes for bare data frames (#5294, #5831).
@@ -27,6 +26,8 @@
 * row-wise data frames of 0 rows and list columns are supported again (#5804).
 
 * `add_count()` is now generic (#5837).
+
+* `if_any()` and `if_all()` abort when a predicate is mistakingly used as `.cols=` (#5732).
 
 # dplyr 1.0.5
 

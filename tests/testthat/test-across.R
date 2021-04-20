@@ -399,6 +399,14 @@ test_that("if_any() and if_all() respect filter()-like NA handling", {
   )
 })
 
+test_that("if_any() and if_all() aborts when predicate mistakingly used in .cols= (#5732)", {
+  df <- data.frame(x = 1:10, y = 1:10)
+  expect_snapshot(error = TRUE, {
+    filter(df, if_any(~ .x > 5))
+    filter(df, if_all(~ .x > 5))
+  })
+})
+
 test_that("across() correctly reset column", {
   expect_error(cur_column())
   res <- data.frame(x = 1) %>%
