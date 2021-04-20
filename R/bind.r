@@ -128,7 +128,7 @@ bind_rows <- function(..., .id = NULL) {
   first <- dots[[1L]]
   dots <- map(dots, function(.x) {
     if (vec_is_list(.x)) {
-      .x <- vctrs::data_frame(!!!.x)
+      .x <- vctrs::data_frame(!!!.x, .name_repair = "minimal")
     }
     .x
   })
