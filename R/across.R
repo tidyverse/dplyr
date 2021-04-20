@@ -179,14 +179,35 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 #' @rdname across
 #' @export
 if_any <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
+<<<<<<< HEAD
   if_across(`|`, across({{ .cols }}, .fns, ..., .names = .names))
+=======
+  .cols <- enquo(.cols)
+  df <- withCallingHandlers(
+    across(!!.cols, .fns = .fns, ..., .names = .names),
+    "dplyr:::across_cols_formula" = function(e) {
+      abort_invalid_cols_arg(.cols, "if_any")
+    })
+  n <- nrow(df)
+  df <- vec_cast_common(!!!df, .to = logical())
+  .Call(dplyr_reduce_lgl_or, df, n)
+>>>>>>> 781d9e361 (rebase hickup)
 }
 #' @rdname across
 #' @export
 if_all <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
+<<<<<<< HEAD
   if_across(`&`, across({{ .cols }}, .fns, ..., .names = .names))
 }
 if_across <- function(op, df) {
+=======
+  .cols <- enquo(.cols)
+  df <- withCallingHandlers(
+    across(!!.cols, .fns = .fns, ..., .names = .names),
+    "dplyr:::across_cols_formula" = function(e) {
+      abort_invalid_cols_arg(.cols, "if_all")
+    })
+>>>>>>> 781d9e361 (rebase hickup)
   n <- nrow(df)
 
   if (!length(df)) {
