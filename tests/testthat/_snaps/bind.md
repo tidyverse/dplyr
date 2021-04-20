@@ -44,21 +44,21 @@
     Code
       bind_rows(df1, df2)
     Error <vctrs_error_incompatible_type>
-      Can't combine `..1$a` <factor<127a2>> and `..2$a` <integer>.
+      Can't combine `..1$a` <factor<4d52a>> and `..2$a` <integer>.
 
 ---
 
     Code
       bind_rows(df1, df3)
     Error <vctrs_error_incompatible_type>
-      Can't combine `..1$a` <factor<127a2>> and `..2$a` <double>.
+      Can't combine `..1$a` <factor<4d52a>> and `..2$a` <double>.
 
 ---
 
     Code
       bind_rows(df1, df3)
     Error <vctrs_error_incompatible_type>
-      Can't combine `..1$b` <double> and `..2$b` <factor<4c40e>>.
+      Can't combine `..1$b` <double> and `..2$b` <factor<a022a>>.
 
 ---
 
@@ -72,7 +72,7 @@
     Code
       bind_rows(df2, df3)
     Error <vctrs_error_incompatible_type>
-      Can't combine `..1$b` <integer> and `..2$b` <factor<4c40e>>.
+      Can't combine `..1$b` <integer> and `..2$b` <factor<a022a>>.
 
 ---
 

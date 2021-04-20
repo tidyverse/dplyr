@@ -20,5 +20,5 @@
     Code
       combine(factor("a"), 1L)
     Error <vctrs_error_incompatible_type>
-      Can't combine `..1` <factor<127a2>> and `..2` <integer>.
+      Can't combine `..1` <factor<4d52a>> and `..2` <integer>.
 
