@@ -282,10 +282,12 @@ across_setup <- function(cols,
   # `across()` is evaluated in a data mask so we need to remove the
   # mask layer from the quosure environment (#5460)
   cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = FALSE, inherit = FALSE))
+
+  # TODO: call eval_select with a calling handler to intercept
+  #       classed error, after https://github.com/r-lib/tidyselect/issues/233
   if (is.null(fns) && quo_is_call(cols, "~")) {
     abort_invalid_cols_arg(cols, "across")
   }
-
   vars <- tidyselect::eval_select(cols, data = mask$across_cols())
   vars <- names(vars)
 
