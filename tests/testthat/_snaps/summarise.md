@@ -191,7 +191,7 @@
     Code
       tibble() %>% summarise(stop("{"))
     Error <dplyr_error>
-      Problem with `summarise()` column `..1`.
+      Problem with `summarise()` input `..1`.
       i `..1 = stop("{")`.
       x {
 

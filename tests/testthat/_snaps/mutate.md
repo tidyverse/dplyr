@@ -73,7 +73,7 @@
     Code
       tibble(a = 1:3, b = 4:6) %>% group_by(a) %>% mutate(if (a == 1) NULL else "foo")
     Error <dplyr:::mutate_error>
-      Problem with `mutate()` column `..1`.
+      Problem with `mutate()` input `..1`.
       i `..1 = if (a == 1) NULL else "foo"`.
       x `..1` must return compatible vectors across groups.
       i Cannot combine NULL and non NULL results.
@@ -171,7 +171,7 @@
     Code
       tibble() %>% mutate(stop("{"))
     Error <dplyr:::mutate_error>
-      Problem with `mutate()` column `..1`.
+      Problem with `mutate()` input `..1`.
       i `..1 = stop("{")`.
       x {
 
