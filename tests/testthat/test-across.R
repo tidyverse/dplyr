@@ -506,6 +506,20 @@ test_that("can pass quosure through `across()`", {
   )
 })
 
+test_that("across() inlines formulas", {
+  env <- env()
+
+  expect_equal(
+    as_across_fn_call(~ toupper(.x), quote(foo), env),
+    new_quosure(quote(toupper(foo)), env)
+  )
+
+  expect_equal(
+    as_across_fn_call(~ list(.x, ., .x), quote(foo), env),
+    new_quosure(quote(list(foo, foo, foo)), env)
+  )
+})
+
 
 # c_across ----------------------------------------------------------------
 
