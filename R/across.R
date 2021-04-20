@@ -392,6 +392,52 @@ dplyr_quosures <- function(...) {
 #   columns = c("x", "y")
 # )
 
+# Technically this always returns a single quosure but we wrap it in a
+# list to follow the pattern in `expand_across()`
+expand_if_across <- function(quo) {
+  quo_data <- attr(quo, "dplyr:::data")
+  if (!quo_is_call(quo, c("if_any", "if_all"), ns = c("", "dplyr"))) {
+    return(list(quo))
+  }
+
+  call <- match.call(
+    definition = if_any,
+    call = quo_get_expr(quo),
+    expand.dots = FALSE,
+    envir = quo_get_env(quo)
+  )
+  if (!is_null(call$...)) {
+    return(list(quo))
+  }
+
+  if (is_call(call, "if_any")) {
+    op <- "|"
+  } else {
+    op <- "&"
+  }
+
+  call[[1]] <- quote(across)
+  quos <- expand_across(quo_set_expr(quo, call))
+
+  # Select all rows if there are no inputs
+  if (!length(quos)) {
+    return(list(quo(TRUE)))
+  }
+
+  combine <- function(x, y) {
+    if (is_null(x)) {
+      y
+    } else {
+      call(op, x, y)
+    }
+  }
+  expr <- reduce(quos, combine, .init = NULL)
+
+  # Use `as_quosure()` instead of `new_quosure()` to avoid rewrapping
+  # quosure in case of single input
+  list(as_quosure(expr, env = baseenv()))
+}
+
 expand_across <- function(quo) {
   quo_data <- attr(quo, "dplyr:::data")
   if (!quo_is_call(quo, "across", ns = c("", "dplyr")) || quo_data$is_named) {

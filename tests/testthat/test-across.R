@@ -347,11 +347,12 @@ test_that("functions defined inline can use columns (#5734)", {
   )
 })
 
-test_that("if_any() and if_all() enforce logical", {
-  # TODO: use snapshot tests
+test_that("if_any() and if_all() do not enforce logical", {
+  # We used to coerce to logical using vctrs. Now we use base
+  # semantics because we expand `if_all(x:y)` to `x & y`.
   d <- data.frame(x = 10, y = 10)
-  expect_error(filter(d, if_all(x:y, identity)))
-  expect_error(filter(d, if_any(x:y, identity)))
+  expect_equal(filter(d, if_all(x:y, identity)), d)
+  expect_equal(filter(d, if_any(x:y, identity)), d)
 
   expect_error(mutate(d, ok = if_any(x:y, identity)))
   expect_error(mutate(d, ok = if_all(x:y, identity)))
@@ -517,6 +518,30 @@ test_that("across() inlines formulas", {
   expect_equal(
     as_across_fn_call(~ list(.x, ., .x), quote(foo), env),
     new_quosure(quote(list(foo, foo, foo)), env)
+  )
+})
+
+test_that("if_any() and if_all() expansions deal with no inputs or single inputs", {
+  d <- data.frame(x = 1)
+
+  # No inputs
+  expect_equal(
+    filter(d, if_any(starts_with("c"), ~ FALSE)),
+    filter(d)
+  )
+  expect_equal(
+    filter(d, if_all(starts_with("c"), ~ FALSE)),
+    filter(d)
+  )
+
+  # Single inputs
+  expect_equal(
+    filter(d, if_any(x, ~ FALSE)),
+    filter(d, FALSE)
+  )
+  expect_equal(
+    filter(d, if_all(x, ~ FALSE)),
+    filter(d, FALSE)
   )
 })
 

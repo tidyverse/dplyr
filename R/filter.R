@@ -116,9 +116,16 @@ filter.data.frame <- function(.data, ..., .preserve = FALSE) {
 }
 
 filter_rows <- function(.data, ...) {
-  dots <- check_filter(enquos(...))
+  dots <- dplyr_quosures(...)
+  check_filter(dots)
+
   mask <- DataMask$new(.data, caller_env())
   on.exit(mask$forget("filter"), add = TRUE)
+
+  # Names that expand to logical vectors are ignored. Remove them so
+  # they don't get in the way of the flatmap step below.
+  dots <- unname(dots)
+  dots <- new_quosures(flatten(map(dots, expand_if_across)))
 
   env_filter <- env()
   withCallingHandlers(
@@ -156,6 +163,4 @@ check_filter <- function(dots) {
     }
 
   }
-
-  dots
 }

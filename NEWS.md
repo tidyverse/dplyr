@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `filter()` now inlines `if_any()` and `if_all()` expressions. This greatly
+  improves performance with grouped data frames.
+
 * `across()` now inlines lambda-formulas. This is slightly more performant and
   will allow more optimisations in the future.
 
