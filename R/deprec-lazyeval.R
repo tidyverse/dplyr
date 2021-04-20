@@ -135,13 +135,7 @@ select_ <- function(.data, ..., .dots = list()) {
 #'   include/exclude.
 #' @export
 select_vars_ <- function(vars, args, include = chr(), exclude = chr()) {
-<<<<<<< HEAD
-  lifecycle::deprecate_warn("0.7.0", "select_vars_()", "tidyselect::vars_select()")
-  args <- compat_lazy_dots(args, caller_env())
-  tidyselect::vars_select(vars, !!!args, .include = include, .exclude = exclude)
-=======
   lazy_defunct("select_vars")
->>>>>>> 3588f2462 (defunct underscore and _each() functions which have been deprecated since 0.7.0 (2017))
 }
 
 #' @export
@@ -153,6 +147,12 @@ slice_ <- function(.data, ..., .dots = list()) {
 #' @export
 #' @rdname se-defunct
 summarise_ <- function(.data, ..., .dots = list()) {
+  lazy_defunct("summarise")
+}
+
+#' @export
+#' @rdname se-defunct
+summarize_ <- function(.data, ..., .dots = list()) {
   lazy_defunct("summarise")
 }
 
