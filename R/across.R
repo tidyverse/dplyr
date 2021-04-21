@@ -179,35 +179,17 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 #' @rdname across
 #' @export
 if_any <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
-<<<<<<< HEAD
+  context_local("across_if_fn", "if_any")
   if_across(`|`, across({{ .cols }}, .fns, ..., .names = .names))
-=======
-  .cols <- enquo(.cols)
-  df <- withCallingHandlers(
-    across(!!.cols, .fns = .fns, ..., .names = .names),
-    "dplyr:::across_cols_formula" = function(e) {
-      abort_invalid_cols_arg(.cols, "if_any")
-    })
-  n <- nrow(df)
-  df <- vec_cast_common(!!!df, .to = logical())
-  .Call(dplyr_reduce_lgl_or, df, n)
->>>>>>> 781d9e361 (rebase hickup)
 }
 #' @rdname across
 #' @export
 if_all <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
-<<<<<<< HEAD
+  context_local("across_if_fn", "if_all")
   if_across(`&`, across({{ .cols }}, .fns, ..., .names = .names))
 }
+
 if_across <- function(op, df) {
-=======
-  .cols <- enquo(.cols)
-  df <- withCallingHandlers(
-    across(!!.cols, .fns = .fns, ..., .names = .names),
-    "dplyr:::across_cols_formula" = function(e) {
-      abort_invalid_cols_arg(.cols, "if_all")
-    })
->>>>>>> 781d9e361 (rebase hickup)
   n <- nrow(df)
 
   if (!length(df)) {
@@ -266,16 +248,6 @@ across_glue_mask <- function(.col, .fn, .caller_env) {
   glue_mask
 }
 
-abort_invalid_cols_arg <- function(.cols, fn = "across") {
-  abort(c(
-    "Predicate used in lieu of column selection.",
-    i = "The first argument `.cols` selects a set of columns.",
-    i = "The second argument `.fns` operates on each selected columns.",
-    i = glue("You most likely meant: `{fn}(everything(), {as_label(.cols)})`."),
-    i = glue("If this was truly meant as a column selection, you must wrap with: `{fn}(where({as_label(.cols)}))`.")
-  ), class = "dplyr:::across_cols_formula")
-}
-
 # TODO: The usage of a cache in `c_across_setup()` is a stopgap solution, and
 # this idea should not be used anywhere else. This should be replaced by either
 # expansions of expressions (as we now use for `across()`) or the
@@ -307,7 +279,14 @@ across_setup <- function(cols,
   # TODO: call eval_select with a calling handler to intercept
   #       classed error, after https://github.com/r-lib/tidyselect/issues/233
   if (is.null(fns) && quo_is_call(cols, "~")) {
-    abort_invalid_cols_arg(cols, "across")
+    if_fn <- context_peek_bare("across_if_fn") %||% "across"
+    abort(c(
+      "Predicate used in lieu of column selection.",
+      i = "The first argument `.cols` selects a set of columns.",
+      i = "The second argument `.fns` operates on each selected columns.",
+      i = glue("You most likely meant: `{if_fn}(everything(), {as_label(cols)})`."),
+      i = glue("If this was truly meant as a column selection, you must wrap with: `{if_fn}(where({as_label(cols)}))`.")
+    ))
   }
   vars <- tidyselect::eval_select(cols, data = mask$across_cols())
   vars <- names(vars)
@@ -457,10 +436,13 @@ expand_if_across <- function(quo) {
 
   if (is_call(call, "if_any")) {
     op <- "|"
+    if_fn <- "if_any"
   } else {
     op <- "&"
+    if_fn <- "if_all"
   }
 
+  context_local("across_if_fn", if_fn)
   call[[1]] <- quote(across)
   quos <- expand_across(quo_set_expr(quo, call))
 

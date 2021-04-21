@@ -22,54 +22,39 @@
     Error <rlang_error>
       `c_across()` must only be used inside dplyr verbs.
 
-# if_any() and if_all() enforce logical
-
-    Code
-      filter(d, if_all(x:y, identity))
-    Error <dplyr_error>
-      Problem with `filter()` input `..1`.
-      i Input `..1` is `if_all(x:y, identity)`.
-      x Can't convert from <double> to <logical> due to loss of precision.
-      * Locations: 1
-    Code
-      filter(d, if_any(x:y, identity))
-    Error <dplyr_error>
-      Problem with `filter()` input `..1`.
-      i Input `..1` is `if_any(x:y, identity)`.
-      x Can't convert from <double> to <logical> due to loss of precision.
-      * Locations: 1
-    Code
-      mutate(d, ok = if_any(x:y, identity))
-    Error <dplyr:::mutate_error>
-      Problem with `mutate()` column `ok`.
-      i `ok = if_any(x:y, identity)`.
-      x Can't convert from <double> to <logical> due to loss of precision.
-      * Locations: 1
-    Code
-      mutate(d, ok = if_all(x:y, identity))
-    Error <dplyr:::mutate_error>
-      Problem with `mutate()` column `ok`.
-      i `ok = if_all(x:y, identity)`.
-      x Can't convert from <double> to <logical> due to loss of precision.
-      * Locations: 1
-
 # if_any() and if_all() aborts when predicate mistakingly used in .cols= (#5732)
 
     Code
       filter(df, if_any(~.x > 5))
-    Error <dplyr_error>
-      Problem with `filter()` input `..1`.
-      i Input `..1` is `if_any(~.x > 5)`.
-      x Predicate used in lieu of column selection.
+    Error <rlang_error>
+      Predicate used in lieu of column selection.
       i The first argument `.cols` selects a set of columns.
       i The second argument `.fns` operates on each selected columns.
       i You most likely meant: `if_any(everything(), ~.x > 5)`.
       i If this was truly meant as a column selection, you must wrap with: `if_any(where(~.x > 5))`.
     Code
       filter(df, if_all(~.x > 5))
+    Error <rlang_error>
+      Predicate used in lieu of column selection.
+      i The first argument `.cols` selects a set of columns.
+      i The second argument `.fns` operates on each selected columns.
+      i You most likely meant: `if_all(everything(), ~.x > 5)`.
+      i If this was truly meant as a column selection, you must wrap with: `if_all(where(~.x > 5))`.
+    Code
+      filter(df, !if_any(~.x > 5))
     Error <dplyr_error>
       Problem with `filter()` input `..1`.
-      i Input `..1` is `if_all(~.x > 5)`.
+      i Input `..1` is `!if_any(~.x > 5)`.
+      x Predicate used in lieu of column selection.
+      i The first argument `.cols` selects a set of columns.
+      i The second argument `.fns` operates on each selected columns.
+      i You most likely meant: `if_any(everything(), ~.x > 5)`.
+      i If this was truly meant as a column selection, you must wrap with: `if_any(where(~.x > 5))`.
+    Code
+      filter(df, !if_all(~.x > 5))
+    Error <dplyr_error>
+      Problem with `filter()` input `..1`.
+      i Input `..1` is `!if_all(~.x > 5)`.
       x Predicate used in lieu of column selection.
       i The first argument `.cols` selects a set of columns.
       i The second argument `.fns` operates on each selected columns.
