@@ -403,7 +403,7 @@ mutate_cols <- function(.data, ..., caller_env) {
     }
 
     bullets <- c(
-      cnd_bullet_header("column"),
+      cnd_bullet_header(),
       bullets,
       i = if(show_group_details) cnd_bullet_cur_group_label()
     )
@@ -428,7 +428,7 @@ mutate_cols <- function(.data, ..., caller_env) {
     local_call_step(dots = dots, .index = i, .fn = "mutate")
 
     warn(c(
-      cnd_bullet_header("column"),
+      cnd_bullet_header(),
       i = cnd_bullet_column_info(),
       i = conditionMessage(w),
       i = cnd_bullet_cur_group_label(what = "warning")

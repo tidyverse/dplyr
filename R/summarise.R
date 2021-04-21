@@ -340,7 +340,7 @@ summarise_cols <- function(.data, ..., caller_env) {
     }
 
     bullets <- c(
-      cnd_bullet_header("column"),
+      cnd_bullet_header(),
       i = cnd_bullet_column_info(),
       bullets,
       i = if (show_group_details) cnd_bullet_cur_group_label()
