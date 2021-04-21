@@ -372,7 +372,7 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
 #&gt; </span><span style='color: #949494;'># … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span><span>
 #&gt; </span><span style='color: #949494;'>#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span><span></div><div class='input'><span class='co'># -&gt;</span>
 <span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"height"</span>, <span class='st'>"mass"</span><span class='op'>)</span>, <span class='va'>scale2</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error: Problem with `mutate()` column `..1`.</span>
+</div><div class='output co'>#&gt; <span class='error'>Error: Problem with `mutate()` input `..1`.</span>
 #&gt; <span class='error'></span><span style='color: #0000BB;'>ℹ</span><span> `..1 = across(c("height", "mass"), scale2)`.</span>
 #&gt; <span class='error'></span><span style='color: #BB0000;'>✖</span><span> object 'scale2' not found</span></div><div class='input'>
 <span class='co'># You can pass additional arguments to the function:</span>
@@ -606,7 +606,7 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
 <span class='va'>iris</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='fu'>where</span><span class='op'>(</span><span class='va'>is.numeric</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>scale <span class='op'>=</span> <span class='va'>scale2</span>, log <span class='op'>=</span> <span class='va'>log</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error: Problem with `mutate()` column `..1`.</span>
+</div><div class='output co'>#&gt; <span class='error'>Error: Problem with `mutate()` input `..1`.</span>
 #&gt; <span class='error'></span><span style='color: #0000BB;'>ℹ</span><span> `..1 = across(where(is.numeric), list(scale = scale2, log = log))`.</span>
 #&gt; <span class='error'></span><span style='color: #BB0000;'>✖</span><span> object 'scale2' not found</span></div><div class='input'>
 <span class='co'># When there's only one function in the list, it modifies existing</span>
