@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `across()` now inlines lambda-formulas. This is slightly more performant and
+  will allow more optimisations in the future.
+
 * Fixed issue in `bind_rows()` causing lists to be incorrectly transformed as
   data frames (#5417, #5749).
 

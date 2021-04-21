@@ -117,7 +117,8 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
     {{ .cols }},
     fns = .fns,
     names = .names,
-    .caller_env = caller_env()
+    .caller_env = caller_env(),
+    inline = FALSE
   )
 
   vars <- setup$vars
@@ -246,7 +247,8 @@ across_setup <- function(cols,
                          names,
                          .caller_env,
                          mask = peek_mask("across()"),
-                         .top_level = FALSE) {
+                         .top_level = FALSE,
+                         inline = FALSE) {
   cols <- enquo(cols)
 
   if (.top_level) {
@@ -289,8 +291,6 @@ across_setup <- function(cols,
     ))
   }
 
-  fns <- map(fns, as_function)
-
   # make sure fns has names, use number to replace unnamed
   if (is.null(names(fns))) {
     names_fns <- seq_along(fns)
@@ -307,6 +307,10 @@ across_setup <- function(cols,
     .fn  = rep(names_fns, length(vars))
   )
   names <- vec_as_names(glue(names, .envir = glue_mask), repair = "check_unique")
+
+  if (!inline) {
+    fns <- map(fns, as_function)
+  }
 
   list(vars = vars, fns = fns, names = names)
 }
@@ -429,7 +433,8 @@ expand_across <- function(quo) {
     fns = eval_tidy(expr$.fns, mask),
     names = eval_tidy(expr$.names, mask),
     .caller_env = dplyr_mask$get_caller_env(),
-    .top_level = TRUE
+    .top_level = TRUE,
+    inline = TRUE
   )
 
   vars <- setup$vars
@@ -473,8 +478,7 @@ expand_across <- function(quo) {
     var <- vars[[i]]
 
     for (j in seq_fns) {
-      fn_call <- call2(fns[[j]], sym(var))
-      fn_call <- new_quosure(fn_call, env)
+      fn_call <- as_across_fn_call(fns[[j]], var, env)
 
       name <- names[[k]]
       expressions[[k]] <- new_dplyr_quosure(
@@ -492,4 +496,38 @@ expand_across <- function(quo) {
 
   names(expressions) <- names
   expressions
+}
+
+# TODO: Take unevaluated `.fns` and inline calls to `function`. This
+# will enable support for R 4.1 lambdas. This plan is somewhat at odds
+# with the current UI of `across()` which takes a list of function. We
+# would need to intepret calls to `list()` specially. And then we
+# would miss calls to `list2()` etc. This is another way in which the
+# current UI is unsatisfactory from the viewpoint of optimisation.
+#
+# Note that the current implementation is not 100% correct in that
+# regard as we ignore the environment of formulas and instead use the
+# quosure environment. This means this doesn't work as expected:
+#
+# ```
+# local({
+#   prefix <- "foo"
+#   f <- ~ paste(prefix, .x)
+# })
+# mutate(data, across(sel, f))
+# ```
+#
+# If we inspected unevaluated calls instead, we would see a symbol `f`
+# and fall through the `as_function()` branch.
+as_across_fn_call <- function(fn, var, env) {
+  if (is_formula(fn, lhs = FALSE)) {
+    # Don't need to worry about arguments passed through `...`
+    # because we cancel expansion in that case
+    fn <- expr_substitute(fn, quote(.), sym(var))
+    fn <- expr_substitute(fn, quote(.x), sym(var))
+    new_quosure(f_rhs(fn), env)
+  } else {
+    fn_call <- call2(as_function(fn), sym(var))
+    new_quosure(fn_call, env)
+  }
 }
