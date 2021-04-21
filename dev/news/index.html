@@ -217,6 +217,7 @@
 <a href="#dplyr-development-version" class="anchor"></a>dplyr (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/across.html">across()</a></code> now inlines lambda-formulas. This is slightly more performant and will allow more optimisations in the future.</p></li>
 <li><p>Fixed issue in <code><a href="../reference/bind.html">bind_rows()</a></code> causing lists to be incorrectly transformed as data frames (<a href='https://github.com/tidyverse/dplyr/issues/5417'>#5417</a>, <a href='https://github.com/tidyverse/dplyr/issues/5749'>#5749</a>).</p></li>
 <li><p><code><a href="../reference/select.html">select()</a></code> no longer creates duplicate variables when renaming a variable to the same name as a grouping variable (<a href='https://github.com/tidyverse/dplyr/issues/5841'>#5841</a>).</p></li>
 <li><p>Fixed behaviour of <code>...</code> in top-level <code><a href="../reference/across.html">across()</a></code> calls (<a href='https://github.com/tidyverse/dplyr/issues/5813'>#5813</a>, <a href='https://github.com/tidyverse/dplyr/issues/5832'>#5832</a>).</p></li>
