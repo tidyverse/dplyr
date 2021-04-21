@@ -179,19 +179,28 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 #' @rdname across
 #' @export
 if_any <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
-  df <- across({{ .cols }}, .fns, ..., .names = .names)
-  n <- nrow(df)
-  df <- vec_cast_common(!!!df, .to = logical())
-  .Call(dplyr_reduce_lgl_or, df, n)
+  if_across(`|`, across({{ .cols }}, .fns, ..., .names = .names))
 }
-
 #' @rdname across
 #' @export
 if_all <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
-  df <- across({{ .cols }}, .fns, ..., .names = .names)
+  if_across(`&`, across({{ .cols }}, .fns, ..., .names = .names))
+}
+if_across <- function(op, df) {
   n <- nrow(df)
-  df <- vec_cast_common(!!!df, .to = logical())
-  .Call(dplyr_reduce_lgl_and, df, n)
+
+  if (!length(df)) {
+    return(TRUE)
+  }
+
+  combine <- function(x, y) {
+    if (is_null(x)) {
+      y
+    } else {
+      op(x, y)
+    }
+  }
+  reduce(df, combine, .init = NULL)
 }
 
 #' Combine values from multiple columns
@@ -391,6 +400,52 @@ dplyr_quosures <- function(...) {
 #   list(mean_x = expr(mean(x)), mean_y = expr(mean(y)))
 #   columns = c("x", "y")
 # )
+
+# Technically this always returns a single quosure but we wrap it in a
+# list to follow the pattern in `expand_across()`
+expand_if_across <- function(quo) {
+  quo_data <- attr(quo, "dplyr:::data")
+  if (!quo_is_call(quo, c("if_any", "if_all"), ns = c("", "dplyr"))) {
+    return(list(quo))
+  }
+
+  call <- match.call(
+    definition = if_any,
+    call = quo_get_expr(quo),
+    expand.dots = FALSE,
+    envir = quo_get_env(quo)
+  )
+  if (!is_null(call$...)) {
+    return(list(quo))
+  }
+
+  if (is_call(call, "if_any")) {
+    op <- "|"
+  } else {
+    op <- "&"
+  }
+
+  call[[1]] <- quote(across)
+  quos <- expand_across(quo_set_expr(quo, call))
+
+  # Select all rows if there are no inputs
+  if (!length(quos)) {
+    return(list(quo(TRUE)))
+  }
+
+  combine <- function(x, y) {
+    if (is_null(x)) {
+      y
+    } else {
+      call(op, x, y)
+    }
+  }
+  expr <- reduce(quos, combine, .init = NULL)
+
+  # Use `as_quosure()` instead of `new_quosure()` to avoid rewrapping
+  # quosure in case of single input
+  list(as_quosure(expr, env = baseenv()))
+}
 
 expand_across <- function(quo) {
   quo_data <- attr(quo, "dplyr:::data")
