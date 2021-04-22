@@ -122,15 +122,18 @@ filter_rows <- function(.data, ...) {
   mask <- DataMask$new(.data, caller_env())
   on.exit(mask$forget("filter"), add = TRUE)
 
+  env_filter <- env()
+
   # Names that expand to logical vectors are ignored. Remove them so
   # they don't get in the way of the flatmap step below.
   dots <- unname(dots)
-  dots <- new_quosures(flatten(map(dots, expand_if_across)))
-
-  env_filter <- env()
-  withCallingHandlers(
-    mask$eval_all_filter(dots, env_filter),
-    error = function(e) {
+  withCallingHandlers({
+    dots <- new_quosures(flatten(imap(dots, function(dot, index) {
+      env_filter$current_expression <- index
+      expand_if_across(dot)
+    })))
+    mask$eval_all_filter(dots, env_filter)
+  }, error = function(e) {
       local_call_step(dots = dots, .index = env_filter$current_expression, .fn = "filter")
 
       abort(c(

@@ -1,6 +1,6 @@
 arg_name <- function(quos, index) {
   name  <- names(quos)[index]
-  if (name == "") {
+  if (is.null(name) || name == "") {
     name <- glue("..{index}")
   }
   name
