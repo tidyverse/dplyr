@@ -217,6 +217,7 @@
 <a href="#dplyr-development-version" class="anchor"></a>dplyr (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/filter.html">filter()</a></code> now inlines <code><a href="../reference/across.html">if_any()</a></code> and <code><a href="../reference/across.html">if_all()</a></code> expressions. This greatly improves performance with grouped data frames.</p></li>
 <li><p><code><a href="../reference/across.html">across()</a></code> now inlines lambda-formulas. This is slightly more performant and will allow more optimisations in the future.</p></li>
 <li><p>Fixed issue in <code><a href="../reference/bind.html">bind_rows()</a></code> causing lists to be incorrectly transformed as data frames (<a href='https://github.com/tidyverse/dplyr/issues/5417'>#5417</a>, <a href='https://github.com/tidyverse/dplyr/issues/5749'>#5749</a>).</p></li>
 <li><p><code><a href="../reference/select.html">select()</a></code> no longer creates duplicate variables when renaming a variable to the same name as a grouping variable (<a href='https://github.com/tidyverse/dplyr/issues/5841'>#5841</a>).</p></li>
@@ -227,6 +228,7 @@
 <li><p>Removed the <code>name</code> argument from the <code><a href="../reference/compute.html">compute()</a></code> generic (<a href='https://github.com/ianmcook'>@ianmcook</a>, <a href='https://github.com/tidyverse/dplyr/issues/5783'>#5783</a>).</p></li>
 <li><p>row-wise data frames of 0 rows and list columns are supported again (<a href='https://github.com/tidyverse/dplyr/issues/5804'>#5804</a>).</p></li>
 <li><p><code><a href="../reference/count.html">add_count()</a></code> is now generic (<a href='https://github.com/tidyverse/dplyr/issues/5837'>#5837</a>).</p></li>
+<li><p><code><a href="../reference/across.html">if_any()</a></code> and <code><a href="../reference/across.html">if_all()</a></code> abort when a predicate is mistakingly used as <code>.cols=</code> (<a href='https://github.com/tidyverse/dplyr/issues/5732'>#5732</a>).</p></li>
 </ul>
 </div>
     <div id="dplyr-105" class="section level1">
