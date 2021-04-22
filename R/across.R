@@ -179,13 +179,16 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 #' @rdname across
 #' @export
 if_any <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
+  context_local("across_if_fn", "if_any")
   if_across(`|`, across({{ .cols }}, .fns, ..., .names = .names))
 }
 #' @rdname across
 #' @export
 if_all <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
+  context_local("across_if_fn", "if_all")
   if_across(`&`, across({{ .cols }}, .fns, ..., .names = .names))
 }
+
 if_across <- function(op, df) {
   n <- nrow(df)
 
@@ -273,6 +276,17 @@ across_setup <- function(cols,
   # mask layer from the quosure environment (#5460)
   cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = FALSE, inherit = FALSE))
 
+  # TODO: call eval_select with a calling handler to intercept
+  #       classed error, after https://github.com/r-lib/tidyselect/issues/233
+  if (is.null(fns) && quo_is_call(cols, "~")) {
+    if_fn <- context_peek_bare("across_if_fn") %||% "across"
+    abort(c(
+      "Predicate used in lieu of column selection.",
+      i = glue("You most likely meant: `{if_fn}(everything(), {as_label(cols)})`."),
+      i = "The first argument `.cols` selects a set of columns.",
+      i = "The second argument `.fns` operates on each selected columns."
+    ))
+  }
   vars <- tidyselect::eval_select(cols, data = mask$across_cols())
   vars <- names(vars)
 
@@ -421,10 +435,13 @@ expand_if_across <- function(quo) {
 
   if (is_call(call, "if_any")) {
     op <- "|"
+    if_fn <- "if_any"
   } else {
     op <- "&"
+    if_fn <- "if_all"
   }
 
+  context_local("across_if_fn", if_fn)
   call[[1]] <- quote(across)
   quos <- expand_across(quo_set_expr(quo, call))
 
