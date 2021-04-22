@@ -502,7 +502,7 @@ expand_across <- function(quo) {
 
   setup <- across_setup(
     !!cols,
-    fns = eval_tidy(expr$.fns, mask),
+    fns = eval_tidy(expr$.fns, mask, env = env),
     names = eval_tidy(expr$.names, mask),
     .caller_env = dplyr_mask$get_caller_env(),
     .top_level = TRUE,

@@ -540,6 +540,21 @@ test_that("across() inlines formulas", {
   )
 })
 
+test_that("across() can access lexical scope (#5862)", {
+  f_across <- function(data, cols, params) {
+    data %>%
+      summarise(
+        across({{ cols }}, params$funs)
+      )
+  }
+
+  df <- data.frame(x = 1:10, y = 1:10)
+  expect_equal(
+    f_across(df, c(x, y), list(funs = mean)),
+    summarise(df, across(c(x, y), mean))
+  )
+})
+
 test_that("if_any() and if_all() expansions deal with no inputs or single inputs", {
   d <- data.frame(x = 1)
 
