@@ -97,7 +97,7 @@
     </li>
     <li class="divider">
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/index.html">More articles...</a>
     </li>
   </ul>
 </li>
@@ -170,7 +170,7 @@
     
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
+<a href="#introduction" class="anchor" aria-hidden="true"></a>Introduction</h2>
 <p>Most dplyr verbs use <strong>tidy evaluation</strong> in some way. Tidy evaluation is a special type of non-standard evaluation used throughout the tidyverse. There are two basic forms found in dplyr:</p>
 <ul>
 <li><p><code><a href="../reference/arrange.html">arrange()</a></code>, <code><a href="../reference/count.html">count()</a></code>, <code><a href="../reference/filter.html">filter()</a></code>, <code><a href="../reference/group_by.html">group_by()</a></code>, <code><a href="../reference/mutate.html">mutate()</a></code>, and <code><a href="../reference/summarise.html">summarise()</a></code> use <strong>data masking</strong> so that you can use data variables as if they were variables in the environment (i.e. you write <code>my_variable</code> not <code>df$myvariable</code>).</p></li>
@@ -184,7 +184,7 @@
 </div>
 <div id="data-masking" class="section level2">
 <h2 class="hasAnchor">
-<a href="#data-masking" class="anchor"></a>Data masking</h2>
+<a href="#data-masking" class="anchor" aria-hidden="true"></a>Data masking</h2>
 <p>Data masking makes data manipulation faster because it requires less typing. In most (but not all<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>) base R functions you need to refer to variables with <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">$</a></code>, leading to code that repeats the name of the data frame many times:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">starwars</span><span class="op">[</span><span class="va">starwars</span><span class="op">$</span><span class="va">homeworld</span> <span class="op">==</span> <span class="st">"Naboo"</span> <span class="op">&amp;</span> <span class="va">starwars</span><span class="op">$</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span>, ,<span class="op">]</span></code></pre></div>
@@ -193,7 +193,7 @@
 <code class="sourceCode R"><span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">homeworld</span> <span class="op">==</span> <span class="st">"Naboo"</span>, <span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span><span class="op">)</span></code></pre></div>
 <div id="data--and-env-variables" class="section level3">
 <h3 class="hasAnchor">
-<a href="#data--and-env-variables" class="anchor"></a>Data- and env-variables</h3>
+<a href="#data--and-env-variables" class="anchor" aria-hidden="true"></a>Data- and env-variables</h3>
 <p>The key idea behind data masking is that it blurs the line between the two different meanings of the word “variable”:</p>
 <ul>
 <li><p><strong>env-variables</strong> are “programming” variables that live in an environment. They are usually created with <code><a href="https://rdrr.io/r/base/assignOps.html" class="external-link">&lt;-</a></code>.</p></li>
@@ -210,7 +210,7 @@
 </div>
 <div id="indirection" class="section level3">
 <h3 class="hasAnchor">
-<a href="#indirection" class="anchor"></a>Indirection</h3>
+<a href="#indirection" class="anchor" aria-hidden="true"></a>Indirection</h3>
 <p>The main challenge of programming with functions that use data masking arises when you introduce some indirection, i.e. when you want to get the data-variable from an env-variable instead of directly typing the data-variable’s name. There are two main cases:</p>
 <ul>
 <li>
@@ -239,11 +239,11 @@
 </div>
 <div id="tidy-selection" class="section level2">
 <h2 class="hasAnchor">
-<a href="#tidy-selection" class="anchor"></a>Tidy selection</h2>
+<a href="#tidy-selection" class="anchor" aria-hidden="true"></a>Tidy selection</h2>
 <p>Data masking makes it easy to compute on values within a dataset. Tidy selection is a complementary tool that makes it easy to work with the columns of a dataset.</p>
 <div id="the-tidyselect-dsl" class="section level3">
 <h3 class="hasAnchor">
-<a href="#the-tidyselect-dsl" class="anchor"></a>The tidyselect DSL</h3>
+<a href="#the-tidyselect-dsl" class="anchor" aria-hidden="true"></a>The tidyselect DSL</h3>
 <p>Underneath all functions that use tidy selection is the <a href="https://tidyselect.r-lib.org/" class="external-link">tidyselect</a> package. It provides a miniature domain specific language that makes it easy to select columns by name, position, or type. For example:</p>
 <ul>
 <li><p><code><a href="../reference/select.html">select(df, 1)</a></code> selects the first column; <code><a href="../reference/select.html">select(df, last_col())</a></code> selects the last column.</p></li>
@@ -255,7 +255,7 @@
 </div>
 <div id="indirection-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#indirection-1" class="anchor"></a>Indirection</h3>
+<a href="#indirection-1" class="anchor" aria-hidden="true"></a>Indirection</h3>
 <p>As with data masking, tidy selection makes a common task easier at the cost of making a less common task harder. When you want to use tidy select indirectly with the column specification stored in an intermediate variable, you’ll need to learn some new tools. Again, there are two forms of indirection:</p>
 <ul>
 <li>
@@ -282,11 +282,11 @@
 </div>
 <div id="how-tos" class="section level2">
 <h2 class="hasAnchor">
-<a href="#how-tos" class="anchor"></a>How tos</h2>
+<a href="#how-tos" class="anchor" aria-hidden="true"></a>How tos</h2>
 <p>The following examples solve a grab bag of common problems. We show you the minimum amount of code so that you can get the basic idea; most real problems will require more code or combining multiple techniques.</p>
 <div id="user-supplied-data" class="section level3">
 <h3 class="hasAnchor">
-<a href="#user-supplied-data" class="anchor"></a>User-supplied data</h3>
+<a href="#user-supplied-data" class="anchor" aria-hidden="true"></a>User-supplied data</h3>
 <p>If you check the documentation, you’ll see that <code>.data</code> never uses data masking or tidy select. That means you don’t need to do anything special in your function:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mutate_y</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">{</span>
@@ -295,7 +295,7 @@
 </div>
 <div id="eliminating-r-cmd-check-notes" class="section level3">
 <h3 class="hasAnchor">
-<a href="#eliminating-r-cmd-check-notes" class="anchor"></a>Eliminating <code>R CMD check</code> <code>NOTE</code>s</h3>
+<a href="#eliminating-r-cmd-check-notes" class="anchor" aria-hidden="true"></a>Eliminating <code>R CMD check</code> <code>NOTE</code>s</h3>
 <p>If you’re writing a package and you have a function that uses data-variables:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_summary_function</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">{</span>
@@ -321,7 +321,7 @@
 </div>
 <div id="one-or-more-user-supplied-expressions" class="section level3">
 <h3 class="hasAnchor">
-<a href="#one-or-more-user-supplied-expressions" class="anchor"></a>One or more user-supplied expressions</h3>
+<a href="#one-or-more-user-supplied-expressions" class="anchor" aria-hidden="true"></a>One or more user-supplied expressions</h3>
 <p>If you want the user to supply an expression that’s passed onto an argument which uses data masking or tidy select, embrace the argument:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_summarise</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">group_var</span><span class="op">)</span> <span class="op">{</span>
@@ -363,7 +363,7 @@
 </div>
 <div id="any-number-of-user-supplied-expressions" class="section level3">
 <h3 class="hasAnchor">
-<a href="#any-number-of-user-supplied-expressions" class="anchor"></a>Any number of user-supplied expressions</h3>
+<a href="#any-number-of-user-supplied-expressions" class="anchor" aria-hidden="true"></a>Any number of user-supplied expressions</h3>
 <p>If you want to take an arbitrary number of user supplied expressions, use <code>...</code>. This is most often useful when you want to give the user full control over a single part of the pipeline, like a <code><a href="../reference/group_by.html">group_by()</a></code> or a <code><a href="../reference/mutate.html">mutate()</a></code>.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_summarise</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
@@ -396,7 +396,7 @@
 </div>
 <div id="transforming-user-supplied-variables" class="section level3">
 <h3 class="hasAnchor">
-<a href="#transforming-user-supplied-variables" class="anchor"></a>Transforming user-supplied variables</h3>
+<a href="#transforming-user-supplied-variables" class="anchor" aria-hidden="true"></a>Transforming user-supplied variables</h3>
 <p>If you want the user to provide a set of data-variables that are then transformed, use <code><a href="../reference/across.html">across()</a></code>:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_summarise</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">summary_vars</span><span class="op">)</span> <span class="op">{</span>
@@ -431,7 +431,7 @@
 </div>
 <div id="loop-over-multiple-variables" class="section level3">
 <h3 class="hasAnchor">
-<a href="#loop-over-multiple-variables" class="anchor"></a>Loop over multiple variables</h3>
+<a href="#loop-over-multiple-variables" class="anchor" aria-hidden="true"></a>Loop over multiple variables</h3>
 <p>If you have a character vector of variable names, and want to operate on them with a for loop, index into the special <code>.data</code> pronoun:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">for</span> <span class="op">(</span><span class="va">var</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
@@ -445,7 +445,7 @@
 </div>
 <div id="use-a-variable-from-an-shiny-input" class="section level3">
 <h3 class="hasAnchor">
-<a href="#use-a-variable-from-an-shiny-input" class="anchor"></a>Use a variable from an Shiny input</h3>
+<a href="#use-a-variable-from-an-shiny-input" class="anchor" aria-hidden="true"></a>Use a variable from an Shiny input</h3>
 <p>Many Shiny input controls return character vectors, so you can use the same approach as above: <code>.data[[input$var]]</code>.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span>

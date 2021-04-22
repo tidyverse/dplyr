@@ -97,7 +97,7 @@
     </li>
     <li class="divider">
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/index.html">More articles...</a>
     </li>
   </ul>
 </li>
@@ -199,7 +199,7 @@
 <p>Before reading this vignette, you should be familiar with <code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/filter.html">filter()</a></code>.</p>
 <div id="types-of-window-functions" class="section level2">
 <h2 class="hasAnchor">
-<a href="#types-of-window-functions" class="anchor"></a>Types of window functions</h2>
+<a href="#types-of-window-functions" class="anchor" aria-hidden="true"></a>Types of window functions</h2>
 <p>There are five main families of window functions. Two families are unrelated to aggregation functions:</p>
 <ul>
 <li><p>Ranking and ordering functions: <code><a href="../reference/ranking.html">row_number()</a></code>, <code><a href="../reference/ranking.html">min_rank()</a></code>, <code><a href="../reference/ranking.html">dense_rank()</a></code>, <code><a href="../reference/ranking.html">cume_dist()</a></code>, <code><a href="../reference/ranking.html">percent_rank()</a></code>, and <code><a href="../reference/ranking.html">ntile()</a></code>. These functions all take a vector to order by, and return various types of ranks.</p></li>
@@ -215,7 +215,7 @@
 </div>
 <div id="ranking-functions" class="section level2">
 <h2 class="hasAnchor">
-<a href="#ranking-functions" class="anchor"></a>Ranking functions</h2>
+<a href="#ranking-functions" class="anchor" aria-hidden="true"></a>Ranking functions</h2>
 <p>The ranking functions are variations on a theme, differing in how they handle ties:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>
@@ -263,7 +263,7 @@
 </div>
 <div id="lead-and-lag" class="section level2">
 <h2 class="hasAnchor">
-<a href="#lead-and-lag" class="anchor"></a>Lead and lag</h2>
+<a href="#lead-and-lag" class="anchor" aria-hidden="true"></a>Lead and lag</h2>
 <p><code><a href="../reference/lead-lag.html">lead()</a></code> and <code><a href="../reference/lead-lag.html">lag()</a></code> produce offset versions of a input vector that is either ahead of or behind the original vector.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>
@@ -315,7 +315,7 @@
 </div>
 <div id="cumulative-aggregates" class="section level2">
 <h2 class="hasAnchor">
-<a href="#cumulative-aggregates" class="anchor"></a>Cumulative aggregates</h2>
+<a href="#cumulative-aggregates" class="anchor" aria-hidden="true"></a>Cumulative aggregates</h2>
 <p>Base R provides cumulative sum (<code><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum()</a></code>), cumulative min (<code><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cummin()</a></code>), and cumulative max (<code><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cummax()</a></code>). (It also provides <code><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumprod()</a></code> but that is rarely useful). Other common accumulating functions are <code><a href="../reference/cumall.html">cumany()</a></code> and <code><a href="../reference/cumall.html">cumall()</a></code>, cumulative versions of <code><a href="https://rdrr.io/r/base/Logic.html" class="external-link">||</a></code> and <code><a href="https://rdrr.io/r/base/Logic.html" class="external-link">&amp;&amp;</a></code>, and <code><a href="../reference/cumall.html">cummean()</a></code>, a cumulative mean. These are not included in base R, but efficient versions are provided by <code>dplyr</code>.</p>
 <p><code><a href="../reference/cumall.html">cumany()</a></code> and <code><a href="../reference/cumall.html">cumall()</a></code> are useful for selecting all rows up to, or all rows after, a condition is true for the first (or last) time. For example, we can use <code><a href="../reference/cumall.html">cumany()</a></code> to find all records for a player after they played a year with 150 games:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -330,7 +330,7 @@
 </div>
 <div id="recycled-aggregates" class="section level2">
 <h2 class="hasAnchor">
-<a href="#recycled-aggregates" class="anchor"></a>Recycled aggregates</h2>
+<a href="#recycled-aggregates" class="anchor" aria-hidden="true"></a>Recycled aggregates</h2>
 <p>R’s vector recycling makes it easy to select values that are higher or lower than a summary. I call this a recycled aggregate because the value of the aggregate is recycled to be the same length as the original vector. Recycled aggregates are useful if you want to find all records greater than the mean or less than the median:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">players</span>, <span class="va">G</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span>

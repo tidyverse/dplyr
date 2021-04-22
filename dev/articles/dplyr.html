@@ -97,7 +97,7 @@
     </li>
     <li class="divider">
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/index.html">More articles...</a>
     </li>
   </ul>
 </li>
@@ -183,7 +183,7 @@
 <p>This document introduces you to dplyr’s basic set of tools, and shows you how to apply them to data frames. dplyr also supports databases via the dbplyr package, once you’ve installed, read <code><a href="https://dbplyr.tidyverse.org/articles/dbplyr.html" class="external-link">vignette("dbplyr")</a></code> to learn more.</p>
 <div id="data-starwars" class="section level2">
 <h2 class="hasAnchor">
-<a href="#data-starwars" class="anchor"></a>Data: starwars</h2>
+<a href="#data-starwars" class="anchor" aria-hidden="true"></a>Data: starwars</h2>
 <p>To explore the basic data manipulation verbs of dplyr, we’ll use the dataset <code>starwars</code>. This dataset contains 87 characters and comes from the <a href="https://swapi.dev" class="external-link">Star Wars API</a>, and is documented in <code><a href="../reference/starwars.html">?starwars</a></code></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span>
@@ -202,7 +202,7 @@
 </div>
 <div id="single-table-verbs" class="section level2">
 <h2 class="hasAnchor">
-<a href="#single-table-verbs" class="anchor"></a>Single table verbs</h2>
+<a href="#single-table-verbs" class="anchor" aria-hidden="true"></a>Single table verbs</h2>
 <p>dplyr aims to provide a function for each basic verb of data manipulation. These verbs can be organised into three categories based on the component of the dataset that they work with:</p>
 <ul>
 <li>Rows:
@@ -236,12 +236,12 @@
 </ul>
 <div id="the-pipe" class="section level3">
 <h3 class="hasAnchor">
-<a href="#the-pipe" class="anchor"></a>The pipe</h3>
+<a href="#the-pipe" class="anchor" aria-hidden="true"></a>The pipe</h3>
 <p>All of the dplyr functions take a data frame (or tibble) as the first argument. Rather than forcing the user to either save intermediate objects or nest functions, dplyr provides the <code><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></code> operator from magrittr. <code>x %&gt;% f(y)</code> turns into <code>f(x, y)</code> so the result from one step is then “piped” into the next step. You can use the pipe to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as “then”).</p>
 </div>
 <div id="filter-rows-with-filter" class="section level3">
 <h3 class="hasAnchor">
-<a href="#filter-rows-with-filter" class="anchor"></a>Filter rows with <code>filter()</code>
+<a href="#filter-rows-with-filter" class="anchor" aria-hidden="true"></a>Filter rows with <code>filter()</code>
 </h3>
 <p><code><a href="../reference/filter.html">filter()</a></code> allows you to select a subset of rows in a data frame. Like all single verbs, the first argument is the tibble (or data frame). The second and subsequent arguments refer to variables within that data frame, selecting rows where the expression is <code>TRUE</code>.</p>
 <p>For example, we can select all character with light skin color and brown eyes with:</p>
@@ -262,7 +262,7 @@
 </div>
 <div id="arrange-rows-with-arrange" class="section level3">
 <h3 class="hasAnchor">
-<a href="#arrange-rows-with-arrange" class="anchor"></a>Arrange rows with <code>arrange()</code>
+<a href="#arrange-rows-with-arrange" class="anchor" aria-hidden="true"></a>Arrange rows with <code>arrange()</code>
 </h3>
 <p><code><a href="../reference/arrange.html">arrange()</a></code> works similarly to <code><a href="../reference/filter.html">filter()</a></code> except that instead of filtering or selecting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by. If you provide more than one column name, each additional column will be used to break ties in the values of preceding columns:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -291,7 +291,7 @@
 </div>
 <div id="choose-rows-using-their-position-with-slice" class="section level3">
 <h3 class="hasAnchor">
-<a href="#choose-rows-using-their-position-with-slice" class="anchor"></a>Choose rows using their position with <code>slice()</code>
+<a href="#choose-rows-using-their-position-with-slice" class="anchor" aria-hidden="true"></a>Choose rows using their position with <code>slice()</code>
 </h3>
 <p><code><a href="../reference/slice.html">slice()</a></code> lets you index rows by their (integer) locations. It allows you to select, remove, and duplicate rows.</p>
 <p>We can get characters from row numbers 5 through 10.</p>
@@ -366,7 +366,7 @@
 </div>
 <div id="select-columns-with-select" class="section level3">
 <h3 class="hasAnchor">
-<a href="#select-columns-with-select" class="anchor"></a>Select columns with <code>select()</code>
+<a href="#select-columns-with-select" class="anchor" aria-hidden="true"></a>Select columns with <code>select()</code>
 </h3>
 <p>Often you work with large datasets with many columns but only a few are actually of interest to you. <code><a href="../reference/select.html">select()</a></code> allows you to rapidly zoom in on a useful subset using operations that usually only work on numeric variable positions:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -437,7 +437,7 @@
 </div>
 <div id="add-new-columns-with-mutate" class="section level3">
 <h3 class="hasAnchor">
-<a href="#add-new-columns-with-mutate" class="anchor"></a>Add new columns with <code>mutate()</code>
+<a href="#add-new-columns-with-mutate" class="anchor" aria-hidden="true"></a>Add new columns with <code>mutate()</code>
 </h3>
 <p>Besides selecting sets of existing columns, it’s often useful to add new columns that are functions of existing columns. This is the job of <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -501,7 +501,7 @@
 </div>
 <div id="change-column-order-with-relocate" class="section level3">
 <h3 class="hasAnchor">
-<a href="#change-column-order-with-relocate" class="anchor"></a>Change column order with <code>relocate()</code>
+<a href="#change-column-order-with-relocate" class="anchor" aria-hidden="true"></a>Change column order with <code>relocate()</code>
 </h3>
 <p>Use a similar syntax as <code><a href="../reference/select.html">select()</a></code> to move blocks of columns at once</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -518,7 +518,7 @@
 </div>
 <div id="summarise-values-with-summarise" class="section level3">
 <h3 class="hasAnchor">
-<a href="#summarise-values-with-summarise" class="anchor"></a>Summarise values with <code>summarise()</code>
+<a href="#summarise-values-with-summarise" class="anchor" aria-hidden="true"></a>Summarise values with <code>summarise()</code>
 </h3>
 <p>The last verb is <code><a href="../reference/summarise.html">summarise()</a></code>. It collapses a data frame to a single row.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
@@ -531,7 +531,7 @@
 </div>
 <div id="commonalities" class="section level3">
 <h3 class="hasAnchor">
-<a href="#commonalities" class="anchor"></a>Commonalities</h3>
+<a href="#commonalities" class="anchor" aria-hidden="true"></a>Commonalities</h3>
 <p>You may have noticed that the syntax and function of all these verbs are very similar:</p>
 <ul>
 <li><p>The first argument is a data frame.</p></li>
@@ -544,7 +544,7 @@
 </div>
 <div id="combining-functions-with" class="section level2">
 <h2 class="hasAnchor">
-<a href="#combining-functions-with" class="anchor"></a>Combining functions with <code>%&gt;%</code>
+<a href="#combining-functions-with" class="anchor" aria-hidden="true"></a>Combining functions with <code>%&gt;%</code>
 </h2>
 <p>The dplyr API is functional in the sense that function calls don’t have side-effects. You must always save their results. This doesn’t lead to particularly elegant code, especially if you want to do many operations at once. You either have to do it step-by-step:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
@@ -587,11 +587,11 @@
 </div>
 <div id="patterns-of-operations" class="section level2">
 <h2 class="hasAnchor">
-<a href="#patterns-of-operations" class="anchor"></a>Patterns of operations</h2>
+<a href="#patterns-of-operations" class="anchor" aria-hidden="true"></a>Patterns of operations</h2>
 <p>The dplyr verbs can be classified by the type of operations they accomplish (we sometimes speak of their <strong>semantics</strong>, i.e., their meaning). It’s helpful to have a good grasp of the difference between select and mutate operations.</p>
 <div id="selecting-operations" class="section level3">
 <h3 class="hasAnchor">
-<a href="#selecting-operations" class="anchor"></a>Selecting operations</h3>
+<a href="#selecting-operations" class="anchor" aria-hidden="true"></a>Selecting operations</h3>
 <p>One of the appealing features of dplyr is that you can refer to columns from the tibble as if they were regular variables. However, the syntactic uniformity of referring to bare column names hides semantical differences across the verbs. A column symbol supplied to <code><a href="../reference/select.html">select()</a></code> does not have the same meaning as the same symbol supplied to <code><a href="../reference/mutate.html">mutate()</a></code>.</p>
 <p>Selecting operations expect column names and positions. Hence, when you call <code><a href="../reference/select.html">select()</a></code> with bare variable names, they actually represent their own positions in the tibble. The following calls are completely equivalent from dplyr’s point of view:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
@@ -666,7 +666,7 @@
 </div>
 <div id="mutating-operations" class="section level3">
 <h3 class="hasAnchor">
-<a href="#mutating-operations" class="anchor"></a>Mutating operations</h3>
+<a href="#mutating-operations" class="anchor" aria-hidden="true"></a>Mutating operations</h3>
 <p>Mutate semantics are quite different from selection semantics. Whereas <code><a href="../reference/select.html">select()</a></code> expects column names or positions, <code><a href="../reference/mutate.html">mutate()</a></code> expects <em>column vectors</em>. We will set up a smaller tibble to use for our examples.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">height</span>, <span class="va">mass</span><span class="op">)</span></code></pre></div>

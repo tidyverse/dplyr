@@ -97,7 +97,7 @@
     </li>
     <li class="divider">
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/index.html">More articles...</a>
     </li>
   </ul>
 </li>
@@ -178,7 +178,7 @@
 <p>All two-table verbs work similarly. The first two arguments are <code>x</code> and <code>y</code>, and provide the tables to combine. The output is always a new table with the same type as <code>x</code>.</p>
 <div id="mutating-joins" class="section level2">
 <h2 class="hasAnchor">
-<a href="#mutating-joins" class="anchor"></a>Mutating joins</h2>
+<a href="#mutating-joins" class="anchor" aria-hidden="true"></a>Mutating joins</h2>
 <p>Mutating joins allow you to combine variables from multiple tables. For example, take the nycflights13 data. In one table we have flight information with an abbreviation for carrier, and in another we have a mapping between abbreviations and full names. You can use a join to add the carrier names to the flight data:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/hadley/nycflights13" class="external-link">"nycflights13"</a></span><span class="op">)</span>
@@ -199,7 +199,7 @@
 <span class="co">#&gt; # … with 336,771 more rows</span></code></pre></div>
 <div id="controlling-how-the-tables-are-matched" class="section level3">
 <h3 class="hasAnchor">
-<a href="#controlling-how-the-tables-are-matched" class="anchor"></a>Controlling how the tables are matched</h3>
+<a href="#controlling-how-the-tables-are-matched" class="anchor" aria-hidden="true"></a>Controlling how the tables are matched</h3>
 <p>As well as <code>x</code> and <code>y</code>, each mutating join takes an argument <code>by</code> that controls which variables are used to match observations in the two tables. There are a few ways to specify it, as I illustrate below with various tables from nycflights13:</p>
 <ul>
 <li>
@@ -266,7 +266,7 @@
 </div>
 <div id="types-of-join" class="section level3">
 <h3 class="hasAnchor">
-<a href="#types-of-join" class="anchor"></a>Types of join</h3>
+<a href="#types-of-join" class="anchor" aria-hidden="true"></a>Types of join</h3>
 <p>There are four types of mutating join, which differ in their behaviour when a match is not found. We’ll illustrate each with a simple example:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, y <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span>
@@ -338,7 +338,7 @@
 </div>
 <div id="observations" class="section level3">
 <h3 class="hasAnchor">
-<a href="#observations" class="anchor"></a>Observations</h3>
+<a href="#observations" class="anchor" aria-hidden="true"></a>Observations</h3>
 <p>While mutating joins are primarily used to add new variables, they can also generate new observations. If a match is not unique, a join will add all possible combinations (the Cartesian product) of the matching observations:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>
@@ -358,7 +358,7 @@
 </div>
 <div id="filtering-joins" class="section level2">
 <h2 class="hasAnchor">
-<a href="#filtering-joins" class="anchor"></a>Filtering joins</h2>
+<a href="#filtering-joins" class="anchor" aria-hidden="true"></a>Filtering joins</h2>
 <p>Filtering joins match observations in the same way as mutating joins, but affect the observations, not the variables. There are two types:</p>
 <ul>
 <li>
@@ -398,7 +398,7 @@
 </div>
 <div id="set-operations" class="section level2">
 <h2 class="hasAnchor">
-<a href="#set-operations" class="anchor"></a>Set operations</h2>
+<a href="#set-operations" class="anchor" aria-hidden="true"></a>Set operations</h2>
 <p>The final type of two-table verb is set operations. These expect the <code>x</code> and <code>y</code> inputs to have the same variables, and treat the observations like sets:</p>
 <ul>
 <li>
@@ -452,7 +452,7 @@
 </div>
 <div id="multiple-table-verbs" class="section level2">
 <h2 class="hasAnchor">
-<a href="#multiple-table-verbs" class="anchor"></a>Multiple-table verbs</h2>
+<a href="#multiple-table-verbs" class="anchor" aria-hidden="true"></a>Multiple-table verbs</h2>
 <p>dplyr does not provide any functions for working with three or more tables. Instead use <code><a href="https://purrr.tidyverse.org/reference/reduce.html" class="external-link">purrr::reduce()</a></code> or <code><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Reduce()</a></code>, as described in <a href="http://adv-r.had.co.nz/Functionals.html#functionals-fp" class="external-link">Advanced R</a>, to iteratively combine the two-table verbs to handle as many tables as you need.</p>
 </div>
   </div>

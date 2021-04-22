@@ -97,7 +97,7 @@
     </li>
     <li class="divider">
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/index.html">More articles...</a>
     </li>
   </ul>
 </li>
@@ -171,7 +171,7 @@
 <p>This vignette compares dplyr functions to their base R equivalents. This helps those familiar with base R understand better what dplyr does, and shows dplyr users how you might express the same ideas in base R code. We’ll start with a rough overview of the major differences, then discuss the one table verbs in more detail, followed by the two table verbs.</p>
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h1>
+<a href="#overview" class="anchor" aria-hidden="true"></a>Overview</h1>
 <ol style="list-style-type: decimal">
 <li><p>The code dplyr verbs input and output data frames. This contrasts with base R functions which more frequently work with individual vectors.</p></li>
 <li><p>dplyr relies heavily on “non-standard evaluation” so that you don’t need to use <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">$</a></code> to refer to columns in the “current” data frame. This behaviour is inspired by the base functions <code><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset()</a></code> and <code><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform()</a></code>.</p></li>
@@ -182,7 +182,7 @@
 </div>
 <div id="one-table-verbs" class="section level1">
 <h1 class="hasAnchor">
-<a href="#one-table-verbs" class="anchor"></a>One table verbs</h1>
+<a href="#one-table-verbs" class="anchor" aria-hidden="true"></a>One table verbs</h1>
 <p>The following table shows a condensed translation between dplyr verbs and their base R equivalents. The following sections describe each operation in more detail. You learn more about the dplyr verbs in their documentation and in For more <code>vignette("one-table")</code>.</p>
 <table class="table">
 <thead><tr class="header">
@@ -257,7 +257,7 @@
 <span class="va">iris</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></code></pre></div>
 <div id="arrange-arrange-rows-by-variables" class="section level2">
 <h2 class="hasAnchor">
-<a href="#arrange-arrange-rows-by-variables" class="anchor"></a><code>arrange()</code>: Arrange rows by variables</h2>
+<a href="#arrange-arrange-rows-by-variables" class="anchor" aria-hidden="true"></a><code>arrange()</code>: Arrange rows by variables</h2>
 <p><code><a href="../reference/arrange.html">dplyr::arrange()</a></code> orders the rows of a data frame by the values of one or more columns:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mtcars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">cyl</span>, <span class="va">disp</span><span class="op">)</span>
@@ -303,7 +303,7 @@
 </div>
 <div id="distinct-select-distinctunique-rows" class="section level2">
 <h2 class="hasAnchor">
-<a href="#distinct-select-distinctunique-rows" class="anchor"></a><code>distinct()</code>: Select distinct/unique rows</h2>
+<a href="#distinct-select-distinctunique-rows" class="anchor" aria-hidden="true"></a><code>distinct()</code>: Select distinct/unique rows</h2>
 <p><code><a href="../reference/distinct.html">dplyr::distinct()</a></code> selects unique rows:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>
@@ -315,19 +315,19 @@
 <span class="co">#&gt; # A tibble: 10 x 1</span>
 <span class="co">#&gt;       x</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
-<span class="co">#&gt; 1     1</span>
-<span class="co">#&gt; 2    10</span>
-<span class="co">#&gt; 3     5</span>
-<span class="co">#&gt; 4     7</span>
+<span class="co">#&gt; 1     2</span>
+<span class="co">#&gt; 2     8</span>
+<span class="co">#&gt; 3     4</span>
+<span class="co">#&gt; 4     9</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 <span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/distinct.html">distinct</a></span><span class="op">(</span><span class="va">x</span>, .keep_all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># whole data frame</span>
 <span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1     1     6</span>
-<span class="co">#&gt; 2    10     7</span>
-<span class="co">#&gt; 3     5     6</span>
-<span class="co">#&gt; 4     7     1</span>
+<span class="co">#&gt; 1     2     1</span>
+<span class="co">#&gt; 2     8     4</span>
+<span class="co">#&gt; 3     4     9</span>
+<span class="co">#&gt; 4     9     5</span>
 <span class="co">#&gt; # … with 6 more rows</span></code></pre></div>
 <p>There are two equivalents in base R, depending on whether you want the whole data frame, or just selected variables:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -335,24 +335,24 @@
 <span class="co">#&gt; # A tibble: 10 x 1</span>
 <span class="co">#&gt;       x</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
-<span class="co">#&gt; 1     1</span>
-<span class="co">#&gt; 2    10</span>
-<span class="co">#&gt; 3     5</span>
-<span class="co">#&gt; 4     7</span>
+<span class="co">#&gt; 1     2</span>
+<span class="co">#&gt; 2     8</span>
+<span class="co">#&gt; 3     4</span>
+<span class="co">#&gt; 4     9</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 <span class="va">df</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">duplicated</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">x</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span> <span class="co"># whole data frame</span>
 <span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1     1     6</span>
-<span class="co">#&gt; 2    10     7</span>
-<span class="co">#&gt; 3     5     6</span>
-<span class="co">#&gt; 4     7     1</span>
+<span class="co">#&gt; 1     2     1</span>
+<span class="co">#&gt; 2     8     4</span>
+<span class="co">#&gt; 3     4     9</span>
+<span class="co">#&gt; 4     9     5</span>
 <span class="co">#&gt; # … with 6 more rows</span></code></pre></div>
 </div>
 <div id="filter-return-rows-with-matching-conditions" class="section level2">
 <h2 class="hasAnchor">
-<a href="#filter-return-rows-with-matching-conditions" class="anchor"></a><code>filter()</code>: Return rows with matching conditions</h2>
+<a href="#filter-return-rows-with-matching-conditions" class="anchor" aria-hidden="true"></a><code>filter()</code>: Return rows with matching conditions</h2>
 <p><code><a href="../reference/filter.html">dplyr::filter()</a></code> selects rows where an expression is <code>TRUE</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span><span class="op">)</span>
@@ -443,28 +443,28 @@
 </div>
 <div id="mutate-create-or-transform-variables" class="section level2">
 <h2 class="hasAnchor">
-<a href="#mutate-create-or-transform-variables" class="anchor"></a><code>mutate()</code>: Create or transform variables</h2>
+<a href="#mutate-create-or-transform-variables" class="anchor" aria-hidden="true"></a><code>mutate()</code>: Create or transform variables</h2>
 <p><code><a href="../reference/mutate.html">dplyr::mutate()</a></code> creates new variables from existing variables:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>z <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span>, z2 <span class="op">=</span> <span class="va">z</span> <span class="op">^</span> <span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 100 x 4</span>
 <span class="co">#&gt;       x     y     z    z2</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     1     6     7    49</span>
-<span class="co">#&gt; 2    10     7    17   289</span>
-<span class="co">#&gt; 3     5     6    11   121</span>
-<span class="co">#&gt; 4     5     8    13   169</span>
+<span class="co">#&gt; 1     2     1     3     9</span>
+<span class="co">#&gt; 2     8     4    12   144</span>
+<span class="co">#&gt; 3     4     9    13   169</span>
+<span class="co">#&gt; 4     9     5    14   196</span>
 <span class="co">#&gt; # … with 96 more rows</span></code></pre></div>
 <p>The closest base equivalent is <code><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform()</a></code>, but note that it cannot use freshly created variables:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform</a></span><span class="op">(</span><span class="va">df</span>, z <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span>, z2 <span class="op">=</span> <span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;    x y  z  z2</span>
-<span class="co">#&gt; 1  1 6  7  49</span>
-<span class="co">#&gt; 2 10 7 17 289</span>
-<span class="co">#&gt; 3  5 6 11 121</span>
-<span class="co">#&gt; 4  5 8 13 169</span>
-<span class="co">#&gt; 5  7 1  8  64</span>
-<span class="co">#&gt; 6  3 5  8  64</span></code></pre></div>
+<span class="co">#&gt;   x y  z  z2</span>
+<span class="co">#&gt; 1 2 1  3   9</span>
+<span class="co">#&gt; 2 8 4 12 144</span>
+<span class="co">#&gt; 3 4 9 13 169</span>
+<span class="co">#&gt; 4 9 5 14 196</span>
+<span class="co">#&gt; 5 7 1  8  64</span>
+<span class="co">#&gt; 6 1 4  5  25</span></code></pre></div>
 <p>Alternatively, you can use <code>$&lt;-</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mtcars</span><span class="op">$</span><span class="va">cyl2</span> <span class="op">&lt;-</span> <span class="va">mtcars</span><span class="op">$</span><span class="va">cyl</span> <span class="op">*</span> <span class="fl">2</span>
@@ -497,7 +497,7 @@
 </div>
 <div id="pull-pull-out-a-single-variable" class="section level2">
 <h2 class="hasAnchor">
-<a href="#pull-pull-out-a-single-variable" class="anchor"></a><code>pull()</code>: Pull out a single variable</h2>
+<a href="#pull-pull-out-a-single-variable" class="anchor" aria-hidden="true"></a><code>pull()</code>: Pull out a single variable</h2>
 <p><code><a href="../reference/pull.html">dplyr::pull()</a></code> extracts a variable either by name or position:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mtcars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pull.html">pull</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
@@ -517,7 +517,7 @@
 </div>
 <div id="relocate-change-column-order" class="section level2">
 <h2 class="hasAnchor">
-<a href="#relocate-change-column-order" class="anchor"></a><code>relocate()</code>: Change column order</h2>
+<a href="#relocate-change-column-order" class="anchor" aria-hidden="true"></a><code>relocate()</code>: Change column order</h2>
 <p><code><a href="../reference/relocate.html">dplyr::relocate()</a></code> makes it easy to move a set of columns to a new position (by default, the front):</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># to front</span>
@@ -567,7 +567,7 @@
 </div>
 <div id="rename-rename-variables-by-name" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rename-rename-variables-by-name" class="anchor"></a><code>rename()</code>: Rename variables by name</h2>
+<a href="#rename-rename-variables-by-name" class="anchor" aria-hidden="true"></a><code>rename()</code>: Rename variables by name</h2>
 <p><code><a href="../reference/rename.html">dplyr::rename()</a></code> allows you to rename variables by name or position:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">iris</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/rename.html">rename</a></span><span class="op">(</span>sepal_length <span class="op">=</span> <span class="va">Sepal.Length</span>, sepal_width <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
@@ -589,7 +589,7 @@
 </div>
 <div id="rename_with-rename-variables-with-a-function" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rename_with-rename-variables-with-a-function" class="anchor"></a><code>rename_with()</code>: Rename variables with a function</h2>
+<a href="#rename_with-rename-variables-with-a-function" class="anchor" aria-hidden="true"></a><code>rename_with()</code>: Rename variables with a function</h2>
 <p><code><a href="../reference/rename.html">dplyr::rename_with()</a></code> transform column names with a function:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">iris</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/rename.html">rename_with</a></span><span class="op">(</span><span class="va">toupper</span><span class="op">)</span>
@@ -615,7 +615,7 @@
 </div>
 <div id="select-select-variables-by-name" class="section level2">
 <h2 class="hasAnchor">
-<a href="#select-select-variables-by-name" class="anchor"></a><code>select()</code>: Select variables by name</h2>
+<a href="#select-select-variables-by-name" class="anchor" aria-hidden="true"></a><code>select()</code>: Select variables by name</h2>
 <p><code><a href="../reference/select.html">dplyr::select()</a></code> subsets columns by position, name, function of name, or other property:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">iris</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>
@@ -717,7 +717,7 @@
 </div>
 <div id="summarise-reduce-multiple-values-down-to-a-single-value" class="section level2">
 <h2 class="hasAnchor">
-<a href="#summarise-reduce-multiple-values-down-to-a-single-value" class="anchor"></a><code>summarise()</code>: Reduce multiple values down to a single value</h2>
+<a href="#summarise-reduce-multiple-values-down-to-a-single-value" class="anchor" aria-hidden="true"></a><code>summarise()</code>: Reduce multiple values down to a single value</h2>
 <p><code><a href="../reference/summarise.html">dplyr::summarise()</a></code> computes one or more summaries for each group:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mtcars</span> <span class="op">%&gt;%</span> 
@@ -760,7 +760,7 @@
 </div>
 <div id="slice-choose-rows-by-position" class="section level2">
 <h2 class="hasAnchor">
-<a href="#slice-choose-rows-by-position" class="anchor"></a><code>slice()</code>: Choose rows by position</h2>
+<a href="#slice-choose-rows-by-position" class="anchor" aria-hidden="true"></a><code>slice()</code>: Choose rows by position</h2>
 <p><code><a href="../reference/slice.html">slice()</a></code> selects rows with their location:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/slice.html">slice</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fl">25</span><span class="op">:</span><span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
@@ -787,7 +787,7 @@
 </div>
 <div id="two-table-verbs" class="section level1">
 <h1 class="hasAnchor">
-<a href="#two-table-verbs" class="anchor"></a>Two-table verbs</h1>
+<a href="#two-table-verbs" class="anchor" aria-hidden="true"></a>Two-table verbs</h1>
 <p>When we want to merge two data frames, <code>x</code> and <code>y</code>), we have a variety of different ways to bring them together. Various base R <code><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge()</a></code> calls are replaced by a variety of dplyr <code><a href="../reference/mutate-joins.html">join()</a></code> functions.</p>
 <table class="table">
 <thead><tr class="header">
@@ -824,7 +824,7 @@
 <p>For more information about two-table verbs, see <code><a href="../articles/two-table.html">vignette("two-table")</a></code>.</p>
 <div id="mutating-joins" class="section level3">
 <h3 class="hasAnchor">
-<a href="#mutating-joins" class="anchor"></a>Mutating joins</h3>
+<a href="#mutating-joins" class="anchor" aria-hidden="true"></a>Mutating joins</h3>
 <p>dplyr’s <code><a href="../reference/mutate-joins.html">inner_join()</a></code>, <code><a href="../reference/mutate-joins.html">left_join()</a></code>, <code><a href="../reference/mutate-joins.html">right_join()</a></code>, and <code><a href="../reference/mutate-joins.html">full_join()</a></code> add new columns from <code>y</code> to <code>x</code>, matching rows based on a set of “keys”, and differ only in how missing matches are handled. They are equivalent to calls to <code><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge()</a></code> with various settings of the <code>all</code>, <code>all.x</code>, and <code>all.y</code> arguments. The main difference is the order of the rows:</p>
 <ul>
 <li>dplyr preserves the order of the <code>x</code> data frame.</li>
@@ -834,7 +834,7 @@
 </div>
 <div id="filtering-joins" class="section level3">
 <h3 class="hasAnchor">
-<a href="#filtering-joins" class="anchor"></a>Filtering joins</h3>
+<a href="#filtering-joins" class="anchor" aria-hidden="true"></a>Filtering joins</h3>
 <p>dplyr’s <code><a href="../reference/filter-joins.html">semi_join()</a></code> and <code><a href="../reference/filter-joins.html">anti_join()</a></code> affect only the rows, not the columns:</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">band_members</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/filter-joins.html">semi_join</a></span><span class="op">(</span><span class="va">band_instruments</span><span class="op">)</span>

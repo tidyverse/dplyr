@@ -97,7 +97,7 @@
     </li>
     <li class="divider">
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/index.html">More articles...</a>
     </li>
   </ul>
 </li>
@@ -172,7 +172,7 @@
 <p>This vignette starts with some general advice on writing package code that works with multiple version of dplyr, then continues to discuss specific changes in dplyr versions.</p>
 <div id="working-with-multiple-dplyr-versions" class="section level2">
 <h2 class="hasAnchor">
-<a href="#working-with-multiple-dplyr-versions" class="anchor"></a>Working with multiple dplyr versions</h2>
+<a href="#working-with-multiple-dplyr-versions" class="anchor" aria-hidden="true"></a>Working with multiple dplyr versions</h2>
 <p>Ideally, you want to make sure that your package works with both the released version and the development version of dplyr. This is typically a little bit more work, but has two big advantages:</p>
 <ol style="list-style-type: decimal">
 <li><p>It’s more convenient for your users, since they’re not forced to update dplyr if they don’t want to.</p></li>
@@ -205,10 +205,10 @@
 </div>
 <div id="dplyr-0-6-0" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dplyr-0-6-0" class="anchor"></a>dplyr 0.6.0</h2>
+<a href="#dplyr-0-6-0" class="anchor" aria-hidden="true"></a>dplyr 0.6.0</h2>
 <div id="database-code-moves-to-dbplyr" class="section level3">
 <h3 class="hasAnchor">
-<a href="#database-code-moves-to-dbplyr" class="anchor"></a>Database code moves to dbplyr</h3>
+<a href="#database-code-moves-to-dbplyr" class="anchor" aria-hidden="true"></a>Database code moves to dbplyr</h3>
 <p>Almost all database related code has been moved out of dplyr and into a new package, <a href="https://github.com/tidyverse/dbplyr/" class="external-link">dbplyr</a>. This makes dplyr simpler, and will make it easier to release fixes for bugs that only affect databases. If you’ve implemented a database backend for dplyr, please read the <a href="https://github.com/tidyverse/dbplyr/blob/master/NEWS.md#backends" class="external-link">backend news</a> on the backend.</p>
 <p>Depending on what generics you use, and what generics you provide methods for you, you may need to write some conditional code. To help make this easier we’ve written <code><a href="../reference/check_dbplyr.html">wrap_dbplyr_obj()</a></code> which will write the helper code for you:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -220,12 +220,12 @@
 </div>
 <div id="deprecation-of-underscored-verbs_" class="section level3">
 <h3 class="hasAnchor">
-<a href="#deprecation-of-underscored-verbs_" class="anchor"></a>Deprecation of underscored <code>verbs_()</code>
+<a href="#deprecation-of-underscored-verbs_" class="anchor" aria-hidden="true"></a>Deprecation of underscored <code>verbs_()</code>
 </h3>
 <p>Because the tidyeval framework allows us to combine SE and NSE semantics within the same functions, the underscored verbs have been softly deprecated.</p>
 <div id="for-users-of-se_-verbs" class="section level4">
 <h4 class="hasAnchor">
-<a href="#for-users-of-se_-verbs" class="anchor"></a>For users of SE_ verbs</h4>
+<a href="#for-users-of-se_-verbs" class="anchor" aria-hidden="true"></a>For users of SE_ verbs</h4>
 <p>The legacy underscored versions take objects for which a <code><a href="https://rdrr.io/pkg/lazyeval/man/as.lazy.html" class="external-link">lazyeval::as.lazy()</a></code> method is defined. This includes symbols and calls, strings, and formulas. All of these objects have been replaced with quosures and you can call tidyeval verbs with unquoted quosures:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">quo</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tidyeval-compat.html">quo</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span>
@@ -321,7 +321,7 @@
 </div>
 <div id="for-package-authors" class="section level4">
 <h4 class="hasAnchor">
-<a href="#for-package-authors" class="anchor"></a>For package authors</h4>
+<a href="#for-package-authors" class="anchor" aria-hidden="true"></a>For package authors</h4>
 <p>For package authors, rlang provides a <a href="https://github.com/r-lib/rlang/blob/master/R/compat-lazyeval.R" class="external-link">compatibility file</a> that you can copy to your package. <code>compat_lazy()</code> and <code>compat_lazy_dots()</code> turn lazy-able objects into proper quosures. This helps providing an underscored version to your users for backward compatibility. For instance, here is how we defined the underscored version of <code><a href="../reference/filter.html">filter()</a></code> in dplyr 0.6:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">filter_.tbl_df</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, <span class="va">.dots</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
@@ -344,7 +344,7 @@
 </div>
 <div id="deprecation-of-mutate_each-and-summarise_each" class="section level3">
 <h3 class="hasAnchor">
-<a href="#deprecation-of-mutate_each-and-summarise_each" class="anchor"></a>Deprecation of <code>mutate_each()</code> and <code>summarise_each()</code>
+<a href="#deprecation-of-mutate_each-and-summarise_each" class="anchor" aria-hidden="true"></a>Deprecation of <code>mutate_each()</code> and <code>summarise_each()</code>
 </h3>
 <p>These functions have been replaced by a more complete family of functions. This family has suffixes <code>_if</code>, <code>_at</code> and <code>_all</code> and includes more verbs than just <code>mutate</code> <code>summarise</code>.</p>
 <p>If you need to update your code to the new family, there are two relevant functions depending on which variables you apply <code><a href="../reference/funs.html">funs()</a></code> to. If you called <code><a href="../reference/summarise_each.html">mutate_each()</a></code> without supplying a selection of variables, <code>funs</code> is applied to all variables. In this case, you should update your code to use <code><a href="../reference/mutate_all.html">mutate_all()</a></code> instead:</p>

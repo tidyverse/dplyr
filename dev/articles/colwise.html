@@ -97,7 +97,7 @@
     </li>
     <li class="divider">
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/index.html">More articles...</a>
     </li>
   </ul>
 </li>
@@ -184,7 +184,7 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <div id="basic-usage" class="section level2">
 <h2 class="hasAnchor">
-<a href="#basic-usage" class="anchor"></a>Basic usage</h2>
+<a href="#basic-usage" class="anchor" aria-hidden="true"></a>Basic usage</h2>
 <p><code><a href="../reference/across.html">across()</a></code> has two primary arguments:</p>
 <ul>
 <li><p>The first argument, <code>.cols</code>, selects the columns you want to operate on. It uses tidy selection (like <code><a href="../reference/select.html">select()</a></code>) so you can pick variables by position, name, and type.</p></li>
@@ -237,7 +237,7 @@
 <span class="co">#&gt; 2     2     3    -9</span></code></pre></div>
 <div id="multiple-functions" class="section level3">
 <h3 class="hasAnchor">
-<a href="#multiple-functions" class="anchor"></a>Multiple functions</h3>
+<a href="#multiple-functions" class="anchor" aria-hidden="true"></a>Multiple functions</h3>
 <p>You can transform each variable with more than one function by supplying a named list of functions or lambda functions in the second argument:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">min_max</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
@@ -302,7 +302,7 @@
 </div>
 <div id="current-column" class="section level3">
 <h3 class="hasAnchor">
-<a href="#current-column" class="anchor"></a>Current column</h3>
+<a href="#current-column" class="anchor" aria-hidden="true"></a>Current column</h3>
 <p>If you need to, you can access the name of the “current” column inside by calling <code><a href="../reference/context.html">cur_column()</a></code>. This can be useful if you want to perform some sort of context dependent transformation that’s already encoded in a vector:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, y <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">5</span>, z <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>
@@ -318,7 +318,7 @@
 </div>
 <div id="gotchas" class="section level3">
 <h3 class="hasAnchor">
-<a href="#gotchas" class="anchor"></a>Gotchas</h3>
+<a href="#gotchas" class="anchor" aria-hidden="true"></a>Gotchas</h3>
 <p>Be careful when combining numeric summaries with <code>where(is.numeric)</code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span>
@@ -350,7 +350,7 @@
 </div>
 <div id="other-verbs" class="section level3">
 <h3 class="hasAnchor">
-<a href="#other-verbs" class="anchor"></a>Other verbs</h3>
+<a href="#other-verbs" class="anchor" aria-hidden="true"></a>Other verbs</h3>
 <p>So far we’ve focused on the use of <code><a href="../reference/across.html">across()</a></code> with <code><a href="../reference/summarise.html">summarise()</a></code>, but it works with any other dplyr verb that uses data masking:</p>
 <ul>
 <li>
@@ -404,7 +404,7 @@
 </div>
 <div id="filter" class="section level3">
 <h3 class="hasAnchor">
-<a href="#filter" class="anchor"></a>filter()</h3>
+<a href="#filter" class="anchor" aria-hidden="true"></a>filter()</h3>
 <p>We cannot directly use <code><a href="../reference/across.html">across()</a></code> in <code><a href="../reference/filter.html">filter()</a></code> because we need an extra step to combine the results. To that end, <code><a href="../reference/filter.html">filter()</a></code> has two special purpose companion functions:</p>
 <ul>
 <li>
@@ -458,12 +458,12 @@
 </div>
 <div id="if-_at-_all" class="section level2">
 <h2 class="hasAnchor">
-<a href="#if-_at-_all" class="anchor"></a><code>_if</code>, <code>_at</code>, <code>_all</code>
+<a href="#if-_at-_all" class="anchor" aria-hidden="true"></a><code>_if</code>, <code>_at</code>, <code>_all</code>
 </h2>
 <p>Prior versions of dplyr allowed you to apply a function to multiple columns in a different way: using functions with <code>_if</code>, <code>_at</code>, and <code>_all()</code> suffixes. These functions solved a pressing need and are used by many people, but are now superseded. That means that they’ll stay around, but won’t receive any new features and will only get critical bug fixes.</p>
 <div id="why-do-we-like-across" class="section level3">
 <h3 class="hasAnchor">
-<a href="#why-do-we-like-across" class="anchor"></a>Why do we like <code>across()</code>?</h3>
+<a href="#why-do-we-like-across" class="anchor" aria-hidden="true"></a>Why do we like <code>across()</code>?</h3>
 <p>Why did we decide to move away from these functions in favour of <code><a href="../reference/across.html">across()</a></code>?</p>
 <ol style="list-style-type: decimal">
 <li>
@@ -484,7 +484,7 @@
 </div>
 <div id="why-did-it-take-so-long-to-discover-across" class="section level3">
 <h3 class="hasAnchor">
-<a href="#why-did-it-take-so-long-to-discover-across" class="anchor"></a>Why did it take so long to discover <code>across()</code>?</h3>
+<a href="#why-did-it-take-so-long-to-discover-across" class="anchor" aria-hidden="true"></a>Why did it take so long to discover <code>across()</code>?</h3>
 <p>It’s disappointing that we didn’t discover <code><a href="../reference/across.html">across()</a></code> earlier, and instead worked through several false starts (first not realising that it was a common problem, then with the <code>_each()</code> functions, and most recently with the <code>_if()</code>/<code>_at()</code>/<code>_all()</code> functions). But <code><a href="../reference/across.html">across()</a></code> couldn’t work without three recent discoveries:</p>
 <ul>
 <li><p>You can have a column of a data frame that is itself a data frame. This is something provided by base R, but it’s not very well documented, and it took a while to see that it was useful, not just a theoretical curiosity.</p></li>
@@ -494,7 +494,7 @@
 </div>
 <div id="how-do-you-convert-existing-code" class="section level3">
 <h3 class="hasAnchor">
-<a href="#how-do-you-convert-existing-code" class="anchor"></a>How do you convert existing code?</h3>
+<a href="#how-do-you-convert-existing-code" class="anchor" aria-hidden="true"></a>How do you convert existing code?</h3>
 <p>Fortunately, it’s generally straightforward to translate your existing code to use <code><a href="../reference/across.html">across()</a></code>:</p>
 <ul>
 <li><p>Strip the <code>_if()</code>, <code>_at()</code> and <code>_all()</code> suffix off the function.</p></li>

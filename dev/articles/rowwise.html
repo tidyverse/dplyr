@@ -97,7 +97,7 @@
     </li>
     <li class="divider">
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/index.html">More articles...</a>
     </li>
   </ul>
 </li>
@@ -183,7 +183,7 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <div id="creating" class="section level2">
 <h2 class="hasAnchor">
-<a href="#creating" class="anchor"></a>Creating</h2>
+<a href="#creating" class="anchor" aria-hidden="true"></a>Creating</h2>
 <p>Row-wise operations require a special type of grouping where each group consists of a single row. You create this with <code><a href="../reference/rowwise.html">rowwise()</a></code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">4</span>, z <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>
@@ -238,7 +238,7 @@
 </div>
 <div id="per-row-summary-statistics" class="section level2">
 <h2 class="hasAnchor">
-<a href="#per-row-summary-statistics" class="anchor"></a>Per row summary statistics</h2>
+<a href="#per-row-summary-statistics" class="anchor" aria-hidden="true"></a>Per row summary statistics</h2>
 <p><code><a href="../reference/summarise.html">dplyr::summarise()</a></code> makes it really easy to summarise values across rows within one column. When combined with <code><a href="../reference/rowwise.html">rowwise()</a></code> it also makes it easy to summarise values across columns within one row. To see how, we’ll start by making a little dataset:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, w <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">15</span>, x <span class="op">=</span> <span class="fl">20</span><span class="op">:</span><span class="fl">25</span>, y <span class="op">=</span> <span class="fl">30</span><span class="op">:</span><span class="fl">35</span>, z <span class="op">=</span> <span class="fl">40</span><span class="op">:</span><span class="fl">45</span><span class="op">)</span>
@@ -315,7 +315,7 @@
 <span class="co">#&gt; # … with 2 more rows</span></code></pre></div>
 <div id="row-wise-summary-functions" class="section level3">
 <h3 class="hasAnchor">
-<a href="#row-wise-summary-functions" class="anchor"></a>Row-wise summary functions</h3>
+<a href="#row-wise-summary-functions" class="anchor" aria-hidden="true"></a>Row-wise summary functions</h3>
 <p>The <code><a href="../reference/rowwise.html">rowwise()</a></code> approach will work for any summary function. But if you need greater speed, it’s worth looking for a built-in row-wise variant of your summary function. These are more efficient because they operate on the data frame as whole; they don’t split it into rows, compute the summary, and then join the results back together again.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
@@ -341,11 +341,11 @@
 </div>
 <div id="list-columns" class="section level2">
 <h2 class="hasAnchor">
-<a href="#list-columns" class="anchor"></a>List-columns</h2>
+<a href="#list-columns" class="anchor" aria-hidden="true"></a>List-columns</h2>
 <p><code><a href="../reference/rowwise.html">rowwise()</a></code> operations are a natural pairing when you have list-columns. They allow you to avoid explicit loops and/or functions from the <code><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply()</a></code> or <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> families.</p>
 <div id="motivation" class="section level3">
 <h3 class="hasAnchor">
-<a href="#motivation" class="anchor"></a>Motivation</h3>
+<a href="#motivation" class="anchor" aria-hidden="true"></a>Motivation</h3>
 <p>Imagine you have this data frame, and you want to count the lengths of each element:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>
@@ -400,7 +400,7 @@
 </div>
 <div id="subsetting" class="section level3">
 <h3 class="hasAnchor">
-<a href="#subsetting" class="anchor"></a>Subsetting</h3>
+<a href="#subsetting" class="anchor" aria-hidden="true"></a>Subsetting</h3>
 <p>Before we continue on, I wanted to briefly mention the magic that makes this work. This isn’t something you’ll generally need to think about (it’ll just work), but it’s useful to know about when something goes wrong.</p>
 <p>There’s an important difference between a grouped data frame where each group happens to have one row, and a row-wise data frame where every group always has one row. Take these two data frames:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
@@ -465,7 +465,7 @@
 </div>
 <div id="modelling" class="section level3">
 <h3 class="hasAnchor">
-<a href="#modelling" class="anchor"></a>Modelling</h3>
+<a href="#modelling" class="anchor" aria-hidden="true"></a>Modelling</h3>
 <p><code><a href="../reference/rowwise.html">rowwise()</a></code> data frames allow you to solve a variety of modelling problems in what I think is a particularly elegant way. We’ll start by creating a nested data frame:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">by_cyl</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/nest_by.html">nest_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span>
@@ -547,11 +547,11 @@
 </div>
 <div id="repeated-function-calls" class="section level2">
 <h2 class="hasAnchor">
-<a href="#repeated-function-calls" class="anchor"></a>Repeated function calls</h2>
+<a href="#repeated-function-calls" class="anchor" aria-hidden="true"></a>Repeated function calls</h2>
 <p><code><a href="../reference/rowwise.html">rowwise()</a></code> doesn’t just work with functions that return a length-1 vector (aka summary functions); it can work with any function if the result is a list. This means that <code><a href="../reference/rowwise.html">rowwise()</a></code> and <code><a href="../reference/mutate.html">mutate()</a></code> provide an elegant way to call a function many times with varying arguments, storing the outputs alongside the inputs.</p>
 <div id="simulations" class="section level3">
 <h3 class="hasAnchor">
-<a href="#simulations" class="anchor"></a>Simulations</h3>
+<a href="#simulations" class="anchor" aria-hidden="true"></a>Simulations</h3>
 <p>I think this is a particularly elegant way to perform simulations, because it lets you store simulated values along with the parameters that generated them. For example, imagine you have the following data frame that describes the properties of 3 samples from the uniform distribution:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
@@ -585,7 +585,7 @@
 </div>
 <div id="multiple-combinations" class="section level3">
 <h3 class="hasAnchor">
-<a href="#multiple-combinations" class="anchor"></a>Multiple combinations</h3>
+<a href="#multiple-combinations" class="anchor" aria-hidden="true"></a>Multiple combinations</h3>
 <p>What if you want to call a function for every combination of inputs? You can use <code><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid()</a></code> (or <code><a href="https://tidyr.tidyverse.org/reference/expand_grid.html" class="external-link">tidyr::expand_grid()</a></code>) to generate the data frame and then repeat the same pattern as above:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span>
@@ -605,7 +605,7 @@
 </div>
 <div id="varying-functions" class="section level3">
 <h3 class="hasAnchor">
-<a href="#varying-functions" class="anchor"></a>Varying functions</h3>
+<a href="#varying-functions" class="anchor" aria-hidden="true"></a>Varying functions</h3>
 <p>In more complicated problems, you might also want to vary the function being called. This tends to be a bit more of an awkward fit with this approach because the columns in the input tibble will be less regular. But it’s still possible, and it’s a natural place to use <code><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call()</a></code>:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
@@ -629,10 +629,10 @@
 </div>
 <div id="previously" class="section level2">
 <h2 class="hasAnchor">
-<a href="#previously" class="anchor"></a>Previously</h2>
+<a href="#previously" class="anchor" aria-hidden="true"></a>Previously</h2>
 <div id="rowwise" class="section level3">
 <h3 class="hasAnchor">
-<a href="#rowwise" class="anchor"></a><code>rowwise()</code>
+<a href="#rowwise" class="anchor" aria-hidden="true"></a><code>rowwise()</code>
 </h3>
 <p><code><a href="../reference/rowwise.html">rowwise()</a></code> was also questioning for quite some time, partly because I didn’t appreciate how many people needed the native ability to compute summaries across multiple variables for each row. As an alternative, we recommended performing row-wise operations with the purrr <code>map()</code> functions. However, this was challenging because you needed to pick a map function based on the number of arguments that were varying and the type of result, which required quite some knowledge of purrr functions.</p>
 <p>I was also resistant to <code><a href="../reference/rowwise.html">rowwise()</a></code> because I felt like automatically switching between <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">[</a></code> to <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">[[</a></code> was too magical in the same way that automatically <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>-ing results made <code><a href="../reference/do.html">do()</a></code> too magical. I’ve now persuaded myself that the row-wise magic is good magic partly because most people find the distinction between <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">[</a></code> and <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">[[</a></code> mystifying and <code><a href="../reference/rowwise.html">rowwise()</a></code> means that you don’t need to think about it.</p>
@@ -640,7 +640,7 @@
 </div>
 <div id="do" class="section level3">
 <h3 class="hasAnchor">
-<a href="#do" class="anchor"></a><code>do()</code>
+<a href="#do" class="anchor" aria-hidden="true"></a><code>do()</code>
 </h3>
 <p>We’ve questioned the need for <code><a href="../reference/do.html">do()</a></code> for quite some time, because it never felt very similar to the other dplyr verbs. It had two main modes of operation:</p>
 <ul>
