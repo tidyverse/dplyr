@@ -41,7 +41,7 @@ Imports:
     tibble (>= 2.1.3),
     tidyselect (>= 1.1.0),
     utils,
-    vctrs (>= 0.3.5), 
+    vctrs (>= 0.3.7.9001), 
     pillar (>= 1.5.1)
 Suggests: 
     bench,
@@ -70,3 +70,5 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Config/testthat/edition: 3
+Remotes:
+    r-lib/vctrs#1375
