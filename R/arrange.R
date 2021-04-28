@@ -70,6 +70,7 @@ arrange <- function(.data, ..., .by_group = FALSE) {
 #' @param .locale The locale to sort character vectors in.
 #'
 #'   - If `NULL`, the default, character vectors are sorted in the C locale.
+#'     This is often much faster than specifying a locale identifier.
 #'
 #'   - If a single string is supplied, then this will be used as the locale
 #'     identifier to sort with. For example, `"en_US"` will sort with the

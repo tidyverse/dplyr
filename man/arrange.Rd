@@ -23,6 +23,7 @@ grouped data frames only.}
 \item{.locale}{The locale to sort character vectors in.
 \itemize{
 \item If \code{NULL}, the default, character vectors are sorted in the C locale.
+This is often much faster than specifying a locale identifier.
 \item If a single string is supplied, then this will be used as the locale
 identifier to sort with. For example, \code{"en_US"} will sort with the
 American English locale. This requires the stringi package. Use
