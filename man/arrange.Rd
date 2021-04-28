@@ -59,8 +59,7 @@ once per data frame, not once per group.
 \details{
 \subsection{Locales}{
 
-The sort order for character vectors will depend on the collating sequence
-of the locale in use: see \code{\link[=locales]{locales()}}.
+TODO
 }
 
 \subsection{Missing values}{

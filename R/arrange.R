@@ -11,8 +11,7 @@
 #'
 #' @details
 #' ## Locales
-#' The sort order for character vectors will depend on the collating sequence
-#' of the locale in use: see [locales()].
+#' TODO
 #'
 #' ## Missing values
 #' Unlike base sorting with `sort()`, `NA` are:
