@@ -68,22 +68,42 @@ arrange <- function(.data, ..., .by_group = FALSE) {
 
 #' @param .by_group If `TRUE`, will sort first by grouping variable. Applies to
 #'   grouped data frames only.
+#' @param .locale The locale to sort character vectors in.
+#'
+#'   - If `NULL`, the default, character vectors are sorted in the C locale.
+#'
+#'   - If a single string is supplied, then this will be used as the locale
+#'     identifier to sort with. For example, `"en_US"` will sort with the
+#'     American English locale. This requires the stringi package. Use
+#'     [stringi::stri_locale_list()] to generate a list of possible locale
+#'     identifiers.
+#'
+#'   - If a formula or function of one argument is supplied, it is applied to
+#'     all character columns to transform them into alternate strings that
+#'     sort correctly in the C locale. For example, `~ tolower(.x)` results
+#'     in case-insensitive sorting. If supplying a locale identifier as a string
+#'     as described above is not enough customization, use a function to call
+#'     [stringi::stri_sort_key()] directly, specifying any required collation
+#'     options.
+#'
 #' @rdname arrange
 #' @export
-arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
+arrange.data.frame <- function(.data, ..., .by_group = FALSE, .locale = NULL) {
   dots <- enquos(...)
 
   if (.by_group) {
     dots <- c(quos(!!!groups(.data)), dots)
   }
 
-  loc <- arrange_rows(.data, dots)
+  chr_transform <- locale_to_chr_transform(.locale)
+
+  loc <- arrange_rows(.data, dots, chr_transform)
   dplyr_row_slice(.data, loc)
 }
 
 # Helpers -----------------------------------------------------------------
 
-arrange_rows <- function(.data, dots) {
+arrange_rows <- function(.data, dots, chr_transform) {
   if (length(dots) == 0L) {
     out <- seq_len(nrow(.data))
     return(out)
@@ -133,5 +153,47 @@ arrange_rows <- function(.data, dots) {
 
   })
 
-  vec_order(data, direction = directions, na_value = na_values)
+  vec_order(
+    x = data,
+    direction = directions,
+    na_value = na_values,
+    chr_transform = chr_transform
+  )
+}
+
+locale_to_chr_transform <- function(locale) {
+  if (is_null(locale)) {
+    # C locale
+    return(NULL)
+  }
+
+  if (is_character(locale)) {
+    if (!is_string(locale)) {
+      abort("If `locale` is a character vector, it must be a single string.")
+    }
+
+    if (!is_installed("stringi", version = "1.5.3")) {
+      abort("stringi >= 1.5.3 is required to arrange in a different locale.")
+    }
+
+    if (!locale %in% stringi::stri_locale_list()) {
+      abort("`locale` must be one of the locales within `stringi::stri_locale_list()`.")
+    }
+
+    fn <- function(x) {
+      stringi::stri_sort_key(x, locale = locale)
+    }
+
+    return(fn)
+  }
+
+  if (is_formula(locale)) {
+    locale <- as_function(locale)
+  }
+
+  if (is_function(locale)) {
+    return(locale)
+  }
+
+  abort("`locale` must be a string, a function, or `NULL`.")
 }

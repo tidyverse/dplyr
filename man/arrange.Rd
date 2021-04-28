@@ -7,7 +7,7 @@
 \usage{
 arrange(.data, ..., .by_group = FALSE)
 
-\method{arrange}{data.frame}(.data, ..., .by_group = FALSE)
+\method{arrange}{data.frame}(.data, ..., .by_group = FALSE, .locale = NULL)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
@@ -19,6 +19,23 @@ variables. Use \code{\link[=desc]{desc()}} to sort a variable in descending orde
 
 \item{.by_group}{If \code{TRUE}, will sort first by grouping variable. Applies to
 grouped data frames only.}
+
+\item{.locale}{The locale to sort character vectors in.
+\itemize{
+\item If \code{NULL}, the default, character vectors are sorted in the C locale.
+\item If a single string is supplied, then this will be used as the locale
+identifier to sort with. For example, \code{"en_US"} will sort with the
+American English locale. This requires the stringi package. Use
+\code{\link[stringi:stri_locale_list]{stringi::stri_locale_list()}} to generate a list of possible locale
+identifiers.
+\item If a formula or function of one argument is supplied, it is applied to
+all character columns to transform them into alternate strings that
+sort correctly in the C locale. For example, \code{~ tolower(.x)} results
+in case-insensitive sorting. If supplying a locale identifier as a string
+as described above is not enough customization, use a function to call
+\code{\link[stringi:stri_sort_key]{stringi::stri_sort_key()}} directly, specifying any required collation
+options.
+}}
 }
 \value{
 An object of the same type as \code{.data}. The output has the following

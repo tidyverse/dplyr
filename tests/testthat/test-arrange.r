@@ -79,14 +79,46 @@ test_that("arrange handles S4 classes (#1105)", {
   expect_equal(arrange(df, y), df[3:1, ])
 })
 
-test_that("arrange respects locale (#1280)", {
-  df2 <- tibble(words = c("casa", "\u00e1rbol", "zona", "\u00f3rgano"))
 
-  res <- df2 %>% arrange(words)
-  expect_equal(res$words, sort(df2$words))
+test_that("arrange defaults to the C locale", {
+  x <- c("A", "a", "b", "B")
+  df <- tibble(x = x)
 
-  res <- df2 %>% arrange(desc(words))
-  expect_equal(res$words, sort(df2$words, decreasing = TRUE))
+  res <- arrange(df, x)
+  expect_identical(res$x, c("A", "B", "a", "b"))
+
+  res <- arrange(df, desc(x))
+  expect_identical(res$x, rev(c("A", "B", "a", "b")))
+})
+
+test_that("locale can be controlled by `.locale`", {
+  skip_if_not_installed("stringi", "1.5.3")
+
+  x <- c("A", "a", "b", "B")
+  df <- tibble(x = x)
+
+  res <- arrange(df, x, .locale = "en_US")
+  expect_identical(res$x, c("a", "A", "b", "B"))
+
+  res_fn <- arrange(df, x, .locale = ~stringi::stri_sort_key(.x, locale = "en_US"))
+  expect_identical(res, res_fn)
+})
+
+test_that("non-English locales can be used", {
+  skip_if_not_installed("stringi", "1.5.3")
+
+  x <- c("casa", "\u00e1rbol", "zona", "\u00f3rgano")
+  df <- tibble(x = x)
+
+  res <- arrange(df, x, .locale = "es_MX")
+  expect_identical(res$x, x[c(2, 1, 4, 3)])
+})
+
+test_that("arrange validates `.locale`", {
+  df <- tibble()
+  expect_snapshot_error(arrange(df, .locale = 1))
+  expect_snapshot_error(arrange(df, .locale = c("en_US", "fr_BF")))
+  expect_snapshot_error(arrange(df, .locale = "x"))
 })
 
 # data ----------------------------------------------------------------

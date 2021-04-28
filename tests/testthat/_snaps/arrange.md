@@ -26,3 +26,15 @@
       i `..1 = rep(x, 2)`.
       i `..1` must be size 1, not 2.
 
+# arrange validates `.locale`
+
+    `locale` must be a string, a function, or `NULL`.
+
+---
+
+    If `locale` is a character vector, it must be a single string.
+
+---
+
+    `locale` must be one of the locales within `stringi::stri_locale_list()`.
+
