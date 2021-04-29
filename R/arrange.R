@@ -188,7 +188,7 @@ locale_to_chr_transform <- function(locale) {
   }
 
   if (is_formula(locale)) {
-    locale <- as_function(locale)
+    return(as_function(locale))
   }
 
   if (is_function(locale)) {
