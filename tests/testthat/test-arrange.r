@@ -116,9 +116,11 @@ test_that("non-English locales can be used", {
 
 test_that("arrange validates `.locale`", {
   df <- tibble()
-  expect_snapshot_error(arrange(df, .locale = 1))
-  expect_snapshot_error(arrange(df, .locale = c("en_US", "fr_BF")))
-  expect_snapshot_error(arrange(df, .locale = "x"))
+  expect_snapshot({
+    (expect_error(arrange(df, .locale = 1)))
+    (expect_error(arrange(df, .locale = c("en_US", "fr_BF"))))
+    (expect_error(arrange(df, .locale = "x")))
+  })
 })
 
 # data ----------------------------------------------------------------

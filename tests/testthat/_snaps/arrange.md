@@ -28,13 +28,19 @@
 
 # arrange validates `.locale`
 
-    `locale` must be a string, a function, or `NULL`.
-
----
-
-    If `locale` is a character vector, it must be a single string.
-
----
-
-    `locale` must be one of the locales within `stringi::stri_locale_list()`.
+    Code
+      (expect_error(arrange(df, .locale = 1)))
+    Output
+      <error/rlang_error>
+      `locale` must be a string, a function, or `NULL`.
+    Code
+      (expect_error(arrange(df, .locale = c("en_US", "fr_BF"))))
+    Output
+      <error/rlang_error>
+      If `locale` is a character vector, it must be a single string.
+    Code
+      (expect_error(arrange(df, .locale = "x")))
+    Output
+      <error/rlang_error>
+      `locale` must be one of the locales within `stringi::stri_locale_list()`.
 
