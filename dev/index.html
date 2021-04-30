@@ -219,7 +219,7 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 
-<span class="va">starwars</span> <span class="op">%&gt;%</span> 
+<span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="reference/filter.html">filter</a></span><span class="op">(</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Droid"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 14</span>
 <span class="co">#&gt;   name   height  mass hair_color skin_color  eye_color birth_year sex   gender  </span>
@@ -232,7 +232,7 @@
 <span class="co">#&gt; # … with 1 more row, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 
-<span class="va">starwars</span> <span class="op">%&gt;%</span> 
+<span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">ends_with</a></span><span class="op">(</span><span class="st">"color"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 87 x 4</span>
 <span class="co">#&gt;   name           hair_color skin_color  eye_color</span>
@@ -244,8 +244,8 @@
 <span class="co">#&gt; 5 Leia Organa    brown      light       brown    </span>
 <span class="co">#&gt; # … with 82 more rows</span>
 
-<span class="va">starwars</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">name</span>, bmi <span class="op">=</span> <span class="va">mass</span> <span class="op">/</span> <span class="op">(</span><span class="op">(</span><span class="va">height</span> <span class="op">/</span> <span class="fl">100</span><span class="op">)</span>  <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">name</span>, bmi <span class="op">=</span> <span class="va">mass</span> <span class="op">/</span> <span class="op">(</span><span class="op">(</span><span class="va">height</span> <span class="op">/</span> <span class="fl">100</span><span class="op">)</span>  <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span><span class="op">:</span><span class="va">mass</span>, <span class="va">bmi</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 87 x 4</span>
 <span class="co">#&gt;   name           height  mass   bmi</span>
@@ -257,7 +257,7 @@
 <span class="co">#&gt; 5 Leia Organa       150    49  21.8</span>
 <span class="co">#&gt; # … with 82 more rows</span>
 
-<span class="va">starwars</span> <span class="op">%&gt;%</span> 
+<span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 87 x 14</span>
 <span class="co">#&gt;   name    height  mass hair_color skin_color  eye_color  birth_year sex   gender</span>
@@ -270,12 +270,12 @@
 <span class="co">#&gt; # … with 82 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 
-<span class="va">starwars</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="reference/summarise.html">summarise</a></span><span class="op">(</span>
     n <span class="op">=</span> <span class="fu"><a href="reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,
     mass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mass</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-  <span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="reference/filter.html">filter</a></span><span class="op">(</span>
     <span class="va">n</span> <span class="op">&gt;</span> <span class="fl">1</span>,
     <span class="va">mass</span> <span class="op">&gt;</span> <span class="fl">50</span>

@@ -261,27 +261,27 @@ Make sure it is the same type as <code>x</code>.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A single value. <code><a href='https://rdrr.io/r/base/Extract.html'>[[</a></code> is used to do the subsetting.</p>
+    <p>A single value. <code>[[</code> is used to do the subsetting.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>
 <span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>
 
 <span class='fu'>first</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'>last</span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+</div><div class='co'>#&gt; [1] 1</div><div class='input'><span class='fu'>last</span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span>
+</div><div class='co'>#&gt; [1] 1</div><div class='input'>
 <span class='fu'>nth</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'>nth</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>5</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'>nth</span><span class='op'>(</span><span class='va'>x</span>, <span class='op'>-</span><span class='fl'>2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 9</div><div class='input'><span class='fu'>nth</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>11</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] NA</div><div class='input'>
+</div><div class='co'>#&gt; [1] 1</div><div class='input'><span class='fu'>nth</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>5</span><span class='op'>)</span>
+</div><div class='co'>#&gt; [1] 5</div><div class='input'><span class='fu'>nth</span><span class='op'>(</span><span class='va'>x</span>, <span class='op'>-</span><span class='fl'>2</span><span class='op'>)</span>
+</div><div class='co'>#&gt; [1] 9</div><div class='input'><span class='fu'>nth</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>11</span><span class='op'>)</span>
+</div><div class='co'>#&gt; [1] NA</div><div class='input'>
 <span class='fu'>last</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 10</div><div class='input'><span class='co'># Second argument provides optional ordering</span>
+</div><div class='co'>#&gt; [1] 10</div><div class='input'><span class='co'># Second argument provides optional ordering</span>
 <span class='fu'>last</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1</div><div class='input'>
+</div><div class='co'>#&gt; [1] 1</div><div class='input'>
 <span class='co'># These functions always return a single value</span>
 <span class='fu'>first</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] NA</div></pre>
+</div><div class='co'>#&gt; [1] NA</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

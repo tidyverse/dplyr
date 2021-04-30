@@ -241,17 +241,17 @@ but could fail in surprising ways. We now believe it's better to be explicit.</p
 <span class='va'>f2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='st'>"b"</span><span class='op'>)</span>
 
 <span class='fu'>combine</span><span class='op'>(</span><span class='va'>f1</span>, <span class='va'>f2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: `combine()` was deprecated in dplyr 1.0.0.</span>
-#&gt; <span class='warning'>Please use `vctrs::vec_c()` instead.</span></div><div class='output co'>#&gt; [1] a b
+</div><div class='co'>#&gt; <span class='warning'>Warning: </span>`combine()` was deprecated in dplyr 1.0.0.
+#&gt; Please use `vctrs::vec_c()` instead.</div><div class='co'>#&gt; [1] a b
 #&gt; Levels: a b</div><div class='input'><span class='co'># -&gt;</span>
 <span class='fu'>vctrs</span><span class='fu'>::</span><span class='fu'><a href='https://vctrs.r-lib.org/reference/vec_c.html'>vec_c</a></span><span class='op'>(</span><span class='va'>f1</span>, <span class='va'>f1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] a a
+</div><div class='co'>#&gt; [1] a a
 #&gt; Levels: a</div><div class='input'>
 <span class='fu'>combine</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>f1</span>, <span class='va'>f2</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] a b
+</div><div class='co'>#&gt; [1] a b
 #&gt; Levels: a b</div><div class='input'><span class='co'># -&gt;</span>
 <span class='fu'>vctrs</span><span class='fu'>::</span><span class='fu'><a href='https://vctrs.r-lib.org/reference/vec_c.html'>vec_c</a></span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>f1</span>, <span class='va'>f2</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] a b
+</div><div class='co'>#&gt; [1] a b
 #&gt; Levels: a b</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

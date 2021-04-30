@@ -223,7 +223,7 @@ the row will be dropped, unlike base subsetting with [." />
 retaining all rows that satisfy your conditions.
 To be retained, the row must produce a value of <code>TRUE</code> for all conditions.
 Note that when a condition evaluates to <code>NA</code>
-the row will be dropped, unlike base subsetting with <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>.</p>
+the row will be dropped, unlike base subsetting with <code>[</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>filter</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .preserve <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
@@ -290,10 +290,10 @@ expressions used to filter the data:</p><ul>
 <p>Because filtering expressions are computed within groups, they may
 yield different results on grouped tibbles. This will be the case
 as soon as an aggregating, lagging, or ranking function is
-involved. Compare this ungrouped filtering:</p><pre><span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>filter</span><span class='op'>(</span><span class='va'>mass</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mass</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+involved. Compare this ungrouped filtering:</p><pre><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>filter</span><span class='op'>(</span><span class='va'>mass</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mass</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
 </pre>
 
-<p>With the grouped equivalent:</p><pre><span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>gender</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>filter</span><span class='op'>(</span><span class='va'>mass</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mass</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+<p>With the grouped equivalent:</p><pre><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>gender</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>filter</span><span class='op'>(</span><span class='va'>mass</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mass</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
 </pre>
 
 <p>In the ungrouped version, <code>filter()</code> compares the value of <code>mass</code> in each row to
@@ -324,144 +324,144 @@ dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/filter.tbl_lazy.ht
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Filtering by one criterion</span>
 <span class='fu'>filter</span><span class='op'>(</span><span class='va'>starwars</span>, <span class='va'>species</span> <span class='op'>==</span> <span class='st'>"Human"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 35 x 14</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 35 x 14</span>
 #&gt;    name    height  mass hair_color  skin_color eye_color birth_year sex   gender
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Luke S…    172    77 blond       fair       blue            19   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Darth …    202   136 none        white      yellow          41.9 male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Leia O…    150    49 brown       light      brown           19   fema… femin…
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Owen L…    178   120 brown, grey light      blue            52   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Beru W…    165    75 brown       light      blue            47   fema… femin…
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Biggs …    183    84 black       light      brown           24   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Obi-Wa…    182    77 auburn, wh… fair       blue-gray       57   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Anakin…    188    84 blond       fair       blue            41.9 male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Wilhuf…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, gr… fair       blue            64   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Han So…    180    80 brown       fair       brown           29   male  mascu…
-#&gt; </span><span style='color: #949494;'># … with 25 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span><span></div><div class='input'><span class='fu'>filter</span><span class='op'>(</span><span class='va'>starwars</span>, <span class='va'>mass</span> <span class='op'>&gt;</span> <span class='fl'>1000</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 14</span><span>
+#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
+#&gt; <span style='color: #BCBCBC;'> 1</span><span> Luke S…    172    77 blond       fair       blue            19   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 2</span><span> Darth …    202   136 none        white      yellow          41.9 male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span><span> Leia O…    150    49 brown       light      brown           19   fema… femin…</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span><span> Owen L…    178   120 brown, grey light      blue            52   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 5</span><span> Beru W…    165    75 brown       light      blue            47   fema… femin…</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span><span> Biggs …    183    84 black       light      brown           24   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span><span> Obi-Wa…    182    77 auburn, wh… fair       blue-gray       57   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 8</span><span> Anakin…    188    84 blond       fair       blue            41.9 male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 9</span><span> Wilhuf…    180    </span><span style='color: #BB0000;'>NA</span><span> auburn, gr… fair       blue            64   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'>10</span><span> Han So…    180    80 brown       fair       brown           29   male  mascu…</span>
+#&gt; <span style='color: #949494;'># … with 25 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></div><div class='input'><span class='fu'>filter</span><span class='op'>(</span><span class='va'>starwars</span>, <span class='va'>mass</span> <span class='op'>&gt;</span> <span class='fl'>1000</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 14</span>
 #&gt;   name    height  mass hair_color skin_color  eye_color birth_year sex    gender
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Jabba …    175  </span><span style='text-decoration: underline;'>1</span><span>358 </span><span style='color: #BB0000;'>NA</span><span>         green-tan,… orange           600 herma… mascu…
-#&gt; </span><span style='color: #949494;'># … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   vehicles &lt;list&gt;, starships &lt;list&gt;</span><span></div><div class='input'>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> Jabba …    175  </span><span style='text-decoration: underline;'>1</span><span>358 </span><span style='color: #BB0000;'>NA</span><span>         green-tan,… orange           600 herma… mascu…</span>
+#&gt; <span style='color: #949494;'># … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+#&gt; <span style='color: #949494;'>#   vehicles &lt;list&gt;, starships &lt;list&gt;</span></div><div class='input'>
 <span class='co'># Filtering by multiple criteria within a single logical expression</span>
 <span class='fu'>filter</span><span class='op'>(</span><span class='va'>starwars</span>, <span class='va'>hair_color</span> <span class='op'>==</span> <span class='st'>"none"</span> <span class='op'>&amp;</span> <span class='va'>eye_color</span> <span class='op'>==</span> <span class='st'>"black"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 9 x 14</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 9 x 14</span>
 #&gt;   name    height  mass hair_color skin_color   eye_color birth_year sex   gender
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Nien N…    160    68 none       grey         black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Gasgano    122    </span><span style='color: #BB0000;'>NA</span><span> none       white, blue  black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> Kit Fi…    196    87 none       green        black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> Plo Ko…    188    80 none       orange       black             22 male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> Lama Su    229    88 none       grey         black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span> Taun We    213    </span><span style='color: #BB0000;'>NA</span><span> none       grey         black             </span><span style='color: #BB0000;'>NA</span><span> fema… femin…
-#&gt; </span><span style='color: #BCBCBC;'>7</span><span> Shaak …    178    57 none       red, blue, … black             </span><span style='color: #BB0000;'>NA</span><span> fema… femin…
-#&gt; </span><span style='color: #BCBCBC;'>8</span><span> Tion M…    206    80 none       grey         black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'>9</span><span> BB8         </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> none       none         black             </span><span style='color: #BB0000;'>NA</span><span> none  mascu…
-#&gt; </span><span style='color: #949494;'># … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   vehicles &lt;list&gt;, starships &lt;list&gt;</span><span></div><div class='input'><span class='fu'>filter</span><span class='op'>(</span><span class='va'>starwars</span>, <span class='va'>hair_color</span> <span class='op'>==</span> <span class='st'>"none"</span> <span class='op'>|</span> <span class='va'>eye_color</span> <span class='op'>==</span> <span class='st'>"black"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 38 x 14</span><span>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> Nien N…    160    68 none       grey         black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> Gasgano    122    </span><span style='color: #BB0000;'>NA</span><span> none       white, blue  black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span> Kit Fi…    196    87 none       green        black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'>4</span><span> Plo Ko…    188    80 none       orange       black             22 male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'>5</span><span> Lama Su    229    88 none       grey         black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'>6</span><span> Taun We    213    </span><span style='color: #BB0000;'>NA</span><span> none       grey         black             </span><span style='color: #BB0000;'>NA</span><span> fema… femin…</span>
+#&gt; <span style='color: #BCBCBC;'>7</span><span> Shaak …    178    57 none       red, blue, … black             </span><span style='color: #BB0000;'>NA</span><span> fema… femin…</span>
+#&gt; <span style='color: #BCBCBC;'>8</span><span> Tion M…    206    80 none       grey         black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'>9</span><span> BB8         </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> none       none         black             </span><span style='color: #BB0000;'>NA</span><span> none  mascu…</span>
+#&gt; <span style='color: #949494;'># … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+#&gt; <span style='color: #949494;'>#   vehicles &lt;list&gt;, starships &lt;list&gt;</span></div><div class='input'><span class='fu'>filter</span><span class='op'>(</span><span class='va'>starwars</span>, <span class='va'>hair_color</span> <span class='op'>==</span> <span class='st'>"none"</span> <span class='op'>|</span> <span class='va'>eye_color</span> <span class='op'>==</span> <span class='st'>"black"</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 38 x 14</span>
 #&gt;    name    height  mass hair_color skin_color  eye_color birth_year sex   gender
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Darth …    202   136 none       white       yellow          41.9 male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Greedo     173    74 </span><span style='color: #BB0000;'>NA</span><span>         green       black           44   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> IG-88      200   140 none       metal       red             15   none  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Bossk      190   113 none       green       red             53   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Lobot      175    79 none       light       blue            37   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Ackbar     180    83 none       brown mott… orange          41   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Nien N…    160    68 none       grey        black           </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Nute G…    191    90 none       mottled gr… red             </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Jar Ja…    196    66 none       orange      orange          52   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Roos T…    224    82 none       grey        orange          </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
-#&gt; </span><span style='color: #949494;'># … with 28 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span><span></div><div class='input'>
+#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
+#&gt; <span style='color: #BCBCBC;'> 1</span><span> Darth …    202   136 none       white       yellow          41.9 male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 2</span><span> Greedo     173    74 </span><span style='color: #BB0000;'>NA</span><span>         green       black           44   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span><span> IG-88      200   140 none       metal       red             15   none  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span><span> Bossk      190   113 none       green       red             53   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 5</span><span> Lobot      175    79 none       light       blue            37   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span><span> Ackbar     180    83 none       brown mott… orange          41   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span><span> Nien N…    160    68 none       grey        black           </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 8</span><span> Nute G…    191    90 none       mottled gr… red             </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 9</span><span> Jar Ja…    196    66 none       orange      orange          52   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'>10</span><span> Roos T…    224    82 none       grey        orange          </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…</span>
+#&gt; <span style='color: #949494;'># … with 28 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></div><div class='input'>
 <span class='co'># When multiple expressions are used, they are combined using &amp;</span>
 <span class='fu'>filter</span><span class='op'>(</span><span class='va'>starwars</span>, <span class='va'>hair_color</span> <span class='op'>==</span> <span class='st'>"none"</span>, <span class='va'>eye_color</span> <span class='op'>==</span> <span class='st'>"black"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 9 x 14</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 9 x 14</span>
 #&gt;   name    height  mass hair_color skin_color   eye_color birth_year sex   gender
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Nien N…    160    68 none       grey         black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Gasgano    122    </span><span style='color: #BB0000;'>NA</span><span> none       white, blue  black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> Kit Fi…    196    87 none       green        black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> Plo Ko…    188    80 none       orange       black             22 male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> Lama Su    229    88 none       grey         black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span> Taun We    213    </span><span style='color: #BB0000;'>NA</span><span> none       grey         black             </span><span style='color: #BB0000;'>NA</span><span> fema… femin…
-#&gt; </span><span style='color: #BCBCBC;'>7</span><span> Shaak …    178    57 none       red, blue, … black             </span><span style='color: #BB0000;'>NA</span><span> fema… femin…
-#&gt; </span><span style='color: #BCBCBC;'>8</span><span> Tion M…    206    80 none       grey         black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'>9</span><span> BB8         </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> none       none         black             </span><span style='color: #BB0000;'>NA</span><span> none  mascu…
-#&gt; </span><span style='color: #949494;'># … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   vehicles &lt;list&gt;, starships &lt;list&gt;</span><span></div><div class='input'>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> Nien N…    160    68 none       grey         black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> Gasgano    122    </span><span style='color: #BB0000;'>NA</span><span> none       white, blue  black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span> Kit Fi…    196    87 none       green        black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'>4</span><span> Plo Ko…    188    80 none       orange       black             22 male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'>5</span><span> Lama Su    229    88 none       grey         black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'>6</span><span> Taun We    213    </span><span style='color: #BB0000;'>NA</span><span> none       grey         black             </span><span style='color: #BB0000;'>NA</span><span> fema… femin…</span>
+#&gt; <span style='color: #BCBCBC;'>7</span><span> Shaak …    178    57 none       red, blue, … black             </span><span style='color: #BB0000;'>NA</span><span> fema… femin…</span>
+#&gt; <span style='color: #BCBCBC;'>8</span><span> Tion M…    206    80 none       grey         black             </span><span style='color: #BB0000;'>NA</span><span> male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'>9</span><span> BB8         </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> none       none         black             </span><span style='color: #BB0000;'>NA</span><span> none  mascu…</span>
+#&gt; <span style='color: #949494;'># … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+#&gt; <span style='color: #949494;'>#   vehicles &lt;list&gt;, starships &lt;list&gt;</span></div><div class='input'>
 
 <span class='co'># The filtering operation may yield different results on grouped</span>
 <span class='co'># tibbles because the expressions are computed within groups.</span>
 <span class='co'>#</span>
 <span class='co'># The following filters rows where `mass` is greater than the</span>
 <span class='co'># global average:</span>
-<span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>filter</span><span class='op'>(</span><span class='va'>mass</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mass</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 10 x 14</span><span>
+<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>filter</span><span class='op'>(</span><span class='va'>mass</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mass</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 10 x 14</span>
 #&gt;    name    height  mass hair_color  skin_color eye_color birth_year sex   gender
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Darth …    202   136 none        white      yellow          41.9 male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Owen L…    178   120 brown, grey light      blue            52   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Chewba…    228   112 brown       unknown    blue           200   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Jabba …    175  </span><span style='text-decoration: underline;'>1</span><span>358 </span><span style='color: #BB0000;'>NA</span><span>          green-tan… orange         600   herm… mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Jek To…    180   110 brown       fair       blue            </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> IG-88      200   140 none        metal      red             15   none  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Bossk      190   113 none        green      red             53   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Dexter…    198   102 none        brown      yellow          </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Grievo…    216   159 none        brown, wh… green, y…       </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Tarfful    234   136 brown       brown      blue            </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
-#&gt; </span><span style='color: #949494;'># … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   vehicles &lt;list&gt;, starships &lt;list&gt;</span><span></div><div class='input'>
+#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
+#&gt; <span style='color: #BCBCBC;'> 1</span><span> Darth …    202   136 none        white      yellow          41.9 male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 2</span><span> Owen L…    178   120 brown, grey light      blue            52   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span><span> Chewba…    228   112 brown       unknown    blue           200   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span><span> Jabba …    175  </span><span style='text-decoration: underline;'>1</span><span>358 </span><span style='color: #BB0000;'>NA</span><span>          green-tan… orange         600   herm… mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 5</span><span> Jek To…    180   110 brown       fair       blue            </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span><span> IG-88      200   140 none        metal      red             15   none  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span><span> Bossk      190   113 none        green      red             53   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 8</span><span> Dexter…    198   102 none        brown      yellow          </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 9</span><span> Grievo…    216   159 none        brown, wh… green, y…       </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'>10</span><span> Tarfful    234   136 brown       brown      blue            </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…</span>
+#&gt; <span style='color: #949494;'># … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+#&gt; <span style='color: #949494;'>#   vehicles &lt;list&gt;, starships &lt;list&gt;</span></div><div class='input'>
 <span class='co'># Whereas this keeps rows with `mass` greater than the gender</span>
 <span class='co'># average:</span>
-<span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>gender</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>filter</span><span class='op'>(</span><span class='va'>mass</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mass</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 14 x 14</span><span>
-#&gt; </span><span style='color: #949494;'># Groups:   gender [2]</span><span>
+<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>gender</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>filter</span><span class='op'>(</span><span class='va'>mass</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mass</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 14 x 14</span>
+#&gt; <span style='color: #949494;'># Groups:   gender [2]</span>
 #&gt;    name   height   mass hair_color  skin_color eye_color birth_year sex   gender
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Darth…    202  136   none        white      yellow          41.9 male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Owen …    178  120   brown, grey light      blue            52   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Beru …    165   75   brown       light      blue            47   fema… femin…
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Chewb…    228  112   brown       unknown    blue           200   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Jabba…    175 </span><span style='text-decoration: underline;'>1</span><span>358   </span><span style='color: #BB0000;'>NA</span><span>          green-tan… orange         600   herm… mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Jek T…    180  110   brown       fair       blue            </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> IG-88     200  140   none        metal      red             15   none  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Bossk     190  113   none        green      red             53   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Ayla …    178   55   none        blue       hazel           48   fema… femin…
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Lumin…    170   56.2 black       yellow     blue            58   fema… femin…
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span> Zam W…    168   55   blonde      fair, gre… yellow          </span><span style='color: #BB0000;'>NA</span><span>   fema… femin…
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span> Shaak…    178   57   none        red, blue… black           </span><span style='color: #BB0000;'>NA</span><span>   fema… femin…
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span> Griev…    216  159   none        brown, wh… green, y…       </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'>14</span><span> Tarff…    234  136   brown       brown      blue            </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
-#&gt; </span><span style='color: #949494;'># … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   vehicles &lt;list&gt;, starships &lt;list&gt;</span><span></div><div class='input'>
+#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
+#&gt; <span style='color: #BCBCBC;'> 1</span><span> Darth…    202  136   none        white      yellow          41.9 male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 2</span><span> Owen …    178  120   brown, grey light      blue            52   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span><span> Beru …    165   75   brown       light      blue            47   fema… femin…</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span><span> Chewb…    228  112   brown       unknown    blue           200   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 5</span><span> Jabba…    175 </span><span style='text-decoration: underline;'>1</span><span>358   </span><span style='color: #BB0000;'>NA</span><span>          green-tan… orange         600   herm… mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span><span> Jek T…    180  110   brown       fair       blue            </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span><span> IG-88     200  140   none        metal      red             15   none  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 8</span><span> Bossk     190  113   none        green      red             53   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 9</span><span> Ayla …    178   55   none        blue       hazel           48   fema… femin…</span>
+#&gt; <span style='color: #BCBCBC;'>10</span><span> Lumin…    170   56.2 black       yellow     blue            58   fema… femin…</span>
+#&gt; <span style='color: #BCBCBC;'>11</span><span> Zam W…    168   55   blonde      fair, gre… yellow          </span><span style='color: #BB0000;'>NA</span><span>   fema… femin…</span>
+#&gt; <span style='color: #BCBCBC;'>12</span><span> Shaak…    178   57   none        red, blue… black           </span><span style='color: #BB0000;'>NA</span><span>   fema… femin…</span>
+#&gt; <span style='color: #BCBCBC;'>13</span><span> Griev…    216  159   none        brown, wh… green, y…       </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'>14</span><span> Tarff…    234  136   brown       brown      blue            </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…</span>
+#&gt; <span style='color: #949494;'># … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+#&gt; <span style='color: #949494;'>#   vehicles &lt;list&gt;, starships &lt;list&gt;</span></div><div class='input'>
 
 <span class='co'># To refer to column names that are stored as strings, use the `.data` pronoun:</span>
 <span class='va'>vars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mass"</span>, <span class='st'>"height"</span><span class='op'>)</span>
 <span class='va'>cond</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>80</span>, <span class='fl'>150</span><span class='op'>)</span>
-<span class='va'>starwars</span> <span class='op'>%&gt;%</span>
+<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'>filter</span><span class='op'>(</span>
     <span class='va'>.data</span><span class='op'>[[</span><span class='va'>vars</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>&gt;</span> <span class='va'>cond</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>,
     <span class='va'>.data</span><span class='op'>[[</span><span class='va'>vars</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>&gt;</span> <span class='va'>cond</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>
   <span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 21 x 14</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 21 x 14</span>
 #&gt;    name    height  mass hair_color  skin_color eye_color birth_year sex   gender
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Darth …    202   136 none        white      yellow          41.9 male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Owen L…    178   120 brown, grey light      blue            52   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Biggs …    183    84 black       light      brown           24   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Anakin…    188    84 blond       fair       blue            41.9 male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Chewba…    228   112 brown       unknown    blue           200   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Jabba …    175  </span><span style='text-decoration: underline;'>1</span><span>358 </span><span style='color: #BB0000;'>NA</span><span>          green-tan… orange         600   herm… mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Jek To…    180   110 brown       fair       blue            </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> IG-88      200   140 none        metal      red             15   none  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Bossk      190   113 none        green      red             53   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Ackbar     180    83 none        brown mot… orange          41   male  mascu…
-#&gt; </span><span style='color: #949494;'># … with 11 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span><span></div><div class='input'><span class='co'># Learn more in ?dplyr_data_masking</span>
-</div></span></pre>
+#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
+#&gt; <span style='color: #BCBCBC;'> 1</span><span> Darth …    202   136 none        white      yellow          41.9 male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 2</span><span> Owen L…    178   120 brown, grey light      blue            52   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span><span> Biggs …    183    84 black       light      brown           24   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span><span> Anakin…    188    84 blond       fair       blue            41.9 male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 5</span><span> Chewba…    228   112 brown       unknown    blue           200   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span><span> Jabba …    175  </span><span style='text-decoration: underline;'>1</span><span>358 </span><span style='color: #BB0000;'>NA</span><span>          green-tan… orange         600   herm… mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span><span> Jek To…    180   110 brown       fair       blue            </span><span style='color: #BB0000;'>NA</span><span>   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 8</span><span> IG-88      200   140 none        metal      red             15   none  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 9</span><span> Bossk      190   113 none        green      red             53   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'>10</span><span> Ackbar     180    83 none        brown mot… orange          41   male  mascu…</span>
+#&gt; <span style='color: #949494;'># … with 11 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></div><div class='input'><span class='co'># Learn more in ?dplyr_data_masking</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

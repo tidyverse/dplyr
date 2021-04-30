@@ -257,26 +257,26 @@ of cumulative functions.</p>
 <span class='co'># as the input vector.</span>
 <span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span>
 <span class='fu'>cummean</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1.00 2.00 3.00 2.75 2.60</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1.00 2.00 3.00 2.75 2.60</div><div class='input'>
+</div><div class='co'>#&gt; [1] 1.00 2.00 3.00 2.75 2.60</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+</div><div class='co'>#&gt; [1] 1.00 2.00 3.00 2.75 2.60</div><div class='input'>
 <span class='co'># `cumall()` and `cumany()` return logicals</span>
 <span class='fu'>cumall</span><span class='op'>(</span><span class='va'>x</span> <span class='op'>&lt;</span> <span class='fl'>5</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1]  TRUE  TRUE FALSE FALSE FALSE</div><div class='input'><span class='fu'>cumany</span><span class='op'>(</span><span class='va'>x</span> <span class='op'>==</span> <span class='fl'>3</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] FALSE  TRUE  TRUE  TRUE  TRUE</div><div class='input'>
+</div><div class='co'>#&gt; [1]  TRUE  TRUE FALSE FALSE FALSE</div><div class='input'><span class='fu'>cumany</span><span class='op'>(</span><span class='va'>x</span> <span class='op'>==</span> <span class='fl'>3</span><span class='op'>)</span>
+</div><div class='co'>#&gt; [1] FALSE  TRUE  TRUE  TRUE  TRUE</div><div class='input'>
 <span class='co'># `cumall()` vs. `cumany()`</span>
 <span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
   date <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='st'>"2020-01-01"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>6</span>,
   balance <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>50</span>, <span class='fl'>25</span>, <span class='op'>-</span><span class='fl'>25</span>, <span class='op'>-</span><span class='fl'>50</span>, <span class='fl'>30</span>, <span class='fl'>120</span><span class='op'>)</span>
 <span class='op'>)</span>
 <span class='co'># all rows after first overdraft</span>
-<span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='fu'>cumany</span><span class='op'>(</span><span class='va'>balance</span> <span class='op'>&lt;</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;         date balance
+<span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='fu'>cumany</span><span class='op'>(</span><span class='va'>balance</span> <span class='op'>&lt;</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='co'>#&gt;         date balance
 #&gt; 1 2020-01-04     -25
 #&gt; 2 2020-01-05     -50
 #&gt; 3 2020-01-06      30
 #&gt; 4 2020-01-07     120</div><div class='input'><span class='co'># all rows until first overdraft</span>
-<span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='fu'>cumall</span><span class='op'>(</span><span class='op'>!</span><span class='op'>(</span><span class='va'>balance</span> <span class='op'>&lt;</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;         date balance
+<span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='fu'>cumall</span><span class='op'>(</span><span class='op'>!</span><span class='op'>(</span><span class='va'>balance</span> <span class='op'>&lt;</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='co'>#&gt;         date balance
 #&gt; 1 2020-01-01     100
 #&gt; 2 2020-01-02      50
 #&gt; 3 2020-01-03      25</div><div class='input'>

@@ -272,18 +272,18 @@ result in an <code>if</code> expression.</p>
 
 <span class='co'># By default, ordering of rows and columns ignored</span>
 <span class='fu'>all_equal</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'>scramble</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+</div><div class='co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='co'># But those can be overriden if desired</span>
 <span class='fu'>all_equal</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'>scramble</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>, ignore_col_order <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "- Same column names, but different order"</div><div class='input'><span class='fu'>all_equal</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'>scramble</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>, ignore_row_order <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "Same row values, but different order"</div><div class='input'>
+</div><div class='co'>#&gt; [1] "- Same column names, but different order"</div><div class='input'><span class='fu'>all_equal</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'>scramble</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>, ignore_row_order <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='co'>#&gt; [1] "Same row values, but different order"</div><div class='input'>
 <span class='co'># By default all_equal is sensitive to variable differences</span>
 <span class='va'>df1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"a"</span>, stringsAsFactors <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='va'>df2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='st'>"a"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>all_equal</span><span class='op'>(</span><span class='va'>df1</span>, <span class='va'>df2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "- Different types for column `x`: character vs factor&lt;4d52a&gt;\n"</div><div class='input'><span class='co'># But you can request dplyr convert similar types</span>
+</div><div class='co'>#&gt; [1] "- Different types for column `x`: character vs factor&lt;4d52a&gt;\n"</div><div class='input'><span class='co'># But you can request dplyr convert similar types</span>
 <span class='fu'>all_equal</span><span class='op'>(</span><span class='va'>df1</span>, <span class='va'>df2</span>, convert <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div></pre>
+</div><div class='co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
