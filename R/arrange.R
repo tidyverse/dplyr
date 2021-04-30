@@ -161,7 +161,7 @@ locale_to_chr_transform <- function(locale) {
 
   if (is_character(locale)) {
     if (!is_string(locale)) {
-      abort("If `locale` is a character vector, it must be a single string.")
+      abort("If `.locale` is a character vector, it must be a single string.")
     }
 
     if (!is_installed("stringi", version = "1.5.3")) {
@@ -169,7 +169,7 @@ locale_to_chr_transform <- function(locale) {
     }
 
     if (!locale %in% stringi::stri_locale_list()) {
-      abort("`locale` must be one of the locales within `stringi::stri_locale_list()`.")
+      abort("`.locale` must be one of the locales within `stringi::stri_locale_list()`.")
     }
 
     fn <- function(x) {
@@ -179,5 +179,5 @@ locale_to_chr_transform <- function(locale) {
     return(fn)
   }
 
-  abort("`locale` must be a string or `NULL`.")
+  abort("`.locale` must be a string or `NULL`.")
 }
