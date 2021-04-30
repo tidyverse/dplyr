@@ -78,14 +78,6 @@ arrange <- function(.data, ..., .by_group = FALSE) {
 #'     [stringi::stri_locale_list()] to generate a list of possible locale
 #'     identifiers.
 #'
-#'   - If a formula or function of one argument is supplied, it is applied to
-#'     all character columns to transform them into alternate strings that
-#'     sort correctly in the C locale. For example, `~ tolower(.x)` results
-#'     in case-insensitive sorting. If supplying a locale identifier as a string
-#'     as described above is not enough customization, use a function to call
-#'     [stringi::stri_sort_key()] directly, specifying any required collation
-#'     options.
-#'
 #' @rdname arrange
 #' @export
 arrange.data.frame <- function(.data, ..., .by_group = FALSE, .locale = NULL) {
@@ -187,13 +179,5 @@ locale_to_chr_transform <- function(locale) {
     return(fn)
   }
 
-  if (is_formula(locale)) {
-    return(as_function(locale))
-  }
-
-  if (is_function(locale)) {
-    return(locale)
-  }
-
-  abort("`locale` must be a string, a function, or `NULL`.")
+  abort("`locale` must be a string or `NULL`.")
 }

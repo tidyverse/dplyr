@@ -32,7 +32,7 @@
       (expect_error(arrange(df, .locale = 1)))
     Output
       <error/rlang_error>
-      `locale` must be a string, a function, or `NULL`.
+      `locale` must be a string or `NULL`.
     Code
       (expect_error(arrange(df, .locale = c("en_US", "fr_BF"))))
     Output

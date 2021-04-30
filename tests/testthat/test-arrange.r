@@ -99,9 +99,6 @@ test_that("locale can be controlled by `.locale`", {
 
   res <- arrange(df, x, .locale = "en_US")
   expect_identical(res$x, c("a", "A", "b", "B"))
-
-  res_fn <- arrange(df, x, .locale = ~stringi::stri_sort_key(.x, locale = "en_US"))
-  expect_identical(res, res_fn)
 })
 
 test_that("non-English locales can be used", {
