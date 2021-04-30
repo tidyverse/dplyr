@@ -55,7 +55,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org" class="external-link">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
         </div>
       </div>
     </div>
@@ -96,7 +96,7 @@
     </li>
     <li class="divider">
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/index.html">More articles...</a>
     </li>
   </ul>
 </li>
@@ -170,18 +170,18 @@
 <p>This vignette compares dplyr functions to their base R equivalents. This helps those familiar with base R understand better what dplyr does, and shows dplyr users how you might express the same ideas in base R code. We’ll start with a rough overview of the major differences, then discuss the one table verbs in more detail, followed by the two table verbs.</p>
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h1>
+<a href="#overview" class="anchor" aria-hidden="true"></a>Overview</h1>
 <ol style="list-style-type: decimal">
 <li><p>The code dplyr verbs input and output data frames. This contrasts with base R functions which more frequently work with individual vectors.</p></li>
-<li><p>dplyr relies heavily on “non-standard evaluation” so that you don’t need to use <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">$</a></code> to refer to columns in the “current” data frame. This behaviour is inspired by the base functions <code><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset()</a></code> and <code><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform()</a></code>.</p></li>
-<li><p>dplyr solutions tend to use a variety of single purpose verbs, while base R solutions typically tend to use <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">[</a></code> in a variety of ways, depending on the task at hand.</p></li>
-<li><p>Multiple dplyr verbs are often strung together into a pipeline by <code><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></code>. In base R, you’ll typically save intermediate results to a variable that you either discard, or repeatedly overwrite.</p></li>
+<li><p>dplyr relies heavily on “non-standard evaluation” so that you don’t need to use <code>$</code> to refer to columns in the “current” data frame. This behaviour is inspired by the base functions <code><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset()</a></code> and <code><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform()</a></code>.</p></li>
+<li><p>dplyr solutions tend to use a variety of single purpose verbs, while base R solutions typically tend to use <code>[</code> in a variety of ways, depending on the task at hand.</p></li>
+<li><p>Multiple dplyr verbs are often strung together into a pipeline by <code>%&gt;%</code>. In base R, you’ll typically save intermediate results to a variable that you either discard, or repeatedly overwrite.</p></li>
 <li><p>All dplyr verbs handle “grouped” data frames so that the code to perform a computation per-group looks very similar to code that works on a whole data frame. In base R, per-group operations tend to have varied forms.</p></li>
 </ol>
 </div>
 <div id="one-table-verbs" class="section level1">
 <h1 class="hasAnchor">
-<a href="#one-table-verbs" class="anchor"></a>One table verbs</h1>
+<a href="#one-table-verbs" class="anchor" aria-hidden="true"></a>One table verbs</h1>
 <p>The following table shows a condensed translation between dplyr verbs and their base R equivalents. The following sections describe each operation in more detail. You learn more about the dplyr verbs in their documentation and in For more <code>vignette("one-table")</code>.</p>
 <table class="table">
 <thead><tr class="header">
@@ -190,45 +190,45 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td><code><a href="../reference/arrange.html">arrange(df, x)</a></code></td>
+<td><code>arrange(df, x)</code></td>
 <td><code>df[order(x), , drop = FALSE]</code></td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/distinct.html">distinct(df, x)</a></code></td>
+<td><code>distinct(df, x)</code></td>
 <td>
 <code>df[!duplicated(x), , drop = FALSE]</code>, <code><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique()</a></code>
 </td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/filter.html">filter(df, x)</a></code></td>
+<td><code>filter(df, x)</code></td>
 <td>
 <code>df[which(x), , drop = FALSE]</code>, <code><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset()</a></code>
 </td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/mutate.html">mutate(df, z = x + y)</a></code></td>
+<td><code>mutate(df, z = x + y)</code></td>
 <td>
 <code>df$z &lt;- df$x + df$y</code>, <code><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform()</a></code>
 </td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/pull.html">pull(df, 1)</a></code></td>
+<td><code>pull(df, 1)</code></td>
 <td><code>df[[1]]</code></td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/pull.html">pull(df, x)</a></code></td>
+<td><code>pull(df, x)</code></td>
 <td><code>df$x</code></td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/rename.html">rename(df, y = x)</a></code></td>
+<td><code>rename(df, y = x)</code></td>
 <td><code>names(df)[names(df) == "x"] &lt;- "y"</code></td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/relocate.html">relocate(df, y)</a></code></td>
+<td><code>relocate(df, y)</code></td>
 <td><code>df[union("y", names(df))]</code></td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/select.html">select(df, x, y)</a></code></td>
+<td><code>select(df, x, y)</code></td>
 <td>
 <code>df[c("x", "y")]</code>, <code><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset()</a></code>
 </td>
@@ -238,13 +238,13 @@
 <td><code>df[grepl(names(df), "^x")]</code></td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/summarise.html">summarise(df, mean(x))</a></code></td>
+<td><code>summarise(df, mean(x))</code></td>
 <td>
-<code><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean(df$x)</a></code>, <code><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply()</a></code>, <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code>, <code><a href="https://rdrr.io/r/base/by.html" class="external-link">by()</a></code>
+<code>mean(df$x)</code>, <code><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply()</a></code>, <code><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate()</a></code>, <code><a href="https://rdrr.io/r/base/by.html" class="external-link">by()</a></code>
 </td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/slice.html">slice(df, c(1, 2, 5))</a></code></td>
+<td><code>slice(df, c(1, 2, 5))</code></td>
 <td><code>df[c(1, 2, 5), , drop = FALSE]</code></td>
 </tr>
 </tbody>
@@ -256,10 +256,10 @@
 <span class="va">iris</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></code></pre></div>
 <div id="arrange-arrange-rows-by-variables" class="section level2">
 <h2 class="hasAnchor">
-<a href="#arrange-arrange-rows-by-variables" class="anchor"></a><code>arrange()</code>: Arrange rows by variables</h2>
+<a href="#arrange-arrange-rows-by-variables" class="anchor" aria-hidden="true"></a><code>arrange()</code>: Arrange rows by variables</h2>
 <p><code><a href="../reference/arrange.html">dplyr::arrange()</a></code> orders the rows of a data frame by the values of one or more columns:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mtcars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">cyl</span>, <span class="va">disp</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">cyl</span>, <span class="va">disp</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 32 x 11</span>
 <span class="co">#&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -270,7 +270,7 @@
 <span class="co">#&gt; # … with 28 more rows</span></code></pre></div>
 <p>The <code><a href="../reference/desc.html">desc()</a></code> helper allows you to order selected variables in descending order:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mtcars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span>, <span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">disp</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span>, <span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">disp</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 32 x 11</span>
 <span class="co">#&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -279,7 +279,7 @@
 <span class="co">#&gt; 3  14.7     8   440   230  3.23  5.34  17.4     0     0     3     4</span>
 <span class="co">#&gt; 4  19.2     8   400   175  3.08  3.84  17.0     0     0     3     2</span>
 <span class="co">#&gt; # … with 28 more rows</span></code></pre></div>
-<p>We can replicate in base R by using <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">[</a></code> with <code><a href="https://rdrr.io/r/base/order.html" class="external-link">order()</a></code>:</p>
+<p>We can replicate in base R by using <code>[</code> with <code><a href="https://rdrr.io/r/base/order.html" class="external-link">order()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mtcars</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">$</span><span class="va">cyl</span>, <span class="va">mtcars</span><span class="op">$</span><span class="va">disp</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>
 <span class="co">#&gt; # A tibble: 32 x 11</span>
@@ -302,7 +302,7 @@
 </div>
 <div id="distinct-select-distinctunique-rows" class="section level2">
 <h2 class="hasAnchor">
-<a href="#distinct-select-distinctunique-rows" class="anchor"></a><code>distinct()</code>: Select distinct/unique rows</h2>
+<a href="#distinct-select-distinctunique-rows" class="anchor" aria-hidden="true"></a><code>distinct()</code>: Select distinct/unique rows</h2>
 <p><code><a href="../reference/distinct.html">dplyr::distinct()</a></code> selects unique rows:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>
@@ -310,23 +310,23 @@
   y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">100</span>, rep <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="op">)</span>
 
-<span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/distinct.html">distinct</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="co"># selected columns</span>
+<span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/distinct.html">distinct</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="co"># selected columns</span>
 <span class="co">#&gt; # A tibble: 10 x 1</span>
 <span class="co">#&gt;       x</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
 <span class="co">#&gt; 1     9</span>
-<span class="co">#&gt; 2     3</span>
-<span class="co">#&gt; 3     1</span>
-<span class="co">#&gt; 4     6</span>
+<span class="co">#&gt; 2     5</span>
+<span class="co">#&gt; 3     7</span>
+<span class="co">#&gt; 4     4</span>
 <span class="co">#&gt; # … with 6 more rows</span>
-<span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/distinct.html">distinct</a></span><span class="op">(</span><span class="va">x</span>, .keep_all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># whole data frame</span>
+<span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/distinct.html">distinct</a></span><span class="op">(</span><span class="va">x</span>, .keep_all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># whole data frame</span>
 <span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1     9     4</span>
-<span class="co">#&gt; 2     3     5</span>
-<span class="co">#&gt; 3     1     3</span>
-<span class="co">#&gt; 4     6     8</span>
+<span class="co">#&gt; 1     9     2</span>
+<span class="co">#&gt; 2     5     1</span>
+<span class="co">#&gt; 3     7     9</span>
+<span class="co">#&gt; 4     4     8</span>
 <span class="co">#&gt; # … with 6 more rows</span></code></pre></div>
 <p>There are two equivalents in base R, depending on whether you want the whole data frame, or just selected variables:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -335,26 +335,26 @@
 <span class="co">#&gt;       x</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
 <span class="co">#&gt; 1     9</span>
-<span class="co">#&gt; 2     3</span>
-<span class="co">#&gt; 3     1</span>
-<span class="co">#&gt; 4     6</span>
+<span class="co">#&gt; 2     5</span>
+<span class="co">#&gt; 3     7</span>
+<span class="co">#&gt; 4     4</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 <span class="va">df</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">duplicated</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">x</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span> <span class="co"># whole data frame</span>
 <span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1     9     4</span>
-<span class="co">#&gt; 2     3     5</span>
-<span class="co">#&gt; 3     1     3</span>
-<span class="co">#&gt; 4     6     8</span>
+<span class="co">#&gt; 1     9     2</span>
+<span class="co">#&gt; 2     5     1</span>
+<span class="co">#&gt; 3     7     9</span>
+<span class="co">#&gt; 4     4     8</span>
 <span class="co">#&gt; # … with 6 more rows</span></code></pre></div>
 </div>
 <div id="filter-return-rows-with-matching-conditions" class="section level2">
 <h2 class="hasAnchor">
-<a href="#filter-return-rows-with-matching-conditions" class="anchor"></a><code>filter()</code>: Return rows with matching conditions</h2>
+<a href="#filter-return-rows-with-matching-conditions" class="anchor" aria-hidden="true"></a><code>filter()</code>: Return rows with matching conditions</h2>
 <p><code><a href="../reference/filter.html">dplyr::filter()</a></code> selects rows where an expression is <code>TRUE</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 35 x 14</span>
 <span class="co">#&gt;   name     height  mass hair_color  skin_color eye_color birth_year sex   gender</span>
 <span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
@@ -364,14 +364,14 @@
 <span class="co">#&gt; 4 Owen La…    178   120 brown, grey light      blue            52   male  mascu…</span>
 <span class="co">#&gt; # … with 31 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
-<span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">mass</span> <span class="op">&gt;</span> <span class="fl">1000</span><span class="op">)</span>
+<span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">mass</span> <span class="op">&gt;</span> <span class="fl">1000</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 1 x 14</span>
 <span class="co">#&gt;   name    height  mass hair_color skin_color  eye_color birth_year sex    gender</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; </span>
 <span class="co">#&gt; 1 Jabba …    175  1358 &lt;NA&gt;       green-tan,… orange           600 herma… mascu…</span>
 <span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
 <span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
-<span class="va">starwars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">hair_color</span> <span class="op">==</span> <span class="st">"none"</span> <span class="op">&amp;</span> <span class="va">eye_color</span> <span class="op">==</span> <span class="st">"black"</span><span class="op">)</span>
+<span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">hair_color</span> <span class="op">==</span> <span class="st">"none"</span> <span class="op">&amp;</span> <span class="va">eye_color</span> <span class="op">==</span> <span class="st">"black"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 9 x 14</span>
 <span class="co">#&gt;   name    height  mass hair_color skin_color  eye_color birth_year sex   gender </span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  </span>
@@ -410,7 +410,7 @@
 <span class="co">#&gt; 4 Plo Ko…    188    80 none       orange      black             22 male  mascul…</span>
 <span class="co">#&gt; # … with 5 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
-<p>You can also use <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">[</a></code> but this also requires the use of <code><a href="https://rdrr.io/r/base/which.html" class="external-link">which()</a></code> to remove <code>NA</code>s:</p>
+<p>You can also use <code>[</code> but this also requires the use of <code><a href="https://rdrr.io/r/base/which.html" class="external-link">which()</a></code> to remove <code>NA</code>s:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">starwars</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">$</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>
 <span class="co">#&gt; # A tibble: 35 x 14</span>
@@ -442,28 +442,28 @@
 </div>
 <div id="mutate-create-or-transform-variables" class="section level2">
 <h2 class="hasAnchor">
-<a href="#mutate-create-or-transform-variables" class="anchor"></a><code>mutate()</code>: Create or transform variables</h2>
+<a href="#mutate-create-or-transform-variables" class="anchor" aria-hidden="true"></a><code>mutate()</code>: Create or transform variables</h2>
 <p><code><a href="../reference/mutate.html">dplyr::mutate()</a></code> creates new variables from existing variables:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>z <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span>, z2 <span class="op">=</span> <span class="va">z</span> <span class="op">^</span> <span class="fl">2</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>z <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span>, z2 <span class="op">=</span> <span class="va">z</span> <span class="op">^</span> <span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 100 x 4</span>
 <span class="co">#&gt;       x     y     z    z2</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     9     4    13   169</span>
-<span class="co">#&gt; 2     9     4    13   169</span>
-<span class="co">#&gt; 3     3     5     8    64</span>
-<span class="co">#&gt; 4     1     3     4    16</span>
+<span class="co">#&gt; 1     9     2    11   121</span>
+<span class="co">#&gt; 2     5     1     6    36</span>
+<span class="co">#&gt; 3     7     9    16   256</span>
+<span class="co">#&gt; 4     4     8    12   144</span>
 <span class="co">#&gt; # … with 96 more rows</span></code></pre></div>
 <p>The closest base equivalent is <code><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform()</a></code>, but note that it cannot use freshly created variables:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform</a></span><span class="op">(</span><span class="va">df</span>, z <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span>, z2 <span class="op">=</span> <span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;   x y  z  z2</span>
-<span class="co">#&gt; 1 9 4 13 169</span>
-<span class="co">#&gt; 2 9 4 13 169</span>
-<span class="co">#&gt; 3 3 5  8  64</span>
-<span class="co">#&gt; 4 1 3  4  16</span>
-<span class="co">#&gt; 5 6 8 14 196</span>
-<span class="co">#&gt; 6 4 5  9  81</span></code></pre></div>
+<span class="co">#&gt; 1 9 2 11 121</span>
+<span class="co">#&gt; 2 5 1  6  36</span>
+<span class="co">#&gt; 3 7 9 16 256</span>
+<span class="co">#&gt; 4 4 8 12 144</span>
+<span class="co">#&gt; 5 2 7  9  81</span>
+<span class="co">#&gt; 6 6 4 10 100</span></code></pre></div>
 <p>Alternatively, you can use <code>$&lt;-</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mtcars</span><span class="op">$</span><span class="va">cyl2</span> <span class="op">&lt;-</span> <span class="va">mtcars</span><span class="op">$</span><span class="va">cyl</span> <span class="op">*</span> <span class="fl">2</span>
@@ -471,8 +471,8 @@
 <p>When applied to a grouped data frame, <code><a href="../reference/mutate.html">dplyr::mutate()</a></code> computes new variable once per group:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>g <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1.5</span>, <span class="fl">2.5</span>, <span class="fl">3.5</span><span class="op">)</span><span class="op">)</span>
-<span class="va">gf</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<span class="va">gf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>x_mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, x_rank <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rank.html" class="external-link">rank</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 4 x 4</span>
 <span class="co">#&gt; # Groups:   g [2]</span>
@@ -496,16 +496,16 @@
 </div>
 <div id="pull-pull-out-a-single-variable" class="section level2">
 <h2 class="hasAnchor">
-<a href="#pull-pull-out-a-single-variable" class="anchor"></a><code>pull()</code>: Pull out a single variable</h2>
+<a href="#pull-pull-out-a-single-variable" class="anchor" aria-hidden="true"></a><code>pull()</code>: Pull out a single variable</h2>
 <p><code><a href="../reference/pull.html">dplyr::pull()</a></code> extracts a variable either by name or position:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mtcars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pull.html">pull</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pull.html">pull</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
 <span class="co">#&gt;  [1] 21.0 21.0 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 17.8 16.4 17.3 15.2 10.4</span>
 <span class="co">#&gt; [16] 10.4 14.7 32.4 30.4 33.9 21.5 15.5 15.2 13.3 19.2 27.3 26.0 30.4 15.8 19.7</span>
 <span class="co">#&gt; [31] 15.0 21.4</span>
-<span class="va">mtcars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/pull.html">pull</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span>
+<span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/pull.html">pull</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span>
 <span class="co">#&gt;  [1] 6 6 4 6 8 6 8 4 4 6 6 8 8 8 8 8 8 4 4 4 4 8 8 8 8 4 4 4 8 6 8 4</span></code></pre></div>
-<p>This equivalent to <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">[[</a></code> for positions and <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">$</a></code> for names:</p>
+<p>This equivalent to <code>[[</code> for positions and <code>$</code> for names:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mtcars</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 <span class="co">#&gt;  [1] 21.0 21.0 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 17.8 16.4 17.3 15.2 10.4</span>
@@ -516,11 +516,11 @@
 </div>
 <div id="relocate-change-column-order" class="section level2">
 <h2 class="hasAnchor">
-<a href="#relocate-change-column-order" class="anchor"></a><code>relocate()</code>: Change column order</h2>
+<a href="#relocate-change-column-order" class="anchor" aria-hidden="true"></a><code>relocate()</code>: Change column order</h2>
 <p><code><a href="../reference/relocate.html">dplyr::relocate()</a></code> makes it easy to move a set of columns to a new position (by default, the front):</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># to front</span>
-<span class="va">mtcars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">gear</span>, <span class="va">carb</span><span class="op">)</span> 
+<span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">gear</span>, <span class="va">carb</span><span class="op">)</span> 
 <span class="co">#&gt; # A tibble: 32 x 13</span>
 <span class="co">#&gt;    gear  carb   mpg   cyl  disp    hp  drat    wt  qsec    vs    am  cyl2  cyl4</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -531,7 +531,7 @@
 <span class="co">#&gt; # … with 28 more rows</span>
 
 <span class="co"># to back</span>
-<span class="va">mtcars</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="va">cyl</span>, .after <span class="op">=</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">last_col</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> 
+<span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="va">cyl</span>, .after <span class="op">=</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">last_col</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> 
 <span class="co">#&gt; # A tibble: 32 x 13</span>
 <span class="co">#&gt;    disp    hp  drat    wt  qsec    vs    am  gear  carb  cyl2  cyl4   mpg   cyl</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -566,10 +566,10 @@
 </div>
 <div id="rename-rename-variables-by-name" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rename-rename-variables-by-name" class="anchor"></a><code>rename()</code>: Rename variables by name</h2>
+<a href="#rename-rename-variables-by-name" class="anchor" aria-hidden="true"></a><code>rename()</code>: Rename variables by name</h2>
 <p><code><a href="../reference/rename.html">dplyr::rename()</a></code> allows you to rename variables by name or position:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">iris</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/rename.html">rename</a></span><span class="op">(</span>sepal_length <span class="op">=</span> <span class="va">Sepal.Length</span>, sepal_width <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/rename.html">rename</a></span><span class="op">(</span>sepal_length <span class="op">=</span> <span class="va">Sepal.Length</span>, sepal_width <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 150 x 5</span>
 <span class="co">#&gt;   sepal_length sepal_width Petal.Length Petal.Width Species</span>
 <span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  </span>
@@ -588,10 +588,10 @@
 </div>
 <div id="rename_with-rename-variables-with-a-function" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rename_with-rename-variables-with-a-function" class="anchor"></a><code>rename_with()</code>: Rename variables with a function</h2>
+<a href="#rename_with-rename-variables-with-a-function" class="anchor" aria-hidden="true"></a><code>rename_with()</code>: Rename variables with a function</h2>
 <p><code><a href="../reference/rename.html">dplyr::rename_with()</a></code> transform column names with a function:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">iris</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/rename.html">rename_with</a></span><span class="op">(</span><span class="va">toupper</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/rename.html">rename_with</a></span><span class="op">(</span><span class="va">toupper</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 150 x 5</span>
 <span class="co">#&gt;   SEPAL.LENGTH SEPAL.WIDTH PETAL.LENGTH PETAL.WIDTH SPECIES</span>
 <span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  </span>
@@ -614,10 +614,10 @@
 </div>
 <div id="select-select-variables-by-name" class="section level2">
 <h2 class="hasAnchor">
-<a href="#select-select-variables-by-name" class="anchor"></a><code>select()</code>: Select variables by name</h2>
+<a href="#select-select-variables-by-name" class="anchor" aria-hidden="true"></a><code>select()</code>: Select variables by name</h2>
 <p><code><a href="../reference/select.html">dplyr::select()</a></code> subsets columns by position, name, function of name, or other property:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">iris</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 150 x 3</span>
 <span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length</span>
 <span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;</span>
@@ -626,7 +626,7 @@
 <span class="co">#&gt; 3          4.7         3.2          1.3</span>
 <span class="co">#&gt; 4          4.6         3.1          1.5</span>
 <span class="co">#&gt; # … with 146 more rows</span>
-<span class="va">iris</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">Species</span>, <span class="va">Sepal.Length</span><span class="op">)</span>
+<span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">Species</span>, <span class="va">Sepal.Length</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 150 x 2</span>
 <span class="co">#&gt;   Species Sepal.Length</span>
 <span class="co">#&gt;   &lt;fct&gt;          &lt;dbl&gt;</span>
@@ -635,7 +635,7 @@
 <span class="co">#&gt; 3 setosa           4.7</span>
 <span class="co">#&gt; 4 setosa           4.6</span>
 <span class="co">#&gt; # … with 146 more rows</span>
-<span class="va">iris</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Petal"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Petal"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 150 x 2</span>
 <span class="co">#&gt;   Petal.Length Petal.Width</span>
 <span class="co">#&gt;          &lt;dbl&gt;       &lt;dbl&gt;</span>
@@ -644,7 +644,7 @@
 <span class="co">#&gt; 3          1.3         0.2</span>
 <span class="co">#&gt; 4          1.5         0.2</span>
 <span class="co">#&gt; # … with 146 more rows</span>
-<span class="va">iris</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.factor</span><span class="op">)</span><span class="op">)</span>
+<span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.factor</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 150 x 1</span>
 <span class="co">#&gt;   Species</span>
 <span class="co">#&gt;   &lt;fct&gt;  </span>
@@ -716,11 +716,11 @@
 </div>
 <div id="summarise-reduce-multiple-values-down-to-a-single-value" class="section level2">
 <h2 class="hasAnchor">
-<a href="#summarise-reduce-multiple-values-down-to-a-single-value" class="anchor"></a><code>summarise()</code>: Reduce multiple values down to a single value</h2>
+<a href="#summarise-reduce-multiple-values-down-to-a-single-value" class="anchor" aria-hidden="true"></a><code>summarise()</code>: Reduce multiple values down to a single value</h2>
 <p><code><a href="../reference/summarise.html">dplyr::summarise()</a></code> computes one or more summaries for each group:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mtcars</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">disp</span><span class="op">)</span>, n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 x 3</span>
 <span class="co">#&gt;     cyl  mean     n</span>
@@ -759,7 +759,7 @@
 </div>
 <div id="slice-choose-rows-by-position" class="section level2">
 <h2 class="hasAnchor">
-<a href="#slice-choose-rows-by-position" class="anchor"></a><code>slice()</code>: Choose rows by position</h2>
+<a href="#slice-choose-rows-by-position" class="anchor" aria-hidden="true"></a><code>slice()</code>: Choose rows by position</h2>
 <p><code><a href="../reference/slice.html">slice()</a></code> selects rows with their location:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/slice.html">slice</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fl">25</span><span class="op">:</span><span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
@@ -771,7 +771,7 @@
 <span class="co">#&gt; 3  26       4 120.     91  4.43  2.14  16.7     0     1     5     2     8    16</span>
 <span class="co">#&gt; 4  30.4     4  95.1   113  3.77  1.51  16.9     1     1     5     2     8    16</span>
 <span class="co">#&gt; # … with 4 more rows</span></code></pre></div>
-<p>This is straightforward to replicate with <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">[</a></code>:</p>
+<p>This is straightforward to replicate with <code>[</code>:</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mtcars</span><span class="op">[</span><span class="fl">25</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>
 <span class="co">#&gt; # A tibble: 8 x 13</span>
@@ -786,7 +786,7 @@
 </div>
 <div id="two-table-verbs" class="section level1">
 <h1 class="hasAnchor">
-<a href="#two-table-verbs" class="anchor"></a>Two-table verbs</h1>
+<a href="#two-table-verbs" class="anchor" aria-hidden="true"></a>Two-table verbs</h1>
 <p>When we want to merge two data frames, <code>x</code> and <code>y</code>), we have a variety of different ways to bring them together. Various base R <code><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge()</a></code> calls are replaced by a variety of dplyr <code><a href="../reference/mutate-joins.html">join()</a></code> functions.</p>
 <table class="table">
 <thead><tr class="header">
@@ -795,27 +795,27 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td><code><a href="../reference/mutate-joins.html">inner_join(df1, df2)</a></code></td>
-<td><code><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge(df1, df2)</a></code></td>
+<td><code>inner_join(df1, df2)</code></td>
+<td><code>merge(df1, df2)</code></td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/mutate-joins.html">left_join(df1, df2)</a></code></td>
-<td><code><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge(df1, df2, all.x = TRUE)</a></code></td>
+<td><code>left_join(df1, df2)</code></td>
+<td><code>merge(df1, df2, all.x = TRUE)</code></td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/mutate-joins.html">right_join(df1, df2)</a></code></td>
-<td><code><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge(df1, df2, all.y = TRUE)</a></code></td>
+<td><code>right_join(df1, df2)</code></td>
+<td><code>merge(df1, df2, all.y = TRUE)</code></td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/mutate-joins.html">full_join(df1, df2)</a></code></td>
-<td><code><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge(df1, df2, all = TRUE)</a></code></td>
+<td><code>full_join(df1, df2)</code></td>
+<td><code>merge(df1, df2, all = TRUE)</code></td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/filter-joins.html">semi_join(df1, df2)</a></code></td>
+<td><code>semi_join(df1, df2)</code></td>
 <td><code>df1[df1$x %in% df2$x, , drop = FALSE]</code></td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/filter-joins.html">anti_join(df1, df2)</a></code></td>
+<td><code>anti_join(df1, df2)</code></td>
 <td><code>df1[!df1$x %in% df2$x, , drop = FALSE]</code></td>
 </tr>
 </tbody>
@@ -823,7 +823,7 @@
 <p>For more information about two-table verbs, see <code><a href="../articles/two-table.html">vignette("two-table")</a></code>.</p>
 <div id="mutating-joins" class="section level3">
 <h3 class="hasAnchor">
-<a href="#mutating-joins" class="anchor"></a>Mutating joins</h3>
+<a href="#mutating-joins" class="anchor" aria-hidden="true"></a>Mutating joins</h3>
 <p>dplyr’s <code><a href="../reference/mutate-joins.html">inner_join()</a></code>, <code><a href="../reference/mutate-joins.html">left_join()</a></code>, <code><a href="../reference/mutate-joins.html">right_join()</a></code>, and <code><a href="../reference/mutate-joins.html">full_join()</a></code> add new columns from <code>y</code> to <code>x</code>, matching rows based on a set of “keys”, and differ only in how missing matches are handled. They are equivalent to calls to <code><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge()</a></code> with various settings of the <code>all</code>, <code>all.x</code>, and <code>all.y</code> arguments. The main difference is the order of the rows:</p>
 <ul>
 <li>dplyr preserves the order of the <code>x</code> data frame.</li>
@@ -833,31 +833,31 @@
 </div>
 <div id="filtering-joins" class="section level3">
 <h3 class="hasAnchor">
-<a href="#filtering-joins" class="anchor"></a>Filtering joins</h3>
+<a href="#filtering-joins" class="anchor" aria-hidden="true"></a>Filtering joins</h3>
 <p>dplyr’s <code><a href="../reference/filter-joins.html">semi_join()</a></code> and <code><a href="../reference/filter-joins.html">anti_join()</a></code> affect only the rows, not the columns:</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">band_members</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/filter-joins.html">semi_join</a></span><span class="op">(</span><span class="va">band_instruments</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">band_members</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/filter-joins.html">semi_join</a></span><span class="op">(</span><span class="va">band_instruments</span><span class="op">)</span>
 <span class="co">#&gt; Joining, by = "name"</span>
 <span class="co">#&gt; # A tibble: 2 x 2</span>
 <span class="co">#&gt;   name  band   </span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  </span>
 <span class="co">#&gt; 1 John  Beatles</span>
 <span class="co">#&gt; 2 Paul  Beatles</span>
-<span class="va">band_members</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/filter-joins.html">anti_join</a></span><span class="op">(</span><span class="va">band_instruments</span><span class="op">)</span>
+<span class="va">band_members</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/filter-joins.html">anti_join</a></span><span class="op">(</span><span class="va">band_instruments</span><span class="op">)</span>
 <span class="co">#&gt; Joining, by = "name"</span>
 <span class="co">#&gt; # A tibble: 1 x 2</span>
 <span class="co">#&gt;   name  band  </span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; </span>
 <span class="co">#&gt; 1 Mick  Stones</span></code></pre></div>
-<p>They can be replicated in base R with <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">[</a></code> and <code><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></code>:</p>
+<p>They can be replicated in base R with <code>[</code> and <code>%in%</code>:</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">band_members</span><span class="op">[</span><span class="va">band_members</span><span class="op">$</span><span class="va">name</span> <span class="op">%in%</span> <span class="va">band_instruments</span><span class="op">$</span><span class="va">name</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>
+<code class="sourceCode R"><span class="va">band_members</span><span class="op">[</span><span class="va">band_members</span><span class="op">$</span><span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">band_instruments</span><span class="op">$</span><span class="va">name</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>
 <span class="co">#&gt; # A tibble: 2 x 2</span>
 <span class="co">#&gt;   name  band   </span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  </span>
 <span class="co">#&gt; 1 John  Beatles</span>
 <span class="co">#&gt; 2 Paul  Beatles</span>
-<span class="va">band_members</span><span class="op">[</span><span class="op">!</span><span class="va">band_members</span><span class="op">$</span><span class="va">name</span> <span class="op">%in%</span> <span class="va">band_instruments</span><span class="op">$</span><span class="va">name</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>
+<span class="va">band_members</span><span class="op">[</span><span class="op">!</span><span class="va">band_members</span><span class="op">$</span><span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">band_instruments</span><span class="op">$</span><span class="va">name</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>
 <span class="co">#&gt; # A tibble: 1 x 2</span>
 <span class="co">#&gt;   name  band  </span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; </span>
@@ -878,13 +878,12 @@
 
 
       <footer><div class="tidyverse">
-  <p></p>
-<p>Developed by <a href="http://hadley.nz" class="external-link external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9000.</p>
+  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org" class="external-link">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>.
   </p>
 </div>

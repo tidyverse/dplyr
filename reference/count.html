@@ -115,7 +115,7 @@ with group-wise counts." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
         </div>
       </div>
     </div>
@@ -156,7 +156,7 @@ with group-wise counts." />
     </li>
     <li class="divider"></li>
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/index.html">More articles...</a>
     </li>
   </ul>
 </li>
@@ -259,7 +259,7 @@ lazy data frame (e.g. from dbplyr or dtplyr).</p></td>
       <td><p>&lt;<code><a href='dplyr_data_masking.html'>data-masking</a></code>&gt; Frequency weights.
 Can be <code>NULL</code> or a variable:</p><ul>
 <li><p>If <code>NULL</code> (the default), counts the number of rows in each group.</p></li>
-<li><p>If a variable, computes <code><a href='https://rdrr.io/r/base/sum.html'>sum(wt)</a></code> for each group.</p></li>
+<li><p>If a variable, computes <code>sum(wt)</code> for each group.</p></li>
 </ul></td>
     </tr>
     <tr>
@@ -288,62 +288,62 @@ group transiently, so the output has the same groups as the input.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># count() is a convenient way to get a sense of the distribution of</span>
 <span class='co'># values in a dataset</span>
-<span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>count</span><span class='op'>(</span><span class='va'>species</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 38 x 2</span><span>
+<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>count</span><span class='op'>(</span><span class='va'>species</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 38 x 2</span>
 #&gt;    species       n
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Aleena        1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Besalisk      1
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Cerean        1
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Chagrian      1
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Clawdite      1
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Droid         6
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Dug           1
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Ewok          1
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Geonosian     1
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Gungan        3
-#&gt; </span><span style='color: #949494;'># … with 28 more rows</span><span></div><div class='input'><span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>count</span><span class='op'>(</span><span class='va'>species</span>, sort <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 38 x 2</span><span>
+#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span><span> Aleena        1</span>
+#&gt; <span style='color: #BCBCBC;'> 2</span><span> Besalisk      1</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span><span> Cerean        1</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span><span> Chagrian      1</span>
+#&gt; <span style='color: #BCBCBC;'> 5</span><span> Clawdite      1</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span><span> Droid         6</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span><span> Dug           1</span>
+#&gt; <span style='color: #BCBCBC;'> 8</span><span> Ewok          1</span>
+#&gt; <span style='color: #BCBCBC;'> 9</span><span> Geonosian     1</span>
+#&gt; <span style='color: #BCBCBC;'>10</span><span> Gungan        3</span>
+#&gt; <span style='color: #949494;'># … with 28 more rows</span></div><div class='input'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>count</span><span class='op'>(</span><span class='va'>species</span>, sort <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 38 x 2</span>
 #&gt;    species      n
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Human       35
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Droid        6
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> </span><span style='color: #BB0000;'>NA</span><span>           4
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Gungan       3
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Kaminoan     2
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Mirialan     2
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Twi'lek      2
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Wookiee      2
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Zabrak       2
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Aleena       1
-#&gt; </span><span style='color: #949494;'># … with 28 more rows</span><span></div><div class='input'><span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>count</span><span class='op'>(</span><span class='va'>sex</span>, <span class='va'>gender</span>, sort <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 6 x 3</span><span>
+#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span><span> Human       35</span>
+#&gt; <span style='color: #BCBCBC;'> 2</span><span> Droid        6</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span><span> </span><span style='color: #BB0000;'>NA</span><span>           4</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span><span> Gungan       3</span>
+#&gt; <span style='color: #BCBCBC;'> 5</span><span> Kaminoan     2</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span><span> Mirialan     2</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span><span> Twi'lek      2</span>
+#&gt; <span style='color: #BCBCBC;'> 8</span><span> Wookiee      2</span>
+#&gt; <span style='color: #BCBCBC;'> 9</span><span> Zabrak       2</span>
+#&gt; <span style='color: #BCBCBC;'>10</span><span> Aleena       1</span>
+#&gt; <span style='color: #949494;'># … with 28 more rows</span></div><div class='input'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>count</span><span class='op'>(</span><span class='va'>sex</span>, <span class='va'>gender</span>, sort <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 3</span>
 #&gt;   sex            gender        n
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> male           masculine    60
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> female         feminine     16
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> none           masculine     5
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> </span><span style='color: #BB0000;'>NA</span><span>             </span><span style='color: #BB0000;'>NA</span><span>            4
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> hermaphroditic masculine     1
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span> none           feminine      1</div><div class='input'><span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>count</span><span class='op'>(</span>birth_decade <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>birth_year</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 15 x 2</span><span>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> male           masculine    60</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> female         feminine     16</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span> none           masculine     5</span>
+#&gt; <span style='color: #BCBCBC;'>4</span><span> </span><span style='color: #BB0000;'>NA</span><span>             </span><span style='color: #BB0000;'>NA</span><span>            4</span>
+#&gt; <span style='color: #BCBCBC;'>5</span><span> hermaphroditic masculine     1</span>
+#&gt; <span style='color: #BCBCBC;'>6</span><span> none           feminine      1</span></div><div class='input'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>count</span><span class='op'>(</span>birth_decade <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>birth_year</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 15 x 2</span>
 #&gt;    birth_decade     n
-#&gt;           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>           10     1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>           20     6
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>           30     4
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>           40     6
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>           50     8
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>           60     4
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>           70     4
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>           80     2
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>           90     3
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>          100     1
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span>          110     1
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span>          200     1
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span>          600     1
-#&gt; </span><span style='color: #BCBCBC;'>14</span><span>          900     1
-#&gt; </span><span style='color: #BCBCBC;'>15</span><span>           </span><span style='color: #BB0000;'>NA</span><span>    44</div><div class='input'>
+#&gt;           <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span><span>           10     1</span>
+#&gt; <span style='color: #BCBCBC;'> 2</span><span>           20     6</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span><span>           30     4</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span><span>           40     6</span>
+#&gt; <span style='color: #BCBCBC;'> 5</span><span>           50     8</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span><span>           60     4</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span><span>           70     4</span>
+#&gt; <span style='color: #BCBCBC;'> 8</span><span>           80     2</span>
+#&gt; <span style='color: #BCBCBC;'> 9</span><span>           90     3</span>
+#&gt; <span style='color: #BCBCBC;'>10</span><span>          100     1</span>
+#&gt; <span style='color: #BCBCBC;'>11</span><span>          110     1</span>
+#&gt; <span style='color: #BCBCBC;'>12</span><span>          200     1</span>
+#&gt; <span style='color: #BCBCBC;'>13</span><span>          600     1</span>
+#&gt; <span style='color: #BCBCBC;'>14</span><span>          900     1</span>
+#&gt; <span style='color: #BCBCBC;'>15</span><span>           </span><span style='color: #BB0000;'>NA</span><span>    44</span></div><div class='input'>
 <span class='co'># use the `wt` argument to perform a weighted count. This is useful</span>
 <span class='co'># when the data has already been aggregated once</span>
 <span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
@@ -353,53 +353,53 @@ group transiently, so the output has the same groups as the input.</p>
   <span class='st'>"Susan"</span>,  <span class='st'>"female"</span>,      <span class='fl'>4</span>
 <span class='op'>)</span>
 <span class='co'># counts rows:</span>
-<span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>count</span><span class='op'>(</span><span class='va'>gender</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 2 x 2</span><span>
+<span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>count</span><span class='op'>(</span><span class='va'>gender</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 2</span>
 #&gt;   gender     n
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> female     2
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> male       1</div><div class='input'><span class='co'># counts runs:</span>
-<span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>count</span><span class='op'>(</span><span class='va'>gender</span>, wt <span class='op'>=</span> <span class='va'>runs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 2 x 2</span><span>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> female     2</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> male       1</span></div><div class='input'><span class='co'># counts runs:</span>
+<span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>count</span><span class='op'>(</span><span class='va'>gender</span>, wt <span class='op'>=</span> <span class='va'>runs</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 2</span>
 #&gt;   gender     n
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> female     5
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> male      10</div><div class='input'>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> female     5</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> male      10</span></div><div class='input'>
 <span class='co'># tally() is a lower-level function that assumes you've done the grouping</span>
-<span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'>tally</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 1</span><span>
+<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>tally</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 1</span>
 #&gt;       n
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>    87</div><div class='input'><span class='va'>starwars</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>species</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>tally</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 38 x 2</span><span>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span>    87</span></div><div class='input'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>tally</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 38 x 2</span>
 #&gt;    species       n
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Aleena        1
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Besalisk      1
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Cerean        1
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Chagrian      1
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Clawdite      1
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Droid         6
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Dug           1
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Ewok          1
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Geonosian     1
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Gungan        3
-#&gt; </span><span style='color: #949494;'># … with 28 more rows</span><span></div><div class='input'>
+#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span><span> Aleena        1</span>
+#&gt; <span style='color: #BCBCBC;'> 2</span><span> Besalisk      1</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span><span> Cerean        1</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span><span> Chagrian      1</span>
+#&gt; <span style='color: #BCBCBC;'> 5</span><span> Clawdite      1</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span><span> Droid         6</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span><span> Dug           1</span>
+#&gt; <span style='color: #BCBCBC;'> 8</span><span> Ewok          1</span>
+#&gt; <span style='color: #BCBCBC;'> 9</span><span> Geonosian     1</span>
+#&gt; <span style='color: #BCBCBC;'>10</span><span> Gungan        3</span>
+#&gt; <span style='color: #949494;'># … with 28 more rows</span></div><div class='input'>
 <span class='co'># both count() and tally() have add_ variants that work like</span>
 <span class='co'># mutate() instead of summarise</span>
-<span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>add_count</span><span class='op'>(</span><span class='va'>gender</span>, wt <span class='op'>=</span> <span class='va'>runs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 4</span><span>
+<span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>add_count</span><span class='op'>(</span><span class='va'>gender</span>, wt <span class='op'>=</span> <span class='va'>runs</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 4</span>
 #&gt;   name   gender  runs     n
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Max    male      10    10
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Sandra female     1     5
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> Susan  female     4     5</div><div class='input'><span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'>add_tally</span><span class='op'>(</span>wt <span class='op'>=</span> <span class='va'>runs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 4</span><span>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> Max    male      10    10</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> Sandra female     1     5</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span> Susan  female     4     5</span></div><div class='input'><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>add_tally</span><span class='op'>(</span>wt <span class='op'>=</span> <span class='va'>runs</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 4</span>
 #&gt;   name   gender  runs     n
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> Max    male      10    15
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Sandra female     1    15
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> Susan  female     4    15</div></span></pre>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> Max    male      10    15</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> Sandra female     1    15</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span> Susan  female     4    15</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -411,12 +411,12 @@ group transiently, so the output has the same groups as the input.</p>
 
       <footer>
       <div class="tidyverse">
-  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='https://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

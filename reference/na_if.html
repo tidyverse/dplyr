@@ -108,7 +108,7 @@ if you want to convert an annoying value to NA." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
         </div>
       </div>
     </div>
@@ -149,7 +149,7 @@ if you want to convert an annoying value to NA." />
     </li>
     <li class="divider"></li>
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/index.html">More articles...</a>
     </li>
   </ul>
 </li>
@@ -248,52 +248,52 @@ value.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>na_if</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='fl'>5</span><span class='op'>:</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1]  1  2 NA  4  5</div><div class='input'>
+</div><div class='co'>#&gt; [1]  1  2 NA  4  5</div><div class='input'>
 <span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>10</span><span class='op'>)</span>
 <span class='fl'>100</span> <span class='op'>/</span> <span class='va'>x</span>
-</div><div class='output co'>#&gt; [1]  100 -100  Inf   10</div><div class='input'><span class='fl'>100</span> <span class='op'>/</span> <span class='fu'>na_if</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>0</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1]  100 -100   NA   10</div><div class='input'>
+</div><div class='co'>#&gt; [1]  100 -100  Inf   10</div><div class='input'><span class='fl'>100</span> <span class='op'>/</span> <span class='fu'>na_if</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>0</span><span class='op'>)</span>
+</div><div class='co'>#&gt; [1]  100 -100   NA   10</div><div class='input'>
 <span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"abc"</span>, <span class='st'>"def"</span>, <span class='st'>""</span>, <span class='st'>"ghi"</span><span class='op'>)</span>
 <span class='fu'>na_if</span><span class='op'>(</span><span class='va'>y</span>, <span class='st'>""</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "abc" "def" NA    "ghi"</div><div class='input'>
+</div><div class='co'>#&gt; [1] "abc" "def" NA    "ghi"</div><div class='input'>
 <span class='co'># na_if() is particularly useful inside mutate(),</span>
 <span class='co'># and is meant for use with vectors rather than entire data frames</span>
-<span class='va'>starwars</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>eye_color</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>eye_color</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span>eye_color <span class='op'>=</span> <span class='fu'>na_if</span><span class='op'>(</span><span class='va'>eye_color</span>, <span class='st'>"unknown"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 87 x 2</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 87 x 2</span>
 #&gt;    name               eye_color
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Luke Skywalker     blue     
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> C-3PO              yellow   
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> R2-D2              red      
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Darth Vader        yellow   
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Leia Organa        brown    
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Owen Lars          blue     
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Beru Whitesun lars blue     
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> R5-D4              red      
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Biggs Darklighter  brown    
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Obi-Wan Kenobi     blue-gray
-#&gt; </span><span style='color: #949494;'># … with 77 more rows</span><span></div><div class='input'>
+#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span>
+#&gt; <span style='color: #BCBCBC;'> 1</span><span> Luke Skywalker     blue     </span>
+#&gt; <span style='color: #BCBCBC;'> 2</span><span> C-3PO              yellow   </span>
+#&gt; <span style='color: #BCBCBC;'> 3</span><span> R2-D2              red      </span>
+#&gt; <span style='color: #BCBCBC;'> 4</span><span> Darth Vader        yellow   </span>
+#&gt; <span style='color: #BCBCBC;'> 5</span><span> Leia Organa        brown    </span>
+#&gt; <span style='color: #BCBCBC;'> 6</span><span> Owen Lars          blue     </span>
+#&gt; <span style='color: #BCBCBC;'> 7</span><span> Beru Whitesun lars blue     </span>
+#&gt; <span style='color: #BCBCBC;'> 8</span><span> R5-D4              red      </span>
+#&gt; <span style='color: #BCBCBC;'> 9</span><span> Biggs Darklighter  brown    </span>
+#&gt; <span style='color: #BCBCBC;'>10</span><span> Obi-Wan Kenobi     blue-gray</span>
+#&gt; <span style='color: #949494;'># … with 77 more rows</span></div><div class='input'>
 <span class='co'># na_if() can also be used with mutate() and across()</span>
 <span class='co'># to mutate multiple columns</span>
-<span class='va'>starwars</span> <span class='op'>%&gt;%</span>
+<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
    <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='fu'>where</span><span class='op'>(</span><span class='va'>is.character</span><span class='op'>)</span>, <span class='op'>~</span><span class='fu'>na_if</span><span class='op'>(</span><span class='va'>.</span>, <span class='st'>"unknown"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 87 x 14</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 87 x 14</span>
 #&gt;    name    height  mass hair_color  skin_color eye_color birth_year sex   gender
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Luke S…    172    77 blond       fair       blue            19   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> C-3PO      167    75 </span><span style='color: #BB0000;'>NA</span><span>          gold       yellow         112   none  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> R2-D2       96    32 </span><span style='color: #BB0000;'>NA</span><span>          white, bl… red             33   none  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Darth …    202   136 none        white      yellow          41.9 male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Leia O…    150    49 brown       light      brown           19   fema… femin…
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Owen L…    178   120 brown, grey light      blue            52   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Beru W…    165    75 brown       light      blue            47   fema… femin…
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> R5-D4       97    32 </span><span style='color: #BB0000;'>NA</span><span>          white, red red             </span><span style='color: #BB0000;'>NA</span><span>   none  mascu…
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Biggs …    183    84 black       light      brown           24   male  mascu…
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Obi-Wa…    182    77 auburn, wh… fair       blue-gray       57   male  mascu…
-#&gt; </span><span style='color: #949494;'># … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span><span></div></span></pre>
+#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
+#&gt; <span style='color: #BCBCBC;'> 1</span><span> Luke S…    172    77 blond       fair       blue            19   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 2</span><span> C-3PO      167    75 </span><span style='color: #BB0000;'>NA</span><span>          gold       yellow         112   none  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span><span> R2-D2       96    32 </span><span style='color: #BB0000;'>NA</span><span>          white, bl… red             33   none  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span><span> Darth …    202   136 none        white      yellow          41.9 male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 5</span><span> Leia O…    150    49 brown       light      brown           19   fema… femin…</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span><span> Owen L…    178   120 brown, grey light      blue            52   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span><span> Beru W…    165    75 brown       light      blue            47   fema… femin…</span>
+#&gt; <span style='color: #BCBCBC;'> 8</span><span> R5-D4       97    32 </span><span style='color: #BB0000;'>NA</span><span>          white, red red             </span><span style='color: #BB0000;'>NA</span><span>   none  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'> 9</span><span> Biggs …    183    84 black       light      brown           24   male  mascu…</span>
+#&gt; <span style='color: #BCBCBC;'>10</span><span> Obi-Wa…    182    77 auburn, wh… fair       blue-gray       57   male  mascu…</span>
+#&gt; <span style='color: #949494;'># … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -305,12 +305,12 @@ value.</p>
 
       <footer>
       <div class="tidyverse">
-  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='https://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

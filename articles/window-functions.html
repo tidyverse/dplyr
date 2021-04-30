@@ -55,7 +55,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org" class="external-link">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
         </div>
       </div>
     </div>
@@ -96,7 +96,7 @@
     </li>
     <li class="divider">
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/index.html">More articles...</a>
     </li>
   </ul>
 </li>
@@ -167,18 +167,18 @@
 
     
     
-<p>A <strong>window function</strong> is a variation on an aggregation function. Where an aggregation function, like <code><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum()</a></code> and <code><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean()</a></code>, takes n inputs and return a single value, a window function returns n values. The output of a window function depends on all its input values, so window functions don’t include functions that work element-wise, like <code><a href="https://rdrr.io/r/base/Arithmetic.html" class="external-link">+</a></code> or <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">round()</a></code>. Window functions include variations on aggregate functions, like <code><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum()</a></code> and <code><a href="../reference/cumall.html">cummean()</a></code>, functions for ranking and ordering, like <code><a href="https://rdrr.io/r/base/rank.html" class="external-link">rank()</a></code>, and functions for taking offsets, like <code><a href="../reference/lead-lag.html">lead()</a></code> and <code><a href="../reference/lead-lag.html">lag()</a></code>.</p>
+<p>A <strong>window function</strong> is a variation on an aggregation function. Where an aggregation function, like <code><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum()</a></code> and <code><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean()</a></code>, takes n inputs and return a single value, a window function returns n values. The output of a window function depends on all its input values, so window functions don’t include functions that work element-wise, like <code>+</code> or <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">round()</a></code>. Window functions include variations on aggregate functions, like <code><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum()</a></code> and <code><a href="../reference/cumall.html">cummean()</a></code>, functions for ranking and ordering, like <code><a href="https://rdrr.io/r/base/rank.html" class="external-link">rank()</a></code>, and functions for taking offsets, like <code><a href="../reference/lead-lag.html">lead()</a></code> and <code><a href="../reference/lead-lag.html">lag()</a></code>.</p>
 <p>In this vignette, we’ll use a small sample of the Lahman batting dataset, including the players that have won an award.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://CRAN.R-project.org/package=Lahman" class="external-link">Lahman</a></span><span class="op">)</span>
 
-<span class="va">batting</span> <span class="op">&lt;-</span> <span class="fu">Lahman</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/Lahman/man/Batting.html" class="external-link">Batting</a></span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">playerID</span>, <span class="va">yearID</span>, <span class="va">teamID</span>, <span class="va">G</span>, <span class="va">AB</span><span class="op">:</span><span class="va">H</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">playerID</span>, <span class="va">yearID</span>, <span class="va">teamID</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">batting</span> <span class="op">&lt;-</span> <span class="fu">Lahman</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/Lahman/man/Batting.html" class="external-link">Batting</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">playerID</span>, <span class="va">yearID</span>, <span class="va">teamID</span>, <span class="va">G</span>, <span class="va">AB</span><span class="op">:</span><span class="va">H</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">playerID</span>, <span class="va">yearID</span>, <span class="va">teamID</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/filter-joins.html">semi_join</a></span><span class="op">(</span><span class="fu">Lahman</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/Lahman/man/AwardsPlayers.html" class="external-link">AwardsPlayers</a></span>, by <span class="op">=</span> <span class="st">"playerID"</span><span class="op">)</span>
 
-<span class="va">players</span> <span class="op">&lt;-</span> <span class="va">batting</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">playerID</span><span class="op">)</span></code></pre></div>
+<span class="va">players</span> <span class="op">&lt;-</span> <span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">playerID</span><span class="op">)</span></code></pre></div>
 <p>Window functions are used in conjunction with <code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/filter.html">filter()</a></code> to solve a wide range of problems. Here’s a selection:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># For each player, find the two years with most hits</span>
@@ -198,7 +198,7 @@
 <p>Before reading this vignette, you should be familiar with <code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/filter.html">filter()</a></code>.</p>
 <div id="types-of-window-functions" class="section level2">
 <h2 class="hasAnchor">
-<a href="#types-of-window-functions" class="anchor"></a>Types of window functions</h2>
+<a href="#types-of-window-functions" class="anchor" aria-hidden="true"></a>Types of window functions</h2>
 <p>There are five main families of window functions. Two families are unrelated to aggregation functions:</p>
 <ul>
 <li><p>Ranking and ordering functions: <code><a href="../reference/ranking.html">row_number()</a></code>, <code><a href="../reference/ranking.html">min_rank()</a></code>, <code><a href="../reference/ranking.html">dense_rank()</a></code>, <code><a href="../reference/ranking.html">cume_dist()</a></code>, <code><a href="../reference/ranking.html">percent_rank()</a></code>, and <code><a href="../reference/ranking.html">ntile()</a></code>. These functions all take a vector to order by, and return various types of ranks.</p></li>
@@ -214,7 +214,7 @@
 </div>
 <div id="ranking-functions" class="section level2">
 <h2 class="hasAnchor">
-<a href="#ranking-functions" class="anchor"></a>Ranking functions</h2>
+<a href="#ranking-functions" class="anchor" aria-hidden="true"></a>Ranking functions</h2>
 <p>The ranking functions are variations on a theme, differing in how they handle ties:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>
@@ -235,15 +235,15 @@
 <p>These are useful if you want to select (for example) the top 10% of records within each group. For example:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">players</span>, <span class="fu"><a href="../reference/ranking.html">cume_dist</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">0.1</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1,047 x 7</span>
-<span class="co">#&gt; # Groups:   playerID [954]</span>
+<span class="co">#&gt; # A tibble: 1,057 x 7</span>
+<span class="co">#&gt; # Groups:   playerID [964]</span>
 <span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1 aaronha01   1963 ML1      161   631   121   201</span>
 <span class="co">#&gt; 2 aaronha01   1968 ATL      160   606    84   174</span>
 <span class="co">#&gt; 3 abbotji01   1991 CAL       34     0     0     0</span>
 <span class="co">#&gt; 4 abernte02   1965 CHN       84    18     1     3</span>
-<span class="co">#&gt; # … with 1,043 more rows</span></code></pre></div>
+<span class="co">#&gt; # … with 1,053 more rows</span></code></pre></div>
 <p>Finally, <code><a href="../reference/ranking.html">ntile()</a></code> divides the data up into <code>n</code> evenly sized buckets. It’s a coarse ranking, and it can be used in with <code><a href="../reference/mutate.html">mutate()</a></code> to divide the data into buckets for further summary. For example, we could use <code><a href="../reference/ranking.html">ntile()</a></code> to divide the players within a team into four ranked groups, and calculate the average number of games within each group.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">by_team_player</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">batting</span>, <span class="va">teamID</span>, <span class="va">playerID</span><span class="op">)</span>
@@ -254,15 +254,15 @@
 <span class="co">#&gt; # A tibble: 4 x 2</span>
 <span class="co">#&gt;   quartile `mean(G)`</span>
 <span class="co">#&gt;      &lt;int&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt; 1        1      23.1</span>
-<span class="co">#&gt; 2        2      93.0</span>
-<span class="co">#&gt; 3        3     257. </span>
-<span class="co">#&gt; 4        4     975.</span></code></pre></div>
+<span class="co">#&gt; 1        1      22.9</span>
+<span class="co">#&gt; 2        2      92.3</span>
+<span class="co">#&gt; 3        3     256. </span>
+<span class="co">#&gt; 4        4     974.</span></code></pre></div>
 <p>All ranking functions rank from lowest to highest so that small input values get small ranks. Use <code><a href="../reference/desc.html">desc()</a></code> to rank from highest to lowest.</p>
 </div>
 <div id="lead-and-lag" class="section level2">
 <h2 class="hasAnchor">
-<a href="#lead-and-lag" class="anchor"></a>Lead and lag</h2>
+<a href="#lead-and-lag" class="anchor" aria-hidden="true"></a>Lead and lag</h2>
 <p><code><a href="../reference/lead-lag.html">lead()</a></code> and <code><a href="../reference/lead-lag.html">lag()</a></code> produce offset versions of a input vector that is either ahead of or behind the original vector.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>
@@ -314,8 +314,8 @@
 </div>
 <div id="cumulative-aggregates" class="section level2">
 <h2 class="hasAnchor">
-<a href="#cumulative-aggregates" class="anchor"></a>Cumulative aggregates</h2>
-<p>Base R provides cumulative sum (<code><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum()</a></code>), cumulative min (<code><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cummin()</a></code>), and cumulative max (<code><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cummax()</a></code>). (It also provides <code><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumprod()</a></code> but that is rarely useful). Other common accumulating functions are <code><a href="../reference/cumall.html">cumany()</a></code> and <code><a href="../reference/cumall.html">cumall()</a></code>, cumulative versions of <code><a href="https://rdrr.io/r/base/Logic.html" class="external-link">||</a></code> and <code><a href="https://rdrr.io/r/base/Logic.html" class="external-link">&amp;&amp;</a></code>, and <code><a href="../reference/cumall.html">cummean()</a></code>, a cumulative mean. These are not included in base R, but efficient versions are provided by <code>dplyr</code>.</p>
+<a href="#cumulative-aggregates" class="anchor" aria-hidden="true"></a>Cumulative aggregates</h2>
+<p>Base R provides cumulative sum (<code><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum()</a></code>), cumulative min (<code><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cummin()</a></code>), and cumulative max (<code><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cummax()</a></code>). (It also provides <code><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumprod()</a></code> but that is rarely useful). Other common accumulating functions are <code><a href="../reference/cumall.html">cumany()</a></code> and <code><a href="../reference/cumall.html">cumall()</a></code>, cumulative versions of <code>||</code> and <code>&amp;&amp;</code>, and <code><a href="../reference/cumall.html">cummean()</a></code>, a cumulative mean. These are not included in base R, but efficient versions are provided by <code>dplyr</code>.</p>
 <p><code><a href="../reference/cumall.html">cumany()</a></code> and <code><a href="../reference/cumall.html">cumall()</a></code> are useful for selecting all rows up to, or all rows after, a condition is true for the first (or last) time. For example, we can use <code><a href="../reference/cumall.html">cumany()</a></code> to find all records for a player after they played a year with 150 games:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">players</span>, <span class="fu"><a href="../reference/cumall.html">cumany</a></span><span class="op">(</span><span class="va">G</span> <span class="op">&gt;</span> <span class="fl">150</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -329,7 +329,7 @@
 </div>
 <div id="recycled-aggregates" class="section level2">
 <h2 class="hasAnchor">
-<a href="#recycled-aggregates" class="anchor"></a>Recycled aggregates</h2>
+<a href="#recycled-aggregates" class="anchor" aria-hidden="true"></a>Recycled aggregates</h2>
 <p>R’s vector recycling makes it easy to select values that are higher or lower than a summary. I call this a recycled aggregate because the value of the aggregate is recycled to be the same length as the original vector. Recycled aggregates are useful if you want to find all records greater than the mean or less than the median:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">players</span>, <span class="va">G</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span>
@@ -341,7 +341,7 @@
 <p>Recycled aggregates are also useful in conjunction with <code><a href="../reference/mutate.html">mutate()</a></code>. For example, with the batting data, we could compute the “career year”, the number of years a player has played since they entered the league:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">players</span>, career_year <span class="op">=</span> <span class="va">yearID</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">yearID</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 19,978 x 8</span>
+<span class="co">#&gt; # A tibble: 20,087 x 8</span>
 <span class="co">#&gt; # Groups:   playerID [1,359]</span>
 <span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H career_year</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;       &lt;dbl&gt;</span>
@@ -349,11 +349,11 @@
 <span class="co">#&gt; 2 aaronha01   1955 ML1      153   602   105   189           2</span>
 <span class="co">#&gt; 3 aaronha01   1956 ML1      153   609   106   200           3</span>
 <span class="co">#&gt; 4 aaronha01   1957 ML1      151   615   118   198           4</span>
-<span class="co">#&gt; # … with 19,974 more rows</span></code></pre></div>
+<span class="co">#&gt; # … with 20,083 more rows</span></code></pre></div>
 <p>Or, as in the introductory example, we could compute a z-score:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">players</span>, G_z <span class="op">=</span> <span class="op">(</span><span class="va">G</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 19,978 x 8</span>
+<span class="co">#&gt; # A tibble: 20,087 x 8</span>
 <span class="co">#&gt; # Groups:   playerID [1,359]</span>
 <span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H    G_z</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;</span>
@@ -361,7 +361,7 @@
 <span class="co">#&gt; 2 aaronha01   1955 ML1      153   602   105   189  0.519</span>
 <span class="co">#&gt; 3 aaronha01   1956 ML1      153   609   106   200  0.519</span>
 <span class="co">#&gt; 4 aaronha01   1957 ML1      151   615   118   198  0.411</span>
-<span class="co">#&gt; # … with 19,974 more rows</span></code></pre></div>
+<span class="co">#&gt; # … with 20,083 more rows</span></code></pre></div>
 </div>
   </div>
 
@@ -376,13 +376,12 @@
 
 
       <footer><div class="tidyverse">
-  <p></p>
-<p>Developed by <a href="http://hadley.nz" class="external-link external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9000.</p>
+  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org" class="external-link">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>.
   </p>
 </div>

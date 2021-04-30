@@ -55,7 +55,7 @@
         <a class="navbar-brand" href="index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
         </div>
       </div>
     </div>
@@ -96,7 +96,7 @@
     </li>
     <li class="divider">
     <li>
-      <a href="articles/index.html">More...</a>
+      <a href="articles/index.html">More articles...</a>
     </li>
   </ul>
 </li>
@@ -162,7 +162,7 @@
 
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h2>
+<a href="#overview" class="anchor" aria-hidden="true"></a>Overview</h2>
 <p>dplyr is a grammar of data manipulation, providing a consistent set of verbs that help you solve the most common data manipulation challenges:</p>
 <ul>
 <li>
@@ -181,7 +181,7 @@
 </div>
 <div id="backends" class="section level2">
 <h2 class="hasAnchor">
-<a href="#backends" class="anchor"></a>Backends</h2>
+<a href="#backends" class="anchor" aria-hidden="true"></a>Backends</h2>
 <p>In addition to data frames/tibbles, dplyr makes working with other computational backends accessible and efficient. Below is a list of alternative backends:</p>
 <ul>
 <li><p><a href="https://dtplyr.tidyverse.org/" class="external-link">dtplyr</a>: for large, in-memory datasets. Translates your dplyr code to high performance <a href="https://rdatatable.gitlab.io/data.table/" class="external-link">data.table</a> code.</p></li>
@@ -191,7 +191,7 @@
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># The easiest way to get dplyr is to install the whole tidyverse:</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span>
@@ -200,38 +200,38 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span></code></pre></div>
 <div id="development-version" class="section level3">
 <h3 class="hasAnchor">
-<a href="#development-version" class="anchor"></a>Development version</h3>
+<a href="#development-version" class="anchor" aria-hidden="true"></a>Development version</h3>
 <p>To get a bug fix or to use a feature from the development version, you can install the development version of dplyr from GitHub.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"tidyverse/dplyr"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div id="cheatsheet" class="section level2">
+<div id="cheat-sheet" class="section level2">
 <h2 class="hasAnchor">
-<a href="#cheatsheet" class="anchor"></a>Cheatsheet</h2>
+<a href="#cheat-sheet" class="anchor" aria-hidden="true"></a>Cheat Sheet</h2>
 <p><a href="https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf" class="external-link"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/master/pngs/thumbnails/data-transformation-cheatsheet-thumbs.png" width="630" height="252"></a></p>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
+<a href="#usage" class="anchor" aria-hidden="true"></a>Usage</h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 
-<span class="va">starwars</span> <span class="op">%&gt;%</span> 
+<span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="reference/filter.html">filter</a></span><span class="op">(</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Droid"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 14</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 C-3PO    167    75 &lt;NA&gt;       gold       yellow           112 none  mascu…</span>
-<span class="co">#&gt; 2 R2-D2     96    32 &lt;NA&gt;       white, bl… red               33 none  mascu…</span>
-<span class="co">#&gt; 3 R5-D4     97    32 &lt;NA&gt;       white, red red               NA none  mascu…</span>
-<span class="co">#&gt; 4 IG-88    200   140 none       metal      red               15 none  mascu…</span>
-<span class="co">#&gt; 5 R4-P…     96    NA none       silver, r… red, blue         NA none  femin…</span>
+<span class="co">#&gt;   name   height  mass hair_color skin_color  eye_color birth_year sex   gender  </span>
+<span class="co">#&gt;   &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   </span>
+<span class="co">#&gt; 1 C-3PO     167    75 &lt;NA&gt;       gold        yellow           112 none  masculi…</span>
+<span class="co">#&gt; 2 R2-D2      96    32 &lt;NA&gt;       white, blue red               33 none  masculi…</span>
+<span class="co">#&gt; 3 R5-D4      97    32 &lt;NA&gt;       white, red  red               NA none  masculi…</span>
+<span class="co">#&gt; 4 IG-88     200   140 none       metal       red               15 none  masculi…</span>
+<span class="co">#&gt; 5 R4-P17     96    NA none       silver, red red, blue         NA none  feminine</span>
 <span class="co">#&gt; # … with 1 more row, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 
-<span class="va">starwars</span> <span class="op">%&gt;%</span> 
+<span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">ends_with</a></span><span class="op">(</span><span class="st">"color"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 87 x 4</span>
 <span class="co">#&gt;   name           hair_color skin_color  eye_color</span>
@@ -243,8 +243,8 @@
 <span class="co">#&gt; 5 Leia Organa    brown      light       brown    </span>
 <span class="co">#&gt; # … with 82 more rows</span>
 
-<span class="va">starwars</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">name</span>, bmi <span class="op">=</span> <span class="va">mass</span> <span class="op">/</span> <span class="op">(</span><span class="op">(</span><span class="va">height</span> <span class="op">/</span> <span class="fl">100</span><span class="op">)</span>  <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">name</span>, bmi <span class="op">=</span> <span class="va">mass</span> <span class="op">/</span> <span class="op">(</span><span class="op">(</span><span class="va">height</span> <span class="op">/</span> <span class="fl">100</span><span class="op">)</span>  <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span><span class="op">:</span><span class="va">mass</span>, <span class="va">bmi</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 87 x 4</span>
 <span class="co">#&gt;   name           height  mass   bmi</span>
@@ -256,25 +256,25 @@
 <span class="co">#&gt; 5 Leia Organa       150    49  21.8</span>
 <span class="co">#&gt; # … with 82 more rows</span>
 
-<span class="va">starwars</span> <span class="op">%&gt;%</span> 
+<span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 87 x 14</span>
-<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange         600   herm… mascu…</span>
-<span class="co">#&gt; 2 Grie…    216   159 none       brown, wh… green, y…       NA   male  mascu…</span>
-<span class="co">#&gt; 3 IG-88    200   140 none       metal      red             15   none  mascu…</span>
-<span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
-<span class="co">#&gt; 5 Tarf…    234   136 brown      brown      blue            NA   male  mascu…</span>
+<span class="co">#&gt;   name    height  mass hair_color skin_color  eye_color  birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Jabba …    175  1358 &lt;NA&gt;       green-tan,… orange          600   herm… mascu…</span>
+<span class="co">#&gt; 2 Grievo…    216   159 none       brown, whi… green, ye…       NA   male  mascu…</span>
+<span class="co">#&gt; 3 IG-88      200   140 none       metal       red              15   none  mascu…</span>
+<span class="co">#&gt; 4 Darth …    202   136 none       white       yellow           41.9 male  mascu…</span>
+<span class="co">#&gt; 5 Tarfful    234   136 brown      brown       blue             NA   male  mascu…</span>
 <span class="co">#&gt; # … with 82 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 
-<span class="va">starwars</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="reference/summarise.html">summarise</a></span><span class="op">(</span>
     n <span class="op">=</span> <span class="fu"><a href="reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,
     mass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mass</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-  <span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="reference/filter.html">filter</a></span><span class="op">(</span>
     <span class="va">n</span> <span class="op">&gt;</span> <span class="fl">1</span>,
     <span class="va">mass</span> <span class="op">&gt;</span> <span class="fl">50</span>
@@ -291,7 +291,7 @@
 </div>
 <div id="getting-help" class="section level2">
 <h2 class="hasAnchor">
-<a href="#getting-help" class="anchor"></a>Getting help</h2>
+<a href="#getting-help" class="anchor" aria-hidden="true"></a>Getting help</h2>
 <p>If you encounter a clear bug, please file an issue with a minimal reproducible example on <a href="https://github.com/tidyverse/dplyr/issues" class="external-link">GitHub</a>. For questions and other discussion, please use <a href="https://community.rstudio.com/" class="external-link">community.rstudio.com</a> or the <a href="https://groups.google.com/d/forum/manipulatr" class="external-link">manipulatr mailing list</a>.</p>
 <hr>
 <p>Please note that this project is released with a <a href="https://dplyr.tidyverse.org/CODE_OF_CONDUCT">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
@@ -338,7 +338,7 @@
 <li>Romain François <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-2444-4226" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Lionel Henry <br><small class="roles"> Author </small>  </li>
 <li>
-<a href="http://krlmlr.info">Kirill Müller</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-1416-3412" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<a href="https://krlmlr.info">Kirill Müller</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-1416-3412" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>
 <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a> <br><small class="roles"> Copyright holder, funder </small>  </li>
 </ul>
@@ -358,13 +358,12 @@
 
 
       <footer><div class="tidyverse">
-  <p></p>
-<p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
+  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info">Kirill Müller</a>, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="https://krlmlr.info">Kirill Müller</a>, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

@@ -123,7 +123,7 @@ groups." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
         </div>
       </div>
     </div>
@@ -164,7 +164,7 @@ groups." />
     </li>
     <li class="divider"></li>
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/index.html">More articles...</a>
     </li>
   </ul>
 </li>
@@ -283,65 +283,65 @@ groups.</p>
   x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>6</span><span class='op'>)</span>,
   y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>6</span><span class='op'>)</span>
 <span class='op'>)</span>
-<span class='va'>gf</span> <span class='op'>&lt;-</span> <span class='va'>df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span>
+<span class='va'>gf</span> <span class='op'>&lt;-</span> <span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span>
 
-<span class='va'>gf</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span><span>
+<span class='va'>gf</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span>
 #&gt;   g         n
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> a         1
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> b         2
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> c         3</div><div class='input'>
-<span class='va'>gf</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span>id <span class='op'>=</span> <span class='fu'>cur_group_id</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 6 x 4</span><span>
-#&gt; </span><span style='color: #949494;'># Groups:   g [3]</span><span>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> a         1</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> b         2</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span> c         3</span></div><div class='input'>
+<span class='va'>gf</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span>id <span class='op'>=</span> <span class='fu'>cur_group_id</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 4</span>
+#&gt; <span style='color: #949494;'># Groups:   g [3]</span>
 #&gt;   g          x     y    id
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> b     0.258  0.885     2
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> b     0.712  0.827     2
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> c     0.968  0.726     3
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> c     0.661  0.367     3
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> a     0.796  0.523     1
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span> c     0.073</span><span style='text-decoration: underline;'>2</span><span> 0.470     3</div><div class='input'><span class='va'>gf</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span>row <span class='op'>=</span> <span class='fu'>cur_group_rows</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>`summarise()` has grouped output by 'g'. You can override using the `.groups` argument.</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 6 x 2</span><span>
-#&gt; </span><span style='color: #949494;'># Groups:   g [3]</span><span>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> b     0.258  0.885     2</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> b     0.712  0.827     2</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span> c     0.968  0.726     3</span>
+#&gt; <span style='color: #BCBCBC;'>4</span><span> c     0.661  0.367     3</span>
+#&gt; <span style='color: #BCBCBC;'>5</span><span> a     0.796  0.523     1</span>
+#&gt; <span style='color: #BCBCBC;'>6</span><span> c     0.073</span><span style='text-decoration: underline;'>2</span><span> 0.470     3</span></div><div class='input'><span class='va'>gf</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span>row <span class='op'>=</span> <span class='fu'>cur_group_rows</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='co'>#&gt; `summarise()` has grouped output by 'g'. You can override using the `.groups` argument.</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 2</span>
+#&gt; <span style='color: #949494;'># Groups:   g [3]</span>
 #&gt;   g       row
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> a         5
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> b         1
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> b         2
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> c         3
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> c         4
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span> c         6</div><div class='input'><span class='va'>gf</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>cur_group</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 2</span><span>
-#&gt;   g     data            
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>          
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> a     </span><span style='color: #949494;'>&lt;tibble [1 × 1]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> b     </span><span style='color: #949494;'>&lt;tibble [1 × 1]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> c     </span><span style='color: #949494;'>&lt;tibble [1 × 1]&gt;</span><span></div><div class='input'><span class='va'>gf</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>cur_data</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 2</span><span>
-#&gt;   g     data            
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>          
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> a     </span><span style='color: #949494;'>&lt;tibble [1 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> b     </span><span style='color: #949494;'>&lt;tibble [2 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> c     </span><span style='color: #949494;'>&lt;tibble [3 × 2]&gt;</span><span></div><div class='input'><span class='va'>gf</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>cur_data_all</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 2</span><span>
-#&gt;   g     data            
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>          
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> a     </span><span style='color: #949494;'>&lt;tibble [1 × 3]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> b     </span><span style='color: #949494;'>&lt;tibble [2 × 3]&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> c     </span><span style='color: #949494;'>&lt;tibble [3 × 3]&gt;</span><span></div><div class='input'>
-<span class='va'>gf</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'>cur_column</span><span class='op'>(</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>.x</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 6 x 3</span><span>
-#&gt; </span><span style='color: #949494;'># Groups:   g [3]</span><span>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> a         5</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> b         1</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span> b         2</span>
+#&gt; <span style='color: #BCBCBC;'>4</span><span> c         3</span>
+#&gt; <span style='color: #BCBCBC;'>5</span><span> c         4</span>
+#&gt; <span style='color: #BCBCBC;'>6</span><span> c         6</span></div><div class='input'><span class='va'>gf</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>cur_group</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span>
+#&gt;   g     data                
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>              </span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> a     </span><span style='color: #949494;'>&lt;tibble[,1] [1 × 1]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> b     </span><span style='color: #949494;'>&lt;tibble[,1] [1 × 1]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span> c     </span><span style='color: #949494;'>&lt;tibble[,1] [1 × 1]&gt;</span></div><div class='input'><span class='va'>gf</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>cur_data</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span>
+#&gt;   g     data                
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>              </span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> a     </span><span style='color: #949494;'>&lt;tibble[,2] [1 × 2]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> b     </span><span style='color: #949494;'>&lt;tibble[,2] [2 × 2]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span> c     </span><span style='color: #949494;'>&lt;tibble[,2] [3 × 2]&gt;</span></div><div class='input'><span class='va'>gf</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>cur_data_all</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span>
+#&gt;   g     data                
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>              </span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> a     </span><span style='color: #949494;'>&lt;tibble[,3] [1 × 3]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> b     </span><span style='color: #949494;'>&lt;tibble[,3] [2 × 3]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span> c     </span><span style='color: #949494;'>&lt;tibble[,3] [3 × 3]&gt;</span></div><div class='input'>
+<span class='va'>gf</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'>cur_column</span><span class='op'>(</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>.x</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 3</span>
+#&gt; <span style='color: #949494;'># Groups:   g [3]</span>
 #&gt;   g     x      y     
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> b     x 0.26 y 0.88
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> b     x 0.71 y 0.83
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> c     x 0.97 y 0.73
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> c     x 0.66 y 0.37
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> a     x 0.8  y 0.52
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span> c     x 0.07 y 0.47</div></span></pre>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> b     x 0.26 y 0.88</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> b     x 0.71 y 0.83</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span> c     x 0.97 y 0.73</span>
+#&gt; <span style='color: #BCBCBC;'>4</span><span> c     x 0.66 y 0.37</span>
+#&gt; <span style='color: #BCBCBC;'>5</span><span> a     x 0.8  y 0.52</span>
+#&gt; <span style='color: #BCBCBC;'>6</span><span> c     x 0.07 y 0.47</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -353,12 +353,12 @@ groups.</p>
 
       <footer>
       <div class="tidyverse">
-  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='https://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

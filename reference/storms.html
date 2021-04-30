@@ -110,7 +110,7 @@ during the lifetime of a storm." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
         </div>
       </div>
     </div>
@@ -151,7 +151,7 @@ during the lifetime of a storm." />
     </li>
     <li class="divider"></li>
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/index.html">More articles...</a>
     </li>
   </ul>
 </li>
@@ -251,21 +251,21 @@ or Hurricane)</p></dd>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>storms</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10,010 x 13</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 10,010 x 13</span>
 #&gt;    name   year month   day  hour   lat  long status      category  wind pressure
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;ord&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    27     0  27.5 -</span><span style='color: #BB0000;'>79</span><span>   tropical d… -1          25     </span><span style='text-decoration: underline;'>1</span><span>013
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    27     6  28.5 -</span><span style='color: #BB0000;'>79</span><span>   tropical d… -1          25     </span><span style='text-decoration: underline;'>1</span><span>013
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    27    12  29.5 -</span><span style='color: #BB0000;'>79</span><span>   tropical d… -1          25     </span><span style='text-decoration: underline;'>1</span><span>013
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    27    18  30.5 -</span><span style='color: #BB0000;'>79</span><span>   tropical d… -1          25     </span><span style='text-decoration: underline;'>1</span><span>013
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    28     0  31.5 -</span><span style='color: #BB0000;'>78.8</span><span> tropical d… -1          25     </span><span style='text-decoration: underline;'>1</span><span>012
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    28     6  32.4 -</span><span style='color: #BB0000;'>78.7</span><span> tropical d… -1          25     </span><span style='text-decoration: underline;'>1</span><span>012
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    28    12  33.3 -</span><span style='color: #BB0000;'>78</span><span>   tropical d… -1          25     </span><span style='text-decoration: underline;'>1</span><span>011
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    28    18  34   -</span><span style='color: #BB0000;'>77</span><span>   tropical d… -1          30     </span><span style='text-decoration: underline;'>1</span><span>006
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    29     0  34.4 -</span><span style='color: #BB0000;'>75.8</span><span> tropical s… 0           35     </span><span style='text-decoration: underline;'>1</span><span>004
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    29     6  34   -</span><span style='color: #BB0000;'>74.8</span><span> tropical s… 0           40     </span><span style='text-decoration: underline;'>1</span><span>002
-#&gt; </span><span style='color: #949494;'># … with 10,000 more rows, and 2 more variables: ts_diameter &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   hu_diameter &lt;dbl&gt;</span><span></div></span></pre>
+#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;ord&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    27     0  27.5 -</span><span style='color: #BB0000;'>79</span><span>   tropical d… -1          25     </span><span style='text-decoration: underline;'>1</span><span>013</span>
+#&gt; <span style='color: #BCBCBC;'> 2</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    27     6  28.5 -</span><span style='color: #BB0000;'>79</span><span>   tropical d… -1          25     </span><span style='text-decoration: underline;'>1</span><span>013</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    27    12  29.5 -</span><span style='color: #BB0000;'>79</span><span>   tropical d… -1          25     </span><span style='text-decoration: underline;'>1</span><span>013</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    27    18  30.5 -</span><span style='color: #BB0000;'>79</span><span>   tropical d… -1          25     </span><span style='text-decoration: underline;'>1</span><span>013</span>
+#&gt; <span style='color: #BCBCBC;'> 5</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    28     0  31.5 -</span><span style='color: #BB0000;'>78.8</span><span> tropical d… -1          25     </span><span style='text-decoration: underline;'>1</span><span>012</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    28     6  32.4 -</span><span style='color: #BB0000;'>78.7</span><span> tropical d… -1          25     </span><span style='text-decoration: underline;'>1</span><span>012</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    28    12  33.3 -</span><span style='color: #BB0000;'>78</span><span>   tropical d… -1          25     </span><span style='text-decoration: underline;'>1</span><span>011</span>
+#&gt; <span style='color: #BCBCBC;'> 8</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    28    18  34   -</span><span style='color: #BB0000;'>77</span><span>   tropical d… -1          30     </span><span style='text-decoration: underline;'>1</span><span>006</span>
+#&gt; <span style='color: #BCBCBC;'> 9</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    29     0  34.4 -</span><span style='color: #BB0000;'>75.8</span><span> tropical s… 0           35     </span><span style='text-decoration: underline;'>1</span><span>004</span>
+#&gt; <span style='color: #BCBCBC;'>10</span><span> Amy    </span><span style='text-decoration: underline;'>1</span><span>975     6    29     6  34   -</span><span style='color: #BB0000;'>74.8</span><span> tropical s… 0           40     </span><span style='text-decoration: underline;'>1</span><span>002</span>
+#&gt; <span style='color: #949494;'># … with 10,000 more rows, and 2 more variables: ts_diameter &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   hu_diameter &lt;dbl&gt;</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -277,12 +277,12 @@ or Hurricane)</p></dd>
 
       <footer>
       <div class="tidyverse">
-  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='https://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

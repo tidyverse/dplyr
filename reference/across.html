@@ -115,7 +115,7 @@ summarise_at(), summarise_if(), and summarise_all()." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
         </div>
       </div>
     </div>
@@ -156,7 +156,7 @@ summarise_at(), summarise_if(), and summarise_all()." />
     </li>
     <li class="divider"></li>
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/index.html">More articles...</a>
     </li>
   </ul>
 </li>
@@ -281,6 +281,53 @@ Because <code>across()</code> is used within functions like <code><a href='summa
 
     <p><code>across()</code> returns a tibble with one column for each column in <code>.cols</code> and each function in <code>.fns</code>.</p>
 <p><code>if_any()</code> and <code>if_all()</code> return a logical vector.</p>
+    <h2 class="hasAnchor" id="timing-of-evaluation"><a class="anchor" href="#timing-of-evaluation"></a>Timing of evaluation</h2>
+
+    
+
+<p>R code in dplyr verbs is generally evaluated once per group.
+Inside <code>across()</code> however, code is evaluated once for each
+combination of columns and groups. If the evaluation timing is
+important, for example if you're generating random variables, think
+about when it should happen and place your code in consequence.<div class="r"></p><pre><span class='va'>gdf</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>g <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span><span class='op'>)</span>, v1 <span class='op'>=</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>13</span>, v2 <span class='op'>=</span> <span class='fl'>20</span><span class='op'>:</span><span class='fl'>23</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+
+<span class='co'># Outside: 1 normal variate</span>
+<span class='va'>n</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>gdf</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='va'>v1</span><span class='op'>:</span><span class='va'>v2</span>, <span class='op'>~</span> <span class='va'>.x</span> <span class='op'>+</span> <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
+</pre><p></div></p><pre><span class='co'>## # A tibble: 4 x 3</span>
+<span class='co'>## # Groups:   g [3]</span>
+<span class='co'>##       g    v1    v2</span>
+<span class='co'>##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class='co'>## 1     1  9.37  19.4</span>
+<span class='co'>## 2     1 10.4   20.4</span>
+<span class='co'>## 3     2 11.4   21.4</span>
+<span class='co'>## 4     3 12.4   22.4</span>
+</pre><p><div class="r"></p><pre><span class='co'># Inside a verb: 3 normal variates (ngroup)</span>
+<span class='va'>gdf</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>, <span class='fu'>across</span><span class='op'>(</span><span class='va'>v1</span><span class='op'>:</span><span class='va'>v2</span>, <span class='op'>~</span> <span class='va'>.x</span> <span class='op'>+</span> <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
+</pre><p></div></p><pre><span class='co'>## # A tibble: 4 x 4</span>
+<span class='co'>## # Groups:   g [3]</span>
+<span class='co'>##       g    v1    v2      n</span>
+<span class='co'>##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class='co'>## 1     1  10.2  20.2  0.184</span>
+<span class='co'>## 2     1  11.2  21.2  0.184</span>
+<span class='co'>## 3     2  11.2  21.2 -0.836</span>
+<span class='co'>## 4     3  14.6  24.6  1.60</span>
+</pre><p><div class="r"></p><pre><span class='co'># Inside `across()`: 6 normal variates (ncol * ngroup)</span>
+<span class='va'>gdf</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='va'>v1</span><span class='op'>:</span><span class='va'>v2</span>, <span class='op'>~</span> <span class='va'>.x</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</pre><p></div></p><pre><span class='co'>## # A tibble: 4 x 3</span>
+<span class='co'>## # Groups:   g [3]</span>
+<span class='co'>##       g    v1    v2</span>
+<span class='co'>##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class='co'>## 1     1  10.3  20.7</span>
+<span class='co'>## 2     1  11.3  21.7</span>
+<span class='co'>## 3     2  11.2  22.6</span>
+<span class='co'>## 4     3  13.5  22.7</span>
+</pre>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='c_across.html'>c_across()</a></code> for a function that returns a vector</p></div>
@@ -289,128 +336,128 @@ Because <code>across()</code> is used within functions like <code><a href='summa
     <pre class="examples"><div class='input'><span class='co'># across() -----------------------------------------------------------------</span>
 <span class='co'># Different ways to select the same set of columns</span>
 <span class='co'># See &lt;https://tidyselect.r-lib.org/articles/syntax.html&gt; for details</span>
-<span class='va'>iris</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>Sepal.Length</span>, <span class='va'>Sepal.Width</span><span class='op'>)</span>, <span class='va'>round</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 150 x 5</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 150 x 5</span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>            5           4          1.4         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>            5           3          1.4         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>            5           3          1.3         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>            5           3          1.5         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>            5           4          1.4         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>            5           4          1.7         0.4 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>            5           3          1.4         0.3 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>            5           3          1.5         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>            4           3          1.4         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>            5           3          1.5         0.1 setosa 
-#&gt; </span><span style='color: #949494;'># … with 140 more rows</span><span></div><div class='input'><span class='va'>iris</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+#&gt;           <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>  </span>
+#&gt; <span style='color: #BCBCBC;'> 1</span><span>            5           4          1.4         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 2</span><span>            5           3          1.4         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 3</span><span>            5           3          1.3         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 4</span><span>            5           3          1.5         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 5</span><span>            5           4          1.4         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 6</span><span>            5           4          1.7         0.4 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 7</span><span>            5           3          1.4         0.3 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 8</span><span>            5           3          1.5         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 9</span><span>            4           3          1.4         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'>10</span><span>            5           3          1.5         0.1 setosa </span>
+#&gt; <span style='color: #949494;'># … with 140 more rows</span></div><div class='input'><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span>, <span class='va'>round</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 150 x 5</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 150 x 5</span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>            5           4          1.4         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>            5           3          1.4         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>            5           3          1.3         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>            5           3          1.5         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>            5           4          1.4         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>            5           4          1.7         0.4 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>            5           3          1.4         0.3 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>            5           3          1.5         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>            4           3          1.4         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>            5           3          1.5         0.1 setosa 
-#&gt; </span><span style='color: #949494;'># … with 140 more rows</span><span></div><div class='input'><span class='va'>iris</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+#&gt;           <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>  </span>
+#&gt; <span style='color: #BCBCBC;'> 1</span><span>            5           4          1.4         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 2</span><span>            5           3          1.4         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 3</span><span>            5           3          1.3         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 4</span><span>            5           3          1.5         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 5</span><span>            5           4          1.4         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 6</span><span>            5           4          1.7         0.4 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 7</span><span>            5           3          1.4         0.3 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 8</span><span>            5           3          1.5         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 9</span><span>            4           3          1.4         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'>10</span><span>            5           3          1.5         0.1 setosa </span>
+#&gt; <span style='color: #949494;'># … with 140 more rows</span></div><div class='input'><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>Sepal.Width</span>, <span class='va'>round</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 150 x 5</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 150 x 5</span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>            5           4          1.4         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>            5           3          1.4         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>            5           3          1.3         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>            5           3          1.5         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>            5           4          1.4         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>            5           4          1.7         0.4 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>            5           3          1.4         0.3 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>            5           3          1.5         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>            4           3          1.4         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>            5           3          1.5         0.1 setosa 
-#&gt; </span><span style='color: #949494;'># … with 140 more rows</span><span></div><div class='input'><span class='va'>iris</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+#&gt;           <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>  </span>
+#&gt; <span style='color: #BCBCBC;'> 1</span><span>            5           4          1.4         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 2</span><span>            5           3          1.4         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 3</span><span>            5           3          1.3         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 4</span><span>            5           3          1.5         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 5</span><span>            5           4          1.4         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 6</span><span>            5           4          1.7         0.4 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 7</span><span>            5           3          1.4         0.3 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 8</span><span>            5           3          1.5         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 9</span><span>            4           3          1.4         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'>10</span><span>            5           3          1.5         0.1 setosa </span>
+#&gt; <span style='color: #949494;'># … with 140 more rows</span></div><div class='input'><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'>where</span><span class='op'>(</span><span class='va'>is.double</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>Petal.Length</span>, <span class='va'>Petal.Width</span><span class='op'>)</span>, <span class='va'>round</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 150 x 5</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 150 x 5</span>
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>            5           4          1.4         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>            5           3          1.4         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>            5           3          1.3         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>            5           3          1.5         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>            5           4          1.4         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>            5           4          1.7         0.4 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>            5           3          1.4         0.3 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>            5           3          1.5         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>            4           3          1.4         0.2 setosa 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>            5           3          1.5         0.1 setosa 
-#&gt; </span><span style='color: #949494;'># … with 140 more rows</span><span></div><div class='input'>
+#&gt;           <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>  </span>
+#&gt; <span style='color: #BCBCBC;'> 1</span><span>            5           4          1.4         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 2</span><span>            5           3          1.4         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 3</span><span>            5           3          1.3         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 4</span><span>            5           3          1.5         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 5</span><span>            5           4          1.4         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 6</span><span>            5           4          1.7         0.4 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 7</span><span>            5           3          1.4         0.3 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 8</span><span>            5           3          1.5         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'> 9</span><span>            4           3          1.4         0.2 setosa </span>
+#&gt; <span style='color: #BCBCBC;'>10</span><span>            5           3          1.5         0.1 setosa </span>
+#&gt; <span style='color: #949494;'># … with 140 more rows</span></div><div class='input'>
 <span class='co'># A purrr-style formula</span>
-<span class='va'>iris</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"Sepal"</span><span class='op'>)</span>, <span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.x</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 3</span><span>
+<span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"Sepal"</span><span class='op'>)</span>, <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.x</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 3</span>
 #&gt;   Species    Sepal.Length Sepal.Width
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> setosa             5.01        3.43
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> versicolor         5.94        2.77
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> virginica          6.59        2.97</div><div class='input'>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> setosa             5.01        3.43</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> versicolor         5.94        2.77</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span> virginica          6.59        2.97</span></div><div class='input'>
 <span class='co'># A named list of functions</span>
-<span class='va'>iris</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"Sepal"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>mean</span>, sd <span class='op'>=</span> <span class='va'>sd</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 5</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 5</span>
 #&gt;   Species    Sepal.Length_mean Sepal.Length_sd Sepal.Width_mean Sepal.Width_sd
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>                  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> setosa                  5.01           0.352             3.43          0.379
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> versicolor              5.94           0.516             2.77          0.314
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> virginica               6.59           0.636             2.97          0.322</div><div class='input'>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>                  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> setosa                  5.01           0.352             3.43          0.379</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> versicolor              5.94           0.516             2.77          0.314</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span> virginica               6.59           0.636             2.97          0.322</span></div><div class='input'>
 <span class='co'># Use the .names argument to control the output names</span>
-<span class='va'>iris</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"Sepal"</span><span class='op'>)</span>, <span class='va'>mean</span>, .names <span class='op'>=</span> <span class='st'>"mean_{.col}"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 3</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 3</span>
 #&gt;   Species    mean_Sepal.Length mean_Sepal.Width
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>                  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> setosa                  5.01             3.43
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> versicolor              5.94             2.77
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> virginica               6.59             2.97</div><div class='input'><span class='va'>iris</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>                  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> setosa                  5.01             3.43</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> versicolor              5.94             2.77</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span> virginica               6.59             2.97</span></div><div class='input'><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"Sepal"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>mean</span>, sd <span class='op'>=</span> <span class='va'>sd</span><span class='op'>)</span>, .names <span class='op'>=</span> <span class='st'>"{.col}.{.fn}"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 5</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 5</span>
 #&gt;   Species    Sepal.Length.mean Sepal.Length.sd Sepal.Width.mean Sepal.Width.sd
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>                  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> setosa                  5.01           0.352             3.43          0.379
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> versicolor              5.94           0.516             2.77          0.314
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> virginica               6.59           0.636             2.97          0.322</div><div class='input'>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>                  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> setosa                  5.01           0.352             3.43          0.379</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> versicolor              5.94           0.516             2.77          0.314</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span> virginica               6.59           0.636             2.97          0.322</span></div><div class='input'>
 <span class='co'># When the list is not named, .fn is replaced by the function's position</span>
-<span class='va'>iris</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"Sepal"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>mean</span>, <span class='va'>sd</span><span class='op'>)</span>, .names <span class='op'>=</span> <span class='st'>"{.col}.fn{.fn}"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 5</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 5</span>
 #&gt;   Species    Sepal.Length.fn1 Sepal.Length.fn2 Sepal.Width.fn1 Sepal.Width.fn2
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>                 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> setosa                 5.01            0.352            3.43           0.379
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> versicolor             5.94            0.516            2.77           0.314
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> virginica              6.59            0.636            2.97           0.322</div><div class='input'>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>                 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> setosa                 5.01            0.352            3.43           0.379</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> versicolor             5.94            0.516            2.77           0.314</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span> virginica              6.59            0.636            2.97           0.322</span></div><div class='input'>
 <span class='co'># if_any() and if_all() ----------------------------------------------------</span>
-<span class='va'>iris</span> <span class='op'>%&gt;%</span>
+<span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='fu'>if_any</span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with</a></span><span class='op'>(</span><span class='st'>"Width"</span><span class='op'>)</span>, <span class='op'>~</span> <span class='va'>.</span> <span class='op'>&gt;</span> <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+</div><div class='co'>#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt; 1          5.7         4.4          1.5         0.4  setosa
 #&gt; 2          5.2         4.1          1.5         0.1  setosa
-#&gt; 3          5.5         4.2          1.4         0.2  setosa</div><div class='input'><span class='va'>iris</span> <span class='op'>%&gt;%</span>
+#&gt; 3          5.5         4.2          1.4         0.2  setosa</div><div class='input'><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='fu'>if_all</span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with</a></span><span class='op'>(</span><span class='st'>"Width"</span><span class='op'>)</span>, <span class='op'>~</span> <span class='va'>.</span> <span class='op'>&gt;</span> <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
+</div><div class='co'>#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
 #&gt; 1           6.3         3.3          6.0         2.5 virginica
 #&gt; 2           7.1         3.0          5.9         2.1 virginica
 #&gt; 3           6.5         3.0          5.8         2.2 virginica
@@ -434,7 +481,7 @@ Because <code>across()</code> is used within functions like <code><a href='summa
 #&gt; 21          6.7         3.3          5.7         2.5 virginica
 #&gt; 22          6.7         3.0          5.2         2.3 virginica
 #&gt; 23          6.2         3.4          5.4         2.3 virginica</div><div class='input'>
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -446,12 +493,12 @@ Because <code>across()</code> is used within functions like <code><a href='summa
 
       <footer>
       <div class="tidyverse">
-  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='https://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>

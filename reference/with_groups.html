@@ -109,7 +109,7 @@ variables for a single operation." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
         </div>
       </div>
     </div>
@@ -150,7 +150,7 @@ variables for a single operation." />
     </li>
     <li class="divider"></li>
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/index.html">More articles...</a>
     </li>
   </ul>
 </li>
@@ -235,14 +235,14 @@ variables for a single operation.</p>
       <th>.groups</th>
       <td><p>&lt;<code><a href='dplyr_tidy_select.html'>tidy-select</a></code>&gt; One or more variables
 to group by. Unlike <code><a href='group_by.html'>group_by()</a></code>, you can only group by existing variables,
-and you can use tidy-select syntax like <code><a href='https://rdrr.io/r/base/c.html'>c(x, y, z)</a></code> to select multiple
+and you can use tidy-select syntax like <code>c(x, y, z)</code> to select multiple
 variables.</p>
 <p>Use <code>NULL</code> to temporarily <strong>un</strong>group.</p></td>
     </tr>
     <tr>
       <th>.f</th>
       <td><p>Function to apply to regrouped data.
-Supports purrr-style <code><a href='https://rdrr.io/r/base/tilde.html'>~</a></code> syntax</p></td>
+Supports purrr-style <code>~</code> syntax</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -253,49 +253,49 @@ Supports purrr-style <code><a href='https://rdrr.io/r/base/tilde.html'>~</a></co
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>g <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>3</span><span class='op'>)</span>, x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>df</span> <span class='op'>%&gt;%</span>
+<span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'>with_groups</span><span class='op'>(</span><span class='va'>g</span>, <span class='va'>mutate</span>, x_mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 3</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 3</span>
 #&gt;       g     x x_mean
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1 0.795  0.784
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     1 0.774  0.784
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     2 0.923  0.704
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     2 0.485  0.704
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     3 0.500  0.500</div><div class='input'><span class='va'>df</span> <span class='op'>%&gt;%</span>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span>     1 0.795  0.784</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span>     1 0.774  0.784</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span>     2 0.923  0.704</span>
+#&gt; <span style='color: #BCBCBC;'>4</span><span>     2 0.485  0.704</span>
+#&gt; <span style='color: #BCBCBC;'>5</span><span>     3 0.500  0.500</span></div><div class='input'><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'>with_groups</span><span class='op'>(</span><span class='va'>g</span>, <span class='op'>~</span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='va'>.x</span>, x1 <span class='op'>=</span> <span class='fu'><a href='nth.html'>first</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 5 x 3</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 3</span>
 #&gt;       g     x    x1
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1 0.795 0.795
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     1 0.774 0.795
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     2 0.923 0.923
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     2 0.485 0.923
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     3 0.500 0.500</div><div class='input'>
-<span class='va'>df</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span>     1 0.795 0.795</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span>     1 0.774 0.795</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span>     2 0.923 0.923</span>
+#&gt; <span style='color: #BCBCBC;'>4</span><span>     2 0.485 0.923</span>
+#&gt; <span style='color: #BCBCBC;'>5</span><span>     3 0.500 0.500</span></div><div class='input'>
+<span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'>with_groups</span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='va'>mutate</span>, x_mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 5 x 3</span><span>
-#&gt; </span><span style='color: #949494;'># Groups:   g [3]</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 3</span>
+#&gt; <span style='color: #949494;'># Groups:   g [3]</span>
 #&gt;       g     x x_mean
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1 0.795  0.695
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     1 0.774  0.695
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     2 0.923  0.695
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     2 0.485  0.695
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     3 0.500  0.695</div><div class='input'>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span>     1 0.795  0.695</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span>     1 0.774  0.695</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span>     2 0.923  0.695</span>
+#&gt; <span style='color: #BCBCBC;'>4</span><span>     2 0.485  0.695</span>
+#&gt; <span style='color: #BCBCBC;'>5</span><span>     3 0.500  0.695</span></div><div class='input'>
 <span class='co'># NB: grouping can't be restored if you remove the grouping variables</span>
-<span class='va'>df</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'>with_groups</span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='va'>mutate</span>, g <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 5 x 1</span><span>
+</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 5 x 1</span>
 #&gt;       x
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 0.795
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 0.774
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 0.923
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> 0.485
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> 0.500</div></span></pre>
+#&gt;   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span><span> 0.795</span>
+#&gt; <span style='color: #BCBCBC;'>2</span><span> 0.774</span>
+#&gt; <span style='color: #BCBCBC;'>3</span><span> 0.923</span>
+#&gt; <span style='color: #BCBCBC;'>4</span><span> 0.485</span>
+#&gt; <span style='color: #BCBCBC;'>5</span><span> 0.500</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -307,12 +307,12 @@ Supports purrr-style <code><a href='https://rdrr.io/r/base/tilde.html'>~</a></co
 
       <footer>
       <div class="tidyverse">
-  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, Romain François, Lionel Henry, <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
   <p>
-    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, <a href='https://krlmlr.info'>Kirill Müller</a>, <a href='https://www.rstudio.com'><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
