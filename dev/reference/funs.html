@@ -111,7 +111,7 @@ in the tidyverse." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -257,50 +257,55 @@ own functions with <code><a href='https://purrr.tidyverse.org/reference/partial.
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>funs</span><span class='op'>(</span><span class='st'>"mean"</span>, <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span class='warning'>Warning: </span>`funs()` was deprecated in dplyr 0.8.0.
-#&gt; Please use a list of either functions or lambdas: 
-#&gt; 
-#&gt;   # Simple named list: 
-#&gt;   list(mean = mean, median = median)
-#&gt; 
-#&gt;   # Auto named with `tibble::lst()`: 
-#&gt;   tibble::lst(mean, median)
-#&gt; 
-#&gt;   # Using lambdas
-#&gt;   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))</div><div class='co'>#&gt; &lt;fun_calls&gt;
-#&gt; $ mean: mean(.)
-#&gt; $ mean: mean(., na.rm = TRUE)</div><div class='input'><span class='co'># -&gt;</span>
-<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>mean</span>, mean <span class='op'>=</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.x</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; $mean
-#&gt; function (x, ...) 
-#&gt; UseMethod("mean")
-#&gt; &lt;bytecode: 0x7fa5bb9c70b0&gt;
-#&gt; &lt;environment: namespace:base&gt;
-#&gt; 
-#&gt; $mean
-#&gt; ~mean(.x, na.rm = TRUE)
-#&gt; &lt;environment: 0x7fa5bc5e22b0&gt;
-#&gt; </div><div class='input'>
-<span class='fu'>funs</span><span class='op'>(</span>m1 <span class='op'>=</span> <span class='va'>mean</span>, m2 <span class='op'>=</span> <span class='st'>"mean"</span>, m3 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; &lt;fun_calls&gt;
-#&gt; $ m1: mean(.)
-#&gt; $ m2: mean(.)
-#&gt; $ m3: mean(., na.rm = TRUE)</div><div class='input'><span class='co'># -&gt;</span>
-<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>m1 <span class='op'>=</span> <span class='va'>mean</span>, m2 <span class='op'>=</span> <span class='st'>"mean"</span>, m3 <span class='op'>=</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.x</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; $m1
-#&gt; function (x, ...) 
-#&gt; UseMethod("mean")
-#&gt; &lt;bytecode: 0x7fa5bb9c70b0&gt;
-#&gt; &lt;environment: namespace:base&gt;
-#&gt; 
-#&gt; $m2
-#&gt; [1] "mean"
-#&gt; 
-#&gt; $m3
-#&gt; ~mean(.x, na.rm = TRUE)
-#&gt; &lt;environment: 0x7fa5bc5e22b0&gt;
-#&gt; </div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>funs</span><span class='op'>(</span><span class='st'>"mean"</span>, <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>`funs()` was deprecated in dplyr 0.8.0.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Please use a list of either functions or lambdas: </span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>   # Simple named list: </span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>   list(mean = mean, median = median)</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>   # Auto named with `tibble::lst()`: </span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>   tibble::lst(mean, median)</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>   # Using lambdas</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;fun_calls&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $ mean: mean(.)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $ mean: mean(., na.rm = TRUE)</span>
+<span class='r-in'><span class='co'># -&gt;</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='va'>mean</span>, mean <span class='op'>=</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.x</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $mean</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> function (x, ...) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> UseMethod("mean")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;bytecode: 0x7fbed1781e78&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;environment: namespace:base&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $mean</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ~mean(.x, na.rm = TRUE)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;environment: 0x7fbed461d798&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>funs</span><span class='op'>(</span>m1 <span class='op'>=</span> <span class='va'>mean</span>, m2 <span class='op'>=</span> <span class='st'>"mean"</span>, m3 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;fun_calls&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $ m1: mean(.)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $ m2: mean(.)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $ m3: mean(., na.rm = TRUE)</span>
+<span class='r-in'><span class='co'># -&gt;</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>m1 <span class='op'>=</span> <span class='va'>mean</span>, m2 <span class='op'>=</span> <span class='st'>"mean"</span>, m3 <span class='op'>=</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.x</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $m1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> function (x, ...) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> UseMethod("mean")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;bytecode: 0x7fbed1781e78&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;environment: namespace:base&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $m2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "mean"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $m3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ~mean(.x, na.rm = TRUE)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;environment: 0x7fbed461d798&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

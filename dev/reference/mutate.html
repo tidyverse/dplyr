@@ -110,7 +110,7 @@ Variables can be removed by setting their value to NULL." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -358,188 +358,202 @@ individual methods for extra arguments and differences in behaviour.</p>
 <code><a href='summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Newly created variables are available immediately</span>
-<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
- <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>mass</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
- <span class='fu'>mutate</span><span class='op'>(</span>
-  mass2 <span class='op'>=</span> <span class='va'>mass</span> <span class='op'>*</span> <span class='fl'>2</span>,
-  mass2_squared <span class='op'>=</span> <span class='va'>mass2</span> <span class='op'>*</span> <span class='va'>mass2</span>
-<span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 87 x 4</span>
-#&gt;    name                mass mass2 mass2_squared
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span> Luke Skywalker        77   154         </span><span style='text-decoration: underline;'>23</span><span>716</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span> C-3PO                 75   150         </span><span style='text-decoration: underline;'>22</span><span>500</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span> R2-D2                 32    64          </span><span style='text-decoration: underline;'>4</span><span>096</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span> Darth Vader          136   272         </span><span style='text-decoration: underline;'>73</span><span>984</span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span> Leia Organa           49    98          </span><span style='text-decoration: underline;'>9</span><span>604</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span> Owen Lars            120   240         </span><span style='text-decoration: underline;'>57</span><span>600</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span> Beru Whitesun lars    75   150         </span><span style='text-decoration: underline;'>22</span><span>500</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span> R5-D4                 32    64          </span><span style='text-decoration: underline;'>4</span><span>096</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span> Biggs Darklighter     84   168         </span><span style='text-decoration: underline;'>28</span><span>224</span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span> Obi-Wan Kenobi        77   154         </span><span style='text-decoration: underline;'>23</span><span>716</span>
-#&gt; <span style='color: #949494;'># … with 77 more rows</span></div><div class='input'>
-<span class='co'># As well as adding new variables, you can use mutate() to</span>
-<span class='co'># remove variables and modify existing variables.</span>
-<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
- <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>height</span>, <span class='va'>mass</span>, <span class='va'>homeworld</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
- <span class='fu'>mutate</span><span class='op'>(</span>
-  mass <span class='op'>=</span> <span class='cn'>NULL</span>,
-  height <span class='op'>=</span> <span class='va'>height</span> <span class='op'>*</span> <span class='fl'>0.0328084</span> <span class='co'># convert to feet</span>
-<span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 87 x 3</span>
-#&gt;    name               height homeworld
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span> Luke Skywalker       5.64 Tatooine </span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span> C-3PO                5.48 Tatooine </span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span> R2-D2                3.15 Naboo    </span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span> Darth Vader          6.63 Tatooine </span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span> Leia Organa          4.92 Alderaan </span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span> Owen Lars            5.84 Tatooine </span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span> Beru Whitesun lars   5.41 Tatooine </span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span> R5-D4                3.18 Tatooine </span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span> Biggs Darklighter    6.00 Tatooine </span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span> Obi-Wan Kenobi       5.97 Stewjon  </span>
-#&gt; <span style='color: #949494;'># … with 77 more rows</span></div><div class='input'>
-<span class='co'># Use across() with mutate() to apply a transformation</span>
-<span class='co'># to multiple columns in a tibble.</span>
-<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
- <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>homeworld</span>, <span class='va'>species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
- <span class='fu'>mutate</span><span class='op'>(</span><span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='op'>!</span><span class='va'>name</span>, <span class='va'>as.factor</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 87 x 3</span>
-#&gt;    name               homeworld species
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>  </span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span> Luke Skywalker     Tatooine  Human  </span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span> C-3PO              Tatooine  Droid  </span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span> R2-D2              Naboo     Droid  </span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span> Darth Vader        Tatooine  Human  </span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span> Leia Organa        Alderaan  Human  </span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span> Owen Lars          Tatooine  Human  </span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span> Beru Whitesun lars Tatooine  Human  </span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span> R5-D4              Tatooine  Droid  </span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span> Biggs Darklighter  Tatooine  Human  </span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span> Obi-Wan Kenobi     Stewjon   Human  </span>
-#&gt; <span style='color: #949494;'># … with 77 more rows</span></div><div class='input'><span class='co'># see more in ?across</span>
-
-<span class='co'># Window functions are useful for grouped mutates:</span>
-<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
- <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>mass</span>, <span class='va'>homeworld</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
- <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>homeworld</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
- <span class='fu'>mutate</span><span class='op'>(</span>rank <span class='op'>=</span> <span class='fu'><a href='ranking.html'>min_rank</a></span><span class='op'>(</span><span class='fu'><a href='desc.html'>desc</a></span><span class='op'>(</span><span class='va'>mass</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 87 x 4</span>
-#&gt; <span style='color: #949494;'># Groups:   homeworld [49]</span>
-#&gt;    name                mass homeworld  rank
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span> Luke Skywalker        77 Tatooine      5</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span> C-3PO                 75 Tatooine      6</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span> R2-D2                 32 Naboo         6</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span> Darth Vader          136 Tatooine      1</span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span> Leia Organa           49 Alderaan      2</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span> Owen Lars            120 Tatooine      2</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span> Beru Whitesun lars    75 Tatooine      6</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span> R5-D4                 32 Tatooine      8</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span> Biggs Darklighter     84 Tatooine      3</span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span> Obi-Wan Kenobi        77 Stewjon       1</span>
-#&gt; <span style='color: #949494;'># … with 77 more rows</span></div><div class='input'><span class='co'># see `vignette("window-functions")` for more details</span>
-
-<span class='co'># By default, new columns are placed on the far right.</span>
-<span class='co'># Experimental: you can override with `.before` or `.after`</span>
-<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span>, y <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-<span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>mutate</span><span class='op'>(</span>z <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='va'>y</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span>
-#&gt;       x     y     z
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span>     1     2     3</span></div><div class='input'><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>mutate</span><span class='op'>(</span>z <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='va'>y</span>, .before <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span>
-#&gt;       z     x     y
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span>     3     1     2</span></div><div class='input'><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>mutate</span><span class='op'>(</span>z <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='va'>y</span>, .after <span class='op'>=</span> <span class='va'>x</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span>
-#&gt;       x     z     y
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span>     1     3     2</span></div><div class='input'>
-<span class='co'># By default, mutate() keeps all columns from the input data.</span>
-<span class='co'># Experimental: You can override with `.keep`</span>
-<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span>, y <span class='op'>=</span> <span class='fl'>2</span>, a <span class='op'>=</span> <span class='st'>"a"</span>, b <span class='op'>=</span> <span class='st'>"b"</span><span class='op'>)</span>
-<span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>mutate</span><span class='op'>(</span>z <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='va'>y</span>, .keep <span class='op'>=</span> <span class='st'>"all"</span><span class='op'>)</span> <span class='co'># the default</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 5</span>
-#&gt;       x     y a     b         z
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span>     1     2 a     b         3</span></div><div class='input'><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>mutate</span><span class='op'>(</span>z <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='va'>y</span>, .keep <span class='op'>=</span> <span class='st'>"used"</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span>
-#&gt;       x     y     z
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span>     1     2     3</span></div><div class='input'><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>mutate</span><span class='op'>(</span>z <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='va'>y</span>, .keep <span class='op'>=</span> <span class='st'>"unused"</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span>
-#&gt;   a     b         z
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span> a     b         3</span></div><div class='input'><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>mutate</span><span class='op'>(</span>z <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='va'>y</span>, .keep <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span> <span class='co'># same as transmute()</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 1</span>
-#&gt;       z
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span>     3</span></div><div class='input'>
-<span class='co'># Grouping ----------------------------------------</span>
-<span class='co'># The mutate operation may yield different results on grouped</span>
-<span class='co'># tibbles because the expressions are computed within groups.</span>
-<span class='co'># The following normalises `mass` by the global average:</span>
-<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>mass</span>, <span class='va'>species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'>mutate</span><span class='op'>(</span>mass_norm <span class='op'>=</span> <span class='va'>mass</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mass</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 87 x 4</span>
-#&gt;    name                mass species mass_norm
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span> Luke Skywalker        77 Human       0.791</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span> C-3PO                 75 Droid       0.771</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span> R2-D2                 32 Droid       0.329</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span> Darth Vader          136 Human       1.40 </span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span> Leia Organa           49 Human       0.504</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span> Owen Lars            120 Human       1.23 </span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span> Beru Whitesun lars    75 Human       0.771</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span> R5-D4                 32 Droid       0.329</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span> Biggs Darklighter     84 Human       0.863</span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span> Obi-Wan Kenobi        77 Human       0.791</span>
-#&gt; <span style='color: #949494;'># … with 77 more rows</span></div><div class='input'>
-<span class='co'># Whereas this normalises `mass` by the averages within species</span>
-<span class='co'># levels:</span>
-<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>mass</span>, <span class='va'>species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'>mutate</span><span class='op'>(</span>mass_norm <span class='op'>=</span> <span class='va'>mass</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mass</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 87 x 4</span>
-#&gt; <span style='color: #949494;'># Groups:   species [38]</span>
-#&gt;    name                mass species mass_norm
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span> Luke Skywalker        77 Human       0.930</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span> C-3PO                 75 Droid       1.08 </span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span> R2-D2                 32 Droid       0.459</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span> Darth Vader          136 Human       1.64 </span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span> Leia Organa           49 Human       0.592</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span> Owen Lars            120 Human       1.45 </span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span> Beru Whitesun lars    75 Human       0.906</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span> R5-D4                 32 Droid       0.459</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span> Biggs Darklighter     84 Human       1.01 </span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span> Obi-Wan Kenobi        77 Human       0.930</span>
-#&gt; <span style='color: #949494;'># … with 77 more rows</span></div><div class='input'>
-<span class='co'># Indirection ----------------------------------------</span>
-<span class='co'># Refer to column names stored as strings with the `.data` pronoun:</span>
-<span class='va'>vars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mass"</span>, <span class='st'>"height"</span><span class='op'>)</span>
-<span class='fu'>mutate</span><span class='op'>(</span><span class='va'>starwars</span>, prod <span class='op'>=</span> <span class='va'>.data</span><span class='op'>[[</span><span class='va'>vars</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>*</span> <span class='va'>.data</span><span class='op'>[[</span><span class='va'>vars</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 87 x 15</span>
-#&gt;    name    height  mass hair_color  skin_color eye_color birth_year sex   gender
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span> Luke S…    172    77 blond       fair       blue            19   male  mascu…</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span> C-3PO      167    75 </span><span style='color: #BB0000;'>NA</span><span>          gold       yellow         112   none  mascu…</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span> R2-D2       96    32 </span><span style='color: #BB0000;'>NA</span><span>          white, bl… red             33   none  mascu…</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span> Darth …    202   136 none        white      yellow          41.9 male  mascu…</span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span> Leia O…    150    49 brown       light      brown           19   fema… femin…</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span> Owen L…    178   120 brown, grey light      blue            52   male  mascu…</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span> Beru W…    165    75 brown       light      blue            47   fema… femin…</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span> R5-D4       97    32 </span><span style='color: #BB0000;'>NA</span><span>          white, red red             </span><span style='color: #BB0000;'>NA</span><span>   none  mascu…</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span> Biggs …    183    84 black       light      brown           24   male  mascu…</span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span> Obi-Wa…    182    77 auburn, wh… fair       blue-gray       57   male  mascu…</span>
-#&gt; <span style='color: #949494;'># … with 77 more rows, and 6 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, prod &lt;dbl&gt;</span></div><div class='input'><span class='co'># Learn more in ?dplyr_data_masking</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># Newly created variables are available immediately</span></span>
+<span class='r-in'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'> <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>mass</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'> <span class='fu'>mutate</span><span class='op'>(</span></span>
+<span class='r-in'>  mass2 <span class='op'>=</span> <span class='va'>mass</span> <span class='op'>*</span> <span class='fl'>2</span>,</span>
+<span class='r-in'>  mass2_squared <span class='op'>=</span> <span class='va'>mass2</span> <span class='op'>*</span> <span class='va'>mass2</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 87 x 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    name                mass mass2 mass2_squared</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span> Luke Skywalker        77   154         </span><span style='text-decoration: underline;'>23</span><span>716</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span> C-3PO                 75   150         </span><span style='text-decoration: underline;'>22</span><span>500</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span> R2-D2                 32    64          </span><span style='text-decoration: underline;'>4</span><span>096</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span> Darth Vader          136   272         </span><span style='text-decoration: underline;'>73</span><span>984</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span> Leia Organa           49    98          </span><span style='text-decoration: underline;'>9</span><span>604</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span> Owen Lars            120   240         </span><span style='text-decoration: underline;'>57</span><span>600</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span> Beru Whitesun lars    75   150         </span><span style='text-decoration: underline;'>22</span><span>500</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span> R5-D4                 32    64          </span><span style='text-decoration: underline;'>4</span><span>096</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span> Biggs Darklighter     84   168         </span><span style='text-decoration: underline;'>28</span><span>224</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span> Obi-Wan Kenobi        77   154         </span><span style='text-decoration: underline;'>23</span><span>716</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 77 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># As well as adding new variables, you can use mutate() to</span></span>
+<span class='r-in'><span class='co'># remove variables and modify existing variables.</span></span>
+<span class='r-in'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'> <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>height</span>, <span class='va'>mass</span>, <span class='va'>homeworld</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'> <span class='fu'>mutate</span><span class='op'>(</span></span>
+<span class='r-in'>  mass <span class='op'>=</span> <span class='cn'>NULL</span>,</span>
+<span class='r-in'>  height <span class='op'>=</span> <span class='va'>height</span> <span class='op'>*</span> <span class='fl'>0.0328084</span> <span class='co'># convert to feet</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 87 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    name               height homeworld</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>               </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span> Luke Skywalker       5.64 Tatooine </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span> C-3PO                5.48 Tatooine </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span> R2-D2                3.15 Naboo    </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span> Darth Vader          6.63 Tatooine </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span> Leia Organa          4.92 Alderaan </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span> Owen Lars            5.84 Tatooine </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span> Beru Whitesun lars   5.41 Tatooine </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span> R5-D4                3.18 Tatooine </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span> Biggs Darklighter    6.00 Tatooine </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span> Obi-Wan Kenobi       5.97 Stewjon  </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 77 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Use across() with mutate() to apply a transformation</span></span>
+<span class='r-in'><span class='co'># to multiple columns in a tibble.</span></span>
+<span class='r-in'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'> <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>homeworld</span>, <span class='va'>species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'> <span class='fu'>mutate</span><span class='op'>(</span><span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='op'>!</span><span class='va'>name</span>, <span class='va'>as.factor</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 87 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    name               homeworld species</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>  </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span> Luke Skywalker     Tatooine  Human  </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span> C-3PO              Tatooine  Droid  </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span> R2-D2              Naboo     Droid  </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span> Darth Vader        Tatooine  Human  </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span> Leia Organa        Alderaan  Human  </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span> Owen Lars          Tatooine  Human  </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span> Beru Whitesun lars Tatooine  Human  </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span> R5-D4              Tatooine  Droid  </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span> Biggs Darklighter  Tatooine  Human  </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span> Obi-Wan Kenobi     Stewjon   Human  </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 77 more rows</span></span>
+<span class='r-in'><span class='co'># see more in ?across</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Window functions are useful for grouped mutates:</span></span>
+<span class='r-in'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'> <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>mass</span>, <span class='va'>homeworld</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>homeworld</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'> <span class='fu'>mutate</span><span class='op'>(</span>rank <span class='op'>=</span> <span class='fu'><a href='ranking.html'>min_rank</a></span><span class='op'>(</span><span class='fu'><a href='desc.html'>desc</a></span><span class='op'>(</span><span class='va'>mass</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 87 x 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># Groups:   homeworld [49]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    name                mass homeworld  rank</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span> Luke Skywalker        77 Tatooine      5</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span> C-3PO                 75 Tatooine      6</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span> R2-D2                 32 Naboo         6</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span> Darth Vader          136 Tatooine      1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span> Leia Organa           49 Alderaan      2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span> Owen Lars            120 Tatooine      2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span> Beru Whitesun lars    75 Tatooine      6</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span> R5-D4                 32 Tatooine      8</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span> Biggs Darklighter     84 Tatooine      3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span> Obi-Wan Kenobi        77 Stewjon       1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 77 more rows</span></span>
+<span class='r-in'><span class='co'># see `vignette("window-functions")` for more details</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># By default, new columns are placed on the far right.</span></span>
+<span class='r-in'><span class='co'># Experimental: you can override with `.before` or `.after`</span></span>
+<span class='r-in'><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span>, y <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>mutate</span><span class='op'>(</span>z <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='va'>y</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       x     y     z</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>     1     2     3</span></span>
+<span class='r-in'><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>mutate</span><span class='op'>(</span>z <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='va'>y</span>, .before <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       z     x     y</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>     3     1     2</span></span>
+<span class='r-in'><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>mutate</span><span class='op'>(</span>z <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='va'>y</span>, .after <span class='op'>=</span> <span class='va'>x</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       x     z     y</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>     1     3     2</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># By default, mutate() keeps all columns from the input data.</span></span>
+<span class='r-in'><span class='co'># Experimental: You can override with `.keep`</span></span>
+<span class='r-in'><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span>, y <span class='op'>=</span> <span class='fl'>2</span>, a <span class='op'>=</span> <span class='st'>"a"</span>, b <span class='op'>=</span> <span class='st'>"b"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>mutate</span><span class='op'>(</span>z <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='va'>y</span>, .keep <span class='op'>=</span> <span class='st'>"all"</span><span class='op'>)</span> <span class='co'># the default</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 x 5</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       x     y a     b         z</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>     1     2 a     b         3</span></span>
+<span class='r-in'><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>mutate</span><span class='op'>(</span>z <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='va'>y</span>, .keep <span class='op'>=</span> <span class='st'>"used"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       x     y     z</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>     1     2     3</span></span>
+<span class='r-in'><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>mutate</span><span class='op'>(</span>z <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='va'>y</span>, .keep <span class='op'>=</span> <span class='st'>"unused"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   a     b         z</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> a     b         3</span></span>
+<span class='r-in'><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>mutate</span><span class='op'>(</span>z <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='va'>y</span>, .keep <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span> <span class='co'># same as transmute()</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 x 1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       z</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>     3</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Grouping ----------------------------------------</span></span>
+<span class='r-in'><span class='co'># The mutate operation may yield different results on grouped</span></span>
+<span class='r-in'><span class='co'># tibbles because the expressions are computed within groups.</span></span>
+<span class='r-in'><span class='co'># The following normalises `mass` by the global average:</span></span>
+<span class='r-in'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>mass</span>, <span class='va'>species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>mutate</span><span class='op'>(</span>mass_norm <span class='op'>=</span> <span class='va'>mass</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mass</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 87 x 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    name                mass species mass_norm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span> Luke Skywalker        77 Human       0.791</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span> C-3PO                 75 Droid       0.771</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span> R2-D2                 32 Droid       0.329</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span> Darth Vader          136 Human       1.40 </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span> Leia Organa           49 Human       0.504</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span> Owen Lars            120 Human       1.23 </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span> Beru Whitesun lars    75 Human       0.771</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span> R5-D4                 32 Droid       0.329</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span> Biggs Darklighter     84 Human       0.863</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span> Obi-Wan Kenobi        77 Human       0.791</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 77 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Whereas this normalises `mass` by the averages within species</span></span>
+<span class='r-in'><span class='co'># levels:</span></span>
+<span class='r-in'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>mass</span>, <span class='va'>species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>mutate</span><span class='op'>(</span>mass_norm <span class='op'>=</span> <span class='va'>mass</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mass</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 87 x 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># Groups:   species [38]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    name                mass species mass_norm</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>              </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span> Luke Skywalker        77 Human       0.930</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span> C-3PO                 75 Droid       1.08 </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span> R2-D2                 32 Droid       0.459</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span> Darth Vader          136 Human       1.64 </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span> Leia Organa           49 Human       0.592</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span> Owen Lars            120 Human       1.45 </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span> Beru Whitesun lars    75 Human       0.906</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span> R5-D4                 32 Droid       0.459</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span> Biggs Darklighter     84 Human       1.01 </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span> Obi-Wan Kenobi        77 Human       0.930</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 77 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Indirection ----------------------------------------</span></span>
+<span class='r-in'><span class='co'># Refer to column names stored as strings with the `.data` pronoun:</span></span>
+<span class='r-in'><span class='va'>vars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mass"</span>, <span class='st'>"height"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>mutate</span><span class='op'>(</span><span class='va'>starwars</span>, prod <span class='op'>=</span> <span class='va'>.data</span><span class='op'>[[</span><span class='va'>vars</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>*</span> <span class='va'>.data</span><span class='op'>[[</span><span class='va'>vars</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 87 x 15</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    name    height  mass hair_color  skin_color eye_color birth_year sex   gender</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span> Luke S…    172    77 blond       fair       blue            19   male  mascu…</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span> C-3PO      167    75 </span><span style='color: #BB0000;'>NA</span><span>          gold       yellow         112   none  mascu…</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span> R2-D2       96    32 </span><span style='color: #BB0000;'>NA</span><span>          white, bl… red             33   none  mascu…</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span> Darth …    202   136 none        white      yellow          41.9 male  mascu…</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span> Leia O…    150    49 brown       light      brown           19   fema… femin…</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span> Owen L…    178   120 brown, grey light      blue            52   male  mascu…</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span> Beru W…    165    75 brown       light      blue            47   fema… femin…</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span> R5-D4       97    32 </span><span style='color: #BB0000;'>NA</span><span>          white, red red             </span><span style='color: #BB0000;'>NA</span><span>   none  mascu…</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span> Biggs …    183    84 black       light      brown           24   male  mascu…</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span> Obi-Wa…    182    77 auburn, wh… fair       blue-gray       57   male  mascu…</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 77 more rows, and 6 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, prod &lt;dbl&gt;</span></span>
+<span class='r-in'><span class='co'># Learn more in ?dplyr_data_masking</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -110,7 +110,7 @@ more details." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -289,33 +289,34 @@ as described in <code><a href='https://rdrr.io/pkg/RMySQL/man/MySQLDriver-class.
     <p>An S3 object with class <code>src_dbi</code>, <code>src_sql</code>, <code>src</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://dbplyr.tidyverse.org/'>dbplyr</a></span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-
-<span class='va'>con</span> <span class='op'>&lt;-</span> <span class='fu'>DBI</span><span class='fu'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>dbConnect</a></span><span class='op'>(</span><span class='fu'>RSQLite</span><span class='fu'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>":memory:"</span><span class='op'>)</span>
-<span class='fu'><a href='copy_to.html'>copy_to</a></span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>mtcars</span><span class='op'>)</span>
-
-<span class='co'># To retrieve a single table from a source, use `tbl()`</span>
-<span class='va'>mtcars</span> <span class='op'>&lt;-</span> <span class='va'>con</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='tbl.html'>tbl</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span>
-<span class='va'>mtcars</span>
-
-<span class='co'># You can also use pass raw SQL if you want a more sophisticated query</span>
-<span class='va'>con</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='tbl.html'>tbl</a></span><span class='op'>(</span><span class='fu'><a href='sql.html'>sql</a></span><span class='op'>(</span><span class='st'>"SELECT * FROM mtcars WHERE cyl == 8"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># Source:   SQL [?? x 11]</span>
-#&gt; <span style='color: #949494;'># Database: sqlite 3.35.5 [:memory:]</span>
-#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span>  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span>  17.3     8  276.   180  3.07  3.73  17.6     0     0     3     3</span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span>  15.2     8  276.   180  3.07  3.78  18       0     0     3     3</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span>  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span>  10.4     8  460    215  3     5.42  17.8     0     0     3     4</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span>  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span>  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2</span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span>  15.2     8  304    150  3.15  3.44  17.3     0     0     3     2</span>
-#&gt; <span style='color: #949494;'># … with more rows</span></div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://dbplyr.tidyverse.org/'>dbplyr</a></span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>con</span> <span class='op'>&lt;-</span> <span class='fu'>DBI</span><span class='fu'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>dbConnect</a></span><span class='op'>(</span><span class='fu'>RSQLite</span><span class='fu'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>":memory:"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='copy_to.html'>copy_to</a></span><span class='op'>(</span><span class='va'>con</span>, <span class='va'>mtcars</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># To retrieve a single table from a source, use `tbl()`</span></span>
+<span class='r-in'><span class='va'>mtcars</span> <span class='op'>&lt;-</span> <span class='va'>con</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='tbl.html'>tbl</a></span><span class='op'>(</span><span class='st'>"mtcars"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>mtcars</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># You can also use pass raw SQL if you want a more sophisticated query</span></span>
+<span class='r-in'><span class='va'>con</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='tbl.html'>tbl</a></span><span class='op'>(</span><span class='fu'><a href='sql.html'>sql</a></span><span class='op'>(</span><span class='st'>"SELECT * FROM mtcars WHERE cyl == 8"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># Source:   SQL [?? x 11]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># Database: sqlite 3.35.5 [:memory:]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span>  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span>  17.3     8  276.   180  3.07  3.73  17.6     0     0     3     3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span>  15.2     8  276.   180  3.07  3.78  18       0     0     3     3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span>  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span>  10.4     8  460    215  3     5.42  17.8     0     0     3     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span>  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span>  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span>  15.2     8  304    150  3.15  3.44  17.3     0     0     3     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with more rows</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

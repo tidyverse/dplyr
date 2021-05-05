@@ -116,7 +116,7 @@ once for each matching row in x." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -424,84 +424,101 @@ individual methods for extra arguments and differences in behaviour.</p>
 <code><a href='nest_join.html'>nest_join</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>band_members</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>inner_join</span><span class='op'>(</span><span class='va'>band_instruments</span><span class='op'>)</span>
-</div><div class='co'>#&gt; Joining, by = "name"</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 3</span>
-#&gt;   name  band    plays 
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span> John  Beatles guitar</span>
-#&gt; <span style='color: #BCBCBC;'>2</span><span> Paul  Beatles bass  </span></div><div class='input'><span class='va'>band_members</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>band_instruments</span><span class='op'>)</span>
-</div><div class='co'>#&gt; Joining, by = "name"</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 3</span>
-#&gt;   name  band    plays 
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span> Mick  Stones  </span><span style='color: #BB0000;'>NA</span><span>    </span>
-#&gt; <span style='color: #BCBCBC;'>2</span><span> John  Beatles guitar</span>
-#&gt; <span style='color: #BCBCBC;'>3</span><span> Paul  Beatles bass  </span></div><div class='input'><span class='va'>band_members</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>right_join</span><span class='op'>(</span><span class='va'>band_instruments</span><span class='op'>)</span>
-</div><div class='co'>#&gt; Joining, by = "name"</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 3</span>
-#&gt;   name  band    plays 
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span> John  Beatles guitar</span>
-#&gt; <span style='color: #BCBCBC;'>2</span><span> Paul  Beatles bass  </span>
-#&gt; <span style='color: #BCBCBC;'>3</span><span> Keith </span><span style='color: #BB0000;'>NA</span><span>      guitar</span></div><div class='input'><span class='va'>band_members</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>full_join</span><span class='op'>(</span><span class='va'>band_instruments</span><span class='op'>)</span>
-</div><div class='co'>#&gt; Joining, by = "name"</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span>
-#&gt;   name  band    plays 
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span> Mick  Stones  </span><span style='color: #BB0000;'>NA</span><span>    </span>
-#&gt; <span style='color: #BCBCBC;'>2</span><span> John  Beatles guitar</span>
-#&gt; <span style='color: #BCBCBC;'>3</span><span> Paul  Beatles bass  </span>
-#&gt; <span style='color: #BCBCBC;'>4</span><span> Keith </span><span style='color: #BB0000;'>NA</span><span>      guitar</span></div><div class='input'>
-<span class='co'># To suppress the message about joining variables, supply `by`</span>
-<span class='va'>band_members</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>inner_join</span><span class='op'>(</span><span class='va'>band_instruments</span>, by <span class='op'>=</span> <span class='st'>"name"</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 3</span>
-#&gt;   name  band    plays 
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span> John  Beatles guitar</span>
-#&gt; <span style='color: #BCBCBC;'>2</span><span> Paul  Beatles bass  </span></div><div class='input'><span class='co'># This is good practice in production code</span>
-
-<span class='co'># Use a named `by` if the join variables have different names</span>
-<span class='va'>band_members</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>full_join</span><span class='op'>(</span><span class='va'>band_instruments2</span>, by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"name"</span> <span class='op'>=</span> <span class='st'>"artist"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 3</span>
-#&gt;   name  band    plays 
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span> Mick  Stones  </span><span style='color: #BB0000;'>NA</span><span>    </span>
-#&gt; <span style='color: #BCBCBC;'>2</span><span> John  Beatles guitar</span>
-#&gt; <span style='color: #BCBCBC;'>3</span><span> Paul  Beatles bass  </span>
-#&gt; <span style='color: #BCBCBC;'>4</span><span> Keith </span><span style='color: #BB0000;'>NA</span><span>      guitar</span></div><div class='input'><span class='co'># By default, the join keys from `x` and `y` are coalesced in the output; use</span>
-<span class='co'># `keep = TRUE` to keep the join keys from both `x` and `y`</span>
-<span class='va'>band_members</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'>full_join</span><span class='op'>(</span><span class='va'>band_instruments2</span>, by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"name"</span> <span class='op'>=</span> <span class='st'>"artist"</span><span class='op'>)</span>, keep <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 4</span>
-#&gt;   name  band    artist plays 
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span> Mick  Stones  </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>    </span>
-#&gt; <span style='color: #BCBCBC;'>2</span><span> John  Beatles John   guitar</span>
-#&gt; <span style='color: #BCBCBC;'>3</span><span> Paul  Beatles Paul   bass  </span>
-#&gt; <span style='color: #BCBCBC;'>4</span><span> </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>      Keith  guitar</span></div><div class='input'>
-<span class='co'># If a row in `x` matches multiple rows in `y`, all the rows in `y` will be</span>
-<span class='co'># returned once for each matching row in `x`</span>
-<span class='va'>df1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span>
-<span class='va'>df2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"first"</span>, <span class='st'>"second"</span>, <span class='st'>"third"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>df1</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>df2</span><span class='op'>)</span>
-</div><div class='co'>#&gt; Joining, by = "x"</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 2</span>
-#&gt;       x y     
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span>     1 first </span>
-#&gt; <span style='color: #BCBCBC;'>2</span><span>     1 second</span>
-#&gt; <span style='color: #BCBCBC;'>3</span><span>     2 third </span>
-#&gt; <span style='color: #BCBCBC;'>4</span><span>     3 </span><span style='color: #BB0000;'>NA</span><span>    </span></div><div class='input'>
-<span class='co'># By default, NAs match other NAs so that there are two</span>
-<span class='co'># rows in the output of this join:</span>
-<span class='va'>df1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='cn'>NA</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-<span class='va'>df2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='cn'>NA</span><span class='op'>)</span>, z <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
-<span class='fu'>left_join</span><span class='op'>(</span><span class='va'>df1</span>, <span class='va'>df2</span><span class='op'>)</span>
-</div><div class='co'>#&gt; Joining, by = "x"</div><div class='co'>#&gt;    x y z
-#&gt; 1  1 2 3
-#&gt; 2 NA 2 3</div><div class='input'>
-<span class='co'># You can optionally request that NAs don't match, giving a</span>
-<span class='co'># a result that more closely resembles SQL joins</span>
-<span class='fu'>left_join</span><span class='op'>(</span><span class='va'>df1</span>, <span class='va'>df2</span>, na_matches <span class='op'>=</span> <span class='st'>"never"</span><span class='op'>)</span>
-</div><div class='co'>#&gt; Joining, by = "x"</div><div class='co'>#&gt;    x y  z
-#&gt; 1  1 2  3
-#&gt; 2 NA 2 NA</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>band_members</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>inner_join</span><span class='op'>(</span><span class='va'>band_instruments</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "name"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 2 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   name  band    plays </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> John  Beatles guitar</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> Paul  Beatles bass  </span></span>
+<span class='r-in'><span class='va'>band_members</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>band_instruments</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "name"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 3 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   name  band    plays </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> Mick  Stones  </span><span style='color: #BB0000;'>NA</span><span>    </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> John  Beatles guitar</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> Paul  Beatles bass  </span></span>
+<span class='r-in'><span class='va'>band_members</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>right_join</span><span class='op'>(</span><span class='va'>band_instruments</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "name"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 3 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   name  band    plays </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> John  Beatles guitar</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> Paul  Beatles bass  </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> Keith </span><span style='color: #BB0000;'>NA</span><span>      guitar</span></span>
+<span class='r-in'><span class='va'>band_members</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>full_join</span><span class='op'>(</span><span class='va'>band_instruments</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "name"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   name  band    plays </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> Mick  Stones  </span><span style='color: #BB0000;'>NA</span><span>    </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> John  Beatles guitar</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> Paul  Beatles bass  </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span><span> Keith </span><span style='color: #BB0000;'>NA</span><span>      guitar</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># To suppress the message about joining variables, supply `by`</span></span>
+<span class='r-in'><span class='va'>band_members</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>inner_join</span><span class='op'>(</span><span class='va'>band_instruments</span>, by <span class='op'>=</span> <span class='st'>"name"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 2 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   name  band    plays </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> John  Beatles guitar</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> Paul  Beatles bass  </span></span>
+<span class='r-in'><span class='co'># This is good practice in production code</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Use a named `by` if the join variables have different names</span></span>
+<span class='r-in'><span class='va'>band_members</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>full_join</span><span class='op'>(</span><span class='va'>band_instruments2</span>, by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"name"</span> <span class='op'>=</span> <span class='st'>"artist"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   name  band    plays </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> Mick  Stones  </span><span style='color: #BB0000;'>NA</span><span>    </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> John  Beatles guitar</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> Paul  Beatles bass  </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span><span> Keith </span><span style='color: #BB0000;'>NA</span><span>      guitar</span></span>
+<span class='r-in'><span class='co'># By default, the join keys from `x` and `y` are coalesced in the output; use</span></span>
+<span class='r-in'><span class='co'># `keep = TRUE` to keep the join keys from both `x` and `y`</span></span>
+<span class='r-in'><span class='va'>band_members</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>full_join</span><span class='op'>(</span><span class='va'>band_instruments2</span>, by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"name"</span> <span class='op'>=</span> <span class='st'>"artist"</span><span class='op'>)</span>, keep <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 x 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   name  band    artist plays </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> Mick  Stones  </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>    </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> John  Beatles John   guitar</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> Paul  Beatles Paul   bass  </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span><span> </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>      Keith  guitar</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># If a row in `x` matches multiple rows in `y`, all the rows in `y` will be</span></span>
+<span class='r-in'><span class='co'># returned once for each matching row in `x`</span></span>
+<span class='r-in'><span class='va'>df1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>df2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"first"</span>, <span class='st'>"second"</span>, <span class='st'>"third"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>df1</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>df2</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "x"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 4 x 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       x y     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>     1 first </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span>     1 second</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span>     2 third </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span><span>     3 </span><span style='color: #BB0000;'>NA</span><span>    </span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># By default, NAs match other NAs so that there are two</span></span>
+<span class='r-in'><span class='co'># rows in the output of this join:</span></span>
+<span class='r-in'><span class='va'>df1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='cn'>NA</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>df2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='cn'>NA</span><span class='op'>)</span>, z <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>left_join</span><span class='op'>(</span><span class='va'>df1</span>, <span class='va'>df2</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "x"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    x y z</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  1 2 3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 NA 2 3</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># You can optionally request that NAs don't match, giving a</span></span>
+<span class='r-in'><span class='co'># a result that more closely resembles SQL joins</span></span>
+<span class='r-in'><span class='fu'>left_join</span><span class='op'>(</span><span class='va'>df1</span>, <span class='va'>df2</span>, na_matches <span class='op'>=</span> <span class='st'>"never"</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "x"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    x y  z</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  1 2  3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 NA 2 NA</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

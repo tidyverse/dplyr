@@ -305,9 +305,8 @@ a.sourceLine:hover {
 .kw      {color: #264D66;} /* keyword */
 .co      {color: #888888;} /* comment */
 
-.message { color: black;   font-weight: bolder;}
-.error   { color: orange;  font-weight: bolder;}
-.warning { color: #6A0366; font-weight: bolder;}
+.error   {font-weight: bolder;}
+.warning {font-weight: bolder;}
 
 /* Clipboard --------------------------*/
 

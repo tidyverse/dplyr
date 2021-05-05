@@ -109,7 +109,7 @@ which does the same thing for NULLs." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -246,22 +246,25 @@ missing values replaced by the first non-missing value.</p>
 <code><a href='https://tidyr.tidyverse.org/reference/replace_na.html'>tidyr::replace_na()</a></code> to replace <code>NA</code> with a value</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Use a single value to replace all missing values</span>
-<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>coalesce</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>0L</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] 5 4 3 0 2 0 1 0</div><div class='input'>
-<span class='co'># Or match together a complete vector from missing pieces</span>
-<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='fl'>5</span><span class='op'>)</span>
-<span class='va'>z</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span><span class='op'>)</span>
-<span class='fu'>coalesce</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>z</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] 1 2 3 4 5</div><div class='input'>
-<span class='co'># Supply lists by with dynamic dots</span>
-<span class='va'>vecs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='fl'>5</span><span class='op'>)</span>,
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span><span class='op'>)</span>
-<span class='op'>)</span>
-<span class='fu'>coalesce</span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='va'>vecs</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] 1 2 3 4 5</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># Use a single value to replace all missing values</span></span>
+<span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>coalesce</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>0L</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 5 4 3 0 2 0 1 0</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Or match together a complete vector from missing pieces</span></span>
+<span class='r-in'><span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>z</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>coalesce</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>z</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1 2 3 4 5</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Supply lists by with dynamic dots</span></span>
+<span class='r-in'><span class='va'>vecs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='fl'>5</span><span class='op'>)</span>,</span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>coalesce</span><span class='op'>(</span><span class='op'>!</span><span class='op'>!</span><span class='op'>!</span><span class='va'>vecs</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1 2 3 4 5</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

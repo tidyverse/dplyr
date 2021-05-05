@@ -110,7 +110,7 @@ faster." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -255,18 +255,22 @@ values.</p></td>
 otherwise <code>NA</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>5</span><span class='op'>:</span><span class='fl'>5</span>, <span class='cn'>NA</span><span class='op'>)</span>
-<span class='fu'>if_else</span><span class='op'>(</span><span class='va'>x</span> <span class='op'>&lt;</span> <span class='fl'>0</span>, <span class='cn'>NA_integer_</span>, <span class='va'>x</span><span class='op'>)</span>
-</div><div class='co'>#&gt;  [1] NA NA NA NA NA  0  1  2  3  4  5 NA</div><div class='input'><span class='fu'>if_else</span><span class='op'>(</span><span class='va'>x</span> <span class='op'>&lt;</span> <span class='fl'>0</span>, <span class='st'>"negative"</span>, <span class='st'>"positive"</span>, <span class='st'>"missing"</span><span class='op'>)</span>
-</div><div class='co'>#&gt;  [1] "negative" "negative" "negative" "negative" "negative" "positive"
-#&gt;  [7] "positive" "positive" "positive" "positive" "positive" "missing" </div><div class='input'>
-<span class='co'># Unlike ifelse, if_else preserves types</span>
-<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span>, <span class='fl'>10</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>x</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span><span class='op'>)</span>, <span class='va'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='cn'>NA</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt;  [1]  1 NA  1 NA  2  2  2 NA  1  1</div><div class='input'><span class='fu'>if_else</span><span class='op'>(</span><span class='va'>x</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span><span class='op'>)</span>, <span class='va'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='cn'>NA</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt;  [1] b    &lt;NA&gt; b    &lt;NA&gt; c    c    c    &lt;NA&gt; b    b   
-#&gt; Levels: b c d e</div><div class='input'><span class='co'># Attributes are taken from the `true` vector,</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>5</span><span class='op'>:</span><span class='fl'>5</span>, <span class='cn'>NA</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>if_else</span><span class='op'>(</span><span class='va'>x</span> <span class='op'>&lt;</span> <span class='fl'>0</span>, <span class='cn'>NA_integer_</span>, <span class='va'>x</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] NA NA NA NA NA  0  1  2  3  4  5 NA</span>
+<span class='r-in'><span class='fu'>if_else</span><span class='op'>(</span><span class='va'>x</span> <span class='op'>&lt;</span> <span class='fl'>0</span>, <span class='st'>"negative"</span>, <span class='st'>"positive"</span>, <span class='st'>"missing"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "negative" "negative" "negative" "negative" "negative" "positive"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "positive" "positive" "positive" "positive" "positive" "missing" </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Unlike ifelse, if_else preserves types</span></span>
+<span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span>, <span class='fl'>10</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>x</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span><span class='op'>)</span>, <span class='va'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='cn'>NA</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  1 NA  1 NA  2  2  2 NA  1  1</span>
+<span class='r-in'><span class='fu'>if_else</span><span class='op'>(</span><span class='va'>x</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span><span class='op'>)</span>, <span class='va'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='cn'>NA</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] b    &lt;NA&gt; b    &lt;NA&gt; c    c    c    &lt;NA&gt; b    b   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Levels: b c d e</span>
+<span class='r-in'><span class='co'># Attributes are taken from the `true` vector,</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

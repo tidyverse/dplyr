@@ -1,7 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://dplyr.tidyverse.org/CODE_OF_CONDUCT.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/CONTRIBUTING.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/ISSUE_TEMPLATE.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/SUPPORT.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/articles/base.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/articles/colwise.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/articles/compatibility.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/articles/dplyr.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/articles/grouping.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/articles/programming.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/articles/rowwise.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/articles/two-table.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/articles/window-functions.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/authors.html</loc>
+  </url>
+  <url>
     <loc>https://dplyr.tidyverse.org/index.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/news/index.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/across.html</loc>
@@ -157,6 +211,9 @@
     <loc>https://dplyr.tidyverse.org/reference/if_else.html</loc>
   </url>
   <url>
+    <loc>https://dplyr.tidyverse.org/reference/index.html</loc>
+  </url>
+  <url>
     <loc>https://dplyr.tidyverse.org/reference/lead-lag.html</loc>
   </url>
   <url>
@@ -308,32 +365,5 @@
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/with_order.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/base.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/colwise.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/compatibility.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/dplyr.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/grouping.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/programming.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/rowwise.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/two-table.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/window-functions.html</loc>
   </url>
 </urlset>

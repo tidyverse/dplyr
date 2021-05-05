@@ -110,7 +110,7 @@ than expected." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -264,24 +264,33 @@ Make sure it is the same type as <code>x</code>.</p></td>
     <p>A single value. <code>[[</code> is used to do the subsetting.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>
-<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>
-
-<span class='fu'>first</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] 1</div><div class='input'><span class='fu'>last</span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] 1</div><div class='input'>
-<span class='fu'>nth</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>1</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] 1</div><div class='input'><span class='fu'>nth</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>5</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] 5</div><div class='input'><span class='fu'>nth</span><span class='op'>(</span><span class='va'>x</span>, <span class='op'>-</span><span class='fl'>2</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] 9</div><div class='input'><span class='fu'>nth</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>11</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] NA</div><div class='input'>
-<span class='fu'>last</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] 10</div><div class='input'><span class='co'># Second argument provides optional ordering</span>
-<span class='fu'>last</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] 1</div><div class='input'>
-<span class='co'># These functions always return a single value</span>
-<span class='fu'>first</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] NA</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span></span>
+<span class='r-in'><span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>first</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1</span>
+<span class='r-in'><span class='fu'>last</span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>nth</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1</span>
+<span class='r-in'><span class='fu'>nth</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 5</span>
+<span class='r-in'><span class='fu'>nth</span><span class='op'>(</span><span class='va'>x</span>, <span class='op'>-</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 9</span>
+<span class='r-in'><span class='fu'>nth</span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>11</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] NA</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>last</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 10</span>
+<span class='r-in'><span class='co'># Second argument provides optional ordering</span></span>
+<span class='r-in'><span class='fu'>last</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># These functions always return a single value</span></span>
+<span class='r-in'><span class='fu'>first</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] NA</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

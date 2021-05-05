@@ -109,7 +109,7 @@ be used to iterate on grouped tibbles." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -290,145 +290,153 @@ column, consistently with <code><a href='group_data.html'>group_keys()</a></code
 <code><a href='group_trim.html'>group_trim</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># return a list</span>
-<span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>cyl</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'>group_map</span><span class='op'>(</span><span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>.x</span>, <span class='fl'>2L</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [[1]]
-#&gt; <span style='color: #949494;'># A tibble: 2 x 10</span>
-#&gt;     mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span>  22.8  108     93  3.85  2.32  18.6     1     1     4     1</span>
-#&gt; <span style='color: #BCBCBC;'>2</span><span>  24.4  147.    62  3.69  3.19  20       1     0     4     2</span>
-#&gt; 
-#&gt; [[2]]
-#&gt; <span style='color: #949494;'># A tibble: 2 x 10</span>
-#&gt;     mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span>    21   160   110   3.9  2.62  16.5     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'>2</span><span>    21   160   110   3.9  2.88  17.0     0     1     4     4</span>
-#&gt; 
-#&gt; [[3]]
-#&gt; <span style='color: #949494;'># A tibble: 2 x 10</span>
-#&gt;     mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span>  18.7   360   175  3.15  3.44  17.0     0     0     3     2</span>
-#&gt; <span style='color: #BCBCBC;'>2</span><span>  14.3   360   245  3.21  3.57  15.8     0     0     3     4</span>
-#&gt; </div><div class='input'>
-<span class='co'># return a tibble grouped by `cyl` with 2 rows per group</span>
-<span class='co'># the grouping data is recalculated</span>
-<span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>cyl</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'>group_modify</span><span class='op'>(</span><span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>.x</span>, <span class='fl'>2L</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 11</span>
-#&gt; <span style='color: #949494;'># Groups:   cyl [3]</span>
-#&gt;     cyl   mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span>     4  22.8  108     93  3.85  2.32  18.6     1     1     4     1</span>
-#&gt; <span style='color: #BCBCBC;'>2</span><span>     4  24.4  147.    62  3.69  3.19  20       1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'>3</span><span>     6  21    160    110  3.9   2.62  16.5     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'>4</span><span>     6  21    160    110  3.9   2.88  17.0     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'>5</span><span>     8  18.7  360    175  3.15  3.44  17.0     0     0     3     2</span>
-#&gt; <span style='color: #BCBCBC;'>6</span><span>     8  14.3  360    245  3.21  3.57  15.8     0     0     3     4</span></div><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"broom"</span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='co'># a list of tibbles</span>
-  <span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-    <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-    <span class='fu'>group_map</span><span class='op'>(</span><span class='op'>~</span> <span class='fu'>broom</span><span class='fu'>::</span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Petal.Length</span> <span class='op'>~</span> <span class='va'>Sepal.Length</span>, data <span class='op'>=</span> <span class='va'>.x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-
-  <span class='co'># a restructured grouped tibble</span>
-  <span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-    <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-    <span class='fu'>group_modify</span><span class='op'>(</span><span class='op'>~</span> <span class='fu'>broom</span><span class='fu'>::</span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Petal.Length</span> <span class='op'>~</span> <span class='va'>Sepal.Length</span>, data <span class='op'>=</span> <span class='va'>.x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 6</span>
-#&gt; <span style='color: #949494;'># Groups:   Species [3]</span>
-#&gt;   Species    term         estimate std.error statistic  p.value
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span> setosa     (Intercept)     0.803    0.344      2.34  2.38</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span>
-#&gt; <span style='color: #BCBCBC;'>2</span><span> setosa     Sepal.Length    0.132    0.068</span><span style='text-decoration: underline;'>5</span><span>     1.92  6.07</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span>
-#&gt; <span style='color: #BCBCBC;'>3</span><span> versicolor (Intercept)     0.185    0.514      0.360 7.20</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 1</span>
-#&gt; <span style='color: #BCBCBC;'>4</span><span> versicolor Sepal.Length    0.686    0.086</span><span style='text-decoration: underline;'>3</span><span>     7.95  2.59</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span>
-#&gt; <span style='color: #BCBCBC;'>5</span><span> virginica  (Intercept)     0.610    0.417      1.46  1.50</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 1</span>
-#&gt; <span style='color: #BCBCBC;'>6</span><span> virginica  Sepal.Length    0.750    0.063</span><span style='text-decoration: underline;'>0</span><span>    11.9   6.30</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-16</span></div><div class='input'>
-<span class='co'># a list of vectors</span>
-<span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'>group_map</span><span class='op'>(</span><span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>.x</span><span class='op'>$</span><span class='va'>Petal.Length</span>, probs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [[1]]
-#&gt;   25%   50%   75% 
-#&gt; 1.400 1.500 1.575 
-#&gt; 
-#&gt; [[2]]
-#&gt;  25%  50%  75% 
-#&gt; 4.00 4.35 4.60 
-#&gt; 
-#&gt; [[3]]
-#&gt;   25%   50%   75% 
-#&gt; 5.100 5.550 5.875 
-#&gt; </div><div class='input'>
-<span class='co'># to use group_modify() the lambda must return a data frame</span>
-<span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'>group_modify</span><span class='op'>(</span><span class='op'>~</span> <span class='op'>{</span>
-     <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>.x</span><span class='op'>$</span><span class='va'>Petal.Length</span>, probs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-     <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/enframe.html'>enframe</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"prob"</span>, value <span class='op'>=</span> <span class='st'>"quantile"</span><span class='op'>)</span>
-  <span class='op'>}</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 9 x 3</span>
-#&gt; <span style='color: #949494;'># Groups:   Species [3]</span>
-#&gt;   Species    prob  quantile
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span> setosa     25%       1.4 </span>
-#&gt; <span style='color: #BCBCBC;'>2</span><span> setosa     50%       1.5 </span>
-#&gt; <span style='color: #BCBCBC;'>3</span><span> setosa     75%       1.58</span>
-#&gt; <span style='color: #BCBCBC;'>4</span><span> versicolor 25%       4   </span>
-#&gt; <span style='color: #BCBCBC;'>5</span><span> versicolor 50%       4.35</span>
-#&gt; <span style='color: #BCBCBC;'>6</span><span> versicolor 75%       4.6 </span>
-#&gt; <span style='color: #BCBCBC;'>7</span><span> virginica  25%       5.1 </span>
-#&gt; <span style='color: #BCBCBC;'>8</span><span> virginica  50%       5.55</span>
-#&gt; <span style='color: #BCBCBC;'>9</span><span> virginica  75%       5.88</span></div><div class='input'>
-<span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'>group_modify</span><span class='op'>(</span><span class='op'>~</span> <span class='op'>{</span>
-    <span class='va'>.x</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-      <span class='fu'>purrr</span><span class='fu'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_dfc</a></span><span class='op'>(</span><span class='va'>fivenum</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-      <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span>nms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"min"</span>, <span class='st'>"Q1"</span>, <span class='st'>"median"</span>, <span class='st'>"Q3"</span>, <span class='st'>"max"</span><span class='op'>)</span><span class='op'>)</span>
-  <span class='op'>}</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 15 x 6</span>
-#&gt; <span style='color: #949494;'># Groups:   Species [3]</span>
-#&gt;    Species    Sepal.Length Sepal.Width Petal.Length Petal.Width nms   
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span> setosa              4.3         2.3         1            0.1 min   </span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span> setosa              4.8         3.2         1.4          0.2 Q1    </span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span> setosa              5           3.4         1.5          0.2 median</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span> setosa              5.2         3.7         1.6          0.3 Q3    </span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span> setosa              5.8         4.4         1.9          0.6 max   </span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span> versicolor          4.9         2           3            1   min   </span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span> versicolor          5.6         2.5         4            1.2 Q1    </span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span> versicolor          5.9         2.8         4.35         1.3 median</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span> versicolor          6.3         3           4.6          1.5 Q3    </span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span> versicolor          7           3.4         5.1          1.8 max   </span>
-#&gt; <span style='color: #BCBCBC;'>11</span><span> virginica           4.9         2.2         4.5          1.4 min   </span>
-#&gt; <span style='color: #BCBCBC;'>12</span><span> virginica           6.2         2.8         5.1          1.8 Q1    </span>
-#&gt; <span style='color: #BCBCBC;'>13</span><span> virginica           6.5         3           5.55         2   median</span>
-#&gt; <span style='color: #BCBCBC;'>14</span><span> virginica           6.9         3.2         5.9          2.3 Q3    </span>
-#&gt; <span style='color: #BCBCBC;'>15</span><span> virginica           7.9         3.8         6.9          2.5 max   </span></div><div class='input'>
-<span class='co'># group_walk() is for side effects</span>
-<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='va'>temp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'>group_walk</span><span class='op'>(</span><span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/write.table.html'>write.csv</a></span><span class='op'>(</span><span class='va'>.x</span>, file <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>temp</span>, <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>.y</span><span class='op'>$</span><span class='va'>Species</span>, <span class='st'>".csv"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='va'>temp</span>, pattern <span class='op'>=</span> <span class='st'>"csv$"</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] "setosa.csv"     "versicolor.csv" "virginica.csv" </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span><span class='op'>(</span><span class='va'>temp</span>, recursive <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'># group_modify() and ungrouped data frames</span>
-<span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'>group_modify</span><span class='op'>(</span><span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>.x</span>, <span class='fl'>2L</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt;               mpg cyl disp  hp drat    wt  qsec vs am gear carb
-#&gt; Mazda RX4      21   6  160 110  3.9 2.620 16.46  0  1    4    4
-#&gt; Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='co'># return a list</span></span>
+<span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>cyl</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>group_map</span><span class='op'>(</span><span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>.x</span>, <span class='fl'>2L</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 2 x 10</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>  22.8  108     93  3.85  2.32  18.6     1     1     4     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span>  24.4  147.    62  3.69  3.19  20       1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 2 x 10</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>    21   160   110   3.9  2.62  16.5     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span>    21   160   110   3.9  2.88  17.0     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[3]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 2 x 10</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>  18.7   360   175  3.15  3.44  17.0     0     0     3     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span>  14.3   360   245  3.21  3.57  15.8     0     0     3     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># return a tibble grouped by `cyl` with 2 rows per group</span></span>
+<span class='r-in'><span class='co'># the grouping data is recalculated</span></span>
+<span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>cyl</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>group_modify</span><span class='op'>(</span><span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>.x</span>, <span class='fl'>2L</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 6 x 11</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># Groups:   cyl [3]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     cyl   mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>     4  22.8  108     93  3.85  2.32  18.6     1     1     4     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span>     4  24.4  147.    62  3.69  3.19  20       1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span>     6  21    160    110  3.9   2.62  16.5     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span><span>     6  21    160    110  3.9   2.88  17.0     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span><span>     8  18.7  360    175  3.15  3.44  17.0     0     0     3     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span><span>     8  14.3  360    245  3.21  3.57  15.8     0     0     3     4</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"broom"</span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='co'># a list of tibbles</span></span>
+<span class='r-in'>  <span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>    <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>    <span class='fu'>group_map</span><span class='op'>(</span><span class='op'>~</span> <span class='fu'>broom</span><span class='fu'>::</span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Petal.Length</span> <span class='op'>~</span> <span class='va'>Sepal.Length</span>, data <span class='op'>=</span> <span class='va'>.x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># a restructured grouped tibble</span></span>
+<span class='r-in'>  <span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>    <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>    <span class='fu'>group_modify</span><span class='op'>(</span><span class='op'>~</span> <span class='fu'>broom</span><span class='fu'>::</span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Petal.Length</span> <span class='op'>~</span> <span class='va'>Sepal.Length</span>, data <span class='op'>=</span> <span class='va'>.x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 6 x 6</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># Groups:   Species [3]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Species    term         estimate std.error statistic  p.value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> setosa     (Intercept)     0.803    0.344      2.34  2.38</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> setosa     Sepal.Length    0.132    0.068</span><span style='text-decoration: underline;'>5</span><span>     1.92  6.07</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> versicolor (Intercept)     0.185    0.514      0.360 7.20</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span><span> versicolor Sepal.Length    0.686    0.086</span><span style='text-decoration: underline;'>3</span><span>     7.95  2.59</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span><span> virginica  (Intercept)     0.610    0.417      1.46  1.50</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span><span> virginica  Sepal.Length    0.750    0.063</span><span style='text-decoration: underline;'>0</span><span>    11.9   6.30</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-16</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># a list of vectors</span></span>
+<span class='r-in'><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>group_map</span><span class='op'>(</span><span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>.x</span><span class='op'>$</span><span class='va'>Petal.Length</span>, probs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   25%   50%   75% </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1.400 1.500 1.575 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  25%  50%  75% </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4.00 4.35 4.60 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[3]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   25%   50%   75% </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5.100 5.550 5.875 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># to use group_modify() the lambda must return a data frame</span></span>
+<span class='r-in'><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>group_modify</span><span class='op'>(</span><span class='op'>~</span> <span class='op'>{</span></span>
+<span class='r-in'>     <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>.x</span><span class='op'>$</span><span class='va'>Petal.Length</span>, probs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>     <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/enframe.html'>enframe</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"prob"</span>, value <span class='op'>=</span> <span class='st'>"quantile"</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>}</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 9 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># Groups:   Species [3]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Species    prob  quantile</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> setosa     25%       1.4 </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> setosa     50%       1.5 </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> setosa     75%       1.58</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span><span> versicolor 25%       4   </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span><span> versicolor 50%       4.35</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span><span> versicolor 75%       4.6 </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>7</span><span> virginica  25%       5.1 </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>8</span><span> virginica  50%       5.55</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>9</span><span> virginica  75%       5.88</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>group_modify</span><span class='op'>(</span><span class='op'>~</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>.x</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>      <span class='fu'>purrr</span><span class='fu'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_dfc</a></span><span class='op'>(</span><span class='va'>fivenum</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>      <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span>nms <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"min"</span>, <span class='st'>"Q1"</span>, <span class='st'>"median"</span>, <span class='st'>"Q3"</span>, <span class='st'>"max"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>}</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 15 x 6</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># Groups:   Species [3]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Species    Sepal.Length Sepal.Width Petal.Length Petal.Width nms   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span> setosa              4.3         2.3         1            0.1 min   </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span> setosa              4.8         3.2         1.4          0.2 Q1    </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span> setosa              5           3.4         1.5          0.2 median</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span> setosa              5.2         3.7         1.6          0.3 Q3    </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span> setosa              5.8         4.4         1.9          0.6 max   </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span> versicolor          4.9         2           3            1   min   </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span> versicolor          5.6         2.5         4            1.2 Q1    </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span> versicolor          5.9         2.8         4.35         1.3 median</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span> versicolor          6.3         3           4.6          1.5 Q3    </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span> versicolor          7           3.4         5.1          1.8 max   </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span><span> virginica           4.9         2.2         4.5          1.4 min   </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>12</span><span> virginica           6.2         2.8         5.1          1.8 Q1    </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>13</span><span> virginica           6.5         3           5.55         2   median</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>14</span><span> virginica           6.9         3.2         5.9          2.3 Q3    </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>15</span><span> virginica           7.9         3.8         6.9          2.5 max   </span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># group_walk() is for side effects</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='va'>temp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>group_walk</span><span class='op'>(</span><span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/write.table.html'>write.csv</a></span><span class='op'>(</span><span class='va'>.x</span>, file <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>temp</span>, <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>.y</span><span class='op'>$</span><span class='va'>Species</span>, <span class='st'>".csv"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='va'>temp</span>, pattern <span class='op'>=</span> <span class='st'>"csv$"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "setosa.csv"     "versicolor.csv" "virginica.csv" </span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span><span class='op'>(</span><span class='va'>temp</span>, recursive <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># group_modify() and ungrouped data frames</span></span>
+<span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>group_modify</span><span class='op'>(</span><span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>.x</span>, <span class='fl'>2L</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Mazda RX4      21   6  160 110  3.9 2.620 16.46  0  1    4    4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -109,7 +109,7 @@ str()." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -252,70 +252,100 @@ how <code>EXPLAIN</code> works for your database, but is very useful for
 diagnosing performance problems.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'><a href='https://dbplyr.tidyverse.org/'>"dbplyr"</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-
-<span class='va'>lahman_s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dbplyr.tidyverse.org/reference/lahman.html'>lahman_sqlite</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>batting</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tbl.html'>tbl</a></span><span class='op'>(</span><span class='va'>lahman_s</span>, <span class='st'>"Batting"</span><span class='op'>)</span>
-<span class='va'>batting</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>show_query</span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>batting</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>explain</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'># The batting database has indices on all ID variables:</span>
-<span class='co'># SQLite automatically picks the most restrictive index</span>
-<span class='va'>batting</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='va'>lgID</span> <span class='op'>==</span> <span class='st'>"NL"</span> <span class='op'>&amp;</span> <span class='va'>yearID</span> <span class='op'>==</span> <span class='fl'>2000L</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>explain</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'># OR's will use multiple indexes</span>
-<span class='va'>batting</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='va'>lgID</span> <span class='op'>==</span> <span class='st'>"NL"</span> <span class='op'>|</span> <span class='va'>yearID</span> <span class='op'>==</span> <span class='fl'>2000</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>explain</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'># Joins will use indexes in both tables</span>
-<span class='va'>teams</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tbl.html'>tbl</a></span><span class='op'>(</span><span class='va'>lahman_s</span>, <span class='st'>"Teams"</span><span class='op'>)</span>
-<span class='va'>batting</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>teams</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"yearID"</span>, <span class='st'>"teamID"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>explain</span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='co'>#&gt; Creating table: AllstarFull</div><div class='co'>#&gt; Creating table: Appearances</div><div class='co'>#&gt; Creating table: AwardsManagers</div><div class='co'>#&gt; Creating table: AwardsPlayers</div><div class='co'>#&gt; Creating table: AwardsShareManagers</div><div class='co'>#&gt; Creating table: AwardsSharePlayers</div><div class='co'>#&gt; Creating table: Batting</div><div class='co'>#&gt; Creating table: BattingPost</div><div class='co'>#&gt; Creating table: CollegePlaying</div><div class='co'>#&gt; Creating table: Fielding</div><div class='co'>#&gt; Creating table: FieldingOF</div><div class='co'>#&gt; Creating table: FieldingOFsplit</div><div class='co'>#&gt; Creating table: FieldingPost</div><div class='co'>#&gt; Creating table: HallOfFame</div><div class='co'>#&gt; Creating table: HomeGames</div><div class='co'>#&gt; Creating table: LahmanData</div><div class='co'>#&gt; Creating table: Managers</div><div class='co'>#&gt; Creating table: ManagersHalf</div><div class='co'>#&gt; Creating table: Master</div><div class='co'>#&gt; Creating table: Parks</div><div class='co'>#&gt; Creating table: People</div><div class='co'>#&gt; Creating table: Pitching</div><div class='co'>#&gt; Creating table: PitchingPost</div><div class='co'>#&gt; Creating table: Salaries</div><div class='co'>#&gt; Creating table: Schools</div><div class='co'>#&gt; Creating table: SeriesPost</div><div class='co'>#&gt; Creating table: Teams</div><div class='co'>#&gt; Creating table: TeamsFranchises</div><div class='co'>#&gt; Creating table: TeamsHalf</div><div class='co'>#&gt; &lt;SQL&gt;
-#&gt; SELECT *
-#&gt; FROM `Batting`
-#&gt; &lt;SQL&gt;
-#&gt; SELECT *
-#&gt; FROM `Batting`
-#&gt; 
-#&gt; &lt;PLAN&gt;
-#&gt;   id parent notused             detail
-#&gt; 1  2      0       0 SCAN TABLE Batting
-#&gt; &lt;SQL&gt;
-#&gt; SELECT *
-#&gt; FROM `Batting`
-#&gt; WHERE (`lgID` = 'NL' AND `yearID` = 2000)
-#&gt; 
-#&gt; &lt;PLAN&gt;
-#&gt;   id parent notused                                                     detail
-#&gt; 1  3      0       0 SEARCH TABLE Batting USING INDEX Batting_yearID (yearID=?)
-#&gt; &lt;SQL&gt;
-#&gt; SELECT *
-#&gt; FROM `Batting`
-#&gt; WHERE (`lgID` = 'NL' OR `yearID` = 2000.0)
-#&gt; 
-#&gt; &lt;PLAN&gt;
-#&gt;   id parent notused                                                     detail
-#&gt; 1  4      0       0                                             MULTI-INDEX OR
-#&gt; 2  5      4       0                                                    INDEX 1
-#&gt; 3 11      5       0     SEARCH TABLE Batting USING INDEX Batting_lgID (lgID=?)
-#&gt; 4 16      4       0                                                    INDEX 2
-#&gt; 5 22     16       0 SEARCH TABLE Batting USING INDEX Batting_yearID (yearID=?)
-#&gt; &lt;SQL&gt;
-#&gt; SELECT `playerID`, `LHS`.`yearID` AS `yearID`, `stint`, `LHS`.`teamID` AS `teamID`, `LHS`.`lgID` AS `lgID.x`, `LHS`.`G` AS `G.x`, `LHS`.`AB` AS `AB.x`, `LHS`.`R` AS `R.x`, `LHS`.`H` AS `H.x`, `LHS`.`X2B` AS `X2B.x`, `LHS`.`X3B` AS `X3B.x`, `LHS`.`HR` AS `HR.x`, `RBI`, `LHS`.`SB` AS `SB.x`, `LHS`.`CS` AS `CS.x`, `LHS`.`BB` AS `BB.x`, `LHS`.`SO` AS `SO.x`, `IBB`, `LHS`.`HBP` AS `HBP.x`, `SH`, `LHS`.`SF` AS `SF.x`, `GIDP`, `RHS`.`lgID` AS `lgID.y`, `franchID`, `divID`, `Rank`, `RHS`.`G` AS `G.y`, `Ghome`, `W`, `L`, `DivWin`, `WCWin`, `LgWin`, `WSWin`, `RHS`.`R` AS `R.y`, `RHS`.`AB` AS `AB.y`, `RHS`.`H` AS `H.y`, `RHS`.`X2B` AS `X2B.y`, `RHS`.`X3B` AS `X3B.y`, `RHS`.`HR` AS `HR.y`, `RHS`.`BB` AS `BB.y`, `RHS`.`SO` AS `SO.y`, `RHS`.`SB` AS `SB.y`, `RHS`.`CS` AS `CS.y`, `RHS`.`HBP` AS `HBP.y`, `RHS`.`SF` AS `SF.y`, `RA`, `ER`, `ERA`, `CG`, `SHO`, `SV`, `IPouts`, `HA`, `HRA`, `BBA`, `SOA`, `E`, `DP`, `FP`, `name`, `park`, `attendance`, `BPF`, `PPF`, `teamIDBR`, `teamIDlahman45`, `teamIDretro`
-#&gt; FROM `Batting` AS `LHS`
-#&gt; LEFT JOIN `Teams` AS `RHS`
-#&gt; ON (`LHS`.`yearID` = `RHS`.`yearID` AND `LHS`.`teamID` = `RHS`.`teamID`)
-#&gt; 
-#&gt; 
-#&gt; &lt;PLAN&gt;
-#&gt;   id parent notused
-#&gt; 1  4      0       0
-#&gt; 2  6      0       0
-#&gt;                                                          detail
-#&gt; 1                                     SCAN TABLE Batting AS LHS
-#&gt; 2 SEARCH TABLE Teams AS RHS USING INDEX Teams_yearID (yearID=?)</div><div class='input'><span class='co'># }</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># \donttest{</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'><a href='https://dbplyr.tidyverse.org/'>"dbplyr"</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>lahman_s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dbplyr.tidyverse.org/reference/lahman.html'>lahman_sqlite</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>batting</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tbl.html'>tbl</a></span><span class='op'>(</span><span class='va'>lahman_s</span>, <span class='st'>"Batting"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>batting</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>show_query</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>batting</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>explain</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># The batting database has indices on all ID variables:</span></span>
+<span class='r-in'><span class='co'># SQLite automatically picks the most restrictive index</span></span>
+<span class='r-in'><span class='va'>batting</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='va'>lgID</span> <span class='op'>==</span> <span class='st'>"NL"</span> <span class='op'>&amp;</span> <span class='va'>yearID</span> <span class='op'>==</span> <span class='fl'>2000L</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>explain</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># OR's will use multiple indexes</span></span>
+<span class='r-in'><span class='va'>batting</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='va'>lgID</span> <span class='op'>==</span> <span class='st'>"NL"</span> <span class='op'>|</span> <span class='va'>yearID</span> <span class='op'>==</span> <span class='fl'>2000</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>explain</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Joins will use indexes in both tables</span></span>
+<span class='r-in'><span class='va'>teams</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tbl.html'>tbl</a></span><span class='op'>(</span><span class='va'>lahman_s</span>, <span class='st'>"Teams"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>batting</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>teams</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"yearID"</span>, <span class='st'>"teamID"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>explain</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: AllstarFull</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: Appearances</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: AwardsManagers</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: AwardsPlayers</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: AwardsShareManagers</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: AwardsSharePlayers</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: Batting</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: BattingPost</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: CollegePlaying</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: Fielding</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: FieldingOF</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: FieldingOFsplit</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: FieldingPost</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: HallOfFame</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: HomeGames</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: LahmanData</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: Managers</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: ManagersHalf</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: Master</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: Parks</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: People</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: Pitching</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: PitchingPost</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: Salaries</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: Schools</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: SeriesPost</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: Teams</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: TeamsFranchises</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Creating table: TeamsHalf</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;SQL&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> SELECT *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> FROM `Batting`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;SQL&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> SELECT *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> FROM `Batting`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;PLAN&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   id parent notused             detail</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  2      0       0 SCAN TABLE Batting</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;SQL&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> SELECT *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> FROM `Batting`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> WHERE (`lgID` = 'NL' AND `yearID` = 2000)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;PLAN&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   id parent notused                                                     detail</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  3      0       0 SEARCH TABLE Batting USING INDEX Batting_yearID (yearID=?)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;SQL&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> SELECT *</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> FROM `Batting`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> WHERE (`lgID` = 'NL' OR `yearID` = 2000.0)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;PLAN&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   id parent notused                                                     detail</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  4      0       0                                             MULTI-INDEX OR</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2  5      4       0                                                    INDEX 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 11      5       0     SEARCH TABLE Batting USING INDEX Batting_lgID (lgID=?)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 16      4       0                                                    INDEX 2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 22     16       0 SEARCH TABLE Batting USING INDEX Batting_yearID (yearID=?)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;SQL&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> SELECT `playerID`, `LHS`.`yearID` AS `yearID`, `stint`, `LHS`.`teamID` AS `teamID`, `LHS`.`lgID` AS `lgID.x`, `LHS`.`G` AS `G.x`, `LHS`.`AB` AS `AB.x`, `LHS`.`R` AS `R.x`, `LHS`.`H` AS `H.x`, `LHS`.`X2B` AS `X2B.x`, `LHS`.`X3B` AS `X3B.x`, `LHS`.`HR` AS `HR.x`, `RBI`, `LHS`.`SB` AS `SB.x`, `LHS`.`CS` AS `CS.x`, `LHS`.`BB` AS `BB.x`, `LHS`.`SO` AS `SO.x`, `IBB`, `LHS`.`HBP` AS `HBP.x`, `SH`, `LHS`.`SF` AS `SF.x`, `GIDP`, `RHS`.`lgID` AS `lgID.y`, `franchID`, `divID`, `Rank`, `RHS`.`G` AS `G.y`, `Ghome`, `W`, `L`, `DivWin`, `WCWin`, `LgWin`, `WSWin`, `RHS`.`R` AS `R.y`, `RHS`.`AB` AS `AB.y`, `RHS`.`H` AS `H.y`, `RHS`.`X2B` AS `X2B.y`, `RHS`.`X3B` AS `X3B.y`, `RHS`.`HR` AS `HR.y`, `RHS`.`BB` AS `BB.y`, `RHS`.`SO` AS `SO.y`, `RHS`.`SB` AS `SB.y`, `RHS`.`CS` AS `CS.y`, `RHS`.`HBP` AS `HBP.y`, `RHS`.`SF` AS `SF.y`, `RA`, `ER`, `ERA`, `CG`, `SHO`, `SV`, `IPouts`, `HA`, `HRA`, `BBA`, `SOA`, `E`, `DP`, `FP`, `name`, `park`, `attendance`, `BPF`, `PPF`, `teamIDBR`, `teamIDlahman45`, `teamIDretro`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> FROM `Batting` AS `LHS`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> LEFT JOIN `Teams` AS `RHS`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ON (`LHS`.`yearID` = `RHS`.`yearID` AND `LHS`.`teamID` = `RHS`.`teamID`)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;PLAN&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   id parent notused</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  4      0       0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2  6      0       0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                          detail</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1                                     SCAN TABLE Batting AS LHS</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 SEARCH TABLE Teams AS RHS USING INDEX Teams_yearID (yearID=?)</span>
+<span class='r-in'><span class='co'># }</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

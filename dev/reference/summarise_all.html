@@ -118,7 +118,7 @@ summarise_if() affects variables selected with a predicate function
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -353,72 +353,80 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
     <div class='dont-index'><p><a href='scoped.html'>The other scoped verbs</a>, <code><a href='vars.html'>vars()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># The _at() variants directly support strings:</span>
-<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'>summarise_at</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"height"</span>, <span class='st'>"mass"</span><span class='op'>)</span>, <span class='va'>mean</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 2</span>
-#&gt;   height  mass
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span>   174.  97.3</span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"height"</span>, <span class='st'>"mass"</span><span class='op'>)</span>, <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.x</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 2</span>
-#&gt;   height  mass
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span>   174.  97.3</span></div><div class='input'>
-<span class='co'># You can also supply selection helpers to _at() functions but you have</span>
-<span class='co'># to quote them with vars():</span>
-<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'>summarise_at</span><span class='op'>(</span><span class='fu'><a href='vars.html'>vars</a></span><span class='op'>(</span><span class='va'>height</span><span class='op'>:</span><span class='va'>mass</span><span class='op'>)</span>, <span class='va'>mean</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 2</span>
-#&gt;   height  mass
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span>   174.  97.3</span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='va'>height</span><span class='op'>:</span><span class='va'>mass</span>, <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.x</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 2</span>
-#&gt;   height  mass
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span>   174.  97.3</span></div><div class='input'>
-<span class='co'># The _if() variants apply a predicate function (a function that</span>
-<span class='co'># returns TRUE or FALSE) to determine the relevant subset of</span>
-<span class='co'># columns. Here we apply mean() to the numeric columns:</span>
-<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'>summarise_if</span><span class='op'>(</span><span class='va'>is.numeric</span>, <span class='va'>mean</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span>
-#&gt;   height  mass birth_year
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span>   174.  97.3       87.6</span></div><div class='input'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='fu'>where</span><span class='op'>(</span><span class='va'>is.numeric</span><span class='op'>)</span>, <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.x</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span>
-#&gt;   height  mass birth_year
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span>   174.  97.3       87.6</span></div><div class='input'>
-<span class='va'>by_species</span> <span class='op'>&lt;-</span> <span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span>
-
-<span class='co'># If you want to apply multiple transformations, pass a list of</span>
-<span class='co'># functions. When there are multiple functions, they create new</span>
-<span class='co'># variables instead of modifying the variables in place:</span>
-<span class='va'>by_species</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'>summarise_all</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>min</span>, <span class='va'>max</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 9</span>
-#&gt;   Species    Sepal.Length_fn1 Sepal.Width_fn1 Petal.Length_fn1 Petal.Width_fn1
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>                 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span> setosa                  4.3             2.3              1               0.1</span>
-#&gt; <span style='color: #BCBCBC;'>2</span><span> versicolor              4.9             2                3               1  </span>
-#&gt; <span style='color: #BCBCBC;'>3</span><span> virginica               4.9             2.2              4.5             1.4</span>
-#&gt; <span style='color: #949494;'># … with 4 more variables: Sepal.Length_fn2 &lt;dbl&gt;, Sepal.Width_fn2 &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   Petal.Length_fn2 &lt;dbl&gt;, Petal.Width_fn2 &lt;dbl&gt;</span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='va'>by_species</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>min <span class='op'>=</span> <span class='va'>min</span>, max <span class='op'>=</span> <span class='va'>max</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 9</span>
-#&gt;   Species    Sepal.Length_min Sepal.Length_max Sepal.Width_min Sepal.Width_max
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>                 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span> setosa                  4.3              5.8             2.3             4.4</span>
-#&gt; <span style='color: #BCBCBC;'>2</span><span> versicolor              4.9              7               2               3.4</span>
-#&gt; <span style='color: #BCBCBC;'>3</span><span> virginica               4.9              7.9             2.2             3.8</span>
-#&gt; <span style='color: #949494;'># … with 4 more variables: Petal.Length_min &lt;dbl&gt;, Petal.Length_max &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   Petal.Width_min &lt;dbl&gt;, Petal.Width_max &lt;dbl&gt;</span></div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># The _at() variants directly support strings:</span></span>
+<span class='r-in'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>summarise_at</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"height"</span>, <span class='st'>"mass"</span><span class='op'>)</span>, <span class='va'>mean</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 x 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   height  mass</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>   174.  97.3</span></span>
+<span class='r-in'><span class='co'># -&gt;</span></span>
+<span class='r-in'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"height"</span>, <span class='st'>"mass"</span><span class='op'>)</span>, <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.x</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 x 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   height  mass</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>   174.  97.3</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># You can also supply selection helpers to _at() functions but you have</span></span>
+<span class='r-in'><span class='co'># to quote them with vars():</span></span>
+<span class='r-in'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>summarise_at</span><span class='op'>(</span><span class='fu'><a href='vars.html'>vars</a></span><span class='op'>(</span><span class='va'>height</span><span class='op'>:</span><span class='va'>mass</span><span class='op'>)</span>, <span class='va'>mean</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 x 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   height  mass</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>   174.  97.3</span></span>
+<span class='r-in'><span class='co'># -&gt;</span></span>
+<span class='r-in'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='va'>height</span><span class='op'>:</span><span class='va'>mass</span>, <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.x</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 x 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   height  mass</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>   174.  97.3</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># The _if() variants apply a predicate function (a function that</span></span>
+<span class='r-in'><span class='co'># returns TRUE or FALSE) to determine the relevant subset of</span></span>
+<span class='r-in'><span class='co'># columns. Here we apply mean() to the numeric columns:</span></span>
+<span class='r-in'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>summarise_if</span><span class='op'>(</span><span class='va'>is.numeric</span>, <span class='va'>mean</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   height  mass birth_year</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>   174.  97.3       87.6</span></span>
+<span class='r-in'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='fu'>where</span><span class='op'>(</span><span class='va'>is.numeric</span><span class='op'>)</span>, <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.x</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   height  mass birth_year</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>   174.  97.3       87.6</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>by_species</span> <span class='op'>&lt;-</span> <span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># If you want to apply multiple transformations, pass a list of</span></span>
+<span class='r-in'><span class='co'># functions. When there are multiple functions, they create new</span></span>
+<span class='r-in'><span class='co'># variables instead of modifying the variables in place:</span></span>
+<span class='r-in'><span class='va'>by_species</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>summarise_all</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>min</span>, <span class='va'>max</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 3 x 9</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Species    Sepal.Length_fn1 Sepal.Width_fn1 Petal.Length_fn1 Petal.Width_fn1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>                 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> setosa                  4.3             2.3              1               0.1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> versicolor              4.9             2                3               1  </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> virginica               4.9             2.2              4.5             1.4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 4 more variables: Sepal.Length_fn2 &lt;dbl&gt;, Sepal.Width_fn2 &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   Petal.Length_fn2 &lt;dbl&gt;, Petal.Width_fn2 &lt;dbl&gt;</span></span>
+<span class='r-in'><span class='co'># -&gt;</span></span>
+<span class='r-in'><span class='va'>by_species</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span><span class='fu'><a href='across.html'>across</a></span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>min <span class='op'>=</span> <span class='va'>min</span>, max <span class='op'>=</span> <span class='va'>max</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 3 x 9</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Species    Sepal.Length_min Sepal.Length_max Sepal.Width_min Sepal.Width_max</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>                 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> setosa                  4.3              5.8             2.3             4.4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> versicolor              4.9              7               2               3.4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> virginica               4.9              7.9             2.2             3.8</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 4 more variables: Petal.Length_min &lt;dbl&gt;, Petal.Length_max &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   Petal.Width_min &lt;dbl&gt;, Petal.Width_max &lt;dbl&gt;</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

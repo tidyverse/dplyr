@@ -109,7 +109,7 @@ name the output." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -273,80 +273,85 @@ dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/pull.tbl_sql.html'
 .</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>pull</span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='co'>#&gt;  [1] 4 4 1 1 2 1 4 2 2 4 4 3 3 3 4 4 4 1 2 1 1 2 2 4 2 1 2 2 4 6 8 2</div><div class='input'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>pull</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='co'>#&gt;  [1] 21.0 21.0 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 17.8 16.4 17.3 15.2 10.4
-#&gt; [16] 10.4 14.7 32.4 30.4 33.9 21.5 15.5 15.2 13.3 19.2 27.3 26.0 30.4 15.8 19.7
-#&gt; [31] 15.0 21.4</div><div class='input'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>cyl</span><span class='op'>)</span>
-</div><div class='co'>#&gt;  [1] 6 6 4 6 8 6 8 4 4 6 6 8 8 8 8 8 8 4 4 4 4 8 8 8 8 4 4 4 8 6 8 4</div><div class='input'>
-<span class='co'># Also works for remote sources</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"dbplyr"</span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>dbplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dbplyr.tidyverse.org/reference/memdb_frame.html'>memdb_frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, y <span class='op'>=</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>, .name <span class='op'>=</span> <span class='st'>"pull-ex"</span><span class='op'>)</span>
-<span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span>z <span class='op'>=</span> <span class='va'>x</span> <span class='op'>*</span> <span class='va'>y</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'>pull</span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='co'>#&gt;  [1] 10 18 24 28 30 30 28 24 18 10</div><div class='input'>
-<span class='co'># Pull a named vector</span>
-<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>height</span>, <span class='va'>name</span><span class='op'>)</span>
-</div><div class='co'>#&gt;        Luke Skywalker                 C-3PO                 R2-D2 
-#&gt;                   172                   167                    96 
-#&gt;           Darth Vader           Leia Organa             Owen Lars 
-#&gt;                   202                   150                   178 
-#&gt;    Beru Whitesun lars                 R5-D4     Biggs Darklighter 
-#&gt;                   165                    97                   183 
-#&gt;        Obi-Wan Kenobi      Anakin Skywalker        Wilhuff Tarkin 
-#&gt;                   182                   188                   180 
-#&gt;             Chewbacca              Han Solo                Greedo 
-#&gt;                   228                   180                   173 
-#&gt; Jabba Desilijic Tiure        Wedge Antilles      Jek Tono Porkins 
-#&gt;                   175                   170                   180 
-#&gt;                  Yoda             Palpatine             Boba Fett 
-#&gt;                    66                   170                   183 
-#&gt;                 IG-88                 Bossk      Lando Calrissian 
-#&gt;                   200                   190                   177 
-#&gt;                 Lobot                Ackbar            Mon Mothma 
-#&gt;                   175                   180                   150 
-#&gt;          Arvel Crynyd Wicket Systri Warrick             Nien Nunb 
-#&gt;                    NA                    88                   160 
-#&gt;          Qui-Gon Jinn           Nute Gunray         Finis Valorum 
-#&gt;                   193                   191                   170 
-#&gt;         Jar Jar Binks          Roos Tarpals            Rugor Nass 
-#&gt;                   196                   224                   206 
-#&gt;              Ric Olié                 Watto               Sebulba 
-#&gt;                   183                   137                   112 
-#&gt;         Quarsh Panaka        Shmi Skywalker            Darth Maul 
-#&gt;                   183                   163                   175 
-#&gt;           Bib Fortuna           Ayla Secura              Dud Bolt 
-#&gt;                   180                   178                    94 
-#&gt;               Gasgano        Ben Quadinaros            Mace Windu 
-#&gt;                   122                   163                   188 
-#&gt;          Ki-Adi-Mundi             Kit Fisto             Eeth Koth 
-#&gt;                   198                   196                   171 
-#&gt;            Adi Gallia           Saesee Tiin           Yarael Poof 
-#&gt;                   184                   188                   264 
-#&gt;              Plo Koon            Mas Amedda          Gregar Typho 
-#&gt;                   188                   196                   185 
-#&gt;                 Cordé           Cliegg Lars     Poggle the Lesser 
-#&gt;                   157                   183                   183 
-#&gt;       Luminara Unduli         Barriss Offee                 Dormé 
-#&gt;                   170                   166                   165 
-#&gt;                 Dooku   Bail Prestor Organa            Jango Fett 
-#&gt;                   193                   191                   183 
-#&gt;            Zam Wesell       Dexter Jettster               Lama Su 
-#&gt;                   168                   198                   229 
-#&gt;               Taun We            Jocasta Nu         Ratts Tyerell 
-#&gt;                   213                   167                    79 
-#&gt;                R4-P17            Wat Tambor              San Hill 
-#&gt;                    96                   193                   191 
-#&gt;              Shaak Ti              Grievous               Tarfful 
-#&gt;                   178                   216                   234 
-#&gt;       Raymus Antilles             Sly Moore            Tion Medon 
-#&gt;                   188                   178                   206 
-#&gt;                  Finn                   Rey           Poe Dameron 
-#&gt;                    NA                    NA                    NA 
-#&gt;                   BB8        Captain Phasma         Padmé Amidala 
-#&gt;                    NA                    NA                   165 </div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>pull</span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 4 4 1 1 2 1 4 2 2 4 4 3 3 3 4 4 4 1 2 1 1 2 2 4 2 1 2 2 4 6 8 2</span>
+<span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>pull</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 21.0 21.0 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 17.8 16.4 17.3 15.2 10.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [16] 10.4 14.7 32.4 30.4 33.9 21.5 15.5 15.2 13.3 19.2 27.3 26.0 30.4 15.8 19.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] 15.0 21.4</span>
+<span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>cyl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 6 6 4 6 8 6 8 4 4 6 6 8 8 8 8 8 8 4 4 4 4 8 8 8 8 4 4 4 8 6 8 4</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Also works for remote sources</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"dbplyr"</span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>dbplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dbplyr.tidyverse.org/reference/memdb_frame.html'>memdb_frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, y <span class='op'>=</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>, .name <span class='op'>=</span> <span class='st'>"pull-ex"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span>z <span class='op'>=</span> <span class='va'>x</span> <span class='op'>*</span> <span class='va'>y</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>pull</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 10 18 24 28 30 30 28 24 18 10</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Pull a named vector</span></span>
+<span class='r-in'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>height</span>, <span class='va'>name</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        Luke Skywalker                 C-3PO                 R2-D2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   172                   167                    96 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           Darth Vader           Leia Organa             Owen Lars </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   202                   150                   178 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Beru Whitesun lars                 R5-D4     Biggs Darklighter </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   165                    97                   183 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        Obi-Wan Kenobi      Anakin Skywalker        Wilhuff Tarkin </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   182                   188                   180 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             Chewbacca              Han Solo                Greedo </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   228                   180                   173 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Jabba Desilijic Tiure        Wedge Antilles      Jek Tono Porkins </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   175                   170                   180 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                  Yoda             Palpatine             Boba Fett </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    66                   170                   183 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 IG-88                 Bossk      Lando Calrissian </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   200                   190                   177 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 Lobot                Ackbar            Mon Mothma </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   175                   180                   150 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          Arvel Crynyd Wicket Systri Warrick             Nien Nunb </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    NA                    88                   160 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          Qui-Gon Jinn           Nute Gunray         Finis Valorum </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   193                   191                   170 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         Jar Jar Binks          Roos Tarpals            Rugor Nass </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   196                   224                   206 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>              Ric Olié                 Watto               Sebulba </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   183                   137                   112 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         Quarsh Panaka        Shmi Skywalker            Darth Maul </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   183                   163                   175 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           Bib Fortuna           Ayla Secura              Dud Bolt </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   180                   178                    94 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               Gasgano        Ben Quadinaros            Mace Windu </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   122                   163                   188 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          Ki-Adi-Mundi             Kit Fisto             Eeth Koth </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   198                   196                   171 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            Adi Gallia           Saesee Tiin           Yarael Poof </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   184                   188                   264 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>              Plo Koon            Mas Amedda          Gregar Typho </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   188                   196                   185 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 Cordé           Cliegg Lars     Poggle the Lesser </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   157                   183                   183 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       Luminara Unduli         Barriss Offee                 Dormé </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   170                   166                   165 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 Dooku   Bail Prestor Organa            Jango Fett </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   193                   191                   183 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            Zam Wesell       Dexter Jettster               Lama Su </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   168                   198                   229 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               Taun We            Jocasta Nu         Ratts Tyerell </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   213                   167                    79 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                R4-P17            Wat Tambor              San Hill </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    96                   193                   191 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>              Shaak Ti              Grievous               Tarfful </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   178                   216                   234 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       Raymus Antilles             Sly Moore            Tion Medon </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   188                   178                   206 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                  Finn                   Rey           Poe Dameron </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    NA                    NA                    NA </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   BB8        Captain Phasma         Padmé Amidala </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    NA                    NA                   165 </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

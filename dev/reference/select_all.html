@@ -114,7 +114,7 @@ function." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -278,195 +278,207 @@ positions, or <code>NULL</code>.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>mtcars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span> <span class='co'># for nicer printing</span>
-
-<span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>rename_all</span><span class='op'>(</span><span class='va'>toupper</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 32 x 11</span>
-#&gt;      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  GEAR  CARB
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span>
-#&gt; <span style='color: #949494;'># … with 22 more rows</span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='rename.html'>rename_with</a></span><span class='op'>(</span><span class='va'>toupper</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 32 x 11</span>
-#&gt;      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  GEAR  CARB
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span>
-#&gt; <span style='color: #949494;'># … with 22 more rows</span></div><div class='input'>
-<span class='co'># NB: the transformation comes first in rename_with</span>
-<span class='va'>is_whole</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>floor</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>==</span> <span class='va'>x</span><span class='op'>)</span>
-<span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>rename_if</span><span class='op'>(</span><span class='va'>is_whole</span>, <span class='va'>toupper</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 32 x 11</span>
-#&gt;      mpg   CYL  disp    HP  drat    wt  qsec    VS    AM  GEAR  CARB
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span>
-#&gt; <span style='color: #949494;'># … with 22 more rows</span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='rename.html'>rename_with</a></span><span class='op'>(</span><span class='va'>toupper</span>, <span class='fu'>where</span><span class='op'>(</span><span class='va'>is_whole</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 32 x 11</span>
-#&gt;      mpg   CYL  disp    HP  drat    wt  qsec    VS    AM  GEAR  CARB
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span>
-#&gt; <span style='color: #949494;'># … with 22 more rows</span></div><div class='input'>
-<span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>rename_at</span><span class='op'>(</span><span class='fu'><a href='vars.html'>vars</a></span><span class='op'>(</span><span class='va'>mpg</span><span class='op'>:</span><span class='va'>hp</span><span class='op'>)</span>, <span class='va'>toupper</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 32 x 11</span>
-#&gt;      MPG   CYL  DISP    HP  drat    wt  qsec    vs    am  gear  carb
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span>
-#&gt; <span style='color: #949494;'># … with 22 more rows</span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='rename.html'>rename_with</a></span><span class='op'>(</span><span class='va'>toupper</span>, <span class='va'>mpg</span><span class='op'>:</span><span class='va'>hp</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 32 x 11</span>
-#&gt;      MPG   CYL  DISP    HP  drat    wt  qsec    vs    am  gear  carb
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span>
-#&gt; <span style='color: #949494;'># … with 22 more rows</span></div><div class='input'>
-<span class='co'># You now must select() and then rename</span>
-
-<span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>select_all</span><span class='op'>(</span><span class='va'>toupper</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 32 x 11</span>
-#&gt;      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  GEAR  CARB
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span>
-#&gt; <span style='color: #949494;'># … with 22 more rows</span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='rename.html'>rename_with</a></span><span class='op'>(</span><span class='va'>toupper</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 32 x 11</span>
-#&gt;      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  GEAR  CARB
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span>
-#&gt; <span style='color: #949494;'># … with 22 more rows</span></div><div class='input'>
-<span class='co'># Selection drops unselected variables:</span>
-<span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>select_if</span><span class='op'>(</span><span class='va'>is_whole</span>, <span class='va'>toupper</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 32 x 6</span>
-#&gt;      CYL    HP    VS    AM  GEAR  CARB
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span>     6   110     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span>     6   110     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span>     4    93     1     1     4     1</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span>     6   110     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span>     8   175     0     0     3     2</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span>     6   105     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span>     8   245     0     0     3     4</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span>     4    62     1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span>     4    95     1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span>     6   123     1     0     4     4</span>
-#&gt; <span style='color: #949494;'># … with 22 more rows</span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='fu'>where</span><span class='op'>(</span><span class='va'>is_whole</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='rename.html'>rename_with</a></span><span class='op'>(</span><span class='va'>toupper</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 32 x 6</span>
-#&gt;      CYL    HP    VS    AM  GEAR  CARB
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span>     6   110     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span>     6   110     0     1     4     4</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span>     4    93     1     1     4     1</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span>     6   110     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span>     8   175     0     0     3     2</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span>     6   105     1     0     3     1</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span>     8   245     0     0     3     4</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span>     4    62     1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span>     4    95     1     0     4     2</span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span>     6   123     1     0     4     4</span>
-#&gt; <span style='color: #949494;'># … with 22 more rows</span></div><div class='input'>
-<span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>select_at</span><span class='op'>(</span><span class='fu'><a href='vars.html'>vars</a></span><span class='op'>(</span><span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"ar"</span><span class='op'>)</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"c"</span><span class='op'>)</span><span class='op'>)</span>, <span class='va'>toupper</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 32 x 10</span>
-#&gt;      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  CARB
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     1</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     1</span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     2</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     1</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     4</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     2</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     2</span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4</span>
-#&gt; <span style='color: #949494;'># … with 22 more rows</span></div><div class='input'><span class='co'># -&gt;</span>
-<span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"ar"</span><span class='op'>)</span> <span class='op'>|</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"c"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='rename.html'>rename_with</a></span><span class='op'>(</span><span class='va'>toupper</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 32 x 10</span>
-#&gt;      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  CARB
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     1</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     1</span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     2</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     1</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     4</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     2</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     2</span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4</span>
-#&gt; <span style='color: #949494;'># … with 22 more rows</span></div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>mtcars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span> <span class='co'># for nicer printing</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>rename_all</span><span class='op'>(</span><span class='va'>toupper</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 32 x 11</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  GEAR  CARB</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 22 more rows</span></span>
+<span class='r-in'><span class='co'># -&gt;</span></span>
+<span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='rename.html'>rename_with</a></span><span class='op'>(</span><span class='va'>toupper</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 32 x 11</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  GEAR  CARB</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 22 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># NB: the transformation comes first in rename_with</span></span>
+<span class='r-in'><span class='va'>is_whole</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>floor</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>==</span> <span class='va'>x</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>rename_if</span><span class='op'>(</span><span class='va'>is_whole</span>, <span class='va'>toupper</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 32 x 11</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      mpg   CYL  disp    HP  drat    wt  qsec    VS    AM  GEAR  CARB</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 22 more rows</span></span>
+<span class='r-in'><span class='co'># -&gt;</span></span>
+<span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='rename.html'>rename_with</a></span><span class='op'>(</span><span class='va'>toupper</span>, <span class='fu'>where</span><span class='op'>(</span><span class='va'>is_whole</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 32 x 11</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      mpg   CYL  disp    HP  drat    wt  qsec    VS    AM  GEAR  CARB</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 22 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>rename_at</span><span class='op'>(</span><span class='fu'><a href='vars.html'>vars</a></span><span class='op'>(</span><span class='va'>mpg</span><span class='op'>:</span><span class='va'>hp</span><span class='op'>)</span>, <span class='va'>toupper</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 32 x 11</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      MPG   CYL  DISP    HP  drat    wt  qsec    vs    am  gear  carb</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 22 more rows</span></span>
+<span class='r-in'><span class='co'># -&gt;</span></span>
+<span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='rename.html'>rename_with</a></span><span class='op'>(</span><span class='va'>toupper</span>, <span class='va'>mpg</span><span class='op'>:</span><span class='va'>hp</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 32 x 11</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      MPG   CYL  DISP    HP  drat    wt  qsec    vs    am  gear  carb</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 22 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># You now must select() and then rename</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>select_all</span><span class='op'>(</span><span class='va'>toupper</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 32 x 11</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  GEAR  CARB</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 22 more rows</span></span>
+<span class='r-in'><span class='co'># -&gt;</span></span>
+<span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='rename.html'>rename_with</a></span><span class='op'>(</span><span class='va'>toupper</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 32 x 11</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  GEAR  CARB</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 22 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Selection drops unselected variables:</span></span>
+<span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>select_if</span><span class='op'>(</span><span class='va'>is_whole</span>, <span class='va'>toupper</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 32 x 6</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      CYL    HP    VS    AM  GEAR  CARB</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span>     6   110     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span>     6   110     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span>     4    93     1     1     4     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span>     6   110     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span>     8   175     0     0     3     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span>     6   105     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span>     8   245     0     0     3     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span>     4    62     1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span>     4    95     1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span>     6   123     1     0     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 22 more rows</span></span>
+<span class='r-in'><span class='co'># -&gt;</span></span>
+<span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='fu'>where</span><span class='op'>(</span><span class='va'>is_whole</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='rename.html'>rename_with</a></span><span class='op'>(</span><span class='va'>toupper</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 32 x 6</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      CYL    HP    VS    AM  GEAR  CARB</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span>     6   110     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span>     6   110     0     1     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span>     4    93     1     1     4     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span>     6   110     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span>     8   175     0     0     3     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span>     6   105     1     0     3     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span>     8   245     0     0     3     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span>     4    62     1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span>     4    95     1     0     4     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span>     6   123     1     0     4     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 22 more rows</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>select_at</span><span class='op'>(</span><span class='fu'><a href='vars.html'>vars</a></span><span class='op'>(</span><span class='op'>-</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"ar"</span><span class='op'>)</span>, <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"c"</span><span class='op'>)</span><span class='op'>)</span>, <span class='va'>toupper</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 32 x 10</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  CARB</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 22 more rows</span></span>
+<span class='r-in'><span class='co'># -&gt;</span></span>
+<span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='select.html'>select</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>contains</a></span><span class='op'>(</span><span class='st'>"ar"</span><span class='op'>)</span> <span class='op'>|</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"c"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='rename.html'>rename_with</a></span><span class='op'>(</span><span class='va'>toupper</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 32 x 10</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      MPG   CYL  DISP    HP  DRAT    WT  QSEC    VS    AM  CARB</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span>  21       6  160    110  3.9   2.62  16.5     0     1     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span>  21       6  160    110  3.9   2.88  17.0     0     1     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span>  22.8     4  108     93  3.85  2.32  18.6     1     1     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span>  21.4     6  258    110  3.08  3.22  19.4     1     0     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span>  18.7     8  360    175  3.15  3.44  17.0     0     0     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span>  18.1     6  225    105  2.76  3.46  20.2     1     0     1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span>  14.3     8  360    245  3.21  3.57  15.8     0     0     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span>  24.4     4  147.    62  3.69  3.19  20       1     0     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 22 more rows</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

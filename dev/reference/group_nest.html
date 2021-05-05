@@ -108,7 +108,7 @@ Nest a tibble using a grouping specification" />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.5.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.6.9000</span>
         </div>
       </div>
     </div>
@@ -272,46 +272,49 @@ the first argument, the grouped tibble, and warns when <code>...</code> is used.
 <code><a href='group_trim.html'>group_trim</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'>#----- use case 1: a grouped data frame</span>
-<span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'>group_nest</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span>
-#&gt;   Species                  data
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;list&lt;tibble[,4]&gt;&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span> setosa               </span><span style='color: #949494;'>[50 × 4]</span>
-#&gt; <span style='color: #BCBCBC;'>2</span><span> versicolor           </span><span style='color: #949494;'>[50 × 4]</span>
-#&gt; <span style='color: #BCBCBC;'>3</span><span> virginica            </span><span style='color: #949494;'>[50 × 4]</span></div><div class='input'>
-<span class='co'># this can be useful if the grouped data has been altered before nesting</span>
-<span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Sepal.Length</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>Sepal.Length</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'>group_nest</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span>
-#&gt;   Species                  data
-#&gt;   <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;list&lt;tibble[,4]&gt;&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span><span> setosa               </span><span style='color: #949494;'>[22 × 4]</span>
-#&gt; <span style='color: #BCBCBC;'>2</span><span> versicolor           </span><span style='color: #949494;'>[24 × 4]</span>
-#&gt; <span style='color: #BCBCBC;'>3</span><span> virginica            </span><span style='color: #949494;'>[22 × 4]</span></div><div class='input'>
-<span class='co'>#----- use case 2: using group_nest() on a ungrouped data frame with</span>
-<span class='co'>#                  a grouping specification that uses the data mask</span>
-<span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'>group_nest</span><span class='op'>(</span><span class='va'>species</span>, <span class='va'>homeworld</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 58 x 3</span>
-#&gt;    species  homeworld                  data
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;list&lt;tibble[,12]&gt;&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span> Aleena   Aleen Minor            </span><span style='color: #949494;'>[1 × 12]</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span> Besalisk Ojom                   </span><span style='color: #949494;'>[1 × 12]</span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span> Cerean   Cerea                  </span><span style='color: #949494;'>[1 × 12]</span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span> Chagrian Champala               </span><span style='color: #949494;'>[1 × 12]</span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span> Clawdite Zolan                  </span><span style='color: #949494;'>[1 × 12]</span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span> Droid    Naboo                  </span><span style='color: #949494;'>[1 × 12]</span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span> Droid    Tatooine               </span><span style='color: #949494;'>[2 × 12]</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span> Droid    </span><span style='color: #BB0000;'>NA</span><span>                     </span><span style='color: #949494;'>[3 × 12]</span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span> Dug      Malastare              </span><span style='color: #949494;'>[1 × 12]</span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span> Ewok     Endor                  </span><span style='color: #949494;'>[1 × 12]</span>
-#&gt; <span style='color: #949494;'># … with 48 more rows</span></div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='co'>#----- use case 1: a grouped data frame</span></span>
+<span class='r-in'><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>group_nest</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 3 x 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Species                  data</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;list&lt;tibble[,4]&gt;&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> setosa               </span><span style='color: #949494;'>[50 × 4]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> versicolor           </span><span style='color: #949494;'>[50 × 4]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> virginica            </span><span style='color: #949494;'>[50 × 4]</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># this can be useful if the grouped data has been altered before nesting</span></span>
+<span class='r-in'><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Sepal.Length</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>Sepal.Length</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>group_nest</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 3 x 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Species                  data</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;list&lt;tibble[,4]&gt;&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> setosa               </span><span style='color: #949494;'>[22 × 4]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> versicolor           </span><span style='color: #949494;'>[24 × 4]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> virginica            </span><span style='color: #949494;'>[22 × 4]</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>#----- use case 2: using group_nest() on a ungrouped data frame with</span></span>
+<span class='r-in'><span class='co'>#                  a grouping specification that uses the data mask</span></span>
+<span class='r-in'><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>group_nest</span><span class='op'>(</span><span class='va'>species</span>, <span class='va'>homeworld</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 58 x 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    species  homeworld                  data</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;list&lt;tibble[,12]&gt;&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span><span> Aleena   Aleen Minor            </span><span style='color: #949494;'>[1 × 12]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span><span> Besalisk Ojom                   </span><span style='color: #949494;'>[1 × 12]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span><span> Cerean   Cerea                  </span><span style='color: #949494;'>[1 × 12]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span><span> Chagrian Champala               </span><span style='color: #949494;'>[1 × 12]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span><span> Clawdite Zolan                  </span><span style='color: #949494;'>[1 × 12]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span><span> Droid    Naboo                  </span><span style='color: #949494;'>[1 × 12]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span><span> Droid    Tatooine               </span><span style='color: #949494;'>[2 × 12]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span><span> Droid    </span><span style='color: #BB0000;'>NA</span><span>                     </span><span style='color: #949494;'>[3 × 12]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span> Dug      Malastare              </span><span style='color: #949494;'>[1 × 12]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span> Ewok     Endor                  </span><span style='color: #949494;'>[1 × 12]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 48 more rows</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
