@@ -597,7 +597,7 @@ as_across_fn_call <- function(fn, var, env) {
     # because we cancel expansion in that case
     fn <- expr_substitute(fn, quote(.), sym(var))
     fn <- expr_substitute(fn, quote(.x), sym(var))
-    new_quosure(f_rhs(fn), env)
+    new_quosure(f_rhs(fn), f_env(fn))
   } else {
     fn_call <- call2(as_function(fn), sym(var))
     new_quosure(fn_call, env)
