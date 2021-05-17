@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `c_across()` and `across()` key deparsing not confused by long calls (#5883).
+
 # dplyr 1.0.6
 
 * `add_count()` is now generic (#5837).
