@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `summarise.rowwise_df()` is quiet when the result is ungrouped (#5875).
+
 # dplyr 1.0.6
 
 * `add_count()` is now generic (#5837).
