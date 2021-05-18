@@ -222,12 +222,12 @@ data frames into one." />
 data frames into one.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bind_rows</span><span class='op'>(</span><span class='va'>...</span>, .id <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>bind_rows</span><span class='op'>(</span><span class='va'>...</span>, .id <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='fu'>bind_cols</span><span class='op'>(</span>
   <span class='va'>...</span>,
   .name_repair <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"unique"</span>, <span class='st'>"universal"</span>, <span class='st'>"check_unique"</span>, <span class='st'>"minimal"</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -271,7 +271,7 @@ the first input, either a data frame, <code>tbl_df</code>, or <code>grouped_df</
 appears in any of the inputs.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>one</span> <span class='op'>&lt;-</span> <span class='va'>starwars</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='op'>]</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>one</span> <span class='op'>&lt;-</span> <span class='va'>starwars</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='op'>]</span></span>
 <span class='r-in'><span class='va'>two</span> <span class='op'>&lt;-</span> <span class='va'>starwars</span><span class='op'>[</span><span class='fl'>9</span><span class='op'>:</span><span class='fl'>12</span>, <span class='op'>]</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># You can supply data frames as arguments:</span></span>
@@ -484,7 +484,7 @@ appears in any of the inputs.</p>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   sex...22 &lt;chr&gt;, gender...23 &lt;chr&gt;, homeworld...24 &lt;chr&gt;,</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   species...25 &lt;chr&gt;, films...26 &lt;list&gt;, vehicles...27 &lt;list&gt;,</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   starships...28 &lt;list&gt;</span></span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

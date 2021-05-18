@@ -222,9 +222,9 @@ function." />
 function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rename</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>rename</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>rename_with</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>.fn</span>, .cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>rename_with</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>.fn</span>, .cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -284,7 +284,7 @@ dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/select.tbl_lazy.ht
 <code><a href='summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>iris</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='va'>iris</span><span class='op'>)</span> <span class='co'># so it prints a little nicer</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>iris</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='va'>iris</span><span class='op'>)</span> <span class='co'># so it prints a little nicer</span></span>
 <span class='r-in'><span class='fu'>rename</span><span class='op'>(</span><span class='va'>iris</span>, petal_length <span class='op'>=</span> <span class='va'>Petal.Length</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 150 x 5</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>    Sepal.Length Sepal.Width petal_length Petal.Width Species</span>
@@ -346,7 +346,7 @@ dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/select.tbl_lazy.ht
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa </span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span>          4.9         3.1          1.5         0.1 setosa </span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 140 more rows</span></span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

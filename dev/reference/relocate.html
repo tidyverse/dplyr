@@ -220,7 +220,7 @@ select() to make it easy to move blocks of columns at once." />
 <code><a href='select.html'>select()</a></code> to make it easy to move blocks of columns at once.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>relocate</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .before <span class='op'>=</span> <span class='cn'>NULL</span>, .after <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>relocate</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .before <span class='op'>=</span> <span class='cn'>NULL</span>, .after <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -265,7 +265,7 @@ dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/select.tbl_lazy.ht
 .</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='fl'>1</span>, b <span class='op'>=</span> <span class='fl'>1</span>, c <span class='op'>=</span> <span class='fl'>1</span>, d <span class='op'>=</span> <span class='st'>"a"</span>, e <span class='op'>=</span> <span class='st'>"a"</span>, f <span class='op'>=</span> <span class='st'>"a"</span><span class='op'>)</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='fl'>1</span>, b <span class='op'>=</span> <span class='fl'>1</span>, c <span class='op'>=</span> <span class='fl'>1</span>, d <span class='op'>=</span> <span class='st'>"a"</span>, e <span class='op'>=</span> <span class='st'>"a"</span>, f <span class='op'>=</span> <span class='st'>"a"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>relocate</span><span class='op'>(</span><span class='va'>f</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 x 6</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   f         a     b     c d     e    </span>
@@ -325,7 +325,7 @@ dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/select.tbl_lazy.ht
 <span class='r-out co'><span class='r-pr'>#&gt;</span>       a     c b     d    </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>     1     1 a     a    </span></span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

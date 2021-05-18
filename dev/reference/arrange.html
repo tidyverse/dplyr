@@ -228,10 +228,10 @@ in order to group by them, and functions of variables are evaluated
 once per data frame, not once per group.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>arrange</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .by_group <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>arrange</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .by_group <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>arrange</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .by_group <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+<span class='fu'>arrange</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .by_group <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -303,7 +303,7 @@ dplyr (<code>data.frame</code>)
 <code><a href='summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='fu'>arrange</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='va'>cyl</span>, <span class='va'>disp</span><span class='op'>)</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>arrange</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='va'>cyl</span>, <span class='va'>disp</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2</span>
@@ -754,7 +754,7 @@ dplyr (<code>data.frame</code>)
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 148          4.4         3.0          1.3         0.2     setosa</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 149          4.4         2.9          1.4         0.2     setosa</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 150          4.3         3.0          1.1         0.1     setosa</span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -224,7 +224,7 @@ strictness makes the output type more predictable, and makes it somewhat
 faster.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>if_else</span><span class='op'>(</span><span class='va'>condition</span>, <span class='va'>true</span>, <span class='va'>false</span>, missing <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>if_else</span><span class='op'>(</span><span class='va'>condition</span>, <span class='va'>true</span>, <span class='va'>false</span>, missing <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -255,7 +255,7 @@ values.</p></td>
 otherwise <code>NA</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>5</span><span class='op'>:</span><span class='fl'>5</span>, <span class='cn'>NA</span><span class='op'>)</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>5</span><span class='op'>:</span><span class='fl'>5</span>, <span class='cn'>NA</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'>if_else</span><span class='op'>(</span><span class='va'>x</span> <span class='op'>&lt;</span> <span class='fl'>0</span>, <span class='cn'>NA_integer_</span>, <span class='va'>x</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] NA NA NA NA NA  0  1  2  3  4  5 NA</span>
 <span class='r-in'><span class='fu'>if_else</span><span class='op'>(</span><span class='va'>x</span> <span class='op'>&lt;</span> <span class='fl'>0</span>, <span class='st'>"negative"</span>, <span class='st'>"positive"</span>, <span class='st'>"missing"</span><span class='op'>)</span></span>
@@ -270,7 +270,7 @@ otherwise <code>NA</code>.</p>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] b    &lt;NA&gt; b    &lt;NA&gt; c    c    c    &lt;NA&gt; b    b   </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Levels: b c d e</span>
 <span class='r-in'><span class='co'># Attributes are taken from the `true` vector,</span></span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

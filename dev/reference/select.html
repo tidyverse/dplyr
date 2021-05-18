@@ -304,7 +304,7 @@ for which the function returns <code>TRUE</code>.</p></li>
 
     </div>
 
-    <pre class="usage"><span class='fu'>select</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>select</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -354,12 +354,12 @@ dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/select.tbl_lazy.ht
 specific help pages to learn about helpers like <code><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with()</a></code>.</p>
 <p>The selection language can be used in functions like
 <code>dplyr::select()</code> or <code><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>tidyr::pivot_longer()</a></code>. Let's first attach
-the tidyverse:<div class="r"></p><pre><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
+the tidyverse:<div class="r"></p><pre class='sourceCode r'><code><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
 
 <span class='co'># For better printing</span>
 <span class='va'>iris</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='va'>iris</span><span class='op'>)</span>
-</pre><p></div></p>
-<p>Select variables by name:<div class="r"></p><pre><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>height</span><span class='op'>)</span>
+</code></pre><p></div></p>
+<p>Select variables by name:<div class="r"></p><pre class='sourceCode r'><code><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>height</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 87 x 1</span>
 <span class='co'>#&gt;   height</span>
 <span class='co'>#&gt;    &lt;int&gt;</span>
@@ -378,9 +378,9 @@ the tidyverse:<div class="r"></p><pre><span class='kw'><a href='https://rdrr.io/
 <span class='co'>#&gt; 3         3.2          1.3         0.2 setosa  Sepal.Length   4.7</span>
 <span class='co'>#&gt; 4         3.1          1.5         0.2 setosa  Sepal.Length   4.6</span>
 <span class='co'>#&gt; # ... with 146 more rows</span>
-</pre><p></div></p>
+</code></pre><p></div></p>
 <p>Select multiple variables by separating them with commas. Note how
-the order of columns is determined by the order of inputs:<div class="r"></p><pre><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>homeworld</span>, <span class='va'>height</span>, <span class='va'>mass</span><span class='op'>)</span>
+the order of columns is determined by the order of inputs:<div class="r"></p><pre class='sourceCode r'><code><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>homeworld</span>, <span class='va'>height</span>, <span class='va'>mass</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 87 x 3</span>
 <span class='co'>#&gt;   homeworld height  mass</span>
 <span class='co'>#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt;</span>
@@ -389,9 +389,9 @@ the order of columns is determined by the order of inputs:<div class="r"></p><pr
 <span class='co'>#&gt; 3 Naboo         96    32</span>
 <span class='co'>#&gt; 4 Tatooine     202   136</span>
 <span class='co'>#&gt; # ... with 83 more rows</span>
-</pre><p></div></p>
+</code></pre><p></div></p>
 <p>Functions like <code><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>tidyr::pivot_longer()</a></code> don't take variables with
-dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code> to select multiple variables:<div class="r"></p><pre><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>Sepal.Length</span>, <span class='va'>Petal.Length</span><span class='op'>)</span><span class='op'>)</span>
+dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code> to select multiple variables:<div class="r"></p><pre class='sourceCode r'><code><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>Sepal.Length</span>, <span class='va'>Petal.Length</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 300 x 5</span>
 <span class='co'>#&gt;   Sepal.Width Petal.Width Species name         value</span>
 <span class='co'>#&gt;         &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;   &lt;chr&gt;        &lt;dbl&gt;</span>
@@ -400,10 +400,10 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 <span class='co'>#&gt; 3         3           0.2 setosa  Sepal.Length   4.9</span>
 <span class='co'>#&gt; 4         3           0.2 setosa  Petal.Length   1.4</span>
 <span class='co'>#&gt; # ... with 296 more rows</span>
-</pre><p></div></p><h3 class='hasAnchor' id='operators-'><a class='anchor' aria-hidden='true' href='#operators-'></a>Operators:</h3>
+</code></pre><p></div></p><h3 class='hasAnchor' id='operators-'><a class='anchor' aria-hidden='true' href='#operators-'></a>Operators:</h3>
 
 
-<p>The <code>:</code> operator selects a range of consecutive variables:<div class="r"></p><pre><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>name</span><span class='op'>:</span><span class='va'>mass</span><span class='op'>)</span>
+<p>The <code>:</code> operator selects a range of consecutive variables:<div class="r"></p><pre class='sourceCode r'><code><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>name</span><span class='op'>:</span><span class='va'>mass</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 87 x 3</span>
 <span class='co'>#&gt;   name           height  mass</span>
 <span class='co'>#&gt;   &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt;</span>
@@ -412,8 +412,8 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 <span class='co'>#&gt; 3 R2-D2              96    32</span>
 <span class='co'>#&gt; 4 Darth Vader       202   136</span>
 <span class='co'>#&gt; # ... with 83 more rows</span>
-</pre><p></div></p>
-<p>The <code>!</code> operator negates a selection:<div class="r"></p><pre><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>select</span><span class='op'>(</span><span class='op'>!</span><span class='op'>(</span><span class='va'>name</span><span class='op'>:</span><span class='va'>mass</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre><p></div></p>
+<p>The <code>!</code> operator negates a selection:<div class="r"></p><pre class='sourceCode r'><code><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>select</span><span class='op'>(</span><span class='op'>!</span><span class='op'>(</span><span class='va'>name</span><span class='op'>:</span><span class='va'>mass</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 87 x 11</span>
 <span class='co'>#&gt;   hair_color skin_color  eye_color birth_year sex   gender    homeworld species</span>
 <span class='co'>#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;  </span>
@@ -443,8 +443,8 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 <span class='co'>#&gt; 3          4.7          1.3 setosa </span>
 <span class='co'>#&gt; 4          4.6          1.5 setosa </span>
 <span class='co'>#&gt; # ... with 146 more rows</span>
-</pre><p></div></p>
-<p><code>&amp;</code> and <code>|</code> take the intersection or the union of two selections:<div class="r"></p><pre><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>select</span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"Petal"</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with</a></span><span class='op'>(</span><span class='st'>"Width"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre><p></div></p>
+<p><code>&amp;</code> and <code>|</code> take the intersection or the union of two selections:<div class="r"></p><pre class='sourceCode r'><code><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>select</span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"Petal"</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with</a></span><span class='op'>(</span><span class='st'>"Width"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 150 x 1</span>
 <span class='co'>#&gt;   Petal.Width</span>
 <span class='co'>#&gt;         &lt;dbl&gt;</span>
@@ -463,9 +463,9 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 <span class='co'>#&gt; 3          1.3         0.2         3.2</span>
 <span class='co'>#&gt; 4          1.5         0.2         3.1</span>
 <span class='co'>#&gt; # ... with 146 more rows</span>
-</pre><p></div></p>
+</code></pre><p></div></p>
 <p>To take the difference between two selections, combine the <code>&amp;</code> and
-<code>!</code> operators:<div class="r"></p><pre><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>select</span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"Petal"</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='op'>!</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with</a></span><span class='op'>(</span><span class='st'>"Width"</span><span class='op'>)</span><span class='op'>)</span>
+<code>!</code> operators:<div class="r"></p><pre class='sourceCode r'><code><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>select</span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>starts_with</a></span><span class='op'>(</span><span class='st'>"Petal"</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='op'>!</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>ends_with</a></span><span class='op'>(</span><span class='st'>"Width"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'>#&gt; # A tibble: 150 x 1</span>
 <span class='co'>#&gt;   Petal.Length</span>
 <span class='co'>#&gt;          &lt;dbl&gt;</span>
@@ -474,7 +474,7 @@ dots. In this case use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></co
 <span class='co'>#&gt; 3          1.3</span>
 <span class='co'>#&gt; 4          1.5</span>
 <span class='co'>#&gt; # ... with 146 more rows</span>
-</pre><p></div></p>
+</code></pre><p></div></p>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

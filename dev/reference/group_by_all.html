@@ -228,7 +228,7 @@ selection of variables. Like <code><a href='group_by.html'>group_by()</a></code>
 <a href='mutate.html'>mutate</a> semantics.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_by_all</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>group_by_all</span><span class='op'>(</span>
   <span class='va'>.tbl</span>,
   .funs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
   <span class='va'>...</span>,
@@ -252,7 +252,7 @@ selection of variables. Like <code><a href='group_by.html'>group_by()</a></code>
   <span class='va'>...</span>,
   .add <span class='op'>=</span> <span class='cn'>FALSE</span>,
   .drop <span class='op'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span><span class='op'>(</span><span class='va'>.tbl</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -305,7 +305,7 @@ functions and strings representing function names.</p></td>
 the selection.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='co'># Group a data frame by all variables:</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># Group a data frame by all variables:</span></span>
 <span class='r-in'><span class='fu'>group_by_all</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 32 x 11</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># Groups:   mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb [32]</span></span>
@@ -466,7 +466,7 @@ the selection.</p>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span>          4.4         2.9          1.4         0.2 setosa </span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span>          4.9         3.1          1.5         0.1 setosa </span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 140 more rows</span></span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

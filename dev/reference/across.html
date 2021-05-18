@@ -234,11 +234,11 @@ results into a single logical vector.</p>
 <code><a href='summarise_all.html'>summarise_at()</a></code>, <code><a href='summarise_all.html'>summarise_if()</a></code>, and <code><a href='summarise_all.html'>summarise_all()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>across</span><span class='op'>(</span>.cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>, .fns <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span>, .names <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>across</span><span class='op'>(</span>.cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>, .fns <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span>, .names <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='fu'>if_any</span><span class='op'>(</span>.cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>, .fns <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span>, .names <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>if_all</span><span class='op'>(</span>.cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>, .fns <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span>, .names <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+<span class='fu'>if_all</span><span class='op'>(</span>.cols <span class='op'>=</span> <span class='fu'><a href='https://tidyselect.r-lib.org/reference/everything.html'>everything</a></span><span class='op'>(</span><span class='op'>)</span>, .fns <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span>, .names <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -289,7 +289,7 @@ Because <code>across()</code> is used within functions like <code><a href='summa
 Inside <code>across()</code> however, code is evaluated once for each
 combination of columns and groups. If the evaluation timing is
 important, for example if you're generating random variables, think
-about when it should happen and place your code in consequence.<div class="r"></p><pre><span class='va'>gdf</span> <span class='op'>&lt;-</span>
+about when it should happen and place your code in consequence.<div class="r"></p><pre class='sourceCode r'><code><span class='va'>gdf</span> <span class='op'>&lt;-</span>
   <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>g <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span><span class='op'>)</span>, v1 <span class='op'>=</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>13</span>, v2 <span class='op'>=</span> <span class='fl'>20</span><span class='op'>:</span><span class='fl'>23</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span>
 
@@ -298,7 +298,7 @@ about when it should happen and place your code in consequence.<div class="r"></
 <span class='co'># Outside: 1 normal variate</span>
 <span class='va'>n</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
 <span class='va'>gdf</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='va'>v1</span><span class='op'>:</span><span class='va'>v2</span>, <span class='op'>~</span> <span class='va'>.x</span> <span class='op'>+</span> <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
-</pre><p></div></p><pre><span class='co'>## # A tibble: 4 x 3</span>
+</code></pre><p></div></p><pre class='sourceCode r'><code><span class='co'>## # A tibble: 4 x 3</span>
 <span class='co'>## # Groups:   g [3]</span>
 <span class='co'>##       g    v1    v2</span>
 <span class='co'>##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -306,9 +306,9 @@ about when it should happen and place your code in consequence.<div class="r"></
 <span class='co'>## 2     1 10.4   20.4</span>
 <span class='co'>## 3     2 11.4   21.4</span>
 <span class='co'>## 4     3 12.4   22.4</span>
-</pre><p><div class="r"></p><pre><span class='co'># Inside a verb: 3 normal variates (ngroup)</span>
+</code></pre><p><div class="r"></p><pre class='sourceCode r'><code><span class='co'># Inside a verb: 3 normal variates (ngroup)</span>
 <span class='va'>gdf</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>, <span class='fu'>across</span><span class='op'>(</span><span class='va'>v1</span><span class='op'>:</span><span class='va'>v2</span>, <span class='op'>~</span> <span class='va'>.x</span> <span class='op'>+</span> <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
-</pre><p></div></p><pre><span class='co'>## # A tibble: 4 x 4</span>
+</code></pre><p></div></p><pre class='sourceCode r'><code><span class='co'>## # A tibble: 4 x 4</span>
 <span class='co'>## # Groups:   g [3]</span>
 <span class='co'>##       g    v1    v2      n</span>
 <span class='co'>##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span>
@@ -316,9 +316,9 @@ about when it should happen and place your code in consequence.<div class="r"></
 <span class='co'>## 2     1  11.2  21.2  0.184</span>
 <span class='co'>## 3     2  11.2  21.2 -0.836</span>
 <span class='co'>## 4     3  14.6  24.6  1.60</span>
-</pre><p><div class="r"></p><pre><span class='co'># Inside `across()`: 6 normal variates (ncol * ngroup)</span>
+</code></pre><p><div class="r"></p><pre class='sourceCode r'><code><span class='co'># Inside `across()`: 6 normal variates (ncol * ngroup)</span>
 <span class='va'>gdf</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='va'>v1</span><span class='op'>:</span><span class='va'>v2</span>, <span class='op'>~</span> <span class='va'>.x</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</pre><p></div></p><pre><span class='co'>## # A tibble: 4 x 3</span>
+</code></pre><p></div></p><pre class='sourceCode r'><code><span class='co'>## # A tibble: 4 x 3</span>
 <span class='co'>## # Groups:   g [3]</span>
 <span class='co'>##       g    v1    v2</span>
 <span class='co'>##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -326,14 +326,14 @@ about when it should happen and place your code in consequence.<div class="r"></
 <span class='co'>## 2     1  11.3  21.7</span>
 <span class='co'>## 3     2  11.2  22.6</span>
 <span class='co'>## 4     3  13.5  22.7</span>
-</pre>
+</code></pre>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='c_across.html'>c_across()</a></code> for a function that returns a vector</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='co'># across() -----------------------------------------------------------------</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># across() -----------------------------------------------------------------</span></span>
 <span class='r-in'><span class='co'># Different ways to select the same set of columns</span></span>
 <span class='r-in'><span class='co'># See &lt;https://tidyselect.r-lib.org/articles/syntax.html&gt; for details</span></span>
 <span class='r-in'><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
@@ -492,7 +492,7 @@ about when it should happen and place your code in consequence.<div class="r"></
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 22          6.7         3.0          5.2         2.3 virginica</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 23          6.2         3.4          5.4         2.3 virginica</span>
 <span class='r-in'></span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -222,7 +222,7 @@ in R that don't have a specific ordering parameter. When translated to SQL
 it will modify the order clause of the OVER function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>order_by</span><span class='op'>(</span><span class='va'>order_by</span>, <span class='va'>call</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>order_by</span><span class='op'>(</span><span class='va'>order_by</span>, <span class='va'>call</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -244,7 +244,7 @@ is the vector being operated on</p></td>
 <code><a href='with_order.html'>with_order()</a></code> with the appropriate arguments.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='fu'>order_by</span><span class='op'>(</span><span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>order_by</span><span class='op'>(</span><span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 55 54 52 49 45 40 34 27 19 10</span>
 <span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span></span>
 <span class='r-in'><span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span></span>
@@ -273,7 +273,7 @@ is the vector being operated on</p></td>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 4 2003     9      14</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 5 2004    16      30</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 6 2005    25      55</span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

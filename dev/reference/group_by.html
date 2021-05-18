@@ -222,9 +222,9 @@ where operations are performed &quot;by group&quot;. ungroup() removes grouping.
 where operations are performed "by group". <code>ungroup()</code> removes grouping.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_by</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .add <span class='op'>=</span> <span class='cn'>FALSE</span>, .drop <span class='op'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span><span class='op'>(</span><span class='va'>.data</span><span class='op'>)</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>group_by</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .add <span class='op'>=</span> <span class='cn'>FALSE</span>, .drop <span class='op'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span><span class='op'>(</span><span class='va'>.data</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>ungroup</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>ungroup</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -289,7 +289,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 <code><a href='group_trim.html'>group_trim</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>by_cyl</span> <span class='op'>&lt;-</span> <span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>cyl</span><span class='op'>)</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>by_cyl</span> <span class='op'>&lt;-</span> <span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>cyl</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># grouping doesn't change how the data looks (apart from listing</span></span>
 <span class='r-in'><span class='co'># how it's grouped):</span></span>
@@ -410,7 +410,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1]  6  7  8  9 10</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'></span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

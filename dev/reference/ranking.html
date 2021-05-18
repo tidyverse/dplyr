@@ -226,7 +226,7 @@ converting between R and SQL. All ranking functions map smallest inputs
 to smallest outputs. Use <code><a href='desc.html'>desc()</a></code> to reverse the direction.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>row_number</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>row_number</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='fu'>ntile</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'>row_number</span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>n</span><span class='op'>)</span>
 
@@ -236,7 +236,7 @@ to smallest outputs. Use <code><a href='desc.html'>desc()</a></code> to reverse 
 
 <span class='fu'>percent_rank</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
-<span class='fu'>cume_dist</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+<span class='fu'>cume_dist</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -272,7 +272,7 @@ larger buckets have lower rank.</p></li>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='cn'>NA</span><span class='op'>)</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='cn'>NA</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'>row_number</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1]  5  1  4  2  3 NA</span>
 <span class='r-in'><span class='fu'>min_rank</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
@@ -370,7 +370,7 @@ larger buckets have lower rank.</p></li>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Merc 240D         24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Merc 230          22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Merc 280          19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4</span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -236,7 +236,7 @@ the same transformation to multiple variables. There are three variants:</p><ul>
 
     </div>
 
-    <pre class="usage"><span class='fu'>mutate_all</span><span class='op'>(</span><span class='va'>.tbl</span>, <span class='va'>.funs</span>, <span class='va'>...</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>mutate_all</span><span class='op'>(</span><span class='va'>.tbl</span>, <span class='va'>.funs</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='fu'>mutate_if</span><span class='op'>(</span><span class='va'>.tbl</span>, <span class='va'>.predicate</span>, <span class='va'>.funs</span>, <span class='va'>...</span><span class='op'>)</span>
 
@@ -246,7 +246,7 @@ the same transformation to multiple variables. There are three variants:</p><ul>
 
 <span class='fu'>transmute_if</span><span class='op'>(</span><span class='va'>.tbl</span>, <span class='va'>.predicate</span>, <span class='va'>.funs</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>transmute_at</span><span class='op'>(</span><span class='va'>.tbl</span>, <span class='va'>.vars</span>, <span class='va'>.funs</span>, <span class='va'>...</span>, .cols <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+<span class='fu'>transmute_at</span><span class='op'>(</span><span class='va'>.tbl</span>, <span class='va'>.vars</span>, <span class='va'>.funs</span>, <span class='va'>...</span>, .cols <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -301,12 +301,12 @@ selection is <strong>implicit</strong> (<code>all</code> and <code>if</code> sel
 <strong>explicit</strong> (<code>at</code> selections).</p><ul>
 <li><p>Grouping variables covered by explicit selections in
 <code>mutate_at()</code> and <code>transmute_at()</code> are always an error. Add
-<code>-group_cols()</code> to the <code><a href='vars.html'>vars()</a></code> selection to avoid this:</p><pre><span class='va'>data</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>mutate_at</span><span class='op'>(</span><span class='fu'><a href='vars.html'>vars</a></span><span class='op'>(</span><span class='op'>-</span><span class='fu'><a href='group_cols.html'>group_cols</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span>, <span class='va'>myoperation</span><span class='op'>)</span>
-</pre>
+<code>-group_cols()</code> to the <code><a href='vars.html'>vars()</a></code> selection to avoid this:</p><pre class='sourceCode r'><code><span class='va'>data</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>mutate_at</span><span class='op'>(</span><span class='fu'><a href='vars.html'>vars</a></span><span class='op'>(</span><span class='op'>-</span><span class='fu'><a href='group_cols.html'>group_cols</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span>, <span class='va'>myoperation</span><span class='op'>)</span>
+</code></pre>
 
-<p>Or remove <code><a href='group_data.html'>group_vars()</a></code> from the character vector of column names:</p><pre><span class='va'>nms</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/setops.html'>setdiff</a></span><span class='op'>(</span><span class='va'>nms</span>, <span class='fu'><a href='group_data.html'>group_vars</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span><span class='op'>)</span>
+<p>Or remove <code><a href='group_data.html'>group_vars()</a></code> from the character vector of column names:</p><pre class='sourceCode r'><code><span class='va'>nms</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/setops.html'>setdiff</a></span><span class='op'>(</span><span class='va'>nms</span>, <span class='fu'><a href='group_data.html'>group_vars</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>data</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>mutate_at</span><span class='op'>(</span><span class='va'>vars</span>, <span class='va'>myoperation</span><span class='op'>)</span>
-</pre></li>
+</code></pre></li>
 <li><p>Grouping variables covered by implicit selections are ignored by
 <code>mutate_all()</code>, <code>transmute_all()</code>, <code>mutate_if()</code>, and
 <code>transmute_if()</code>.</p></li>
@@ -349,7 +349,7 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
     <div class='dont-index'><p><a href='scoped.html'>The other scoped verbs</a>, <code><a href='vars.html'>vars()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>iris</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='va'>iris</span><span class='op'>)</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>iris</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='va'>iris</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># All variants can be passed functions and additional arguments,</span></span>
 <span class='r-in'><span class='co'># purrr-style. The _at() variants directly support strings. Here</span></span>
@@ -684,7 +684,7 @@ disambiguation algorithm are subject to change in dplyr 0.9.0.</p>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span>          4.9         3.1          1.5         0.1 setosa              -</span><span style='color: #BB0000;'>1.14</span><span> </span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 140 more rows, and 3 more variables: Sepal.Width_scale &lt;dbl&gt;,</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   Petal.Length_scale &lt;dbl&gt;, Petal.Width_scale &lt;dbl&gt;</span></span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

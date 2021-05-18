@@ -252,37 +252,37 @@ indirection, i.e. instead of directly typing the name of a variable you
 want to supply it in a function argument or character vector.</p>
 <p>There are two main cases:</p><ul>
 <li><p>If you want the user to supply the variable (or function of variables)
-in a function argument, embrace the argument, e.g. <code>filter(df, {{ var }})</code>.</p><pre><span class='va'>dist_summary</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>var</span><span class='op'>)</span> <span class='op'>{</span>
+in a function argument, embrace the argument, e.g. <code>filter(df, {{ var }})</code>.</p><pre class='sourceCode r'><code><span class='va'>dist_summary</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>var</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
     <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fu'><a href='context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span>, min <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='op'>{</span><span class='op'>{</span> <span class='va'>var</span> <span class='op'>}</span><span class='op'>}</span><span class='op'>)</span>, max <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='op'>{</span><span class='op'>{</span> <span class='va'>var</span> <span class='op'>}</span><span class='op'>}</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
 <span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>dist_summary</span><span class='op'>(</span><span class='va'>mpg</span><span class='op'>)</span>
 <span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>cyl</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>dist_summary</span><span class='op'>(</span><span class='va'>mpg</span><span class='op'>)</span>
-</pre></li>
+</code></pre></li>
 <li><p>If you have the column name as a character vector, use the <code>.data</code>
-pronoun, e.g. <code>summarise(df, mean = mean(.data[[var]]))</code>.</p><pre><span class='kw'>for</span> <span class='op'>(</span><span class='va'>var</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+pronoun, e.g. <code>summarise(df, mean = mean(.data[[var]]))</code>.</p><pre class='sourceCode r'><code><span class='kw'>for</span> <span class='op'>(</span><span class='va'>var</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='count.html'>count</a></span><span class='op'>(</span><span class='va'>.data</span><span class='op'>[[</span><span class='va'>var</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>}</span>
 
 <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>var</span><span class='op'>)</span> <span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='count.html'>count</a></span><span class='op'>(</span><span class='va'>.data</span><span class='op'>[[</span><span class='va'>var</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
-</pre></li>
+</code></pre></li>
 </ul>
 
     <h2 class="hasAnchor" id="dot-dot-dot-"><a class="anchor" href="#dot-dot-dot-"></a>Dot-dot-dot (...)</h2>
 
     <p>When this modifier is applied to <code>...</code>, there is one other useful technique
 which solves the problem of creating a new variable with a name supplied by
-the user. Use the interpolation syntax from the glue package: <code>"{var}" := expression</code>. (Note the use of <code>:=</code> instead of <code>=</code> to enable this syntax).</p><pre><span class='va'>var_name</span> <span class='op'>&lt;-</span> <span class='st'>"l100km"</span>
+the user. Use the interpolation syntax from the glue package: <code>"{var}" := expression</code>. (Note the use of <code>:=</code> instead of <code>=</code> to enable this syntax).</p><pre class='sourceCode r'><code><span class='va'>var_name</span> <span class='op'>&lt;-</span> <span class='st'>"l100km"</span>
 <span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"{var_name}"</span> <span class='op'>:=</span> <span class='fl'>235</span> <span class='op'>/</span> <span class='va'>mpg</span><span class='op'>)</span>
-</pre>
+</code></pre>
 
 <p>Note that <code>...</code> automatically provides indirection, so you can use it as is
-(i.e. without embracing) inside a function:</p><pre><span class='va'>grouped_mean</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>var</span>, <span class='va'>...</span><span class='op'>)</span> <span class='op'>{</span>
+(i.e. without embracing) inside a function:</p><pre class='sourceCode r'><code><span class='va'>grouped_mean</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>var</span>, <span class='va'>...</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
     <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
     <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='op'>{</span><span class='op'>{</span> <span class='va'>var</span> <span class='op'>}</span><span class='op'>}</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
-</pre>
+</code></pre>
 
 
   </div>

@@ -228,9 +228,9 @@ for each of the summary statistics that you have specified.</p>
 <p><code>summarise()</code> and <code>summarize()</code> are synonyms.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>summarise</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .groups <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>summarise</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .groups <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>summarize</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .groups <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+<span class='fu'>summarize</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .groups <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -334,7 +334,7 @@ dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/summarise.tbl_lazy
 <code><a href='slice.html'>slice</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='co'># A summary applied to ungrouped tbl returns a single row</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># A summary applied to ungrouped tbl returns a single row</span></span>
 <span class='r-in'><span class='va'>mtcars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
 <span class='r-in'>  <span class='fu'>summarise</span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>disp</span><span class='op'>)</span>, n <span class='op'>=</span> <span class='fu'><a href='context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>       mean  n</span>
@@ -415,7 +415,7 @@ dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/summarise.tbl_lazy
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span>  97.3</span></span>
 <span class='r-in'><span class='co'># Learn more in ?dplyr_data_masking</span></span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

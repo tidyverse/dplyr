@@ -226,7 +226,7 @@ Note that when a condition evaluates to <code>NA</code>
 the row will be dropped, unlike base subsetting with <code>[</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>filter</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .preserve <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>filter</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .preserve <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -290,11 +290,11 @@ expressions used to filter the data:</p><ul>
 <p>Because filtering expressions are computed within groups, they may
 yield different results on grouped tibbles. This will be the case
 as soon as an aggregating, lagging, or ranking function is
-involved. Compare this ungrouped filtering:</p><pre><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>filter</span><span class='op'>(</span><span class='va'>mass</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mass</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</pre>
+involved. Compare this ungrouped filtering:</p><pre class='sourceCode r'><code><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>filter</span><span class='op'>(</span><span class='va'>mass</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mass</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
 
-<p>With the grouped equivalent:</p><pre><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>gender</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>filter</span><span class='op'>(</span><span class='va'>mass</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mass</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</pre>
+<p>With the grouped equivalent:</p><pre class='sourceCode r'><code><span class='va'>starwars</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>gender</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>filter</span><span class='op'>(</span><span class='va'>mass</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>mass</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
 
 <p>In the ungrouped version, <code>filter()</code> compares the value of <code>mass</code> in each row to
 the global average (taken over the whole data set), keeping only the rows with
@@ -322,7 +322,7 @@ dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/filter.tbl_lazy.ht
 <code><a href='summarise.html'>summarise</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='co'># Filtering by one criterion</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># Filtering by one criterion</span></span>
 <span class='r-in'><span class='fu'>filter</span><span class='op'>(</span><span class='va'>starwars</span>, <span class='va'>species</span> <span class='op'>==</span> <span class='st'>"Human"</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 35 x 14</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>    name    height  mass hair_color  skin_color eye_color birth_year sex   gender</span>
@@ -469,7 +469,7 @@ dbplyr (<code><a href='https://dbplyr.tidyverse.org/reference/filter.tbl_lazy.ht
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 11 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span>
 <span class='r-in'><span class='co'># Learn more in ?dplyr_data_masking</span></span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

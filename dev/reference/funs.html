@@ -226,7 +226,7 @@ rather than adopting the conventions used by purrr and other packages
 in the tidyverse.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>funs</span><span class='op'>(</span><span class='va'>...</span>, .args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>funs</span><span class='op'>(</span><span class='va'>...</span>, .args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -257,7 +257,7 @@ own functions with <code><a href='https://purrr.tidyverse.org/reference/partial.
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='fu'>funs</span><span class='op'>(</span><span class='st'>"mean"</span>, <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>funs</span><span class='op'>(</span><span class='st'>"mean"</span>, <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>`funs()` was deprecated in dplyr 0.8.0.</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> Please use a list of either functions or lambdas: </span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> </span>
@@ -269,6 +269,8 @@ own functions with <code><a href='https://purrr.tidyverse.org/reference/partial.
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span>   # Using lambdas</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span>   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'>This warning is displayed once every 8 hours.</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;fun_calls&gt;</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $ mean: mean(.)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $ mean: mean(., na.rm = TRUE)</span>
@@ -277,12 +279,12 @@ own functions with <code><a href='https://purrr.tidyverse.org/reference/partial.
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $mean</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> function (x, ...) </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> UseMethod("mean")</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;bytecode: 0x7fbed1781e78&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;bytecode: 0x7fc198631a78&gt;</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;environment: namespace:base&gt;</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $mean</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> ~mean(.x, na.rm = TRUE)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;environment: 0x7fbed461d798&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;environment: 0x7fc19ac19f00&gt;</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'></span>
 <span class='r-in'><span class='fu'>funs</span><span class='op'>(</span>m1 <span class='op'>=</span> <span class='va'>mean</span>, m2 <span class='op'>=</span> <span class='st'>"mean"</span>, m3 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
@@ -295,7 +297,7 @@ own functions with <code><a href='https://purrr.tidyverse.org/reference/partial.
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $m1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> function (x, ...) </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> UseMethod("mean")</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;bytecode: 0x7fbed1781e78&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;bytecode: 0x7fc198631a78&gt;</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;environment: namespace:base&gt;</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $m2</span>
@@ -303,9 +305,9 @@ own functions with <code><a href='https://purrr.tidyverse.org/reference/partial.
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $m3</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> ~mean(.x, na.rm = TRUE)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;environment: 0x7fbed461d798&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;environment: 0x7fc19ac19f00&gt;</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

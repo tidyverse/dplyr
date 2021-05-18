@@ -226,14 +226,14 @@ row and column names. It is questioning as of dplyr 1.0.0, because it
 seems to solve a problem that no longer seems that important.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>all_equal</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>all_equal</span><span class='op'>(</span>
   <span class='va'>target</span>,
   <span class='va'>current</span>,
   ignore_col_order <span class='op'>=</span> <span class='cn'>TRUE</span>,
   ignore_row_order <span class='op'>=</span> <span class='cn'>TRUE</span>,
   convert <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -268,7 +268,7 @@ the reasons why they're not equal. Use <code><a href='https://rdrr.io/r/base/Log
 result in an <code>if</code> expression.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>scramble</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='va'>x</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>]</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>scramble</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='va'>x</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>]</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># By default, ordering of rows and columns ignored</span></span>
 <span class='r-in'><span class='fu'>all_equal</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'>scramble</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span></span>
@@ -288,7 +288,7 @@ result in an <code>if</code> expression.</p>
 <span class='r-in'><span class='co'># But you can request dplyr convert similar types</span></span>
 <span class='r-in'><span class='fu'>all_equal</span><span class='op'>(</span><span class='va'>df1</span>, <span class='va'>df2</span>, convert <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

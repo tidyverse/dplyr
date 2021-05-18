@@ -232,7 +232,7 @@ grouped data particularly elegant. See <code><a href='../articles/rowwise.html'>
 details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>nest_by</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .key <span class='op'>=</span> <span class='st'>"data"</span>, .keep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>nest_by</span><span class='op'>(</span><span class='va'>.data</span>, <span class='va'>...</span>, .key <span class='op'>=</span> <span class='st'>"data"</span>, .keep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -272,16 +272,16 @@ The first columns are the grouping variables, followed by a list column of tibbl
 with matching rows of the remaining columns.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Note that <code>df %&gt;% nest_by(x, y)</code> is roughly equivalent to</p><pre><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+    <p>Note that <code>df %&gt;% nest_by(x, y)</code> is roughly equivalent to</p><pre class='sourceCode r'><code><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='context.html'>cur_data</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='rowwise.html'>rowwise</a></span><span class='op'>(</span><span class='op'>)</span>
-</pre>
+</code></pre>
 
 <p>If you want to unnest a nested data frame, you can either use
-<code><a href='https://tidyr.tidyverse.org/reference/nest.html'>tidyr::unnest()</a></code> or take advantage of <code><a href='summarise.html'>summarise()</a></code>s multi-row behaviour:</p><pre><span class='va'>nested</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+<code><a href='https://tidyr.tidyverse.org/reference/nest.html'>tidyr::unnest()</a></code> or take advantage of <code><a href='summarise.html'>summarise()</a></code>s multi-row behaviour:</p><pre class='sourceCode r'><code><span class='va'>nested</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='summarise.html'>summarise</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>
-</pre>
+</code></pre>
 
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
@@ -295,7 +295,7 @@ dplyr (<code>data.frame</code>, <code>grouped_df</code>)
 .</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='co'># After nesting, you get one row per group</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># After nesting, you get one row per group</span></span>
 <span class='r-in'><span class='va'>iris</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>nest_by</span><span class='op'>(</span><span class='va'>Species</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 3 x 2</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># Rowwise:  Species</span></span>
@@ -379,7 +379,7 @@ dplyr (<code>data.frame</code>, <code>grouped_df</code>)
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span><span>     4  26   120.     91  4.43  2.14  16.7     0     1     5     2</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span><span>     4  30.4  95.1   113  3.77  1.51  16.9     1     1     5     2</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 22 more rows</span></span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

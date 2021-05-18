@@ -215,10 +215,12 @@
     <div id="dplyr-development-version" class="section level1">
 <h1 class="page-header" data-toc-text="development version">
 <a href="#dplyr-development-version" class="anchor" aria-hidden="true"></a>dplyr (development version)<small> Unreleased </small></h1>
-</div>
+<ul><li>
+<code><a href="../reference/c_across.html">c_across()</a></code> and <code><a href="../reference/across.html">across()</a></code> key deparsing not confused by long calls (<a href='https://github.com/tidyverse/dplyr/issues/5883'>#5883</a>).</li>
+</ul></div>
     <div id="dplyr-106" class="section level1">
 <h1 class="page-header" data-toc-text="1.0.6">
-<a href="#dplyr-106" class="anchor" aria-hidden="true"></a>dplyr 1.0.6<small> Unreleased </small></h1>
+<a href="#dplyr-106" class="anchor" aria-hidden="true"></a>dplyr 1.0.6<small> 2021-05-05 </small></h1>
 <ul><li><p><code><a href="../reference/count.html">add_count()</a></code> is now generic (<a href='https://github.com/tidyverse/dplyr/issues/5837'>#5837</a>).</p></li>
 <li><p><code><a href="../reference/across.html">if_any()</a></code> and <code><a href="../reference/across.html">if_all()</a></code> abort when a predicate is mistakingly used as <code>.cols=</code> (<a href='https://github.com/tidyverse/dplyr/issues/5732'>#5732</a>).</p></li>
 <li><p>Multiple calls to <code><a href="../reference/across.html">if_any()</a></code> and/or <code><a href="../reference/across.html">if_all()</a></code> in the same expression are now properly disambiguated (<a href='https://github.com/tidyverse/dplyr/issues/5782'>#5782</a>).</p></li>
@@ -260,7 +262,7 @@
 <li><p><code><a href="../reference/mutate-joins.html">inner_join()</a></code> gains a <code>keep</code> parameter for consistency with the other mutating joins (<a href='https://github.com/patrickbarks'>@patrickbarks</a>, <a href='https://github.com/tidyverse/dplyr/issues/5581'>#5581</a>).</p></li>
 <li><p>Improved performance with many columns, with a dynamic data mask using active bindings and lazy chops (<a href='https://github.com/tidyverse/dplyr/issues/5017'>#5017</a>).</p></li>
 <li><p><code><a href="../reference/mutate.html">mutate()</a></code> and friends preserves row names in data frames once more (<a href='https://github.com/tidyverse/dplyr/issues/5418'>#5418</a>).</p></li>
-<li><p><code><a href="../reference/group_by.html">group_by()</a></code> uses the ungrouped data for the implicit mutate step (<a href='https://github.com/tidyverse/dplyr/issues/5598'>#5598</a>). You might have to define an <code><a href="../reference/group_by.html">ungroup()</a></code> method for custom classes. For example, see https://github.com/hadley/cubelyr/pull/3.</p></li>
+<li><p><code><a href="../reference/group_by.html">group_by()</a></code> uses the ungrouped data for the implicit mutate step (<a href='https://github.com/tidyverse/dplyr/issues/5598'>#5598</a>). You might have to define an <code><a href="../reference/group_by.html">ungroup()</a></code> method for custom classes. For example, see <a href="https://github.com/hadley/cubelyr/pull/3" class="external-link uri">https://github.com/hadley/cubelyr/pull/3</a>.</p></li>
 <li><p><code><a href="../reference/relocate.html">relocate()</a></code> can rename columns it relocates (<a href='https://github.com/tidyverse/dplyr/issues/5569'>#5569</a>).</p></li>
 <li><p><code><a href="../reference/distinct.html">distinct()</a></code> and <code><a href="../reference/group_by.html">group_by()</a></code> have better error messages when the mutate step fails (<a href='https://github.com/tidyverse/dplyr/issues/5060'>#5060</a>).</p></li>
 <li><p>Clarify that <code><a href="../reference/between.html">between()</a></code> is not vectorised (<a href='https://github.com/tidyverse/dplyr/issues/5493'>#5493</a>).</p></li>
@@ -554,7 +556,7 @@
 <li><p><code><a href="../reference/select_all.html">select_if()</a></code> and <code><a href="../reference/select_all.html">rename_if()</a></code> handle logical vector predicate (<a href='https://github.com/tidyverse/dplyr/issues/4213'>#4213</a>).</p></li>
 <li><p>hybrid <code><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min()</a></code> and <code><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max()</a></code> cast to integer when possible (<a href='https://github.com/tidyverse/dplyr/issues/4258'>#4258</a>).</p></li>
 <li><p><code><a href="../reference/bind.html">bind_rows()</a></code> correctly handles the cases where there are multiple consecutive <code>NULL</code> (<a href='https://github.com/tidyverse/dplyr/issues/4296'>#4296</a>).</p></li>
-<li><p>Support for R 3.1.* has been dropped. The minimal R version supported is now 3.2.0. https://www.tidyverse.org/articles/2019/04/r-version-support/</p></li>
+<li><p>Support for R 3.1.* has been dropped. The minimal R version supported is now 3.2.0. <a href="https://www.tidyverse.org/articles/2019/04/r-version-support/" class="external-link uri">https://www.tidyverse.org/articles/2019/04/r-version-support/</a></p></li>
 <li><p><code><a href="../reference/select_all.html">rename_at()</a></code> handles empty selection (<a href='https://github.com/tidyverse/dplyr/issues/4324'>#4324</a>).</p></li>
 </ul></div>
 </div>

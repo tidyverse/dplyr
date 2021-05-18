@@ -222,10 +222,10 @@ that contains all matches from <code>y</code>. When there is no match, the list 
 is a 0-row tibble.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>nest_join</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, by <span class='op'>=</span> <span class='cn'>NULL</span>, copy <span class='op'>=</span> <span class='cn'>FALSE</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span>, name <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>nest_join</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, by <span class='op'>=</span> <span class='cn'>NULL</span>, copy <span class='op'>=</span> <span class='cn'>FALSE</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span>, name <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>nest_join</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, by <span class='op'>=</span> <span class='cn'>NULL</span>, copy <span class='op'>=</span> <span class='cn'>FALSE</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span>, name <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>nest_join</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, by <span class='op'>=</span> <span class='cn'>NULL</span>, copy <span class='op'>=</span> <span class='cn'>FALSE</span>, keep <span class='op'>=</span> <span class='cn'>FALSE</span>, name <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -304,15 +304,15 @@ dplyr (<code>data.frame</code>)
 <code><a href='mutate-joins.html'>mutate-joins</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>band_members</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>nest_join</span><span class='op'>(</span><span class='va'>band_instruments</span><span class='op'>)</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>band_members</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>nest_join</span><span class='op'>(</span><span class='va'>band_instruments</span><span class='op'>)</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Joining, by = "name"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 3 x 3</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   name  band    band_instruments    </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>              </span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> Mick  Stones  </span><span style='color: #949494;'>&lt;tibble[,1] [0 × 1]&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> John  Beatles </span><span style='color: #949494;'>&lt;tibble[,1] [1 × 1]&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> Paul  Beatles </span><span style='color: #949494;'>&lt;tibble[,1] [1 × 1]&gt;</span></span>
-</pre>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   name  band    band_instruments</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>          </span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span><span> Mick  Stones  </span><span style='color: #949494;'>&lt;tibble [0 × 1]&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span><span> John  Beatles </span><span style='color: #949494;'>&lt;tibble [1 × 1]&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span><span> Paul  Beatles </span><span style='color: #949494;'>&lt;tibble [1 × 1]&gt;</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

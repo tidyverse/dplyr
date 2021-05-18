@@ -224,11 +224,11 @@ the ordering, and provide a default value to use when the input is shorter
 than expected.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>nth</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>n</span>, order_by <span class='op'>=</span> <span class='cn'>NULL</span>, default <span class='op'>=</span> <span class='fu'>default_missing</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>nth</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>n</span>, order_by <span class='op'>=</span> <span class='cn'>NULL</span>, default <span class='op'>=</span> <span class='fu'>default_missing</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='fu'>first</span><span class='op'>(</span><span class='va'>x</span>, order_by <span class='op'>=</span> <span class='cn'>NULL</span>, default <span class='op'>=</span> <span class='fu'>default_missing</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>last</span><span class='op'>(</span><span class='va'>x</span>, order_by <span class='op'>=</span> <span class='cn'>NULL</span>, default <span class='op'>=</span> <span class='fu'>default_missing</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span></pre>
+<span class='fu'>last</span><span class='op'>(</span><span class='va'>x</span>, order_by <span class='op'>=</span> <span class='cn'>NULL</span>, default <span class='op'>=</span> <span class='fu'>default_missing</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -264,7 +264,7 @@ Make sure it is the same type as <code>x</code>.</p></td>
     <p>A single value. <code>[[</code> is used to do the subsetting.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span></span>
 <span class='r-in'><span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='fu'>first</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
@@ -290,7 +290,7 @@ Make sure it is the same type as <code>x</code>.</p></td>
 <span class='r-in'><span class='co'># These functions always return a single value</span></span>
 <span class='r-in'><span class='fu'>first</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] NA</span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -240,9 +240,9 @@ see an easy way to fix the existing <code>top_n()</code> function without breaki
 existing code, so we created a new alternative.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>top_n</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>n</span>, <span class='va'>wt</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>top_n</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>n</span>, <span class='va'>wt</span><span class='op'>)</span>
 
-<span class='fu'>top_frac</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>n</span>, <span class='va'>wt</span><span class='op'>)</span></pre>
+<span class='fu'>top_frac</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>n</span>, <span class='va'>wt</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -268,7 +268,7 @@ specified, defaults to the last variable in the tbl.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>6</span>, <span class='fl'>4</span>, <span class='fl'>1</span>, <span class='fl'>10</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>6</span>, <span class='fl'>4</span>, <span class='fl'>1</span>, <span class='fl'>10</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='va'>df</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>top_n</span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>  <span class='co'># highest values</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Selecting by x</span>
@@ -305,7 +305,7 @@ specified, defaults to the last variable in the tbl.</p></td>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 1 10</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 2  6</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 3  4</span>
-</pre>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
