@@ -611,3 +611,10 @@ test_that("selects and combines columns", {
   out <- df %>% summarise(z = list(c_across(x:y)))
   expect_equal(out$z, list(1:4))
 })
+
+test_that("key_deparse() collapses (#5883)", {
+  expect_equal(
+    length(key_deparse(quo(all_of(c("aaaaaaaaaaaaaaaaaa", "bbbbbbbbbbbbbbb", "cccccccccccccc", "ddddddddddddddddddd"))))),
+    1
+  )
+})
