@@ -287,13 +287,17 @@ across_setup <- function(cols,
       i = "The second argument `.fns` operates on each selected columns."
     ))
   }
-  vars <- tidyselect::eval_select(cols, data = mask$across_cols())
-  vars <- names(vars)
+  across_cols <- mask$across_cols()
+  vars <- tidyselect::eval_select(cols, data = across_cols)
+  names_vars <- names(vars)
+  vars <- names(across_cols)[vars]
 
   if (is.null(fns)) {
     if (!is.null(names)) {
-      glue_mask <- across_glue_mask(.caller_env, .col = vars, .fn = "1")
+      glue_mask <- across_glue_mask(.caller_env, .col = names_vars, .fn = "1")
       names <- vec_as_names(glue(names, .envir = glue_mask), repair = "check_unique")
+    } else {
+      names <- names_vars
     }
 
     value <- list(vars = vars, fns = fns, names = names)
@@ -326,8 +330,8 @@ across_setup <- function(cols,
   }
 
   glue_mask <- glue_mask <- across_glue_mask(.caller_env,
-    .col = rep(vars, each = length(fns)),
-    .fn  = rep(names_fns, length(vars))
+    .col = rep(names_vars, each = length(fns)),
+    .fn  = rep(names_fns , length(vars))
   )
   names <- vec_as_names(glue(names, .envir = glue_mask), repair = "check_unique")
 
