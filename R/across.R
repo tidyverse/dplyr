@@ -373,7 +373,7 @@ c_across_setup <- function(cols, key) {
 # https://github.com/r-lib/tidyselect/issues/235
 key_deparse <- function(cols) {
   paste(
-    deparse(quo_get_expr(cols)),
+    paste0(deparse(quo_get_expr(cols)), collapse = "\n"),
     format(quo_get_env(cols))
   )
 }

@@ -183,13 +183,9 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
 
   group_vars <- group_vars(.data)
   if (is.null(.groups) || identical(.groups, "keep")) {
-    if (verbose) {
-      if (length(group_vars)) {
-        new_groups <- glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
-        summarise_inform("has grouped output by {new_groups}")
-      } else {
-        summarise_inform("has ungrouped output")
-      }
+    if (verbose && length(group_vars)) {
+      new_groups <- glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
+      summarise_inform("has grouped output by {new_groups}")
     }
     out <- grouped_df(out, group_vars)
   } else if (identical(.groups, "rowwise")) {

@@ -42,8 +42,6 @@
 
     Code
       tibble(x = 1, y = 2) %>% rowwise() %>% summarise()
-    Message <message>
-      `summarise()` has ungrouped output. You can override using the `.groups` argument.
     Output
       # A tibble: 1 x 0
 
