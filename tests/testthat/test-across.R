@@ -547,15 +547,15 @@ test_that("across() uses local formula environment (#5881)", {
     prefix <- "foo"
     ~ paste(prefix, .x)
   })
-  df <- data.frame(x = "x")
+  df <- tibble(x = "x")
   expect_equal(
     mutate(df, across(x, f)),
-    data.frame(x = "foo x")
+    tibble(x = "foo x")
   )
 })
 
 test_that("unevaluated formulas (currently) fail", {
-  df <- data.frame(x = "x")
+  df <- tibble(x = "x")
   expect_error(
     mutate(df, across(x, quote(~ paste("foo", .x))))
   )
