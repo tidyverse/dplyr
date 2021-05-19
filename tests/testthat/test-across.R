@@ -603,6 +603,70 @@ test_that("if_any() and if_all() wrapped deal with no inputs or single inputs", 
   )
 })
 
+test_that("across() can use named selections", {
+  df <- data.frame(x = 1, y = 2)
+
+  # no fns
+  expect_equal(
+    df %>% summarise(across(c(a = x, b = y))),
+    data.frame(a = 1, b = 2)
+  )
+  expect_equal(
+    df %>% summarise(across(all_of(c(a = "x", b = "y")))),
+    data.frame(a = 1, b = 2)
+  )
+
+  # no fns, non expanded
+  expect_equal(
+    df %>% summarise((across(c(a = x, b = y)))),
+    data.frame(a = 1, b = 2)
+  )
+  expect_equal(
+    df %>% summarise((across(all_of(c(a = "x", b = "y"))))),
+    data.frame(a = 1, b = 2)
+  )
+
+  # one fn
+  expect_equal(
+    df %>% summarise(across(c(a = x, b = y), mean)),
+    data.frame(a = 1, b = 2)
+  )
+  expect_equal(
+    df %>% summarise(across(all_of(c(a = "x", b = "y")), mean)),
+    data.frame(a = 1, b = 2)
+  )
+
+  # one fn - non expanded
+  expect_equal(
+    df %>% summarise((across(c(a = x, b = y), mean))),
+    data.frame(a = 1, b = 2)
+  )
+  expect_equal(
+    df %>% summarise((across(all_of(c(a = "x", b = "y")), mean))),
+    data.frame(a = 1, b = 2)
+  )
+
+  # multiple fns
+  expect_equal(
+    df %>% summarise(across(c(a = x, b = y), list(mean = mean, sum = sum))),
+    data.frame(a_mean = 1, a_sum = 1, b_mean = 2, b_sum = 2)
+  )
+  expect_equal(
+    df %>% summarise(across(all_of(c(a = "x", b = "y")), list(mean = mean, sum = sum))),
+    data.frame(a_mean = 1, a_sum = 1, b_mean = 2, b_sum = 2)
+  )
+
+  # multiple fns - non expanded
+  expect_equal(
+    df %>% summarise((across(c(a = x, b = y), list(mean = mean, sum = sum)))),
+    data.frame(a_mean = 1, a_sum = 1, b_mean = 2, b_sum = 2)
+  )
+  expect_equal(
+    df %>% summarise((across(all_of(c(a = "x", b = "y")), list(mean = mean, sum = sum)))),
+    data.frame(a_mean = 1, a_sum = 1, b_mean = 2, b_sum = 2)
+  )
+})
+
 
 # c_across ----------------------------------------------------------------
 
