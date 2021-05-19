@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `summarise.rowwise_df()` is quiet when the result is ungrouped (#5875).
+
 * `c_across()` and `across()` key deparsing not confused by long calls (#5883).
 
 # dplyr 1.0.6
