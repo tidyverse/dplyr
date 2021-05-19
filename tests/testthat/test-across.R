@@ -528,15 +528,36 @@ test_that("can pass quosure through `across()`", {
 
 test_that("across() inlines formulas", {
   env <- env()
+  f <- ~ toupper(.x)
 
   expect_equal(
-    as_across_fn_call(~ toupper(.x), quote(foo), env),
-    new_quosure(quote(toupper(foo)), env)
+    as_across_fn_call(f, quote(foo), env),
+    new_quosure(quote(toupper(foo)), f_env(f))
   )
 
+  f <- ~ list(.x, ., .x)
   expect_equal(
-    as_across_fn_call(~ list(.x, ., .x), quote(foo), env),
-    new_quosure(quote(list(foo, foo, foo)), env)
+    as_across_fn_call(f, quote(foo), env),
+    new_quosure(quote(list(foo, foo, foo)), f_env(f))
+  )
+})
+
+test_that("across() uses local formula environment (#5881)", {
+  f <- local({
+    prefix <- "foo"
+    ~ paste(prefix, .x)
+  })
+  df <- tibble(x = "x")
+  expect_equal(
+    mutate(df, across(x, f)),
+    tibble(x = "foo x")
+  )
+})
+
+test_that("unevaluated formulas (currently) fail", {
+  df <- tibble(x = "x")
+  expect_error(
+    mutate(df, across(x, quote(~ paste("foo", .x))))
   )
 })
 
