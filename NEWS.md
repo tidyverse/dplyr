@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `across()` uses the formula environment when inlining them (#5886).
+
 # dplyr 1.0.6
 
 * `add_count()` is now generic (#5837).
