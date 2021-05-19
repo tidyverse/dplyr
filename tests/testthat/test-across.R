@@ -542,6 +542,25 @@ test_that("across() inlines formulas", {
   )
 })
 
+test_that("across() uses local formula environment (#5881)", {
+  f <- local({
+    prefix <- "foo"
+    ~ paste(prefix, .x)
+  })
+  df <- data.frame(x = "x")
+  expect_equal(
+    mutate(df, across(x, f)),
+    data.frame(x = "foo x")
+  )
+})
+
+test_that("unevaluated formulas (currently) fail", {
+  df <- data.frame(x = "x")
+  expect_error(
+    mutate(df, across(x, quote(~ paste("foo", .x))))
+  )
+})
+
 test_that("across() can access lexical scope (#5862)", {
   f_across <- function(data, cols, fn) {
     data %>%

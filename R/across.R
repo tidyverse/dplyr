@@ -571,26 +571,11 @@ expand_across <- function(quo) {
 }
 
 # TODO: Take unevaluated `.fns` and inline calls to `function`. This
-# will enable support for R 4.1 lambdas. This plan is somewhat at odds
-# with the current UI of `across()` which takes a list of function. We
-# would need to intepret calls to `list()` specially. And then we
-# would miss calls to `list2()` etc. This is another way in which the
-# current UI is unsatisfactory from the viewpoint of optimisation.
-#
-# Note that the current implementation is not 100% correct in that
-# regard as we ignore the environment of formulas and instead use the
-# quosure environment. This means this doesn't work as expected:
-#
-# ```
-# local({
-#   prefix <- "foo"
-#   f <- ~ paste(prefix, .x)
-# })
-# mutate(data, across(sel, f))
-# ```
-#
-# If we inspected unevaluated calls instead, we would see a symbol `f`
-# and fall through the `as_function()` branch.
+# will enable support for R 4.1 lambdas. Note that unlike formulas,
+# only unevaluated `function` calls can be inlined. This will have
+# performance implications for lists of lambdas where formulas will
+# have better performance. It is possible that we will be able to
+# inline evaluated functions with strictness annotations.
 as_across_fn_call <- function(fn, var, env) {
   if (is_formula(fn, lhs = FALSE)) {
     # Don't need to worry about arguments passed through `...`
