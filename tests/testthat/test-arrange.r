@@ -79,26 +79,31 @@ test_that("arrange handles S4 classes (#1105)", {
   expect_equal(arrange(df, y), df[3:1, ])
 })
 
-
-test_that("arrange defaults to the C locale", {
-  x <- c("A", "a", "b", "B")
-  df <- tibble(x = x)
-
-  res <- arrange(df, x)
-  expect_identical(res$x, c("A", "B", "a", "b"))
-
-  res <- arrange(df, desc(x))
-  expect_identical(res$x, rev(c("A", "B", "a", "b")))
-})
-
-test_that("locale can be controlled by `.locale`", {
+test_that("arrange defaults to the American English locale if stringi is installed", {
   skip_if_not_installed("stringi", "1.5.3")
 
   x <- c("A", "a", "b", "B")
   df <- tibble(x = x)
 
-  res <- arrange(df, x, .locale = "en_US")
+  res <- arrange(df, x)
   expect_identical(res$x, c("a", "A", "b", "B"))
+
+  res <- arrange(df, desc(x))
+  expect_identical(res$x, rev(c("a", "A", "b", "B")))
+})
+
+test_that("arrange falls back to the C locale with a warning if stringi is not available", {
+  expect_snapshot(
+    (expect_warning(locale_to_chr_transform(NULL, has_stringi = FALSE)))
+  )
+})
+
+test_that("locale can be set to C", {
+  x <- c("A", "a", "b", "B")
+  df <- tibble(x = x)
+
+  res <- arrange(df, x, .locale = "C")
+  expect_identical(res$x, c("A", "B", "a", "b"))
 })
 
 test_that("non-English locales can be used", {

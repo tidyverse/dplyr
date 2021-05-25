@@ -22,13 +22,17 @@ grouped data frames only.}
 
 \item{.locale}{The locale to sort character vectors in.
 \itemize{
-\item If \code{NULL}, the default, character vectors are sorted in the C locale.
-This is often much faster than specifying a locale identifier.
+\item If \code{NULL}, the default, character vectors are sorted in the American
+English locale as long as the stringi package is installed. If stringi
+is not available, the C locale will be used with a warning.
 \item If a single string is supplied, then this will be used as the locale
-identifier to sort with. For example, \code{"en_US"} will sort with the
-American English locale. This requires the stringi package. Use
+identifier to sort with. For example, \code{"fr"} will sort with the French
+locale. This requires the stringi package. Use
 \code{\link[stringi:stri_locale_list]{stringi::stri_locale_list()}} to generate a list of possible locale
 identifiers.
+\item If \code{"C"} is supplied, then character vectors will be sorted in the C
+locale. This does not require stringi and is often much faster than
+supplying a locale identifier.
 }}
 }
 \value{
