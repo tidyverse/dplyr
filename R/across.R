@@ -10,7 +10,7 @@
 #' predicate function to a selection of columns and combine the
 #' results into a single logical vector: `if_any()` is `TRUE` when
 #' the predicate is `TRUE` for *any* of the selected columns, `if_all()`
-#' is `TRUE` when the predicate is `TRUE` for all selected columns.
+#' is `TRUE` when the predicate is `TRUE` for *all* selected columns.
 #'
 #' `across()` supersedes the family of "scoped variants" like
 #' `summarise_at()`, `summarise_if()`, and `summarise_all()`.
