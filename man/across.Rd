@@ -51,7 +51,9 @@ more details.
 
 \code{if_any()} and \code{if_all()} apply the same
 predicate function to a selection of columns and combine the
-results into a single logical vector.
+results into a single logical vector: \code{if_any()} is \code{TRUE} when
+the predicate is \code{TRUE} for \emph{any} of the selected columns, \code{if_all()}
+is \code{TRUE} when the predicate is \code{TRUE} for all selected columns.
 
 \code{across()} supersedes the family of "scoped variants" like
 \code{summarise_at()}, \code{summarise_if()}, and \code{summarise_all()}.
