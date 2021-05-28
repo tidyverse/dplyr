@@ -428,12 +428,13 @@ expand_if_across <- function(quo) {
   if (!quo_is_call(quo, c("if_any", "if_all"), ns = c("", "dplyr"))) {
     return(list(quo))
   }
+  quo_env <- quo_get_env(quo)
 
   call <- match.call(
     definition = if_any,
     call = quo_get_expr(quo),
     expand.dots = FALSE,
-    envir = quo_get_env(quo)
+    envir = quo_env
   )
   if (!is_null(call$...)) {
     return(list(quo))
@@ -467,7 +468,7 @@ expand_if_across <- function(quo) {
 
   # Use `as_quosure()` instead of `new_quosure()` to avoid rewrapping
   # quosure in case of single input
-  list(as_quosure(expr, env = baseenv()))
+  list(as_quosure(expr, env = quo_env))
 }
 
 expand_across <- function(quo) {

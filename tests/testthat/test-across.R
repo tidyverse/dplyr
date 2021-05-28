@@ -624,6 +624,16 @@ test_that("if_any() and if_all() wrapped deal with no inputs or single inputs", 
   )
 })
 
+test_that("expanded if_any() finds local data", {
+  limit <- 7
+  df <- data.frame(x = 1:10, y = 10:1)
+
+  expect_identical(
+    filter(df, if_any(everything(), ~ .x > limit)),
+    filter(df, x > 7 | y > 7)
+  )
+})
+
 test_that("across() can use named selections", {
   df <- data.frame(x = 1, y = 2)
 
