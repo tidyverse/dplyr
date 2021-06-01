@@ -630,7 +630,7 @@ test_that("expanded if_any() finds local data", {
 
   expect_identical(
     filter(df, if_any(everything(), ~ .x > limit)),
-    filter(df, x > 7 | y > 7)
+    filter(df, x > limit | y > limit)
   )
 })
 
