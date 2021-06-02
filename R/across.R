@@ -468,7 +468,7 @@ expand_if_across <- function(quo) {
 
   # Use `as_quosure()` instead of `new_quosure()` to avoid rewrapping
   # quosure in case of single input
-  list(as_quosure(expr, env = quo_env))
+  list(as_quosure(expr, env = baseenv()))
 }
 
 expand_across <- function(quo) {
@@ -507,9 +507,17 @@ expand_across <- function(quo) {
   }
   cols <- as_quosure(cols, env)
 
+  # Cancel expansions when a list of functions is used
+  # because we can't easily make the distinction between
+  # unevaluated formulas and evaluated formulas
+  evaluated_fns <- eval_tidy(expr$.fns, mask, env = env)
+  if (is.list(evaluated_fns)) {
+    return(list(quo))
+  }
+
   setup <- across_setup(
     !!cols,
-    fns = eval_tidy(expr$.fns, mask, env = env),
+    fns = evaluated_fns,
     names = eval_tidy(expr$.names, mask, env = env),
     .caller_env = dplyr_mask$get_caller_env(),
     .top_level = TRUE,
@@ -557,7 +565,7 @@ expand_across <- function(quo) {
     var <- vars[[i]]
 
     for (j in seq_fns) {
-      fn_call <- as_across_fn_call(fns[[j]], var, env)
+      fn_call <- as_across_fn_call(fns[[j]], var, env, is_call(expr$.fns, "~"))
 
       name <- names[[k]]
       expressions[[k]] <- new_dplyr_quosure(
@@ -583,13 +591,13 @@ expand_across <- function(quo) {
 # performance implications for lists of lambdas where formulas will
 # have better performance. It is possible that we will be able to
 # inline evaluated functions with strictness annotations.
-as_across_fn_call <- function(fn, var, env) {
+as_across_fn_call <- function(fn, var, env, is_unevaluated_formula = FALSE) {
   if (is_formula(fn, lhs = FALSE)) {
     # Don't need to worry about arguments passed through `...`
     # because we cancel expansion in that case
     fn <- expr_substitute(fn, quote(.), sym(var))
     fn <- expr_substitute(fn, quote(.x), sym(var))
-    new_quosure(f_rhs(fn), f_env(fn))
+    new_quosure(f_rhs(fn), if(is_unevaluated_formula) env else f_env(fn))
   } else {
     fn_call <- call2(as_function(fn), sym(var))
     new_quosure(fn_call, env)
