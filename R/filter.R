@@ -111,15 +111,15 @@ filter <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 filter.data.frame <- function(.data, ..., .preserve = FALSE) {
-  loc <- filter_rows(.data, ...)
+  loc <- filter_rows(.data, ..., caller_env = caller_env())
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
-filter_rows <- function(.data, ...) {
+filter_rows <- function(.data, ..., caller_env) {
   dots <- dplyr_quosures(...)
   check_filter(dots)
 
-  mask <- DataMask$new(.data, caller_env())
+  mask <- DataMask$new(.data, caller_env)
   on.exit(mask$forget("filter"), add = TRUE)
 
   env_filter <- env()
