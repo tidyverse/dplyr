@@ -507,17 +507,9 @@ expand_across <- function(quo) {
   }
   cols <- as_quosure(cols, env)
 
-  # Cancel expansions when a list of functions is used
-  # because we can't easily make the distinction between
-  # unevaluated formulas and evaluated formulas
-  evaluated_fns <- eval_tidy(expr$.fns, mask, env = env)
-  if (is.list(evaluated_fns)) {
-    return(list(quo))
-  }
-
   setup <- across_setup(
     !!cols,
-    fns = evaluated_fns,
+    fns = eval_tidy(expr$.fns, mask, env = env),
     names = eval_tidy(expr$.names, mask, env = env),
     .caller_env = dplyr_mask$get_caller_env(),
     .top_level = TRUE,
