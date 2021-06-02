@@ -509,7 +509,7 @@ expand_across <- function(quo) {
 
   setup <- across_setup(
     !!cols,
-    fns = eval_tidy(expr$.fns, mask, env = env),
+    fns = eval_tidy(expr$.fns, mask, env = env(env, ....expand_across = TRUE)),
     names = eval_tidy(expr$.names, mask, env = env),
     .caller_env = dplyr_mask$get_caller_env(),
     .top_level = TRUE,
@@ -557,7 +557,7 @@ expand_across <- function(quo) {
     var <- vars[[i]]
 
     for (j in seq_fns) {
-      fn_call <- as_across_fn_call(fns[[j]], var, env, is_call(expr$.fns, "~"))
+      fn_call <- as_across_fn_call(fns[[j]], var, env)
 
       name <- names[[k]]
       expressions[[k]] <- new_dplyr_quosure(
@@ -583,13 +583,19 @@ expand_across <- function(quo) {
 # performance implications for lists of lambdas where formulas will
 # have better performance. It is possible that we will be able to
 # inline evaluated functions with strictness annotations.
-as_across_fn_call <- function(fn, var, env, is_unevaluated_formula = FALSE) {
+as_across_fn_call <- function(fn, var, env) {
   if (is_formula(fn, lhs = FALSE)) {
     # Don't need to worry about arguments passed through `...`
     # because we cancel expansion in that case
     fn <- expr_substitute(fn, quote(.), sym(var))
     fn <- expr_substitute(fn, quote(.x), sym(var))
-    new_quosure(f_rhs(fn), if(is_unevaluated_formula) env else f_env(fn))
+
+    f_env <- f_env(fn)
+    if (!is.null(f_env$.__tidyeval_data_mask__.)) {
+      f_env <- env
+    }
+
+    new_quosure(f_rhs(fn), f_env)
   } else {
     fn_call <- call2(as_function(fn), sym(var))
     new_quosure(fn_call, env)
