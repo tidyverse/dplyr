@@ -557,15 +557,19 @@ test_that("across() uses local formula environment (#5881)", {
     tibble(x = "x", x_f = "foo x")
   )
 
-  prefix <- "foo"
-  expect_equal(
-    mutate(df, across(x, ~paste(prefix, .x))),
-    tibble(x = "foo x")
-  )
-  expect_equal(
-    mutate(df, across(x, list(f = ~paste(prefix, .x)))),
-    tibble(x = "x", x_f = "foo x")
-  )
+  local({
+    # local() here is not necessary, it's just in case the
+    # code is run directly without the test_that()
+    prefix <- "foo"
+    expect_equal(
+      mutate(df, across(x, ~paste(prefix, .x))),
+      tibble(x = "foo x")
+    )
+    expect_equal(
+      mutate(df, across(x, list(f = ~paste(prefix, .x)))),
+      tibble(x = "x", x_f = "foo x")
+    )
+  })
 })
 
 test_that("unevaluated formulas (currently) fail", {
