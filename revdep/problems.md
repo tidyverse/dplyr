@@ -14,23 +14,6 @@ Run `cloud_details(, "finreportr")` for more info
 
 ## Newly broken
 
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘finreportr-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: AnnualReports
-    > ### Title: Acquire listing of company annual reports.
-    > ### Aliases: AnnualReports
-    > 
-    > ### ** Examples
-    > 
-    > AnnualReports("TSLA")
-    Error in open.connection(x, "rb") : HTTP error 403.
-    Calls: AnnualReports -> <Anonymous> -> read_html.default
-    Execution halted
-    ```
-
 *   checking tests ... ERROR
     ```
       Running ‘testthat.R’
@@ -53,17 +36,74 @@ Run `cloud_details(, "finreportr")` for more info
       Execution halted
     ```
 
-# readabs
+## In both
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘finreportr-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: CompanyInfo
+    > ### Title: Acquire basic company information.
+    > ### Aliases: CompanyInfo
+    > 
+    > ### ** Examples
+    > 
+    > CompanyInfo("GOOG")
+    Error in open.connection(x, "rb") : HTTP error 403.
+    Calls: CompanyInfo -> <Anonymous> -> read_html.default
+    Execution halted
+    ```
+
+# SwimmeR
 
 <details>
 
-* Version: 0.4.9
-* GitHub: https://github.com/mattcowgill/readabs
-* Source code: https://github.com/cran/readabs
-* Date/Publication: 2021-05-24 04:10:03 UTC
-* Number of recursive dependencies: 83
+* Version: 0.10.0
+* GitHub: NA
+* Source code: https://github.com/cran/SwimmeR
+* Date/Publication: 2021-06-02 15:30:02 UTC
+* Number of recursive dependencies: 63
 
-Run `cloud_details(, "readabs")` for more info
+Run `cloud_details(, "SwimmeR")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking tests ... ERROR
+    ```
+      Running ‘testthat.R’
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+       20. │   └─dplyr:::check_length_val(...)
+       21. │     └─length_x %in% c(1L, n)
+       22. ├─dplyr::mutate(...)
+       23. ├─dplyr:::mutate.data.frame(...)
+       24. │ └─dplyr:::mutate_cols(.data, ..., caller_env = caller_env())
+       25. │   ├─base::withCallingHandlers(...)
+       26. │   └─mask$eval_all_mutate(quo)
+       27. └─dplyr::case_when(...)
+       28.   └─dplyr:::replace_with(...)
+       29.     └─dplyr:::check_type(val, x, name)
+       30.       └─dplyr:::glubort(header, "must be {friendly_type_of(template)}, not {friendly_type_of(x)}.")
+      
+      [ FAIL 1 | WARN 1 | SKIP 13 | PASS 21 ]
+      Error: Test failures
+      Execution halted
+    ```
+
+# xray
+
+<details>
+
+* Version: 0.2
+* GitHub: https://github.com/sicarul/xray
+* Source code: https://github.com/cran/xray
+* Date/Publication: 2017-12-08 05:15:59 UTC
+* Number of recursive dependencies: 40
+
+Run `cloud_details(, "xray")` for more info
 
 </details>
 
@@ -71,48 +111,26 @@ Run `cloud_details(, "readabs")` for more info
 
 *   checking examples ... ERROR
     ```
-    Running examples in ‘readabs-Ex.R’ failed
+    Running examples in ‘xray-Ex.R’ failed
     The error most likely occurred in:
     
-    > ### Name: search_catalogues
-    > ### Title: Search for ABS catalogues that match a string
-    > ### Aliases: search_catalogues
+    > ### Name: anomalies
+    > ### Title: Analyze a dataset and search for anomalies
+    > ### Aliases: anomalies
     > 
     > ### ** Examples
     > 
     > 
     ...
-      3. ├─dplyr::filter(...)
-      4. ├─dplyr:::filter.data.frame(...)
-      5. │ └─dplyr:::filter_rows(.data, ...)
-      6. │   ├─base::withCallingHandlers(...)
-      7. │   └─mask$eval_all_filter(dots, env_filter)
-      8. ├─rlang:::grepl(string, heading, perl = TRUE, ignore.case = TRUE)
-      9. ├─base::grepl(string, heading, perl = TRUE, ignore.case = TRUE)
-     10. └─base::.handleSimpleError(...)
-     11.   └─dplyr:::h(simpleError(msg, call))
+     16. │ ├─dplyr::mutate(.tbl, !!!funs)
+     17. │ └─dplyr:::mutate.data.frame(.tbl, !!!funs)
+     18. │   └─dplyr:::mutate_cols(.data, ..., caller_env = caller_env())
+     19. │     ├─base::withCallingHandlers(...)
+     20. │     └─mask$eval_all_mutate(quo)
+     21. └─dplyr::case_when(...)
+     22.   └─dplyr:::validate_case_when_length(query, value, fs)
+     23.     └─dplyr:::bad_calls(...)
+     24.       └─dplyr:::glubort(fmt_calls(calls), ..., .envir = .envir)
     Execution halted
-    ```
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        1. ├─readabs::search_catalogues("labour") test-search_catalogues.R:4:2
-        2. │ └─`%>%`(...)
-        3. ├─dplyr::filter(...)
-        4. ├─dplyr:::filter.data.frame(...)
-        5. │ └─dplyr:::filter_rows(.data, ...)
-        6. │   ├─base::withCallingHandlers(...)
-        7. │   └─mask$eval_all_filter(dots, env_filter)
-        8. ├─rlang:::grepl(string, heading, perl = TRUE, ignore.case = TRUE)
-        9. ├─base::grepl(string, heading, perl = TRUE, ignore.case = TRUE)
-       10. └─base::.handleSimpleError(...)
-       11.   └─dplyr:::h(simpleError(msg, call))
-      
-      [ FAIL 1 | WARN 0 | SKIP 26 | PASS 52 ]
-      Error: Test failures
-      Execution halted
     ```
 
