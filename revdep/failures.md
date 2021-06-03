@@ -2,10 +2,10 @@
 
 <details>
 
-* Version: 1.0.0
+* Version: 1.1.0
 * GitHub: https://github.com/fate-ewi/bayesdfa
 * Source code: https://github.com/cran/bayesdfa
-* Date/Publication: 2021-05-19 02:00:02 UTC
+* Date/Publication: 2021-05-28 18:10:05 UTC
 * Number of recursive dependencies: 81
 
 Run `cloud_details(, "bayesdfa")` for more info
@@ -197,72 +197,6 @@ Status: 1 ERROR
 * checking package namespace information ... OK
 * checking package dependencies ... ERROR
 Package required but not available: ‘metap’
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
-* DONE
-Status: 1 ERROR
-
-
-
-
-
-```
-# cbar
-
-<details>
-
-* Version: 0.1.3
-* GitHub: https://github.com/zedoul/cbar
-* Source code: https://github.com/cran/cbar
-* Date/Publication: 2017-10-24 13:20:22 UTC
-* Number of recursive dependencies: 63
-
-Run `cloud_details(, "cbar")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-* using log directory ‘/tmp/workdir/cbar/new/cbar.Rcheck’
-* using R version 4.0.3 (2020-10-10)
-* using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using options ‘--no-manual --no-build-vignettes’
-* checking for file ‘cbar/DESCRIPTION’ ... OK
-* checking extension type ... Package
-* this is package ‘cbar’ version ‘0.1.3’
-* checking package namespace information ... OK
-* checking package dependencies ... ERROR
-Packages required but not available: 'Boom', 'bsts'
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
-* DONE
-Status: 1 ERROR
-
-
-
-
-
-```
-### CRAN
-
-```
-* using log directory ‘/tmp/workdir/cbar/old/cbar.Rcheck’
-* using R version 4.0.3 (2020-10-10)
-* using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using options ‘--no-manual --no-build-vignettes’
-* checking for file ‘cbar/DESCRIPTION’ ... OK
-* checking extension type ... Package
-* this is package ‘cbar’ version ‘0.1.3’
-* checking package namespace information ... OK
-* checking package dependencies ... ERROR
-Packages required but not available: 'Boom', 'bsts'
 
 See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
 manual.
@@ -544,6 +478,72 @@ Status: 1 ERROR
 
 
 ```
+# MarketMatching
+
+<details>
+
+* Version: 1.2.0
+* GitHub: NA
+* Source code: https://github.com/cran/MarketMatching
+* Date/Publication: 2021-01-08 20:10:02 UTC
+* Number of recursive dependencies: 67
+
+Run `cloud_details(, "MarketMatching")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/MarketMatching/new/MarketMatching.Rcheck’
+* using R version 4.0.3 (2020-10-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘MarketMatching/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘MarketMatching’ version ‘1.2.0’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available: 'CausalImpact', 'bsts', 'Boom'
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/MarketMatching/old/MarketMatching.Rcheck’
+* using R version 4.0.3 (2020-10-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘MarketMatching/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘MarketMatching’ version ‘1.2.0’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available: 'CausalImpact', 'bsts', 'Boom'
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+```
 # metagam
 
 <details>
@@ -552,7 +552,7 @@ Status: 1 ERROR
 * GitHub: https://github.com/Lifebrain/metagam
 * Source code: https://github.com/cran/metagam
 * Date/Publication: 2020-11-12 08:10:02 UTC
-* Number of recursive dependencies: 144
+* Number of recursive dependencies: 145
 
 Run `cloud_details(, "metagam")` for more info
 
@@ -676,14 +676,49 @@ ERROR: lazy loading failed for package ‘mlbstatsR’
 
 
 ```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
 # pencal
 
 <details>
 
-* Version: 0.4.1
+* Version: 0.4.2
 * GitHub: NA
 * Source code: https://github.com/cran/pencal
-* Date/Publication: 2021-04-19 14:50:02 UTC
+* Date/Publication: 2021-05-28 09:30:02 UTC
 * Number of recursive dependencies: 149
 
 Run `cloud_details(, "pencal")` for more info
@@ -701,7 +736,7 @@ Run `cloud_details(, "pencal")` for more info
 * using session charset: UTF-8
 * using options ‘--no-manual --no-build-vignettes’
 * checking for file ‘pencal/DESCRIPTION’ ... OK
-* this is package ‘pencal’ version ‘0.4.1’
+* this is package ‘pencal’ version ‘0.4.2’
 * package encoding: UTF-8
 * checking package namespace information ... OK
 * checking package dependencies ... ERROR
@@ -728,7 +763,7 @@ Status: 1 ERROR
 * using session charset: UTF-8
 * using options ‘--no-manual --no-build-vignettes’
 * checking for file ‘pencal/DESCRIPTION’ ... OK
-* this is package ‘pencal’ version ‘0.4.1’
+* this is package ‘pencal’ version ‘0.4.2’
 * package encoding: UTF-8
 * checking package namespace information ... OK
 * checking package dependencies ... ERROR
@@ -814,6 +849,82 @@ Status: 1 ERROR
 
 
 ```
+# raw
+
+<details>
+
+* Version: 0.1.8
+* GitHub: NA
+* Source code: https://github.com/cran/raw
+* Date/Publication: 2021-02-05 15:40:03 UTC
+* Number of recursive dependencies: 159
+
+Run `cloud_details(, "raw")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/raw/new/raw.Rcheck’
+* using R version 4.0.3 (2020-10-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘raw/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘raw’ version ‘0.1.8’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+...
+* checking installed files from ‘inst/doc’ ... OK
+* checking files in ‘vignettes’ ... OK
+* checking examples ... OK
+* checking for unstated dependencies in vignettes ... OK
+* checking package vignettes in ‘inst/doc’ ... OK
+* checking running R code from vignettes ... NONE
+  ‘raw.Rmd’ using ‘UTF-8’... OK
+* checking re-building of vignette outputs ... SKIPPED
+* DONE
+Status: 1 NOTE
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/raw/old/raw.Rcheck’
+* using R version 4.0.3 (2020-10-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘raw/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘raw’ version ‘0.1.8’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+...
+* checking installed files from ‘inst/doc’ ... OK
+* checking files in ‘vignettes’ ... OK
+* checking examples ... OK
+* checking for unstated dependencies in vignettes ... OK
+* checking package vignettes in ‘inst/doc’ ... OK
+* checking running R code from vignettes ... NONE
+  ‘raw.Rmd’ using ‘UTF-8’... OK
+* checking re-building of vignette outputs ... SKIPPED
+* DONE
+Status: 1 NOTE
+
+
+
+
+
+```
 # rmdcev
 
 <details>
@@ -889,41 +1000,6 @@ compilation terminated.
 make: *** [/opt/R/4.0.3/lib/R/etc/Makeconf:179: stanExports_mdcev.o] Error 1
 ERROR: compilation failed for package ‘rmdcev’
 * removing ‘/tmp/workdir/rmdcev/old/rmdcev.Rcheck/rmdcev’
-
-
-```
-# NA
-
-<details>
-
-* Version: NA
-* GitHub: NA
-* Source code: https://github.com/cran/NA
-* Number of recursive dependencies: 0
-
-Run `cloud_details(, "NA")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-
-
-
-
-
-
-```
-### CRAN
-
-```
-
-
-
-
 
 
 ```
@@ -1067,6 +1143,82 @@ See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
 manual.
 * DONE
 Status: 1 ERROR
+
+
+
+
+
+```
+# SynthETIC
+
+<details>
+
+* Version: 1.0.0
+* GitHub: https://github.com/agi-lab/SynthETIC
+* Source code: https://github.com/cran/SynthETIC
+* Date/Publication: 2021-04-02 12:10:02 UTC
+* Number of recursive dependencies: 105
+
+Run `cloud_details(, "SynthETIC")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/SynthETIC/new/SynthETIC.Rcheck’
+* using R version 4.0.3 (2020-10-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘SynthETIC/DESCRIPTION’ ... OK
+* this is package ‘SynthETIC’ version ‘1.0.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... NOTE
+...
+* checking installed files from ‘inst/doc’ ... OK
+* checking files in ‘vignettes’ ... OK
+* checking examples ... OK
+* checking for unstated dependencies in vignettes ... OK
+* checking package vignettes in ‘inst/doc’ ... OK
+* checking running R code from vignettes ... NONE
+  ‘SynthETIC-demo.Rmd’ using ‘UTF-8’... OK
+* checking re-building of vignette outputs ... SKIPPED
+* DONE
+Status: 1 NOTE
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/SynthETIC/old/SynthETIC.Rcheck’
+* using R version 4.0.3 (2020-10-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘SynthETIC/DESCRIPTION’ ... OK
+* this is package ‘SynthETIC’ version ‘1.0.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... NOTE
+...
+* checking installed files from ‘inst/doc’ ... OK
+* checking files in ‘vignettes’ ... OK
+* checking examples ... OK
+* checking for unstated dependencies in vignettes ... OK
+* checking package vignettes in ‘inst/doc’ ... OK
+* checking running R code from vignettes ... NONE
+  ‘SynthETIC-demo.Rmd’ using ‘UTF-8’... OK
+* checking re-building of vignette outputs ... SKIPPED
+* DONE
+Status: 1 NOTE
 
 
 

@@ -556,7 +556,7 @@ expand_across <- function(quo) {
     var <- vars[[i]]
 
     for (j in seq_fns) {
-      fn_call <- as_across_fn_call(fns[[j]], var, env)
+      fn_call <- as_across_fn_call(fns[[j]], var, env, mask)
 
       name <- names[[k]]
       expressions[[k]] <- new_dplyr_quosure(
@@ -582,13 +582,25 @@ expand_across <- function(quo) {
 # performance implications for lists of lambdas where formulas will
 # have better performance. It is possible that we will be able to
 # inline evaluated functions with strictness annotations.
-as_across_fn_call <- function(fn, var, env) {
+as_across_fn_call <- function(fn, var, env, mask) {
   if (is_formula(fn, lhs = FALSE)) {
     # Don't need to worry about arguments passed through `...`
     # because we cancel expansion in that case
-    fn <- expr_substitute(fn, quote(.), sym(var))
-    fn <- expr_substitute(fn, quote(.x), sym(var))
-    new_quosure(f_rhs(fn), f_env(fn))
+    expr <- f_rhs(fn)
+    expr <- expr_substitute(expr, quote(.), sym(var))
+    expr <- expr_substitute(expr, quote(.x), sym(var))
+
+    # if the formula environment is the data mask
+    # it means the formula was unevaluated, and in that case
+    # we can use the original quosure environment
+    # otherwise, use the formula environment, as it was previously
+    # evaluated and might include data that is not reacha
+    f_env <- f_env(fn)
+    if (identical(f_env, mask)) {
+      f_env <- env
+    }
+
+    new_quosure(expr, f_env)
   } else {
     fn_call <- call2(as_function(fn), sym(var))
     new_quosure(fn_call, env)
