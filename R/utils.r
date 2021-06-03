@@ -144,9 +144,8 @@ expr_substitute <- function(expr, old, new) {
 }
 node_walk_replace <- function(node, old, new) {
   while (!is_null(node)) {
-    switch(
-      typeof(node_car(node)),
-      language = node_walk_replace(node_cdar(node), old, new),
+    switch(typeof(node_car(node)),
+      language = if (!is_call(node_car(node), c("~", "function"))) node_walk_replace(node_cdar(node), old, new),
       symbol = if (identical(node_car(node), old)) node_poke_car(node, new)
     )
     node <- node_cdr(node)

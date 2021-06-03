@@ -716,6 +716,16 @@ test_that("across() can use named selections", {
   )
 })
 
+test_that("expr_subtitute() stops at lambdas (#5896)", {
+  expect_identical(
+    expr_substitute(expr(map(.x, ~mean(.x))), quote(.x), quote(a)),
+    expr(map(a, ~mean(.x)))
+  )
+  expect_identical(
+    expr_substitute(expr(map(.x, function(.x) mean(.x))), quote(.x), quote(a)),
+    expr(map(a, function(.x) mean(.x)))
+  )
+})
 
 # c_across ----------------------------------------------------------------
 
