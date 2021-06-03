@@ -590,6 +590,11 @@ as_across_fn_call <- function(fn, var, env, mask) {
     fn <- expr_substitute(fn, quote(.), sym(var))
     fn <- expr_substitute(fn, quote(.x), sym(var))
 
+    # if the formula environment is the data mask
+    # it means the formula was unevaluated, and in that case
+    # we can use the original quosure environment
+    # otherwise, use the formula environment, as it was previously
+    # evaluated and might include data that is not reacha
     f_env <- f_env(fn)
     if (identical(f_env, mask)) {
       f_env <- env
