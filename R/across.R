@@ -428,13 +428,12 @@ expand_if_across <- function(quo) {
   if (!quo_is_call(quo, c("if_any", "if_all"), ns = c("", "dplyr"))) {
     return(list(quo))
   }
-  quo_env <- quo_get_env(quo)
 
   call <- match.call(
     definition = if_any,
     call = quo_get_expr(quo),
     expand.dots = FALSE,
-    envir = quo_env
+    envir = quo_get_env(quo)
   )
   if (!is_null(call$...)) {
     return(list(quo))
