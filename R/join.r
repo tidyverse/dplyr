@@ -327,13 +327,14 @@ join_mutate <- function(x, y, by, type,
                         ) {
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix, keep = keep)
   na_equal <- check_na_matches(na_matches)
+  cross <- identical(by, character())
 
   x_in <- as_tibble(x, .name_repair = "minimal")
   y_in <- as_tibble(y, .name_repair = "minimal")
 
   x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
   y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
-  rows <- join_rows(x_key, y_key, type = type, na_equal = na_equal)
+  rows <- join_rows(x_key, y_key, type = type, na_equal = na_equal, cross = cross)
 
   x_out <- set_names(x_in[vars$x$out], names(vars$x$out))
   y_out <- set_names(y_in[vars$y$out], names(vars$y$out))

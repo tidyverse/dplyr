@@ -1,10 +1,21 @@
-join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full"), na_equal = TRUE) {
+join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full"), na_equal = TRUE, cross = FALSE) {
   type <- arg_match(type)
 
+  if (cross) {
+    condition <- NULL
+  } else {
+    condition <- "=="
+  }
+
   # Find matching rows in y for each row in x
-  y_split <- vec_group_loc(y_key)
   tryCatch(
-    matches <- vec_match(x_key, y_split$key, na_equal = na_equal),
+    matches <- vctrs:::vec_matches(
+      needles = x_key,
+      haystack = y_key,
+      condition = condition,
+      na_equal = na_equal,
+      nan_distinct = TRUE
+    ),
     vctrs_error_incompatible_type = function(cnd) {
       rx <- "^[^$]+[$]"
       x_name <- sub(rx, "", cnd$x_arg)
@@ -18,23 +29,19 @@ join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full"), 
     }
   )
 
-  y_loc <- y_split$loc[matches]
-
-  if (type == "left" || type == "full") {
-    if (anyNA(matches)) {
-      y_loc <- vec_assign(y_loc, vec_equal_na(matches), list(NA_integer_))
+  if (type == "right" || type == "inner") {
+    # Drop rows that only exist in `x`
+    if (anyNA(matches$haystack)) {
+      matches <- vec_slice(matches, !vec_equal_na(matches$haystack))
     }
   }
 
-  x_loc <- seq_len(vec_size(x_key))
-
-  # flatten index list
-  x_loc <- rep(x_loc, lengths(y_loc))
-  y_loc <- index_flatten(y_loc)
-
+  x_loc <- matches$needles
+  y_loc <- matches$haystack
   y_extra <- integer()
 
   if (type == "right" || type == "full") {
+    # Add rows that only exist in `y`
     miss_x <- !vec_in(y_key, x_key, na_equal = na_equal)
 
     if (!na_equal) {
@@ -47,10 +54,4 @@ join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full"), 
   }
 
   list(x = x_loc, y = y_loc, y_extra = y_extra)
-}
-
-# TODO: Replace with `vec_unchop(x, ptype = integer())`
-# once performance of `vec_c()` matches `unlist()`. See #4964.
-index_flatten <- function(x) {
-  unlist(x, recursive = FALSE, use.names = FALSE)
 }
