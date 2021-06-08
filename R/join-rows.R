@@ -1,11 +1,5 @@
-join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full"), na_equal = TRUE, cross = FALSE) {
+join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full"), na_equal = TRUE, condition = "==") {
   type <- arg_match(type)
-
-  if (cross) {
-    condition <- NULL
-  } else {
-    condition <- "=="
-  }
 
   # Find matching rows in y for each row in x
   tryCatch(
@@ -41,15 +35,11 @@ join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full"), 
   y_extra <- integer()
 
   if (type == "right" || type == "full") {
-    # Add rows that only exist in `y`
-    miss_x <- !vec_in(y_key, x_key, na_equal = na_equal)
-
-    if (!na_equal) {
-      miss_x[is.na(miss_x)] <- TRUE
-    }
+    # Add rows from `y` not matching any `x` row
+    miss_x <- !vec_in(vec_seq_along(y_key), y_loc)
 
     if (any(miss_x)) {
-      y_extra <- seq_len(vec_size(y_key))[miss_x]
+      y_extra <- which(miss_x)
     }
   }
 

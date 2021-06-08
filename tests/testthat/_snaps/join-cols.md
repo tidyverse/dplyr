@@ -34,7 +34,7 @@
     Code
       join_cols(xy, xy, by = FALSE)
     Error <rlang_error>
-      `by` must be a (named) character vector, list, or NULL, not a logical vector.
+      `by` must be a (named) character vector, list, `join_by()` result, or NULL, not a logical vector.
 
 ---
 

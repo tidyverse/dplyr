@@ -300,9 +300,18 @@ nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, na
   x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
   y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
 
-  y_split <- vec_group_loc(y_key)
-  matches <- vec_match(x_key, y_split$key)
-  y_loc <- y_split$loc[matches]
+  condition <- standardise_join_condition(by)
+
+  matches <- vctrs:::vec_matches(
+    needles = x_key,
+    haystack = y_key,
+    condition = condition,
+    na_equal = TRUE,
+    nan_distinct = TRUE,
+    no_match = 0L
+  )
+
+  y_loc <- vec_split(matches$haystack, matches$needles)$val
 
   out <- set_names(x_in[vars$x$out], names(vars$x$out))
 
@@ -327,14 +336,15 @@ join_mutate <- function(x, y, by, type,
                         ) {
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix, keep = keep)
   na_equal <- check_na_matches(na_matches)
-  cross <- identical(by, character())
 
   x_in <- as_tibble(x, .name_repair = "minimal")
   y_in <- as_tibble(y, .name_repair = "minimal")
 
   x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
   y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
-  rows <- join_rows(x_key, y_key, type = type, na_equal = na_equal, cross = cross)
+
+  condition <- standardise_join_condition(by)
+  rows <- join_rows(x_key, y_key, type = type, na_equal = na_equal, condition = condition)
 
   x_out <- set_names(x_in[vars$x$out], names(vars$x$out))
   y_out <- set_names(y_in[vars$y$out], names(vars$y$out))
@@ -373,17 +383,28 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
   x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
   y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
 
-  idx <- switch(type,
-    semi = vec_in(x_key, y_key, na_equal = na_equal),
-    anti = !vec_in(x_key, y_key, na_equal = na_equal)
+  condition <- standardise_join_condition(by)
+
+  # We only care about whether or not any matches exist
+  multiple <- "first"
+
+  matches <- vctrs:::vec_matches(
+    needles = x_key,
+    haystack = y_key,
+    condition = condition,
+    na_equal = na_equal,
+    nan_distinct = TRUE,
+    multiple = multiple
   )
 
-  if (!na_equal) {
-    idx <- switch(type,
-      semi = idx & !is.na(idx),
-      anti = idx | is.na(idx)
-    )
-  }
+  # Treat both unmatched needles and propagated missing needles as no-match
+  unmatched <- is.na(matches$haystack)
+
+  idx <- switch(
+    type,
+    semi = matches$needles[!unmatched],
+    anti = matches$needles[unmatched]
+  )
 
   dplyr_row_slice(x, idx)
 }
@@ -400,4 +421,24 @@ check_na_matches <- function(na_matches = c("na", "never")) {
   }
 
   arg_match(na_matches) == "na"
+}
+
+standardise_join_condition <- function(by) {
+  if (identical(by, character())) {
+    # Cross join, `by = character()`
+    return(NULL)
+  }
+
+  if (!is_join_by(by)) {
+    return("==")
+  }
+
+  if (identical(by$condition, character())) {
+    # Cross join, `by = join_by()`
+    return(NULL)
+  } else {
+    return(by$condition)
+  }
+
+  abort("Should never be reached.")
 }
