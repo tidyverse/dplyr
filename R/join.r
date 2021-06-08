@@ -76,6 +76,14 @@
 #'
 #'   Use `"never"` to always treat two `NA` or `NaN` values as different, like
 #'   joins for database sources, similarly to `merge(incomparables = FALSE)`.
+#' @param multiple Handling of rows in `x` with multiple matches in `y`.
+#'   For each row of `x`:
+#'   - `"all"` returns every match detected in `y`.
+#'   - `"first"` returns the first match detected in `y`.
+#'   - `"last"` returns the last match detected in `y`.
+#'   - `"warning"` throws a warning if multiple matches are detected, but
+#'     otherwise falls back to `"all"`.
+#'   - `"error"` throws an error if multiple matches are detected.
 #' @family joins
 #' @examples
 #' band_members %>% inner_join(band_instruments)
@@ -124,10 +132,11 @@ inner_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..
 inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                                   suffix = c(".x", ".y"), ...,
                                   keep = FALSE,
-                                  na_matches = c("na", "never")) {
+                                  na_matches = c("na", "never"),
+                                  multiple = "all") {
 
   y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "inner", suffix = suffix, na_matches = na_matches, keep = keep)
+  join_mutate(x, y, by = by, type = "inner", suffix = suffix, na_matches = na_matches, keep = keep, multiple = multiple)
 }
 
 #' @export
@@ -141,9 +150,10 @@ left_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...
 left_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
                              keep = FALSE,
-                             na_matches = c("na", "never")) {
+                             na_matches = c("na", "never"),
+                             multiple = "all") {
   y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "left", suffix = suffix, na_matches = na_matches, keep = keep)
+  join_mutate(x, y, by = by, type = "left", suffix = suffix, na_matches = na_matches, keep = keep, multiple = multiple)
 }
 
 #' @export
@@ -157,9 +167,10 @@ right_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..
 right_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"), ...,
                               keep = FALSE,
-                              na_matches = c("na", "never")) {
+                              na_matches = c("na", "never"),
+                              multiple = "all") {
   y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "right", suffix = suffix, na_matches = na_matches, keep = keep)
+  join_mutate(x, y, by = by, type = "right", suffix = suffix, na_matches = na_matches, keep = keep, multiple = multiple)
 }
 
 #' @export
@@ -173,10 +184,11 @@ full_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...
 full_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
                              keep = FALSE,
-                             na_matches = c("na", "never")) {
+                             na_matches = c("na", "never"),
+                             multiple = "all") {
 
   y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "full", suffix = suffix, na_matches = na_matches, keep = keep)
+  join_mutate(x, y, by = by, type = "full", suffix = suffix, na_matches = na_matches, keep = keep, multiple = multiple)
 }
 
 #' Filtering joins
@@ -332,8 +344,8 @@ nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, na
 join_mutate <- function(x, y, by, type,
                         suffix = c(".x", ".y"),
                         na_matches = c("na", "never"),
-                        keep = FALSE
-                        ) {
+                        keep = FALSE,
+                        multiple = "all") {
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix, keep = keep)
   na_equal <- check_na_matches(na_matches)
 
@@ -344,7 +356,7 @@ join_mutate <- function(x, y, by, type,
   y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
 
   condition <- standardise_join_condition(by)
-  rows <- join_rows(x_key, y_key, type = type, na_equal = na_equal, condition = condition)
+  rows <- join_rows(x_key, y_key, type = type, na_equal = na_equal, condition = condition, multiple = multiple)
 
   x_out <- set_names(x_in[vars$x$out], names(vars$x$out))
   y_out <- set_names(y_in[vars$y$out], names(vars$y$out))

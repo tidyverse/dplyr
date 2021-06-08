@@ -32,7 +32,8 @@ inner_join(
   suffix = c(".x", ".y"),
   ...,
   keep = FALSE,
-  na_matches = c("na", "never")
+  na_matches = c("na", "never"),
+  multiple = "all"
 )
 
 left_join(
@@ -53,7 +54,8 @@ left_join(
   suffix = c(".x", ".y"),
   ...,
   keep = FALSE,
-  na_matches = c("na", "never")
+  na_matches = c("na", "never"),
+  multiple = "all"
 )
 
 right_join(
@@ -74,7 +76,8 @@ right_join(
   suffix = c(".x", ".y"),
   ...,
   keep = FALSE,
-  na_matches = c("na", "never")
+  na_matches = c("na", "never"),
+  multiple = "all"
 )
 
 full_join(
@@ -95,7 +98,8 @@ full_join(
   suffix = c(".x", ".y"),
   ...,
   keep = FALSE,
-  na_matches = c("na", "never")
+  na_matches = c("na", "never"),
+  multiple = "all"
 )
 }
 \arguments{
@@ -142,6 +146,17 @@ The default, \code{"na"}, treats two \code{NA} or \code{NaN} values as equal, li
 
 Use \code{"never"} to always treat two \code{NA} or \code{NaN} values as different, like
 joins for database sources, similarly to \code{merge(incomparables = FALSE)}.}
+
+\item{multiple}{Handling of rows in \code{x} with multiple matches in \code{y}.
+For each row of \code{x}:
+\itemize{
+\item \code{"all"} returns every match detected in \code{y}.
+\item \code{"first"} returns the first match detected in \code{y}.
+\item \code{"last"} returns the last match detected in \code{y}.
+\item \code{"warning"} throws a warning if multiple matches are detected, but
+otherwise falls back to \code{"all"}.
+\item \code{"error"} throws an error if multiple matches are detected.
+}}
 }
 \value{
 An object of the same type as \code{x}. The order of the rows and columns of \code{x}

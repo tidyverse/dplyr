@@ -1,4 +1,9 @@
-join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full"), na_equal = TRUE, condition = "==") {
+join_rows <- function(x_key,
+                      y_key,
+                      type = c("inner", "left", "right", "full"),
+                      na_equal = TRUE,
+                      condition = "==",
+                      multiple = "all") {
   type <- arg_match(type)
 
   # Find matching rows in y for each row in x
@@ -8,6 +13,7 @@ join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full"), 
       haystack = y_key,
       condition = condition,
       na_equal = na_equal,
+      multiple = multiple,
       nan_distinct = TRUE
     ),
     vctrs_error_incompatible_type = function(cnd) {
