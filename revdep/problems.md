@@ -14,13 +14,40 @@ Run `cloud_details(, "finreportr")` for more info
 
 ## Newly broken
 
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘finreportr-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: AnnualReports
+    > ### Title: Acquire listing of company annual reports.
+    > ### Aliases: AnnualReports
+    > 
+    > ### ** Examples
+    > 
+    > AnnualReports("TSLA")
+    ...
+    9         10-K  2015-02-26 0001564590-15-001031
+    10        10-K  2014-02-26 0001193125-14-069681
+    11        10-K  2013-03-07 0001193125-13-096241
+    12      10-K/A  2012-03-28 0001193125-12-137560
+    13        10-K  2012-02-27 0001193125-12-081990
+    14        10-K  2011-03-03 0001193125-11-054847
+    > AnnualReports("BABA", foreign = TRUE)
+    Error in open.connection(x, "rb") : HTTP error 403.
+    Calls: AnnualReports -> <Anonymous> -> read_html.default
+    Execution halted
+    ```
+
+## In both
+
 *   checking tests ... ERROR
     ```
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
         3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
-        4. └─finreportr::CompanyInfo("GOOG")
+        4. └─finreportr::CompanyInfo("TSLA")
         5.   ├─xml2::read_html(url)
         6.   └─xml2:::read_html.default(url)
         7.     ├─base::suppressWarnings(...)
@@ -31,28 +58,42 @@ Run `cloud_details(, "finreportr")` for more info
        12.         ├─base::open(x, "rb")
        13.         └─base::open.connection(x, "rb")
       
-      [ FAIL 1 | WARN 0 | SKIP 0 | PASS 0 ]
+      [ FAIL 1 | WARN 0 | SKIP 0 | PASS 1 ]
       Error: Test failures
       Execution halted
     ```
 
+# MoMPCA
+
+<details>
+
+* Version: 1.0.1
+* GitHub: NA
+* Source code: https://github.com/cran/MoMPCA
+* Date/Publication: 2021-01-21 13:10:03 UTC
+* Number of recursive dependencies: 82
+
+Run `cloud_details(, "MoMPCA")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Killed
+    ```
+
 ## In both
 
-*   checking examples ... ERROR
+*   checking tests ... ERROR
     ```
-    Running examples in ‘finreportr-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: CompanyInfo
-    > ### Title: Acquire basic company information.
-    > ### Aliases: CompanyInfo
-    > 
-    > ### ** Examples
-    > 
-    > CompanyInfo("GOOG")
-    Error in open.connection(x, "rb") : HTTP error 403.
-    Calls: CompanyInfo -> <Anonymous> -> read_html.default
-    Execution halted
+      Running ‘testthat.R’
+    ```
+
+*   checking data for non-ASCII characters ... NOTE
+    ```
+      Note: found 16 marked UTF-8 strings
     ```
 
 # SwimmeR
