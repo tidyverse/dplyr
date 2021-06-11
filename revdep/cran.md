@@ -1,26 +1,17 @@
 ## revdepcheck results
 
-We checked 2131 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 2518 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 4 new problems
- * We failed to check 18 packages
+ * We saw 1 new problems
+ * We failed to check 21 packages
 
 Issues with CRAN packages are summarised below.
 
 ### New problems
 (This reports the first line of each new failure)
 
-* finreportr
-  checking examples ... ERROR
-
-* MoMPCA
-  checking dependencies in R code ... NOTE
-
-* SwimmeR
+* imfr
   checking tests ... ERROR
-
-* xray
-  checking examples ... ERROR
 
 ### Failed to check
 
@@ -28,15 +19,18 @@ Issues with CRAN packages are summarised below.
 * CausalImpact   (NA)
 * CB2            (NA)
 * cbar           (NA)
-* CGPfunctions   (NA)
-* crossmap       (NA)
 * diceR          (NA)
+* glmmfields     (NA)
+* loon.shiny     (NA)
 * MarketMatching (NA)
+* metagam        (NA)
+* mlbstatsR      (NA)
+* pencal         (NA)
+* rabhit         (NA)
 * raw            (NA)
 * rmdcev         (NA)
 * rstap          (NA)
 * scoper         (NA)
-* SimplyAgree    (NA)
 * SynthETIC      (NA)
 * tigger         (NA)
 * trackr         (NA)
