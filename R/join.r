@@ -370,16 +370,11 @@ join_mutate <- function(x, y, by, type,
     multiple = multiple
   )
 
+  x_slicer <- rows$x
+  y_slicer <- rows$y
+
   x_out <- set_names(x_in[vars$x$out], names(vars$x$out))
   y_out <- set_names(y_in[vars$y$out], names(vars$y$out))
-
-  if (length(rows$y_extra) > 0L) {
-    x_slicer <- c(rows$x, rep_along(rows$y_extra, NA_integer_))
-    y_slicer <- c(rows$y, rows$y_extra)
-  } else {
-    x_slicer <- rows$x
-    y_slicer <- rows$y
-  }
 
   out <- vec_slice(x_out, x_slicer)
   out[names(y_out)] <- vec_slice(y_out, y_slicer)
@@ -388,9 +383,10 @@ join_mutate <- function(x, y, by, type,
     key_type <- vec_ptype_common(x_key, y_key)
     out[names(x_key)] <- vec_cast(out[names(x_key)], key_type)
 
-    if (length(rows$y_extra) > 0L) {
-      new_rows <- length(rows$x) + seq_along(rows$y_extra)
-      out[new_rows, names(y_key)] <- vec_cast(vec_slice(y_key, rows$y_extra), key_type)
+    if ((type == "right" || type == "full") && anyNA(x_slicer)) {
+      new_rows <- which(is.na(x_slicer))
+      y_replacer <- y_slicer[new_rows]
+      out[new_rows, names(y_key)] <- vec_cast(vec_slice(y_key, y_replacer), key_type)
     }
   }
 

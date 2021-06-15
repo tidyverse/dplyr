@@ -17,6 +17,12 @@ join_rows <- function(x_key,
     no_match <- NA_integer_
   }
 
+  if (type == "right" || type == "full") {
+    remaining <- NA_integer_
+  } else {
+    remaining <- "drop"
+  }
+
   # Find matching rows in y for each row in x
   tryCatch(
     matches <- vctrs:::vec_matches(
@@ -26,6 +32,7 @@ join_rows <- function(x_key,
       filter = filter,
       missing = missing,
       no_match = no_match,
+      remaining = remaining,
       multiple = multiple,
       nan_distinct = TRUE
     ),
@@ -42,18 +49,5 @@ join_rows <- function(x_key,
     }
   )
 
-  x_loc <- matches$needles
-  y_loc <- matches$haystack
-  y_extra <- integer()
-
-  if (type == "right" || type == "full") {
-    # Add rows from `y` not matching any `x` row
-    miss_x <- !vec_in(vec_seq_along(y_key), y_loc)
-
-    if (any(miss_x)) {
-      y_extra <- which(miss_x)
-    }
-  }
-
-  list(x = x_loc, y = y_loc, y_extra = y_extra)
+  list(x = matches$needles, y = matches$haystack)
 }
