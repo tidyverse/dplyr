@@ -41,8 +41,8 @@ test_that("bind_cols repairs names", {
   df <- tibble(a = 1, b = 2)
   expect_snapshot(bound <- bind_cols(df, df))
 
-  repaired <- expect_message(
-    as_tibble(
+  expect_message(
+    repaired <- as_tibble(
       data.frame(a = 1, b = 2, a = 1, b = 2, check.names = FALSE),
       .name_repair = "unique"
     ), "New names"
@@ -63,7 +63,7 @@ test_that("bind_cols unpacks tibbles", {
 })
 
 test_that("bind_cols() honours .name_repair=", {
-  res <- expect_message(bind_cols(
+  expect_message(res <- bind_cols(
     data.frame(a = 1), data.frame(a = 2)
   ))
   expect_equal(res, data.frame(a...1 = 1, a...2 = 2))
