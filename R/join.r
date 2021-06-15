@@ -313,12 +313,14 @@ nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, na
   y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
 
   condition <- standardise_join_condition(by)
+  filter <- standardise_join_filter(by)
 
   matches <- vctrs:::vec_matches(
     needles = x_key,
     haystack = y_key,
     condition = condition,
-    na_equal = TRUE,
+    filter = filter,
+    missing = "match",
     nan_distinct = TRUE,
     no_match = 0L
   )
@@ -347,7 +349,7 @@ join_mutate <- function(x, y, by, type,
                         keep = FALSE,
                         multiple = "all") {
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix, keep = keep)
-  na_equal <- check_na_matches(na_matches)
+  missing <- check_na_matches(na_matches)
 
   x_in <- as_tibble(x, .name_repair = "minimal")
   y_in <- as_tibble(y, .name_repair = "minimal")
@@ -356,7 +358,17 @@ join_mutate <- function(x, y, by, type,
   y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
 
   condition <- standardise_join_condition(by)
-  rows <- join_rows(x_key, y_key, type = type, na_equal = na_equal, condition = condition, multiple = multiple)
+  filter <- standardise_join_filter(by)
+
+  rows <- join_rows(
+    x_key = x_key,
+    y_key = y_key,
+    type = type,
+    missing = missing,
+    condition = condition,
+    filter = filter,
+    multiple = multiple
+  )
 
   x_out <- set_names(x_in[vars$x$out], names(vars$x$out))
   y_out <- set_names(y_in[vars$y$out], names(vars$y$out))
@@ -387,7 +399,7 @@ join_mutate <- function(x, y, by, type,
 
 join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
   vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by)
-  na_equal <- check_na_matches(na_matches)
+  missing <- check_na_matches(na_matches)
 
   x_in <- as_tibble(x, .name_repair = "minimal")
   y_in <- as_tibble(y, .name_repair = "minimal")
@@ -396,6 +408,7 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
   y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
 
   condition <- standardise_join_condition(by)
+  filter <- standardise_join_filter(by)
 
   # We only care about whether or not any matches exist
   multiple <- "first"
@@ -404,7 +417,8 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
     needles = x_key,
     haystack = y_key,
     condition = condition,
-    na_equal = na_equal,
+    filter = filter,
+    missing = missing,
     nan_distinct = TRUE,
     multiple = multiple
   )
@@ -432,7 +446,13 @@ check_na_matches <- function(na_matches = c("na", "never")) {
     }
   }
 
-  arg_match(na_matches) == "na"
+  na_matches <- arg_match(na_matches)
+
+  switch(
+    na_matches,
+    na = "match",
+    never = "propagate"
+  )
 }
 
 standardise_join_condition <- function(by) {
@@ -453,4 +473,12 @@ standardise_join_condition <- function(by) {
   }
 
   abort("Should never be reached.")
+}
+
+standardise_join_filter <- function(by) {
+  if (is_join_by(by)) {
+    by$filter
+  } else {
+    "none"
+  }
 }

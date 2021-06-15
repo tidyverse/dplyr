@@ -1,8 +1,9 @@
 join_rows <- function(x_key,
                       y_key,
                       type = c("inner", "left", "right", "full"),
-                      na_equal = TRUE,
+                      missing = "match",
                       condition = "==",
+                      filter = "none",
                       multiple = "all") {
   type <- arg_match(type)
 
@@ -12,7 +13,8 @@ join_rows <- function(x_key,
       needles = x_key,
       haystack = y_key,
       condition = condition,
-      na_equal = na_equal,
+      filter = filter,
+      missing = missing,
       multiple = multiple,
       nan_distinct = TRUE
     ),
