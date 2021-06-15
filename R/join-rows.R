@@ -7,6 +7,16 @@ join_rows <- function(x_key,
                       multiple = "all") {
   type <- arg_match(type)
 
+  if (type == "inner" || type == "right") {
+    no_match <- "drop"
+
+    if (missing == "propagate") {
+      missing <- "drop"
+    }
+  } else {
+    no_match <- NA_integer_
+  }
+
   # Find matching rows in y for each row in x
   tryCatch(
     matches <- vctrs:::vec_matches(
@@ -15,6 +25,7 @@ join_rows <- function(x_key,
       condition = condition,
       filter = filter,
       missing = missing,
+      no_match = no_match,
       multiple = multiple,
       nan_distinct = TRUE
     ),
@@ -30,13 +41,6 @@ join_rows <- function(x_key,
       ))
     }
   )
-
-  if (type == "right" || type == "inner") {
-    # Drop rows that only exist in `x`
-    if (anyNA(matches$haystack)) {
-      matches <- vec_slice(matches, !vec_equal_na(matches$haystack))
-    }
-  }
 
   x_loc <- matches$needles
   y_loc <- matches$haystack
