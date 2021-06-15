@@ -727,6 +727,18 @@ test_that("expr_subtitute() stops at lambdas (#5896)", {
   )
 })
 
+test_that("expr_subtitute() keeps at double-sided formula (#5894)", {
+  expect_identical(
+    expr_substitute(expr(case_when(.x < 5 ~ 5, TRUE ~ .x)), quote(.x), quote(a)),
+    expr(case_when(a < 5 ~ 5, TRUE ~ a))
+  )
+
+  expect_identical(
+    expr_substitute(expr(case_when(. < 5 ~ 5, TRUE ~ .)), quote(.), quote(a)),
+    expr(case_when(a < 5 ~ 5, TRUE ~ a))
+  )
+})
+
 # c_across ----------------------------------------------------------------
 
 test_that("selects and combines columns", {
