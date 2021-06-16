@@ -440,24 +440,35 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
   # We only care about whether or not any matches exist
   multiple <- "first"
 
+  if (type == "semi") {
+    no_match <- "drop"
+
+    if (missing == "propagate") {
+      missing <- "drop"
+    }
+  } else {
+    no_match <- NA_integer_
+  }
+
   matches <- vctrs:::vec_matches(
     needles = x_key,
     haystack = y_key,
     condition = condition,
     filter = filter,
     missing = missing,
+    no_match = no_match,
     nan_distinct = TRUE,
     multiple = multiple
   )
 
-  # Treat both unmatched needles and propagated missing needles as no-match
-  unmatched <- is.na(matches$haystack)
-
-  idx <- switch(
-    type,
-    semi = matches$needles[!unmatched],
-    anti = matches$needles[unmatched]
-  )
+  if (type == "semi") {
+    # Unmatched needles and propagated missing needles will already be dropped
+    idx <- matches$needles
+  } else {
+    # Treat both unmatched needles and propagated missing needles as no-match
+    unmatched <- is.na(matches$haystack)
+    idx <- matches$needles[unmatched]
+  }
 
   dplyr_row_slice(x, idx)
 }
