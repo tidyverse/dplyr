@@ -5,9 +5,9 @@
 \alias{nest_join.data.frame}
 \title{Nest join}
 \usage{
-nest_join(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...)
+nest_join(x, y, by = NULL, copy = FALSE, keep = NULL, name = NULL, ...)
 
-\method{nest_join}{data.frame}(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...)
+\method{nest_join}{data.frame}(x, y, by = NULL, copy = FALSE, keep = NULL, name = NULL, ...)
 }
 \arguments{
 \item{x, y}{A pair of data frames, data frame extensions (e.g. a tibble), or
@@ -38,7 +38,15 @@ same src as \code{x}.  This allows you to join tables across srcs, but
 it is a potentially expensive operation so you must opt into it.}
 
 \item{keep}{Should the join keys from both \code{x} and \code{y} be preserved in the
-output?}
+output?
+\itemize{
+\item If \code{NULL}, the default, equi join conditions retain only the keys from
+\code{x}, while non-equi join conditions retain the keys from both inputs.
+\item If \code{TRUE}, keys from both inputs are retained.
+\item If \code{FALSE}, only keys from \code{x} are retained. For right and full joins,
+the data in key columns corresponding to rows that only exist in \code{y} are
+merged into the key columns from \code{x}.
+}}
 
 \item{name}{The name of the list column nesting joins create.
 If \code{NULL} the name of \code{y} is used.}

@@ -1,8 +1,10 @@
-join_cols <- function(x_names, y_names, by = NULL, suffix = c(".x", ".y"), keep = FALSE) {
+join_cols <- function(x_names, y_names, by, suffix = c(".x", ".y"), keep = NULL) {
   check_duplicate_vars(x_names, "x")
   check_duplicate_vars(y_names, "y")
 
-  by <- standardise_join_by(by, x_names = x_names, y_names = y_names)
+  check_join_vars(by$x, x_names, by$condition, keep)
+  check_join_vars(by$y, y_names, by$condition, keep)
+
   suffix <- standardise_join_suffix(suffix)
 
   x_by <- set_names(match(by$x, x_names), by$x)
@@ -10,12 +12,21 @@ join_cols <- function(x_names, y_names, by = NULL, suffix = c(".x", ".y"), keep 
 
   x_loc <- seq_along(x_names)
   names(x_loc) <- x_names
-  if (!keep) {
+  if (is_null(keep)) {
+    # in x_out, equi key variables need to keep the same name, and non-equi
+    # key variables and aux variables need suffixes for duplicates that appear
+    # in y_out
+    y_aux <- setdiff(y_names, c(by$x, by$y))
+    x_ignore <- by$x[by$condition == "=="]
+    x_check <- !x_names %in% x_ignore
+    names(x_loc)[x_check] <- add_suffixes(x_names[x_check], c(x_ignore, y_aux), suffix$x)
+  } else if (is_false(keep)) {
     # in x_out, key variables need to keep the same name, and aux
     # variables need suffixes for duplicates that appear in y_out
-    y_aux <- setdiff(y_names, c(by$x, if (!keep) by$y))
-    x_is_aux <- !x_names %in% by$x
-    names(x_loc)[x_is_aux] <- add_suffixes(x_names[x_is_aux], c(by$x, y_aux), suffix$x)
+    y_aux <- setdiff(y_names, c(by$x, by$y))
+    x_ignore <- by$x
+    x_check <- !x_names %in% x_ignore
+    names(x_loc)[x_check] <- add_suffixes(x_names[x_check], c(x_ignore, y_aux), suffix$x)
   } else {
     # in x_out, key variables and aux variables need suffixes
     # for duplicates that appear in y_out
@@ -24,11 +35,15 @@ join_cols <- function(x_names, y_names, by = NULL, suffix = c(".x", ".y"), keep 
 
   y_loc <- seq_along(y_names)
   names(y_loc) <- add_suffixes(y_names, x_names, suffix$y)
-  if (!keep) {
-    y_loc <- y_loc[!y_names %in% by$y]
+  if (is_null(keep)) {
+    y_ignore <- by$y[by$condition == "=="]
+    y_loc <- y_loc[!y_names %in% y_ignore]
+  } else if (is_false(keep)) {
+    y_ignore <- by$y
+    y_loc <- y_loc[!y_names %in% y_ignore]
   }
 
-  # key = named location to use for matching
+  # key = named locations to use for matching
   # out = named locations to use in output
   list(
     x = list(key = x_by, out = x_loc),
@@ -37,6 +52,10 @@ join_cols <- function(x_names, y_names, by = NULL, suffix = c(".x", ".y"), keep 
 }
 
 standardise_join_by <- function(by, x_names, y_names) {
+  if (is_join_by(by)) {
+    return(by)
+  }
+
   if (is.null(by)) {
     by <- intersect(x_names, y_names)
     if (length(by) == 0) {
@@ -53,31 +72,36 @@ standardise_join_by <- function(by, x_names, y_names) {
     }
     inform(paste0("Joining, by = ", by_code))
 
-    by <- list(x = by, y = by)
+    by_x <- by
+    by_y <- by
   } else if (is.character(by)) {
     by_x <- names(by) %||% by
     by_y <- unname(by)
 
     # If x partially named, assume unnamed are the same in both tables
     by_x[by_x == ""] <- by_y[by_x == ""]
-
-    by <- list(x = by_x, y = by_y)
   } else if (is.list(by)) {
     # TODO: check lengths
-    by <- by[c("x", "y")]
-  } else if (is_join_by(by)) {
-    by <- list(x = by$x, y = by$y)
+    by_x <- by[["x"]]
+    by_y <- by[["y"]]
   } else {
     bad_args("by", "must be a (named) character vector, list, `join_by()` result, or NULL, not {friendly_type_of(by)}.")
   }
 
-  check_join_vars(by$x, x_names)
-  check_join_vars(by$y, y_names)
+  exprs <- map2(by_x, by_y, function(x, y) expr(!!x == !!y))
+  condition <- vec_rep("==", times = length(by_x))
+  filter <- vec_rep("none", times = length(by_x))
 
-  by
+  new_join_by(
+    exprs = exprs,
+    condition = condition,
+    filter = filter,
+    x = by_x,
+    y = by_y
+  )
 }
 
-check_join_vars <- function(vars, names) {
+check_join_vars <- function(vars, names, condition, keep) {
   if (!is.character(vars)) {
     abort("join columns must be character vectors.")
   }
@@ -88,6 +112,12 @@ check_join_vars <- function(vars, names) {
       "Join columns must be not NA.",
       x = glue("Problem at position {err_vars(na)}.")
     ))
+  }
+
+  if (!is_false(keep)) {
+    # Non-equi columns are allowed to be duplicated when `keep = TRUE/NULL`
+    non_equi <- condition != "=="
+    vars <- c(vars[!non_equi], unique(vars[non_equi]))
   }
 
   dup <- duplicated(vars)

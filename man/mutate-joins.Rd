@@ -21,7 +21,7 @@ inner_join(
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  keep = FALSE
+  keep = NULL
 )
 
 \method{inner_join}{data.frame}(
@@ -31,7 +31,7 @@ inner_join(
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  keep = FALSE,
+  keep = NULL,
   na_matches = c("na", "never"),
   multiple = "all"
 )
@@ -43,7 +43,7 @@ left_join(
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  keep = FALSE
+  keep = NULL
 )
 
 \method{left_join}{data.frame}(
@@ -53,7 +53,7 @@ left_join(
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  keep = FALSE,
+  keep = NULL,
   na_matches = c("na", "never"),
   multiple = "all"
 )
@@ -65,7 +65,7 @@ right_join(
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  keep = FALSE
+  keep = NULL
 )
 
 \method{right_join}{data.frame}(
@@ -75,7 +75,7 @@ right_join(
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  keep = FALSE,
+  keep = NULL,
   na_matches = c("na", "never"),
   multiple = "all"
 )
@@ -87,7 +87,7 @@ full_join(
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  keep = FALSE
+  keep = NULL
 )
 
 \method{full_join}{data.frame}(
@@ -97,7 +97,7 @@ full_join(
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  keep = FALSE,
+  keep = NULL,
   na_matches = c("na", "never"),
   multiple = "all"
 )
@@ -137,7 +137,15 @@ Should be a character vector of length 2.}
 \item{...}{Other parameters passed onto methods.}
 
 \item{keep}{Should the join keys from both \code{x} and \code{y} be preserved in the
-output?}
+output?
+\itemize{
+\item If \code{NULL}, the default, equi join conditions retain only the keys from
+\code{x}, while non-equi join conditions retain the keys from both inputs.
+\item If \code{TRUE}, keys from both inputs are retained.
+\item If \code{FALSE}, only keys from \code{x} are retained. For right and full joins,
+the data in key columns corresponding to rows that only exist in \code{y} are
+merged into the key columns from \code{x}.
+}}
 
 \item{na_matches}{Should \code{NA} and \code{NaN} values match one another?
 
