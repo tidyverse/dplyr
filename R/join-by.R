@@ -88,6 +88,16 @@ join_by <- function(...) {
     y[[i]] <- info$y
   }
 
+  new_join_by(
+    exprs = exprs,
+    condition = condition,
+    filter = filter,
+    x = x,
+    y = y
+  )
+}
+
+new_join_by <- function(exprs, condition, filter, x, y) {
   out <- list(
     exprs = exprs,
     condition = condition,
@@ -95,7 +105,6 @@ join_by <- function(...) {
     x = x,
     y = y
   )
-
   structure(out, class = "dplyr_join_by")
 }
 
