@@ -52,15 +52,18 @@
 #' )
 #'
 #' # "Match id to id, and sales_date to promo_date"
-#' join_by(id, sales_date == promo_date)
+#' by <- join_by(id, sale_date == promo_date)
+#' left_join(sales, promos, by)
 #'
 #' # "For each sales_date within a particular id, find all promo_dates that
 #' # occurred before this particular sale"
-#' join_by(id, sales_date >= promo_date)
+#' by <- join_by(id, sale_date >= promo_date)
+#' left_join(sales, promos, by)
 #'
 #' # "For each sales_date within a particular id, find only the most recent
 #' # promo_date that occurred before this particular sale"
-#' join_by(id, max(sales_date >= promo_date))
+#' by <- join_by(id, max(sale_date >= promo_date))
+#' left_join(sales, promos, by)
 join_by <- function(...) {
   # Should use `enexprs(.named = NULL)`, but https://github.com/r-lib/rlang/issues/1223
   exprs <- enexprs(...)

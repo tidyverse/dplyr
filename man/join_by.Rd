@@ -51,14 +51,27 @@ in \code{max()} or \code{min()}, such as \code{max(x > y)}.
 }
 }
 \examples{
+sales <- tibble(
+ id = c(1L, 1L, 1L, 2L, 2L),
+ sale_date = as.Date(c("2018-12-31", "2019-01-02", "2019-01-05", "2019-01-04", "2019-01-01"))
+)
+
+promos <- tibble(
+ id = c(1L, 1L, 2L),
+ promo_date = as.Date(c("2019-01-01", "2019-01-05", "2019-01-03"))
+)
+
 # "Match id to id, and sales_date to promo_date"
-join_by(id, sales_date == promo_date)
+by <- join_by(id, sale_date == promo_date)
+left_join(sales, promos, by)
 
 # "For each sales_date within a particular id, find all promo_dates that
 # occurred before this particular sale"
-join_by(id, sales_date >= promo_date)
+by <- join_by(id, sale_date >= promo_date)
+left_join(sales, promos, by)
 
 # "For each sales_date within a particular id, find only the most recent
 # promo_date that occurred before this particular sale"
-join_by(id, max(sales_date >= promo_date))
+by <- join_by(id, max(sale_date >= promo_date))
+left_join(sales, promos, by)
 }
