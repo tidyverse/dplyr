@@ -1,4 +1,66 @@
-
+#' Join specifications
+#'
+#' @description
+#' `join_by()` constructs a specification to join by using a small domain
+#' specific language. The result can be supplied as the `by` argument to any
+#' of the join functions (such as [left_join()]). `join_by()` supports
+#' specifications for equi joins, non-equi joins, and rolling joins.
+#'
+#' ## Equi Joins:
+#'
+#' Equi joins match on equality, and are the most common type of join. To
+#' construct an equi join, supply two column names to join with separated by
+#' `==`. Alternatively, supplying a single name will be interpreted as an equi
+#' join between two columns of the same name.
+#'
+#' ## Non-equi Joins:
+#'
+#' Non-equi joins match on an inequality, and are common in time series analysis
+#' and genomics. To construct a non-equi join, supply two column names separated
+#' by `>`, `>=`, `<`, or `<=`.
+#'
+#' ## Rolling Joins:
+#'
+#' Rolling joins are a variant of a non-equi join that limit the results
+#' returned from each condition to either the maximum or the minimum of
+#' the matches. To construct a rolling join, wrap a non-equi join condition
+#' in `max()` or `min()`, such as `max(x > y)`.
+#'
+#' @param ... Expressions specifying the join. Each expression should consist
+#'   of:
+#'   - A join condition, one of: `==`, `>`, `>=`, `<`, or `<=`.
+#'   - A quoted or unquoted column name on the left-hand side of the join
+#'     condition.
+#'   - A quoted or unquoted column name on the right-hand side of the join
+#'     condition.
+#'   - Optionally, the entire join condition can be wrapped in `max()` or
+#'     `min()` to specify a rolling join.
+#'   - If a single column name is provided without any join conditions, it
+#'     is interpreted as if that column name was provided on each side of `==`,
+#'     i.e. `x` is interpreted as `x == x`.
+#'
+#' @export
+#' @examples
+#' sales <- tibble(
+#'  id = c(1L, 1L, 1L, 2L, 2L),
+#'  sale_date = as.Date(c("2018-12-31", "2019-01-02", "2019-01-05", "2019-01-04", "2019-01-01"))
+#' )
+#'
+#' promos <- tibble(
+#'  id = c(1L, 1L, 2L),
+#'  promo_date = as.Date(c("2019-01-01", "2019-01-05", "2019-01-03"))
+#' )
+#'
+#' # "Match id to id, and sales_date to promo_date"
+#' join_by(id, sales_date == promo_date)
+#'
+#' # "For each sales_date within a particular id, find all promo_dates that
+#' # occurred before this particular sale"
+#' join_by(id, sales_date >= promo_date)
+#'
+#' # "For each sales_date within a particular id, find only the most recent
+#' # promo_date that occurred before this particular sale"
+#' join_by(id, max(sales_date >= promo_date))
 join_by <- function(...) {
   # Should use `enexprs(.named = NULL)`, but https://github.com/r-lib/rlang/issues/1223
   exprs <- enexprs(...)
