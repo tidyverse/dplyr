@@ -431,7 +431,6 @@ nest_join.data.frame <- function(x,
                                  complete = "neither",
                                  unique = "neither",
                                  ...) {
-  multiple <- check_multiple(multiple)
   complete <- check_complete(complete)
   unique <- check_unique(unique)
 
@@ -499,7 +498,6 @@ join_mutate <- function(x,
                         complete = "neither",
                         unique = "neither") {
   na_matches <- check_na_matches(na_matches)
-  multiple <- check_multiple(multiple)
   complete <- check_complete(complete)
   unique <- check_unique(unique)
 
@@ -625,9 +623,6 @@ check_na_matches <- function(na_matches = c("na", "never")) {
   arg_match(na_matches)
 }
 
-check_multiple <- function(multiple) {
-  arg_match0(multiple, values = c("all", "first", "last", "warning", "error"), arg_nm = "multiple")
-}
 check_complete <- function(complete) {
   arg_match0(complete, values = c("neither", "x", "y", "both"), arg_nm = "complete")
 }
