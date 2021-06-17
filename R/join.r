@@ -129,70 +129,108 @@ NULL
 
 #' @export
 #' @rdname mutate-joins
-inner_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..., keep = NULL) {
+inner_join <- function(x,
+                       y,
+                       by = NULL,
+                       copy = FALSE,
+                       suffix = c(".x", ".y"),
+                       ...,
+                       keep = NULL) {
   UseMethod("inner_join")
 }
 
 #' @export
 #' @rdname mutate-joins
-inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
-                                  suffix = c(".x", ".y"), ...,
+inner_join.data.frame <- function(x,
+                                  y,
+                                  by = NULL,
+                                  copy = FALSE,
+                                  suffix = c(".x", ".y"),
+                                  ...,
                                   keep = NULL,
                                   na_matches = c("na", "never"),
                                   multiple = "all") {
-
   y <- auto_copy(x, y, copy = copy)
   join_mutate(x, y, by = by, type = "inner", suffix = suffix, na_matches = na_matches, keep = keep, multiple = multiple)
 }
 
 #' @export
 #' @rdname mutate-joins
-left_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..., keep = NULL) {
+left_join <- function(x,
+                      y,
+                      by = NULL,
+                      copy = FALSE,
+                      suffix = c(".x", ".y"),
+                      ...,
+                      keep = NULL) {
   UseMethod("left_join")
 }
 
 #' @export
 #' @rdname mutate-joins
-left_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
-                             suffix = c(".x", ".y"), ...,
-                             keep = NULL,
-                             na_matches = c("na", "never"),
-                             multiple = "all") {
+left_join.data.frame <- function(x,
+                                 y,
+                                 by = NULL,
+                                 copy = FALSE,
+                                 suffix = c(".x", ".y"),
+                                 ...,
+                                 keep = NULL,
+                                 na_matches = c("na", "never"),
+                                 multiple = "all") {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(x, y, by = by, type = "left", suffix = suffix, na_matches = na_matches, keep = keep, multiple = multiple)
 }
 
 #' @export
 #' @rdname mutate-joins
-right_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..., keep = NULL) {
+right_join <- function(x,
+                       y,
+                       by = NULL,
+                       copy = FALSE,
+                       suffix = c(".x", ".y"),
+                       ...,
+                       keep = NULL) {
   UseMethod("right_join")
 }
 
 #' @export
 #' @rdname mutate-joins
-right_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
-                              suffix = c(".x", ".y"), ...,
-                              keep = NULL,
-                              na_matches = c("na", "never"),
-                              multiple = "all") {
+right_join.data.frame <- function(x,
+                                  y,
+                                  by = NULL,
+                                  copy = FALSE,
+                                  suffix = c(".x", ".y"),
+                                  ...,
+                                  keep = NULL,
+                                  na_matches = c("na", "never"),
+                                  multiple = "all") {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(x, y, by = by, type = "right", suffix = suffix, na_matches = na_matches, keep = keep, multiple = multiple)
 }
 
 #' @export
 #' @rdname mutate-joins
-full_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..., keep = NULL) {
+full_join <- function(x,
+                      y,
+                      by = NULL,
+                      copy = FALSE,
+                      suffix = c(".x", ".y"),
+                      ...,
+                      keep = NULL) {
   UseMethod("full_join")
 }
 
 #' @export
 #' @rdname mutate-joins
-full_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
-                             suffix = c(".x", ".y"), ...,
-                             keep = NULL,
-                             na_matches = c("na", "never"),
-                             multiple = "all") {
-
+full_join.data.frame <- function(x,
+                                 y,
+                                 by = NULL,
+                                 copy = FALSE,
+                                 suffix = c(".x", ".y"),
+                                 ...,
+                                 keep = NULL,
+                                 na_matches = c("na", "never"),
+                                 multiple = "all") {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(x, y, by = by, type = "full", suffix = suffix, na_matches = na_matches, keep = keep, multiple = multiple)
 }
@@ -246,9 +284,7 @@ semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @export
 #' @rdname filter-joins
-semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
-                             na_matches = c("na", "never")) {
-
+semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never")) {
   y <- auto_copy(x, y, copy = copy)
   join_filter(x, y, by = by, type = "semi", na_matches = na_matches)
 }
@@ -261,9 +297,7 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @export
 #' @rdname filter-joins
-anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
-                                 na_matches = c("na", "never")) {
-
+anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never")) {
   y <- auto_copy(x, y, copy = copy)
   join_filter(x, y, by = by, type = "anti", na_matches = na_matches)
 }
@@ -355,7 +389,10 @@ nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = NULL, nam
 
 # helpers -----------------------------------------------------------------
 
-join_mutate <- function(x, y, by, type,
+join_mutate <- function(x,
+                        y,
+                        by,
+                        type,
                         suffix = c(".x", ".y"),
                         na_matches = c("na", "never"),
                         keep = NULL,
