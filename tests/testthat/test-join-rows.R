@@ -70,3 +70,37 @@ test_that("join_rows() gives meaningful error message on unmatched rows", {
     )
   )
 })
+
+test_that("join_rows() gives meaningful error message on duplicated keys", {
+  expect_snapshot(error = TRUE,
+    join_rows(
+      data.frame(x = c(1, 1)),
+      data.frame(x = c(3, 1)),
+      unique = "x"
+    )
+  )
+
+  expect_snapshot(error = TRUE,
+    join_rows(
+      data.frame(x = c(1, 2)),
+      data.frame(x = c(3, 1, 3)),
+      unique = "y"
+    )
+  )
+
+  expect_snapshot(error = TRUE,
+    join_rows(
+      data.frame(x = c(1, 1)),
+      data.frame(x = 1),
+      unique = "both"
+    )
+  )
+
+  expect_snapshot(error = TRUE,
+    join_rows(
+      data.frame(x = 1),
+      data.frame(x = c(1, 1)),
+      unique = "both"
+    )
+  )
+})

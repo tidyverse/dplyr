@@ -39,3 +39,35 @@
       Each row of `y` must be matched by `x`.
       i Row 2 of `y` was not matched.
 
+# join_rows() gives meaningful error message on duplicated keys
+
+    Code
+      join_rows(data.frame(x = c(1, 1)), data.frame(x = c(3, 1)), unique = "x")
+    Error <rlang_error>
+      `x` must not contain duplicate keys.
+      i Row 2 is a duplicate.
+
+---
+
+    Code
+      join_rows(data.frame(x = c(1, 2)), data.frame(x = c(3, 1, 3)), unique = "y")
+    Error <rlang_error>
+      `y` must not contain duplicate keys.
+      i Row 3 is a duplicate.
+
+---
+
+    Code
+      join_rows(data.frame(x = c(1, 1)), data.frame(x = 1), unique = "both")
+    Error <rlang_error>
+      `x` must not contain duplicate keys.
+      i Row 2 is a duplicate.
+
+---
+
+    Code
+      join_rows(data.frame(x = 1), data.frame(x = c(1, 1)), unique = "both")
+    Error <rlang_error>
+      `y` must not contain duplicate keys.
+      i Row 2 is a duplicate.
+

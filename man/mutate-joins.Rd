@@ -34,7 +34,8 @@ inner_join(
   keep = NULL,
   na_matches = c("na", "never"),
   multiple = "all",
-  complete = "neither"
+  complete = "neither",
+  unique = "neither"
 )
 
 left_join(
@@ -57,7 +58,8 @@ left_join(
   keep = NULL,
   na_matches = c("na", "never"),
   multiple = "all",
-  complete = "neither"
+  complete = "neither",
+  unique = "neither"
 )
 
 right_join(
@@ -80,7 +82,8 @@ right_join(
   keep = NULL,
   na_matches = c("na", "never"),
   multiple = "all",
-  complete = "neither"
+  complete = "neither",
+  unique = "neither"
 )
 
 full_join(
@@ -103,7 +106,8 @@ full_join(
   keep = NULL,
   na_matches = c("na", "never"),
   multiple = "all",
-  complete = "neither"
+  complete = "neither",
+  unique = "neither"
 )
 }
 \arguments{
@@ -183,6 +187,21 @@ can be left with unmatched rows.
 
 If \code{na_matches = "never"}, missing values in \code{x} will be propagated, but
 missing values in \code{y} will be considered unmatched.}
+
+\item{unique}{Which inputs should be checked for uniqueness before matching?
+\itemize{
+\item \code{"neither"} doesn't require either input to be unique.
+\item \code{"x"} requires that \code{x} contain only unique values.
+\item \code{"y"} requires that \code{y} contain only unique values.
+\item \code{"both"} requires that both \code{x} and \code{y} contain only unique values.
+}
+
+If multiple missing values are present, then the input is not considered
+unique, even if \code{na_matches = "never"}.
+
+Performing a cross join with \code{by = character()} will override this check
+for uniqueness, as a cross join relies on the row numbers rather
+than the values.}
 }
 \value{
 An object of the same type as \code{x}. The order of the rows and columns of \code{x}

@@ -5,12 +5,14 @@ join_rows <- function(x_key,
                       condition = "==",
                       filter = "none",
                       multiple = "all",
-                      complete = "neither") {
+                      complete = "neither",
+                      unique = "neither") {
   type <- arg_match(type)
 
   missing <- standardise_join_missing(type, na_matches)
   no_match <- standardise_join_no_match(type, complete)
   remaining <- standardise_join_remaining(type, complete)
+  unique <- standardise_join_unique(unique)
 
   # Find matching rows in y for each row in x
   tryCatch(
@@ -23,6 +25,7 @@ join_rows <- function(x_key,
       no_match = no_match,
       remaining = remaining,
       multiple = multiple,
+      unique = unique,
       nan_distinct = TRUE
     ),
     vctrs_error_incompatible_type = function(cnd) {
@@ -50,6 +53,20 @@ join_rows <- function(x_key,
       abort(c(
         "Each row of `y` must be matched by `x`.",
         i = glue("Row {i} of `y` was not matched.")
+      ))
+    },
+    vctrs_error_matches_unique = function(cnd) {
+      i <- cnd$i
+
+      if (cnd$needles) {
+        input <- "x"
+      } else {
+        input <- "y"
+      }
+
+      abort(c(
+        glue("`{input}` must not contain duplicate keys."),
+        i = glue("Row {i} is a duplicate.")
       ))
     }
   )
@@ -91,4 +108,14 @@ standardise_join_remaining <- function(type, complete) {
   } else {
     return("drop")
   }
+}
+
+standardise_join_unique <- function(unique) {
+  switch(
+    unique,
+    neither = "neither",
+    x = "needles",
+    y = "haystack",
+    both = "both"
+  )
 }
