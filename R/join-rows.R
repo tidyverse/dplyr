@@ -116,6 +116,8 @@ standardise_join_no_match <- function(type, complete) {
 
   if (type == "inner" || type == "right" || type == "semi") {
     return("drop")
+  } else if (type == "nest") {
+    return(0L)
   } else {
     return(NA_integer_)
   }

@@ -409,13 +409,32 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches 
 #' @export
 #' @examples
 #' band_members %>% nest_join(band_instruments)
-nest_join <- function(x, y, by = NULL, copy = FALSE, keep = NULL, name = NULL, ...) {
+nest_join <- function(x,
+                      y,
+                      by = NULL,
+                      copy = FALSE,
+                      keep = NULL,
+                      name = NULL,
+                      ...) {
   UseMethod("nest_join")
 }
 
 #' @export
 #' @rdname nest_join
-nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = NULL, name = NULL, ...) {
+nest_join.data.frame <- function(x,
+                                 y,
+                                 by = NULL,
+                                 copy = FALSE,
+                                 keep = NULL,
+                                 name = NULL,
+                                 multiple = "all",
+                                 complete = "neither",
+                                 unique = "neither",
+                                 ...) {
+  multiple <- check_multiple(multiple)
+  complete <- check_complete(complete)
+  unique <- check_unique(unique)
+
   name_var <- name %||% as_label(enexpr(y))
 
   x_names <- tbl_vars(x)
@@ -435,14 +454,20 @@ nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = NULL, nam
   condition <- standardise_join_condition(by)
   filter <- by$filter
 
-  matches <- vctrs:::vec_matches(
+  no_match <- standardise_join_no_match("nest", complete)
+  remaining <- standardise_join_remaining("nest", complete)
+  unique <- standardise_join_unique(unique)
+
+  matches <- dplyr_matches(
     needles = x_key,
     haystack = y_key,
     condition = condition,
     filter = filter,
     missing = "match",
-    nan_distinct = TRUE,
-    no_match = 0L
+    no_match = no_match,
+    remaining = remaining,
+    multiple = multiple,
+    unique = unique
   )
 
   y_loc <- vec_split(matches$haystack, matches$needles)$val

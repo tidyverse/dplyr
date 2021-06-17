@@ -7,7 +7,17 @@
 \usage{
 nest_join(x, y, by = NULL, copy = FALSE, keep = NULL, name = NULL, ...)
 
-\method{nest_join}{data.frame}(x, y, by = NULL, copy = FALSE, keep = NULL, name = NULL, ...)
+\method{nest_join}{data.frame}(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  keep = NULL,
+  name = NULL,
+  complete = "neither",
+  unique = "neither",
+  ...
+)
 }
 \arguments{
 \item{x, y}{A pair of data frames, data frame extensions (e.g. a tibble), or
@@ -52,6 +62,35 @@ merged into the key columns from \code{x}.
 If \code{NULL} the name of \code{y} is used.}
 
 \item{...}{Other parameters passed onto methods.}
+
+\item{complete}{Which inputs should be forced to match completely?
+\itemize{
+\item \code{"neither"} doesn't require either input to match completely.
+\item \code{"x"} requires \code{x} to be completely matched to \code{y}, leaving no unmatched
+rows.
+\item \code{"y"} requires \code{y} to be completely matched by \code{x}, leaving no unmatched
+rows.
+\item \code{"both"} requires both \code{x} and \code{y} to be completely matched. Neither
+can be left with unmatched rows.
+}
+
+If \code{na_matches = "never"}, missing values in \code{x} will be propagated, but
+missing values in \code{y} will be considered unmatched.}
+
+\item{unique}{Which inputs should be checked for uniqueness before matching?
+\itemize{
+\item \code{"neither"} doesn't require either input to be unique.
+\item \code{"x"} requires that \code{x} contain only unique values.
+\item \code{"y"} requires that \code{y} contain only unique values.
+\item \code{"both"} requires that both \code{x} and \code{y} contain only unique values.
+}
+
+If multiple missing values are present, then the input is not considered
+unique, even if \code{na_matches = "never"}.
+
+Performing a cross join with \code{by = character()} will override this check
+for uniqueness, as a cross join relies on the row numbers rather
+than the values.}
 }
 \description{
 \code{nest_join()} returns all rows and columns in \code{x} with a new nested-df column
