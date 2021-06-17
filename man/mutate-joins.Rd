@@ -33,7 +33,8 @@ inner_join(
   ...,
   keep = NULL,
   na_matches = c("na", "never"),
-  multiple = "all"
+  multiple = "all",
+  complete = "neither"
 )
 
 left_join(
@@ -55,7 +56,8 @@ left_join(
   ...,
   keep = NULL,
   na_matches = c("na", "never"),
-  multiple = "all"
+  multiple = "all",
+  complete = "neither"
 )
 
 right_join(
@@ -77,7 +79,8 @@ right_join(
   ...,
   keep = NULL,
   na_matches = c("na", "never"),
-  multiple = "all"
+  multiple = "all",
+  complete = "neither"
 )
 
 full_join(
@@ -99,7 +102,8 @@ full_join(
   ...,
   keep = NULL,
   na_matches = c("na", "never"),
-  multiple = "all"
+  multiple = "all",
+  complete = "neither"
 )
 }
 \arguments{
@@ -165,6 +169,20 @@ For each row of \code{x}:
 otherwise falls back to \code{"all"}.
 \item \code{"error"} throws an error if multiple matches are detected.
 }}
+
+\item{complete}{Which inputs should be forced to match completely?
+\itemize{
+\item \code{"neither"} doesn't require either input to match completely.
+\item \code{"x"} requires \code{x} to be completely matched to \code{y}, leaving no unmatched
+rows.
+\item \code{"y"} requires \code{y} to be completely matched by \code{x}, leaving no unmatched
+rows.
+\item \code{"both"} requires both \code{x} and \code{y} to be completely matched. Neither
+can be left with unmatched rows.
+}
+
+If \code{na_matches = "never"}, missing values in \code{x} will be propagated, but
+missing values in \code{y} will be considered unmatched.}
 }
 \value{
 An object of the same type as \code{x}. The order of the rows and columns of \code{x}

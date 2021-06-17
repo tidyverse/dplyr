@@ -90,6 +90,17 @@
 #'   - `"warning"` throws a warning if multiple matches are detected, but
 #'     otherwise falls back to `"all"`.
 #'   - `"error"` throws an error if multiple matches are detected.
+#' @param complete Which inputs should be forced to match completely?
+#'   - `"neither"` doesn't require either input to match completely.
+#'   - `"x"` requires `x` to be completely matched to `y`, leaving no unmatched
+#'   rows.
+#'   - `"y"` requires `y` to be completely matched by `x`, leaving no unmatched
+#'   rows.
+#'   - `"both"` requires both `x` and `y` to be completely matched. Neither
+#'   can be left with unmatched rows.
+#'
+#'   If `na_matches = "never"`, missing values in `x` will be propagated, but
+#'   missing values in `y` will be considered unmatched.
 #' @family joins
 #' @examples
 #' band_members %>% inner_join(band_instruments)
@@ -149,9 +160,20 @@ inner_join.data.frame <- function(x,
                                   ...,
                                   keep = NULL,
                                   na_matches = c("na", "never"),
-                                  multiple = "all") {
+                                  multiple = "all",
+                                  complete = "neither") {
   y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "inner", suffix = suffix, na_matches = na_matches, keep = keep, multiple = multiple)
+  join_mutate(
+    x = x,
+    y = y,
+    by = by,
+    type = "inner",
+    suffix = suffix,
+    na_matches = na_matches,
+    keep = keep,
+    multiple = multiple,
+    complete = complete
+  )
 }
 
 #' @export
@@ -176,9 +198,20 @@ left_join.data.frame <- function(x,
                                  ...,
                                  keep = NULL,
                                  na_matches = c("na", "never"),
-                                 multiple = "all") {
+                                 multiple = "all",
+                                 complete = "neither") {
   y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "left", suffix = suffix, na_matches = na_matches, keep = keep, multiple = multiple)
+  join_mutate(
+    x = x,
+    y = y,
+    by = by,
+    type = "left",
+    suffix = suffix,
+    na_matches = na_matches,
+    keep = keep,
+    multiple = multiple,
+    complete = complete
+  )
 }
 
 #' @export
@@ -203,9 +236,20 @@ right_join.data.frame <- function(x,
                                   ...,
                                   keep = NULL,
                                   na_matches = c("na", "never"),
-                                  multiple = "all") {
+                                  multiple = "all",
+                                  complete = "neither") {
   y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "right", suffix = suffix, na_matches = na_matches, keep = keep, multiple = multiple)
+  join_mutate(
+    x = x,
+    y = y,
+    by = by,
+    type = "right",
+    suffix = suffix,
+    na_matches = na_matches,
+    keep = keep,
+    multiple = multiple,
+    complete = complete
+  )
 }
 
 #' @export
@@ -230,9 +274,20 @@ full_join.data.frame <- function(x,
                                  ...,
                                  keep = NULL,
                                  na_matches = c("na", "never"),
-                                 multiple = "all") {
+                                 multiple = "all",
+                                 complete = "neither") {
   y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "full", suffix = suffix, na_matches = na_matches, keep = keep, multiple = multiple)
+  join_mutate(
+    x = x,
+    y = y,
+    by = by,
+    type = "full",
+    suffix = suffix,
+    na_matches = na_matches,
+    keep = keep,
+    multiple = multiple,
+    complete = complete
+  )
 }
 
 #' Filtering joins
@@ -396,14 +451,18 @@ join_mutate <- function(x,
                         suffix = c(".x", ".y"),
                         na_matches = c("na", "never"),
                         keep = NULL,
-                        multiple = "all") {
+                        multiple = "all",
+                        complete = "neither") {
+  na_matches <- check_na_matches(na_matches)
+  multiple <- check_multiple(multiple)
+  complete <- check_complete(complete)
+
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
 
   by <- standardise_join_by(by, x_names = x_names, y_names = y_names)
 
   vars <- join_cols(x_names, y_names, by = by, suffix = suffix, keep = keep)
-  missing <- check_na_matches(na_matches)
 
   x_in <- as_tibble(x, .name_repair = "minimal")
   y_in <- as_tibble(y, .name_repair = "minimal")
@@ -418,10 +477,11 @@ join_mutate <- function(x,
     x_key = x_key,
     y_key = y_key,
     type = type,
-    missing = missing,
+    na_matches = na_matches,
     condition = condition,
     filter = filter,
-    multiple = multiple
+    multiple = multiple,
+    complete = complete
   )
 
   x_slicer <- rows$x
@@ -457,13 +517,14 @@ join_mutate <- function(x,
 }
 
 join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
+  na_matches <- check_na_matches(na_matches)
+
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
 
   by <- standardise_join_by(by, x_names = x_names, y_names = y_names)
 
   vars <- join_cols(x_names, y_names, by = by)
-  missing <- check_na_matches(na_matches)
 
   x_in <- as_tibble(x, .name_repair = "minimal")
   y_in <- as_tibble(y, .name_repair = "minimal")
@@ -477,15 +538,8 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
   # We only care about whether or not any matches exist
   multiple <- "first"
 
-  if (type == "semi") {
-    no_match <- "drop"
-
-    if (missing == "propagate") {
-      missing <- "drop"
-    }
-  } else {
-    no_match <- NA_integer_
-  }
+  missing <- standardise_join_missing(type, na_matches)
+  no_match <- standardise_join_no_match(type, complete = "neither")
 
   matches <- vctrs:::vec_matches(
     needles = x_key,
@@ -521,13 +575,14 @@ check_na_matches <- function(na_matches = c("na", "never")) {
     }
   }
 
-  na_matches <- arg_match(na_matches)
+  arg_match(na_matches)
+}
 
-  switch(
-    na_matches,
-    na = "match",
-    never = "propagate"
-  )
+check_multiple <- function(multiple) {
+  arg_match0(multiple, values = c("all", "first", "last", "warning", "error"), arg_nm = "multiple")
+}
+check_complete <- function(complete) {
+  arg_match0(complete, values = c("neither", "x", "y", "both"), arg_nm = "complete")
 }
 
 standardise_join_condition <- function(by) {

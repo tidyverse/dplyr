@@ -1,27 +1,16 @@
 join_rows <- function(x_key,
                       y_key,
                       type = c("inner", "left", "right", "full"),
-                      missing = "match",
+                      na_matches = "na",
                       condition = "==",
                       filter = "none",
-                      multiple = "all") {
+                      multiple = "all",
+                      complete = "neither") {
   type <- arg_match(type)
 
-  if (type == "inner" || type == "right") {
-    no_match <- "drop"
-
-    if (missing == "propagate") {
-      missing <- "drop"
-    }
-  } else {
-    no_match <- NA_integer_
-  }
-
-  if (type == "right" || type == "full") {
-    remaining <- NA_integer_
-  } else {
-    remaining <- "drop"
-  }
+  missing <- standardise_join_missing(type, na_matches)
+  no_match <- standardise_join_no_match(type, complete)
+  remaining <- standardise_join_remaining(type, complete)
 
   # Find matching rows in y for each row in x
   tryCatch(
@@ -46,8 +35,60 @@ join_rows <- function(x_key,
         i = glue("`x${x_name}` is of type <{x_type}>>.", x_type = vec_ptype_full(cnd$x)),
         i = glue("`y${y_name}` is of type <{y_type}>>.", y_type = vec_ptype_full(cnd$y))
       ))
+    },
+    vctrs_error_matches_nothing = function(cnd) {
+      i <- cnd$i
+
+      abort(c(
+        "Each row of `x` must have a match in `y`.",
+        i = glue("Row {i} of `x` does not have a match.")
+      ))
+    },
+    vctrs_error_matches_remaining = function(cnd) {
+      i <- cnd$i
+
+      abort(c(
+        "Each row of `y` must be matched by `x`.",
+        i = glue("Row {i} of `y` was not matched.")
+      ))
     }
   )
 
   list(x = matches$needles, y = matches$haystack)
+}
+
+standardise_join_missing <- function(type, na_matches) {
+  if (na_matches == "na") {
+    return("match")
+  }
+
+  if (type == "inner" || type == "right" || type == "semi") {
+    return("drop")
+  } else {
+    return("propagate")
+  }
+}
+
+standardise_join_no_match <- function(type, complete) {
+  if (complete == "x" || complete == "both") {
+    return("error")
+  }
+
+  if (type == "inner" || type == "right" || type == "semi") {
+    return("drop")
+  } else {
+    return(NA_integer_)
+  }
+}
+
+standardise_join_remaining <- function(type, complete) {
+  if (complete == "y" || complete == "both") {
+    return("error")
+  }
+
+  if (type == "right" || type == "full") {
+    return(NA_integer_)
+  } else {
+    return("drop")
+  }
 }

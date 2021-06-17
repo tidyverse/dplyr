@@ -36,3 +36,37 @@ test_that("join_rows() gives meaningful error message on incompatible types", {
     )
   )
 })
+
+test_that("join_rows() gives meaningful error message on unmatched rows", {
+  expect_snapshot(error = TRUE,
+    join_rows(
+      data.frame(x = c(1, 2)),
+      data.frame(x = c(3, 1)),
+      complete = "x"
+    )
+  )
+
+  expect_snapshot(error = TRUE,
+    join_rows(
+      data.frame(x = c(1, 2)),
+      data.frame(x = c(3, 1)),
+      complete = "y"
+    )
+  )
+
+  expect_snapshot(error = TRUE,
+    join_rows(
+      data.frame(x = c(1, 2)),
+      data.frame(x = 1),
+      complete = "both"
+    )
+  )
+
+  expect_snapshot(error = TRUE,
+    join_rows(
+      data.frame(x = 1),
+      data.frame(x = c(1, 2)),
+      complete = "both"
+    )
+  )
+})
