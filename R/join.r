@@ -586,14 +586,13 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
   missing <- standardise_join_missing(type, na_matches)
   no_match <- standardise_join_no_match(type, complete = "neither")
 
-  matches <- vctrs:::vec_matches(
+  matches <- dplyr_matches(
     needles = x_key,
     haystack = y_key,
     condition = condition,
     filter = filter,
     missing = missing,
     no_match = no_match,
-    nan_distinct = TRUE,
     multiple = multiple
   )
 
