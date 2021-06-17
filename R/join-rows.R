@@ -14,11 +14,36 @@ join_rows <- function(x_key,
   remaining <- standardise_join_remaining(type, complete)
   unique <- standardise_join_unique(unique)
 
-  # Find matching rows in y for each row in x
+  matches <- dplyr_matches(
+    needles = x_key,
+    haystack = y_key,
+    condition = condition,
+    filter = filter,
+    missing = missing,
+    no_match = no_match,
+    remaining = remaining,
+    multiple = multiple,
+    unique = unique
+  )
+
+  list(x = matches$needles, y = matches$haystack)
+}
+
+dplyr_matches <- function(needles,
+                          haystack,
+                          ...,
+                          condition = "==",
+                          filter = "none",
+                          missing = "match",
+                          no_match = NA_integer_,
+                          remaining = "drop",
+                          multiple = "all",
+                          unique = "neither") {
   tryCatch(
-    matches <- vctrs:::vec_matches(
-      needles = x_key,
-      haystack = y_key,
+    vctrs:::vec_matches(
+      needles = needles,
+      haystack = haystack,
+      ...,
       condition = condition,
       filter = filter,
       missing = missing,
@@ -70,8 +95,6 @@ join_rows <- function(x_key,
       ))
     }
   )
-
-  list(x = matches$needles, y = matches$haystack)
 }
 
 standardise_join_missing <- function(type, na_matches) {
