@@ -9,8 +9,9 @@
 #' * `right_join()`: includes all rows in `y`.
 #' * `full_join()`: includes all rows in `x` or `y`.
 #'
-#' If a row in `x` matches multiple rows in `y`, all the rows in `y` will be returned
-#' once for each matching row in `x`.
+#' By default, if a row in `x` matches multiple rows in `y`, all of the matching
+#' rows in `y` will be returned. This can be adjusted using the `multiple`
+#' argument.
 #'
 #' @return
 #' An object of the same type as `x`. The order of the rows and columns of `x`
@@ -20,13 +21,13 @@
 #'   For `left_join()`, all `x` rows.
 #'   For `right_join()`, a subset of `x` rows, followed by unmatched `y` rows.
 #'   For `full_join()`, all `x` rows, followed by unmatched `y` rows.
-#' * For all joins, rows will be duplicated if one or more rows in `x` matches
-#'   multiple rows in `y`.
-#' * Output columns include all `x` columns and all `y` columns. If columns in
-#'   `x` and `y` have the same name (and aren't included in `by`), `suffix`es are
-#'   added to disambiguate.
-#' * Output columns included in `by` are coerced to common type across
-#'   `x` and `y`.
+#' * Output columns include all columns from `x` and all non-key columns from
+#'   `y`. If `keep = TRUE`, the key columns from `y` are included as well.
+#' * If non-key columns in `x` and `y` have the same name, `suffix`es are added
+#'   to disambiguate. If `keep = TRUE` and key columns in `x` and `y` have
+#'   the same name, `suffix`es are added to disambiguate these as well.
+#' * If `keep = FALSE`, output columns included in `by` are coerced to their
+#'   common type between `x` and `y`.
 #' * Groups are taken from `x`.
 #' @section Methods:
 #' These functions are **generic**s, which means that packages can provide
@@ -42,23 +43,27 @@
 #' @param x,y A pair of data frames, data frame extensions (e.g. a tibble), or
 #'   lazy data frames (e.g. from dbplyr or dtplyr). See *Methods*, below, for
 #'   more details.
-#' @param by A character vector of variables to join by.
+#' @param by A character vector of variables to join by, or a join specification
+#'   created through [join_by()].
 #'
 #'   If `NULL`, the default, `*_join()` will perform a natural join, using all
-#'   variables in common across `x` and `y`. A message lists the variables so that you
-#'   can check they're correct; suppress the message by supplying `by` explicitly.
+#'   variables in common across `x` and `y`. A message lists the variables so
+#'   that you can check they're correct; suppress the message by supplying `by`
+#'   explicitly.
 #'
-#'   To join by different variables on `x` and `y`, use a named vector.
-#'   For example, `by = c("a" = "b")` will match `x$a` to `y$b`.
+#'   To join on different variables between `x` and `y`, use a named vector. For
+#'   example, `by = c("a" = "b")` will match `x$a` to `y$b`.
 #'
-#'   To join by multiple variables, use a vector with length > 1.
-#'   For example, `by = c("a", "b")` will match `x$a` to `y$a` and `x$b` to
-#'   `y$b`. Use a named vector to match different variables in `x` and `y`.
-#'   For example, `by = c("a" = "b", "c" = "d")` will match `x$a` to `y$b` and
-#'   `x$c` to `y$d`.
+#'   To join by multiple variables, use a vector with length > 1. For example,
+#'   `by = c("a", "b")` will match `x$a` to `y$a` and `x$b` to `y$b`. Use a
+#'   named vector to match different variables in `x` and `y`. For example, `by
+#'   = c("a" = "b", "c" = "d")` will match `x$a` to `y$b` and `x$c` to `y$d`.
 #'
-#'   To perform a cross-join, generating all combinations of `x` and `y`,
-#'   use `by = character()`.
+#'   To join on conditions other than equality, like non-equi or rolling joins,
+#'   create a join specification with [join_by()].
+#'
+#'   To perform a cross-join, generating all combinations of `x` and `y`, use
+#'   `by = character()`.
 #' @param copy If `x` and `y` are not from the same data source,
 #'   and `copy` is `TRUE`, then `y` will be copied into the
 #'   same src as `x`.  This allows you to join tables across srcs, but
@@ -77,11 +82,12 @@
 #' @param ... Other parameters passed onto methods.
 #' @param na_matches Should `NA` and `NaN` values match one another?
 #'
-#'   The default, `"na"`, treats two `NA` or `NaN` values as equal, like
-#'   `%in%`, [match()], [merge()].
+#'   The default, `"na"`, treats two `NA` or two `NaN` values as equal, like
+#'   `%in%`, [match()], and [merge()].
 #'
-#'   Use `"never"` to always treat two `NA` or `NaN` values as different, like
-#'   joins for database sources, similarly to `merge(incomparables = FALSE)`.
+#'   Use `"never"` to always treat two `NA` or two `NaN` values as different,
+#'   like joins for database sources and similar to
+#'   `merge(incomparables = NA)`.
 #' @param multiple Handling of rows in `x` with multiple matches in `y`.
 #'   For each row of `x`:
 #'   - `"all"` returns every match detected in `y`.

@@ -115,23 +115,26 @@ full_join(
 lazy data frames (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{by}{A character vector of variables to join by.
+\item{by}{A character vector of variables to join by, or a join specification
+created through \code{\link[=join_by]{join_by()}}.
 
 If \code{NULL}, the default, \verb{*_join()} will perform a natural join, using all
-variables in common across \code{x} and \code{y}. A message lists the variables so that you
-can check they're correct; suppress the message by supplying \code{by} explicitly.
+variables in common across \code{x} and \code{y}. A message lists the variables so
+that you can check they're correct; suppress the message by supplying \code{by}
+explicitly.
 
-To join by different variables on \code{x} and \code{y}, use a named vector.
-For example, \code{by = c("a" = "b")} will match \code{x$a} to \code{y$b}.
+To join on different variables between \code{x} and \code{y}, use a named vector. For
+example, \code{by = c("a" = "b")} will match \code{x$a} to \code{y$b}.
 
-To join by multiple variables, use a vector with length > 1.
-For example, \code{by = c("a", "b")} will match \code{x$a} to \code{y$a} and \code{x$b} to
-\code{y$b}. Use a named vector to match different variables in \code{x} and \code{y}.
-For example, \code{by = c("a" = "b", "c" = "d")} will match \code{x$a} to \code{y$b} and
-\code{x$c} to \code{y$d}.
+To join by multiple variables, use a vector with length > 1. For example,
+\code{by = c("a", "b")} will match \code{x$a} to \code{y$a} and \code{x$b} to \code{y$b}. Use a
+named vector to match different variables in \code{x} and \code{y}. For example, \code{by = c("a" = "b", "c" = "d")} will match \code{x$a} to \code{y$b} and \code{x$c} to \code{y$d}.
 
-To perform a cross-join, generating all combinations of \code{x} and \code{y},
-use \code{by = character()}.}
+To join on conditions other than equality, like non-equi or rolling joins,
+create a join specification with \code{\link[=join_by]{join_by()}}.
+
+To perform a cross-join, generating all combinations of \code{x} and \code{y}, use
+\code{by = character()}.}
 
 \item{copy}{If \code{x} and \code{y} are not from the same data source,
 and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
@@ -157,11 +160,12 @@ merged into the key columns from \code{x}.
 
 \item{na_matches}{Should \code{NA} and \code{NaN} values match one another?
 
-The default, \code{"na"}, treats two \code{NA} or \code{NaN} values as equal, like
-\code{\%in\%}, \code{\link[=match]{match()}}, \code{\link[=merge]{merge()}}.
+The default, \code{"na"}, treats two \code{NA} or two \code{NaN} values as equal, like
+\code{\%in\%}, \code{\link[=match]{match()}}, and \code{\link[=merge]{merge()}}.
 
-Use \code{"never"} to always treat two \code{NA} or \code{NaN} values as different, like
-joins for database sources, similarly to \code{merge(incomparables = FALSE)}.}
+Use \code{"never"} to always treat two \code{NA} or two \code{NaN} values as different,
+like joins for database sources and similar to
+\code{merge(incomparables = NA)}.}
 
 \item{multiple}{Handling of rows in \code{x} with multiple matches in \code{y}.
 For each row of \code{x}:
@@ -213,13 +217,13 @@ is preserved as much as possible. The output has the following properties:
 For \code{left_join()}, all \code{x} rows.
 For \code{right_join()}, a subset of \code{x} rows, followed by unmatched \code{y} rows.
 For \code{full_join()}, all \code{x} rows, followed by unmatched \code{y} rows.
-\item For all joins, rows will be duplicated if one or more rows in \code{x} matches
-multiple rows in \code{y}.
-\item Output columns include all \code{x} columns and all \code{y} columns. If columns in
-\code{x} and \code{y} have the same name (and aren't included in \code{by}), \code{suffix}es are
-added to disambiguate.
-\item Output columns included in \code{by} are coerced to common type across
-\code{x} and \code{y}.
+\item Output columns include all columns from \code{x} and all non-key columns from
+\code{y}. If \code{keep = TRUE}, the key columns from \code{y} are included as well.
+\item If non-key columns in \code{x} and \code{y} have the same name, \code{suffix}es are added
+to disambiguate. If \code{keep = TRUE} and key columns in \code{x} and \code{y} have
+the same name, \code{suffix}es are added to disambiguate these as well.
+\item If \code{keep = FALSE}, output columns included in \code{by} are coerced to their
+common type between \code{x} and \code{y}.
 \item Groups are taken from \code{x}.
 }
 }
@@ -233,8 +237,9 @@ keys:
 \item \code{full_join()}: includes all rows in \code{x} or \code{y}.
 }
 
-If a row in \code{x} matches multiple rows in \code{y}, all the rows in \code{y} will be returned
-once for each matching row in \code{x}.
+By default, if a row in \code{x} matches multiple rows in \code{y}, all of the matching
+rows in \code{y} will be returned. This can be adjusted using the \code{multiple}
+argument.
 }
 \section{Methods}{
 
