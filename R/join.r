@@ -604,26 +604,31 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
   # We only care about whether or not any matches exist
   multiple <- "first"
 
-  missing <- standardise_join_missing(type, na_matches)
-  no_match <- standardise_join_no_match(type, check_unmatched = "neither")
+  # Since we are actually testing the presence of matches, it doesn't make
+  # sense to ever error on unmatched values. It may make sense to error on
+  # duplicates in the keys, but for now we set that to "neither" as well.
+  check_unmatched <- "neither"
+  check_duplicates <- "neither"
 
-  matches <- dplyr_matches(
-    needles = x_key,
-    haystack = y_key,
+  rows <- join_rows(
+    x_key = x_key,
+    y_key = y_key,
+    type = type,
+    na_matches = na_matches,
     condition = condition,
     filter = filter,
-    missing = missing,
-    no_match = no_match,
-    multiple = multiple
+    multiple = multiple,
+    check_unmatched = check_unmatched,
+    check_duplicates = check_duplicates
   )
 
   if (type == "semi") {
     # Unmatched needles and propagated missing needles will already be dropped
-    idx <- matches$needles
+    idx <- rows$x
   } else {
     # Treat both unmatched needles and propagated missing needles as no-match
-    unmatched <- is.na(matches$haystack)
-    idx <- matches$needles[unmatched]
+    unmatched <- is.na(rows$y)
+    idx <- rows$x[unmatched]
   }
 
   dplyr_row_slice(x, idx)

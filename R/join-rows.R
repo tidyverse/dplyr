@@ -1,6 +1,6 @@
 join_rows <- function(x_key,
                       y_key,
-                      type = c("inner", "left", "right", "full"),
+                      type = c("inner", "left", "right", "full", "semi", "anti"),
                       na_matches = "na",
                       condition = "==",
                       filter = "none",
