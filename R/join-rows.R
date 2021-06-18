@@ -39,7 +39,7 @@ dplyr_matches <- function(needles,
                           remaining = "drop",
                           multiple = "all",
                           check_duplicates = "neither") {
-  tryCatch(
+  withCallingHandlers(
     vctrs:::vec_matches(
       needles = needles,
       haystack = haystack,
@@ -101,6 +101,30 @@ dplyr_matches <- function(needles,
         glue("The keys of `x` must not contain missing values."),
         i = glue("Row {i} contains a missing value.")
       ))
+    },
+    vctrs_error_matches_multiple = function(cnd) {
+      i <- cnd$i
+
+      abort(c(
+        glue("Each row in `x` can match at most 1 row in `y`."),
+        i = glue("Row {i} of `x` matches multiple rows.")
+      ))
+    },
+    vctrs_warning_matches_multiple = function(cnd) {
+      # TODO: Is this correct? Copying `mutate_cols()`.
+      if (check_muffled_warning(cnd)) {
+        maybe_restart("muffleWarning")
+      }
+
+      i <- cnd$i
+
+      warn(c(
+        glue("Each row in `x` can match at most 1 row in `y`."),
+        i = glue("Row {i} of `x` matches multiple rows.")
+      ))
+
+      # Cancel `cnd`
+      maybe_restart("muffleWarning")
     }
   )
 }
