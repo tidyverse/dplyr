@@ -120,10 +120,6 @@ print.dplyr_join_by <- function(x, ...) {
   invisible(x)
 }
 
-is_join_by <- function(x) {
-  inherits(x, "dplyr_join_by")
-}
-
 new_join_by <- function(exprs, condition, filter, x, y) {
   out <- list(
     exprs = exprs,
