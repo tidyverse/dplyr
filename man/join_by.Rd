@@ -12,14 +12,14 @@ of:
 \itemize{
 \item A join condition, one of: \code{==}, \code{>}, \code{>=}, \code{<}, or \code{<=}.
 \item A quoted or unquoted column name on the left-hand side of the join
-condition.
+condition representing the column to use from \code{x}.
 \item A quoted or unquoted column name on the right-hand side of the join
-condition.
+condition representing the column to use from \code{y}.
 \item Optionally, the entire join condition can be wrapped in \code{max()} or
 \code{min()} to specify a rolling join.
 \item If a single column name is provided without any join conditions, it
-is interpreted as if that column name was provided on each side of \code{==},
-i.e. \code{x} is interpreted as \code{x == x}.
+is interpreted as if that column name was duplicated on each side of
+\code{==}, i.e. \code{x} is interpreted as \code{x == x}.
 }}
 }
 \description{
@@ -40,14 +40,18 @@ join between two columns of the same name.
 Non-equi joins match on an inequality, and are common in time series analysis
 and genomics. To construct a non-equi join, supply two column names separated
 by \code{>}, \code{>=}, \code{<}, or \code{<=}.
+
+Note that non-equi joins will match a single row in \code{x} to a potentially
+large number of rows in \code{y}. Be extra careful when constructing non-equi
+join specifications!
 }
 
 \subsection{Rolling Joins:}{
 
 Rolling joins are a variant of a non-equi join that limit the results
 returned from each condition to either the maximum or the minimum of
-the matches. To construct a rolling join, wrap a non-equi join condition
-in \code{max()} or \code{min()}, such as \code{max(x > y)}.
+the matches in \code{y}. To construct a rolling join, wrap a non-equi join
+condition in \code{max()} or \code{min()}, such as \code{max(x > y)}.
 }
 }
 \examples{
@@ -58,7 +62,7 @@ sales <- tibble(
 
 promos <- tibble(
  id = c(1L, 1L, 2L),
- promo_date = as.Date(c("2019-01-01", "2019-01-05", "2019-01-03"))
+ promo_date = as.Date(c("2019-01-01", "2019-01-05", "2019-01-02"))
 )
 
 # "Match id to id, and sales_date to promo_date"
@@ -74,4 +78,11 @@ left_join(sales, promos, by)
 # promo_date that occurred before this particular sale"
 by <- join_by(id, max(sale_date >= promo_date))
 left_join(sales, promos, by)
+
+# Same as before, but also require that the promo had to occur at most 1
+# day before the sale was made. We'll use a full join to see that id 2's
+# promo on `2019-01-02` is no longer matched to the sale on `2019-01-04`.
+sales <- mutate(sales, sale_date_lower = sale_date - 1)
+by <- join_by(id, max(sale_date >= promo_date), sale_date_lower <= promo_date)
+full_join(sales, promos, by)
 }

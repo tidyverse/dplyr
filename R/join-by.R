@@ -19,25 +19,29 @@
 #' and genomics. To construct a non-equi join, supply two column names separated
 #' by `>`, `>=`, `<`, or `<=`.
 #'
+#' Note that non-equi joins will match a single row in `x` to a potentially
+#' large number of rows in `y`. Be extra careful when constructing non-equi
+#' join specifications!
+#'
 #' ## Rolling Joins:
 #'
 #' Rolling joins are a variant of a non-equi join that limit the results
 #' returned from each condition to either the maximum or the minimum of
-#' the matches. To construct a rolling join, wrap a non-equi join condition
-#' in `max()` or `min()`, such as `max(x > y)`.
+#' the matches in `y`. To construct a rolling join, wrap a non-equi join
+#' condition in `max()` or `min()`, such as `max(x > y)`.
 #'
 #' @param ... Expressions specifying the join. Each expression should consist
 #'   of:
 #'   - A join condition, one of: `==`, `>`, `>=`, `<`, or `<=`.
 #'   - A quoted or unquoted column name on the left-hand side of the join
-#'     condition.
+#'     condition representing the column to use from `x`.
 #'   - A quoted or unquoted column name on the right-hand side of the join
-#'     condition.
+#'     condition representing the column to use from `y`.
 #'   - Optionally, the entire join condition can be wrapped in `max()` or
 #'     `min()` to specify a rolling join.
 #'   - If a single column name is provided without any join conditions, it
-#'     is interpreted as if that column name was provided on each side of `==`,
-#'     i.e. `x` is interpreted as `x == x`.
+#'     is interpreted as if that column name was duplicated on each side of
+#'     `==`, i.e. `x` is interpreted as `x == x`.
 #'
 #' @export
 #' @examples
@@ -48,7 +52,7 @@
 #'
 #' promos <- tibble(
 #'  id = c(1L, 1L, 2L),
-#'  promo_date = as.Date(c("2019-01-01", "2019-01-05", "2019-01-03"))
+#'  promo_date = as.Date(c("2019-01-01", "2019-01-05", "2019-01-02"))
 #' )
 #'
 #' # "Match id to id, and sales_date to promo_date"
@@ -64,6 +68,13 @@
 #' # promo_date that occurred before this particular sale"
 #' by <- join_by(id, max(sale_date >= promo_date))
 #' left_join(sales, promos, by)
+#'
+#' # Same as before, but also require that the promo had to occur at most 1
+#' # day before the sale was made. We'll use a full join to see that id 2's
+#' # promo on `2019-01-02` is no longer matched to the sale on `2019-01-04`.
+#' sales <- mutate(sales, sale_date_lower = sale_date - 1)
+#' by <- join_by(id, max(sale_date >= promo_date), sale_date_lower <= promo_date)
+#' full_join(sales, promos, by)
 join_by <- function(...) {
   # Should use `enexprs(.named = NULL)`, but https://github.com/r-lib/rlang/issues/1223
   exprs <- enexprs(...)
