@@ -1,3 +1,35 @@
+# can duplicate key between non-equi conditions
+
+    Code
+      join_cols("x", c("xl", "xu"), by = join_by(x > xl, x < xu), keep = FALSE)
+    Error <rlang_error>
+      Join columns must be unique.
+      x Problem at position 2.
+
+---
+
+    Code
+      join_cols(c("xl", "xu"), "x", by = join_by(xl < x, xu > x), keep = FALSE)
+    Error <rlang_error>
+      Join columns must be unique.
+      x Problem at position 2.
+
+# can't duplicate key between equi condition and non-equi condition
+
+    Code
+      join_cols("x", c("xl", "xu"), by = join_by(x > xl, x == xu))
+    Error <rlang_error>
+      Join columns must be unique.
+      x Problem at position 2.
+
+---
+
+    Code
+      join_cols(c("xl", "xu"), "x", by = join_by(xl < x, xu == x))
+    Error <rlang_error>
+      Join columns must be unique.
+      x Problem at position 2.
+
 # emits useful messages
 
     Code

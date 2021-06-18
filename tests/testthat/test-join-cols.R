@@ -10,6 +10,10 @@ test_that("key vars are found", {
   vars <- join_cols(c("x", "y"), c("a", "x", "z"), by = join_by(y == z))
   expect_equal(vars$x$key, c(y = 2L))
   expect_equal(vars$y$key, c(y = 3L))
+
+  vars <- join_cols(c("x", "y"), c("a", "x", "z"), by = join_by(y >= z))
+  expect_equal(vars$x$key, c(y = 2L))
+  expect_equal(vars$y$key, c(y = 3L))
 })
 
 test_that("y key matches order and names of x key", {
@@ -25,6 +29,10 @@ test_that("duplicate column names are given suffixes", {
 
   # including join vars when keep = TRUE
   vars <- join_cols(c("x", "y"), c("x", "y"), by = join_by(x), keep = TRUE)
+  expect_equal(vars$x$out, c("x.x" = 1, "y.x" = 2))
+  expect_equal(vars$y$out, c("x.y" = 1, "y.y" = 2))
+
+  vars <- join_cols(c("x", "y"), c("x", "y"), by = join_by(x < x), keep = TRUE)
   expect_equal(vars$x$out, c("x.x" = 1, "y.x" = 2))
   expect_equal(vars$y$out, c("x.y" = 1, "y.y" = 2))
 
@@ -53,15 +61,43 @@ test_that("NA names are preserved", {
   expect_named(vars$y$out, "NA.y")
 })
 
-test_that("by columns omited from y" , {
-  vars <- join_cols(c("x", "y"), c("x", "y"), by = join_by(x == y))
-  expect_equal(vars$x$out, c("x" = 1, "y" = 2))
-  expect_equal(vars$y$out, c("x.y" = 1))
+test_that("by default, `by` columns omited from y with equi-conditions, but not non-equi conditions" , {
+  vars <- join_cols(c("x", "y", "z"), c("x", "y", "z"), by = join_by(x == y, y > z))
+  expect_equal(vars$x$out, c("x" = 1, "y" = 2, "z" = 3))
+  expect_equal(vars$y$out, c("x.y" = 1, "z.y" = 3))
 
-  # unless specifically requested
-  vars <- join_cols(c("x", "y"), c("x", "y"), by = join_by(x == y), keep = TRUE)
-  expect_equal(vars$x$out, c("x.x" = 1, "y.x" = 2))
-  expect_equal(vars$y$out, c("x.y" = 1, "y.y" = 2))
+  # unless specifically requested either way
+  vars <- join_cols(c("x", "y", "z"), c("x", "y", "z"), by = join_by(x == y, y > z), keep = TRUE)
+  expect_equal(vars$x$out, c("x.x" = 1, "y.x" = 2, "z.x" = 3))
+  expect_equal(vars$y$out, c("x.y" = 1, "y.y" = 2, "z.y" = 3))
+
+  vars <- join_cols(c("x", "y", "z"), c("x", "y", "z"), by = join_by(x == y, y > z), keep = FALSE)
+  expect_equal(vars$x$out, c("x" = 1, "y" = 2, "z" = 3))
+  expect_equal(vars$y$out, c("x.y" = 1))
+})
+
+test_that("can duplicate key between non-equi conditions", {
+  vars <- join_cols("x", c("xl", "xu"), by = join_by(x > xl, x < xu))
+
+  expect_identical(vars$x$key, c(x = 1L, x = 1L))
+  expect_identical(vars$x$out, c(x = 1L))
+
+  expect_identical(vars$y$key, c(x = 1L, x = 2L))
+  expect_identical(vars$y$out, c(xl = 1L, xu = 2L))
+
+  expect_identical(
+    join_cols("x", c("xl", "xu"), by = join_by(x > xl, x < xu), keep = NULL),
+    join_cols("x", c("xl", "xu"), by = join_by(x > xl, x < xu), keep = TRUE)
+  )
+
+  # unless `key = FALSE`, since we'd have to merge both `xl` and `xu` into `x`
+  expect_snapshot(error = TRUE, join_cols("x", c("xl", "xu"), by = join_by(x > xl, x < xu), keep = FALSE))
+  expect_snapshot(error = TRUE, join_cols(c("xl", "xu"), "x", by = join_by(xl < x, xu > x), keep = FALSE))
+})
+
+test_that("can't duplicate key between equi condition and non-equi condition", {
+  expect_snapshot(error = TRUE, join_cols("x", c("xl", "xu"), by = join_by(x > xl, x == xu)))
+  expect_snapshot(error = TRUE, join_cols(c("xl", "xu"), "x", by = join_by(xl < x, xu == x)))
 })
 
 test_that("emits useful messages", {
