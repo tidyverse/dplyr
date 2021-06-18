@@ -1,5 +1,40 @@
 # dplyr (development version)
 
+* Joins have undergone a complete overhaul. The purpose of this overhaul was to
+  enable more flexible join operations, while also providing tools to perform
+  quality control checks directly in the join call (#5914, #5661, #5413, #2240).
+
+  * A _join specification_ can now be created through `join_by()`. This allows
+    you to specify both the left and right hand side of a join using unquoted
+    column names, such as `join_by(sale_date == commercial_date)`. Join
+    specifications can be supplied to any `*_join()` function as the `by`
+    argument.
+    
+  * Join specifications also allow for more flexible joins, such as non-equi
+    joins and rolling joins. These allow you to join on conditions other than
+    equality. For example, to find every commercial that aired before a
+    particular sale was made, you'd use `join_by(sale_date >= commercial_date)`.
+    
+  * `keep` now defaults to `NULL` rather than `FALSE`. `NULL` implies
+    `keep = FALSE` for equi-join conditions, but `keep = TRUE` for non-equi
+    join conditions, since you generally want to preserve both sides of a
+    non-equi join.
+    
+  * `na_matches` has a new option, `"error"`, which errors if the key columns
+    of `x` contain any missing values.
+    
+  * `multiple` is a new argument for controlling what happens when a row
+    in `x` matches multiple rows in `y`. For backwards compatibility, the
+    default is `"all"`, but you can also choose to return the `"first"` or
+    `"last"` match. For quality control purposes, you can also throw a
+    `"warning"` when multiple matches are detected, or `"error"`.
+    
+  * `check_unmatched` is a new argument to optionally error if the keys of
+    `x` or `y` have any unmatched rows.
+    
+  * `check_duplicates` is a new argument to optionally error if the keys of
+    `x` or `y` have any duplicate rows.
+
 * `cur_data()` and `cur_data_all()` don't simplify list columns in rowwise data frames (#5901).
 
 * `storms` data updated to 2020 (@steveharoz, #5899).
