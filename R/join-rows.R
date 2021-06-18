@@ -5,13 +5,13 @@ join_rows <- function(x_key,
                       condition = "==",
                       filter = "none",
                       multiple = "all",
-                      complete = "neither",
+                      check_unmatched = "neither",
                       check_duplicates = "neither") {
   type <- arg_match(type)
 
   missing <- standardise_join_missing(type, na_matches)
-  no_match <- standardise_join_no_match(type, complete)
-  remaining <- standardise_join_remaining(type, complete)
+  no_match <- standardise_join_no_match(type, check_unmatched)
+  remaining <- standardise_join_remaining(type, check_unmatched)
   check_duplicates <- standardise_join_check_duplicates(check_duplicates)
 
   matches <- dplyr_matches(
@@ -109,8 +109,8 @@ standardise_join_missing <- function(type, na_matches) {
   }
 }
 
-standardise_join_no_match <- function(type, complete) {
-  if (complete == "x" || complete == "both") {
+standardise_join_no_match <- function(type, check_unmatched) {
+  if (check_unmatched == "x" || check_unmatched == "both") {
     return("error")
   }
 
@@ -123,8 +123,8 @@ standardise_join_no_match <- function(type, complete) {
   }
 }
 
-standardise_join_remaining <- function(type, complete) {
-  if (complete == "y" || complete == "both") {
+standardise_join_remaining <- function(type, check_unmatched) {
+  if (check_unmatched == "y" || check_unmatched == "both") {
     return("error")
   }
 

@@ -34,7 +34,7 @@ inner_join(
   keep = NULL,
   na_matches = c("na", "never"),
   multiple = "all",
-  complete = "neither",
+  check_unmatched = "neither",
   check_duplicates = "neither"
 )
 
@@ -58,7 +58,7 @@ left_join(
   keep = NULL,
   na_matches = c("na", "never"),
   multiple = "all",
-  complete = "neither",
+  check_unmatched = "neither",
   check_duplicates = "neither"
 )
 
@@ -82,7 +82,7 @@ right_join(
   keep = NULL,
   na_matches = c("na", "never"),
   multiple = "all",
-  complete = "neither",
+  check_unmatched = "neither",
   check_duplicates = "neither"
 )
 
@@ -106,7 +106,7 @@ full_join(
   keep = NULL,
   na_matches = c("na", "never"),
   multiple = "all",
-  complete = "neither",
+  check_unmatched = "neither",
   check_duplicates = "neither"
 )
 }
@@ -174,35 +174,35 @@ otherwise falls back to \code{"all"}.
 \item \code{"error"} throws an error if multiple matches are detected.
 }}
 
-\item{complete}{Which inputs should be forced to match completely?
+\item{check_unmatched}{Which keys should be checked for unmatched rows?
 \itemize{
-\item \code{"neither"} doesn't require either input to match completely.
-\item \code{"x"} requires \code{x} to be completely matched to \code{y}, leaving no unmatched
-rows.
-\item \code{"y"} requires \code{y} to be completely matched by \code{x}, leaving no unmatched
-rows.
-\item \code{"both"} requires both \code{x} and \code{y} to be completely matched. Neither
-can be left with unmatched rows.
+\item \code{"neither"} doesn't check for unmatched rows.
+\item \code{"x"} checks for unmatched rows in the keys of \code{x}.
+\item \code{"y"} checks for unmatched rows in the keys of \code{y}.
+\item \code{"both"} checks for unmatched rows in both sets of keys.
 }
 
-If \code{na_matches = "never"}, missing values in \code{x} will be propagated, but
-missing values in \code{y} will be considered unmatched.}
+If any unmatched rows are found, then an error is thrown.
 
-\item{check_duplicates}{Which inputs should be checked for duplicate values?
+If \code{na_matches = "never"}, missing values in the keys of \code{x} will be
+propagated, but missing values in the keys of \code{y} will be considered
+unmatched.}
+
+\item{check_duplicates}{Which keys should be checked for duplicate rows?
 \itemize{
-\item \code{"neither"} doesn't check for duplicates.
-\item \code{"x"} checks for duplicates in \code{x}.
-\item \code{"y"} checks for duplicates in \code{y}.
-\item \code{"both"} checks for duplicates in both inputs.
+\item \code{"neither"} doesn't check for duplicate rows.
+\item \code{"x"} checks for duplicate rows in the keys of \code{x}.
+\item \code{"y"} checks for duplicate rows in the keys of \code{y}.
+\item \code{"both"} checks for duplicate rows in both sets of keys.
 }
 
-If any duplicate values are found, then an error is thrown.
+If any duplicate rows are found, then an error is thrown.
 
-If multiple missing values are present, then they are considered
-duplicates even if \code{na_matches = "never"}.
+If duplicate rows containing missing values are present, then they are
+considered duplicates even if \code{na_matches = "never"}.
 
 Performing a cross join with \code{by = character()} will override this check
-for duplicate values, as a cross join relies on the row numbers rather
+for duplicate rows, as a cross join relies on the row numbers rather
 than the values.}
 }
 \value{

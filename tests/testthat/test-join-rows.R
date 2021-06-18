@@ -42,7 +42,7 @@ test_that("join_rows() gives meaningful error message on unmatched rows", {
     join_rows(
       data.frame(x = c(1, 2)),
       data.frame(x = c(3, 1)),
-      complete = "x"
+      check_unmatched = "x"
     )
   )
 
@@ -50,7 +50,7 @@ test_that("join_rows() gives meaningful error message on unmatched rows", {
     join_rows(
       data.frame(x = c(1, 2)),
       data.frame(x = c(3, 1)),
-      complete = "y"
+      check_unmatched = "y"
     )
   )
 
@@ -58,7 +58,7 @@ test_that("join_rows() gives meaningful error message on unmatched rows", {
     join_rows(
       data.frame(x = c(1, 2)),
       data.frame(x = 1),
-      complete = "both"
+      check_unmatched = "both"
     )
   )
 
@@ -66,7 +66,7 @@ test_that("join_rows() gives meaningful error message on unmatched rows", {
     join_rows(
       data.frame(x = 1),
       data.frame(x = c(1, 2)),
-      complete = "both"
+      check_unmatched = "both"
     )
   )
 })
