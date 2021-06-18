@@ -296,7 +296,6 @@ parse_join_by_condition_expr <- function(expr, i) {
     expr <- expr_deparse(expr)
     expr <- glue::backtick(expr)
 
-    conditions <- glue::glue("{conditions}()")
     conditions <- glue::backtick(conditions)
     conditions <- glue::glue_collapse(conditions, sep = ", ", last = ", or ")
 
