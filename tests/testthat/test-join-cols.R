@@ -1,12 +1,3 @@
-test_that("automatically finds common variables", {
-  x_names <- c("x", "y")
-  y_names <- c("x", "z")
-  expect_message(by <- standardise_join_by(NULL, x_names, y_names))
-  vars <- join_cols(x_names, y_names, by)
-  expect_named(vars$x$key, "x")
-  expect_named(vars$y$key, "x")
-})
-
 test_that("key vars are found", {
   vars <- join_cols(c("x", "y"), c("x", "z"), by = join_by(x))
   expect_equal(vars$x$key, c(x = 1L))
@@ -78,19 +69,13 @@ test_that("emits useful messages", {
   expect_snapshot(error = TRUE, join_cols(c("x", "y"), c("y", "y"), join_by(y)))
   expect_snapshot(error = TRUE, join_cols(c("y", "y"), c("x", "y"), join_by(y)))
 
-  # common by
   xy <- c("x", "y")
-  expect_snapshot(standardise_join_by(NULL, xy, xy))
-
-  # by standardization errors
-  expect_snapshot(error = TRUE, standardise_join_by(NULL, xy, c("a", "b")))
-  expect_snapshot(error = TRUE, standardise_join_by(FALSE, xy, xy))
 
   # join vars errors
-  expect_snapshot(error = TRUE, join_cols(xy, xy, by = standardise_join_by(list(1, 2), xy, xy)))
-  expect_snapshot(error = TRUE, join_cols(xy, xy, by = standardise_join_by(c("x", "x"), xy, xy)))
-  expect_snapshot(error = TRUE, join_cols(xy, xy, by = standardise_join_by(c("x", NA), xy, xy)))
-  expect_snapshot(error = TRUE, join_cols(xy, xy, by = standardise_join_by(c("aaa", "bbb"), xy, xy)))
+  expect_snapshot(error = TRUE, join_cols(xy, xy, by = as_join_by(list(1, 2))))
+  expect_snapshot(error = TRUE, join_cols(xy, xy, by = as_join_by(c("x", "x"))))
+  expect_snapshot(error = TRUE, join_cols(xy, xy, by = as_join_by(c("x", NA))))
+  expect_snapshot(error = TRUE, join_cols(xy, xy, by = as_join_by(c("aaa", "bbb"))))
 
   # suffixes
   expect_snapshot(error = TRUE, join_cols(xy, xy, by = join_by(x), suffix = "x"))

@@ -100,17 +100,6 @@ join_by <- function(...) {
   )
 }
 
-new_join_by <- function(exprs, condition, filter, x, y) {
-  out <- list(
-    exprs = exprs,
-    condition = condition,
-    filter = filter,
-    x = x,
-    y = y
-  )
-  structure(out, class = "dplyr_join_by")
-}
-
 #' @export
 print.dplyr_join_by <- function(x, ...) {
   out <- map_chr(x$exprs, expr_deparse)
@@ -123,6 +112,92 @@ print.dplyr_join_by <- function(x, ...) {
 is_join_by <- function(x) {
   inherits(x, "dplyr_join_by")
 }
+
+new_join_by <- function(exprs, condition, filter, x, y) {
+  out <- list(
+    exprs = exprs,
+    condition = condition,
+    filter = filter,
+    x = x,
+    y = y
+  )
+  structure(out, class = "dplyr_join_by")
+}
+
+# ------------------------------------------------------------------------------
+
+# Internal generic
+as_join_by <- function(x) {
+  UseMethod("as_join_by")
+}
+
+#' @export
+as_join_by.default <- function(x) {
+  bad_args("by", "must be a (named) character vector, list, `join_by()` result, or NULL, not {friendly_type_of(x)}.")
+}
+
+#' @export
+as_join_by.dplyr_join_by <- function(x) {
+  x
+}
+
+#' @export
+as_join_by.character <- function(x) {
+  x_names <- names(x) %||% x
+  y_names <- unname(x)
+
+  # If x partially named, assume unnamed are the same in both tables
+  x_names[x_names == ""] <- y_names[x_names == ""]
+
+  finalise_equi_join_by(x_names, y_names)
+}
+
+#' @export
+as_join_by.list <- function(x) {
+  # TODO: check lengths
+  x_names <- x[["x"]]
+  y_names <- x[["y"]]
+  finalise_equi_join_by(x_names, y_names)
+}
+
+finalise_equi_join_by <- function(x_names, y_names) {
+  exprs <- map2(x_names, y_names, function(x, y) expr(!!x == !!y))
+  condition <- vec_rep("==", times = length(x_names))
+  filter <- vec_rep("none", times = length(x_names))
+
+  new_join_by(
+    exprs = exprs,
+    condition = condition,
+    filter = filter,
+    x = x_names,
+    y = y_names
+  )
+}
+
+# ------------------------------------------------------------------------------
+
+join_by_common <- function(x_names, y_names) {
+  by <- intersect(x_names, y_names)
+
+  if (length(by) == 0) {
+    abort(c(
+      "`by` must be supplied when `x` and `y` have no common variables.",
+      i = "use `by = character()` to perform a cross-join."
+    ))
+  }
+
+  by_quoted <- encodeString(by, quote = '"')
+  if (length(by_quoted) == 1L) {
+    by_code <- by_quoted
+  } else {
+    by_code <- paste0("c(", paste(by_quoted, collapse = ", "), ")")
+  }
+  inform(paste0("Joining, by = ", by_code))
+
+  finalise_equi_join_by(by, by)
+}
+
+# ------------------------------------------------------------------------------
 
 parse_join_by_expr <- function(expr, i) {
   len <- length(expr)

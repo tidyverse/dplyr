@@ -448,7 +448,11 @@ nest_join.data.frame <- function(x,
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
 
-  by <- standardise_join_by(by, x_names = x_names, y_names = y_names)
+  if (is_null(by)) {
+    by <- join_by_common(x_names, y_names)
+  } else {
+    by <- as_join_by(by)
+  }
 
   vars <- join_cols(x_names, y_names, by = by, suffix = c("", ""), keep = keep)
   y <- auto_copy(x, y, copy = copy)
@@ -513,7 +517,11 @@ join_mutate <- function(x,
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
 
-  by <- standardise_join_by(by, x_names = x_names, y_names = y_names)
+  if (is_null(by)) {
+    by <- join_by_common(x_names, y_names)
+  } else {
+    by <- as_join_by(by)
+  }
 
   vars <- join_cols(x_names, y_names, by = by, suffix = suffix, keep = keep)
 
@@ -576,7 +584,11 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
 
-  by <- standardise_join_by(by, x_names = x_names, y_names = y_names)
+  if (is_null(by)) {
+    by <- join_by_common(x_names, y_names)
+  } else {
+    by <- as_join_by(by)
+  }
 
   vars <- join_cols(x_names, y_names, by = by)
 

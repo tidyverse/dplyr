@@ -51,56 +51,6 @@ join_cols <- function(x_names, y_names, by, suffix = c(".x", ".y"), keep = NULL)
   )
 }
 
-standardise_join_by <- function(by, x_names, y_names) {
-  if (is_join_by(by)) {
-    return(by)
-  }
-
-  if (is.null(by)) {
-    by <- intersect(x_names, y_names)
-    if (length(by) == 0) {
-      abort(c(
-        "`by` must be supplied when `x` and `y` have no common variables.",
-        i = "use by = character()` to perform a cross-join."
-      ))
-    }
-    by_quoted <- encodeString(by, quote = '"')
-    if (length(by_quoted) == 1L) {
-      by_code <- by_quoted
-    } else {
-      by_code <- paste0("c(", paste(by_quoted, collapse = ", "), ")")
-    }
-    inform(paste0("Joining, by = ", by_code))
-
-    by_x <- by
-    by_y <- by
-  } else if (is.character(by)) {
-    by_x <- names(by) %||% by
-    by_y <- unname(by)
-
-    # If x partially named, assume unnamed are the same in both tables
-    by_x[by_x == ""] <- by_y[by_x == ""]
-  } else if (is.list(by)) {
-    # TODO: check lengths
-    by_x <- by[["x"]]
-    by_y <- by[["y"]]
-  } else {
-    bad_args("by", "must be a (named) character vector, list, `join_by()` result, or NULL, not {friendly_type_of(by)}.")
-  }
-
-  exprs <- map2(by_x, by_y, function(x, y) expr(!!x == !!y))
-  condition <- vec_rep("==", times = length(by_x))
-  filter <- vec_rep("none", times = length(by_x))
-
-  new_join_by(
-    exprs = exprs,
-    condition = condition,
-    filter = filter,
-    x = by_x,
-    y = by_y
-  )
-}
-
 check_join_vars <- function(vars, names, condition, keep) {
   if (!is.character(vars)) {
     abort("join columns must be character vectors.")

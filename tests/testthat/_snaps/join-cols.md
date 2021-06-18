@@ -17,40 +17,14 @@
 ---
 
     Code
-      standardise_join_by(NULL, xy, xy)
-    Message <message>
-      Joining, by = c("x", "y")
-    Output
-      Join By:
-      - "x" == "x"
-      - "y" == "y"
-
----
-
-    Code
-      standardise_join_by(NULL, xy, c("a", "b"))
-    Error <rlang_error>
-      `by` must be supplied when `x` and `y` have no common variables.
-      i use by = character()` to perform a cross-join.
-
----
-
-    Code
-      standardise_join_by(FALSE, xy, xy)
-    Error <rlang_error>
-      `by` must be a (named) character vector, list, `join_by()` result, or NULL, not a logical vector.
-
----
-
-    Code
-      join_cols(xy, xy, by = standardise_join_by(list(1, 2), xy, xy))
+      join_cols(xy, xy, by = as_join_by(list(1, 2)))
     Error <rlang_error>
       join columns must be character vectors.
 
 ---
 
     Code
-      join_cols(xy, xy, by = standardise_join_by(c("x", "x"), xy, xy))
+      join_cols(xy, xy, by = as_join_by(c("x", "x")))
     Error <rlang_error>
       Join columns must be unique.
       x Problem at position 2.
@@ -58,7 +32,7 @@
 ---
 
     Code
-      join_cols(xy, xy, by = standardise_join_by(c("x", NA), xy, xy))
+      join_cols(xy, xy, by = as_join_by(c("x", NA)))
     Error <rlang_error>
       Join columns must be not NA.
       x Problem at position 2.
@@ -66,7 +40,7 @@
 ---
 
     Code
-      join_cols(xy, xy, by = standardise_join_by(c("aaa", "bbb"), xy, xy))
+      join_cols(xy, xy, by = as_join_by(c("aaa", "bbb")))
     Error <rlang_error>
       Join columns must be present in data.
       x Problem with `aaa` and `bbb`.
