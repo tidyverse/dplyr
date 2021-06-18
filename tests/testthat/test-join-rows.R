@@ -104,3 +104,13 @@ test_that("join_rows() gives meaningful error message on duplicated keys", {
     )
   )
 })
+
+test_that("join_rows() gives meaningful error message on missing `x` keys", {
+  expect_snapshot(error = TRUE,
+    join_rows(
+      c(1, 2, 3, NA),
+      c(1, 2, NA, 3),
+      na_matches = "error"
+    )
+  )
+})

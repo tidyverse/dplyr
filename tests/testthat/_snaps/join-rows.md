@@ -72,3 +72,11 @@
       `y` must not contain duplicate keys.
       i Row 2 is a duplicate.
 
+# join_rows() gives meaningful error message on missing `x` keys
+
+    Code
+      join_rows(c(1, 2, 3, NA), c(1, 2, NA, 3), na_matches = "error")
+    Error <rlang_error>
+      The keys of `x` must not contain missing values.
+      i Row 4 contains a missing value.
+

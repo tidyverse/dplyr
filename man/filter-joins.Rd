@@ -10,11 +10,25 @@
 \usage{
 semi_join(x, y, by = NULL, copy = FALSE, ...)
 
-\method{semi_join}{data.frame}(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never"))
+\method{semi_join}{data.frame}(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  ...,
+  na_matches = c("na", "never", "error")
+)
 
 anti_join(x, y, by = NULL, copy = FALSE, ...)
 
-\method{anti_join}{data.frame}(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never"))
+\method{anti_join}{data.frame}(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  ...,
+  na_matches = c("na", "never", "error")
+)
 }
 \arguments{
 \item{x, y}{A pair of data frames, data frame extensions (e.g. a tibble), or
@@ -49,14 +63,15 @@ it is a potentially expensive operation so you must opt into it.}
 
 \item{...}{Other parameters passed onto methods.}
 
-\item{na_matches}{Should \code{NA} and \code{NaN} values match one another?
-
-The default, \code{"na"}, treats two \code{NA} or two \code{NaN} values as equal, like
+\item{na_matches}{Should two \code{NA} or two \code{NaN} values match?
+\itemize{
+\item \code{"na"}, the default, treats two \code{NA} or two \code{NaN} values as equal, like
 \code{\%in\%}, \code{\link[=match]{match()}}, and \code{\link[=merge]{merge()}}.
-
-Use \code{"never"} to always treat two \code{NA} or two \code{NaN} values as different,
-like joins for database sources and similar to
-\code{merge(incomparables = NA)}.}
+\item \code{"never"} treats two \code{NA} or two \code{NaN} values as different, and will
+never match them together or to any other values. This is similar to joins
+for database sources and to \code{base::merge(incomparables = NA)}.
+\item \code{"error"} will error if any keys in \code{x} have missing values.
+}}
 }
 \value{
 An object of the same type as \code{x}. The output has the following properties:

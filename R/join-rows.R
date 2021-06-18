@@ -93,6 +93,14 @@ dplyr_matches <- function(needles,
         glue("`{input}` must not contain duplicate keys."),
         i = glue("Row {i} is a duplicate.")
       ))
+    },
+    vctrs_error_matches_missing = function(cnd) {
+      i <- cnd$i
+
+      abort(c(
+        glue("The keys of `x` must not contain missing values."),
+        i = glue("Row {i} contains a missing value.")
+      ))
     }
   )
 }
@@ -100,6 +108,10 @@ dplyr_matches <- function(needles,
 standardise_join_missing <- function(type, na_matches) {
   if (na_matches == "na") {
     return("match")
+  }
+
+  if (na_matches == "error") {
+    return("error")
   }
 
   if (type == "inner" || type == "right" || type == "semi") {

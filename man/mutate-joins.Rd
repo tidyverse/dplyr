@@ -32,7 +32,7 @@ inner_join(
   suffix = c(".x", ".y"),
   ...,
   keep = NULL,
-  na_matches = c("na", "never"),
+  na_matches = c("na", "never", "error"),
   multiple = "all",
   check_unmatched = "neither",
   check_duplicates = "neither"
@@ -56,7 +56,7 @@ left_join(
   suffix = c(".x", ".y"),
   ...,
   keep = NULL,
-  na_matches = c("na", "never"),
+  na_matches = c("na", "never", "error"),
   multiple = "all",
   check_unmatched = "neither",
   check_duplicates = "neither"
@@ -80,7 +80,7 @@ right_join(
   suffix = c(".x", ".y"),
   ...,
   keep = NULL,
-  na_matches = c("na", "never"),
+  na_matches = c("na", "never", "error"),
   multiple = "all",
   check_unmatched = "neither",
   check_duplicates = "neither"
@@ -104,7 +104,7 @@ full_join(
   suffix = c(".x", ".y"),
   ...,
   keep = NULL,
-  na_matches = c("na", "never"),
+  na_matches = c("na", "never", "error"),
   multiple = "all",
   check_unmatched = "neither",
   check_duplicates = "neither"
@@ -158,14 +158,15 @@ the data in key columns corresponding to rows that only exist in \code{y} are
 merged into the key columns from \code{x}.
 }}
 
-\item{na_matches}{Should \code{NA} and \code{NaN} values match one another?
-
-The default, \code{"na"}, treats two \code{NA} or two \code{NaN} values as equal, like
+\item{na_matches}{Should two \code{NA} or two \code{NaN} values match?
+\itemize{
+\item \code{"na"}, the default, treats two \code{NA} or two \code{NaN} values as equal, like
 \code{\%in\%}, \code{\link[=match]{match()}}, and \code{\link[=merge]{merge()}}.
-
-Use \code{"never"} to always treat two \code{NA} or two \code{NaN} values as different,
-like joins for database sources and similar to
-\code{merge(incomparables = NA)}.}
+\item \code{"never"} treats two \code{NA} or two \code{NaN} values as different, and will
+never match them together or to any other values. This is similar to joins
+for database sources and to \code{base::merge(incomparables = NA)}.
+\item \code{"error"} will error if any keys in \code{x} have missing values.
+}}
 
 \item{multiple}{Handling of rows in \code{x} with multiple matches in \code{y}.
 For each row of \code{x}:
