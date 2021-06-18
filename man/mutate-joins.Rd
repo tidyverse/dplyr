@@ -35,7 +35,7 @@ inner_join(
   na_matches = c("na", "never"),
   multiple = "all",
   complete = "neither",
-  unique = "neither"
+  check_duplicates = "neither"
 )
 
 left_join(
@@ -59,7 +59,7 @@ left_join(
   na_matches = c("na", "never"),
   multiple = "all",
   complete = "neither",
-  unique = "neither"
+  check_duplicates = "neither"
 )
 
 right_join(
@@ -83,7 +83,7 @@ right_join(
   na_matches = c("na", "never"),
   multiple = "all",
   complete = "neither",
-  unique = "neither"
+  check_duplicates = "neither"
 )
 
 full_join(
@@ -107,7 +107,7 @@ full_join(
   na_matches = c("na", "never"),
   multiple = "all",
   complete = "neither",
-  unique = "neither"
+  check_duplicates = "neither"
 )
 }
 \arguments{
@@ -188,19 +188,21 @@ can be left with unmatched rows.
 If \code{na_matches = "never"}, missing values in \code{x} will be propagated, but
 missing values in \code{y} will be considered unmatched.}
 
-\item{unique}{Which inputs should be checked for uniqueness before matching?
+\item{check_duplicates}{Which inputs should be checked for duplicate values?
 \itemize{
-\item \code{"neither"} doesn't require either input to be unique.
-\item \code{"x"} requires that \code{x} contain only unique values.
-\item \code{"y"} requires that \code{y} contain only unique values.
-\item \code{"both"} requires that both \code{x} and \code{y} contain only unique values.
+\item \code{"neither"} doesn't check for duplicates.
+\item \code{"x"} checks for duplicates in \code{x}.
+\item \code{"y"} checks for duplicates in \code{y}.
+\item \code{"both"} checks for duplicates in both inputs.
 }
 
-If multiple missing values are present, then the input is not considered
-unique, even if \code{na_matches = "never"}.
+If any duplicate values are found, then an error is thrown.
+
+If multiple missing values are present, then they are considered
+duplicates even if \code{na_matches = "never"}.
 
 Performing a cross join with \code{by = character()} will override this check
-for uniqueness, as a cross join relies on the row numbers rather
+for duplicate values, as a cross join relies on the row numbers rather
 than the values.}
 }
 \value{

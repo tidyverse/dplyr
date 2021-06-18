@@ -6,13 +6,13 @@ join_rows <- function(x_key,
                       filter = "none",
                       multiple = "all",
                       complete = "neither",
-                      unique = "neither") {
+                      check_duplicates = "neither") {
   type <- arg_match(type)
 
   missing <- standardise_join_missing(type, na_matches)
   no_match <- standardise_join_no_match(type, complete)
   remaining <- standardise_join_remaining(type, complete)
-  unique <- standardise_join_unique(unique)
+  check_duplicates <- standardise_join_check_duplicates(check_duplicates)
 
   matches <- dplyr_matches(
     needles = x_key,
@@ -23,7 +23,7 @@ join_rows <- function(x_key,
     no_match = no_match,
     remaining = remaining,
     multiple = multiple,
-    unique = unique
+    check_duplicates = check_duplicates
   )
 
   list(x = matches$needles, y = matches$haystack)
@@ -38,7 +38,7 @@ dplyr_matches <- function(needles,
                           no_match = NA_integer_,
                           remaining = "drop",
                           multiple = "all",
-                          unique = "neither") {
+                          check_duplicates = "neither") {
   tryCatch(
     vctrs:::vec_matches(
       needles = needles,
@@ -50,7 +50,7 @@ dplyr_matches <- function(needles,
       no_match = no_match,
       remaining = remaining,
       multiple = multiple,
-      unique = unique,
+      check_duplicates = check_duplicates,
       nan_distinct = TRUE
     ),
     vctrs_error_incompatible_type = function(cnd) {
@@ -80,7 +80,7 @@ dplyr_matches <- function(needles,
         i = glue("Row {i} of `y` was not matched.")
       ))
     },
-    vctrs_error_matches_unique = function(cnd) {
+    vctrs_error_matches_duplicates = function(cnd) {
       i <- cnd$i
 
       if (cnd$needles) {
@@ -135,9 +135,9 @@ standardise_join_remaining <- function(type, complete) {
   }
 }
 
-standardise_join_unique <- function(unique) {
+standardise_join_check_duplicates <- function(check_duplicates) {
   switch(
-    unique,
+    check_duplicates,
     neither = "neither",
     x = "needles",
     y = "haystack",

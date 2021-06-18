@@ -14,8 +14,9 @@ nest_join(x, y, by = NULL, copy = FALSE, keep = NULL, name = NULL, ...)
   copy = FALSE,
   keep = NULL,
   name = NULL,
+  multiple = "all",
   complete = "neither",
-  unique = "neither",
+  check_duplicates = "neither",
   ...
 )
 }
@@ -63,6 +64,17 @@ If \code{NULL} the name of \code{y} is used.}
 
 \item{...}{Other parameters passed onto methods.}
 
+\item{multiple}{Handling of rows in \code{x} with multiple matches in \code{y}.
+For each row of \code{x}:
+\itemize{
+\item \code{"all"} returns every match detected in \code{y}.
+\item \code{"first"} returns the first match detected in \code{y}.
+\item \code{"last"} returns the last match detected in \code{y}.
+\item \code{"warning"} throws a warning if multiple matches are detected, but
+otherwise falls back to \code{"all"}.
+\item \code{"error"} throws an error if multiple matches are detected.
+}}
+
 \item{complete}{Which inputs should be forced to match completely?
 \itemize{
 \item \code{"neither"} doesn't require either input to match completely.
@@ -77,19 +89,21 @@ can be left with unmatched rows.
 If \code{na_matches = "never"}, missing values in \code{x} will be propagated, but
 missing values in \code{y} will be considered unmatched.}
 
-\item{unique}{Which inputs should be checked for uniqueness before matching?
+\item{check_duplicates}{Which inputs should be checked for duplicate values?
 \itemize{
-\item \code{"neither"} doesn't require either input to be unique.
-\item \code{"x"} requires that \code{x} contain only unique values.
-\item \code{"y"} requires that \code{y} contain only unique values.
-\item \code{"both"} requires that both \code{x} and \code{y} contain only unique values.
+\item \code{"neither"} doesn't check for duplicates.
+\item \code{"x"} checks for duplicates in \code{x}.
+\item \code{"y"} checks for duplicates in \code{y}.
+\item \code{"both"} checks for duplicates in both inputs.
 }
 
-If multiple missing values are present, then the input is not considered
-unique, even if \code{na_matches = "never"}.
+If any duplicate values are found, then an error is thrown.
+
+If multiple missing values are present, then they are considered
+duplicates even if \code{na_matches = "never"}.
 
 Performing a cross join with \code{by = character()} will override this check
-for uniqueness, as a cross join relies on the row numbers rather
+for duplicate values, as a cross join relies on the row numbers rather
 than the values.}
 }
 \description{

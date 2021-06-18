@@ -101,17 +101,19 @@
 #'
 #'   If `na_matches = "never"`, missing values in `x` will be propagated, but
 #'   missing values in `y` will be considered unmatched.
-#' @param unique Which inputs should be checked for uniqueness before matching?
-#'   - `"neither"` doesn't require either input to be unique.
-#'   - `"x"` requires that `x` contain only unique values.
-#'   - `"y"` requires that `y` contain only unique values.
-#'   - `"both"` requires that both `x` and `y` contain only unique values.
+#' @param check_duplicates Which inputs should be checked for duplicate values?
+#'   - `"neither"` doesn't check for duplicates.
+#'   - `"x"` checks for duplicates in `x`.
+#'   - `"y"` checks for duplicates in `y`.
+#'   - `"both"` checks for duplicates in both inputs.
 #'
-#'   If multiple missing values are present, then the input is not considered
-#'   unique, even if `na_matches = "never"`.
+#'   If any duplicate values are found, then an error is thrown.
+#'
+#'   If multiple missing values are present, then they are considered
+#'   duplicates even if `na_matches = "never"`.
 #'
 #'   Performing a cross join with `by = character()` will override this check
-#'   for uniqueness, as a cross join relies on the row numbers rather
+#'   for duplicate values, as a cross join relies on the row numbers rather
 #'   than the values.
 #' @family joins
 #' @examples
@@ -174,7 +176,7 @@ inner_join.data.frame <- function(x,
                                   na_matches = c("na", "never"),
                                   multiple = "all",
                                   complete = "neither",
-                                  unique = "neither") {
+                                  check_duplicates = "neither") {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -185,7 +187,8 @@ inner_join.data.frame <- function(x,
     na_matches = na_matches,
     keep = keep,
     multiple = multiple,
-    complete = complete
+    complete = complete,
+    check_duplicates = check_duplicates
   )
 }
 
@@ -213,7 +216,7 @@ left_join.data.frame <- function(x,
                                  na_matches = c("na", "never"),
                                  multiple = "all",
                                  complete = "neither",
-                                 unique = "neither") {
+                                 check_duplicates = "neither") {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -225,7 +228,7 @@ left_join.data.frame <- function(x,
     keep = keep,
     multiple = multiple,
     complete = complete,
-    unique = unique
+    check_duplicates = check_duplicates
   )
 }
 
@@ -253,7 +256,7 @@ right_join.data.frame <- function(x,
                                   na_matches = c("na", "never"),
                                   multiple = "all",
                                   complete = "neither",
-                                  unique = "neither") {
+                                  check_duplicates = "neither") {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -265,7 +268,7 @@ right_join.data.frame <- function(x,
     keep = keep,
     multiple = multiple,
     complete = complete,
-    unique = unique
+    check_duplicates = check_duplicates
   )
 }
 
@@ -293,7 +296,7 @@ full_join.data.frame <- function(x,
                                  na_matches = c("na", "never"),
                                  multiple = "all",
                                  complete = "neither",
-                                 unique = "neither") {
+                                 check_duplicates = "neither") {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -305,7 +308,7 @@ full_join.data.frame <- function(x,
     keep = keep,
     multiple = multiple,
     complete = complete,
-    unique = unique
+    check_duplicates = check_duplicates
   )
 }
 
@@ -429,10 +432,10 @@ nest_join.data.frame <- function(x,
                                  name = NULL,
                                  multiple = "all",
                                  complete = "neither",
-                                 unique = "neither",
+                                 check_duplicates = "neither",
                                  ...) {
   complete <- check_complete(complete)
-  unique <- check_unique(unique)
+  check_duplicates <- check_check_duplicates(check_duplicates)
 
   name_var <- name %||% as_label(enexpr(y))
 
@@ -455,7 +458,7 @@ nest_join.data.frame <- function(x,
 
   no_match <- standardise_join_no_match("nest", complete)
   remaining <- standardise_join_remaining("nest", complete)
-  unique <- standardise_join_unique(unique)
+  check_duplicates <- standardise_join_check_duplicates(check_duplicates)
 
   matches <- dplyr_matches(
     needles = x_key,
@@ -466,7 +469,7 @@ nest_join.data.frame <- function(x,
     no_match = no_match,
     remaining = remaining,
     multiple = multiple,
-    unique = unique
+    check_duplicates = check_duplicates
   )
 
   y_loc <- vec_split(matches$haystack, matches$needles)$val
@@ -496,10 +499,10 @@ join_mutate <- function(x,
                         keep = NULL,
                         multiple = "all",
                         complete = "neither",
-                        unique = "neither") {
+                        check_duplicates = "neither") {
   na_matches <- check_na_matches(na_matches)
   complete <- check_complete(complete)
-  unique <- check_unique(unique)
+  check_duplicates <- check_check_duplicates(check_duplicates)
 
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
@@ -526,7 +529,7 @@ join_mutate <- function(x,
     filter = filter,
     multiple = multiple,
     complete = complete,
-    unique = unique
+    check_duplicates = check_duplicates
   )
 
   x_slicer <- rows$x
@@ -625,8 +628,8 @@ check_na_matches <- function(na_matches = c("na", "never")) {
 check_complete <- function(complete) {
   arg_match0(complete, values = c("neither", "x", "y", "both"), arg_nm = "complete")
 }
-check_unique <- function(unique) {
-  arg_match0(unique, values = c("neither", "x", "y", "both"), arg_nm = "unique")
+check_check_duplicates <- function(check_duplicates) {
+  arg_match0(check_duplicates, values = c("neither", "x", "y", "both"), arg_nm = "check_duplicates")
 }
 
 standardise_join_condition <- function(by) {
