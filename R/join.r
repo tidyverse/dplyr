@@ -466,23 +466,24 @@ nest_join.data.frame <- function(x,
   condition <- standardise_join_condition(by)
   filter <- by$filter
 
-  no_match <- standardise_join_no_match("nest", check_unmatched)
-  remaining <- standardise_join_remaining("nest", check_unmatched)
-  check_duplicates <- standardise_join_check_duplicates(check_duplicates)
+  type <- "nest"
 
-  matches <- dplyr_matches(
-    needles = x_key,
-    haystack = y_key,
+  # `nest_join()` currently assumes `na_matches = "na"`
+  na_matches <- "na"
+
+  rows <- join_rows(
+    x_key = x_key,
+    y_key = y_key,
+    type = type,
+    na_matches = na_matches,
     condition = condition,
     filter = filter,
-    missing = "match",
-    no_match = no_match,
-    remaining = remaining,
     multiple = multiple,
+    check_unmatched = check_unmatched,
     check_duplicates = check_duplicates
   )
 
-  y_loc <- vec_split(matches$haystack, matches$needles)$val
+  y_loc <- vec_split(rows$y, rows$x)$val
 
   out <- set_names(x_in[vars$x$out], names(vars$x$out))
 
