@@ -7,6 +7,22 @@
       i `x$x` is of type <double>>.
       i `y$x` is of type <factor<4d52a>>>.
 
+# join_rows() gives meaningful error/warning message on multiple matches
+
+    Code
+      join_rows(1, c(1, 1), multiple = "error")
+    Error <rlang_error>
+      Each row in `x` can match at most 1 row in `y`.
+      i Row 1 of `x` matches multiple rows.
+
+---
+
+    Code
+      cat(cnd$message)
+    Output
+      Each row in `x` can match at most 1 row in `y`.
+      i Row 1 of `x` matches multiple rows.
+
 # join_rows() gives meaningful error message on unmatched rows
 
     Code
