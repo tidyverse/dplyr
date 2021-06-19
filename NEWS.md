@@ -1,3 +1,5 @@
+# dplyr (development version)
+
 # dplyr 1.0.7
 
 * `across()` uses the formula environment when inlining them (#5886).
