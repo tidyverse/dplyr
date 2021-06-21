@@ -14,6 +14,10 @@
     joins and rolling joins. These allow you to join on conditions other than
     equality. For example, to find every commercial that aired before a
     particular sale was made, you'd use `join_by(sale_date >= commercial_date)`.
+    Note that you cannot use arbitrary expressions on each side of the join
+    condition, like `join_by(sale_date - 40 >= commercial_date)`. Instead,
+    create a new column containing `sale_date - 40` and refer to that by name
+    instead.
     
   * `keep` now defaults to `NULL` rather than `FALSE`. `NULL` implies
     `keep = FALSE` for equi-join conditions, but `keep = TRUE` for non-equi

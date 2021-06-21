@@ -54,6 +54,12 @@ the matches in \code{y}. To construct a rolling join, wrap a non-equi join
 condition in \code{max()} or \code{min()}, such as \code{max(x > y)}.
 }
 }
+\details{
+Note that \code{join_by()} does not support arbitrary expressions on each side of
+the join condition. For example, \code{join_by(sales_date - 40 >= commercial_date)} is not allowed. To perform a join like this, pre-compute
+\code{sales_date - 40} and store it in a separate column, like \code{sales_date_lower},
+and refer to that column by name in \code{join_by()}.
+}
 \examples{
 sales <- tibble(
  id = c(1L, 1L, 1L, 2L, 2L),

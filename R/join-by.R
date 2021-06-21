@@ -30,6 +30,13 @@
 #' the matches in `y`. To construct a rolling join, wrap a non-equi join
 #' condition in `max()` or `min()`, such as `max(x > y)`.
 #'
+#' @details
+#' Note that `join_by()` does not support arbitrary expressions on each side of
+#' the join condition. For example, `join_by(sales_date - 40 >=
+#' commercial_date)` is not allowed. To perform a join like this, pre-compute
+#' `sales_date - 40` and store it in a separate column, like `sales_date_lower`,
+#' and refer to that column by name in `join_by()`.
+#'
 #' @param ... Expressions specifying the join. Each expression should consist
 #'   of:
 #'   - A join condition, one of: `==`, `>`, `>=`, `<`, or `<=`.
