@@ -178,3 +178,12 @@ test_that("arrange() preserves the call stack on error (#5308)", {
 
   expect_true(some(stack, is_call, "foobar"))
 })
+
+test_that("desc() inside arrange() checks the number of arguments (#5921)", {
+  expect_snapshot(error = TRUE, {
+    df <- data.frame(x = 1, y = 2)
+
+    arrange(df, desc(x, y))
+  })
+})
+
