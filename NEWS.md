@@ -1,4 +1,4 @@
-# dplyr 1.0.8
+# dplyr (development version)
 
 *  `coalesce()` accepts 1-D arrays (#5557).
 

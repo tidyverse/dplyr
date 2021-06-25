@@ -26,3 +26,11 @@
       i `..1 = rep(x, 2)`.
       i `..1` must be size 1, not 2.
 
+# desc() inside arrange() checks the number of arguments (#5921)
+
+    Code
+      df <- data.frame(x = 1, y = 2)
+      arrange(df, desc(x, y))
+    Error <rlang_error>
+      `desc()` expects exactly one argument.
+
