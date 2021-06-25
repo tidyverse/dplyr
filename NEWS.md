@@ -1,3 +1,7 @@
+# dplyr 1.0.8
+
+*  `coalesce()` accepts 1-D arrays (#5557).
+
 # dplyr 1.0.7
 
 * `across()` uses the formula environment when inlining them (#5886).
