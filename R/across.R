@@ -594,9 +594,9 @@ as_across_fn_call <- function(fn, var, env, mask) {
     # it means the formula was unevaluated, and in that case
     # we can use the original quosure environment
     # otherwise, use the formula environment, as it was previously
-    # evaluated and might include data that is not reacha
+    # evaluated and might include data that is not reachable
     f_env <- f_env(fn)
-    if (identical(f_env, mask)) {
+    if (!is.null(f_env) && (identical(f_env, mask) || any(map_lgl(env_parents(f_env), identical, mask)))) {
       f_env <- env
     }
 
