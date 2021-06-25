@@ -41,3 +41,9 @@
 
 {"file":"bench-filter.R","name":"filter(df, x == 1)","time":"2021-06-25T11:57:27Z","os":"macOS","mean":0.0142362,"sd":0.00493355,"p0":0.00885859,"p25":0.0136271,"p50":0.0138883,"p75":0.0141617,"p100":0.0414239,"n_itr":36,"n_gc":1,"total_time":0.512502,"mem_alloc":1.61919e+07}
 {"file":"bench-filter.R","name":"filter(gf, x == 1)","time":"2021-06-25T11:57:27Z","os":"macOS","mean":0.092615,"sd":0.0313448,"p0":0.0770799,"p25":0.077834,"p50":0.0781493,"p75":0.0872338,"p100":0.16294,"n_itr":7,"n_gc":1,"total_time":0.648305,"mem_alloc":2.64671e+07}
+
+{"file":"bench-group-by.R","name":"group_by(df, x)","time":"2021-06-25T11:57:41Z","os":"macOS","mean":1.2266,"p0":1.2266,"p25":1.2266,"p50":1.2266,"p75":1.2266,"p100":1.2266,"n_itr":1,"n_gc":1,"total_time":1.2266,"mem_alloc":1.36394e+08}
+{"file":"bench-group-by.R","name":"group_by(df, g)","time":"2021-06-25T11:57:41Z","os":"macOS","mean":0.0547636,"sd":0.0211218,"p0":0.0463753,"p25":0.0470108,"p50":0.047345,"p75":0.0497577,"p100":0.114674,"n_itr":10,"n_gc":1,"total_time":0.547636,"mem_alloc":2.1991e+07}
+{"file":"bench-group-by.R","name":"group_by(df, f)","time":"2021-06-25T11:57:41Z","os":"macOS","mean":0.0519912,"sd":0.0134997,"p0":0.0454195,"p25":0.04668,"p50":0.0476345,"p75":0.04905,"p100":0.0900877,"n_itr":10,"n_gc":1,"total_time":0.519912,"mem_alloc":2.20339e+07}
+{"file":"bench-group-by.R","name":"group_by(df, x, f)","time":"2021-06-25T11:57:41Z","os":"macOS","mean":0.815571,"p0":0.815571,"p25":0.815571,"p50":0.815571,"p75":0.815571,"p100":0.815571,"n_itr":1,"n_gc":2,"total_time":0.815571,"mem_alloc":1.48476e+08}
+{"file":"bench-group-by.R","name":"group_by(df, f, x)","time":"2021-06-25T11:57:41Z","os":"macOS","mean":1.10315,"p0":1.10315,"p25":1.10315,"p50":1.10315,"p75":1.10315,"p100":1.10315,"n_itr":1,"n_gc":2,"total_time":1.10315,"mem_alloc":1.48471e+08}
