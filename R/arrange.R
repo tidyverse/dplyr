@@ -94,11 +94,13 @@ arrange_rows <- function(.data, dots) {
   })
 
   quosures <- map(dots, function(quosure) {
-    if (quo_is_call(quosure, "desc")) {
-      quosure <- new_quosure(
-        node_cadr(quo_get_expr(quosure)),
-        quo_get_env(quosure)
-      )
+    if (quo_is_call(quosure, "desc", ns = c("", "dplyr"))) {
+      expr <- quo_get_expr(quosure)
+      if (!has_length(expr, 2L)) {
+        abort("`desc()` expects exactly one argument.")
+      }
+
+      quosure <- new_quosure(node_cadr(expr), quo_get_env(quosure))
     }
     quosure
   })
