@@ -572,10 +572,17 @@ test_that("across() uses local formula environment (#5881)", {
   })
 
   expect_equal(
-    data.frame(x = 1) %>% mutate(across(where(is.numeric), lst(f = ~ . + 1))),
+    data.frame(x = 1) %>% mutate(across(1, list(f = local(~ . + 1)))),
     data.frame(x = 1, x_f = 2)
   )
 
+  expect_equal(
+    data.frame(x = 1) %>% mutate(across(1, local({
+      `_local_var` <- 1
+      ~ . + `_local_var`
+    }))),
+    data.frame(x = 2)
+  )
 })
 
 test_that("unevaluated formulas (currently) fail", {

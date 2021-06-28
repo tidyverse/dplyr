@@ -583,20 +583,20 @@ expand_across <- function(quo) {
 # have better performance. It is possible that we will be able to
 # inline evaluated functions with strictness annotations.
 as_across_fn_call <- function(fn, var, env, mask) {
-  if (is_formula(fn, lhs = FALSE)) {
+  if (is_inlinable_formula(fn, mask)) {
     # Don't need to worry about arguments passed through `...`
     # because we cancel expansion in that case
     expr <- f_rhs(fn)
     expr <- expr_substitute(expr, quote(.), sym(var))
     expr <- expr_substitute(expr, quote(.x), sym(var))
 
-    # if the formula environment is the data mask
-    # it means the formula was unevaluated, and in that case
-    # we can use the original quosure environment
-    # otherwise, use the formula environment, as it was previously
-    # evaluated and might include data that is not reachable
+    # If the formula environment is the data mask it means the formula
+    # was unevaluated, and in that case we can use the original
+    # quosure environment. Otherwise, use the formula environment
+    # which might include local data that is not reachable from the
+    # data mask.
     f_env <- f_env(fn)
-    if (!is.null(f_env) && (identical(f_env, mask) || any(map_lgl(env_parents(f_env), identical, mask)))) {
+    if (identical(f_env, mask)) {
       f_env <- env
     }
 
@@ -604,5 +604,18 @@ as_across_fn_call <- function(fn, var, env, mask) {
   } else {
     fn_call <- call2(as_function(fn), sym(var))
     new_quosure(fn_call, env)
+  }
+}
+
+# Don't inline formulas that don't inherit directly from the mask
+# because of a tidyeval bug/limitation that causes an infinite loop.
+# If the formula env is the data mask, we replace it with the original
+# quosure environment (which is maskable) later on to work around that
+# bug.
+is_inlinable_formula <- function(x, mask) {
+  if (is_formula(x, lhs = FALSE, scoped = TRUE)) {
+    identical(x, mask) || !env_inherits(f_env(x), mask)
+  } else {
+    FALSE
   }
 }
