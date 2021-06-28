@@ -1,3 +1,21 @@
+# slice_min/max() check size of `order_by=` (#5922)
+
+    Code
+      slice_min(data.frame(x = 1:10), 1:6)
+    Error <dplyr_error>
+      `slice_min(order_by=)` must have size 10, not size 6.
+    Code
+      slice_max(data.frame(x = 1:10), 1:6)
+    Error <dplyr_error>
+      `slice_max(order_by=)` must have size 10, not size 6.
+
+# slice_sample() check size of `weight_by=` (#5922)
+
+    Code
+      slice_sample(data.frame(x = 1:10), n = 2, weight_by = 1:6)
+    Error <dplyr_error>
+      incorrect number of probabilities
+
 # rename errors with invalid grouped data frame (#640)
 
     Code
