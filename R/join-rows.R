@@ -1,10 +1,58 @@
-join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full"), na_equal = TRUE) {
+join_rows <- function(x_key,
+                      y_key,
+                      type = c("inner", "left", "right", "full", "semi", "anti", "nest"),
+                      na_matches = "na",
+                      condition = "==",
+                      filter = "none",
+                      multiple = "all",
+                      check_unmatched = "neither",
+                      check_duplicates = "neither") {
   type <- arg_match(type)
 
-  # Find matching rows in y for each row in x
-  y_split <- vec_group_loc(y_key)
-  tryCatch(
-    matches <- vec_match(x_key, y_split$key, na_equal = na_equal),
+  missing <- standardise_join_missing(type, na_matches)
+  no_match <- standardise_join_no_match(type, check_unmatched)
+  remaining <- standardise_join_remaining(type, check_unmatched)
+  check_duplicates <- standardise_join_check_duplicates(check_duplicates)
+
+  matches <- dplyr_matches(
+    needles = x_key,
+    haystack = y_key,
+    condition = condition,
+    filter = filter,
+    missing = missing,
+    no_match = no_match,
+    remaining = remaining,
+    multiple = multiple,
+    check_duplicates = check_duplicates
+  )
+
+  list(x = matches$needles, y = matches$haystack)
+}
+
+dplyr_matches <- function(needles,
+                          haystack,
+                          ...,
+                          condition = "==",
+                          filter = "none",
+                          missing = "match",
+                          no_match = NA_integer_,
+                          remaining = "drop",
+                          multiple = "all",
+                          check_duplicates = "neither") {
+  withCallingHandlers(
+    vctrs:::vec_matches(
+      needles = needles,
+      haystack = haystack,
+      ...,
+      condition = condition,
+      filter = filter,
+      missing = missing,
+      no_match = no_match,
+      remaining = remaining,
+      multiple = multiple,
+      check_duplicates = check_duplicates,
+      nan_distinct = TRUE
+    ),
     vctrs_error_incompatible_type = function(cnd) {
       rx <- "^[^$]+[$]"
       x_name <- sub(rx, "", cnd$x_arg)
@@ -15,42 +63,120 @@ join_rows <- function(x_key, y_key, type = c("inner", "left", "right", "full"), 
         i = glue("`x${x_name}` is of type <{x_type}>>.", x_type = vec_ptype_full(cnd$x)),
         i = glue("`y${y_name}` is of type <{y_type}>>.", y_type = vec_ptype_full(cnd$y))
       ))
+    },
+    vctrs_error_matches_nothing = function(cnd) {
+      i <- cnd$i
+
+      abort(c(
+        "Each row of `x` must have a match in `y`.",
+        i = glue("Row {i} of `x` does not have a match.")
+      ))
+    },
+    vctrs_error_matches_remaining = function(cnd) {
+      i <- cnd$i
+
+      abort(c(
+        "Each row of `y` must be matched by `x`.",
+        i = glue("Row {i} of `y` was not matched.")
+      ))
+    },
+    vctrs_error_matches_duplicates = function(cnd) {
+      i <- cnd$i
+
+      if (cnd$needles) {
+        input <- "x"
+      } else {
+        input <- "y"
+      }
+
+      abort(c(
+        glue("`{input}` must not contain duplicate keys."),
+        i = glue("Row {i} is a duplicate.")
+      ))
+    },
+    vctrs_error_matches_missing = function(cnd) {
+      i <- cnd$i
+
+      abort(c(
+        glue("The keys of `x` must not contain missing values."),
+        i = glue("Row {i} contains a missing value.")
+      ))
+    },
+    vctrs_error_matches_multiple = function(cnd) {
+      i <- cnd$i
+
+      abort(c(
+        glue("Each row in `x` can match at most 1 row in `y`."),
+        i = glue("Row {i} of `x` matches multiple rows.")
+      ))
+    },
+    vctrs_warning_matches_multiple = function(cnd) {
+      # TODO: Is this correct? Copying `mutate_cols()`.
+      if (check_muffled_warning(cnd)) {
+        maybe_restart("muffleWarning")
+      }
+
+      i <- cnd$i
+
+      warn(c(
+        glue("Each row in `x` can match at most 1 row in `y`."),
+        i = glue("Row {i} of `x` matches multiple rows.")
+      ))
+
+      # Cancel `cnd`
+      maybe_restart("muffleWarning")
     }
   )
-
-  y_loc <- y_split$loc[matches]
-
-  if (type == "left" || type == "full") {
-    if (anyNA(matches)) {
-      y_loc <- vec_assign(y_loc, vec_equal_na(matches), list(NA_integer_))
-    }
-  }
-
-  x_loc <- seq_len(vec_size(x_key))
-
-  # flatten index list
-  x_loc <- rep(x_loc, lengths(y_loc))
-  y_loc <- index_flatten(y_loc)
-
-  y_extra <- integer()
-
-  if (type == "right" || type == "full") {
-    miss_x <- !vec_in(y_key, x_key, na_equal = na_equal)
-
-    if (!na_equal) {
-      miss_x[is.na(miss_x)] <- TRUE
-    }
-
-    if (any(miss_x)) {
-      y_extra <- seq_len(vec_size(y_key))[miss_x]
-    }
-  }
-
-  list(x = x_loc, y = y_loc, y_extra = y_extra)
 }
 
-# TODO: Replace with `vec_unchop(x, ptype = integer())`
-# once performance of `vec_c()` matches `unlist()`. See #4964.
-index_flatten <- function(x) {
-  unlist(x, recursive = FALSE, use.names = FALSE)
+standardise_join_missing <- function(type, na_matches) {
+  if (na_matches == "na") {
+    return("match")
+  }
+
+  if (na_matches == "error") {
+    return("error")
+  }
+
+  if (type == "inner" || type == "right" || type == "semi") {
+    return("drop")
+  } else {
+    return("propagate")
+  }
+}
+
+standardise_join_no_match <- function(type, check_unmatched) {
+  if (check_unmatched == "x" || check_unmatched == "both") {
+    return("error")
+  }
+
+  if (type == "inner" || type == "right" || type == "semi") {
+    return("drop")
+  } else if (type == "nest") {
+    return(0L)
+  } else {
+    return(NA_integer_)
+  }
+}
+
+standardise_join_remaining <- function(type, check_unmatched) {
+  if (check_unmatched == "y" || check_unmatched == "both") {
+    return("error")
+  }
+
+  if (type == "right" || type == "full") {
+    return(NA_integer_)
+  } else {
+    return("drop")
+  }
+}
+
+standardise_join_check_duplicates <- function(check_duplicates) {
+  switch(
+    check_duplicates,
+    neither = "neither",
+    x = "needles",
+    y = "haystack",
+    both = "both"
+  )
 }

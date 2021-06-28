@@ -29,13 +29,16 @@ test_that("even when column names change", {
   expect_named(out, c("x", "z.x", "a", "z.y", "b"))
 })
 
-test_that("by = character() generates cross (#4206)", {
+test_that("by = character() / by = join_by() generates cross (#4206)", {
   df1 <- tibble(x = 1:2)
   df2 <- tibble(y = 1:2)
   out <- left_join(df1, df2, by = character())
 
   expect_equal(out$x, rep(1:2, each = 2))
   expect_equal(out$y, rep(1:2, 2))
+
+  out2 <- left_join(df1, df2, by = join_by())
+  expect_identical(out, out2)
 })
 
 test_that("filtering joins preserve row and column order of x (#2964)", {
@@ -61,6 +64,25 @@ test_that("keys are coerced to symmetric type", {
   df2 <- tibble(x = 2, y = factor("b"))
   out <- full_join(df1, df2, by = c("x", "y"))
   expect_equal(out$y, factor(c("a", "b")))
+})
+
+test_that("keys of non-equi conditions are not coerced if `keep = NULL`", {
+  foo <- tibble(id = factor(c("a", "b")), col1 = c(1, 2), var1 = "foo")
+  bar <- tibble(id = c("a", "b"), col2 = c(1L, 2L), var2 = "bar")
+
+  out <- inner_join(foo, bar, by = join_by(id, col1 >= col2))
+  expect_type(out$id, "character")
+  expect_type(out$col1, "double")
+  expect_type(out$col2, "integer")
+
+  out <- inner_join(bar, foo, by = join_by(id, col2 <= col1))
+  expect_type(out$id, "character")
+  expect_type(out$col1, "double")
+  expect_type(out$col2, "integer")
+
+  # But they are if `keep = FALSE`
+  out <- inner_join(bar, foo, by = join_by(id, col2 <= col1), keep = FALSE)
+  expect_type(out$col2, "double")
 })
 
 test_that("when keep = TRUE, left_join() preserves both sets of keys", {
@@ -165,6 +187,18 @@ test_that("joins don't match NA when na_matches = 'never' (#2033)", {
   )
 })
 
+test_that("mutating joins compute common columns", {
+  df1 <- tibble(x = c(1, 2), y = c(2, 3))
+  df2 <- tibble(x = c(1, 1), z = c(2, 3))
+  expect_snapshot(out <- left_join(df1, df2))
+})
+
+test_that("filtering joins compute common columns", {
+  df1 <- tibble(x = c(1, 2), y = c(2, 3))
+  df2 <- tibble(x = c(1, 1), z = c(2, 3))
+  expect_snapshot(out <- semi_join(df1, df2))
+})
+
 # nest_join ---------------------------------------------------------------
 
 test_that("nest_join returns list of tibbles (#3570)",{
@@ -177,6 +211,12 @@ test_that("nest_join returns list of tibbles (#3570)",{
   expect_s3_class(out$df2[[1]], "tbl_df")
 })
 
+test_that("nest_join computes common columns", {
+  df1 <- tibble(x = c(1, 2), y = c(2, 3))
+  df2 <- tibble(x = c(1, 1), z = c(2, 3))
+  expect_snapshot(out <- nest_join(df1, df2))
+})
+
 test_that("nest_join handles multiple matches in x (#3642)", {
   df1 <- tibble(x = c(1, 1))
   df2 <- tibble(x = 1, y = 1:2)
@@ -185,7 +225,7 @@ test_that("nest_join handles multiple matches in x (#3642)", {
   expect_equal(out$df2[[1]], out$df2[[2]])
 })
 
-test_that("y keys dropped by default", {
+test_that("y keys dropped by default for equi conditions", {
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- tibble(x = c(1, 1), z = c(2, 3))
   out <- nest_join(df1, df2, by = "x")
@@ -193,6 +233,15 @@ test_that("y keys dropped by default", {
   expect_named(out$df2[[1]], "z")
 
   out <- nest_join(df1, df2, by = "x", keep = TRUE)
+  expect_named(out$df2[[1]], c("x", "z"))
+})
+
+test_that("y keys kept by default for non-equi conditions", {
+  df1 <- tibble(x = c(1, 2), y = c(2, 3))
+  df2 <- tibble(x = c(1, 1), z = c(2, 3))
+
+  out <- nest_join(df1, df2, by = join_by(x >= x))
+  expect_named(out, c("x", "y", "df2"))
   expect_named(out$df2[[1]], c("x", "z"))
 })
 

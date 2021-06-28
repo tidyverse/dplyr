@@ -5,32 +5,46 @@
 \alias{nest_join.data.frame}
 \title{Nest join}
 \usage{
-nest_join(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...)
+nest_join(x, y, by = NULL, copy = FALSE, keep = NULL, name = NULL, ...)
 
-\method{nest_join}{data.frame}(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...)
+\method{nest_join}{data.frame}(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  keep = NULL,
+  name = NULL,
+  multiple = "all",
+  check_unmatched = "neither",
+  check_duplicates = "neither",
+  ...
+)
 }
 \arguments{
 \item{x, y}{A pair of data frames, data frame extensions (e.g. a tibble), or
 lazy data frames (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{by}{A character vector of variables to join by.
+\item{by}{A character vector of variables to join by, or a join specification
+created through \code{\link[=join_by]{join_by()}}.
 
 If \code{NULL}, the default, \verb{*_join()} will perform a natural join, using all
-variables in common across \code{x} and \code{y}. A message lists the variables so that you
-can check they're correct; suppress the message by supplying \code{by} explicitly.
+variables in common across \code{x} and \code{y}. A message lists the variables so
+that you can check they're correct; suppress the message by supplying \code{by}
+explicitly.
 
-To join by different variables on \code{x} and \code{y}, use a named vector.
-For example, \code{by = c("a" = "b")} will match \code{x$a} to \code{y$b}.
+To join on different variables between \code{x} and \code{y}, use a named vector. For
+example, \code{by = c("a" = "b")} will match \code{x$a} to \code{y$b}.
 
-To join by multiple variables, use a vector with length > 1.
-For example, \code{by = c("a", "b")} will match \code{x$a} to \code{y$a} and \code{x$b} to
-\code{y$b}. Use a named vector to match different variables in \code{x} and \code{y}.
-For example, \code{by = c("a" = "b", "c" = "d")} will match \code{x$a} to \code{y$b} and
-\code{x$c} to \code{y$d}.
+To join by multiple variables, use a vector with length > 1. For example,
+\code{by = c("a", "b")} will match \code{x$a} to \code{y$a} and \code{x$b} to \code{y$b}. Use a
+named vector to match different variables in \code{x} and \code{y}. For example, \code{by = c("a" = "b", "c" = "d")} will match \code{x$a} to \code{y$b} and \code{x$c} to \code{y$d}.
 
-To perform a cross-join, generating all combinations of \code{x} and \code{y},
-use \code{by = character()}.}
+To join on conditions other than equality, like non-equi or rolling joins,
+create a join specification with \code{\link[=join_by]{join_by()}}.
+
+To perform a cross-join, generating all combinations of \code{x} and \code{y}, use
+\code{by = character()}.}
 
 \item{copy}{If \code{x} and \code{y} are not from the same data source,
 and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
@@ -38,12 +52,62 @@ same src as \code{x}.  This allows you to join tables across srcs, but
 it is a potentially expensive operation so you must opt into it.}
 
 \item{keep}{Should the join keys from both \code{x} and \code{y} be preserved in the
-output?}
+output?
+\itemize{
+\item If \code{NULL}, the default, equi join conditions retain only the keys from
+\code{x}, while non-equi join conditions retain the keys from both inputs.
+\item If \code{TRUE}, keys from both inputs are retained.
+\item If \code{FALSE}, only keys from \code{x} are retained. For right and full joins,
+the data in key columns corresponding to rows that only exist in \code{y} are
+merged into the key columns from \code{x}.
+}}
 
 \item{name}{The name of the list column nesting joins create.
 If \code{NULL} the name of \code{y} is used.}
 
 \item{...}{Other parameters passed onto methods.}
+
+\item{multiple}{Handling of rows in \code{x} with multiple matches in \code{y}.
+For each row of \code{x}:
+\itemize{
+\item \code{"all"} returns every match detected in \code{y}.
+\item \code{"first"} returns the first match detected in \code{y}.
+\item \code{"last"} returns the last match detected in \code{y}.
+\item \code{"warning"} throws a warning if multiple matches are detected, but
+otherwise falls back to \code{"all"}.
+\item \code{"error"} throws an error if multiple matches are detected.
+}}
+
+\item{check_unmatched}{Which keys should be checked for unmatched rows?
+\itemize{
+\item \code{"neither"} doesn't check for unmatched rows.
+\item \code{"x"} checks for unmatched rows in the keys of \code{x}.
+\item \code{"y"} checks for unmatched rows in the keys of \code{y}.
+\item \code{"both"} checks for unmatched rows in both sets of keys.
+}
+
+If any unmatched rows are found, then an error is thrown.
+
+If \code{na_matches = "never"}, missing values in the keys of \code{x} will be
+propagated, but missing values in the keys of \code{y} will be considered
+unmatched.}
+
+\item{check_duplicates}{Which keys should be checked for duplicate rows?
+\itemize{
+\item \code{"neither"} doesn't check for duplicate rows.
+\item \code{"x"} checks for duplicate rows in the keys of \code{x}.
+\item \code{"y"} checks for duplicate rows in the keys of \code{y}.
+\item \code{"both"} checks for duplicate rows in both sets of keys.
+}
+
+If any duplicate rows are found, then an error is thrown.
+
+If duplicate rows containing missing values are present, then they are
+considered duplicates even if \code{na_matches = "never"}.
+
+Performing a cross join with \code{by = character()} will override this check
+for duplicate rows, as a cross join relies on the row numbers rather
+than the values.}
 }
 \description{
 \code{nest_join()} returns all rows and columns in \code{x} with a new nested-df column

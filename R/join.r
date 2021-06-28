@@ -9,8 +9,9 @@
 #' * `right_join()`: includes all rows in `y`.
 #' * `full_join()`: includes all rows in `x` or `y`.
 #'
-#' If a row in `x` matches multiple rows in `y`, all the rows in `y` will be returned
-#' once for each matching row in `x`.
+#' By default, if a row in `x` matches multiple rows in `y`, all of the matching
+#' rows in `y` will be returned. This can be adjusted using the `multiple`
+#' argument.
 #'
 #' @return
 #' An object of the same type as `x`. The order of the rows and columns of `x`
@@ -20,13 +21,13 @@
 #'   For `left_join()`, all `x` rows.
 #'   For `right_join()`, a subset of `x` rows, followed by unmatched `y` rows.
 #'   For `full_join()`, all `x` rows, followed by unmatched `y` rows.
-#' * For all joins, rows will be duplicated if one or more rows in `x` matches
-#'   multiple rows in `y`.
-#' * Output columns include all `x` columns and all `y` columns. If columns in
-#'   `x` and `y` have the same name (and aren't included in `by`), `suffix`es are
-#'   added to disambiguate.
-#' * Output columns included in `by` are coerced to common type across
-#'   `x` and `y`.
+#' * Output columns include all columns from `x` and all non-key columns from
+#'   `y`. If `keep = TRUE`, the key columns from `y` are included as well.
+#' * If non-key columns in `x` and `y` have the same name, `suffix`es are added
+#'   to disambiguate. If `keep = TRUE` and key columns in `x` and `y` have
+#'   the same name, `suffix`es are added to disambiguate these as well.
+#' * If `keep = FALSE`, output columns included in `by` are coerced to their
+#'   common type between `x` and `y`.
 #' * Groups are taken from `x`.
 #' @section Methods:
 #' These functions are **generic**s, which means that packages can provide
@@ -42,23 +43,27 @@
 #' @param x,y A pair of data frames, data frame extensions (e.g. a tibble), or
 #'   lazy data frames (e.g. from dbplyr or dtplyr). See *Methods*, below, for
 #'   more details.
-#' @param by A character vector of variables to join by.
+#' @param by A character vector of variables to join by, or a join specification
+#'   created through [join_by()].
 #'
 #'   If `NULL`, the default, `*_join()` will perform a natural join, using all
-#'   variables in common across `x` and `y`. A message lists the variables so that you
-#'   can check they're correct; suppress the message by supplying `by` explicitly.
+#'   variables in common across `x` and `y`. A message lists the variables so
+#'   that you can check they're correct; suppress the message by supplying `by`
+#'   explicitly.
 #'
-#'   To join by different variables on `x` and `y`, use a named vector.
-#'   For example, `by = c("a" = "b")` will match `x$a` to `y$b`.
+#'   To join on different variables between `x` and `y`, use a named vector. For
+#'   example, `by = c("a" = "b")` will match `x$a` to `y$b`.
 #'
-#'   To join by multiple variables, use a vector with length > 1.
-#'   For example, `by = c("a", "b")` will match `x$a` to `y$a` and `x$b` to
-#'   `y$b`. Use a named vector to match different variables in `x` and `y`.
-#'   For example, `by = c("a" = "b", "c" = "d")` will match `x$a` to `y$b` and
-#'   `x$c` to `y$d`.
+#'   To join by multiple variables, use a vector with length > 1. For example,
+#'   `by = c("a", "b")` will match `x$a` to `y$a` and `x$b` to `y$b`. Use a
+#'   named vector to match different variables in `x` and `y`. For example, `by
+#'   = c("a" = "b", "c" = "d")` will match `x$a` to `y$b` and `x$c` to `y$d`.
 #'
-#'   To perform a cross-join, generating all combinations of `x` and `y`,
-#'   use `by = character()`.
+#'   To join on conditions other than equality, like non-equi or rolling joins,
+#'   create a join specification with [join_by()].
+#'
+#'   To perform a cross-join, generating all combinations of `x` and `y`, use
+#'   `by = character()`.
 #' @param copy If `x` and `y` are not from the same data source,
 #'   and `copy` is `TRUE`, then `y` will be copied into the
 #'   same src as `x`.  This allows you to join tables across srcs, but
@@ -68,14 +73,53 @@
 #'   Should be a character vector of length 2.
 #' @param keep Should the join keys from both `x` and `y` be preserved in the
 #'   output?
+#'   - If `NULL`, the default, equi join conditions retain only the keys from
+#'     `x`, while non-equi join conditions retain the keys from both inputs.
+#'   - If `TRUE`, keys from both inputs are retained.
+#'   - If `FALSE`, only keys from `x` are retained. For right and full joins,
+#'     the data in key columns corresponding to rows that only exist in `y` are
+#'     merged into the key columns from `x`.
 #' @param ... Other parameters passed onto methods.
-#' @param na_matches Should `NA` and `NaN` values match one another?
+#' @param na_matches Should two `NA` or two `NaN` values match?
+#'   - `"na"`, the default, treats two `NA` or two `NaN` values as equal, like
+#'   `%in%`, [match()], and [merge()].
+#'   - `"never"` treats two `NA` or two `NaN` values as different, and will
+#'   never match them together or to any other values. This is similar to joins
+#'   for database sources and to `base::merge(incomparables = NA)`.
+#'   - `"error"` will error if any keys in `x` have missing values.
+#' @param multiple Handling of rows in `x` with multiple matches in `y`.
+#'   For each row of `x`:
+#'   - `"all"` returns every match detected in `y`.
+#'   - `"first"` returns the first match detected in `y`.
+#'   - `"last"` returns the last match detected in `y`.
+#'   - `"warning"` throws a warning if multiple matches are detected, but
+#'     otherwise falls back to `"all"`.
+#'   - `"error"` throws an error if multiple matches are detected.
+#' @param check_unmatched Which keys should be checked for unmatched rows?
+#'   - `"neither"` doesn't check for unmatched rows.
+#'   - `"x"` checks for unmatched rows in the keys of `x`.
+#'   - `"y"` checks for unmatched rows in the keys of `y`.
+#'   - `"both"` checks for unmatched rows in both sets of keys.
 #'
-#'   The default, `"na"`, treats two `NA` or `NaN` values as equal, like
-#'   `%in%`, [match()], [merge()].
+#'   If any unmatched rows are found, then an error is thrown.
 #'
-#'   Use `"never"` to always treat two `NA` or `NaN` values as different, like
-#'   joins for database sources, similarly to `merge(incomparables = FALSE)`.
+#'   If `na_matches = "never"`, missing values in the keys of `x` will be
+#'   propagated, but missing values in the keys of `y` will be considered
+#'   unmatched.
+#' @param check_duplicates Which keys should be checked for duplicate rows?
+#'   - `"neither"` doesn't check for duplicate rows.
+#'   - `"x"` checks for duplicate rows in the keys of `x`.
+#'   - `"y"` checks for duplicate rows in the keys of `y`.
+#'   - `"both"` checks for duplicate rows in both sets of keys.
+#'
+#'   If any duplicate rows are found, then an error is thrown.
+#'
+#'   If duplicate rows containing missing values are present, then they are
+#'   considered duplicates even if `na_matches = "never"`.
+#'
+#'   Performing a cross join with `by = character()` will override this check
+#'   for duplicate rows, as a cross join relies on the row numbers rather
+#'   than the values.
 #' @family joins
 #' @examples
 #' band_members %>% inner_join(band_instruments)
@@ -115,68 +159,162 @@ NULL
 
 #' @export
 #' @rdname mutate-joins
-inner_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..., keep = FALSE) {
+inner_join <- function(x,
+                       y,
+                       by = NULL,
+                       copy = FALSE,
+                       suffix = c(".x", ".y"),
+                       ...,
+                       keep = NULL) {
   UseMethod("inner_join")
 }
 
 #' @export
 #' @rdname mutate-joins
-inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
-                                  suffix = c(".x", ".y"), ...,
-                                  keep = FALSE,
-                                  na_matches = c("na", "never")) {
-
+inner_join.data.frame <- function(x,
+                                  y,
+                                  by = NULL,
+                                  copy = FALSE,
+                                  suffix = c(".x", ".y"),
+                                  ...,
+                                  keep = NULL,
+                                  na_matches = c("na", "never", "error"),
+                                  multiple = "all",
+                                  check_unmatched = "neither",
+                                  check_duplicates = "neither") {
   y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "inner", suffix = suffix, na_matches = na_matches, keep = keep)
+  join_mutate(
+    x = x,
+    y = y,
+    by = by,
+    type = "inner",
+    suffix = suffix,
+    na_matches = na_matches,
+    keep = keep,
+    multiple = multiple,
+    check_unmatched = check_unmatched,
+    check_duplicates = check_duplicates
+  )
 }
 
 #' @export
 #' @rdname mutate-joins
-left_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..., keep = FALSE) {
+left_join <- function(x,
+                      y,
+                      by = NULL,
+                      copy = FALSE,
+                      suffix = c(".x", ".y"),
+                      ...,
+                      keep = NULL) {
   UseMethod("left_join")
 }
 
 #' @export
 #' @rdname mutate-joins
-left_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
-                             suffix = c(".x", ".y"), ...,
-                             keep = FALSE,
-                             na_matches = c("na", "never")) {
+left_join.data.frame <- function(x,
+                                 y,
+                                 by = NULL,
+                                 copy = FALSE,
+                                 suffix = c(".x", ".y"),
+                                 ...,
+                                 keep = NULL,
+                                 na_matches = c("na", "never", "error"),
+                                 multiple = "all",
+                                 check_unmatched = "neither",
+                                 check_duplicates = "neither") {
   y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "left", suffix = suffix, na_matches = na_matches, keep = keep)
+  join_mutate(
+    x = x,
+    y = y,
+    by = by,
+    type = "left",
+    suffix = suffix,
+    na_matches = na_matches,
+    keep = keep,
+    multiple = multiple,
+    check_unmatched = check_unmatched,
+    check_duplicates = check_duplicates
+  )
 }
 
 #' @export
 #' @rdname mutate-joins
-right_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..., keep = FALSE) {
+right_join <- function(x,
+                       y,
+                       by = NULL,
+                       copy = FALSE,
+                       suffix = c(".x", ".y"),
+                       ...,
+                       keep = NULL) {
   UseMethod("right_join")
 }
 
 #' @export
 #' @rdname mutate-joins
-right_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
-                              suffix = c(".x", ".y"), ...,
-                              keep = FALSE,
-                              na_matches = c("na", "never")) {
+right_join.data.frame <- function(x,
+                                  y,
+                                  by = NULL,
+                                  copy = FALSE,
+                                  suffix = c(".x", ".y"),
+                                  ...,
+                                  keep = NULL,
+                                  na_matches = c("na", "never", "error"),
+                                  multiple = "all",
+                                  check_unmatched = "neither",
+                                  check_duplicates = "neither") {
   y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "right", suffix = suffix, na_matches = na_matches, keep = keep)
+  join_mutate(
+    x = x,
+    y = y,
+    by = by,
+    type = "right",
+    suffix = suffix,
+    na_matches = na_matches,
+    keep = keep,
+    multiple = multiple,
+    check_unmatched = check_unmatched,
+    check_duplicates = check_duplicates
+  )
 }
 
 #' @export
 #' @rdname mutate-joins
-full_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ..., keep = FALSE) {
+full_join <- function(x,
+                      y,
+                      by = NULL,
+                      copy = FALSE,
+                      suffix = c(".x", ".y"),
+                      ...,
+                      keep = NULL) {
   UseMethod("full_join")
 }
 
 #' @export
 #' @rdname mutate-joins
-full_join.data.frame <- function(x, y, by = NULL, copy = FALSE,
-                             suffix = c(".x", ".y"), ...,
-                             keep = FALSE,
-                             na_matches = c("na", "never")) {
-
+full_join.data.frame <- function(x,
+                                 y,
+                                 by = NULL,
+                                 copy = FALSE,
+                                 suffix = c(".x", ".y"),
+                                 ...,
+                                 keep = NULL,
+                                 na_matches = c("na", "never", "error"),
+                                 multiple = "all",
+                                 check_unmatched = "neither",
+                                 check_duplicates = "neither") {
   y <- auto_copy(x, y, copy = copy)
-  join_mutate(x, y, by = by, type = "full", suffix = suffix, na_matches = na_matches, keep = keep)
+  join_mutate(
+    x = x,
+    y = y,
+    by = by,
+    type = "full",
+    suffix = suffix,
+    na_matches = na_matches,
+    keep = keep,
+    multiple = multiple,
+    check_unmatched = check_unmatched,
+    check_duplicates = check_duplicates
+  )
 }
 
 #' Filtering joins
@@ -228,9 +366,7 @@ semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @export
 #' @rdname filter-joins
-semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
-                             na_matches = c("na", "never")) {
-
+semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never", "error")) {
   y <- auto_copy(x, y, copy = copy)
   join_filter(x, y, by = by, type = "semi", na_matches = na_matches)
 }
@@ -243,9 +379,7 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @export
 #' @rdname filter-joins
-anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
-                                 na_matches = c("na", "never")) {
-
+anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never", "error")) {
   y <- auto_copy(x, y, copy = copy)
   join_filter(x, y, by = by, type = "anti", na_matches = na_matches)
 }
@@ -283,15 +417,43 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
 #' @export
 #' @examples
 #' band_members %>% nest_join(band_instruments)
-nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
+nest_join <- function(x,
+                      y,
+                      by = NULL,
+                      copy = FALSE,
+                      keep = NULL,
+                      name = NULL,
+                      ...) {
   UseMethod("nest_join")
 }
 
 #' @export
 #' @rdname nest_join
-nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
+nest_join.data.frame <- function(x,
+                                 y,
+                                 by = NULL,
+                                 copy = FALSE,
+                                 keep = NULL,
+                                 name = NULL,
+                                 multiple = "all",
+                                 check_unmatched = "neither",
+                                 check_duplicates = "neither",
+                                 ...) {
+  check_unmatched <- check_check_unmatched(check_unmatched)
+  check_duplicates <- check_check_duplicates(check_duplicates)
+
   name_var <- name %||% as_label(enexpr(y))
-  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = c("", ""), keep = keep)
+
+  x_names <- tbl_vars(x)
+  y_names <- tbl_vars(y)
+
+  if (is_null(by)) {
+    by <- join_by_common(x_names, y_names)
+  } else {
+    by <- as_join_by(by)
+  }
+
+  vars <- join_cols(x_names, y_names, by = by, suffix = c("", ""), keep = keep)
   y <- auto_copy(x, y, copy = copy)
 
   x_in <- as_tibble(x, .name_repair = "minimal")
@@ -300,9 +462,27 @@ nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, na
   x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
   y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
 
-  y_split <- vec_group_loc(y_key)
-  matches <- vec_match(x_key, y_split$key)
-  y_loc <- y_split$loc[matches]
+  condition <- standardise_join_condition(by)
+  filter <- by$filter
+
+  type <- "nest"
+
+  # `nest_join()` currently assumes `na_matches = "na"`
+  na_matches <- "na"
+
+  rows <- join_rows(
+    x_key = x_key,
+    y_key = y_key,
+    type = type,
+    na_matches = na_matches,
+    condition = condition,
+    filter = filter,
+    multiple = multiple,
+    check_unmatched = check_unmatched,
+    check_duplicates = check_duplicates
+  )
+
+  y_loc <- vec_split(rows$y, rows$x)$val
 
   out <- set_names(x_in[vars$x$out], names(vars$x$out))
 
@@ -320,42 +500,78 @@ nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, na
 
 # helpers -----------------------------------------------------------------
 
-join_mutate <- function(x, y, by, type,
+join_mutate <- function(x,
+                        y,
+                        by,
+                        type,
                         suffix = c(".x", ".y"),
-                        na_matches = c("na", "never"),
-                        keep = FALSE
-                        ) {
-  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix, keep = keep)
-  na_equal <- check_na_matches(na_matches)
+                        na_matches = "na",
+                        keep = NULL,
+                        multiple = "all",
+                        check_unmatched = "neither",
+                        check_duplicates = "neither") {
+  na_matches <- check_na_matches(na_matches)
+  check_unmatched <- check_check_unmatched(check_unmatched)
+  check_duplicates <- check_check_duplicates(check_duplicates)
+
+  x_names <- tbl_vars(x)
+  y_names <- tbl_vars(y)
+
+  if (is_null(by)) {
+    by <- join_by_common(x_names, y_names)
+  } else {
+    by <- as_join_by(by)
+  }
+
+  vars <- join_cols(x_names, y_names, by = by, suffix = suffix, keep = keep)
 
   x_in <- as_tibble(x, .name_repair = "minimal")
   y_in <- as_tibble(y, .name_repair = "minimal")
 
   x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
   y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
-  rows <- join_rows(x_key, y_key, type = type, na_equal = na_equal)
+
+  condition <- standardise_join_condition(by)
+  filter <- by$filter
+
+  rows <- join_rows(
+    x_key = x_key,
+    y_key = y_key,
+    type = type,
+    na_matches = na_matches,
+    condition = condition,
+    filter = filter,
+    multiple = multiple,
+    check_unmatched = check_unmatched,
+    check_duplicates = check_duplicates
+  )
+
+  x_slicer <- rows$x
+  y_slicer <- rows$y
 
   x_out <- set_names(x_in[vars$x$out], names(vars$x$out))
   y_out <- set_names(y_in[vars$y$out], names(vars$y$out))
 
-  if (length(rows$y_extra) > 0L) {
-    x_slicer <- c(rows$x, rep_along(rows$y_extra, NA_integer_))
-    y_slicer <- c(rows$y, rows$y_extra)
-  } else {
-    x_slicer <- rows$x
-    y_slicer <- rows$y
-  }
-
   out <- vec_slice(x_out, x_slicer)
   out[names(y_out)] <- vec_slice(y_out, y_slicer)
 
-  if (!keep) {
-    key_type <- vec_ptype_common(x_key, y_key)
-    out[names(x_key)] <- vec_cast(out[names(x_key)], key_type)
+  if (!is_true(keep)) {
+    if (is_null(keep)) {
+      merge <- by$x[by$condition == "=="]
+    } else if (is_false(keep)) {
+      merge <- by$x
+    }
 
-    if (length(rows$y_extra) > 0L) {
-      new_rows <- length(rows$x) + seq_along(rows$y_extra)
-      out[new_rows, names(y_key)] <- vec_cast(vec_slice(y_key, rows$y_extra), key_type)
+    x_merge <- x_key[merge]
+    y_merge <- y_key[merge]
+
+    key_type <- vec_ptype_common(x_merge, y_merge)
+    out[names(x_merge)] <- vec_cast(out[names(x_merge)], key_type)
+
+    if ((type == "right" || type == "full") && anyNA(x_slicer)) {
+      new_rows <- which(is.na(x_slicer))
+      y_replacer <- y_slicer[new_rows]
+      out[new_rows, names(y_merge)] <- vec_cast(vec_slice(y_merge, y_replacer), key_type)
     }
   }
 
@@ -363,8 +579,18 @@ join_mutate <- function(x, y, by, type,
 }
 
 join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
-  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by)
-  na_equal <- check_na_matches(na_matches)
+  na_matches <- check_na_matches(na_matches)
+
+  x_names <- tbl_vars(x)
+  y_names <- tbl_vars(y)
+
+  if (is_null(by)) {
+    by <- join_by_common(x_names, y_names)
+  } else {
+    by <- as_join_by(by)
+  }
+
+  vars <- join_cols(x_names, y_names, by = by)
 
   x_in <- as_tibble(x, .name_repair = "minimal")
   y_in <- as_tibble(y, .name_repair = "minimal")
@@ -372,22 +598,43 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
   x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
   y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
 
-  idx <- switch(type,
-    semi = vec_in(x_key, y_key, na_equal = na_equal),
-    anti = !vec_in(x_key, y_key, na_equal = na_equal)
+  condition <- standardise_join_condition(by)
+  filter <- by$filter
+
+  # We only care about whether or not any matches exist
+  multiple <- "first"
+
+  # Since we are actually testing the presence of matches, it doesn't make
+  # sense to ever error on unmatched values. It may make sense to error on
+  # duplicates in the keys, but for now we set that to "neither" as well.
+  check_unmatched <- "neither"
+  check_duplicates <- "neither"
+
+  rows <- join_rows(
+    x_key = x_key,
+    y_key = y_key,
+    type = type,
+    na_matches = na_matches,
+    condition = condition,
+    filter = filter,
+    multiple = multiple,
+    check_unmatched = check_unmatched,
+    check_duplicates = check_duplicates
   )
 
-  if (!na_equal) {
-    idx <- switch(type,
-      semi = idx & !is.na(idx),
-      anti = idx | is.na(idx)
-    )
+  if (type == "semi") {
+    # Unmatched needles and propagated missing needles will already be dropped
+    idx <- rows$x
+  } else {
+    # Treat both unmatched needles and propagated missing needles as no-match
+    unmatched <- is.na(rows$y)
+    idx <- rows$x[unmatched]
   }
 
   dplyr_row_slice(x, idx)
 }
 
-check_na_matches <- function(na_matches = c("na", "never")) {
+check_na_matches <- function(na_matches) {
   if (isNamespaceLoaded("pkgconfig")) {
     conf <- asNamespace("pkgconfig")$get_config("dplyr::na_matches")
     if (!is.null(conf)) {
@@ -398,5 +645,23 @@ check_na_matches <- function(na_matches = c("na", "never")) {
     }
   }
 
-  arg_match(na_matches) == "na"
+  arg_match0(na_matches, values = c("na", "never", "error"), arg_nm = "na_matches")
+}
+
+check_check_unmatched <- function(check_unmatched) {
+  arg_match0(check_unmatched, values = c("neither", "x", "y", "both"), arg_nm = "check_unmatched")
+}
+check_check_duplicates <- function(check_duplicates) {
+  arg_match0(check_duplicates, values = c("neither", "x", "y", "both"), arg_nm = "check_duplicates")
+}
+
+standardise_join_condition <- function(by) {
+  condition <- by$condition
+
+  if (identical(condition, character())) {
+    # Cross join, `by = join_by()` or `by = character()`
+    condition <- NULL
+  }
+
+  condition
 }
