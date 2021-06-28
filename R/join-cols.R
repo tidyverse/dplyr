@@ -16,8 +16,9 @@ join_cols <- function(x_names, y_names, by, suffix = c(".x", ".y"), keep = NULL)
     # in x_out, equi key variables need to keep the same name, and non-equi
     # key variables and aux variables need suffixes for duplicates that appear
     # in y_out
-    y_aux <- setdiff(y_names, c(by$x, by$y))
-    x_ignore <- by$x[by$condition == "=="]
+    equi <- by$condition == "=="
+    y_aux <- setdiff(y_names, c(by$x[equi], by$y[equi]))
+    x_ignore <- by$x[equi]
     x_check <- !x_names %in% x_ignore
     names(x_loc)[x_check] <- add_suffixes(x_names[x_check], c(x_ignore, y_aux), suffix$x)
   } else if (is_false(keep)) {
@@ -36,7 +37,8 @@ join_cols <- function(x_names, y_names, by, suffix = c(".x", ".y"), keep = NULL)
   y_loc <- seq_along(y_names)
   names(y_loc) <- add_suffixes(y_names, x_names, suffix$y)
   if (is_null(keep)) {
-    y_ignore <- by$y[by$condition == "=="]
+    equi <- by$condition == "=="
+    y_ignore <- by$y[equi]
     y_loc <- y_loc[!y_names %in% y_ignore]
   } else if (is_false(keep)) {
     y_ignore <- by$y

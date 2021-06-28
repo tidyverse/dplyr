@@ -52,6 +52,12 @@ test_that("duplicate column names are given suffixes", {
   expect_equal(vars$y$out, c("y.y" = 2))
 })
 
+test_that("duplicate non-equi key columns are given suffixes", {
+  vars <- join_cols(c("a", "y", "z"), c("b", "y", "z"), by = join_by(y >= y, z <= z))
+  expect_equal(vars$x$out, c("a" = 1, "y.x" = 2, "z.x" = 3))
+  expect_equal(vars$y$out, c("b" = 1, "y.y" = 2, "z.y" = 3))
+})
+
 test_that("NA names are preserved", {
   vars <- join_cols(c("x", NA), c("x", "z"), by = join_by(x))
   expect_named(vars$x$out, c("x", NA))
@@ -62,8 +68,10 @@ test_that("NA names are preserved", {
 })
 
 test_that("by default, `by` columns omited from y with equi-conditions, but not non-equi conditions" , {
+  # equi keys always keep the LHS name, regardless of whether of not a duplicate exists in the RHS
+  # non-equi keys will get a suffix if a duplicate exists
   vars <- join_cols(c("x", "y", "z"), c("x", "y", "z"), by = join_by(x == y, y > z))
-  expect_equal(vars$x$out, c("x" = 1, "y" = 2, "z" = 3))
+  expect_equal(vars$x$out, c("x" = 1, "y" = 2, "z.x" = 3))
   expect_equal(vars$y$out, c("x.y" = 1, "z.y" = 3))
 
   # unless specifically requested either way
