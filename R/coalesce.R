@@ -41,8 +41,8 @@ coalesce <- function(...) {
   x <- values[[1]]
   values <- values[-1]
 
-  if (!is_null(attr(x, "dim"))) {
-    abort("Can't coalesce matrices or arrays.")
+  if (is.array(x) && length(dim(x)) > 1) {
+    abort("Can't coalesce matrices.")
   }
   if (is.data.frame(x)) {
     df_coalesce(x, values)
