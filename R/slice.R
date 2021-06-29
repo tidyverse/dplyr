@@ -156,6 +156,13 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
   slice(.data, idx(dplyr::n()))
 }
 
+check_slice_by <- function(idx, arg, x, n) {
+  if (!is.null(x)) {
+    vec_assert(x, size = n, arg = arg)
+  }
+  idx(x, n)
+}
+
 #' @export
 #' @rdname slice
 #' @param order_by Variable or function of variables to order by.
@@ -185,7 +192,7 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
       prop = function(x, n) head(order(x), size$prop * n)
     )
   }
-  slice(.data, idx({{ order_by }}, dplyr::n()))
+  slice(.data, check_slice_by(idx, "slice_min(order_by=)", {{ order_by }}, dplyr::n()))
 }
 
 #' @export
@@ -217,7 +224,7 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     )
   }
 
-  slice(.data, idx({{ order_by }}, dplyr::n()))
+  slice(.data, check_slice_by(idx, "slice_max(order_by=)", {{ order_by }}, dplyr::n()))
 }
 
 #' @export
@@ -239,7 +246,7 @@ slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, repla
     n =    function(x, n) sample_int(n, size$n, replace = replace, wt = x),
     prop = function(x, n) sample_int(n, size$prop * n, replace = replace, wt = x),
   )
-  slice(.data, idx({{ weight_by }}, dplyr::n()))
+  slice(.data, check_slice_by(idx, "slice_sample(weight_by=)", {{ weight_by }}, dplyr::n()))
 }
 
 # helpers -----------------------------------------------------------------
