@@ -188,6 +188,14 @@ starwars \%>\%
 vars <- c("mass", "height")
 mutate(starwars, prod = .data[[vars[[1]]]] * .data[[vars[[2]]]])
 # Learn more in ?dplyr_data_masking
+# User defined function -----------------------------
+# Standardize the mass by dividing mass by its mean
+ stdize <- function(x) {
+ tibble(x = x / mean(x, na.rm = TRUE))
+}
+ starwars \%>\%
+  select(name, mass, species) \%>\%
+  mutate(stdize(mass))
 }
 \seealso{
 Other single table verbs: 
