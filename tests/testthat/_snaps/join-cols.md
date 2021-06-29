@@ -4,7 +4,7 @@
       join_cols("x", c("xl", "xu"), by = join_by(x > xl, x < xu), keep = FALSE)
     Error <rlang_error>
       Join columns must be unique.
-      x Problem at position 2.
+      x Problem with `x`.
 
 ---
 
@@ -12,7 +12,7 @@
       join_cols(c("xl", "xu"), "x", by = join_by(xl < x, xu > x), keep = FALSE)
     Error <rlang_error>
       Join columns must be unique.
-      x Problem at position 2.
+      x Problem with `x`.
 
 # can't duplicate key between equi condition and non-equi condition
 
@@ -20,7 +20,7 @@
       join_cols("x", c("xl", "xu"), by = join_by(x > xl, x == xu))
     Error <rlang_error>
       Join columns must be unique.
-      x Problem at position 2.
+      x Problem with `x`.
 
 ---
 
@@ -28,7 +28,7 @@
       join_cols(c("xl", "xu"), "x", by = join_by(xl < x, xu == x))
     Error <rlang_error>
       Join columns must be unique.
-      x Problem at position 2.
+      x Problem with `x`.
 
 # emits useful messages
 
@@ -56,14 +56,6 @@
 ---
 
     Code
-      join_cols(xy, xy, by = as_join_by(c("x", "x")))
-    Error <rlang_error>
-      Join columns must be unique.
-      x Problem at position 2.
-
----
-
-    Code
       join_cols(xy, xy, by = as_join_by(c("x", NA)))
     Error <rlang_error>
       Join columns must be not NA.
@@ -76,6 +68,22 @@
     Error <rlang_error>
       Join columns must be present in data.
       x Problem with `aaa` and `bbb`.
+
+---
+
+    Code
+      join_cols(xy, xy, by = as_join_by(c("x", "x", "x")))
+    Error <rlang_error>
+      Join columns must be unique.
+      x Problem with `x`.
+
+---
+
+    Code
+      join_cols(xyz, xyz, by = join_by(x, x > y, z))
+    Error <rlang_error>
+      Join columns must be unique.
+      x Problem with `x`.
 
 ---
 

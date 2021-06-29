@@ -74,9 +74,11 @@ check_join_vars <- function(vars, names, condition, keep) {
 
   dup <- duplicated(vars)
   if (any(dup)) {
+    vars <- unique(vars[dup])
+
     abort(c(
       "Join columns must be unique.",
-      x = glue("Problem at position {err_vars(dup)}.")
+      x = glue("Problem with {err_vars(vars)}.")
     ))
   }
 

@@ -114,12 +114,16 @@ test_that("emits useful messages", {
   expect_snapshot(error = TRUE, join_cols(c("y", "y"), c("x", "y"), join_by(y)))
 
   xy <- c("x", "y")
+  xyz <- c("x", "y", "z")
 
   # join vars errors
   expect_snapshot(error = TRUE, join_cols(xy, xy, by = as_join_by(list(1, 2))))
-  expect_snapshot(error = TRUE, join_cols(xy, xy, by = as_join_by(c("x", "x"))))
   expect_snapshot(error = TRUE, join_cols(xy, xy, by = as_join_by(c("x", NA))))
   expect_snapshot(error = TRUE, join_cols(xy, xy, by = as_join_by(c("aaa", "bbb"))))
+
+  # join vars uniqueness
+  expect_snapshot(error = TRUE, join_cols(xy, xy, by = as_join_by(c("x", "x", "x"))))
+  expect_snapshot(error = TRUE, join_cols(xyz, xyz, by = join_by(x, x > y, z)))
 
   # suffixes
   expect_snapshot(error = TRUE, join_cols(xy, xy, by = join_by(x), suffix = "x"))
