@@ -3,8 +3,13 @@
 #' @description
 #' `join_by()` constructs a specification to join by using a small domain
 #' specific language. The result can be supplied as the `by` argument to any
-#' of the join functions (such as [left_join()]). `join_by()` supports
-#' specifications for equi joins, non-equi joins, and rolling joins.
+#' of the join functions (such as [left_join()]).
+#'
+#' `join_by()` is constructed from a set of expressions, with each expression
+#' being separated by a comma. Each expression should reference a column from
+#' the left-hand table to match to the right-hand table, with some operator
+#' specifying how to match them together. Multiple expressions are combined
+#' using an "and" operation.
 #'
 #' ## Equi Joins:
 #'
@@ -26,29 +31,77 @@
 #' ## Rolling Joins:
 #'
 #' Rolling joins are a variant of a non-equi join that limit the results
-#' returned from each condition to either the maximum or the minimum of
+#' returned from each condition to either the maximum or minimum value of
 #' the matches in `y`. To construct a rolling join, wrap a non-equi join
-#' condition in `max()` or `min()`, such as `max(x > y)`.
+#' condition in `max()` or `min()`, such as `max(x > y)`, which specifies
+#' that for each value of `x`, all matches in `y` should be found where `x > y`,
+#' and then the maximum `y` value of those matches should be the only one
+#' that is kept.
+#'
+#' ## Overlap Joins:
+#'
+#' Overlap joins are a special case of a non-equi join generally involving one
+#' or two columns from the left-hand side _overlapping_ a range computed from
+#' two columns from the right-hand side. There are three helpers that
+#' `join_by()` recognizes to assist with constructing overlap joins, all
+#' of which can be constructed from simpler binary expressions.
+#'
+#' - `between(x, y_lower, y_upper)`
+#'
+#'   Matches when `x` falls between `[y_lower, y_upper]`. Equivalent to
+#'   `x >= y_lower, x <= y_upper`.
+#'
+#' - `within(x_lower, x_upper, y_lower, y_upper)`
+#'
+#'   Matches when `[x_lower, x_upper]` falls completely within
+#'   `[y_lower, y_upper]`. Equivalent to
+#'   `x_lower >= y_lower, x_upper <= y_upper`.
+#'
+#' - `overlaps(x_lower, x_upper, y_lower, y_upper)`
+#'
+#'   Matches when `[x_lower, x_upper]` overlaps `[y_lower, y_upper]` in any
+#'   capacity. Equivalent to `x_lower <= y_upper, x_upper >= y_lower`.
+#'
+#' Internally, arguments are matched by position and should not be named.
+#'
+#' These conditions assume that the ranges are specified logically, i.e.
+#' `x_lower` should always be less than or equal to `x_upper`.
+#'
+#' ## Column Referencing:
+#'
+#' When specifying join conditions, the default assumes that column names on
+#' the left-hand side of the condition refer to the left-hand table, and names
+#' on the right-hand side of the condition refer to the right-hand table.
+#' Occasionally, it is clearer to be able to specify a right-hand table name
+#' on the left-hand side of the condition, and vice versa. To support this,
+#' column names can be prefixed by `x$` or `y$` to explicitly specify which
+#' table they come from.
 #'
 #' @details
 #' Note that `join_by()` does not support arbitrary expressions on each side of
 #' the join condition. For example, `join_by(sales_date - 40 >=
-#' commercial_date)` is not allowed. To perform a join like this, pre-compute
+#' promo_date)` is not allowed. To perform a join like this, pre-compute
 #' `sales_date - 40` and store it in a separate column, like `sales_date_lower`,
 #' and refer to that column by name in `join_by()`.
 #'
-#' @param ... Expressions specifying the join. Each expression should consist
-#'   of:
-#'   - A join condition, one of: `==`, `>`, `>=`, `<`, or `<=`.
-#'   - A quoted or unquoted column name on the left-hand side of the join
-#'     condition representing the column to use from `x`.
-#'   - A quoted or unquoted column name on the right-hand side of the join
-#'     condition representing the column to use from `y`.
-#'   - Optionally, the entire join condition can be wrapped in `max()` or
-#'     `min()` to specify a rolling join.
-#'   - If a single column name is provided without any join conditions, it
-#'     is interpreted as if that column name was duplicated on each side of
-#'     `==`, i.e. `x` is interpreted as `x == x`.
+#' @param ... Expressions specifying the join.
+#'
+#'   Each expression should consist of either a join condition or a join helper:
+#'
+#'   - Join conditions: `==`, `>=`, `>`, `<=`, or `<`.
+#'   - Join helpers: `between()`, `within()`, or `overlaps()`.
+#'
+#'   Column names should be specified as quoted or unquoted names. By default,
+#'   the name on the left-hand side of a join condition refers to the left-hand
+#'   table, unless overriden by explicitly prefixing the column name with either
+#'   `x$` or `y$`.
+#'
+#'   Optionally, a non-equi join condition can be wrapped in `max()` or `min()`
+#'   to specify a rolling join.
+#'
+#'   If a single column name is provided without any join conditions, it is
+#'   interpreted as if that column name was duplicated on each side of `==`,
+#'   i.e. `x` is interpreted as `x == x`.
 #'
 #' @export
 #' @examples
@@ -82,6 +135,43 @@
 #' sales <- mutate(sales, sale_date_lower = sale_date - 1)
 #' by <- join_by(id, max(sale_date >= promo_date), sale_date_lower <= promo_date)
 #' full_join(sales, promos, by)
+#'
+#' # ---------------------------------------------------------------------------
+#'
+#' segments <- tibble(
+#'   segment_id = 1:4,
+#'   chromosome = c("chr1", "chr2", "chr2", "chr1"),
+#'   start = c(140, 210, 380, 230),
+#'   end = c(150, 240, 415, 280)
+#' )
+#'
+#' reference <- tibble(
+#'   reference_id = 1:4,
+#'   chromosome = c("chr1", "chr1", "chr2", "chr2"),
+#'   start = c(100, 200, 300, 400),
+#'   end = c(150, 250, 399, 450)
+#' )
+#'
+#' # "Find every time a segment `start` falls between the reference
+#' # `[start, end]` range."
+#' by <- join_by(chromosome, between(start, start, end))
+#' full_join(segments, reference, by)
+#'
+#' # If you wanted the reference columns first, supply `reference` as `x`
+#' # and `segments` as `y`, then explicitly refer to their columns using `x$`
+#' # and `y$`.
+#' by <- join_by(chromosome, between(y$start, x$start, x$end))
+#' full_join(reference, segments, by)
+#'
+#' # "Find every time a segment falls completely within a reference."
+#' # Sometimes using `x$` and `y$` makes your intentions clearer, even if they
+#' # match the default behavior.
+#' by <- join_by(chromosome, within(x$start, x$end, y$start, y$end))
+#' inner_join(segments, reference, by)
+#'
+#' # "Find every time a segment overlaps a reference in any way."
+#' by <- join_by(chromosome, overlaps(x$start, x$end, y$start, y$end))
+#' full_join(segments, reference, by)
 join_by <- function(...) {
   # Should use `enexprs(.named = NULL)`, but https://github.com/r-lib/rlang/issues/1223
   exprs <- enexprs(...)
@@ -94,20 +184,17 @@ join_by <- function(...) {
   }
 
   n <- length(exprs)
-
-  condition <- vector("character", length = n)
-  filter <- vector("character", length = n)
-  x <- vector("character", length = n)
-  y <- vector("character", length = n)
+  bys <- vector("list", length = n)
 
   for (i in seq_len(n)) {
-    expr <- exprs[[i]]
-    info <- parse_join_by_expr(expr, i)
-    condition[[i]] <- info$condition
-    filter[[i]] <- info$filter
-    x[[i]] <- info$x
-    y[[i]] <- info$y
+    bys[[i]] <- parse_join_by_expr(exprs[[i]], i)
   }
+
+  # `between()`, `overlaps()`, and `within()` parse into >1 binary conditions
+  x <- flat_map_chr(bys, function(by) by$x)
+  y <- flat_map_chr(bys, function(by) by$y)
+  filter <- flat_map_chr(bys, function(by) by$filter)
+  condition <- flat_map_chr(bys, function(by) by$condition)
 
   new_join_by(
     exprs = exprs,
@@ -136,6 +223,10 @@ new_join_by <- function(exprs, condition, filter, x, y) {
     y = y
   )
   structure(out, class = "dplyr_join_by")
+}
+
+flat_map_chr <- function(x, fn) {
+  vec_unchop(map(x, fn), ptype = character())
 }
 
 # ------------------------------------------------------------------------------
@@ -214,138 +305,338 @@ join_by_common <- function(x_names, y_names) {
 # ------------------------------------------------------------------------------
 
 parse_join_by_expr <- function(expr, i) {
-  len <- length(expr)
-
-  if (len == 0L) {
+  if (length(expr) == 0L) {
     abort(c(
       "Join by expressions can't be empty.",
       x = glue("Expression {i} is empty.")
     ))
   }
 
-  if (len == 2L) {
-    info <- parse_join_by_filter_expr(expr, i)
-    filter <- info$filter
-    expr <- info$expr
-  } else {
-    filter <- "none"
+  if (is_symbol_or_string(expr)) {
+    expr <- expr(!!expr == !!expr)
   }
 
-  out <- parse_join_by_condition_expr(expr, i)
+  if (!is_call(expr)) {
+    abort(c(
+      "Each element of `...` must be a single column name or a join by expression.",
+      x = glue("Element {i} is not a name and not an expression.")
+    ))
+  }
+
+  top <- as_string(expr[[1]])
+
+  if (is_true(top == "$")) {
+    abort(c(
+      "When specifying a single column name, `$` cannot be used.",
+      x = glue("Expression {i} is {err_expr(expr)}.")
+    ))
+  }
+
+  if (is_true(top == "between")) {
+    return(parse_join_by_between(expr, i))
+  }
+
+  if (is_true(top == "overlaps") || is_true(top == "within")) {
+    return(parse_join_by_containment(expr, i))
+  }
+
+  if (is_true(top == "max") || is_true(top == "min")) {
+    return(parse_join_by_filter(expr, i))
+  }
+
+  if (is_true(top %in% c("==", ">=", ">", "<=", "<"))) {
+    return(parse_join_by_binary(expr, i))
+  }
+
+  options <- c("between()", "overlaps()", "within()", "max()", "min()", "==", ">=", ">", "<=", "<")
+  options <- glue::backtick(options)
+  options <- glue_collapse(options, sep = ", ", last = ", or ")
+
+  abort(c(
+    glue("Join by expressions must begin with one of: {options}."),
+    x = glue("Expression {i} is {err_expr(expr)}.")
+  ))
+}
+
+parse_join_by_name <- function(expr, i, default_side) {
+  if (is_symbol_or_string(expr)) {
+    name <- as_string(expr)
+    return(list(name = name, side = default_side))
+  }
+
+  if (is_call(expr, name = "$")) {
+    return(parse_join_by_dollar(expr, i))
+  }
+
+  abort(c(
+    paste0(
+      "`join_by()` expressions cannot contain computed columns, ",
+      "and can only reference columns by name or by explicitly specifying ",
+      "a side, like `x$col` or `y$col`."
+    ),
+    x = glue("Expression {i} contains {err_expr(expr)}.")
+  ))
+}
+
+parse_join_by_dollar <- function(expr, i) {
+  n <- length(expr)
+
+  if (n != 3L) {
+    abort(c(
+      "Expressions containing `$` must have length 3.",
+      x = glue("Expression {i} contains {err_expr(expr)}, which is length {n}.")
+    ))
+  }
+
+  side <- expr[[2]]
+
+  if (!is_symbol_or_string(side)) {
+    abort(c(
+      "The left-hand side of a `$` expression must be a symbol or string.",
+      x = glue("Expression {i} contains {err_expr(expr)}.")
+    ))
+  }
+
+  side <- as_string(side)
+  sides <- c("x", "y")
+
+  if (!side %in% sides) {
+    abort(c(
+      "The left-hand side of a `$` expression must be either `x$` or `y$`.",
+      x = glue("Expression {i} contains {err_expr(expr)}.")
+    ))
+  }
+
+  name <- expr[[3]]
+
+  if (!is_symbol_or_string(name)) {
+    abort(c(
+      "The right-hand side of a `$` expression must be a symbol or string.",
+      x = glue("Expression {i} contains {err_expr(expr)}.")
+    ))
+  }
+
+  name <- as_string(name)
+
+  list(name = name, side = side)
+}
+
+parse_join_by_binary <- function(expr, i) {
+  n <- length(expr)
+
+  if (n != 3L) {
+    abort(c(
+      "Expressions containing a binary operation must have length 3.",
+      x = glue("Expression {i} contains {err_expr(expr)}, which is length {n}.")
+    ))
+  }
+
+  condition <- as_string(expr[[1]])
+
+  lhs <- expr[[2]]
+  rhs <- expr[[3]]
+
+  lhs <- parse_join_by_name(lhs, i, default_side = "x")
+  rhs <- parse_join_by_name(rhs, i, default_side = "y")
+
+  if (lhs$side == rhs$side) {
+    abort(c(
+      "The left and right-hand sides of a binary expression must reference different tables.",
+      x = glue("Expression {i} contains {err_expr(expr)}.")
+    ))
+  }
+
+  if (lhs$side == "x") {
+    x <- lhs$name
+    y <- rhs$name
+  } else {
+    # Must reverse the op
+    lookup <- c("==" = "==", ">=" = "<=", ">" = "<", "<=" = ">=", "<" = ">")
+    condition <- lookup[[condition]]
+    x <- rhs$name
+    y <- lhs$name
+  }
+
+  list(
+    x = x,
+    y = y,
+    condition = condition,
+    filter = "none"
+  )
+}
+
+parse_join_by_filter <- function(expr, i) {
+  n <- length(expr)
+
+  if (n != 2L) {
+    abort(c(
+      "Expressions containing a `max()` or `min()` filter must have length 2.",
+      x = glue("Expression {i} is {err_expr(expr)}, which is length {n}.")
+    ))
+  }
+
+  filter <- as_string(expr[[1]])
+  inner <- expr[[2]]
+
+  if (!is_call(inner, c("==", ">=", ">", "<=", "<"))) {
+    abort(c(
+      "`max()` or `min()` must wrap a binary condition.",
+      x = glue("Expression {i} is {err_expr(expr)}.")
+    ))
+  }
+
+  out <- parse_join_by_binary(inner, i)
   out$filter <- filter
 
   out
 }
 
-parse_join_by_filter_expr <- function(expr, i) {
-  filter <- expr[[1]]
-  filters <- c("max", "min")
+parse_join_by_between <- function(expr, i) {
+  n <- length(expr)
 
-  if (is_symbol(filter)) {
-    filter <- as_string(filter)
-  }
-  if (!is_true(filter %in% filters)) {
-    expr <- expr_deparse(expr)
-    expr <- glue::backtick(expr)
-
-    filters <- glue::glue("{filters}()")
-    filters <- glue::backtick(filters)
-    filters <- glue::glue_collapse(filters, last = " or ")
-
+  if (n != 4L) {
     abort(c(
-      glue("`join_by()` expressions of length 2 must contain either {filters}."),
-      x = glue("Expression {i} is {expr}.")
+      "Expressions containing `between()` must have 3 arguments.",
+      x = glue("Expression {i} is {err_expr(expr)}, which has {n - 1L} argument(s).")
     ))
   }
 
-  expr <- expr[[2]]
+  if (!is_null(names(expr))) {
+    abort(c(
+      "The arguments of `between()` must not be named.",
+      x = glue("Expression {i} is {err_expr(expr)}.")
+    ))
+  }
+
+  lhs <- parse_join_by_name(expr[[2]], i, "x")
+  rhs_lower <- parse_join_by_name(expr[[3]], i, "y")
+  rhs_upper <- parse_join_by_name(expr[[4]], i, "y")
+
+  if (rhs_lower$side != rhs_upper$side) {
+    abort(c(
+      "Expressions containing `between()` must reference the same table for the lower and upper bounds.",
+      x = glue("Expression {i} is {err_expr(expr)}.")
+    ))
+  }
+
+  if (lhs$side == rhs_lower$side) {
+    abort(c(
+      "Expressions containing `between()` can't all reference the same table.",
+      x = glue("Expression {i} is {err_expr(expr)}.")
+    ))
+  }
+
+  if (lhs$side == "x") {
+    x <- c(lhs$name, lhs$name)
+    y <- c(rhs_lower$name, rhs_upper$name)
+    condition <- c(">=", "<=")
+  } else {
+    x <- c(rhs_lower$name, rhs_upper$name)
+    y <- c(lhs$name, lhs$name)
+    condition <- c("<=", ">=")
+  }
+
+  filter <- c("none", "none")
 
   list(
-    filter = filter,
-    expr = expr
+    x = x,
+    y = y,
+    condition = condition,
+    filter = filter
   )
 }
 
-parse_join_by_condition_expr <- function(expr, i) {
-  len <- length(expr)
+parse_join_by_containment <- function(expr, i) {
+  n <- length(expr)
 
-  if (len == 1L && (is_symbol(expr) || is_string(expr))) {
-    expr <- expr(!!expr == !!expr)
-    len <- 3L
-  }
-
-  if (len != 3L) {
-    expr <- expr_deparse(expr)
-    expr <- glue::backtick(expr)
-
-    header <- paste0(
-      "Each `join_by()` condition must be length 1 or length 3, ",
-      "and be composed of a left-hand side column name, a condition, ",
-      "and a right-hand side column name."
-    )
+  if (n != 5L) {
     abort(c(
-      header,
-      x = glue("Expression {i} is length {len} and is {expr}.")
+      "Expressions containing `overlaps()` or `within()` must have 4 arguments.",
+      x = glue("Expression {i} is {err_expr(expr)}, which has {n - 1L} argument(s).")
     ))
   }
 
-  condition <- expr[[1]]
-  conditions <- c("==", ">", ">=", "<", "<=")
-
-  if (is_symbol(condition)) {
-    condition <- as_string(condition)
-  }
-  if (!is_true(condition %in% conditions)) {
-    expr <- expr_deparse(expr)
-    expr <- glue::backtick(expr)
-
-    conditions <- glue::backtick(conditions)
-    conditions <- glue::glue_collapse(conditions, sep = ", ", last = ", or ")
-
+  if (!is_null(names(expr))) {
     abort(c(
-      glue("Each `join_by()` condition must be separated by one of: {conditions}."),
-      x = glue("Expression {i} is {expr}.")
+      "The arguments of `overlaps()` and `within()` must not be named.",
+      x = glue("Expression {i} is {err_expr(expr)}.")
     ))
   }
 
-  x <- expr[[2]]
-  y <- expr[[3]]
+  type <- expr[[1]]
 
-  if (is_symbol(x)) {
-    x <- as_string(x)
-  } else if (!is_string(x)) {
-    x <- expr_deparse(x)
-    x <- glue::backtick(x)
+  lhs_lower <- parse_join_by_name(expr[[2]], i, "x")
+  lhs_upper <- parse_join_by_name(expr[[3]], i, "x")
+  rhs_lower <- parse_join_by_name(expr[[4]], i, "y")
+  rhs_upper <- parse_join_by_name(expr[[5]], i, "y")
 
-    header <- paste0(
-      "The left-hand side of each `join_by()` condition must be ",
-      "a string or an unquoted column name."
-    )
+  if (lhs_lower$side != lhs_upper$side) {
     abort(c(
-      header,
-      i = glue("The left-hand side of condition {i} is {x}.")
+      paste0(
+        "Expressions containing `overlaps()` or `within()` must reference ",
+        "the same table for the left-hand side lower and upper bounds."
+      ),
+      x = glue("Expression {i} is {err_expr(expr)}.")
     ))
   }
 
-  if (is_symbol(y)) {
-    y <- as_string(y)
-  } else if (!is_string(y)) {
-    y <- expr_deparse(y)
-    y <- glue::backtick(y)
-
-    header <- paste0(
-      "The right-hand side of each `join_by()` condition must be ",
-      "a string or an unquoted column name."
-    )
+  if (rhs_lower$side != rhs_upper$side) {
     abort(c(
-      header,
-      i = glue("The right-hand side of condition {i} is {y}.")
+      paste0(
+        "Expressions containing `overlaps()` or `within()` must reference ",
+        "the same table for the right-hand side lower and upper bounds."
+      ),
+      x = glue("Expression {i} is {err_expr(expr)}.")
     ))
   }
+
+  if (lhs_lower$side == rhs_lower$side) {
+    abort(c(
+      "Expressions containing `overlaps()` or `within()` can't all reference the same table.",
+      x = glue("Expression {i} is {err_expr(expr)}.")
+    ))
+  }
+
+  if (type == "overlaps") {
+    if (lhs_lower$side == "x") {
+      x <- c(lhs_lower$name, lhs_upper$name)
+      y <- c(rhs_upper$name, rhs_lower$name)
+      condition <- c("<=", ">=")
+    } else {
+      x <- c(rhs_upper$name, rhs_lower$name)
+      y <- c(lhs_lower$name, lhs_upper$name)
+      condition <- c(">=", "<=")
+    }
+  } else if (type == "within") {
+    if (lhs_lower$side == "x") {
+      x <- c(lhs_lower$name, lhs_upper$name)
+      y <- c(rhs_lower$name, rhs_upper$name)
+      condition <- c(">=", "<=")
+    } else {
+      x <- c(rhs_lower$name, rhs_upper$name)
+      y <- c(lhs_lower$name, lhs_upper$name)
+      condition <- c("<=", ">=")
+    }
+  } else {
+    abort("Internal error: Unknown containment `type`.")
+  }
+
+  filter <- c("none", "none")
 
   list(
-    condition = condition,
     x = x,
-    y = y
+    y = y,
+    condition = condition,
+    filter = filter
   )
+}
+
+is_symbol_or_string <- function(x) {
+  is_symbol(x) || is_string(x)
+}
+
+err_expr <- function(expr) {
+  expr <- expr_deparse(expr)
+  expr <- glue::backtick(expr)
+  expr
 }

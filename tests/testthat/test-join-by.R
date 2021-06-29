@@ -48,6 +48,55 @@ test_that("works with character strings", {
   expect_identical(by1$y, by2$y)
 })
 
+test_that("works with explicit referencing", {
+  by <- join_by(x$a == y$b)
+  expect_identical(by$x, "a")
+  expect_identical(by$y, "b")
+
+  by <- join_by(y$a == x$b)
+  expect_identical(by$x, "b")
+  expect_identical(by$y, "a")
+})
+
+test_that("join condition is correctly reversed with explicit referencing", {
+  by <- join_by(y$a == x$a, y$a >= x$a, y$a > x$a, y$a <= x$a, y$a < x$a)
+  expect_identical(by$condition, c("==", "<=", "<", ">=", ">"))
+})
+
+test_that("between conditions expand correctly", {
+  by <- join_by(between(a, b, c))
+  expect_identical(by$x, c("a", "a"))
+  expect_identical(by$y, c("b", "c"))
+  expect_identical(by$condition, c(">=", "<="))
+
+  by <- join_by(between(y$a, x$b, x$c))
+  expect_identical(by$x, c("b", "c"))
+  expect_identical(by$y, c("a", "a"))
+  expect_identical(by$condition, c("<=", ">="))
+})
+
+test_that("overlaps / within conditions expand correctly", {
+  by <- join_by(overlaps(a, b, c, d))
+  expect_identical(by$x, c("a", "b"))
+  expect_identical(by$y, c("d", "c"))
+  expect_identical(by$condition, c("<=", ">="))
+
+  by <- join_by(overlaps(y$a, y$b, x$b, x$c))
+  expect_identical(by$x, c("c", "b"))
+  expect_identical(by$y, c("a", "b"))
+  expect_identical(by$condition, c(">=", "<="))
+
+  by <- join_by(within(a, b, c, d))
+  expect_identical(by$x, c("a", "b"))
+  expect_identical(by$y, c("c", "d"))
+  expect_identical(by$condition, c(">=", "<="))
+
+  by <- join_by(within(y$a, y$b, x$b, x$c))
+  expect_identical(by$x, c("b", "c"))
+  expect_identical(by$y, c("a", "b"))
+  expect_identical(by$condition, c("<=", ">="))
+})
+
 test_that("can join_by() nothing for a cross join", {
   by <- join_by()
   expect_identical(by$x, character())
@@ -84,6 +133,41 @@ test_that("has informative error messages", {
 
   # Improper RHS
   expect_snapshot(error = TRUE, join_by(x == y + 1))
+
+  # Garbage input
+  expect_snapshot(error = TRUE, join_by(1))
+
+  # Top level usage of `$`
+  expect_snapshot(error = TRUE, join_by(x$a))
+
+  # `$` must only contain x/y on LHS
+  expect_snapshot(error = TRUE, join_by(z$a == y$b))
+  expect_snapshot(error = TRUE, join_by(x$a == z$b))
+
+  # Extra cautious check for horrible usage of `$`
+  expect_snapshot(error = TRUE, join_by(`$`(x+1, y) == b))
+
+  # Referencing the same table
+  expect_snapshot(error = TRUE, join_by(x$a == x$b))
+  expect_snapshot(error = TRUE, join_by(y$a == b))
+  expect_snapshot(error = TRUE, join_by(between(x$a, x$a, x$b)))
+  expect_snapshot(error = TRUE, join_by(within(x$a, x$b, x$a, x$b)))
+  expect_snapshot(error = TRUE, join_by(overlaps(a, b, x$a, x$b)))
+
+  # Referencing different tables in lower/upper bound pairs
+  expect_snapshot(error = TRUE, join_by(between(a, x$a, y$b)))
+  expect_snapshot(error = TRUE, join_by(within(x$a, y$b, y$a, y$b)))
+  expect_snapshot(error = TRUE, join_by(overlaps(x$a, x$b, y$a, x$b)))
+
+  # Helpers with too few arguments
+  expect_snapshot(error = TRUE, join_by(between(x)))
+  expect_snapshot(error = TRUE, join_by(within(x)))
+  expect_snapshot(error = TRUE, join_by(overlaps(x)))
+
+  # Helpers with named arguments
+  expect_snapshot(error = TRUE, join_by(between(x = x, y, z)))
+  expect_snapshot(error = TRUE, join_by(within(x = x, y, z, w)))
+  expect_snapshot(error = TRUE, join_by(overlaps(x = x, y, z, w)))
 })
 
 # ------------------------------------------------------------------------------

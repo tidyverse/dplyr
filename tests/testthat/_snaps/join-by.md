@@ -72,7 +72,7 @@
     Code
       join_by(foo(x > y))
     Error <rlang_error>
-      `join_by()` expressions of length 2 must contain either `max()` or `min()`.
+      Join by expressions must begin with one of: `between()`, `overlaps()`, `within()`, `max()`, `min()`, `==`, `>=`, `>`, `<=`, or `<`.
       x Expression 1 is `foo(x > y)`.
 
 ---
@@ -80,15 +80,15 @@
     Code
       join_by(max(!x))
     Error <rlang_error>
-      Each `join_by()` condition must be length 1 or length 3, and be composed of a left-hand side column name, a condition, and a right-hand side column name.
-      x Expression 1 is length 2 and is `!x`.
+      `max()` or `min()` must wrap a binary condition.
+      x Expression 1 is `max(!x)`.
 
 ---
 
     Code
       join_by(x == y, x^y)
     Error <rlang_error>
-      Each `join_by()` condition must be separated by one of: `==`, `>`, `>=`, `<`, or `<=`.
+      Join by expressions must begin with one of: `between()`, `overlaps()`, `within()`, `max()`, `min()`, `==`, `>=`, `>`, `<=`, or `<`.
       x Expression 2 is `x^y`.
 
 ---
@@ -96,16 +96,168 @@
     Code
       join_by(x + 1 == y)
     Error <rlang_error>
-      The left-hand side of each `join_by()` condition must be a string or an unquoted column name.
-      i The left-hand side of condition 1 is `x + 1`.
+      `join_by()` expressions cannot contain computed columns, and can only reference columns by name or by explicitly specifying a side, like `x$col` or `y$col`.
+      x Expression 1 contains `x + 1`.
 
 ---
 
     Code
       join_by(x == y + 1)
     Error <rlang_error>
-      The right-hand side of each `join_by()` condition must be a string or an unquoted column name.
-      i The right-hand side of condition 1 is `y + 1`.
+      `join_by()` expressions cannot contain computed columns, and can only reference columns by name or by explicitly specifying a side, like `x$col` or `y$col`.
+      x Expression 1 contains `y + 1`.
+
+---
+
+    Code
+      join_by(1)
+    Error <rlang_error>
+      Each element of `...` must be a single column name or a join by expression.
+      x Element 1 is not a name and not an expression.
+
+---
+
+    Code
+      join_by(x$a)
+    Error <rlang_error>
+      When specifying a single column name, `$` cannot be used.
+      x Expression 1 is `x$a`.
+
+---
+
+    Code
+      join_by(z$a == y$b)
+    Error <rlang_error>
+      The left-hand side of a `$` expression must be either `x$` or `y$`.
+      x Expression 1 contains `z$a`.
+
+---
+
+    Code
+      join_by(x$a == z$b)
+    Error <rlang_error>
+      The left-hand side of a `$` expression must be either `x$` or `y$`.
+      x Expression 1 contains `z$b`.
+
+---
+
+    Code
+      join_by((x + 1)$y == b)
+    Error <rlang_error>
+      The left-hand side of a `$` expression must be a symbol or string.
+      x Expression 1 contains `(x + 1)$y`.
+
+---
+
+    Code
+      join_by(x$a == x$b)
+    Error <rlang_error>
+      The left and right-hand sides of a binary expression must reference different tables.
+      x Expression 1 contains `x$a == x$b`.
+
+---
+
+    Code
+      join_by(y$a == b)
+    Error <rlang_error>
+      The left and right-hand sides of a binary expression must reference different tables.
+      x Expression 1 contains `y$a == b`.
+
+---
+
+    Code
+      join_by(between(x$a, x$a, x$b))
+    Error <rlang_error>
+      Expressions containing `between()` can't all reference the same table.
+      x Expression 1 is `between(x$a, x$a, x$b)`.
+
+---
+
+    Code
+      join_by(within(x$a, x$b, x$a, x$b))
+    Error <rlang_error>
+      Expressions containing `overlaps()` or `within()` can't all reference the same table.
+      x Expression 1 is `within(x$a, x$b, x$a, x$b)`.
+
+---
+
+    Code
+      join_by(overlaps(a, b, x$a, x$b))
+    Error <rlang_error>
+      Expressions containing `overlaps()` or `within()` can't all reference the same table.
+      x Expression 1 is `overlaps(a, b, x$a, x$b)`.
+
+---
+
+    Code
+      join_by(between(a, x$a, y$b))
+    Error <rlang_error>
+      Expressions containing `between()` must reference the same table for the lower and upper bounds.
+      x Expression 1 is `between(a, x$a, y$b)`.
+
+---
+
+    Code
+      join_by(within(x$a, y$b, y$a, y$b))
+    Error <rlang_error>
+      Expressions containing `overlaps()` or `within()` must reference the same table for the left-hand side lower and upper bounds.
+      x Expression 1 is `within(x$a, y$b, y$a, y$b)`.
+
+---
+
+    Code
+      join_by(overlaps(x$a, x$b, y$a, x$b))
+    Error <rlang_error>
+      Expressions containing `overlaps()` or `within()` must reference the same table for the right-hand side lower and upper bounds.
+      x Expression 1 is `overlaps(x$a, x$b, y$a, x$b)`.
+
+---
+
+    Code
+      join_by(between(x))
+    Error <rlang_error>
+      Expressions containing `between()` must have 3 arguments.
+      x Expression 1 is `between(x)`, which has 1 argument(s).
+
+---
+
+    Code
+      join_by(within(x))
+    Error <rlang_error>
+      Expressions containing `overlaps()` or `within()` must have 4 arguments.
+      x Expression 1 is `within(x)`, which has 1 argument(s).
+
+---
+
+    Code
+      join_by(overlaps(x))
+    Error <rlang_error>
+      Expressions containing `overlaps()` or `within()` must have 4 arguments.
+      x Expression 1 is `overlaps(x)`, which has 1 argument(s).
+
+---
+
+    Code
+      join_by(between(x = x, y, z))
+    Error <rlang_error>
+      The arguments of `between()` must not be named.
+      x Expression 1 is `between(x = x, y, z)`.
+
+---
+
+    Code
+      join_by(within(x = x, y, z, w))
+    Error <rlang_error>
+      The arguments of `overlaps()` and `within()` must not be named.
+      x Expression 1 is `within(x = x, y, z, w)`.
+
+---
+
+    Code
+      join_by(overlaps(x = x, y, z, w))
+    Error <rlang_error>
+      The arguments of `overlaps()` and `within()` must not be named.
+      x Expression 1 is `overlaps(x = x, y, z, w)`.
 
 # as_join_by() emits useful errors
 

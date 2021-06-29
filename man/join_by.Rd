@@ -7,26 +7,36 @@
 join_by(...)
 }
 \arguments{
-\item{...}{Expressions specifying the join. Each expression should consist
-of:
+\item{...}{Expressions specifying the join.
+
+Each expression should consist of either a join condition or a join helper:
 \itemize{
-\item A join condition, one of: \code{==}, \code{>}, \code{>=}, \code{<}, or \code{<=}.
-\item A quoted or unquoted column name on the left-hand side of the join
-condition representing the column to use from \code{x}.
-\item A quoted or unquoted column name on the right-hand side of the join
-condition representing the column to use from \code{y}.
-\item Optionally, the entire join condition can be wrapped in \code{max()} or
-\code{min()} to specify a rolling join.
-\item If a single column name is provided without any join conditions, it
-is interpreted as if that column name was duplicated on each side of
-\code{==}, i.e. \code{x} is interpreted as \code{x == x}.
-}}
+\item Join conditions: \code{==}, \code{>=}, \code{>}, \code{<=}, or \code{<}.
+\item Join helpers: \code{between()}, \code{within()}, or \code{overlaps()}.
+}
+
+Column names should be specified as quoted or unquoted names. By default,
+the name on the left-hand side of a join condition refers to the left-hand
+table, unless overriden by explicitly prefixing the column name with either
+\verb{x$} or \verb{y$}.
+
+Optionally, a non-equi join condition can be wrapped in \code{max()} or \code{min()}
+to specify a rolling join.
+
+If a single column name is provided without any join conditions, it is
+interpreted as if that column name was duplicated on each side of \code{==},
+i.e. \code{x} is interpreted as \code{x == x}.}
 }
 \description{
 \code{join_by()} constructs a specification to join by using a small domain
 specific language. The result can be supplied as the \code{by} argument to any
-of the join functions (such as \code{\link[=left_join]{left_join()}}). \code{join_by()} supports
-specifications for equi joins, non-equi joins, and rolling joins.
+of the join functions (such as \code{\link[=left_join]{left_join()}}).
+
+\code{join_by()} is constructed from a set of expressions, with each expression
+being separated by a comma. Each expression should reference a column from
+the left-hand table to match to the right-hand table, with some operator
+specifying how to match them together. Multiple expressions are combined
+using an "and" operation.
 \subsection{Equi Joins:}{
 
 Equi joins match on equality, and are the most common type of join. To
@@ -49,14 +59,57 @@ join specifications!
 \subsection{Rolling Joins:}{
 
 Rolling joins are a variant of a non-equi join that limit the results
-returned from each condition to either the maximum or the minimum of
+returned from each condition to either the maximum or minimum value of
 the matches in \code{y}. To construct a rolling join, wrap a non-equi join
-condition in \code{max()} or \code{min()}, such as \code{max(x > y)}.
+condition in \code{max()} or \code{min()}, such as \code{max(x > y)}, which specifies
+that for each value of \code{x}, all matches in \code{y} should be found where \code{x > y},
+and then the maximum \code{y} value of those matches should be the only one
+that is kept.
+}
+
+\subsection{Overlap Joins:}{
+
+Overlap joins are a special case of a non-equi join generally involving one
+or two columns from the left-hand side \emph{overlapping} a range computed from
+two columns from the right-hand side. There are three helpers that
+\code{join_by()} recognizes to assist with constructing overlap joins, all
+of which can be constructed from simpler binary expressions.
+\itemize{
+\item \code{between(x, y_lower, y_upper)}
+
+Matches when \code{x} falls between \verb{[y_lower, y_upper]}. Equivalent to
+\verb{x >= y_lower, x <= y_upper}.
+\item \code{within(x_lower, x_upper, y_lower, y_upper)}
+
+Matches when \verb{[x_lower, x_upper]} falls completely within
+\verb{[y_lower, y_upper]}. Equivalent to
+\verb{x_lower >= y_lower, x_upper <= y_upper}.
+\item \code{overlaps(x_lower, x_upper, y_lower, y_upper)}
+
+Matches when \verb{[x_lower, x_upper]} overlaps \verb{[y_lower, y_upper]} in any
+capacity. Equivalent to \verb{x_lower <= y_upper, x_upper >= y_lower}.
+}
+
+Internally, arguments are matched by position and should not be named.
+
+These conditions assume that the ranges are specified logically, i.e.
+\code{x_lower} should always be less than or equal to \code{x_upper}.
+}
+
+\subsection{Column Referencing:}{
+
+When specifying join conditions, the default assumes that column names on
+the left-hand side of the condition refer to the left-hand table, and names
+on the right-hand side of the condition refer to the right-hand table.
+Occasionally, it is clearer to be able to specify a right-hand table name
+on the left-hand side of the condition, and vice versa. To support this,
+column names can be prefixed by \verb{x$} or \verb{y$} to explicitly specify which
+table they come from.
 }
 }
 \details{
 Note that \code{join_by()} does not support arbitrary expressions on each side of
-the join condition. For example, \code{join_by(sales_date - 40 >= commercial_date)} is not allowed. To perform a join like this, pre-compute
+the join condition. For example, \code{join_by(sales_date - 40 >= promo_date)} is not allowed. To perform a join like this, pre-compute
 \code{sales_date - 40} and store it in a separate column, like \code{sales_date_lower},
 and refer to that column by name in \code{join_by()}.
 }
@@ -91,4 +144,41 @@ left_join(sales, promos, by)
 sales <- mutate(sales, sale_date_lower = sale_date - 1)
 by <- join_by(id, max(sale_date >= promo_date), sale_date_lower <= promo_date)
 full_join(sales, promos, by)
+
+# ---------------------------------------------------------------------------
+
+segments <- tibble(
+  segment_id = 1:4,
+  chromosome = c("chr1", "chr2", "chr2", "chr1"),
+  start = c(140, 210, 380, 230),
+  end = c(150, 240, 415, 280)
+)
+
+reference <- tibble(
+  reference_id = 1:4,
+  chromosome = c("chr1", "chr1", "chr2", "chr2"),
+  start = c(100, 200, 300, 400),
+  end = c(150, 250, 399, 450)
+)
+
+# "Find every time a segment `start` falls between the reference
+# `[start, end]` range."
+by <- join_by(chromosome, between(start, start, end))
+full_join(segments, reference, by)
+
+# If you wanted the reference columns first, supply `reference` as `x`
+# and `segments` as `y`, then explicitly refer to their columns using `x$`
+# and `y$`.
+by <- join_by(chromosome, between(y$start, x$start, x$end))
+full_join(reference, segments, by)
+
+# "Find every time a segment falls completely within a reference."
+# Sometimes using `x$` and `y$` makes your intentions clearer, even if they
+# match the default behavior.
+by <- join_by(chromosome, within(x$start, x$end, y$start, y$end))
+inner_join(segments, reference, by)
+
+# "Find every time a segment overlaps a reference in any way."
+by <- join_by(chromosome, overlaps(x$start, x$end, y$start, y$end))
+full_join(segments, reference, by)
 }
