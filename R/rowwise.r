@@ -89,14 +89,18 @@ rowwise_df <- function(data, group_vars) {
 
 #' @rdname new_grouped_df
 #' @export
-new_rowwise_df <- function(data, group_data, ..., class = character()) {
-  if (!is_tibble(group_data) || has_name(group_data, ".rows")) {
-    abort("`group_data` must be a tibble without a `.rows` column.")
-  }
-
+new_rowwise_df <- function(data, group_data = NULL, ..., class = character()) {
   nrow <- nrow(data)
 
-  group_data <- new_tibble(dplyr_vec_data(group_data), nrow = nrow) # strip attributes
+  if (!is.null(group_data)) {
+    if (!is_tibble(group_data) || has_name(group_data, ".rows")) {
+      abort("`group_data` must be a tibble without a `.rows` column.")
+    }
+
+    group_data <- new_tibble(dplyr_vec_data(group_data), nrow = nrow) # strip attributes
+  } else {
+    group_data <- new_tibble(list(), nrow = nrow)
+  }
   group_data$.rows <- new_list_of(as.list(seq_len(nrow)), ptype = integer())
 
   new_tibble(

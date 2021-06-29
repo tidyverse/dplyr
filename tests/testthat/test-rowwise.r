@@ -72,6 +72,12 @@ test_that("can re-rowwise", {
   expect_equal(group_vars(rf2), "y")
 })
 
+test_that("new_rowwise_df() does not require `group_data=`", {
+  df <- new_rowwise_df(data.frame(x = 1:2))
+  expect_s3_class(df, "rowwise_df")
+  expect_equal(attr(df, "groups"), tibble(".rows" := vctrs::list_of(1L, 2L)))
+})
+
 test_that("new_rowwise_df() can add class and attributes (#5918)", {
   df <- new_rowwise_df(tibble(x = 1:4), tibble(), class = "custom_rowwise_df", a = "b")
   expect_s3_class(df, "custom_rowwise_df")
