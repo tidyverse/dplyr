@@ -297,10 +297,9 @@ expand_groups <- function(old_groups, positions, nr) {
 }
 
 vec_split_id_order <- function(x) {
-  split_id <- vec_group_loc(x)
-  split_id$loc <- new_list_of(split_id$loc, ptype = integer())
-
-  vec_slice(split_id, vec_order(split_id$key))
+  split_id <- vctrs:::vec_order_locs(x)
+  split_id$loc <- new_list_of(split_id$loc, integer())
+  split_id
 }
 
 group_intersect <- function(x, new) {
