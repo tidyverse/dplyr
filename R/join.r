@@ -4,7 +4,7 @@
 #' The mutating joins add columns from `y` to `x`, matching rows based on the
 #' keys:
 #'
-#' * `inner_join()`: includes all rows in `x` and `y`.
+#' * `inner_join()`: includes all rows in `x` and `y` that match.
 #' * `left_join()`: includes all rows in `x`.
 #' * `right_join()`: includes all rows in `y`.
 #' * `full_join()`: includes all rows in `x` or `y`.
