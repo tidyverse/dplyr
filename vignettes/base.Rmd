@@ -43,20 +43,20 @@ This vignette compares dplyr functions to their base R equivalents. This helps t
 
 The following table shows a condensed translation between dplyr verbs and their base R equivalents. The following sections describe each operation in more detail. You learn more about the dplyr verbs in their documentation and in For more `vignette("one-table")`.
 
-| dplyr                         | base                                             |
-|-------------------------------|--------------------------------------------------|
-| `arrange(df, x)`              | `df[order(x), , drop = FALSE]`                   | 
-| `distinct(df, x)`             | `df[!duplicated(x), , drop = FALSE]`, `unique()` | 
-| `filter(df, x)`               | `df[which(x), , drop = FALSE]`, `subset()`       | 
-| `mutate(df, z = x + y)`       | `df$z <- df$x + df$y`, `transform()`             | 
-| `pull(df, 1)`                 | `df[[1]]`                                        | 
-| `pull(df, x)`                 | `df$x`                                           | 
-| `rename(df, y = x)`           | `names(df)[names(df) == "x"] <- "y"`             | 
-| `relocate(df, y)`             | `df[union("y", names(df))]`                       | 
-| `select(df, x, y)`            | `df[c("x", "y")]`, `subset()`                    | 
-| `select(df, starts_with("x")` | `df[grepl(names(df), "^x")]`                     | 
-| `summarise(df, mean(x))`      | `mean(df$x)`, `tapply()`, `aggregate()`, `by()`  | 
-| `slice(df, c(1, 2, 5))`       | `df[c(1, 2, 5), , drop = FALSE]`                 | 
+| dplyr                          | base                                             |
+|------------------------------- |--------------------------------------------------|
+| `arrange(df, x)`               | `df[order(x), , drop = FALSE]`                   | 
+| `distinct(df, x)`              | `df[!duplicated(x), , drop = FALSE]`, `unique()` | 
+| `filter(df, x)`                | `df[which(x), , drop = FALSE]`, `subset()`       | 
+| `mutate(df, z = x + y)`        | `df$z <- df$x + df$y`, `transform()`             | 
+| `pull(df, 1)`                  | `df[[1]]`                                        | 
+| `pull(df, x)`                  | `df$x`                                           | 
+| `rename(df, y = x)`            | `names(df)[names(df) == "x"] <- "y"`             | 
+| `relocate(df, y)`              | `df[union("y", names(df))]`                      | 
+| `select(df, x, y)`             | `df[c("x", "y")]`, `subset()`                    | 
+| `select(df, starts_with("x"))` | `df[grepl(names(df), "^x")]`                     | 
+| `summarise(df, mean(x))`       | `mean(df$x)`, `tapply()`, `aggregate()`, `by()`  | 
+| `slice(df, c(1, 2, 5))`        | `df[c(1, 2, 5), , drop = FALSE]`                 | 
 
 To begin, we'll load dplyr and convert `mtcars` and `iris` to tibbles so that we can easily show only abbreviated output for each operation.
 
