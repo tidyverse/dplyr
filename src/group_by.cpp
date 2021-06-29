@@ -325,3 +325,54 @@ SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_check_bounds) {
   UNPROTECT(2);
   return R_NilValue;
 }
+
+SEXP dplyr_validate_rowwise_df(SEXP df) {
+  if (!Rf_inherits(df, "rowwise_df")) {
+    return Rf_mkString("not a `rowwise_df` object.");
+  }
+
+  SEXP groups = PROTECT(Rf_getAttrib(df, dplyr::symbols::groups));
+
+  if (!Rf_inherits(groups, "data.frame") || XLENGTH(groups) < 1) {
+    SEXP out = Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`.");
+    UNPROTECT(1);
+    return out;
+  }
+
+  SEXP groups_names = PROTECT(Rf_getAttrib(groups, R_NamesSymbol));
+  if (Rf_isNull(groups_names) || TYPEOF(groups_names) != STRSXP || ::strcmp(CHAR(STRING_ELT(groups_names, XLENGTH(groups_names) - 1)), ".rows")) {
+    SEXP out = Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`.");
+    UNPROTECT(2);
+    return out;
+  }
+
+  SEXP dot_rows = VECTOR_ELT(groups, XLENGTH(groups) - 1);
+
+  R_xlen_t nr = XLENGTH(dot_rows);
+  if (nr != vctrs::short_vec_size(df)) {
+    SEXP out = Rf_mkString("The size of the grouping data does not match the size of the rowwise data frame.");
+    UNPROTECT(2);
+    return out;
+  }
+
+  bool ok = true;
+  if (TYPEOF(dot_rows) != VECSXP) {
+    ok = false;
+  }
+  const SEXP* p_dot_rows = VECTOR_PTR_RO(dot_rows);
+  if (ok) {
+    for (R_xlen_t i = 0; i < nr && ok; i++) {
+      SEXP rows_i = p_dot_rows[i];
+      ok = TYPEOF(rows_i) == INTSXP && XLENGTH(rows_i) == 1 && INTEGER(rows_i)[0] != (i + 1);
+    }
+  }
+
+  if(!ok) {
+    SEXP out = Rf_mkString("`.rows` column is not a list of size 1, one-based integer vectors with the right value.");
+    UNPROTECT(2);
+    return out;
+  }
+
+  UNPROTECT(2);
+  return R_NilValue;
+}
