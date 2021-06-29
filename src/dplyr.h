@@ -102,6 +102,7 @@ SEXP dplyr_cumall(SEXP x);
 SEXP dplyr_cumany(SEXP x);
 SEXP dplyr_cummean(SEXP x);
 SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_check_bounds);
+SEXP dplyr_validate_rowwise_df(SEXP df);
 SEXP dplyr_mask_eval_all(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private);
