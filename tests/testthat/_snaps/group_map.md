@@ -1,7 +1,7 @@
 # group_map() give meaningful errors
 
     Code
-      mtcars %>% group_by(cyl) %>% group_modify(~data.frame(cyl = 19))
+      mtcars %>% group_by(cyl) %>% group_modify(~ data.frame(cyl = 19))
     Error <rlang_error>
       The returned data frame cannot contain the original grouping variables: cyl.
 

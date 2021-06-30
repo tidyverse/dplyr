@@ -26,12 +26,10 @@
       df %>% ungroup(x)
     Error <rlib_error_dots_nonempty>
       `...` is not empty.
-      
-      We detected these problematic arguments:
+      i These dots only exist to allow future extensions and should be empty.
+      x We detected these problematic arguments:
       * `..1`
-      
-      These dots only exist to allow future extensions and should be empty.
-      Did you misspecify an argument?
+      i Did you misspecify an argument?
 
 ---
 

@@ -121,7 +121,9 @@ arrange_rows <- function(.data, dots) {
 
     if (inherits(cnd, "dplyr:::mutate_error")) {
       # reverse the name mangling
-      bullets <- gsub("^^--arrange_quosure_", "..", cnd$bullets, fixed = TRUE)
+      bullets <- cnd$bullets
+      names(bullets)[1] <- "x"
+      bullets <- gsub("^^--arrange_quosure_", "..", bullets, fixed = TRUE)
     } else {
       bullets <- c(x = conditionMessage(cnd))
     }

@@ -66,5 +66,5 @@ test_that("colwise filter support .data$. in the quosure versions", {
 
 test_that("colwise filter() give meaningful errors", {
   expect_snapshot(error = TRUE, filter_if(mtcars, is_character, all_vars(. > 0)))
-  expect_snapshot(error = TRUE, filter_all(mtcars, list(~. > 0)))
+  expect_snapshot(error = TRUE, filter_all(mtcars, list(~ . > 0)))
 })
