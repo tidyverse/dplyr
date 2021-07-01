@@ -26,6 +26,13 @@
       i `..1 = rep(x, 2)`.
       i `..1` must be size 1, not 2.
 
+# arrange errors if stringi is not installed and a locale identifier is used
+
+    Code
+      locale_to_chr_transform("fr", has_stringi = FALSE)
+    Error <rlang_error>
+      stringi >= 1.5.3 is required to arrange in a different locale.
+
 # arrange validates `.locale`
 
     Code
