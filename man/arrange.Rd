@@ -7,7 +7,7 @@
 \usage{
 arrange(.data, ..., .by_group = FALSE)
 
-\method{arrange}{data.frame}(.data, ..., .by_group = FALSE, .locale = NULL)
+\method{arrange}{data.frame}(.data, ..., .by_group = FALSE, .locale = dplyr_locale())
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
@@ -22,9 +22,10 @@ grouped data frames only.}
 
 \item{.locale}{The locale to sort character vectors in.
 \itemize{
-\item If \code{NULL}, the default, character vectors are sorted in the American
-English locale as long as the stringi package is installed. If stringi
-is not available, the C locale will be used with a warning.
+\item Defaults to \code{\link[=dplyr_locale]{dplyr_locale()}}, which uses the American English locale
+if the stringi package is installed and the global default locale
+has not been altered. See the help page for \code{\link[=dplyr_locale]{dplyr_locale()}} for the
+exact details.
 \item If a single string is supplied, then this will be used as the locale
 identifier to sort with. For example, \code{"fr"} will sort with the French
 locale. This requires the stringi package. Use

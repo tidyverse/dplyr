@@ -92,12 +92,6 @@ test_that("arrange defaults to the American English locale if stringi is install
   expect_identical(res$x, rev(c("a", "A", "b", "B")))
 })
 
-test_that("arrange falls back to the C locale with a warning if stringi is not available", {
-  expect_snapshot(
-    (expect_warning(locale_to_chr_transform(NULL, has_stringi = FALSE)))
-  )
-})
-
 test_that("locale can be set to C", {
   x <- c("A", "a", "b", "B")
   df <- tibble(x = x)

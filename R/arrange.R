@@ -69,9 +69,10 @@ arrange <- function(.data, ..., .by_group = FALSE) {
 #'   grouped data frames only.
 #' @param .locale The locale to sort character vectors in.
 #'
-#'   - If `NULL`, the default, character vectors are sorted in the American
-#'     English locale as long as the stringi package is installed. If stringi
-#'     is not available, the C locale will be used with a warning.
+#'   - Defaults to [dplyr_locale()], which uses the American English locale
+#'     if the stringi package is installed and the global default locale
+#'     has not been altered. See the help page for [dplyr_locale()] for the
+#'     exact details.
 #'
 #'   - If a single string is supplied, then this will be used as the locale
 #'     identifier to sort with. For example, `"fr"` will sort with the French
@@ -85,7 +86,7 @@ arrange <- function(.data, ..., .by_group = FALSE) {
 #'
 #' @rdname arrange
 #' @export
-arrange.data.frame <- function(.data, ..., .by_group = FALSE, .locale = NULL) {
+arrange.data.frame <- function(.data, ..., .by_group = FALSE, .locale = dplyr_locale()) {
   dots <- enquos(...)
 
   if (.by_group) {
@@ -159,15 +160,6 @@ arrange_rows <- function(.data, dots, chr_transform) {
 }
 
 locale_to_chr_transform <- function(locale, has_stringi = has_minimum_stringi()) {
-  if (is_null(locale)) {
-    if (has_stringi) {
-      return(sort_key_generator("en"))
-    } else {
-      warn_arrange_c_locale_fallback()
-      return(NULL)
-    }
-  }
-
   if (identical(locale, "C")) {
     return(NULL)
   }
@@ -186,24 +178,11 @@ locale_to_chr_transform <- function(locale, has_stringi = has_minimum_stringi())
     return(sort_key_generator(locale))
   }
 
-  abort("`.locale` must be a string or `NULL`.")
+  abort("`.locale` must be a string.")
 }
 
-warn_arrange_c_locale_fallback <- function() {
-  warn(
-    message = c(
-      "stringi >= 1.5.3 is required to arrange in the American English locale.",
-      i = "Falling back to the C locale.",
-      i = "Silence this warning by supplying `.locale = \"C\"` or installing stringi."
-    ),
-    class = "dplyr_warn_arrange_c_locale_fallback"
-  )
-}
 sort_key_generator <- function(locale) {
   function(x) {
     stringi::stri_sort_key(x, locale = locale)
   }
-}
-has_minimum_stringi <- function() {
-  is_installed("stringi", version = "1.5.3")
 }
