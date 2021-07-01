@@ -8,6 +8,21 @@
 
 *  `slice()` helpers (`slice_head()`, `slice_tail()`, `slice_min()`, `slice_max()` 
    and `slice_sample()`) now accept negative values for `n` and `prop` (#5961).
+* `arrange()` now uses a new process for sorting character vectors. In
+   particular, a much faster radix-sort based algorithm has been implemented,
+   which is heavily inspired by data.table's `forder()`. Additionally, a new
+   argument, `.locale`, now controls the locale that character vectors are
+   ordered in. `.locale` defaults to `dplyr_locale()`, which uses the American
+   English locale if stringi is installed, and falls back to the C locale
+   with a warning if stringi is not installed. To override this default
+   locale for a single call to `arrange()`, set the `.locale` argument to a
+   stringi locale identifier, such as `"fr"` for French. To globally override
+   the default locale, set the `tidyverse.locale_collation` option to your
+   preferred locale identifier. For the fastest performance, specify `"C"` to
+   use the C locale when you are only arranging for grouping purposes, and
+   don't care about the precise details of the arrangement (#4962).
+
+*  `coalesce()` accepts 1-D arrays (#5557).
 
 # dplyr 1.0.7
 

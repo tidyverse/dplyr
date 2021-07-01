@@ -26,6 +26,31 @@
       i `..1 = rep(x, 2)`.
       i `..1` must be size 1, not 2.
 
+# arrange errors if stringi is not installed and a locale identifier is used
+
+    Code
+      locale_to_chr_transform("fr", has_stringi = FALSE)
+    Error <rlang_error>
+      stringi >= 1.5.3 is required to arrange in a different locale.
+
+# arrange validates `.locale`
+
+    Code
+      (expect_error(arrange(df, .locale = 1)))
+    Output
+      <error/rlang_error>
+      `.locale` must be a string.
+    Code
+      (expect_error(arrange(df, .locale = c("en_US", "fr_BF"))))
+    Output
+      <error/rlang_error>
+      If `.locale` is a character vector, it must be a single string.
+    Code
+      (expect_error(arrange(df, .locale = "x")))
+    Output
+      <error/rlang_error>
+      `.locale` must be one of the locales within `stringi::stri_locale_list()`.
+
 # desc() inside arrange() checks the number of arguments (#5921)
 
     Code
