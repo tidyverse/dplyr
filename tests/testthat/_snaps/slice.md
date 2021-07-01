@@ -2,28 +2,28 @@
 
     Code
       slice(df, TRUE)
-    Error <rlang_error>
+    Error <dplyr_error>
       `slice()` expressions should return indices (positive or negative integers).
 
 ---
 
     Code
       slice(df, FALSE)
-    Error <rlang_error>
+    Error <dplyr_error>
       `slice()` expressions should return indices (positive or negative integers).
 
 ---
 
     Code
       mtcars %>% slice(c(-1, 2))
-    Error <rlang_error>
+    Error <dplyr_error>
       `slice()` expressions should return either all positive or all negative.
 
 ---
 
     Code
       mtcars %>% slice(c(2:3, -1))
-    Error <rlang_error>
+    Error <dplyr_error>
       `slice()` expressions should return either all positive or all negative.
 
 ---
