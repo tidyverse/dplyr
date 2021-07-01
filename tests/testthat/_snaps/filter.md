@@ -173,7 +173,7 @@
 ---
 
     Code
-      data.frame(x = 1, y = 1) %>% filter(across(everything(), ~.x > 0))
+      data.frame(x = 1, y = 1) %>% filter(across(everything(), ~ .x > 0))
     Output
         x y
       1 1 1

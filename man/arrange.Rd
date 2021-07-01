@@ -7,7 +7,7 @@
 \usage{
 arrange(.data, ..., .by_group = FALSE)
 
-\method{arrange}{data.frame}(.data, ..., .by_group = FALSE)
+\method{arrange}{data.frame}(.data, ..., .by_group = FALSE, .locale = dplyr_locale())
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
@@ -19,6 +19,22 @@ variables. Use \code{\link[=desc]{desc()}} to sort a variable in descending orde
 
 \item{.by_group}{If \code{TRUE}, will sort first by grouping variable. Applies to
 grouped data frames only.}
+
+\item{.locale}{The locale to sort character vectors in.
+\itemize{
+\item Defaults to \code{\link[=dplyr_locale]{dplyr_locale()}}, which uses the American English locale
+if the stringi package is installed and the global default locale
+has not been altered. See the help page for \code{\link[=dplyr_locale]{dplyr_locale()}} for the
+exact details.
+\item If a single string is supplied, then this will be used as the locale
+identifier to sort with. For example, \code{"fr"} will sort with the French
+locale. This requires the stringi package. Use
+\code{\link[stringi:stri_locale_list]{stringi::stri_locale_list()}} to generate a list of possible locale
+identifiers.
+\item If \code{"C"} is supplied, then character vectors will be sorted in the C
+locale. This does not require stringi and is often much faster than
+supplying a locale identifier.
+}}
 }
 \value{
 An object of the same type as \code{.data}. The output has the following
@@ -40,12 +56,6 @@ in order to group by them, and functions of variables are evaluated
 once per data frame, not once per group.
 }
 \details{
-\subsection{Locales}{
-
-The sort order for character vectors will depend on the collating sequence
-of the locale in use: see \code{\link[=locales]{locales()}}.
-}
-
 \subsection{Missing values}{
 
 Unlike base sorting with \code{sort()}, \code{NA} are:

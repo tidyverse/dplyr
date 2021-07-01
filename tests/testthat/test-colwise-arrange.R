@@ -65,3 +65,20 @@ test_that("scoped arrange respect .by_group (#3245)",{
     arrange(d, cyl, mpg, disp)
   )
 })
+
+test_that("scoped `arrange()` respects `.locale`", {
+  df <- tibble(x = c("A", "a", "b", "B"))
+
+  expect_identical(
+    arrange_all(df, .locale = "C"),
+    arrange(df, x, .locale = "C")
+  )
+  expect_identical(
+    arrange_if(df, is.character, .locale = "C"),
+    arrange(df, x, .locale = "C")
+  )
+  expect_identical(
+    arrange_at(df, vars(x), .locale = "C"),
+    arrange(df, x, .locale = "C")
+  )
+})
