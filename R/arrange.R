@@ -10,9 +10,6 @@
 #' once per data frame, not once per group.
 #'
 #' @details
-#' ## Locales
-#' TODO
-#'
 #' ## Missing values
 #' Unlike base sorting with `sort()`, `NA` are:
 #' * always sorted to the end for local data, even when wrapped with `desc()`.

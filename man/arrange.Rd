@@ -56,11 +56,6 @@ in order to group by them, and functions of variables are evaluated
 once per data frame, not once per group.
 }
 \details{
-\subsection{Locales}{
-
-TODO
-}
-
 \subsection{Missing values}{
 
 Unlike base sorting with \code{sort()}, \code{NA} are:
