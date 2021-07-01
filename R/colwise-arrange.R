@@ -28,31 +28,31 @@
 #' arrange_all(df, desc)
 #' # ->
 #' arrange(df, across(everything(), desc))
-arrange_all <- function(.tbl, .funs = list(), ..., .by_group = FALSE) {
+arrange_all <- function(.tbl, .funs = list(), ..., .by_group = FALSE, .locale = dplyr_locale()) {
   lifecycle::signal_superseded("1.0.0", "arrange_all()", "across()")
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "arrange_all")
   if (!length(funs)) {
     funs <- syms(tbl_vars(.tbl))
   }
-  arrange(.tbl, !!!funs, .by_group = .by_group)
+  arrange(.tbl, !!!funs, .by_group = .by_group, .locale = .locale)
 }
 #' @rdname arrange_all
 #' @export
-arrange_at <- function(.tbl, .vars, .funs = list(), ..., .by_group = FALSE) {
+arrange_at <- function(.tbl, .vars, .funs = list(), ..., .by_group = FALSE, .locale = dplyr_locale()) {
   lifecycle::signal_superseded("1.0.0", "arrange_at()", "across()")
   funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "arrange_at")
   if (!length(funs)) {
     funs <- tbl_at_syms(.tbl, .vars, .include_group_vars = TRUE)
   }
-  arrange(.tbl, !!!funs, .by_group = .by_group)
+  arrange(.tbl, !!!funs, .by_group = .by_group, .locale = .locale)
 }
 #' @rdname arrange_all
 #' @export
-arrange_if <- function(.tbl, .predicate, .funs = list(), ..., .by_group = FALSE) {
+arrange_if <- function(.tbl, .predicate, .funs = list(), ..., .by_group = FALSE, .locale = dplyr_locale()) {
   lifecycle::signal_superseded("1.0.0", "arrange_if()", "across()")
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "arrange_if")
   if (!length(funs)) {
     funs <- tbl_if_syms(.tbl, .predicate, .include_group_vars = TRUE)
   }
-  arrange(.tbl, !!!funs, .by_group = .by_group)
+  arrange(.tbl, !!!funs, .by_group = .by_group, .locale = .locale)
 }
