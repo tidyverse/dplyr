@@ -148,9 +148,7 @@ group_by_prepare <- function(.data,
 
   new_groups <- enquos(..., .ignore_empty = "all")
   if (!missing(.dots)) {
-    # Used by dbplyr 1.4.2 so can't aggressively deprecate
-    lifecycle::deprecate_warn("1.0.0", "group_by(.dots = )")
-    new_groups <- c(new_groups, compat_lazy_dots(.dots, env = caller_env))
+    lifecycle::deprecate_stop("1.0.0", "group_by(.dots = )")
   }
 
   # If any calls, use mutate to add new columns, then group by those

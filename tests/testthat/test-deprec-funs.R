@@ -86,26 +86,6 @@ test_that("can enfun() purrr-style lambdas", {
   expect_true(typeof(res[[1]]) == "closure")
 })
 
-test_that("funs_ works", {
-  withr::local_options(lifecycle_verbosity = "quiet")
-
-  expect_equal(
-    funs(mean),
-    funs_(list(~ mean))
-  )
-
-  expect_equal(
-    funs_(list("mean")),
-    funs_(list(`environment<-`(~ mean, baseenv()))),
-    ignore_formula_env = TRUE
-  )
-
-  expect_equal(
-    funs(mean(.)),
-    funs_(list(~ mean(.)))
-  )
-})
-
 test_that("as_fun_list() auto names chr vectors (4307)", {
   expect_identical(
     data.frame(x = 1:10) %>% summarise_at("x", c("mean", "sum")),

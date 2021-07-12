@@ -87,7 +87,7 @@ These will generate `R CMD check` NOTES, so make sure to tell CRAN that this is 
 
 Because the tidyeval framework allows us to combine SE and NSE
 semantics within the same functions, the underscored verbs have been
-softly deprecated.
+deprecated in version 0.7.0 and are now defunct.
 
 
 #### For users of SE_ verbs
@@ -213,25 +213,11 @@ filter_.tbl_df <- function(.data, ..., .dots = list()) {
 With tidyeval, S3 dispatch to the correct method might be an issue. In
 the past, the genericity of dplyr verbs was accomplished by
 dispatching in the underscored versions. Now that those are
-deprecated, we've turned the non-underscored verbs into S3 generics.
+defunct, we've turned the non-underscored verbs into S3 generics.
 
-We maintain backward compatibility by redispatching to old underscored
-verbs in the default methods of the new S3 generics. For example, here
-is how we redispatch `filter()`:
-
-```{r, eval = FALSE}
-filter.default <- function(.data, ...) {
-  filter_(.data, .dots = compat_as_lazy_dots(...))
-}
-```
-
-This gets the job done in most cases. However, the default method will
-not be called for objects inheriting from one of the classes for which
-we provide non-underscored methods: `data.frame`, `tbl_df`, `tbl_cube`
-and `grouped_df`. An example of this is the `sf` package whose objects
-have classes `c("sf", "data.frame")`. Authors of such packages should
-provide a method for the non-underscored generic in order to be
-compatible with dplyr:
+As an example, the `sf` package which defines objects 
+of classes `c("sf", "data.frame")` implements `filter()`
+by providing a method for the non-underscored generic:
 
 ```{r, eval = FALSE}
 filter.sf <- function(.data, ...) {
@@ -240,7 +226,6 @@ filter.sf <- function(.data, ...) {
 ```
 
 If you need help with this, please let us know!
-
 
 ### Deprecation of `mutate_each()` and `summarise_each()`
 
