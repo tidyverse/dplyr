@@ -12,7 +12,7 @@
 #' but use `mutate()` instead of `summarise()` so that they add a new column
 #' with group-wise counts.
 #'
-#' @param x A data frame, data frame extension (e.g. a tibble), or a
+#' @param .data A data frame, data frame extension (e.g. a tibble), or a
 #'   lazy data frame (e.g. from dbplyr or dtplyr).
 #' @param ... <[`data-masking`][dplyr_data_masking]> Variables to group by.
 #' @param wt <[`data-masking`][dplyr_data_masking]> Frequency weights.
@@ -28,6 +28,8 @@
 #' @param .drop For `count()`: if `FALSE` will include counts for empty groups
 #'   (i.e. for levels of factors that don't exist in the data). Deprecated in
 #'   `add_count()` since it didn't actually affect the output.
+#' @param x `r lifecycle::badge("deprecated")` This argument has been renamed 
+#'    to `.data` to fit dplyr's terminology and is deprecated.
 #' @return
 #' An object of the same type as `.data`. `count()` and `add_count()`
 #' group transiently, so the output has the same groups as the input.
@@ -61,23 +63,30 @@
 #' # mutate() instead of summarise
 #' df %>% add_count(gender, wt = runs)
 #' df %>% add_tally(wt = runs)
-count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
+count <- function(.data, ..., wt = NULL, sort = FALSE, name = NULL, x = deprecated()) {
+  if (lifecycle::is_present(x)) {
+    lifecycle::deprecate_warn("1.0.8", "count(x)", "count(.data)")
+    new_call <- call2(count, .data = x, enexpr(.data), ..., wt = wt, sort = sort, name = name)
+    return(eval(new_call))
+  }
+
   UseMethod("count")
 }
 
 #' @export
-count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+count.data.frame <- function(.data, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(.data),
+                             x = deprecated()) {
   if (!missing(...)) {
-    out <- group_by(x, ..., .add = TRUE, .drop = .drop)
+    out <- group_by(.data, ..., .add = TRUE, .drop = .drop)
   } else {
-    out <- x
+    out <- .data 
   }
 
   out <- tally(out, wt = !!enquo(wt), sort = sort, name = name)
 
   # Ensure grouping is transient
-  if (is.data.frame(x)) {
-    out <- dplyr_reconstruct(out, x)
+  if (is.data.frame(.data)) {
+    out <- dplyr_reconstruct(out, .data)
   }
   out
 }
@@ -86,19 +95,24 @@ count.tbl_sql <- count.data.frame
 
 #' @export
 #' @rdname count
-tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
+tally <- function(.data, wt = NULL, sort = FALSE, name = NULL, x = deprecated()) {
   UseMethod("tally")
 }
 
 #' @export
-tally.data.frame <- function(x, wt = NULL, sort = FALSE, name = NULL) {
-  n <- tally_n(x, {{ wt }})
-  name <- check_name(name, group_vars(x))
+tally.data.frame <- function(.data, wt = NULL, sort = FALSE, name = NULL, x = deprecated()) {
+  if (lifecycle::is_present(x)) {
+    lifecycle::deprecate_warn("1.0.8", "tally(x)", "tally(.data)")
+    .data <- x
+  }
+
+  n <- tally_n(.data, {{ wt }})
+  name <- check_name(name, group_vars(.data))
 
   out <- local({
     old.options <- options(dplyr.summarise.inform = FALSE)
     on.exit(options(old.options))
-    summarise(x, !!name := !!n)
+    summarise(.data, !!name := !!n)
   })
 
   if (sort) {
@@ -112,46 +126,60 @@ tally.tbl_sql <- tally.data.frame
 
 #' @export
 #' @rdname count
-add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+add_count <- function(.data, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated(),
+                      x = deprecated()) {
+  if (lifecycle::is_present(x)) {
+    lifecycle::deprecate_warn("1.0.8", "count(x)", "add_count(.data)")
+    new_call <- call2(add_count, .data = x, enexpr(.data), ..., wt = wt, sort = sort, name = name)
+    return(eval(new_call))
+  }
+
   UseMethod("add_count")
 }
 
 #' @export
-add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+add_count.default <- function(.data, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated(),
+                              x = deprecated()) {
   if (!missing(.drop)) {
     lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )")
   }
 
   if (!missing(...)) {
-    out <- group_by(x, ..., .add = TRUE)
+    out <- group_by(.data, ..., .add = TRUE)
   } else {
-    out <- x
+    out <- .data 
   }
   add_tally(out, wt = !!enquo(wt), sort = sort, name = name)
 }
 
 
 #' @export
-add_count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+add_count.data.frame <- function(.data, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated(),
+                                 x = deprecated()) {
   if (!missing(.drop)) {
     lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )")
   }
 
   if (!missing(...)) {
-    out <- group_by(x, ..., .add = TRUE)
+    out <- group_by(.data, ..., .add = TRUE)
   } else {
-    out <- x
+    out <- .data 
   }
   out <- add_tally(out, wt = !!enquo(wt), sort = sort, name = name)
-  dplyr_reconstruct(out, x)
+  dplyr_reconstruct(out, .data)
 }
 
 #' @rdname count
 #' @export
-add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
-  n <- tally_n(x, {{ wt }})
-  name <- check_name(name, tbl_vars(x))
-  out <- mutate(x, !!name := !!n)
+add_tally <- function(.data, wt = NULL, sort = FALSE, name = NULL, x = deprecated()) {
+  if (lifecycle::is_present(x)) {
+    lifecycle::deprecate_warn("1.0.8", "add_tally(x)", "add_tally(.data)")
+    .data <- x
+  }
+
+  n <- tally_n(.data, {{ wt }})
+  name <- check_name(name, tbl_vars(.data))
+  out <- mutate(.data, !!name := !!n)
 
   if (sort) {
     arrange(out, desc(!!sym(name)))
@@ -162,7 +190,7 @@ add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 
 # Helpers -----------------------------------------------------------------
 
-tally_n <- function(x, wt) {
+tally_n <- function(.data, wt) {
   wt <- enquo(wt)
 
   if (is_call(quo_get_expr(wt), "n", n = 0)) {

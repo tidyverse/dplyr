@@ -1,6 +1,9 @@
 # dplyr (development version)
 
 *  `coalesce()` accepts 1-D arrays (#5557).
+*  The first argument of `count()`, `add_count()`, `tally()`, and `add_tally()` 
+   is renamed from `x` to `.data` to fit dplyr's terminology. The `x` argument 
+   is now deprecated. (#5944).
 
 # dplyr 1.0.7
 
