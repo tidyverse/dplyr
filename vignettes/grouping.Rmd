@@ -21,7 +21,7 @@ dplyr verbs are particularly powerful when you apply them to grouped data frames
 
 * How to group, inspect, and ungroup with `group_by()` and friends.
   
-* How individual dplyr verbs changes their behaviour when applied to grouped 
+* How individual dplyr verbs change their behaviour when applied to grouped 
   data frame.
 
 * How to access data about the "current" group from within a verb.
@@ -61,7 +61,7 @@ As well as grouping by existing variables, you can group by any function of exis
 bmi_breaks <- c(0, 18.5, 25, 30, Inf)
 
 starwars %>%
-  group_by(bmi_cat = cut(mass/(height/100)^2, breaks=bmi_breaks)) %>%
+  group_by(bmi_cat = cut(mass/(height/100)^2, breaks = bmi_breaks)) %>%
   tally()
 ```
 
@@ -277,7 +277,7 @@ Inside dplyr verbs, you can access various properties of the "current" group usi
 
 ### `cur_data()`
 
-`cur_data()` returns the current group, excluding grouping variables. It's useful to feed to functions that take a whole data frame. For example, the following code fits a linear model of `mass ~ height` to each species:
+`cur_data()` returns the current group, excluding grouping variables. It's useful to feed to functions that take a whole data frame. For example, the following code fits a linear model of `mass ~ height` to each species that has more than one member:
 
 ```{r cur_data}
 by_species %>%

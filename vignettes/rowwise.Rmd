@@ -21,11 +21,11 @@ dplyr, and R in general, are particularly well suited to performing operations o
 
 There are three common use cases that we discuss in this vignette:
 
-* Row-wise aggregates (e.g. compute the mean of x, y, z).
+* Row-wise aggregates (e.g. compute the mean of `x`, `y`, `z`).
 * Calling a function multiple times with varying arguments.
 * Working with list-columns.
 
-These types of problems are often easily solved with a for loop, but it's nice to have a solution that fits naturally into a pipeline.
+These types of problems are often easily solved with a `for` loop, but it's nice to have a solution that fits naturally into a pipeline.
 
 > Of course, someone has to write loops. It doesn't have to be you.
 > --- Jenny Bryan
@@ -156,7 +156,7 @@ You might try calling `length()`:
 df %>% mutate(l = length(x))
 ```
 
-But that returns the length of the column, not the length of the individual values. If you're an R documentation aficionado, you might know there's already a base R function just for this purpose:
+But that returns the length of the column, not the length of the individual values. If you're an R documentation aficionado, you might know that there's already a base R function just for this purpose:
 
 ```{r}
 df %>% mutate(l = lengths(x))
@@ -274,7 +274,7 @@ df <- tribble(
   ~ n, ~ min, ~ max,
     1,     0,     1,
     2,    10,   100,
-    3,   100,  1000,
+    3,   100,  1000
 )
 ```
 
@@ -341,11 +341,11 @@ df %>%
 
 ### `rowwise()`
 
-`rowwise()` was also questioning for quite some time, partly because I didn't appreciate how many people needed the native ability to compute summaries across multiple variables for each row. As an alternative, we recommended performing row-wise operations with the purrr `map()` functions. However, this was challenging because you needed to pick a map function based on the number of arguments that were varying and the type of result, which required quite some knowledge of purrr functions.
+The life cycle of `rowwise()` was [questioning](https://lifecycle.r-lib.org/articles/stages.html#superseded-stages-1) for quite some time, partly because I didn't appreciate how many people needed the native ability to compute summaries across multiple variables for each row. As an alternative, we recommended performing row-wise operations with the `purrr::map()` functions. However, this was challenging because you needed to pick a map function based on the number of arguments that were varying and the type of result, which required quite a lot of knowledge of purrr functions.
 
-I was also resistant to `rowwise()` because I felt like automatically switching between `[` to `[[` was too magical in the same way that automatically `list()`-ing results made `do()` too magical. I've now persuaded myself that the row-wise magic is good magic partly because most people find the distinction between `[` and `[[` mystifying and `rowwise()` means that you don't need to think about it.
+I was also resistant to `rowwise()` because I felt like automatically switching between `[` to `[[` was too magical in the same way that automatically `list()`-ing results made `do()` too magical. I've now persuaded myself that the row-wise magic is good magic partly because most people find the distinction between `[` and `[[` mystifying, and `rowwise()` means that you don't need to think about it.
 
-Since `rowwise()` clearly is useful it is not longer questioning, and we expect it to be around for the long term.
+Since `rowwise()` clearly is useful, it is not longer questioning, and we expect it to be around for the long term.
 
 ### `do()`
 

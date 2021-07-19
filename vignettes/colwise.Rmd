@@ -34,7 +34,7 @@ df %>%
   summarise(across(a:d, mean))
 ```
 
-We'll start by discussing the basic usage of `across()`, particularly as it applies to `summarise()`, and show how to use it with multiple functions. We'll then show a few uses with other verbs. We'll finish off with a bit of history, showing why we prefer `across()` to our last approach (the `_if()`, `_at()` and `_all()` functions) and how to translate your old code to the new syntax.
+We'll start by discussing the basic usage of `across()`, particularly as it applies to `summarise()`, and show how to use it with multiple functions. We'll then show a few uses with other verbs. We'll finish off with a bit of history, showing why we prefer `across()` to our previous approach (the `_if()`, `_at()` and `_all()` functions) and how to translate your old code to the new syntax.
 
 ```{r setup}
 library(dplyr, warn.conflicts = FALSE)
@@ -48,8 +48,8 @@ library(dplyr, warn.conflicts = FALSE)
   It uses tidy selection (like `select()`) so you can pick variables by 
   position, name, and type.
 
-* The second argument, `.fns`, is a function or list of functions to apply to
-  each column. This can also be a purrr style formula (or list of formulas)
+* The second argument, `.fns`, is a function or a list of functions to apply to
+  each column. This can also be a purrr style formula (or a list of formulas)
   like `~ .x / 2`. (This argument is optional, and you can omit it if you just want
   to get the underlying data; you'll see that technique used in
   `vignette("rowwise")`.)

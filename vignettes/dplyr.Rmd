@@ -18,7 +18,7 @@ library(dplyr)
 set.seed(1014)
 ```
 
-When working with data you must:
+When working with data, you must:
 
 * Figure out what you want to do.
 
@@ -285,7 +285,7 @@ select and mutate operations.
 One of the appealing features of dplyr is that you can refer to
 columns from the tibble as if they were regular variables. However,
 the syntactic uniformity of referring to bare column names hides
-semantical differences across the verbs. A column symbol supplied to
+semantic differences across the verbs. A column symbol supplied to
 `select()` does not have the same meaning as the same symbol supplied
 to `mutate()`.
 

@@ -20,14 +20,14 @@ This vignette compares dplyr functions to their base R equivalents. This helps t
 
 # Overview
 
-1.  The code dplyr verbs input and output data frames. This contrasts with base 
+1.  The core dplyr verbs input and output data frames. This contrasts with base 
     R functions which more frequently work with individual vectors.
 
 1.  dplyr relies heavily on "non-standard evaluation" so that you don't need to 
     use `$` to refer to columns in the "current" data frame. This behaviour 
     is inspired by the base functions `subset()` and `transform()`.
     
-1.  dplyr solutions tend to use a variety of single purpose verbs, while base 
+1.  dplyr solutions tend to use a variety of single-purpose verbs, while base 
     R solutions typically tend to use `[` in a variety of ways, depending on the 
     task at hand. 
     

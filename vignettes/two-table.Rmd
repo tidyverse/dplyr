@@ -71,8 +71,7 @@ As well as `x` and `y`, each mutating join takes an argument `by` that controls 
     Note that the year columns in the output are disambiguated with a suffix.
 
   * A named character vector: `by = c("x" = "a")`. This will
-    match variable `x` in table `x` to variable `a` in table `y`. The 
-    variables from use will be used in the output.
+    match variable `x` in table `x` to variable `a` in table `y`.
     
     Each flight has an origin and destination `airport`, so we need to specify
     which one we want to join to:
@@ -119,11 +118,11 @@ df2 <- tibble(x = c(3, 1), a = 10, b = "a")
     df1 %>% full_join(df2)
     ```
 
-The left, right and full joins are collectively know as __outer joins__. When a row doesn't match in an outer join, the new variables are filled in with missing values.
+The left, right, and full joins are collectively know as __outer joins__. When a row doesn't match in an outer join, the new variables are filled in with missing values (`NA`s).
 
 ### Observations
 
-While mutating joins are primarily used to add new variables, they can also generate new observations. If a match is not unique, a join will add all possible combinations (the Cartesian product) of the matching observations:
+While mutating joins are primarily used to add new _variables_, they can also generate new _observations_. If a match is not unique, a join will add all possible combinations (the Cartesian product) of the matching observations:
 
 ```{r}
 df1 <- tibble(x = c(1, 1, 2), y = 1:3)
@@ -134,7 +133,7 @@ df1 %>% left_join(df2)
 
 ## Filtering joins
 
-Filtering joins match observations in the same way as mutating joins, but affect the observations, not the variables. There are two types:
+Filtering joins match observations in the same way as mutating joins, but affect the _observations_, not the _variables_. There are two types:
 
 * `semi_join(x, y)` __keeps__ all observations in `x` that have a match in `y`.
 * `anti_join(x, y)` __drops__ all observations in `x` that have a match in `y`.
@@ -166,8 +165,8 @@ df1 %>% semi_join(df2, by = "x") %>% nrow()
 
 The final type of two-table verb is set operations. These expect the `x` and `y` inputs to have the same variables, and treat the observations like sets:
 
-* `intersect(x, y)`: return only observations in both `x` and `y`
-* `union(x, y)`: return unique observations in `x` and `y`
+* `intersect(x, y)`: return only observations in both `x` and `y`.
+* `union(x, y)`: return unique observations in `x` and `y`.
 * `setdiff(x, y)`: return observations in `x`, but not in `y`.
 
 Given this simple data:
@@ -186,6 +185,8 @@ union(df1, df2)
 setdiff(df1, df2)
 setdiff(df2, df1)
 ```
+
+Note that the order in which tables are entered makes a difference for `setdiff()`.
 
 ## Multiple-table verbs
 

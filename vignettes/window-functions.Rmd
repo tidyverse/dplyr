@@ -57,7 +57,7 @@ filter(players, G > mean(G))
 mutate(players, G_z = (G - mean(G)) / sd(G))
 ```
 
-Before reading this vignette, you should be familiar with `mutate()` and `filter()`. 
+Before reading this vignette, you should be familiar with `mutate()` and `filter()` (if not, see `vignette("dplyr")`).
 
 ## Types of window functions
 

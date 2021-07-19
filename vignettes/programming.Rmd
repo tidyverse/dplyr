@@ -25,7 +25,7 @@ Most dplyr verbs use **tidy evaluation** in some way. Tidy evaluation is a speci
 * `arrange()`, `count()`, `filter()`, `group_by()`, `mutate()`, and 
   `summarise()` use **data masking** so that you can use data variables as if 
   they were variables in the environment (i.e. you write `my_variable` not
-  `df$myvariable`). 
+  `df$my_variable`). 
 
 * `across()`, `relocate()`, `rename()`, `select()`, and `pull()` use 
   **tidy selection** so you can easily choose variables based on their position, 
@@ -66,7 +66,7 @@ The key idea behind data masking is that it blurs the line between the two diffe
 
 * **data-variables** are "statistical" variables that live in a data frame.
   They usually come from data files (e.g. `.csv`, `.xls`), or are created 
-  manipulating existing variables. 
+  by manipulating existing variables. 
   
 To make those definitions a little more concrete, take this piece of code:
 
@@ -118,7 +118,7 @@ The main challenge of programming with functions that use data masking arises wh
 
     Note that `.data` is not a data frame; it's a special construct, a pronoun, 
     that allows you to access the current variables either directly, with 
-    `.data$x` or indirectly with `.data[[var]]`. Don't expect other functions 
+    `.data$x`, or indirectly with `.data[[var]]`. Don't expect other functions 
     to work with it.
 
 [^promise]: In R, arguments are lazily evaluated which means that until you attempt to use, they don't hold a value, just a __promise__ that describes how to compute the value. You can learn more at <https://adv-r.hadley.nz/functions.html#lazy-evaluation>
@@ -129,7 +129,7 @@ Data masking makes it easy to compute on values within a dataset. Tidy selection
 
 ### The tidyselect DSL
 
-Underneath all functions that use tidy selection is the [tidyselect](https://tidyselect.r-lib.org/) package. It provides a miniature domain specific language that makes it easy to select columns by name, position, or type. For example:
+Underneath all functions that use tidy selection is the [tidyselect](https://tidyselect.r-lib.org/) package. It provides a miniature domain-specific language that makes it easy to select columns by name, position, or type. For example:
 
 * `select(df, 1)` selects the first column; 
   `select(df, last_col())` selects the last column.
@@ -330,7 +330,7 @@ my_summarise <- function(data, group_var, summarise_var) {
 
 ### Loop over multiple variables
 
-If you have a character vector of variable names, and want to operate on them with a for loop, index into the special `.data` pronoun:
+If you have a character vector of variable names, and want to operate on them with a `for` loop, index into the special `.data` pronoun:
 
 ```{r, results = FALSE}
 for (var in names(mtcars)) {
@@ -338,7 +338,7 @@ for (var in names(mtcars)) {
 }
 ```
 
-This same technique works with for loop alternatives like the base R `apply()` family and the purrr `map()` family:
+This same technique works with `for` loop alternatives like the base R `apply()` family and the purrr `map()` family:
 
 ```{r, results = FALSE}
 mtcars %>% 
