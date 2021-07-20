@@ -4,11 +4,11 @@ test_that("`dplyr_locale()` uses 'en' if stringi is available", {
   expect_identical(dplyr_locale(), "en")
 })
 
-test_that("`dplyr_locale()` respects `tidyverse.locale_collation`", {
-  local_options(tidyverse.locale_collation = "fr")
+test_that("`dplyr_locale()` respects `dplyr.locale`", {
+  local_options(dplyr.locale = "fr")
   expect_identical(dplyr_locale(), "fr")
 
-  local_options(tidyverse.locale_collation = 1)
+  local_options(dplyr.locale = 1)
   expect_snapshot(error = TRUE, dplyr_locale())
 })
 

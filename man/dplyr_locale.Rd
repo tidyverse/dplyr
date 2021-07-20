@@ -24,8 +24,8 @@ encouraging you to either install stringi, or replace usage of
 \subsection{Global override}{
 
 To override the above default behavior, you can set the global option,
-\code{tidyverse.locale_collation}, to either \code{"C"} or a stringi locale identifier
-from \code{\link[stringi:stri_locale_list]{stringi::stri_locale_list()}} to globally alter the default locale.
+\code{dplyr.locale}, to either \code{"C"} or a stringi locale identifier from
+\code{\link[stringi:stri_locale_list]{stringi::stri_locale_list()}} to globally alter the default locale.
 Setting this option to anything other than \code{"C"} requires stringi >= 1.5.3.
 }
 }

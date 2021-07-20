@@ -1,9 +1,9 @@
-# `dplyr_locale()` respects `tidyverse.locale_collation`
+# `dplyr_locale()` respects `dplyr.locale`
 
     Code
       dplyr_locale()
     Error <rlang_error>
-      If set, the global option `tidyverse.locale_collation` must be a string.
+      If set, the global option `dplyr.locale` must be a string.
 
 # `dplyr_locale()` falls back to the C locale with a warning if stringi is not available
 

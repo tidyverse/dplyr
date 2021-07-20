@@ -18,19 +18,19 @@
 #' ## Global override
 #'
 #' To override the above default behavior, you can set the global option,
-#' `tidyverse.locale_collation`, to either `"C"` or a stringi locale identifier
-#' from [stringi::stri_locale_list()] to globally alter the default locale.
+#' `dplyr.locale`, to either `"C"` or a stringi locale identifier from
+#' [stringi::stri_locale_list()] to globally alter the default locale.
 #' Setting this option to anything other than `"C"` requires stringi >= 1.5.3.
 #'
 #' @export
 dplyr_locale <- function() {
-  locale <- peek_option("tidyverse.locale_collation")
+  locale <- peek_option("dplyr.locale")
 
   if (is_string(locale)) {
     return(locale)
   }
   if (!is_null(locale)) {
-    abort("If set, the global option `tidyverse.locale_collation` must be a string.")
+    abort("If set, the global option `dplyr.locale` must be a string.")
   }
 
   dplyr_locale_default()
