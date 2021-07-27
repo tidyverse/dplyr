@@ -66,7 +66,8 @@
 count <- function(.data, ..., wt = NULL, sort = FALSE, name = NULL, x = deprecated()) {
   if (lifecycle::is_present(x)) {
     lifecycle::deprecate_warn("1.0.8", "count(x)", "count(.data)")
-    new_call <- call2(count, .data = x, enexpr(.data), ..., wt = wt, sort = sort, name = name)
+    new_call <- call2(count, .data = x, enexpr(.data), quote(...), wt = wt, 
+                      sort = sort, name = name)
     return(eval(new_call))
   }
 
