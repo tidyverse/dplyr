@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+*  `slice_head()` and `slice_tail()` accept negative values for `n` (#5961).
+
 *  `coalesce()` accepts 1-D arrays (#5557).
 
 # dplyr 1.0.7

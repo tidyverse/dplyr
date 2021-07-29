@@ -35,6 +35,9 @@
 #'   proportion of rows to select. If neither are supplied, `n = 1` will be
 #'   used.
 #'
+#"   A positive value of `n` includes the first/last `n` rows, while a negative 
+#'   value excludes the last/first `abs(n)` rows.
+#'
 #'   If `n` is greater than the number of rows in the group (or `prop > 1`),
 #'   the result will be silently truncated to the group size. If the
 #'   `prop`ortion of a group size is not an integer, it is rounded down.
@@ -133,6 +136,7 @@ slice_head.data.frame <- function(.data, ..., n, prop) {
   size <- check_slice_size(n, prop, "slice_head")
   idx <- switch(size$type,
     n =    function(n) seq2(1, min(size$n, n)),
+    n_neg = function(n) if(-size$n > n) 0 else seq2(1, n + size$n),
     prop = function(n) seq2(1, min(size$prop * n, n))
   )
 
@@ -151,6 +155,7 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
   size <- check_slice_size(n, prop, "slice_tail")
   idx <- switch(size$type,
     n =    function(n) seq2(max(n - size$n + 1, 1), n),
+    n_neg = function(n) seq2(max(1 - size$n, 0), n),
     prop = function(n) seq2(max(ceiling(n - size$prop * n) + 1, 1), n)
   )
   slice(.data, idx(dplyr::n()))
@@ -306,11 +311,15 @@ check_slice_size <- function(n, prop, .slice_fn = "check_slice_size") {
     if (!is.numeric(n) || length(n) != 1) {
       abort("`n` must be a single number.")
     }
-    if (is.na(n) || n < 0) {
-      abort("`n` must be a non-missing positive number.")
+    if (is.na(n)) {
+      abort("`n` must be a non-missing number.")
     }
-
-    list(type = "n", n = n)
+    if(n >= 0) {
+      list(type = "n", n = n)
+    }
+    else {
+      list(type = "n_neg", n = n)
+    }
   } else if (!missing(prop) && missing(n)) {
     prop <- check_constant(prop, "prop", .slice_fn)
     if (!is.numeric(prop) || length(prop) != 1) {
