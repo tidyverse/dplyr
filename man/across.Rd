@@ -73,7 +73,7 @@ set.seed(1)
 # Outside: 1 normal variate
 n <- rnorm(1)
 gdf \%>\% mutate(across(v1:v2, ~ .x + n))
-}\if{html}{\out{</div>}}\preformatted{## # A tibble: 4 x 3
+}\if{html}{\out{</div>}}\preformatted{## # A tibble: 4 × 3
 ## # Groups:   g [3]
 ##       g    v1    v2
 ##   <dbl> <dbl> <dbl>
@@ -83,7 +83,7 @@ gdf \%>\% mutate(across(v1:v2, ~ .x + n))
 ## 4     3 12.4   22.4
 }\if{html}{\out{<div class="r">}}\preformatted{# Inside a verb: 3 normal variates (ngroup)
 gdf \%>\% mutate(n = rnorm(1), across(v1:v2, ~ .x + n))
-}\if{html}{\out{</div>}}\preformatted{## # A tibble: 4 x 4
+}\if{html}{\out{</div>}}\preformatted{## # A tibble: 4 × 4
 ## # Groups:   g [3]
 ##       g    v1    v2      n
 ##   <dbl> <dbl> <dbl>  <dbl>
@@ -93,7 +93,7 @@ gdf \%>\% mutate(n = rnorm(1), across(v1:v2, ~ .x + n))
 ## 4     3  14.6  24.6  1.60
 }\if{html}{\out{<div class="r">}}\preformatted{# Inside `across()`: 6 normal variates (ncol * ngroup)
 gdf \%>\% mutate(across(v1:v2, ~ .x + rnorm(1)))
-}\if{html}{\out{</div>}}\preformatted{## # A tibble: 4 x 3
+}\if{html}{\out{</div>}}\preformatted{## # A tibble: 4 × 3
 ## # Groups:   g [3]
 ##       g    v1    v2
 ##   <dbl> <dbl> <dbl>
