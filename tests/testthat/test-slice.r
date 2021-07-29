@@ -189,6 +189,16 @@ test_that("slice() handles matrix and data frame columns (#3630)", {
 
 # Slice variants ----------------------------------------------------------
 
+test_that("slice_head/slice_tail work with negative n", {
+  res <- slice_head(mtcars, n = -2)
+  exp <- head(mtcars, n = -2)
+  expect_equal(res, exp, ignore_attr = TRUE)
+
+  res <- slice_tail(mtcars, n = -2)
+  exp <- tail(mtcars, n = -2)
+  expect_equal(res, exp, ignore_attr = TRUE)
+})
+
 test_that("functions silently truncate results", {
   df <- data.frame(x = 1:5)
 
