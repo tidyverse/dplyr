@@ -22,7 +22,7 @@
 #' mtcars %>% pull(-1)
 #' mtcars %>% pull(1)
 #' mtcars %>% pull(cyl)
-#' @examplesIf requireNamespace("dbplyr", quietly = TRUE)
+#' @examplesIf requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)
 #'
 #' # Also works for remote sources
 #' df <- dbplyr::memdb_frame(x = 1:10, y = 10:1, .name = "pull-ex")
