@@ -33,7 +33,7 @@ diagnosing performance problems.
 \examples{
 \dontshow{if (requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \donttest{
-lahman_s <- lahman_sqlite()
+lahman_s <- dbplyr::lahman_sqlite()
 batting <- tbl(lahman_s, "Batting")
 batting \%>\% show_query()
 batting \%>\% explain()

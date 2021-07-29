@@ -16,7 +16,7 @@
 #' @return The first argument, invisibly.
 #' @examplesIf requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)
 #' \donttest{
-#' lahman_s <- lahman_sqlite()
+#' lahman_s <- dbplyr::lahman_sqlite()
 #' batting <- tbl(lahman_s, "Batting")
 #' batting %>% show_query()
 #' batting %>% explain()
