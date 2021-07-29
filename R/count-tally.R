@@ -66,11 +66,11 @@
 count <- function(.data, ..., wt = NULL, sort = FALSE, name = NULL, x = deprecated()) {
   if (lifecycle::is_present(x)) {
     lifecycle::deprecate_warn("1.0.8", "count(x)", "count(.data)")
-    new_call <- call2(count, .data = x, enexpr(.data), quote(...), wt = wt, 
-                      sort = sort, name = name)
-    return(eval(new_call))
+    return(count_dispatch(
+      .data = x, !!enexpr(.data), ..., wt = !!enquo(wt),
+      sort = sort, name = name
+    ))
   }
-
   UseMethod("count")
 }
 
@@ -131,8 +131,10 @@ add_count <- function(.data, ..., wt = NULL, sort = FALSE, name = NULL, .drop = 
                       x = deprecated()) {
   if (lifecycle::is_present(x)) {
     lifecycle::deprecate_warn("1.0.8", "count(x)", "add_count(.data)")
-    new_call <- call2(add_count, .data = x, enexpr(.data), ..., wt = wt, sort = sort, name = name)
-    return(eval(new_call))
+    return(add_count_dispatch(
+      .data = x, !!enexpr(.data), ..., wt = !!enquo(wt),
+      sort = sort, name = name
+    ))
   }
 
   UseMethod("add_count")
@@ -148,7 +150,7 @@ add_count.default <- function(.data, ..., wt = NULL, sort = FALSE, name = NULL, 
   if (!missing(...)) {
     out <- group_by(.data, ..., .add = TRUE)
   } else {
-    out <- .data 
+    out <- .data
   }
   add_tally(out, wt = !!enquo(wt), sort = sort, name = name)
 }
@@ -164,7 +166,7 @@ add_count.data.frame <- function(.data, ..., wt = NULL, sort = FALSE, name = NUL
   if (!missing(...)) {
     out <- group_by(.data, ..., .add = TRUE)
   } else {
-    out <- .data 
+    out <- .data
   }
   out <- add_tally(out, wt = !!enquo(wt), sort = sort, name = name)
   dplyr_reconstruct(out, .data)
@@ -190,6 +192,14 @@ add_tally <- function(.data, wt = NULL, sort = FALSE, name = NULL, x = deprecate
 }
 
 # Helpers -----------------------------------------------------------------
+
+count_dispatch <- function(.data, ..., wt = NULL, sort = FALSE, name = NULL) {
+  UseMethod("count")
+}
+
+add_count_dispatch <- function(.data, ..., wt = NULL, sort = FALSE, name = NULL) {
+  UseMethod("add_count")
+}
 
 tally_n <- function(.data, wt) {
   wt <- enquo(wt)
