@@ -56,7 +56,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org" class="external-link">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.6.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.7.9000</span>
         </div>
       </div>
     </div>
@@ -188,7 +188,7 @@
 <p>You can see the grouping when you print the data:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">by_species</span>
-<span class="co">#&gt; # A tibble: 87 x 14</span>
+<span class="co">#&gt; # A tibble: 87 × 14</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
 <span class="co">#&gt;   name     height  mass hair_color skin_color  eye_color birth_year sex   gender</span>
 <span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
@@ -199,7 +199,7 @@
 <span class="co">#&gt; # … with 83 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 <span class="va">by_sex_gender</span>
-<span class="co">#&gt; # A tibble: 87 x 14</span>
+<span class="co">#&gt; # A tibble: 87 × 14</span>
 <span class="co">#&gt; # Groups:   sex, gender [6]</span>
 <span class="co">#&gt;   name     height  mass hair_color skin_color  eye_color birth_year sex   gender</span>
 <span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
@@ -212,7 +212,7 @@
 <p>Or use <code><a href="../reference/count.html">tally()</a></code> to count the number of rows in each group. The <code>sort</code> argument is useful if you want to see the largest groups up front.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 38 x 2</span>
+<span class="co">#&gt; # A tibble: 38 × 2</span>
 <span class="co">#&gt;   species      n</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1 Aleena       1</span>
@@ -222,7 +222,7 @@
 <span class="co">#&gt; # … with 34 more rows</span>
 
 <span class="va">by_sex_gender</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span>sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 x 3</span>
+<span class="co">#&gt; # A tibble: 6 × 3</span>
 <span class="co">#&gt; # Groups:   sex [5]</span>
 <span class="co">#&gt;   sex    gender        n</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;int&gt;</span>
@@ -238,7 +238,7 @@
 <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span>bmi_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">mass</span><span class="op">/</span><span class="op">(</span><span class="va">height</span><span class="op">/</span><span class="fl">100</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span>, breaks<span class="op">=</span><span class="va">bmi_breaks</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 5 x 2</span>
+<span class="co">#&gt; # A tibble: 5 × 2</span>
 <span class="co">#&gt;   bmi_cat       n</span>
 <span class="co">#&gt;   &lt;fct&gt;     &lt;int&gt;</span>
 <span class="co">#&gt; 1 (0,18.5]     10</span>
@@ -253,7 +253,7 @@
 <p>You can see underlying group data with <code><a href="../reference/group_data.html">group_keys()</a></code>. It has one row for each group and one column for each grouping variable:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_data.html">group_keys</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 38 x 1</span>
+<span class="co">#&gt; # A tibble: 38 × 1</span>
 <span class="co">#&gt;   species </span>
 <span class="co">#&gt;   &lt;chr&gt;   </span>
 <span class="co">#&gt; 1 Aleena  </span>
@@ -263,7 +263,7 @@
 <span class="co">#&gt; # … with 34 more rows</span>
 
 <span class="va">by_sex_gender</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_data.html">group_keys</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 x 2</span>
+<span class="co">#&gt; # A tibble: 6 × 2</span>
 <span class="co">#&gt;   sex            gender   </span>
 <span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;    </span>
 <span class="co">#&gt; 1 female         feminine </span>
@@ -313,7 +313,7 @@
 <code class="sourceCode R"><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 49 x 2</span>
+<span class="co">#&gt; # A tibble: 49 × 2</span>
 <span class="co">#&gt;   homeworld       n</span>
 <span class="co">#&gt;   &lt;chr&gt;       &lt;int&gt;</span>
 <span class="co">#&gt; 1 Alderaan        3</span>
@@ -326,7 +326,7 @@
 <code class="sourceCode R"><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span>, .add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 58 x 3</span>
+<span class="co">#&gt; # A tibble: 58 × 3</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
 <span class="co">#&gt;   species  homeworld       n</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;       &lt;int&gt;</span>
@@ -344,7 +344,7 @@
 <code class="sourceCode R"><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 x 1</span>
+<span class="co">#&gt; # A tibble: 1 × 1</span>
 <span class="co">#&gt;       n</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
 <span class="co">#&gt; 1    87</span></code></pre></div>
@@ -353,7 +353,7 @@
 <code class="sourceCode R"><span class="va">by_sex_gender</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 3 x 2</span>
+<span class="co">#&gt; # A tibble: 3 × 2</span>
 <span class="co">#&gt;   gender        n</span>
 <span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt;</span>
 <span class="co">#&gt; 1 feminine     17</span>
@@ -376,7 +376,7 @@
     n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,
     height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">height</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
   <span class="op">)</span>
-<span class="co">#&gt; # A tibble: 38 x 3</span>
+<span class="co">#&gt; # A tibble: 38 × 3</span>
 <span class="co">#&gt;   species      n height</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt;  &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 Aleena       1     79</span>
@@ -417,7 +417,7 @@
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span>
 <span class="co">#&gt; Adding missing grouping variables: `species`</span>
-<span class="co">#&gt; # A tibble: 87 x 2</span>
+<span class="co">#&gt; # A tibble: 87 × 2</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
 <span class="co">#&gt;   species  mass</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt;</span>
@@ -437,7 +437,7 @@
 <code class="sourceCode R"><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">mass</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 87 x 14</span>
+<span class="co">#&gt; # A tibble: 87 × 14</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
 <span class="co">#&gt;   species  mass name    height hair_color skin_color  eye_color birth_year sex  </span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span>
@@ -451,7 +451,7 @@
 <span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span>, .by_group <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">mass</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 87 x 14</span>
+<span class="co">#&gt; # A tibble: 87 × 14</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
 <span class="co">#&gt;   species   mass name    height hair_color skin_color eye_color birth_year sex  </span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span>
@@ -473,7 +473,7 @@
 <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">homeworld</span>, <span class="va">mass</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>standard_mass <span class="op">=</span> <span class="va">mass</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mass</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 87 x 4</span>
+<span class="co">#&gt; # A tibble: 87 × 4</span>
 <span class="co">#&gt;   name           homeworld  mass standard_mass</span>
 <span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;     &lt;dbl&gt;         &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 Luke Skywalker Tatooine     77         -20.3</span>
@@ -487,7 +487,7 @@
   <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">homeworld</span>, <span class="va">mass</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>standard_mass <span class="op">=</span> <span class="va">mass</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mass</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 87 x 4</span>
+<span class="co">#&gt; # A tibble: 87 × 4</span>
 <span class="co">#&gt; # Groups:   homeworld [49]</span>
 <span class="co">#&gt;   name           homeworld  mass standard_mass</span>
 <span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;     &lt;dbl&gt;         &lt;dbl&gt;</span>
@@ -502,7 +502,7 @@
 <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">homeworld</span>, <span class="va">height</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu"><a href="../reference/ranking.html">min_rank</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 87 x 4</span>
+<span class="co">#&gt; # A tibble: 87 × 4</span>
 <span class="co">#&gt;   name           homeworld height  rank</span>
 <span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;      &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1 Luke Skywalker Tatooine     172    29</span>
@@ -516,7 +516,7 @@
   <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">homeworld</span>, <span class="va">height</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu"><a href="../reference/ranking.html">min_rank</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 87 x 4</span>
+<span class="co">#&gt; # A tibble: 87 × 4</span>
 <span class="co">#&gt; # Groups:   homeworld [49]</span>
 <span class="co">#&gt;   name           homeworld height  rank</span>
 <span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;      &lt;int&gt; &lt;int&gt;</span>
@@ -535,7 +535,7 @@
 <code class="sourceCode R"><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">species</span>, <span class="va">height</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">height</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 35 x 3</span>
+<span class="co">#&gt; # A tibble: 35 × 3</span>
 <span class="co">#&gt; # Groups:   species [35]</span>
 <span class="co">#&gt;   name                  species        height</span>
 <span class="co">#&gt;   &lt;chr&gt;                 &lt;chr&gt;           &lt;int&gt;</span>
@@ -549,7 +549,7 @@
 <code class="sourceCode R"><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span> <span class="op">!=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 9 x 2</span>
+<span class="co">#&gt; # A tibble: 9 × 2</span>
 <span class="co">#&gt;   species      n</span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1 Droid        6</span>
@@ -566,7 +566,7 @@
 <code class="sourceCode R"><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/slice.html">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 38 x 14</span>
+<span class="co">#&gt; # A tibble: 38 × 14</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
 <span class="co">#&gt;   species  name    height  mass hair_color skin_color eye_color birth_year sex  </span>
 <span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span>
@@ -581,7 +581,7 @@
 <code class="sourceCode R"><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/slice.html">slice_min</a></span><span class="op">(</span><span class="va">height</span>, n <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 48 x 14</span>
+<span class="co">#&gt; # A tibble: 48 × 14</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
 <span class="co">#&gt;   name      height  mass hair_color skin_color eye_color birth_year sex   gender</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
@@ -606,7 +606,7 @@
 <code class="sourceCode R"><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>mod <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mass</span> <span class="op">~</span> <span class="va">height</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/context.html">cur_data</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 58 x 15</span>
+<span class="co">#&gt; # A tibble: 58 × 15</span>
 <span class="co">#&gt; # Groups:   species [9]</span>
 <span class="co">#&gt;   name     height  mass hair_color skin_color  eye_color birth_year sex   gender</span>
 <span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
@@ -627,7 +627,7 @@
   <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">species</span>, <span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="../reference/context.html">cur_group_id</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 87 x 4</span>
+<span class="co">#&gt; # A tibble: 87 × 4</span>
 <span class="co">#&gt; # Groups:   species [38]</span>
 <span class="co">#&gt;   name            species  homeworld      id</span>
 <span class="co">#&gt;   &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;       &lt;int&gt;</span>
