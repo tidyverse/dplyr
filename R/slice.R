@@ -314,11 +314,14 @@ check_slice_size <- function(n, prop, .slice_fn = "check_slice_size") {
     if (is.na(n)) {
       abort("`n` must be a non-missing number.")
     }
-    if(n >= 0) {
+    if (n < 0) { 
+      if (.slice_fn %in% c("slice_head", "slice_tail")) {
+        list(type = "n_neg", n = n)
+      } else {
+        abort("`n` must be a positive number")
+      }
+    } else {
       list(type = "n", n = n)
-    }
-    else {
-      list(type = "n_neg", n = n)
     }
   } else if (!missing(prop) && missing(n)) {
     prop <- check_constant(prop, "prop", .slice_fn)
