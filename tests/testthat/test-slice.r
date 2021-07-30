@@ -307,6 +307,7 @@ test_that("rename errors with invalid grouped data frame (#640)", {
   expect_snapshot(error = TRUE, check_slice_size(n = 1, prop = 1))
   expect_snapshot(error = TRUE, check_slice_size(n = "a"))
   expect_snapshot(error = TRUE, check_slice_size(prop = "a"))
+  expect_snapshot(error = TRUE, check_slice_size(n = -1))
   expect_snapshot(error = TRUE, check_slice_size(prop = -1))
   expect_snapshot(error = TRUE, check_slice_size(n = n()))
   expect_snapshot(error = TRUE, check_slice_size(prop = n()))
