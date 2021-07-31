@@ -318,7 +318,7 @@ check_slice_size <- function(n, prop, .slice_fn = "check_slice_size") {
       if (.slice_fn %in% c("slice_head", "slice_tail")) {
         list(type = "n_neg", n = n)
       } else {
-        abort("`n` must be a positive number")
+        abort(glue("`n` must be a positive number in `{.slice_fn}()`."))
       }
     } else {
       list(type = "n", n = n)
