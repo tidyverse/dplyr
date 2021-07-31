@@ -52,7 +52,7 @@
     Code
       check_slice_size(n = -1)
     Error <rlang_error>
-      `n` must be a positive number
+      `n` must be a positive number in `check_slice_size()`.
 
 ---
 
