@@ -135,8 +135,10 @@ slice_head.data.frame <- function(.data, ..., n, prop) {
   ellipsis::check_dots_empty()
   size <- check_slice_size(n, prop, "slice_head")
   idx <- switch(size$type,
-    n =    function(n) seq2(1, min(size$n, n)),
-    n_neg = function(n) if(-size$n > n) 0 else seq2(1, n + size$n),
+    n = function(n) {
+      idx_end = if (size$n < 0) max(n + size$n, 0) else min(size$n, n)
+      seq2(1, idx_end)
+    },
     prop = function(n) seq2(1, min(size$prop * n, n))
   )
 
@@ -154,8 +156,10 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
   ellipsis::check_dots_empty()
   size <- check_slice_size(n, prop, "slice_tail")
   idx <- switch(size$type,
-    n =    function(n) seq2(max(n - size$n + 1, 1), n),
-    n_neg = function(n) seq2(max(1 - size$n, 0), n),
+    n = function(n) {
+      idx_start <- if (size$n < 0) max(1 - size$n, 0) else max(n - size$n + 1, 1)
+      seq2(idx_start, n)
+    },
     prop = function(n) seq2(max(ceiling(n - size$prop * n) + 1, 1), n)
   )
   slice(.data, idx(dplyr::n()))
@@ -314,15 +318,11 @@ check_slice_size <- function(n, prop, .slice_fn = "check_slice_size") {
     if (is.na(n)) {
       abort("`n` must be a non-missing number.")
     }
-    if (n < 0) { 
-      if (.slice_fn %in% c("slice_head", "slice_tail")) {
-        list(type = "n_neg", n = n)
-      } else {
-        abort(glue("`n` must be a positive number in `{.slice_fn}()`."))
-      }
-    } else {
-      list(type = "n", n = n)
+    if (n < 0 && !.slice_fn %in% c("slice_head", "slice_tail")) {
+      abort(glue("`n` must be a positive number in `{.slice_fn}()`."))
     }
+
+    list(type = "n", n = n)
   } else if (!missing(prop) && missing(n)) {
     prop <- check_constant(prop, "prop", .slice_fn)
     if (!is.numeric(prop) || length(prop) != 1) {
