@@ -85,3 +85,4 @@ filter_if(mtcars, ~ all(floor(.) == .), all_vars(. != 0))
 is_int <- function(x) all(floor(x) == x)
 filter(mtcars, if_all(where(is_int), ~ .x != 0))
 }
+\keyword{internal}

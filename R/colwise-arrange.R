@@ -19,6 +19,7 @@
 #' in the sorting of the data frame.
 #'
 #' @export
+#' @keywords internal
 #' @examples
 #' df <- as_tibble(mtcars)
 #' arrange_all(df)

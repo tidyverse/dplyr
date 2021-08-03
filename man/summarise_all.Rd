@@ -157,3 +157,4 @@ by_species \%>\%
 \seealso{
 \link[=scoped]{The other scoped verbs}, \code{\link[=vars]{vars()}}
 }
+\keyword{internal}

@@ -72,3 +72,4 @@ distinct_all(df, round)
 # ->
 distinct(df, across(everything(), round))
 }
+\keyword{internal}

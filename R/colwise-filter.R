@@ -27,6 +27,7 @@
 #' The grouping variables that are part of the selection are taken
 #' into account to determine filtered rows.
 #'
+#' @keywords internal
 #' @examples
 #' # While filter() accepts expressions with specific variables, the
 #' # scoped filter verbs take an expression with the pronoun `.` and
