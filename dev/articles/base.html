@@ -315,19 +315,19 @@
 <span class="co">#&gt; # A tibble: 10 × 1</span>
 <span class="co">#&gt;       x</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
-<span class="co">#&gt; 1     3</span>
-<span class="co">#&gt; 2     5</span>
-<span class="co">#&gt; 3     4</span>
-<span class="co">#&gt; 4     7</span>
+<span class="co">#&gt; 1     8</span>
+<span class="co">#&gt; 2     7</span>
+<span class="co">#&gt; 3     3</span>
+<span class="co">#&gt; 4     2</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 <span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/distinct.html">distinct</a></span><span class="op">(</span><span class="va">x</span>, .keep_all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># whole data frame</span>
 <span class="co">#&gt; # A tibble: 10 × 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1     3     8</span>
-<span class="co">#&gt; 2     5     2</span>
-<span class="co">#&gt; 3     4     5</span>
-<span class="co">#&gt; 4     7     8</span>
+<span class="co">#&gt; 1     8     7</span>
+<span class="co">#&gt; 2     7     2</span>
+<span class="co">#&gt; 3     3     2</span>
+<span class="co">#&gt; 4     2     5</span>
 <span class="co">#&gt; # … with 6 more rows</span></code></pre></div>
 <p>There are two equivalents in base R, depending on whether you want the whole data frame, or just selected variables:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -335,19 +335,19 @@
 <span class="co">#&gt; # A tibble: 10 × 1</span>
 <span class="co">#&gt;       x</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
-<span class="co">#&gt; 1     3</span>
-<span class="co">#&gt; 2     5</span>
-<span class="co">#&gt; 3     4</span>
-<span class="co">#&gt; 4     7</span>
+<span class="co">#&gt; 1     8</span>
+<span class="co">#&gt; 2     7</span>
+<span class="co">#&gt; 3     3</span>
+<span class="co">#&gt; 4     2</span>
 <span class="co">#&gt; # … with 6 more rows</span>
 <span class="va">df</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">duplicated</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">x</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span> <span class="co"># whole data frame</span>
 <span class="co">#&gt; # A tibble: 10 × 2</span>
 <span class="co">#&gt;       x     y</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1     3     8</span>
-<span class="co">#&gt; 2     5     2</span>
-<span class="co">#&gt; 3     4     5</span>
-<span class="co">#&gt; 4     7     8</span>
+<span class="co">#&gt; 1     8     7</span>
+<span class="co">#&gt; 2     7     2</span>
+<span class="co">#&gt; 3     3     2</span>
+<span class="co">#&gt; 4     2     5</span>
 <span class="co">#&gt; # … with 6 more rows</span></code></pre></div>
 </div>
 <div id="filter-return-rows-with-matching-conditions" class="section level2">
@@ -374,12 +374,12 @@
 <span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">hair_color</span> <span class="op">==</span> <span class="st">"none"</span> <span class="op">&amp;</span> <span class="va">eye_color</span> <span class="op">==</span> <span class="st">"black"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 9 × 14</span>
-<span class="co">#&gt;   name    height  mass hair_color skin_color  eye_color birth_year sex   gender </span>
-<span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  </span>
-<span class="co">#&gt; 1 Nien N…    160    68 none       grey        black             NA male  mascul…</span>
-<span class="co">#&gt; 2 Gasgano    122    NA none       white, blue black             NA male  mascul…</span>
-<span class="co">#&gt; 3 Kit Fi…    196    87 none       green       black             NA male  mascul…</span>
-<span class="co">#&gt; 4 Plo Ko…    188    80 none       orange      black             22 male  mascul…</span>
+<span class="co">#&gt;   name      height  mass hair_color skin_color  eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Nien Nunb    160    68 none       grey        black             NA male  mascu…</span>
+<span class="co">#&gt; 2 Gasgano      122    NA none       white, blue black             NA male  mascu…</span>
+<span class="co">#&gt; 3 Kit Fisto    196    87 none       green       black             NA male  mascu…</span>
+<span class="co">#&gt; 4 Plo Koon     188    80 none       orange      black             22 male  mascu…</span>
 <span class="co">#&gt; # … with 5 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
 <p>The closest base equivalent (and the inspiration for <code><a href="../reference/filter.html">filter()</a></code>) is <code><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset()</a></code>:</p>
@@ -403,12 +403,12 @@
 <span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="va">hair_color</span> <span class="op">==</span> <span class="st">"none"</span> <span class="op">&amp;</span> <span class="va">eye_color</span> <span class="op">==</span> <span class="st">"black"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 9 × 14</span>
-<span class="co">#&gt;   name    height  mass hair_color skin_color  eye_color birth_year sex   gender </span>
-<span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  </span>
-<span class="co">#&gt; 1 Nien N…    160    68 none       grey        black             NA male  mascul…</span>
-<span class="co">#&gt; 2 Gasgano    122    NA none       white, blue black             NA male  mascul…</span>
-<span class="co">#&gt; 3 Kit Fi…    196    87 none       green       black             NA male  mascul…</span>
-<span class="co">#&gt; 4 Plo Ko…    188    80 none       orange      black             22 male  mascul…</span>
+<span class="co">#&gt;   name      height  mass hair_color skin_color  eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Nien Nunb    160    68 none       grey        black             NA male  mascu…</span>
+<span class="co">#&gt; 2 Gasgano      122    NA none       white, blue black             NA male  mascu…</span>
+<span class="co">#&gt; 3 Kit Fisto    196    87 none       green       black             NA male  mascu…</span>
+<span class="co">#&gt; 4 Plo Koon     188    80 none       orange      black             22 male  mascu…</span>
 <span class="co">#&gt; # … with 5 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
 <p>You can also use <code>[</code> but this also requires the use of <code><a href="https://rdrr.io/r/base/which.html" class="external-link">which()</a></code> to remove <code>NA</code>s:</p>
@@ -432,12 +432,12 @@
 <span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 <span class="va">starwars</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">$</span><span class="va">hair_color</span> <span class="op">==</span> <span class="st">"none"</span> <span class="op">&amp;</span> <span class="va">starwars</span><span class="op">$</span><span class="va">eye_color</span> <span class="op">==</span> <span class="st">"black"</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>
 <span class="co">#&gt; # A tibble: 9 × 14</span>
-<span class="co">#&gt;   name    height  mass hair_color skin_color  eye_color birth_year sex   gender </span>
-<span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  </span>
-<span class="co">#&gt; 1 Nien N…    160    68 none       grey        black             NA male  mascul…</span>
-<span class="co">#&gt; 2 Gasgano    122    NA none       white, blue black             NA male  mascul…</span>
-<span class="co">#&gt; 3 Kit Fi…    196    87 none       green       black             NA male  mascul…</span>
-<span class="co">#&gt; 4 Plo Ko…    188    80 none       orange      black             22 male  mascul…</span>
+<span class="co">#&gt;   name      height  mass hair_color skin_color  eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Nien Nunb    160    68 none       grey        black             NA male  mascu…</span>
+<span class="co">#&gt; 2 Gasgano      122    NA none       white, blue black             NA male  mascu…</span>
+<span class="co">#&gt; 3 Kit Fisto    196    87 none       green       black             NA male  mascu…</span>
+<span class="co">#&gt; 4 Plo Koon     188    80 none       orange      black             22 male  mascu…</span>
 <span class="co">#&gt; # … with 5 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
 </div>
@@ -450,21 +450,21 @@
 <span class="co">#&gt; # A tibble: 100 × 4</span>
 <span class="co">#&gt;       x     y     z    z2</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     3     8    11   121</span>
-<span class="co">#&gt; 2     5     2     7    49</span>
-<span class="co">#&gt; 3     4     5     9    81</span>
-<span class="co">#&gt; 4     7     8    15   225</span>
+<span class="co">#&gt; 1     8     7    15   225</span>
+<span class="co">#&gt; 2     7     2     9    81</span>
+<span class="co">#&gt; 3     3     2     5    25</span>
+<span class="co">#&gt; 4     2     5     7    49</span>
 <span class="co">#&gt; # … with 96 more rows</span></code></pre></div>
 <p>The closest base equivalent is <code><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform()</a></code>, but note that it cannot use freshly created variables:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform</a></span><span class="op">(</span><span class="va">df</span>, z <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span>, z2 <span class="op">=</span> <span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;   x y  z  z2</span>
-<span class="co">#&gt; 1 3 8 11 121</span>
-<span class="co">#&gt; 2 5 2  7  49</span>
-<span class="co">#&gt; 3 4 5  9  81</span>
-<span class="co">#&gt; 4 7 8 15 225</span>
-<span class="co">#&gt; 5 7 8 15 225</span>
-<span class="co">#&gt; 6 9 1 10 100</span></code></pre></div>
+<span class="co">#&gt; 1 8 7 15 225</span>
+<span class="co">#&gt; 2 7 2  9  81</span>
+<span class="co">#&gt; 3 3 2  5  25</span>
+<span class="co">#&gt; 4 2 5  7  49</span>
+<span class="co">#&gt; 5 8 4 12 144</span>
+<span class="co">#&gt; 6 8 4 12 144</span></code></pre></div>
 <p>Alternatively, you can use <code>$&lt;-</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mtcars</span><span class="op">$</span><span class="va">cyl2</span> <span class="op">&lt;-</span> <span class="va">mtcars</span><span class="op">$</span><span class="va">cyl</span> <span class="op">*</span> <span class="fl">2</span>

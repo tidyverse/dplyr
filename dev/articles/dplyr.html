@@ -328,12 +328,12 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/slice.html">slice_sample</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 5 × 14</span>
-<span class="co">#&gt;   name   height  mass hair_color skin_color   eye_color birth_year sex    gender</span>
-<span class="co">#&gt;   &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;        &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; </span>
-<span class="co">#&gt; 1 Dud B…     94    45 none       blue, grey   yellow            NA male   mascu…</span>
-<span class="co">#&gt; 2 Bossk     190   113 none       green        red               53 male   mascu…</span>
-<span class="co">#&gt; 3 Shaak…    178    57 none       red, blue, … black             NA female femin…</span>
-<span class="co">#&gt; 4 Dormé     165    NA brown      light        brown             NA female femin…</span>
+<span class="co">#&gt;   name     height  mass hair_color skin_color  eye_color birth_year sex   gender</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Dud Bolt     94    45 none       blue, grey  yellow            NA male  mascu…</span>
+<span class="co">#&gt; 2 Bossk       190   113 none       green       red               53 male  mascu…</span>
+<span class="co">#&gt; 3 Shaak Ti    178    57 none       red, blue,… black             NA fema… femin…</span>
+<span class="co">#&gt; 4 Dormé       165    NA brown      light       brown             NA fema… femin…</span>
 <span class="co">#&gt; # … with 1 more row, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/slice.html">slice_sample</a></span><span class="op">(</span>prop <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>
@@ -507,12 +507,12 @@
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">sex</span><span class="op">:</span><span class="va">homeworld</span>, .before <span class="op">=</span> <span class="va">height</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 87 × 14</span>
-<span class="co">#&gt;   name      sex   gender  homeworld height  mass hair_color skin_color eye_color</span>
-<span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;    </span>
-<span class="co">#&gt; 1 Luke Sky… male  mascul… Tatooine     172    77 blond      fair       blue     </span>
-<span class="co">#&gt; 2 C-3PO     none  mascul… Tatooine     167    75 &lt;NA&gt;       gold       yellow   </span>
-<span class="co">#&gt; 3 R2-D2     none  mascul… Naboo         96    32 &lt;NA&gt;       white, bl… red      </span>
-<span class="co">#&gt; 4 Darth Va… male  mascul… Tatooine     202   136 none       white      yellow   </span>
+<span class="co">#&gt;   name           sex   gender homeworld height  mass hair_color skin_color eye_color</span>
+<span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;    </span>
+<span class="co">#&gt; 1 Luke Skywalker male  mascu… Tatooine     172    77 blond      fair       blue     </span>
+<span class="co">#&gt; 2 C-3PO          none  mascu… Tatooine     167    75 &lt;NA&gt;       gold       yellow   </span>
+<span class="co">#&gt; 3 R2-D2          none  mascu… Naboo         96    32 &lt;NA&gt;       white, bl… red      </span>
+<span class="co">#&gt; 4 Darth Vader    male  mascu… Tatooine     202   136 none       white      yellow   </span>
 <span class="co">#&gt; # … with 83 more rows, and 5 more variables: birth_year &lt;dbl&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
 </div>
