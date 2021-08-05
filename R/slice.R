@@ -312,11 +312,8 @@ check_slice_size <- function(n, prop, .slice_fn = "check_slice_size") {
     list(type = "n", n = 1L)
   } else if (!missing(n) && missing(prop)) {
     n <- check_constant(n, "n", .slice_fn)
-    if (!is.numeric(n) || length(n) != 1) {
-      abort("`n` must be a single number.")
-    }
-    if (is.na(n)) {
-      abort("`n` must be a non-missing number.")
+    if (!is.numeric(n) || length(n) != 1 || is.na(n)) {
+      abort("`n` must be a single non-missing number.")
     }
     if (n < 0 && !.slice_fn %in% c("slice_head", "slice_tail")) {
       abort(glue("`n` must be a positive number in `{.slice_fn}()`."))
@@ -325,11 +322,11 @@ check_slice_size <- function(n, prop, .slice_fn = "check_slice_size") {
     list(type = "n", n = n)
   } else if (!missing(prop) && missing(n)) {
     prop <- check_constant(prop, "prop", .slice_fn)
-    if (!is.numeric(prop) || length(prop) != 1) {
-      abort("`prop` must be a single number")
+    if (!is.numeric(prop) || length(prop) != 1 || is.na(prop)) {
+      abort("`prop` must be a single non-missing number.")
     }
-    if (is.na(prop) || prop < 0) {
-      abort("`prop` must be a non-missing positive number.")
+    if (prop < 0) {
+      abort("`prop` must be a positive number.")
     }
     list(type = "prop", prop = prop)
   } else {
