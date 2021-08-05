@@ -189,16 +189,6 @@ test_that("slice() handles matrix and data frame columns (#3630)", {
 
 # Slice variants ----------------------------------------------------------
 
-test_that("slice_head/slice_tail work with negative n", {
-  res <- slice_head(mtcars, n = -2)
-  exp <- head(mtcars, n = -2)
-  expect_equal(res, exp, ignore_attr = TRUE)
-
-  res <- slice_tail(mtcars, n = -2)
-  exp <- tail(mtcars, n = -2)
-  expect_equal(res, exp, ignore_attr = TRUE)
-})
-
 test_that("functions silently truncate results", {
   df <- data.frame(x = 1:5)
 
@@ -288,6 +278,41 @@ test_that("slice_sample() does not error on zero rows (#5729)", {
   df <- tibble(dummy = character(), weight = numeric(0))
   res <- expect_error(slice_sample(df, prop=0.5, weight_by = weight), NA)
   expect_equal(nrow(res), 0L)
+})
+
+test_that("slice_head/slice_tail correctly slice ungrouped df when n < 0", {
+  df <- data.frame(x = 1:10)
+
+  expect_equal(
+    slice_head(df, n = -2),
+    slice_head(df, n = nrow(df) - 2)
+  )
+  expect_equal(
+    slice_tail(df, n = -2),
+    slice_tail(df, n = nrow(df) - 2)
+  )
+})
+
+test_that("slice_head/slice_tail correctly slice grouped df when n < 0", {
+  df <- data.frame(x = 1:10, g = c(rep(1, 8), rep(2, 2))) %>% group_by(g)
+
+  expect_equal(
+    slice_head(df, n = -3),
+    slice(df, rlang::seq2(1L, n() - 3))
+  )
+  expect_equal(
+    n_groups(slice_head(df, n = -3)),
+    1L
+  )
+  expect_equal(
+    slice_tail(df, n = -3),
+    slice(df, rlang::seq2(3 + 1, n()))
+  )
+  expect_equal(
+    n_groups(slice_tail(df, n = -3)),
+    1L
+  )
+
 })
 
 # Errors ------------------------------------------------------------------
