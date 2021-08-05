@@ -21,6 +21,7 @@
 #' The grouping variables that are part of the selection are taken
 #' into account to determine distinct rows.
 #'
+#' @keywords internal
 #' @examples
 #' df <- tibble(x = rep(2:5, each = 2) / 2, y = rep(2:3, each = 4) / 2)
 #'
