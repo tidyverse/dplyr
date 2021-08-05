@@ -66,14 +66,14 @@
     Code
       sample_frac(df, 2)
     Error <rlang_error>
-      `size` of sampled fraction must be less or equal to one, set `replace` = TRUE to use sampling with replacement.
+      `size` of sampled fraction must be less than or equal to one, set `replace` = TRUE to use sampling with replacement.
 
 ---
 
     Code
       sample_frac(df %>% group_by(y), 2)
     Error <rlang_error>
-      `size` of sampled fraction must be less or equal to one, set `replace` = TRUE to use sampling with replacement.
+      `size` of sampled fraction must be less than or equal to one, set `replace` = TRUE to use sampling with replacement.
 
 ---
 
