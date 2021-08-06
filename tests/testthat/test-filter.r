@@ -376,6 +376,12 @@ test_that("filter() allows named constants that resolve to logical vectors (#461
   )
 })
 
+test_that("filter() forbids matrices (#5973)", {
+  df <- data.frame(x = 1:2)
+
+  expect_error(filter(df, matrix(c(TRUE, FALSE), nrow = 2)))
+})
+
 test_that("filter() gives useful error messages", {
   # wrong type
   expect_snapshot(error = TRUE,
