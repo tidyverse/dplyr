@@ -69,7 +69,7 @@ void filter_check_size(SEXP res, int i, R_xlen_t n, SEXP quos) {
 }
 
 void filter_check_type(SEXP res, R_xlen_t i, SEXP quos) {
-  if (TYPEOF(res) == LGLSXP) return;
+  if (TYPEOF(res) == LGLSXP && !Rf_isMatrix(res)) return;
 
   if (Rf_inherits(res, "data.frame")) {
     R_xlen_t ncol = XLENGTH(res);
