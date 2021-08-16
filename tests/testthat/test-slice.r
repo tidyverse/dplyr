@@ -315,6 +315,14 @@ test_that("slice_head/slice_tail correctly slice grouped df when n < 0", {
 
 })
 
+test_that("Non-integer number of rows computed correctly", {
+  expect_equal(get_slice_size(n = 1.6)(10), 1)
+  expect_equal(get_slice_size(prop = 0.16)(10), 1)
+  expect_equal(get_slice_size(n = -1.6)(10), 9)
+  expect_equal(get_slice_size(prop = -0.16)(10), 9)
+})
+
+
 # Errors ------------------------------------------------------------------
 
 test_that("rename errors with invalid grouped data frame (#640)", {
@@ -332,8 +340,6 @@ test_that("rename errors with invalid grouped data frame (#640)", {
   expect_snapshot(error = TRUE, check_slice_size(n = 1, prop = 1))
   expect_snapshot(error = TRUE, check_slice_size(n = "a"))
   expect_snapshot(error = TRUE, check_slice_size(prop = "a"))
-  expect_snapshot(error = TRUE, check_slice_size(n = -1))
-  expect_snapshot(error = TRUE, check_slice_size(prop = -1))
   expect_snapshot(error = TRUE, check_slice_size(n = n()))
   expect_snapshot(error = TRUE, check_slice_size(prop = n()))
   expect_snapshot(error = TRUE, check_slice_size(n = NA))
