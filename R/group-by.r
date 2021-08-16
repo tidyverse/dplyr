@@ -88,7 +88,11 @@ group_by <- function(.data, ..., .add = FALSE, .drop = group_by_drop_default(.da
 #' @export
 group_by.data.frame <- function(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data)) {
   groups <- group_by_prepare(.data, ..., .add = .add, caller_env = caller_env())
-  grouped_df(groups$data, groups$group_names, .drop)
+  if (is_grouped_df(.data) && identical(group_vars(groups$data), groups$group_names) && identical(.drop, group_by_drop_default(.data))) {
+    groups$data
+  } else {
+    grouped_df(groups$data, groups$group_names, .drop)
+  }
 }
 
 #' @rdname group_by
