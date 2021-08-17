@@ -1,6 +1,6 @@
 # dplyr (development version)
 
-*  Slice helpers (`slice_head()`, `slice_tail()`, `slice_min()`, `slice_max()` 
+*  `slice()` helpers (`slice_head()`, `slice_tail()`, `slice_min()`, `slice_max()` 
    and `slice_sample()`) now accept negative values for `n` and `prop` (#5961).
 
 *  `coalesce()` accepts 1-D arrays (#5557).
