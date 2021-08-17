@@ -135,7 +135,7 @@ slice_head <- function(.data, ..., n, prop) {
 slice_head.data.frame <- function(.data, ..., n, prop) {
   ellipsis::check_dots_empty()
   size <- get_slice_size(n, prop, "slice_head")
-  idx <- function(n) seq2(1, min(max(size(n), 0), n))
+  idx <- function(n) seq2(1, size(n))
   slice(.data, idx(dplyr::n()))
 }
 
@@ -149,7 +149,7 @@ slice_tail <- function(.data, ..., n, prop) {
 slice_tail.data.frame <- function(.data, ..., n, prop) {
   ellipsis::check_dots_empty()
   size <- get_slice_size(n, prop, "slice_tail")
-  idx <- function(n) seq2(max(n - size(n) + 1, 1), n)
+  idx <- function(n) seq2(n - size(n) + 1, n)
   slice(.data, idx(dplyr::n()))
 }
 
@@ -303,15 +303,15 @@ get_slice_size <- function(n, prop, .slice_fn = "get_slice_size") {
 
   if (slice_input$type == "n") {
     if (slice_input$n < 0) {
-      function(n) ceiling(n + slice_input$n)
+      function(n) max(ceiling(n + slice_input$n), 0)
     } else {
-      function(n) floor(slice_input$n)
+      function(n) min(floor(slice_input$n), n)
     }
   } else if (slice_input$type == "prop") {
     if (slice_input$prop < 0) {
-      function(n) ceiling(n + slice_input$prop * n)
+      function(n) max(ceiling(n + slice_input$prop * n), 0)
     } else {
-      function(n) floor(slice_input$prop * n)
+      function(n) min(floor(slice_input$prop * n), n)
     }
   }
 }

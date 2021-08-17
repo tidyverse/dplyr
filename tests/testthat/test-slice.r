@@ -194,11 +194,14 @@ test_that("functions silently truncate results", {
 
   expect_equal(df %>% slice_head(n = 6) %>% nrow(), 5)
   expect_equal(df %>% slice_tail(n = 6) %>% nrow(), 5)
-  expect_equal(df %>% slice_head(n = -6) %>% nrow(), 0)
-  expect_equal(df %>% slice_tail(n = -6) %>% nrow(), 0)
   expect_equal(df %>% slice_sample(n = 6) %>% nrow(), 5)
   expect_equal(df %>% slice_min(x, n = 6) %>% nrow(), 5)
   expect_equal(df %>% slice_max(x, n = 6) %>% nrow(), 5)
+  expect_equal(df %>% slice_head(n = -6) %>% nrow(), 0)
+  expect_equal(df %>% slice_tail(n = -6) %>% nrow(), 0)
+  expect_equal(df %>% slice_sample(n = -6) %>% nrow(), 0)
+  expect_equal(df %>% slice_min(x, n = -6) %>% nrow(), 0)
+  expect_equal(df %>% slice_max(x, n = -6) %>% nrow(), 0)
 })
 
 test_that("proportion computed correctly", {
