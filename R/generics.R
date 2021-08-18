@@ -198,7 +198,7 @@ dplyr_reconstruct.data.frame <- function(data, template) {
 
   attributes(data) <- attrs
   if (!is.tbl(data) && any(map_lgl(data, is.tbl))) {
-    as_tibble(data, .name_repair = "minimal", rownames = NA)
+    new_tibble(data, nrow = nrow(data))
   } else {
     data
   }
