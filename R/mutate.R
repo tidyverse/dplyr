@@ -174,6 +174,9 @@ mutate.data.frame <- function(.data, ...,
   keep <- arg_match(.keep)
 
   cols <- mutate_cols(.data, ..., caller_env = caller_env())
+  if (!is.tbl(.data) && any(map_lgl(cols, is.tbl))) {
+    .data <- new_tibble(.data, nrow = nrow(.data))
+  }
   out <- dplyr_col_modify(.data, cols)
 
   .before <- enquo(.before)

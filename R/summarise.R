@@ -353,6 +353,9 @@ summarise_build <- function(.data, cols) {
   if (!cols$all_one) {
     out <- vec_slice(out, rep(seq_len(nrow(out)), cols$size))
   }
+  if (!is.tbl(out) && any(map_lgl(cols$new, is.tbl))) {
+    out <- new_tibble(out, nrow = nrow(out))
+  }
   dplyr_col_modify(out, cols$new)
 }
 
