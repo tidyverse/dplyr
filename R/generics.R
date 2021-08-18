@@ -197,7 +197,11 @@ dplyr_reconstruct.data.frame <- function(data, template) {
   attrs$row.names <- .row_names_info(data, type = 0L)
 
   attributes(data) <- attrs
-  data
+  if (!is.tbl(data) && any(map_lgl(data, is.tbl))) {
+    as_tibble(data)
+  } else {
+    data
+  }
 }
 
 #' @export
