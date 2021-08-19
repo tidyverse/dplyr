@@ -45,21 +45,7 @@
     Code
       check_slice_size(prop = "a")
     Error <rlang_error>
-      `prop` must be a single number
-
----
-
-    Code
-      check_slice_size(n = -1)
-    Error <rlang_error>
-      `n` must be a non-missing positive number.
-
----
-
-    Code
-      check_slice_size(prop = -1)
-    Error <rlang_error>
-      `prop` must be a non-missing positive number.
+      `prop` must be a single number.
 
 ---
 
@@ -76,4 +62,18 @@
     Error <rlang_error>
       `prop` must be a constant in `check_slice_size()`.
       x `n()` must only be used inside dplyr verbs.
+
+---
+
+    Code
+      check_slice_size(n = NA)
+    Error <rlang_error>
+      `n` must be a single number.
+
+---
+
+    Code
+      check_slice_size(prop = NA)
+    Error <rlang_error>
+      `prop` must be a single number.
 
