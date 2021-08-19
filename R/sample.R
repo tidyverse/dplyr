@@ -139,7 +139,7 @@ check_weight <- function(x, n) {
 check_size <- function(size, n, replace = FALSE) {
   if (size <= n || replace) return(invisible(size))
 
-  bad_args("size", "must be less or equal than {n} (size of data), ",
+  bad_args("size", "must be less than or equal to {n} (size of data), ",
     "set `replace` = TRUE to use sampling with replacement."
   )
 }
