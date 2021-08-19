@@ -22,14 +22,14 @@
 #' mtcars %>% pull(-1)
 #' mtcars %>% pull(1)
 #' mtcars %>% pull(cyl)
+#' @examplesIf requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)
 #'
 #' # Also works for remote sources
-#' if (requireNamespace("dbplyr", quietly = TRUE)) {
 #' df <- dbplyr::memdb_frame(x = 1:10, y = 10:1, .name = "pull-ex")
 #' df %>%
 #'   mutate(z = x * y) %>%
 #'   pull()
-#' }
+#' @examples
 #'
 #' # Pull a named vector
 #' starwars %>% pull(height, name)

@@ -14,11 +14,9 @@
 #' @param x An object to explain
 #' @param ... Other parameters possibly used by generic
 #' @return The first argument, invisibly.
-#' @examples
+#' @examplesIf requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)
 #' \donttest{
-#' if (require("dbplyr")) {
-#'
-#' lahman_s <- lahman_sqlite()
+#' lahman_s <- dbplyr::lahman_sqlite()
 #' batting <- tbl(lahman_s, "Batting")
 #' batting %>% show_query()
 #' batting %>% explain()
@@ -33,7 +31,6 @@
 #' # Joins will use indexes in both tables
 #' teams <- tbl(lahman_s, "Teams")
 #' batting %>% left_join(teams, c("yearID", "teamID")) %>% explain()
-#' }
 #' }
 explain <- function(x, ...) {
   UseMethod("explain")

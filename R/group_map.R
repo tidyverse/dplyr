@@ -68,18 +68,18 @@ as_group_map_function <- function(.f) {
 #' mtcars %>%
 #'   group_by(cyl) %>%
 #'   group_modify(~ head(.x, 2L))
+#' @examplesIf requireNamespace("broom", quietly = TRUE)
 #'
-#' if (requireNamespace("broom", quietly = TRUE)) {
-#'   # a list of tibbles
-#'   iris %>%
-#'     group_by(Species) %>%
-#'     group_map(~ broom::tidy(lm(Petal.Length ~ Sepal.Length, data = .x)))
+#' # a list of tibbles
+#' iris %>%
+#'   group_by(Species) %>%
+#'   group_map(~ broom::tidy(lm(Petal.Length ~ Sepal.Length, data = .x)))
 #'
-#'   # a restructured grouped tibble
-#'   iris %>%
-#'     group_by(Species) %>%
-#'     group_modify(~ broom::tidy(lm(Petal.Length ~ Sepal.Length, data = .x)))
-#' }
+#' # a restructured grouped tibble
+#' iris %>%
+#'   group_by(Species) %>%
+#'   group_modify(~ broom::tidy(lm(Petal.Length ~ Sepal.Length, data = .x)))
+#' @examples
 #'
 #' # a list of vectors
 #' iris %>%

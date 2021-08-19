@@ -77,11 +77,12 @@ models <- mtcars \%>\%
 models
 
 models \%>\% summarise(rsq = summary(model)$r.squared)
+\dontshow{if (requireNamespace("broom", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+
 # This is particularly elegant with the broom functions
-if (requireNamespace("broom", quietly = TRUE)) {
-  models \%>\% summarise(broom::glance(model))
-  models \%>\% summarise(broom::tidy(model))
-}
+models \%>\% summarise(broom::glance(model))
+models \%>\% summarise(broom::tidy(model))
+\dontshow{\}) # examplesIf}
 
 # Note that you can also summarise to unnest the data
 models \%>\% summarise(data)

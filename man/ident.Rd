@@ -17,7 +17,7 @@ for \code{schema.table}.
 }
 \examples{
 # Identifiers are escaped with "
-if (requireNamespace("dbplyr", quietly = TRUE)) {
-  ident("x")
-}
+\dontshow{if (requireNamespace("dbplyr", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+ident("x")
+\dontshow{\}) # examplesIf}
 }

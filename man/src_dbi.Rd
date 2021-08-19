@@ -63,8 +63,7 @@ directly on an \code{DBIConnection}. See \url{https://dbplyr.tidyverse.org/} for
 more details.
 }
 \examples{
-if (require(dbplyr, quietly = TRUE)) {
-
+\dontshow{if (requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
 copy_to(con, mtcars)
 
@@ -74,6 +73,6 @@ mtcars
 
 # You can also use pass raw SQL if you want a more sophisticated query
 con \%>\% tbl(sql("SELECT * FROM mtcars WHERE cyl == 8"))
-}
+\dontshow{\}) # examplesIf}
 }
 \keyword{internal}
