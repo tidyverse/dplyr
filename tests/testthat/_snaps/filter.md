@@ -174,6 +174,8 @@
 
     Code
       data.frame(x = 1, y = 1) %>% filter(across(everything(), ~.x > 0))
+    Warning <simpleWarning>
+      Using `across()` in `filter()` is deprecated, use `if_any()` or `if_all()`.
     Output
         x y
       1 1 1
@@ -182,6 +184,8 @@
 
     Code
       data.frame(x = 1, y = 1) %>% filter(data.frame(x > 0, y > 0))
+    Warning <simpleWarning>
+      data frame results in `filter()` are deprecated, use `if_any()` or `if_all()`.
     Output
         x y
       1 1 1

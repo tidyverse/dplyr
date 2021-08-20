@@ -1,6 +1,10 @@
 # dplyr (development version)
 
-*  `coalesce()` accepts 1-D arrays (#5557).
+* `coalesce()` accepts 1-D arrays (#5557).
+
+* `filter()` forbids matrix results (#5973) and warns about data frame 
+  results, especially data frames created from `across()` with a hint 
+  to use `if_any()` or `if_all()`. 
 
 # dplyr 1.0.7
 
