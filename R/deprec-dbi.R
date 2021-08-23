@@ -21,9 +21,7 @@
 #'   compatibility with the generic, but otherwise ignored.
 #' @return An S3 object with class `src_dbi`, `src_sql`, `src`.
 #' @keywords internal
-#' @examples
-#' if (require(dbplyr, quietly = TRUE)) {
-#'
+#' @examplesIf requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)
 #' con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
 #' copy_to(con, mtcars)
 #'
@@ -33,7 +31,6 @@
 #'
 #' # You can also use pass raw SQL if you want a more sophisticated query
 #' con %>% tbl(sql("SELECT * FROM mtcars WHERE cyl == 8"))
-#' }
 #' @name src_dbi
 NULL
 

@@ -52,14 +52,14 @@ The following methods are currently available in loaded packages:
 mtcars \%>\% pull(-1)
 mtcars \%>\% pull(1)
 mtcars \%>\% pull(cyl)
+\dontshow{if (requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 # Also works for remote sources
-if (requireNamespace("dbplyr", quietly = TRUE)) {
 df <- dbplyr::memdb_frame(x = 1:10, y = 10:1, .name = "pull-ex")
 df \%>\%
   mutate(z = x * y) \%>\%
   pull()
-}
+\dontshow{\}) # examplesIf}
 
 # Pull a named vector
 starwars \%>\% pull(height, name)

@@ -43,23 +43,23 @@ Methods available in currently loaded packages:
 }
 
 \examples{
-if (require(dbplyr)) {
-  mtcars2 <- src_memdb() \%>\%
-    copy_to(mtcars, name = "mtcars2-cc", overwrite = TRUE)
+\dontshow{if (requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+mtcars2 <- dbplyr::src_memdb() \%>\%
+  copy_to(mtcars, name = "mtcars2-cc", overwrite = TRUE)
 
-  remote <- mtcars2 \%>\%
-    filter(cyl == 8) \%>\%
-    select(mpg:drat)
+remote <- mtcars2 \%>\%
+  filter(cyl == 8) \%>\%
+  select(mpg:drat)
 
-  # Compute query and save in remote table
-  compute(remote)
+# Compute query and save in remote table
+compute(remote)
 
-  # Compute query bring back to this session
-  collect(remote)
+# Compute query bring back to this session
+collect(remote)
 
-  # Creates a fresh query based on the generated SQL
-  collapse(remote)
-}
+# Creates a fresh query based on the generated SQL
+collapse(remote)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=copy_to]{copy_to()}}, the opposite of \code{collect()}: it takes a local data

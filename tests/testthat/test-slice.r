@@ -197,6 +197,11 @@ test_that("functions silently truncate results", {
   expect_equal(df %>% slice_sample(n = 6) %>% nrow(), 5)
   expect_equal(df %>% slice_min(x, n = 6) %>% nrow(), 5)
   expect_equal(df %>% slice_max(x, n = 6) %>% nrow(), 5)
+  expect_equal(df %>% slice_head(n = -6) %>% nrow(), 0)
+  expect_equal(df %>% slice_tail(n = -6) %>% nrow(), 0)
+  expect_equal(df %>% slice_sample(n = -6) %>% nrow(), 0)
+  expect_equal(df %>% slice_min(x, n = -6) %>% nrow(), 0)
+  expect_equal(df %>% slice_max(x, n = -6) %>% nrow(), 0)
 })
 
 test_that("proportion computed correctly", {
@@ -278,6 +283,49 @@ test_that("slice_sample() does not error on zero rows (#5729)", {
   expect_equal(nrow(res), 0L)
 })
 
+test_that("slice_head/slice_tail correctly slice ungrouped df when n < 0", {
+  df <- data.frame(x = 1:10)
+
+  expect_equal(
+    slice_head(df, n = -2),
+    slice_head(df, n = nrow(df) - 2)
+  )
+  expect_equal(
+    slice_tail(df, n = -2),
+    slice_tail(df, n = nrow(df) - 2)
+  )
+})
+
+test_that("slice_head/slice_tail correctly slice grouped df when n < 0", {
+  df <- data.frame(x = 1:10, g = c(rep(1, 8), rep(2, 2))) %>% group_by(g)
+
+  expect_equal(
+    slice_head(df, n = -3),
+    slice(df, rlang::seq2(1L, n() - 3))
+  )
+  expect_equal(
+    n_groups(slice_head(df, n = -3)),
+    1L
+  )
+  expect_equal(
+    slice_tail(df, n = -3),
+    slice(df, rlang::seq2(3 + 1, n()))
+  )
+  expect_equal(
+    n_groups(slice_tail(df, n = -3)),
+    1L
+  )
+
+})
+
+test_that("Non-integer number of rows computed correctly", {
+  expect_equal(get_slice_size(n = 1.6)(10), 1)
+  expect_equal(get_slice_size(prop = 0.16)(10), 1)
+  expect_equal(get_slice_size(n = -1.6)(10), 9)
+  expect_equal(get_slice_size(prop = -0.16)(10), 9)
+})
+
+
 # Errors ------------------------------------------------------------------
 
 test_that("rename errors with invalid grouped data frame (#640)", {
@@ -295,8 +343,8 @@ test_that("rename errors with invalid grouped data frame (#640)", {
   expect_snapshot(error = TRUE, check_slice_size(n = 1, prop = 1))
   expect_snapshot(error = TRUE, check_slice_size(n = "a"))
   expect_snapshot(error = TRUE, check_slice_size(prop = "a"))
-  expect_snapshot(error = TRUE, check_slice_size(n = -1))
-  expect_snapshot(error = TRUE, check_slice_size(prop = -1))
   expect_snapshot(error = TRUE, check_slice_size(n = n()))
   expect_snapshot(error = TRUE, check_slice_size(prop = n()))
+  expect_snapshot(error = TRUE, check_slice_size(n = NA))
+  expect_snapshot(error = TRUE, check_slice_size(prop = NA))
 })

@@ -6,6 +6,9 @@
   results, especially data frames created from `across()` with a hint 
   to use `if_any()` or `if_all()`. 
 
+*  `slice()` helpers (`slice_head()`, `slice_tail()`, `slice_min()`, `slice_max()` 
+   and `slice_sample()`) now accept negative values for `n` and `prop` (#5961).
+
 # dplyr 1.0.7
 
 * `across()` uses the formula environment when inlining them (#5886).
