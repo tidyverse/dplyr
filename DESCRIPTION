@@ -78,4 +78,4 @@ Config/Needs/website:
     tidyverse/tidytemplate
 Remotes:
     r-lib/rlang,
-    r-lib/vctrs#1375
+    r-lib/vctrs
