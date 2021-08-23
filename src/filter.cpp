@@ -69,7 +69,7 @@ void filter_check_size(SEXP res, int i, R_xlen_t n, SEXP quos) {
 }
 
 void filter_check_type(SEXP res, R_xlen_t i, SEXP quos) {
-  if (TYPEOF(res) == LGLSXP) return;
+  if (TYPEOF(res) == LGLSXP && !Rf_isMatrix(res)) return;
 
   if (Rf_inherits(res, "data.frame")) {
     R_xlen_t ncol = XLENGTH(res);
@@ -114,17 +114,13 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t n, SEXP env_fil
     if (TYPEOF(res) == LGLSXP) {
       reduce_lgl_and(reduced, res, n);
     } else if(Rf_inherits(res, "data.frame")) {
-      // disable the warnings entirely for now, so that we can first release
-      // if_any() and if_all(), will start warning later
-      bool warn = false;
-
-      if (first && warn) {
+      if (first) {
         SEXP expr = rlang::quo_get_expr(VECTOR_ELT(quos, i));
         bool across = TYPEOF(expr) == LANGSXP && CAR(expr) == dplyr::symbols::across;
         if (across) {
-          Rf_warningcall(R_NilValue, "Using `across()` in `filter()` is deprecated, use `if_any()` or `if_all()`");
+          Rf_warningcall(R_NilValue, "Using `across()` in `filter()` is deprecated, use `if_any()` or `if_all()`.");
         } else {
-          Rf_warningcall(R_NilValue, "data frame results in `filter()` are deprecated, use `if_any()` or `if_all()`");
+          Rf_warningcall(R_NilValue, "data frame results in `filter()` are deprecated, use `if_any()` or `if_all()`.");
         }
       }
 
