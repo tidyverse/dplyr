@@ -1,49 +1,38 @@
 on:
   push:
-    branches: master
+    branches:
+      - main
+      - master
+    tags:
+      -'*'
 
 name: pkgdown
 
 jobs:
   pkgdown:
-    runs-on: macOS-latest
+    runs-on: ubuntu-18.04
+    env:
+      RSPM: https://packagemanager.rstudio.com/cran/__linux__/bionic/latest
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@master
-        with:
-          r-version: 'release'
+      - uses: r-lib/actions/setup-r@v1
 
-      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-pandoc@v1
 
-      - name: Query dependencies
-        run: |
-          install.packages('remotes')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-        shell: Rscript {0}
-
-      - name: Cache R packages
-        uses: actions/cache@v1
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: macOS-r-4.0-2-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: macOS-r-4.0-2-
-
-      - name: Install dependencies
-        run: |
-          remotes::install_cran("tidyverse")
-          remotes::install_cran("shiny")
-          install.packages("remotes")
-          remotes::install_deps(dependencies = TRUE)
-          remotes::install_dev("pkgdown")
-          remotes::install_github("tidyverse/tidytemplate")
-        shell: Rscript {0}
+      - uses: r-lib/actions/setup-r-dependencies@master
 
       - name: Install package
         run: R CMD INSTALL .
 
-      - name: Deploy package
+      - name: Install pkgdown
+        run: pak::pkg_install("pkgdown")
+        shell: Rscript {0}
+
+      - name: Build and deploy pkgdown site
         run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
+          git config --local user.name "$GITHUB_ACTOR"
+          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
           Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'
