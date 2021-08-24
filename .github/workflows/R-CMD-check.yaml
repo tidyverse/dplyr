@@ -44,14 +44,13 @@ jobs:
       - uses: actions/checkout@v2
 
       - uses: r-lib/actions/setup-r@v1
-        id: install-r
         with:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
 
       - uses: r-lib/actions/setup-pandoc@v1
 
-      - uses: r-lib/actions/install-r-dependencies@master
+      - uses: r-lib/actions/setup-r-dependencies@master
 
       - run: pak::pkg_install("rcmdcheck")
         shell: Rscript {0}
