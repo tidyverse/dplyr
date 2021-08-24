@@ -254,19 +254,9 @@ across_setup <- function(cols,
                          names,
                          .caller_env,
                          mask = peek_mask("across()"),
-                         .top_level = FALSE,
                          inline = FALSE) {
   cols <- enquo(cols)
 
-  if (.top_level) {
-    # FIXME: this is a little bit hacky to make top_across()
-    #        work, otherwise mask$across_cols() fails when calling
-    #        self$current_cols(across_vars_used)
-    #        it should not affect anything because it is expected that
-    #        across_setup() is only ever called on the first group anyway
-    #        but perhaps it is time to review how across_cols() work
-    mask$set_current_group(1L)
-  }
   # `across()` is evaluated in a data mask so we need to remove the
   # mask layer from the quosure environment (#5460)
   cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = FALSE, inherit = FALSE))
@@ -489,7 +479,6 @@ expand_across <- function(quo) {
     fns = eval_tidy(expr$.fns, mask, env = env),
     names = eval_tidy(expr$.names, mask, env = env),
     .caller_env = dplyr_mask$get_caller_env(),
-    .top_level = TRUE,
     inline = TRUE
   )
 
