@@ -264,17 +264,21 @@ summarise_cols <- function(.data, ..., caller_env) {
 
         if (!quo_data$is_named && is.data.frame(types_k)) {
           chunks_extracted <- .Call(dplyr_extract_chunks, chunks_k, types_k)
-
-          walk2(chunks_extracted, names(types_k), function(chunks_k_j, nm) {
-            mask$add_one(nm, chunks_k_j)
-          })
+          types_k_names <- names(types_k)
+          for (j in seq_along(chunks_extracted)) {
+            mask$add_one(
+              name   = types_k_names[j],
+              chunks = chunks_extracted[[j]],
+              ptype  = types_k[[j]]
+            )
+          }
 
           chunks <- append(chunks, chunks_extracted)
           types <- append(types, as.list(types_k))
-          out_names <- c(out_names, names(types_k))
+          out_names <- c(out_names, types_k_names)
         } else {
           name <- quo_data$name_auto
-          mask$add_one(name, chunks_k)
+          mask$add_one(name = name, chunks = chunks_k, ptype = types_k)
           chunks <- append(chunks, list(chunks_k))
           types <- append(types, list(types_k))
           out_names <- c(out_names, name)

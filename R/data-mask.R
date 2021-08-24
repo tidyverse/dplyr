@@ -29,8 +29,7 @@ DataMask <- R6Class("DataMask",
 
     },
 
-    add_one = function(name, chunks) {
-      ptype <- vec_ptype_common(!!!chunks)
+    add_one = function(name, chunks, ptype) {
       if (inherits(private$data, "rowwise_df")){
         is_scalar_list <- function(.x) {
           vec_is_list(.x) && length(.x) == 1L
@@ -41,13 +40,6 @@ DataMask <- R6Class("DataMask",
       }
 
       .Call(`dplyr_mask_add`, private, name, ptype, chunks)
-    },
-
-    add_many = function(ptype, chunks) {
-      chunks_extracted <- .Call(dplyr_extract_chunks, chunks, ptype)
-      map2(seq_along(ptype), names(ptype), function(j, nm) {
-        self$add_one(nm, chunks_extracted[[j]])
-      })
     },
 
     remove = function(name) {
