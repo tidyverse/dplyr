@@ -19,6 +19,7 @@ DataMask <- R6Class("DataMask",
       private$all_vars <- names_bindings
       private$data <- data
       private$caller <- caller
+      private$all_types <- vec_ptype(as.data.frame(data))
 
       private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows)
       private$mask <- .Call(dplyr_data_masks_setup, private$chops, data, rows)
@@ -29,6 +30,7 @@ DataMask <- R6Class("DataMask",
     },
 
     add_one = function(name, chunks) {
+      ptype <- vec_ptype_common(!!!chunks)
       if (inherits(private$data, "rowwise_df")){
         is_scalar_list <- function(.x) {
           vec_is_list(.x) && length(.x) == 1L
@@ -38,7 +40,7 @@ DataMask <- R6Class("DataMask",
         }
       }
 
-      .Call(`dplyr_mask_add`, private, name, chunks)
+      .Call(`dplyr_mask_add`, private, name, ptype, chunks)
     },
 
     add_many = function(ptype, chunks) {
@@ -124,37 +126,12 @@ DataMask <- R6Class("DataMask",
       private$rows
     },
 
+    col_types = function(vars) {
+      private$all_types[vars]
+    },
+
     across_cols = function() {
-      original_data <- self$full_data()
-      original_data <- unclass(original_data)
-
-      across_vars <- self$current_non_group_vars()
-      unused_vars <- self$unused_vars()
-
-      across_vars_unused <- intersect(across_vars, unused_vars)
-      across_vars_used <- setdiff(across_vars, across_vars_unused)
-
-      # Pull unused vars from original data to keep from marking them as used.
-      # Column lengths will not match if `original_data` is grouped, but for
-      # the usage of tidyselect in `across()` we only need the column names
-      # and types to be correct.
-      cols_unused <- original_data[across_vars_unused]
-
-
-      cols_used <- self$current_cols(across_vars_used)
-
-      cols <- vec_c(cols_unused, cols_used)
-
-      # workaround until vctrs 0.3.5 is on CRAN
-      # (https://github.com/r-lib/vctrs/issues/1263)
-      if (length(cols) == 0) {
-        names(cols) <- character()
-      }
-
-      # Match original ordering
-      cols <- cols[across_vars]
-
-      cols
+      self$col_types(self$current_non_group_vars())
     },
 
     forget = function(fn) {
@@ -210,6 +187,9 @@ DataMask <- R6Class("DataMask",
     # names of all the variables, this initially is names(data)
     # grows (and sometimes shrinks) as new columns are added/removed
     all_vars = character(),
+
+    # ptypes of all the variables
+    all_types = list(),
 
     # names of the grouping variables
     group_vars = character(),

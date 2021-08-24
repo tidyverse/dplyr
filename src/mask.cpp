@@ -31,11 +31,12 @@ SEXP integers_append(SEXP ints, int x) {
   return new_ints;
 }
 
-SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks) {
+SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP ptype, SEXP chunks) {
   SEXP name = STRING_ELT(s_name, 0);
 
   // we assume control over these
   SEXP all_vars = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::all_vars));
+  SEXP all_types = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::all_types));
 
   // search for position of name
   R_xlen_t n = XLENGTH(all_vars);
@@ -44,15 +45,22 @@ SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks) {
   bool is_new_column = i_name == n;
   if (is_new_column) {
     SEXP new_all_vars = PROTECT(Rf_allocVector(STRSXP, n + 1));
+    SEXP new_all_types = PROTECT(Rf_allocVector(VECSXP, n + 1));
 
     for (R_xlen_t i = 0; i < n; i++) {
       SET_STRING_ELT(new_all_vars, i, STRING_ELT(all_vars, i));
+      SET_VECTOR_ELT(new_all_types, i, VECTOR_ELT(all_types, i));
     }
     SET_STRING_ELT(new_all_vars, n, name);
+    SET_VECTOR_ELT(new_all_types, n, ptype);
+    Rf_namesgets(new_all_types, new_all_vars);
 
     Rf_defineVar(dplyr::symbols::all_vars, new_all_vars, env_private);
+    Rf_defineVar(dplyr::symbols::all_types, new_all_types, env_private);
 
-    UNPROTECT(1);
+    UNPROTECT(2);
+  } else {
+    SET_VECTOR_ELT(all_types, i_name, ptype);
   }
 
   SEXP sym_name = PROTECT(rlang::str_as_symbol(name));
@@ -62,7 +70,7 @@ SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks) {
   SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));
   add_mask_binding(sym_name, ENCLOS(mask), chops);
 
-  UNPROTECT(4);
+  UNPROTECT(5);
   return R_NilValue;
 }
 

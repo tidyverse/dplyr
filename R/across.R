@@ -362,15 +362,6 @@ c_across_setup <- function(cols) {
   value
 }
 
-# FIXME: Should not cache `cols` when it includes env-expressions
-# https://github.com/r-lib/tidyselect/issues/235
-key_deparse <- function(cols) {
-  paste(
-    paste0(deparse(quo_get_expr(cols)), collapse = "\n"),
-    format(quo_get_env(cols))
-  )
-}
-
 new_dplyr_quosure <- function(quo, ...) {
   attr(quo, "dplyr:::data") <- list2(...)
   quo
