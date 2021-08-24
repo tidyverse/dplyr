@@ -221,7 +221,6 @@ summarise_cols <- function(.data, ..., caller_env) {
 
   withCallingHandlers({
     for (i in seq_along(dots)) {
-      mask$across_cache_reset()
       context_poke("column", old_current_column)
 
       quosures <- expand_across(dots[[i]])

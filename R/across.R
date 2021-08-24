@@ -232,8 +232,7 @@ if_across <- function(op, df) {
 #'  )
 c_across <- function(cols = everything()) {
   cols <- enquo(cols)
-  key <- key_deparse(cols)
-  vars <- c_across_setup(!!cols, key = key)
+  vars <- c_across_setup(!!cols)
 
   mask <- peek_mask("c_across()")
 
@@ -250,12 +249,6 @@ across_glue_mask <- function(.col, .fn, .caller_env) {
   glue_mask
 }
 
-# TODO: The usage of a cache in `c_across_setup()` is a stopgap solution, and
-# this idea should not be used anywhere else. This should be replaced by either
-# expansions of expressions (as we now use for `across()`) or the
-# next version of hybrid evaluation, which should offer a way for any function
-# to do any required "set up" work (like the `eval_select()` call) a single
-# time per top-level call, rather than once per group.
 across_setup <- function(cols,
                          fns,
                          names,
@@ -290,6 +283,7 @@ across_setup <- function(cols,
     ))
   }
   across_cols <- mask$across_cols()
+
   vars <- tidyselect::eval_select(cols, data = across_cols)
   names_vars <- names(vars)
   vars <- names(across_cols)[vars]
@@ -356,21 +350,14 @@ data_mask_top <- function(env, recursive = FALSE, inherit = FALSE) {
   env
 }
 
-c_across_setup <- function(cols, key) {
+c_across_setup <- function(cols) {
   mask <- peek_mask("c_across()")
-
-  value <- mask$across_cache_get(key)
-  if (!is.null(value)) {
-    return(value)
-  }
 
   cols <- enquo(cols)
   across_cols <- mask$across_cols()
 
   vars <- tidyselect::eval_select(expr(!!cols), across_cols)
   value <- names(vars)
-
-  mask$across_cache_add(key, value)
 
   value
 }

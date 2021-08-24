@@ -139,6 +139,8 @@ DataMask <- R6Class("DataMask",
       # the usage of tidyselect in `across()` we only need the column names
       # and types to be correct.
       cols_unused <- original_data[across_vars_unused]
+
+
       cols_used <- self$current_cols(across_vars_used)
 
       cols <- vec_c(cols_unused, cols_used)
@@ -153,18 +155,6 @@ DataMask <- R6Class("DataMask",
       cols <- cols[across_vars]
 
       cols
-    },
-
-    across_cache_get = function(key) {
-      private$across_cache[[key]]
-    },
-
-    across_cache_add = function(key, value) {
-      private$across_cache[[key]] <- value
-    },
-
-    across_cache_reset = function() {
-      private$across_cache <- list()
     },
 
     forget = function(fn) {
@@ -231,9 +221,6 @@ DataMask <- R6Class("DataMask",
     keys = NULL,
 
     # caller environment of the verb (summarise(), ...)
-    caller = NULL,
-
-    # cache for across
-    across_cache = list()
+    caller = NULL
   )
 )
