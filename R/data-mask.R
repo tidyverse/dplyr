@@ -18,7 +18,7 @@ DataMask <- R6Class("DataMask",
       names(data) <- names_bindings
       private$data <- data
       private$caller <- caller
-      private$current_data <- vec_ptype(as.data.frame(data))
+      private$current_data <- unclass(data)
 
       private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows)
       private$mask <- .Call(dplyr_data_masks_setup, private$chops, data, rows)
@@ -28,7 +28,7 @@ DataMask <- R6Class("DataMask",
 
     },
 
-    add_one = function(name, chunks, ptype) {
+    add_one = function(name, chunks, result) {
       if (inherits(private$data, "rowwise_df")){
         is_scalar_list <- function(.x) {
           vec_is_list(.x) && length(.x) == 1L
@@ -38,7 +38,7 @@ DataMask <- R6Class("DataMask",
         }
       }
 
-      .Call(`dplyr_mask_add`, private, name, ptype, chunks)
+      .Call(`dplyr_mask_add`, private, name, result, chunks)
     },
 
     remove = function(name) {

@@ -348,14 +348,14 @@ mutate_cols <- function(.data, ..., caller_env) {
           chunks_extracted <- .Call(dplyr_extract_chunks, chunks, types)
 
           for (j in seq_along(types)) {
-            mask$add_one(types_names[j], chunks_extracted[[j]], ptype = types[[j]])
+            mask$add_one(types_names[j], chunks_extracted[[j]], result = result[[j]])
           }
 
           new_columns[types_names] <- result
         } else {
           # treat as a single output otherwise
           name <- quo_data$name_auto
-          mask$add_one(name = name, chunks = chunks, ptype = vec_ptype(result))
+          mask$add_one(name = name, chunks = chunks, result = result)
 
           new_columns[[name]] <- result
         }

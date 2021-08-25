@@ -247,8 +247,8 @@ summarise_cols <- function(.data, ..., caller_env) {
           }
         )
         chunks_k <- vec_cast_common(!!!chunks_k, .to = types_k)
-
-        quosures_results[[k]] <- list(chunks = chunks_k, types = types_k)
+        result_k <- vec_c(!!!chunks_k, .ptype = types_k)
+        quosures_results[[k]] <- list(chunks = chunks_k, types = types_k, results = result_k)
       }
 
       for (k in seq_along(quosures)) {
@@ -261,6 +261,7 @@ summarise_cols <- function(.data, ..., caller_env) {
         }
         types_k <- quo_result$types
         chunks_k <- quo_result$chunks
+        results_k <- quo_result$results
 
         if (!quo_data$is_named && is.data.frame(types_k)) {
           chunks_extracted <- .Call(dplyr_extract_chunks, chunks_k, types_k)
@@ -269,7 +270,7 @@ summarise_cols <- function(.data, ..., caller_env) {
             mask$add_one(
               name   = types_k_names[j],
               chunks = chunks_extracted[[j]],
-              ptype  = types_k[[j]]
+              result  = results_k[[j]]
             )
           }
 
@@ -278,7 +279,7 @@ summarise_cols <- function(.data, ..., caller_env) {
           out_names <- c(out_names, types_k_names)
         } else {
           name <- quo_data$name_auto
-          mask$add_one(name = name, chunks = chunks_k, ptype = types_k)
+          mask$add_one(name = name, chunks = chunks_k, result = results_k)
           chunks <- append(chunks, list(chunks_k))
           types <- append(types, list(types_k))
           out_names <- c(out_names, name)
@@ -293,6 +294,12 @@ summarise_cols <- function(.data, ..., caller_env) {
 
     # materialize columns
     for (i in seq_along(chunks)) {
+      # TODO: these results have already been materialized before
+      #
+      #       `result_k <- vec_c(!!!chunks_k, .ptype = types_k)`
+      #
+      #       but this materialization did not+/could not take
+      #       recycling into account. Not really sure what to do.
       result <- vec_c(!!!chunks[[i]], .ptype = types[[i]])
       cols[[ out_names[i] ]] <- result
     }
