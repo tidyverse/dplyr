@@ -17,7 +17,7 @@ test_that("returns `.data` invisibly", {
 
 test_that("works when there are zero issues", {
   df <- tibble(x = 1)
-  expect <- tibble(message = character(), row = integer(), data = vec_ptype(df))
+  expect <- tibble(requirement = character(), row = integer(), data = vec_ptype(df))
   expect_identical(enforce_show(df, x == 1), expect)
 })
 

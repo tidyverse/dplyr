@@ -7,13 +7,13 @@ enforce <- function(.data, ...) {
 
   enforce_last_set(failures)
 
-  info <- vec_count(failures$message, sort = "location")
-  messages <- info$key
+  info <- vec_count(failures$requirement, sort = "location")
+  requirements <- info$key
   counts <- info$count
 
   plural <- if_else(counts == 1L, true = "", false = "s")
 
-  bullets <- glue("{counts} row{plural} failed: {messages}.")
+  bullets <- glue("{counts} row{plural} failed: {requirements}.")
   bullets <- set_names(bullets, "*")
 
   header <- "Enforcement failed. The following requirements were not met:"
@@ -27,8 +27,8 @@ enforce_show <- function(.data, ...) {
   n_dots <- length(dots)
   seq_dots <- seq_len(n_dots)
 
-  messages <- names(exprs_auto_name(dots))
-  messages <- vec_as_names(messages, repair = "unique", quiet = TRUE)
+  requirements <- names(exprs_auto_name(dots))
+  requirements <- vec_as_names(requirements, repair = "unique", quiet = TRUE)
 
   # Ensure unique names in the `transmute()`
   dots <- set_names(dots, glue("dplyr:::enforce-{seq_dots}"))
@@ -62,16 +62,16 @@ enforce_show <- function(.data, ...) {
 
   failures <- !vec_equal_na(locations)
 
-  messages <- messages[failures]
+  requirements <- requirements[failures]
   locations <- locations[failures]
   counts <- list_sizes(locations)
 
-  messages <- vec_rep_each(messages, times = counts)
+  requirements <- vec_rep_each(requirements, times = counts)
   rows <- vec_unchop(locations, ptype = integer())
   data <- dplyr_row_slice(.data, rows)
 
   tibble(
-    message = messages,
+    requirement = requirements,
     row = rows,
     data = data
   )
