@@ -122,6 +122,10 @@ arrange_rows <- function(.data, dots) {
     if (inherits(cnd, "dplyr:::mutate_error")) {
       # reverse the name mangling
       bullets <- gsub("^^--arrange_quosure_", "..", cnd$bullets, fixed = TRUE)
+      # only name bullets that aren't already named
+      names <- names2(bullets)
+      names[names == ""] <- "x"
+      bullets <- set_names(bullets, names)
     } else {
       bullets <- c(x = conditionMessage(cnd))
     }

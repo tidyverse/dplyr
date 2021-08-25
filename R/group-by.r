@@ -172,7 +172,7 @@ group_by_prepare <- function(.data,
   if (length(unknown) > 0) {
     abort(c(
       "Must group by variables found in `.data`.",
-      glue("Column `{unknown}` is not found.")
+      x = glue("Column `{unknown}` is not found.")
     ))
   }
 

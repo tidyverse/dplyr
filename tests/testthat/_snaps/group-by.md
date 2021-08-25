@@ -18,7 +18,7 @@
       df %>% group_by(unknown)
     Error <rlang_error>
       Must group by variables found in `.data`.
-      Column `unknown` is not found.
+      x Column `unknown` is not found.
 
 ---
 
