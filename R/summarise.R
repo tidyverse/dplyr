@@ -216,6 +216,7 @@ summarise_cols <- function(.data, ..., caller_env) {
   types <- vector("list", length(dots))
 
   chunks <- list()
+  results <- list()
   types <- list()
   out_names <- character()
 
@@ -276,31 +277,28 @@ summarise_cols <- function(.data, ..., caller_env) {
 
           chunks <- append(chunks, chunks_extracted)
           types <- append(types, as.list(types_k))
+          results <- append(results, results_k)
           out_names <- c(out_names, types_k_names)
         } else {
           name <- quo_data$name_auto
           mask$add_one(name = name, chunks = chunks_k, result = results_k)
           chunks <- append(chunks, list(chunks_k))
           types <- append(types, list(types_k))
+          results <- append(results, list(results_k))
           out_names <- c(out_names, name)
         }
 
       }
     }
 
-    recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks, mask$get_rows(), types)
+    recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks, mask$get_rows(), types, results)
     chunks <- recycle_info$chunks
     sizes <- recycle_info$sizes
+    results <- recycle_info$results
 
     # materialize columns
     for (i in seq_along(chunks)) {
-      # TODO: these results have already been materialized before
-      #
-      #       `result_k <- vec_c(!!!chunks_k, .ptype = types_k)`
-      #
-      #       but this materialization did not+/could not take
-      #       recycling into account. Not really sure what to do.
-      result <- vec_c(!!!chunks[[i]], .ptype = types[[i]])
+      result <- results[[i]] %||% vec_c(!!!chunks[[i]], .ptype = types[[i]])
       cols[[ out_names[i] ]] <- result
     }
 

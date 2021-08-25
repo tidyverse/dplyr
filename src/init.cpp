@@ -30,10 +30,12 @@ SEXP get_names_expanded() {
 }
 
 SEXP get_names_summarise_recycle_chunks(){
-  SEXP names = Rf_allocVector(STRSXP, 2);
+  SEXP names = Rf_allocVector(STRSXP, 3);
   R_PreserveObject(names);
+
   SET_STRING_ELT(names, 0, Rf_mkChar("chunks"));
   SET_STRING_ELT(names, 1, Rf_mkChar("sizes"));
+  SET_STRING_ELT(names, 2, Rf_mkChar("results"));
   return names;
 }
 
@@ -105,7 +107,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_mask_eval_all_mutate", (DL_FUNC)& dplyr_mask_eval_all_mutate, 2},
   {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 4},
 
-  {"dplyr_summarise_recycle_chunks", (DL_FUNC)& dplyr_summarise_recycle_chunks, 3},
+  {"dplyr_summarise_recycle_chunks", (DL_FUNC)& dplyr_summarise_recycle_chunks, 4},
 
   {"dplyr_group_indices", (DL_FUNC)& dplyr_group_indices, 2},
   {"dplyr_group_keys", (DL_FUNC)& dplyr_group_keys, 1},
