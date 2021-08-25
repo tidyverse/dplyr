@@ -4,9 +4,9 @@
       enforce(df, x == 1, x > 3)
     Error <rlang_error>
       Enforcement failed. The following requirements were not met:
-      * 1 row failed: x == 1.
-      * 2 rows failed: x > 3.
-      Locate failures by calling `enforce_last()`.
+      x 1 row failed: x == 1.
+      x 2 rows failed: x > 3.
+      i Locate failures by calling `enforce_last()`.
 
 # uses user provided messages if given
 

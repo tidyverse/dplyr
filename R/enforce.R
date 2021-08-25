@@ -14,10 +14,10 @@ enforce <- function(.data, ...) {
   plural <- if_else(counts == 1L, true = "", false = "s")
 
   bullets <- glue("{counts} row{plural} failed: {requirements}.")
-  bullets <- set_names(bullets, "*")
+  bullets <- set_names(bullets, vec_rep("x", times = length(bullets)))
 
   header <- "Enforcement failed. The following requirements were not met:"
-  footer <- "Locate failures by calling `enforce_last()`."
+  footer <- c(i = "Locate failures by calling `enforce_last()`.")
 
   abort(c(header, bullets, footer))
 }
