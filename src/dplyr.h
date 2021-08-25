@@ -41,8 +41,7 @@ struct symbols {
   static SEXP current_expression;
   static SEXP rows;
   static SEXP caller;
-  static SEXP all_vars;
-  static SEXP all_types;
+  static SEXP current_data;
   static SEXP dot_drop;
   static SEXP abort_glue;
   static SEXP dot_indices;

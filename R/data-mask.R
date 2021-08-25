@@ -16,10 +16,9 @@ DataMask <- R6Class("DataMask",
         abort("Can't transform a data frame with duplicate names.")
       }
       names(data) <- names_bindings
-      private$all_vars <- names_bindings
       private$data <- data
       private$caller <- caller
-      private$all_types <- vec_ptype(as.data.frame(data))
+      private$current_data <- vec_ptype(as.data.frame(data))
 
       private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows)
       private$mask <- .Call(dplyr_data_masks_setup, private$chops, data, rows)
@@ -85,7 +84,7 @@ DataMask <- R6Class("DataMask",
     },
 
     current_vars = function() {
-      private$all_vars
+      names(private$current_data)
     },
 
     current_non_group_vars = function() {
@@ -105,7 +104,7 @@ DataMask <- R6Class("DataMask",
     },
 
     get_used = function() {
-      .Call(env_resolved, private$chops, private$all_vars)
+      .Call(env_resolved, private$chops, names(private$current_data))
     },
 
     unused_vars = function() {
@@ -118,12 +117,8 @@ DataMask <- R6Class("DataMask",
       private$rows
     },
 
-    col_types = function(vars) {
-      private$all_types[vars]
-    },
-
     across_cols = function() {
-      self$col_types(self$current_non_group_vars())
+      private$current_data[self$current_non_group_vars()]
     },
 
     forget = function(fn) {
@@ -176,12 +171,8 @@ DataMask <- R6Class("DataMask",
     # in the parent environment of `mask`
     mask = NULL,
 
-    # names of all the variables, this initially is names(data)
-    # grows (and sometimes shrinks) as new columns are added/removed
-    all_vars = character(),
-
     # ptypes of all the variables
-    all_types = list(),
+    current_data = list(),
 
     # names of the grouping variables
     group_vars = character(),
