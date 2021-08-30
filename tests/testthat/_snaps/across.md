@@ -25,7 +25,7 @@
 # if_any() and if_all() aborts when predicate mistakingly used in .cols= (#5732)
 
     Code
-      (expect_error(filter(df, if_any(~.x > 5))))
+      (expect_error(filter(df, if_any(~ .x > 5))))
     Output
       <error/dplyr_error>
       Problem with `filter()` input `..1`.
@@ -35,7 +35,7 @@
       i The first argument `.cols` selects a set of columns.
       i The second argument `.fns` operates on each selected columns.
     Code
-      (expect_error(filter(df, if_all(~.x > 5))))
+      (expect_error(filter(df, if_all(~ .x > 5))))
     Output
       <error/dplyr_error>
       Problem with `filter()` input `..1`.
@@ -45,7 +45,7 @@
       i The first argument `.cols` selects a set of columns.
       i The second argument `.fns` operates on each selected columns.
     Code
-      (expect_error(filter(df, !if_any(~.x > 5))))
+      (expect_error(filter(df, !if_any(~ .x > 5))))
     Output
       <error/dplyr_error>
       Problem with `filter()` input `..1`.
@@ -55,7 +55,7 @@
       i The first argument `.cols` selects a set of columns.
       i The second argument `.fns` operates on each selected columns.
     Code
-      (expect_error(filter(df, !if_all(~.x > 5))))
+      (expect_error(filter(df, !if_all(~ .x > 5))))
     Output
       <error/dplyr_error>
       Problem with `filter()` input `..1`.

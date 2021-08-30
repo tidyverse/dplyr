@@ -173,7 +173,7 @@
 ---
 
     Code
-      data.frame(x = 1, y = 1) %>% filter(across(everything(), ~.x > 0))
+      data.frame(x = 1, y = 1) %>% filter(across(everything(), ~ .x > 0))
     Warning <simpleWarning>
       Using `across()` in `filter()` is deprecated, use `if_any()` or `if_all()`.
     Output

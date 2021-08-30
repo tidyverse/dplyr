@@ -32,7 +32,7 @@
 ---
 
     Code
-      funs(~mp[.])
+      funs(~ mp[.])
     Error <rlang_error>
       `~mp[.]` must be a function name (quoted or unquoted) or an unquoted call, not `~`.
 
