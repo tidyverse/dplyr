@@ -32,9 +32,6 @@
     
   * `check_unmatched` is a new argument to optionally error if the keys of
     `x` or `y` have any unmatched rows.
-    
-  * `check_duplicates` is a new argument to optionally error if the keys of
-    `x` or `y` have any duplicate rows.
 
 * `cur_data()` and `cur_data_all()` don't simplify list columns in rowwise data frames (#5901).
 

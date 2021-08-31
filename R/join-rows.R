@@ -5,14 +5,12 @@ join_rows <- function(x_key,
                       condition = "==",
                       filter = "none",
                       multiple = "all",
-                      check_unmatched = "neither",
-                      check_duplicates = "neither") {
+                      check_unmatched = "neither") {
   type <- arg_match(type)
 
   missing <- standardise_join_missing(type, na_matches)
   no_match <- standardise_join_no_match(type, check_unmatched)
   remaining <- standardise_join_remaining(type, check_unmatched)
-  check_duplicates <- standardise_join_check_duplicates(check_duplicates)
 
   matches <- dplyr_matches(
     needles = x_key,
@@ -22,8 +20,7 @@ join_rows <- function(x_key,
     missing = missing,
     no_match = no_match,
     remaining = remaining,
-    multiple = multiple,
-    check_duplicates = check_duplicates
+    multiple = multiple
   )
 
   list(x = matches$needles, y = matches$haystack)
@@ -37,8 +34,7 @@ dplyr_matches <- function(needles,
                           missing = "match",
                           no_match = NA_integer_,
                           remaining = "drop",
-                          multiple = "all",
-                          check_duplicates = "neither") {
+                          multiple = "all") {
   withCallingHandlers(
     vctrs:::vec_matches(
       needles = needles,
@@ -50,7 +46,6 @@ dplyr_matches <- function(needles,
       no_match = no_match,
       remaining = remaining,
       multiple = multiple,
-      check_duplicates = check_duplicates,
       nan_distinct = TRUE
     ),
     vctrs_error_incompatible_type = function(cnd) {
@@ -78,20 +73,6 @@ dplyr_matches <- function(needles,
       abort(c(
         "Each row of `y` must be matched by `x`.",
         i = glue("Row {i} of `y` was not matched.")
-      ))
-    },
-    vctrs_error_matches_duplicates = function(cnd) {
-      i <- cnd$i
-
-      if (cnd$needles) {
-        input <- "x"
-      } else {
-        input <- "y"
-      }
-
-      abort(c(
-        glue("`{input}` must not contain duplicate keys."),
-        i = glue("Row {i} is a duplicate.")
       ))
     },
     vctrs_error_matches_multiple = function(cnd) {
@@ -157,14 +138,4 @@ standardise_join_remaining <- function(type, check_unmatched) {
   } else {
     return("drop")
   }
-}
-
-standardise_join_check_duplicates <- function(check_duplicates) {
-  switch(
-    check_duplicates,
-    neither = "neither",
-    x = "needles",
-    y = "haystack",
-    both = "both"
-  )
 }

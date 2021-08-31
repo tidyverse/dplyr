@@ -105,20 +105,6 @@
 #'   If `na_matches = "never"`, missing values in the keys of `x` will be
 #'   propagated, but missing values in the keys of `y` will be considered
 #'   unmatched.
-#' @param check_duplicates Which keys should be checked for duplicate rows?
-#'   - `"neither"` doesn't check for duplicate rows.
-#'   - `"x"` checks for duplicate rows in the keys of `x`.
-#'   - `"y"` checks for duplicate rows in the keys of `y`.
-#'   - `"both"` checks for duplicate rows in both sets of keys.
-#'
-#'   If any duplicate rows are found, then an error is thrown.
-#'
-#'   If duplicate rows containing missing values are present, then they are
-#'   considered duplicates even if `na_matches = "never"`.
-#'
-#'   Performing a cross join with `by = character()` will override this check
-#'   for duplicate rows, as a cross join relies on the row numbers rather
-#'   than the values.
 #' @family joins
 #' @examples
 #' band_members %>% inner_join(band_instruments)
@@ -179,8 +165,7 @@ inner_join.data.frame <- function(x,
                                   keep = NULL,
                                   na_matches = c("na", "never"),
                                   multiple = "all",
-                                  check_unmatched = "neither",
-                                  check_duplicates = "neither") {
+                                  check_unmatched = "neither") {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -191,8 +176,7 @@ inner_join.data.frame <- function(x,
     na_matches = na_matches,
     keep = keep,
     multiple = multiple,
-    check_unmatched = check_unmatched,
-    check_duplicates = check_duplicates
+    check_unmatched = check_unmatched
   )
 }
 
@@ -219,8 +203,7 @@ left_join.data.frame <- function(x,
                                  keep = NULL,
                                  na_matches = c("na", "never"),
                                  multiple = "all",
-                                 check_unmatched = "neither",
-                                 check_duplicates = "neither") {
+                                 check_unmatched = "neither") {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -231,8 +214,7 @@ left_join.data.frame <- function(x,
     na_matches = na_matches,
     keep = keep,
     multiple = multiple,
-    check_unmatched = check_unmatched,
-    check_duplicates = check_duplicates
+    check_unmatched = check_unmatched
   )
 }
 
@@ -259,8 +241,7 @@ right_join.data.frame <- function(x,
                                   keep = NULL,
                                   na_matches = c("na", "never"),
                                   multiple = "all",
-                                  check_unmatched = "neither",
-                                  check_duplicates = "neither") {
+                                  check_unmatched = "neither") {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -271,8 +252,7 @@ right_join.data.frame <- function(x,
     na_matches = na_matches,
     keep = keep,
     multiple = multiple,
-    check_unmatched = check_unmatched,
-    check_duplicates = check_duplicates
+    check_unmatched = check_unmatched
   )
 }
 
@@ -299,8 +279,7 @@ full_join.data.frame <- function(x,
                                  keep = NULL,
                                  na_matches = c("na", "never"),
                                  multiple = "all",
-                                 check_unmatched = "neither",
-                                 check_duplicates = "neither") {
+                                 check_unmatched = "neither") {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -311,8 +290,7 @@ full_join.data.frame <- function(x,
     na_matches = na_matches,
     keep = keep,
     multiple = multiple,
-    check_unmatched = check_unmatched,
-    check_duplicates = check_duplicates
+    check_unmatched = check_unmatched
   )
 }
 
@@ -436,10 +414,8 @@ nest_join.data.frame <- function(x,
                                  name = NULL,
                                  multiple = "all",
                                  check_unmatched = "neither",
-                                 check_duplicates = "neither",
                                  ...) {
   check_unmatched <- check_check_unmatched(check_unmatched)
-  check_duplicates <- check_check_duplicates(check_duplicates)
 
   name_var <- name %||% as_label(enexpr(y))
 
@@ -477,8 +453,7 @@ nest_join.data.frame <- function(x,
     condition = condition,
     filter = filter,
     multiple = multiple,
-    check_unmatched = check_unmatched,
-    check_duplicates = check_duplicates
+    check_unmatched = check_unmatched
   )
 
   y_loc <- vec_split(rows$y, rows$x)$val
@@ -507,11 +482,9 @@ join_mutate <- function(x,
                         na_matches = "na",
                         keep = NULL,
                         multiple = "all",
-                        check_unmatched = "neither",
-                        check_duplicates = "neither") {
+                        check_unmatched = "neither") {
   na_matches <- check_na_matches(na_matches)
   check_unmatched <- check_check_unmatched(check_unmatched)
-  check_duplicates <- check_check_duplicates(check_duplicates)
 
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
@@ -541,8 +514,7 @@ join_mutate <- function(x,
     condition = condition,
     filter = filter,
     multiple = multiple,
-    check_unmatched = check_unmatched,
-    check_duplicates = check_duplicates
+    check_unmatched = check_unmatched
   )
 
   x_slicer <- rows$x
@@ -604,10 +576,8 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
   multiple <- "first"
 
   # Since we are actually testing the presence of matches, it doesn't make
-  # sense to ever error on unmatched values. It may make sense to error on
-  # duplicates in the keys, but for now we set that to "neither" as well.
+  # sense to ever error on unmatched values.
   check_unmatched <- "neither"
-  check_duplicates <- "neither"
 
   rows <- join_rows(
     x_key = x_key,
@@ -617,8 +587,7 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
     condition = condition,
     filter = filter,
     multiple = multiple,
-    check_unmatched = check_unmatched,
-    check_duplicates = check_duplicates
+    check_unmatched = check_unmatched
   )
 
   if (type == "semi") {
@@ -649,9 +618,6 @@ check_na_matches <- function(na_matches) {
 
 check_check_unmatched <- function(check_unmatched) {
   arg_match0(check_unmatched, values = c("neither", "x", "y", "both"), arg_nm = "check_unmatched")
-}
-check_check_duplicates <- function(check_duplicates) {
-  arg_match0(check_duplicates, values = c("neither", "x", "y", "both"), arg_nm = "check_duplicates")
 }
 
 standardise_join_condition <- function(by) {
