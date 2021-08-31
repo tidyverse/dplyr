@@ -1,13 +1,5 @@
 # dplyr (development version)
 
-* `coalesce()` accepts 1-D arrays (#5557).
-
-* `filter()` forbids matrix results (#5973) and warns about data frame 
-  results, especially data frames created from `across()` with a hint 
-  to use `if_any()` or `if_all()`. 
-
-*  `slice()` helpers (`slice_head()`, `slice_tail()`, `slice_min()`, `slice_max()` 
-   and `slice_sample()`) now accept negative values for `n` and `prop` (#5961).
 * `arrange()` now uses a new process for sorting character vectors. In
    particular, a much faster radix-sort based algorithm has been implemented,
    which is heavily inspired by data.table's `forder()`. Additionally, a new
@@ -22,7 +14,14 @@
    when you are only arranging for grouping purposes, and don't care about the
    precise details of the arrangement (#4962).
 
-*  `coalesce()` accepts 1-D arrays (#5557).
+* `coalesce()` accepts 1-D arrays (#5557).
+
+* `filter()` forbids matrix results (#5973) and warns about data frame 
+  results, especially data frames created from `across()` with a hint 
+  to use `if_any()` or `if_all()`. 
+
+*  `slice()` helpers (`slice_head()`, `slice_tail()`, `slice_min()`, `slice_max()` 
+   and `slice_sample()`) now accept negative values for `n` and `prop` (#5961).
 
 # dplyr 1.0.7
 
