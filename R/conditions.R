@@ -54,14 +54,10 @@ peek_call_step <- function() {
 }
 
 cnd_bullet_header <- function() {
-  call_step <- peek_call_step()
-
-  input_name <- "column"
-  if (call_step[["fn"]] == "filter" || grepl("^[.][.]", call_step[["error_name"]])) {
-    input_name <- "input"
-  }
-
-  glue("Problem with `{fn}()` {name} `{error_name}`.", .envir = env(name = input_name, call_step))
+  glue_data(
+    peek_call_step(),
+    "Problem while computing `{error_name} = {error_expression}`."
+  )
 }
 
 cnd_bullet_column_info <- function(){

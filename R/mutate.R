@@ -394,9 +394,11 @@ mutate_cols <- function(.data, ..., caller_env) {
     abort(
       bullets,
       class = c("dplyr:::mutate_error", "dplyr_error"),
-      error_name = error_name, error_expression = error_expression,
+      error_name = error_name,
+      error_expression = error_expression,
       parent = e,
-      bullets = bullets
+      bullets = bullets,
+      call = quote(mutate())
     )
   },
   warning = function(w) {
@@ -433,18 +435,13 @@ mutate_bullets <- function(cnd, error_name, rows, mask, ...) {
 }
 #' @export
 mutate_bullets.default <- function(cnd, ...) {
-  c(
-    i = cnd_bullet_column_info(),
-    x = conditionMessage(cnd),
-    i = cnd_bullet_cur_group_label()
-  )
+  c(i = cnd_bullet_cur_group_label())
 }
 #' @export
 `mutate_bullets.dplyr:::mutate_incompatible_size` <- function(cnd, error_name, rows, mask, ...) {
   size <- vec_size(rows[[mask$get_current_group()]])
   x_size <- cnd$x_size
   c(
-    i = cnd_bullet_column_info(),
     i = glue("`{error_name}` must be size {or_1(size)}, not {x_size}."),
     i = cnd_bullet_rowwise_unlist(),
     i = cnd_bullet_cur_group_label()
@@ -453,7 +450,6 @@ mutate_bullets.default <- function(cnd, ...) {
 #' @export
 `mutate_bullets.dplyr:::mutate_mixed_null` <- function(cnd, error_name, ...) {
   c(
-    i = cnd_bullet_column_info(),
     x = glue("`{error_name}` must return compatible vectors across groups."),
     i = "Cannot combine NULL and non NULL results.",
     i = cnd_bullet_rowwise_unlist()
@@ -462,7 +458,6 @@ mutate_bullets.default <- function(cnd, ...) {
 #' @export
 `mutate_bullets.dplyr:::mutate_not_vector` <- function(cnd, error_name, ...) {
   c(
-    i = cnd_bullet_column_info(),
     x = glue("`{error_name}` must be a vector, not {friendly_type_of(cnd$result)}."),
     i = cnd_bullet_rowwise_unlist(),
     i = cnd_bullet_cur_group_label()
@@ -471,7 +466,6 @@ mutate_bullets.default <- function(cnd, ...) {
 }
 `mutate_bullets.dplyr:::error_mutate_incompatible_combine` <- function(cnd, error_name, ...) {
   c(
-    i = cnd_bullet_column_info(),
     x = glue("`{error_name}` must return compatible vectors across groups"),
     i = cnd_bullet_combine_details(cnd$parent$x, cnd$parent$x_arg),
     i = cnd_bullet_combine_details(cnd$parent$y, cnd$parent$y_arg)
