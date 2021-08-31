@@ -39,17 +39,17 @@
       (expect_error(arrange(df, .locale = 1)))
     Output
       <error/rlang_error>
-      `.locale` must be a string.
+      Error in `locale_to_chr_transform()`: `.locale` must be a string.
     Code
       (expect_error(arrange(df, .locale = c("en_US", "fr_BF"))))
     Output
       <error/rlang_error>
-      If `.locale` is a character vector, it must be a single string.
+      Error in `locale_to_chr_transform()`: If `.locale` is a character vector, it must be a single string.
     Code
       (expect_error(arrange(df, .locale = "x")))
     Output
       <error/rlang_error>
-      `.locale` must be one of the locales within `stringi::stri_locale_list()`.
+      Error in `locale_to_chr_transform()`: `.locale` must be one of the locales within `stringi::stri_locale_list()`.
 
 # desc() inside arrange() checks the number of arguments (#5921)
 
