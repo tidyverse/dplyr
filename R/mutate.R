@@ -381,48 +381,14 @@ mutate_cols <- function(.data, ..., caller_env) {
     error_name <- call_step_envir$error_name
     error_expression <- call_step_envir$error_expression
 
-    show_group_details <- TRUE
-    if (inherits(e, "dplyr:::mutate_incompatible_size")) {
-      size <- vec_size(rows[[mask$get_current_group()]])
-      x_size <- e$x_size
-      bullets <- c(
-        i = cnd_bullet_column_info(),
-        i = glue("`{error_name}` must be size {or_1(size)}, not {x_size}."),
-        i = cnd_bullet_rowwise_unlist()
-      )
-    } else if (inherits(e, "dplyr:::mutate_mixed_null")) {
-      show_group_details <- FALSE
-      bullets <- c(
-        i = cnd_bullet_column_info(),
-        x = glue("`{error_name}` must return compatible vectors across groups."),
-        i = "Cannot combine NULL and non NULL results.",
-        i = cnd_bullet_rowwise_unlist()
-      )
-    } else if (inherits(e, "dplyr:::mutate_not_vector")) {
-      bullets <- c(
-        i = cnd_bullet_column_info(),
-        x = glue("`{error_name}` must be a vector, not {friendly_type_of(e$result)}."),
-        i = cnd_bullet_rowwise_unlist()
-      )
-    } else if(inherits(e, "dplyr:::error_mutate_incompatible_combine")) {
-      show_group_details <- FALSE
-      bullets <- c(
-        i = cnd_bullet_column_info(),
-        x = glue("`{error_name}` must return compatible vectors across groups"),
-        i = cnd_bullet_combine_details(e$parent$x, e$parent$x_arg),
-        i = cnd_bullet_combine_details(e$parent$y, e$parent$y_arg)
-      )
-    } else {
-      bullets <- c(
-        i = cnd_bullet_column_info(),
-        x = conditionMessage(e)
-      )
-    }
-
     bullets <- c(
       cnd_bullet_header(),
-      bullets,
-      i = if(show_group_details) cnd_bullet_cur_group_label()
+      mutate_bullets(
+        e,
+        error_name = error_name,
+        rows = rows,
+        mask = mask
+      )
     )
 
     abort(
@@ -432,7 +398,6 @@ mutate_cols <- function(.data, ..., caller_env) {
       parent = e,
       bullets = bullets
     )
-
   },
   warning = function(w) {
     # Check if there is an upstack calling handler that would muffle
@@ -462,6 +427,57 @@ mutate_cols <- function(.data, ..., caller_env) {
   attr(new_columns, "used") <- used
   new_columns
 }
+
+mutate_bullets <- function(cnd, error_name, rows, mask, ...) {
+  UseMethod("mutate_bullets")
+}
+#' @export
+mutate_bullets.default <- function(cnd, ...) {
+  c(
+    i = cnd_bullet_column_info(),
+    x = conditionMessage(cnd),
+    i = cnd_bullet_cur_group_label()
+  )
+}
+#' @export
+`mutate_bullets.dplyr:::mutate_incompatible_size` <- function(cnd, error_name, rows, mask, ...) {
+  size <- vec_size(rows[[mask$get_current_group()]])
+  x_size <- cnd$x_size
+  c(
+    i = cnd_bullet_column_info(),
+    i = glue("`{error_name}` must be size {or_1(size)}, not {x_size}."),
+    i = cnd_bullet_rowwise_unlist(),
+    i = cnd_bullet_cur_group_label()
+  )
+}
+#' @export
+`mutate_bullets.dplyr:::mutate_mixed_null` <- function(cnd, error_name, ...) {
+  c(
+    i = cnd_bullet_column_info(),
+    x = glue("`{error_name}` must return compatible vectors across groups."),
+    i = "Cannot combine NULL and non NULL results.",
+    i = cnd_bullet_rowwise_unlist()
+  )
+}
+#' @export
+`mutate_bullets.dplyr:::mutate_not_vector` <- function(cnd, error_name, ...) {
+  c(
+    i = cnd_bullet_column_info(),
+    x = glue("`{error_name}` must be a vector, not {friendly_type_of(cnd$result)}."),
+    i = cnd_bullet_rowwise_unlist(),
+    i = cnd_bullet_cur_group_label()
+  
+  )
+}
+`mutate_bullets.dplyr:::error_mutate_incompatible_combine` <- function(cnd, error_name, ...) {
+  c(
+    i = cnd_bullet_column_info(),
+    x = glue("`{error_name}` must return compatible vectors across groups"),
+    i = cnd_bullet_combine_details(cnd$parent$x, cnd$parent$x_arg),
+    i = cnd_bullet_combine_details(cnd$parent$y, cnd$parent$y_arg)
+  )
+}
+
 
 check_muffled_warning <- function(cnd) {
   early_exit <- TRUE
