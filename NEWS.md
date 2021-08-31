@@ -24,9 +24,6 @@
     join conditions, since you generally want to preserve both sides of a
     non-equi join.
     
-  * `na_matches` has a new option, `"error"`, which errors if the key columns
-    of `x` contain any missing values.
-    
   * `multiple` is a new argument for controlling what happens when a row
     in `x` matches multiple rows in `y`. For backwards compatibility, the
     default is `"all"`, but you can also choose to return the `"first"` or

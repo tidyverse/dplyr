@@ -86,7 +86,6 @@
 #'   - `"never"` treats two `NA` or two `NaN` values as different, and will
 #'   never match them together or to any other values. This is similar to joins
 #'   for database sources and to `base::merge(incomparables = NA)`.
-#'   - `"error"` will error if any keys in `x` have missing values.
 #' @param multiple Handling of rows in `x` with multiple matches in `y`.
 #'   For each row of `x`:
 #'   - `"all"` returns every match detected in `y`.
@@ -178,7 +177,7 @@ inner_join.data.frame <- function(x,
                                   suffix = c(".x", ".y"),
                                   ...,
                                   keep = NULL,
-                                  na_matches = c("na", "never", "error"),
+                                  na_matches = c("na", "never"),
                                   multiple = "all",
                                   check_unmatched = "neither",
                                   check_duplicates = "neither") {
@@ -218,7 +217,7 @@ left_join.data.frame <- function(x,
                                  suffix = c(".x", ".y"),
                                  ...,
                                  keep = NULL,
-                                 na_matches = c("na", "never", "error"),
+                                 na_matches = c("na", "never"),
                                  multiple = "all",
                                  check_unmatched = "neither",
                                  check_duplicates = "neither") {
@@ -258,7 +257,7 @@ right_join.data.frame <- function(x,
                                   suffix = c(".x", ".y"),
                                   ...,
                                   keep = NULL,
-                                  na_matches = c("na", "never", "error"),
+                                  na_matches = c("na", "never"),
                                   multiple = "all",
                                   check_unmatched = "neither",
                                   check_duplicates = "neither") {
@@ -298,7 +297,7 @@ full_join.data.frame <- function(x,
                                  suffix = c(".x", ".y"),
                                  ...,
                                  keep = NULL,
-                                 na_matches = c("na", "never", "error"),
+                                 na_matches = c("na", "never"),
                                  multiple = "all",
                                  check_unmatched = "neither",
                                  check_duplicates = "neither") {
@@ -366,7 +365,7 @@ semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @export
 #' @rdname filter-joins
-semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never", "error")) {
+semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never")) {
   y <- auto_copy(x, y, copy = copy)
   join_filter(x, y, by = by, type = "semi", na_matches = na_matches)
 }
@@ -379,7 +378,7 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @export
 #' @rdname filter-joins
-anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never", "error")) {
+anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never")) {
   y <- auto_copy(x, y, copy = copy)
   join_filter(x, y, by = by, type = "anti", na_matches = na_matches)
 }
@@ -645,7 +644,7 @@ check_na_matches <- function(na_matches) {
     }
   }
 
-  arg_match0(na_matches, values = c("na", "never", "error"), arg_nm = "na_matches")
+  arg_match0(na_matches, values = c("na", "never"), arg_nm = "na_matches")
 }
 
 check_check_unmatched <- function(check_unmatched) {

@@ -10,25 +10,11 @@
 \usage{
 semi_join(x, y, by = NULL, copy = FALSE, ...)
 
-\method{semi_join}{data.frame}(
-  x,
-  y,
-  by = NULL,
-  copy = FALSE,
-  ...,
-  na_matches = c("na", "never", "error")
-)
+\method{semi_join}{data.frame}(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never"))
 
 anti_join(x, y, by = NULL, copy = FALSE, ...)
 
-\method{anti_join}{data.frame}(
-  x,
-  y,
-  by = NULL,
-  copy = FALSE,
-  ...,
-  na_matches = c("na", "never", "error")
-)
+\method{anti_join}{data.frame}(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never"))
 }
 \arguments{
 \item{x, y}{A pair of data frames, data frame extensions (e.g. a tibble), or
@@ -70,7 +56,6 @@ it is a potentially expensive operation so you must opt into it.}
 \item \code{"never"} treats two \code{NA} or two \code{NaN} values as different, and will
 never match them together or to any other values. This is similar to joins
 for database sources and to \code{base::merge(incomparables = NA)}.
-\item \code{"error"} will error if any keys in \code{x} have missing values.
 }}
 }
 \value{
