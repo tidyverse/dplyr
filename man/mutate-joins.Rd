@@ -34,7 +34,7 @@ inner_join(
   keep = NULL,
   na_matches = c("na", "never"),
   multiple = "all",
-  check_unmatched = "neither"
+  unmatched = "drop"
 )
 
 left_join(
@@ -57,7 +57,7 @@ left_join(
   keep = NULL,
   na_matches = c("na", "never"),
   multiple = "all",
-  check_unmatched = "neither"
+  unmatched = "drop"
 )
 
 right_join(
@@ -80,7 +80,7 @@ right_join(
   keep = NULL,
   na_matches = c("na", "never"),
   multiple = "all",
-  check_unmatched = "neither"
+  unmatched = "drop"
 )
 
 full_join(
@@ -102,8 +102,7 @@ full_join(
   ...,
   keep = NULL,
   na_matches = c("na", "never"),
-  multiple = "all",
-  check_unmatched = "neither"
+  multiple = "all"
 )
 }
 \arguments{
@@ -174,19 +173,18 @@ otherwise falls back to \code{"all"}.
 \item \code{"error"} throws an error if multiple matches are detected.
 }}
 
-\item{check_unmatched}{Which keys should be checked for unmatched rows?
+\item{unmatched}{How should unmatched keys that would result in dropped rows
+be handled?
 \itemize{
-\item \code{"neither"} doesn't check for unmatched rows.
-\item \code{"x"} checks for unmatched rows in the keys of \code{x}.
-\item \code{"y"} checks for unmatched rows in the keys of \code{y}.
-\item \code{"both"} checks for unmatched rows in both sets of keys.
+\item \code{"drop"} drops unmatched keys from the result.
+\item \code{"error"} throws an error if unmatched keys are detected.
 }
 
-If any unmatched rows are found, then an error is thrown.
-
-If \code{na_matches = "never"}, missing values in the keys of \code{x} will be
-propagated, but missing values in the keys of \code{y} will be considered
-unmatched.}
+\code{unmatched} is intended to protect you from accidentally dropping rows
+during a join. It only checks for unmatched keys in the input that could
+potentially drop rows. For example, in \code{left_join()} only \code{y} is
+checked for unmatched keys, because all keys from \code{x} are always retained,
+even if they don't have a match.}
 }
 \value{
 An object of the same type as \code{x}. The order of the rows and columns of \code{x}

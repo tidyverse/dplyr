@@ -94,17 +94,16 @@
 #'   - `"warning"` throws a warning if multiple matches are detected, but
 #'     otherwise falls back to `"all"`.
 #'   - `"error"` throws an error if multiple matches are detected.
-#' @param check_unmatched Which keys should be checked for unmatched rows?
-#'   - `"neither"` doesn't check for unmatched rows.
-#'   - `"x"` checks for unmatched rows in the keys of `x`.
-#'   - `"y"` checks for unmatched rows in the keys of `y`.
-#'   - `"both"` checks for unmatched rows in both sets of keys.
+#' @param unmatched How should unmatched keys that would result in dropped rows
+#'   be handled?
+#'   - `"drop"` drops unmatched keys from the result.
+#'   - `"error"` throws an error if unmatched keys are detected.
 #'
-#'   If any unmatched rows are found, then an error is thrown.
-#'
-#'   If `na_matches = "never"`, missing values in the keys of `x` will be
-#'   propagated, but missing values in the keys of `y` will be considered
-#'   unmatched.
+#'   `unmatched` is intended to protect you from accidentally dropping rows
+#'   during a join. It only checks for unmatched keys in the input that could
+#'   potentially drop rows. For example, in `left_join()` only `y` is
+#'   checked for unmatched keys, because all keys from `x` are always retained,
+#'   even if they don't have a match.
 #' @family joins
 #' @examples
 #' band_members %>% inner_join(band_instruments)
@@ -165,7 +164,7 @@ inner_join.data.frame <- function(x,
                                   keep = NULL,
                                   na_matches = c("na", "never"),
                                   multiple = "all",
-                                  check_unmatched = "neither") {
+                                  unmatched = "drop") {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -176,7 +175,7 @@ inner_join.data.frame <- function(x,
     na_matches = na_matches,
     keep = keep,
     multiple = multiple,
-    check_unmatched = check_unmatched
+    unmatched = unmatched
   )
 }
 
@@ -203,7 +202,7 @@ left_join.data.frame <- function(x,
                                  keep = NULL,
                                  na_matches = c("na", "never"),
                                  multiple = "all",
-                                 check_unmatched = "neither") {
+                                 unmatched = "drop") {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -214,7 +213,7 @@ left_join.data.frame <- function(x,
     na_matches = na_matches,
     keep = keep,
     multiple = multiple,
-    check_unmatched = check_unmatched
+    unmatched = unmatched
   )
 }
 
@@ -241,7 +240,7 @@ right_join.data.frame <- function(x,
                                   keep = NULL,
                                   na_matches = c("na", "never"),
                                   multiple = "all",
-                                  check_unmatched = "neither") {
+                                  unmatched = "drop") {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -252,7 +251,7 @@ right_join.data.frame <- function(x,
     na_matches = na_matches,
     keep = keep,
     multiple = multiple,
-    check_unmatched = check_unmatched
+    unmatched = unmatched
   )
 }
 
@@ -278,8 +277,7 @@ full_join.data.frame <- function(x,
                                  ...,
                                  keep = NULL,
                                  na_matches = c("na", "never"),
-                                 multiple = "all",
-                                 check_unmatched = "neither") {
+                                 multiple = "all") {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -290,7 +288,8 @@ full_join.data.frame <- function(x,
     na_matches = na_matches,
     keep = keep,
     multiple = multiple,
-    check_unmatched = check_unmatched
+    # All keys from both inputs are retained. Erroring never makes sense.
+    unmatched = "drop"
   )
 }
 
@@ -413,9 +412,9 @@ nest_join.data.frame <- function(x,
                                  keep = NULL,
                                  name = NULL,
                                  multiple = "all",
-                                 check_unmatched = "neither",
+                                 unmatched = "drop",
                                  ...) {
-  check_unmatched <- check_check_unmatched(check_unmatched)
+  unmatched <- check_unmatched(unmatched)
 
   name_var <- name %||% as_label(enexpr(y))
 
@@ -453,7 +452,7 @@ nest_join.data.frame <- function(x,
     condition = condition,
     filter = filter,
     multiple = multiple,
-    check_unmatched = check_unmatched
+    unmatched = unmatched
   )
 
   y_loc <- vec_split(rows$y, rows$x)$val
@@ -482,9 +481,9 @@ join_mutate <- function(x,
                         na_matches = "na",
                         keep = NULL,
                         multiple = "all",
-                        check_unmatched = "neither") {
+                        unmatched = "drop") {
   na_matches <- check_na_matches(na_matches)
-  check_unmatched <- check_check_unmatched(check_unmatched)
+  unmatched <- check_unmatched(unmatched)
 
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
@@ -514,7 +513,7 @@ join_mutate <- function(x,
     condition = condition,
     filter = filter,
     multiple = multiple,
-    check_unmatched = check_unmatched
+    unmatched = unmatched
   )
 
   x_slicer <- rows$x
@@ -577,7 +576,7 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
 
   # Since we are actually testing the presence of matches, it doesn't make
   # sense to ever error on unmatched values.
-  check_unmatched <- "neither"
+  unmatched <- "drop"
 
   rows <- join_rows(
     x_key = x_key,
@@ -587,7 +586,7 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
     condition = condition,
     filter = filter,
     multiple = multiple,
-    check_unmatched = check_unmatched
+    unmatched = unmatched
   )
 
   if (type == "semi") {
@@ -595,8 +594,8 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
     idx <- rows$x
   } else {
     # Treat both unmatched needles and propagated missing needles as no-match
-    unmatched <- is.na(rows$y)
-    idx <- rows$x[unmatched]
+    no_match <- is.na(rows$y)
+    idx <- rows$x[no_match]
   }
 
   dplyr_row_slice(x, idx)
@@ -616,8 +615,8 @@ check_na_matches <- function(na_matches) {
   arg_match0(na_matches, values = c("na", "never"), arg_nm = "na_matches")
 }
 
-check_check_unmatched <- function(check_unmatched) {
-  arg_match0(check_unmatched, values = c("neither", "x", "y", "both"), arg_nm = "check_unmatched")
+check_unmatched <- function(unmatched) {
+  arg_match0(unmatched, values = c("drop", "error"), arg_nm = "unmatched")
 }
 
 standardise_join_condition <- function(by) {

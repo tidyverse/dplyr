@@ -30,8 +30,10 @@
     `"last"` match. For quality control purposes, you can also throw a
     `"warning"` when multiple matches are detected, or `"error"`.
     
-  * `check_unmatched` is a new argument to optionally error if the keys of
-    `x` or `y` have any unmatched rows.
+  * `unmatched` is a new argument for controlling what happens when a row
+    would be dropped because it doesn't have a match. For backwards
+    compatibility, the default is `"drop"`, but you can also choose to
+    `"error"` if dropped rows would be surprising.
 
 * `cur_data()` and `cur_data_all()` don't simplify list columns in rowwise data frames (#5901).
 

@@ -26,15 +26,8 @@
 # join_rows() gives meaningful error message on unmatched rows
 
     Code
-      join_rows(data.frame(x = c(1, 2)), data.frame(x = c(3, 1)), check_unmatched = "x")
-    Error <rlang_error>
-      Each row of `x` must have a match in `y`.
-      i Row 2 of `x` does not have a match.
-
----
-
-    Code
-      join_rows(data.frame(x = c(1, 2)), data.frame(x = c(3, 1)), check_unmatched = "y")
+      join_rows(data.frame(x = c(1, 2)), data.frame(x = c(3, 1)), type = "left",
+      unmatched = "error")
     Error <rlang_error>
       Each row of `y` must be matched by `x`.
       i Row 1 of `y` was not matched.
@@ -42,7 +35,17 @@
 ---
 
     Code
-      join_rows(data.frame(x = c(1, 2)), data.frame(x = 1), check_unmatched = "both")
+      join_rows(data.frame(x = c(1, 2)), data.frame(x = c(3, 1)), type = "nest",
+      unmatched = "error")
+    Error <rlang_error>
+      Each row of `y` must be matched by `x`.
+      i Row 1 of `y` was not matched.
+
+---
+
+    Code
+      join_rows(data.frame(x = c(1, 2)), data.frame(x = c(3, 1)), type = "right",
+      unmatched = "error")
     Error <rlang_error>
       Each row of `x` must have a match in `y`.
       i Row 2 of `x` does not have a match.
@@ -50,8 +53,99 @@
 ---
 
     Code
-      join_rows(data.frame(x = 1), data.frame(x = c(1, 2)), check_unmatched = "both")
+      join_rows(data.frame(x = c(1, 2)), data.frame(x = 1), type = "inner",
+      unmatched = "error")
+    Error <rlang_error>
+      Each row of `x` must have a match in `y`.
+      i Row 2 of `x` does not have a match.
+
+---
+
+    Code
+      join_rows(data.frame(x = 1), data.frame(x = c(1, 2)), type = "inner",
+      unmatched = "error")
     Error <rlang_error>
       Each row of `y` must be matched by `x`.
       i Row 2 of `y` was not matched.
+
+# join_rows() always errors on unmatched missing values
+
+    Code
+      join_rows(data.frame(x = 1), data.frame(x = NA), type = "left", unmatched = "error",
+      na_matches = "na")
+    Error <rlang_error>
+      Each row of `y` must be matched by `x`.
+      i Row 1 of `y` was not matched.
+
+---
+
+    Code
+      join_rows(data.frame(x = NA), data.frame(x = NA), type = "left", unmatched = "error",
+      na_matches = "never")
+    Error <rlang_error>
+      Each row of `y` must be matched by `x`.
+      i Row 1 of `y` was not matched.
+
+---
+
+    Code
+      join_rows(data.frame(x = 1), data.frame(x = NA), type = "nest", unmatched = "error",
+      na_matches = "na")
+    Error <rlang_error>
+      Each row of `y` must be matched by `x`.
+      i Row 1 of `y` was not matched.
+
+---
+
+    Code
+      join_rows(data.frame(x = NA), data.frame(x = NA), type = "nest", unmatched = "error",
+      na_matches = "never")
+    Error <rlang_error>
+      Each row of `y` must be matched by `x`.
+      i Row 1 of `y` was not matched.
+
+---
+
+    Code
+      join_rows(data.frame(x = NA), data.frame(x = 1), type = "right", unmatched = "error",
+      na_matches = "na")
+    Error <rlang_error>
+      Each row of `x` must have a match in `y`.
+      i Row 1 of `x` does not have a match.
+
+---
+
+    Code
+      join_rows(data.frame(x = NA), data.frame(x = NA), type = "right", unmatched = "error",
+      na_matches = "never")
+    Error <rlang_error>
+      Each row of `x` must have a match in `y`.
+      i Row 1 of `x` does not have a match.
+
+---
+
+    Code
+      join_rows(data.frame(x = 1), data.frame(x = c(1, NA)), type = "inner",
+      unmatched = "error", na_matches = "na")
+    Error <rlang_error>
+      Each row of `y` must be matched by `x`.
+      i Row 2 of `y` was not matched.
+
+---
+
+    Code
+      join_rows(data.frame(x = c(1, NA)), data.frame(x = 1), type = "inner",
+      unmatched = "error", na_matches = "na")
+    Error <rlang_error>
+      Each row of `x` must have a match in `y`.
+      i Row 2 of `x` does not have a match.
+
+---
+
+    Code
+      join_rows(data.frame(x = NA), data.frame(x = NA), type = "inner", unmatched = "error",
+      na_matches = "never")
+    Error <rlang_error>
+      Each row of `x` must have a match in `y`.
+      i Row 1 of `x` does not have a match.
 

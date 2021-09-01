@@ -69,6 +69,17 @@ test_that("matching rows can be filtered", {
   expect_equal(out$y, c(3, 3))
 })
 
+test_that("join_rows() doesn't error on unmatched rows if they won't be dropped", {
+  # 2 is unmatched, but a left join means we always retain that key
+  out <- join_rows(c(1, 2), 1, type = "left", unmatched = "error")
+  expect_identical(out$x, c(1L, 2L))
+  expect_identical(out$y, c(1L, NA))
+
+  out <- join_rows(c(1, 2), c(1, 3), type = "full", unmatched = "error")
+  expect_identical(out$x, c(1L, 2L, NA))
+  expect_identical(out$y, c(1L, NA, 2L))
+})
+
 test_that("join_rows() gives meaningful error message on incompatible types", {
   expect_snapshot(error = TRUE,
     join_rows(
@@ -86,35 +97,141 @@ test_that("join_rows() gives meaningful error/warning message on multiple matche
 })
 
 test_that("join_rows() gives meaningful error message on unmatched rows", {
+  # Unmatched in the RHS
   expect_snapshot(error = TRUE,
     join_rows(
       data.frame(x = c(1, 2)),
       data.frame(x = c(3, 1)),
-      check_unmatched = "x"
+      type = "left",
+      unmatched = "error"
     )
   )
-
   expect_snapshot(error = TRUE,
     join_rows(
       data.frame(x = c(1, 2)),
       data.frame(x = c(3, 1)),
-      check_unmatched = "y"
+      type = "nest",
+      unmatched = "error"
     )
   )
 
+  # Unmatched in the LHS
+  expect_snapshot(error = TRUE,
+    join_rows(
+      data.frame(x = c(1, 2)),
+      data.frame(x = c(3, 1)),
+      type = "right",
+      unmatched = "error"
+    )
+  )
+
+  # Unmatched in either side
   expect_snapshot(error = TRUE,
     join_rows(
       data.frame(x = c(1, 2)),
       data.frame(x = 1),
-      check_unmatched = "both"
+      type = "inner",
+      unmatched = "error"
     )
   )
-
   expect_snapshot(error = TRUE,
     join_rows(
       data.frame(x = 1),
       data.frame(x = c(1, 2)),
-      check_unmatched = "both"
+      type = "inner",
+      unmatched = "error"
+    )
+  )
+})
+
+test_that("join_rows() always errors on unmatched missing values", {
+  # Unmatched in the RHS
+  expect_snapshot(error = TRUE,
+    join_rows(
+      data.frame(x = 1),
+      data.frame(x = NA),
+      type = "left",
+      unmatched = "error",
+      na_matches = "na"
+    )
+  )
+  expect_snapshot(
+    error = TRUE,
+    join_rows(
+      data.frame(x = NA),
+      data.frame(x = NA),
+      type = "left",
+      unmatched = "error",
+      na_matches = "never"
+    )
+  )
+  expect_snapshot(
+    error = TRUE,
+    join_rows(
+      data.frame(x = 1),
+      data.frame(x = NA),
+      type = "nest",
+      unmatched = "error",
+      na_matches = "na"
+    )
+  )
+  expect_snapshot(
+    error = TRUE,
+    join_rows(
+      data.frame(x = NA),
+      data.frame(x = NA),
+      type = "nest",
+      unmatched = "error",
+      na_matches = "never"
+    )
+  )
+
+  # Unmatched in the LHS
+  expect_snapshot(error = TRUE,
+    join_rows(
+      data.frame(x = NA),
+      data.frame(x = 1),
+      type = "right",
+      unmatched = "error",
+      na_matches = "na"
+    )
+  )
+  expect_snapshot(error = TRUE,
+    join_rows(
+      data.frame(x = NA),
+      data.frame(x = NA),
+      type = "right",
+      unmatched = "error",
+      na_matches = "never"
+    )
+  )
+
+  # Unmatched in either side
+  expect_snapshot(error = TRUE,
+    join_rows(
+      data.frame(x = 1),
+      data.frame(x = c(1, NA)),
+      type = "inner",
+      unmatched = "error",
+      na_matches = "na"
+    )
+  )
+  expect_snapshot(error = TRUE,
+    join_rows(
+      data.frame(x = c(1, NA)),
+      data.frame(x = 1),
+      type = "inner",
+      unmatched = "error",
+      na_matches = "na"
+    )
+  )
+  expect_snapshot(error = TRUE,
+    join_rows(
+      data.frame(x = NA),
+      data.frame(x = NA),
+      type = "inner",
+      unmatched = "error",
+      na_matches = "never"
     )
   )
 })

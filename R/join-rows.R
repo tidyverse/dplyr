@@ -5,12 +5,12 @@ join_rows <- function(x_key,
                       condition = "==",
                       filter = "none",
                       multiple = "all",
-                      check_unmatched = "neither") {
+                      unmatched = "drop") {
   type <- arg_match(type)
 
-  missing <- standardise_join_missing(type, na_matches)
-  no_match <- standardise_join_no_match(type, check_unmatched)
-  remaining <- standardise_join_remaining(type, check_unmatched)
+  missing <- standardise_join_missing(type, na_matches, unmatched)
+  no_match <- standardise_join_no_match(type, unmatched)
+  remaining <- standardise_join_remaining(type, unmatched)
 
   matches <- dplyr_matches(
     needles = x_key,
@@ -67,6 +67,17 @@ dplyr_matches <- function(needles,
         i = glue("Row {i} of `x` does not have a match.")
       ))
     },
+    vctrs_error_matches_missing = function(cnd) {
+      # Only occurs with `na_matches = "never", unmatched = "error"` for
+      # right and inner joins, and is a signal that `x` has unmatched missings
+      # that would result in dropped rows.
+      i <- cnd$i
+
+      abort(c(
+        "Each row of `x` must have a match in `y`.",
+        i = glue("Row {i} of `x` does not have a match.")
+      ))
+    },
     vctrs_error_matches_remaining = function(cnd) {
       i <- cnd$i
 
@@ -102,9 +113,14 @@ dplyr_matches <- function(needles,
   )
 }
 
-standardise_join_missing <- function(type, na_matches) {
+standardise_join_missing <- function(type, na_matches, unmatched) {
   if (na_matches == "na") {
     return("match")
+  }
+
+  if (unmatched == "error" && (type == "right" || type == "inner")) {
+    # `x` has the potential to drop rows when `na_matches = "never"`
+    return("error")
   }
 
   if (type == "inner" || type == "right" || type == "semi") {
@@ -114,8 +130,9 @@ standardise_join_missing <- function(type, na_matches) {
   }
 }
 
-standardise_join_no_match <- function(type, check_unmatched) {
-  if (check_unmatched == "x" || check_unmatched == "both") {
+standardise_join_no_match <- function(type, unmatched) {
+  if (unmatched == "error" && (type == "right" || type == "inner")) {
+    # `x` has the potential to drop rows
     return("error")
   }
 
@@ -128,8 +145,9 @@ standardise_join_no_match <- function(type, check_unmatched) {
   }
 }
 
-standardise_join_remaining <- function(type, check_unmatched) {
-  if (check_unmatched == "y" || check_unmatched == "both") {
+standardise_join_remaining <- function(type, unmatched) {
+  if (unmatched == "error" && (type == "left" || type == "inner" || type == "nest")) {
+    # `y` has the potential to drop rows
     return("error")
   }
 
