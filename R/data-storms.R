@@ -24,10 +24,14 @@
 #' }
 #' @examples
 #'
-#' library(ggplot2)
-#' ggplot(storms) +
-#'   aes(x=long, y=lat, color=paste(year, name)) +
-#'   geom_path() +
-#'   guides(color='none') +
-#'   facet_wrap(~year)
+#' # show a plot of the storm trajectories
+#' if (requireNamespace("ggplot2", quietly = TRUE)) {
+#'   ggplot(storms) +
+#'     aes(x=long, y=lat, color=paste(year, name)) +
+#'     geom_path() +
+#'     guides(color='none') +
+#'     facet_wrap(~year)
+#' }
+#'
+#' storms
 "storms"
