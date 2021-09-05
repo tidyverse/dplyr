@@ -5,7 +5,7 @@
 \alias{storms}
 \title{Storm tracks data}
 \format{
-A tibble with 10,010 observations and 13 variables:
+A tibble with 11,859 observations and 13 variables:
 \describe{
 \item{name}{Storm Name}
 \item{year,month,day}{Date of report}
@@ -27,11 +27,17 @@ storms
 \description{
 This data is a subset of the NOAA Atlantic hurricane database best track
 data, \url{https://www.nhc.noaa.gov/data/#hurdat}. The data includes the
-positions and attributes of 198 tropical storms, measured every six hours
+positions and attributes of storms from 1975-2020, measured every six hours
 during the lifetime of a storm.
 }
 \examples{
-storms
+
+library(ggplot2)
+ggplot(storms) +
+  aes(x=long, y=lat, color=paste(year, name)) +
+  geom_path() +
+  guides(color='none') +
+  facet_wrap(~year)
 }
 \seealso{
 The script to create the storms data set: \url{https://github.com/tidyverse/dplyr/blob/master/data-raw/storms.R}
