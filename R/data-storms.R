@@ -19,8 +19,8 @@
 #' -1 = Tropical Depression, 0 = Tropical Storm)}
 #' \item{wind}{storm's maximum sustained wind speed (in knots)}
 #' \item{pressure}{Air pressure at the storm's center (in millibars)}
-#' \item{ts_diameter}{Diameter of the area experiencing tropical storm strength winds (34 knots or above)}
-#' \item{hu_diameter}{Diameter of the area experiencing hurricane strength winds (64 knots or above)}
+#' \item{tropicalstorm_force_diameter}{Diameter (in nautical miles) of the area experiencing tropical storm strength winds (34 knots or above)}
+#' \item{hurricane_force_diameter}{Diameter (in nautical miles) of the area experiencing hurricane strength winds (64 knots or above)}
 #' }
 #' @examples
 #'

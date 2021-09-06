@@ -4,6 +4,8 @@ library(tidyverse)
 # in an unorthodox format: a csv that alternates between header/identifier rows
 # and data rows.
 
+# TO UPDATE: get the latest URL from https://www.nhc.noaa.gov/data/#hurdat, and rerun this code
+
 # Read in data set so each line is a character string
 storm_file_complete <- read_file("https://www.nhc.noaa.gov/data/hurdat/hurdat2-1851-2020-052921.txt")
 storm_strings <- read_lines(storm_file_complete)
@@ -94,13 +96,13 @@ storms <- storm_dataframes %>%
     # wind = wind * 1.15078, # transforms knots to mph,
     TSradius1 = extent_34_NE + extent_34_SW,
     TSradius2 = extent_34_NW + extent_34_SE,
-    ts_diameter = pmax(TSradius1, TSradius2) * 1.15078, # to convert from nautical miles to miles
+    tropicalstorm_force_diameter = pmax(TSradius1, TSradius2),
     HUradius1 = extent_64_NE + extent_64_SW,
     HUradius2 = extent_64_NW + extent_64_SE,
-    hu_diameter = pmax(HUradius1, HUradius2) * 1.15078, # to convert from nautical miles to miles
+    hurricane_force_diameter = pmax(HUradius1, HUradius2),
     status = recode(status, "HU" = "hurricane", "TS" = "tropical storm", "TD" = "tropical depression")
   ) %>%
-  select(name, year, month, day, hour, lat, long, status, category, wind, pressure, ts_diameter, hu_diameter)
+  select(name, year, month, day, hour, lat, long, status, category, wind, pressure, tropicalstorm_force_diameter, hurricane_force_diameter)
 
 # Narrow to storms that have complete pressure record
 completeish <- storms %>%
