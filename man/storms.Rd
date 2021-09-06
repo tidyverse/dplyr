@@ -32,8 +32,9 @@ during the lifetime of a storm.
 }
 \examples{
 
-# show a plot of the storm trajectories
+# show a plot of the storm paths
 if (requireNamespace("ggplot2", quietly = TRUE)) {
+  library(ggplot2)
   ggplot(storms) +
     aes(x=long, y=lat, color=paste(year, name)) +
     geom_path() +
