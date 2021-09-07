@@ -15,6 +15,7 @@
 
 * `slice()` now indicates which group produces an error (#5931).
 * New function `is_rowwise_df()`
+* New function `is_rowwise_df()`.
 
 # dplyr 1.0.7
 

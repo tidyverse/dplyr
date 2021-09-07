@@ -213,7 +213,7 @@ dplyr_reconstruct.rowwise_df <- function(data, template) {
 }
 
 dplyr_col_select <- function(.data, loc, names = NULL) {
-  loc <- vec_as_location(loc, n = ncol(.data), names = names(.data))
+  loc <- vec_as_location(loc, n = length(.data), names = names(.data))
 
   out <- .data[loc]
   if (!inherits(out, "data.frame")) {
