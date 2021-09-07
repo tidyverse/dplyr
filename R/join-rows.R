@@ -95,11 +95,6 @@ dplyr_matches <- function(needles,
       ))
     },
     vctrs_warning_matches_multiple = function(cnd) {
-      # TODO: Is this correct? Copying `mutate_cols()`.
-      if (check_muffled_warning(cnd)) {
-        maybe_restart("muffleWarning")
-      }
-
       i <- cnd$i
 
       warn(c(
