@@ -63,13 +63,14 @@ bool is_useful_chunk(SEXP ptype) {
   return !Rf_inherits(ptype, "data.frame") || XLENGTH(ptype) > 0;
 }
 
-SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes) {
+SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes, SEXP results) {
   R_len_t n_chunks = LENGTH(chunks);
   R_len_t n_groups = LENGTH(rows);
 
-  SEXP res = PROTECT(Rf_allocVector(VECSXP, 2));
+  SEXP res = PROTECT(Rf_allocVector(VECSXP, 3));
   Rf_namesgets(res, dplyr::vectors::names_summarise_recycle_chunks);
   SET_VECTOR_ELT(res, 0, chunks);
+  SET_VECTOR_ELT(res, 2, results);
 
   SEXP useful = PROTECT(Rf_allocVector(LGLSXP, n_chunks));
   int* p_useful = LOGICAL(useful);
@@ -130,10 +131,21 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes) {
 
       SEXP chunks_j = p_chunks[j];
       int* p_sizes = INTEGER(sizes);
+      bool reset_result_j = false;
       for (int i = 0; i < n_groups; i++, ++p_sizes) {
-        SET_VECTOR_ELT(chunks_j, i,
-          vctrs::short_vec_recycle(VECTOR_ELT(chunks_j, i), *p_sizes)
-        );
+        SEXP chunks_j_i = VECTOR_ELT(chunks_j, i);
+        if (*p_sizes != vctrs::short_vec_size(chunks_j_i)) {
+          reset_result_j = true;
+          SET_VECTOR_ELT(chunks_j, i,
+            vctrs::short_vec_recycle(chunks_j_i, *p_sizes)
+          );
+        }
+      }
+
+      // results[[j]] will be regenerated from !!!chunks[[j]]
+      // as it's been recycled
+      if (reset_result_j) {
+        SET_VECTOR_ELT(results, j, R_NilValue);
       }
     }
     SET_VECTOR_ELT(res, 0, chunks);

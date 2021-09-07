@@ -251,7 +251,6 @@ mutate_cols <- function(.data, ..., caller_env) {
 
   withCallingHandlers({
     for (i in seq_along(dots)) {
-      mask$across_cache_reset()
       context_poke("column", old_current_column)
 
       # get results from all the quosures that are expanded from ..i
@@ -344,13 +343,21 @@ mutate_cols <- function(.data, ..., caller_env) {
         chunks <- quo_result$chunks
 
         if (!quo_data$is_named && is.data.frame(result)) {
-          new_columns[names(result)] <- result
-          mask$add_many(result, chunks)
+          types <- vec_ptype(result)
+          types_names <- names(types)
+          chunks_extracted <- .Call(dplyr_extract_chunks, chunks, types)
+
+          for (j in seq_along(types)) {
+            mask$add_one(types_names[j], chunks_extracted[[j]], result = result[[j]])
+          }
+
+          new_columns[types_names] <- result
         } else {
           # treat as a single output otherwise
           name <- quo_data$name_auto
+          mask$add_one(name = name, chunks = chunks, result = result)
+
           new_columns[[name]] <- result
-          mask$add_one(name, chunks)
         }
 
       }

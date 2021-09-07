@@ -216,12 +216,12 @@ summarise_cols <- function(.data, ..., caller_env) {
   types <- vector("list", length(dots))
 
   chunks <- list()
+  results <- list()
   types <- list()
   out_names <- character()
 
   withCallingHandlers({
     for (i in seq_along(dots)) {
-      mask$across_cache_reset()
       context_poke("column", old_current_column)
 
       quosures <- expand_across(dots[[i]])
@@ -248,8 +248,8 @@ summarise_cols <- function(.data, ..., caller_env) {
           }
         )
         chunks_k <- vec_cast_common(!!!chunks_k, .to = types_k)
-
-        quosures_results[[k]] <- list(chunks = chunks_k, types = types_k)
+        result_k <- vec_c(!!!chunks_k, .ptype = types_k)
+        quosures_results[[k]] <- list(chunks = chunks_k, types = types_k, results = result_k)
       }
 
       for (k in seq_along(quosures)) {
@@ -262,35 +262,43 @@ summarise_cols <- function(.data, ..., caller_env) {
         }
         types_k <- quo_result$types
         chunks_k <- quo_result$chunks
+        results_k <- quo_result$results
 
         if (!quo_data$is_named && is.data.frame(types_k)) {
           chunks_extracted <- .Call(dplyr_extract_chunks, chunks_k, types_k)
-
-          walk2(chunks_extracted, names(types_k), function(chunks_k_j, nm) {
-            mask$add_one(nm, chunks_k_j)
-          })
+          types_k_names <- names(types_k)
+          for (j in seq_along(chunks_extracted)) {
+            mask$add_one(
+              name   = types_k_names[j],
+              chunks = chunks_extracted[[j]],
+              result  = results_k[[j]]
+            )
+          }
 
           chunks <- append(chunks, chunks_extracted)
           types <- append(types, as.list(types_k))
-          out_names <- c(out_names, names(types_k))
+          results <- append(results, results_k)
+          out_names <- c(out_names, types_k_names)
         } else {
           name <- quo_data$name_auto
-          mask$add_one(name, chunks_k)
+          mask$add_one(name = name, chunks = chunks_k, result = results_k)
           chunks <- append(chunks, list(chunks_k))
           types <- append(types, list(types_k))
+          results <- append(results, list(results_k))
           out_names <- c(out_names, name)
         }
 
       }
     }
 
-    recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks, mask$get_rows(), types)
+    recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks, mask$get_rows(), types, results)
     chunks <- recycle_info$chunks
     sizes <- recycle_info$sizes
+    results <- recycle_info$results
 
     # materialize columns
     for (i in seq_along(chunks)) {
-      result <- vec_c(!!!chunks[[i]], .ptype = types[[i]])
+      result <- results[[i]] %||% vec_c(!!!chunks[[i]], .ptype = types[[i]])
       cols[[ out_names[i] ]] <- result
     }
 
