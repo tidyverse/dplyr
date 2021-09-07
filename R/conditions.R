@@ -15,7 +15,7 @@ cnd_bullet_cur_group_label <- function(what = "error") {
 
 cnd_bullet_rowwise_unlist <- function() {
   data <- peek_mask()$full_data()
-  if (inherits(data, "rowwise_df")) {
+  if (is_rowwise_df(data)) {
     glue("Did you mean: `{error_name} = list({error_expression})` ?", .envir = peek_call_step())
   }
 }

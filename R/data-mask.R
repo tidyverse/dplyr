@@ -29,7 +29,7 @@ DataMask <- R6Class("DataMask",
     },
 
     add_one = function(name, chunks, result) {
-      if (inherits(private$data, "rowwise_df")){
+      if (is_rowwise_df(private$data)){
         is_scalar_list <- function(.x) {
           vec_is_list(.x) && length(.x) == 1L
         }

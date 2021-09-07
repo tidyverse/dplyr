@@ -287,7 +287,7 @@ mutate_cols <- function(.data, ..., caller_env) {
             chunks <- mask$resolve(name)
           }
 
-          if (inherits(.data, "rowwise_df") && vec_is_list(result)) {
+          if (is_rowwise_df(.data) && vec_is_list(result)) {
             sizes <- list_sizes(result)
             wrong <- which(sizes != 1)
             if (length(wrong)) {

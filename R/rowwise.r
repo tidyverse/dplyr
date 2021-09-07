@@ -79,6 +79,8 @@ rowwise.grouped_df <- function(data, ...) {
   rowwise_df(data, group_vars(data))
 }
 
+#' @rdname rowwise
+is_rowwise_df <- function(x) inherits(x, "rowwise_df")
 
 # Constructor + helper ----------------------------------------------------
 
