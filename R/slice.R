@@ -121,7 +121,7 @@ slice <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 slice.data.frame <- function(.data, ..., .preserve = FALSE) {
-  loc <- slice_rows(.data, ...)
+  loc <- slice_rows(.data, ..., caller_env = caller_env())
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
@@ -225,13 +225,13 @@ slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, repla
 # helpers -----------------------------------------------------------------
 
 
-slice_rows <- function(.data, ...) {
+slice_rows <- function(.data, ..., caller_env) {
   dots <- enquos(...)
   if (is_empty(dots)) {
     return(TRUE)
   }
 
-  mask <- DataMask$new(.data, caller_env())
+  mask <- DataMask$new(.data, caller_env)
   on.exit(mask$forget("slice"), add = TRUE)
 
   rows <- mask$get_rows()
