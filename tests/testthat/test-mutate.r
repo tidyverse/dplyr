@@ -484,6 +484,12 @@ test_that("rowwise() + mutate(across()) correctly handles list columns (#5951)",
   )
 })
 
+test_that("mutate() fails on named empty arguments (#5925)", {
+  expect_error(
+    mutate(tibble(), bogus = )
+  )
+})
+
 # Error messages ----------------------------------------------------------
 
 test_that("mutate() give meaningful errors", {
