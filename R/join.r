@@ -91,9 +91,14 @@
 #'   - `"all"` returns every match detected in `y`.
 #'   - `"first"` returns the first match detected in `y`.
 #'   - `"last"` returns the last match detected in `y`.
-#'   - `"warning"` throws a warning if multiple matches are detected, but
-#'     otherwise falls back to `"all"`.
+#'   - `"warning"` throws a warning if multiple matches are detected, and
+#'     then falls back to `"all"`.
 #'   - `"error"` throws an error if multiple matches are detected.
+#'
+#'   The default value of `NULL` is equivalent to `"warning"` for equi joins and
+#'   rolling joins, where multiple matches are usually surprising. If any
+#'   non-equi join conditions are present or if you are doing a cross join, then
+#'   it is equivalent to `"all"`, since multiple matches are usually expected.
 #' @param unmatched How should unmatched keys that would result in dropped rows
 #'   be handled?
 #'   - `"drop"` drops unmatched keys from the result.
@@ -123,10 +128,14 @@
 #'   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
 #'
 #' # If a row in `x` matches multiple rows in `y`, all the rows in `y` will be
-#' # returned once for each matching row in `x`
+#' # returned once for each matching row in `x`, with a warning.
 #' df1 <- tibble(x = 1:3)
 #' df2 <- tibble(x = c(1, 1, 2), y = c("first", "second", "third"))
 #' df1 %>% left_join(df2)
+#'
+#' # If multiple matches are expected, set `multiple` to `"all"` to silence
+#' # the warning
+#' df1 %>% left_join(df2, multiple = "all")
 #'
 #' # By default, NAs match other NAs so that there are two
 #' # rows in the output of this join:
@@ -163,7 +172,7 @@ inner_join.data.frame <- function(x,
                                   ...,
                                   keep = NULL,
                                   na_matches = c("na", "never"),
-                                  multiple = "all",
+                                  multiple = NULL,
                                   unmatched = "drop") {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
@@ -201,7 +210,7 @@ left_join.data.frame <- function(x,
                                  ...,
                                  keep = NULL,
                                  na_matches = c("na", "never"),
-                                 multiple = "all",
+                                 multiple = NULL,
                                  unmatched = "drop") {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
@@ -239,7 +248,7 @@ right_join.data.frame <- function(x,
                                   ...,
                                   keep = NULL,
                                   na_matches = c("na", "never"),
-                                  multiple = "all",
+                                  multiple = NULL,
                                   unmatched = "drop") {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
@@ -277,7 +286,7 @@ full_join.data.frame <- function(x,
                                  ...,
                                  keep = NULL,
                                  na_matches = c("na", "never"),
-                                 multiple = "all") {
+                                 multiple = NULL) {
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -411,7 +420,7 @@ nest_join.data.frame <- function(x,
                                  copy = FALSE,
                                  keep = NULL,
                                  name = NULL,
-                                 multiple = "all",
+                                 multiple = NULL,
                                  unmatched = "drop",
                                  ...) {
   unmatched <- check_unmatched(unmatched)
@@ -480,7 +489,7 @@ join_mutate <- function(x,
                         suffix = c(".x", ".y"),
                         na_matches = "na",
                         keep = NULL,
-                        multiple = "all",
+                        multiple = NULL,
                         unmatched = "drop") {
   na_matches <- check_na_matches(na_matches)
   unmatched <- check_unmatched(unmatched)

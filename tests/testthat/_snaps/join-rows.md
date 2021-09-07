@@ -1,3 +1,19 @@
+# `multiple` default behavior is correct
+
+    Code
+      out <- join_rows(c(1, 1), c(1, 1), condition = "==")
+    Warning <warning>
+      Each row in `x` can match at most 1 row in `y`.
+      i Row 1 of `x` matches multiple rows.
+
+---
+
+    Code
+      out <- join_rows(c(1, 1), c(1, 1), condition = ">=", filter = "max")
+    Warning <warning>
+      Each row in `x` can match at most 1 row in `y`.
+      i Row 1 of `x` matches multiple rows.
+
 # join_rows() gives meaningful error message on incompatible types
 
     Code

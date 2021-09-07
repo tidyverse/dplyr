@@ -25,10 +25,12 @@
     non-equi join.
     
   * `multiple` is a new argument for controlling what happens when a row
-    in `x` matches multiple rows in `y`. For backwards compatibility, the
-    default is `"all"`, but you can also choose to return the `"first"` or
-    `"last"` match. For quality control purposes, you can also throw a
-    `"warning"` when multiple matches are detected, or `"error"`.
+    in `x` matches multiple rows in `y`. For equi joins and rolling joins,
+    where this is usually surprising, this defaults to signaling a `"warning"`,
+    but still returns all of the matches. For non-equi joins and cross joins,
+    where multiple matches are usually expected, this defaults to returning
+    `"all"` of the matches. You can also return only the `"first"` or `"last"`
+    match, or you can `"error"`.
     
   * `unmatched` is a new argument for controlling what happens when a row
     would be dropped because it doesn't have a match. For backwards

@@ -14,7 +14,7 @@ nest_join(x, y, by = NULL, copy = FALSE, keep = NULL, name = NULL, ...)
   copy = FALSE,
   keep = NULL,
   name = NULL,
-  multiple = "all",
+  multiple = NULL,
   unmatched = "drop",
   ...
 )
@@ -72,10 +72,15 @@ For each row of \code{x}:
 \item \code{"all"} returns every match detected in \code{y}.
 \item \code{"first"} returns the first match detected in \code{y}.
 \item \code{"last"} returns the last match detected in \code{y}.
-\item \code{"warning"} throws a warning if multiple matches are detected, but
-otherwise falls back to \code{"all"}.
+\item \code{"warning"} throws a warning if multiple matches are detected, and
+then falls back to \code{"all"}.
 \item \code{"error"} throws an error if multiple matches are detected.
-}}
+}
+
+The default value of \code{NULL} is equivalent to \code{"warning"} for equi joins and
+rolling joins, where multiple matches are usually surprising. If any
+non-equi join conditions are present or if you are doing a cross join, then
+it is equivalent to \code{"all"}, since multiple matches are usually expected.}
 
 \item{unmatched}{How should unmatched keys that would result in dropped rows
 be handled?

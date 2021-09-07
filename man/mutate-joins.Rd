@@ -33,7 +33,7 @@ inner_join(
   ...,
   keep = NULL,
   na_matches = c("na", "never"),
-  multiple = "all",
+  multiple = NULL,
   unmatched = "drop"
 )
 
@@ -56,7 +56,7 @@ left_join(
   ...,
   keep = NULL,
   na_matches = c("na", "never"),
-  multiple = "all",
+  multiple = NULL,
   unmatched = "drop"
 )
 
@@ -79,7 +79,7 @@ right_join(
   ...,
   keep = NULL,
   na_matches = c("na", "never"),
-  multiple = "all",
+  multiple = NULL,
   unmatched = "drop"
 )
 
@@ -102,7 +102,7 @@ full_join(
   ...,
   keep = NULL,
   na_matches = c("na", "never"),
-  multiple = "all"
+  multiple = NULL
 )
 }
 \arguments{
@@ -168,10 +168,15 @@ For each row of \code{x}:
 \item \code{"all"} returns every match detected in \code{y}.
 \item \code{"first"} returns the first match detected in \code{y}.
 \item \code{"last"} returns the last match detected in \code{y}.
-\item \code{"warning"} throws a warning if multiple matches are detected, but
-otherwise falls back to \code{"all"}.
+\item \code{"warning"} throws a warning if multiple matches are detected, and
+then falls back to \code{"all"}.
 \item \code{"error"} throws an error if multiple matches are detected.
-}}
+}
+
+The default value of \code{NULL} is equivalent to \code{"warning"} for equi joins and
+rolling joins, where multiple matches are usually surprising. If any
+non-equi join conditions are present or if you are doing a cross join, then
+it is equivalent to \code{"all"}, since multiple matches are usually expected.}
 
 \item{unmatched}{How should unmatched keys that would result in dropped rows
 be handled?
@@ -251,10 +256,14 @@ band_members \%>\%
   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
 
 # If a row in `x` matches multiple rows in `y`, all the rows in `y` will be
-# returned once for each matching row in `x`
+# returned once for each matching row in `x`, with a warning.
 df1 <- tibble(x = 1:3)
 df2 <- tibble(x = c(1, 1, 2), y = c("first", "second", "third"))
 df1 \%>\% left_join(df2)
+
+# If multiple matches are expected, set `multiple` to `"all"` to silence
+# the warning
+df1 \%>\% left_join(df2, multiple = "all")
 
 # By default, NAs match other NAs so that there are two
 # rows in the output of this join:

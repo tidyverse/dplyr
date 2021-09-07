@@ -23,7 +23,7 @@ test_that("mutating joins preserve row and column order of x", {
 
 test_that("even when column names change", {
   df1 <- data.frame(x = c(1, 1, 2, 3), z = 1:4, a = 1)
-  df2 <- data.frame(z = 1:4, b = 1, x = c(1, 2, 2, 4))
+  df2 <- data.frame(z = 1:3, b = 1, x = c(1, 2, 4))
 
   out <- inner_join(df1, df2, by = "x")
   expect_named(out, c("x", "z.x", "a", "z.y", "b"))
@@ -189,13 +189,13 @@ test_that("joins don't match NA when na_matches = 'never' (#2033)", {
 
 test_that("mutating joins compute common columns", {
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
-  df2 <- tibble(x = c(1, 1), z = c(2, 3))
+  df2 <- tibble(x = c(1, 3), z = c(2, 3))
   expect_snapshot(out <- left_join(df1, df2))
 })
 
 test_that("filtering joins compute common columns", {
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
-  df2 <- tibble(x = c(1, 1), z = c(2, 3))
+  df2 <- tibble(x = c(1, 3), z = c(2, 3))
   expect_snapshot(out <- semi_join(df1, df2))
 })
 
@@ -204,7 +204,7 @@ test_that("filtering joins compute common columns", {
 test_that("nest_join returns list of tibbles (#3570)",{
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- tibble(x = c(1, 1), z = c(2, 3))
-  out <- nest_join(df1, df2, by = "x")
+  out <- nest_join(df1, df2, by = "x", multiple = "all")
 
   expect_named(out, c("x", "y", "df2"))
   expect_type(out$df2, "list")
@@ -213,7 +213,7 @@ test_that("nest_join returns list of tibbles (#3570)",{
 
 test_that("nest_join computes common columns", {
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
-  df2 <- tibble(x = c(1, 1), z = c(2, 3))
+  df2 <- tibble(x = c(1, 3), z = c(2, 3))
   expect_snapshot(out <- nest_join(df1, df2))
 })
 
@@ -221,13 +221,13 @@ test_that("nest_join handles multiple matches in x (#3642)", {
   df1 <- tibble(x = c(1, 1))
   df2 <- tibble(x = 1, y = 1:2)
 
-  out <- nest_join(df1, df2, by = "x")
+  out <- nest_join(df1, df2, by = "x", multiple = "all")
   expect_equal(out$df2[[1]], out$df2[[2]])
 })
 
 test_that("y keys dropped by default for equi conditions", {
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
-  df2 <- tibble(x = c(1, 1), z = c(2, 3))
+  df2 <- tibble(x = c(1, 3), z = c(2, 3))
   out <- nest_join(df1, df2, by = "x")
   expect_named(out, c("x", "y", "df2"))
   expect_named(out$df2[[1]], "z")
@@ -238,7 +238,7 @@ test_that("y keys dropped by default for equi conditions", {
 
 test_that("y keys kept by default for non-equi conditions", {
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
-  df2 <- tibble(x = c(1, 1), z = c(2, 3))
+  df2 <- tibble(x = c(1, 3), z = c(2, 3))
 
   out <- nest_join(df1, df2, by = join_by(x >= x))
   expect_named(out, c("x", "y", "df2"))
@@ -259,7 +259,7 @@ test_that("joins preserve groups", {
   gf1 <- tibble(a = 1:3) %>% group_by(a)
   gf2 <- tibble(a = rep(1:4, 2), b = 1) %>% group_by(b)
 
-  i <- count_regroups(out <- inner_join(gf1, gf2, by = "a"))
+  i <- count_regroups(out <- inner_join(gf1, gf2, by = "a", multiple = "all"))
   expect_equal(i, 1L)
   expect_equal(group_vars(out), "a")
 
@@ -268,7 +268,7 @@ test_that("joins preserve groups", {
   expect_equal(group_vars(out), "a")
 
   # See comment in nest_join
-  i <- count_regroups(out <- nest_join(gf1, gf2, by = "a"))
+  i <- count_regroups(out <- nest_join(gf1, gf2, by = "a", multiple = "all"))
   expect_equal(i, 1L)
   expect_equal(group_vars(out), "a")
 })
@@ -287,7 +287,7 @@ test_that("rowwise group structure is updated after a join (#5227)", {
   df1 <- rowwise(tibble(x = 1:2))
   df2 <- tibble(x = c(1:2, 2L))
 
-  x <- left_join(df1, df2, by = "x")
+  x <- left_join(df1, df2, by = "x", multiple = "all")
 
   expect_identical(group_rows(x), list_of(1L, 2L, 3L))
 })

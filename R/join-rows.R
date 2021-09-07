@@ -4,13 +4,14 @@ join_rows <- function(x_key,
                       na_matches = "na",
                       condition = "==",
                       filter = "none",
-                      multiple = "all",
+                      multiple = NULL,
                       unmatched = "drop") {
   type <- arg_match(type)
 
   missing <- standardise_join_missing(type, na_matches, unmatched)
   no_match <- standardise_join_no_match(type, unmatched)
   remaining <- standardise_join_remaining(type, unmatched)
+  multiple <- standardise_multiple(multiple, condition, filter)
 
   matches <- dplyr_matches(
     needles = x_key,
@@ -152,3 +153,26 @@ standardise_join_remaining <- function(type, unmatched) {
     return("drop")
   }
 }
+
+standardise_multiple <- function(multiple, condition, filter) {
+  if (!is_null(multiple)) {
+    # User supplied
+    return(multiple)
+  }
+
+  if (is_null(condition)) {
+    # Cross join, never warn
+    return("all")
+  }
+
+  # "warning" for equi and rolling joins where multiple matches are surprising.
+  # "all" for non-equi joins where multiple matches are expected.
+  non_equi <- (condition != "==") & (filter == "none")
+
+  if (any(non_equi)) {
+    "all"
+  } else {
+    "warning"
+  }
+}
+
