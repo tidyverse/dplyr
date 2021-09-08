@@ -173,10 +173,9 @@
 #' by <- join_by(chromosome, overlaps(x$start, x$end, y$start, y$end))
 #' full_join(segments, reference, by)
 join_by <- function(...) {
-  # Should use `enexprs(.named = NULL)`, but https://github.com/r-lib/rlang/issues/1223
-  exprs <- enexprs(...)
+  exprs <- enexprs(..., .named = NULL)
 
-  if (!is_empty(exprs) && is_named(exprs)) {
+  if (!is_null(names(exprs))) {
     abort(c(
       "`join_by()` expressions can't be named.",
       i = "Did you use `=` rather than `==`?"
