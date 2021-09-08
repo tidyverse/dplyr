@@ -43,20 +43,23 @@ tibble::type_sum
 #' (And it always shows the underlying data, even when applied
 #' to a remote data source.)
 #'
-#' See [format_glimpse()] for details on the formatting.
+#' Please see [pillar::glimpse()] for more details
+#'.
 #'
-#' @section S3 methods:
-#' `glimpse` is an S3 generic with a customised method for `tbl`s and
-#' `data.frames`, and a default method that calls [str()].
-#'
-#' @param x An object to glimpse at.
-#' @param width Width of output: defaults to the setting of the
-#'   `width` [option][pillar_options] (if finite)
-#'   or the width of the console.
-#' @param ... Unused, for extensibility.
+#' @inheritParams pillar::glimpse
 #' @return x original x is (invisibly) returned, allowing `glimpse()` to be
 #'   used within a data pipe line.
+#' @examples
+#' glimpse(mtcars)
 #'
+#' # Note that original x is (invisibly) returned, allowing `glimpse()` to be
+#' # used within a pipe line.
+#' mtcars %>%
+#'   glimpse() %>%
+#'   select(1:3)
+#'
+#' @examplesIf rlang::is_installed("nycflights13")
+#' glimpse(nycflights13::flights)
 #' @importFrom tibble glimpse
 #' @export
 #' @name glimpse

@@ -11,7 +11,6 @@
 \alias{lst_}
 \alias{add_row}
 \alias{type_sum}
-\alias{glimpse}
 \alias{frame_data}
 \alias{tribble}
 \alias{tibble}
