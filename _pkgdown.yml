@@ -21,6 +21,7 @@ reference:
   - count
   - distinct
   - filter
+  - glimpse
   - mutate
   - pull
   - relocate
