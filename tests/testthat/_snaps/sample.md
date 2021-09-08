@@ -19,7 +19,7 @@
     Code
       mtcars %>% group_by(cyl) %>% sample_n(10)
     Error <dplyr_error>
-      `size` must be less or equal than 7 (size of data), set `replace` = TRUE to use sampling with replacement.
+      `size` must be less than or equal to 7 (size of data), set `replace` = TRUE to use sampling with replacement.
       i The error occurred in group 2: cyl = 6.
 
 ---
