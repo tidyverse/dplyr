@@ -38,6 +38,7 @@ reference:
   - left_join
   - nest_join
   - semi_join
+  - join_by
 
 - title: Grouping
   contents:
