@@ -50,5 +50,10 @@ models \%>\% do(data.frame(
   var = names(coef(.$mod)),
   coef(summary(.$mod)))
 )
+\dontshow{if (requireNamespace("broom", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+
+# ->
+models \%>\% summarise(broom::tidy(mod))
+\dontshow{\}) # examplesIf}
 }
 \keyword{internal}
