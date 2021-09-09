@@ -362,7 +362,7 @@ stop_invalid_top_expression <- function(expr, i) {
   options <- glue_collapse(options, sep = ", ", last = ", or ")
 
   abort(c(
-    glue("Join by expressions must begin with one of: {options}."),
+    glue("Join by expressions must use one of: {options}."),
     x = glue("Expression {i} is {err_expr(expr)}.")
   ))
 }
