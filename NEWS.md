@@ -10,14 +10,32 @@
     specifications can be supplied to any `*_join()` function as the `by`
     argument.
     
-  * Join specifications also allow for more flexible joins, such as non-equi
-    joins and rolling joins. These allow you to join on conditions other than
-    equality. For example, to find every commercial that aired before a
-    particular sale was made, you'd use `join_by(sale_date >= commercial_date)`.
-    Note that you cannot use arbitrary expressions on each side of the join
-    condition, like `join_by(sale_date - 40 >= commercial_date)`. Instead,
-    create a new column containing `sale_date - 40` and refer to that by name
-    instead.
+  * Join specifications allow for various new types of joins:
+  
+    * Equi joins: The most common join, specified by `==`. For example,
+      `join_by(sale_date == commercial_date)`.
+      
+    * Non-equi joins: For joining on conditions other than equality, specified
+      by `>=`, `>`, `<`, and `<=`. For example,
+      `join_by(sale_date >= commercial_date)` to find every commercial that
+      aired before a particular sale.
+      
+    * Rolling joins: For limiting the results of non-equi joins, specified
+      by wrapping a non-equi condition in `max()` or `min()`. For example,
+      `join_by(max(sale_date >= commercial_date))` to find only the most
+      recent commercial that aired before a particular sale.
+      
+    * Overlap joins: For detecting overlaps between sets of columns, specified
+      by using one of the join helpers: `between()`, `within()`, or
+      `overlaps()`. For example,
+      `join_by(between(commercial_date, sale_date_lower, sale_date))` to
+      find commercials that aired before a particular sale, as long as they
+      occurred after some lower bound, such as 40 days before the sale was made.
+      
+    Note that you cannot use arbitrary expressions in the join conditions, like
+    `join_by(sale_date - 40 >= commercial_date)`. Instead, use `mutate()` to
+    create a new column containing the result of `sale_date - 40` and refer
+    to that by name in `join_by()`.
     
   * `multiple` is a new argument for controlling what happens when a row
     in `x` matches multiple rows in `y`. For equi joins and rolling joins,
