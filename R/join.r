@@ -137,6 +137,10 @@
 #' # the warning
 #' df1 %>% left_join(df2, multiple = "all")
 #'
+#' # Use `join_by()` with a condition other than `==` to perform a non-equi
+#' # join. Here we match on every instance where `df1$x > df2$x`.
+#' df1 %>% left_join(df2, join_by(x > x))
+#'
 #' # By default, NAs match other NAs so that there are two
 #' # rows in the output of this join:
 #' df1 <- data.frame(x = c(1, NA), y = 2)
