@@ -1,8 +1,9 @@
 # dplyr (development version)
 
-* Joins have undergone a complete overhaul. The purpose of this overhaul was to
+* Joins have undergone a complete overhaul. The purpose of this overhaul is to
   enable more flexible join operations, while also providing tools to perform
-  quality control checks directly in the join call (#5914, #5661, #5413, #2240).
+  quality control checks directly in the join call. Many of these changes are
+  inspired by data.table's join syntax (#5914, #5661, #5413, #2240).
 
   * A _join specification_ can now be created through `join_by()`. This allows
     you to specify both the left and right hand side of a join using unquoted
