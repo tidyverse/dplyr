@@ -44,7 +44,8 @@ they are specified.
 Equi joins match on equality, and are the most common type of join. To
 construct an equi join, supply two column names to join with separated by
 \code{==}. Alternatively, supplying a single name will be interpreted as an equi
-join between two columns of the same name.
+join between two columns of the same name. For example, \code{join_by(x)} is
+equivalent to \code{join_by(x == x)}.
 }
 
 \subsection{Non-equi joins:}{
