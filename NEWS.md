@@ -19,11 +19,6 @@
     create a new column containing `sale_date - 40` and refer to that by name
     instead.
     
-  * `keep` now defaults to `NULL` rather than `FALSE`. `NULL` implies
-    `keep = FALSE` for equi-join conditions, but `keep = TRUE` for non-equi
-    join conditions, since you generally want to preserve both sides of a
-    non-equi join.
-    
   * `multiple` is a new argument for controlling what happens when a row
     in `x` matches multiple rows in `y`. For equi joins and rolling joins,
     where this is usually surprising, this defaults to signaling a `"warning"`,
@@ -31,6 +26,11 @@
     where multiple matches are usually expected, this defaults to returning
     `"all"` of the matches. You can also return only the `"first"` or `"last"`
     match, or you can `"error"`.
+    
+  * `keep` now defaults to `NULL` rather than `FALSE`. `NULL` implies
+    `keep = FALSE` for equi-join conditions, but `keep = TRUE` for non-equi
+    join conditions, since you generally want to preserve both sides of a
+    non-equi join.
     
   * `unmatched` is a new argument for controlling what happens when a row
     would be dropped because it doesn't have a match. For backwards
