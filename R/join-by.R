@@ -180,7 +180,7 @@ join_by <- function(...) {
   if (!is_null(names(exprs))) {
     abort(c(
       "`join_by()` expressions can't be named.",
-      i = "Did you use `=` rather than `==`?"
+      i = "Did you use `=` instead of `==`?"
     ))
   }
 

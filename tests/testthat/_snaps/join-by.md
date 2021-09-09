@@ -57,7 +57,7 @@
       join_by(a = b)
     Error <rlang_error>
       `join_by()` expressions can't be named.
-      i Did you use `=` rather than `==`?
+      i Did you use `=` instead of `==`?
 
 ---
 
