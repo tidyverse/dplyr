@@ -5,7 +5,7 @@
 \title{Get a glimpse of your data}
 \value{
 x original x is (invisibly) returned, allowing \code{glimpse()} to be
-used within a data pipe line.
+used within a data pipeline.
 }
 \description{
 \code{glimpse()} is like a transposed version of \code{print()}:
@@ -16,16 +16,17 @@ but it tries to show you as much data as possible.
 (And it always shows the underlying data, even when applied
 to a remote data source.)
 
-Please see \code{\link[pillar:glimpse]{pillar::glimpse()}} for more details
-.
+\code{glimpse()} is provided by the pillar package, and re-exported
+by dplyr. See \code{\link[pillar:glimpse]{pillar::glimpse()}} for more details.
 }
 \examples{
 glimpse(mtcars)
 
 # Note that original x is (invisibly) returned, allowing `glimpse()` to be
-# used within a pipe line.
+# used within a pipeline.
 mtcars \%>\%
   glimpse() \%>\%
   select(1:3)
 
+glimpse(starwars)
 }

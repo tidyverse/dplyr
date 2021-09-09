@@ -43,23 +43,22 @@ tibble::type_sum
 #' (And it always shows the underlying data, even when applied
 #' to a remote data source.)
 #'
-#' Please see [pillar::glimpse()] for more details
-#'.
+#' `glimpse()` is provided by the pillar package, and re-exported
+#' by dplyr. See [pillar::glimpse()] for more details.
 #'
 #' @inheritParams pillar::glimpse
 #' @return x original x is (invisibly) returned, allowing `glimpse()` to be
-#'   used within a data pipe line.
+#'   used within a data pipeline.
 #' @examples
 #' glimpse(mtcars)
 #'
 #' # Note that original x is (invisibly) returned, allowing `glimpse()` to be
-#' # used within a pipe line.
+#' # used within a pipeline.
 #' mtcars %>%
 #'   glimpse() %>%
 #'   select(1:3)
 #'
-#' @examplesIf rlang::is_installed("nycflights13")
-#' glimpse(nycflights13::flights)
+#' glimpse(starwars)
 #' @importFrom tibble glimpse
 #' @export
 #' @name glimpse
