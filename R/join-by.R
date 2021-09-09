@@ -1,24 +1,26 @@
 #' Join specifications
 #'
 #' @description
-#' `join_by()` constructs a specification to join by using a small domain
-#' specific language. The result can be supplied as the `by` argument to any
-#' of the join functions (such as [left_join()]).
+#' `join_by()` constructs a specification that describes how to join two tables
+#' using a small domain specific language. The result can be supplied as the
+#' `by` argument to any of the join functions (such as [left_join()]).
 #'
-#' `join_by()` is constructed from a set of expressions, with each expression
-#' being separated by a comma. Each expression should reference a column from
-#' the left-hand table to match to the right-hand table, with some operator
-#' specifying how to match them together. Multiple expressions are combined
-#' using an "and" operation.
+#' `join_by()` is constructed from a comma-separated set of expressions that
+#' are generally of the form `x_col OP y_col`, where `OP` is one of `==`,
+#' `>=`, `>`, `<=`, or `<`. These are described in detail below, along with
+#' additional modifiers that are used to perform rolling and overlap joins.
 #'
-#' ## Equi Joins:
+#' Multiple expressions are combined using an "and" operation in the order
+#' they are specified.
+#'
+#' ## Equi joins:
 #'
 #' Equi joins match on equality, and are the most common type of join. To
 #' construct an equi join, supply two column names to join with separated by
 #' `==`. Alternatively, supplying a single name will be interpreted as an equi
 #' join between two columns of the same name.
 #'
-#' ## Non-equi Joins:
+#' ## Non-equi joins:
 #'
 #' Non-equi joins match on an inequality, and are common in time series analysis
 #' and genomics. To construct a non-equi join, supply two column names separated
@@ -28,7 +30,7 @@
 #' large number of rows in `y`. Be extra careful when constructing non-equi
 #' join specifications!
 #'
-#' ## Rolling Joins:
+#' ## Rolling joins:
 #'
 #' Rolling joins are a variant of a non-equi join that limit the results
 #' returned from each condition to either the maximum or minimum value of
@@ -38,7 +40,7 @@
 #' and then the maximum `y` value of those matches should be the only one
 #' that is kept.
 #'
-#' ## Overlap Joins:
+#' ## Overlap joins:
 #'
 #' Overlap joins are a special case of a non-equi join generally involving one
 #' or two columns from the left-hand side _overlapping_ a range computed from
@@ -64,18 +66,18 @@
 #'
 #' Internally, arguments are matched by position and should not be named.
 #'
-#' These conditions assume that the ranges are specified logically, i.e.
-#' `x_lower` should always be less than or equal to `x_upper`.
+#' These conditions assume that the ranges are well-formed, i.e.
+#' `x_lower <= x_upper`.
 #'
-#' ## Column Referencing:
+#' ## Column referencing:
 #'
-#' When specifying join conditions, the default assumes that column names on
-#' the left-hand side of the condition refer to the left-hand table, and names
-#' on the right-hand side of the condition refer to the right-hand table.
-#' Occasionally, it is clearer to be able to specify a right-hand table name
-#' on the left-hand side of the condition, and vice versa. To support this,
-#' column names can be prefixed by `x$` or `y$` to explicitly specify which
-#' table they come from.
+#' When specifying join conditions, `join_by()` assumes that column names on the
+#' left-hand side of the condition refer to the left-hand table (`x`), and names
+#' on the right-hand side of the condition refer to the right-hand table (`y`).
+#' Occasionally, it is clearer to be able to specify a right-hand table name on
+#' the left-hand side of the condition, and vice versa. To support this, column
+#' names can be prefixed by `x$` or `y$` to explicitly specify which table they
+#' come from.
 #'
 #' @details
 #' Note that `join_by()` does not support arbitrary expressions on each side of
@@ -106,26 +108,26 @@
 #' @export
 #' @examples
 #' sales <- tibble(
-#'  id = c(1L, 1L, 1L, 2L, 2L),
-#'  sale_date = as.Date(c("2018-12-31", "2019-01-02", "2019-01-05", "2019-01-04", "2019-01-01"))
+#'   id = c(1L, 1L, 1L, 2L, 2L),
+#'   sale_date = as.Date(c("2018-12-31", "2019-01-02", "2019-01-05", "2019-01-04", "2019-01-01"))
 #' )
 #'
 #' promos <- tibble(
-#'  id = c(1L, 1L, 2L),
-#'  promo_date = as.Date(c("2019-01-01", "2019-01-05", "2019-01-02"))
+#'   id = c(1L, 1L, 2L),
+#'   promo_date = as.Date(c("2019-01-01", "2019-01-05", "2019-01-02"))
 #' )
 #'
-#' # "Match id to id, and sales_date to promo_date"
+#' # Match `id` to `id`, and `sales_date` to `promo_date`
 #' by <- join_by(id, sale_date == promo_date)
 #' left_join(sales, promos, by)
 #'
-#' # "For each sales_date within a particular id, find all promo_dates that
-#' # occurred before this particular sale"
+#' # For each `sales_date` within a particular `id`, find all `promo_date`s that
+#' # occurred before that particular sale
 #' by <- join_by(id, sale_date >= promo_date)
 #' left_join(sales, promos, by)
 #'
-#' # "For each sales_date within a particular id, find only the most recent
-#' # promo_date that occurred before this particular sale"
+#' # For each `sales_date` within a particular `id`, find the most recent
+#' # `promo_date` that occurred before that particular sale
 #' by <- join_by(id, max(sale_date >= promo_date))
 #' left_join(sales, promos, by)
 #'
@@ -152,8 +154,8 @@
 #'   end = c(150, 250, 399, 450)
 #' )
 #'
-#' # "Find every time a segment `start` falls between the reference
-#' # `[start, end]` range."
+#' # Find every time a segment `start` falls between the reference
+#' # `[start, end]` range.
 #' by <- join_by(chromosome, between(start, start, end))
 #' full_join(segments, reference, by)
 #'
@@ -163,13 +165,13 @@
 #' by <- join_by(chromosome, between(y$start, x$start, x$end))
 #' full_join(reference, segments, by)
 #'
-#' # "Find every time a segment falls completely within a reference."
+#' # Find every time a segment falls completely within a reference.
 #' # Sometimes using `x$` and `y$` makes your intentions clearer, even if they
 #' # match the default behavior.
 #' by <- join_by(chromosome, within(x$start, x$end, y$start, y$end))
 #' inner_join(segments, reference, by)
 #'
-#' # "Find every time a segment overlaps a reference in any way."
+#' # Find every time a segment overlaps a reference in any way.
 #' by <- join_by(chromosome, overlaps(x$start, x$end, y$start, y$end))
 #' full_join(segments, reference, by)
 join_by <- function(...) {
