@@ -13,23 +13,24 @@ join_cols <- function(x_names, y_names, by, suffix = c(".x", ".y"), keep = NULL)
   x_loc <- seq_along(x_names)
   names(x_loc) <- x_names
   if (is_null(keep)) {
-    # in x_out, equi key variables need to keep the same name, and non-equi
+    # In x_out, equi key variables need to keep the same name, and non-equi
     # key variables and aux variables need suffixes for duplicates that appear
-    # in y_out
+    # in y_out. This is equivalent to `keep = TRUE` for the non-equi keys and
+    # `keep = FALSE` for the equi keys.
     equi <- by$condition == "=="
     y_aux <- setdiff(y_names, c(by$x[equi], by$y[equi]))
     x_ignore <- by$x[equi]
     x_check <- !x_names %in% x_ignore
     names(x_loc)[x_check] <- add_suffixes(x_names[x_check], c(x_ignore, y_aux), suffix$x)
   } else if (is_false(keep)) {
-    # in x_out, key variables need to keep the same name, and aux
+    # In x_out, key variables need to keep the same name, and aux
     # variables need suffixes for duplicates that appear in y_out
     y_aux <- setdiff(y_names, c(by$x, by$y))
     x_ignore <- by$x
     x_check <- !x_names %in% x_ignore
     names(x_loc)[x_check] <- add_suffixes(x_names[x_check], c(x_ignore, y_aux), suffix$x)
   } else {
-    # in x_out, key variables and aux variables need suffixes
+    # In x_out, key variables and aux variables need suffixes
     # for duplicates that appear in y_out
     names(x_loc) <- add_suffixes(x_names, y_names, suffix$x)
   }
