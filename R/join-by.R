@@ -324,32 +324,40 @@ parse_join_by_expr <- function(expr, i) {
     ))
   }
 
-  top <- as_string(expr[[1]])
+  op <- as_string(expr[[1]])
 
-  if (is_true(top == "$")) {
-    abort(c(
-      "When specifying a single column name, `$` cannot be used.",
-      x = glue("Expression {i} is {err_expr(expr)}.")
-    ))
-  }
+  switch(
+    op,
 
-  if (is_true(top == "between")) {
-    return(parse_join_by_between(expr, i))
-  }
+    "==" =,
+    ">=" =,
+    ">" =,
+    "<=" =,
+    "<" = parse_join_by_binary(expr, i),
 
-  if (is_true(top == "overlaps") || is_true(top == "within")) {
-    return(parse_join_by_containment(expr, i))
-  }
+    "between" = parse_join_by_between(expr, i),
 
-  if (is_true(top == "max") || is_true(top == "min")) {
-    return(parse_join_by_filter(expr, i))
-  }
+    "overlaps" =,
+    "within" = parse_join_by_containment(expr, i),
 
-  if (is_true(top %in% c("==", ">=", ">", "<=", "<"))) {
-    return(parse_join_by_binary(expr, i))
-  }
+    "max" =,
+    "min" = parse_join_by_filter(expr, i),
 
-  options <- c("between()", "overlaps()", "within()", "max()", "min()", "==", ">=", ">", "<=", "<")
+    "$" = stop_invalid_dollar_sign(expr, i),
+
+    stop_invalid_top_expression(expr, i)
+  )
+}
+
+stop_invalid_dollar_sign <- function(expr, i) {
+  abort(c(
+    "When specifying a single column name, `$` cannot be used.",
+    x = glue("Expression {i} is {err_expr(expr)}.")
+  ))
+}
+
+stop_invalid_top_expression <- function(expr, i) {
+  options <- c("==", ">=", ">", "<=", "<", "between()", "overlaps()", "within()", "max()", "min()")
   options <- glue::backtick(options)
   options <- glue_collapse(options, sep = ", ", last = ", or ")
 

@@ -72,7 +72,7 @@
     Code
       join_by(foo(x > y))
     Error <rlang_error>
-      Join by expressions must begin with one of: `between()`, `overlaps()`, `within()`, `max()`, `min()`, `==`, `>=`, `>`, `<=`, or `<`.
+      Join by expressions must begin with one of: `==`, `>=`, `>`, `<=`, `<`, `between()`, `overlaps()`, `within()`, `max()`, or `min()`.
       x Expression 1 is `foo(x > y)`.
 
 ---
@@ -88,7 +88,7 @@
     Code
       join_by(x == y, x^y)
     Error <rlang_error>
-      Join by expressions must begin with one of: `between()`, `overlaps()`, `within()`, `max()`, `min()`, `==`, `>=`, `>`, `<=`, or `<`.
+      Join by expressions must begin with one of: `==`, `>=`, `>`, `<=`, `<`, `between()`, `overlaps()`, `within()`, `max()`, or `min()`.
       x Expression 2 is `x^y`.
 
 ---
