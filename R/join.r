@@ -432,9 +432,9 @@ nest_join.data.frame <- function(x,
                                  copy = FALSE,
                                  keep = NULL,
                                  name = NULL,
+                                 ...,
                                  multiple = NULL,
-                                 unmatched = "drop",
-                                 ...) {
+                                 unmatched = "drop") {
   unmatched <- check_unmatched(unmatched)
 
   name_var <- name %||% as_label(enexpr(y))

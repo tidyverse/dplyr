@@ -14,9 +14,9 @@ nest_join(x, y, by = NULL, copy = FALSE, keep = NULL, name = NULL, ...)
   copy = FALSE,
   keep = NULL,
   name = NULL,
+  ...,
   multiple = NULL,
-  unmatched = "drop",
-  ...
+  unmatched = "drop"
 )
 }
 \arguments{
