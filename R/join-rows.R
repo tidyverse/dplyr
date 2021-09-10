@@ -168,7 +168,7 @@ standardise_join_missing <- function(type, na_matches, unmatched) {
     0L
   } else {
     # Otherwise we are keeping all keys from `x`
-    "propagate"
+    NA_integer_
   }
 }
 
