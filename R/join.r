@@ -46,27 +46,31 @@
 #' @param x,y A pair of data frames, data frame extensions (e.g. a tibble), or
 #'   lazy data frames (e.g. from dbplyr or dtplyr). See *Methods*, below, for
 #'   more details.
-#' @param by A character vector of variables to join by, or a join specification
-#'   created through [join_by()].
+#' @param by A character vector of variables to join by or a join specification
+#'   created with [join_by()].
 #'
 #'   If `NULL`, the default, `*_join()` will perform a natural join, using all
 #'   variables in common across `x` and `y`. A message lists the variables so
 #'   that you can check they're correct; suppress the message by supplying `by`
 #'   explicitly.
 #'
-#'   To join on different variables between `x` and `y`, use a named vector. For
-#'   example, `by = c("a" = "b")` will match `x$a` to `y$b`.
+#'   To join on different variables between `x` and `y`, use a named vector or a
+#'   [join_by()] specification. For example, `by = c("a" = "b")` and `by =
+#'   join_by(a == b)` will match `x$a` to `y$b`.
 #'
-#'   To join by multiple variables, use a vector with length > 1. For example,
-#'   `by = c("a", "b")` will match `x$a` to `y$a` and `x$b` to `y$b`. Use a
-#'   named vector to match different variables in `x` and `y`. For example, `by
-#'   = c("a" = "b", "c" = "d")` will match `x$a` to `y$b` and `x$c` to `y$d`.
+#'   To join by multiple variables, use a vector with length >1 or a [join_by()]
+#'   specification with multiple expressions. For example, `by = c("a", "b")`
+#'   and `by = join_by(a, b)` will match `x$a` to `y$a` and `x$b` to `y$b`. Use
+#'   a named vector to match different variables in `x` and `y`. For example,
+#'   `by = c("a" = "b", "c" = "d")` and `by = join_by(a == b, c == d)` will
+#'   match `x$a` to `y$b` and `x$c` to `y$d`.
 #'
 #'   To join on conditions other than equality, like non-equi or rolling joins,
-#'   create a join specification with [join_by()].
+#'   you'll need to create a join specification with [join_by()]. See the
+#'   documentation there for details on these types of joins.
 #'
 #'   To perform a cross-join, generating all combinations of `x` and `y`, use
-#'   `by = character()`.
+#'   `by = character()` or `by = join_by()`.
 #' @param copy If `x` and `y` are not from the same data source,
 #'   and `copy` is `TRUE`, then `y` will be copied into the
 #'   same src as `x`.  This allows you to join tables across srcs, but
@@ -91,7 +95,8 @@
 #'   for database sources and to `base::merge(incomparables = NA)`.
 #' @param multiple Handling of rows in `x` with multiple matches in `y`.
 #'   For each row of `x`:
-#'   - `"all"` returns every match detected in `y`.
+#'   - `"all"` returns every match detected in `y`. This is the same behavior
+#'     as SQL.
 #'   - `"first"` returns the first match detected in `y`.
 #'   - `"last"` returns the last match detected in `y`.
 #'   - `"warning"` throws a warning if multiple matches are detected, and

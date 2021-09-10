@@ -21,26 +21,30 @@ anti_join(x, y, by = NULL, copy = FALSE, ...)
 lazy data frames (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{by}{A character vector of variables to join by, or a join specification
-created through \code{\link[=join_by]{join_by()}}.
+\item{by}{A character vector of variables to join by or a join specification
+created with \code{\link[=join_by]{join_by()}}.
 
 If \code{NULL}, the default, \verb{*_join()} will perform a natural join, using all
 variables in common across \code{x} and \code{y}. A message lists the variables so
 that you can check they're correct; suppress the message by supplying \code{by}
 explicitly.
 
-To join on different variables between \code{x} and \code{y}, use a named vector. For
-example, \code{by = c("a" = "b")} will match \code{x$a} to \code{y$b}.
+To join on different variables between \code{x} and \code{y}, use a named vector or a
+\code{\link[=join_by]{join_by()}} specification. For example, \code{by = c("a" = "b")} and \code{by = join_by(a == b)} will match \code{x$a} to \code{y$b}.
 
-To join by multiple variables, use a vector with length > 1. For example,
-\code{by = c("a", "b")} will match \code{x$a} to \code{y$a} and \code{x$b} to \code{y$b}. Use a
-named vector to match different variables in \code{x} and \code{y}. For example, \code{by = c("a" = "b", "c" = "d")} will match \code{x$a} to \code{y$b} and \code{x$c} to \code{y$d}.
+To join by multiple variables, use a vector with length >1 or a \code{\link[=join_by]{join_by()}}
+specification with multiple expressions. For example, \code{by = c("a", "b")}
+and \code{by = join_by(a, b)} will match \code{x$a} to \code{y$a} and \code{x$b} to \code{y$b}. Use
+a named vector to match different variables in \code{x} and \code{y}. For example,
+\code{by = c("a" = "b", "c" = "d")} and \code{by = join_by(a == b, c == d)} will
+match \code{x$a} to \code{y$b} and \code{x$c} to \code{y$d}.
 
 To join on conditions other than equality, like non-equi or rolling joins,
-create a join specification with \code{\link[=join_by]{join_by()}}.
+you'll need to create a join specification with \code{\link[=join_by]{join_by()}}. See the
+documentation there for details on these types of joins.
 
 To perform a cross-join, generating all combinations of \code{x} and \code{y}, use
-\code{by = character()}.}
+\code{by = character()} or \code{by = join_by()}.}
 
 \item{copy}{If \code{x} and \code{y} are not from the same data source,
 and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
