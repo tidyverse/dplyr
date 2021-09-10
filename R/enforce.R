@@ -47,9 +47,9 @@ enforce_show <- function(.data, ...) {
     success <- successes[[i]]
 
     if (!is_logical(success)) {
-      abort(glue(
+      abort(c(
         "Each expression in `...` must evaluate to a logical vector. ",
-        "Expression {i} does not evaluate to a logical vector."
+        x = glue("Expression {i} does not evaluate to a logical vector.")
       ))
     }
 

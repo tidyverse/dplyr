@@ -50,6 +50,11 @@ test_that("works with pre-existing columns named `.requirement` and `.row`", {
   )
 })
 
+test_that("requires logical results", {
+  df <- tibble(x = 1)
+  expect_snapshot(error = TRUE, enforce(df, x + 1))
+})
+
 # ------------------------------------------------------------------------------
 # enforce_last()
 

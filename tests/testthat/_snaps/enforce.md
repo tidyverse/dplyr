@@ -41,6 +41,14 @@
       1 x == 1...1       2     2
       2 x == 1...2       2     2
 
+# requires logical results
+
+    Code
+      enforce(df, x + 1)
+    Error <rlang_error>
+      Each expression in `...` must evaluate to a logical vector. 
+      x Expression 1 does not evaluate to a logical vector.
+
 # fails if no failures have been recorded
 
     Code
