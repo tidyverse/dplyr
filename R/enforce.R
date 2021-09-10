@@ -7,7 +7,7 @@ enforce <- function(.data, ...) {
 
   enforce_last_set(failures)
 
-  info <- vec_count(failures$requirement, sort = "location")
+  info <- vec_count(failures$.requirement, sort = "location")
   requirements <- info$key
   counts <- info$count
 
@@ -70,10 +70,12 @@ enforce_show <- function(.data, ...) {
   rows <- vec_unchop(locations, ptype = integer())
   data <- dplyr_row_slice(.data, rows)
 
-  tibble(
-    requirement = requirements,
-    row = rows,
-    data = data
+  tibble::add_column(
+    data,
+    .requirement = requirements,
+    .row = rows,
+    .before = 1L,
+    .name_repair = "minimal"
   )
 }
 
@@ -100,5 +102,3 @@ enforce_last_set <- function(x) {
 enforce_last_get <- function() {
   dplyr_enforce_env$failures
 }
-
-

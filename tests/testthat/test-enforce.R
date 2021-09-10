@@ -17,7 +17,7 @@ test_that("returns `.data` invisibly", {
 
 test_that("works when there are zero issues", {
   df <- tibble(x = 1)
-  expect <- tibble(requirement = character(), row = integer(), data = vec_ptype(df))
+  expect <- tibble::add_column(vec_ptype(df), .requirement = character(), .row = integer(), .before = 1L)
   expect_identical(enforce_show(df, x == 1), expect)
 })
 
@@ -34,6 +34,20 @@ test_that("can handle duplicate user messages", {
 test_that("can handle duplicate expressions", {
   df <- tibble(x = 1:2)
   expect_snapshot(enforce_show(df, x == 1, x == 1))
+})
+
+test_that("works with pre-existing columns named `.requirement` and `.row`", {
+  df1 <- tibble(.requirement = 1)
+  df2 <- tibble(.row = 1)
+
+  expect_identical(
+    colnames(enforce_show(df1, .requirement > 2)),
+    c(".requirement", ".row", ".requirement")
+  )
+  expect_identical(
+    colnames(enforce_show(df2, .row > 2)),
+    c(".requirement", ".row", ".row")
+  )
 })
 
 # ------------------------------------------------------------------------------
