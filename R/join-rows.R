@@ -155,57 +155,57 @@ warn_dplyr <- function(message = NULL, class = NULL, ...) {
 
 standardise_join_missing <- function(type, na_matches, unmatched) {
   if (na_matches == "na") {
-    return("match")
-  }
-
-  if (unmatched == "error" && (type == "right" || type == "inner")) {
-    # `x` has the potential to drop rows when `na_matches = "never"`
-    return("error")
-  }
-
-  if (type == "inner" || type == "right" || type == "semi") {
-    return("drop")
+    # Matching missing values overrides the other arguments
+    "match"
+  } else if (unmatched == "error" && (type == "right" || type == "inner")) {
+    # Ensure that `x` can't drop rows when `na_matches = "never"`
+    "error"
+  } else if (type == "inner" || type == "right" || type == "semi") {
+    # With these joins and `na_matches = "never"`, drop missings from `x`
+    "drop"
   } else {
-    return("propagate")
+    # Otherwise we are keeping all keys from `x`
+    "propagate"
   }
 }
 
 standardise_join_no_match <- function(type, unmatched) {
   if (unmatched == "error" && (type == "right" || type == "inner")) {
-    # `x` has the potential to drop rows
-    return("error")
-  }
-
-  if (type == "inner" || type == "right" || type == "semi") {
-    return("drop")
+    # Ensure that `x` can't drop rows
+    "error"
+  } else if (type == "inner" || type == "right" || type == "semi") {
+    # With these joins, unmatched keys in `x` get dropped
+    "drop"
   } else if (type == "nest") {
-    return(0L)
+    # Nest join is special and returns `0` which will be sliced out later
+    0L
   } else {
-    return(NA_integer_)
+    # Otherwise we are keeping all keys from `x`
+    NA_integer_
   }
 }
 
 standardise_join_remaining <- function(type, unmatched) {
   if (unmatched == "error" && (type == "left" || type == "inner" || type == "nest")) {
-    # `y` has the potential to drop rows
-    return("error")
-  }
-
-  if (type == "right" || type == "full") {
-    return(NA_integer_)
+    # Ensure that `y` can't drop rows
+    "error"
+  } else if (type == "right" || type == "full") {
+    # With these joins, unmatched keys in `y` are kept
+    NA_integer_
   } else {
-    return("drop")
+    # Otherwise we drop unmatched keys in `y`
+    "drop"
   }
 }
 
 standardise_multiple <- function(multiple, condition, filter) {
   if (!is_null(multiple)) {
-    # User supplied
+    # User supplied value always wins
     return(multiple)
   }
 
   if (is_null(condition)) {
-    # Cross join, never warn
+    # Cross join is special cased to never warn
     return("all")
   }
 
