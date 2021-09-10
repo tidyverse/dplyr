@@ -411,7 +411,9 @@ mutate_cols <- function(.data, ..., caller_env) {
     abort(
       bullets,
       class = c("dplyr:::mutate_error", "dplyr_error"),
-      error_name = error_name, error_expression = error_expression,
+      error_name = error_name,
+      error_expression = error_expression,
+      error_index = i,
       parent = e,
       bullets = bullets
     )
