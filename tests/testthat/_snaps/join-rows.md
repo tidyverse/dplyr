@@ -19,9 +19,9 @@
     Code
       join_rows(data.frame(x = 1), data.frame(x = factor("a")))
     Error <dplyr_error_join_incompatible_type>
-      Can't join on `x$x` x `y$x` because of incompatible types.
-      i `x$x` is of type <double>>.
-      i `y$x` is of type <factor<4d52a>>>.
+      Can't join `x$x` with `y$x` because of incompatible types.
+      i `x$x` is of type <double>.
+      i `y$x` is of type <factor<4d52a>>.
 
 # join_rows() gives meaningful error/warning message on multiple matches
 

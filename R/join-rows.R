@@ -21,7 +21,9 @@ join_rows <- function(x_key,
     missing = missing,
     no_match = no_match,
     remaining = remaining,
-    multiple = multiple
+    multiple = multiple,
+    needles_arg = "x",
+    haystack_arg = "y"
   )
 
   list(x = matches$needles, y = matches$haystack)
@@ -35,7 +37,9 @@ dplyr_matches <- function(needles,
                           missing = "match",
                           no_match = NA_integer_,
                           remaining = "drop",
-                          multiple = "all") {
+                          multiple = "all",
+                          needles_arg = "",
+                          haystack_arg = "") {
   withCallingHandlers(
     vctrs:::vec_matches(
       needles = needles,
@@ -47,6 +51,8 @@ dplyr_matches <- function(needles,
       no_match = no_match,
       remaining = remaining,
       multiple = multiple,
+      needles_arg = needles_arg,
+      haystack_arg = haystack_arg,
       nan_distinct = TRUE
     ),
     vctrs_error_incompatible_type = rethrow_error_join_incompatible_type,
@@ -59,15 +65,17 @@ dplyr_matches <- function(needles,
 }
 
 rethrow_error_join_incompatible_type <- function(cnd) {
-  rx <- "^[^$]+[$]"
-  x_name <- sub(rx, "", cnd$x_arg)
-  y_name <- sub(rx, "", cnd$y_arg)
+  x_name <- cnd$x_arg
+  y_name <- cnd$y_arg
+
+  x_type <- vec_ptype_full(cnd$x)
+  y_type <- vec_ptype_full(cnd$y)
 
   stop_join(
     message = c(
-      glue("Can't join on `x${x_name}` x `y${y_name}` because of incompatible types."),
-      i = glue("`x${x_name}` is of type <{x_type}>>.", x_type = vec_ptype_full(cnd$x)),
-      i = glue("`y${y_name}` is of type <{y_type}>>.", y_type = vec_ptype_full(cnd$y))
+      glue("Can't join `{x_name}` with `{y_name}` because of incompatible types."),
+      i = glue("`{x_name}` is of type <{x_type}>."),
+      i = glue("`{y_name}` is of type <{y_type}>.")
     ),
     class = "dplyr_error_join_incompatible_type"
   )
