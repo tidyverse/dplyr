@@ -1,3 +1,80 @@
+#' Enforce requirements
+#'
+#' @description
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#'
+#' These functions represent an easy and lightweight way to check assumptions
+#' about your data directly in a pipeline.
+#'
+#' - `enforce()` takes a set of expressions, evaluates them on the rows of
+#'   `.data`, and checks that each expression returns `TRUE` for every row. If
+#'   any rows evaluate to `FALSE`, an error is thrown. Otherwise, `.data` is
+#'   returned invisibly.
+#'
+#' - `enforce_last()` returns more information about the last error thrown by
+#'   `enforce()`. It returns a data frame containing the expression that
+#'   failed, the row in `.data` that failed, and a slice of the original data
+#'   containing the failing row.
+#'
+#' - `enforce_show()` is similar to `enforce()`, but returns the data frame
+#'   typically retrieved by `enforce_last()` rather than erroring. It is
+#'   typically only useful for debugging or for checking requirements
+#'   interactively.
+#'
+#' @param .data A data frame.
+#'
+#' @param ... Expressions to evaluate on the rows of `.data`. Each expression
+#'   must return a logical vector the same length as the number of rows in
+#'   `.data`.
+#'
+#'   Optionally, expressions may be named. The names will be used to provide
+#'   more informative error messages about the requirements that weren't met.
+#'
+#' @details
+#' If `.data` is a grouped data frame, each expression in `...` is evaluated
+#' on a per group basis. This is often useful for performing per group checks,
+#' but if your check doesn't utilize the grouping structure, then it is often
+#' much faster to call `enforce()` on ungrouped data.
+#'
+#' Missing values resulting from evaluating `...` are equivalent to `TRUE` and
+#' will not result in a failure.
+#'
+#' @export
+#' @examples
+#' # `enforce()` throws an error if your requirements aren't met
+#' try({
+#'   starwars %>%
+#'     enforce(
+#'       "Height is within expected range" = between(height, 80, 220),
+#'       birth_year > 10
+#'     )
+#' })
+#'
+#' # Retrieve information about the failing rows with `enforce_last()`
+#' enforce_last()
+#'
+#' # TODO: Replace with better example? Function from dplyr?
+#' # This is particularly useful before a join to validate your keys
+#' key_detect_valid <- function(...) {
+#'   key <- tibble::tibble(...)
+#'   # Enforce no missing values and unique keys
+#'   vctrs::vec_detect_complete(key) & !vctrs::vec_duplicate_detect(key)
+#' }
+#'
+#' df1 <- tibble(x = c(1, 2, NA))
+#' df2 <- tibble(x = c(1, 1, 2), y = c("first", "second", "third"))
+#'
+#' # Missing key
+#' try(enforce(df1, "Keys are unique and not missing" = key_detect_valid(x)))
+#' enforce_last()
+#'
+#' # Duplicate key
+#' try(enforce(df2, "Keys are unique and not missing" = key_detect_valid(x)))
+#' enforce_last()
+#'
+#' # Otherwise you might end up with multiple matches or missing values
+#' # in your join, which are often unexpected
+#' left_join(df1, df2, by = "x")
 enforce <- function(.data, ...) {
   failures <- enforce_show(.data, ...)
 
@@ -22,6 +99,8 @@ enforce <- function(.data, ...) {
   abort(c(header, bullets, footer))
 }
 
+#' @export
+#' @rdname enforce
 enforce_show <- function(.data, ...) {
   dots <- enquos(..., .ignore_empty = "all")
   n_dots <- length(dots)
@@ -83,6 +162,8 @@ enforce_show <- function(.data, ...) {
   )
 }
 
+#' @export
+#' @rdname enforce
 enforce_last <- function() {
   out <- enforce_last_get()
 
