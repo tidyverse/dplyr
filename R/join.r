@@ -10,8 +10,11 @@
 #' * `full_join()`: includes all rows in `x` or `y`.
 #'
 #' By default, if a row in `x` matches multiple rows in `y`, all of the matching
-#' rows in `y` will be returned. This can be adjusted using the `multiple`
-#' argument.
+#' rows in `y` will be returned. If this occurs in an equi join or a rolling
+#' join, a warning will be thrown stating that multiple matches have been
+#' detected since this is usually surprising. If multiple matches are expected
+#' in these cases, silence this warning by explicitly setting `multiple =
+#' "all"`.
 #'
 #' @return
 #' An object of the same type as `x`. The order of the rows and columns of `x`

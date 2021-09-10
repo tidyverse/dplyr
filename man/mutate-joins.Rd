@@ -220,8 +220,10 @@ keys:
 }
 
 By default, if a row in \code{x} matches multiple rows in \code{y}, all of the matching
-rows in \code{y} will be returned. This can be adjusted using the \code{multiple}
-argument.
+rows in \code{y} will be returned. If this occurs in an equi join or a rolling
+join, a warning will be thrown stating that multiple matches have been
+detected since this is usually surprising. If multiple matches are expected
+in these cases, silence this warning by explicitly setting \code{multiple = "all"}.
 }
 \section{Methods}{
 
