@@ -33,7 +33,11 @@ enforce_show <- function(.data, ...) {
   # Ensure unique names in the `transmute()`
   dots <- set_names(dots, glue("dplyr:::enforce-{seq_dots}"))
 
-  successes <- transmute(.data, !!!dots)
+  successes <- with_handlers(
+    transmute(.data, !!!dots),
+    "dplyr:::mutate_error" = enforce_rethrow_mutate_error
+  )
+
   successes <- unstructure(successes)
 
   if (length(successes) != n_dots) {
@@ -101,4 +105,15 @@ enforce_last_set <- function(x) {
 }
 enforce_last_get <- function() {
   dplyr_enforce_env$failures
+}
+
+enforce_rethrow_mutate_error <- function(cnd) {
+  i <- cnd$error_index
+
+  message <- c(
+    "`enforce()` failed at the implicit `transmute()` step.",
+    i = glue("Expression {i} failed.")
+  )
+
+  abort(message, class = "dplyr_error", parent = cnd)
 }

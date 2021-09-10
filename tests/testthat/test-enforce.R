@@ -55,6 +55,11 @@ test_that("requires logical results", {
   expect_snapshot(error = TRUE, enforce(df, x + 1))
 })
 
+test_that("gives reasonable error message for failure in implicit transmute", {
+  df <- tibble(x = 1)
+  expect_snapshot(error = TRUE, enforce(df, y))
+})
+
 # ------------------------------------------------------------------------------
 # enforce_last()
 

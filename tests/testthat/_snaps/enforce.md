@@ -49,6 +49,14 @@
       Each expression in `...` must evaluate to a logical vector. 
       x Expression 1 does not evaluate to a logical vector.
 
+# gives reasonable error message for failure in implicit transmute
+
+    Code
+      enforce(df, y)
+    Error <dplyr_error>
+      `enforce()` failed at the implicit `transmute()` step.
+      i Expression 1 failed.
+
 # fails if no failures have been recorded
 
     Code
