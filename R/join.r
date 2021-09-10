@@ -433,8 +433,10 @@ nest_join.data.frame <- function(x,
                                  keep = NULL,
                                  name = NULL,
                                  ...,
+                                 na_matches = c("na", "never"),
                                  multiple = NULL,
                                  unmatched = "drop") {
+  na_matches <- check_na_matches(na_matches)
   unmatched <- check_unmatched(unmatched)
 
   name_var <- name %||% as_label(enexpr(y))
@@ -460,15 +462,10 @@ nest_join.data.frame <- function(x,
   condition <- standardise_join_condition(by)
   filter <- by$filter
 
-  type <- "nest"
-
-  # `nest_join()` currently assumes `na_matches = "na"`
-  na_matches <- "na"
-
   rows <- join_rows(
     x_key = x_key,
     y_key = y_key,
-    type = type,
+    type = "nest",
     na_matches = na_matches,
     condition = condition,
     filter = filter,

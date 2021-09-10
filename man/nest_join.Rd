@@ -15,6 +15,7 @@ nest_join(x, y, by = NULL, copy = FALSE, keep = NULL, name = NULL, ...)
   keep = NULL,
   name = NULL,
   ...,
+  na_matches = c("na", "never"),
   multiple = NULL,
   unmatched = "drop"
 )
@@ -69,6 +70,15 @@ merged into the key columns from \code{x}.
 If \code{NULL} the name of \code{y} is used.}
 
 \item{...}{Other parameters passed onto methods.}
+
+\item{na_matches}{Should two \code{NA} or two \code{NaN} values match?
+\itemize{
+\item \code{"na"}, the default, treats two \code{NA} or two \code{NaN} values as equal, like
+\code{\%in\%}, \code{\link[=match]{match()}}, and \code{\link[=merge]{merge()}}.
+\item \code{"never"} treats two \code{NA} or two \code{NaN} values as different, and will
+never match them together or to any other values. This is similar to joins
+for database sources and to \code{base::merge(incomparables = NA)}.
+}}
 
 \item{multiple}{Handling of rows in \code{x} with multiple matches in \code{y}.
 For each row of \code{x}:

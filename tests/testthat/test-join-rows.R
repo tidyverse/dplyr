@@ -74,6 +74,12 @@ test_that("nest join returns 0L for unmatched x keys", {
   expect_equal(out$y, c(0L, 3L))
 })
 
+test_that("nest join returns 0L for missing x keys with `na_matches = 'never'`", {
+  out <- join_rows(c(NA, 1), 1, type = "nest", na_matches = "never")
+  expect_equal(out$x, c(1L, 2L))
+  expect_equal(out$y, c(0L, 1L))
+})
+
 test_that("matching rows can be filtered", {
   out <- join_rows(c(3, 5), c(2, 4, 1), condition = ">=", filter = "max")
   expect_equal(out$x, 1:2)

@@ -163,6 +163,9 @@ standardise_join_missing <- function(type, na_matches, unmatched) {
   } else if (type == "inner" || type == "right" || type == "semi") {
     # With these joins and `na_matches = "never"`, drop missings from `x`
     "drop"
+  } else if (type == "nest") {
+    # Nest join is special and returns `0` which will be sliced out later
+    0L
   } else {
     # Otherwise we are keeping all keys from `x`
     "propagate"
