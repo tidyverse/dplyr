@@ -80,8 +80,8 @@
 #'   Should be a character vector of length 2.
 #' @param keep Should the join keys from both `x` and `y` be preserved in the
 #'   output?
-#'   - If `NULL`, the default, equi join conditions retain only the keys from
-#'     `x`, while non-equi join conditions retain the keys from both inputs.
+#'   - If `NULL`, the default, joins on equality retain only the keys from `x`,
+#'     while joins on inequality retain the keys from both inputs.
 #'   - If `TRUE`, keys from both inputs are retained.
 #'   - If `FALSE`, only keys from `x` are retained. For right and full joins,
 #'     the data in key columns corresponding to rows that only exist in `y` are
