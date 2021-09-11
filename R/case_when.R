@@ -218,9 +218,9 @@ validate_case_when_length <- function(query, value, fs) {
   all_lengths <- unique(c(lhs_lengths, rhs_lengths))
 
   if (any(lhs_lengths > 1)) {
-    atomic_cond_not_last <- head(lhs_lengths == 1, -1)
-    if (any(atomic_cond_not_last)) {
-      i <- which.max(atomic_cond_not_last)
+    early_atomic_condition <- head(lhs_lengths == 1, -1)
+    if (any(early_atomic_condition)) {
+      i <- which.max(early_atomic_condition)
       warn(glue("LHS of case {i} (`{fs[i]}`) is a single value and will be recycled."))
     }
   }
