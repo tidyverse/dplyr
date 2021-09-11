@@ -1,3 +1,12 @@
+# warn when recycling atomic conditions
+
+    Code
+      case_when(rep(FALSE, 3) ~ "first", TRUE ~ "second", TRUE ~ "last")
+    Warning <warning>
+      LHS of case 2 (`TRUE ~ "second"`) is a single value and will be recycled.
+    Output
+      [1] "second" "second" "second"
+
 # case_when() give meaningful errors
 
     Code

@@ -77,6 +77,37 @@ test_that("zero-length conditions and values (#3041)", {
   )
 })
 
+test_that("warn when recycling atomic conditions", {
+  expect_snapshot(
+    case_when(
+      rep(FALSE, 3) ~ 'first',
+      TRUE ~ 'second',
+      TRUE ~ 'last'
+    )
+  )
+
+  # do not warn for final case
+  expect_equal(
+    case_when(
+      rep(FALSE, 3) ~ 'first',
+      rep(TRUE, 3) ~ 'second',
+      TRUE ~ 'last'
+    ),
+    rep("second", 3)
+  )
+
+  # do not warn if all conditions are atomic
+  expect_equal(
+    case_when(
+      FALSE ~ 'first',
+      TRUE ~ 'second',
+      TRUE ~ 'last'
+    ),
+    "second"
+  )
+
+})
+
 test_that("case_when can be used in anonymous functions (#3422)", {
   res <- tibble(a = 1:3) %>%
     mutate(b = (function(x) case_when(x < 2 ~ TRUE, TRUE ~ FALSE))(a)) %>%
