@@ -218,6 +218,7 @@ validate_case_when_length <- function(query, value, fs) {
   all_lengths <- unique(c(lhs_lengths, rhs_lengths))
 
   if (any(lhs_lengths > 1)) {
+    # TRUE ~ RHS is okay for last case
     early_atomic_condition <- head(lhs_lengths == 1, -1)
     if (any(early_atomic_condition)) {
       i <- which.max(early_atomic_condition)
