@@ -40,7 +40,7 @@ compute_groups <- function(data, vars, drop = FALSE) {
 
   # Only train the dictionary based on selected columns
   group_vars <- as_tibble(data)[vars]
-  split_key_loc <- vec_split_id_order(group_vars)
+  split_key_loc <- dplyr_locate_sorted_groups(group_vars)
   old_keys <- split_key_loc$key
   old_rows <- split_key_loc$loc
 
@@ -297,12 +297,31 @@ expand_groups <- function(old_groups, positions, nr) {
   .Call(`dplyr_expand_groups`, old_groups, positions, nr)
 }
 
-vec_split_id_order <- function(x) {
-  split_id <- vec_group_loc(x)
-  split_id$loc <- new_list_of(split_id$loc, ptype = integer())
+dplyr_locate_sorted_groups <- function(x) {
+  out <- vec_locate_sorted_groups(x, nan_distinct = TRUE)
+  out$loc <- new_list_of(out$loc, ptype = integer())
 
-  vec_slice(split_id, vec_order(split_id$key))
+  if (dplyr_legacy_group_by_locale()) {
+    # Temporary legacy support for respecting the system locale
+    out <- vec_slice(out, vec_order_base(out$key))
+  }
+
+  out
 }
+dplyr_legacy_group_by_locale <- function() {
+  out <- peek_option("dplyr.legacy_group_by_locale")
+
+  if (is_null(out)) {
+    return(FALSE)
+  }
+
+  if (!is_bool(out)) {
+    abort("Global option `dplyr.legacy_group_by_locale` must be a single `TRUE` or `FALSE`.")
+  }
+
+  out
+}
+
 
 group_intersect <- function(x, new) {
   intersect(group_vars(x), names(new))
