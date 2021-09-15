@@ -99,3 +99,10 @@
     Error <rlang_error>
       `vars` must be a character vector.
 
+# `dplyr.legacy_group_by_locale` is validated
+
+    Code
+      dplyr_legacy_group_by_locale()
+    Error <rlang_error>
+      Global option `dplyr.legacy_group_by_locale` must be a single `TRUE` or `FALSE`.
+
