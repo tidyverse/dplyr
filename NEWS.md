@@ -1,5 +1,19 @@
 # dplyr (development version)
 
+* `group_by()` uses a new algorithm for computing and ordering groups. This is
+  often faster than the previous approach, especially when there are many
+  groups. In most cases, there should be no user visible changes. However,
+  character grouping columns are now ordered in the C locale rather than the
+  system locale, for performance. This change shows up in functions that use
+  the group data, such as `summarise()` or `group_split()`, where the order
+  of the results may have changed due to the usage of a different locale. If
+  the ordering of the results of a call to `summarise()` is important (i.e.
+  for constructing a table to be used in a report), you should explicitly call
+  `arrange()` after `summarise()` to sort as needed. If needed, the global
+  option `dplyr.legacy_group_by_locale` can be set to `TRUE` to revert to the
+  old algorithm, but this should be used extremely sparingly and will be
+  removed in a future version of dplyr.
+
 * `coalesce()` accepts 1-D arrays (#5557).
 
 * `filter()` forbids matrix results (#5973) and warns about data frame 
