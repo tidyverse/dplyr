@@ -70,6 +70,7 @@ SEXP functions::vec_chop = NULL;
 SEXP functions::dot_subset2 = NULL;
 SEXP functions::list = NULL;
 SEXP functions::function = NULL;
+SEXP functions::force_altrep_materialization = NULL;
 
 } // dplyr
 
@@ -77,17 +78,19 @@ SEXP dplyr_init_library(SEXP ns_dplyr, SEXP ns_vctrs, SEXP ns_rlang) {
   dplyr::envs::ns_dplyr = ns_dplyr;
   dplyr::envs::ns_vctrs = ns_vctrs;
   dplyr::envs::ns_rlang = ns_rlang;
-  dplyr::functions::vec_chop = PROTECT(Rf_findVarInFrame(ns_dplyr, Rf_install("dplyr_vec_chop")));
+  dplyr::functions::vec_chop = PROTECT(Rf_findVarInFrame(ns_vctrs, Rf_install("vec_chop")));
   dplyr::functions::dot_subset2 = PROTECT(Rf_findVarInFrame(R_BaseEnv, Rf_install(".subset2")));
   dplyr::functions::list = PROTECT(Rf_findVarInFrame(R_BaseEnv, Rf_install("list")));
   dplyr::functions::function = PROTECT(Rf_eval(Rf_install("function"), R_BaseEnv));
+  dplyr::functions::force_altrep_materialization = PROTECT(Rf_findVarInFrame(ns_dplyr, Rf_install("force_altrep_materialization")));
 
   R_PreserveObject(dplyr::functions::vec_chop);
   R_PreserveObject(dplyr::functions::dot_subset2);
   R_PreserveObject(dplyr::functions::list);
   R_PreserveObject(dplyr::functions::function);
+  R_PreserveObject(dplyr::functions::force_altrep_materialization);
 
-  UNPROTECT(4);
+  UNPROTECT(5);
 
   return R_NilValue;
 }
@@ -121,6 +124,8 @@ static const R_CallMethodDef CallEntries[] = {
   {"env_resolved", (DL_FUNC)& env_resolved, 2},
 
   {"dplyr_extract_chunks", (DL_FUNC)& dplyr_extract_chunks, 2},
+
+  {"dplyr_force_altrep_materialization", (DL_FUNC)& dplyr_force_altrep_materialization, 1},
 
   {NULL, NULL, 0}
 };

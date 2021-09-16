@@ -69,6 +69,7 @@ struct functions {
   static SEXP dot_subset2;
   static SEXP list;
   static SEXP function;
+  static SEXP force_altrep_materialization;
 };
 
 } // namespace dplyr
@@ -122,6 +123,7 @@ SEXP env_resolved(SEXP env, SEXP names);
 void add_mask_binding(SEXP name, SEXP env_bindings, SEXP env_chops);
 
 SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype);
+SEXP dplyr_force_altrep_materialization(SEXP x);
 
 #define DPLYR_MASK_INIT()                                                                    \
 SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));                   \

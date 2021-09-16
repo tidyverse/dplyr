@@ -125,3 +125,8 @@ SEXP dplyr_mask_remove(SEXP env_private, SEXP s_name) {
   UNPROTECT(2);
   return R_NilValue;
 }
+
+SEXP dplyr_force_altrep_materialization(SEXP x) {
+  DATAPTR(x);
+  return x;
+}

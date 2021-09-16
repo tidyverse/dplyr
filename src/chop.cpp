@@ -20,7 +20,9 @@ void dplyr_lazy_vec_chop_grouped(SEXP chops_env, SEXP rows, SEXP data, bool roww
     if (rowwise && vctrs::vec_is_list(column) && Rf_length(column) > 0) {
       SET_PRCODE(prom, column);
     } else {
-      SET_PRCODE(prom, Rf_lang3(dplyr::functions::vec_chop, column, rows));
+      SEXP force_call = PROTECT(Rf_lang2(dplyr::functions::force_altrep_materialization, column));
+      SET_PRCODE(prom, Rf_lang3(dplyr::functions::vec_chop, force_call, rows));
+      UNPROTECT(1);
     }
     SET_PRVALUE(prom, R_UnboundValue);
 

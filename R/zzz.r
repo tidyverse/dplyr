@@ -1,5 +1,5 @@
-dplyr_vec_chop <- function(x, indices = NULL) {
-  vec_chop(x[], indices = indices)
+force_altrep_materialization <- function(x) {
+  .Call("dplyr_force_altrep_materialization", x)
 }
 
 .onLoad <- function(libname, pkgname) {
