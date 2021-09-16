@@ -54,6 +54,24 @@ Methods available in currently loaded packages:
 }
 }
 
+\section{Ordering}{
+
+\code{group_by()} internally orders the groups in ascending order. This results
+in ordered output from functions that aggregate groups, such as
+\code{\link[=summarise]{summarise()}}.
+
+When used as grouping columns, character vectors are ordered in
+the C locale for performance. This is reflected in downstream calls to
+\code{summarise()}. If order matters after performing a grouped operation, it is
+advised to explicitly call \code{\link[=arrange]{arrange()}} after \code{summarise()}.
+
+Prior to dplyr 1.1.0, character vectors were ordered in the system locale
+when used as grouping columns. If you need to temporarily revert to this
+behavior, you can set the global option \code{dplyr.legacy_group_by_locale} to
+\code{TRUE}, but generally it is better to update existing code to call
+\code{arrange()} where needed instead.
+}
+
 \examples{
 by_cyl <- mtcars \%>\% group_by(cyl)
 

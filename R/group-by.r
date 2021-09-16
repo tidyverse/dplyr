@@ -31,6 +31,21 @@
 #'
 #' * `group_by()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("group_by")}.
 #' * `ungroup()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("ungroup")}.
+#' @section Ordering:
+#' `group_by()` internally orders the groups in ascending order. This results
+#' in ordered output from functions that aggregate groups, such as
+#' [summarise()].
+#'
+#' When used as grouping columns, character vectors are ordered in
+#' the C locale for performance. This is reflected in downstream calls to
+#' `summarise()`. If order matters after performing a grouped operation, it is
+#' advised to explicitly call [arrange()] after `summarise()`.
+#'
+#' Prior to dplyr 1.1.0, character vectors were ordered in the system locale
+#' when used as grouping columns. If you need to temporarily revert to this
+#' behavior, you can set the global option `dplyr.legacy_group_by_locale` to
+#' `TRUE`, but generally it is better to update existing code to call
+#' `arrange()` where needed instead.
 #' @export
 #' @examples
 #' by_cyl <- mtcars %>% group_by(cyl)
