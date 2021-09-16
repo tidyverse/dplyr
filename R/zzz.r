@@ -1,3 +1,7 @@
+dplyr_vec_chop <- function(x, indices = NULL) {
+  vec_chop(x[], indices = indices)
+}
+
 .onLoad <- function(libname, pkgname) {
   op <- options()
   op.dplyr <- list(
