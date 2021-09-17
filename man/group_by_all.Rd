@@ -100,3 +100,4 @@ group_by_if(iris, is.factor, as.character)
 # ->
 iris \%>\% group_by(across(where(is.factor), as.character))
 }
+\keyword{internal}

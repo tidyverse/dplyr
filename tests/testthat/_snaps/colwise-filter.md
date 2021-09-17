@@ -8,7 +8,7 @@
 ---
 
     Code
-      filter_all(mtcars, list(~. > 0))
+      filter_all(mtcars, list(~ . > 0))
     Error <rlang_error>
       `.vars_predicate` must be a function or a call to `all_vars()` or `any_vars()`, not a list.
 

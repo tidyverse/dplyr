@@ -30,10 +30,12 @@ SEXP get_names_expanded() {
 }
 
 SEXP get_names_summarise_recycle_chunks(){
-  SEXP names = Rf_allocVector(STRSXP, 2);
+  SEXP names = Rf_allocVector(STRSXP, 3);
   R_PreserveObject(names);
+
   SET_STRING_ELT(names, 0, Rf_mkChar("chunks"));
   SET_STRING_ELT(names, 1, Rf_mkChar("sizes"));
+  SET_STRING_ELT(names, 2, Rf_mkChar("results"));
   return names;
 }
 
@@ -44,7 +46,7 @@ SEXP symbols::dot_current_group = Rf_install(".current_group");
 SEXP symbols::current_expression = Rf_install("current_expression");
 SEXP symbols::rows = Rf_install("rows");
 SEXP symbols::caller = Rf_install("caller");
-SEXP symbols::all_vars = Rf_install("all_vars");
+SEXP symbols::current_data = Rf_install("current_data");
 SEXP symbols::dot_drop = Rf_install(".drop");
 SEXP symbols::abort_glue = Rf_install("abort_glue");
 SEXP symbols::dot_indices = Rf_install(".indices");
@@ -99,19 +101,20 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_cumany", (DL_FUNC)& dplyr_cumany, 1},
   {"dplyr_cummean", (DL_FUNC)& dplyr_cummean, 1},
   {"dplyr_validate_grouped_df", (DL_FUNC)& dplyr_validate_grouped_df, 2},
+  {"dplyr_validate_rowwise_df", (DL_FUNC)& dplyr_validate_rowwise_df, 1},
 
   {"dplyr_mask_eval_all", (DL_FUNC)& dplyr_mask_eval_all, 2},
   {"dplyr_mask_eval_all_summarise", (DL_FUNC)& dplyr_mask_eval_all_summarise, 2},
   {"dplyr_mask_eval_all_mutate", (DL_FUNC)& dplyr_mask_eval_all_mutate, 2},
   {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 4},
 
-  {"dplyr_summarise_recycle_chunks", (DL_FUNC)& dplyr_summarise_recycle_chunks, 3},
+  {"dplyr_summarise_recycle_chunks", (DL_FUNC)& dplyr_summarise_recycle_chunks, 4},
 
   {"dplyr_group_indices", (DL_FUNC)& dplyr_group_indices, 2},
   {"dplyr_group_keys", (DL_FUNC)& dplyr_group_keys, 1},
 
   {"dplyr_mask_remove", (DL_FUNC)& dplyr_mask_remove, 2},
-  {"dplyr_mask_add", (DL_FUNC)& dplyr_mask_add, 3},
+  {"dplyr_mask_add", (DL_FUNC)& dplyr_mask_add, 4},
 
   {"dplyr_lazy_vec_chop_impl", (DL_FUNC)& dplyr_lazy_vec_chop, 2},
   {"dplyr_data_masks_setup", (DL_FUNC)& dplyr_data_masks_setup, 3},

@@ -31,10 +31,9 @@ diagnosing performance problems.
 }
 
 \examples{
+\dontshow{if (requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \donttest{
-if (require("dbplyr")) {
-
-lahman_s <- lahman_sqlite()
+lahman_s <- dbplyr::lahman_sqlite()
 batting <- tbl(lahman_s, "Batting")
 batting \%>\% show_query()
 batting \%>\% explain()
@@ -50,5 +49,5 @@ batting \%>\% filter(lgID == "NL" | yearID == 2000) \%>\% explain()
 teams <- tbl(lahman_s, "Teams")
 batting \%>\% left_join(teams, c("yearID", "teamID")) \%>\% explain()
 }
-}
+\dontshow{\}) # examplesIf}
 }

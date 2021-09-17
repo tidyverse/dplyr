@@ -752,17 +752,41 @@ test_that("expr_subtitute() keeps at double-sided formula (#5894)", {
   )
 })
 
+test_that("across() predicates operate on whole data", {
+  df <- tibble(
+    x = c(1, 1, 2),
+    g = c(1, 1, 2)
+  )
+
+  out <- df %>%
+    mutate(across(where(~ n_distinct(.x) > 1), ~ .x + 10))
+
+  exp <- tibble(
+    x = c(11, 11, 12),
+    g = c(11, 11, 12)
+  )
+
+  expect_equal(out, exp)
+
+
+  out <- df %>%
+    group_by(g) %>%
+    mutate(across(where(~ n_distinct(.x) > 1), ~ .x + 10))
+
+  exp <- tibble(
+    x = c(11, 11, 12),
+    g = c(1, 1, 2)
+  ) %>%
+    group_by(g)
+
+  expect_equal(out, exp)
+})
+
+
 # c_across ----------------------------------------------------------------
 
 test_that("selects and combines columns", {
   df <- data.frame(x = 1:2, y = 3:4)
   out <- df %>% summarise(z = list(c_across(x:y)))
   expect_equal(out$z, list(1:4))
-})
-
-test_that("key_deparse() collapses (#5883)", {
-  expect_equal(
-    length(key_deparse(quo(all_of(c("aaaaaaaaaaaaaaaaaa", "bbbbbbbbbbbbbbb", "cccccccccccccc", "ddddddddddddddddddd"))))),
-    1
-  )
 })

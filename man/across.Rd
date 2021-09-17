@@ -64,7 +64,7 @@ R code in dplyr verbs is generally evaluated once per group.
 Inside \code{across()} however, code is evaluated once for each
 combination of columns and groups. If the evaluation timing is
 important, for example if you're generating random variables, think
-about when it should happen and place your code in consequence.\if{html}{\out{<div class="r">}}\preformatted{gdf <-
+about when it should happen and place your code in consequence.\if{html}{\out{<div class="sourceCode r">}}\preformatted{gdf <-
   tibble(g = c(1, 1, 2, 3), v1 = 10:13, v2 = 20:23) \%>\%
   group_by(g)
 
@@ -73,7 +73,7 @@ set.seed(1)
 # Outside: 1 normal variate
 n <- rnorm(1)
 gdf \%>\% mutate(across(v1:v2, ~ .x + n))
-}\if{html}{\out{</div>}}\preformatted{## # A tibble: 4 x 3
+}\if{html}{\out{</div>}}\preformatted{## # A tibble: 4 × 3
 ## # Groups:   g [3]
 ##       g    v1    v2
 ##   <dbl> <dbl> <dbl>
@@ -81,9 +81,9 @@ gdf \%>\% mutate(across(v1:v2, ~ .x + n))
 ## 2     1 10.4   20.4
 ## 3     2 11.4   21.4
 ## 4     3 12.4   22.4
-}\if{html}{\out{<div class="r">}}\preformatted{# Inside a verb: 3 normal variates (ngroup)
+}\if{html}{\out{<div class="sourceCode r">}}\preformatted{# Inside a verb: 3 normal variates (ngroup)
 gdf \%>\% mutate(n = rnorm(1), across(v1:v2, ~ .x + n))
-}\if{html}{\out{</div>}}\preformatted{## # A tibble: 4 x 4
+}\if{html}{\out{</div>}}\preformatted{## # A tibble: 4 × 4
 ## # Groups:   g [3]
 ##       g    v1    v2      n
 ##   <dbl> <dbl> <dbl>  <dbl>
@@ -91,9 +91,9 @@ gdf \%>\% mutate(n = rnorm(1), across(v1:v2, ~ .x + n))
 ## 2     1  11.2  21.2  0.184
 ## 3     2  11.2  21.2 -0.836
 ## 4     3  14.6  24.6  1.60
-}\if{html}{\out{<div class="r">}}\preformatted{# Inside `across()`: 6 normal variates (ncol * ngroup)
+}\if{html}{\out{<div class="sourceCode r">}}\preformatted{# Inside `across()`: 6 normal variates (ncol * ngroup)
 gdf \%>\% mutate(across(v1:v2, ~ .x + rnorm(1)))
-}\if{html}{\out{</div>}}\preformatted{## # A tibble: 4 x 3
+}\if{html}{\out{</div>}}\preformatted{## # A tibble: 4 × 3
 ## # Groups:   g [3]
 ##       g    v1    v2
 ##   <dbl> <dbl> <dbl>

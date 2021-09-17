@@ -102,7 +102,7 @@ group_indices <- function(.data, ...) {
 group_indices.data.frame <- function(.data, ...) {
   if (dots_n(...) > 0) {
     lifecycle::deprecate_warn(
-      "1.0.0", "group_keys(... = )",
+      "1.0.0", "group_indices(... = )",
       details = "Please `group_by()` first"
     )
     .data <- group_by(.data, ...)

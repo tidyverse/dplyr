@@ -114,6 +114,7 @@
 #' by_species %>%
 #'   summarise(across(everything(), list(min = min, max = max)))
 #' @export
+#' @keywords internal
 summarise_all <- function(.tbl, .funs, ...) {
   lifecycle::signal_superseded("1.0.0", "summarise_all()", "across()")
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ..., .caller = "summarise_all")
@@ -249,6 +250,7 @@ summarize_at <- summarise_at
 #' iris %>% mutate_if(is.numeric, list(scale2))
 #' iris %>% mutate_if(is.numeric, list(scale = scale2))
 #' @export
+#' @keywords internal
 mutate_all <- function(.tbl, .funs, ...) {
   lifecycle::signal_superseded("1.0.0", "mutate_all()", "across()")
   check_grouped(.tbl, "mutate", "all", alt = TRUE)

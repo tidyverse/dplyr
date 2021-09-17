@@ -174,3 +174,4 @@ iris \%>\% mutate_if(is.numeric, list(scale = scale2))
 \seealso{
 \link[=scoped]{The other scoped verbs}, \code{\link[=vars]{vars()}}
 }
+\keyword{internal}

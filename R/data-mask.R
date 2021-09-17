@@ -16,9 +16,9 @@ DataMask <- R6Class("DataMask",
         abort("Can't transform a data frame with duplicate names.")
       }
       names(data) <- names_bindings
-      private$all_vars <- names_bindings
       private$data <- data
       private$caller <- caller
+      private$current_data <- unclass(data)
 
       private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows)
       private$mask <- .Call(dplyr_data_masks_setup, private$chops, data, rows)
@@ -28,7 +28,7 @@ DataMask <- R6Class("DataMask",
 
     },
 
-    add_one = function(name, chunks) {
+    add_one = function(name, chunks, result) {
       if (inherits(private$data, "rowwise_df")){
         is_scalar_list <- function(.x) {
           vec_is_list(.x) && length(.x) == 1L
@@ -38,14 +38,7 @@ DataMask <- R6Class("DataMask",
         }
       }
 
-      .Call(`dplyr_mask_add`, private, name, chunks)
-    },
-
-    add_many = function(ptype, chunks) {
-      chunks_extracted <- .Call(dplyr_extract_chunks, chunks, ptype)
-      map2(seq_along(ptype), names(ptype), function(j, nm) {
-        self$add_one(nm, chunks_extracted[[j]])
-      })
+      .Call(`dplyr_mask_add`, private, name, result, chunks)
     },
 
     remove = function(name) {
@@ -91,7 +84,7 @@ DataMask <- R6Class("DataMask",
     },
 
     current_vars = function() {
-      private$all_vars
+      names(private$current_data)
     },
 
     current_non_group_vars = function() {
@@ -111,7 +104,7 @@ DataMask <- R6Class("DataMask",
     },
 
     get_used = function() {
-      .Call(env_resolved, private$chops, private$all_vars)
+      .Call(env_resolved, private$chops, names(private$current_data))
     },
 
     unused_vars = function() {
@@ -125,46 +118,7 @@ DataMask <- R6Class("DataMask",
     },
 
     across_cols = function() {
-      original_data <- self$full_data()
-      original_data <- unclass(original_data)
-
-      across_vars <- self$current_non_group_vars()
-      unused_vars <- self$unused_vars()
-
-      across_vars_unused <- intersect(across_vars, unused_vars)
-      across_vars_used <- setdiff(across_vars, across_vars_unused)
-
-      # Pull unused vars from original data to keep from marking them as used.
-      # Column lengths will not match if `original_data` is grouped, but for
-      # the usage of tidyselect in `across()` we only need the column names
-      # and types to be correct.
-      cols_unused <- original_data[across_vars_unused]
-      cols_used <- self$current_cols(across_vars_used)
-
-      cols <- vec_c(cols_unused, cols_used)
-
-      # workaround until vctrs 0.3.5 is on CRAN
-      # (https://github.com/r-lib/vctrs/issues/1263)
-      if (length(cols) == 0) {
-        names(cols) <- character()
-      }
-
-      # Match original ordering
-      cols <- cols[across_vars]
-
-      cols
-    },
-
-    across_cache_get = function(key) {
-      private$across_cache[[key]]
-    },
-
-    across_cache_add = function(key, value) {
-      private$across_cache[[key]] <- value
-    },
-
-    across_cache_reset = function() {
-      private$across_cache <- list()
+      private$current_data[self$current_non_group_vars()]
     },
 
     forget = function(fn) {
@@ -217,9 +171,8 @@ DataMask <- R6Class("DataMask",
     # in the parent environment of `mask`
     mask = NULL,
 
-    # names of all the variables, this initially is names(data)
-    # grows (and sometimes shrinks) as new columns are added/removed
-    all_vars = character(),
+    # ptypes of all the variables
+    current_data = list(),
 
     # names of the grouping variables
     group_vars = character(),
@@ -231,9 +184,6 @@ DataMask <- R6Class("DataMask",
     keys = NULL,
 
     # caller environment of the verb (summarise(), ...)
-    caller = NULL,
-
-    # cache for across
-    across_cache = list()
+    caller = NULL
   )
 )

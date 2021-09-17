@@ -65,11 +65,12 @@
 #' models
 #'
 #' models %>% summarise(rsq = summary(model)$r.squared)
+#' @examplesIf requireNamespace("broom", quietly = TRUE)
+#'
 #' # This is particularly elegant with the broom functions
-#' if (requireNamespace("broom", quietly = TRUE)) {
-#'   models %>% summarise(broom::glance(model))
-#'   models %>% summarise(broom::tidy(model))
-#' }
+#' models %>% summarise(broom::glance(model))
+#' models %>% summarise(broom::tidy(model))
+#' @examples
 #'
 #' # Note that you can also summarise to unnest the data
 #' models %>% summarise(data)

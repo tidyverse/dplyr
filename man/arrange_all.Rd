@@ -60,3 +60,4 @@ arrange_all(df, desc)
 # ->
 arrange(df, across(everything(), desc))
 }
+\keyword{internal}

@@ -476,6 +476,19 @@ test_that("mutate() propagates caller env", {
   expect_caller_env(mutate(mtcars, sig_caller_env()))
 })
 
+test_that("rowwise() + mutate(across()) correctly handles list columns (#5951)", {
+  tib <- tibble(a=list(1:2,3:4),c=list(NULL,NULL)) %>% rowwise()
+  expect_identical(
+    mutate(tib, sum = across(everything(),sum)),
+    mutate(tib, sum = across(where(is.list),sum))
+  )
+})
+
+test_that("mutate() fails on named empty arguments (#5925)", {
+  expect_error(
+    mutate(tibble(), bogus = )
+  )
+})
 
 # Error messages ----------------------------------------------------------
 

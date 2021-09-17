@@ -232,8 +232,7 @@ if_across <- function(op, df) {
 #'  )
 c_across <- function(cols = everything()) {
   cols <- enquo(cols)
-  key <- key_deparse(cols)
-  vars <- c_across_setup(!!cols, key = key)
+  vars <- c_across_setup(!!cols)
 
   mask <- peek_mask("c_across()")
 
@@ -250,30 +249,14 @@ across_glue_mask <- function(.col, .fn, .caller_env) {
   glue_mask
 }
 
-# TODO: The usage of a cache in `c_across_setup()` is a stopgap solution, and
-# this idea should not be used anywhere else. This should be replaced by either
-# expansions of expressions (as we now use for `across()`) or the
-# next version of hybrid evaluation, which should offer a way for any function
-# to do any required "set up" work (like the `eval_select()` call) a single
-# time per top-level call, rather than once per group.
 across_setup <- function(cols,
                          fns,
                          names,
                          .caller_env,
                          mask = peek_mask("across()"),
-                         .top_level = FALSE,
                          inline = FALSE) {
   cols <- enquo(cols)
 
-  if (.top_level) {
-    # FIXME: this is a little bit hacky to make top_across()
-    #        work, otherwise mask$across_cols() fails when calling
-    #        self$current_cols(across_vars_used)
-    #        it should not affect anything because it is expected that
-    #        across_setup() is only ever called on the first group anyway
-    #        but perhaps it is time to review how across_cols() work
-    mask$set_current_group(1L)
-  }
   # `across()` is evaluated in a data mask so we need to remove the
   # mask layer from the quosure environment (#5460)
   cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = FALSE, inherit = FALSE))
@@ -290,6 +273,7 @@ across_setup <- function(cols,
     ))
   }
   across_cols <- mask$across_cols()
+
   vars <- tidyselect::eval_select(cols, data = across_cols)
   names_vars <- names(vars)
   vars <- names(across_cols)[vars]
@@ -356,13 +340,8 @@ data_mask_top <- function(env, recursive = FALSE, inherit = FALSE) {
   env
 }
 
-c_across_setup <- function(cols, key) {
+c_across_setup <- function(cols) {
   mask <- peek_mask("c_across()")
-
-  value <- mask$across_cache_get(key)
-  if (!is.null(value)) {
-    return(value)
-  }
 
   cols <- enquo(cols)
   across_cols <- mask$across_cols()
@@ -370,18 +349,7 @@ c_across_setup <- function(cols, key) {
   vars <- tidyselect::eval_select(expr(!!cols), across_cols)
   value <- names(vars)
 
-  mask$across_cache_add(key, value)
-
   value
-}
-
-# FIXME: Should not cache `cols` when it includes env-expressions
-# https://github.com/r-lib/tidyselect/issues/235
-key_deparse <- function(cols) {
-  paste(
-    paste0(deparse(quo_get_expr(cols)), collapse = "\n"),
-    format(quo_get_env(cols))
-  )
 }
 
 new_dplyr_quosure <- function(quo, ...) {
@@ -511,7 +479,6 @@ expand_across <- function(quo) {
     fns = eval_tidy(expr$.fns, mask, env = env),
     names = eval_tidy(expr$.names, mask, env = env),
     .caller_env = dplyr_mask$get_caller_env(),
-    .top_level = TRUE,
     inline = TRUE
   )
 

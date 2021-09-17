@@ -1,9 +1,19 @@
 # dplyr (development version)
 
-*  `coalesce()` accepts 1-D arrays (#5557).
 *  The first argument of `count()`, `add_count()`, `tally()`, and `add_tally()` 
    is renamed from `x` to `.data` to fit dplyr's terminology. The `x` argument 
    is now deprecated. (#5944).
+
+* `coalesce()` accepts 1-D arrays (#5557).
+
+* `filter()` forbids matrix results (#5973) and warns about data frame 
+  results, especially data frames created from `across()` with a hint 
+  to use `if_any()` or `if_all()`. 
+
+* `slice()` helpers (`slice_head()`, `slice_tail()`, `slice_min()`, `slice_max()` 
+   and `slice_sample()`) now accept negative values for `n` and `prop` (#5961).
+
+* `slice()` now indicates which group produces an error (#5931).
 
 # dplyr 1.0.7
 

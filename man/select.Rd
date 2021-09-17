@@ -95,13 +95,13 @@ specific help pages to learn about helpers like \code{\link[=starts_with]{starts
 
 The selection language can be used in functions like
 \code{dplyr::select()} or \code{tidyr::pivot_longer()}. Let's first attach
-the tidyverse:\if{html}{\out{<div class="r">}}\preformatted{library(tidyverse)
+the tidyverse:\if{html}{\out{<div class="sourceCode r">}}\preformatted{library(tidyverse)
 
 # For better printing
 iris <- as_tibble(iris)
 }\if{html}{\out{</div>}}
 
-Select variables by name:\if{html}{\out{<div class="r">}}\preformatted{starwars \%>\% select(height)
+Select variables by name:\if{html}{\out{<div class="sourceCode r">}}\preformatted{starwars \%>\% select(height)
 #> # A tibble: 87 x 1
 #>   height
 #>    <int>
@@ -123,7 +123,7 @@ iris \%>\% pivot_longer(Sepal.Length)
 }\if{html}{\out{</div>}}
 
 Select multiple variables by separating them with commas. Note how
-the order of columns is determined by the order of inputs:\if{html}{\out{<div class="r">}}\preformatted{starwars \%>\% select(homeworld, height, mass)
+the order of columns is determined by the order of inputs:\if{html}{\out{<div class="sourceCode r">}}\preformatted{starwars \%>\% select(homeworld, height, mass)
 #> # A tibble: 87 x 3
 #>   homeworld height  mass
 #>   <chr>      <int> <dbl>
@@ -135,7 +135,7 @@ the order of columns is determined by the order of inputs:\if{html}{\out{<div cl
 }\if{html}{\out{</div>}}
 
 Functions like \code{tidyr::pivot_longer()} don't take variables with
-dots. In this case use \code{c()} to select multiple variables:\if{html}{\out{<div class="r">}}\preformatted{iris \%>\% pivot_longer(c(Sepal.Length, Petal.Length))
+dots. In this case use \code{c()} to select multiple variables:\if{html}{\out{<div class="sourceCode r">}}\preformatted{iris \%>\% pivot_longer(c(Sepal.Length, Petal.Length))
 #> # A tibble: 300 x 5
 #>   Sepal.Width Petal.Width Species name         value
 #>         <dbl>       <dbl> <fct>   <chr>        <dbl>
@@ -147,7 +147,7 @@ dots. In this case use \code{c()} to select multiple variables:\if{html}{\out{<d
 }\if{html}{\out{</div>}}
 \subsection{Operators:}{
 
-The \code{:} operator selects a range of consecutive variables:\if{html}{\out{<div class="r">}}\preformatted{starwars \%>\% select(name:mass)
+The \code{:} operator selects a range of consecutive variables:\if{html}{\out{<div class="sourceCode r">}}\preformatted{starwars \%>\% select(name:mass)
 #> # A tibble: 87 x 3
 #>   name           height  mass
 #>   <chr>           <int> <dbl>
@@ -158,7 +158,7 @@ The \code{:} operator selects a range of consecutive variables:\if{html}{\out{<d
 #> # ... with 83 more rows
 }\if{html}{\out{</div>}}
 
-The \code{!} operator negates a selection:\if{html}{\out{<div class="r">}}\preformatted{starwars \%>\% select(!(name:mass))
+The \code{!} operator negates a selection:\if{html}{\out{<div class="sourceCode r">}}\preformatted{starwars \%>\% select(!(name:mass))
 #> # A tibble: 87 x 11
 #>   hair_color skin_color  eye_color birth_year sex   gender    homeworld species
 #>   <chr>      <chr>       <chr>          <dbl> <chr> <chr>     <chr>     <chr>  
@@ -190,7 +190,7 @@ iris \%>\% select(!ends_with("Width"))
 #> # ... with 146 more rows
 }\if{html}{\out{</div>}}
 
-\code{&} and \code{|} take the intersection or the union of two selections:\if{html}{\out{<div class="r">}}\preformatted{iris \%>\% select(starts_with("Petal") & ends_with("Width"))
+\code{&} and \code{|} take the intersection or the union of two selections:\if{html}{\out{<div class="sourceCode r">}}\preformatted{iris \%>\% select(starts_with("Petal") & ends_with("Width"))
 #> # A tibble: 150 x 1
 #>   Petal.Width
 #>         <dbl>
@@ -212,7 +212,7 @@ iris \%>\% select(starts_with("Petal") | ends_with("Width"))
 }\if{html}{\out{</div>}}
 
 To take the difference between two selections, combine the \code{&} and
-\code{!} operators:\if{html}{\out{<div class="r">}}\preformatted{iris \%>\% select(starts_with("Petal") & !ends_with("Width"))
+\code{!} operators:\if{html}{\out{<div class="sourceCode r">}}\preformatted{iris \%>\% select(starts_with("Petal") & !ends_with("Width"))
 #> # A tibble: 150 x 1
 #>   Petal.Length
 #>          <dbl>

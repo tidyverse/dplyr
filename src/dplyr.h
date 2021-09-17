@@ -41,7 +41,7 @@ struct symbols {
   static SEXP current_expression;
   static SEXP rows;
   static SEXP caller;
-  static SEXP all_vars;
+  static SEXP current_data;
   static SEXP dot_drop;
   static SEXP abort_glue;
   static SEXP dot_indices;
@@ -102,18 +102,19 @@ SEXP dplyr_cumall(SEXP x);
 SEXP dplyr_cumany(SEXP x);
 SEXP dplyr_cummean(SEXP x);
 SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_check_bounds);
+SEXP dplyr_validate_rowwise_df(SEXP df);
 SEXP dplyr_mask_eval_all(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_filter);
-SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes);
+SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes, SEXP results);
 SEXP dplyr_group_indices(SEXP data, SEXP rows);
 SEXP dplyr_group_keys(SEXP group_data);
 SEXP dplyr_reduce_lgl_or(SEXP, SEXP);
 SEXP dplyr_reduce_lgl_and(SEXP, SEXP);
 
 SEXP dplyr_mask_remove(SEXP env_private, SEXP s_name);
-SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks);
+SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP ptype, SEXP chunks);
 
 SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows);
 SEXP dplyr_data_masks_setup(SEXP chops, SEXP data, SEXP rows);

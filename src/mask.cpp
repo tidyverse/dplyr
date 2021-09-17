@@ -31,28 +31,35 @@ SEXP integers_append(SEXP ints, int x) {
   return new_ints;
 }
 
-SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks) {
+SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP ptype, SEXP chunks) {
   SEXP name = STRING_ELT(s_name, 0);
 
   // we assume control over these
-  SEXP all_vars = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::all_vars));
+  SEXP current_data = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::current_data));
+  SEXP current_vars = PROTECT(Rf_getAttrib(current_data, R_NamesSymbol));
 
   // search for position of name
-  R_xlen_t n = XLENGTH(all_vars);
-  R_xlen_t i_name = find_first(all_vars, name);
+  R_xlen_t n = XLENGTH(current_data);
+  R_xlen_t i_name = find_first(current_vars, name);
 
   bool is_new_column = i_name == n;
   if (is_new_column) {
-    SEXP new_all_vars = PROTECT(Rf_allocVector(STRSXP, n + 1));
+    SEXP new_current_vars = PROTECT(Rf_allocVector(STRSXP, n + 1));
+    SEXP new_current_data = PROTECT(Rf_allocVector(VECSXP, n + 1));
 
     for (R_xlen_t i = 0; i < n; i++) {
-      SET_STRING_ELT(new_all_vars, i, STRING_ELT(all_vars, i));
+      SET_STRING_ELT(new_current_vars, i, STRING_ELT(current_vars, i));
+      SET_VECTOR_ELT(new_current_data, i, VECTOR_ELT(current_data, i));
     }
-    SET_STRING_ELT(new_all_vars, n, name);
+    SET_STRING_ELT(new_current_vars, n, name);
+    SET_VECTOR_ELT(new_current_data, n, ptype);
+    Rf_namesgets(new_current_data, new_current_vars);
 
-    Rf_defineVar(dplyr::symbols::all_vars, new_all_vars, env_private);
+    Rf_defineVar(dplyr::symbols::current_data, new_current_data, env_private);
 
-    UNPROTECT(1);
+    UNPROTECT(2);
+  } else {
+    SET_VECTOR_ELT(current_data, i_name, ptype);
   }
 
   SEXP sym_name = PROTECT(rlang::str_as_symbol(name));
@@ -62,7 +69,7 @@ SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP chunks) {
   SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));
   add_mask_binding(sym_name, ENCLOS(mask), chops);
 
-  UNPROTECT(4);
+  UNPROTECT(5);
   return R_NilValue;
 }
 
@@ -85,20 +92,25 @@ void rm(SEXP name, SEXP env) {
 SEXP dplyr_mask_remove(SEXP env_private, SEXP s_name) {
   SEXP name = STRING_ELT(s_name, 0);
 
-  SEXP all_vars = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::all_vars));
+  SEXP current_data = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::current_data));
+  SEXP current_vars = PROTECT(Rf_getAttrib(current_data, R_NamesSymbol));
 
   // search for position of name
-  R_xlen_t n = XLENGTH(all_vars);
-  R_xlen_t i_name = find_first(all_vars, name);
+  R_xlen_t n = XLENGTH(current_vars);
+  R_xlen_t i_name = find_first(current_vars, name);
 
   if (i_name != n) {
-    // all_vars <- setdiff(all_vars, name)
-    SEXP new_all_vars = PROTECT(Rf_allocVector(STRSXP, n - 1));
+    SEXP new_current_data = PROTECT(Rf_allocVector(VECSXP, n - 1));
+    SEXP new_current_vars = PROTECT(Rf_allocVector(STRSXP, n - 1));
+
     for (R_xlen_t i = 0, j = 0; i < n; i++) {
       if (i == i_name) continue;
-      SET_STRING_ELT(new_all_vars, j++, STRING_ELT(all_vars, i));
+      SET_STRING_ELT(new_current_vars, j, STRING_ELT(current_vars, i));
+      SET_VECTOR_ELT(new_current_data, j, VECTOR_ELT(current_data, i));
+      j++;
     }
-    Rf_defineVar(dplyr::symbols::all_vars, new_all_vars, env_private);
+    Rf_namesgets(new_current_data, new_current_vars);
+    Rf_defineVar(dplyr::symbols::current_data, new_current_data, env_private);
 
     SEXP chops = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::chops));
     SEXP sym_name = PROTECT(rlang::str_as_symbol(name));
@@ -107,9 +119,9 @@ SEXP dplyr_mask_remove(SEXP env_private, SEXP s_name) {
     SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));
     rm(sym_name, ENCLOS(mask));
 
-    UNPROTECT(4);
+    UNPROTECT(5);
   }
 
-  UNPROTECT(1);
+  UNPROTECT(2);
   return R_NilValue;
 }

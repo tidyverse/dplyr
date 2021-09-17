@@ -21,6 +21,7 @@
 #' Existing grouping variables are maintained, even if not included in
 #' the selection.
 #'
+#' @keywords internal
 #' @examples
 #' # Group a data frame by all variables:
 #' group_by_all(mtcars)

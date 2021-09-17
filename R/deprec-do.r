@@ -43,10 +43,10 @@
 #'   var = names(coef(.$mod)),
 #'   coef(summary(.$mod)))
 #' )
+#' @examplesIf requireNamespace("broom", quietly = TRUE)
+#'
 #' # ->
-#' if (requireNamespace("broom")) {
-#'   models %>% summarise(broom::tidy(mod))
-#' }
+#' models %>% summarise(broom::tidy(mod))
 do <- function(.data, ...) {
   lifecycle::signal_superseded("1.0.0", "do()")
   UseMethod("do")
