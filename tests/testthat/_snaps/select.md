@@ -2,25 +2,25 @@
 
     Code
       res <- select(df, x)
-    Message <message>
+    Message <rlang_message>
       Adding missing grouping variables: `g`
 
 ---
 
     Code
       expect_equal(df %>% select(a = c), tibble(b = 2, a = 3) %>% group_by(b))
-    Message <message>
+    Message <rlang_message>
       Adding missing grouping variables: `b`
     Code
       expect_equal(df %>% select(b = c), tibble(a = 1, b = 3) %>% group_by(a))
-    Message <message>
+    Message <rlang_message>
       Adding missing grouping variables: `a`
 
 # non-syntactic grouping variable is preserved (#1138)
 
     Code
       df <- tibble(`a b` = 1L) %>% group_by(`a b`) %>% select()
-    Message <message>
+    Message <rlang_message>
       Adding missing grouping variables: `a b`
 
 # dplyr_col_select() aborts when `[` implementation is broken
