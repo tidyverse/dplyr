@@ -18,7 +18,7 @@
 
     Code
       vars <- join_cols(xy, xy)
-    Message <message>
+    Message <rlang_message>
       Joining, by = c("x", "y")
 
 ---
