@@ -50,6 +50,7 @@ Suggests:
     covr,
     DBI,
     dbplyr (>= 1.4.3),
+    ggplot2,
     knitr,
     Lahman,
     lobstr,
