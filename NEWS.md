@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `cur_data()` and `cur_data_all()` not simplifying list columns rowwise data frames (#5901).
+
 * `coalesce()` accepts 1-D arrays (#5557).
 
 * `filter()` forbids matrix results (#5973) and warns about data frame 
