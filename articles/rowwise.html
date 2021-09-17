@@ -55,7 +55,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of the <a href="https://tidyverse.org" class="external-link">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.7</span>
         </div>
       </div>
     </div>
@@ -154,7 +154,7 @@
 
       
 
-      </header><script src="rowwise_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="rowwise_files/header-attrs-2.9/header-attrs.js"></script><script src="rowwise_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Row-wise operations</h1>
@@ -216,7 +216,6 @@
 <span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; `summarise()` has ungrouped output. You can override using the `.groups` argument.</span>
 <span class="co">#&gt; # A tibble: 2 x 1</span>
 <span class="co">#&gt;       m</span>
 <span class="co">#&gt;   &lt;dbl&gt;</span>
@@ -450,10 +449,10 @@
 <span class="co">#&gt; 2     2 &lt;chr [1]&gt; &lt;chr [1]&gt;</span>
 <span class="va">rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>y2 <span class="op">=</span> <span class="va">y</span><span class="op">)</span>
 <span class="co">#&gt; Error: Problem with `mutate()` column `y2`.</span>
-<span class="co">#&gt; ℹ `y2 = y`.</span>
-<span class="co">#&gt; ℹ `y2` must be size 1, not 3.</span>
-<span class="co">#&gt; ℹ Did you mean: `y2 = list(y)` ?</span>
-<span class="co">#&gt; ℹ The error occurred in row 1.</span>
+<span class="co">#&gt; i `y2 = y`.</span>
+<span class="co">#&gt; i `y2` must be size 1, not 3.</span>
+<span class="co">#&gt; i Did you mean: `y2 = list(y)` ?</span>
+<span class="co">#&gt; i The error occurred in row 1.</span>
 <span class="va">rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>y2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt; # Rowwise:  g</span>
@@ -471,11 +470,11 @@
 <span class="va">by_cyl</span>
 <span class="co">#&gt; # A tibble: 3 x 2</span>
 <span class="co">#&gt; # Rowwise:  cyl</span>
-<span class="co">#&gt;     cyl data                   </span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;                 </span>
-<span class="co">#&gt; 1     4 &lt;tibble[,10] [11 × 10]&gt;</span>
-<span class="co">#&gt; 2     6 &lt;tibble[,10] [7 × 10]&gt; </span>
-<span class="co">#&gt; 3     8 &lt;tibble[,10] [14 × 10]&gt;</span></code></pre></div>
+<span class="co">#&gt;     cyl data              </span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;            </span>
+<span class="co">#&gt; 1     4 &lt;tibble [11 × 10]&gt;</span>
+<span class="co">#&gt; 2     6 &lt;tibble [7 × 10]&gt; </span>
+<span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt;</span></code></pre></div>
 <p>This is a little different to the usual <code><a href="../reference/group_by.html">group_by()</a></code> output: we have visibly changed the structure of the data. Now we have three rows (one for each group), and we have a list-col, <code>data</code>, that stores the data for that group. Also note that the output is <code><a href="../reference/rowwise.html">rowwise()</a></code>; this is important because it’s going to make working with that list of data frames much easier.</p>
 <p>Once we have one data frame per row, it’s straightforward to make one model per row:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
@@ -483,22 +482,22 @@
 <span class="va">mods</span>
 <span class="co">#&gt; # A tibble: 3 x 3</span>
 <span class="co">#&gt; # Rowwise:  cyl</span>
-<span class="co">#&gt;     cyl data                    mod   </span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;                  &lt;list&gt;</span>
-<span class="co">#&gt; 1     4 &lt;tibble[,10] [11 × 10]&gt; &lt;lm&gt;  </span>
-<span class="co">#&gt; 2     6 &lt;tibble[,10] [7 × 10]&gt;  &lt;lm&gt;  </span>
-<span class="co">#&gt; 3     8 &lt;tibble[,10] [14 × 10]&gt; &lt;lm&gt;</span></code></pre></div>
+<span class="co">#&gt;     cyl data               mod   </span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;             &lt;list&gt;</span>
+<span class="co">#&gt; 1     4 &lt;tibble [11 × 10]&gt; &lt;lm&gt;  </span>
+<span class="co">#&gt; 2     6 &lt;tibble [7 × 10]&gt;  &lt;lm&gt;  </span>
+<span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt; &lt;lm&gt;</span></code></pre></div>
 <p>And supplement that with one set of predictions per row:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mods</span> <span class="op">&lt;-</span> <span class="va">mods</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>pred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod</span>, <span class="va">data</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="va">mods</span>
 <span class="co">#&gt; # A tibble: 3 x 4</span>
 <span class="co">#&gt; # Rowwise:  cyl</span>
-<span class="co">#&gt;     cyl data                    mod    pred      </span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;                  &lt;list&gt; &lt;list&gt;    </span>
-<span class="co">#&gt; 1     4 &lt;tibble[,10] [11 × 10]&gt; &lt;lm&gt;   &lt;dbl [11]&gt;</span>
-<span class="co">#&gt; 2     6 &lt;tibble[,10] [7 × 10]&gt;  &lt;lm&gt;   &lt;dbl [7]&gt; </span>
-<span class="co">#&gt; 3     8 &lt;tibble[,10] [14 × 10]&gt; &lt;lm&gt;   &lt;dbl [14]&gt;</span></code></pre></div>
+<span class="co">#&gt;     cyl data               mod    pred      </span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;list&gt;             &lt;list&gt; &lt;list&gt;    </span>
+<span class="co">#&gt; 1     4 &lt;tibble [11 × 10]&gt; &lt;lm&gt;   &lt;dbl [11]&gt;</span>
+<span class="co">#&gt; 2     6 &lt;tibble [7 × 10]&gt;  &lt;lm&gt;   &lt;dbl [7]&gt; </span>
+<span class="co">#&gt; 3     8 &lt;tibble [14 × 10]&gt; &lt;lm&gt;   &lt;dbl [14]&gt;</span></code></pre></div>
 <p>You could then summarise the model in a variety of ways:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mods</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>rmse <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">pred</span> <span class="op">-</span> <span class="va">data</span><span class="op">$</span><span class="va">mpg</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
@@ -577,10 +576,10 @@
   <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">min</span>, <span class="va">max</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Error: Problem with `mutate()` column `data`.</span>
-<span class="co">#&gt; ℹ `data = runif(n, min, max)`.</span>
-<span class="co">#&gt; ℹ `data` must be size 1, not 2.</span>
-<span class="co">#&gt; ℹ Did you mean: `data = list(runif(n, min, max))` ?</span>
-<span class="co">#&gt; ℹ The error occurred in row 2.</span></code></pre></div>
+<span class="co">#&gt; i `data = runif(n, min, max)`.</span>
+<span class="co">#&gt; i `data` must be size 1, not 2.</span>
+<span class="co">#&gt; i Did you mean: `data = list(runif(n, min, max))` ?</span>
+<span class="co">#&gt; i The error occurred in row 2.</span></code></pre></div>
 </div>
 <div id="multiple-combinations" class="section level3">
 <h3 class="hasAnchor">
