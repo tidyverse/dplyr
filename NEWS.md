@@ -1,6 +1,6 @@
 # dplyr (development version)
 
-* `cur_data()` and `cur_data_all()` not simplifying list columns rowwise data frames (#5901).
+* `cur_data()` and `cur_data_all()` don't simplify list columns in rowwise data frames (#5901).
 
 * `coalesce()` accepts 1-D arrays (#5557).
 
