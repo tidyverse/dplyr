@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `storms` data updated to 2020 (@steveharoz, #5899).
+
 * `coalesce()` accepts 1-D arrays (#5557).
 
 * `filter()` forbids matrix results (#5973) and warns about data frame 
