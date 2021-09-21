@@ -47,6 +47,18 @@ test_that("cur_data() gives current data without groups, cur_data_all() includes
   )
 })
 
+test_that("cur_data()/cur_data_all() keeps list columns as lists in rowwise_df (#5901)", {
+  df <- tibble(x = list(tibble(a = 1), tibble(a = 2))) %>%
+    rowwise()
+
+  expect_true(
+    all(summarise(df, test = vec_is_list(cur_data()$x))$test)
+  )
+  expect_true(
+    all(summarise(df, test = vec_is_list(cur_data_all()$x))$test)
+  )
+})
+
 test_that("cur_group_rows() retrieves row position in original data", {
   df <- tibble(x = c("b", "a", "b"), y = 1:3)
   gf <- group_by(df, x)

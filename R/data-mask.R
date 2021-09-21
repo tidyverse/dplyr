@@ -67,6 +67,14 @@ DataMask <- R6Class("DataMask",
 
     pick = function(vars) {
       cols <- self$current_cols(vars)
+      if (inherits(private$data, "rowwise_df")) {
+        cols <- map2(cols, names(cols), function(col, name) {
+          if (vec_is_list(private$current_data[[name]])) {
+            col <- list(col)
+          }
+          col
+        })
+      }
       nrow <- length(self$current_rows())
       new_tibble(cols, nrow = nrow)
     },
