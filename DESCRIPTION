@@ -78,6 +78,5 @@ Config/Needs/website:
     tidyverse/tidytemplate
 Remotes:
     r-lib/rlang,
-    r-lib/pillar#368
+    r-lib/pillar#368,
     r-lib/tibble#955
-
