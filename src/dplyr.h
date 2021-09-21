@@ -47,8 +47,6 @@ struct symbols {
   static SEXP dot_indices;
   static SEXP chops;
   static SEXP mask;
-  static SEXP rm;
-  static SEXP envir;
   static SEXP vec_is_list;
   static SEXP new_env;
   static SEXP dot_data;
