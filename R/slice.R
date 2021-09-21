@@ -153,11 +153,11 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
   slice(.data, idx(dplyr::n()))
 }
 
-check_slice_by <- function(idx, arg, x, n) {
-  if (!is.null(x)) {
-    vec_assert(x, size = n, arg = arg)
+check_slice_by <- function(idx, order_by, n) {
+  if (!is.null(order_by)) {
+    vec_assert(order_by, size = n)
   }
-  idx(x, n)
+  idx(order_by, n)
 }
 
 #' @export
@@ -183,7 +183,7 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
   } else {
     idx <- function(x, n) head(order(x), size(n))
   }
-  slice(.data, check_slice_by(idx, "slice_min(order_by=)", {{ order_by }}, dplyr::n()))
+  slice(.data, check_slice_by(idx, {{ order_by }}, dplyr::n()))
 }
 
 #' @export
@@ -207,7 +207,7 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     idx <- function(x, n) head(order(x, decreasing = TRUE), size(n))
   }
 
-  slice(.data, check_slice_by(idx, "slice_max(order_by=)", {{ order_by }}, dplyr::n()))
+  slice(.data, check_slice_by(idx, {{ order_by }}, dplyr::n()))
 }
 
 #' @export

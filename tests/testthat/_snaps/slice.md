@@ -3,11 +3,11 @@
     Code
       slice_min(data.frame(x = 1:10), 1:6)
     Error <dplyr_error>
-      `slice_min(order_by=)` must have size 10, not size 6.
+      `order_by` must have size 10, not size 6.
     Code
       slice_max(data.frame(x = 1:10), 1:6)
     Error <dplyr_error>
-      `slice_max(order_by=)` must have size 10, not size 6.
+      `order_by` must have size 10, not size 6.
 
 # slice_sample() check size of `weight_by=` (#5922)
 
