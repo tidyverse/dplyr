@@ -77,4 +77,7 @@ Config/Needs/website:
     r-lib/pkgdown,
     tidyverse/tidytemplate
 Remotes:
-    r-lib/rlang
+    r-lib/rlang,
+    r-lib/pillar#368
+    r-lib/tibble#955
+
