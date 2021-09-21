@@ -79,4 +79,4 @@ Config/Needs/website:
 Remotes:
     r-lib/rlang,
     r-lib/pillar#368,
-    r-lib/tibble#955
+    tidyverse/tibble#955
