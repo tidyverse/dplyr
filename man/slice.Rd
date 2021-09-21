@@ -43,11 +43,13 @@ is recalculated based on the resulting data, otherwise the grouping is kept as i
 proportion of rows to select. If neither are supplied, \code{n = 1} will be
 used.
 
-value excludes the last/first \code{abs(n)} rows.
+If a negative value of \code{n} or \code{prop} is provided, the specified number or
+proportion of rows will be removed.
 
 If \code{n} is greater than the number of rows in the group (or \code{prop > 1}),
 the result will be silently truncated to the group size. If the
-\code{prop}ortion of a group size is not an integer, it is rounded down.}
+\code{prop}ortion of a group size does not yield an integer number of rows, the
+absolute value of \code{prop*nrow(.data)} is rounded down.}
 
 \item{order_by}{Variable or function of variables to order by.}
 

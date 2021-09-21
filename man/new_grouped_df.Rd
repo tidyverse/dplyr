@@ -11,7 +11,7 @@ new_grouped_df(x, groups, ..., class = character())
 
 validate_grouped_df(x, check_bounds = FALSE)
 
-new_rowwise_df(data, group_data, ..., class = character())
+new_rowwise_df(data, group_data = NULL, ..., class = character())
 
 validate_rowwise_df(x)
 }

@@ -1,11 +1,19 @@
 df <- data.frame(x = rep(1:3, each = 10), y = rep(1:6, each = 5))
 
-test_that("group_by with .add = TRUE adds groups", {
+test_that("group_by() with .add = TRUE adds groups", {
   add_groups1 <- function(tbl) group_by(tbl, x, y, .add = TRUE)
   add_groups2 <- function(tbl) group_by(group_by(tbl, x, .add = TRUE), y, .add = TRUE)
 
   expect_equal(group_vars(add_groups1(df)), c("x", "y"))
   expect_equal(group_vars(add_groups2(df)), c("x", "y"))
+})
+
+test_that("group_by(<grouped df>, .add = TRUE) computes the expressions by groups (#5938", {
+  df <- mtcars %>%
+    group_by(vs, am) %>%
+    group_by(cyl = cyl > 4, .add = TRUE)
+  expect_equal(group_vars(df), c("vs", "am", "cyl"))
+  expect_equal(n_groups(df), 6L)
 })
 
 test_that("add = TRUE is deprecated", {
