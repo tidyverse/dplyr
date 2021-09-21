@@ -155,7 +155,7 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
 
 check_slice_by <- function(idx, order_by, n) {
   if (!is.null(order_by)) {
-    vec_assert(order_by, size = n)
+    vec_assert(order_by, size = n, arg = "order_by")
   }
   idx(order_by, n)
 }
