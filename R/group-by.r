@@ -7,11 +7,11 @@
 #'
 #' @family grouping functions
 #' @inheritParams arrange
-#' @param ... In `group_by()`, variables or computations to group by,
-#'   computations are either done on the ungrouped data frame (by default) or
-#'   by groups if `.add` is `TRUE`. To perform
-#'   computations on the grouped data when discarding the groups, you need to use
+#' @param ... In `group_by()`, variables or computations to group by.
+#'   Computations are always done on the ungrouped data frame.
+#'   To perform computations on the grouped data, you need to use
 #'   a separate `mutate()` step before the `group_by()`.
+#'   Computations are not allowed in `nest_by()`.
 #'   In `ungroup()`, variables to remove from the grouping.
 #' @param .add When `FALSE`, the default, `group_by()` will
 #'   override existing groups. To add to the existing groups, use
@@ -71,25 +71,24 @@
 #'   group_by(vs, am, .add = TRUE) %>%
 #'   group_vars()
 #'
-#' # You can group by expressions: this is in most cases a short-hand
+#' # You can group by expressions: this is a short-hand
 #' # for a mutate() followed by a group_by()
 #' mtcars %>%
 #'   group_by(vsam = vs + am)
 #'
-#' # Unless the data is grouped and `.add` is `FALSE`, in which case the
-#' # expressions are evaluated on the ungrouped data frame, because the
-#' # newer grouping overrides existing grouping.
+#' # The implicit mutate() step is always performed on the
+#' # ungrouped data. Here we get 3 groups:
 #' mtcars %>%
-#'   group_by(vs, am) %>%
-#'   # ... some other computations
-#'   group_by(cyl = cyl > 4)
+#'   group_by(vs) %>%
+#'   group_by(hp_cut = cut(hp, 3))
 #'
-#' # However, when adding groups the computations are evaluated within
-#' # existing groups
+#' # If you want it to be performed by groups,
+#' # you have to use an explicit mutate() call.
+#' # Here we get 3 groups per value of vs
 #' mtcars %>%
-#'   group_by(vs, am) %>%
-#'   # ... some other computations
-#'   group_by(cyl = cyl > 4, .add = TRUE)
+#'   group_by(vs) %>%
+#'   mutate(hp_cut = cut(hp, 3)) %>%
+#'   group_by(hp_cut)
 #'
 #' # when factors are involved and .drop = FALSE, groups can be empty
 #' tbl <- tibble(
@@ -177,8 +176,7 @@ group_by_prepare <- function(.data,
     .data,
     new_groups,
     "group_by",
-    caller_env = caller_env,
-    .add = .add
+    caller_env = caller_env
   )
 
   out <- computed_columns$data
@@ -206,8 +204,7 @@ group_by_prepare <- function(.data,
 add_computed_columns <- function(.data,
                                  vars,
                                  .fn = "group_by",
-                                 caller_env,
-                                 .add = FALSE) {
+                                 caller_env) {
   is_symbol <- map_lgl(vars, quo_is_variable_reference)
   needs_mutate <- have_name(vars) | !is_symbol
 
@@ -215,7 +212,7 @@ add_computed_columns <- function(.data,
     # TODO: use less of a hack
     if (inherits(.data, "data.frame")) {
       cols <- withCallingHandlers(
-        mutate_cols(if(isTRUE(.add)) .data else ungroup(.data), !!!vars, caller_env = caller_env),
+        mutate_cols(ungroup(.data), !!!vars, caller_env = caller_env),
         error = function(e) {
           abort(c(
             glue("Problem adding computed columns in `{.fn}()`."),

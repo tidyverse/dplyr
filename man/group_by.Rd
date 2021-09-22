@@ -14,11 +14,11 @@ ungroup(x, ...)
 lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{...}{In \code{group_by()}, variables or computations to group by,
-computations are either done on the ungrouped data frame (by default) or
-by groups if \code{.add} is \code{TRUE}. To perform
-computations on the grouped data when discarding the groups, you need to use
+\item{...}{In \code{group_by()}, variables or computations to group by.
+Computations are always done on the ungrouped data frame.
+To perform computations on the grouped data, you need to use
 a separate \code{mutate()} step before the \code{group_by()}.
+Computations are not allowed in \code{nest_by()}.
 In \code{ungroup()}, variables to remove from the grouping.}
 
 \item{.add}{When \code{FALSE}, the default, \code{group_by()} will
@@ -93,25 +93,24 @@ by_cyl \%>\%
   group_by(vs, am, .add = TRUE) \%>\%
   group_vars()
 
-# You can group by expressions: this is in most cases a short-hand
+# You can group by expressions: this is a short-hand
 # for a mutate() followed by a group_by()
 mtcars \%>\%
   group_by(vsam = vs + am)
 
-# Unless the data is grouped and `.add` is `FALSE`, in which case the
-# expressions are evaluated on the ungrouped data frame, because the
-# newer grouping overrides existing grouping.
+# The implicit mutate() step is always performed on the
+# ungrouped data. Here we get 3 groups:
 mtcars \%>\%
-  group_by(vs, am) \%>\%
-  # ... some other computations
-  group_by(cyl = cyl > 4)
+  group_by(vs) \%>\%
+  group_by(hp_cut = cut(hp, 3))
 
-# However, when adding groups the computations are evaluated within
-# existing groups
+# If you want it to be performed by groups,
+# you have to use an explicit mutate() call.
+# Here we get 3 groups per value of vs
 mtcars \%>\%
-  group_by(vs, am) \%>\%
-  # ... some other computations
-  group_by(cyl = cyl > 4, .add = TRUE)
+  group_by(vs) \%>\%
+  mutate(hp_cut = cut(hp, 3)) \%>\%
+  group_by(hp_cut)
 
 # when factors are involved and .drop = FALSE, groups can be empty
 tbl <- tibble(

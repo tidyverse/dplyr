@@ -8,12 +8,35 @@ test_that("group_by() with .add = TRUE adds groups", {
   expect_equal(group_vars(add_groups2(df)), c("x", "y"))
 })
 
-test_that("group_by(<grouped df>, .add = TRUE) computes the expressions by groups (#5938", {
-  df <- mtcars %>%
-    group_by(vs, am) %>%
-    group_by(cyl = cyl > 4, .add = TRUE)
-  expect_equal(group_vars(df), c("vs", "am", "cyl"))
-  expect_equal(n_groups(df), 6L)
+test_that("group_by(<grouped df>, <computation>) computes the expressions on the ungrouped data frame (#5938)", {
+  df <- data.frame(
+    x = 1:4,
+    g = rep(1:2, each = 2)
+  )
+
+  count <- 0
+  out <- df %>% group_by(g) %>% group_by(big = { count <<- count + 1; x > mean(x) })
+  expect_equal(out$big, c(FALSE, FALSE, TRUE, TRUE))
+  expect_equal(count, 1L)
+  expect_equal(group_vars(out), c("big"))
+
+  count <- 0
+  out <- df %>% group_by(g) %>% group_by(big = { count <<- count + 1; x > mean(x) }, .add = TRUE)
+  expect_equal(out$big, c(FALSE, FALSE, TRUE, TRUE))
+  expect_equal(count, 1L)
+  expect_equal(group_vars(out), c("g", "big"))
+
+  count <- 0
+  out <- df %>% group_by(g) %>% mutate(big = { count <<- count + 1; x > mean(x)}) %>% group_by(big)
+  expect_equal(out$big, c(FALSE, TRUE, FALSE, TRUE))
+  expect_equal(count, 2L)
+  expect_equal(group_vars(out), c("big"))
+
+  count <- 0
+  out <- df %>% group_by(g) %>% mutate(big = { count <<- count + 1; x > mean(x)}) %>% group_by(big, .add = TRUE)
+  expect_equal(out$big, c(FALSE, TRUE, FALSE, TRUE))
+  expect_equal(count, 2L)
+  expect_equal(group_vars(out), c("g", "big"))
 })
 
 test_that("add = TRUE is deprecated", {

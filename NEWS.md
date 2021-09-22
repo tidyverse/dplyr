@@ -15,8 +15,6 @@
 
 * `slice()` now indicates which group produces an error (#5931).
 
-* Computations are done by groups in `group_by(.add = TRUE)` (#5938).
-
 # dplyr 1.0.7
 
 * `across()` uses the formula environment when inlining them (#5886).
