@@ -15,17 +15,19 @@
 #' `across()` supersedes the family of "scoped variants" like
 #' `summarise_at()`, `summarise_if()`, and `summarise_all()`.
 #'
-#' @param cols,.cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
+#' @param .cols,cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
 #'   Because `across()` is used within functions like `summarise()` and
 #'   `mutate()`, you can't select or compute upon grouping variables.
 #' @param .fns Functions to apply to each of the selected columns.
 #'   Possible values are:
 #'
-#'   - `NULL`, to returns the columns untransformed.
 #'   - A function, e.g. `mean`.
 #'   - A purrr-style lambda, e.g. `~ mean(.x, na.rm = TRUE)`
 #'   - A list of functions/lambdas, e.g.
 #'     `list(mean = mean, n_miss = ~ sum(is.na(.x))`
+#'   - `NULL`: the default value, returns the selected columns in a data
+#'   frame without applying a transformation. This is useful for when you want to
+#'   use a function that takes a data frame.
 #'
 #'   Within these functions you can use [cur_column()] and [cur_group()]
 #'   to access the current column and grouping keys respectively.
