@@ -14,7 +14,7 @@
     Code
       slice_sample(data.frame(x = 1:10), n = 2, weight_by = 1:6)
     Error <dplyr_error>
-      incorrect number of probabilities
+      `weight_by` must have size 10, not size 6.
 
 # rename errors with invalid grouped data frame (#640)
 
