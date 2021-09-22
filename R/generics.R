@@ -137,6 +137,12 @@ dplyr_col_modify.data.frame <- function(data, cols) {
   # Must be implemented from first principles to avoiding edge cases in
   # [.data.frame and [.tibble (2.1.3 and earlier).
 
+  # deal with the special case of mutate(.keep = "none")
+  # where columns are all added to the right in their order of
+  # appearance in ..., independently from them being in the original
+  # data or not
+  reset <- identical(attr(cols, "keep"), "none")
+
   # Apply tidyverse recycling rules
   cols <- vec_recycle_common(!!!cols, .size = nrow(data))
 
@@ -148,6 +154,9 @@ dplyr_col_modify.data.frame <- function(data, cols) {
 
   for (i in seq_along(cols)) {
     nm <- nms[[i]]
+    if (reset) {
+      out[[nm]] <- NULL
+    }
     out[[nm]] <- cols[[i]]
   }
 

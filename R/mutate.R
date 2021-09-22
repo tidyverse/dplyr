@@ -174,6 +174,9 @@ mutate.data.frame <- function(.data, ...,
   keep <- arg_match(.keep)
 
   cols <- mutate_cols(.data, ..., caller_env = caller_env())
+
+  # dplyr_col_modify() deals with the special case .keep = "none"
+  attr(cols, "keep") <- keep
   out <- dplyr_col_modify(.data, cols)
 
   .before <- enquo(.before)
@@ -184,22 +187,22 @@ mutate.data.frame <- function(.data, ...,
     out <- relocate(out, !!new, .before = !!.before, .after = !!.after)
   }
 
-  if (keep == "all") {
-    out
-  } else if (keep == "unused") {
-    used <- attr(cols, "used")
-    unused <- names(used)[!used]
-    keep <- intersect(names(out), c(group_vars(.data), unused, names(cols)))
-    dplyr_col_select(out, keep)
-  } else if (keep == "used") {
-    used <- attr(cols, "used")
-    used <- names(used)[used]
-    keep <- intersect(names(out), c(group_vars(.data), used, names(cols)))
-    dplyr_col_select(out, keep)
-  } else if (keep == "none") {
-    keep <- intersect(names(out), c(group_vars(.data), names(cols)))
-    dplyr_col_select(out, keep)
-  }
+  # identify variables from the original data that have been used and unused
+  used <- attr(cols, "used")
+  unused <- names(used)[!used]
+  used <- names(used)[used]
+
+  # retain variables based on .keep
+  selected <- intersect(
+    names(out),
+    c(
+      group_vars(.data),                         # grouping variables
+      if(keep %in% c("all", "used")) used,       # used variables
+      if(keep %in% c("all", "unused")) unused,   # unused variables
+      names(cols)                                # made by ...
+    )
+  )
+  dplyr_col_select(out, selected)
 }
 
 #' @rdname mutate
@@ -238,10 +241,6 @@ mutate_cols <- function(.data, ..., caller_env) {
 
   rows <- mask$get_rows()
   dots <- dplyr_quosures(...)
-  if (length(dots) == 0L) {
-    return(NULL)
-  }
-
   new_columns <- set_names(list(), character())
 
   withCallingHandlers({
