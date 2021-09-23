@@ -47,8 +47,6 @@ struct symbols {
   static SEXP dot_indices;
   static SEXP chops;
   static SEXP mask;
-  static SEXP rm;
-  static SEXP envir;
   static SEXP vec_is_list;
   static SEXP new_env;
   static SEXP dot_data;
@@ -79,6 +77,7 @@ SEXP as_data_pronoun(SEXP x);
 SEXP new_data_mask(SEXP bottom, SEXP top);
 SEXP str_as_symbol(SEXP);
 SEXP quo_get_expr(SEXP quo);
+void env_unbind(SEXP, SEXP);
 }
 
 namespace vctrs {
