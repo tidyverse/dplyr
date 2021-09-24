@@ -8,6 +8,10 @@
 #' @family grouping functions
 #' @inheritParams arrange
 #' @param ... In `group_by()`, variables or computations to group by.
+#'   Computations are always done on the ungrouped data frame.
+#'   To perform computations on the grouped data, you need to use
+#'   a separate `mutate()` step before the `group_by()`.
+#'   Computations are not allowed in `nest_by()`.
 #'   In `ungroup()`, variables to remove from the grouping.
 #' @param .add When `FALSE`, the default, `group_by()` will
 #'   override existing groups. To add to the existing groups, use
@@ -57,10 +61,6 @@
 #'   ungroup() %>%
 #'   summarise(n = sum(n))
 #'
-#' # You can group by expressions: this is just short-hand for
-#' # a mutate() followed by a group_by()
-#' mtcars %>% group_by(vsam = vs + am)
-#'
 #' # By default, group_by() overrides existing grouping
 #' by_cyl %>%
 #'   group_by(vs, am) %>%
@@ -71,6 +71,24 @@
 #'   group_by(vs, am, .add = TRUE) %>%
 #'   group_vars()
 #'
+#' # You can group by expressions: this is a short-hand
+#' # for a mutate() followed by a group_by()
+#' mtcars %>%
+#'   group_by(vsam = vs + am)
+#'
+#' # The implicit mutate() step is always performed on the
+#' # ungrouped data. Here we get 3 groups:
+#' mtcars %>%
+#'   group_by(vs) %>%
+#'   group_by(hp_cut = cut(hp, 3))
+#'
+#' # If you want it to be performed by groups,
+#' # you have to use an explicit mutate() call.
+#' # Here we get 3 groups per value of vs
+#' mtcars %>%
+#'   group_by(vs) %>%
+#'   mutate(hp_cut = cut(hp, 3)) %>%
+#'   group_by(hp_cut)
 #'
 #' # when factors are involved and .drop = FALSE, groups can be empty
 #' tbl <- tibble(
