@@ -49,11 +49,10 @@ grouped data frames only.}
 if the stringi package is installed and the global default locale
 has not been altered. See the help page for \code{\link[=dplyr_locale]{dplyr_locale()}} for the
 exact details.
-\item If a single string is supplied, then this will be used as the locale
-identifier to sort with. For example, \code{"fr"} will sort with the French
-locale. This requires the stringi package. Use
-\code{\link[stringi:stri_locale_list]{stringi::stri_locale_list()}} to generate a list of possible locale
-identifiers.
+\item If a single string is supplied, then this will be used as the sorting
+locale. For example, \code{"fr"} will sort with the French locale. This
+requires the stringi package. Use \code{\link[stringi:stri_locale_list]{stringi::stri_locale_list()}} to
+generate a list of possible locale identifiers.
 \item If \code{"C"} is supplied, then character vectors will be sorted in the C
 locale. This does not require stringi and is often much faster than
 supplying a locale identifier.

@@ -71,11 +71,10 @@ arrange <- function(.data, ..., .by_group = FALSE) {
 #'     has not been altered. See the help page for [dplyr_locale()] for the
 #'     exact details.
 #'
-#'   - If a single string is supplied, then this will be used as the locale
-#'     identifier to sort with. For example, `"fr"` will sort with the French
-#'     locale. This requires the stringi package. Use
-#'     [stringi::stri_locale_list()] to generate a list of possible locale
-#'     identifiers.
+#'   - If a single string is supplied, then this will be used as the sorting
+#'     locale. For example, `"fr"` will sort with the French locale. This
+#'     requires the stringi package. Use [stringi::stri_locale_list()] to
+#'     generate a list of possible locale identifiers.
 #'
 #'   - If `"C"` is supplied, then character vectors will be sorted in the C
 #'     locale. This does not require stringi and is often much faster than
