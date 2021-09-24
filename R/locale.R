@@ -10,10 +10,11 @@
 #' - If stringi >= 1.5.3 is installed, the default locale is set to American
 #'   English, represented by the locale identifier `"en"`.
 #'
-#' - If stringi >= 1.5.3 is not installed, the default locale falls back to the
-#'   C locale, represented by `"C"`. When this occurs, a warning will be thrown
-#'   encouraging you to either install stringi, or replace usage of
-#'   `dplyr_locale()` with `"C"` to explicitly force the C locale.
+#' - If stringi is not installed or is older than 1.5.3, the default locale
+#'   falls back to the C locale, represented by `"C"`. When this occurs, a
+#'   warning will be thrown encouraging you to either install stringi, or
+#'   replace usage of `dplyr_locale()` with `"C"` to explicitly force the C
+#'   locale.
 #'
 #' ## Global override
 #'

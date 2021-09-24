@@ -14,10 +14,11 @@ by dplyr when ordering character vectors. It is used as the default value of
 \itemize{
 \item If stringi >= 1.5.3 is installed, the default locale is set to American
 English, represented by the locale identifier \code{"en"}.
-\item If stringi >= 1.5.3 is not installed, the default locale falls back to the
-C locale, represented by \code{"C"}. When this occurs, a warning will be thrown
-encouraging you to either install stringi, or replace usage of
-\code{dplyr_locale()} with \code{"C"} to explicitly force the C locale.
+\item If stringi is not installed or is older than 1.5.3, the default locale
+falls back to the C locale, represented by \code{"C"}. When this occurs, a
+warning will be thrown encouraging you to either install stringi, or
+replace usage of \code{dplyr_locale()} with \code{"C"} to explicitly force the C
+locale.
 }
 }
 
