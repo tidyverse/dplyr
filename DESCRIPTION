@@ -33,7 +33,7 @@ Imports:
     ellipsis,
     generics,
     glue (>= 1.3.2),
-    lifecycle (>= 1.0.0),
+    lifecycle (>= 1.0.1),
     magrittr (>= 1.5),
     methods,
     R6,
@@ -77,6 +77,4 @@ Config/Needs/website:
     r-lib/pkgdown,
     tidyverse/tidytemplate
 Remotes:
-    r-lib/rlang,
-    r-lib/pillar#368,
-    tidyverse/tibble#955
+    r-lib/rlang
