@@ -89,13 +89,12 @@ bind_rows("group 1" = one, "group 2" = two, .id = "groups")
 
 # Columns don't need to match when row-binding
 bind_rows(tibble(x = 1:3), tibble(y = 1:4))
-\dontrun{
-# Rows do need to match when column-binding
-bind_cols(tibble(x = 1:3), tibble(y = 1:2))
 
-# even with 0 columns
-bind_cols(tibble(x = 1:3), tibble())
-}
+# Row sizes must be compatible when column-binding
+try(bind_cols(tibble(x = 1:3), tibble(y = 1:2)))
+
+# Even with 0 columns
+try(bind_cols(tibble(x = 1:3), tibble()))
 
 bind_cols(one, two)
 bind_cols(list(one, two))
