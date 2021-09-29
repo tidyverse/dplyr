@@ -78,9 +78,7 @@ recode(char_vec, a = "Apple", b = "Banana")
 recode(char_vec, a = "Apple", b = "Banana", .default = NA_character_)
 
 # Throws an error as NA is logical, not character.
-\dontrun{
-recode(char_vec, a = "Apple", b = "Banana", .default = NA)
-}
+try(recode(char_vec, a = "Apple", b = "Banana", .default = NA))
 
 # Use a named character vector for unquote splicing with !!!
 level_key <- c(a = "apple", b = "banana", c = "carrot")
