@@ -174,37 +174,47 @@ mutate.data.frame <- function(.data, ...,
   keep <- arg_match(.keep)
 
   cols <- mutate_cols(.data, ..., caller_env = caller_env())
+  used <- attr(cols, "used")
+
   out <- dplyr_col_modify(.data, cols)
+
+  # Compact out `NULL` columns that got removed.
+  # These won't exist in `out`, but we don't want them to look "new".
+  # Note that `dplyr_col_modify()` makes it impossible to `NULL` a group column,
+  # which we rely on below.
+  cols <- compact_null(cols)
+
+  cols_data <- names(.data)
+  cols_group <- group_vars(.data)
+
+  cols_expr <- names(cols)
+  cols_expr_modified <- intersect(cols_expr, cols_data)
+  cols_expr_new <- setdiff(cols_expr, cols_expr_modified)
+
+  cols_used <- setdiff(cols_data, c(cols_group, cols_expr_modified, names(used)[!used]))
+  cols_unused <- setdiff(cols_data, c(cols_group, cols_expr_modified, names(used)[used]))
 
   .before <- enquo(.before)
   .after <- enquo(.after)
+
   if (!quo_is_null(.before) || !quo_is_null(.after)) {
     # Only change the order of new columns
-    new <- setdiff(names(cols), names(.data))
-    out <- relocate(out, !!new, .before = !!.before, .after = !!.after)
+    out <- relocate(out, all_of(cols_expr_new), .before = !!.before, .after = !!.after)
   }
 
+  cols_out <- names(out)
+
   if (keep == "all") {
-    out
-  } else if (keep == "unused") {
-    used <- attr(cols, "used")
-    unused <- names(used)[!used]
-    keep <- intersect(names(out), c(group_vars(.data), unused, names(cols)))
-    dplyr_col_select(out, keep)
+    cols_retain <- cols_out
   } else if (keep == "used") {
-    used <- attr(cols, "used")
-    used <- names(used)[used]
-    keep <- intersect(names(out), c(group_vars(.data), used, names(cols)))
-    dplyr_col_select(out, keep)
+    cols_retain <- setdiff(cols_out, cols_unused)
+  } else if (keep == "unused") {
+    cols_retain <- setdiff(cols_out, cols_used)
   } else if (keep == "none") {
-    keep <- c(
-      # ensure group vars present
-      setdiff(group_vars(.data), names(cols)),
-      # cols might contain NULLs
-      intersect(names(cols), names(out))
-    )
-    dplyr_col_select(out, keep)
+    cols_retain <- setdiff(cols_out, c(cols_used, cols_unused))
   }
+
+  dplyr_col_select(out, cols_retain)
 }
 
 #' @rdname mutate
@@ -243,9 +253,6 @@ mutate_cols <- function(.data, ..., caller_env) {
 
   rows <- mask$get_rows()
   dots <- dplyr_quosures(...)
-  if (length(dots) == 0L) {
-    return(NULL)
-  }
 
   new_columns <- set_names(list(), character())
 
