@@ -228,13 +228,15 @@ slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, repla
   ellipsis::check_dots_empty()
 
   size <- get_slice_size(n, prop, "slice_sample")
-  idx <- function(x, n) {
-    if (!is.null(x)) {
-      x <- vec_assert(x, size = n, arg = "weight_by")
+
+  slice(.data, {
+    n <- dplyr::n()
+    weight_by <- {{ weight_by }}
+    if (!is.null(weight_by)) {
+      weight_by <- vec_assert(weight_by, size = n, arg = "weight_by")
     }
-    sample_int(n, size(n), replace = replace, wt = x)
-  }
-  slice(.data, idx({{ weight_by }}, dplyr::n()))
+    sample_int(n, size(n), replace = replace, wt = weight_by)
+  })
 }
 
 # helpers -----------------------------------------------------------------
