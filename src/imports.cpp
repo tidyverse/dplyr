@@ -48,17 +48,7 @@ SEXP quo_get_expr(SEXP quo) {
 }
 
 void env_unbind(SEXP env, SEXP sym) {
-#if (R_VERSION < R_Version(4, 0, 0))
-  SEXP s = PROTECT(Rf_mkString(CHAR(PRINTNAME(sym))));
-  SEXP call = PROTECT(Rf_lang4(Rf_install("exists"), s, R_MissingArg, env));
-  SEXP exists = PROTECT(Rf_eval(call, R_BaseEnv));
-  if (LOGICAL(exists)[0]) {
-#endif
-    rlang_api().env_unbind(env, sym);
-#if (R_VERSION < R_Version(4, 0, 0))
-  }
-  UNPROTECT(3);
-#endif
+  rlang_api().env_unbind(env, sym);
 }
 
 }
