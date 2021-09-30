@@ -175,15 +175,23 @@ mutate.data.frame <- function(.data, ...,
 
   cols <- mutate_cols(.data, ..., caller_env = caller_env())
 
-  # dplyr_col_modify() deals with the special case .keep = "none"
-  attr(cols, "keep") <- keep
   out <- dplyr_col_modify(.data, cols)
 
   .before <- enquo(.before)
   .after <- enquo(.after)
+
+  if (identical(.keep, "none")) {
+    out <- out[c(
+      # ensure group vars present
+      setdiff(group_vars(.data), names(cols)),
+      # cols might contain NULLs
+      intersect(names(cols), names(out))
+    )]
+  }
+
   if (!quo_is_null(.before) || !quo_is_null(.after)) {
-    # Only change the order of new columns
-    new <- setdiff(names(cols), names(.data))
+    # Only change the order of new columns, unless .keep = "none"
+    new <- if (identical(.keep, "none")) names(cols) else setdiff(names(cols), names(.data))
     out <- relocate(out, !!new, .before = !!.before, .after = !!.after)
   }
 

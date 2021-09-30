@@ -345,6 +345,13 @@ test_that(".keep = 'none' prefers new order", {
   # even when grouped
   gf <- group_by(df, x)
   expect_named(gf %>% mutate(y = 1, x = 2, .keep = "none"), c("y", "x"))
+
+  df <- tibble(x = 1, y = 1, z = 1, a = 1, b = 2, c = 3) %>%
+    group_by(a, b)
+
+  expect_named(mutate(df, d = 1, x = 2, .keep = "none"), c("a", "b", "d", "x"))
+  expect_named(mutate(df, d = 1, x = 2, .keep = "none", .before = "a"), c("d", "x", "a", "b"))
+  expect_named(mutate(df, d = 1, x = 2, .keep = "none", .after = "a"), c("a", "d", "x", "b"))
 })
 
 test_that("can use .before and .after to control column position", {
