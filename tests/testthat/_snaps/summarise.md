@@ -165,7 +165,7 @@
     Error <dplyr_error>
       Problem with `summarise()` column `c`.
       i `c = .data$b`.
-      x Column `b` not found in `.data`
+      x Column `b` not found in `.data`.
 
 ---
 
@@ -174,7 +174,7 @@
     Error <dplyr_error>
       Problem with `summarise()` column `c`.
       i `c = .data$b`.
-      x Column `b` not found in `.data`
+      x Column `b` not found in `.data`.
       i The error occurred in group 1: a = 1.
 
 ---
