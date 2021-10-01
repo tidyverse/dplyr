@@ -75,7 +75,7 @@ NULL
 rows_insert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   # Need action = warn, because methods may have
   # side effects that persist even after we abort
-  ellipsis::check_dots_used(action = warn)
+  rlang::check_dots_used(action = warn)
   UseMethod("rows_insert")
 }
 
@@ -102,7 +102,7 @@ rows_insert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 rows_update <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   # Need action = warn, because methods may have
   # side effects that persist even after we abort
-  ellipsis::check_dots_used(action = warn)
+  rlang::check_dots_used(action = warn)
   UseMethod("rows_update", x)
 }
 
@@ -130,7 +130,7 @@ rows_update.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 rows_patch <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   # Need action = warn, because methods may have
   # side effects that persist even after we abort
-  ellipsis::check_dots_used(action = warn)
+  rlang::check_dots_used(action = warn)
   UseMethod("rows_patch", x)
 }
 
@@ -160,7 +160,7 @@ rows_patch.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place =
 rows_upsert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   # Need action = warn, because methods may have
   # side effects that persist even after we abort
-  ellipsis::check_dots_used(action = warn)
+  rlang::check_dots_used(action = warn)
   UseMethod("rows_upsert", x)
 }
 
@@ -186,7 +186,7 @@ rows_upsert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 rows_delete <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   # Need action = warn, because methods may have
   # side effects that persist even after we abort
-  ellipsis::check_dots_used(action = warn)
+  rlang::check_dots_used(action = warn)
   UseMethod("rows_delete", x)
 }
 
