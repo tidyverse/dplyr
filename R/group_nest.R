@@ -49,6 +49,7 @@ group_nest_impl <- function(.tbl, .key, keep = FALSE){
 #' starwars %>%
 #'   group_nest(species, homeworld)
 group_nest <- function(.tbl, ..., .key = "data", keep = FALSE){
+  lifecycle::signal_stage("experimental", "group_nest()")
   UseMethod("group_nest")
 }
 

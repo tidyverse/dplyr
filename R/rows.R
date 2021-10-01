@@ -76,6 +76,8 @@ rows_insert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   # Need action = warn, because methods may have
   # side effects that persist even after we abort
   ellipsis::check_dots_used(action = warn)
+  lifecycle::signal_stage("experimental", "rows_insert()")
+
   UseMethod("rows_insert")
 }
 
@@ -103,6 +105,8 @@ rows_update <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   # Need action = warn, because methods may have
   # side effects that persist even after we abort
   ellipsis::check_dots_used(action = warn)
+  lifecycle::signal_stage("experimental", "rows_update()")
+
   UseMethod("rows_update", x)
 }
 
@@ -131,6 +135,8 @@ rows_patch <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   # Need action = warn, because methods may have
   # side effects that persist even after we abort
   ellipsis::check_dots_used(action = warn)
+  lifecycle::signal_stage("experimental", "rows_patch()")
+
   UseMethod("rows_patch", x)
 }
 
@@ -161,6 +167,8 @@ rows_upsert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   # Need action = warn, because methods may have
   # side effects that persist even after we abort
   ellipsis::check_dots_used(action = warn)
+  lifecycle::signal_stage("experimental", "rows_upsert()")
+
   UseMethod("rows_upsert", x)
 }
 
@@ -187,6 +195,8 @@ rows_delete <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   # Need action = warn, because methods may have
   # side effects that persist even after we abort
   ellipsis::check_dots_used(action = warn)
+  lifecycle::signal_stage("experimental", "rows_delete()")
+
   UseMethod("rows_delete", x)
 }
 

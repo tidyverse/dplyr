@@ -19,6 +19,7 @@
 #'   filter(Species == "setosa", .preserve = TRUE) %>%
 #'   group_trim()
 group_trim <- function(.tbl, .drop = group_by_drop_default(.tbl)) {
+  lifecycle::signal_stage("experimental", "group_trim()")
   UseMethod("group_trim")
 }
 

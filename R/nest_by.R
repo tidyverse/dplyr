@@ -75,6 +75,7 @@
 #' # Note that you can also summarise to unnest the data
 #' models %>% summarise(data)
 nest_by <- function(.data, ..., .key = "data", .keep = FALSE) {
+  lifecycle::signal_stage("experimental", "nest_by()")
   UseMethod("nest_by")
 }
 
