@@ -1,7 +1,6 @@
 #' Flexible equality comparison for data frames
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}
 #' `all_equal()` allows you to compare data frames, optionally ignoring
 #' row and column names. It is questioning as of dplyr 1.0.0, because it
 #' seems to solve a problem that no longer seems that important.
