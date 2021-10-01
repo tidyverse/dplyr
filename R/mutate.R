@@ -62,12 +62,13 @@
 #' An object of the same type as `.data`. The output has the following
 #' properties:
 #'
-#' * Rows are not affected.
-#' * Existing columns will be preserved according to the `.keep` argument.
-#'   New columns will be placed according to the `.before` and `.after`
-#'   arguments. If `.keep = "none"` (as in `transmute()`), the output order
-#'   is determined only by `...`, not the order of existing columns.
-#' * Columns given value `NULL` will be removed
+#' * The number of rows is not affected.
+#' * Columns from `.data` will be preserved according to the `.keep` argument.
+#' * Existing columns that are modified by `...` will always be returned in
+#'   their original location.
+#' * New columns created through `...` will be placed according to the
+#'   `.before` and `.after` arguments.
+#' * Columns given the value `NULL` will be removed.
 #' * Groups will be recomputed if a grouping variable is mutated.
 #' * Data frame attributes are preserved.
 #' @section Methods:

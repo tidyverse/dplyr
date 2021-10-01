@@ -60,12 +60,13 @@ should appear (the default is to add to the right hand side). See
 An object of the same type as \code{.data}. The output has the following
 properties:
 \itemize{
-\item Rows are not affected.
-\item Existing columns will be preserved according to the \code{.keep} argument.
-New columns will be placed according to the \code{.before} and \code{.after}
-arguments. If \code{.keep = "none"} (as in \code{transmute()}), the output order
-is determined only by \code{...}, not the order of existing columns.
-\item Columns given value \code{NULL} will be removed
+\item The number of rows is not affected.
+\item Columns from \code{.data} will be preserved according to the \code{.keep} argument.
+\item Existing columns that are modified by \code{...} will always be returned in
+their original location.
+\item New columns created through \code{...} will be placed according to the
+\code{.before} and \code{.after} arguments.
+\item Columns given the value \code{NULL} will be removed.
 \item Groups will be recomputed if a grouping variable is mutated.
 \item Data frame attributes are preserved.
 }
