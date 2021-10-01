@@ -338,13 +338,13 @@ test_that(".keep = 'none' only keeps grouping variables", {
   expect_named(mutate(gf, z = 1, .keep = "none"), c("x", "z"))
 })
 
-test_that(".keep = 'none' prefers new order", {
+test_that(".keep = 'none' retains original ordering (#5967)", {
   df <- tibble(x = 1, y = 2)
-  expect_named(df %>% mutate(y = 1, x = 2, .keep = "none"), c("y", "x"))
+  expect_named(df %>% mutate(y = 1, x = 2, .keep = "none"), c("x", "y"))
 
   # even when grouped
   gf <- group_by(df, x)
-  expect_named(gf %>% mutate(y = 1, x = 2, .keep = "none"), c("y", "x"))
+  expect_named(gf %>% mutate(y = 1, x = 2, .keep = "none"), c("x", "y"))
 })
 
 test_that("can use .before and .after to control column position", {
@@ -356,6 +356,27 @@ test_that("can use .before and .after to control column position", {
   # but doesn't affect order of existing columns
   df <- tibble(x = 1, y = 2)
   expect_named(mutate(df, x = 1, .after = y), c("x", "y"))
+})
+
+test_that(".keep and .before/.after interact correctly", {
+  df <- tibble(x = 1, y = 1, z = 1, a = 1, b = 2, c = 3) %>%
+    group_by(a, b)
+
+  expect_named(mutate(df, d = 1, x = 2, .keep = "none"), c("x", "a", "b", "d"))
+  expect_named(mutate(df, d = 1, x = 2, .keep = "none", .before = "a"), c("x", "d", "a", "b"))
+  expect_named(mutate(df, d = 1, x = 2, .keep = "none", .after = "a"), c("x", "a", "d", "b"))
+})
+
+test_that("dropping column with `NULL` then readding it retains original location", {
+  df <- tibble(x = 1, y = 2, z = 3, a = 4)
+  df <- group_by(df, z)
+
+  expect_named(mutate(df, y = NULL, y = 3, .keep = "all"), c("x", "y", "z", "a"))
+  expect_named(mutate(df, b = a, y = NULL, y = 3, .keep = "used"), c("y", "z", "a", "b"))
+  expect_named(mutate(df, b = a, y = NULL, y = 3, .keep = "unused"), c("x", "y", "z", "b"))
+
+  # It isn't treated as a "new" column
+  expect_named(mutate(df, y = NULL, y = 3, .keep = "all", .before = x), c("x", "y", "z", "a"))
 })
 
 test_that(".keep= always retains grouping variables (#5582)", {

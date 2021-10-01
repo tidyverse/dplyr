@@ -62,12 +62,13 @@
 #' An object of the same type as `.data`. The output has the following
 #' properties:
 #'
-#' * Rows are not affected.
-#' * Existing columns will be preserved according to the `.keep` argument.
-#'   New columns will be placed according to the `.before` and `.after`
-#'   arguments. If `.keep = "none"` (as in `transmute()`), the output order
-#'   is determined only by `...`, not the order of existing columns.
-#' * Columns given value `NULL` will be removed
+#' * The number of rows is not affected.
+#' * Columns from `.data` will be preserved according to the `.keep` argument.
+#' * Existing columns that are modified by `...` will always be returned in
+#'   their original location.
+#' * New columns created through `...` will be placed according to the
+#'   `.before` and `.after` arguments.
+#' * Columns given the value `NULL` will be removed.
 #' * Groups will be recomputed if a grouping variable is mutated.
 #' * Data frame attributes are preserved.
 #' @section Methods:
@@ -86,7 +87,7 @@
 #'  mutate(
 #'   mass2 = mass * 2,
 #'   mass2_squared = mass2 * mass2
-#' )
+#'  )
 #'
 #' # As well as adding new variables, you can use mutate() to
 #' # remove variables and modify existing variables.
@@ -95,7 +96,7 @@
 #'  mutate(
 #'   mass = NULL,
 #'   height = height * 0.0328084 # convert to feet
-#' )
+#'  )
 #'
 #' # Use across() with mutate() to apply a transformation
 #' # to multiple columns in a tibble.
@@ -152,17 +153,19 @@ mutate <- function(.data, ...) {
 
 #' @rdname mutate
 #' @param .keep \Sexpr[results=rd]{lifecycle::badge("experimental")}
-#'   This is an experimental argument that allows you to control which columns
-#'   from `.data` are retained in the output:
+#'   Control which columns from `.data` are retained in the output. Grouping
+#'   columns and columns created by `...` are always kept.
 #'
-#'   * `"all"`, the default, retains all variables.
-#'   * `"used"` keeps any variables used to make new variables; it's useful
-#'     for checking your work as it displays inputs and outputs side-by-side.
-#'   * `"unused"` keeps only existing variables **not** used to make new
-#'     variables.
-#'   * `"none"`, only keeps grouping keys (like [transmute()]).
-#'
-#'   Grouping variables are always kept, unconditional to `.keep`.
+#'   * `"all"` retains all columns from `.data`. This is the default.
+#'   * `"used"` retains only the columns used in `...` to create new
+#'     columns. This is useful for checking your work, as it displays inputs
+#'     and outputs side-by-side.
+#'   * `"unused"` retains only the columns _not_ used in `...` to create new
+#'     columns. This is useful if you generate new columns, but no longer need
+#'     the columns used to generate them.
+#'   * `"none"` doesn't retain any extra columns from `.data`. Only the grouping
+#'     variables and columns created by `...` are kept. This is equivalent to
+#'     using [transmute()].
 #' @param .before,.after \Sexpr[results=rd]{lifecycle::badge("experimental")}
 #'   <[`tidy-select`][dplyr_tidy_select]> Optionally, control where new columns
 #'   should appear (the default is to add to the right hand side). See
@@ -174,37 +177,47 @@ mutate.data.frame <- function(.data, ...,
   keep <- arg_match(.keep)
 
   cols <- mutate_cols(.data, ..., caller_env = caller_env())
+  used <- attr(cols, "used")
+
   out <- dplyr_col_modify(.data, cols)
+
+  # Compact out `NULL` columns that got removed.
+  # These won't exist in `out`, but we don't want them to look "new".
+  # Note that `dplyr_col_modify()` makes it impossible to `NULL` a group column,
+  # which we rely on below.
+  cols <- compact_null(cols)
+
+  cols_data <- names(.data)
+  cols_group <- group_vars(.data)
+
+  cols_expr <- names(cols)
+  cols_expr_modified <- intersect(cols_expr, cols_data)
+  cols_expr_new <- setdiff(cols_expr, cols_expr_modified)
+
+  cols_used <- setdiff(cols_data, c(cols_group, cols_expr_modified, names(used)[!used]))
+  cols_unused <- setdiff(cols_data, c(cols_group, cols_expr_modified, names(used)[used]))
 
   .before <- enquo(.before)
   .after <- enquo(.after)
+
   if (!quo_is_null(.before) || !quo_is_null(.after)) {
     # Only change the order of new columns
-    new <- setdiff(names(cols), names(.data))
-    out <- relocate(out, !!new, .before = !!.before, .after = !!.after)
+    out <- relocate(out, all_of(cols_expr_new), .before = !!.before, .after = !!.after)
   }
 
+  cols_out <- names(out)
+
   if (keep == "all") {
-    out
-  } else if (keep == "unused") {
-    used <- attr(cols, "used")
-    unused <- names(used)[!used]
-    keep <- intersect(names(out), c(group_vars(.data), unused, names(cols)))
-    dplyr_col_select(out, keep)
+    cols_retain <- cols_out
   } else if (keep == "used") {
-    used <- attr(cols, "used")
-    used <- names(used)[used]
-    keep <- intersect(names(out), c(group_vars(.data), used, names(cols)))
-    dplyr_col_select(out, keep)
+    cols_retain <- setdiff(cols_out, cols_unused)
+  } else if (keep == "unused") {
+    cols_retain <- setdiff(cols_out, cols_used)
   } else if (keep == "none") {
-    keep <- c(
-      # ensure group vars present
-      setdiff(group_vars(.data), names(cols)),
-      # cols might contain NULLs
-      intersect(names(cols), names(out))
-    )
-    dplyr_col_select(out, keep)
+    cols_retain <- setdiff(cols_out, c(cols_used, cols_unused))
   }
+
+  dplyr_col_select(out, cols_retain)
 }
 
 #' @rdname mutate
@@ -243,9 +256,6 @@ mutate_cols <- function(.data, ..., caller_env) {
 
   rows <- mask$get_rows()
   dots <- dplyr_quosures(...)
-  if (length(dots) == 0L) {
-    return(NULL)
-  }
 
   new_columns <- set_names(list(), character())
 
