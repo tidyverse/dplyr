@@ -32,7 +32,6 @@ jobs:
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
           Rscript -e 'bench::cb_run()'
-
       - name: Show benchmarks
         run: git notes --ref benchmarks show
 

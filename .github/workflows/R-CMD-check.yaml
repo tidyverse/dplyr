@@ -23,15 +23,18 @@ jobs:
       matrix:
         config:
           - {os: macOS-latest,   r: 'release'}
+
           - {os: windows-latest, r: 'release'}
+          # Use 3.6 to trigger usage of RTools35
           - {os: windows-latest, r: '3.6'}
-          # Deliberately check on older ubuntu to maximise backward compatibility
+
+          # Use older ubuntu to maximise backward compatibility
           - {os: ubuntu-18.04,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-18.04,   r: 'release'}
-          - {os: ubuntu-18.04,   r: 'oldrel/1'}
-          - {os: ubuntu-18.04,   r: 'oldrel/2'}
-          - {os: ubuntu-18.04,   r: 'oldrel/3'}
-          - {os: ubuntu-18.04,   r: 'oldrel/4'}
+          - {os: ubuntu-18.04,   r: 'oldrel-1'}
+          - {os: ubuntu-18.04,   r: 'oldrel-2'}
+          - {os: ubuntu-18.04,   r: 'oldrel-3'}
+          - {os: ubuntu-18.04,   r: 'oldrel-4'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -52,13 +55,7 @@ jobs:
         with:
           extra-packages: rcmdcheck
 
-      - name: Check
-        env:
-          _R_CHECK_CRAN_INCOMING_: false
-        run: |
-          options(crayon.enabled = TRUE)
-          rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
-        shell: Rscript {0}
+      - uses: r-lib/actions/check-r-package@v1
 
       - name: Show testthat output
         if: always()
