@@ -90,6 +90,17 @@ test_that("set equality", {
   expect_false(setequal(df2, df1))
 })
 
+test_that("set operations enforce empty ... (#5891)", {
+  a <- tibble(var = 1:3)
+  b <- tibble(var = 2:4)
+  c <- tibble(var = c(1, 3, 4, 5))
+
+  expect_error(intersect(a, b, c))
+  expect_error(setdiff(a, b, c))
+  expect_error(setequal(a, b, c))
+  expect_error(union(a, b, c))
+  expect_error(union_all(a, b, c))
+})
 
 # Errors ------------------------------------------------------------------
 
