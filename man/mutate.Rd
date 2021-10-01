@@ -131,7 +131,7 @@ starwars \%>\%
  mutate(
   mass2 = mass * 2,
   mass2_squared = mass2 * mass2
-)
+ )
 
 # As well as adding new variables, you can use mutate() to
 # remove variables and modify existing variables.
@@ -140,7 +140,7 @@ starwars \%>\%
  mutate(
   mass = NULL,
   height = height * 0.0328084 # convert to feet
-)
+ )
 
 # Use across() with mutate() to apply a transformation
 # to multiple columns in a tibble.
