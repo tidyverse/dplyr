@@ -60,7 +60,7 @@
 #' is_int <- function(x) all(floor(x) == x)
 #' filter(mtcars, if_all(where(is_int), ~ .x != 0))
 filter_all <- function(.tbl, .vars_predicate, .preserve = FALSE) {
-  lifecycle::signal_superseded("1.0.0", "filter_all()", "across()")
+  lifecycle::signal_stage("superseded", "filter_all()")
   syms <- syms(tbl_vars(.tbl))
   pred <- apply_filter_syms(.vars_predicate, syms, .tbl)
   filter(.tbl, !!pred, .preserve = .preserve)
@@ -68,7 +68,7 @@ filter_all <- function(.tbl, .vars_predicate, .preserve = FALSE) {
 #' @rdname filter_all
 #' @export
 filter_if <- function(.tbl, .predicate, .vars_predicate, .preserve = FALSE) {
-  lifecycle::signal_superseded("1.0.0", "filter_if()", "across()")
+  lifecycle::signal_stage("superseded", "filter_if()")
   syms <- tbl_if_syms(.tbl, .predicate, .include_group_vars = TRUE)
   pred <- apply_filter_syms(.vars_predicate, syms, .tbl)
   filter(.tbl, !!pred, .preserve = .preserve)
@@ -76,7 +76,7 @@ filter_if <- function(.tbl, .predicate, .vars_predicate, .preserve = FALSE) {
 #' @rdname filter_all
 #' @export
 filter_at <- function(.tbl, .vars, .vars_predicate, .preserve = FALSE) {
-  lifecycle::signal_superseded("1.0.0", "filter_at()", "across()")
+  lifecycle::signal_stage("superseded", "filter_at()")
   syms <- tbl_at_syms(.tbl, .vars, .include_group_vars = TRUE)
   pred <- apply_filter_syms(.vars_predicate, syms, .tbl)
   filter(.tbl, !!pred, .preserve = .preserve)

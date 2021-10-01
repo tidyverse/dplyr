@@ -48,7 +48,7 @@
 #' # ->
 #' models %>% summarise(broom::tidy(mod))
 do <- function(.data, ...) {
-  lifecycle::signal_superseded("1.0.0", "do()")
+  lifecycle::signal_stage("superseded", "do()")
   UseMethod("do")
 }
 

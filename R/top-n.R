@@ -39,7 +39,7 @@
 #' # ->
 #' df %>% slice_max(x, prop = 0.5)
 top_n <- function(x, n, wt) {
-  lifecycle::signal_superseded("1.0.0", "top_n()", "slice_max()")
+  lifecycle::signal_stage("superseded", "top_n()")
   wt <- enquo(wt)
   if (quo_is_missing(wt)) {
     vars <- tbl_vars(x)

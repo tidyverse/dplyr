@@ -50,7 +50,7 @@
 #'   rename_with(toupper)
 #' @export
 select_all <- function(.tbl, .funs = list(), ...) {
-  lifecycle::signal_superseded("1.0.0", "select_all()")
+  lifecycle::signal_stage("superseded", "select_all()")
   funs <- as_fun_list(.funs, caller_env(), ..., .caller = "select_all")
   vars <- tbl_vars(.tbl)
   syms <- vars_select_syms(vars, funs, .tbl)
@@ -59,7 +59,7 @@ select_all <- function(.tbl, .funs = list(), ...) {
 #' @rdname select_all
 #' @export
 rename_all <- function(.tbl, .funs = list(), ...) {
-  lifecycle::signal_superseded("1.0.0", "rename_with()")
+  lifecycle::signal_stage("superseded", "rename_with()")
   funs <- as_fun_list(.funs, caller_env(), ..., .caller = "rename_all")
   vars <- tbl_vars(.tbl)
   syms <- vars_select_syms(vars, funs, .tbl, strict = TRUE)
