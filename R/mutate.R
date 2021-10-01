@@ -152,17 +152,19 @@ mutate <- function(.data, ...) {
 
 #' @rdname mutate
 #' @param .keep \Sexpr[results=rd]{lifecycle::badge("experimental")}
-#'   This is an experimental argument that allows you to control which columns
-#'   from `.data` are retained in the output:
+#'   Control which columns from `.data` are retained in the output. Grouping
+#'   columns and columns created by `...` are always kept.
 #'
-#'   * `"all"`, the default, retains all variables.
-#'   * `"used"` keeps any variables used to make new variables; it's useful
-#'     for checking your work as it displays inputs and outputs side-by-side.
-#'   * `"unused"` keeps only existing variables **not** used to make new
-#'     variables.
-#'   * `"none"`, only keeps grouping keys (like [transmute()]).
-#'
-#'   Grouping variables are always kept, unconditional to `.keep`.
+#'   * `"all"` retains all columns from `.data`. This is the default.
+#'   * `"used"` retains only the columns used in `...` to create new
+#'     columns. This is useful for checking your work, as it displays inputs
+#'     and outputs side-by-side.
+#'   * `"unused"` retains only the columns _not_ used in `...` to create new
+#'     columns. This is useful if you generate new columns, but no longer need
+#'     the columns used to generate them.
+#'   * `"none"` doesn't retain any extra columns from `.data`. Only the grouping
+#'     variables and columns created by `...` are kept. This is equivalent to
+#'     using [transmute()].
 #' @param .before,.after \Sexpr[results=rd]{lifecycle::badge("experimental")}
 #'   <[`tidy-select`][dplyr_tidy_select]> Optionally, control where new columns
 #'   should appear (the default is to add to the right hand side). See

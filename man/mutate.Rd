@@ -36,18 +36,20 @@ if ungrouped).
 }}
 
 \item{.keep}{\Sexpr[results=rd]{lifecycle::badge("experimental")}
-This is an experimental argument that allows you to control which columns
-from \code{.data} are retained in the output:
+Control which columns from \code{.data} are retained in the output. Grouping
+columns and columns created by \code{...} are always kept.
 \itemize{
-\item \code{"all"}, the default, retains all variables.
-\item \code{"used"} keeps any variables used to make new variables; it's useful
-for checking your work as it displays inputs and outputs side-by-side.
-\item \code{"unused"} keeps only existing variables \strong{not} used to make new
-variables.
-\item \code{"none"}, only keeps grouping keys (like \code{\link[=transmute]{transmute()}}).
-}
-
-Grouping variables are always kept, unconditional to \code{.keep}.}
+\item \code{"all"} retains all columns from \code{.data}. This is the default.
+\item \code{"used"} retains only the columns used in \code{...} to create new
+columns. This is useful for checking your work, as it displays inputs
+and outputs side-by-side.
+\item \code{"unused"} retains only the columns \emph{not} used in \code{...} to create new
+columns. This is useful if you generate new columns, but no longer need
+the columns used to generate them.
+\item \code{"none"} doesn't retain any extra columns from \code{.data}. Only the grouping
+variables and columns created by \code{...} are kept. This is equivalent to
+using \code{\link[=transmute]{transmute()}}.
+}}
 
 \item{.before, .after}{\Sexpr[results=rd]{lifecycle::badge("experimental")}
 <\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, control where new columns
