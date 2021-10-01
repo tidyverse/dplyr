@@ -277,6 +277,19 @@ test_that("slice_*() checks for constant n= and prop=", {
   expect_error(slice_sample(df, prop = n()), "constant")
 })
 
+test_that("slice_min/max() check size of `order_by=` (#5922)", {
+  expect_snapshot(error = TRUE, {
+    slice_min(data.frame(x = 1:10), 1:6)
+    slice_max(data.frame(x = 1:10), 1:6)
+  })
+})
+
+test_that("slice_sample() check size of `weight_by=` (#5922)", {
+  expect_snapshot(error = TRUE, {
+    slice_sample(data.frame(x = 1:10), n = 2, weight_by = 1:6)
+  })
+})
+
 test_that("slice_sample() does not error on zero rows (#5729)", {
   df <- tibble(dummy = character(), weight = numeric(0))
   res <- expect_error(slice_sample(df, prop=0.5, weight_by = weight), NA)

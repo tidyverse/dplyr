@@ -176,7 +176,12 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
   } else {
     idx <- function(x, n) head(order(x), size(n))
   }
-  slice(.data, idx({{ order_by }}, dplyr::n()))
+
+  slice(.data, {
+    n <- dplyr::n()
+    x <- vec_assert({{ order_by }}, size = n, arg = "order_by")
+    idx(x, n)
+  })
 }
 
 #' @export
@@ -200,7 +205,11 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     idx <- function(x, n) head(order(x, decreasing = TRUE), size(n))
   }
 
-  slice(.data, idx({{ order_by }}, dplyr::n()))
+  slice(.data, {
+    n <- dplyr::n()
+    x <- vec_assert({{ order_by }}, size = n, arg = "order_by")
+    idx(x, n)
+  })
 }
 
 #' @export
@@ -217,9 +226,17 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 #' @export
 slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
   ellipsis::check_dots_empty()
+
   size <- get_slice_size(n, prop, "slice_sample")
-  idx <- function(x, n) sample_int(n, size(n), replace = replace, wt = x)
-  slice(.data, idx({{ weight_by }}, dplyr::n()))
+
+  slice(.data, {
+    n <- dplyr::n()
+    weight_by <- {{ weight_by }}
+    if (!is.null(weight_by)) {
+      weight_by <- vec_assert(weight_by, size = n, arg = "weight_by")
+    }
+    sample_int(n, size(n), replace = replace, wt = weight_by)
+  })
 }
 
 # helpers -----------------------------------------------------------------
