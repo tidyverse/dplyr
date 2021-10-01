@@ -1,7 +1,7 @@
 #' Select variables
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #'
 #' These functions now live in the tidyselect package as
 #' [tidyselect::vars_select()], [tidyselect::vars_rename()] and

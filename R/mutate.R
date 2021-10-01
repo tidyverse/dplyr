@@ -152,7 +152,7 @@ mutate <- function(.data, ...) {
 }
 
 #' @rdname mutate
-#' @param .keep \Sexpr[results=rd]{lifecycle::badge("experimental")}
+#' @param .keep `r lifecycle::badge("experimental")`
 #'   Control which columns from `.data` are retained in the output. Grouping
 #'   columns and columns created by `...` are always kept.
 #'
@@ -166,7 +166,7 @@ mutate <- function(.data, ...) {
 #'   * `"none"` doesn't retain any extra columns from `.data`. Only the grouping
 #'     variables and columns created by `...` are kept. This is equivalent to
 #'     using [transmute()].
-#' @param .before,.after \Sexpr[results=rd]{lifecycle::badge("experimental")}
+#' @param .before,.after `r lifecycle::badge("experimental")`
 #'   <[`tidy-select`][dplyr_tidy_select]> Optionally, control where new columns
 #'   should appear (the default is to add to the right hand side). See
 #'   [relocate()] for more details.

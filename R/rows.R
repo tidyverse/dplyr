@@ -1,7 +1,7 @@
 #' Manipulate individual rows
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#' `r lifecycle::badge("experimental")`
 #'
 #' These functions provide a framework for modifying rows in a table using
 #' a second table of data. The two tables are matched `by` a set of key

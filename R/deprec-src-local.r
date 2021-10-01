@@ -1,6 +1,6 @@
 #' A local source
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #' This function was deprecated since it existed to support a style of testing
 #' dplyr backends that turned out not to be useful.
 #'

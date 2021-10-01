@@ -1,7 +1,7 @@
 #' Perform an operation with temporary groups
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#' `r lifecycle::badge("experimental")`
 #'
 #' This is an experimental new function that allows you to modify the grouping
 #' variables for a single operation.

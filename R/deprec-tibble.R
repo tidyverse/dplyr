@@ -1,6 +1,6 @@
 #' Coerce to a tibble
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #' Please use [tibble::as_tibble()] instead.
 #'
 #' @export
@@ -31,7 +31,7 @@ as.tbl.data.frame <- function(x, ...) {
 
 #' Convert row names to an explicit variable.
 #'
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #' Please use [tibble::rownames_to_column()] instead.
 #'
 #' @param df Input data frame with rownames.

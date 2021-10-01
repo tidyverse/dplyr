@@ -1,7 +1,7 @@
 #' Sample n rows from a table
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+#' `r lifecycle::badge("superseded")`
 #' `sample_n()` and `sample_frac()` have been superseded in favour of
 #' [slice_sample()]. While they will not be deprecated in the near future,
 #' retirement means that we will only perform critical bug fixes, so we recommend

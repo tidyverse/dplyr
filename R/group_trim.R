@@ -1,7 +1,7 @@
 #' Trim grouping structure
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#' `r lifecycle::badge("experimental")`
 #' Drop unused levels of all factors that are used as grouping variables,
 #' then recalculates the grouping structure.
 #'

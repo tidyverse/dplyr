@@ -10,7 +10,7 @@ as_group_map_function <- function(.f) {
 #' Apply a function to each group
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#' `r lifecycle::badge("experimental")`
 #'
 #' `group_map()`, `group_modify()` and `group_walk()` are purrr-style functions that can
 #' be used to iterate on grouped tibbles.

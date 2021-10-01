@@ -24,7 +24,7 @@ The value can be:
 \item A data frame, to add multiple columns from a single expression.
 }}
 
-\item{.groups}{\Sexpr[results=rd]{lifecycle::badge("experimental")} Grouping structure of the result.
+\item{.groups}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} Grouping structure of the result.
 \itemize{
 \item "drop_last": dropping the last level of grouping. This was the
 only supported option before version 1.0.0.

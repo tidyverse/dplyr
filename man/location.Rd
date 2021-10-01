@@ -15,7 +15,7 @@ changes(x, y)
 \item{x, y}{two data frames to compare}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 This is useful for understand how and when dplyr makes copies of data
 frames

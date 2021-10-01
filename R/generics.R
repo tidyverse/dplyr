@@ -1,7 +1,7 @@
 #' Extending dplyr with new data frame subclasses
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#' `r lifecycle::badge("experimental")`
 #'
 #' These three functions, along with `names<-` and 1d numeric `[`
 #' (i.e. `x[loc]`) methods, provide a minimal interface for extending dplyr

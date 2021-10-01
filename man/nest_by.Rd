@@ -36,7 +36,7 @@ The first columns are the grouping variables, followed by a list column of tibbl
 with matching rows of the remaining columns.
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
 \code{nest_by()} is closely related to \code{\link[=group_by]{group_by()}}. However, instead of storing
 the group structure in the metadata, it is made explicit in the data,

@@ -28,7 +28,7 @@ supply arguments: \code{...} argument in \link[=summarise_at]{scoped verbs} or m
 own functions with \code{\link[purrr:partial]{purrr::partial()}}.}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 \code{funs()} is deprecated; please use \code{list()} instead. We deprecated this
 function because it provided a unique way of specifying anonymous functions,

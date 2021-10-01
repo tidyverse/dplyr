@@ -106,7 +106,7 @@ our naming conventions.}
 include/exclude.}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 dplyr used to offer twin versions of each verb suffixed with an
 underscore. These versions had standard evaluation (SE) semantics:

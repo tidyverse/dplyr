@@ -1,7 +1,7 @@
 #' Source for database backends
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #'
 #' These functions have been deprecated; instead please use [tbl()]
 #' directly on an `DBIConnection`. See <https://dbplyr.tidyverse.org/> for

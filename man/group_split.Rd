@@ -21,7 +21,7 @@ all the columns, including the grouping variables.
 }
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 \code{\link[=group_split]{group_split()}} works like \code{\link[base:split]{base::split()}} but
 \itemize{
 \item it uses the grouping structure from \code{\link[=group_by]{group_by()}} and therefore is subject to the data mask

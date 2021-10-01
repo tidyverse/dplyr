@@ -40,7 +40,7 @@ a character vector of column names, a numeric vector of column
 positions, or \code{NULL}.}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
 \code{rename_if()}, \code{rename_at()}, and \code{rename_all()} have been superseded by
 \code{rename_with()}. The matching select statements have been superseded by the

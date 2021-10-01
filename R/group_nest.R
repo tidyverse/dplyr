@@ -6,7 +6,7 @@ group_nest_impl <- function(.tbl, .key, keep = FALSE){
 #' Nest a tibble using a grouping specification
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#' `r lifecycle::badge("experimental")`
 #'
 #' Nest a tibble using a grouping specification
 #'
