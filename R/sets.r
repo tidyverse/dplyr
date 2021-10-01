@@ -6,7 +6,7 @@
 #' `intersect()`, `union()` and `setdiff()` remove duplicates.
 #'
 #' @param x,y objects to perform set function on (ignoring order)
-#' @param ... other arguments passed on to methods
+#' @inheritParams rlang::args_dot_empty
 #' @name setops
 #' @examples
 #' mtcars$model <- rownames(mtcars)
@@ -42,7 +42,10 @@ NULL
 #' @export
 union_all <- function(x, y, ...) UseMethod("union_all")
 #' @export
-union_all.default <- function(x, y, ...) vec_c(x, y, ...)
+union_all.default <- function (x, y, ...) {
+  check_dots_empty()
+  vec_c(x, y)
+}
 
 #' @importFrom generics intersect
 #' @export
