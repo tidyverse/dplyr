@@ -133,7 +133,8 @@ slice_head <- function(.data, ..., n, prop) {
 
 #' @export
 slice_head.data.frame <- function(.data, ..., n, prop) {
-  rlang::check_dots_empty()
+  check_dots_empty()
+
   size <- get_slice_size(n, prop, "slice_head")
   idx <- function(n) seq2(1, size(n))
   slice(.data, idx(dplyr::n()))
@@ -147,7 +148,8 @@ slice_tail <- function(.data, ..., n, prop) {
 
 #' @export
 slice_tail.data.frame <- function(.data, ..., n, prop) {
-  rlang::check_dots_empty()
+  check_dots_empty()
+
   size <- get_slice_size(n, prop, "slice_tail")
   idx <- function(n) seq2(n - size(n) + 1, n)
   slice(.data, idx(dplyr::n()))
@@ -165,11 +167,11 @@ slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 
 #' @export
 slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
+  check_dots_empty()
   if (missing(order_by)) {
     abort("argument `order_by` is missing, with no default.")
   }
 
-  rlang::check_dots_empty()
   size <- get_slice_size(n, prop, "slice_min")
   if (with_ties) {
     idx <- function(x, n) head(order(x), smaller_ranks(x, size(n)))
@@ -192,10 +194,11 @@ slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 
 #' @export
 slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
+  check_dots_empty()
   if (missing(order_by)) {
     abort("argument `order_by` is missing, with no default.")
   }
-  rlang::check_dots_empty()
+
   size <- get_slice_size(n, prop, "slice_max")
   if (with_ties) {
     idx <- function(x, n) head(
@@ -225,7 +228,7 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 
 #' @export
 slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
-  rlang::check_dots_empty()
+check_dots_empty()
 
   size <- get_slice_size(n, prop, "slice_sample")
 

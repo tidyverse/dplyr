@@ -34,7 +34,7 @@
 #' # Pull a named vector
 #' starwars %>% pull(height, name)
 pull <- function(.data, var = -1, name = NULL, ...) {
-  rlang::check_dots_used()
+  check_dots_used()
   UseMethod("pull")
 }
 #' @export

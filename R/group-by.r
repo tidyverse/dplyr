@@ -131,13 +131,13 @@ ungroup.grouped_df <- function(x, ...) {
 
 #' @export
 ungroup.rowwise_df <- function(x, ...) {
-  rlang::check_dots_empty()
+  check_dots_empty()
   as_tibble(x)
 }
 
 #' @export
 ungroup.data.frame <- function(x, ...) {
-  rlang::check_dots_empty()
+  check_dots_empty()
   x
 }
 
