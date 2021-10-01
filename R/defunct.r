@@ -1,6 +1,6 @@
 #' Defunct functions
 #'
-#' `r lifecycle::badge("defunct")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' Executing these functions will tell you which function replaces them.
 #'
