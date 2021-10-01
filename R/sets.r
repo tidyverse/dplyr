@@ -62,7 +62,7 @@ generics::setequal
 
 #' @export
 intersect.data.frame <- function(x, y, ...) {
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
   check_compatible(x, y)
   cast <- vec_cast_common(x, y)
   new_x <- cast[[1L]]
@@ -73,7 +73,7 @@ intersect.data.frame <- function(x, y, ...) {
 
 #' @export
 union.data.frame <- function(x, y, ...) {
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
   check_compatible(x, y)
   out <- vec_unique(vec_rbind(!!!vec_cast_common(x, y)))
   reconstruct_set(out, x)
@@ -81,14 +81,14 @@ union.data.frame <- function(x, y, ...) {
 
 #' @export
 union_all.data.frame <- function(x, y, ...) {
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
   out <- bind_rows(x, y)
   reconstruct_set(out, x)
 }
 
 #' @export
 setdiff.data.frame <- function(x, y, ...) {
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
   check_compatible(x, y)
   cast <- vec_cast_common(x, y)
   new_x <- cast[[1L]]
@@ -99,7 +99,7 @@ setdiff.data.frame <- function(x, y, ...) {
 
 #' @export
 setequal.data.frame <- function(x, y, ...) {
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
   isTRUE(equal_data_frame(x, y))
 }
 
