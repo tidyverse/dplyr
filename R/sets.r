@@ -6,7 +6,7 @@
 #' `intersect()`, `union()` and `setdiff()` remove duplicates.
 #'
 #' @param x,y objects to perform set function on (ignoring order)
-#' @param ... other arguments passed on to methods
+#' @inheritParams rlang::args_dots_empty
 #' @name setops
 #' @examples
 #' mtcars$model <- rownames(mtcars)
@@ -42,7 +42,10 @@ NULL
 #' @export
 union_all <- function(x, y, ...) UseMethod("union_all")
 #' @export
-union_all.default <- function(x, y, ...) vec_c(x, y, ...)
+union_all.default <- function (x, y, ...) {
+  check_dots_empty()
+  vec_c(x, y)
+}
 
 #' @importFrom generics intersect
 #' @export
@@ -62,6 +65,7 @@ generics::setequal
 
 #' @export
 intersect.data.frame <- function(x, y, ...) {
+  check_dots_empty()
   check_compatible(x, y)
   cast <- vec_cast_common(x, y)
   new_x <- cast[[1L]]
@@ -72,6 +76,7 @@ intersect.data.frame <- function(x, y, ...) {
 
 #' @export
 union.data.frame <- function(x, y, ...) {
+  check_dots_empty()
   check_compatible(x, y)
   out <- vec_unique(vec_rbind(!!!vec_cast_common(x, y)))
   reconstruct_set(out, x)
@@ -79,12 +84,14 @@ union.data.frame <- function(x, y, ...) {
 
 #' @export
 union_all.data.frame <- function(x, y, ...) {
+  check_dots_empty()
   out <- bind_rows(x, y)
   reconstruct_set(out, x)
 }
 
 #' @export
 setdiff.data.frame <- function(x, y, ...) {
+  check_dots_empty()
   check_compatible(x, y)
   cast <- vec_cast_common(x, y)
   new_x <- cast[[1L]]
@@ -95,6 +102,7 @@ setdiff.data.frame <- function(x, y, ...) {
 
 #' @export
 setequal.data.frame <- function(x, y, ...) {
+  check_dots_empty()
   isTRUE(equal_data_frame(x, y))
 }
 
