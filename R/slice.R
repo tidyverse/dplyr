@@ -293,7 +293,7 @@ slice_rows <- function(.data, ..., caller_env) {
     abort(c(
       conditionMessage(e),
       i = cnd_bullet_cur_group_label()
-    ), class = "dplyr_error")
+    ), class = "dplyr_error", parent = e)
   })
 
   vec_c(!!!slice_indices, .ptype = integer())
