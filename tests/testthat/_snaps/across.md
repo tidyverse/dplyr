@@ -52,7 +52,7 @@
       (expect_error(filter(df, !if_any(~ .x > 5))))
     Output
       <error/dplyr_error>
-      Error: 
+      Error in `filter_rows()`: 
         Problem with `filter()` input `..1`.
         i Input `..1` is `!if_any(~.x > 5)`.
         x Predicate used in lieu of column selection.
@@ -68,7 +68,7 @@
       (expect_error(filter(df, !if_all(~ .x > 5))))
     Output
       <error/dplyr_error>
-      Error: 
+      Error in `filter_rows()`: 
         Problem with `filter()` input `..1`.
         i Input `..1` is `!if_all(~.x > 5)`.
         x Predicate used in lieu of column selection.
