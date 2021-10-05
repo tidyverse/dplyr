@@ -270,7 +270,7 @@ across_setup <- function(cols,
       i = glue("You most likely meant: `{if_fn}(everything(), {as_label(cols)})`."),
       i = "The first argument `.cols` selects a set of columns.",
       i = "The second argument `.fns` operates on each selected columns."
-    ))
+    ), call = call2(if_fn, quo_get_expr(cols)))
   }
   across_cols <- mask$across_cols()
 
