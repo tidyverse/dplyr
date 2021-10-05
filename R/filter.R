@@ -116,38 +116,14 @@ filter.data.frame <- function(.data, ..., .preserve = FALSE) {
 }
 
 filter_rows <- function(.data, ..., caller_env) {
-  dots <- dplyr_quosures(...)
-  check_filter(dots)
-
   mask <- DataMask$new(.data, caller_env)
   on.exit(mask$forget("filter"), add = TRUE)
 
-  env_filter <- env()
-
-  # Names that expand to logical vectors are ignored. Remove them so
-  # they don't get in the way of the flatmap step below.
-  dots <- unname(dots)
-  withCallingHandlers({
-    dots <- new_quosures(flatten(imap(dots, function(dot, index) {
-      env_filter$current_expression <- index
-      expand_if_across(dot)
-    })))
-    mask$eval_all_filter(dots, env_filter)
-  }, error = function(e) {
-      local_call_step(dots = dots, .index = env_filter$current_expression, .fn = "filter")
-
-      abort(c(
-        cnd_bullet_header(),
-        i = cnd_bullet_input_info(),
-        x = conditionMessage(e),
-        i = cnd_bullet_cur_group_label()
-      ), class = "dplyr_error", parent = e)
-
-    }
-  )
+  dots <- filter_expand(dplyr_quosures(...))
+  filter_eval(mask, dots)
 }
 
-check_filter <- function(dots) {
+filter_expand <- function(dots, error_call = caller_env()) {
   named <- have_name(dots)
 
   for (i in which(named)) {
@@ -162,8 +138,42 @@ check_filter <- function(dots) {
         x = glue("Input `..{i}` is named."),
         i = glue("This usually means that you've used `=` instead of `==`."),
         i = glue("Did you mean `{name} == {as_label(expr)}`?", name = names(dots)[i])
-      ))
+      ), call = error_call)
     }
-
   }
+
+  # Names that expand to logical vectors are ignored. Remove them so
+  # they don't get in the way of the flatmap step below.
+  dots <- unname(dots)
+
+  env_filter <- env()
+  withCallingHandlers({
+    new_quosures(flatten(imap(dots, function(dot, index) {
+      env_filter$current_expression <- index
+      expand_if_across(dot)
+    })))
+  }, error = function(e) {
+      index <- env_filter$current_expression
+      abort(c(
+        glue("Problem expanding input `..{index}`."),
+        i = glue("Input `..{index}` is `{as_label(dots[[index]])}`. ")
+      ), parent = e, call = error_call)
+  })
+}
+
+filter_eval <- function(mask, dots, error_call = caller_env()) {
+  env_filter <- env()
+  withCallingHandlers({
+    mask$eval_all_filter(dots, env_filter)
+  }, error = function(e) {
+    local_call_step(dots = dots, .index = env_filter$current_expression, .fn = "filter")
+
+    abort(c(
+      cnd_bullet_header(),
+      i = cnd_bullet_input_info(),
+      x = conditionMessage(e),
+      i = cnd_bullet_cur_group_label()
+    ), class = "dplyr_error", parent = e)
+
+  })
 }
