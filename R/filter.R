@@ -168,11 +168,21 @@ filter_eval <- function(mask, dots, error_call = caller_env()) {
   }, error = function(e) {
     local_call_step(dots = dots, .index = env_filter$current_expression, .fn = "filter")
 
-    abort(c(
+    # for internal errors we grab the message
+    # otherwise, we set a parent error for better chained reporting
+    is_internal_error <- inherits(e, "dplyr:::internal_error")
+
+    bullets <- c(
       cnd_bullet_header(),
       i = cnd_bullet_input_info(),
-      x = conditionMessage(e),
+      x = if (is_internal_error) conditionMessage(e),
       i = cnd_bullet_cur_group_label()
-    ), class = "dplyr_error", parent = e, call = error_call)
+    )
+
+    abort(
+      bullets, class = "dplyr_error",
+      parent = if (!is_internal_error) e,
+      call = error_call
+    )
   })
 }

@@ -55,10 +55,6 @@
       Error in `filter_rows()`: 
         Problem with `filter()` input `..1`.
         i Input `..1` is `!if_any(~.x > 5)`.
-        x Predicate used in lieu of column selection.
-        i You most likely meant: `if_any(everything(), ~.x > 5)`.
-        i The first argument `.cols` selects a set of columns.
-        i The second argument `.fns` operates on each selected columns.
       Caused by error in `if_any()`: 
         Predicate used in lieu of column selection.
         i You most likely meant: `if_any(everything(), ~.x > 5)`.
@@ -71,10 +67,6 @@
       Error in `filter_rows()`: 
         Problem with `filter()` input `..1`.
         i Input `..1` is `!if_all(~.x > 5)`.
-        x Predicate used in lieu of column selection.
-        i You most likely meant: `if_all(everything(), ~.x > 5)`.
-        i The first argument `.cols` selects a set of columns.
-        i The second argument `.fns` operates on each selected columns.
       Caused by error in `if_all()`: 
         Predicate used in lieu of column selection.
         i You most likely meant: `if_all(everything(), ~.x > 5)`.

@@ -110,7 +110,6 @@
     Error <dplyr_error>
       Problem with `filter()` input `..1`.
       i Input `..1` is `_x`.
-      x object '_x' not found
 
 ---
 
@@ -119,7 +118,6 @@
     Error <dplyr_error>
       Problem with `filter()` input `..1`.
       i Input `..1` is `_x`.
-      x object '_x' not found
       i The error occurred in group 1: cyl = 4.
 
 ---
@@ -168,7 +166,6 @@
     Error <dplyr_error>
       Problem with `filter()` input `..1`.
       i Input `..1` is `stop("{")`.
-      x {
 
 ---
 
