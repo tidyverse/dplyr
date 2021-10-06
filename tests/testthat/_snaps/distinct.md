@@ -29,7 +29,4 @@
       df %>% distinct(y = a + 1)
     Error <rlang_error>
       Problem adding computed columns in `distinct()`.
-      x Problem with `mutate()` column `y`.
-      i `y = a + 1`.
-      x object 'a' not found
 

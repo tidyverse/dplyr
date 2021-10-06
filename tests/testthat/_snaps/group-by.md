@@ -45,7 +45,4 @@
       df %>% group_by(z = a + 1)
     Error <rlang_error>
       Problem adding computed columns in `group_by()`.
-      x Problem with `mutate()` column `z`.
-      i `z = a + 1`.
-      x object 'a' not found
 

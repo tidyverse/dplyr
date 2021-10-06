@@ -247,7 +247,7 @@ check_transmute_args <- function(..., .keep, .before, .after) {
   enquos(...)
 }
 
-mutate_cols <- function(.data, ..., caller_env) {
+mutate_cols <- function(.data, ..., caller_env, .error_call = caller_env()) {
   mask <- DataMask$new(.data, caller_env)
   old_current_column <- context_peek_bare("column")
 
@@ -414,8 +414,7 @@ mutate_cols <- function(.data, ..., caller_env) {
       )
     } else {
       bullets <- c(
-        i = cnd_bullet_column_info(),
-        x = conditionMessage(e)
+        i = cnd_bullet_column_info()
       )
     }
 
@@ -429,8 +428,8 @@ mutate_cols <- function(.data, ..., caller_env) {
       bullets,
       class = c("dplyr:::mutate_error", "dplyr_error"),
       error_name = error_name, error_expression = error_expression,
-      parent = e,
-      bullets = bullets
+      parent = if (!inherits(e, "dplyr:::internal_error")) e,
+      bullets = bullets, call = .error_call
     )
 
   },

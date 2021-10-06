@@ -29,7 +29,6 @@
     Error <dplyr:::mutate_error>
       Problem with `mutate()` column `mpg`.
       i `mpg = .Primitive("length")(mpg, 0, 0)`.
-      x 3 arguments passed to 'length' which requires 1
 
 ---
 
@@ -38,5 +37,4 @@
     Error <dplyr:::mutate_error>
       Problem with `mutate()` column `mpg`.
       i `mpg = (function (x, ...) ...`.
-      x formal argument "na.rm" matched by multiple actual arguments
 

@@ -83,7 +83,7 @@ arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
 
 # Helpers -----------------------------------------------------------------
 
-arrange_rows <- function(.data, dots) {
+arrange_rows <- function(.data, dots, error_call = caller_env()) {
   if (length(dots) == 0L) {
     out <- seq_len(nrow(.data))
     return(out)
@@ -119,21 +119,34 @@ arrange_rows <- function(.data, dots) {
     transmute(new_data_frame(.data), !!!quosures)
   }, error = function(cnd) {
 
-    if (inherits(cnd, "dplyr:::mutate_error")) {
+    is_mutate_error <- inherits(cnd, "dplyr:::mutate_error")
+    if (is_mutate_error) {
       # reverse the name mangling
       bullets <- gsub("^^--arrange_quosure_", "..", cnd$bullets, fixed = TRUE)
       # only name bullets that aren't already named
       names <- names2(bullets)
       names[names == ""] <- "x"
       bullets <- set_names(bullets, names)
-    } else {
-      bullets <- c(x = conditionMessage(cnd))
     }
 
-    abort(c(
-      "arrange() failed at implicit mutate() step. ",
-      bullets
-    ), class = "dplyr_error", parent = cnd)
+    bullets <- c(
+      "`arrange()` failed at implicit `mutate()` step. ",
+      if (is_mutate_error) bullets
+    )
+
+    # skip the mutate() error from the chain
+    parent <- if (is_mutate_error) {
+      cnd$parent
+    } else {
+      cnd
+    }
+
+    abort(
+      bullets,
+      class = "dplyr_error",
+      call = error_call,
+      parent = parent
+    )
 
   })
 

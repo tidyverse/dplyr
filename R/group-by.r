@@ -204,7 +204,7 @@ group_by_prepare <- function(.data,
 add_computed_columns <- function(.data,
                                  vars,
                                  .fn = "group_by",
-                                 caller_env) {
+                                 caller_env, error_call = caller_env()) {
   is_symbol <- map_lgl(vars, quo_is_variable_reference)
   needs_mutate <- have_name(vars) | !is_symbol
 
@@ -214,10 +214,10 @@ add_computed_columns <- function(.data,
       cols <- withCallingHandlers(
         mutate_cols(ungroup(.data), !!!vars, caller_env = caller_env),
         error = function(e) {
-          abort(c(
+          abort(
             glue("Problem adding computed columns in `{.fn}()`."),
-            x = e$message
-          ), parent = e)
+            parent = e, call = error_call
+          )
         }
       )
 

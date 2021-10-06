@@ -5,7 +5,6 @@
     Error <dplyr:::mutate_error>
       Problem with `mutate()` column `a`.
       i `a = sum(y)`.
-      x object 'y' not found
 
 ---
 
@@ -14,7 +13,6 @@
     Error <dplyr:::mutate_error>
       Problem with `mutate()` column `a`.
       i `a = sum(y)`.
-      x object 'y' not found
       i The error occurred in group 1: x = 1.
 
 ---
@@ -145,7 +143,6 @@
     Error <dplyr:::mutate_error>
       Problem with `mutate()` column `c`.
       i `c = .data$b`.
-      x Column `b` not found in `.data`.
 
 ---
 
@@ -154,7 +151,6 @@
     Error <dplyr:::mutate_error>
       Problem with `mutate()` column `c`.
       i `c = .data$b`.
-      x Column `b` not found in `.data`.
       i The error occurred in group 1: a = 1.
 
 ---
@@ -173,5 +169,4 @@
     Error <dplyr:::mutate_error>
       Problem with `mutate()` input `..1`.
       i `..1 = stop("{")`.
-      x {
 
