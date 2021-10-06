@@ -10,7 +10,7 @@ as_group_map_function <- function(.f) {
 #' Apply a function to each group
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#' `r lifecycle::badge("experimental")`
 #'
 #' `group_map()`, `group_modify()` and `group_walk()` are purrr-style functions that can
 #' be used to iterate on grouped tibbles.
@@ -116,6 +116,7 @@ as_group_map_function <- function(.f) {
 #'
 #' @export
 group_map <- function(.data, .f, ..., .keep = FALSE) {
+  lifecycle::signal_stage("experimental", "group_map()")
   UseMethod("group_map")
 }
 
@@ -147,6 +148,7 @@ group_map.data.frame <- function(.data, .f, ..., .keep = FALSE, keep = deprecate
 #' @rdname group_map
 #' @export
 group_modify <- function(.data, .f, ..., .keep = FALSE) {
+  lifecycle::signal_stage("experimental", "group_map()")
   UseMethod("group_modify")
 }
 
@@ -193,6 +195,7 @@ group_modify.grouped_df <- function(.data, .f, ..., .keep = FALSE, keep = deprec
 #' @export
 #' @rdname group_map
 group_walk <- function(.data, .f, ...) {
+  lifecycle::signal_stage("experimental", "group_walk()")
   group_map(.data, .f, ...)
   invisible(.data)
 }

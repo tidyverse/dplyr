@@ -56,7 +56,7 @@ as described in \code{\link[RMySQL:MySQLDriver-class]{RMySQL::MySQL()}}.}
 An S3 object with class \code{src_dbi}, \code{src_sql}, \code{src}.
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 These functions have been deprecated; instead please use \code{\link[=tbl]{tbl()}}
 directly on an \code{DBIConnection}. See \url{https://dbplyr.tidyverse.org/} for

@@ -28,7 +28,7 @@ the input. Weights are automatically standardised to sum to 1.}
 \item{...}{ignored}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 \code{sample_n()} and \code{sample_frac()} have been superseded in favour of
 \code{\link[=slice_sample]{slice_sample()}}. While they will not be deprecated in the near future,
 retirement means that we will only perform critical bug fixes, so we recommend

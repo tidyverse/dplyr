@@ -16,7 +16,7 @@ select_var(vars, var = -1)
 current_vars(...)
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 These functions now live in the tidyselect package as
 \code{\link[tidyselect:vars_select]{tidyselect::vars_select()}}, \code{\link[tidyselect:vars_select]{tidyselect::vars_rename()}} and

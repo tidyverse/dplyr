@@ -1,7 +1,7 @@
 #' Progress bar with estimated time.
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #'
 #' This progress bar has been deprecated since providing progress bars is not
 #' the responsibility of dplyr. Instead, you might try the more powerful

@@ -35,7 +35,7 @@ if ungrouped).
 \item A data frame or tibble, to create multiple columns in the output.
 }}
 
-\item{.keep}{\Sexpr[results=rd]{lifecycle::badge("experimental")}
+\item{.keep}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 Control which columns from \code{.data} are retained in the output. Grouping
 columns and columns created by \code{...} are always kept.
 \itemize{
@@ -51,7 +51,7 @@ variables and columns created by \code{...} are kept. This is equivalent to
 using \code{\link[=transmute]{transmute()}}.
 }}
 
-\item{.before, .after}{\Sexpr[results=rd]{lifecycle::badge("experimental")}
+\item{.before, .after}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 <\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, control where new columns
 should appear (the default is to add to the right hand side). See
 \code{\link[=relocate]{relocate()}} for more details.}

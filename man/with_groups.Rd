@@ -22,7 +22,7 @@ Supports purrr-style \code{~} syntax}
 \item{...}{Additional arguments passed on to \code{...}.}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
 This is an experimental new function that allows you to modify the grouping
 variables for a single operation.

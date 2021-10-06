@@ -11,7 +11,9 @@ id(.variables, drop = FALSE)
 failwith(default = NULL, f, quiet = FALSE)
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("defunct")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
 Executing these functions will tell you which function replaces them.
 }
 \keyword{internal}

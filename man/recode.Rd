@@ -58,7 +58,6 @@ use \code{recode_factor()}, which will change the order of levels to match
 the order of replacements. See the \href{https://forcats.tidyverse.org/}{forcats}
 package for more tools for working with factors and their levels.
 
-\Sexpr[results=rd, stage=render]{lifecycle::badge("questioning")}
 \code{recode()} is questioning because the arguments are in the wrong order.
 We have \code{new <- old}, \code{mutate(df, new = old)}, and \code{rename(df, new = old)}
 but \code{recode(x, old = new)}. We don't yet know how to fix this problem, but

@@ -1,7 +1,7 @@
 #' Group by a selection of variables
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+#' `r lifecycle::badge("superseded")`
 #'
 #' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
 #' [across()] in an existing verb. See `vignette("colwise")` for details.
@@ -49,7 +49,7 @@
 #' # ->
 #' iris %>% group_by(across(where(is.factor), as.character))
 group_by_all <- function(.tbl, .funs = list(), ..., .add = FALSE, .drop = group_by_drop_default(.tbl)) {
-  lifecycle::signal_superseded("1.0.0", "group_by_all()", "across()")
+  lifecycle::signal_stage("superseded", "group_by_all()")
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ..., .caller = "group_by_all")
   if (!length(funs)) {
     funs <- syms(tbl_vars(.tbl))
@@ -59,7 +59,7 @@ group_by_all <- function(.tbl, .funs = list(), ..., .add = FALSE, .drop = group_
 #' @rdname group_by_all
 #' @export
 group_by_at <- function(.tbl, .vars, .funs = list(), ..., .add = FALSE, .drop = group_by_drop_default(.tbl)) {
-  lifecycle::signal_superseded("1.0.0", "group_by_at()", "across()")
+  lifecycle::signal_stage("superseded", "group_by_at()")
   funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "group_by_at")
   if (!length(funs)) {
     funs <- tbl_at_syms(.tbl, .vars, .include_group_vars = TRUE)
@@ -69,7 +69,7 @@ group_by_at <- function(.tbl, .vars, .funs = list(), ..., .add = FALSE, .drop = 
 #' @rdname group_by_all
 #' @export
 group_by_if <- function(.tbl, .predicate, .funs = list(), ..., .add = FALSE, .drop = group_by_drop_default(.tbl)) {
-  lifecycle::signal_superseded("1.0.0", "group_by_if()", "across()")
+  lifecycle::signal_stage("superseded", "group_by_if()")
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "group_by_if")
   if (!length(funs)) {
     funs <- tbl_if_syms(.tbl, .predicate, .include_group_vars = TRUE)

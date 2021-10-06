@@ -25,7 +25,7 @@ an existing column.}
 \item{template}{Template to use for restoring attributes}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
 These three functions, along with \verb{names<-} and 1d numeric \code{[}
 (i.e. \code{x[loc]}) methods, provide a minimal interface for extending dplyr

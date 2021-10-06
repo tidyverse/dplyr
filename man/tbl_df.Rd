@@ -13,7 +13,7 @@ as.tbl(x, ...)
 \item{data, x}{Object to coerce}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 Please use \code{\link[tibble:as_tibble]{tibble::as_tibble()}} instead.
 }
 \keyword{internal}

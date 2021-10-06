@@ -22,7 +22,7 @@ summarize_each(tbl, funs, ...)
 summarize_each_(tbl, funs, vars)
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 \code{mutate_each()} and \code{summarise_each()} are deprecated in favour of
 the new \code{\link[=across]{across()}} function that works within \code{summarise()} and \code{mutate()}.

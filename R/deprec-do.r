@@ -1,7 +1,7 @@
 #' Do anything
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+#' `r lifecycle::badge("superseded")`
 #'
 #' `do()` is superseded as of dplyr 1.0.0, because its syntax never really
 #' felt like it belong with the rest of dplyr. It's replaced by a combination
@@ -48,7 +48,7 @@
 #' # ->
 #' models %>% summarise(broom::tidy(mod))
 do <- function(.data, ...) {
-  lifecycle::signal_superseded("1.0.0", "do()")
+  lifecycle::signal_stage("superseded", "do()")
   UseMethod("do")
 }
 

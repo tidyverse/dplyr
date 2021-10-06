@@ -1,7 +1,7 @@
 #' Nest by one or more variables
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#' `r lifecycle::badge("experimental")`
 #'
 #' `nest_by()` is closely related to [group_by()]. However, instead of storing
 #' the group structure in the metadata, it is made explicit in the data,
@@ -75,6 +75,7 @@
 #' # Note that you can also summarise to unnest the data
 #' models %>% summarise(data)
 nest_by <- function(.data, ..., .key = "data", .keep = FALSE) {
+  lifecycle::signal_stage("experimental", "nest_by()")
   UseMethod("nest_by")
 }
 

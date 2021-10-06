@@ -1,7 +1,7 @@
 #' Operate on a selection of variables
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+#' `r lifecycle::badge("superseded")`
 #'
 #' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
 #' [across()] in an existing verb. See `vignette("colwise")` for details.
@@ -110,7 +110,7 @@ vars <- function(...) {
 #' Apply predicate to all variables
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+#' `r lifecycle::badge("superseded")`
 #'
 #' `all_vars()` and `any_vars()` were only needed for the scoped verbs, which
 #' have been superseded by the use of [across()] in an existing verb. See
@@ -128,13 +128,13 @@ vars <- function(...) {
 #'   can use with scoped verbs.
 #' @export
 all_vars <- function(expr) {
-  lifecycle::signal_superseded("1.0.0", "all_vars()", "across()")
+  lifecycle::signal_stage("superseded", "all_vars()")
   structure(enquo(expr), class = c("all_vars", "quosure", "formula"))
 }
 #' @rdname all_vars
 #' @export
 any_vars <- function(expr) {
-  lifecycle::signal_superseded("1.0.0", "any_vars()")
+  lifecycle::signal_stage("superseded", "any_vars()")
   structure(enquo(expr), class = c("any_vars", "quosure", "formula"))
 }
 #' @export

@@ -1,7 +1,7 @@
 #' Select top (or bottom) n rows (by value)
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+#' `r lifecycle::badge("superseded")`
 #' `top_n()` has been superseded in favour of [slice_min()]/[slice_max()].
 #' While it will not be deprecated in the near future, retirement means
 #' that we will only perform critical bug fixes, so we recommend moving to the
@@ -39,7 +39,7 @@
 #' # ->
 #' df %>% slice_max(x, prop = 0.5)
 top_n <- function(x, n, wt) {
-  lifecycle::signal_superseded("1.0.0", "top_n()", "slice_max()")
+  lifecycle::signal_stage("superseded", "top_n()")
   wt <- enquo(wt)
   if (quo_is_missing(wt)) {
     vars <- tbl_vars(x)

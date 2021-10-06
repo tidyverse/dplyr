@@ -16,7 +16,7 @@ src_df(pkg = NULL, env = NULL)
 which to look for objects.}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 This function was deprecated since it existed to support a style of testing
 dplyr backends that turned out not to be useful.
 }

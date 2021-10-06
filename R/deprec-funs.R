@@ -1,7 +1,7 @@
 #' Create a list of function calls
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `funs()` is deprecated; please use `list()` instead. We deprecated this
 #' function because it provided a unique way of specifying anonymous functions,

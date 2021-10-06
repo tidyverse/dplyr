@@ -41,7 +41,7 @@ that identifies the group
 }
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
 \code{group_map()}, \code{group_modify()} and \code{group_walk()} are purrr-style functions that can
 be used to iterate on grouped tibbles.

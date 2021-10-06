@@ -1,7 +1,7 @@
 #' Trim grouping structure
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#' `r lifecycle::badge("experimental")`
 #' Drop unused levels of all factors that are used as grouping variables,
 #' then recalculates the grouping structure.
 #'
@@ -19,6 +19,7 @@
 #'   filter(Species == "setosa", .preserve = TRUE) %>%
 #'   group_trim()
 group_trim <- function(.tbl, .drop = group_by_drop_default(.tbl)) {
+  lifecycle::signal_stage("experimental", "group_trim()")
   UseMethod("group_trim")
 }
 

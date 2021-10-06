@@ -1,7 +1,7 @@
 #' Print the location in memory of a data frame
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #'
 #' This is useful for understand how and when dplyr makes copies of data
 #' frames

@@ -10,7 +10,7 @@ combine(...)
 \item{...}{Vectors to combine.}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 \code{combine()} is deprecated in favour of \code{\link[vctrs:vec_c]{vctrs::vec_c()}}. \code{combine()}
 attempted to automatically guess whether you wanted \code{\link[=c]{c()}} or \code{\link[=unlist]{unlist()}},

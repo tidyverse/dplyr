@@ -49,7 +49,7 @@ an error is thrown.
 \code{\link[microbenchmark:microbenchmark]{microbenchmark::microbenchmark()}}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 These functions are deprecated because we now believe that you're
 better of performing the comparisons directly, yourself, in order to
 generate more informative test failures.

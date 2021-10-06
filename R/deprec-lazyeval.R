@@ -1,7 +1,7 @@
 #' Deprecated SE versions of main verbs.
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #'
 #' dplyr used to offer twin versions of each verb suffixed with an
 #' underscore. These versions had standard evaluation (SE) semantics:
@@ -342,7 +342,7 @@ summarize_ <- summarise_
 #' Summarise and mutate multiple columns.
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `mutate_each()` and `summarise_each()` are deprecated in favour of
 #' the new [across()] function that works within `summarise()` and `mutate()`.

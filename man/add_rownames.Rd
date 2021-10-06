@@ -12,7 +12,7 @@ add_rownames(df, var = "rowname")
 \item{var}{Name of variable to use}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 Please use \code{\link[tibble:rownames]{tibble::rownames_to_column()}} instead.
 }
 \keyword{internal}

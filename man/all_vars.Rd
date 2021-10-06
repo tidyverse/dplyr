@@ -14,7 +14,7 @@ any_vars(expr)
 returns a logical vector, using \code{.} to refer to the "current" variable.}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("superseded")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
 \code{all_vars()} and \code{any_vars()} were only needed for the scoped verbs, which
 have been superseded by the use of \code{\link[=across]{across()}} in an existing verb. See

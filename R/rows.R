@@ -1,7 +1,7 @@
 #' Manipulate individual rows
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#' `r lifecycle::badge("experimental")`
 #'
 #' These functions provide a framework for modifying rows in a table using
 #' a second table of data. The two tables are matched `by` a set of key
@@ -73,6 +73,7 @@ NULL
 #' @rdname rows
 #' @export
 rows_insert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  lifecycle::signal_stage("experimental", "rows_insert()")
   UseMethod("rows_insert")
 }
 
@@ -98,6 +99,7 @@ rows_insert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 #' @rdname rows
 #' @export
 rows_update <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  lifecycle::signal_stage("experimental", "rows_update()")
   UseMethod("rows_update", x)
 }
 
@@ -124,6 +126,7 @@ rows_update.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 #' @rdname rows
 #' @export
 rows_patch <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  lifecycle::signal_stage("experimental", "rows_patch()")
   UseMethod("rows_patch", x)
 }
 
@@ -152,6 +155,7 @@ rows_patch.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place =
 #' @rdname rows
 #' @export
 rows_upsert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  lifecycle::signal_stage("experimental", "rows_upsert()")
   UseMethod("rows_upsert", x)
 }
 
@@ -176,6 +180,7 @@ rows_upsert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 #' @rdname rows
 #' @export
 rows_delete <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  lifecycle::signal_stage("experimental", "rows_delete()")
   UseMethod("rows_delete", x)
 }
 

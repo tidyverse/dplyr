@@ -1,7 +1,7 @@
 #' Split data frame by groups
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#' `r lifecycle::badge("experimental")`
 #' [group_split()] works like [base::split()] but
 #' - it uses the grouping structure from [group_by()] and therefore is subject to the data mask
 #' - it does not name the elements of the list based on the grouping as this typically
@@ -67,6 +67,7 @@
 #' iris %>%
 #'   group_keys(Species)
 group_split <- function(.tbl, ..., .keep = TRUE) {
+  lifecycle::signal_stage("experimental", "group_split()")
   UseMethod("group_split")
 }
 

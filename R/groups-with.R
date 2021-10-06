@@ -1,7 +1,7 @@
 #' Perform an operation with temporary groups
 #'
 #' @description
-#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#' `r lifecycle::badge("experimental")`
 #'
 #' This is an experimental new function that allows you to modify the grouping
 #' variables for a single operation.
@@ -33,6 +33,7 @@
 #'   group_by(g) %>%
 #'   with_groups(NULL, mutate, g = NULL)
 with_groups <- function(.data, .groups, .f, ...) {
+  lifecycle::signal_stage("experimental", "with_groups()")
   loc <- tidyselect::eval_select(enquo(.groups), data = tbl_ptype(.data))
   val <- syms(names(.data)[loc])
   out <- group_by(.data, !!!val)

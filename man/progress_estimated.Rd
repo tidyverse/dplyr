@@ -17,7 +17,7 @@ A ref class with methods \code{tick()}, \code{print()},
 \code{pause()}, and \code{stop()}.
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 This progress bar has been deprecated since providing progress bars is not
 the responsibility of dplyr. Instead, you might try the more powerful

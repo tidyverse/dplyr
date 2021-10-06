@@ -15,7 +15,7 @@ group_trim(.tbl, .drop = group_by_drop_default(.tbl))
 A \link[=grouped_df]{grouped data frame}
 }
 \description{
-\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 Drop unused levels of all factors that are used as grouping variables,
 then recalculates the grouping structure.
 
