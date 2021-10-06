@@ -49,9 +49,6 @@ group_cols_legacy <- function(vars = NULL) {
   }
 }
 
-# Flag to disable hotpatching from old tidyselect versions
-peek_vars <- tidyselect::peek_vars
-
 # Alias required for help links in downstream packages
 #' @aliases select_helpers
 #' @importFrom tidyselect contains

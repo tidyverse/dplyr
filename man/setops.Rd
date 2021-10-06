@@ -10,7 +10,7 @@ union_all(x, y, ...)
 \arguments{
 \item{x, y}{objects to perform set function on (ignoring order)}
 
-\item{...}{other arguments passed on to methods}
+\item{...}{These dots are for future extensions and must be empty.}
 }
 \description{
 These functions override the set functions provided in base to make them

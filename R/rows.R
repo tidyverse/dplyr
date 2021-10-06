@@ -73,16 +73,13 @@ NULL
 #' @rdname rows
 #' @export
 rows_insert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
-  # Need action = warn, because methods may have
-  # side effects that persist even after we abort
-  ellipsis::check_dots_used(action = warn)
   lifecycle::signal_stage("experimental", "rows_insert()")
-
   UseMethod("rows_insert")
 }
 
 #' @export
 rows_insert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  check_dots_empty()
   key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
@@ -102,16 +99,13 @@ rows_insert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 #' @rdname rows
 #' @export
 rows_update <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
-  # Need action = warn, because methods may have
-  # side effects that persist even after we abort
-  ellipsis::check_dots_used(action = warn)
   lifecycle::signal_stage("experimental", "rows_update()")
-
   UseMethod("rows_update", x)
 }
 
 #' @export
 rows_update.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  check_dots_empty()
   key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
@@ -132,16 +126,13 @@ rows_update.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 #' @rdname rows
 #' @export
 rows_patch <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
-  # Need action = warn, because methods may have
-  # side effects that persist even after we abort
-  ellipsis::check_dots_used(action = warn)
   lifecycle::signal_stage("experimental", "rows_patch()")
-
   UseMethod("rows_patch", x)
 }
 
 #' @export
 rows_patch.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  check_dots_empty()
   key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
@@ -164,16 +155,13 @@ rows_patch.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place =
 #' @rdname rows
 #' @export
 rows_upsert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
-  # Need action = warn, because methods may have
-  # side effects that persist even after we abort
-  ellipsis::check_dots_used(action = warn)
   lifecycle::signal_stage("experimental", "rows_upsert()")
-
   UseMethod("rows_upsert", x)
 }
 
 #' @export
 rows_upsert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  check_dots_empty()
   key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
@@ -192,16 +180,13 @@ rows_upsert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 #' @rdname rows
 #' @export
 rows_delete <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
-  # Need action = warn, because methods may have
-  # side effects that persist even after we abort
-  ellipsis::check_dots_used(action = warn)
   lifecycle::signal_stage("experimental", "rows_delete()")
-
   UseMethod("rows_delete", x)
 }
 
 #' @export
 rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  check_dots_empty()
   key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
