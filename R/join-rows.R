@@ -8,17 +8,17 @@ join_rows <- function(x_key,
                       unmatched = "drop") {
   type <- arg_match(type)
 
-  missing <- standardise_join_missing(type, na_matches, unmatched)
+  incomplete <- standardise_join_incomplete(type, na_matches, unmatched)
   no_match <- standardise_join_no_match(type, unmatched)
   remaining <- standardise_join_remaining(type, unmatched)
   multiple <- standardise_multiple(multiple, condition, filter)
 
-  matches <- dplyr_matches(
+  matches <- dplyr_locate_matches(
     needles = x_key,
     haystack = y_key,
     condition = condition,
     filter = filter,
-    missing = missing,
+    incomplete = incomplete,
     no_match = no_match,
     remaining = remaining,
     multiple = multiple,
@@ -29,25 +29,25 @@ join_rows <- function(x_key,
   list(x = matches$needles, y = matches$haystack)
 }
 
-dplyr_matches <- function(needles,
-                          haystack,
-                          ...,
-                          condition = "==",
-                          filter = "none",
-                          missing = "match",
-                          no_match = NA_integer_,
-                          remaining = "drop",
-                          multiple = "all",
-                          needles_arg = "",
-                          haystack_arg = "") {
+dplyr_locate_matches <- function(needles,
+                                 haystack,
+                                 ...,
+                                 condition = "==",
+                                 filter = "none",
+                                 incomplete = "match",
+                                 no_match = NA_integer_,
+                                 remaining = "drop",
+                                 multiple = "all",
+                                 needles_arg = "",
+                                 haystack_arg = "") {
   withCallingHandlers(
-    vctrs:::vec_matches(
+    vctrs::vec_locate_matches(
       needles = needles,
       haystack = haystack,
       ...,
       condition = condition,
       filter = filter,
-      missing = missing,
+      incomplete = incomplete,
       no_match = no_match,
       remaining = remaining,
       multiple = multiple,
@@ -57,7 +57,7 @@ dplyr_matches <- function(needles,
     ),
     vctrs_error_incompatible_type = rethrow_error_join_incompatible_type,
     vctrs_error_matches_nothing = rethrow_error_join_matches_nothing,
-    vctrs_error_matches_missing = rethrow_error_join_matches_missing,
+    vctrs_error_matches_incomplete = rethrow_error_join_matches_incomplete,
     vctrs_error_matches_remaining = rethrow_error_join_matches_remaining,
     vctrs_error_matches_multiple = rethrow_error_join_matches_multiple,
     vctrs_warning_matches_multiple = rethrow_warning_join_matches_multiple
@@ -93,9 +93,9 @@ rethrow_error_join_matches_nothing <- function(cnd) {
   )
 }
 
-rethrow_error_join_matches_missing <- function(cnd) {
+rethrow_error_join_matches_incomplete <- function(cnd) {
   # Only occurs with `na_matches = "never", unmatched = "error"` for
-  # right and inner joins, and is a signal that `x` has unmatched missings
+  # right and inner joins, and is a signal that `x` has unmatched incompletes
   # that would result in dropped rows. So really this is a matched-nothing case.
   rethrow_error_join_matches_nothing(cnd)
 }
@@ -153,9 +153,9 @@ warn_dplyr <- function(message = NULL, class = NULL, ...) {
   warn(message = message, class = c(class, "dplyr_warning"), ...)
 }
 
-standardise_join_missing <- function(type, na_matches, unmatched) {
+standardise_join_incomplete <- function(type, na_matches, unmatched) {
   if (na_matches == "na") {
-    # Matching missing values overrides the other arguments
+    # Matching incomplete values overrides the other arguments
     "match"
   } else if (unmatched == "error" && (type == "right" || type == "inner")) {
     # Ensure that `x` can't drop rows when `na_matches = "never"`
