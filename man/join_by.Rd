@@ -93,8 +93,6 @@ Matches when \verb{[x_lower, x_upper]} overlaps \verb{[y_lower, y_upper]} in any
 capacity. Equivalent to \verb{x_lower <= y_upper, x_upper >= y_lower}.
 }
 
-Internally, arguments are matched by position and should not be named.
-
 These conditions assume that the ranges are well-formed, i.e.
 \code{x_lower <= x_upper}.
 }

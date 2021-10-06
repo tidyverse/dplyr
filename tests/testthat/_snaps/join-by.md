@@ -214,50 +214,42 @@
 ---
 
     Code
+      join_by(`>`(x))
+    Error <rlang_error>
+      Expressions using `>` can't contain missing arguments.
+      x Argument `y` is missing.
+
+---
+
+    Code
       join_by(between(x))
     Error <rlang_error>
-      Expressions containing `between()` must have 3 arguments.
-      x Expression 1 is `between(x)`, which has 1 argument(s).
+      Expressions using `between()` can't contain missing arguments.
+      x Argument `y_lower` is missing.
 
 ---
 
     Code
       join_by(within(x))
     Error <rlang_error>
-      Expressions containing `overlaps()` or `within()` must have 4 arguments.
-      x Expression 1 is `within(x)`, which has 1 argument(s).
+      Expressions using `within()` can't contain missing arguments.
+      x Argument `x_upper` is missing.
 
 ---
 
     Code
       join_by(overlaps(x))
     Error <rlang_error>
-      Expressions containing `overlaps()` or `within()` must have 4 arguments.
-      x Expression 1 is `overlaps(x)`, which has 1 argument(s).
+      Expressions using `overlaps()` can't contain missing arguments.
+      x Argument `x_upper` is missing.
 
 ---
 
     Code
-      join_by(between(x = x, y, z))
+      join_by(`$`(x) > y)
     Error <rlang_error>
-      The arguments of `between()` must not be named.
-      x Expression 1 is `between(x = x, y, z)`.
-
----
-
-    Code
-      join_by(within(x = x, y, z, w))
-    Error <rlang_error>
-      The arguments of `overlaps()` and `within()` must not be named.
-      x Expression 1 is `within(x = x, y, z, w)`.
-
----
-
-    Code
-      join_by(overlaps(x = x, y, z, w))
-    Error <rlang_error>
-      The arguments of `overlaps()` and `within()` must not be named.
-      x Expression 1 is `overlaps(x = x, y, z, w)`.
+      Expressions using `$` can't contain missing arguments.
+      x Argument `name` is missing.
 
 # as_join_by() emits useful errors
 

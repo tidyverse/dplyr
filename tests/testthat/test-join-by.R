@@ -97,6 +97,32 @@ test_that("overlaps / within conditions expand correctly", {
   expect_identical(by$condition, c("<=", ">="))
 })
 
+test_that("between / overlaps / within can use named arguments", {
+  by <- join_by(between(a, y_upper = b, y_lower = c))
+  expect_identical(by$x, c("a", "a"))
+  expect_identical(by$y, c("c", "b"))
+
+  by <- join_by(overlaps(y_lower = c, y_upper = d, x_lower = a, x_upper = b))
+  expect_identical(by$x, c("a", "b"))
+  expect_identical(by$y, c("d", "c"))
+  expect_identical(by$condition, c("<=", ">="))
+
+  by <- join_by(overlaps(y_lower = x$c, y_upper = x$d, x_lower = y$a, x_upper = y$b))
+  expect_identical(by$x, c("d", "c"))
+  expect_identical(by$y, c("a", "b"))
+  expect_identical(by$condition, c(">=", "<="))
+
+  by <- join_by(within(y_lower = c, y_upper = d, x_lower = a, x_upper = b))
+  expect_identical(by$x, c("a", "b"))
+  expect_identical(by$y, c("c", "d"))
+  expect_identical(by$condition, c(">=", "<="))
+
+  by <- join_by(within(y_lower = x$c, y_upper = x$d, x_lower = y$a, x_upper = y$b))
+  expect_identical(by$x, c("c", "d"))
+  expect_identical(by$y, c("a", "b"))
+  expect_identical(by$condition, c("<=", ">="))
+})
+
 test_that("can join_by() nothing for a cross join", {
   by <- join_by()
   expect_identical(by$x, character())
@@ -159,15 +185,12 @@ test_that("has informative error messages", {
   expect_snapshot(error = TRUE, join_by(within(x$a, y$b, y$a, y$b)))
   expect_snapshot(error = TRUE, join_by(overlaps(x$a, x$b, y$a, x$b)))
 
-  # Helpers with too few arguments
+  # Too few arguments
+  expect_snapshot(error = TRUE, join_by(`>`(x)))
   expect_snapshot(error = TRUE, join_by(between(x)))
   expect_snapshot(error = TRUE, join_by(within(x)))
   expect_snapshot(error = TRUE, join_by(overlaps(x)))
-
-  # Helpers with named arguments
-  expect_snapshot(error = TRUE, join_by(between(x = x, y, z)))
-  expect_snapshot(error = TRUE, join_by(within(x = x, y, z, w)))
-  expect_snapshot(error = TRUE, join_by(overlaps(x = x, y, z, w)))
+  expect_snapshot(error = TRUE, join_by(`$`(x) > y))
 })
 
 # ------------------------------------------------------------------------------

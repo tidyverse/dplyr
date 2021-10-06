@@ -65,8 +65,6 @@
 #'   Matches when `[x_lower, x_upper]` overlaps `[y_lower, y_upper]` in any
 #'   capacity. Equivalent to `x_lower <= y_upper, x_upper >= y_lower`.
 #'
-#' Internally, arguments are matched by position and should not be named.
-#'
 #' These conditions assume that the ranges are well-formed, i.e.
 #' `x_lower <= x_upper`.
 #'
@@ -389,16 +387,9 @@ parse_join_by_name <- function(expr, i, default_side) {
 }
 
 parse_join_by_dollar <- function(expr, i) {
-  n <- length(expr)
+  args <- eval_join_by_dollar(expr)
 
-  if (n != 3L) {
-    abort(c(
-      "Expressions containing `$` must have length 3.",
-      x = glue("Expression {i} contains {err_expr(expr)}, which is length {n}.")
-    ))
-  }
-
-  side <- expr[[2]]
+  side <- args$side
 
   if (!is_symbol_or_string(side)) {
     abort(c(
@@ -417,7 +408,7 @@ parse_join_by_dollar <- function(expr, i) {
     ))
   }
 
-  name <- expr[[3]]
+  name <- args$name
 
   if (!is_symbol_or_string(name)) {
     abort(c(
@@ -430,21 +421,28 @@ parse_join_by_dollar <- function(expr, i) {
 
   list(name = name, side = side)
 }
+eval_join_by_dollar <- function(expr) {
+  env <- new_environment()
+  env_poke(env, "$", binding_join_by_dollar)
+  eval_tidy(expr, env = env)
+}
+binding_join_by_dollar <- function(x, name) {
+  x <- enexpr(x)
+  name <- enexpr(name)
+
+  check_missing_arg(x, "x", "$", binary_op = TRUE)
+  check_missing_arg(name, "name", "$", binary_op = TRUE)
+
+  list(side = x, name = name)
+}
 
 parse_join_by_binary <- function(expr, i) {
-  n <- length(expr)
+  args <- eval_join_by_binary(expr)
 
-  if (n != 3L) {
-    abort(c(
-      "Expressions containing a binary operation must have length 3.",
-      x = glue("Expression {i} contains {err_expr(expr)}, which is length {n}.")
-    ))
-  }
+  condition <- args$condition
 
-  condition <- as_string(expr[[1]])
-
-  lhs <- expr[[2]]
-  rhs <- expr[[3]]
+  lhs <- args$lhs
+  rhs <- args$rhs
 
   lhs <- parse_join_by_name(lhs, i, default_side = "x")
   rhs <- parse_join_by_name(rhs, i, default_side = "y")
@@ -474,19 +472,50 @@ parse_join_by_binary <- function(expr, i) {
     filter = "none"
   )
 }
+eval_join_by_binary <- function(expr) {
+  env <- new_environment()
+
+  env_bind(
+    env,
+    `==` = binding_join_by_equality,
+    `>` = binding_join_by_greater_than,
+    `>=` = binding_join_by_greater_than_or_equal,
+    `<` = binding_join_by_less_than,
+    `<=` = binding_join_by_less_than_or_equal
+  )
+
+  eval_tidy(expr, env = env)
+}
+binding_join_by_binary <- function(condition, x, y) {
+  x <- enexpr(x)
+  y <- enexpr(y)
+
+  check_missing_arg(x, "x", condition, binary_op = TRUE)
+  check_missing_arg(y, "y", condition, binary_op = TRUE)
+
+  list(condition = condition, lhs = x, rhs = y)
+}
+binding_join_by_equality <- function(x, y) {
+  binding_join_by_binary("==", !!enexpr(x), !!enexpr(y))
+}
+binding_join_by_greater_than <- function(x, y) {
+  binding_join_by_binary(">", !!enexpr(x), !!enexpr(y))
+}
+binding_join_by_greater_than_or_equal <- function(x, y) {
+  binding_join_by_binary(">=", !!enexpr(x), !!enexpr(y))
+}
+binding_join_by_less_than <- function(x, y) {
+  binding_join_by_binary("<", !!enexpr(x), !!enexpr(y))
+}
+binding_join_by_less_than_or_equal <- function(x, y) {
+  binding_join_by_binary("<=", !!enexpr(x), !!enexpr(y))
+}
 
 parse_join_by_filter <- function(expr, i) {
-  n <- length(expr)
+  args <- eval_join_by_filter(expr)
 
-  if (n != 2L) {
-    abort(c(
-      "Expressions containing a `max()` or `min()` filter must have length 2.",
-      x = glue("Expression {i} is {err_expr(expr)}, which is length {n}.")
-    ))
-  }
-
-  filter <- as_string(expr[[1]])
-  inner <- expr[[2]]
+  filter <- args$filter
+  inner <- args$inner
 
   if (!is_call(inner, c("==", ">=", ">", "<=", "<"))) {
     abort(c(
@@ -500,27 +529,35 @@ parse_join_by_filter <- function(expr, i) {
 
   out
 }
+eval_join_by_filter <- function(expr) {
+  env <- new_environment()
+
+  env_bind(
+    env,
+    max = binding_join_by_max,
+    min = binding_join_by_min
+  )
+
+  eval_tidy(expr, env = env)
+}
+binding_join_by_filter <- function(filter, x) {
+  x <- enexpr(x)
+  check_missing_arg(x, "x", filter)
+  list(filter = filter, inner = x)
+}
+binding_join_by_max <- function(x) {
+  binding_join_by_filter("max", !!enexpr(x))
+}
+binding_join_by_min <- function(x) {
+  binding_join_by_filter("min", !!enexpr(x))
+}
 
 parse_join_by_between <- function(expr, i) {
-  n <- length(expr)
+  args <- eval_join_by_between(expr)
 
-  if (n != 4L) {
-    abort(c(
-      "Expressions containing `between()` must have 3 arguments.",
-      x = glue("Expression {i} is {err_expr(expr)}, which has {n - 1L} argument(s).")
-    ))
-  }
-
-  if (!is_null(names(expr))) {
-    abort(c(
-      "The arguments of `between()` must not be named.",
-      x = glue("Expression {i} is {err_expr(expr)}.")
-    ))
-  }
-
-  lhs <- parse_join_by_name(expr[[2]], i, "x")
-  rhs_lower <- parse_join_by_name(expr[[3]], i, "y")
-  rhs_upper <- parse_join_by_name(expr[[4]], i, "y")
+  lhs <- parse_join_by_name(args$lhs, i, "x")
+  rhs_lower <- parse_join_by_name(args$rhs_lower, i, "y")
+  rhs_upper <- parse_join_by_name(args$rhs_upper, i, "y")
 
   if (rhs_lower$side != rhs_upper$side) {
     abort(c(
@@ -555,30 +592,32 @@ parse_join_by_between <- function(expr, i) {
     filter = filter
   )
 }
+eval_join_by_between <- function(expr) {
+  env <- new_environment()
+  env_poke(env, "between", binding_join_by_between)
+  eval_tidy(expr, env = env)
+}
+binding_join_by_between <- function(x, y_lower, y_upper) {
+  x <- enexpr(x)
+  y_lower <- enexpr(y_lower)
+  y_upper <- enexpr(y_upper)
+
+  check_missing_arg(x, "x", "between")
+  check_missing_arg(y_lower, "y_lower", "between")
+  check_missing_arg(y_upper, "y_upper", "between")
+
+  list(lhs = x, rhs_lower = y_lower, rhs_upper = y_upper)
+}
 
 parse_join_by_containment <- function(expr, i) {
-  n <- length(expr)
+  args <- eval_join_by_containment(expr)
 
-  if (n != 5L) {
-    abort(c(
-      "Expressions containing `overlaps()` or `within()` must have 4 arguments.",
-      x = glue("Expression {i} is {err_expr(expr)}, which has {n - 1L} argument(s).")
-    ))
-  }
+  type <- args$type
 
-  if (!is_null(names(expr))) {
-    abort(c(
-      "The arguments of `overlaps()` and `within()` must not be named.",
-      x = glue("Expression {i} is {err_expr(expr)}.")
-    ))
-  }
-
-  type <- expr[[1]]
-
-  lhs_lower <- parse_join_by_name(expr[[2]], i, "x")
-  lhs_upper <- parse_join_by_name(expr[[3]], i, "x")
-  rhs_lower <- parse_join_by_name(expr[[4]], i, "y")
-  rhs_upper <- parse_join_by_name(expr[[5]], i, "y")
+  lhs_lower <- parse_join_by_name(args$lhs_lower, i, "x")
+  lhs_upper <- parse_join_by_name(args$lhs_upper, i, "x")
+  rhs_lower <- parse_join_by_name(args$rhs_lower, i, "y")
+  rhs_upper <- parse_join_by_name(args$rhs_upper, i, "y")
 
   if (lhs_lower$side != lhs_upper$side) {
     abort(c(
@@ -639,6 +678,72 @@ parse_join_by_containment <- function(expr, i) {
     condition = condition,
     filter = filter
   )
+}
+eval_join_by_containment <- function(expr) {
+  env <- new_environment()
+
+  env_bind(
+    env,
+    within = binding_join_by_within,
+    overlaps = binding_join_by_overlaps
+  )
+
+  eval_tidy(expr, env = env)
+}
+binding_join_by_containment <- function(type, x_lower, x_upper, y_lower, y_upper) {
+  x_lower <- enexpr(x_lower)
+  x_upper <- enexpr(x_upper)
+  y_lower <- enexpr(y_lower)
+  y_upper <- enexpr(y_upper)
+
+  check_missing_arg(x_lower, "x_lower", type)
+  check_missing_arg(x_upper, "x_upper", type)
+  check_missing_arg(y_lower, "y_lower", type)
+  check_missing_arg(y_upper, "y_upper", type)
+
+  list(
+    type = type,
+    lhs_lower = x_lower,
+    lhs_upper = x_upper,
+    rhs_lower = y_lower,
+    rhs_upper = y_upper
+  )
+}
+binding_join_by_within <- function(x_lower, x_upper, y_lower, y_upper) {
+  binding_join_by_containment(
+    type = "within",
+    x_lower = !!enexpr(x_lower),
+    x_upper = !!enexpr(x_upper),
+    y_lower = !!enexpr(y_lower),
+    y_upper = !!enexpr(y_upper)
+  )
+}
+binding_join_by_overlaps <- function(x_lower, x_upper, y_lower, y_upper) {
+  binding_join_by_containment(
+    type = "overlaps",
+    x_lower = !!enexpr(x_lower),
+    x_upper = !!enexpr(x_upper),
+    y_lower = !!enexpr(y_lower),
+    y_upper = !!enexpr(y_upper)
+  )
+}
+
+check_missing_arg <- function(arg, arg_name, fn_name, ..., binary_op = FALSE) {
+  if (!is_missing(arg)) {
+    return(invisible())
+  }
+
+  if (!binary_op) {
+    fn_name <- glue("{fn_name}()")
+  }
+
+  arg_name <- glue::backtick(arg_name)
+  fn_name <- glue::backtick(fn_name)
+
+  abort(c(
+    glue("Expressions using {fn_name} can't contain missing arguments."),
+    x = glue("Argument {arg_name} is missing.")
+  ))
 }
 
 is_symbol_or_string <- function(x) {
