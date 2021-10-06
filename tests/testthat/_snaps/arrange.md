@@ -29,8 +29,10 @@
 # arrange errors if stringi is not installed and a locale identifier is used
 
     Code
-      locale_to_chr_proxy_collate("fr", has_stringi = FALSE)
-    Error <rlang_error>
+      (expect_error(locale_to_chr_proxy_collate("fr", has_stringi = FALSE)))
+    Output
+      <error/rlang_error>
+      Error in `locale_to_chr_proxy_collate()`: 
       stringi >= 1.5.3 is required to arrange in a different locale.
 
 # arrange validates `.locale`
