@@ -228,7 +228,7 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 
 #' @export
 slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
-check_dots_empty()
+  check_dots_empty()
 
   size <- get_slice_size(n, prop, "slice_sample")
 
@@ -257,49 +257,65 @@ slice_rows <- function(.data, ..., caller_env) {
 
   slice_indices <- new_list(length(rows))
 
-  quo <- quo(c(!!!dots))
-
-  chunks <- withCallingHandlers(mask$eval_all(quo), error = function(e) {
-    abort(c(
-      conditionMessage(e),
-      i = cnd_bullet_cur_group_label()
-    ), class = "dplyr_error")
-  })
+  chunks <- slice_eval(mask, quo(c(!!!dots)))
 
   for (group in seq_along(rows)) {
     current_rows <- rows[[group]]
-    res <- chunks[[group]]
 
-    if (is.logical(res) && all(is.na(res))) {
-      res <- integer()
-    } else if (is.numeric(res)) {
-      res <- vec_cast(res, integer())
-    } else if (!is.integer(res)) {
-      mask$set_current_group(group)
-      abort(c(
-        "`slice()` expressions should return indices (positive or negative integers).",
-        i = cnd_bullet_cur_group_label()
-      ))
-    }
+    indices <- slice_check_indices(
+      chunks[[group]],
+      group = group, current_rows = current_rows,
+    )
 
-    if (length(res) == 0L) {
-      # nothing to do
-    } else if (all(res >= 0, na.rm = TRUE)) {
-      res <- res[!is.na(res) & res <= length(current_rows) & res > 0]
-    } else if (all(res <= 0, na.rm = TRUE)) {
-      res <- setdiff(seq_along(current_rows), -res)
-    } else {
-      mask$set_current_group(group)
-      abort(c(
-        "`slice()` expressions should return either all positive or all negative.",
-        i = cnd_bullet_cur_group_label()
-      ))
-    }
-
-    slice_indices[[group]] <- current_rows[res]
+    slice_indices[[group]] <- current_rows[indices]
   }
 
   vec_c(!!!slice_indices, .ptype = integer())
+}
+
+slice_eval <- function(mask, quo, error_call = caller_env()) {
+  withCallingHandlers(mask$eval_all(quo), error = function(e) {
+    # this takes and possibly adds to the message
+    # from e, so it's skipped from the error ancestry
+    slice_abort(conditionMessage(e), parent = e$parent, error_call = error_call)
+  })
+}
+
+slice_check_indices <- function(x, group, current_rows, error_call = caller_env()) {
+  if (is.logical(x) && all(is.na(x))) {
+    x <- integer()
+  } else if (is.numeric(x)) {
+    x <- vec_cast(x, integer())
+  } else if (!is.integer(x)) {
+    peek_mask()$set_current_group(group)
+    slice_abort(
+      "`slice()` expressions should return indices (positive or negative integers).",
+      error_call = error_call
+    )
+  }
+
+  if (length(x) != 0L) {
+    if (all(x >= 0, na.rm = TRUE)) {
+      x <- x[!is.na(x) & x <= length(current_rows) & x > 0]
+    } else if (all(x <= 0, na.rm = TRUE)) {
+      x <- setdiff(seq_along(current_rows), -x)
+    } else {
+      peek_mask()$set_current_group(group)
+      slice_abort(
+        "`slice()` expressions should return either all positive or all negative.",
+        error_call = error_call
+      )
+    }
+  }
+
+  x
+}
+
+slice_abort <- function(msg, parent = NULL, error_call) {
+  abort(
+    c(msg, i = cnd_bullet_cur_group_label()),
+    call = error_call, parent = parent, class = c("dplyr_error")
+  )
 }
 
 check_constant <- function(x, name, fn) {
