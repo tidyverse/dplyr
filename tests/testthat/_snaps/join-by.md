@@ -270,7 +270,7 @@
 
     Code
       by <- join_by_common(c("x", "y"), c("x", "y"))
-    Message <message>
+    Message <rlang_message>
       Joining, by = c("x", "y")
 
 ---
