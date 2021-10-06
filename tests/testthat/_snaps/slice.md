@@ -71,7 +71,6 @@
       check_slice_size(n = n())
     Error <rlang_error>
       `n` must be a constant in `check_slice_size()`.
-      x `n()` must only be used inside dplyr verbs.
 
 ---
 
@@ -79,7 +78,6 @@
       check_slice_size(prop = n())
     Error <rlang_error>
       `prop` must be a constant in `check_slice_size()`.
-      x `n()` must only be used inside dplyr verbs.
 
 ---
 
