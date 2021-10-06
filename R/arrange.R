@@ -88,15 +88,15 @@ arrange.data.frame <- function(.data, ..., .by_group = FALSE, .locale = dplyr_lo
     dots <- c(quos(!!!groups(.data)), dots)
   }
 
-  chr_transform <- locale_to_chr_transform(.locale)
+  chr_proxy_collate <- locale_to_chr_proxy_collate(.locale)
 
-  loc <- arrange_rows(.data, dots, chr_transform)
+  loc <- arrange_rows(.data, dots, chr_proxy_collate)
   dplyr_row_slice(.data, loc)
 }
 
 # Helpers -----------------------------------------------------------------
 
-arrange_rows <- function(.data, dots, chr_transform) {
+arrange_rows <- function(.data, dots, chr_proxy_collate) {
   if (length(dots) == 0L) {
     out <- seq_len(nrow(.data))
     return(out)
@@ -156,11 +156,11 @@ arrange_rows <- function(.data, dots, chr_transform) {
     x = data,
     direction = directions,
     na_value = na_values,
-    chr_transform = chr_transform
+    chr_proxy_collate = chr_proxy_collate
   )
 }
 
-locale_to_chr_transform <- function(locale, has_stringi = has_minimum_stringi()) {
+locale_to_chr_proxy_collate <- function(locale, has_stringi = has_minimum_stringi()) {
   if (identical(locale, "C")) {
     return(NULL)
   }

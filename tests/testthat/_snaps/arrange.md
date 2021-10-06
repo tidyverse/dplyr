@@ -29,7 +29,7 @@
 # arrange errors if stringi is not installed and a locale identifier is used
 
     Code
-      locale_to_chr_transform("fr", has_stringi = FALSE)
+      locale_to_chr_proxy_collate("fr", has_stringi = FALSE)
     Error <rlang_error>
       stringi >= 1.5.3 is required to arrange in a different locale.
 
@@ -39,17 +39,20 @@
       (expect_error(arrange(df, .locale = 1)))
     Output
       <error/rlang_error>
-      Error in `locale_to_chr_transform()`: `.locale` must be a string.
+      Error in `locale_to_chr_proxy_collate()`: 
+      `.locale` must be a string.
     Code
       (expect_error(arrange(df, .locale = c("en_US", "fr_BF"))))
     Output
       <error/rlang_error>
-      Error in `locale_to_chr_transform()`: If `.locale` is a character vector, it must be a single string.
+      Error in `locale_to_chr_proxy_collate()`: 
+      If `.locale` is a character vector, it must be a single string.
     Code
       (expect_error(arrange(df, .locale = "x")))
     Output
       <error/rlang_error>
-      Error in `locale_to_chr_transform()`: `.locale` must be one of the locales within `stringi::stri_locale_list()`.
+      Error in `locale_to_chr_proxy_collate()`: 
+      `.locale` must be one of the locales within `stringi::stri_locale_list()`.
 
 # desc() inside arrange() checks the number of arguments (#5921)
 

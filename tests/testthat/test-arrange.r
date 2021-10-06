@@ -111,7 +111,7 @@ test_that("non-English locales can be used", {
 })
 
 test_that("arrange errors if stringi is not installed and a locale identifier is used", {
-  expect_snapshot(error = TRUE, locale_to_chr_transform("fr", has_stringi = FALSE))
+  expect_snapshot(error = TRUE, locale_to_chr_proxy_collate("fr", has_stringi = FALSE))
 })
 
 test_that("arrange validates `.locale`", {
