@@ -244,7 +244,6 @@ check_dots_empty()
 
 # helpers -----------------------------------------------------------------
 
-
 slice_rows <- function(.data, ..., caller_env) {
   dots <- enquos(...)
   if (is_empty(dots)) {
@@ -259,42 +258,46 @@ slice_rows <- function(.data, ..., caller_env) {
   slice_indices <- new_list(length(rows))
 
   quo <- quo(c(!!!dots))
-  withCallingHandlers({
-    chunks <- mask$eval_all(quo)
 
-    for (group in seq_along(rows)) {
-      current_rows <- rows[[group]]
-      res <- chunks[[group]]
-
-      if (is.logical(res) && all(is.na(res))) {
-        res <- integer()
-      } else if (is.numeric(res)) {
-        res <- vec_cast(res, integer())
-      } else if (!is.integer(res)) {
-        mask$set_current_group(group)
-        abort("`slice()` expressions should return indices (positive or negative integers).")
-      }
-
-      if (length(res) == 0L) {
-        # nothing to do
-      } else if (all(res >= 0, na.rm = TRUE)) {
-        res <- res[!is.na(res) & res <= length(current_rows) & res > 0]
-      } else if (all(res <= 0, na.rm = TRUE)) {
-        res <- setdiff(seq_along(current_rows), -res)
-      } else {
-        mask$set_current_group(group)
-        abort("`slice()` expressions should return either all positive or all negative.")
-      }
-
-      slice_indices[[group]] <- current_rows[res]
-    }
-
-  }, error = function(e) {
+  chunks <- withCallingHandlers(mask$eval_all(quo), error = function(e) {
     abort(c(
       conditionMessage(e),
       i = cnd_bullet_cur_group_label()
-    ), class = "dplyr_error", parent = e)
+    ), class = "dplyr_error")
   })
+
+  for (group in seq_along(rows)) {
+    current_rows <- rows[[group]]
+    res <- chunks[[group]]
+
+    if (is.logical(res) && all(is.na(res))) {
+      res <- integer()
+    } else if (is.numeric(res)) {
+      res <- vec_cast(res, integer())
+    } else if (!is.integer(res)) {
+      mask$set_current_group(group)
+      abort(c(
+        "`slice()` expressions should return indices (positive or negative integers).",
+        i = cnd_bullet_cur_group_label()
+      ))
+    }
+
+    if (length(res) == 0L) {
+      # nothing to do
+    } else if (all(res >= 0, na.rm = TRUE)) {
+      res <- res[!is.na(res) & res <= length(current_rows) & res > 0]
+    } else if (all(res <= 0, na.rm = TRUE)) {
+      res <- setdiff(seq_along(current_rows), -res)
+    } else {
+      mask$set_current_group(group)
+      abort(c(
+        "`slice()` expressions should return either all positive or all negative.",
+        i = cnd_bullet_cur_group_label()
+      ))
+    }
+
+    slice_indices[[group]] <- current_rows[res]
+  }
 
   vec_c(!!!slice_indices, .ptype = integer())
 }

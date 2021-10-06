@@ -341,7 +341,7 @@ test_that("Non-integer number of rows computed correctly", {
 
 # Errors ------------------------------------------------------------------
 
-test_that("rename errors with invalid grouped data frame (#640)", {
+test_that("slice() gives informative errors", {
   df <- tibble(x = 1:3)
 
   # Incompatible type

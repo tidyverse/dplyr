@@ -16,32 +16,32 @@
     Error <dplyr_error>
       `weight_by` must have size 10, not size 6.
 
-# rename errors with invalid grouped data frame (#640)
+# slice() gives informative errors
 
     Code
       slice(df, TRUE)
-    Error <dplyr_error>
+    Error <rlang_error>
       `slice()` expressions should return indices (positive or negative integers).
 
 ---
 
     Code
       slice(df, FALSE)
-    Error <dplyr_error>
+    Error <rlang_error>
       `slice()` expressions should return indices (positive or negative integers).
 
 ---
 
     Code
       mtcars %>% slice(c(-1, 2))
-    Error <dplyr_error>
+    Error <rlang_error>
       `slice()` expressions should return either all positive or all negative.
 
 ---
 
     Code
       mtcars %>% slice(c(2:3, -1))
-    Error <dplyr_error>
+    Error <rlang_error>
       `slice()` expressions should return either all positive or all negative.
 
 ---
