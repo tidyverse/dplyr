@@ -1,14 +1,13 @@
 # all_exprs() gives meaningful error messages
 
     Code
-      all_exprs()
-    Error <rlang_error>
-      At least one expression must be given.
-
----
-
+      (expect_error(all_exprs()))
+    Output
+      <error/rlang_error>
+      Error in `quo_reduce()`: At least one expression must be given.
     Code
-      any_exprs()
-    Error <rlang_error>
-      At least one expression must be given.
+      (expect_error(any_exprs()))
+    Output
+      <error/rlang_error>
+      Error in `quo_reduce()`: At least one expression must be given.
 
