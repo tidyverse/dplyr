@@ -86,45 +86,45 @@ test_that("rows_delete()", {
 })
 
 test_that("rows_*() errors", {
-  data <- tibble(a = 1:3, b = letters[c(1:2, NA)], c = 0.5 + 0:2)
+  expect_snapshot({
+    data <- tibble(a = 1:3, b = letters[c(1:2, NA)], c = 0.5 + 0:2)
 
-  # Insert
-  expect_snapshot(error = TRUE,
-    rows_insert(data, tibble(a = 3, b = "z"))
-  )
-  expect_snapshot(error = TRUE,
-    rows_insert(data[c(1, 1), ], tibble(a = 3))
-  )
-  expect_snapshot(error = TRUE,
-    rows_insert(data, tibble(a = 4, b = "z"), by = "e")
-  )
+    # Insert
+    (expect_error(
+                    rows_insert(data, tibble(a = 3, b = "z"))
+    ))
+    (expect_error(
+                    rows_insert(data[c(1, 1), ], tibble(a = 3))
+    ))
+    (expect_error(
+                    rows_insert(data, tibble(a = 4, b = "z"), by = "e")
+    ))
 
-  expect_snapshot(error = TRUE,
-    rows_insert(data, tibble(d = 4))
-  )
+    (expect_error(
+                    rows_insert(data, tibble(d = 4))
+    ))
 
-  # Update
-  expect_snapshot(error = TRUE,
-    rows_update(data, tibble(a = 2:3, b = "z"), by = c("a", "b"))
-  )
+    # Update
+    (expect_error(
+                    rows_update(data, tibble(a = 2:3, b = "z"), by = c("a", "b"))
+    ))
 
-  # Variants: patch
-  expect_snapshot(error = TRUE,
-    rows_patch(data, tibble(a = 2:3, b = "z"), by = c("a", "b"))
-  )
+    # Variants: patch
+    (expect_error(
+                    rows_patch(data, tibble(a = 2:3, b = "z"), by = c("a", "b"))
+    ))
 
-  # Delete and truncate
-  expect_snapshot(error = TRUE,
-    rows_delete(data, tibble(a = 2:4))
-  )
-  expect_snapshot(error = TRUE,
-    rows_delete(data, tibble(a = 2:3, b = "b"), by = c("a", "b"))
-  )
-  expect_snapshot(
+    # Delete and truncate
+    (expect_error(
+                    rows_delete(data, tibble(a = 2:4))
+    ))
+    (expect_error(
+                    rows_delete(data, tibble(a = 2:3, b = "b"), by = c("a", "b"))
+    ))
     rows_delete(data, tibble(a = 2:3))
-  )
-  expect_snapshot(
     rows_delete(data, tibble(a = 2:3, b = "b"))
-  )
+
+  })
+
 
 })
