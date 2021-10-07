@@ -70,10 +70,13 @@ test_that("works with dbplyr", {
 })
 
 test_that("can only explicitly chain together multiple tallies", {
-  df <- data.frame(g = c(1, 1, 2, 2), n = 1:4)
-  expect_snapshot(df %>% count(g, wt = n))
-  expect_snapshot(df %>% count(g, wt = n) %>% count(wt = n))
-  expect_snapshot(df %>% count(n))
+  expect_snapshot({
+    df <- data.frame(g = c(1, 1, 2, 2), n = 1:4)
+
+    df %>% count(g, wt = n)
+    df %>% count(g, wt = n) %>% count(wt = n)
+    df %>% count(n)
+  })
 })
 
 test_that("wt = n() is deprecated", {
