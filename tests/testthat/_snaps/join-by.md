@@ -44,12 +44,12 @@
 ---
 
     Code
-      join_by(a == a, max(b >= "c"), min(d < e))
+      join_by(a == a, preceding(b, c), following(d, e, inclusive = FALSE))
     Output
       Join By:
       - a == a
-      - max(b >= "c")
-      - min(d < e)
+      - preceding(b, c)
+      - following(d, e, inclusive = FALSE)
 
 # has informative error messages
 
@@ -72,23 +72,15 @@
     Code
       join_by(foo(x > y))
     Error <rlang_error>
-      Join by expressions must use one of: `==`, `>=`, `>`, `<=`, `<`, `between()`, `overlaps()`, `within()`, `max()`, or `min()`.
+      Join by expressions must use one of: `==`, `>=`, `>`, `<=`, `<`, `preceding()`, `following()`, `between()`, `overlaps()`, or `within()`.
       x Expression 1 is `foo(x > y)`.
-
----
-
-    Code
-      join_by(max(!x))
-    Error <rlang_error>
-      `max()` or `min()` must wrap a binary condition.
-      x Expression 1 is `max(!x)`.
 
 ---
 
     Code
       join_by(x == y, x^y)
     Error <rlang_error>
-      Join by expressions must use one of: `==`, `>=`, `>`, `<=`, `<`, `between()`, `overlaps()`, `within()`, `max()`, or `min()`.
+      Join by expressions must use one of: `==`, `>=`, `>`, `<=`, `<`, `preceding()`, `following()`, `between()`, `overlaps()`, or `within()`.
       x Expression 2 is `x^y`.
 
 ---
@@ -246,10 +238,72 @@
 ---
 
     Code
+      join_by(preceding(x))
+    Error <rlang_error>
+      Expressions using `preceding()` can't contain missing arguments.
+      x Argument `y` is missing.
+
+---
+
+    Code
+      join_by(preceding(y = x))
+    Error <rlang_error>
+      Expressions using `preceding()` can't contain missing arguments.
+      x Argument `x` is missing.
+
+---
+
+    Code
+      join_by(following(x))
+    Error <rlang_error>
+      Expressions using `following()` can't contain missing arguments.
+      x Argument `y` is missing.
+
+---
+
+    Code
       join_by(`$`(x) > y)
     Error <rlang_error>
       Expressions using `$` can't contain missing arguments.
       x Argument `name` is missing.
+
+---
+
+    Code
+      join_by(preceding(x, y, TRUE))
+    Error <rlib_error_dots_nonempty>
+      `...` is not empty.
+      i These dots only exist to allow future extensions and should be empty.
+      x We detected these problematic arguments:
+      * `..1`
+      i Did you misspecify an argument?
+
+---
+
+    Code
+      join_by(following(x, y, TRUE))
+    Error <rlib_error_dots_nonempty>
+      `...` is not empty.
+      i These dots only exist to allow future extensions and should be empty.
+      x We detected these problematic arguments:
+      * `..1`
+      i Did you misspecify an argument?
+
+---
+
+    Code
+      join_by(preceding(y$a, b))
+    Error <rlang_error>
+      The first argument to `preceding()` must reference the `x` table.
+      x Expression 1 contains `preceding(y$a, b)`.
+
+---
+
+    Code
+      join_by(preceding(a, x$b))
+    Error <rlang_error>
+      The second argument to `preceding()` must reference the `y` table.
+      x Expression 1 contains `preceding(a, x$b)`.
 
 # as_join_by() emits useful errors
 

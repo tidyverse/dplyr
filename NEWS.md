@@ -21,13 +21,14 @@
       `join_by(sale_date >= commercial_date)` to find every commercial that
       aired before a particular sale.
       
-    * Rolling joins: For limiting the results of non-equi joins, specified
-      by wrapping a non-equi condition in `max()` or `min()`. For example,
-      `join_by(max(sale_date >= commercial_date))` to find only the most
+    * Rolling joins: For "rolling" the preceding value forward or the following
+      value backwards when there isn't an exact match, specified by using one of
+      the rolling helpers: `preceding()` or `following()`. For example,
+      `join_by(preceding(sale_date, commercial_date))` to find only the most
       recent commercial that aired before a particular sale.
       
     * Overlap joins: For detecting overlaps between sets of columns, specified
-      by using one of the join helpers: `between()`, `within()`, or
+      by using one of the overlap helpers: `between()`, `within()`, or
       `overlaps()`. For example,
       `join_by(between(commercial_date, sale_date_lower, sale_date))` to
       find commercials that aired before a particular sale, as long as they

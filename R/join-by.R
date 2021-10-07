@@ -34,12 +34,41 @@
 #' ## Rolling joins:
 #'
 #' Rolling joins are a variant of a non-equi join that limit the results
-#' returned from each condition to either the maximum or minimum value of
-#' the matches in `y`. To construct a rolling join, wrap a non-equi join
-#' condition in `max()` or `min()`, such as `max(x > y)`, which specifies
-#' that for each value of `x`, all matches in `y` should be found where `x > y`,
-#' and then the maximum `y` value of those matches should be the only one
-#' that is kept.
+#' returned from the non-equi join condition. They are useful for "rolling"
+#' the preceding value forward or the following value backwards when there
+#' isn't an exact match. There are two helpers that `join_by()` recognizes
+#' to assist with constructing rolling joins.
+#'
+#' - `preceding(x, y, ..., inclusive = TRUE)`
+#'
+#'   Matches using the binary condition `x >= y`, then filters the matches to
+#'   only include the one corresponding to the maximum value of `y` (i.e. the
+#'   preceding match).
+#'
+#'   If `inclusive = FALSE`, `>=` is replaced with `>`, preventing an exact
+#'   match from occurring.
+#'
+#'   Dots are for future extensions and must be empty.
+#'
+#' - `following(x, y, ..., inclusive = TRUE)`
+#'
+#'   Matches using the binary condition `x <= y`, then filters the matches to
+#'   only include the one corresponding to the minimum value of `y` (i.e. the
+#'   following match).
+#'
+#'   If `inclusive = FALSE`, `<=` is replaced with `<`, preventing an exact
+#'   match from occurring.
+#'
+#'   Dots are for future extensions and must be empty.
+#'
+#' Unlike other join helpers, the `x` argument must reference the left-hand
+#' table (`x`) and the `y` argument must reference the right-hand table (`y`).
+#' Attempting something like `preceding(y$a, x$b)` is not defined and will
+#' result in an error.
+#'
+#' Rolling joins can't be constructed directly from binary conditions, but are
+#' approximately equivalent to applying the binary condition mentioned above
+#' followed by a `filter()` for only the maximum or minimum `y` value.
 #'
 #' ## Overlap joins:
 #'
@@ -90,15 +119,13 @@
 #'   Each expression should consist of either a join condition or a join helper:
 #'
 #'   - Join conditions: `==`, `>=`, `>`, `<=`, or `<`.
-#'   - Join helpers: `between()`, `within()`, or `overlaps()`.
+#'   - Rolling helpers: `preceding()` or `following()`.
+#'   - Overlap helpers: `between()`, `within()`, or `overlaps()`.
 #'
 #'   Column names should be specified as quoted or unquoted names. By default,
 #'   the name on the left-hand side of a join condition refers to the left-hand
 #'   table, unless overriden by explicitly prefixing the column name with either
 #'   `x$` or `y$`.
-#'
-#'   Optionally, a non-equi join condition can be wrapped in `max()` or `min()`
-#'   to specify a rolling join.
 #'
 #'   If a single column name is provided without any join conditions, it is
 #'   interpreted as if that column name was duplicated on each side of `==`,
@@ -120,21 +147,26 @@
 #' by <- join_by(id, sale_date == promo_date)
 #' left_join(sales, promos, by)
 #'
-#' # For each `sales_date` within a particular `id`, find all `promo_date`s that
-#' # occurred before that particular sale
+#' # For each `sales_date` within a particular `id`,
+#' # find all `promo_date`s that occurred before that particular sale
 #' by <- join_by(id, sale_date >= promo_date)
 #' left_join(sales, promos, by)
 #'
-#' # For each `sales_date` within a particular `id`, find the most recent
-#' # `promo_date` that occurred before that particular sale
-#' by <- join_by(id, max(sale_date >= promo_date))
+#' # For each `sales_date` within a particular `id`,
+#' # find only the preceding `promo_date` that occurred before that sale
+#' by <- join_by(id, preceding(sale_date, promo_date))
+#' left_join(sales, promos, by)
+#'
+#' # If you want to disallow exact matching in rolling joins,
+#' # set `inclusive = FALSE`. Note that `2019-01-05` no longer matches exactly.
+#' by <- join_by(id, preceding(sale_date, promo_date, inclusive = FALSE))
 #' left_join(sales, promos, by)
 #'
 #' # Same as before, but also require that the promo had to occur at most 1
 #' # day before the sale was made. We'll use a full join to see that id 2's
 #' # promo on `2019-01-02` is no longer matched to the sale on `2019-01-04`.
 #' sales <- mutate(sales, sale_date_lower = sale_date - 1)
-#' by <- join_by(id, max(sale_date >= promo_date), sale_date_lower <= promo_date)
+#' by <- join_by(id, preceding(sale_date, promo_date), sale_date_lower <= promo_date)
 #' full_join(sales, promos, by)
 #'
 #' # ---------------------------------------------------------------------------
@@ -339,8 +371,8 @@ parse_join_by_expr <- function(expr, i) {
     "overlaps" =,
     "within" = parse_join_by_containment(expr, i),
 
-    "max" =,
-    "min" = parse_join_by_filter(expr, i),
+    "preceding" =,
+    "following" = parse_join_by_rolling(expr, i),
 
     "$" = stop_invalid_dollar_sign(expr, i),
 
@@ -356,7 +388,7 @@ stop_invalid_dollar_sign <- function(expr, i) {
 }
 
 stop_invalid_top_expression <- function(expr, i) {
-  options <- c("==", ">=", ">", "<=", "<", "between()", "overlaps()", "within()", "max()", "min()")
+  options <- c("==", ">=", ">", "<=", "<", "preceding()", "following()", "between()", "overlaps()", "within()")
   options <- glue::backtick(options)
   options <- glue_collapse(options, sep = ", ", last = ", or ")
 
@@ -511,45 +543,93 @@ binding_join_by_less_than_or_equal <- function(x, y) {
   binding_join_by_binary("<=", !!enexpr(x), !!enexpr(y))
 }
 
-parse_join_by_filter <- function(expr, i) {
-  args <- eval_join_by_filter(expr)
+parse_join_by_rolling <- function(expr, i) {
+  args <- eval_join_by_rolling(expr)
 
-  filter <- args$filter
-  inner <- args$inner
+  rolling <- args$rolling
+  inclusive <- args$inclusive
 
-  if (!is_call(inner, c("==", ">=", ">", "<=", "<"))) {
+  filter <- switch(
+    rolling,
+    preceding = "max",
+    following = "min",
+    abort("Internal error. Unknown `rolling` value.")
+  )
+
+  condition <- switch(
+    rolling,
+    preceding = if (inclusive) ">=" else ">",
+    following = if (inclusive) "<=" else "<",
+    abort("Internal error. Unknown `rolling` value.")
+  )
+
+  lhs <- args$lhs
+  rhs <- args$rhs
+
+  lhs <- parse_join_by_name(lhs, i, default_side = "x")
+  rhs <- parse_join_by_name(rhs, i, default_side = "y")
+
+  # It doesn't make sense to allow `preceding(y$a, x$b)`, as that can't
+  # translate to anything meaningful / intuitive.
+  if (lhs$side == "y") {
+    rolling <- glue::backtick(glue("{rolling}()"))
+
     abort(c(
-      "`max()` or `min()` must wrap a binary condition.",
-      x = glue("Expression {i} is {err_expr(expr)}.")
+      glue("The first argument to {rolling} must reference the `x` table."),
+      x = glue("Expression {i} contains {err_expr(expr)}.")
     ))
   }
 
-  out <- parse_join_by_binary(inner, i)
-  out$filter <- filter
+  if (rhs$side == "x") {
+    rolling <- glue::backtick(glue("{rolling}()"))
 
-  out
+    abort(c(
+      glue("The second argument to {rolling} must reference the `y` table."),
+      x = glue("Expression {i} contains {err_expr(expr)}.")
+    ))
+  }
+
+  x <- lhs$name
+  y <- rhs$name
+
+  list(
+    x = x,
+    y = y,
+    condition = condition,
+    filter = filter
+  )
 }
-eval_join_by_filter <- function(expr) {
+eval_join_by_rolling <- function(expr) {
   env <- new_environment()
 
   env_bind(
     env,
-    max = binding_join_by_max,
-    min = binding_join_by_min
+    preceding = binding_join_by_preceding,
+    following = binding_join_by_following
   )
 
   eval_tidy(expr, env = env)
 }
-binding_join_by_filter <- function(filter, x) {
+binding_join_by_rolling <- function(rolling, x, y, ..., inclusive) {
+  check_dots_empty(call = call(rolling))
+
   x <- enexpr(x)
-  check_missing_arg(x, "x", filter)
-  list(filter = filter, inner = x)
+  y <- enexpr(y)
+
+  check_missing_arg(x, "x", rolling)
+  check_missing_arg(y, "y", rolling)
+
+  if (!is_bool(inclusive)) {
+    abort("`inclusive` must be a single `TRUE` or `FALSE`.")
+  }
+
+  list(rolling = rolling, lhs = x, rhs = y, inclusive = inclusive)
 }
-binding_join_by_max <- function(x) {
-  binding_join_by_filter("max", !!enexpr(x))
+binding_join_by_preceding <- function(x, y, ..., inclusive = TRUE) {
+  binding_join_by_rolling("preceding", !!enexpr(x), !!enexpr(y), ..., inclusive = inclusive)
 }
-binding_join_by_min <- function(x) {
-  binding_join_by_filter("min", !!enexpr(x))
+binding_join_by_following <- function(x, y, ..., inclusive = TRUE) {
+  binding_join_by_rolling("following", !!enexpr(x), !!enexpr(y), ..., inclusive = inclusive)
 }
 
 parse_join_by_between <- function(expr, i) {

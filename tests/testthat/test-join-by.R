@@ -19,17 +19,33 @@ test_that("works with non-equi conditions", {
 })
 
 test_that("works with rolling conditions", {
-  by <- join_by(x == y, max(a > b))
+  by <- join_by(x == y, preceding(a, b))
 
   expect_identical(by$x, c("x", "a"))
   expect_identical(by$y, c("y", "b"))
   expect_identical(by$filter, c("none", "max"))
+  expect_identical(by$condition, c("==", ">="))
 
-  by <- join_by(x == y, min(a > b))
+  by <- join_by(x == y, preceding(a, b, inclusive = FALSE))
+
+  expect_identical(by$x, c("x", "a"))
+  expect_identical(by$y, c("y", "b"))
+  expect_identical(by$filter, c("none", "max"))
+  expect_identical(by$condition, c("==", ">"))
+
+  by <- join_by(x == y, following(a, b))
 
   expect_identical(by$x, c("x", "a"))
   expect_identical(by$y, c("y", "b"))
   expect_identical(by$filter, c("none", "min"))
+  expect_identical(by$condition, c("==", "<="))
+
+  by <- join_by(x == y, following(a, b, inclusive = FALSE))
+
+  expect_identical(by$x, c("x", "a"))
+  expect_identical(by$y, c("y", "b"))
+  expect_identical(by$filter, c("none", "min"))
+  expect_identical(by$condition, c("==", "<"))
 })
 
 test_that("works with single arguments", {
@@ -39,8 +55,8 @@ test_that("works with single arguments", {
 })
 
 test_that("works with character strings", {
-  by1 <- join_by("a", "b" == "c", max("d" >= "e"))
-  by2 <- join_by(a, b  == c, max(d >= e))
+  by1 <- join_by("a", "b" == "c", preceding("d", "e"))
+  by2 <- join_by(a, b  == c, preceding(d, e))
 
   expect_identical(by1$condition, by2$condition)
   expect_identical(by1$filter, by2$filter)
@@ -97,7 +113,7 @@ test_that("overlaps / within conditions expand correctly", {
   expect_identical(by$condition, c("<=", ">="))
 })
 
-test_that("between / overlaps / within can use named arguments", {
+test_that("between / overlaps / within / preceding / following can use named arguments", {
   by <- join_by(between(a, y_upper = b, y_lower = c))
   expect_identical(by$x, c("a", "a"))
   expect_identical(by$y, c("c", "b"))
@@ -121,6 +137,14 @@ test_that("between / overlaps / within can use named arguments", {
   expect_identical(by$x, c("c", "d"))
   expect_identical(by$y, c("a", "b"))
   expect_identical(by$condition, c("<=", ">="))
+
+  by <- join_by(preceding(y = b, x = a))
+  expect_identical(by$x, "a")
+  expect_identical(by$y, "b")
+
+  by <- join_by(following(y = b, x = a))
+  expect_identical(by$x, "a")
+  expect_identical(by$y, "b")
 })
 
 test_that("can join_by() nothing for a cross join", {
@@ -135,7 +159,7 @@ test_that("has an informative print method", {
   expect_snapshot(join_by("a", "b"))
   expect_snapshot(join_by(a == a, b >= c))
   expect_snapshot(join_by(a == a, b >= "c"))
-  expect_snapshot(join_by(a == a, max(b >= "c"), min(d < e)))
+  expect_snapshot(join_by(a == a, preceding(b, c), following(d, e, inclusive = FALSE)))
 })
 
 test_that("has informative error messages", {
@@ -147,9 +171,6 @@ test_that("has informative error messages", {
 
   # Improper rolling specification
   expect_snapshot(error = TRUE, join_by(foo(x > y)))
-
-  # Length two expression inside rolling specification
-  expect_snapshot(error = TRUE, join_by(max(!x)))
 
   # Improper separator
   expect_snapshot(error = TRUE, join_by(x == y, x ^ y))
@@ -190,7 +211,18 @@ test_that("has informative error messages", {
   expect_snapshot(error = TRUE, join_by(between(x)))
   expect_snapshot(error = TRUE, join_by(within(x)))
   expect_snapshot(error = TRUE, join_by(overlaps(x)))
+  expect_snapshot(error = TRUE, join_by(preceding(x)))
+  expect_snapshot(error = TRUE, join_by(preceding(y = x)))
+  expect_snapshot(error = TRUE, join_by(following(x)))
   expect_snapshot(error = TRUE, join_by(`$`(x) > y))
+
+  # Arguments supplied in empty dots
+  expect_snapshot(error = TRUE, join_by(preceding(x, y, TRUE)))
+  expect_snapshot(error = TRUE, join_by(following(x, y, TRUE)))
+
+  # Referencing wrong table in `preceding()` or `following()`
+  expect_snapshot(error = TRUE, join_by(preceding(y$a, b)))
+  expect_snapshot(error = TRUE, join_by(preceding(a, x$b)))
 })
 
 # ------------------------------------------------------------------------------

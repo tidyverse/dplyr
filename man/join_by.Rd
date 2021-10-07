@@ -12,16 +12,14 @@ join_by(...)
 Each expression should consist of either a join condition or a join helper:
 \itemize{
 \item Join conditions: \code{==}, \code{>=}, \code{>}, \code{<=}, or \code{<}.
-\item Join helpers: \code{between()}, \code{within()}, or \code{overlaps()}.
+\item Rolling helpers: \code{preceding()} or \code{following()}.
+\item Overlap helpers: \code{between()}, \code{within()}, or \code{overlaps()}.
 }
 
 Column names should be specified as quoted or unquoted names. By default,
 the name on the left-hand side of a join condition refers to the left-hand
 table, unless overriden by explicitly prefixing the column name with either
 \verb{x$} or \verb{y$}.
-
-Optionally, a non-equi join condition can be wrapped in \code{max()} or \code{min()}
-to specify a rolling join.
 
 If a single column name is provided without any join conditions, it is
 interpreted as if that column name was duplicated on each side of \code{==},
@@ -62,12 +60,41 @@ join specifications!
 \subsection{Rolling joins:}{
 
 Rolling joins are a variant of a non-equi join that limit the results
-returned from each condition to either the maximum or minimum value of
-the matches in \code{y}. To construct a rolling join, wrap a non-equi join
-condition in \code{max()} or \code{min()}, such as \code{max(x > y)}, which specifies
-that for each value of \code{x}, all matches in \code{y} should be found where \code{x > y},
-and then the maximum \code{y} value of those matches should be the only one
-that is kept.
+returned from the non-equi join condition. They are useful for "rolling"
+the preceding value forward or the following value backwards when there
+isn't an exact match. There are two helpers that \code{join_by()} recognizes
+to assist with constructing rolling joins.
+\itemize{
+\item \code{preceding(x, y, ..., inclusive = TRUE)}
+
+Matches using the binary condition \code{x >= y}, then filters the matches to
+only include the one corresponding to the maximum value of \code{y} (i.e. the
+preceding match).
+
+If \code{inclusive = FALSE}, \code{>=} is replaced with \code{>}, preventing an exact
+match from occurring.
+
+Dots are for future extensions and must be empty.
+\item \code{following(x, y, ..., inclusive = TRUE)}
+
+Matches using the binary condition \code{x <= y}, then filters the matches to
+only include the one corresponding to the minimum value of \code{y} (i.e. the
+following match).
+
+If \code{inclusive = FALSE}, \code{<=} is replaced with \code{<}, preventing an exact
+match from occurring.
+
+Dots are for future extensions and must be empty.
+}
+
+Unlike other join helpers, the \code{x} argument must reference the left-hand
+table (\code{x}) and the \code{y} argument must reference the right-hand table (\code{y}).
+Attempting something like \code{preceding(y$a, x$b)} is not defined and will
+result in an error.
+
+Rolling joins can't be constructed directly from binary conditions, but are
+approximately equivalent to applying the binary condition mentioned above
+followed by a \code{filter()} for only the maximum or minimum \code{y} value.
 }
 
 \subsection{Overlap joins:}{
@@ -129,21 +156,26 @@ promos <- tibble(
 by <- join_by(id, sale_date == promo_date)
 left_join(sales, promos, by)
 
-# For each `sales_date` within a particular `id`, find all `promo_date`s that
-# occurred before that particular sale
+# For each `sales_date` within a particular `id`,
+# find all `promo_date`s that occurred before that particular sale
 by <- join_by(id, sale_date >= promo_date)
 left_join(sales, promos, by)
 
-# For each `sales_date` within a particular `id`, find the most recent
-# `promo_date` that occurred before that particular sale
-by <- join_by(id, max(sale_date >= promo_date))
+# For each `sales_date` within a particular `id`,
+# find only the preceding `promo_date` that occurred before that sale
+by <- join_by(id, preceding(sale_date, promo_date))
+left_join(sales, promos, by)
+
+# If you want to disallow exact matching in rolling joins,
+# set `inclusive = FALSE`. Note that `2019-01-05` no longer matches exactly.
+by <- join_by(id, preceding(sale_date, promo_date, inclusive = FALSE))
 left_join(sales, promos, by)
 
 # Same as before, but also require that the promo had to occur at most 1
 # day before the sale was made. We'll use a full join to see that id 2's
 # promo on `2019-01-02` is no longer matched to the sale on `2019-01-04`.
 sales <- mutate(sales, sale_date_lower = sale_date - 1)
-by <- join_by(id, max(sale_date >= promo_date), sale_date_lower <= promo_date)
+by <- join_by(id, preceding(sale_date, promo_date), sale_date_lower <= promo_date)
 full_join(sales, promos, by)
 
 # ---------------------------------------------------------------------------
