@@ -161,11 +161,13 @@ test_that("distinct() propagates caller env", {
 
 
 test_that("distinct gives a warning when selecting an unknown column (#3140)", {
-  df <- tibble(g = c(1, 2), x = c(1, 2))
+  expect_snapshot({
+    df <- tibble(g = c(1, 2), x = c(1, 2))
 
-  expect_snapshot(error = TRUE, df %>% distinct(aa, x))
-  expect_snapshot(error = TRUE, df %>% distinct(aa, bb))
-  expect_snapshot(error = TRUE, df %>% distinct(.data$aa))
+    (expect_error(df %>% distinct(aa, x)))
+    (expect_error(df %>% distinct(aa, bb)))
+    (expect_error(df %>% distinct(.data$aa)))
 
-  expect_snapshot(error = TRUE, df %>% distinct(y = a + 1))
+    (expect_error(df %>% distinct(y = a + 1)))
+  })
 })
