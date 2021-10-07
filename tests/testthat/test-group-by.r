@@ -595,11 +595,14 @@ test_that("group_by() propagates caller env", {
 # Errors ------------------------------------------------------------------
 
 test_that("group_by() and ungroup() give meaningful error messages", {
-  df <- tibble(x = 1, y = 2)
+  expect_snapshot({
+    df <- tibble(x = 1, y = 2)
 
-  expect_snapshot(error = TRUE, df %>% group_by(unknown))
-  expect_snapshot(error = TRUE, df %>% ungroup(x))
-  expect_snapshot(error = TRUE, df %>% group_by(x, y) %>% ungroup(z))
+    (expect_error(df %>% group_by(unknown)))
+    (expect_error(df %>% ungroup(x)))
+    (expect_error(df %>% group_by(x, y) %>% ungroup(z)))
 
-  expect_snapshot(error = TRUE, df %>% group_by(z = a + 1))
+    (expect_error(df %>% group_by(z = a + 1)))
+  })
+
 })
