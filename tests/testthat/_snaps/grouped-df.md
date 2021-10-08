@@ -1,31 +1,6 @@
 # validate_grouped_df() gives useful errors
 
     Code
-      df1 <- group_by(tibble(x = 1:4, g = rep(1:2, each = 2)), g)
-      groups <- attr(df1, "groups")
-      groups[[2]] <- 1:2
-      attr(df1, "groups") <- groups
-      df2 <- group_by(tibble(x = 1:4, g = rep(1:2, each = 2)), g)
-      groups <- attr(df2, "groups")
-      names(groups) <- c("g", "not.rows")
-      attr(df2, "groups") <- groups
-      df3 <- df2
-      attr(df3, "groups") <- tibble()
-      df4 <- df3
-      attr(df4, "groups") <- NA
-      df5 <- tibble(x = 1:4, g = rep(1:2, each = 2))
-      attr(df5, "vars") <- "g"
-      attr(df5, "class") <- c("grouped_df", "tbl_df", "tbl", "data.frame")
-      df6 <- new_grouped_df(tibble(x = 1:10), groups = tibble(".rows" := list(1:5,
-      -1L)))
-      df7 <- df6
-      attr(df7, "groups")$.rows <- list(11L)
-      df8 <- df6
-      attr(df8, "groups")$.rows <- list(0L)
-      df10 <- df6
-      attr(df10, "groups") <- tibble()
-      df11 <- df6
-      attr(df11, "groups") <- NULL
       (expect_error(validate_grouped_df(df1)))
     Output
       <error/rlang_error>
