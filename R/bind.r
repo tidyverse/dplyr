@@ -153,6 +153,7 @@ bind_cols <- function(..., .name_repair = c("unique", "universal", "check_unique
 
   dots <- squash_if(dots, vec_is_list)
   dots <- discard(dots, is.null)
+  names(dots) <- names(dots) %||% rep("", length(dots))
 
   # Strip names off of data frame components so that vec_cbind() unpacks them
   is_data_frame <- map_lgl(dots, is.data.frame)
