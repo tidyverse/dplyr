@@ -42,13 +42,9 @@
       <error/rlang_error>
       Error: 
         Problem adding computed columns in `group_by()`.
-        x Problem with `mutate()` column `z`.
-        i `z = a + 1`.
-        x object 'a' not found
-      Caused by error: 
-        Problem with `mutate()` column `z`.
-        i `z = a + 1`.
-        x object 'a' not found
+        x Problem while computing `z = a + 1`.
+      Caused by error in `mutate()`: 
+        Problem while computing `z = a + 1`.
       Caused by error: 
         object 'a' not found
 

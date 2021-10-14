@@ -43,7 +43,7 @@
         a = 1))))
     Output
       <error/dplyr_error>
-      Error: Problem with `summarise()` column `a`.
+      Error in `summarise()`: Problem while computing `a = rlang::env(a = 1)`.
       i `a = rlang::env(a = 1)`.
       x `a` must be a vector, not an environment.
     Code
@@ -51,7 +51,7 @@
         summarise(a = rlang::env(a = 1))))
     Output
       <error/dplyr_error>
-      Error: Problem with `summarise()` column `a`.
+      Error in `summarise()`: Problem while computing `a = rlang::env(a = 1)`.
       i `a = rlang::env(a = 1)`.
       x `a` must be a vector, not an environment.
       i The error occurred in group 1: x = 1, y = 1.
@@ -60,7 +60,7 @@
         summarise(a = lm(y ~ x))))
     Output
       <error/dplyr_error>
-      Error: Problem with `summarise()` column `a`.
+      Error in `summarise()`: Problem while computing `a = lm(y ~ x)`.
       i `a = lm(y ~ x)`.
       x `a` must be a vector, not a `lm` object.
       i Did you mean: `a = list(lm(y ~ x))` ?
@@ -70,7 +70,7 @@
         a = a[[1]])))
     Output
       <error/dplyr_error>
-      Error: Problem with `summarise()` column `a`.
+      Error in `summarise()`: Problem while computing `a = a[[1]]`.
       i `a = a[[1]]`.
       x `a` must return compatible vectors across groups
       i Result type for group 1 (id = 1): <double>.
@@ -80,14 +80,14 @@
         1]])))
     Output
       <error/dplyr_error>
-      Error: Problem with `summarise()` column `a`.
+      Error in `summarise()`: Problem while computing `a = a[[1]]`.
       i `a = a[[1]]`.
       x `a` must return compatible vectors across groups
     Code
       (expect_error(tibble(z = 1) %>% summarise(x = 1:3, y = 1:2)))
     Output
       <error/dplyr_error>
-      Error: Problem with `summarise()` column `y`.
+      Error in `summarise()`: Problem while computing `y = 1:2`.
       i `y = 1:2`.
       x `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
@@ -95,7 +95,7 @@
       (expect_error(tibble(z = 1:2) %>% group_by(z) %>% summarise(x = 1:3, y = 1:2)))
     Output
       <error/dplyr_error>
-      Error: Problem with `summarise()` column `y`.
+      Error in `summarise()`: Problem while computing `y = 1:2`.
       i `y = 1:2`.
       x `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
@@ -105,7 +105,7 @@
       y = 1:2)))
     Output
       <error/dplyr_error>
-      Error: Problem with `summarise()` column `y`.
+      Error in `summarise()`: Problem while computing `y = 1:2`.
       i `y = 1:2`.
       x `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
@@ -115,7 +115,7 @@
         g == 1) 42)))
     Output
       <error/dplyr_error>
-      Error: Problem with `summarise()` column `x`.
+      Error in `summarise()`: Problem while computing `x = if (g == 1) 42`.
       i `x = if (g == 1) 42`.
       x `x` must return compatible vectors across groups.
       i Cannot combine NULL and non NULL results.
@@ -123,14 +123,14 @@
       (expect_error(summarise(mtcars, a = mean(not_there))))
     Output
       <error/dplyr_error>
-      Error in `h()`: Problem with `summarise()` column `a`.
+      Error in `summarise()`: Problem while computing `a = mean(not_there)`.
       i `a = mean(not_there)`.
       x object 'not_there' not found
     Code
       (expect_error(summarise(group_by(mtcars, cyl), a = mean(not_there))))
     Output
       <error/dplyr_error>
-      Error in `h()`: Problem with `summarise()` column `a`.
+      Error in `summarise()`: Problem while computing `a = mean(not_there)`.
       i `a = mean(not_there)`.
       x object 'not_there' not found
       i The error occurred in group 1: cyl = 4.
@@ -138,14 +138,14 @@
       (expect_error(summarise(tibble(a = 1), c = .data$b)))
     Output
       <error/dplyr_error>
-      Error: Problem with `summarise()` column `c`.
+      Error in `summarise()`: Problem while computing `c = .data$b`.
       i `c = .data$b`.
       x Column `b` not found in `.data`.
     Code
       (expect_error(summarise(group_by(tibble(a = 1:3), a), c = .data$b)))
     Output
       <error/dplyr_error>
-      Error: Problem with `summarise()` column `c`.
+      Error in `summarise()`: Problem while computing `c = .data$b`.
       i `c = .data$b`.
       x Column `b` not found in `.data`.
       i The error occurred in group 1: a = 1.
@@ -158,7 +158,7 @@
       (expect_error(tibble() %>% summarise(stop("{"))))
     Output
       <error/dplyr_error>
-      Error in `h()`: Problem with `summarise()` input `..1`.
+      Error in `summarise()`: Problem while computing `..1 = stop("{")`.
       i `..1 = stop("{")`.
       x {
     Code
@@ -166,7 +166,7 @@
         summarise(a = stop("!"))))
     Output
       <error/dplyr_error>
-      Error in `h()`: Problem with `summarise()` column `a`.
+      Error in `summarise()`: Problem while computing `a = stop("!")`.
       i `a = stop("!")`.
       x !
       i The error occurred in group 1: b = "{value:1, unit:a}".

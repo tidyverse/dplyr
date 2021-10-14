@@ -4,7 +4,7 @@
       (expect_error(tibble(x = 1) %>% summarise(res = across(where(is.numeric), 42))))
     Output
       <error/dplyr_error>
-      Error: Problem with `summarise()` column `res`.
+      Error in `summarise()`: Problem while computing `res = across(where(is.numeric), 42)`.
       i `res = across(where(is.numeric), 42)`.
       x Problem with `across()` input `.fns`.
       i `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
@@ -25,7 +25,7 @@
       (expect_error(filter(df, if_any(~ .x > 5))))
     Output
       <error/dplyr_error>
-      Error: Problem with `filter()` input `..1`.
+      Error in `filter()`: Problem while computing `..1 = if_any(~.x > 5)`.
       i Input `..1` is `if_any(~.x > 5)`.
       x Predicate used in lieu of column selection.
       i You most likely meant: `if_any(everything(), ~.x > 5)`.
@@ -35,7 +35,7 @@
       (expect_error(filter(df, if_all(~ .x > 5))))
     Output
       <error/dplyr_error>
-      Error: Problem with `filter()` input `..1`.
+      Error in `filter()`: Problem while computing `..1 = if_all(~.x > 5)`.
       i Input `..1` is `if_all(~.x > 5)`.
       x Predicate used in lieu of column selection.
       i You most likely meant: `if_all(everything(), ~.x > 5)`.
@@ -45,7 +45,7 @@
       (expect_error(filter(df, !if_any(~ .x > 5))))
     Output
       <error/dplyr_error>
-      Error: Problem with `filter()` input `..1`.
+      Error in `filter()`: Problem while computing `..1 = !if_any(~.x > 5)`.
       i Input `..1` is `!if_any(~.x > 5)`.
       x Predicate used in lieu of column selection.
       i You most likely meant: `if_any(everything(), ~.x > 5)`.
@@ -55,7 +55,7 @@
       (expect_error(filter(df, !if_all(~ .x > 5))))
     Output
       <error/dplyr_error>
-      Error: Problem with `filter()` input `..1`.
+      Error in `filter()`: Problem while computing `..1 = !if_all(~.x > 5)`.
       i Input `..1` is `!if_all(~.x > 5)`.
       x Predicate used in lieu of column selection.
       i You most likely meant: `if_all(everything(), ~.x > 5)`.

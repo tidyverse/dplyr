@@ -26,20 +26,16 @@
       (expect_error(mutate_all(mtcars, length, 0, 0)))
     Output
       <error/dplyr:::mutate_error>
-      Error: 
-        Problem with `mutate()` column `mpg`.
-        i `mpg = .Primitive("length")(mpg, 0, 0)`.
-        x 3 arguments passed to 'length' which requires 1
+      Error in `mutate()`: 
+        Problem while computing `mpg = .Primitive("length")(mpg, 0, 0)`.
       Caused by error: 
         3 arguments passed to 'length' which requires 1
     Code
       (expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE)))
     Output
       <error/dplyr:::mutate_error>
-      Error: 
-        Problem with `mutate()` column `mpg`.
-        i `mpg = (function (x, ...) ...`.
-        x formal argument "na.rm" matched by multiple actual arguments
+      Error in `mutate()`: 
+        Problem while computing `mpg = (function (x, ...) ...`.
       Caused by error in `mean.default()`: 
         formal argument "na.rm" matched by multiple actual arguments
 

@@ -26,13 +26,9 @@
       <error/rlang_error>
       Error: 
         Problem adding computed columns in `distinct()`.
-        x Problem with `mutate()` column `y`.
-        i `y = a + 1`.
-        x object 'a' not found
-      Caused by error: 
-        Problem with `mutate()` column `y`.
-        i `y = a + 1`.
-        x object 'a' not found
+        x Problem while computing `y = a + 1`.
+      Caused by error in `mutate()`: 
+        Problem while computing `y = a + 1`.
       Caused by error: 
         object 'a' not found
 
