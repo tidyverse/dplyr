@@ -127,11 +127,8 @@ filter_rows <- function(.data, ..., caller_env) {
   # Names that expand to logical vectors are ignored. Remove them so
   # they don't get in the way of the flatmap step below.
   dots <- unname(dots)
+  dots <- filter_expand(dots)
   withCallingHandlers({
-    dots <- new_quosures(flatten(imap(dots, function(dot, index) {
-      env_filter$current_expression <- index
-      expand_if_across(dot)
-    })))
     mask$eval_all_filter(dots, env_filter)
   }, error = function(e) {
       local_call_step(dots = dots, .index = env_filter$current_expression, .fn = "filter")
@@ -165,4 +162,27 @@ check_filter <- function(dots) {
     }
 
   }
+}
+
+filter_expand <- function(dots) {
+  env_filter <-  env()
+  filter_expand_one <- function(dot, index) {
+    env_filter$current_expression <- index
+    expand_if_across(dot)
+  }
+
+  dots <- withCallingHandlers(
+    imap(dots, filter_expand_one),
+    error = function(cnd) {
+      i <- env_filter$current_expression
+      expr <- quo_get_expr(dots[[i]])
+      abort(
+        glue("Problem while expanding `..{i} = {as_label(expr)}`"),
+        call = call2("filter"),
+        parent = cnd
+      )
+    }
+  )
+
+  new_quosures(flatten(dots))
 }
