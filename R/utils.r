@@ -152,10 +152,11 @@ node_walk_replace <- function(node, old, new) {
   }
 }
 
+# temporary workaround until vctrs better reports error call
 disguise <- function(expr) {
   call <- match.call()$expr
   withCallingHandlers(expr, error = function(cnd) {
     cnd$call <- call
-    exec(abort, !!!cnd, class = class(cnd))
+    cnd_signal(cnd)
   })
 }
