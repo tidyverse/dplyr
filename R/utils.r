@@ -151,3 +151,11 @@ node_walk_replace <- function(node, old, new) {
     node <- node_cdr(node)
   }
 }
+
+disguise <- function(expr) {
+  call <- match.call()$expr
+  withCallingHandlers(expr, error = function(cnd) {
+    cnd$call <- call
+    exec(abort, !!!cnd, class = class(cnd))
+  })
+}
