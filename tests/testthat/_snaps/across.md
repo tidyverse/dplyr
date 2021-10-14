@@ -4,10 +4,12 @@
       (expect_error(tibble(x = 1) %>% summarise(res = across(where(is.numeric), 42))))
     Output
       <error/dplyr_error>
-      Error in `summarise()`: Problem while computing `res = across(where(is.numeric), 42)`.
-      i `res = across(where(is.numeric), 42)`.
-      x Problem with `across()` input `.fns`.
-      i `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
+      Error in `summarise()`: 
+        Problem while computing `res = across(where(is.numeric), 42)`.
+        i `res = across(where(is.numeric), 42)`.
+      Caused by error in `across_setup()`: 
+        Problem with `across()` input `.fns`.
+        i `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
     Code
       (expect_error(across()))
     Output

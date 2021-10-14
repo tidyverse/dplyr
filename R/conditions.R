@@ -89,8 +89,8 @@ err_vars <- function(x) {
 abort_glue <- function(message, data = list(), class = NULL) {
   if (length(message)) {
     message <- exec(glue, message, !!!data)
-    exec(abort, message = message, class = c(class, "dplyr:::internal_error"), !!!data)
+    exec(abort, message = message, parent = NULL, class = c(class, "dplyr:::internal_error"), !!!data)
   } else {
-    exec(abort, class = c(class, "dplyr:::internal_error"), !!!data)
+    exec(abort, parent = NULL, class = c(class, "dplyr:::internal_error"), !!!data)
   }
 }
