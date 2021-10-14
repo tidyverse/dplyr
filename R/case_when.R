@@ -233,6 +233,6 @@ validate_case_when_length <- function(query, value, fs) {
 
   bad_calls(
     fs[problems],
-    check_length_val(inconsistent_lengths, len, header = NULL, .abort = identity)
+    check_length_val(inconsistent_lengths, len, header = NULL, .abort = function(x, ...) x)
   )
 }
