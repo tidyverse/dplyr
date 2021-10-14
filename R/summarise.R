@@ -245,8 +245,9 @@ summarise_cols <- function(.data, ..., caller_env) {
           vec_ptype_common(!!!chunks_k),
           vctrs_error_incompatible_type = function(cnd) {
             abort(
-              class = c("dplyr:::error_summarise_incompatible_combine", "dplyr:::internal_error"),
-              parent = cnd
+              conditionMessage(cnd),
+              class = c("dplyr:::error_summarise_incompatible_combine"),
+              call = call2("vec_ptype_common")
             )
           }
         )
