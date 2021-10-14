@@ -1,4 +1,4 @@
-# bind_cols repairs names
+# bind_cols() repairs names
 
     Code
       bound <- bind_cols(df, df)
@@ -15,8 +15,8 @@
       df <- bind_cols(list(1, 2))
     Message <simpleMessage>
       New names:
-      * NA -> ...1
-      * NA -> ...2
+      * `` -> ...1
+      * `` -> ...2
 
 # *_bind() give meaningful errors
 
