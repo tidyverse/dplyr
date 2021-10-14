@@ -21,18 +21,17 @@
 # funs() give meaningful error messages
 
     Code
-      funs(function(si) {
+      (expect_error(funs(function(si) {
         mp[si]
-      })
-    Error <rlang_error>
-      `function(si) {
+      })))
+    Output
+      <error/rlang_error>
+      Error in `glubort()`: `function(si) {
           mp[si]
       }` must be a function name (quoted or unquoted) or an unquoted call, not `function`.
-
----
-
     Code
-      funs(~ mp[.])
-    Error <rlang_error>
-      `~mp[.]` must be a function name (quoted or unquoted) or an unquoted call, not `~`.
+      (expect_error(funs(~ mp[.])))
+    Output
+      <error/rlang_error>
+      Error in `glubort()`: `~mp[.]` must be a function name (quoted or unquoted) or an unquoted call, not `~`.
 

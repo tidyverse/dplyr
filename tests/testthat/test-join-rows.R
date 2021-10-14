@@ -31,10 +31,9 @@ test_that("full join contains all keys from both", {
 })
 
 test_that("join_rows() gives meaningful error message on incompatible types", {
-  expect_snapshot(error = TRUE,
-    join_rows(
-      data.frame(x = 1),
-      data.frame(x = factor("a"))
-    )
-  )
+  expect_snapshot({
+    (expect_error(
+      join_rows(data.frame(x = 1), data.frame(x = factor("a")))
+    ))
+  })
 })

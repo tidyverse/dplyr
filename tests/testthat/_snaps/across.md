@@ -1,26 +1,23 @@
 # across() gives meaningful messages
 
     Code
-      tibble(x = 1) %>% summarise(res = across(where(is.numeric), 42))
-    Error <dplyr_error>
-      Problem with `summarise()` column `res`.
+      (expect_error(tibble(x = 1) %>% summarise(res = across(where(is.numeric), 42))))
+    Output
+      <error/dplyr_error>
+      Error: Problem with `summarise()` column `res`.
       i `res = across(where(is.numeric), 42)`.
       x Problem with `across()` input `.fns`.
       i `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
-
----
-
     Code
-      across()
-    Error <rlang_error>
-      `across()` must only be used inside dplyr verbs.
-
----
-
+      (expect_error(across()))
+    Output
+      <error/rlang_error>
+      Error in `context_peek()`: `across()` must only be used inside dplyr verbs.
     Code
-      c_across()
-    Error <rlang_error>
-      `c_across()` must only be used inside dplyr verbs.
+      (expect_error(c_across()))
+    Output
+      <error/rlang_error>
+      Error in `context_peek()`: `c_across()` must only be used inside dplyr verbs.
 
 # if_any() and if_all() aborts when predicate mistakingly used in .cols= (#5732)
 

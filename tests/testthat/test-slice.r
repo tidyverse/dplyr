@@ -278,15 +278,15 @@ test_that("slice_*() checks for constant n= and prop=", {
 })
 
 test_that("slice_min/max() check size of `order_by=` (#5922)", {
-  expect_snapshot(error = TRUE, {
-    slice_min(data.frame(x = 1:10), 1:6)
-    slice_max(data.frame(x = 1:10), 1:6)
+  expect_snapshot({
+    (expect_error(slice_min(data.frame(x = 1:10), 1:6)))
+    (expect_error(slice_max(data.frame(x = 1:10), 1:6)))
   })
 })
 
 test_that("slice_sample() check size of `weight_by=` (#5922)", {
-  expect_snapshot(error = TRUE, {
-    slice_sample(data.frame(x = 1:10), n = 2, weight_by = 1:6)
+  expect_snapshot({
+    (expect_error(slice_sample(data.frame(x = 1:10), n = 2, weight_by = 1:6)))
   })
 })
 
@@ -342,22 +342,24 @@ test_that("Non-integer number of rows computed correctly", {
 # Errors ------------------------------------------------------------------
 
 test_that("rename errors with invalid grouped data frame (#640)", {
-  df <- tibble(x = 1:3)
+  expect_snapshot({
+    df <- tibble(x = 1:3)
 
-  # Incompatible type
-  expect_snapshot(error = TRUE, slice(df, TRUE))
-  expect_snapshot(error = TRUE, slice(df, FALSE))
+    # Incompatible type
+    (expect_error(slice(df, TRUE)))
+    (expect_error(slice(df, FALSE)))
 
-  # Mix of positive and negative integers
-  expect_snapshot(error = TRUE, mtcars %>% slice(c(-1, 2)))
-  expect_snapshot(error = TRUE, mtcars %>% slice(c(2:3, -1)))
+    # Mix of positive and negative integers
+    (expect_error(mtcars %>% slice(c(-1, 2))))
+    (expect_error(mtcars %>% slice(c(2:3, -1))))
 
-  # n and prop are carefully validated
-  expect_snapshot(error = TRUE, check_slice_size(n = 1, prop = 1))
-  expect_snapshot(error = TRUE, check_slice_size(n = "a"))
-  expect_snapshot(error = TRUE, check_slice_size(prop = "a"))
-  expect_snapshot(error = TRUE, check_slice_size(n = n()))
-  expect_snapshot(error = TRUE, check_slice_size(prop = n()))
-  expect_snapshot(error = TRUE, check_slice_size(n = NA))
-  expect_snapshot(error = TRUE, check_slice_size(prop = NA))
+    # n and prop are carefully validated
+    (expect_error(check_slice_size(n = 1, prop = 1)))
+    (expect_error(check_slice_size(n = "a")))
+    (expect_error(check_slice_size(prop = "a")))
+    (expect_error(check_slice_size(n = n())))
+    (expect_error(check_slice_size(prop = n())))
+    (expect_error(check_slice_size(n = NA)))
+    (expect_error(check_slice_size(prop = NA)))
+  })
 })

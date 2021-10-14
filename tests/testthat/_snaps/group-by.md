@@ -15,37 +15,40 @@
 # group_by() and ungroup() give meaningful error messages
 
     Code
-      df %>% group_by(unknown)
-    Error <rlang_error>
-      Must group by variables found in `.data`.
+      df <- tibble(x = 1, y = 2)
+      (expect_error(df %>% group_by(unknown)))
+    Output
+      <error/rlang_error>
+      Error in `group_by_prepare()`: Must group by variables found in `.data`.
       x Column `unknown` is not found.
-
----
-
     Code
-      df %>% ungroup(x)
-    Error <rlib_error_dots_nonempty>
-      `...` is not empty.
+      (expect_error(df %>% ungroup(x)))
+    Output
+      <error/rlib_error_dots_nonempty>
+      Error in `ungroup.data.frame()`: `...` is not empty.
       i These dots only exist to allow future extensions and should be empty.
       x We detected these problematic arguments:
       * `..1`
       i Did you misspecify an argument?
-
----
-
     Code
-      df %>% group_by(x, y) %>% ungroup(z)
-    Error <vctrs_error_subscript_oob>
-      Can't subset columns that don't exist.
+      (expect_error(df %>% group_by(x, y) %>% ungroup(z)))
+    Output
+      <error/vctrs_error_subscript_oob>
+      Error in `stop_subscript()`: Can't subset columns that don't exist.
       x Column `z` doesn't exist.
-
----
-
     Code
-      df %>% group_by(z = a + 1)
-    Error <rlang_error>
-      Problem adding computed columns in `group_by()`.
-      x Problem with `mutate()` column `z`.
-      i `z = a + 1`.
-      x object 'a' not found
+      (expect_error(df %>% group_by(z = a + 1)))
+    Output
+      <error/rlang_error>
+      Error: 
+        Problem adding computed columns in `group_by()`.
+        x Problem with `mutate()` column `z`.
+        i `z = a + 1`.
+        x object 'a' not found
+      Caused by error: 
+        Problem with `mutate()` column `z`.
+        i `z = a + 1`.
+        x object 'a' not found
+      Caused by error: 
+        object 'a' not found
 

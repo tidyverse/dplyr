@@ -1,97 +1,88 @@
 # slice_min/max() check size of `order_by=` (#5922)
 
     Code
-      slice_min(data.frame(x = 1:10), 1:6)
-    Error <dplyr_error>
-      `order_by` must have size 10, not size 6.
+      (expect_error(slice_min(data.frame(x = 1:10), 1:6)))
+    Output
+      <error/dplyr_error>
+      Error: `order_by` must have size 10, not size 6.
     Code
-      slice_max(data.frame(x = 1:10), 1:6)
-    Error <dplyr_error>
-      `order_by` must have size 10, not size 6.
+      (expect_error(slice_max(data.frame(x = 1:10), 1:6)))
+    Output
+      <error/dplyr_error>
+      Error: `order_by` must have size 10, not size 6.
 
 # slice_sample() check size of `weight_by=` (#5922)
 
     Code
-      slice_sample(data.frame(x = 1:10), n = 2, weight_by = 1:6)
-    Error <dplyr_error>
-      `weight_by` must have size 10, not size 6.
+      (expect_error(slice_sample(data.frame(x = 1:10), n = 2, weight_by = 1:6)))
+    Output
+      <error/dplyr_error>
+      Error: `weight_by` must have size 10, not size 6.
 
 # rename errors with invalid grouped data frame (#640)
 
     Code
-      slice(df, TRUE)
-    Error <dplyr_error>
-      `slice()` expressions should return indices (positive or negative integers).
-
----
-
+      df <- tibble(x = 1:3)
+      (expect_error(slice(df, TRUE)))
+    Output
+      <error/dplyr_error>
+      Error: `slice()` expressions should return indices (positive or negative integers).
     Code
-      slice(df, FALSE)
-    Error <dplyr_error>
-      `slice()` expressions should return indices (positive or negative integers).
-
----
-
+      (expect_error(slice(df, FALSE)))
+    Output
+      <error/dplyr_error>
+      Error: `slice()` expressions should return indices (positive or negative integers).
     Code
-      mtcars %>% slice(c(-1, 2))
-    Error <dplyr_error>
-      `slice()` expressions should return either all positive or all negative.
-
----
-
+      (expect_error(mtcars %>% slice(c(-1, 2))))
+    Output
+      <error/dplyr_error>
+      Error: `slice()` expressions should return either all positive or all negative.
     Code
-      mtcars %>% slice(c(2:3, -1))
-    Error <dplyr_error>
-      `slice()` expressions should return either all positive or all negative.
-
----
-
+      (expect_error(mtcars %>% slice(c(2:3, -1))))
+    Output
+      <error/dplyr_error>
+      Error: `slice()` expressions should return either all positive or all negative.
     Code
-      check_slice_size(n = 1, prop = 1)
-    Error <rlang_error>
-      Must supply exactly one of `n` and `prop` arguments.
-
----
-
+      (expect_error(check_slice_size(n = 1, prop = 1)))
+    Output
+      <error/rlang_error>
+      Error in `check_slice_size()`: Must supply exactly one of `n` and `prop` arguments.
     Code
-      check_slice_size(n = "a")
-    Error <rlang_error>
-      `n` must be a single number.
-
----
-
+      (expect_error(check_slice_size(n = "a")))
+    Output
+      <error/rlang_error>
+      Error in `check_slice_size()`: `n` must be a single number.
     Code
-      check_slice_size(prop = "a")
-    Error <rlang_error>
-      `prop` must be a single number.
-
----
-
+      (expect_error(check_slice_size(prop = "a")))
+    Output
+      <error/rlang_error>
+      Error in `check_slice_size()`: `prop` must be a single number.
     Code
-      check_slice_size(n = n())
-    Error <rlang_error>
-      `n` must be a constant in `check_slice_size()`.
-      x `n()` must only be used inside dplyr verbs.
-
----
-
+      (expect_error(check_slice_size(n = n())))
+    Output
+      <error/rlang_error>
+      Error: 
+        `n` must be a constant in `check_slice_size()`.
+        x `n()` must only be used inside dplyr verbs.
+      Caused by error in `context_peek()`: 
+        `n()` must only be used inside dplyr verbs.
     Code
-      check_slice_size(prop = n())
-    Error <rlang_error>
-      `prop` must be a constant in `check_slice_size()`.
-      x `n()` must only be used inside dplyr verbs.
-
----
-
+      (expect_error(check_slice_size(prop = n())))
+    Output
+      <error/rlang_error>
+      Error: 
+        `prop` must be a constant in `check_slice_size()`.
+        x `n()` must only be used inside dplyr verbs.
+      Caused by error in `context_peek()`: 
+        `n()` must only be used inside dplyr verbs.
     Code
-      check_slice_size(n = NA)
-    Error <rlang_error>
-      `n` must be a single number.
-
----
-
+      (expect_error(check_slice_size(n = NA)))
+    Output
+      <error/rlang_error>
+      Error in `check_slice_size()`: `n` must be a single number.
     Code
-      check_slice_size(prop = NA)
-    Error <rlang_error>
-      `prop` must be a single number.
+      (expect_error(check_slice_size(prop = NA)))
+    Output
+      <error/rlang_error>
+      Error in `check_slice_size()`: `prop` must be a single number.
 

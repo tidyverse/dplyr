@@ -71,24 +71,29 @@ test_that("by columns omited from y" , {
 })
 
 test_that("emits useful messages", {
-  # names
-  expect_snapshot(error = TRUE, join_cols(c("x", "y"), c("y", "y")))
-  expect_snapshot(error = TRUE, join_cols(c("y", "y"), c("x", "y")))
 
-  # common by
-  xy <- c("x", "y")
-  expect_snapshot(vars <- join_cols(xy, xy))
+  expect_snapshot({
+    # names
+    (expect_error(join_cols(c("x", "y"), c("y", "y"))))
+    (expect_error(join_cols(c("y", "y"), c("x", "y"))))
 
-  # by errors
-  expect_snapshot(error = TRUE, join_cols(xy, c("a", "b")))
+    # common by
+    xy <- c("x", "y")
+    vars <- join_cols(xy, xy)
 
-  expect_snapshot(error = TRUE, join_cols(xy, xy, by = FALSE))
-  expect_snapshot(error = TRUE, join_cols(xy, xy, by = list(1, 2)))
-  expect_snapshot(error = TRUE, join_cols(xy, xy, by = c("x", "x")))
-  expect_snapshot(error = TRUE, join_cols(xy, xy, by = c("x", NA)))
-  expect_snapshot(error = TRUE, join_cols(xy, xy, by = c("aaa", "bbb")))
+    # by errors
+    (expect_error(join_cols(xy, c("a", "b"))))
 
-  # suffixes
-  expect_snapshot(error = TRUE, join_cols(xy, xy, by = "x", suffix = "x"))
-  expect_snapshot(error = TRUE, join_cols(xy, xy, by = "x", suffix = c("", NA)))
+    (expect_error(join_cols(xy, xy, by = FALSE)))
+    (expect_error(join_cols(xy, xy, by = list(1, 2))))
+    (expect_error(join_cols(xy, xy, by = c("x", "x"))))
+    (expect_error(join_cols(xy, xy, by = c("x", NA))))
+    (expect_error(join_cols(xy, xy, by = c("aaa", "bbb"))))
+
+    # suffixes
+    (expect_error(join_cols(xy, xy, by = "x", suffix = "x")))
+    (expect_error(join_cols(xy, xy, by = "x", suffix = c("", NA))))
+  })
+
+
 })
