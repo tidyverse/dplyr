@@ -41,8 +41,7 @@
     Output
       <error/rlang_error>
       Error in `group_by()`: 
-        Problem adding computed columns in `group_by()`.
-        x Problem while computing `z = a + 1`.
+        Problem adding computed columns.
       Caused by error in `mutate()`: 
         Problem while computing `z = a + 1`.
       Caused by error: 

@@ -214,10 +214,7 @@ add_computed_columns <- function(.data,
       cols <- withCallingHandlers(
         mutate_cols(ungroup(.data), !!!vars, caller_env = caller_env),
         error = function(e) {
-          abort(c(
-            glue("Problem adding computed columns in `{.fn}()`."),
-            x = e$message
-          ), parent = e, call = call2(.fn))
+          abort("Problem adding computed columns.", parent = e, call = call2(.fn))
         }
       )
 
