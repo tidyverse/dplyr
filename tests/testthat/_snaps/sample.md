@@ -33,27 +33,27 @@
       (expect_error(sample_n(list())))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `tbl` must be a data frame, not a list.
+      Error in `sample_n.default()`: `tbl` must be a data frame, not a list.
     Code
       (expect_error(sample_frac(list())))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `tbl` must be a data frame, not a list.
+      Error in `sample_frac.default()`: `tbl` must be a data frame, not a list.
     Code
       (expect_error(check_weight(letters[1:2], 2)))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `weight` must be a numeric, not a character vector.
+      Error in `check_weight()`: `weight` must be a numeric, not a character vector.
     Code
       (expect_error(check_weight(-1:-2, 2)))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `weight` must be a vector with all values nonnegative, not -1.
+      Error in `check_weight()`: `weight` must be a vector with all values nonnegative, not -1.
     Code
       (expect_error(check_weight(letters, 2)))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `weight` must be a numeric, not a character vector.
+      Error in `check_weight()`: `weight` must be a numeric, not a character vector.
     Code
       # # respects weight
       df <- data.frame(x = 1:2, y = c(0, 1))

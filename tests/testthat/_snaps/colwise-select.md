@@ -5,27 +5,27 @@
       (expect_error(df %>% rename_all()))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `.funs` must specify a renaming function.
+      Error in `vars_select_syms()`: `.funs` must specify a renaming function.
     Code
       (expect_error(df %>% rename_if(is_integerish)))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `.funs` must specify a renaming function.
+      Error in `vars_select_syms()`: `.funs` must specify a renaming function.
     Code
       (expect_error(df %>% rename_at(vars(x:y))))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `.funs` must specify a renaming function.
+      Error in `vars_select_syms()`: `.funs` must specify a renaming function.
     Code
       (expect_error(df %>% rename_all(list(tolower, toupper))))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `.funs` must contain one renaming function, not 2.
+      Error in `vars_select_syms()`: `.funs` must contain one renaming function, not 2.
     Code
       (expect_error(df %>% select_all(list(tolower, toupper))))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `.funs` must contain one renaming function, not 2.
+      Error in `vars_select_syms()`: `.funs` must contain one renaming function, not 2.
     Code
       (expect_error(df %>% select_if(function(.x) 1)))
     Output

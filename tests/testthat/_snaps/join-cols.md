@@ -27,7 +27,7 @@
       (expect_error(join_cols(xy, xy, by = FALSE)))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `by` must be a (named) character vector, list, or NULL, not a logical vector.
+      Error in `standardise_join_by()`: `by` must be a (named) character vector, list, or NULL, not a logical vector.
     Code
       (expect_error(join_cols(xy, xy, by = list(1, 2))))
     Output
@@ -61,5 +61,5 @@
       (expect_error(join_cols(xy, xy, by = "x", suffix = c("", NA))))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `suffix` can't be NA.
+      Error in `standardise_join_suffix()`: `suffix` can't be NA.
 

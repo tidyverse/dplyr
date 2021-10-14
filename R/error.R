@@ -32,7 +32,7 @@ bad_calls <- function(calls, ..., .envir = parent.frame()) {
 glubort <- function(header, ..., .envir = parent.frame(), .abort = abort) {
   text <- glue(..., .envir = .envir)
   if (!is_null(header)) text <- paste0(header, " ", text)
-  .abort(text)
+  .abort(text, call = .envir)
 }
 
 fmt_args <- function(x) {
