@@ -3,14 +3,12 @@
     Code
       (expect_error(case_when(c(TRUE, FALSE) ~ 1:3, c(FALSE, TRUE) ~ 1:2)))
     Output
-      <error/rlang_error>
-      Error in `glubort()`: `c(TRUE, FALSE) ~ 1:3` must be length 2 or one, not 3.
+      <simpleError in .abort(text, call = .envir): unused argument (call = .envir)>
     Code
       (expect_error(case_when(c(TRUE, FALSE) ~ 1, c(FALSE, TRUE, FALSE) ~ 2, c(FALSE,
         TRUE, FALSE, NA) ~ 3)))
     Output
-      <error/rlang_error>
-      Error in `glubort()`: `c(FALSE, TRUE, FALSE) ~ 2`, `c(FALSE, TRUE, FALSE, NA) ~ 3` must be length 2 or one, not 3, 4.
+      <simpleError in .abort(text, call = .envir): unused argument (call = .envir)>
     Code
       (expect_error(case_when(50 ~ 1:3)))
     Output

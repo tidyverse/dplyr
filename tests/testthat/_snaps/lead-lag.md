@@ -5,28 +5,28 @@
       (expect_error(lead(letters, -1)))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `n` must be a nonnegative integer scalar, not a double vector of length 1.
+      Error in `lead()`: `n` must be a nonnegative integer scalar, not a double vector of length 1.
     Code
       (expect_error(lead(letters, "1")))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `n` must be a nonnegative integer scalar, not a character vector of length 1.
+      Error in `lead()`: `n` must be a nonnegative integer scalar, not a character vector of length 1.
     Code
       (expect_error(lag(letters, -1)))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `n` must be a nonnegative integer scalar, not a double vector of length 1.
+      Error in `lag()`: `n` must be a nonnegative integer scalar, not a double vector of length 1.
     Code
       (expect_error(lag(letters, "1")))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `n` must be a nonnegative integer scalar, not a character vector of length 1.
+      Error in `lag()`: `n` must be a nonnegative integer scalar, not a character vector of length 1.
     Code
       # # ts
       (expect_error(lag(ts(1:10))))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `x` must be a vector, not a ts object, do you want `stats::lag()`?
+      Error in `lag()`: `x` must be a vector, not a ts object, do you want `stats::lag()`?
     Code
       # # incompatible default
       (expect_error(lag(c("1", "2", "3"), default = FALSE)))

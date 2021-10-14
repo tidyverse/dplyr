@@ -26,7 +26,7 @@
       (expect_error(bind_rows(df1, df2, .id = 5)))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `.id` must be a scalar string, not a double vector of length 1.
+      Error in `bind_rows()`: `.id` must be a scalar string, not a double vector of length 1.
     Code
       ll <- list(1:5, env(a = 1))
       (expect_error(bind_rows(ll)))

@@ -4,12 +4,12 @@
       (expect_error(src_df("base", new.env())))
     Output
       <error/rlang_error>
-      Error in `glubort()`: Exactly one of `pkg` and `env` must be non-NULL, not 2.
+      Error in `src_local()`: Exactly one of `pkg` and `env` must be non-NULL, not 2.
     Code
       (expect_error(src_df()))
     Output
       <error/rlang_error>
-      Error in `glubort()`: Exactly one of `pkg` and `env` must be non-NULL, not 0.
+      Error in `src_local()`: Exactly one of `pkg` and `env` must be non-NULL, not 0.
     Code
       env <- new.env(parent = emptyenv())
       env$x <- 1
@@ -17,5 +17,5 @@
       (expect_error(copy_to(src_env, tibble(x = 1), name = "x")))
     Output
       <error/rlang_error>
-      Error in `glubort()`: object with `name` = `x` must not already exist, unless `overwrite` = TRUE.
+      Error in `copy_to.src_local()`: object with `name` = `x` must not already exist, unless `overwrite` = TRUE.
 
