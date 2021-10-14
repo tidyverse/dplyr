@@ -21,12 +21,9 @@
       (expect_error(tibble(x = 1) %>% arrange(rep(x, 2))))
     Output
       <error/dplyr_error>
-      Error in `arrange()`: 
-        arrange() failed at implicit mutate() step. 
-        x Problem while computing `..1 = rep(x, 2)`.
-        i `..1` must be size 1, not 2.
-      Caused by error in `abort_glue()`: 
-        
+      Error in `arrange()`: arrange() failed at implicit mutate() step. 
+      x Problem while computing `..1 = rep(x, 2)`.
+      i `..1` must be size 1, not 2.
 
 # desc() inside arrange() checks the number of arguments (#5921)
 

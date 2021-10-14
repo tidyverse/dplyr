@@ -396,7 +396,7 @@ mutate_cols <- function(.data, ..., caller_env) {
       class = c("dplyr:::mutate_error", "dplyr_error"),
       error_name = error_name,
       error_expression = error_expression,
-      parent = e,
+      parent = if (!inherits(e, "dplyr:::internal_error")) e,
       bullets = bullets,
       call = quote(mutate())
     )
@@ -461,7 +461,7 @@ mutate_bullets.default <- function(cnd, ...) {
     x = glue("`{error_name}` must be a vector, not {friendly_type_of(cnd$result)}."),
     i = cnd_bullet_rowwise_unlist(),
     i = cnd_bullet_cur_group_label()
-  
+
   )
 }
 `mutate_bullets.dplyr:::error_mutate_incompatible_combine` <- function(cnd, error_name, ...) {

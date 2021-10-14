@@ -22,42 +22,30 @@
       (expect_error(tibble(x = 1) %>% mutate(y = mean)))
     Output
       <error/dplyr:::mutate_error>
-      Error in `mutate()`: 
-        Problem while computing `y = mean`.
-        x `y` must be a vector, not a function.
-      Caused by error in `abort_glue()`: 
-        
+      Error in `mutate()`: Problem while computing `y = mean`.
+      x `y` must be a vector, not a function.
     Code
       df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
       (expect_error(df %>% mutate(out = env(a = 1))))
     Output
       <error/dplyr:::mutate_error>
-      Error in `mutate()`: 
-        Problem while computing `out = env(a = 1)`.
-        x `out` must be a vector, not an environment.
-      Caused by error in `abort_glue()`: 
-        
+      Error in `mutate()`: Problem while computing `out = env(a = 1)`.
+      x `out` must be a vector, not an environment.
     Code
       (expect_error(df %>% group_by(g) %>% mutate(out = env(a = 1))))
     Output
       <error/dplyr:::mutate_error>
-      Error in `mutate()`: 
-        Problem while computing `out = env(a = 1)`.
-        x `out` must be a vector, not an environment.
-        i The error occurred in group 1: g = 1.
-      Caused by error in `abort_glue()`: 
-        
+      Error in `mutate()`: Problem while computing `out = env(a = 1)`.
+      x `out` must be a vector, not an environment.
+      i The error occurred in group 1: g = 1.
     Code
       (expect_error(df %>% rowwise() %>% mutate(out = rnorm)))
     Output
       <error/dplyr:::mutate_error>
-      Error in `mutate()`: 
-        Problem while computing `out = rnorm`.
-        x `out` must be a vector, not a function.
-        i Did you mean: `out = list(rnorm)` ?
-        i The error occurred in row 1.
-      Caused by error in `abort_glue()`: 
-        
+      Error in `mutate()`: Problem while computing `out = rnorm`.
+      x `out` must be a vector, not a function.
+      i Did you mean: `out = list(rnorm)` ?
+      i The error occurred in row 1.
     Code
       (expect_error(data.frame(x = rep(1:5, each = 3)) %>% group_by(x) %>% mutate(
         val = ifelse(x < 3, "foo", 2))))
@@ -77,54 +65,39 @@
       1) NULL else "foo")))
     Output
       <error/dplyr:::mutate_error>
-      Error in `mutate()`: 
-        Problem while computing `..1 = if (a == 1) NULL else "foo"`.
-        x `..1` must return compatible vectors across groups.
-        i Cannot combine NULL and non NULL results.
-      Caused by error in `abort_glue()`: 
-        
+      Error in `mutate()`: Problem while computing `..1 = if (a == 1) NULL else "foo"`.
+      x `..1` must return compatible vectors across groups.
+      i Cannot combine NULL and non NULL results.
     Code
       (expect_error(data.frame(x = c(2, 2, 3, 3)) %>% mutate(int = 1:5)))
     Output
       <error/dplyr:::mutate_error>
-      Error in `mutate()`: 
-        Problem while computing `int = 1:5`.
-        i `int` must be size 4 or 1, not 5.
-      Caused by error in `abort_glue()`: 
-        
+      Error in `mutate()`: Problem while computing `int = 1:5`.
+      i `int` must be size 4 or 1, not 5.
     Code
       (expect_error(data.frame(x = c(2, 2, 3, 3)) %>% group_by(x) %>% mutate(int = 1:
       5)))
     Output
       <error/dplyr:::mutate_error>
-      Error in `mutate()`: 
-        Problem while computing `int = 1:5`.
-        i `int` must be size 2 or 1, not 5.
-        i The error occurred in group 1: x = 2.
-      Caused by error in `abort_glue()`: 
-        
+      Error in `mutate()`: Problem while computing `int = 1:5`.
+      i `int` must be size 2 or 1, not 5.
+      i The error occurred in group 1: x = 2.
     Code
       (expect_error(data.frame(x = c(2, 3, 3)) %>% group_by(x) %>% mutate(int = 1:5)))
     Output
       <error/dplyr:::mutate_error>
-      Error in `mutate()`: 
-        Problem while computing `int = 1:5`.
-        i `int` must be size 1, not 5.
-        i The error occurred in group 1: x = 2.
-      Caused by error in `abort_glue()`: 
-        
+      Error in `mutate()`: Problem while computing `int = 1:5`.
+      i `int` must be size 1, not 5.
+      i The error occurred in group 1: x = 2.
     Code
       (expect_error(data.frame(x = c(2, 2, 3, 3)) %>% rowwise() %>% mutate(int = 1:5))
       )
     Output
       <error/dplyr:::mutate_error>
-      Error in `mutate()`: 
-        Problem while computing `int = 1:5`.
-        i `int` must be size 1, not 5.
-        i Did you mean: `int = list(1:5)` ?
-        i The error occurred in row 1.
-      Caused by error in `abort_glue()`: 
-        
+      Error in `mutate()`: Problem while computing `int = 1:5`.
+      i `int` must be size 1, not 5.
+      i Did you mean: `int = list(1:5)` ?
+      i The error occurred in row 1.
     Code
       (expect_error(tibble(y = list(1:3, "a")) %>% rowwise() %>% mutate(y2 = y)))
     Output
@@ -140,11 +113,8 @@
       (expect_error(data.frame(x = 1:10) %>% mutate(y = 11:20, y = 1:2)))
     Output
       <error/dplyr:::mutate_error>
-      Error in `mutate()`: 
-        Problem while computing `y = 1:2`.
-        i `y` must be size 10 or 1, not 2.
-      Caused by error in `abort_glue()`: 
-        
+      Error in `mutate()`: Problem while computing `y = 1:2`.
+      i `y` must be size 10 or 1, not 2.
     Code
       (expect_error(tibble(a = 1) %>% mutate(c = .data$b)))
     Output
