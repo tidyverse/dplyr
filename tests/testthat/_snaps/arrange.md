@@ -4,21 +4,29 @@
       (expect_error(tibble(x = 1, x = 1, .name_repair = "minimal") %>% arrange(x)))
     Output
       <error/dplyr_error>
-      Error in `arrange()`: arrange() failed at implicit mutate() step. 
-      x Can't transform a data frame with duplicate names.
+      Error in `arrange()`: 
+        arrange() failed at implicit mutate() step. 
+      Caused by error in `initialize()`: 
+        Can't transform a data frame with duplicate names.
     Code
       (expect_error(tibble(x = 1) %>% arrange(y)))
     Output
       <error/dplyr_error>
-      Error in `arrange()`: arrange() failed at implicit mutate() step. 
-      x Problem while computing `..1 = y`.
+      Error in `arrange()`: 
+        arrange() failed at implicit mutate() step. 
+        x Problem while computing `..1 = y`.
+      Caused by error: 
+        object 'y' not found
     Code
       (expect_error(tibble(x = 1) %>% arrange(rep(x, 2))))
     Output
       <error/dplyr_error>
-      Error in `arrange()`: arrange() failed at implicit mutate() step. 
-      x Problem while computing `..1 = rep(x, 2)`.
-      i `..1` must be size 1, not 2.
+      Error in `arrange()`: 
+        arrange() failed at implicit mutate() step. 
+        x Problem while computing `..1 = rep(x, 2)`.
+        i `..1` must be size 1, not 2.
+      Caused by error in `abort_glue()`: 
+        
 
 # desc() inside arrange() checks the number of arguments (#5921)
 

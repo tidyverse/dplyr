@@ -126,14 +126,19 @@ arrange_rows <- function(.data, dots) {
       names <- names2(bullets)
       names[names == ""] <- "x"
       bullets <- set_names(bullets, names)
+
+      # skip the parent as this has reworked the bullets
+      # and this would be confusing to have them
+      parent <- cnd$parent
     } else {
-      bullets <- c(x = conditionMessage(cnd))
+      parent <- cnd
+      bullets <- c()
     }
 
     abort(c(
       "arrange() failed at implicit mutate() step. ",
       bullets
-    ), class = "dplyr_error", call = call2("arrange"))
+    ), class = "dplyr_error", call = call2("arrange"), parent = parent)
 
   })
 
