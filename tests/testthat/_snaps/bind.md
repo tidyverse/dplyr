@@ -1,4 +1,4 @@
-# bind_cols repairs names
+# bind_cols() repairs names
 
     Code
       bound <- bind_cols(df, df)
