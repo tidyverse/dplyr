@@ -122,25 +122,8 @@ filter_rows <- function(.data, ..., caller_env) {
   mask <- DataMask$new(.data, caller_env)
   on.exit(mask$forget("filter"), add = TRUE)
 
-  env_filter <- env()
-
-  # Names that expand to logical vectors are ignored. Remove them so
-  # they don't get in the way of the flatmap step below.
-  dots <- unname(dots)
   dots <- filter_expand(dots)
-  withCallingHandlers({
-    mask$eval_all_filter(dots, env_filter)
-  }, error = function(e) {
-      local_call_step(dots = dots, .index = env_filter$current_expression, .fn = "filter")
-
-      abort(c(
-        cnd_bullet_header(),
-        x = conditionMessage(e),
-        i = cnd_bullet_cur_group_label()
-      ), class = "dplyr_error", call = call2("filter"))
-
-    }
-  )
+  filter_eval(dots, mask)
 }
 
 check_filter <- function(dots) {
@@ -172,7 +155,7 @@ filter_expand <- function(dots) {
   }
 
   dots <- withCallingHandlers(
-    imap(dots, filter_expand_one),
+    imap(unname(dots), filter_expand_one),
     error = function(cnd) {
       i <- env_filter$current_expression
       expr <- quo_get_expr(dots[[i]])
@@ -186,3 +169,42 @@ filter_expand <- function(dots) {
 
   new_quosures(flatten(dots))
 }
+
+filter_eval <- function(dots, mask) {
+  env_filter <- env()
+
+  withCallingHandlers({
+    mask$eval_all_filter(dots, env_filter)
+  }, error = function(e) {
+    local_call_step(dots = dots, .index = env_filter$current_expression, .fn = "filter")
+
+    bullets <- c(
+      cnd_bullet_header(),
+      filter_bullets(e)
+    )
+    abort(
+      bullets,
+      class = "dplyr_error",
+      call = call2("filter"),
+      parent = if (!inherits(e, "dplyr:::internal_error")) e
+    )
+
+  })
+}
+
+filter_bullets <- function(cnd) {
+  UseMethod("filter_bullets")
+}
+#' @export
+filter_bullets.default <- function(cnd) {
+  c(i = cnd_bullet_cur_group_label())
+}
+
+#' @export
+`filter_bullets.dplyr:::internal_error` <- function(cnd) {
+  c(
+    x = conditionMessage(cnd),
+    i = cnd_bullet_cur_group_label()
+  )
+}
+

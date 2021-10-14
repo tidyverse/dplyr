@@ -78,15 +78,19 @@
       (expect_error(mtcars %>% filter(`_x`)))
     Output
       <error/dplyr_error>
-      Error in `filter()`: Problem while computing `..1 = _x`.
-      x object '_x' not found
+      Error in `filter()`: 
+        Problem while computing `..1 = _x`.
+      Caused by error: 
+        object '_x' not found
     Code
       (expect_error(mtcars %>% group_by(cyl) %>% filter(`_x`)))
     Output
       <error/dplyr_error>
-      Error in `filter()`: Problem while computing `..1 = _x`.
-      x object '_x' not found
-      i The error occurred in group 1: cyl = 4.
+      Error in `filter()`: 
+        Problem while computing `..1 = _x`.
+        i The error occurred in group 1: cyl = 4.
+      Caused by error: 
+        object '_x' not found
     Code
       (expect_error(filter(mtcars, x = 1)))
     Output
@@ -119,8 +123,10 @@
       (expect_error(tibble() %>% filter(stop("{"))))
     Output
       <error/dplyr_error>
-      Error in `filter()`: Problem while computing `..1 = stop("{")`.
-      x {
+      Error in `filter()`: 
+        Problem while computing `..1 = stop("{")`.
+      Caused by error: 
+        {
     Code
       data.frame(x = 1, y = 1) %>% filter(across(everything(), ~ .x > 0))
     Warning <simpleWarning>

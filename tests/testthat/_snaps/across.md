@@ -48,18 +48,22 @@
       (expect_error(filter(df, !if_any(~ .x > 5))))
     Output
       <error/dplyr_error>
-      Error in `filter()`: Problem while computing `..1 = !if_any(~.x > 5)`.
-      x Predicate used in lieu of column selection.
-      i You most likely meant: `if_any(everything(), ~.x > 5)`.
-      i The first argument `.cols` selects a set of columns.
-      i The second argument `.fns` operates on each selected columns.
+      Error in `filter()`: 
+        Problem while computing `..1 = !if_any(~.x > 5)`.
+      Caused by error in `across_setup()`: 
+        Predicate used in lieu of column selection.
+        i You most likely meant: `if_any(everything(), ~.x > 5)`.
+        i The first argument `.cols` selects a set of columns.
+        i The second argument `.fns` operates on each selected columns.
     Code
       (expect_error(filter(df, !if_all(~ .x > 5))))
     Output
       <error/dplyr_error>
-      Error in `filter()`: Problem while computing `..1 = !if_all(~.x > 5)`.
-      x Predicate used in lieu of column selection.
-      i You most likely meant: `if_all(everything(), ~.x > 5)`.
-      i The first argument `.cols` selects a set of columns.
-      i The second argument `.fns` operates on each selected columns.
+      Error in `filter()`: 
+        Problem while computing `..1 = !if_all(~.x > 5)`.
+      Caused by error in `across_setup()`: 
+        Predicate used in lieu of column selection.
+        i You most likely meant: `if_all(everything(), ~.x > 5)`.
+        i The first argument `.cols` selects a set of columns.
+        i The second argument `.fns` operates on each selected columns.
 
