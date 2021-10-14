@@ -322,12 +322,20 @@ mutate_cols <- function(.data, ..., caller_env) {
           if (length(rows) == 1) {
             result <- chunks[[1]]
           } else {
-            result <- withCallingHandlers(
-              vec_unchop(chunks <- vec_cast_common(!!!chunks), rows),
+            chunks <- withCallingHandlers(
+              vec_cast_common(!!!chunks),
               vctrs_error_incompatible_type = function(cnd) {
-                abort(class = "dplyr:::error_mutate_incompatible_combine", parent = cnd)
+                abort(
+                  conditionMessage(cnd),
+                  class = "dplyr:::error_mutate_incompatible_combine",
+                  call = call2("vec_cast_common"),
+
+                  # used by mutate_bullets()
+                  x = cnd$x, y = cnd$y, x_arg = cnd$x_arg, y_arg = cnd$y_arg
+                )
               }
             )
+            result <- vec_unchop(chunks, rows)
           }
         }
 
@@ -461,14 +469,13 @@ mutate_bullets.default <- function(cnd, ...) {
     x = glue("`{error_name}` must be a vector, not {friendly_type_of(cnd$result)}."),
     i = cnd_bullet_rowwise_unlist(),
     i = cnd_bullet_cur_group_label()
-
   )
 }
 `mutate_bullets.dplyr:::error_mutate_incompatible_combine` <- function(cnd, error_name, ...) {
   c(
     x = glue("`{error_name}` must return compatible vectors across groups"),
-    i = cnd_bullet_combine_details(cnd$parent$x, cnd$parent$x_arg),
-    i = cnd_bullet_combine_details(cnd$parent$y, cnd$parent$y_arg)
+    i = cnd_bullet_combine_details(cnd$x, cnd$x_arg),
+    i = cnd_bullet_combine_details(cnd$y, cnd$y_arg)
   )
 }
 
