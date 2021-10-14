@@ -44,7 +44,6 @@
     Output
       <error/dplyr_error>
       Error in `summarise()`: Problem while computing `a = rlang::env(a = 1)`.
-      i `a = rlang::env(a = 1)`.
       x `a` must be a vector, not an environment.
     Code
       (expect_error(tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(x, y) %>%
@@ -52,7 +51,6 @@
     Output
       <error/dplyr_error>
       Error in `summarise()`: Problem while computing `a = rlang::env(a = 1)`.
-      i `a = rlang::env(a = 1)`.
       x `a` must be a vector, not an environment.
       i The error occurred in group 1: x = 1, y = 1.
     Code
@@ -61,7 +59,6 @@
     Output
       <error/dplyr_error>
       Error in `summarise()`: Problem while computing `a = lm(y ~ x)`.
-      i `a = lm(y ~ x)`.
       x `a` must be a vector, not a `lm` object.
       i Did you mean: `a = list(lm(y ~ x))` ?
       i The error occurred in row 1.
@@ -72,7 +69,6 @@
       <error/dplyr_error>
       Error in `summarise()`: 
         Problem while computing `a = a[[1]]`.
-        i `a = a[[1]]`.
         x `a` must return compatible vectors across groups
       Caused by error in `vec_ptype_common()`: 
         Can't combine `..1` <double> and `..2` <character>.
@@ -83,7 +79,6 @@
       <error/dplyr_error>
       Error in `summarise()`: 
         Problem while computing `a = a[[1]]`.
-        i `a = a[[1]]`.
         x `a` must return compatible vectors across groups
       Caused by error in `vec_ptype_common()`: 
         Can't combine `..1` <double> and `..2` <character>.
@@ -92,7 +87,6 @@
     Output
       <error/dplyr_error>
       Error in `summarise()`: Problem while computing `y = 1:2`.
-      i `y = 1:2`.
       x `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
     Code
@@ -100,7 +94,6 @@
     Output
       <error/dplyr_error>
       Error in `summarise()`: Problem while computing `y = 1:2`.
-      i `y = 1:2`.
       x `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
       i The error occurred in group 1: z = 1.
@@ -110,7 +103,6 @@
     Output
       <error/dplyr_error>
       Error in `summarise()`: Problem while computing `y = 1:2`.
-      i `y = 1:2`.
       x `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
       i The error occurred in group 2: z = 3.
@@ -120,7 +112,6 @@
     Output
       <error/dplyr_error>
       Error in `summarise()`: Problem while computing `x = if (g == 1) 42`.
-      i `x = if (g == 1) 42`.
       x `x` must return compatible vectors across groups.
       i Cannot combine NULL and non NULL results.
     Code
@@ -129,7 +120,6 @@
       <error/dplyr_error>
       Error in `summarise()`: 
         Problem while computing `a = mean(not_there)`.
-        i `a = mean(not_there)`.
       Caused by error in `mean()`: 
         object 'not_there' not found
     Code
@@ -138,7 +128,6 @@
       <error/dplyr_error>
       Error in `summarise()`: 
         Problem while computing `a = mean(not_there)`.
-        i `a = mean(not_there)`.
         i The error occurred in group 1: cyl = 4.
       Caused by error in `mean()`: 
         object 'not_there' not found
@@ -148,7 +137,6 @@
       <error/dplyr_error>
       Error in `summarise()`: 
         Problem while computing `c = .data$b`.
-        i `c = .data$b`.
       Caused by error in `.data$b`: 
         Column `b` not found in `.data`.
     Code
@@ -157,7 +145,6 @@
       <error/dplyr_error>
       Error in `summarise()`: 
         Problem while computing `c = .data$b`.
-        i `c = .data$b`.
         i The error occurred in group 1: a = 1.
       Caused by error in `.data$b`: 
         Column `b` not found in `.data`.
@@ -172,7 +159,6 @@
       <error/dplyr_error>
       Error in `summarise()`: 
         Problem while computing `..1 = stop("{")`.
-        i `..1 = stop("{")`.
       Caused by error: 
         {
     Code
@@ -182,7 +168,6 @@
       <error/dplyr_error>
       Error in `summarise()`: 
         Problem while computing `a = stop("!")`.
-        i `a = stop("!")`.
         i The error occurred in group 1: b = "{value:1, unit:a}".
       Caused by error: 
         !

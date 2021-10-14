@@ -315,7 +315,6 @@ summarise_cols <- function(.data, ..., caller_env) {
 
     bullets <- c(
       cnd_bullet_header(),
-      i = cnd_bullet_column_info(),
       summarise_bullets(e, error_name = error_name, mask = mask)
     )
 
