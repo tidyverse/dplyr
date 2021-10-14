@@ -103,7 +103,7 @@ distinct_prepare <- function(.data,
     abort(c(
       "`distinct()` must use existing variables.",
       bullets
-    ))
+    ), call = call2("distinct"))
   }
 
   # Always include grouping variables preserving input order

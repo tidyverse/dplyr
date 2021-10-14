@@ -5,26 +5,26 @@
       (expect_error(df %>% distinct(aa, x)))
     Output
       <error/rlang_error>
-      Error in `distinct_prepare()`: `distinct()` must use existing variables.
+      Error in `distinct()`: `distinct()` must use existing variables.
       x `aa` not found in `.data`.
     Code
       (expect_error(df %>% distinct(aa, bb)))
     Output
       <error/rlang_error>
-      Error in `distinct_prepare()`: `distinct()` must use existing variables.
+      Error in `distinct()`: `distinct()` must use existing variables.
       x `aa` not found in `.data`.
       x `bb` not found in `.data`.
     Code
       (expect_error(df %>% distinct(.data$aa)))
     Output
       <error/rlang_error>
-      Error in `distinct_prepare()`: `distinct()` must use existing variables.
+      Error in `distinct()`: `distinct()` must use existing variables.
       x `aa` not found in `.data`.
     Code
       (expect_error(df %>% distinct(y = a + 1)))
     Output
       <error/rlang_error>
-      Error: 
+      Error in `distinct()`: 
         Problem adding computed columns in `distinct()`.
         x Problem while computing `y = a + 1`.
       Caused by error in `mutate()`: 

@@ -217,7 +217,7 @@ add_computed_columns <- function(.data,
           abort(c(
             glue("Problem adding computed columns in `{.fn}()`."),
             x = e$message
-          ), parent = e)
+          ), parent = e, call = call2(.fn))
         }
       )
 

@@ -40,7 +40,7 @@
       (expect_error(df %>% group_by(z = a + 1)))
     Output
       <error/rlang_error>
-      Error: 
+      Error in `group_by()`: 
         Problem adding computed columns in `group_by()`.
         x Problem while computing `z = a + 1`.
       Caused by error in `mutate()`: 
