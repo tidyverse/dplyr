@@ -406,7 +406,7 @@ mutate_cols <- function(.data, ..., caller_env) {
       error_expression = error_expression,
       parent = if (!inherits(e, "dplyr:::internal_error")) e,
       bullets = bullets,
-      call = quote(mutate())
+      call = call2("mutate")
     )
   },
   warning = function(w) {
