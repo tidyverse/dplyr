@@ -91,24 +91,21 @@
       (expect_error(filter(mtcars, x = 1)))
     Output
       <error/rlang_error>
-      Error in `check_filter()`: Problem with `filter()` input `..1`.
-      x Input `..1` is named.
+      Error in `filter()`: Suspiciously named input `x = 1 `.
       i This usually means that you've used `=` instead of `==`.
       i Did you mean `x == 1`?
     Code
       (expect_error(filter(mtcars, y > 2, z = 3)))
     Output
       <error/rlang_error>
-      Error in `check_filter()`: Problem with `filter()` input `..2`.
-      x Input `..2` is named.
+      Error in `filter()`: Suspiciously named input `z = 3 `.
       i This usually means that you've used `=` instead of `==`.
       i Did you mean `z == 3`?
     Code
       (expect_error(filter(mtcars, TRUE, x = 1)))
     Output
       <error/rlang_error>
-      Error in `check_filter()`: Problem with `filter()` input `..2`.
-      x Input `..2` is named.
+      Error in `filter()`: Suspiciously named input `x = 1 `.
       i This usually means that you've used `=` instead of `==`.
       i Did you mean `x == 1`?
     Code
