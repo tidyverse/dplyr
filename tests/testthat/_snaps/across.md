@@ -27,7 +27,6 @@
     Output
       <error/dplyr_error>
       Error in `filter()`: Problem while computing `..1 = if_any(~.x > 5)`.
-      i Input `..1` is `if_any(~.x > 5)`.
       x Predicate used in lieu of column selection.
       i You most likely meant: `if_any(everything(), ~.x > 5)`.
       i The first argument `.cols` selects a set of columns.
@@ -37,7 +36,6 @@
     Output
       <error/dplyr_error>
       Error in `filter()`: Problem while computing `..1 = if_all(~.x > 5)`.
-      i Input `..1` is `if_all(~.x > 5)`.
       x Predicate used in lieu of column selection.
       i You most likely meant: `if_all(everything(), ~.x > 5)`.
       i The first argument `.cols` selects a set of columns.
@@ -47,7 +45,6 @@
     Output
       <error/dplyr_error>
       Error in `filter()`: Problem while computing `..1 = !if_any(~.x > 5)`.
-      i Input `..1` is `!if_any(~.x > 5)`.
       x Predicate used in lieu of column selection.
       i You most likely meant: `if_any(everything(), ~.x > 5)`.
       i The first argument `.cols` selects a set of columns.
@@ -57,7 +54,6 @@
     Output
       <error/dplyr_error>
       Error in `filter()`: Problem while computing `..1 = !if_all(~.x > 5)`.
-      i Input `..1` is `!if_all(~.x > 5)`.
       x Predicate used in lieu of column selection.
       i You most likely meant: `if_all(everything(), ~.x > 5)`.
       i The first argument `.cols` selects a set of columns.

@@ -5,7 +5,6 @@
     Output
       <error/dplyr_error>
       Error in `filter()`: Problem while computing `..1 = 1:n()`.
-      i Input `..1` is `1:n()`.
       x Input `..1` must be a logical vector, not a integer.
       i The error occurred in group 1: Species = setosa.
     Code
@@ -13,14 +12,12 @@
     Output
       <error/dplyr_error>
       Error in `filter()`: Problem while computing `..1 = 1:n()`.
-      i Input `..1` is `1:n()`.
       x Input `..1` must be a logical vector, not a integer.
     Code
       (expect_error(iris %>% group_by(Species) %>% filter(c(TRUE, FALSE))))
     Output
       <error/dplyr_error>
       Error in `filter()`: Problem while computing `..1 = c(TRUE, FALSE)`.
-      i Input `..1` is `c(TRUE, FALSE)`.
       x Input `..1` must be of size 50 or 1, not size 2.
       i The error occurred in group 1: Species = setosa.
     Code
@@ -28,7 +25,6 @@
     Output
       <error/dplyr_error>
       Error in `filter()`: Problem while computing `..1 = c(TRUE, FALSE)`.
-      i Input `..1` is `c(TRUE, FALSE)`.
       x Input `..1` must be of size 1, not size 2.
       i The error occurred in row 1.
     Code
@@ -36,7 +32,6 @@
     Output
       <error/dplyr_error>
       Error in `filter()`: Problem while computing `..1 = c(TRUE, FALSE)`.
-      i Input `..1` is `c(TRUE, FALSE)`.
       x Input `..1` must be of size 150 or 1, not size 2.
     Code
       (expect_error(iris %>% group_by(Species) %>% filter(data.frame(c(TRUE, FALSE))))
@@ -44,7 +39,6 @@
     Output
       <error/dplyr_error>
       Error in `filter()`: Problem while computing `..1 = data.frame(c(TRUE, FALSE))`.
-      i Input `..1` is `data.frame(c(TRUE, FALSE))`.
       x Input `..1` must be of size 50 or 1, not size 2.
       i The error occurred in group 1: Species = setosa.
     Code
@@ -52,7 +46,6 @@
     Output
       <error/dplyr_error>
       Error in `filter()`: Problem while computing `..1 = data.frame(c(TRUE, FALSE))`.
-      i Input `..1` is `data.frame(c(TRUE, FALSE))`.
       x Input `..1` must be of size 1, not size 2.
       i The error occurred in row 1.
     Code
@@ -60,14 +53,12 @@
     Output
       <error/dplyr_error>
       Error in `filter()`: Problem while computing `..1 = data.frame(c(TRUE, FALSE))`.
-      i Input `..1` is `data.frame(c(TRUE, FALSE))`.
       x Input `..1` must be of size 150 or 1, not size 2.
     Code
       (expect_error(tibble(x = 1) %>% filter(c(TRUE, TRUE))))
     Output
       <error/dplyr_error>
       Error in `filter()`: Problem while computing `..1 = c(TRUE, TRUE)`.
-      i Input `..1` is `c(TRUE, TRUE)`.
       x Input `..1` must be of size 1, not size 2.
     Code
       (expect_error(iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3,
@@ -75,7 +66,6 @@
     Output
       <error/dplyr_error>
       Error in `filter()`: Problem while computing `..1 = data.frame(Sepal.Length > 3, 1:n())`.
-      i Input `..1` is `data.frame(Sepal.Length > 3, 1:n())`.
       x Input `..1$X1.n..` must be a logical vector, not a integer.
       i The error occurred in group 1: Species = setosa.
     Code
@@ -83,21 +73,18 @@
     Output
       <error/dplyr_error>
       Error in `filter()`: Problem while computing `..1 = data.frame(Sepal.Length > 3, 1:n())`.
-      i Input `..1` is `data.frame(Sepal.Length > 3, 1:n())`.
       x Input `..1$X1.n..` must be a logical vector, not a integer.
     Code
       (expect_error(mtcars %>% filter(`_x`)))
     Output
       <error/dplyr_error>
       Error in `filter()`: Problem while computing `..1 = _x`.
-      i Input `..1` is `_x`.
       x object '_x' not found
     Code
       (expect_error(mtcars %>% group_by(cyl) %>% filter(`_x`)))
     Output
       <error/dplyr_error>
       Error in `filter()`: Problem while computing `..1 = _x`.
-      i Input `..1` is `_x`.
       x object '_x' not found
       i The error occurred in group 1: cyl = 4.
     Code
@@ -136,7 +123,6 @@
     Output
       <error/dplyr_error>
       Error in `filter()`: Problem while computing `..1 = stop("{")`.
-      i Input `..1` is `stop("{")`.
       x {
     Code
       data.frame(x = 1, y = 1) %>% filter(across(everything(), ~ .x > 0))

@@ -138,7 +138,6 @@ filter_rows <- function(.data, ..., caller_env) {
 
       abort(c(
         cnd_bullet_header(),
-        i = cnd_bullet_input_info(),
         x = conditionMessage(e),
         i = cnd_bullet_cur_group_label()
       ), class = "dplyr_error", call = call2("filter"))
