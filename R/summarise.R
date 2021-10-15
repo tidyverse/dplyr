@@ -247,7 +247,7 @@ summarise_cols <- function(.data, ..., caller_env) {
             abort(
               conditionMessage(cnd),
               class = c("dplyr:::error_summarise_incompatible_combine"),
-              call = call2("vec_ptype_common")
+              call = call("vec_ptype_common")
             )
           }
         )
@@ -325,7 +325,7 @@ summarise_cols <- function(.data, ..., caller_env) {
 
     abort(
       bullets,
-      class = "dplyr_error", call = call2("summarise"),
+      class = "dplyr_error", call = call("summarise"),
       parent = parent
     )
 

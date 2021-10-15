@@ -328,7 +328,7 @@ mutate_cols <- function(.data, ..., caller_env) {
                 abort(
                   conditionMessage(cnd),
                   class = "dplyr:::error_mutate_incompatible_combine",
-                  call = call2("vec_cast_common"),
+                  call = call("vec_cast_common"),
 
                   # used by mutate_bullets()
                   x = cnd$x, y = cnd$y, x_arg = cnd$x_arg, y_arg = cnd$y_arg
@@ -406,7 +406,7 @@ mutate_cols <- function(.data, ..., caller_env) {
       error_expression = error_expression,
       parent = if (!inherits(e, "dplyr:::internal_error")) e,
       bullets = bullets,
-      call = call2("mutate")
+      call = call("mutate")
     )
   },
   warning = function(w) {

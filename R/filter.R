@@ -141,7 +141,7 @@ check_filter <- function(dots) {
         "We detected a named input.",
         i = glue("This usually means that you've used `=` instead of `==`."),
         i = glue("Did you mean `{name} == {as_label(expr)}`?")
-      ), call = call2("filter"))
+      ), call = call("filter"))
     }
 
   }
@@ -161,7 +161,7 @@ filter_expand <- function(dots) {
       expr <- quo_get_expr(dots[[i]])
       abort(
         glue("Problem while expanding `..{i} = {as_label(expr)}`"),
-        call = call2("filter"),
+        call = call("filter"),
         parent = cnd
       )
     }
@@ -185,7 +185,7 @@ filter_eval <- function(dots, mask) {
     abort(
       bullets,
       class = "dplyr_error",
-      call = call2("filter"),
+      call = call("filter"),
       parent = if (!inherits(e, "dplyr:::internal_error")) e
     )
 
