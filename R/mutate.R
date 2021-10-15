@@ -322,18 +322,9 @@ mutate_cols <- function(.data, ..., caller_env) {
           if (length(rows) == 1) {
             result <- chunks[[1]]
           } else {
-            chunks <- withCallingHandlers(
+            chunks <- fix_vctrs_call(
               vec_cast_common(!!!chunks),
-              vctrs_error_incompatible_type = function(cnd) {
-                abort(
-                  conditionMessage(cnd),
-                  class = "dplyr:::error_mutate_incompatible_combine",
-                  call = call("vec_cast_common"),
-
-                  # used by mutate_bullets()
-                  x = cnd$x, y = cnd$y, x_arg = cnd$x_arg, y_arg = cnd$y_arg
-                )
-              }
+              class = "dplyr:::error_mutate_incompatible_combine"
             )
             result <- vec_unchop(chunks, rows)
           }
