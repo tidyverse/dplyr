@@ -322,7 +322,7 @@ mutate_cols <- function(.data, ..., caller_env) {
           if (length(rows) == 1) {
             result <- chunks[[1]]
           } else {
-            chunks <- fix_vctrs_call(
+            chunks <- fix_error(
               vec_cast_common(!!!chunks),
               class = "dplyr:::error_mutate_incompatible_combine"
             )

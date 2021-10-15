@@ -241,7 +241,7 @@ summarise_cols <- function(.data, ..., caller_env) {
           next
         }
 
-        types_k <- fix_vctrs_call(
+        types_k <- fix_error(
           vec_ptype_common(!!!chunks_k),
           class = "dplyr:::error_summarise_incompatible_combine"
         )
