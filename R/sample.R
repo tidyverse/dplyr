@@ -84,7 +84,9 @@ sample_n.data.frame <- function(tbl, size, replace = FALSE,
   size <- enquo(size)
   weight <- enquo(weight)
 
-  slice(tbl, sample.int(n(), check_size(!!size, n(), replace = replace), replace = replace, prob = !!weight))
+  slice_fix_error(call = call("sample_n"),
+    slice(tbl, sample.int(n(), check_size(!!size, n(), replace = replace), replace = replace, prob = !!weight))
+  )
 }
 
 #' @rdname sample_n
@@ -110,7 +112,9 @@ sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
   size <- enquo(size)
   weight <- enquo(weight)
 
-  slice(tbl, sample.int(n(), round(n() * check_frac(!!size, replace = replace)), replace = replace, prob = !!weight))
+  slice_fix_error(call = call("sample_frac"),
+    slice(tbl, sample.int(n(), round(n() * check_frac(!!size, replace = replace)), replace = replace, prob = !!weight))
+  )
 }
 
 
