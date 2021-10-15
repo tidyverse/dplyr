@@ -241,8 +241,8 @@ summarise_cols <- function(.data, ..., caller_env) {
           next
         }
 
-        types_k <- fix_error(
-          vec_ptype_common(!!!chunks_k),
+        types_k <- wrap_error(
+          fix_call(vec_ptype_common(!!!chunks_k)),
           class = "dplyr:::error_summarise_incompatible_combine"
         )
 
@@ -348,11 +348,10 @@ summarise_bullets.default <- function(cnd, ...) {
 
 #' @export
 `summarise_bullets.dplyr:::error_summarise_incompatible_combine` <- function(cnd, error_name, mask, ...) {
-  parent <- cnd$parent
   c(
     x = glue("`{error_name}` must return compatible vectors across groups"),
-    i = cnd_bullet_combine_details(parent$x, parent$x_arg),
-    i = cnd_bullet_combine_details(parent$y, parent$y_arg)
+    i = cnd_bullet_combine_details(cnd$wrapped$x, cnd$wrapped$x_arg),
+    i = cnd_bullet_combine_details(cnd$wrapped$y, cnd$wrapped$y_arg)
   )
 }
 

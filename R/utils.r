@@ -153,10 +153,25 @@ node_walk_replace <- function(node, old, new) {
 }
 
 # temporary workaround until vctrs better reports error call
-fix_error <- function(expr, class = NULL, call = match.call()$expr) {
+
+fix_call <- function(expr, call = match.call()$expr) {
   withCallingHandlers(expr, error = function(cnd) {
     cnd$call <- call
-    class(cnd) <- c(class, class(cnd))
     cnd_signal(cnd)
   })
 }
+
+wrap_error <- function(expr, class) {
+  withCallingHandlers(expr, error = function(cnd) {
+    abort(
+      message = cnd_header(cnd),
+      body = cnd_body(cnd),
+      class = c(class, "wrapped_error"),
+      call = cnd$call,
+      parent = cnd$parent,
+      wrapped = cnd
+    )
+  })
+}
+
+

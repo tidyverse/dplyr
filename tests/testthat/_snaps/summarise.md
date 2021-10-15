@@ -70,6 +70,8 @@
       Error in `summarise()`: 
         Problem while computing `a = a[[1]]`.
         x `a` must return compatible vectors across groups
+        i Result type for group 1 (id = 1): <double>.
+        i Result type for group 2 (id = 2): <character>.
       Caused by error in `vec_ptype_common()`: 
         Can't combine `..1` <double> and `..2` <character>.
     Code

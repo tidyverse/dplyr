@@ -322,8 +322,8 @@ mutate_cols <- function(.data, ..., caller_env) {
           if (length(rows) == 1) {
             result <- chunks[[1]]
           } else {
-            chunks <- fix_error(
-              vec_cast_common(!!!chunks),
+            chunks <- wrap_error(
+              fix_call(vec_cast_common(!!!chunks)),
               class = "dplyr:::error_mutate_incompatible_combine"
             )
             result <- vec_unchop(chunks, rows)
@@ -465,8 +465,8 @@ mutate_bullets.default <- function(cnd, ...) {
 `mutate_bullets.dplyr:::error_mutate_incompatible_combine` <- function(cnd, error_name, ...) {
   c(
     x = glue("`{error_name}` must return compatible vectors across groups"),
-    i = cnd_bullet_combine_details(cnd$x, cnd$x_arg),
-    i = cnd_bullet_combine_details(cnd$y, cnd$y_arg)
+    i = cnd_bullet_combine_details(cnd$wrapped$x, cnd$wrapped$x_arg),
+    i = cnd_bullet_combine_details(cnd$wrapped$y, cnd$wrapped$y_arg)
   )
 }
 
