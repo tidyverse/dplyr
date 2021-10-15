@@ -138,7 +138,7 @@ check_filter <- function(dots) {
     if (!is.logical(expr)) {
       name <- names(dots)[i]
       abort(c(
-        glue("Suspiciously named input `{name} = {as_label(expr)} `."),
+        "We detected a named input.",
         i = glue("This usually means that you've used `=` instead of `==`."),
         i = glue("Did you mean `{name} == {as_label(expr)}`?")
       ), call = call2("filter"))
