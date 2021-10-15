@@ -4,12 +4,12 @@
       (expect_error(slice_min(data.frame(x = 1:10), 1:6)))
     Output
       <error/dplyr_error>
-      Error: `order_by` must have size 10, not size 6.
+      Error in `slice()`: `order_by` must have size 10, not size 6.
     Code
       (expect_error(slice_max(data.frame(x = 1:10), 1:6)))
     Output
       <error/dplyr_error>
-      Error: `order_by` must have size 10, not size 6.
+      Error in `slice()`: `order_by` must have size 10, not size 6.
 
 # slice_sample() check size of `weight_by=` (#5922)
 
@@ -17,7 +17,7 @@
       (expect_error(slice_sample(data.frame(x = 1:10), n = 2, weight_by = 1:6)))
     Output
       <error/dplyr_error>
-      Error: `weight_by` must have size 10, not size 6.
+      Error in `slice()`: `weight_by` must have size 10, not size 6.
 
 # rename errors with invalid grouped data frame (#640)
 
@@ -26,22 +26,22 @@
       (expect_error(slice(df, TRUE)))
     Output
       <error/dplyr_error>
-      Error: `slice()` expressions should return indices (positive or negative integers).
+      Error in `slice()`: `slice()` expressions should return indices (positive or negative integers).
     Code
       (expect_error(slice(df, FALSE)))
     Output
       <error/dplyr_error>
-      Error: `slice()` expressions should return indices (positive or negative integers).
+      Error in `slice()`: `slice()` expressions should return indices (positive or negative integers).
     Code
       (expect_error(mtcars %>% slice(c(-1, 2))))
     Output
       <error/dplyr_error>
-      Error: `slice()` expressions should return either all positive or all negative.
+      Error in `slice()`: `slice()` expressions should return either all positive or all negative.
     Code
       (expect_error(mtcars %>% slice(c(2:3, -1))))
     Output
       <error/dplyr_error>
-      Error: `slice()` expressions should return either all positive or all negative.
+      Error in `slice()`: `slice()` expressions should return either all positive or all negative.
     Code
       (expect_error(check_slice_size(n = 1, prop = 1)))
     Output

@@ -290,10 +290,14 @@ slice_rows <- function(.data, ..., caller_env) {
     }
 
   }, error = function(e) {
-    abort(c(
-      conditionMessage(e),
+    bullets <- c(
+      cnd_header(e),
       i = cnd_bullet_cur_group_label()
-    ), class = "dplyr_error")
+    )
+    abort(
+      bullets,
+      class = "dplyr_error", call = call("slice")
+    )
   })
 
   vec_c(!!!slice_indices, .ptype = integer())
@@ -301,10 +305,11 @@ slice_rows <- function(.data, ..., caller_env) {
 
 check_constant <- function(x, name, fn) {
   withCallingHandlers(force(x), error = function(e) {
-    abort(c(
+    bullets <- c(
       glue("`{name}` must be a constant in `{fn}()`."),
-      x = conditionMessage(e)
-    ), parent = e)
+      x = cnd_header(e)
+    )
+    abort(bullets, parent = e)
   })
 }
 
