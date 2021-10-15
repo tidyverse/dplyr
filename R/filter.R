@@ -158,9 +158,8 @@ filter_expand <- function(dots) {
     imap(unname(dots), filter_expand_one),
     error = function(cnd) {
       i <- env_filter$current_expression
-      expr <- quo_get_expr(dots[[i]])
       abort(
-        glue("Problem while expanding `..{i} = {as_label(expr)}`"),
+        glue("Problem while expanding `..{i} = {as_label(dots[[i]])}`"),
         call = call("filter"),
         parent = cnd
       )

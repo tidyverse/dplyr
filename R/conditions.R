@@ -34,7 +34,7 @@ local_call_step <- function(dots, .index, .fn, .dot_data = FALSE, frame = caller
   error_expression  <- if (.dot_data) {
     deparse(quo_get_expr(dots[[.index]]))
   } else{
-    as_label(quo_get_expr(dots[[.index]]))
+    as_label(dots[[.index]])
   }
   context_local(
     "dplyr_call_step",
