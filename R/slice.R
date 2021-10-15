@@ -169,7 +169,8 @@ slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
   check_dots_empty()
   if (missing(order_by)) {
-    abort("argument `order_by` is missing, with no default.")
+    msg <- "argument `order_by` is missing, with no default."
+    abort(msg, call = call("slice_min"), class = "dplyr_error")
   }
 
   size <- get_slice_size(n, prop, "slice_min")
@@ -179,11 +180,13 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     idx <- function(x, n) head(order(x), size(n))
   }
 
-  slice(.data, {
-    n <- dplyr::n()
-    x <- vec_assert({{ order_by }}, size = n, arg = "order_by")
-    idx(x, n)
-  })
+  fix_error(call = call("slice_min"),
+    slice(.data, {
+      n <- dplyr::n()
+      x <- vec_assert({{ order_by }}, size = n, arg = "order_by")
+      idx(x, n)
+    })
+  )
 }
 
 #' @export
@@ -196,7 +199,8 @@ slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
   check_dots_empty()
   if (missing(order_by)) {
-    abort("argument `order_by` is missing, with no default.")
+    msg <- "argument `order_by` is missing, with no default."
+    abort(msg, call = call("slice_max"), class = "dplyr_error")
   }
 
   size <- get_slice_size(n, prop, "slice_max")
@@ -208,11 +212,13 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     idx <- function(x, n) head(order(x, decreasing = TRUE), size(n))
   }
 
-  slice(.data, {
-    n <- dplyr::n()
-    x <- vec_assert({{ order_by }}, size = n, arg = "order_by")
-    idx(x, n)
-  })
+  fix_error(call = call("slice_max"),
+    slice(.data, {
+      n <- dplyr::n()
+      x <- vec_assert({{ order_by }}, size = n, arg = "order_by")
+      idx(x, n)
+    })
+  )
 }
 
 #' @export
@@ -228,18 +234,20 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 
 #' @export
 slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
-check_dots_empty()
+  check_dots_empty()
 
   size <- get_slice_size(n, prop, "slice_sample")
 
-  slice(.data, {
-    n <- dplyr::n()
-    weight_by <- {{ weight_by }}
-    if (!is.null(weight_by)) {
-      weight_by <- vec_assert(weight_by, size = n, arg = "weight_by")
-    }
-    sample_int(n, size(n), replace = replace, wt = weight_by)
-  })
+  fix_error(call = call("slice_sample"),
+    slice(.data, {
+      n <- dplyr::n()
+      weight_by <- {{ weight_by }}
+      if (!is.null(weight_by)) {
+        weight_by <- vec_assert(weight_by, size = n, arg = "weight_by")
+      }
+      sample_int(n, size(n), replace = replace, wt = weight_by)
+    })
+  )
 }
 
 # helpers -----------------------------------------------------------------

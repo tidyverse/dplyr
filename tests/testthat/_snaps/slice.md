@@ -4,12 +4,12 @@
       (expect_error(slice_min(data.frame(x = 1:10), 1:6)))
     Output
       <error/dplyr_error>
-      Error in `slice()`: `order_by` must have size 10, not size 6.
+      Error in `slice_min()`: `order_by` must have size 10, not size 6.
     Code
       (expect_error(slice_max(data.frame(x = 1:10), 1:6)))
     Output
       <error/dplyr_error>
-      Error in `slice()`: `order_by` must have size 10, not size 6.
+      Error in `slice_max()`: `order_by` must have size 10, not size 6.
 
 # slice_sample() check size of `weight_by=` (#5922)
 
@@ -17,7 +17,7 @@
       (expect_error(slice_sample(data.frame(x = 1:10), n = 2, weight_by = 1:6)))
     Output
       <error/dplyr_error>
-      Error in `slice()`: `weight_by` must have size 10, not size 6.
+      Error in `slice_sample()`: `weight_by` must have size 10, not size 6.
 
 # rename errors with invalid grouped data frame (#640)
 
