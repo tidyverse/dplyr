@@ -202,7 +202,7 @@ filter_bullets.default <- function(cnd) {
 #' @export
 `filter_bullets.dplyr:::internal_error` <- function(cnd) {
   c(
-    x = conditionMessage(cnd),
+    x = cnd_header(cnd),
     i = cnd_bullet_cur_group_label()
   )
 }
