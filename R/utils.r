@@ -153,7 +153,7 @@ node_walk_replace <- function(node, old, new) {
 }
 
 # temporary workaround until vctrs better reports error call
-disguise <- function(expr) {
+fix_vctrs_call <- function(expr) {
   call <- match.call()$expr
   withCallingHandlers(expr, error = function(cnd) {
     cnd$call <- call

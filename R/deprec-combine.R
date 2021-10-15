@@ -33,6 +33,6 @@ combine <- function(...) {
   if (length(args) == 0) {
     logical()
   } else {
-    disguise(vec_c(!!!args))
+    fix_vctrs_call(vec_c(!!!args))
   }
 }
