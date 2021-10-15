@@ -241,16 +241,11 @@ summarise_cols <- function(.data, ..., caller_env) {
           next
         }
 
-        types_k <- withCallingHandlers(
+        types_k <- fix_vctrs_call(
           vec_ptype_common(!!!chunks_k),
-          vctrs_error_incompatible_type = function(cnd) {
-            abort(
-              conditionMessage(cnd),
-              class = c("dplyr:::error_summarise_incompatible_combine"),
-              call = call("vec_ptype_common")
-            )
-          }
+          class = "dplyr:::error_summarise_incompatible_combine"
         )
+
         chunks_k <- vec_cast_common(!!!chunks_k, .to = types_k)
         result_k <- vec_c(!!!chunks_k, .ptype = types_k)
         quosures_results[[k]] <- list(chunks = chunks_k, types = types_k, results = result_k)
