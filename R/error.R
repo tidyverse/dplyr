@@ -18,10 +18,10 @@ bad_args <- function(args, ..., .envir = parent.frame()) {
   glubort(fmt_args(args), ..., .envir = .envir)
 }
 
-glubort <- function(header, ..., .envir = parent.frame(), .abort = abort) {
+glubort <- function(header, ..., .envir = parent.frame()) {
   text <- glue(..., .envir = .envir)
   if (!is_null(header)) text <- paste0(header, " ", text)
-  .abort(text, call = .envir)
+  abort(text, call = .envir)
 }
 
 fmt_args <- function(x) {
