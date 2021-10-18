@@ -39,19 +39,6 @@ fmt_calls <- function(...) {
   fmt_obj(x)
 }
 
-fmt_named_calls <- function(...) {
-  x <- parse_named_call(...)
-  fmt_named(x)
-}
-
-fmt_wrong_eq_ops <- function(...) {
-  x <- parse_named_call(...)
-  fmt_items(
-    paste0("Did you mean ", fmt_obj1(paste0(names2(x), " == ", x)), "?"),
-    bullet = "*"
-  )
-}
-
 fmt_cols <- function(x) {
   cols <- ntext(length(x), "Column", "Columns")
   glue("{cols} {fmt_obj(x)}")
@@ -60,10 +47,6 @@ fmt_cols <- function(x) {
 fmt_measures <- function(x) {
   measures <- ntext(length(x), "Measure", "Measures")
   glue("{measures} {fmt_obj(x)}")
-}
-
-fmt_named <- function(x) {
-  fmt_comma(paste0(fmt_obj1(names2(x)), " = ", x))
 }
 
 fmt_obj <- function(x) {
@@ -90,16 +73,6 @@ fmt_comma <- function(..., .max = 6) {
   }
 
   commas(x)
-}
-
-fmt_items <- function(x, bullet = "-", .max = 6) {
-  if (length(x) > .max) {
-    more <- glue("({length(x) - (.max - 1)} more)")
-    length(x) <- .max
-    x[.max] <- more
-  }
-
-  paste0(glue("{bullet} {x}"), collapse = "\n")
 }
 
 parse_args <- function(x) {
