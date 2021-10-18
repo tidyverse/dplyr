@@ -10,5 +10,5 @@
     Output
       <error/rlang_error>
       Error in `order_by()`: `call` must be a function call, not a symbol.
-      * Did you mean `arrange(mtcars, cyl)`?
+      i Did you mean `arrange(mtcars, cyl)`?
 

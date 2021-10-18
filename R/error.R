@@ -14,21 +14,6 @@ ntext <- function(n, msg1, msg2) {
   if (n == 1) msg1 else msg2
 }
 
-bad_args <- function(args, ..., .envir = parent.frame()) {
-  glubort(fmt_args(args), ..., .envir = .envir)
-}
-
-glubort <- function(header, ..., .envir = parent.frame()) {
-  text <- glue(..., .envir = .envir)
-  if (!is_null(header)) text <- paste0(header, " ", text)
-  abort(text, call = .envir)
-}
-
-fmt_args <- function(x) {
-  x <- parse_args(x)
-  fmt_obj(x)
-}
-
 fmt_pos_args <- function(x) {
   args <- ntext(length(x), "Argument", "Arguments")
   glue("{args} {fmt_comma(x)}")
@@ -42,11 +27,6 @@ fmt_calls <- function(...) {
 fmt_cols <- function(x) {
   cols <- ntext(length(x), "Column", "Columns")
   glue("{cols} {fmt_obj(x)}")
-}
-
-fmt_measures <- function(x) {
-  measures <- ntext(length(x), "Measure", "Measures")
-  glue("{measures} {fmt_obj(x)}")
 }
 
 fmt_obj <- function(x) {

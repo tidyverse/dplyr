@@ -96,27 +96,40 @@ test_that("sample_*() gives meaningful error messages", {
     grp <- df2 %>% group_by(g)
 
     # base R error messages
-    (expect_error(sample_n(grp, nrow(df2) / 2, weight = y)))
-    (expect_error(sample_frac(grp, 1, weight = y)))
+    (expect_error(
+      sample_n(grp, nrow(df2) / 2, weight = y)
+    ))
+    (expect_error(
+      sample_frac(grp, 1, weight = y)
+    ))
 
     # can't sample more values than obs (without replacement)
-    (expect_error(mtcars %>% group_by(cyl) %>% sample_n(10)))
+    (expect_error(
+      mtcars %>% group_by(cyl) %>% sample_n(10)
+    ))
 
     # unknown type
-    (expect_error(sample_n(list())))
-    (expect_error(sample_frac(list())))
-
-    # helper function check_weight()
-    (expect_error(check_weight(letters[1:2], 2)))
-    (expect_error(check_weight(-1:-2, 2)))
-    (expect_error(check_weight(letters, 2)))
+    (expect_error(
+      sample_n(list())
+    ))
+    (expect_error(
+      sample_frac(list())
+    ))
 
     "# respects weight"
     df <- data.frame(x = 1:2, y = c(0, 1))
-    (expect_error(sample_n(df, 2, weight = y)))
-    (expect_error(sample_frac(df, 2)))
-    (expect_error(sample_frac(df %>% group_by(y), 2)))
-    (expect_error(sample_frac(df, 1, weight = y)))
+    (expect_error(
+      sample_n(df, 2, weight = y)
+    ))
+    (expect_error(
+      sample_frac(df, 2)
+    ))
+    (expect_error(
+      sample_frac(df %>% group_by(y), 2)
+    ))
+    (expect_error(
+      sample_frac(df, 1, weight = y)
+    ))
   })
 
 })

@@ -71,7 +71,8 @@ sample_n <- function(tbl, size, replace = FALSE, weight = NULL, .env = NULL, ...
 #' @export
 sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
                              .env = parent.frame(), ...) {
-  bad_args("tbl", "must be a data frame, not {friendly_type_of(tbl)}.")
+  msg <- glue("`tbl` must be a data frame, not {friendly_type_of(tbl)}.")
+  abort(msg, call = call("sample_n"))
 }
 
 #' @export
@@ -99,7 +100,8 @@ sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NU
 #' @export
 sample_frac.default <- function(tbl, size = 1, replace = FALSE, weight = NULL,
                                 .env = parent.frame(), ...) {
-  bad_args("tbl", "must be a data frame, not {friendly_type_of(tbl)}.")
+  msg <- glue("`tbl` must be a data frame, not {friendly_type_of(tbl)}.")
+  abort(msg, call = call("sample_frac"))
 }
 
 #' @export
@@ -120,38 +122,22 @@ sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
 
 # Helper functions -------------------------------------------------------------
 
-check_weight <- function(x, n) {
-  if (is.null(x)) return()
-
-  if (!is.numeric(x)) {
-    bad_args("weight", "must be a numeric, not {friendly_type_of(x)}.")
-  }
-  if (any(x < 0)) {
-    bad_args("weight", "must be a vector with all values nonnegative, ",
-      "not {x[x < 0][[1]]}."
-    )
-  }
-  if (length(x) != n) {
-    bad_args("weight", "must be a length {n} (same as data), ",
-      "not {length(x)}."
-    )
-  }
-
-  x / sum(x)
-}
-
 check_size <- function(size, n, replace = FALSE) {
   if (size <= n || replace) return(invisible(size))
 
-  bad_args("size", "must be less than or equal to {n} (size of data), ",
-    "set `replace` = TRUE to use sampling with replacement."
+  bullets <- c(
+    glue("`size` must be less than or equal to {n} (size of data)."),
+    i = "set `replace = TRUE` to use sampling with replacement."
   )
+  abort(bullets, call = call("sample_n"), class = "slice_sample_error")
 }
 
 check_frac <- function(size, replace = FALSE) {
   if (size <= 1 || replace) return(invisible(size))
 
-  bad_args("size", "of sampled fraction must be less or equal to one, ",
-    "set `replace` = TRUE to use sampling with replacement."
+  bullets <- c(
+    glue("`size` of sampled fraction must be less or equal to one."),
+    i = "set `replace = TRUE` to use sampling with replacement."
   )
+  abort(bullets, call = call("sample_frac"), class = "slice_sample_error")
 }

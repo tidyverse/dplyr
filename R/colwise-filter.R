@@ -82,9 +82,10 @@ filter_at <- function(.tbl, .vars, .vars_predicate, .preserve = FALSE) {
   filter(.tbl, !!pred, .preserve = .preserve)
 }
 
-apply_filter_syms <- function(pred, syms, tbl) {
+apply_filter_syms <- function(pred, syms, tbl, error_call = caller_env()) {
   if (is_empty(syms)) {
-    bad_args(".predicate", "has no matching columns.")
+    msg  <- glue("`.predicate` has no matching columns.")
+    abort(msg, call = error_call)
   }
   joiner <- all_exprs
 
@@ -97,9 +98,8 @@ apply_filter_syms <- function(pred, syms, tbl) {
     pred <- as_function(pred)
     pred <- map(syms, function(sym) call2(pred, sym))
   } else {
-    bad_args(".vars_predicate", "must be a function or a call to `all_vars()` or `any_vars()`, ",
-      "not {friendly_type_of(pred)}."
-    )
+    msg <- glue("`.vars_predicate` must be a function or a call to `all_vars()` or `any_vars()`, not {friendly_type_of(pred)}.")
+    abort(msg, call = error_call)
   }
 
   if (length(pred) == 1) {

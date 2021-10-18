@@ -271,6 +271,9 @@ slice_fix_error <- function(expr, call) {
           i = cnd$cur_group_label
         )
         abort(msg, call = call, class = "dplyr_error")
+      } else if (inherits(cnd$parent, "slice_sample_error")) {
+        # skip slice() error
+        cnd_signal(cnd$parent)
       } else {
         # fix the call
         cnd$call <- call
