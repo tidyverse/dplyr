@@ -5,7 +5,7 @@
     Output
       <error/rlang_error>
       Error: The `__foobarbaz__` package is required to foobar a baz.
-      Please install it with `install.packages("`__foobarbaz__`")`
+      i Please install it with `install.packages("{name}")`.
     Code
       (expect_error(dplyr:::check_pkg("`__foobarbaz__`", "foobar a baz", install = FALSE))
       )
