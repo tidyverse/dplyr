@@ -186,7 +186,7 @@ validate_formula <- function(x, i, default_env, dots_env) {
     abort_case_when_formula(arg, i, x)
   }
   if (is_null(f_lhs(x))) {
-    abort("formulas must be two-sided.")
+    abort("formulas must be two-sided.", call = default_env)
   }
 
   # Formula might be unevaluated, e.g. if it's been quosured
@@ -201,13 +201,19 @@ validate_formula <- function(x, i, default_env, dots_env) {
 abort_case_when_formula <- function(arg, i, obj) {
   deparsed <- fmt_obj1(deparse_trunc(arg))
   type <- friendly_type_of(obj)
-  abort(glue("Case {i} ({deparsed}) must be a two-sided formula, not {type}."))
+  abort(
+    glue("Case {i} ({deparsed}) must be a two-sided formula, not {type}."),
+    call = call("case_when")
+  )
 }
 
-abort_case_when_logical <- function(lhs, i, query) {
+abort_case_when_logical <- function(lhs, i, query, error_call = caller_env()) {
   deparsed <- fmt_obj1(deparse_trunc(quo_squash(lhs)))
   type <- friendly_type_of(query)
-  abort(glue("LHS of case {i} ({deparsed}) must be a logical vector, not {type}."))
+  abort(
+    glue("LHS of case {i} ({deparsed}) must be a logical vector, not {type}."),
+    call = call("case_when")
+  )
 }
 
 validate_case_when_length <- function(query, value, fs) {
@@ -231,8 +237,10 @@ validate_case_when_length <- function(query, value, fs) {
   rhs_problems <- rhs_lengths %in% inconsistent_lengths
   problems <- lhs_problems | rhs_problems
 
-  bad_calls(
-    fs[problems],
-    check_length_val(inconsistent_lengths, len, header = NULL, .abort = function(x, ...) x)
+  inconsistent <- check_length_val(inconsistent_lengths, len, header = NULL, .abort = function(x, ...) x)
+  abort(
+    glue("{fs[problems]} {inconsistent}"),
+    call = call("case_when")
   )
+
 }
