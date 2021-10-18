@@ -9,12 +9,12 @@
       (expect_error(if_else(1:3 < 2, 1:2, 1:3)))
     Output
       <error/rlang_error>
-      Error in `check_length_val()`: `true` must be length 3 (length of `condition`) or one, not 2.
+      Error in `if_else()`: `true` must be length 3 (length of `condition`) or one, not 2.
     Code
       (expect_error(if_else(1:3 < 2, 1:3, 1:2)))
     Output
       <error/rlang_error>
-      Error in `check_length_val()`: `false` must be length 3 (length of `condition`) or one, not 2.
+      Error in `if_else()`: `false` must be length 3 (length of `condition`) or one, not 2.
     Code
       (expect_error(if_else(1:3 < 2, 1, 1L)))
     Output

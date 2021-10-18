@@ -207,7 +207,7 @@ abort_case_when_formula <- function(arg, i, obj) {
   )
 }
 
-abort_case_when_logical <- function(lhs, i, query, error_call = caller_env()) {
+abort_case_when_logical <- function(lhs, i, query) {
   deparsed <- fmt_obj1(deparse_trunc(quo_squash(lhs)))
   type <- friendly_type_of(query)
   abort(
@@ -237,10 +237,5 @@ validate_case_when_length <- function(query, value, fs) {
   rhs_problems <- rhs_lengths %in% inconsistent_lengths
   problems <- lhs_problems | rhs_problems
 
-  inconsistent <- check_length_val(inconsistent_lengths, len, header = NULL, .abort = function(x, ...) x)
-  abort(
-    glue("{fs[problems]} {inconsistent}"),
-    call = call("case_when")
-  )
-
+  check_length_val(inconsistent_lengths, len, header = fmt_calls(fs[problems]), error_call = call("case_when"))
 }

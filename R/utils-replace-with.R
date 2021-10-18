@@ -3,7 +3,7 @@ replace_with <- function(x, i, val, name, reason = NULL, error_call = caller_env
     return(x)
   }
 
-  check_length(val, x, name, reason)
+  check_length(val, x, name, reason, error_call = error_call)
   check_type(val, x, name, error_call = error_call)
   check_class(val, x, name, error_call = error_call)
 
@@ -18,15 +18,7 @@ replace_with <- function(x, i, val, name, reason = NULL, error_call = caller_env
   x
 }
 
-check_length <- function(x, template, header, reason = NULL) {
-  check_length_val(length(x), length(template), header, reason)
-}
-
-check_length_col <- function(length_x, n, name, reason = NULL, .abort = abort) {
-  check_length_val(length_x, n, fmt_cols(name), reason, .abort = .abort)
-}
-
-check_length_val <- function(length_x, n, header, reason = NULL, .abort = abort) {
+fmt_check_length_val <- function(length_x, n, header, reason = NULL) {
   if (all(length_x %in% c(1L, n))) {
     return()
   }
@@ -38,10 +30,20 @@ check_length_val <- function(length_x, n, header, reason = NULL, .abort = abort)
   }
 
   if (n == 1) {
-    glubort(header, "must be length 1{reason}, not {commas(length_x)}.", .abort = .abort)
+    glue("{header} must be length 1{reason}, not {commas(length_x)}.")
   } else {
-    glubort(header, "must be length {n}{reason} or one, not {commas(length_x)}.", .abort = .abort)
+    glue("{header} must be length {n}{reason} or one, not {commas(length_x)}.")
   }
+}
+check_length_val <- function(length_x, n, header, reason = NULL, error_call = caller_env()) {
+  msg <- fmt_check_length_val(length_x, n, header, reason)
+  if(length(msg)) {
+    abort(msg, call = error_call)
+  }
+}
+
+check_length <- function(x, template, header, reason = NULL, error_call = caller_env()) {
+  check_length_val(length(x), length(template), header, reason, error_call = error_call)
 }
 
 check_type <- function(x, template, header, error_call = caller_env()) {
