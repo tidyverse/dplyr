@@ -152,7 +152,9 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
   values <- list2(...)
   if (!all(have_name(values))) {
     bad <- which(!have_name(values)) + 1
-    bad_pos_args(bad, "must be named, not unnamed.")
+    abort(
+      glue("{fmt_pos_args(bad)} must be named, not unnamed.")
+    )
   }
 
   n <- length(.x)
@@ -180,7 +182,9 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
 
   if (!all(have_name(values))) {
     bad <- which(!have_name(values)) + 1
-    bad_pos_args(bad, "must be named, not unnamed.")
+    abort(
+      glue("{fmt_pos_args(bad)} must be named, not unnamed.")
+    )
   }
   if (!is.null(.missing)) {
     bad_args(".missing", "is not supported for factors.")

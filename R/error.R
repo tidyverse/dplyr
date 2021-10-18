@@ -18,10 +18,6 @@ bad_args <- function(args, ..., .envir = parent.frame()) {
   glubort(fmt_args(args), ..., .envir = .envir)
 }
 
-bad_pos_args <- function(pos_args, ..., .envir = parent.frame()) {
-  glubort(fmt_pos_args(pos_args), ..., .envir = .envir)
-}
-
 bad_calls <- function(calls, ..., .envir = parent.frame()) {
   glubort(fmt_calls(calls), ..., .envir = .envir)
 }
