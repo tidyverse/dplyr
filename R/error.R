@@ -14,10 +14,6 @@ ntext <- function(n, msg1, msg2) {
   if (n == 1) msg1 else msg2
 }
 
-bad <- function(..., .envir = parent.frame()) {
-  glubort(NULL, ..., .envir = parent.frame())
-}
-
 bad_args <- function(args, ..., .envir = parent.frame()) {
   glubort(fmt_args(args), ..., .envir = .envir)
 }
