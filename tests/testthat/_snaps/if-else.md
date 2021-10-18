@@ -19,12 +19,12 @@
       (expect_error(if_else(1:3 < 2, 1, 1L)))
     Output
       <error/rlang_error>
-      Error in `check_type()`: `false` must be a double vector, not an integer vector.
+      Error in `if_else()`: `false` must be a double vector, not an integer vector.
     Code
       x <- factor("x")
       y <- ordered("x")
       (expect_error(if_else(1:3 < 2, x, y)))
     Output
       <error/rlang_error>
-      Error in `check_class()`: `false` must have class `factor`, not class `ordered/factor`.
+      Error in `if_else()`: `false` must have class `factor`, not class `ordered/factor`.
 

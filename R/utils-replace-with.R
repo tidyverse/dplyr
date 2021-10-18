@@ -1,11 +1,11 @@
-replace_with <- function(x, i, val, name, reason = NULL) {
+replace_with <- function(x, i, val, name, reason = NULL, error_call = caller_env()) {
   if (is.null(val)) {
     return(x)
   }
 
   check_length(val, x, name, reason)
-  check_type(val, x, name)
-  check_class(val, x, name)
+  check_type(val, x, name, error_call = error_call)
+  check_class(val, x, name, error_call = error_call)
 
   i[is.na(i)] <- FALSE
 
@@ -44,15 +44,18 @@ check_length_val <- function(length_x, n, header, reason = NULL, .abort = abort)
   }
 }
 
-check_type <- function(x, template, header) {
+check_type <- function(x, template, header, error_call = caller_env()) {
   if (identical(typeof(x), typeof(template))) {
     return()
   }
 
-  glubort(header, "must be {friendly_type_of(template)}, not {friendly_type_of(x)}.")
+  abort(
+    glue("{header} must be {friendly_type_of(template)}, not {friendly_type_of(x)}."),
+    call = error_call
+  )
 }
 
-check_class <- function(x, template, header) {
+check_class <- function(x, template, header, error_call = caller_env()) {
   if (!is.object(x)) {
     return()
   }
@@ -63,5 +66,8 @@ check_class <- function(x, template, header) {
 
   exp_classes <- fmt_classes(template)
   out_classes <- fmt_classes(x)
-  glubort(header, "must have class `{exp_classes}`, not class `{out_classes}`.")
+  abort(
+    glue("{header} must have class `{exp_classes}`, not class `{out_classes}`."),
+    call = error_call
+  )
 }
