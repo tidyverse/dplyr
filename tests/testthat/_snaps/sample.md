@@ -27,7 +27,7 @@
       Error in `sample_n()`: 
         Problem evaluating `... = sample.int(...)` . 
         i The error occurred in group 2: cyl = 6.
-      Caused by error in `glubort()`: 
+      Caused by error in `check_size()`: 
         `size` must be less than or equal to 7 (size of data), set `replace` = TRUE to use sampling with replacement.
     Code
       (expect_error(sample_n(list())))
@@ -70,7 +70,7 @@
       <error/dplyr_error>
       Error in `sample_frac()`: 
         Problem evaluating `... = sample.int(...)` . 
-      Caused by error in `glubort()`: 
+      Caused by error in `check_frac()`: 
         `size` of sampled fraction must be less or equal to one, set `replace` = TRUE to use sampling with replacement.
     Code
       (expect_error(sample_frac(df %>% group_by(y), 2)))
@@ -79,7 +79,7 @@
       Error in `sample_frac()`: 
         Problem evaluating `... = sample.int(...)` . 
         i The error occurred in group 1: y = 0.
-      Caused by error in `glubort()`: 
+      Caused by error in `check_frac()`: 
         `size` of sampled fraction must be less or equal to one, set `replace` = TRUE to use sampling with replacement.
     Code
       (expect_error(sample_frac(df, 1, weight = y)))
