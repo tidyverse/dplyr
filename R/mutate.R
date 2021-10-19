@@ -416,7 +416,6 @@ mutate_cols <- function(.data, ..., caller_env) {
 
     warn(c(
       cnd_bullet_header(),
-      i = cnd_bullet_column_info(),
       i = cnd_header(w),
       i = cnd_bullet_cur_group_label(what = "warning")
     ))

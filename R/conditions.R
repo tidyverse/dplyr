@@ -64,10 +64,6 @@ cnd_bullet_header <- function() {
   )
 }
 
-cnd_bullet_column_info <- function(){
-  glue("`{error_name} = {error_expression}`.", .envir = peek_call_step())
-}
-
 cnd_bullet_combine_details <- function(x, arg) {
   group <- as.integer(sub("^..", "", arg))
   keys <- group_keys(peek_mask()$full_data())[group, ]
