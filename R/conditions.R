@@ -55,11 +55,11 @@ peek_error_context <- function() {
   context_peek("dplyr_error_context", "peek_error_context", "dplyr error handling")
 }
 
-cnd_bullet_header <- function() {
-  glue_data(
-    peek_error_context(),
-    "Problem while computing `{error_name} = {error_expression}`."
-  )
+cnd_bullet_header <- function(what = "computing") {
+  error_context <- peek_error_context()
+  error_name <- error_context$error_name
+  error_expression <- error_context$error_expression
+  glue("Problem while {what} `{error_name} = {error_expression}`.")
 }
 
 cnd_bullet_combine_details <- function(x, arg) {

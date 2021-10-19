@@ -220,7 +220,6 @@ summarise_cols <- function(.data, ..., caller_env) {
   types <- list()
   out_names <- character()
 
-  # TODO: move withCallingHandlers around quosures_results
   withCallingHandlers({
     for (i in seq_along(dots)) {
       context_poke("column", old_current_column)
@@ -273,9 +272,6 @@ summarise_cols <- function(.data, ..., caller_env) {
 
     }
 
-    # TODO: add a withCallingGandlers to capture the dplyr:::summarise_incompatible_size error
-    #       and report it differently
-    # i.e. it's not a problem while computing
     recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks, mask$get_rows(), types, results)
     chunks <- recycle_info$chunks
     sizes <- recycle_info$sizes
@@ -289,10 +285,17 @@ summarise_cols <- function(.data, ..., caller_env) {
 
   },
   error = function(e) {
-    local_error_context(dots = dots, .index = i, mask = mask)
+    what <- "computing"
+    index <- i
+    if (inherits(e, "dplyr:::summarise_incompatible_size")) {
+      index <- e$dplyr_error_data$index
+      what <- "recycling"
+    }
+
+    local_error_context(dots = dots, .index = index, mask = mask)
 
     bullets <- c(
-      cnd_bullet_header(),
+      cnd_bullet_header(what),
       summarise_bullets(e)
     )
 

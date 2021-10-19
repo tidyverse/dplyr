@@ -88,14 +88,14 @@
       (expect_error(tibble(z = 1) %>% summarise(x = 1:3, y = 1:2)))
     Output
       <error/dplyr_error>
-      Error in `summarise()`: Problem while computing `y = 1:2`.
+      Error in `summarise()`: Problem while recycling `y = 1:2`.
       x `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
     Code
       (expect_error(tibble(z = 1:2) %>% group_by(z) %>% summarise(x = 1:3, y = 1:2)))
     Output
       <error/dplyr_error>
-      Error in `summarise()`: Problem while computing `y = 1:2`.
+      Error in `summarise()`: Problem while recycling `y = 1:2`.
       x `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
       i The error occurred in group 1: z = 1.
@@ -104,7 +104,7 @@
       y = 1:2)))
     Output
       <error/dplyr_error>
-      Error in `summarise()`: Problem while computing `y = 1:2`.
+      Error in `summarise()`: Problem while recycling `y = 1:2`.
       x `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
       i The error occurred in group 2: z = 3.
