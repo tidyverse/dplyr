@@ -142,20 +142,14 @@ int* p_current_group = INTEGER(current_group)
   SEXP error_names = PROTECT(Rf_allocVector(STRSXP, n));             \
   Rf_setAttrib(error_data, R_NamesSymbol, error_names);
 
-#define DPLYR_ERROR_MESG_INIT(n)                               \
-  SEXP error_message = PROTECT(Rf_allocVector(STRSXP, n));     \
-
 #define DPLYR_ERROR_SET(i, name, value)                        \
   SET_VECTOR_ELT(error_data, i, value);                        \
   SET_STRING_ELT(error_names, i, Rf_mkChar(name));
 
-#define DPLYR_ERROR_MSG_SET(i, msg)                        \
-  SET_STRING_ELT(error_message, i, Rf_mkChar(msg));                          \
-
 #define DPLYR_ERROR_THROW(klass)                                    \
   SEXP error_class = PROTECT(Rf_mkString(klass));              \
-  SEXP error_call = PROTECT(Rf_lang4(dplyr::symbols::abort_glue, error_message, error_data, error_class)); \
+  SEXP error_call = PROTECT(Rf_lang3(dplyr::symbols::abort_glue, error_data, error_class)); \
   Rf_eval(error_call, dplyr::envs::ns_dplyr);                  \
-  UNPROTECT(5) ; // for rchk
+  UNPROTECT(4) ; // for rchk
 
 #endif

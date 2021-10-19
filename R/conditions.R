@@ -82,11 +82,6 @@ err_vars <- function(x) {
   glue_collapse(x, sep = ", ", last = if (length(x) <= 2) " and " else ", and ")
 }
 
-abort_glue <- function(message, data = list(), class = NULL) {
-  if (length(message)) {
-    message <- exec(glue, message, !!!data)
-    exec(abort, message = message, parent = NULL, class = c(class, "dplyr:::internal_error"), !!!data)
-  } else {
-    exec(abort, parent = NULL, class = c(class, "dplyr:::internal_error"), !!!data)
-  }
+abort_glue <- function(data = list(), class = NULL) {
+  exec(abort, parent = NULL, class = c(class, "dplyr:::internal_error"), !!!data)
 }

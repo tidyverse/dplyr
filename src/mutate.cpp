@@ -5,21 +5,17 @@ void stop_mutate_recycle_incompatible_size(R_len_t n_result_i) {
   DPLYR_ERROR_INIT(1);
     DPLYR_ERROR_SET(0, "x_size", Rf_ScalarInteger(n_result_i));
 
-  DPLYR_ERROR_MESG_INIT(0);
-
   DPLYR_ERROR_THROW("dplyr:::mutate_incompatible_size");
 }
 
 void stop_mutate_mixed_null() {
   DPLYR_ERROR_INIT(0);
-  DPLYR_ERROR_MESG_INIT(0);
   DPLYR_ERROR_THROW("dplyr:::mutate_mixed_null");
 }
 
 void stop_mutate_not_vector(SEXP result) {
   DPLYR_ERROR_INIT(1);
     DPLYR_ERROR_SET(0, "result", result);
-  DPLYR_ERROR_MESG_INIT(0);
   DPLYR_ERROR_THROW("dplyr:::mutate_not_vector");
 }
 }

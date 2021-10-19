@@ -9,8 +9,6 @@ void stop_filter_incompatible_size(R_xlen_t i, SEXP quos, R_xlen_t nres, R_xlen_
     DPLYR_ERROR_SET(1, "size", Rf_ScalarInteger(nres));
     DPLYR_ERROR_SET(2, "expected_size", Rf_ScalarInteger(n));
 
-  DPLYR_ERROR_MESG_INIT(0);
-
   DPLYR_ERROR_THROW("dplyr:::filter_incompatible_size");
 }
 
@@ -19,8 +17,6 @@ void stop_filter_incompatible_type(R_xlen_t i, SEXP quos, SEXP column_name, SEXP
     DPLYR_ERROR_SET(0, "index", Rf_ScalarInteger(i + 1));
     DPLYR_ERROR_SET(1, "column_name", column_name);
     DPLYR_ERROR_SET(2, "result", result);
-
-  DPLYR_ERROR_MESG_INIT(0);
 
   DPLYR_ERROR_THROW("dplyr:::filter_incompatible_type");
 }
