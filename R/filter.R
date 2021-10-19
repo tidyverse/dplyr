@@ -207,3 +207,11 @@ filter_bullets.default <- function(cnd) {
   )
 }
 
+#' @export
+`filter_bullets.dplyr:::filter_incompatible_size` <- function(cnd) {
+  c(
+    x = glue("Input `..{index}` must be of size {or_1(expected_size)}, not size {size}.", index = cnd$index, expected_size = cnd$expected_size, size = cnd$size),
+    i = cnd_bullet_cur_group_label()
+  )
+}
+
