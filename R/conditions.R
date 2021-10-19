@@ -30,7 +30,7 @@ or_1 <- function(x) {
 
 # Common ------------------------------------------------------------------
 
-local_call_step <- function(dots, .index, .fn, .dot_data = FALSE, frame = caller_env()) {
+local_call_step <- function(dots, .index, .dot_data = FALSE, frame = caller_env()) {
   error_expression  <- if (.dot_data) {
     deparse(quo_get_expr(dots[[.index]]))
   } else{
@@ -43,7 +43,6 @@ local_call_step <- function(dots, .index, .fn, .dot_data = FALSE, frame = caller
       error_expression = error_expression,
       index = .index,
       dots = dots,
-      fn = .fn,
       environment()
     ),
     frame = frame

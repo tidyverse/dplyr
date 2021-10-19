@@ -303,7 +303,7 @@ summarise_cols <- function(.data, ..., caller_env) {
 
   },
   error = function(e) {
-    local_call_step(dots = dots, .index = i, .fn = "summarise",
+    local_call_step(dots = dots, .index = i,
       .dot_data = inherits(e, "rlang_error_data_pronoun_not_found")
     )
     error_name <- peek_call_step()$error_name

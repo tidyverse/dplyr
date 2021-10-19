@@ -175,7 +175,7 @@ filter_eval <- function(dots, mask) {
   withCallingHandlers({
     mask$eval_all_filter(dots, env_filter)
   }, error = function(e) {
-    local_call_step(dots = dots, .index = env_filter$current_expression, .fn = "filter")
+    local_call_step(dots = dots, .index = env_filter$current_expression)
 
     bullets <- c(
       cnd_bullet_header(),

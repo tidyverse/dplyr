@@ -379,7 +379,7 @@ mutate_cols <- function(.data, ..., caller_env) {
 
   },
   error = function(e) {
-    local_call_step(dots = dots, .index = i, .fn = "mutate", .dot_data = inherits(e, "rlang_error_data_pronoun_not_found"))
+    local_call_step(dots = dots, .index = i, .dot_data = inherits(e, "rlang_error_data_pronoun_not_found"))
     call_step_envir <- peek_call_step()
     error_name <- call_step_envir$error_name
     error_expression <- call_step_envir$error_expression
@@ -412,7 +412,7 @@ mutate_cols <- function(.data, ..., caller_env) {
       maybe_restart("muffleWarning")
     }
 
-    local_call_step(dots = dots, .index = i, .fn = "mutate")
+    local_call_step(dots = dots, .index = i)
 
     warn(c(
       cnd_bullet_header(),
