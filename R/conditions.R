@@ -30,11 +30,16 @@ or_1 <- function(x) {
 
 # Common ------------------------------------------------------------------
 
-local_call_step <- function(dots, .index, .dot_data = FALSE, frame = caller_env()) {
-  error_expression  <- if (.dot_data) {
-    deparse(quo_get_expr(dots[[.index]]))
+is_data_pronoun <- function(x) {
+  is_call(x, c("[[", "$")) && identical(node_cadr(x), sym(".data"))
+}
+
+local_call_step <- function(dots, .index, frame = caller_env()) {
+  expr <- quo_get_expr(dots[[.index]])
+  error_expression  <- if (is_data_pronoun(expr)) {
+    deparse(expr)
   } else{
-    as_label(dots[[.index]])
+    as_label(expr)
   }
   context_local(
     "dplyr_call_step",
