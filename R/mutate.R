@@ -310,6 +310,12 @@ mutate_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
               )
             }
           }
+        } else if (!quo_is_symbolic(quo) && !is.null(quo_get_expr(quo))) {
+          # constant, we still need both `result` and `chunks`
+          result <- eval_bare(quo_get_expr(quo), empty_env())
+          result <- vec_recycle(result, vec_size(.data))
+
+          chunks <- vec_chop(result, rows)
         }
 
         if (is.null(chunks)) {
