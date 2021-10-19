@@ -220,37 +220,18 @@ summarise_cols <- function(.data, ..., caller_env) {
   types <- list()
   out_names <- character()
 
+  # TODO: move withCallingHandlers around quosures_results
   withCallingHandlers({
     for (i in seq_along(dots)) {
       context_poke("column", old_current_column)
 
+      # - expand
       quosures <- expand_across(dots[[i]])
-      quosures_results <- vector(mode = "list", length = length(quosures))
 
-      # with the previous part above, for each element of ... we can
-      # have either one or several quosures, each of them handled here:
-      for (k in seq_along(quosures)) {
-        quo <- quosures[[k]]
-        quo_data <- attr(quo, "dplyr:::data")
-        if (!is.null(quo_data$column)) {
-          context_poke("column", quo_data$column)
-        }
+      # - compute
+      quosures_results <- map(quosures, summarise_eval_one, mask = mask)
 
-        chunks_k <- mask$eval_all_summarise(quo)
-        if (is.null(chunks_k)) {
-          next
-        }
-
-        types_k <- wrap_error(
-          fix_call(vec_ptype_common(!!!chunks_k)),
-          class = "dplyr:::error_summarise_incompatible_combine"
-        )
-
-        chunks_k <- vec_cast_common(!!!chunks_k, .to = types_k)
-        result_k <- vec_c(!!!chunks_k, .ptype = types_k)
-        quosures_results[[k]] <- list(chunks = chunks_k, types = types_k, results = result_k)
-      }
-
+      # - structure
       for (k in seq_along(quosures)) {
         quo <- quosures[[k]]
         quo_data <- attr(quo, "dplyr:::data")
@@ -288,8 +269,13 @@ summarise_cols <- function(.data, ..., caller_env) {
         }
 
       }
+
+
     }
 
+    # TODO: add a withCallingGandlers to capture the dplyr:::summarise_incompatible_size error
+    #       and report it differently
+    # i.e. it's not a problem while computing
     recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks, mask$get_rows(), types, results)
     chunks <- recycle_info$chunks
     sizes <- recycle_info$sizes
@@ -319,6 +305,26 @@ summarise_cols <- function(.data, ..., caller_env) {
   })
 
   list(new = cols, size = sizes, all_one = identical(sizes, 1L))
+}
+
+summarise_eval_one <- function(quo, mask) {
+  quo_data <- attr(quo, "dplyr:::data")
+  if (!is.null(quo_data$column)) {
+    context_poke("column", quo_data$column)
+  }
+
+  chunks_k <- mask$eval_all_summarise(quo)
+  if (!is.null(chunks_k)) {
+    types_k <- wrap_error(
+      fix_call(vec_ptype_common(!!!chunks_k)),
+      class = "dplyr:::error_summarise_incompatible_combine"
+    )
+
+    chunks_k <- vec_cast_common(!!!chunks_k, .to = types_k)
+    result_k <- vec_c(!!!chunks_k, .ptype = types_k)
+    list(chunks = chunks_k, types = types_k, results = result_k)
+  }
+
 }
 
 summarise_build <- function(.data, cols) {
@@ -369,7 +375,7 @@ summarise_bullets.default <- function(cnd, ...) {
   error_name    <- error_context$error_name
 
   # so that cnd_bullet_cur_group_label() correctly reports the faulty group
-  error_context$mask$set_current_group(group) # HACK
+  error_context$mask$set_current_group(group)
 
   c(
     x = glue("`{error_name}` must be size {or_1(expected_size)}, not {size}."),
