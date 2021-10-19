@@ -28,15 +28,15 @@ test_that("arrange() gives meaningful errors", {
   expect_snapshot({
     # duplicated column name
     (expect_error(
-                    tibble(x = 1, x = 1, .name_repair = "minimal") %>% arrange(x)
+      tibble(x = 1, x = 1, .name_repair = "minimal") %>% arrange(x)
     ))
 
     # error in mutate() step
     (expect_error(
-                    tibble(x = 1) %>% arrange(y)
+      tibble(x = 1) %>% arrange(y)
     ))
     (expect_error(
-                    tibble(x = 1) %>% arrange(rep(x, 2))
+      tibble(x = 1) %>% arrange(rep(x, 2))
     ))
   })
 

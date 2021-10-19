@@ -288,8 +288,8 @@ slice_rows <- function(.data, ..., caller_env) {
   if (is_empty(dots)) {
     return(TRUE)
   }
-  mask <- DataMask$new(.data, caller_env)
-  on.exit(mask$forget("slice"), add = TRUE)
+  mask <- DataMask$new(.data, caller_env, "slice")
+  on.exit(mask$forget(), add = TRUE)
 
   rows <- mask$get_rows()
 

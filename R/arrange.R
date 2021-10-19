@@ -136,7 +136,7 @@ arrange_rows <- function(.data, dots) {
     }
 
     abort(c(
-      "arrange() failed at implicit mutate() step. ",
+      "Problem with the implicit `mutate()` step. ",
       bullets
     ), class = "dplyr_error", call = call("arrange"), parent = parent)
 

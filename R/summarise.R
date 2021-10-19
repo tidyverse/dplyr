@@ -201,11 +201,11 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
 }
 
 summarise_cols <- function(.data, ..., caller_env) {
-  mask <- DataMask$new(.data, caller_env)
+  mask <- DataMask$new(.data, caller_env, "summarise")
   old_current_column <- context_peek_bare("column")
 
   on.exit(context_poke("column", old_current_column), add = TRUE)
-  on.exit(mask$forget("summarise"), add = TRUE)
+  on.exit(mask$forget(), add = TRUE)
 
   dots <- dplyr_quosures(...)
 
@@ -303,23 +303,17 @@ summarise_cols <- function(.data, ..., caller_env) {
 
   },
   error = function(e) {
-    local_call_step(dots = dots, .index = i)
-    error_name <- peek_call_step()$error_name
+    local_error_context(dots = dots, .index = i, mask = mask)
 
     bullets <- c(
       cnd_bullet_header(),
-      summarise_bullets(e, error_name = error_name, mask = mask)
+      summarise_bullets(e)
     )
-
-    parent <- e
-    if (inherits(e, "dplyr:::internal_error")) {
-      parent <- e$parent
-    }
 
     abort(
       bullets,
       class = "dplyr_error", call = call("summarise"),
-      parent = parent
+      parent = if (inherits(e, "dplyr:::internal_error")) e$parent else e
     )
 
   })
@@ -335,7 +329,7 @@ summarise_build <- function(.data, cols) {
   dplyr_col_modify(out, cols$new)
 }
 
-summarise_bullets <- function(cnd, error_name, mask, ...) {
+summarise_bullets <- function(cnd, ..) {
   UseMethod("summarise_bullets")
 }
 
@@ -345,7 +339,8 @@ summarise_bullets.default <- function(cnd, ...) {
 }
 
 #' @export
-`summarise_bullets.dplyr:::error_summarise_incompatible_combine` <- function(cnd, error_name, mask, ...) {
+`summarise_bullets.dplyr:::error_summarise_incompatible_combine` <- function(cnd, ...) {
+  error_name <- peek_error_context()$error_name
   c(
     x = glue("`{error_name}` must return compatible vectors across groups"),
     i = cnd_bullet_combine_details(cnd$wrapped$x, cnd$wrapped$x_arg),
@@ -354,8 +349,9 @@ summarise_bullets.default <- function(cnd, ...) {
 }
 
 #' @export
-`summarise_bullets.dplyr:::summarise_unsupported_type` <- function(cnd, error_name, mask, ...) {
+`summarise_bullets.dplyr:::summarise_unsupported_type` <- function(cnd, ...) {
   result <- cnd$dplyr_error_data$result
+  error_name <- peek_error_context()$error_name
   c(
     x = glue("`{error_name}` must be a vector, not {friendly_type_of(result)}."),
     i = cnd_bullet_rowwise_unlist(),
@@ -364,13 +360,16 @@ summarise_bullets.default <- function(cnd, ...) {
 }
 
 #' @export
-`summarise_bullets.dplyr:::summarise_incompatible_size` <- function(cnd, error_name, mask, ...) {
+`summarise_bullets.dplyr:::summarise_incompatible_size` <- function(cnd, ...) {
   expected_size <- cnd$dplyr_error_data$expected_size
   size          <- cnd$dplyr_error_data$size
   group         <- cnd$dplyr_error_data$group
 
+  error_context <- peek_error_context()
+  error_name    <- error_context$error_name
+
   # so that cnd_bullet_cur_group_label() correctly reports the faulty group
-  mask$set_current_group(group)
+  error_context$mask$set_current_group(group) # HACK
 
   c(
     x = glue("`{error_name}` must be size {or_1(expected_size)}, not {size}."),
@@ -380,7 +379,8 @@ summarise_bullets.default <- function(cnd, ...) {
 }
 
 #' @export
-`summarise_bullets.dplyr:::summarise_mixed_null` <- function(cnd, error_name, mask, ...) {
+`summarise_bullets.dplyr:::summarise_mixed_null` <- function(cnd, ...) {
+  error_name    <- peek_error_context()$error_name
   c(
     x = glue("`{error_name}` must return compatible vectors across groups."),
     i = "Cannot combine NULL and non NULL results."

@@ -248,11 +248,11 @@ check_transmute_args <- function(..., .keep, .before, .after) {
 }
 
 mutate_cols <- function(.data, ..., caller_env) {
-  mask <- DataMask$new(.data, caller_env)
+  mask <- DataMask$new(.data, caller_env, "mutate")
   old_current_column <- context_peek_bare("column")
 
   on.exit(context_poke("column", old_current_column), add = TRUE)
-  on.exit(mask$forget("mutate"), add = TRUE)
+  on.exit(mask$forget(), add = TRUE)
 
   rows <- mask$get_rows()
   dots <- dplyr_quosures(...)
@@ -379,26 +379,16 @@ mutate_cols <- function(.data, ..., caller_env) {
 
   },
   error = function(e) {
-    local_call_step(dots = dots, .index = i)
-    call_step_envir <- peek_call_step()
-    error_name <- call_step_envir$error_name
-    error_expression <- call_step_envir$error_expression
+    local_error_context(dots = dots, .index = i, mask = mask)
 
     bullets <- c(
       cnd_bullet_header(),
-      mutate_bullets(
-        e,
-        error_name = error_name,
-        rows = rows,
-        mask = mask
-      )
+      mutate_bullets(e)
     )
 
     abort(
       bullets,
       class = c("dplyr:::mutate_error", "dplyr_error"),
-      error_name = error_name,
-      error_expression = error_expression,
       parent = if (!inherits(e, "dplyr:::internal_error")) e,
       bullets = bullets,
       call = call("mutate")
@@ -412,7 +402,7 @@ mutate_cols <- function(.data, ..., caller_env) {
       maybe_restart("muffleWarning")
     }
 
-    local_call_step(dots = dots, .index = i)
+    local_error_context(dots = dots, .index = i, mask = mask)
 
     warn(c(
       cnd_bullet_header(),
@@ -432,7 +422,7 @@ mutate_cols <- function(.data, ..., caller_env) {
   new_columns
 }
 
-mutate_bullets <- function(cnd, error_name, rows, mask, ...) {
+mutate_bullets <- function(cnd, ...) {
   UseMethod("mutate_bullets")
 }
 #' @export
@@ -440,7 +430,12 @@ mutate_bullets.default <- function(cnd, ...) {
   c(i = cnd_bullet_cur_group_label())
 }
 #' @export
-`mutate_bullets.dplyr:::mutate_incompatible_size` <- function(cnd, error_name, rows, mask, ...) {
+`mutate_bullets.dplyr:::mutate_incompatible_size` <- function(cnd, ...) {
+  error_context <- peek_error_context()
+  error_name <- error_context$error_name
+  mask <- error_context$mask
+  rows <- mask$get_rows()
+
   size <- vec_size(rows[[mask$get_current_group()]])
   x_size <- cnd$dplyr_error_data$x_size
   c(
@@ -450,7 +445,8 @@ mutate_bullets.default <- function(cnd, ...) {
   )
 }
 #' @export
-`mutate_bullets.dplyr:::mutate_mixed_null` <- function(cnd, error_name, ...) {
+`mutate_bullets.dplyr:::mutate_mixed_null` <- function(cnd, ...) {
+  error_name <- peek_error_context()$error_name
   c(
     x = glue("`{error_name}` must return compatible vectors across groups."),
     i = "Cannot combine NULL and non NULL results.",
@@ -458,7 +454,8 @@ mutate_bullets.default <- function(cnd, ...) {
   )
 }
 #' @export
-`mutate_bullets.dplyr:::mutate_not_vector` <- function(cnd, error_name, ...) {
+`mutate_bullets.dplyr:::mutate_not_vector` <- function(cnd, ...) {
+  error_name <- peek_error_context()$error_name
   result <- cnd$dplyr_error_data$result
   c(
     x = glue("`{error_name}` must be a vector, not {friendly_type_of(result)}."),
@@ -466,7 +463,8 @@ mutate_bullets.default <- function(cnd, ...) {
     i = cnd_bullet_cur_group_label()
   )
 }
-`mutate_bullets.dplyr:::error_mutate_incompatible_combine` <- function(cnd, error_name, ...) {
+`mutate_bullets.dplyr:::error_mutate_incompatible_combine` <- function(cnd, ...) {
+  error_name <- peek_error_context()$error_name
   c(
     x = glue("`{error_name}` must return compatible vectors across groups"),
     i = cnd_bullet_combine_details(cnd$wrapped$x, cnd$wrapped$x_arg),

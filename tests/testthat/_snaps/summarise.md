@@ -154,7 +154,7 @@
       (expect_error(tibble(x = 1, x = 1, .name_repair = "minimal") %>% summarise(x)))
     Output
       <error/rlang_error>
-      Error in `initialize()`: Can't transform a data frame with duplicate names.
+      Error in `summarise()`: Can't transform a data frame with duplicate names.
     Code
       (expect_error(tibble() %>% summarise(stop("{"))))
     Output

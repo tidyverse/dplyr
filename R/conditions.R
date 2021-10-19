@@ -16,7 +16,7 @@ cnd_bullet_cur_group_label <- function(what = "error") {
 cnd_bullet_rowwise_unlist <- function() {
   data <- peek_mask()$full_data()
   if (inherits(data, "rowwise_df")) {
-    glue("Did you mean: `{error_name} = list({error_expression})` ?", .envir = peek_call_step())
+    glue_data(peek_error_context(), "Did you mean: `{error_name} = list({error_expression})` ?")
   }
 }
 
@@ -34,32 +34,30 @@ is_data_pronoun <- function(x) {
   is_call(x, c("[[", "$")) && identical(node_cadr(x), sym(".data"))
 }
 
-local_call_step <- function(dots, .index, frame = caller_env()) {
+local_error_context <- function(dots, .index, mask, frame = caller_env()) {
   expr <- quo_get_expr(dots[[.index]])
   error_expression  <- if (is_data_pronoun(expr)) {
     deparse(expr)
   } else{
     as_label(expr)
   }
-  context_local(
-    "dplyr_call_step",
-    env(
-      error_name = arg_name(dots, .index),
-      error_expression = error_expression,
-      index = .index,
-      dots = dots,
-      environment()
-    ),
-    frame = frame
+  error_context <- env(
+    error_name = arg_name(dots, .index),
+    error_expression = error_expression,
+    index = .index,
+    dots = dots,
+    mask = mask,
+    environment()
   )
+  context_local("dplyr_error_context", error_context, frame = frame)
 }
-peek_call_step <- function() {
-  context_peek("dplyr_call_step", "peek_call_step", "dplyr error handling")
+peek_error_context <- function() {
+  context_peek("dplyr_error_context", "peek_error_context", "dplyr error handling")
 }
 
 cnd_bullet_header <- function() {
   glue_data(
-    peek_call_step(),
+    peek_error_context(),
     "Problem while computing `{error_name} = {error_expression}`."
   )
 }

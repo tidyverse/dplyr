@@ -133,7 +133,7 @@
       (expect_error(eval_tidy(res$z[[1]])))
     Output
       <error/rlang_error>
-      Error in `osbolete_promise_fn()`: Obsolete data mask.
+      Error: Obsolete data mask.
       x Too late to resolve `x` after the end of `dplyr::mutate()`.
       i Did you save an object that uses `x` lazily in a column in the `dplyr::mutate()` expression ?
     Code

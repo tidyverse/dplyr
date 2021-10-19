@@ -119,8 +119,8 @@ filter_rows <- function(.data, ..., caller_env) {
   dots <- dplyr_quosures(...)
   check_filter(dots)
 
-  mask <- DataMask$new(.data, caller_env)
-  on.exit(mask$forget("filter"), add = TRUE)
+  mask <- DataMask$new(.data, caller_env, "filter")
+  on.exit(mask$forget(), add = TRUE)
 
   dots <- filter_expand(dots)
   filter_eval(dots, mask)
@@ -175,7 +175,7 @@ filter_eval <- function(dots, mask) {
   withCallingHandlers({
     mask$eval_all_filter(dots, env_filter)
   }, error = function(e) {
-    local_call_step(dots = dots, .index = env_filter$current_expression)
+    local_error_context(dots = dots, .index = env_filter$current_expression, mask = mask)
 
     bullets <- c(
       cnd_bullet_header(),
@@ -191,16 +191,16 @@ filter_eval <- function(dots, mask) {
   })
 }
 
-filter_bullets <- function(cnd) {
+filter_bullets <- function(cnd, ...) {
   UseMethod("filter_bullets")
 }
 #' @export
-filter_bullets.default <- function(cnd) {
+filter_bullets.default <- function(cnd, ...) {
   c(i = cnd_bullet_cur_group_label())
 }
 
 #' @export
-`filter_bullets.dplyr:::filter_incompatible_type` <- function(cnd) {
+`filter_bullets.dplyr:::filter_incompatible_type` <- function(cnd, ...) {
   column_name <- cnd$dplyr_error_data$column_name
   index       <- cnd$dplyr_error_data$index
   result      <- cnd$dplyr_error_data$result
@@ -217,7 +217,7 @@ filter_bullets.default <- function(cnd) {
 }
 
 #' @export
-`filter_bullets.dplyr:::filter_incompatible_size` <- function(cnd) {
+`filter_bullets.dplyr:::filter_incompatible_size` <- function(cnd, ...) {
   index         <- cnd$dplyr_error_data$index
   expected_size <- cnd$dplyr_error_data$expected_size
   size          <- cnd$dplyr_error_data$size
