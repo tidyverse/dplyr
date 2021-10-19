@@ -20,12 +20,7 @@ void stop_filter_incompatible_type(R_xlen_t i, SEXP quos, SEXP column_name, SEXP
     DPLYR_ERROR_SET(1, "column_name", column_name);
     DPLYR_ERROR_SET(2, "result", result);
 
-  DPLYR_ERROR_MESG_INIT(1);
-    if (column_name == R_NilValue) {
-      DPLYR_ERROR_MSG_SET(0, "Input `..{index}` must be a logical vector, not a {vec_ptype_full(result)}.");
-    } else {
-      DPLYR_ERROR_MSG_SET(0, "Input `..{index}${column_name}` must be a logical vector, not a {vec_ptype_full(result)}.");
-    }
+  DPLYR_ERROR_MESG_INIT(0);
 
   DPLYR_ERROR_THROW("dplyr:::filter_incompatible_type");
 }

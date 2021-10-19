@@ -200,9 +200,14 @@ filter_bullets.default <- function(cnd) {
 }
 
 #' @export
-`filter_bullets.dplyr:::internal_error` <- function(cnd) {
+`filter_bullets.dplyr:::filter_incompatible_type` <- function(cnd) {
+  input_name <- if (is.null(cnd$column_name)) {
+    glue("..{index}", index = cnd$index)
+  }  else {
+    glue("..{index}${column_name}", index = cnd$index, column_name = cnd$column_name)
+  }
   c(
-    x = cnd_header(cnd),
+    x = glue("Input `{input_name}` must be a logical vector, not a {vec_ptype_full(result)}.", result = cnd$result),
     i = cnd_bullet_cur_group_label()
   )
 }
