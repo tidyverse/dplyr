@@ -84,3 +84,10 @@ dplyr_internal_error <- function(class = NULL, data = list()) {
   abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
 }
 
+skip_internal_condition <- function(cnd) {
+  if (inherits(cnd, "dplyr:::internal_error")) {
+    cnd$parent
+  } else {
+    cnd
+  }
+}

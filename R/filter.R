@@ -185,7 +185,7 @@ filter_eval <- function(dots, mask) {
       bullets,
       class = "dplyr_error",
       call = call("filter"),
-      parent = if (!inherits(e, "dplyr:::internal_error")) e
+      parent = skip_internal_condition(e)
     )
 
   })

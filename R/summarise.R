@@ -313,7 +313,7 @@ summarise_cols <- function(.data, ..., caller_env) {
     abort(
       bullets,
       class = "dplyr_error", call = call("summarise"),
-      parent = if (inherits(e, "dplyr:::internal_error")) e$parent else e
+      parent = skip_internal_condition(e)
     )
 
   })

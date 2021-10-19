@@ -389,7 +389,7 @@ mutate_cols <- function(.data, ..., caller_env) {
     abort(
       bullets,
       class = c("dplyr:::mutate_error", "dplyr_error"),
-      parent = if (!inherits(e, "dplyr:::internal_error")) e,
+      parent = skip_internal_condition(e),
       bullets = bullets,
       call = call("mutate")
     )
