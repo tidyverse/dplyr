@@ -201,21 +201,29 @@ filter_bullets.default <- function(cnd) {
 
 #' @export
 `filter_bullets.dplyr:::filter_incompatible_type` <- function(cnd) {
-  input_name <- if (is.null(cnd$column_name)) {
-    glue("..{index}", index = cnd$index)
+  column_name <- cnd$dplyr_error_data$column_name
+  index       <- cnd$dplyr_error_data$index
+  result      <- cnd$dplyr_error_data$result
+
+  input_name <- if (is.null(column_name)) {
+    glue("..{index}")
   }  else {
-    glue("..{index}${column_name}", index = cnd$index, column_name = cnd$column_name)
+    glue("..{index}${column_name}")
   }
   c(
-    x = glue("Input `{input_name}` must be a logical vector, not a {vec_ptype_full(result)}.", result = cnd$result),
+    x = glue("Input `{input_name}` must be a logical vector, not a {vec_ptype_full(result)}."),
     i = cnd_bullet_cur_group_label()
   )
 }
 
 #' @export
 `filter_bullets.dplyr:::filter_incompatible_size` <- function(cnd) {
+  index         <- cnd$dplyr_error_data$index
+  expected_size <- cnd$dplyr_error_data$expected_size
+  size          <- cnd$dplyr_error_data$size
+
   c(
-    x = glue("Input `..{index}` must be of size {or_1(expected_size)}, not size {size}.", index = cnd$index, expected_size = cnd$expected_size, size = cnd$size),
+    x = glue("Input `..{index}` must be of size {or_1(expected_size)}, not size {size}."),
     i = cnd_bullet_cur_group_label()
   )
 }

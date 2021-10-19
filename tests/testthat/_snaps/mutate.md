@@ -100,13 +100,10 @@
       (expect_error(tibble(y = list(1:3, "a")) %>% rowwise() %>% mutate(y2 = y)))
     Output
       <error/dplyr:::mutate_error>
-      Error in `mutate()`: 
-        Problem while computing `y2 = y`.
-        i `y2` must be size 1, not 3.
-        i Did you mean: `y2 = list(y)` ?
-        i The error occurred in row 1.
-      Caused by error in `mutate_cols()`: 
-        
+      Error in `mutate()`: Problem while computing `y2 = y`.
+      i `y2` must be size 1, not 3.
+      i Did you mean: `y2 = list(y)` ?
+      i The error occurred in row 1.
     Code
       (expect_error(data.frame(x = 1:10) %>% mutate(y = 11:20, y = 1:2)))
     Output

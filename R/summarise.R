@@ -357,8 +357,9 @@ summarise_bullets.default <- function(cnd, ...) {
 
 #' @export
 `summarise_bullets.dplyr:::summarise_unsupported_type` <- function(cnd, error_name, mask, ...) {
+  result <- cnd$dplyr_error_data$result
   c(
-    x = glue("`{error_name}` must be a vector, not {friendly_type_of(result)}.", result = cnd$result),
+    x = glue("`{error_name}` must be a vector, not {friendly_type_of(result)}."),
     i = cnd_bullet_rowwise_unlist(),
     i = cnd_bullet_cur_group_label()
   )
@@ -366,12 +367,16 @@ summarise_bullets.default <- function(cnd, ...) {
 
 #' @export
 `summarise_bullets.dplyr:::summarise_incompatible_size` <- function(cnd, error_name, mask, ...) {
+  expected_size <- cnd$dplyr_error_data$expected_size
+  size          <- cnd$dplyr_error_data$size
+  group         <- cnd$dplyr_error_data$group
+
   # so that cnd_bullet_cur_group_label() correctly reports the faulty group
-  mask$set_current_group(cnd$group)
+  mask$set_current_group(group)
 
   c(
-    x = glue("`{error_name}` must be size {or_1(expected_size)}, not {size}.", expected_size = cnd$expected_size, size = cnd$size),
-    i = glue("An earlier column had size {expected_size}.", expected_size = cnd$expected_size),
+    x = glue("`{error_name}` must be size {or_1(expected_size)}, not {size}."),
+    i = glue("An earlier column had size {expected_size}."),
     i = cnd_bullet_cur_group_label()
   )
 }

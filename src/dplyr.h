@@ -43,7 +43,7 @@ struct symbols {
   static SEXP caller;
   static SEXP current_data;
   static SEXP dot_drop;
-  static SEXP abort_glue;
+  static SEXP dplyr_internal_error;
   static SEXP dot_indices;
   static SEXP chops;
   static SEXP mask;
@@ -148,7 +148,7 @@ int* p_current_group = INTEGER(current_group)
 
 #define DPLYR_ERROR_THROW(klass)                                    \
   SEXP error_class = PROTECT(Rf_mkString(klass));              \
-  SEXP error_call = PROTECT(Rf_lang3(dplyr::symbols::abort_glue, error_data, error_class)); \
+  SEXP error_call = PROTECT(Rf_lang3(dplyr::symbols::dplyr_internal_error, error_class, error_data)); \
   Rf_eval(error_call, dplyr::envs::ns_dplyr);                  \
   UNPROTECT(4) ; // for rchk
 
