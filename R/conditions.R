@@ -46,8 +46,7 @@ local_error_context <- function(dots, .index, mask, frame = caller_env()) {
     error_expression = error_expression,
     index = .index,
     dots = dots,
-    mask = mask,
-    environment()
+    mask = mask
   )
   context_local("dplyr_error_context", error_context, frame = frame)
 }

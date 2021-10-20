@@ -268,8 +268,6 @@ summarise_cols <- function(.data, ..., caller_env) {
         }
 
       }
-
-
     }
 
     recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks, mask$get_rows(), types, results)
@@ -317,17 +315,18 @@ summarise_eval_one <- function(quo, mask) {
   }
 
   chunks_k <- mask$eval_all_summarise(quo)
-  if (!is.null(chunks_k)) {
-    types_k <- wrap_error(
-      fix_call(vec_ptype_common(!!!chunks_k)),
-      class = "dplyr:::error_summarise_incompatible_combine"
-    )
-
-    chunks_k <- vec_cast_common(!!!chunks_k, .to = types_k)
-    result_k <- vec_c(!!!chunks_k, .ptype = types_k)
-    list(chunks = chunks_k, types = types_k, results = result_k)
+  if (is.null(chunks_k)) {
+    return(NULL)
   }
 
+  types_k <- wrap_error(
+    fix_call(vec_ptype_common(!!!chunks_k)),
+    class = "dplyr:::error_summarise_incompatible_combine"
+  )
+
+  chunks_k <- vec_cast_common(!!!chunks_k, .to = types_k)
+  result_k <- vec_c(!!!chunks_k, .ptype = types_k)
+  list(chunks = chunks_k, types = types_k, results = result_k)
 }
 
 summarise_build <- function(.data, cols) {
