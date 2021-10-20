@@ -377,7 +377,7 @@ summarise_bullets.default <- function(cnd, ...) {
   error_name    <- error_context$error_name
 
   # so that cnd_bullet_cur_group_label() correctly reports the faulty group
-  error_context$mask$set_current_group(group)
+  peek_mask()$set_current_group(group)
 
   c(
     x = glue("`{error_name}` must be size {or_1(expected_size)}, not {size}."),

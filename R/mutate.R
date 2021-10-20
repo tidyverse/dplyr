@@ -307,7 +307,7 @@ mutate_cols <- function(.data, ..., caller_env) {
 
               abort(
                 class = c("dplyr:::mutate_incompatible_size", "dplyr:::internal_error"),
-                dplyr_error_data = list(x_size = sizes[group])
+                dplyr_error_data = list(result_size = sizes[group], expected_size = 1)
               )
             }
           }
@@ -382,7 +382,7 @@ mutate_cols <- function(.data, ..., caller_env) {
     local_error_context(dots = dots, .index = i, mask = mask)
 
     bullets <- c(
-      cnd_bullet_header(),
+      cnd_bullet_header("computing"),
       mutate_bullets(e)
     )
 
@@ -405,7 +405,7 @@ mutate_cols <- function(.data, ..., caller_env) {
     local_error_context(dots = dots, .index = i, mask = mask)
 
     warn(c(
-      cnd_bullet_header(),
+      cnd_bullet_header("computing"),
       i = cnd_header(w),
       i = cnd_bullet_cur_group_label(what = "warning")
     ))
@@ -433,13 +433,11 @@ mutate_bullets.default <- function(cnd, ...) {
 `mutate_bullets.dplyr:::mutate_incompatible_size` <- function(cnd, ...) {
   error_context <- peek_error_context()
   error_name <- error_context$error_name
-  mask <- error_context$mask
-  rows <- mask$get_rows()
 
-  size <- vec_size(rows[[mask$get_current_group()]])
-  x_size <- cnd$dplyr_error_data$x_size
+  result_size <- cnd$dplyr_error_data$result_size
+  expected_size <- cnd$dplyr_error_data$expected_size
   c(
-    i = glue("`{error_name}` must be size {or_1(size)}, not {x_size}."),
+    i = glue("`{error_name}` must be size {or_1(expected_size)}, not {result_size}."),
     i = cnd_bullet_rowwise_unlist(),
     i = cnd_bullet_cur_group_label()
   )

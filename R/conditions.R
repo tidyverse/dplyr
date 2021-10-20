@@ -47,8 +47,7 @@ quo_as_label <- function(quo)  {
 local_error_context <- function(dots, .index, mask, frame = caller_env()) {
   error_context <- env(
     error_name = arg_name(dots, .index),
-    error_expression = quo_as_label(dots[[.index]]),
-    mask = mask
+    error_expression = quo_as_label(dots[[.index]])
   )
   context_local("dplyr_error_context", error_context, frame = frame)
 }
@@ -56,7 +55,7 @@ peek_error_context <- function() {
   context_peek("dplyr_error_context", "peek_error_context", "dplyr error handling")
 }
 
-cnd_bullet_header <- function(what = "computing") {
+cnd_bullet_header <- function(what) {
   error_context <- peek_error_context()
   error_name <- error_context$error_name
   error_expression <- error_context$error_expression

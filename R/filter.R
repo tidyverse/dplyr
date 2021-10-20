@@ -178,8 +178,9 @@ filter_eval <- function(dots, mask) {
     local_error_context(dots = dots, .index = env_filter$current_expression, mask = mask)
 
     bullets <- c(
-      cnd_bullet_header(),
-      filter_bullets(e)
+      cnd_bullet_header("computing"),
+      filter_bullets(e),
+      i = cnd_bullet_cur_group_label()
     )
     abort(
       bullets,
@@ -196,7 +197,7 @@ filter_bullets <- function(cnd, ...) {
 }
 #' @export
 filter_bullets.default <- function(cnd, ...) {
-  c(i = cnd_bullet_cur_group_label())
+  NULL
 }
 
 #' @export
@@ -211,8 +212,7 @@ filter_bullets.default <- function(cnd, ...) {
     glue("..{index}${column_name}")
   }
   c(
-    x = glue("Input `{input_name}` must be a logical vector, not a {vec_ptype_full(result)}."),
-    i = cnd_bullet_cur_group_label()
+    x = glue("Input `{input_name}` must be a logical vector, not a {vec_ptype_full(result)}.")
   )
 }
 
@@ -223,8 +223,7 @@ filter_bullets.default <- function(cnd, ...) {
   size          <- cnd$dplyr_error_data$size
 
   c(
-    x = glue("Input `..{index}` must be of size {or_1(expected_size)}, not size {size}."),
-    i = cnd_bullet_cur_group_label()
+    x = glue("Input `..{index}` must be of size {or_1(expected_size)}, not size {size}.")
   )
 }
 
