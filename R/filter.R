@@ -157,9 +157,10 @@ filter_expand <- function(dots) {
   dots <- withCallingHandlers(
     imap(unname(dots), filter_expand_one),
     error = function(cnd) {
-      i <- env_filter$current_expression
+      local_error_context(dots = dots, .index = env_filter$current_expression, mask = mask)
+
       abort(
-        glue("Problem while expanding `..{i} = {as_label(dots[[i]])}`"),
+        cnd_bullet_header("expanding"),
         call = call("filter"),
         parent = cnd
       )
@@ -179,8 +180,7 @@ filter_eval <- function(dots, mask) {
 
     bullets <- c(
       cnd_bullet_header("computing"),
-      filter_bullets(e),
-      i = cnd_bullet_cur_group_label()
+      filter_bullets(e)
     )
     abort(
       bullets,
@@ -197,7 +197,7 @@ filter_bullets <- function(cnd, ...) {
 }
 #' @export
 filter_bullets.default <- function(cnd, ...) {
-  NULL
+  c(i = cnd_bullet_cur_group_label())
 }
 
 #' @export
@@ -212,7 +212,8 @@ filter_bullets.default <- function(cnd, ...) {
     glue("..{index}${column_name}")
   }
   c(
-    x = glue("Input `{input_name}` must be a logical vector, not a {vec_ptype_full(result)}.")
+    x = glue("Input `{input_name}` must be a logical vector, not a {vec_ptype_full(result)}."),
+    i = cnd_bullet_cur_group_label()
   )
 }
 
@@ -223,7 +224,8 @@ filter_bullets.default <- function(cnd, ...) {
   size          <- cnd$dplyr_error_data$size
 
   c(
-    x = glue("Input `..{index}` must be of size {or_1(expected_size)}, not size {size}.")
+    x = glue("Input `..{index}` must be of size {or_1(expected_size)}, not size {size}."),
+    i = cnd_bullet_cur_group_label()
   )
 }
 

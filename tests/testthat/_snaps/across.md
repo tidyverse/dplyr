@@ -27,7 +27,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`: 
-        Problem while expanding `..1 = if_any(~.x > 5)`
+        Problem while expanding `..1 = if_any(~.x > 5)`.
       Caused by error in `across_setup()`: 
         Predicate used in lieu of column selection.
         i You most likely meant: `if_any(everything(), ~.x > 5)`.
@@ -38,7 +38,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`: 
-        Problem while expanding `..1 = if_all(~.x > 5)`
+        Problem while expanding `..1 = if_all(~.x > 5)`.
       Caused by error in `across_setup()`: 
         Predicate used in lieu of column selection.
         i You most likely meant: `if_all(everything(), ~.x > 5)`.
