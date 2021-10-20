@@ -122,7 +122,10 @@ ungroup.grouped_df <- function(x, ...) {
     as_tibble(x)
   } else {
     old_groups <- group_vars(x)
-    to_remove <- tidyselect::vars_select(names(x), ...)
+    to_remove <- fix_call(
+      tidyselect::vars_select(names(x), ...),
+      call = call("ungroup")
+    )
 
     new_groups <- setdiff(old_groups, to_remove)
     group_by(x, !!!syms(new_groups))

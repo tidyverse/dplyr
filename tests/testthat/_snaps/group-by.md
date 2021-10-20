@@ -34,7 +34,7 @@
       (expect_error(df %>% group_by(x, y) %>% ungroup(z)))
     Output
       <error/vctrs_error_subscript_oob>
-      Error in `stop_subscript()`: Can't subset columns that don't exist.
+      Error in `ungroup()`: Can't subset columns that don't exist.
       x Column `z` doesn't exist.
     Code
       (expect_error(df %>% group_by(z = a + 1)))
