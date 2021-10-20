@@ -234,7 +234,7 @@ c_across <- function(cols = everything()) {
   cols <- enquo(cols)
   vars <- c_across_setup(!!cols)
 
-  mask <- peek_mask("c_across()")
+  mask <- peek_mask("c_across")
 
   cols <- mask$current_cols(vars)
   vec_c(!!!cols, .name_spec = zap())
@@ -253,7 +253,7 @@ across_setup <- function(cols,
                          fns,
                          names,
                          .caller_env,
-                         mask = peek_mask("across()"),
+                         mask = peek_mask("across"),
                          inline = FALSE) {
   cols <- enquo(cols)
 
@@ -341,7 +341,7 @@ data_mask_top <- function(env, recursive = FALSE, inherit = FALSE) {
 }
 
 c_across_setup <- function(cols) {
-  mask <- peek_mask("c_across()")
+  mask <- peek_mask("c_across")
 
   cols <- enquo(cols)
   across_cols <- mask$across_cols()

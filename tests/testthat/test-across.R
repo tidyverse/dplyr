@@ -109,10 +109,26 @@ test_that("across() retains original ordering", {
 
 test_that("across() gives meaningful messages", {
   expect_snapshot({
+    # expanding
     (expect_error(
-                    tibble(x = 1) %>%
-                      summarise(res = across(where(is.numeric), 42))
+      tibble(x = 1) %>%
+        summarise(across(where(is.numeric), 42))
     ))
+    (expect_error(
+      tibble(x = 1) %>%
+        summarise(across(y, mean))
+    ))
+
+    # computing
+    (expect_error(
+      tibble(x = 1) %>%
+        summarise(res = across(where(is.numeric), 42))
+    ))
+    (expect_error(
+      tibble(x = 1) %>%
+        summarise(z  = across(y, mean))
+    ))
+
     (expect_error(across()))
     (expect_error(c_across()))
   })

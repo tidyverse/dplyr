@@ -63,18 +63,18 @@
       <error/rlang_error>
       Error: 
         `n` must be a constant in `check_slice_size()`.
-        x `n()` must only be used inside dplyr verbs.
-      Caused by error in `context_peek()`: 
-        `n()` must only be used inside dplyr verbs.
+        x Must only be used inside dplyr verbs.
+      Caused by error in `n()`: 
+        Must only be used inside dplyr verbs.
     Code
       (expect_error(check_slice_size(prop = n())))
     Output
       <error/rlang_error>
       Error: 
         `prop` must be a constant in `check_slice_size()`.
-        x `n()` must only be used inside dplyr verbs.
-      Caused by error in `context_peek()`: 
-        `n()` must only be used inside dplyr verbs.
+        x Must only be used inside dplyr verbs.
+      Caused by error in `n()`: 
+        Must only be used inside dplyr verbs.
     Code
       (expect_error(check_slice_size(n = NA)))
     Output

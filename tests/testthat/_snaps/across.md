@@ -1,6 +1,24 @@
 # across() gives meaningful messages
 
     Code
+      (expect_error(tibble(x = 1) %>% summarise(across(where(is.numeric), 42))))
+    Output
+      <error/dplyr_error>
+      Error in `summarise()`: 
+        Problem while computing `..1 = across(where(is.numeric), 42)`.
+      Caused by error in `across_setup()`: 
+        Problem with `across()` input `.fns`.
+        i `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
+    Code
+      (expect_error(tibble(x = 1) %>% summarise(across(y, mean))))
+    Output
+      <error/dplyr_error>
+      Error in `summarise()`: 
+        Problem while computing `..1 = across(y, mean)`.
+      Caused by error in `stop_subscript()`: 
+        Can't subset columns that don't exist.
+        x Column `y` doesn't exist.
+    Code
       (expect_error(tibble(x = 1) %>% summarise(res = across(where(is.numeric), 42))))
     Output
       <error/dplyr_error>
@@ -10,15 +28,24 @@
         Problem with `across()` input `.fns`.
         i `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
     Code
+      (expect_error(tibble(x = 1) %>% summarise(z = across(y, mean))))
+    Output
+      <error/dplyr_error>
+      Error in `summarise()`: 
+        Problem while computing `z = across(y, mean)`.
+      Caused by error in `stop_subscript()`: 
+        Can't subset columns that don't exist.
+        x Column `y` doesn't exist.
+    Code
       (expect_error(across()))
     Output
       <error/rlang_error>
-      Error in `context_peek()`: `across()` must only be used inside dplyr verbs.
+      Error in `across()`: Must only be used inside dplyr verbs.
     Code
       (expect_error(c_across()))
     Output
       <error/rlang_error>
-      Error in `context_peek()`: `c_across()` must only be used inside dplyr verbs.
+      Error in `c_across()`: Must only be used inside dplyr verbs.
 
 # if_any() and if_all() aborts when predicate mistakingly used in .cols= (#5732)
 
