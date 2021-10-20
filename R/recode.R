@@ -132,7 +132,7 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL) {
   }
 
   n <- length(.x)
-  template <- find_template(values, .default, .missing)
+  template <- find_template(values, .default, .missing, error_call = call("recode"))
   out <- template[rep(NA_integer_, n)]
   replaced <- rep(FALSE, n)
 
@@ -158,7 +158,7 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
   }
 
   n <- length(.x)
-  template <- find_template(values, .default, .missing)
+  template <- find_template(values, .default, .missing, error_call = call("recode"))
   out <- template[rep(NA_integer_, n)]
   replaced <- rep(FALSE, n)
 

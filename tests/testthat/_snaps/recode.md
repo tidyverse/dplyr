@@ -19,12 +19,12 @@
       (expect_error(recode(1:5)))
     Output
       <error/rlang_error>
-      Error in `recode.numeric()`: No replacements provided.
+      Error in `recode()`: No replacements provided.
     Code
       (expect_error(recode("a")))
     Output
       <error/rlang_error>
-      Error in `recode.character()`: No replacements provided.
+      Error in `recode()`: No replacements provided.
     Code
       (expect_error(recode(factor("a"))))
     Output
