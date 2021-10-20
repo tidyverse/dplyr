@@ -34,18 +34,20 @@ is_data_pronoun <- function(x) {
   is_call(x, c("[[", "$")) && identical(node_cadr(x), sym(".data"))
 }
 
-local_error_context <- function(dots, .index, mask, frame = caller_env()) {
-  expr <- quo_get_expr(dots[[.index]])
+quo_as_label <- function(quo)  {
+  expr <- quo_get_expr(quo)
   error_expression  <- if (is_data_pronoun(expr)) {
+    # because as_label() strips off .data$<> and .data[[<>]]
     deparse(expr)
   } else{
     as_label(expr)
   }
+}
+
+local_error_context <- function(dots, .index, mask, frame = caller_env()) {
   error_context <- env(
     error_name = arg_name(dots, .index),
-    error_expression = error_expression,
-    index = .index,
-    dots = dots,
+    error_expression = quo_as_label(dots[[.index]]),
     mask = mask
   )
   context_local("dplyr_error_context", error_context, frame = frame)
