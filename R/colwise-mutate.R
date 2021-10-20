@@ -311,12 +311,12 @@ manip_all <- function(.tbl, .funs, .quo, .env, ..., .include_group_vars = FALSE,
   manip_apply_syms(funs, syms, .tbl)
 }
 manip_if <- function(.tbl, .predicate, .funs, .quo, .env, ..., .include_group_vars = FALSE, .caller) {
-  vars <- tbl_if_syms(.tbl, .predicate, .env, .include_group_vars = .include_group_vars)
+  vars <- tbl_if_syms(.tbl, .predicate, .env, .include_group_vars = .include_group_vars, error_call = call(.caller))
   funs <- as_fun_list(.funs, .env, ..., .caller = .caller)
   manip_apply_syms(funs, vars, .tbl)
 }
 manip_at <- function(.tbl, .vars, .funs, .quo, .env, ..., .include_group_vars = FALSE, .caller) {
-  syms <- tbl_at_syms(.tbl, .vars, .include_group_vars = .include_group_vars)
+  syms <- tbl_at_syms(.tbl, .vars, .include_group_vars = .include_group_vars, error_call = call(.caller))
   funs <- as_fun_list(.funs, .env, ..., .caller = .caller)
   manip_apply_syms(funs, syms, .tbl)
 }

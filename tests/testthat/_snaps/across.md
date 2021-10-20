@@ -15,7 +15,7 @@
       <error/dplyr_error>
       Error in `summarise()`: 
         Problem while computing `..1 = across(y, mean)`.
-      Caused by error in `stop_subscript()`: 
+      Caused by error in `eval_select()`: 
         Can't subset columns that don't exist.
         x Column `y` doesn't exist.
     Code
@@ -33,7 +33,7 @@
       <error/dplyr_error>
       Error in `summarise()`: 
         Problem while computing `z = across(y, mean)`.
-      Caused by error in `stop_subscript()`: 
+      Caused by error in `eval_select()`: 
         Can't subset columns that don't exist.
         x Column `y` doesn't exist.
     Code

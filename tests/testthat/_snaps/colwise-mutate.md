@@ -12,7 +12,7 @@
       (expect_error(mutate_at(tibble(), "test", ~1)))
     Output
       <error/vctrs_error_subscript_oob>
-      Error in `stop_subscript()`: Can't subset columns that don't exist.
+      Error in `mutate_at()`: Can't subset columns that don't exist.
       x Column `test` doesn't exist.
     Code
       tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8)
@@ -20,7 +20,7 @@
       (expect_error(summarise_at(tbl, vars(gr1), mean)))
     Output
       <error/vctrs_error_subscript_oob>
-      Error in `stop_subscript()`: Can't subset columns that don't exist.
+      Error in `summarise_at()`: Can't subset columns that don't exist.
       x Column `gr1` doesn't exist.
     Code
       (expect_error(mutate_all(mtcars, length, 0, 0)))

@@ -252,41 +252,84 @@ test_that("arguments to sample are passed along", {
 
 test_that("slice_*() checks for empty ...", {
   df <- data.frame(x = 1:10)
-  expect_error(slice_head(df, 5))
-  expect_error(slice_tail(df, 5))
-  expect_error(slice_min(df, x, 5))
-  expect_error(slice_max(df, x, 5))
-  expect_error(slice_sample(df, 5))
+  expect_snapshot({
+    (expect_error(
+      slice_head(df, 5)
+    ))
+    (expect_error(
+      slice_tail(df, 5)
+    ))
+    (expect_error(
+      slice_min(df, x, 5)
+    ))
+    (expect_error(
+      slice_max(df, x, 5)
+    ))
+    (expect_error(
+      slice_sample(df, 5)
+    ))
+  })
+
 })
 
 test_that("slice_*() checks for constant n= and prop=", {
   df <- data.frame(x = 1:10)
-  expect_error(slice_head(df, n = n()), "constant")
-  expect_error(slice_head(df, prop = n()), "constant")
 
-  expect_error(slice_tail(df, n = n()), "constant")
-  expect_error(slice_tail(df, prop = n()), "constant")
+  expect_snapshot({
+    (expect_error(
+      slice_head(df, n = n())
+    ))
+    (expect_error(
+      slice_head(df, prop = n())
+    ))
 
-  expect_error(slice_min(df, x, n = n()), "constant")
-  expect_error(slice_min(df, x, prop = n()), "constant")
+    (expect_error(
+      slice_tail(df, n = n())
+    ))
+    (expect_error(
+      slice_tail(df, prop = n())
+    ))
 
-  expect_error(slice_max(df, x, n = n()), "constant")
-  expect_error(slice_max(df, x, prop = n()), "constant")
+    (expect_error(
+      slice_min(df, x, n = n())
+    ))
+    (expect_error(
+      slice_min(df, x, prop = n())
+    ))
 
-  expect_error(slice_sample(df, n = n()), "constant")
-  expect_error(slice_sample(df, prop = n()), "constant")
+    (expect_error(
+      slice_max(df, x, n = n())
+    ))
+    (expect_error(
+      slice_max(df, x, prop = n())
+    ))
+
+    (expect_error(
+      slice_sample(df, n = n())
+    ))
+    (expect_error(
+      slice_sample(df, prop = n())
+    ))
+  })
+
 })
 
 test_that("slice_min/max() check size of `order_by=` (#5922)", {
   expect_snapshot({
-    (expect_error(slice_min(data.frame(x = 1:10), 1:6)))
-    (expect_error(slice_max(data.frame(x = 1:10), 1:6)))
+    (expect_error(
+      slice_min(data.frame(x = 1:10), 1:6)
+    ))
+    (expect_error(
+      slice_max(data.frame(x = 1:10), 1:6)
+    ))
   })
 })
 
 test_that("slice_sample() check size of `weight_by=` (#5922)", {
   expect_snapshot({
-    (expect_error(slice_sample(data.frame(x = 1:10), n = 2, weight_by = 1:6)))
+    (expect_error(
+      slice_sample(data.frame(x = 1:10), n = 2, weight_by = 1:6)
+    ))
   })
 })
 

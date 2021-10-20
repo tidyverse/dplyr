@@ -162,7 +162,7 @@ tbl_at_vars <- function(tbl, vars, .include_group_vars = FALSE, error_call = cal
   } else if (is_integerish(vars)) {
     tibble_vars[vars]
   } else if (is_quosures(vars) || is_character(vars)) {
-    out <- tidyselect::vars_select(tibble_vars, !!!vars)
+    out <- fix_call(tidyselect::vars_select(tibble_vars, !!!vars), call = error_call)
     if (!any(have_name(vars))) {
       names(out) <- NULL
     }
@@ -173,7 +173,7 @@ tbl_at_vars <- function(tbl, vars, .include_group_vars = FALSE, error_call = cal
   }
 }
 tbl_at_syms <- function(tbl, vars, .include_group_vars = FALSE, error_call = caller_env()) {
-  vars <- tbl_at_vars(tbl, vars, .include_group_vars = .include_group_vars, error_call = caller_env())
+  vars <- tbl_at_vars(tbl, vars, .include_group_vars = .include_group_vars, error_call = error_call)
   set_names(syms(vars), names(vars))
 }
 

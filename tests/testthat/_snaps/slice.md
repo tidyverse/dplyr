@@ -1,3 +1,134 @@
+# slice_*() checks for empty ...
+
+    Code
+      (expect_error(slice_head(df, 5)))
+    Output
+      <error/rlib_error_dots_nonempty>
+      Error in `slice_head.data.frame()`: `...` is not empty.
+      i These dots only exist to allow future extensions and should be empty.
+      x We detected these problematic arguments:
+      * `..1`
+      i Did you misspecify an argument?
+    Code
+      (expect_error(slice_tail(df, 5)))
+    Output
+      <error/rlib_error_dots_nonempty>
+      Error in `slice_tail.data.frame()`: `...` is not empty.
+      i These dots only exist to allow future extensions and should be empty.
+      x We detected these problematic arguments:
+      * `..1`
+      i Did you misspecify an argument?
+    Code
+      (expect_error(slice_min(df, x, 5)))
+    Output
+      <error/rlib_error_dots_nonempty>
+      Error in `slice_min.data.frame()`: `...` is not empty.
+      i These dots only exist to allow future extensions and should be empty.
+      x We detected these problematic arguments:
+      * `..1`
+      i Did you misspecify an argument?
+    Code
+      (expect_error(slice_max(df, x, 5)))
+    Output
+      <error/rlib_error_dots_nonempty>
+      Error in `slice_max.data.frame()`: `...` is not empty.
+      i These dots only exist to allow future extensions and should be empty.
+      x We detected these problematic arguments:
+      * `..1`
+      i Did you misspecify an argument?
+    Code
+      (expect_error(slice_sample(df, 5)))
+    Output
+      <error/rlib_error_dots_nonempty>
+      Error in `slice_sample.data.frame()`: `...` is not empty.
+      i These dots only exist to allow future extensions and should be empty.
+      x We detected these problematic arguments:
+      * `..1`
+      i Did you misspecify an argument?
+
+# slice_*() checks for constant n= and prop=
+
+    Code
+      (expect_error(slice_head(df, n = n())))
+    Output
+      <error/rlang_error>
+      Error in `slice_head()`: 
+        `n` must be a constant.
+      Caused by error in `n()`: 
+        Must only be used inside dplyr verbs.
+    Code
+      (expect_error(slice_head(df, prop = n())))
+    Output
+      <error/rlang_error>
+      Error in `slice_head()`: 
+        `prop` must be a constant.
+      Caused by error in `n()`: 
+        Must only be used inside dplyr verbs.
+    Code
+      (expect_error(slice_tail(df, n = n())))
+    Output
+      <error/rlang_error>
+      Error in `slice_tail()`: 
+        `n` must be a constant.
+      Caused by error in `n()`: 
+        Must only be used inside dplyr verbs.
+    Code
+      (expect_error(slice_tail(df, prop = n())))
+    Output
+      <error/rlang_error>
+      Error in `slice_tail()`: 
+        `prop` must be a constant.
+      Caused by error in `n()`: 
+        Must only be used inside dplyr verbs.
+    Code
+      (expect_error(slice_min(df, x, n = n())))
+    Output
+      <error/rlang_error>
+      Error in `slice_min()`: 
+        `n` must be a constant.
+      Caused by error in `n()`: 
+        Must only be used inside dplyr verbs.
+    Code
+      (expect_error(slice_min(df, x, prop = n())))
+    Output
+      <error/rlang_error>
+      Error in `slice_min()`: 
+        `prop` must be a constant.
+      Caused by error in `n()`: 
+        Must only be used inside dplyr verbs.
+    Code
+      (expect_error(slice_max(df, x, n = n())))
+    Output
+      <error/rlang_error>
+      Error in `slice_max()`: 
+        `n` must be a constant.
+      Caused by error in `n()`: 
+        Must only be used inside dplyr verbs.
+    Code
+      (expect_error(slice_max(df, x, prop = n())))
+    Output
+      <error/rlang_error>
+      Error in `slice_max()`: 
+        `prop` must be a constant.
+      Caused by error in `n()`: 
+        Must only be used inside dplyr verbs.
+    Code
+      (expect_error(slice_sample(df, n = n())))
+    Output
+      <error/rlang_error>
+      Error in `slice_sample()`: 
+        `n` must be a constant.
+      Caused by error in `n()`: 
+        Must only be used inside dplyr verbs.
+    Code
+      (expect_error(slice_sample(df, prop = n())))
+    Output
+      <error/rlang_error>
+      Error in `slice_sample()`: 
+        `prop` must be a constant.
+      Caused by error in `n()`: 
+        Must only be used inside dplyr verbs.
+
 # slice_min/max() check size of `order_by=` (#5922)
 
     Code
@@ -61,18 +192,16 @@
       (expect_error(check_slice_size(n = n())))
     Output
       <error/rlang_error>
-      Error: 
-        `n` must be a constant in `check_slice_size()`.
-        x Must only be used inside dplyr verbs.
+      Error in `check_slice_size()`: 
+        `n` must be a constant.
       Caused by error in `n()`: 
         Must only be used inside dplyr verbs.
     Code
       (expect_error(check_slice_size(prop = n())))
     Output
       <error/rlang_error>
-      Error: 
-        `prop` must be a constant in `check_slice_size()`.
-        x Must only be used inside dplyr verbs.
+      Error in `check_slice_size()`: 
+        `prop` must be a constant.
       Caused by error in `n()`: 
         Must only be used inside dplyr verbs.
     Code

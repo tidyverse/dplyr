@@ -236,13 +236,13 @@ transmute.data.frame <- function(.data, ...) {
 
 check_transmute_args <- function(..., .keep, .before, .after) {
   if (!missing(.keep)) {
-    abort("`transmute()` does not support the `.keep` argument")
+    abort("The `.keep` argument is not supported.", call = call("transmute"))
   }
   if (!missing(.before)) {
-    abort("`transmute()` does not support the `.before` argument")
+    abort("The `.before` argument is not supported.", call = call("transmute"))
   }
   if (!missing(.after)) {
-    abort("`transmute()` does not support the `.after` argument")
+    abort("The `.after` argument is not supported.", call = call("transmute"))
   }
   enquos(...)
 }

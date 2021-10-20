@@ -367,10 +367,9 @@ slice_eval <- function(mask, dots) {
 check_constant <- function(x, name, fn) {
   withCallingHandlers(force(x), error = function(e) {
     bullets <- c(
-      glue("`{name}` must be a constant in `{fn}()`."),
-      x = cnd_header(e)
+      glue("`{name}` must be a constant.")
     )
-    abort(bullets, parent = e)
+    abort(bullets, parent = e, call = call(fn))
   })
 }
 
@@ -380,17 +379,17 @@ check_slice_size <- function(n, prop, .slice_fn = "check_slice_size") {
   } else if (!missing(n) && missing(prop)) {
     n <- check_constant(n, "n", .slice_fn)
     if (!is.numeric(n) || length(n) != 1 || is.na(n)) {
-      abort("`n` must be a single number.")
+      abort("`n` must be a single number.", call = call(.slice_fn))
     }
     list(type = "n", n = n)
   } else if (!missing(prop) && missing(n)) {
     prop <- check_constant(prop, "prop", .slice_fn)
     if (!is.numeric(prop) || length(prop) != 1 || is.na(prop)) {
-      abort("`prop` must be a single number.")
+      abort("`prop` must be a single number.", call = call(.slice_fn))
     }
     list(type = "prop", prop = prop)
   } else {
-    abort("Must supply exactly one of `n` and `prop` arguments.")
+    abort("Must supply exactly one of `n` and `prop` arguments.", call = call(.slice_fn))
   }
 }
 
