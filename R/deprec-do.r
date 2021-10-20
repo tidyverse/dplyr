@@ -67,7 +67,7 @@ do.grouped_df <- function(.data, ...) {
   group_data <- ungroup(.data)
 
   args <- enquos(...)
-  named <- named_args(args)
+  named <- named_args(args, error_call = call("do"))
   mask <- new_data_mask(new_environment())
 
   n <- length(index)
@@ -83,7 +83,7 @@ do.grouped_df <- function(.data, ...) {
       env_bind_do_pronouns(mask, group_data)
       out <- eval_tidy(args[[1]], mask)
       out <- out[0, , drop = FALSE]
-      out <- label_output_dataframe(labels, list(list(out)), group_vars(.data), group_by_drop_default(.data))
+      out <- label_output_dataframe(labels, list(list(out)), group_vars(.data), group_by_drop_default(.data), error_call = call("do"))
     }
     return(out)
   }
@@ -115,7 +115,7 @@ do.grouped_df <- function(.data, ...) {
   }
 
   if (!named) {
-    label_output_dataframe(labels, out, group_vars(.data), group_by_drop_default(.data))
+    label_output_dataframe(labels, out, group_vars(.data), group_by_drop_default(.data), error_call = call("do"))
   } else {
     label_output_list(labels, out, group_vars(.data))
   }
@@ -124,7 +124,7 @@ do.grouped_df <- function(.data, ...) {
 #' @export
 do.data.frame <- function(.data, ...) {
   args <- enquos(...)
-  named <- named_args(args)
+  named <- named_args(args, error_call = call("do"))
 
   # Create custom data mask with `.` pronoun
   mask <- new_data_mask(new_environment())
@@ -133,7 +133,8 @@ do.data.frame <- function(.data, ...) {
   if (!named) {
     out <- eval_tidy(args[[1]], mask)
     if (!inherits(out, "data.frame")) {
-      abort(glue("Result must be a data frame, not {fmt_classes(out)}."))
+      msg <- glue("Result must be a data frame, not {fmt_classes(out)}.")
+      abort(msg, call = call("do"))
     }
   } else {
     out <- map(args, function(arg) list(eval_tidy(arg, mask)))
@@ -221,7 +222,7 @@ do.rowwise_df <- function(.data, ...) {
   group_data <- ungroup(.data)
 
   args <- enquos(...)
-  named <- named_args(args)
+  named <- named_args(args, error_call = call("do"))
 
   # Create new environment, inheriting from parent, with an active binding
   # for . that resolves to the current subset. `_i` is found in environment
@@ -248,7 +249,7 @@ do.rowwise_df <- function(.data, ...) {
   }
 
   if (!named) {
-    label_output_dataframe(NULL, out, groups(.data), group_by_drop_default(.data))
+    label_output_dataframe(NULL, out, groups(.data), group_by_drop_default(.data), error_call = call("do"))
   } else {
     label_output_list(NULL, out, groups(.data))
   }
