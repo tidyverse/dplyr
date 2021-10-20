@@ -97,7 +97,8 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   xlen <- vec_size(x)
   n <- pmin(n, xlen)
 
-  inputs <- vec_cast_common(default = default, x = x)
+  inputs <- fix_call(vec_cast_common(default = default, x = x))
+
   vec_c(
     vec_slice(inputs$x, -seq_len(n)),
     vec_rep(inputs$default, n)
