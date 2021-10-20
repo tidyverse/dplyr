@@ -8,7 +8,7 @@
       (expect_error(intersect(alfa, beta)))
     Output
       <error/rlang_error>
-      Error in `check_compatible()`: not compatible: 
+      Error in `intersect()`: `x` and `y` are not compatible: 
       not compatible: 
       - Cols in y but not x: `data2`.
       - Cols in x but not y: `data`.
@@ -16,7 +16,7 @@
       (expect_error(union(alfa, beta)))
     Output
       <error/rlang_error>
-      Error in `check_compatible()`: not compatible: 
+      Error in `union()`: `x` and `y` are not compatible: 
       not compatible: 
       - Cols in y but not x: `data2`.
       - Cols in x but not y: `data`.
@@ -24,7 +24,7 @@
       (expect_error(setdiff(alfa, beta)))
     Output
       <error/rlang_error>
-      Error in `check_compatible()`: not compatible: 
+      Error in `setdiff()`: `x` and `y` are not compatible: 
       not compatible: 
       - Cols in y but not x: `data2`.
       - Cols in x but not y: `data`.

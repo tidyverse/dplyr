@@ -66,7 +66,7 @@ generics::setequal
 #' @export
 intersect.data.frame <- function(x, y, ...) {
   check_dots_empty()
-  check_compatible(x, y)
+  check_compatible(x, y, error_call = call("intersect"))
   cast <- vec_cast_common(x, y)
   new_x <- cast[[1L]]
   new_y <- cast[[2L]]
@@ -77,7 +77,7 @@ intersect.data.frame <- function(x, y, ...) {
 #' @export
 union.data.frame <- function(x, y, ...) {
   check_dots_empty()
-  check_compatible(x, y)
+  check_compatible(x, y, error_call = call("union"))
   out <- vec_unique(vec_rbind(!!!vec_cast_common(x, y)))
   reconstruct_set(out, x)
 }
@@ -92,7 +92,7 @@ union_all.data.frame <- function(x, y, ...) {
 #' @export
 setdiff.data.frame <- function(x, y, ...) {
   check_dots_empty()
-  check_compatible(x, y)
+  check_compatible(x, y, error_call = call("setdiff"))
   cast <- vec_cast_common(x, y)
   new_x <- cast[[1L]]
   new_y <- cast[[2L]]
@@ -182,9 +182,9 @@ is_compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = TR
   TRUE
 }
 
-check_compatible <- function(x, y, ignore_col_order = TRUE, convert = TRUE) {
+check_compatible <- function(x, y, ignore_col_order = TRUE, convert = TRUE, error_call = caller_env()) {
   compat <- is_compatible_data_frame(x, y, ignore_col_order = ignore_col_order, convert = convert)
   if (is.character(compat)) {
-    abort(paste0("not compatible: \n", glue_collapse(compat, sep = "\n")))
+    abort(paste0("`x` and `y` are not compatible: \n", glue_collapse(compat, sep = "\n")), call = error_call)
   }
 }
