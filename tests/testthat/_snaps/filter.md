@@ -116,7 +116,7 @@
       (expect_error(filter(ts(1:10))))
     Output
       <error/rlang_error>
-      Error in `filter.ts()`: Problem with `filter()` input `.data`.
+      Error in `filter()`: Incompatible data source.
       x `.data` is a <ts> object, not a data source.
       i Did you want to use `stats::filter()`?
     Code
