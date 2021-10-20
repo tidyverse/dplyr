@@ -50,7 +50,7 @@ row_number <- function(x) {
   if (missing(x)){
     seq_len(n())
   } else {
-    rank(x, ties.method = "first", na.last = "keep")
+    rank(x, ties.method = "first", na.last = TRUE)
   }
 }
 
@@ -91,22 +91,24 @@ ntile <- function(x = row_number(), n) {
 
 #' @export
 #' @rdname ranking
-min_rank <- function(x) rank(x, ties.method = "min", na.last = "keep")
+min_rank <- function(x) {
+  rank(x, ties.method = "min", na.last = TRUE)
+}
 
 #' @export
 #' @rdname ranking
 dense_rank <- function(x) {
-  match(x, sort(unique(x)))
+  match(x, sort(unique(x), na.last = TRUE))
 }
 
 #' @export
 #' @rdname ranking
 percent_rank <- function(x) {
-  (min_rank(x) - 1) / (sum(!is.na(x)) - 1)
+  (min_rank(x) - 1) / (length(x) - 1)
 }
 
 #' @export
 #' @rdname ranking
 cume_dist <- function(x) {
-  rank(x, ties.method = "max", na.last = "keep") / sum(!is.na(x))
+  rank(x, ties.method = "max", na.last = TRUE) / length(x)
 }
