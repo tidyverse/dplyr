@@ -128,6 +128,18 @@ test_that("across() gives meaningful messages", {
       tibble(x = 1) %>%
         summarise(z  = across(y, mean))
     ))
+    (expect_error(
+      tibble(x = 1) %>%
+        summarise(res = sum(if_any(where(is.numeric), 42)))
+    ))
+    (expect_error(
+      tibble(x = 1) %>%
+        summarise(res = sum(if_all(~mean(.x))))
+    ))
+    (expect_error(
+      tibble(x = 1) %>%
+        summarise(res = sum(if_any(~mean(.x))))
+    ))
 
     (expect_error(across()))
     (expect_error(c_across()))

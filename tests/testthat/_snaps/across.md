@@ -6,9 +6,8 @@
       <error/dplyr_error>
       Error in `summarise()`: 
         Problem while computing `..1 = across(where(is.numeric), 42)`.
-      Caused by error in `across_setup()`: 
-        Problem with `across()` input `.fns`.
-        i `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
+      Caused by error in `across()`: 
+        `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
     Code
       (expect_error(tibble(x = 1) %>% summarise(across(y, mean))))
     Output
@@ -24,9 +23,8 @@
       <error/dplyr_error>
       Error in `summarise()`: 
         Problem while computing `res = across(where(is.numeric), 42)`.
-      Caused by error in `across_setup()`: 
-        Problem with `across()` input `.fns`.
-        i `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
+      Caused by error in `across()`: 
+        `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
     Code
       (expect_error(tibble(x = 1) %>% summarise(z = across(y, mean))))
     Output
@@ -36,6 +34,37 @@
       Caused by error in `eval_select()`: 
         Can't subset columns that don't exist.
         x Column `y` doesn't exist.
+    Code
+      (expect_error(tibble(x = 1) %>% summarise(res = sum(if_any(where(is.numeric),
+      42)))))
+    Output
+      <error/dplyr_error>
+      Error in `summarise()`: 
+        Problem while computing `res = sum(if_any(where(is.numeric), 42))`.
+      Caused by error in `if_any()`: 
+        `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
+    Code
+      (expect_error(tibble(x = 1) %>% summarise(res = sum(if_all(~ mean(.x))))))
+    Output
+      <error/dplyr_error>
+      Error in `summarise()`: 
+        Problem while computing `res = sum(if_all(~mean(.x)))`.
+      Caused by error in `if_all()`: 
+        Predicate used in lieu of column selection.
+        i You most likely meant: `if_all(everything(), ~mean(.x))`.
+        i The first argument `.cols` selects a set of columns.
+        i The second argument `.fns` operates on each selected columns.
+    Code
+      (expect_error(tibble(x = 1) %>% summarise(res = sum(if_any(~ mean(.x))))))
+    Output
+      <error/dplyr_error>
+      Error in `summarise()`: 
+        Problem while computing `res = sum(if_any(~mean(.x)))`.
+      Caused by error in `if_any()`: 
+        Predicate used in lieu of column selection.
+        i You most likely meant: `if_any(everything(), ~mean(.x))`.
+        i The first argument `.cols` selects a set of columns.
+        i The second argument `.fns` operates on each selected columns.
     Code
       (expect_error(across()))
     Output
@@ -55,7 +84,7 @@
       <error/rlang_error>
       Error in `filter()`: 
         Problem while expanding `..1 = if_any(~.x > 5)`.
-      Caused by error in `across_setup()`: 
+      Caused by error in `if_any()`: 
         Predicate used in lieu of column selection.
         i You most likely meant: `if_any(everything(), ~.x > 5)`.
         i The first argument `.cols` selects a set of columns.
@@ -66,7 +95,7 @@
       <error/rlang_error>
       Error in `filter()`: 
         Problem while expanding `..1 = if_all(~.x > 5)`.
-      Caused by error in `across_setup()`: 
+      Caused by error in `if_all()`: 
         Predicate used in lieu of column selection.
         i You most likely meant: `if_all(everything(), ~.x > 5)`.
         i The first argument `.cols` selects a set of columns.
@@ -77,7 +106,7 @@
       <error/dplyr_error>
       Error in `filter()`: 
         Problem while computing `..1 = !if_any(~.x > 5)`.
-      Caused by error in `across_setup()`: 
+      Caused by error in `if_any()`: 
         Predicate used in lieu of column selection.
         i You most likely meant: `if_any(everything(), ~.x > 5)`.
         i The first argument `.cols` selects a set of columns.
@@ -88,7 +117,7 @@
       <error/dplyr_error>
       Error in `filter()`: 
         Problem while computing `..1 = !if_all(~.x > 5)`.
-      Caused by error in `across_setup()`: 
+      Caused by error in `if_all()`: 
         Predicate used in lieu of column selection.
         i You most likely meant: `if_all(everything(), ~.x > 5)`.
         i The first argument `.cols` selects a set of columns.

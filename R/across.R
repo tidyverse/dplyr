@@ -265,12 +265,13 @@ across_setup <- function(cols,
   #       classed error, after https://github.com/r-lib/tidyselect/issues/233
   if (is.null(fns) && quo_is_call(cols, "~")) {
     if_fn <- context_peek_bare("across_if_fn") %||% "across"
-    abort(c(
+    bullets <- c(
       "Predicate used in lieu of column selection.",
       i = glue("You most likely meant: `{if_fn}(everything(), {as_label(cols)})`."),
       i = "The first argument `.cols` selects a set of columns.",
       i = "The second argument `.fns` operates on each selected columns."
-    ))
+    )
+    abort(bullets, call = call(if_fn))
   }
   across_cols <- mask$across_cols()
 
@@ -299,9 +300,11 @@ across_setup <- function(cols,
   }
 
   if (!is.list(fns)) {
-    abort(c("Problem with `across()` input `.fns`.",
-      i = "`.fns` must be NULL, a function, a formula, or a list of functions/formulas."
-    ))
+    if_fn <- context_peek_bare("across_if_fn") %||% "across"
+    bullets <- c(
+      "`.fns` must be NULL, a function, a formula, or a list of functions/formulas."
+    )
+    abort(bullets, call = call(if_fn))
   }
 
   # make sure fns has names, use number to replace unnamed
