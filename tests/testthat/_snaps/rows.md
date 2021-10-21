@@ -14,19 +14,19 @@
       Matching, by = "a"
     Output
       <error/rlang_error>
-      Error in `rows_insert.data.frame()`: Attempting to insert duplicate rows.
+      Error in `rows_insert()`: Attempting to insert duplicate rows.
     Code
       (expect_error(rows_insert(data[c(1, 1), ], tibble(a = 3))))
     Message <dplyr_message_matching_by>
       Matching, by = "a"
     Output
       <error/rlang_error>
-      Error in `rows_check_key_df()`: `x` key values are not unique.
+      Error in `rows_insert()`: `x` key values are not unique.
     Code
       (expect_error(rows_insert(data, tibble(a = 4, b = "z"), by = "e")))
     Output
       <error/rlang_error>
-      Error in `rows_check_key_df()`: All `by` columns must exist in `x`.
+      Error in `rows_insert()`: All `by` columns must exist in `x`.
     Code
       (expect_error(rows_insert(data, tibble(d = 4))))
     Message <dplyr_message_matching_by>
@@ -38,24 +38,24 @@
       (expect_error(rows_update(data, tibble(a = 2:3, b = "z"), by = c("a", "b"))))
     Output
       <error/rlang_error>
-      Error in `rows_update.data.frame()`: Attempting to update missing rows.
+      Error in `rows_update()`: Attempting to update missing rows.
     Code
       (expect_error(rows_patch(data, tibble(a = 2:3, b = "z"), by = c("a", "b"))))
     Output
       <error/rlang_error>
-      Error in `rows_patch.data.frame()`: Attempting to patch missing rows.
+      Error in `rows_patch()`: Attempting to patch missing rows.
     Code
       (expect_error(rows_delete(data, tibble(a = 2:4))))
     Message <dplyr_message_matching_by>
       Matching, by = "a"
     Output
       <error/rlang_error>
-      Error in `rows_delete.data.frame()`: Attempting to delete missing rows.
+      Error in `rows_delete()`: Attempting to delete missing rows.
     Code
       (expect_error(rows_delete(data, tibble(a = 2:3, b = "b"), by = c("a", "b"))))
     Output
       <error/rlang_error>
-      Error in `rows_delete.data.frame()`: Attempting to delete missing rows.
+      Error in `rows_delete()`: Attempting to delete missing rows.
     Code
       rows_delete(data, tibble(a = 2:3))
     Message <dplyr_message_matching_by>
