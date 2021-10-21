@@ -19,7 +19,7 @@
       (expect_error(df %>% group_by(unknown)))
     Output
       <error/rlang_error>
-      Error in `group_by_prepare()`: Must group by variables found in `.data`.
+      Error in `group_by()`: Must group by variables found in `.data`.
       x Column `unknown` is not found.
     Code
       (expect_error(df %>% ungroup(x)))

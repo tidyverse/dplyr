@@ -191,10 +191,11 @@ group_by_prepare <- function(.data,
 
   unknown <- setdiff(group_names, tbl_vars(out))
   if (length(unknown) > 0) {
-    abort(c(
+    bullets <- c(
       "Must group by variables found in `.data`.",
       x = glue("Column `{unknown}` is not found.")
-    ))
+    )
+    abort(bullets, call = call("group_by"))
   }
 
   list(
