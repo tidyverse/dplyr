@@ -161,7 +161,7 @@ fix_call <- function(expr, call = match.call()$expr) {
   })
 }
 
-wrap_error <- function(expr, class) {
+wrap_error <- function(expr, class, ...) {
   withCallingHandlers(expr, error = function(cnd) {
     abort(
       message = cnd_header(cnd),
@@ -169,7 +169,8 @@ wrap_error <- function(expr, class) {
       class = c(class, "wrapped_error"),
       call = cnd$call,
       parent = cnd$parent,
-      wrapped = cnd
+      wrapped = cnd,
+      ...
     )
   })
 }

@@ -134,12 +134,12 @@
     Code
       (expect_error(slice_min(data.frame(x = 1:10), 1:6)))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `slice_min()`: `order_by` must have size 10, not size 6.
     Code
       (expect_error(slice_max(data.frame(x = 1:10), 1:6)))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `slice_max()`: `order_by` must have size 10, not size 6.
 
 # slice_sample() check size of `weight_by=` (#5922)
@@ -147,7 +147,7 @@
     Code
       (expect_error(slice_sample(data.frame(x = 1:10), n = 2, weight_by = 1:6)))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `slice_sample()`: `weight_by` must have size 10, not size 6.
 
 # rename errors with invalid grouped data frame (#640)
@@ -157,22 +157,26 @@
       (expect_error(slice(df, TRUE)))
     Output
       <error/dplyr_error>
-      Error in `slice()`: `slice()` expressions should return indices (positive or negative integers).
+      Error in `slice()`: Invalid result of type <logical>.
+      i Expecting indices: either positive or negative integers.
     Code
       (expect_error(slice(df, FALSE)))
     Output
       <error/dplyr_error>
-      Error in `slice()`: `slice()` expressions should return indices (positive or negative integers).
+      Error in `slice()`: Invalid result of type <logical>.
+      i Expecting indices: either positive or negative integers.
     Code
       (expect_error(mtcars %>% slice(c(-1, 2))))
     Output
       <error/dplyr_error>
-      Error in `slice()`: `slice()` expressions should return either all positive or all negative.
+      Error in `slice()`: Expecting either all positive or all negative indices.
+      i Got 1 positives, 1 negatives.
     Code
       (expect_error(mtcars %>% slice(c(2:3, -1))))
     Output
       <error/dplyr_error>
-      Error in `slice()`: `slice()` expressions should return either all positive or all negative.
+      Error in `slice()`: Expecting either all positive or all negative indices.
+      i Got 2 positives, 1 negatives.
     Code
       (expect_error(check_slice_size(n = 1, prop = 1)))
     Output
