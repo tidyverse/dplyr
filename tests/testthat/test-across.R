@@ -143,6 +143,33 @@ test_that("across() gives meaningful messages", {
 
     (expect_error(across()))
     (expect_error(c_across()))
+
+    # problem while computing
+    error_fn <- function(.) {
+      if (all(. > 10)) {
+        rlang::abort("too small", call = call("error_fn"))
+      } else {
+        42
+      }
+    }
+    (expect_error( # expanding
+      tibble(x = 1:10, y = 11:20) %>%
+        summarise(across(everything(), error_fn))
+    ))
+    (expect_error( # expanding
+      tibble(x = 1:10, y = 11:20) %>%
+        mutate(across(everything(), error_fn))
+    ))
+
+    (expect_error( # evaluating
+      tibble(x = 1:10, y = 11:20) %>%
+        summarise(force(across(everything(), error_fn)))
+    ))
+    (expect_error( # evaluating
+      tibble(x = 1:10, y = 11:20) %>%
+        mutate(force(across(everything(), error_fn)))
+    ))
+
   })
 
 })

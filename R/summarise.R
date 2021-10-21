@@ -312,9 +312,19 @@ summarise_eval_one <- function(quo, mask) {
   quo_data <- attr(quo, "dplyr:::data")
   if (!is.null(quo_data$column)) {
     context_poke("column", quo_data$column)
-  }
 
-  chunks_k <- mask$eval_all_summarise(quo)
+    # wrap the error when this has been expanded
+    chunks_k <- withCallingHandlers(
+      mask$eval_all_summarise(quo),
+      error = function(cnd) {
+        msg <- glue("Problem while computing `{quo_data$name_auto}`.")
+        abort(msg, call = call("across"), parent = cnd)
+      }
+    )
+  } else {
+    # no wrapping otherwise
+    chunks_k <- mask$eval_all_summarise(quo)
+  }
   if (is.null(chunks_k)) {
     return(NULL)
   }

@@ -75,6 +75,57 @@
     Output
       <error/rlang_error>
       Error in `c_across()`: Must only be used inside dplyr verbs.
+    Code
+      error_fn <- (function(.) {
+        if (all(. > 10)) {
+          rlang::abort("too small", call = call("error_fn"))
+        } else {
+          42
+        }
+      })
+      (expect_error(tibble(x = 1:10, y = 11:20) %>% summarise(across(everything(),
+      error_fn))))
+    Output
+      <error/dplyr_error>
+      Error in `summarise()`: 
+        Problem while computing `..1 = across(everything(), error_fn)`.
+      Caused by error in `across()`: 
+        Problem while computing `y`.
+      Caused by error in `error_fn()`: 
+        too small
+    Code
+      (expect_error(tibble(x = 1:10, y = 11:20) %>% mutate(across(everything(),
+      error_fn))))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`: 
+        Problem while computing `..1 = across(everything(), error_fn)`.
+      Caused by error in `across()`: 
+        Problem while computing `y`.
+      Caused by error in `error_fn()`: 
+        too small
+    Code
+      (expect_error(tibble(x = 1:10, y = 11:20) %>% summarise(force(across(everything(),
+      error_fn)))))
+    Output
+      <error/dplyr_error>
+      Error in `summarise()`: 
+        Problem while computing `..1 = force(across(everything(), error_fn))`.
+      Caused by error in `across()`: 
+        Problem while computing `y`.
+      Caused by error in `error_fn()`: 
+        too small
+    Code
+      (expect_error(tibble(x = 1:10, y = 11:20) %>% mutate(force(across(everything(),
+      error_fn)))))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`: 
+        Problem while computing `..1 = force(across(everything(), error_fn))`.
+      Caused by error in `across()`: 
+        Problem while computing `y`.
+      Caused by error in `error_fn()`: 
+        too small
 
 # if_any() and if_all() aborts when predicate mistakingly used in .cols= (#5732)
 

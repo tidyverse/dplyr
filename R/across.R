@@ -159,18 +159,25 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 
   # Loop in such an order that all functions are applied
   # to a single column before moving on to the next column
-  for (i in seq_n_cols) {
-    var <- vars[[i]]
-    col <- data[[i]]
+  withCallingHandlers(
+    for (i in seq_n_cols) {
+      var <- vars[[i]]
+      col <- data[[i]]
 
-    context_poke("column", var)
+      context_poke("column", var)
 
-    for (j in seq_fns) {
-      fn <- fns[[j]]
-      out[[k]] <- fn(col, ...)
-      k <- k + 1L
+      for (j in seq_fns) {
+        fn <- fns[[j]]
+        out[[k]] <- fn(col, ...)
+        k <- k + 1L
+      }
+    }, error = function(cnd) {
+      bullets <- c(
+        glue("Problem while computing `{names[k]}`.")
+      )
+      abort(bullets, call = call(setup$across_if_fn), parent = cnd)
     }
-  }
+  )
 
   size <- vec_size_common(!!!out)
   out <- vec_recycle_common(!!!out, .size = size)
@@ -261,17 +268,18 @@ across_setup <- function(cols,
   # mask layer from the quosure environment (#5460)
   cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = FALSE, inherit = FALSE))
 
+  across_if_fn <- context_peek_bare("across_if_fn") %||% "across"
+
   # TODO: call eval_select with a calling handler to intercept
   #       classed error, after https://github.com/r-lib/tidyselect/issues/233
   if (is.null(fns) && quo_is_call(cols, "~")) {
-    if_fn <- context_peek_bare("across_if_fn") %||% "across"
     bullets <- c(
       "Predicate used in lieu of column selection.",
-      i = glue("You most likely meant: `{if_fn}(everything(), {as_label(cols)})`."),
+      i = glue("You most likely meant: `{across_if_fn}(everything(), {as_label(cols)})`."),
       i = "The first argument `.cols` selects a set of columns.",
       i = "The second argument `.fns` operates on each selected columns."
     )
-    abort(bullets, call = call(if_fn))
+    abort(bullets, call = call(across_if_fn))
   }
   across_cols <- mask$across_cols()
 
@@ -300,11 +308,10 @@ across_setup <- function(cols,
   }
 
   if (!is.list(fns)) {
-    if_fn <- context_peek_bare("across_if_fn") %||% "across"
     bullets <- c(
       "`.fns` must be NULL, a function, a formula, or a list of functions/formulas."
     )
-    abort(bullets, call = call(if_fn))
+    abort(bullets, call = call(across_if_fn))
   }
 
   # make sure fns has names, use number to replace unnamed
@@ -328,7 +335,7 @@ across_setup <- function(cols,
     fns <- map(fns, as_function)
   }
 
-  list(vars = vars, fns = fns, names = names)
+  list(vars = vars, fns = fns, names = names, across_if_fn = across_if_fn)
 }
 
 # FIXME: This pattern should be encapsulated by rlang
@@ -518,7 +525,7 @@ expand_across <- function(quo) {
   seq_vars <- seq_len(n_vars)
   seq_fns  <- seq_len(n_fns)
 
-  expressions <- vector(mode = "list", n_vars * n_fns)
+  expressions <- structure(vector(mode = "list", n_vars * n_fns), class = "dplyr_expanded_quosures")
   columns <- character(n_vars * n_fns)
 
   k <- 1L

@@ -314,7 +314,17 @@ mutate_cols <- function(.data, ..., caller_env) {
         }
 
         if (is.null(chunks)) {
-          chunks <- mask$eval_all_mutate(quo)
+          if (is.null(quo_data$column)) {
+            chunks <- mask$eval_all_mutate(quo)
+          } else {
+            chunks <- withCallingHandlers(
+              mask$eval_all_mutate(quo),
+              error = function(cnd) {
+                msg <- glue("Problem while computing `{quo_data$name_auto}`.")
+                abort(msg, call = call("across"), parent = cnd)
+              }
+            )
+          }
         }
 
         if (is.null(chunks)) {
