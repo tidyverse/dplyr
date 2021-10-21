@@ -136,16 +136,18 @@ show_regroups <- function(code) {
 #' @export
 new_grouped_df <- function(x, groups, ..., class = character()) {
   if (!is.data.frame(x)) {
-    abort(c(
+    bullets <- c(
       "`new_grouped_df()` incompatible argument.",
-      x = "`x` is not a data frame.")
+      x = "`x` is not a data frame."
     )
+    abort(bullets)
   }
   if (!is.data.frame(groups) || tail(names(groups), 1L) != ".rows") {
-    abort(c(
+    bullets <- c(
       "`new_grouped_df()` incompatible argument.",
       i = "`groups` should be a data frame, and its last column be called `.rows`."
-    ))
+    )
+    abort(bullets)
   }
 
   new_tibble(

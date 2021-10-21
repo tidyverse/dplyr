@@ -323,9 +323,10 @@ nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, na
 join_mutate <- function(x, y, by, type,
                         suffix = c(".x", ".y"),
                         na_matches = c("na", "never"),
-                        keep = FALSE
+                        keep = FALSE,
+                        error_call = caller_env()
                         ) {
-  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix, keep = keep)
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, suffix = suffix, keep = keep, error_call = error_call)
   na_equal <- check_na_matches(na_matches)
 
   x_in <- as_tibble(x, .name_repair = "minimal")
@@ -333,7 +334,7 @@ join_mutate <- function(x, y, by, type,
 
   x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
   y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
-  rows <- join_rows(x_key, y_key, type = type, na_equal = na_equal)
+  rows <- join_rows(x_key, y_key, type = type, na_equal = na_equal, error_call = error_call)
 
   x_out <- set_names(x_in[vars$x$out], names(vars$x$out))
   y_out <- set_names(y_in[vars$y$out], names(vars$y$out))
@@ -362,8 +363,8 @@ join_mutate <- function(x, y, by, type,
   dplyr_reconstruct(out, x)
 }
 
-join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
-  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by)
+join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never"), error_call = caller_env()) {
+  vars <- join_cols(tbl_vars(x), tbl_vars(y), by = by, error_call = error_call)
   na_equal <- check_na_matches(na_matches)
 
   x_in <- as_tibble(x, .name_repair = "minimal")

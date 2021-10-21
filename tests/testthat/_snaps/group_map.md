@@ -5,12 +5,12 @@
       )
     Output
       <error/rlang_error>
-      Error: The returned data frame cannot contain the original grouping variables: cyl.
+      Error in `group_modify()`: The returned data frame cannot contain the original grouping variables: cyl.
     Code
       (expect_error(mtcars %>% group_by(cyl) %>% group_modify(~10)))
     Output
       <error/rlang_error>
-      Error: The result of .f should be a data frame.
+      Error in `group_modify()`: The result of .f should be a data frame.
     Code
       (expect_error(iris %>% group_by(Species) %>% group_modify(head1)))
     Output

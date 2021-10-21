@@ -88,10 +88,11 @@ nest_by.data.frame <- function(.data, ..., .key = "data", .keep = FALSE) {
 #' @export
 nest_by.grouped_df <- function(.data, ..., .key = "data", .keep = FALSE) {
   if (!missing(...)) {
-    abort(c(
+    bullets <- c(
       "Can't re-group while nesting",
       i = "Either `ungroup()` first or don't supply arguments to `nest_by()"
-    ))
+    )
+    abort(bullets, call = call("nest_by"))
   }
 
   vars <- group_vars(.data)

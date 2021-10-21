@@ -166,10 +166,11 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
   } else if (identical(.groups, "rowwise")) {
     out <- rowwise_df(out, group_vars)
   } else if(!identical(.groups, "drop")) {
-    abort(c(
+    bullets <- c(
       paste0("`.groups` can't be ", as_label(.groups)),
       i = 'Possible values are NULL (default), "drop_last", "drop", "keep", and "rowwise"'
-    ))
+    )
+    abort(bullets, call = call("summarise"))
   }
 
   out
@@ -191,10 +192,11 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
   } else if (identical(.groups, "rowwise")) {
     out <- rowwise_df(out, group_vars)
   } else if (!identical(.groups, "drop")) {
-    abort(c(
+    bullets <- c(
       paste0("`.groups` can't be ", as_label(.groups)),
       i = 'Possible values are NULL (default), "drop", "keep", and "rowwise"'
-    ))
+    )
+    abort(bullets, call = call("summarise"))
   }
 
   out
@@ -297,8 +299,7 @@ summarise_cols <- function(.data, ..., caller_env) {
       summarise_bullets(e)
     )
 
-    abort(
-      bullets,
+    abort(bullets,
       class = "dplyr_error", call = call("summarise"),
       parent = skip_internal_condition(e)
     )

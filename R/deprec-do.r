@@ -201,15 +201,18 @@ named_args <- function(args, error_call = caller_env()) {
   # Arguments must either be all named or all unnamed.
   named <- sum(names2(args) != "")
   if (!(named == 0 || named == length(args))) {
-    abort("Arguments must either be all named or all unnamed.", call = error_call)
+    msg <- "Arguments must either be all named or all unnamed."
+    abort(msg, call = error_call)
   }
   if (named == 0 && length(args) > 1) {
-    abort(glue("Can only supply one unnamed argument, not {length(args)}."), call = error_call)
+    msg <- glue("Can only supply one unnamed argument, not {length(args)}.")
+    abort(msg, call = error_call)
   }
 
   # Check for old syntax
   if (named == 1 && names(args) == ".f") {
-    abort("`do()` syntax changed in dplyr 0.2. Please see documentation for details.", call = error_call)
+    msg <- "`do()` syntax changed in dplyr 0.2. Please see documentation for details."
+    abort(msg, call = error_call)
   }
 
   named != 0

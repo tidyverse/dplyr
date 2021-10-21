@@ -185,6 +185,7 @@ is_compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = TR
 check_compatible <- function(x, y, ignore_col_order = TRUE, convert = TRUE, error_call = caller_env()) {
   compat <- is_compatible_data_frame(x, y, ignore_col_order = ignore_col_order, convert = convert)
   if (is.character(compat)) {
-    abort(paste0("`x` and `y` are not compatible: \n", glue_collapse(compat, sep = "\n")), call = error_call)
+    bullets <- paste0("`x` and `y` are not compatible: \n", glue_collapse(compat, sep = "\n"))
+    abort(bullets, call = error_call)
   }
 }

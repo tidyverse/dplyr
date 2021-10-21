@@ -51,10 +51,8 @@ check_type <- function(x, template, header, error_call = caller_env()) {
     return()
   }
 
-  abort(
-    glue("{header} must be {friendly_type_of(template)}, not {friendly_type_of(x)}."),
-    call = error_call
-  )
+  msg <- glue("{header} must be {friendly_type_of(template)}, not {friendly_type_of(x)}.")
+  abort(msg, call = error_call)
 }
 
 check_class <- function(x, template, header, error_call = caller_env()) {
@@ -68,8 +66,6 @@ check_class <- function(x, template, header, error_call = caller_env()) {
 
   exp_classes <- fmt_classes(template)
   out_classes <- fmt_classes(x)
-  abort(
-    glue("{header} must have class `{exp_classes}`, not class `{out_classes}`."),
-    call = error_call
-  )
+  msg <- glue("{header} must have class `{exp_classes}`, not class `{out_classes}`.")
+  abort(msg, call = error_call)
 }

@@ -3,10 +3,11 @@ check_pkg <- function(name, reason, install = TRUE) {
     return(invisible(TRUE))
   }
 
-  abort(c(
+  bullets <- c(
     glue("The {name} package is required to {reason}."),
     i = if (install) 'Please install it with `install.packages("{name}")`.'
-  ))
+  )
+  abort(bullets)
 }
 
 # ngettext() does extra work, this function is a simpler version

@@ -137,11 +137,12 @@ check_filter <- function(dots) {
     expr <- quo_get_expr(quo)
     if (!is.logical(expr)) {
       name <- names(dots)[i]
-      abort(c(
+      bullets <- c(
         "We detected a named input.",
         i = glue("This usually means that you've used `=` instead of `==`."),
         i = glue("Did you mean `{name} == {as_label(expr)}`?")
-      ), call = call("filter"))
+      )
+      abort(bullets, call = call("filter"))
     }
 
   }
@@ -158,12 +159,7 @@ filter_expand <- function(dots) {
     imap(unname(dots), filter_expand_one),
     error = function(cnd) {
       local_error_context(dots = dots, .index = env_filter$current_expression, mask = mask)
-
-      abort(
-        cnd_bullet_header("expanding"),
-        call = call("filter"),
-        parent = cnd
-      )
+      abort(cnd_bullet_header("expanding"), call = call("filter"), parent = cnd)
     }
   )
 
@@ -182,10 +178,7 @@ filter_eval <- function(dots, mask) {
       cnd_bullet_header("computing"),
       filter_bullets(e)
     )
-    abort(
-      bullets,
-      class = "dplyr_error",
-      call = call("filter"),
+    abort(bullets, call = call("filter"), class = "dplyr_error",
       parent = skip_internal_condition(e)
     )
 

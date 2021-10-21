@@ -73,9 +73,8 @@ as_fun <- function(.x, .env, .args) {
 
   if (is_call(expr, c("function", "~"))) {
     top_level <- as_string(expr[[1]])
-    abort(
-      glue("`{quo_text(expr)}` must be a function name (quoted or unquoted) or an unquoted call, not `{top_level}`.")
-    )
+    msg <- glue("`{quo_text(expr)}` must be a function name (quoted or unquoted) or an unquoted call, not `{top_level}`.")
+    abort(msg)
   }
 
   if (is_call(expr) && !is_call(expr, c("::", ":::"))) {

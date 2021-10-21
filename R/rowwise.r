@@ -71,10 +71,11 @@ rowwise.data.frame <- function(data, ...) {
 #' @export
 rowwise.grouped_df <- function(data, ...) {
   if (!missing(...)) {
-    abort(c(
+    bullets <- c(
       "Can't re-group when creating rowwise data.",
       i = "Either first `ungroup()` or call `rowwise()` without arguments."
-    ))
+    )
+    abort(bullets, call = call("rowwise"))
   }
   rowwise_df(data, group_vars(data))
 }
@@ -94,7 +95,8 @@ new_rowwise_df <- function(data, group_data = NULL, ..., class = character()) {
 
   if (!is.null(group_data)) {
     if (!is_tibble(group_data) || has_name(group_data, ".rows")) {
-      abort("`group_data` must be a tibble without a `.rows` column.")
+      msg <- "`group_data` must be a tibble without a `.rows` column."
+      abort(msg)
     }
 
     group_data <- new_tibble(dplyr_vec_data(group_data), nrow = nrow) # strip attributes

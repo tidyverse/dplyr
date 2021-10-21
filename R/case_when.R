@@ -201,19 +201,15 @@ validate_formula <- function(x, i, default_env, dots_env) {
 abort_case_when_formula <- function(arg, i, obj) {
   deparsed <- fmt_obj1(deparse_trunc(arg))
   type <- friendly_type_of(obj)
-  abort(
-    glue("Case {i} ({deparsed}) must be a two-sided formula, not {type}."),
-    call = call("case_when")
-  )
+  msg <- glue("Case {i} ({deparsed}) must be a two-sided formula, not {type}.")
+  abort(msg, call = call("case_when"))
 }
 
 abort_case_when_logical <- function(lhs, i, query) {
   deparsed <- fmt_obj1(deparse_trunc(quo_squash(lhs)))
   type <- friendly_type_of(query)
-  abort(
-    glue("LHS of case {i} ({deparsed}) must be a logical vector, not {type}."),
-    call = call("case_when")
-  )
+  msg <- glue("LHS of case {i} ({deparsed}) must be a logical vector, not {type}.")
+  abort(msg, call = call("case_when"))
 }
 
 validate_case_when_length <- function(query, value, fs) {
