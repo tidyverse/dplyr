@@ -46,12 +46,12 @@
       (expect_error(bind_rows(df1, df2)))
     Output
       <error/vctrs_error_incompatible_type>
-      Error in `vec_rbind()`: Can't combine `..1$a` <factor<4d52a>> and `..2$a` <integer>.
+      Error in `bind_rows()`: Can't combine `..1$a` <factor<4d52a>> and `..2$a` <integer>.
     Code
       (expect_error(bind_rows(df1, df3)))
     Output
       <error/vctrs_error_incompatible_type>
-      Error in `vec_rbind()`: Can't combine `..1$a` <factor<4d52a>> and `..2$a` <double>.
+      Error in `bind_rows()`: Can't combine `..1$a` <factor<4d52a>> and `..2$a` <double>.
     Code
       df1 <- tibble(b = c(1, 2))
       df2 <- tibble(b = c(1L, 2L))
@@ -60,22 +60,22 @@
       (expect_error(bind_rows(df1, df3)))
     Output
       <error/vctrs_error_incompatible_type>
-      Error in `vec_rbind()`: Can't combine `..1$b` <double> and `..2$b` <factor<a022a>>.
+      Error in `bind_rows()`: Can't combine `..1$b` <double> and `..2$b` <factor<a022a>>.
     Code
       (expect_error(bind_rows(df1, df4)))
     Output
       <error/vctrs_error_incompatible_type>
-      Error in `vec_rbind()`: Can't combine `..1$b` <double> and `..2$b` <character>.
+      Error in `bind_rows()`: Can't combine `..1$b` <double> and `..2$b` <character>.
     Code
       (expect_error(bind_rows(df2, df3)))
     Output
       <error/vctrs_error_incompatible_type>
-      Error in `vec_rbind()`: Can't combine `..1$b` <integer> and `..2$b` <factor<a022a>>.
+      Error in `bind_rows()`: Can't combine `..1$b` <integer> and `..2$b` <factor<a022a>>.
     Code
       (expect_error(bind_rows(df2, df4)))
     Output
       <error/vctrs_error_incompatible_type>
-      Error in `vec_rbind()`: Can't combine `..1$b` <integer> and `..2$b` <character>.
+      Error in `bind_rows()`: Can't combine `..1$b` <integer> and `..2$b` <character>.
     Code
       # # unnamed vectors
       (expect_error(bind_rows(1:2)))
@@ -87,10 +87,10 @@
       (expect_error(bind_cols(a = 1:2, mtcars)))
     Output
       <error/vctrs_error_incompatible_size>
-      Error in `vec_cbind()`: Can't recycle `a` (size 2) to match `..2` (size 32).
+      Error in `bind_cols()`: Can't recycle `a` (size 2) to match `..2` (size 32).
     Code
       (expect_error(bind_cols(mtcars, a = 1:3)))
     Output
       <error/vctrs_error_incompatible_size>
-      Error in `vec_cbind()`: Can't recycle `..1` (size 32) to match `a` (size 3).
+      Error in `bind_cols()`: Can't recycle `..1` (size 32) to match `a` (size 3).
 

@@ -136,7 +136,7 @@ bind_rows <- function(..., .id = NULL) {
   if (is.null(.id)) {
     names(dots) <- NULL
   }
-  out <- fix_call(vec_rbind(!!!dots, .names_to = .id))
+  out <- fix_call(vec_rbind(!!!dots, .names_to = .id), call = call("bind_rows"))
   if (length(dots)) {
     if (is.data.frame(first)) {
       out <- dplyr_reconstruct(out, first)
@@ -160,7 +160,7 @@ bind_cols <- function(..., .name_repair = c("unique", "universal", "check_unique
   names[map_lgl(dots, is.data.frame)] <- ""
   names(dots) <- names
 
-  out <- fix_call(vec_cbind(!!!dots, .name_repair = .name_repair))
+  out <- fix_call(vec_cbind(!!!dots, .name_repair = .name_repair), call = call("bind_cols"))
   if (!any(map_lgl(dots, is.data.frame))) {
     out <- as_tibble(out)
   }
