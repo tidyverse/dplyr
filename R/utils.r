@@ -166,7 +166,7 @@ wrap_error <- function(expr, class, ...) {
     abort(
       message = cnd_header(cnd),
       body = cnd_body(cnd),
-      class = c(class, "wrapped_error"),
+      class = class,
       call = cnd$call,
       parent = cnd$parent,
       wrapped = cnd,
