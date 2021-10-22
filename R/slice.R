@@ -168,10 +168,7 @@ slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 #' @export
 slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
   check_dots_empty()
-  if (missing(order_by)) {
-    msg <- "argument `order_by` is missing, with no default."
-    abort(msg, call = call("slice_min"), class = "dplyr_error")
-  }
+  arg_require(order_by, error_call = call("slice_min"))
 
   size <- get_slice_size(n, prop, "slice_min")
   if (with_ties) {
@@ -196,10 +193,7 @@ slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 #' @export
 slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
   check_dots_empty()
-  if (missing(order_by)) {
-    msg <- "argument `order_by` is missing, with no default."
-    abort(msg, call = call("slice_max"), class = "dplyr_error")
-  }
+  arg_require(order_by, error_call = call("slice_max"))
 
   size <- get_slice_size(n, prop, "slice_max")
   if (with_ties) {
