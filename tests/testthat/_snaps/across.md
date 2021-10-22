@@ -61,7 +61,7 @@
       Error in `summarise()`: 
         Problem while computing `res = sum(if_any(~mean(.x)))`.
       Caused by error in `if_any()`: 
-        Predicate used in lieu of column selection.
+        Must supply a column selection.
         i You most likely meant: `if_any(everything(), ~mean(.x))`.
         i The first argument `.cols` selects a set of columns.
         i The second argument `.fns` operates on each selected columns.
@@ -74,7 +74,7 @@
       (expect_error(c_across()))
     Output
       <error/rlang_error>
-      Error in `c_across()`: Must only be used inside dplyr verbs.
+      Error in `c_across()`: Must be used inside dplyr verbs.
     Code
       error_fn <- (function(.) {
         if (all(. > 10)) {
@@ -136,7 +136,7 @@
       Error in `filter()`: 
         Problem while expanding `..1 = if_any(~.x > 5)`.
       Caused by error in `if_any()`: 
-        Predicate used in lieu of column selection.
+        Must supply a column selection.
         i You most likely meant: `if_any(everything(), ~.x > 5)`.
         i The first argument `.cols` selects a set of columns.
         i The second argument `.fns` operates on each selected columns.
@@ -147,7 +147,7 @@
       Error in `filter()`: 
         Problem while expanding `..1 = if_all(~.x > 5)`.
       Caused by error in `if_all()`: 
-        Predicate used in lieu of column selection.
+        Must supply a column selection.
         i You most likely meant: `if_all(everything(), ~.x > 5)`.
         i The first argument `.cols` selects a set of columns.
         i The second argument `.fns` operates on each selected columns.
@@ -158,7 +158,7 @@
       Error in `filter()`: 
         Problem while computing `..1 = !if_any(~.x > 5)`.
       Caused by error in `if_any()`: 
-        Predicate used in lieu of column selection.
+        Must supply a column selection.
         i You most likely meant: `if_any(everything(), ~.x > 5)`.
         i The first argument `.cols` selects a set of columns.
         i The second argument `.fns` operates on each selected columns.
@@ -169,7 +169,7 @@
       Error in `filter()`: 
         Problem while computing `..1 = !if_all(~.x > 5)`.
       Caused by error in `if_all()`: 
-        Predicate used in lieu of column selection.
+        Must supply a column selection.
         i You most likely meant: `if_all(everything(), ~.x > 5)`.
         i The first argument `.cols` selects a set of columns.
         i The second argument `.fns` operates on each selected columns.

@@ -21,7 +21,7 @@
       Matching, by = "a"
     Output
       <error/rlang_error>
-      Error in `rows_insert()`: `x` key values are not unique.
+      Error in `rows_insert()`: `x` key values must be unique.
     Code
       (expect_error(rows_insert(data, tibble(a = 4, b = "z"), by = "e")))
     Output
@@ -43,19 +43,19 @@
       (expect_error(rows_patch(data, tibble(a = 2:3, b = "z"), by = c("a", "b"))))
     Output
       <error/rlang_error>
-      Error in `rows_patch()`: Attempting to patch missing rows.
+      Error in `rows_patch()`: Can't patch missing row.
     Code
       (expect_error(rows_delete(data, tibble(a = 2:4))))
     Message <dplyr_message_matching_by>
       Matching, by = "a"
     Output
       <error/rlang_error>
-      Error in `rows_delete()`: Attempting to delete missing rows.
+      Error in `rows_delete()`: Can't delete missing row.
     Code
       (expect_error(rows_delete(data, tibble(a = 2:3, b = "b"), by = c("a", "b"))))
     Output
       <error/rlang_error>
-      Error in `rows_delete()`: Attempting to delete missing rows.
+      Error in `rows_delete()`: Can't delete missing row.
     Code
       rows_delete(data, tibble(a = 2:3))
     Message <dplyr_message_matching_by>

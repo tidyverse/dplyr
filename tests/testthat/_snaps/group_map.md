@@ -10,7 +10,7 @@
       (expect_error(mtcars %>% group_by(cyl) %>% group_modify(~10)))
     Output
       <error/rlang_error>
-      Error in `group_modify()`: The result of .f should be a data frame.
+      Error in `group_modify()`: The result of `.f` must be a data frame.
     Code
       (expect_error(iris %>% group_by(Species) %>% group_modify(head1)))
     Output

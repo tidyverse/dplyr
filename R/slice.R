@@ -298,7 +298,7 @@ slice_abort.default <- function(cnd, quo, ...) {
 }
 
 #' @export
-slice_abort.slice_internal_error <- function(cnd, quo, ...) {
+`slice_abort.dplyr:::slice_internal_error` <- function(cnd, quo, ...) {
   bullets <- c(
     cnd_header(cnd),
     i = cnd_bullet_cur_group_label()

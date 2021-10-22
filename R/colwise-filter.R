@@ -84,7 +84,7 @@ filter_at <- function(.tbl, .vars, .vars_predicate, .preserve = FALSE) {
 
 apply_filter_syms <- function(pred, syms, tbl, error_call = caller_env()) {
   if (is_empty(syms)) {
-    msg  <- glue("`.predicate` has no matching columns.")
+    msg  <- glue("`.predicate` must match at least one column.")
     abort(msg, call = error_call)
   }
   joiner <- all_exprs

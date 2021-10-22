@@ -274,7 +274,7 @@ across_setup <- function(cols,
   #       classed error, after https://github.com/r-lib/tidyselect/issues/233
   if (is.null(fns) && quo_is_call(cols, "~")) {
     bullets <- c(
-      "Predicate used in lieu of column selection.",
+      "Must supply a column selection.",
       i = glue("You most likely meant: `{across_if_fn}(everything(), {as_label(cols)})`."),
       i = "The first argument `.cols` selects a set of columns.",
       i = "The second argument `.fns` operates on each selected columns."

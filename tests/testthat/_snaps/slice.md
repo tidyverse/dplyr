@@ -55,7 +55,7 @@
       Error in `slice_head()`: 
         `n` must be a constant.
       Caused by error in `n()`: 
-        Must only be used inside dplyr verbs.
+        Must be used inside dplyr verbs.
     Code
       (expect_error(slice_head(df, prop = n())))
     Output
@@ -63,7 +63,7 @@
       Error in `slice_head()`: 
         `prop` must be a constant.
       Caused by error in `n()`: 
-        Must only be used inside dplyr verbs.
+        Must be used inside dplyr verbs.
     Code
       (expect_error(slice_tail(df, n = n())))
     Output
@@ -71,7 +71,7 @@
       Error in `slice_tail()`: 
         `n` must be a constant.
       Caused by error in `n()`: 
-        Must only be used inside dplyr verbs.
+        Must be used inside dplyr verbs.
     Code
       (expect_error(slice_tail(df, prop = n())))
     Output
@@ -79,7 +79,7 @@
       Error in `slice_tail()`: 
         `prop` must be a constant.
       Caused by error in `n()`: 
-        Must only be used inside dplyr verbs.
+        Must be used inside dplyr verbs.
     Code
       (expect_error(slice_min(df, x, n = n())))
     Output
@@ -87,7 +87,7 @@
       Error in `slice_min()`: 
         `n` must be a constant.
       Caused by error in `n()`: 
-        Must only be used inside dplyr verbs.
+        Must be used inside dplyr verbs.
     Code
       (expect_error(slice_min(df, x, prop = n())))
     Output
@@ -95,7 +95,7 @@
       Error in `slice_min()`: 
         `prop` must be a constant.
       Caused by error in `n()`: 
-        Must only be used inside dplyr verbs.
+        Must be used inside dplyr verbs.
     Code
       (expect_error(slice_max(df, x, n = n())))
     Output
@@ -103,7 +103,7 @@
       Error in `slice_max()`: 
         `n` must be a constant.
       Caused by error in `n()`: 
-        Must only be used inside dplyr verbs.
+        Must be used inside dplyr verbs.
     Code
       (expect_error(slice_max(df, x, prop = n())))
     Output
@@ -111,7 +111,7 @@
       Error in `slice_max()`: 
         `prop` must be a constant.
       Caused by error in `n()`: 
-        Must only be used inside dplyr verbs.
+        Must be used inside dplyr verbs.
     Code
       (expect_error(slice_sample(df, n = n())))
     Output
@@ -119,7 +119,7 @@
       Error in `slice_sample()`: 
         `n` must be a constant.
       Caused by error in `n()`: 
-        Must only be used inside dplyr verbs.
+        Must be used inside dplyr verbs.
     Code
       (expect_error(slice_sample(df, prop = n())))
     Output
@@ -127,7 +127,7 @@
       Error in `slice_sample()`: 
         `prop` must be a constant.
       Caused by error in `n()`: 
-        Must only be used inside dplyr verbs.
+        Must be used inside dplyr verbs.
 
 # slice_min/max() check size of `order_by=` (#5922)
 
@@ -156,26 +156,26 @@
       df <- tibble(x = 1:3)
       (expect_error(slice(df, TRUE)))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `slice()`: Invalid result of type <logical>.
-      i Expecting indices: either positive or negative integers.
+      i Indices must be positive or negative integers.
     Code
       (expect_error(slice(df, FALSE)))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `slice()`: Invalid result of type <logical>.
-      i Expecting indices: either positive or negative integers.
+      i Indices must be positive or negative integers.
     Code
       (expect_error(mtcars %>% slice(c(-1, 2))))
     Output
       <error/dplyr_error>
-      Error in `slice()`: Expecting either all positive or all negative indices.
+      Error in `slice()`: Indices must be all positive or all negative.
       i Got 1 positives, 1 negatives.
     Code
       (expect_error(mtcars %>% slice(c(2:3, -1))))
     Output
       <error/dplyr_error>
-      Error in `slice()`: Expecting either all positive or all negative indices.
+      Error in `slice()`: Indices must be all positive or all negative.
       i Got 2 positives, 1 negatives.
     Code
       (expect_error(check_slice_size(n = 1, prop = 1)))
@@ -199,7 +199,7 @@
       Error in `check_slice_size()`: 
         `n` must be a constant.
       Caused by error in `n()`: 
-        Must only be used inside dplyr verbs.
+        Must be used inside dplyr verbs.
     Code
       (expect_error(check_slice_size(prop = n())))
     Output
@@ -207,7 +207,7 @@
       Error in `check_slice_size()`: 
         `prop` must be a constant.
       Caused by error in `n()`: 
-        Must only be used inside dplyr verbs.
+        Must be used inside dplyr verbs.
     Code
       (expect_error(check_slice_size(n = NA)))
     Output
