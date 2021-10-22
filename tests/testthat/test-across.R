@@ -170,6 +170,12 @@ test_that("across() gives meaningful messages", {
         mutate(force(across(everything(), error_fn)))
     ))
 
+    # name issue
+    (expect_error(
+      tibble(x = 1) %>%
+        summarise(across(everything(), list(f = mean, f = mean)))
+    ))
+
   })
 
 })

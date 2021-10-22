@@ -14,7 +14,7 @@
       <error/dplyr_error>
       Error in `summarise()`: 
         Problem while computing `..1 = across(y, mean)`.
-      Caused by error in `eval_select()`: 
+      Caused by error in `across()`: 
         Can't subset columns that don't exist.
         x Column `y` doesn't exist.
     Code
@@ -31,7 +31,7 @@
       <error/dplyr_error>
       Error in `summarise()`: 
         Problem while computing `z = across(y, mean)`.
-      Caused by error in `eval_select()`: 
+      Caused by error in `across()`: 
         Can't subset columns that don't exist.
         x Column `y` doesn't exist.
     Code
@@ -126,6 +126,17 @@
         Problem while computing `y`.
       Caused by error in `error_fn()`: 
         too small
+    Code
+      (expect_error(tibble(x = 1) %>% summarise(across(everything(), list(f = mean,
+        f = mean)))))
+    Output
+      <error/dplyr_error>
+      Error in `summarise()`: 
+        Problem while computing `..1 = across(everything(), list(f = mean, f = mean))`.
+      Caused by error in `across()`: 
+        Names must be unique.
+        x These names are duplicated:
+          * "x_f" at locations 1 and 2.
 
 # if_any() and if_all() aborts when predicate mistakingly used in .cols= (#5732)
 
