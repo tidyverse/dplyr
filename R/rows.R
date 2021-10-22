@@ -79,7 +79,7 @@ rows_insert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 
 #' @export
 rows_insert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE, error_call = call("rows_insert")) {
-  check_dots_empty()
+  check_dots_empty(call = error_call)
   key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place, error_call = error_call)
@@ -105,7 +105,7 @@ rows_update <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 
 #' @export
 rows_update.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE, error_call = call("rows_update")) {
-  check_dots_empty()
+  check_dots_empty(call = error_call)
   key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place, error_call = error_call)
@@ -132,7 +132,7 @@ rows_patch <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 
 #' @export
 rows_patch.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE, error_call = call("rows_patch")) {
-  check_dots_empty()
+  check_dots_empty(call = error_call)
   key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place, error_call = error_call)
@@ -161,7 +161,7 @@ rows_upsert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 
 #' @export
 rows_upsert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE, error_call = call("rows_upsert")) {
-  check_dots_empty()
+  check_dots_empty(call = error_call)
   key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place, error_call = error_call)
@@ -186,7 +186,7 @@ rows_delete <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 
 #' @export
 rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE, error_call = call("rows_delete")) {
-  check_dots_empty()
+  check_dots_empty(call = error_call)
   key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place, error_call = error_call)

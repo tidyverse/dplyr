@@ -42,8 +42,8 @@ NULL
 #' @export
 union_all <- function(x, y, ...) UseMethod("union_all")
 #' @export
-union_all.default <- function (x, y, ...) {
-  check_dots_empty()
+union_all.default <- function (x, y, ..., error_call = call("union_all")) {
+  check_dots_empty(call = error_call)
   vec_c(x, y)
 }
 
@@ -64,9 +64,9 @@ generics::setdiff
 generics::setequal
 
 #' @export
-intersect.data.frame <- function(x, y, ...) {
-  check_dots_empty()
-  check_compatible(x, y, error_call = call("intersect"))
+intersect.data.frame <- function(x, y, ..., error_call = call("intersect")) {
+  check_dots_empty(call = error_call)
+  check_compatible(x, y, error_call = error_call)
   cast <- vec_cast_common(x, y)
   new_x <- cast[[1L]]
   new_y <- cast[[2L]]
@@ -75,24 +75,24 @@ intersect.data.frame <- function(x, y, ...) {
 }
 
 #' @export
-union.data.frame <- function(x, y, ...) {
-  check_dots_empty()
-  check_compatible(x, y, error_call = call("union"))
+union.data.frame <- function(x, y, ..., error_call = call("union")) {
+  check_dots_empty(call = error_call)
+  check_compatible(x, y, error_call = error_call)
   out <- vec_unique(vec_rbind(!!!vec_cast_common(x, y)))
   reconstruct_set(out, x)
 }
 
 #' @export
-union_all.data.frame <- function(x, y, ...) {
-  check_dots_empty()
+union_all.data.frame <- function(x, y, ..., error_call = call("union_all")) {
+  check_dots_empty(call = error_call)
   out <- bind_rows(x, y)
   reconstruct_set(out, x)
 }
 
 #' @export
-setdiff.data.frame <- function(x, y, ...) {
-  check_dots_empty()
-  check_compatible(x, y, error_call = call("setdiff"))
+setdiff.data.frame <- function(x, y, ..., error_call = call("setdiff")) {
+  check_dots_empty(call = error_call)
+  check_compatible(x, y, error_call = error_call)
   cast <- vec_cast_common(x, y)
   new_x <- cast[[1L]]
   new_y <- cast[[2L]]
@@ -101,8 +101,8 @@ setdiff.data.frame <- function(x, y, ...) {
 }
 
 #' @export
-setequal.data.frame <- function(x, y, ...) {
-  check_dots_empty()
+setequal.data.frame <- function(x, y, ..., error_call = call("setequal")) {
+  check_dots_empty(call = error_call)
   isTRUE(equal_data_frame(x, y))
 }
 

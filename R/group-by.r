@@ -133,14 +133,14 @@ ungroup.grouped_df <- function(x, ...) {
 }
 
 #' @export
-ungroup.rowwise_df <- function(x, ...) {
-  check_dots_empty()
+ungroup.rowwise_df <- function(x, ..., error_call = call("ungroup")) {
+  check_dots_empty(call = error_call)
   as_tibble(x)
 }
 
 #' @export
-ungroup.data.frame <- function(x, ...) {
-  check_dots_empty()
+ungroup.data.frame <- function(x, ..., error_call =  call("ungroup")) {
+  check_dots_empty(call =  error_call)
   x
 }
 

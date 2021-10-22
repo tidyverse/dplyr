@@ -132,8 +132,8 @@ slice_head <- function(.data, ..., n, prop) {
 }
 
 #' @export
-slice_head.data.frame <- function(.data, ..., n, prop) {
-  check_dots_empty()
+slice_head.data.frame <- function(.data, ..., n, prop, error_call = call("slice_head")) {
+  check_dots_empty(call = error_call)
 
   size <- get_slice_size(n, prop, "slice_head")
   idx <- function(n) seq2(1, size(n))
@@ -147,8 +147,8 @@ slice_tail <- function(.data, ..., n, prop) {
 }
 
 #' @export
-slice_tail.data.frame <- function(.data, ..., n, prop) {
-  check_dots_empty()
+slice_tail.data.frame <- function(.data, ..., n, prop, error_call = call("slice_tail")) {
+  check_dots_empty(call = error_call)
 
   size <- get_slice_size(n, prop, "slice_tail")
   idx <- function(n) seq2(n - size(n) + 1, n)
@@ -166,9 +166,9 @@ slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 }
 
 #' @export
-slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
-  check_dots_empty()
-  arg_require(order_by, error_call = call("slice_min"))
+slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE, error_call = call("slice_min")) {
+  check_dots_empty(call = error_call)
+  arg_require(order_by, error_call = error_call)
 
   size <- get_slice_size(n, prop, "slice_min")
   if (with_ties) {
@@ -177,7 +177,7 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     idx <- function(x, n) head(order(x), size(n))
   }
 
-  slice(.data, slice_internal(error_call = call("slice_min"), {
+  slice(.data, slice_internal(error_call = error_call, {
     n <- dplyr::n()
     x <- vec_assert({{ order_by }}, size = n, arg = "order_by")
     idx(x, n)
@@ -191,9 +191,9 @@ slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 }
 
 #' @export
-slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
-  check_dots_empty()
-  arg_require(order_by, error_call = call("slice_max"))
+slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE, error_call = call("slice_max")) {
+  check_dots_empty(call = error_call)
+  arg_require(order_by, error_call = error_call)
 
   size <- get_slice_size(n, prop, "slice_max")
   if (with_ties) {
@@ -204,7 +204,7 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     idx <- function(x, n) head(order(x, decreasing = TRUE), size(n))
   }
 
-  slice(.data, slice_internal(error_call = call("slice_max"), {
+  slice(.data, slice_internal(error_call = error_call, {
     n <- dplyr::n()
     x <- vec_assert({{ order_by }}, size = n, arg = "order_by")
     idx(x, n)
@@ -223,12 +223,12 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 }
 
 #' @export
-slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
-  check_dots_empty()
+slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE, error_call = call("slice_sample")) {
+  check_dots_empty(call = error_call)
 
   size <- get_slice_size(n, prop, "slice_sample")
 
-  slice(.data, slice_internal(error_call = call("slice_sample"), {
+  slice(.data, slice_internal(error_call = error_call, {
     n <- dplyr::n()
     weight_by <- {{ weight_by }}
     if (!is.null(weight_by)) {

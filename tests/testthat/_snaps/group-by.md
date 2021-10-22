@@ -25,7 +25,7 @@
       (expect_error(df %>% ungroup(x)))
     Output
       <error/rlib_error_dots_nonempty>
-      Error in `ungroup.data.frame()`: `...` is not empty.
+      Error in `ungroup()`: `...` is not empty.
       i These dots only exist to allow future extensions and should be empty.
       x We detected these problematic arguments:
       * `..1`

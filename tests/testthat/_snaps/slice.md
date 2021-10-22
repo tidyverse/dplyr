@@ -4,7 +4,7 @@
       (expect_error(slice_head(df, 5)))
     Output
       <error/rlib_error_dots_nonempty>
-      Error in `slice_head.data.frame()`: `...` is not empty.
+      Error in `slice_head()`: `...` is not empty.
       i These dots only exist to allow future extensions and should be empty.
       x We detected these problematic arguments:
       * `..1`
@@ -13,7 +13,7 @@
       (expect_error(slice_tail(df, 5)))
     Output
       <error/rlib_error_dots_nonempty>
-      Error in `slice_tail.data.frame()`: `...` is not empty.
+      Error in `slice_tail()`: `...` is not empty.
       i These dots only exist to allow future extensions and should be empty.
       x We detected these problematic arguments:
       * `..1`
@@ -22,7 +22,7 @@
       (expect_error(slice_min(df, x, 5)))
     Output
       <error/rlib_error_dots_nonempty>
-      Error in `slice_min.data.frame()`: `...` is not empty.
+      Error in `slice_min()`: `...` is not empty.
       i These dots only exist to allow future extensions and should be empty.
       x We detected these problematic arguments:
       * `..1`
@@ -31,7 +31,7 @@
       (expect_error(slice_max(df, x, 5)))
     Output
       <error/rlib_error_dots_nonempty>
-      Error in `slice_max.data.frame()`: `...` is not empty.
+      Error in `slice_max()`: `...` is not empty.
       i These dots only exist to allow future extensions and should be empty.
       x We detected these problematic arguments:
       * `..1`
@@ -40,7 +40,7 @@
       (expect_error(slice_sample(df, 5)))
     Output
       <error/rlib_error_dots_nonempty>
-      Error in `slice_sample.data.frame()`: `...` is not empty.
+      Error in `slice_sample()`: `...` is not empty.
       i These dots only exist to allow future extensions and should be empty.
       x We detected these problematic arguments:
       * `..1`
