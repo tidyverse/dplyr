@@ -153,7 +153,7 @@ df <- data.frame(
   y   = c("a", "b", "c")
 )
 df \%>\%
-  mutate(z = complete.cases(across(starts_with("x"))))
+  mutate(x_complete = complete.cases(across(starts_with("x"))))
 df \%>\%
   filter(complete.cases(across(starts_with("x"))))
 
