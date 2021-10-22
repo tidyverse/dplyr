@@ -173,7 +173,7 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
       }
     }, error = function(cnd) {
       bullets <- c(
-        glue("Problem while computing `{names[k]}`.")
+        glue("Problem while computing column `{names[k]}`.")
       )
       abort(bullets, call = call(setup$across_if_fn), parent = cnd)
     }

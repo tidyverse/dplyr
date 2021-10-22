@@ -318,7 +318,7 @@ summarise_eval_one <- function(quo, mask) {
     chunks_k <- withCallingHandlers(
       mask$eval_all_summarise(quo),
       error = function(cnd) {
-        msg <- glue("Problem while computing `{quo_data$name_auto}`.")
+        msg <- glue("Problem while computing column `{quo_data$name_auto}`.")
         abort(msg, call = call("across"), parent = cnd)
       }
     )

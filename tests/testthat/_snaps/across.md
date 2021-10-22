@@ -90,7 +90,7 @@
       Error in `summarise()`: 
         Problem while computing `..1 = across(everything(), error_fn)`.
       Caused by error in `across()`: 
-        Problem while computing `y`.
+        Problem while computing column `y`.
       Caused by error in `error_fn()`: 
         too small
     Code
@@ -101,7 +101,7 @@
       Error in `mutate()`: 
         Problem while computing `..1 = across(everything(), error_fn)`.
       Caused by error in `across()`: 
-        Problem while computing `y`.
+        Problem while computing column `y`.
       Caused by error in `error_fn()`: 
         too small
     Code
@@ -112,7 +112,7 @@
       Error in `summarise()`: 
         Problem while computing `..1 = force(across(everything(), error_fn))`.
       Caused by error in `across()`: 
-        Problem while computing `y`.
+        Problem while computing column `y`.
       Caused by error in `error_fn()`: 
         too small
     Code
@@ -123,7 +123,7 @@
       Error in `mutate()`: 
         Problem while computing `..1 = force(across(everything(), error_fn))`.
       Caused by error in `across()`: 
-        Problem while computing `y`.
+        Problem while computing column `y`.
       Caused by error in `error_fn()`: 
         too small
     Code
