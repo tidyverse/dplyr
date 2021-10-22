@@ -9,12 +9,12 @@
       (expect_error(recode("a", b = 5, "c")))
     Output
       <error/rlang_error>
-      Error in `recode()`: Argument 3 must be named, not unnamed.
+      Error in `recode()`: Argument 3 must be named.
     Code
       (expect_error(recode(factor("a"), b = 5, "c")))
     Output
       <error/rlang_error>
-      Error in `recode()`: Argument 3 must be named, not unnamed.
+      Error in `recode()`: Argument 3 must be named.
     Code
       (expect_error(recode(1:5)))
     Output

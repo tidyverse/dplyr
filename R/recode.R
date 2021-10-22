@@ -153,7 +153,7 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
   values <- list2(...)
   if (!all(have_name(values))) {
     bad <- which(!have_name(values)) + 1
-    msg <- glue("{fmt_pos_args(bad)} must be named, not unnamed.")
+    msg <- glue("{fmt_pos_args(bad)} must be named.")
     abort(msg, call = call("recode"))
   }
 
@@ -182,7 +182,7 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
 
   if (!all(have_name(values))) {
     bad <- which(!have_name(values)) + 1
-    msg <- glue("{fmt_pos_args(bad)} must be named, not unnamed.")
+    msg <- glue("{fmt_pos_args(bad)} must be named.")
     abort(msg, call = call("recode"))
   }
   if (!is.null(.missing)) {
