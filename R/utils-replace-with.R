@@ -37,7 +37,7 @@ fmt_check_length_val <- function(length_x, n, header, reason = NULL) {
 }
 check_length_val <- function(length_x, n, header, reason = NULL, error_call = caller_env()) {
   msg <- fmt_check_length_val(length_x, n, header, reason)
-  if(length(msg)) {
+  if (length(msg)) {
     abort(msg, call = error_call)
   }
 }

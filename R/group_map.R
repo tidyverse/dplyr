@@ -173,7 +173,7 @@ group_modify.grouped_df <- function(.data, .f, ..., .keep = FALSE, keep = deprec
   fun <- function(.x, .y){
     res <- .f(.x, .y, ...)
     if (!inherits(res, "data.frame")) {
-      abort("The result of .f should be a data frame.", call = call("group_modify"))
+      abort("The result of `.f` must be a data frame.", call = call("group_modify"))
     }
     if (any(bad <- names(res) %in% tbl_group_vars)) {
       msg <- glue(

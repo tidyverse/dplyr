@@ -50,7 +50,7 @@
       Error in `summarise()`: 
         Problem while computing `res = sum(if_all(~mean(.x)))`.
       Caused by error in `if_all()`: 
-        Predicate used in lieu of column selection.
+        Must supply a column selection.
         i You most likely meant: `if_all(everything(), ~mean(.x))`.
         i The first argument `.cols` selects a set of columns.
         i The second argument `.fns` operates on each selected columns.
@@ -69,7 +69,7 @@
       (expect_error(across()))
     Output
       <error/rlang_error>
-      Error in `across()`: Must only be used inside dplyr verbs.
+      Error in `across()`: Must be used inside dplyr verbs.
     Code
       (expect_error(c_across()))
     Output

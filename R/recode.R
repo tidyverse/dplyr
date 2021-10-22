@@ -231,7 +231,7 @@ validate_recode_default <- function(default, x, out, replaced) {
   if (is.null(default) && sum(replaced & !is.na(x)) < length(out[!is.na(x)])) {
     bullets <- c(
       "Unreplaced values treated as NA as .x is not compatible. ",
-      "Please specify replacements exhaustively or supply .default"
+      "Please specify replacements exhaustively or supply `.default`."
     )
     warn(bullets)
   }

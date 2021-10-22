@@ -250,7 +250,7 @@ slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, repla
 # so that slice_abort() can handle them specifically
 slice_internal <- function(expr, error_call = caller_env()) {
   wrap_error(expr,
-    class = "slice_internal_error",
+    class = "dplyr:::slice_internal_error",
     slice_error_call = error_call
   )
 }
@@ -321,10 +321,10 @@ slice_combine <- function(chunks, mask, error_call = caller_env()) {
       mask$set_current_group(group)
       msg <- c(
         glue("Invalid result of type <{vec_ptype_full(res)}>."),
-        i = "Expecting indices: either positive or negative integers.",
+        i = "Indices must be positive or negative integers.",
         i = cnd_bullet_cur_group_label()
       )
-      abort(msg, call = error_call, class = "dplyr_error")
+      abort(msg, call = error_call)
     }
 
     if (length(res) == 0L) {
@@ -338,7 +338,7 @@ slice_combine <- function(chunks, mask, error_call = caller_env()) {
       n_positive <- sum(res >= 0, na.rm = TRUE)
       n_negative <- sum(res <= 0, na.rm = TRUE)
       msg <- c(
-        "Expecting either all positive or all negative indices.",
+        "Indices must be all positive or all negative.",
         i = glue("Got {n_positive} positives, {n_negative} negatives."),
         i = cnd_bullet_cur_group_label()
       )

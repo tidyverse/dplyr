@@ -143,7 +143,7 @@ rows_patch.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place =
 
   bad <- which(is.na(idx))
   if (has_length(bad)) {
-    abort("Attempting to patch missing rows.", call = error_call)
+    abort("Can't patch missing row.", call = error_call)
   }
 
   new_data <- map2(x[idx, names(y)], y, coalesce)
@@ -205,7 +205,7 @@ rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 
   bad <- which(is.na(idx))
   if (has_length(bad)) {
-    abort("Attempting to delete missing rows.", call = error_call)
+    abort("Can't delete missing row.", call = error_call)
   }
 
   dplyr_row_slice(x, -idx)
@@ -244,7 +244,7 @@ rows_check_key_df <- function(df, by, df_name, error_call = caller_env()) {
     abort(msg, call = error_call)
   }
   if (vctrs::vec_duplicate_any(df[by])) {
-    msg <- glue("`{df_name}` key values are not unique.")
+    msg <- glue("`{df_name}` key values must be unique.")
     abort(msg, call = error_call)
   }
 }

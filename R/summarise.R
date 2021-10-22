@@ -361,7 +361,7 @@ summarise_bullets.default <- function(cnd, ...) {
 `summarise_bullets.dplyr:::error_summarise_incompatible_combine` <- function(cnd, ...) {
   error_name <- peek_error_context()$error_name
   c(
-    x = glue("`{error_name}` must return compatible vectors across groups"),
+    x = glue("`{error_name}` must return compatible vectors across groups."),
     i = cnd_bullet_combine_details(cnd$wrapped$x, cnd$wrapped$x_arg),
     i = cnd_bullet_combine_details(cnd$wrapped$y, cnd$wrapped$y_arg)
   )

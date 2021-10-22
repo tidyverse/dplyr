@@ -97,7 +97,7 @@ arrange_rows <- function(.data, dots) {
     if (quo_is_call(quosure, "desc", ns = c("", "dplyr"))) {
       expr <- quo_get_expr(quosure)
       if (!has_length(expr, 2L)) {
-        abort("Expecting exactly one argument.", call = call("desc"))
+        abort("Must be called with exactly one argument.", call = quo_squash(quosure))
       }
 
       quosure <- new_quosure(node_cadr(expr), quo_get_env(quosure))
