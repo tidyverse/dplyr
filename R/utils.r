@@ -168,11 +168,8 @@ wrap_error <- function(expr, class, ...) {
       body = cnd_body(cnd),
       class = class,
       call = cnd$call,
-      parent = cnd$parent,
       wrapped = cnd,
       ...
     )
   })
 }
-
-

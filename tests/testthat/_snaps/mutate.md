@@ -51,13 +51,10 @@
         val = ifelse(x < 3, "foo", 2))))
     Output
       <error/dplyr:::mutate_error>
-      Error in `mutate()`: 
-        Problem while computing `val = ifelse(x < 3, "foo", 2)`.
-        x `val` must return compatible vectors across groups
-        i Result type for group 1 (x = 1): <character>.
-        i Result type for group 3 (x = 3): <double>.
-      Caused by error in `vec_cast_common()`: 
-        Can't combine `..1` <character> and `..3` <double>.
+      Error in `mutate()`: Problem while computing `val = ifelse(x < 3, "foo", 2)`.
+      x `val` must return compatible vectors across groups.
+      i Result type for group 1 (x = 1): <character>.
+      i Result type for group 3 (x = 3): <double>.
     Code
       (expect_error(tibble(a = 1:3, b = 4:6) %>% group_by(a) %>% mutate(if (a ==
       1) NULL else "foo")))
