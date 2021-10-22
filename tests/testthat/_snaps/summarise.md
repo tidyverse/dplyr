@@ -42,14 +42,14 @@
       (expect_error(tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% summarise(a = rlang::env(
         a = 1))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: Problem while computing `a = rlang::env(a = 1)`.
       x `a` must be a vector, not an environment.
     Code
       (expect_error(tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(x, y) %>%
         summarise(a = rlang::env(a = 1))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: Problem while computing `a = rlang::env(a = 1)`.
       x `a` must be a vector, not an environment.
       i The error occurred in group 1: x = 1, y = 1.
@@ -57,7 +57,7 @@
       (expect_error(tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% rowwise() %>%
         summarise(a = lm(y ~ x))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: Problem while computing `a = lm(y ~ x)`.
       x `a` must be a vector, not a `lm` object.
       i Did you mean: `a = list(lm(y ~ x))` ?
@@ -66,7 +66,7 @@
       (expect_error(tibble(id = 1:2, a = list(1, "2")) %>% group_by(id) %>% summarise(
         a = a[[1]])))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: Problem while computing `a = a[[1]]`.
       x `a` must return compatible vectors across groups.
       i Result type for group 1 (id = 1): <double>.
@@ -75,20 +75,20 @@
       (expect_error(tibble(id = 1:2, a = list(1, "2")) %>% rowwise() %>% summarise(a = a[[
         1]])))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: Problem while computing `a = a[[1]]`.
       x `a` must return compatible vectors across groups.
     Code
       (expect_error(tibble(z = 1) %>% summarise(x = 1:3, y = 1:2)))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: Problem while recycling `y = 1:2`.
       x `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
     Code
       (expect_error(tibble(z = 1:2) %>% group_by(z) %>% summarise(x = 1:3, y = 1:2)))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: Problem while recycling `y = 1:2`.
       x `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
@@ -97,7 +97,7 @@
       (expect_error(tibble(z = c(1, 3)) %>% group_by(z) %>% summarise(x = seq_len(z),
       y = 1:2)))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: Problem while recycling `y = 1:2`.
       x `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
@@ -106,14 +106,14 @@
       (expect_error(data.frame(x = 1:2, g = 1:2) %>% group_by(g) %>% summarise(x = if (
         g == 1) 42)))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: Problem while computing `x = if (g == 1) 42`.
       x `x` must return compatible vectors across groups.
       i Cannot combine NULL and non NULL results.
     Code
       (expect_error(summarise(mtcars, a = mean(not_there))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: 
         Problem while computing `a = mean(not_there)`.
       Caused by error in `mean()`: 
@@ -121,7 +121,7 @@
     Code
       (expect_error(summarise(group_by(mtcars, cyl), a = mean(not_there))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: 
         Problem while computing `a = mean(not_there)`.
         i The error occurred in group 1: cyl = 4.
@@ -130,7 +130,7 @@
     Code
       (expect_error(summarise(tibble(a = 1), c = .data$b)))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: 
         Problem while computing `c = .data$b`.
       Caused by error in `.data$b`: 
@@ -138,7 +138,7 @@
     Code
       (expect_error(summarise(group_by(tibble(a = 1:3), a), c = .data$b)))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: 
         Problem while computing `c = .data$b`.
         i The error occurred in group 1: a = 1.
@@ -152,7 +152,7 @@
     Code
       (expect_error(tibble() %>% summarise(stop("{"))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: 
         Problem while computing `..1 = stop("{")`.
       Caused by error: 
@@ -161,7 +161,7 @@
       (expect_error(tibble(a = 1, b = "{value:1, unit:a}") %>% group_by(b) %>%
         summarise(a = stop("!"))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: 
         Problem while computing `a = stop("!")`.
         i The error occurred in group 1: b = "{value:1, unit:a}".

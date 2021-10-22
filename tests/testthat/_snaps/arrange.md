@@ -3,7 +3,7 @@
     Code
       (expect_error(tibble(x = 1, x = 1, .name_repair = "minimal") %>% arrange(x)))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `arrange()`: 
         Problem with the implicit `mutate()` step. 
       Caused by error in `mutate()`: 
@@ -11,7 +11,7 @@
     Code
       (expect_error(tibble(x = 1) %>% arrange(y)))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `arrange()`: 
         Problem with the implicit `mutate()` step. 
         x Problem while computing `..1 = y`.
@@ -20,7 +20,7 @@
     Code
       (expect_error(tibble(x = 1) %>% arrange(rep(x, 2))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `arrange()`: Problem with the implicit `mutate()` step. 
       x Problem while computing `..1 = rep(x, 2)`.
       i `..1` must be size 1, not 2.

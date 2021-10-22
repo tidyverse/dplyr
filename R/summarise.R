@@ -299,8 +299,7 @@ summarise_cols <- function(.data, ..., caller_env) {
       summarise_bullets(e)
     )
 
-    abort(bullets,
-      class = "dplyr_error", call = call("summarise"),
+    abort(bullets, call = call("summarise"),
       parent = skip_internal_condition(e)
     )
 

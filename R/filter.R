@@ -178,9 +178,7 @@ filter_eval <- function(dots, mask) {
       cnd_bullet_header("computing"),
       filter_bullets(e)
     )
-    abort(bullets, call = call("filter"), class = "dplyr_error",
-      parent = skip_internal_condition(e)
-    )
+    abort(bullets, call = call("filter"), parent = skip_internal_condition(e))
 
   })
 }

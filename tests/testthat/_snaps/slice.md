@@ -168,13 +168,13 @@
     Code
       (expect_error(mtcars %>% slice(c(-1, 2))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `slice()`: Indices must be all positive or all negative.
       i Got 1 positives, 1 negatives.
     Code
       (expect_error(mtcars %>% slice(c(2:3, -1))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `slice()`: Indices must be all positive or all negative.
       i Got 2 positives, 1 negatives.
     Code

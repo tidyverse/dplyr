@@ -3,81 +3,81 @@
     Code
       (expect_error(iris %>% group_by(Species) %>% filter(1:n())))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `filter()`: Problem while computing `..1 = 1:n()`.
       x Input `..1` must be a logical vector, not a integer.
       i The error occurred in group 1: Species = setosa.
     Code
       (expect_error(iris %>% filter(1:n())))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `filter()`: Problem while computing `..1 = 1:n()`.
       x Input `..1` must be a logical vector, not a integer.
     Code
       (expect_error(iris %>% group_by(Species) %>% filter(c(TRUE, FALSE))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `filter()`: Problem while computing `..1 = c(TRUE, FALSE)`.
       x Input `..1` must be of size 50 or 1, not size 2.
       i The error occurred in group 1: Species = setosa.
     Code
       (expect_error(iris %>% rowwise(Species) %>% filter(c(TRUE, FALSE))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `filter()`: Problem while computing `..1 = c(TRUE, FALSE)`.
       x Input `..1` must be of size 1, not size 2.
       i The error occurred in row 1.
     Code
       (expect_error(iris %>% filter(c(TRUE, FALSE))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `filter()`: Problem while computing `..1 = c(TRUE, FALSE)`.
       x Input `..1` must be of size 150 or 1, not size 2.
     Code
       (expect_error(iris %>% group_by(Species) %>% filter(data.frame(c(TRUE, FALSE))))
       )
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `filter()`: Problem while computing `..1 = data.frame(c(TRUE, FALSE))`.
       x Input `..1` must be of size 50 or 1, not size 2.
       i The error occurred in group 1: Species = setosa.
     Code
       (expect_error(iris %>% rowwise() %>% filter(data.frame(c(TRUE, FALSE)))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `filter()`: Problem while computing `..1 = data.frame(c(TRUE, FALSE))`.
       x Input `..1` must be of size 1, not size 2.
       i The error occurred in row 1.
     Code
       (expect_error(iris %>% filter(data.frame(c(TRUE, FALSE)))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `filter()`: Problem while computing `..1 = data.frame(c(TRUE, FALSE))`.
       x Input `..1` must be of size 150 or 1, not size 2.
     Code
       (expect_error(tibble(x = 1) %>% filter(c(TRUE, TRUE))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `filter()`: Problem while computing `..1 = c(TRUE, TRUE)`.
       x Input `..1` must be of size 1, not size 2.
     Code
       (expect_error(iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3,
       1:n()))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `filter()`: Problem while computing `..1 = data.frame(Sepal.Length > 3, 1:n())`.
       x Input `..1$X1.n..` must be a logical vector, not a integer.
       i The error occurred in group 1: Species = setosa.
     Code
       (expect_error(iris %>% filter(data.frame(Sepal.Length > 3, 1:n()))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `filter()`: Problem while computing `..1 = data.frame(Sepal.Length > 3, 1:n())`.
       x Input `..1$X1.n..` must be a logical vector, not a integer.
     Code
       (expect_error(mtcars %>% filter(`_x`)))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `filter()`: 
         Problem while computing `..1 = _x`.
       Caused by error: 
@@ -85,7 +85,7 @@
     Code
       (expect_error(mtcars %>% group_by(cyl) %>% filter(`_x`)))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `filter()`: 
         Problem while computing `..1 = _x`.
         i The error occurred in group 1: cyl = 4.
@@ -122,7 +122,7 @@
     Code
       (expect_error(tibble() %>% filter(stop("{"))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `filter()`: 
         Problem while computing `..1 = stop("{")`.
       Caused by error: 

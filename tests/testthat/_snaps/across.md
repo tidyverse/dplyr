@@ -3,7 +3,7 @@
     Code
       (expect_error(tibble(x = 1) %>% summarise(across(where(is.numeric), 42))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: 
         Problem while computing `..1 = across(where(is.numeric), 42)`.
       Caused by error in `across()`: 
@@ -11,7 +11,7 @@
     Code
       (expect_error(tibble(x = 1) %>% summarise(across(y, mean))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: 
         Problem while computing `..1 = across(y, mean)`.
       Caused by error in `across()`: 
@@ -20,7 +20,7 @@
     Code
       (expect_error(tibble(x = 1) %>% summarise(res = across(where(is.numeric), 42))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: 
         Problem while computing `res = across(where(is.numeric), 42)`.
       Caused by error in `across()`: 
@@ -28,7 +28,7 @@
     Code
       (expect_error(tibble(x = 1) %>% summarise(z = across(y, mean))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: 
         Problem while computing `z = across(y, mean)`.
       Caused by error in `across()`: 
@@ -38,7 +38,7 @@
       (expect_error(tibble(x = 1) %>% summarise(res = sum(if_any(where(is.numeric),
       42)))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: 
         Problem while computing `res = sum(if_any(where(is.numeric), 42))`.
       Caused by error in `if_any()`: 
@@ -46,7 +46,7 @@
     Code
       (expect_error(tibble(x = 1) %>% summarise(res = sum(if_all(~ mean(.x))))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: 
         Problem while computing `res = sum(if_all(~mean(.x)))`.
       Caused by error in `if_all()`: 
@@ -57,7 +57,7 @@
     Code
       (expect_error(tibble(x = 1) %>% summarise(res = sum(if_any(~ mean(.x))))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: 
         Problem while computing `res = sum(if_any(~mean(.x)))`.
       Caused by error in `if_any()`: 
@@ -86,7 +86,7 @@
       (expect_error(tibble(x = 1:10, y = 11:20) %>% summarise(across(everything(),
       error_fn))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: 
         Problem while computing `..1 = across(everything(), error_fn)`.
       Caused by error in `across()`: 
@@ -108,7 +108,7 @@
       (expect_error(tibble(x = 1:10, y = 11:20) %>% summarise(force(across(everything(),
       error_fn)))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: 
         Problem while computing `..1 = force(across(everything(), error_fn))`.
       Caused by error in `across()`: 
@@ -130,7 +130,7 @@
       (expect_error(tibble(x = 1) %>% summarise(across(everything(), list(f = mean,
         f = mean)))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `summarise()`: 
         Problem while computing `..1 = across(everything(), list(f = mean, f = mean))`.
       Caused by error in `across()`: 
@@ -165,7 +165,7 @@
     Code
       (expect_error(filter(df, !if_any(~ .x > 5))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `filter()`: 
         Problem while computing `..1 = !if_any(~.x > 5)`.
       Caused by error in `if_any()`: 
@@ -176,7 +176,7 @@
     Code
       (expect_error(filter(df, !if_all(~ .x > 5))))
     Output
-      <error/dplyr_error>
+      <error/rlang_error>
       Error in `filter()`: 
         Problem while computing `..1 = !if_all(~.x > 5)`.
       Caused by error in `if_all()`: 

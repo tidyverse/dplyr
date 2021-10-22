@@ -336,7 +336,7 @@ slice_combine <- function(chunks, mask, error_call = caller_env()) {
         i = glue("Got {n_positive} positives, {n_negative} negatives."),
         i = cnd_bullet_cur_group_label()
       )
-      abort(msg, call = error_call, class = "dplyr_error")
+      abort(msg, call = error_call)
     }
 
     slice_indices[[group]] <- current_rows[res]
