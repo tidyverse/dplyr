@@ -5,7 +5,7 @@ check_pkg <- function(name, reason, install = TRUE) {
 
   bullets <- c(
     glue("The {name} package is required to {reason}."),
-    i = if (install) 'Please install it with `install.packages("{name}")`.'
+    i = if (install) glue('Please install it with `install.packages("{name}")`.')
   )
   abort(bullets)
 }

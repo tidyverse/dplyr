@@ -331,7 +331,7 @@ summarise_eval_one <- function(quo, mask) {
   }
 
   types_k <- wrap_error(
-    fix_call(vec_ptype_common(!!!chunks_k)),
+    vec_ptype_common(!!!chunks_k),
     class = c("dplyr:::error_summarise_incompatible_combine", "dplyr:::internal_error")
   )
 

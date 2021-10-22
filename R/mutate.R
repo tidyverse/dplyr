@@ -337,7 +337,7 @@ mutate_cols <- function(.data, ..., caller_env) {
             result <- chunks[[1]]
           } else {
             chunks <- wrap_error(
-              fix_call(vec_cast_common(!!!chunks)),
+              vec_cast_common(!!!chunks),
               class = c("dplyr:::error_mutate_incompatible_combine", "dplyr:::internal_error")
             )
             result <- vec_unchop(chunks, rows)
