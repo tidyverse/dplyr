@@ -132,8 +132,8 @@ slice_head <- function(.data, ..., n, prop) {
 }
 
 #' @export
-slice_head.data.frame <- function(.data, ..., n, prop, error_call = call("slice_head")) {
-  check_dots_empty(call = error_call)
+slice_head.data.frame <- function(.data, ..., n, prop) {
+  check_dots_empty()
 
   size <- get_slice_size(n, prop, "slice_head")
   idx <- function(n) seq2(1, size(n))
@@ -147,8 +147,8 @@ slice_tail <- function(.data, ..., n, prop) {
 }
 
 #' @export
-slice_tail.data.frame <- function(.data, ..., n, prop, error_call = call("slice_tail")) {
-  check_dots_empty(call = error_call)
+slice_tail.data.frame <- function(.data, ..., n, prop) {
+  check_dots_empty()
 
   size <- get_slice_size(n, prop, "slice_tail")
   idx <- function(n) seq2(n - size(n) + 1, n)
@@ -166,9 +166,9 @@ slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 }
 
 #' @export
-slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE, error_call = call("slice_min")) {
-  check_dots_empty(call = error_call)
-  arg_require(order_by, error_call = error_call)
+slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
+  check_dots_empty()
+  arg_require(order_by)
 
   size <- get_slice_size(n, prop, "slice_min")
   if (with_ties) {
@@ -177,6 +177,7 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     idx <- function(x, n) head(order(x), size(n))
   }
 
+  error_call <- current_env()
   slice(.data, slice_internal(error_call = error_call, {
     n <- dplyr::n()
     x <- vec_assert({{ order_by }}, size = n, arg = "order_by")
@@ -191,9 +192,9 @@ slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 }
 
 #' @export
-slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE, error_call = call("slice_max")) {
-  check_dots_empty(call = error_call)
-  arg_require(order_by, error_call = error_call)
+slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
+  check_dots_empty()
+  arg_require(order_by)
 
   size <- get_slice_size(n, prop, "slice_max")
   if (with_ties) {
@@ -204,6 +205,7 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     idx <- function(x, n) head(order(x, decreasing = TRUE), size(n))
   }
 
+  error_call <- current_env()
   slice(.data, slice_internal(error_call = error_call, {
     n <- dplyr::n()
     x <- vec_assert({{ order_by }}, size = n, arg = "order_by")
@@ -223,11 +225,12 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 }
 
 #' @export
-slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE, error_call = call("slice_sample")) {
-  check_dots_empty(call = error_call)
+slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
+  check_dots_empty()
 
   size <- get_slice_size(n, prop, "slice_sample")
 
+  error_call <- current_env()
   slice(.data, slice_internal(error_call = error_call, {
     n <- dplyr::n()
     weight_by <- {{ weight_by }}
@@ -249,7 +252,7 @@ slice_internal <- function(expr, error_call = caller_env()) {
   )
 }
 
-slice_rows <- function(.data, ..., caller_env, error_call = call("slice")) {
+slice_rows <- function(.data, ..., caller_env, error_call = caller_env()) {
   dots <- enquos(...)
   if (is_empty(dots)) {
     return(TRUE)
@@ -273,31 +276,35 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
   withCallingHandlers(
     mask$eval_all(quo),
     error = function(cnd) {
-      slice_abort(cnd, quo)
+      slice_abort(cnd, quo, error_call = error_call)
     }
   )
 }
 
-slice_abort <- function(cnd, quo, ...) {
+slice_abort <- function(cnd, quo, error_call, ...) {
   UseMethod("slice_abort")
 }
 
 #' @export
-slice_abort.default <- function(cnd, quo, ...) {
+slice_abort.default <- function(cnd, quo, error_call, ...) {
   bullets <- c(
     glue("Problem evaluating `... = {as_label(quo_squash(quo))}` . "),
     i = cnd_bullet_cur_group_label()
   )
-  abort(bullets, call = call("slice"), parent = cnd)
+  abort(bullets, call = error_call, parent = cnd)
 }
 
 #' @export
-`slice_abort.dplyr:::slice_internal_error` <- function(cnd, quo, ...) {
+`slice_abort.dplyr:::slice_internal_error` <- function(cnd, quo, error_call, ...) {
   bullets <- c(
     cnd_header(cnd),
     i = cnd_bullet_cur_group_label()
   )
-  abort(bullets, call = cnd$slice_error_call, parent = cnd$parent)
+  abort(
+    bullets,
+    call = cnd$slice_error_call, # instead of using error_call=
+    parent = cnd$parent
+  )
 }
 
 slice_combine <- function(chunks, mask, error_call = caller_env()) {
