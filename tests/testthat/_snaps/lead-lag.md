@@ -32,7 +32,7 @@
       (expect_error(lag(c("1", "2", "3"), default = FALSE)))
     Output
       <error/vctrs_error_incompatible_type>
-      Error in `lag()`: Can't combine `default` <logical> and `x` <character>.
+      Error: Can't combine `default` <logical> and `x` <character>.
     Code
       (expect_error(lag(c("1", "2", "3"), default = character())))
     Output
