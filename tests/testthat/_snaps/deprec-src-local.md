@@ -17,5 +17,5 @@
       (expect_error(copy_to(src_env, tibble(x = 1), name = "x")))
     Output
       <error/rlang_error>
-      Error in `copy_to.src_local()`: object with `name` = `x` must not already exist, unless `overwrite` = TRUE.
+      Error in `copy_to()`: object with `name` = `x` must not already exist, unless `overwrite` = TRUE.
 
