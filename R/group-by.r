@@ -213,7 +213,10 @@ add_computed_columns <- function(.data,
     # TODO: use less of a hack
     if (inherits(.data, "data.frame")) {
       cols <- withCallingHandlers(
-        mutate_cols(ungroup(.data), !!!vars, caller_env = caller_env),
+        mutate_cols(
+          ungroup(.data), dplyr_quosures(!!!vars), caller_env = caller_env,
+          error_call = call("mutate") # this is a pretend `mutate()`
+        ),
         error = function(e) {
           abort("Problem adding computed columns.", parent = e, call = call(.fn))
         }

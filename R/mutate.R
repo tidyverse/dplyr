@@ -176,7 +176,7 @@ mutate.data.frame <- function(.data, ...,
                               .before = NULL, .after = NULL) {
   keep <- arg_match(.keep)
 
-  cols <- mutate_cols(.data, ..., caller_env = caller_env())
+  cols <- mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
   used <- attr(cols, "used")
 
   out <- dplyr_col_modify(.data, cols)
@@ -248,7 +248,7 @@ check_transmute_args <- function(..., .keep, .before, .after) {
   enquos(...)
 }
 
-mutate_cols <- function(.data, ..., caller_env) {
+mutate_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
   mask <- DataMask$new(.data, caller_env, "mutate")
   old_current_column <- context_peek_bare("column")
 
@@ -256,7 +256,6 @@ mutate_cols <- function(.data, ..., caller_env) {
   on.exit(mask$forget(), add = TRUE)
 
   rows <- mask$get_rows()
-  dots <- dplyr_quosures(...)
 
   new_columns <- set_names(list(), character())
 
@@ -402,7 +401,7 @@ mutate_cols <- function(.data, ..., caller_env) {
       class = "dplyr:::mutate_error",
       parent = skip_internal_condition(e),
       bullets = bullets,
-      call = call("mutate")
+      call = error_call
     )
   },
   warning = function(w) {
