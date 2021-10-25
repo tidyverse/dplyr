@@ -32,10 +32,20 @@
       (expect_error(lag(c("1", "2", "3"), default = FALSE)))
     Output
       <error/vctrs_error_incompatible_type>
-      Error: Can't combine `default` <logical> and `x` <character>.
+      Error in `lag()`: Can't combine `default` <logical> and `x` <character>.
+    Code
+      (expect_error(lead(c("1", "2", "3"), default = FALSE)))
+    Output
+      <error/vctrs_error_incompatible_type>
+      Error in `lead()`: Can't combine `default` <logical> and `x` <character>.
     Code
       (expect_error(lag(c("1", "2", "3"), default = character())))
     Output
       <error/rlang_error>
       Error in `lag()`: `default` must be size 1, not size 0
+    Code
+      (expect_error(lead(c("1", "2", "3"), default = character())))
+    Output
+      <error/rlang_error>
+      Error in `lead()`: `default` must be size 1, not size 0
 

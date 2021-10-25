@@ -156,6 +156,9 @@ node_walk_replace <- function(node, old, new) {
 
 fix_call <- function(expr, call = caller_env()) {
   withCallingHandlers(expr, error = function(cnd) {
+    if (is_environment(call)) {
+      call <- eval_bare(call2(sys.call), call)
+    }
     cnd$call <- call
     cnd_signal(cnd)
   })
