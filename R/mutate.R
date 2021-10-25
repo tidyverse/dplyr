@@ -235,14 +235,15 @@ transmute.data.frame <- function(.data, ...) {
 # Helpers -----------------------------------------------------------------
 
 check_transmute_args <- function(..., .keep, .before, .after) {
+  local_error_call(caller_env())
   if (!missing(.keep)) {
-    abort("The `.keep` argument is not supported.", call = call("transmute"))
+    abort("The `.keep` argument is not supported.")
   }
   if (!missing(.before)) {
-    abort("The `.before` argument is not supported.", call = call("transmute"))
+    abort("The `.before` argument is not supported.")
   }
   if (!missing(.after)) {
-    abort("The `.after` argument is not supported.", call = call("transmute"))
+    abort("The `.after` argument is not supported.")
   }
   enquos(...)
 }
