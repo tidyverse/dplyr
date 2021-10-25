@@ -115,18 +115,18 @@ filter.data.frame <- function(.data, ..., .preserve = FALSE) {
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
-filter_rows <- function(.data, ..., caller_env) {
+filter_rows <- function(.data, ..., caller_env, error_call = caller_env()) {
   dots <- dplyr_quosures(...)
-  check_filter(dots)
+  check_filter(dots, error_call = error_call)
 
   mask <- DataMask$new(.data, caller_env, "filter")
   on.exit(mask$forget(), add = TRUE)
 
-  dots <- filter_expand(dots)
-  filter_eval(dots, mask)
+  dots <- filter_expand(dots, error_call = error_call)
+  filter_eval(dots, mask, error_call = error_call)
 }
 
-check_filter <- function(dots) {
+check_filter <- function(dots, error_call = error_call) {
   named <- have_name(dots)
 
   for (i in which(named)) {
@@ -142,13 +142,13 @@ check_filter <- function(dots) {
         i = glue("This usually means that you've used `=` instead of `==`."),
         i = glue("Did you mean `{name} == {as_label(expr)}`?")
       )
-      abort(bullets, call = call("filter"))
+      abort(bullets, call = error_call)
     }
 
   }
 }
 
-filter_expand <- function(dots) {
+filter_expand <- function(dots, error_call = caller_env()) {
   env_filter <-  env()
   filter_expand_one <- function(dot, index) {
     env_filter$current_expression <- index
@@ -159,14 +159,14 @@ filter_expand <- function(dots) {
     imap(unname(dots), filter_expand_one),
     error = function(cnd) {
       local_error_context(dots = dots, .index = env_filter$current_expression, mask = mask)
-      abort(cnd_bullet_header("expanding"), call = call("filter"), parent = cnd)
+      abort(cnd_bullet_header("expanding"), call = error_call, parent = cnd)
     }
   )
 
   new_quosures(flatten(dots))
 }
 
-filter_eval <- function(dots, mask) {
+filter_eval <- function(dots, mask, error_call = caller_env()) {
   env_filter <- env()
 
   withCallingHandlers({
@@ -178,7 +178,7 @@ filter_eval <- function(dots, mask) {
       cnd_bullet_header("computing"),
       filter_bullets(e)
     )
-    abort(bullets, call = call("filter"), parent = skip_internal_condition(e))
+    abort(bullets, call = error_call, parent = skip_internal_condition(e))
 
   })
 }
