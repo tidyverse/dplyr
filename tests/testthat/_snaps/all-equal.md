@@ -83,14 +83,6 @@
       Different types for column `a`: double vs integer.
       Different types for column `b`: double vs integer.
 
-# returns UTF-8 column names (#2441)
-
-    Code
-      all_equal(df1, df2)
-    Output
-      Cols in `y` but not `x`: `福`.
-      Cols in `x` but not `y`: `幸`.
-
 # ignore column order
 
     Code

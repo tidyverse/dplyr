@@ -136,15 +136,6 @@ test_that("returns vector for more than one difference (#1819)", {
   })
 })
 
-test_that("returns UTF-8 column names (#2441)", {
-  df1 <- tibble("\u5e78" := 1)
-  df2 <- tibble("\u798f" := 1)
-
-  expect_snapshot({
-    all_equal(df1, df2)
-  })
-})
-
 test_that("ignore column order", {
   expect_snapshot({
     all_equal(tibble(a = 1, b = 2), tibble(b = 2, a = 1), ignore_col_order = FALSE)
