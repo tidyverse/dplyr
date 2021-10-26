@@ -122,8 +122,8 @@ filter_rows <- function(.data, ..., caller_env, error_call = caller_env()) {
   mask <- DataMask$new(.data, caller_env, "filter", error_call = error_call)
   on.exit(mask$forget(), add = TRUE)
 
-  dots <- filter_expand(dots, error_call = error_call)
-  filter_eval(dots, mask, error_call = error_call)
+  dots <- filter_expand(dots, mask = mask, error_call = error_call)
+  filter_eval(dots, mask = mask, error_call = error_call)
 }
 
 check_filter <- function(dots, error_call = error_call) {
@@ -148,7 +148,7 @@ check_filter <- function(dots, error_call = error_call) {
   }
 }
 
-filter_expand <- function(dots, error_call = caller_env()) {
+filter_expand <- function(dots, mask, error_call = caller_env()) {
   env_filter <-  env()
   filter_expand_one <- function(dot, index) {
     env_filter$current_expression <- index
