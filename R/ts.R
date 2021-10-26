@@ -5,5 +5,5 @@ filter.ts <- function(.data, ...) {
     x = '`.data` is a <ts> object, not a data source.',
     i = "Did you want to use `stats::filter()`?"
   )
-  abort(bullets, call = call("filter"))
+  abort(bullets)
 }
