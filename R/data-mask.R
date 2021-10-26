@@ -1,6 +1,6 @@
 DataMask <- R6Class("DataMask",
   public = list(
-    initialize = function(data, caller, verb) {
+    initialize = function(data, caller, verb, error_call) {
       rows <- group_rows(data)
       # workaround for when there are 0 groups
       if (length(rows) == 0) {
@@ -13,7 +13,7 @@ DataMask <- R6Class("DataMask",
 
       names_bindings <- chr_unserialise_unicode(names2(data))
       if (anyDuplicated(names_bindings)) {
-        abort("Can't transform a data frame with duplicate names.", call = call(verb))
+        abort("Can't transform a data frame with duplicate names.", call = error_call)
       }
       names(data) <- names_bindings
       private$data <- data
