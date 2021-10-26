@@ -125,7 +125,7 @@ summarize <- summarise
 
 #' @export
 summarise.data.frame <- function(.data, ..., .groups = NULL) {
-  cols <- summarise_cols(.data, ..., caller_env = caller_env())
+  cols <- summarise_cols(.data, dplyr_quosures(...), caller_env = caller_env())
   out <- summarise_build(.data, cols)
   if (identical(.groups, "rowwise")) {
     out <- rowwise_df(out, character())
@@ -135,7 +135,7 @@ summarise.data.frame <- function(.data, ..., .groups = NULL) {
 
 #' @export
 summarise.grouped_df <- function(.data, ..., .groups = NULL) {
-  cols <- summarise_cols(.data, ..., caller_env = caller_env())
+  cols <- summarise_cols(.data, dplyr_quosures(...), caller_env = caller_env())
   out <- summarise_build(.data, cols)
   verbose <- summarise_verbose(.groups, caller_env())
 
@@ -170,7 +170,7 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
       paste0("`.groups` can't be ", as_label(.groups)),
       i = 'Possible values are NULL (default), "drop_last", "drop", "keep", and "rowwise"'
     )
-    abort(bullets, call = call("summarise"))
+    abort(bullets)
   }
 
   out
@@ -178,7 +178,7 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
 
 #' @export
 summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
-  cols <- summarise_cols(.data, ..., caller_env = caller_env())
+  cols <- summarise_cols(.data, dplyr_quosures(...), caller_env = caller_env())
   out <- summarise_build(.data, cols)
   verbose <- summarise_verbose(.groups, caller_env())
 
@@ -196,20 +196,18 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
       paste0("`.groups` can't be ", as_label(.groups)),
       i = 'Possible values are NULL (default), "drop", "keep", and "rowwise"'
     )
-    abort(bullets, call = call("summarise"))
+    abort(bullets)
   }
 
   out
 }
 
-summarise_cols <- function(.data, ..., caller_env) {
+summarise_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
   mask <- DataMask$new(.data, caller_env, "summarise")
   old_current_column <- context_peek_bare("column")
 
   on.exit(context_poke("column", old_current_column), add = TRUE)
   on.exit(mask$forget(), add = TRUE)
-
-  dots <- dplyr_quosures(...)
 
   cols <- list()
 
@@ -299,7 +297,7 @@ summarise_cols <- function(.data, ..., caller_env) {
       summarise_bullets(e)
     )
 
-    abort(bullets, call = call("summarise"),
+    abort(bullets, call = error_call,
       parent = skip_internal_condition(e)
     )
 
