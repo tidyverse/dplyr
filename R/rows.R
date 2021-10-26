@@ -78,19 +78,19 @@ rows_insert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 }
 
 #' @export
-rows_insert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE, error_call = call("rows_insert")) {
-  check_dots_empty(call = error_call)
+rows_insert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  check_dots_empty()
   key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  rows_df_in_place(in_place, error_call = error_call)
+  rows_df_in_place(in_place)
 
-  rows_check_key_df(x, key, df_name = "x", error_call = error_call)
-  rows_check_key_df(y, key, df_name = "y", error_call = error_call)
+  rows_check_key_df(x, key, df_name = "x")
+  rows_check_key_df(y, key, df_name = "y")
 
   idx <- vctrs::vec_match(y[key], x[key])
   bad <- which(!is.na(idx))
   if (has_length(bad)) {
-    abort("Attempting to insert duplicate rows.", call = error_call)
+    abort("Attempting to insert duplicate rows.")
   }
 
   rows_bind(x, y)
@@ -104,19 +104,19 @@ rows_update <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 }
 
 #' @export
-rows_update.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE, error_call = call("rows_update")) {
-  check_dots_empty(call = error_call)
+rows_update.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  check_dots_empty()
   key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  rows_df_in_place(in_place, error_call = error_call)
+  rows_df_in_place(in_place)
 
-  rows_check_key_df(x, key, df_name = "x", error_call = error_call)
-  rows_check_key_df(y, key, df_name = "y", error_call = error_call)
+  rows_check_key_df(x, key, df_name = "x")
+  rows_check_key_df(y, key, df_name = "y")
   idx <- vctrs::vec_match(y[key], x[key])
 
   bad <- which(is.na(idx))
   if (has_length(bad)) {
-    abort("Attempting to update missing rows.", call = error_call)
+    abort("Attempting to update missing rows.")
   }
 
   x[idx, names(y)] <- y
@@ -131,19 +131,19 @@ rows_patch <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 }
 
 #' @export
-rows_patch.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE, error_call = call("rows_patch")) {
-  check_dots_empty(call = error_call)
+rows_patch.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  check_dots_empty()
   key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  rows_df_in_place(in_place, error_call = error_call)
+  rows_df_in_place(in_place)
 
-  rows_check_key_df(x, key, df_name = "x", error_call = error_call)
-  rows_check_key_df(y, key, df_name = "y", error_call = error_call)
+  rows_check_key_df(x, key, df_name = "x")
+  rows_check_key_df(y, key, df_name = "y")
   idx <- vctrs::vec_match(y[key], x[key])
 
   bad <- which(is.na(idx))
   if (has_length(bad)) {
-    abort("Can't patch missing row.", call = error_call)
+    abort("Can't patch missing row.")
   }
 
   new_data <- map2(x[idx, names(y)], y, coalesce)
@@ -160,14 +160,14 @@ rows_upsert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 }
 
 #' @export
-rows_upsert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE, error_call = call("rows_upsert")) {
-  check_dots_empty(call = error_call)
+rows_upsert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  check_dots_empty()
   key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  rows_df_in_place(in_place, error_call = error_call)
+  rows_df_in_place(in_place)
 
-  rows_check_key_df(x, key, df_name = "x", error_call = error_call)
-  rows_check_key_df(y, key, df_name = "y", error_call = error_call)
+  rows_check_key_df(x, key, df_name = "x")
+  rows_check_key_df(y, key, df_name = "y")
   idx <- vctrs::vec_match(y[key], x[key])
   new <- is.na(idx)
   idx_existing <- idx[!new]
@@ -185,27 +185,26 @@ rows_delete <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
 }
 
 #' @export
-rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE, error_call = call("rows_delete")) {
-  check_dots_empty(call = error_call)
+rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+  check_dots_empty()
   key <- rows_check_key(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  rows_df_in_place(in_place, error_call = error_call)
+  rows_df_in_place(in_place)
 
-  rows_check_key_df(x, key, df_name = "x", error_call = error_call)
-  rows_check_key_df(y, key, df_name = "y", error_call = error_call)
+  rows_check_key_df(x, key, df_name = "x")
+  rows_check_key_df(y, key, df_name = "y")
 
   extra_cols <- setdiff(names(y), key)
   if (has_length(extra_cols)) {
-    inform(glue("Ignoring extra columns: ", commas(tick_if_needed(extra_cols))),
-      class = c("dplyr_message_delete_extra_cols", "dplyr_message")
-    )
+    bullets <- glue("Ignoring extra columns: ", commas(tick_if_needed(extra_cols)))
+    inform(bullets, class = c("dplyr_message_delete_extra_cols", "dplyr_message"))
   }
 
   idx <- vctrs::vec_match(y[key], x[key])
 
   bad <- which(is.na(idx))
   if (has_length(bad)) {
-    abort("Can't delete missing row.", call = error_call)
+    abort("Can't delete missing row.")
   }
 
   dplyr_row_slice(x, -idx)
@@ -213,25 +212,24 @@ rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 
 # helpers -----------------------------------------------------------------
 
-rows_check_key <- function(by, x, y) {
+rows_check_key <- function(by, x, y, error_call = caller_env()) {
   if (is.null(by)) {
     by <- names(y)[[1]]
-    inform(glue("Matching, by = \"{by}\""),
-      class = c("dplyr_message_matching_by", "dplyr_message")
-    )
+    msg <- glue("Matching, by = \"{by}\"")
+    inform(msg, class = c("dplyr_message_matching_by", "dplyr_message"))
   }
 
   if (!is.character(by) || length(by) == 0) {
-    abort("`by` must be a character vector.")
+    abort("`by` must be a character vector.", call = error_call)
   }
   # is_named(by) checks all(names2(by) != ""), we need any(...)
   if (any(names2(by) != "")) {
-    abort("`by` must be unnamed.")
+    abort("`by` must be unnamed.", call = error_call)
   }
 
   bad <- setdiff(colnames(y), colnames(x))
   if (has_length(bad)) {
-    abort("All columns in `y` must exist in `x`.")
+    abort("All columns in `y` must exist in `x`.", call = error_call)
   }
 
   by

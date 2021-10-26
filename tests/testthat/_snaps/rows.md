@@ -33,7 +33,7 @@
       Matching, by = "d"
     Output
       <error/rlang_error>
-      Error in `rows_check_key()`: All columns in `y` must exist in `x`.
+      Error in `rows_insert()`: All columns in `y` must exist in `x`.
     Code
       (expect_error(rows_update(data, tibble(a = 2:3, b = "z"), by = c("a", "b"))))
     Output
