@@ -75,7 +75,7 @@ rowwise.grouped_df <- function(data, ...) {
       "Can't re-group when creating rowwise data.",
       i = "Either first `ungroup()` or call `rowwise()` without arguments."
     )
-    abort(bullets, call = call("rowwise"))
+    abort(bullets)
   }
   rowwise_df(data, group_vars(data))
 }

@@ -205,6 +205,9 @@ test_that("case_when() give meaningful errors", {
     (expect_error(
       case_when()
     ))
+    (expect_error(
+      case_when(~1:2)
+    ))
   })
 
 })

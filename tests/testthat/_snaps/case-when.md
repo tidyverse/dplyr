@@ -26,4 +26,9 @@
     Output
       <error/rlang_error>
       Error in `case_when()`: No cases provided.
+    Code
+      (expect_error(case_when(~ 1:2)))
+    Output
+      <error/rlang_error>
+      Error in `case_when()`: Formulas must be two-sided.
 
