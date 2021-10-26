@@ -14,9 +14,13 @@
     Code
       (expect_error(iris %>% group_by(Species) %>% group_modify(head1)))
     Output
-      <simpleError in as_group_map_function(.f): The function must accept at least two arguments. You can use ... to absorb unused components>
+      <error/rlang_error>
+      Error in `group_modify()`: `.f` must accept at least two arguments.
+      i You can use `...` to absorb unused components.
     Code
       (expect_error(iris %>% group_by(Species) %>% group_map(head1)))
     Output
-      <simpleError in as_group_map_function(.f): The function must accept at least two arguments. You can use ... to absorb unused components>
+      <error/rlang_error>
+      Error in `group_map()`: `.f` must accept at least two arguments.
+      i You can use `...` to absorb unused components.
 
