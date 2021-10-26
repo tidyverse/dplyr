@@ -173,11 +173,9 @@ group_by_prepare <- function(.data,
   }
 
   # If any calls, use mutate to add new columns, then group by those
-  computed_columns <- add_computed_columns(
-    .data,
-    new_groups,
-    "group_by",
-    caller_env = caller_env
+  computed_columns <- add_computed_columns(.data, new_groups,
+    caller_env = caller_env,
+    error_call = error_call
   )
 
   out <- computed_columns$data
@@ -205,8 +203,8 @@ group_by_prepare <- function(.data,
 
 add_computed_columns <- function(.data,
                                  vars,
-                                 .fn = "group_by",
-                                 caller_env) {
+                                 caller_env,
+                                 error_call = caller_env()) {
   is_symbol <- map_lgl(vars, quo_is_variable_reference)
   needs_mutate <- have_name(vars) | !is_symbol
 
@@ -219,7 +217,7 @@ add_computed_columns <- function(.data,
           error_call = call("mutate") # this is a pretend `mutate()`
         ),
         error = function(e) {
-          abort("Problem adding computed columns.", parent = e, call = call(.fn))
+          abort("Problem adding computed columns.", parent = e, call = error_call)
         }
       )
 
