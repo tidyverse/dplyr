@@ -11,7 +11,8 @@ distinct_prepare(
   vars,
   group_vars = character(),
   .keep_all = FALSE,
-  caller_env = caller_env(2)
+  caller_env = caller_env(2),
+  error_call = caller_env()
 )
 
 group_by_prepare(
@@ -20,7 +21,8 @@ group_by_prepare(
   caller_env = caller_env(2),
   .add = FALSE,
   .dots = deprecated(),
-  add = deprecated()
+  add = deprecated(),
+  error_call = caller_env()
 )
 }
 \value{
