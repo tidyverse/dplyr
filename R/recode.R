@@ -128,11 +128,11 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL) {
     vals <- seq_along(values)
   } else {
     msg <- "Either all values must be named, or none must be named."
-    abort(msg, call = call("recode"))
+    abort(msg)
   }
 
   n <- length(.x)
-  template <- find_template(values, .default, .missing, error_call = call("recode"))
+  template <- find_template(values, .default, .missing)
   out <- template[rep(NA_integer_, n)]
   replaced <- rep(FALSE, n)
 
@@ -154,11 +154,11 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
   if (!all(have_name(values))) {
     bad <- which(!have_name(values)) + 1
     msg <- glue("{fmt_pos_args(bad)} must be named.")
-    abort(msg, call = call("recode"))
+    abort(msg)
   }
 
   n <- length(.x)
-  template <- find_template(values, .default, .missing, error_call = call("recode"))
+  template <- find_template(values, .default, .missing)
   out <- template[rep(NA_integer_, n)]
   replaced <- rep(FALSE, n)
 
@@ -177,21 +177,21 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
 recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
   values <- list2(...)
   if (length(values) == 0) {
-    abort("No replacements provided.", call = call("recode"))
+    abort("No replacements provided.")
   }
 
   if (!all(have_name(values))) {
     bad <- which(!have_name(values)) + 1
     msg <- glue("{fmt_pos_args(bad)} must be named.")
-    abort(msg, call = call("recode"))
+    abort(msg)
   }
   if (!is.null(.missing)) {
     msg <- glue("`.missing` is not supported for factors.")
-    abort(msg, call = call("recode"))
+    abort(msg)
   }
 
   n <- length(levels(.x))
-  template <- find_template(values, .default, .missing, error_call = call("recode"))
+  template <- find_template(values, .default, .missing)
   out <- template[rep(NA_integer_, n)]
   replaced <- rep(FALSE, n)
 
