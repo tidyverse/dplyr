@@ -11,7 +11,7 @@
 #'
 #' @param .data a tbl
 #' @param ... Expressions to apply to each group. If named, results will be
-#'   stored in a new column. If unnamed, should return a data frame. You can
+#'   stored in a new column. If unnamed, must return a data frame. You can
 #'   use `.` to refer to the current group. You can not mix named and
 #'   unnamed arguments.
 #' @keywords internal
@@ -44,7 +44,6 @@
 #'   coef(summary(.$mod)))
 #' )
 #' @examplesIf requireNamespace("broom", quietly = TRUE)
-#'
 #' # ->
 #' models %>% summarise(broom::tidy(mod))
 do <- function(.data, ...) {
@@ -67,7 +66,7 @@ do.grouped_df <- function(.data, ...) {
   group_data <- ungroup(.data)
 
   args <- enquos(...)
-  named <- named_args(args, error_call = call("do"))
+  named <- named_args(args)
   mask <- new_data_mask(new_environment())
 
   n <- length(index)
@@ -83,7 +82,7 @@ do.grouped_df <- function(.data, ...) {
       env_bind_do_pronouns(mask, group_data)
       out <- eval_tidy(args[[1]], mask)
       out <- out[0, , drop = FALSE]
-      out <- label_output_dataframe(labels, list(list(out)), group_vars(.data), group_by_drop_default(.data), error_call = call("do"))
+      out <- label_output_dataframe(labels, list(list(out)), group_vars(.data), group_by_drop_default(.data))
     }
     return(out)
   }
@@ -115,7 +114,7 @@ do.grouped_df <- function(.data, ...) {
   }
 
   if (!named) {
-    label_output_dataframe(labels, out, group_vars(.data), group_by_drop_default(.data), error_call = call("do"))
+    label_output_dataframe(labels, out, group_vars(.data), group_by_drop_default(.data))
   } else {
     label_output_list(labels, out, group_vars(.data))
   }
@@ -124,7 +123,7 @@ do.grouped_df <- function(.data, ...) {
 #' @export
 do.data.frame <- function(.data, ...) {
   args <- enquos(...)
-  named <- named_args(args, error_call = call("do"))
+  named <- named_args(args)
 
   # Create custom data mask with `.` pronoun
   mask <- new_data_mask(new_environment())
@@ -134,7 +133,7 @@ do.data.frame <- function(.data, ...) {
     out <- eval_tidy(args[[1]], mask)
     if (!inherits(out, "data.frame")) {
       msg <- glue("Result must be a data frame, not {fmt_classes(out)}.")
-      abort(msg, call = call("do"))
+      abort(msg)
     }
   } else {
     out <- map(args, function(arg) list(eval_tidy(arg, mask)))
@@ -209,12 +208,6 @@ named_args <- function(args, error_call = caller_env()) {
     abort(msg, call = error_call)
   }
 
-  # Check for old syntax
-  if (named == 1 && names(args) == ".f") {
-    msg <- "`do()` syntax changed in dplyr 0.2. Please see documentation for details."
-    abort(msg, call = error_call)
-  }
-
   named != 0
 }
 
@@ -225,7 +218,7 @@ do.rowwise_df <- function(.data, ...) {
   group_data <- ungroup(.data)
 
   args <- enquos(...)
-  named <- named_args(args, error_call = call("do"))
+  named <- named_args(args)
 
   # Create new environment, inheriting from parent, with an active binding
   # for . that resolves to the current subset. `_i` is found in environment
@@ -252,7 +245,7 @@ do.rowwise_df <- function(.data, ...) {
   }
 
   if (!named) {
-    label_output_dataframe(NULL, out, groups(.data), group_by_drop_default(.data), error_call = call("do"))
+    label_output_dataframe(NULL, out, groups(.data), group_by_drop_default(.data))
   } else {
     label_output_list(NULL, out, groups(.data))
   }
