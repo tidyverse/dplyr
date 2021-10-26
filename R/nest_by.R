@@ -92,7 +92,7 @@ nest_by.grouped_df <- function(.data, ..., .key = "data", .keep = FALSE) {
       "Can't re-group while nesting",
       i = "Either `ungroup()` first or don't supply arguments to `nest_by()"
     )
-    abort(bullets, call = call("nest_by"))
+    abort(bullets)
   }
 
   vars <- group_vars(.data)
