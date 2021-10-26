@@ -32,5 +32,5 @@
       (expect_error(arrange(df, desc(x, y))))
     Output
       <error/rlang_error>
-      Error in `desc()`: Must be called with exactly one argument.
+      Error in `arrange()`: `desc()` must be called with exactly one argument.
 
