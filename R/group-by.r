@@ -130,14 +130,14 @@ ungroup.grouped_df <- function(x, ...) {
 }
 
 #' @export
-ungroup.rowwise_df <- function(x, ..., error_call = call("ungroup")) {
-  check_dots_empty(call = error_call)
+ungroup.rowwise_df <- function(x, ...) {
+  check_dots_empty()
   as_tibble(x)
 }
 
 #' @export
-ungroup.data.frame <- function(x, ..., error_call =  call("ungroup")) {
-  check_dots_empty(call =  error_call)
+ungroup.data.frame <- function(x, ...) {
+  check_dots_empty()
   x
 }
 
@@ -157,7 +157,8 @@ group_by_prepare <- function(.data,
                              caller_env = caller_env(2),
                              .add = FALSE,
                              .dots = deprecated(),
-                             add = deprecated()) {
+                             add = deprecated(),
+                             error_call = caller_env()) {
 
   if (!missing(add)) {
     lifecycle::deprecate_warn("1.0.0", "group_by(add = )", "group_by(.add = )")
@@ -192,7 +193,7 @@ group_by_prepare <- function(.data,
       "Must group by variables found in `.data`.",
       x = glue("Column `{unknown}` is not found.")
     )
-    abort(bullets, call = call("group_by"))
+    abort(bullets, call = error_call)
   }
 
   list(
