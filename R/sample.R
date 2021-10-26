@@ -72,7 +72,7 @@ sample_n <- function(tbl, size, replace = FALSE, weight = NULL, .env = NULL, ...
 sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
                              .env = parent.frame(), ...) {
   msg <- glue("`tbl` must be a data frame, not {friendly_type_of(tbl)}.")
-  abort(msg, call = call("sample_n"))
+  abort(msg)
 }
 
 #' @export
@@ -104,7 +104,7 @@ sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NU
 sample_frac.default <- function(tbl, size = 1, replace = FALSE, weight = NULL,
                                 .env = parent.frame(), ...) {
   msg <- glue("`tbl` must be a data frame, not {friendly_type_of(tbl)}.")
-  abort(msg, call = call("sample_frac"))
+  abort(msg)
 }
 
 #' @export
@@ -134,7 +134,7 @@ check_size <- function(size, n, replace = FALSE) {
     glue("`size` must be less than or equal to {n} (size of data)."),
     i = "set `replace = TRUE` to use sampling with replacement."
   )
-  abort(bullets, call = call("sample_n"))
+  abort(bullets)
 }
 
 check_frac <- function(size, replace = FALSE) {
@@ -144,5 +144,5 @@ check_frac <- function(size, replace = FALSE) {
     glue("`size` of sampled fraction must be less or equal to one."),
     i = "set `replace = TRUE` to use sampling with replacement."
   )
-  abort(bullets, call = call("sample_frac"))
+  abort(bullets)
 }
