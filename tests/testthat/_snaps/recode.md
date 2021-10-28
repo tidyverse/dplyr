@@ -29,5 +29,5 @@
       (expect_error(recode(factor("a"))))
     Output
       <error/rlang_error>
-      Error in `recode.factor()`: No replacements provided.
+      Error in `recode()`: No replacements provided.
 
