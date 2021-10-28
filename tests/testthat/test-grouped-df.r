@@ -153,6 +153,8 @@ test_that("validate_grouped_df() gives useful errors", {
   expect_snapshot({
      # Invalid `groups` attribute
     (expect_error(validate_grouped_df(df1)))
+    (expect_error(group_data(df1)))
+    (expect_error(validate_grouped_df(df2)))
     (expect_error(validate_grouped_df(df2)))
     (expect_error(validate_grouped_df(df3)))
     (expect_error(validate_grouped_df(df4)))

@@ -6,6 +6,19 @@
       <error/rlang_error>
       Error in `validate_grouped_df()`: The `.rows` column must be list of one-based integer vectors.
     Code
+      (expect_error(group_data(df1)))
+    Output
+      <error/rlang_error>
+      Error in `group_data()`: 
+        `.data` must be a valid <grouped_df> object.
+      Caused by error in `validate_grouped_df()`: 
+        The `.rows` column must be list of one-based integer vectors.
+    Code
+      (expect_error(validate_grouped_df(df2)))
+    Output
+      <error/rlang_error>
+      Error in `validate_grouped_df()`: The last column of the `groups` attribute must be called `.rows`.
+    Code
       (expect_error(validate_grouped_df(df2)))
     Output
       <error/rlang_error>
