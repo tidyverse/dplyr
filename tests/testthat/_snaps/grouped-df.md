@@ -55,14 +55,12 @@
       (expect_error(new_grouped_df(tibble(x = 1:10), tibble(other = list(1:2)))))
     Output
       <error/rlang_error>
-      Error in `new_grouped_df()`: `new_grouped_df()` incompatible argument.
-      i `groups` should be a data frame, and its last column be called `.rows`.
+      Error in `new_grouped_df()`: The last column of `groups` must be called ".rows".
     Code
       (expect_error(new_grouped_df(10)))
     Output
       <error/rlang_error>
-      Error in `new_grouped_df()`: `new_grouped_df()` incompatible argument.
-      x `x` is not a data frame.
+      Error in `new_grouped_df()`: `x` must be a data frame.
 
 # helper gives meaningful error messages
 
