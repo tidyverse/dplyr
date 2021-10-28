@@ -178,44 +178,43 @@
       Error in `slice()`: Indices must be all positive or all negative.
       i Got 2 positives, 1 negatives.
     Code
-      (expect_error(check_slice_size(n = 1, prop = 1)))
+      (expect_error(slice_head(data.frame(), n = 1, prop = 1)))
     Output
       <error/rlang_error>
-      Error in `check_slice_size()`: Must supply exactly one of `n` and `prop` arguments.
+      Error in `slice_head()`: Must supply exactly one of `n` and `prop` arguments.
     Code
-      (expect_error(check_slice_size(n = "a")))
+      (expect_error(slice_tail(data.frame(), n = "a")))
     Output
       <error/rlang_error>
-      Error in `check_slice_size()`: `n` must be a single number.
+      Error in `slice_tail()`: `n` must be a single number.
     Code
-      (expect_error(check_slice_size(prop = "a")))
+      (expect_error(slide_head(data.frame(), prop = "a")))
     Output
-      <error/rlang_error>
-      Error in `check_slice_size()`: `prop` must be a single number.
+      <simpleError in slide_head(data.frame(), prop = "a"): could not find function "slide_head">
     Code
-      (expect_error(check_slice_size(n = n())))
+      (expect_error(slice_head(data.frame(), n = n())))
     Output
       <error/rlang_error>
-      Error in `check_slice_size()`: 
+      Error in `slice_head()`: 
         `n` must be a constant.
       Caused by error in `n()`: 
         Must be used inside dplyr verbs.
     Code
-      (expect_error(check_slice_size(prop = n())))
+      (expect_error(slice_head(data.frame(), prop = n())))
     Output
       <error/rlang_error>
-      Error in `check_slice_size()`: 
+      Error in `slice_head()`: 
         `prop` must be a constant.
       Caused by error in `n()`: 
         Must be used inside dplyr verbs.
     Code
-      (expect_error(check_slice_size(n = NA)))
+      (expect_error(slice_head(data.frame(), n = NA)))
     Output
       <error/rlang_error>
-      Error in `check_slice_size()`: `n` must be a single number.
+      Error in `slice_head()`: `n` must be a single number.
     Code
-      (expect_error(check_slice_size(prop = NA)))
+      (expect_error(slice_head(data.frame(), prop = NA)))
     Output
       <error/rlang_error>
-      Error in `check_slice_size()`: `prop` must be a single number.
+      Error in `slice_head()`: `prop` must be a single number.
 
