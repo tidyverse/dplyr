@@ -52,7 +52,7 @@ copy_to.src_local <- function(dest, df, name = deparse(substitute(df)),
                               overwrite = FALSE, ...) {
 
   if (!overwrite && exists(name, envir = dest$env, inherits = FALSE)) {
-    msg <- glue("object with `name` = {fmt_obj(name)} must not already exist, unless `overwrite` = TRUE.")
+    msg <- glue("Object with `name` = {fmt_obj(name)} must not already exist, unless `overwrite` = TRUE.")
     abort(msg)
   }
 
