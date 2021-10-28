@@ -259,6 +259,15 @@ slice_rows <- function(.data, ..., caller_env, error_call = caller_env()) {
   vec_c(!!!slice_indices, .ptype = integer())
 }
 
+
+is_slice_call <- function(error_call) {
+  is_slice <- TRUE
+  if (is_environment(error_call) && !identical(error_call$.Generic, "slice")) {
+    is_slice <- FALSE
+  }
+  is_slice
+}
+
 slice_eval <- function(mask, dots, error_call = caller_env()) {
   quo <- if (length(dots) == 1L) {
     dots[[1L]]
@@ -269,26 +278,28 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
   withCallingHandlers(
     mask$eval_all(quo),
     error = function(cnd) {
-      is_slice <- TRUE
-      if (is_environment(error_call) && !identical(error_call$.Generic, "slice")) {
-        is_slice <- FALSE
-      }
+      bullets <- slice_bullets(cnd, error_call)
+      parent <- if(is_slice_call(error_call)) cnd else cnd$parent
 
-      if (is_slice) {
-        bullets <- c(
-          glue("Problem evaluating `... = {as_label(quo_squash(quo))}` . "),
-          i = cnd_bullet_cur_group_label()
-        )
-        parent <- cnd
-      } else {
-        bullets <- c(
-          cnd_header(cnd),
-          i = cnd_bullet_cur_group_label()
-        )
-        parent <- cnd$parent
-      }
       abort(bullets, call = error_call, parent = parent)
     }
+  )
+}
+
+slice_bullets <- function(cnd, error_call, ...) {
+  UseMethod("slice_bullets")
+}
+
+#' @export
+slice_bullets.error <- function(cnd, error_call, ...) {
+  if (is_slice_call(error_call)) {
+    msg <- glue("Problem evaluating `... = {as_label(quo_squash(quo))}` . ")
+  } else {
+    msg <- cnd_header(cnd)
+  }
+  c(
+    msg,
+    i = cnd_bullet_cur_group_label()
   )
 }
 
