@@ -291,7 +291,7 @@ slice_bullets <- function(cnd, error_call, ...) {
 }
 
 #' @export
-slice_bullets.error <- function(cnd, error_call, ...) {
+slice_bullets.default <- function(cnd, error_call, ...) {
   if (is_slice_call(error_call)) {
     msg <- glue("Problem evaluating `... = {as_label(quo_squash(quo))}` . ")
   } else {
