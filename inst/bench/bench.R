@@ -15,7 +15,7 @@ if (!dir.exists("../bench-libs/0.8.3")) {
 libs <- list.files("../bench-libs", full.names = TRUE)
 names(libs) <- basename(libs)
 
-libs <- c(libs, "master" = .libPaths())
+libs <- c(libs, "main" = .libPaths())
 
 bench_script <- function(file, ...) {
   message("\n", glue("This branch ({prompt::git_branch()}): "))

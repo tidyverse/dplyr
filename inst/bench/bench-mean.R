@@ -6,37 +6,37 @@ library(bench)
 bench_mean <- function(n = 1e6, ngroups = 1000) {
   args <- list(n = n, ngroups = ngroups)
 
-  # master, internal_mean
-  master_length <- callr::r(function(n, ngroups) {
+  # main, internal_mean
+  main_length <- callr::r(function(n, ngroups) {
     library(dplyr, warn.conflicts = FALSE)
     library(purrr)
     library(vctrs)
 
     df <- tibble(x = rnorm(n), g = sample(rep(1:ngroups, n / ngroups))) %>% group_by(g)
     bench::mark(summarise(df, a = length(x))) %>%
-      mutate(branch = "master", fun = "length", n = n, ngroups = ngroups) %>%
+      mutate(branch = "main", fun = "length", n = n, ngroups = ngroups) %>%
       select(branch, fun, n, ngroups, min:last_col())
   }, args = args)
 
-  master_internal <- callr::r(function(n, ngroups) {
+  main_internal <- callr::r(function(n, ngroups) {
     library(dplyr, warn.conflicts = FALSE)
     library(purrr)
     library(vctrs)
 
     df <- tibble(x = rnorm(n), g = sample(rep(1:ngroups, n / ngroups))) %>% group_by(g)
     bench::mark(summarise(df, a = .Internal(mean(x)))) %>%
-      mutate(branch = "master", fun = ".Internal(mean(.))", n = n, ngroups = ngroups) %>%
+      mutate(branch = "main", fun = ".Internal(mean(.))", n = n, ngroups = ngroups) %>%
       select(branch, fun, n, ngroups, min:last_col())
   }, args = args)
 
-  master_mean <- callr::r(function(n, ngroups) {
+  main_mean <- callr::r(function(n, ngroups) {
     library(dplyr, warn.conflicts = FALSE)
     library(purrr)
     library(vctrs)
 
     df <- tibble(x = rnorm(n), g = sample(rep(1:ngroups, n / ngroups))) %>% group_by(g)
     bench::mark(summarise(df, a = mean(x))) %>%
-      mutate(branch = "master", fun = "mean(.)", n = n, ngroups = ngroups) %>%
+      mutate(branch = "main", fun = "mean(.)", n = n, ngroups = ngroups) %>%
       select(branch, fun, n, ngroups, min:last_col())
   }, args = args)
 
@@ -75,7 +75,7 @@ bench_mean <- function(n = 1e6, ngroups = 1000) {
       select(branch, fun, n, ngroups, min:last_col())
   }, args = args, libpath = "../bench-libs/0.8.3")
 
-  as_tibble(vec_rbind(master_length, master_internal, master_mean, released_internal, released_hybrid_mean, released_nonhybrid_mean)) %>%
+  as_tibble(vec_rbind(main_length, main_internal, main_mean, released_internal, released_hybrid_mean, released_nonhybrid_mean)) %>%
     select(branch:ngroups, median, mem_alloc, n_gc)
 }
 
