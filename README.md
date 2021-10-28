@@ -10,7 +10,8 @@ status](https://www.r-pkg.org/badges/version/dplyr)](https://cran.r-project.org/
 [![R build
 status](https://github.com/tidyverse/dplyr/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/dplyr/actions?workflow=R-CMD-check)
 [![Codecov test
-coverage](https://codecov.io/gh/tidyverse/dplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/dplyr?branch=master)
+coverage](https://codecov.io/gh/tidyverse/dplyr/branch/main/graph/badge.svg)](https://codecov.io/gh/tidyverse/dplyr?branch=main)
+[![R-CMD-check](https://github.com/tidyverse/dplyr/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/dplyr/actions)
 <!-- badges: end -->
 
 ## Overview
@@ -73,7 +74,7 @@ devtools::install_github("tidyverse/dplyr")
 
 ## Cheat Sheet
 
-<a href="https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/master/pngs/thumbnails/data-transformation-cheatsheet-thumbs.png" width="630" height="252"/></a>
+<a href="https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-transformation-cheatsheet-thumbs.png" width="630" height="252"/></a>
 
 ## Usage
 
@@ -82,7 +83,7 @@ library(dplyr)
 
 starwars %>% 
   filter(species == "Droid")
-#> # A tibble: 6 x 14
+#> # A tibble: 6 × 14
 #>   name   height  mass hair_color skin_color  eye_color birth_year sex   gender  
 #>   <chr>   <int> <dbl> <chr>      <chr>       <chr>          <dbl> <chr> <chr>   
 #> 1 C-3PO     167    75 <NA>       gold        yellow           112 none  masculi…
@@ -95,7 +96,7 @@ starwars %>%
 
 starwars %>% 
   select(name, ends_with("color"))
-#> # A tibble: 87 x 4
+#> # A tibble: 87 × 4
 #>   name           hair_color skin_color  eye_color
 #>   <chr>          <chr>      <chr>       <chr>    
 #> 1 Luke Skywalker blond      fair        blue     
@@ -108,7 +109,7 @@ starwars %>%
 starwars %>% 
   mutate(name, bmi = mass / ((height / 100)  ^ 2)) %>%
   select(name:mass, bmi)
-#> # A tibble: 87 x 4
+#> # A tibble: 87 × 4
 #>   name           height  mass   bmi
 #>   <chr>           <int> <dbl> <dbl>
 #> 1 Luke Skywalker    172    77  26.0
@@ -120,7 +121,7 @@ starwars %>%
 
 starwars %>% 
   arrange(desc(mass))
-#> # A tibble: 87 x 14
+#> # A tibble: 87 × 14
 #>   name    height  mass hair_color skin_color  eye_color  birth_year sex   gender
 #>   <chr>    <int> <dbl> <chr>      <chr>       <chr>           <dbl> <chr> <chr> 
 #> 1 Jabba …    175  1358 <NA>       green-tan,… orange          600   herm… mascu…
@@ -141,7 +142,7 @@ starwars %>%
     n > 1,
     mass > 50
   )
-#> # A tibble: 8 x 3
+#> # A tibble: 8 × 3
 #>   species      n  mass
 #>   <chr>    <int> <dbl>
 #> 1 Droid        6  69.8

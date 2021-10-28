@@ -68,7 +68,7 @@ Sometimes it's not possible to avoid `importFrom()`. For example you might be im
 
 ### Database code moves to dbplyr
 
-Almost all database related code has been moved out of dplyr and into a new package, [dbplyr](https://github.com/tidyverse/dbplyr/). This makes dplyr simpler, and will make it easier to release fixes for bugs that only affect databases.  If you've implemented a database backend for dplyr, please read the [backend news](https://github.com/tidyverse/dbplyr/blob/master/NEWS.md#backends) on the backend.
+Almost all database related code has been moved out of dplyr and into a new package, [dbplyr](https://github.com/tidyverse/dbplyr/). This makes dplyr simpler, and will make it easier to release fixes for bugs that only affect databases.  If you've implemented a database backend for dplyr, please read the [backend news](https://github.com/tidyverse/dbplyr/blob/main/NEWS.md#backends) on the backend.
 
 Depending on what generics you use, and what generics you provide methods for you, you may need to write some conditional code. To help make this easier we've written `wrap_dbplyr_obj()` which will write the helper code for you:
 
@@ -196,7 +196,7 @@ quosures.
 #### For package authors
 
 For package authors, rlang provides a
-[compatibility file](https://github.com/r-lib/rlang/blob/master/R/compat-lazyeval.R) that
+[compatibility file](https://github.com/r-lib/rlang/blob/main/R/compat-lazyeval.R) that
 you can copy to your package. `compat_lazy()` and `compat_lazy_dots()`
 turn lazy-able objects into proper quosures. This helps providing an
 underscored version to your users for backward compatibility. For
