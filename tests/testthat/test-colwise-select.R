@@ -198,6 +198,10 @@ test_that("colwise select() / rename() give meaningful errors", {
     (expect_error(
       df %>% select_if(function(.x) c(TRUE, TRUE))
     ))
+
+    (expect_error(
+      data.frame() %>% select_all(.funs = 42)
+    ))
   })
 
 })

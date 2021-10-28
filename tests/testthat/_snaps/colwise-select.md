@@ -40,4 +40,9 @@
       Error in `select_if()`: `.p` is invalid.
       x `.p` should return a single logical.
       i `.p` returns a size 2 <logical> for column `x`.
+    Code
+      (expect_error(data.frame() %>% select_all(.funs = 42)))
+    Output
+      <error/rlang_error>
+      Error in `select_all()`: `.funs` must be a one sided formula, a function, or a function name.
 

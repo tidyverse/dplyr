@@ -41,7 +41,7 @@ as_fun_list <- function(.funs, .env, ..., .caller, .caller_arg = "...", error_ca
       if (is_character(.x)) {
         .x <- get(.x, .env, mode = "function")
       } else if (!is_function(.x)) {
-        msg <- "expecting a one sided formula, a function, or a function name."
+        msg <- "`.funs` must be a one sided formula, a function, or a function name."
         abort(msg, call = error_call)
       }
       if (length(args)) {
