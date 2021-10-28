@@ -45,6 +45,6 @@ if (requireNamespace("ggplot2", quietly = TRUE)) {
 storms
 }
 \seealso{
-The script to create the storms data set: \url{https://github.com/tidyverse/dplyr/blob/master/data-raw/storms.R}
+The script to create the storms data set: \url{https://github.com/tidyverse/dplyr/blob/main/data-raw/storms.R}
 }
 \keyword{datasets}
