@@ -55,7 +55,7 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   }
 
   if (length(n) != 1 || !is.numeric(n) || n < 0) {
-    msg <- glue("`n` must be a nonnegative integer scalar, not {friendly_type_of(n)} of length {length(n)}.")
+    msg <- glue("`n` must be a positive integer, not {friendly_type_of(n)} of length {length(n)}.")
     abort(msg)
   }
   if (n == 0) return(x)
@@ -84,7 +84,7 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   }
 
   if (length(n) != 1 || !is.numeric(n) || n < 0) {
-    msg <- glue("`n` must be a nonnegative integer scalar, not {friendly_type_of(n)} of length {length(n)}.")
+    msg <- glue("`n` must be a positive integer, not {friendly_type_of(n)} of length {length(n)}.")
     abort(msg)
   }
   if (n == 0) return(x)

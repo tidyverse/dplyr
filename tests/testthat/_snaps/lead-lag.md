@@ -5,22 +5,22 @@
       (expect_error(lead(letters, -1)))
     Output
       <error/rlang_error>
-      Error in `lead()`: `n` must be a nonnegative integer scalar, not a double vector of length 1.
+      Error in `lead()`: `n` must be a positive integer, not a double vector of length 1.
     Code
       (expect_error(lead(letters, "1")))
     Output
       <error/rlang_error>
-      Error in `lead()`: `n` must be a nonnegative integer scalar, not a character vector of length 1.
+      Error in `lead()`: `n` must be a positive integer, not a character vector of length 1.
     Code
       (expect_error(lag(letters, -1)))
     Output
       <error/rlang_error>
-      Error in `lag()`: `n` must be a nonnegative integer scalar, not a double vector of length 1.
+      Error in `lag()`: `n` must be a positive integer, not a double vector of length 1.
     Code
       (expect_error(lag(letters, "1")))
     Output
       <error/rlang_error>
-      Error in `lag()`: `n` must be a nonnegative integer scalar, not a character vector of length 1.
+      Error in `lag()`: `n` must be a positive integer, not a character vector of length 1.
     Code
       # # ts
       (expect_error(lag(ts(1:10))))
