@@ -4,22 +4,22 @@
       (expect_error(validate_grouped_df(df1)))
     Output
       <error/rlang_error>
-      Error in `validate_grouped_df()`: The `groups` attribute is not a data frame with its last column called `.rows`.
+      Error in `validate_grouped_df()`: The `.rows` column must be list of one-based integer vectors.
     Code
       (expect_error(validate_grouped_df(df2)))
     Output
       <error/rlang_error>
-      Error in `validate_grouped_df()`: The `groups` attribute is not a data frame with its last column called `.rows`.
+      Error in `validate_grouped_df()`: The last column of the `groups` attribute must be called `.rows`.
     Code
       (expect_error(validate_grouped_df(df3)))
     Output
       <error/rlang_error>
-      Error in `validate_grouped_df()`: The `groups` attribute is not a data frame with its last column called `.rows`.
+      Error in `validate_grouped_df()`: The `groups` attribute must be a data frame.
     Code
       (expect_error(validate_grouped_df(df4)))
     Output
       <error/rlang_error>
-      Error in `validate_grouped_df()`: The `groups` attribute is not a data frame with its last column called `.rows`.
+      Error in `validate_grouped_df()`: The `groups` attribute must be a data frame.
     Code
       (expect_error(validate_grouped_df(df5)))
     Output
@@ -45,12 +45,12 @@
       (expect_error(validate_grouped_df(df10)))
     Output
       <error/rlang_error>
-      Error in `validate_grouped_df()`: The `groups` attribute is not a data frame with its last column called `.rows`.
+      Error in `validate_grouped_df()`: The `groups` attribute must be a data frame.
     Code
       (expect_error(validate_grouped_df(df11)))
     Output
       <error/rlang_error>
-      Error in `validate_grouped_df()`: The `groups` attribute is not a data frame with its last column called `.rows`.
+      Error in `validate_grouped_df()`: The `groups` attribute must be a data frame.
     Code
       (expect_error(new_grouped_df(tibble(x = 1:10), tibble(other = list(1:2)))))
     Output
