@@ -6,7 +6,7 @@
 #' `intersect()`, `union()` and `setdiff()` remove duplicates.
 #'
 #' @param x,y objects to perform set function on (ignoring order)
-#' @inheritParams rlang::args_dots_empty
+#' @inheritParams rlang::`dots-empty`
 #' @name setops
 #' @examples
 #' mtcars$model <- rownames(mtcars)
