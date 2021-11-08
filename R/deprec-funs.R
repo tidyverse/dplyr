@@ -52,7 +52,8 @@ funs <- function(..., .args = list()) {
   dots <- enquos(...)
   default_env <- caller_env()
 
-  funs <- map(dots, function(quo) as_fun(quo, default_env, .args))
+  error_call <- current_env()
+  funs <- map(dots, function(quo) as_fun(quo, default_env, .args, error_call = error_call))
   new_funs(funs)
 }
 new_funs <- function(funs) {

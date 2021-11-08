@@ -35,7 +35,7 @@
 #' starwars %>%
 #'    mutate(across(where(is.character), ~na_if(., "unknown")))
 na_if <- function(x, y) {
-  check_length(y, x, fmt_args("y"), glue("same as {fmt_args(~x)}"))
+  check_length(y, x, "`y`", glue("same as `x`"))
 
   x[x == y] <- NA
   x

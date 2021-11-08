@@ -1,9 +1,9 @@
-join_cols <- function(x_names, y_names, by = NULL, suffix = c(".x", ".y"), keep = FALSE) {
-  check_duplicate_vars(x_names, "x")
-  check_duplicate_vars(y_names, "y")
+join_cols <- function(x_names, y_names, by = NULL, suffix = c(".x", ".y"), keep = FALSE, error_call = caller_env()) {
+  check_duplicate_vars(x_names, "x", error_call = error_call)
+  check_duplicate_vars(y_names, "y", error_call = error_call)
 
-  by <- standardise_join_by(by, x_names = x_names, y_names = y_names)
-  suffix <- standardise_join_suffix(suffix)
+  by <- standardise_join_by(by, x_names = x_names, y_names = y_names, error_call = error_call)
+  suffix <- standardise_join_suffix(suffix, error_call = error_call)
 
   x_by <- set_names(match(by$x, x_names), by$x)
   y_by <- set_names(match(by$y, y_names), by$x)
@@ -36,14 +36,15 @@ join_cols <- function(x_names, y_names, by = NULL, suffix = c(".x", ".y"), keep 
   )
 }
 
-standardise_join_by <- function(by, x_names, y_names) {
+standardise_join_by <- function(by, x_names, y_names, error_call = caller_env()) {
   if (is.null(by)) {
     by <- intersect(x_names, y_names)
     if (length(by) == 0) {
-      abort(c(
+      bullets <- c(
         "`by` must be supplied when `x` and `y` have no common variables.",
         i = "use by = character()` to perform a cross-join."
-      ))
+      )
+      abort(bullets, call = error_call)
     }
     by_quoted <- encodeString(by, quote = '"')
     if (length(by_quoted) == 1L) {
@@ -66,65 +67,72 @@ standardise_join_by <- function(by, x_names, y_names) {
     # TODO: check lengths
     by <- by[c("x", "y")]
   } else {
-    bad_args("by", "must be a (named) character vector, list, or NULL, not {friendly_type_of(by)}.")
+    msg <- glue("`by` must be a (named) character vector, list, or NULL, not {friendly_type_of(by)}.")
+    abort(msg, call = error_call)
   }
 
-  check_join_vars(by$x, x_names)
-  check_join_vars(by$y, y_names)
+  check_join_vars(by$x, x_names, error_call = error_call)
+  check_join_vars(by$y, y_names, error_call = error_call)
 
   by
 }
 
-check_join_vars <- function(vars, names) {
+check_join_vars <- function(vars, names, error_call = caller_env()) {
   if (!is.character(vars)) {
-    abort("join columns must be character vectors.")
+    abort("join columns must be character vectors.", call = error_call)
   }
 
   na <- is.na(vars)
   if (any(na)) {
-    abort(c(
+    bullets <- c(
       "Join columns must be not NA.",
       x = glue("Problem at position {err_vars(na)}.")
-    ))
+    )
+    abort(bullets, call = error_call)
   }
 
   dup <- duplicated(vars)
   if (any(dup)) {
-    abort(c(
+    bullets <- c(
       "Join columns must be unique.",
       x = glue("Problem at position {err_vars(dup)}.")
-    ))
+    )
+    abort(bullets, call = error_call)
   }
 
   missing <- setdiff(vars, names)
   if (length(missing) > 0) {
-    abort(c(
+    bullets <- c(
       "Join columns must be present in data.",
       x = glue("Problem with {err_vars(missing)}.")
-    ))
+    )
+    abort(bullets, call = error_call)
   }
 }
 
-check_duplicate_vars <- function(vars, input) {
+check_duplicate_vars <- function(vars, input, error_call = caller_env()) {
   dup <- duplicated(vars)
   if (any(dup)) {
-    abort(c(
+    bullets <- c(
       glue("Input columns in `{input}` must be unique."),
       x = glue("Problem with {err_vars(vars[dup])}.")
-    ))
+    )
+    abort(bullets, call = error_call)
   }
 }
 
-standardise_join_suffix <- function(x) {
+standardise_join_suffix <- function(x, error_call = caller_env()) {
   if (!is.character(x) || length(x) != 2) {
-    abort(c(
+    bullets <- c(
       "`suffix` must be a character vector of length 2.",
-      i = glue("suffix is {friendly_type_of(x)} of length {length(x)}.")
-    ))
+      i = glue("`suffix` is {friendly_type_of(x)} of length {length(x)}.")
+    )
+    abort(bullets, call = error_call)
   }
 
   if (any(is.na(x))) {
-    bad_args("suffix", "can't be NA.")
+    msg <- glue("`suffix` can't be NA.")
+    abort(msg, call = error_call)
   }
 
   list(x = x[[1]], y = x[[2]])

@@ -26,12 +26,12 @@
       })))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `function(si) {
+      Error in `funs()`: `function(si) {
           mp[si]
       }` must be a function name (quoted or unquoted) or an unquoted call, not `function`.
     Code
       (expect_error(funs(~ mp[.])))
     Output
       <error/rlang_error>
-      Error in `glubort()`: `~mp[.]` must be a function name (quoted or unquoted) or an unquoted call, not `~`.
+      Error in `funs()`: `~mp[.]` must be a function name (quoted or unquoted) or an unquoted call, not `~`.
 

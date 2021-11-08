@@ -16,7 +16,7 @@ cnd_bullet_cur_group_label <- function(what = "error") {
 cnd_bullet_rowwise_unlist <- function() {
   data <- peek_mask()$full_data()
   if (inherits(data, "rowwise_df")) {
-    glue("Did you mean: `{error_name} = list({error_expression})` ?", .envir = peek_call_step())
+    glue_data(peek_error_context(), "Did you mean: `{error_name} = list({error_expression})` ?")
   }
 }
 
@@ -30,46 +30,36 @@ or_1 <- function(x) {
 
 # Common ------------------------------------------------------------------
 
-local_call_step <- function(dots, .index, .fn, .dot_data = FALSE, frame = caller_env()) {
-  error_expression  <- if (.dot_data) {
-    deparse(quo_get_expr(dots[[.index]]))
+is_data_pronoun <- function(x) {
+  is_call(x, c("[[", "$")) && identical(node_cadr(x), sym(".data"))
+}
+
+quo_as_label <- function(quo)  {
+  expr <- quo_get_expr(quo)
+  error_expression  <- if (is_data_pronoun(expr)) {
+    # because as_label() strips off .data$<> and .data[[<>]]
+    deparse(expr)[[1]]
   } else{
-    as_label(quo_get_expr(dots[[.index]]))
+    as_label(expr)
   }
-  context_local(
-    "dplyr_call_step",
-    env(
-      error_name = arg_name(dots, .index),
-      error_expression = error_expression,
-      index = .index,
-      dots = dots,
-      fn = .fn,
-      environment()
-    ),
-    frame = frame
+}
+
+local_error_context <- function(dots, .index, mask, frame = caller_env()) {
+  error_context <- env(
+    error_name = arg_name(dots, .index),
+    error_expression = quo_as_label(dots[[.index]])
   )
+  context_local("dplyr_error_context", error_context, frame = frame)
 }
-peek_call_step <- function() {
-  context_peek("dplyr_call_step", "peek_call_step", "dplyr error handling")
-}
-
-cnd_bullet_header <- function() {
-  call_step <- peek_call_step()
-
-  input_name <- "column"
-  if (call_step[["fn"]] == "filter" || grepl("^[.][.]", call_step[["error_name"]])) {
-    input_name <- "input"
-  }
-
-  glue("Problem with `{fn}()` {name} `{error_name}`.", .envir = env(name = input_name, call_step))
+peek_error_context <- function() {
+  context_peek("dplyr_error_context", "peek_error_context", "dplyr error handling")
 }
 
-cnd_bullet_column_info <- function(){
-  glue("`{error_name} = {error_expression}`.", .envir = peek_call_step())
-}
-
-cnd_bullet_input_info <- function(){
-  glue("Input `{error_name}` is `{error_expression}`.", .envir = peek_call_step())
+cnd_bullet_header <- function(what) {
+  error_context <- peek_error_context()
+  error_name <- error_context$error_name
+  error_expression <- error_context$error_expression
+  glue("Problem while {what} `{error_name} = {error_expression}`.")
 }
 
 cnd_bullet_combine_details <- function(x, arg) {
@@ -90,12 +80,14 @@ err_vars <- function(x) {
   glue_collapse(x, sep = ", ", last = if (length(x) <= 2) " and " else ", and ")
 }
 
-abort_glue <- function(message, data = list(), class = NULL) {
-  if (length(message)) {
-    message <- exec(glue, message, !!!data)
-    exec(abort, message = message, class = class, !!!data)
-  } else {
-    exec(abort, class = class, !!!data)
-  }
+dplyr_internal_error <- function(class = NULL, data = list()) {
+  abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
 }
 
+skip_internal_condition <- function(cnd) {
+  if (inherits(cnd, "dplyr:::internal_error")) {
+    cnd$parent
+  } else {
+    cnd
+  }
+}

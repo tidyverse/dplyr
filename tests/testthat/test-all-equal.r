@@ -17,52 +17,40 @@ test_that("data frames equal to themselves", {
 })
 
 test_that("data frames not equal if missing row", {
-  expect_match(all_equal(mtcars, mtcars[-1, ]), "Different number of rows")
-  expect_match(all_equal(iris, iris[-1, ]), "Different number of rows")
-  expect_match(all_equal(df_all, df_all[-1, ]), "Different number of rows")
+  expect_snapshot({
+    all_equal(mtcars, mtcars[-1, ])
+    all_equal(iris, iris[-1, ])
+    all_equal(df_all, df_all[-1, ])
+  })
 })
 
 test_that("data frames not equal if missing col", {
-  expect_match(
-    all_equal(mtcars, mtcars[, -1]),
-    "different number of columns: 11 vs 10"
-  )
-  expect_match(
-    all_equal(iris, iris[, -1]),
-    "different number of columns: 5 vs 4"
-  )
-  expect_match(
-    all_equal(df_all, df_all[, -1]),
-    "different number of columns: 7 vs 6"
-  )
+  expect_snapshot({
+    all_equal(mtcars, mtcars[, -1])
+    all_equal(iris, iris[, -1])
+    all_equal(df_all, df_all[, -1])
+  })
 })
 
 test_that("factors equal only if levels equal", {
   df1 <- tibble(x = factor(c("a", "b")))
   df2 <- tibble(x = factor(c("a", "d")))
-  expect_match(
-    all_equal(df1, df2),
-    "Different types for column `x`"
-  )
-  expect_match(
-    all_equal(df2, df1),
-    "Different types for column `x`"
-  )
+  expect_snapshot({
+    all_equal(df1, df2)
+    all_equal(df2, df1)
+  })
 })
 
 test_that("factor comparison requires strict equality of levels (#2440)", {
   df1 <- tibble(x = factor("a"))
   df2 <- tibble(x = factor("a", levels = c("a", "b")))
-  expect_match(
-    all_equal(df1, df2),
-    "Different types for column `x`"
-  )
-  expect_match(
-    all_equal(df2, df1),
-    "Different types for column `x`"
-  )
   expect_true(all_equal(df1, df2, convert = TRUE))
   expect_true(all_equal(df2, df1, convert = TRUE))
+
+  expect_snapshot({
+    all_equal(df1, df2)
+    all_equal(df2, df1)
+  })
 })
 
 test_that("all.equal.data.frame handles data.frames with NULL names", {
@@ -100,12 +88,11 @@ test_that("handle Date columns of different types, integer and numeric (#1204)",
 test_that("equality test fails when convert is FALSE and types don't match (#1484)", {
   df1 <- tibble(x = "a")
   df2 <- tibble(x = factor("a"))
-
-  expect_match(
-    all_equal(df1, df2, convert = FALSE),
-    "Different types for column `x`"
-  )
   expect_true(all_equal(df1, df2, convert = TRUE))
+
+  expect_snapshot({
+    all_equal(df1, df2, convert = FALSE)
+  })
 })
 
 test_that("equality handles data frames with 0 rows (#1506)", {
@@ -126,53 +113,35 @@ test_that("equality handle raw columns", {
 test_that("equality returns a message for convert = TRUE", {
   df1 <- tibble(x = 1:3)
   df2 <- tibble(x = as.character(1:3))
-  expect_match(all_equal(df1, df2), "Different types for column `x`")
-  expect_match(all_equal(df1, df2, convert = TRUE), "Incompatible types for column `x`")
+
+  expect_snapshot({
+    all_equal(df1, df2)
+    all_equal(df1, df2, convert = TRUE)
+  })
 })
 
 test_that("numeric and integer can be compared if convert = TRUE", {
   df1 <- tibble(x = 1:3)
   df2 <- tibble(x = as.numeric(1:3))
-  expect_match(all_equal(df1, df2), "Different types for column `x`")
   expect_true(all_equal(df1, df2, convert = TRUE))
+
+  expect_snapshot({
+    all_equal(df1, df2)
+  })
 })
 
 test_that("returns vector for more than one difference (#1819)", {
-  expect_match(
-    all_equal(tibble(a = 1, b = 2), tibble(a = 1L, b = 2L)),
-    "Different types for column `a`.*Different types for column `b`"
-  )
-})
-
-test_that("returns UTF-8 column names (#2441)", {
-  df1 <- tibble("\u5e78" := 1)
-  df2 <- tibble("\u798f" := 1)
-
-  expect_equal(
-    all_equal(df1, df2),
-    c( "not compatible: \n- Cols in y but not x: `\u798f`.\n- Cols in x but not y: `\u5e78`.\n")
-  )
+  expect_snapshot({
+    all_equal(tibble(a = 1, b = 2), tibble(a = 1L, b = 2L))
+  })
 })
 
 test_that("ignore column order", {
-  expect_equal(
-    all_equal(tibble(a = 1, b = 2), tibble(b = 2, a = 1), ignore_col_order = FALSE),
-    "- Same column names, but different order"
-  )
-
-  expect_equal(
-    all_equal(tibble(a = 1, b = 2), tibble(a = 1), ignore_col_order = FALSE),
-    glue("- different number of columns: 2 vs 1")
-  )
+  expect_snapshot({
+    all_equal(tibble(a = 1, b = 2), tibble(b = 2, a = 1), ignore_col_order = FALSE)
+    all_equal(tibble(a = 1, b = 2), tibble(a = 1), ignore_col_order = FALSE)
+  })
 })
-
-test_that("all.equal() works on nameless tibbles (#4552)", {
-  ir <- set_names(iris, NULL)
-  suppressMessages(
-    expect_true(all_equal(ir, ir))
-  )
-})
-
 
 # Errors ------------------------------------------------------------------
 

@@ -82,9 +82,10 @@ filter_at <- function(.tbl, .vars, .vars_predicate, .preserve = FALSE) {
   filter(.tbl, !!pred, .preserve = .preserve)
 }
 
-apply_filter_syms <- function(pred, syms, tbl) {
+apply_filter_syms <- function(pred, syms, tbl, error_call = caller_env()) {
   if (is_empty(syms)) {
-    bad_args(".predicate", "has no matching columns.")
+    msg  <- glue("`.predicate` must match at least one column.")
+    abort(msg, call = error_call)
   }
   joiner <- all_exprs
 
@@ -97,14 +98,57 @@ apply_filter_syms <- function(pred, syms, tbl) {
     pred <- as_function(pred)
     pred <- map(syms, function(sym) call2(pred, sym))
   } else {
-    bad_args(".vars_predicate", "must be a function or a call to `all_vars()` or `any_vars()`, ",
-      "not {friendly_type_of(pred)}."
-    )
+    msg <- glue("`.vars_predicate` must be a function or a call to `all_vars()` or `any_vars()`, not {friendly_type_of(pred)}.")
+    abort(msg, call = error_call)
   }
 
-  if (length(pred) == 1) {
-    pred[[1L]]
-  } else {
-    joiner(!!!pred)
+  joiner(!!!pred)
+
+}
+
+## Return the union or intersection of predicate expressions.
+##
+## `all_exprs()` and `any_exprs()` take predicate expressions and join them
+## into a single predicate. They assume vectorised expressions by
+## default and join them with `&` or `|`. Note that this will also
+## work with scalar predicates, but if you want to be explicit you can
+## set `.vectorised` to `FALSE` to join by `&&` or `||`.
+##
+## @param ... Predicate expressions.
+## @param .vectorised If `TRUE`, predicates are joined with `&` or
+##   `|`. Otherwise, they are joined with `&&` or `||`.
+## @return A [quosure][rlang::quo].
+## @export
+## @examples
+## all_exprs(cyl > 3, am == 1)
+## any_exprs(cyl > 3, am == 1)
+## any_exprs(cyl > 3, am == 1, .vectorised = FALSE)
+all_exprs <- function(..., .vectorised = TRUE) {
+  op <- if (.vectorised) quote(`&`) else quote(`&&`)
+  quo_reduce(..., .op = op)
+}
+## @rdname all_exprs
+## @export
+any_exprs <- function(..., .vectorised = TRUE) {
+  op <- if (.vectorised) quote(`|`) else quote(`||`)
+  quo_reduce(..., .op = op)
+}
+
+## @param .op Can be a function or a quoted name of a function. If a
+##   quoted name, the default environment is the [base
+##   environment][rlang::base_env] unless you supply a
+##   [quosure][rlang::quo].
+quo_reduce <- function(..., .op) {
+  stopifnot(is_symbol(.op) || is_function(.op))
+
+  dots <- enquos(...)
+  if (length(dots) == 1) {
+    return(dots[[1]])
   }
+
+  op_quo <- as_quosure(.op, base_env())
+  op <- quo_get_expr(op_quo)
+
+  expr <- reduce(dots, function(x, y) expr((!!op)((!!x), (!!y))))
+  new_quosure(expr, quo_get_env(op_quo))
 }

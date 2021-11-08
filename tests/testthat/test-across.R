@@ -109,12 +109,73 @@ test_that("across() retains original ordering", {
 
 test_that("across() gives meaningful messages", {
   expect_snapshot({
+    # expanding
     (expect_error(
-                    tibble(x = 1) %>%
-                      summarise(res = across(where(is.numeric), 42))
+      tibble(x = 1) %>%
+        summarise(across(where(is.numeric), 42))
     ))
+    (expect_error(
+      tibble(x = 1) %>%
+        summarise(across(y, mean))
+    ))
+
+    # computing
+    (expect_error(
+      tibble(x = 1) %>%
+        summarise(res = across(where(is.numeric), 42))
+    ))
+    (expect_error(
+      tibble(x = 1) %>%
+        summarise(z  = across(y, mean))
+    ))
+    (expect_error(
+      tibble(x = 1) %>%
+        summarise(res = sum(if_any(where(is.numeric), 42)))
+    ))
+    (expect_error(
+      tibble(x = 1) %>%
+        summarise(res = sum(if_all(~mean(.x))))
+    ))
+    (expect_error(
+      tibble(x = 1) %>%
+        summarise(res = sum(if_any(~mean(.x))))
+    ))
+
     (expect_error(across()))
     (expect_error(c_across()))
+
+    # problem while computing
+    error_fn <- function(.) {
+      if (all(. > 10)) {
+        rlang::abort("too small", call = call("error_fn"))
+      } else {
+        42
+      }
+    }
+    (expect_error( # expanding
+      tibble(x = 1:10, y = 11:20) %>%
+        summarise(across(everything(), error_fn))
+    ))
+    (expect_error( # expanding
+      tibble(x = 1:10, y = 11:20) %>%
+        mutate(across(everything(), error_fn))
+    ))
+
+    (expect_error( # evaluating
+      tibble(x = 1:10, y = 11:20) %>%
+        summarise(force(across(everything(), error_fn)))
+    ))
+    (expect_error( # evaluating
+      tibble(x = 1:10, y = 11:20) %>%
+        mutate(force(across(everything(), error_fn)))
+    ))
+
+    # name issue
+    (expect_error(
+      tibble(x = 1) %>%
+        summarise(across(everything(), list(f = mean, f = mean)))
+    ))
+
   })
 
 })

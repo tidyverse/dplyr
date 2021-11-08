@@ -1,8 +1,12 @@
 
-as_group_map_function <- function(.f) {
+as_group_map_function <- function(.f, error_call = caller_env()) {
   .f <- rlang::as_function(.f)
   if (length(form <- formals(.f)) < 2 && ! "..." %in% names(form)){
-    stop("The function must accept at least two arguments. You can use ... to absorb unused components")
+    bullets <- c(
+      "`.f` must accept at least two arguments.",
+      i  = "You can use `...` to absorb unused components."
+    )
+    abort(bullets, call = error_call)
   }
   .f
 }
@@ -170,16 +174,19 @@ group_modify.grouped_df <- function(.data, .f, ..., .keep = FALSE, keep = deprec
   }
   tbl_group_vars <- group_vars(.data)
   .f <- as_group_map_function(.f)
+
+  error_call <- current_env()
   fun <- function(.x, .y){
     res <- .f(.x, .y, ...)
     if (!inherits(res, "data.frame")) {
-      abort("The result of .f should be a data frame.")
+      abort("The result of `.f` must be a data frame.", call = error_call)
     }
     if (any(bad <- names(res) %in% tbl_group_vars)) {
-      abort(glue(
+      msg <- glue(
         "The returned data frame cannot contain the original grouping variables: {names}.",
         names = paste(names(res)[bad], collapse = ", ")
-      ))
+      )
+      abort(msg, call = error_call)
     }
     bind_cols(.y[rep(1L, nrow(res)), , drop = FALSE], res)
   }

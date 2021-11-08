@@ -141,15 +141,19 @@ case_when <- function(...) {
   fs <- compact_null(list2(...))
   n <- length(fs)
 
+  error_call <- current_env()
   if (n == 0) {
-    abort("No cases provided.")
+    abort("No cases provided.", call = error_call)
   }
 
   query <- vector("list", n)
   value <- vector("list", n)
 
   default_env <- caller_env()
-  quos_pairs <- map2(fs, seq_along(fs), validate_formula, default_env, current_env())
+  quos_pairs <- map2(
+    fs, seq_along(fs),
+    validate_formula, default_env = default_env, dots_env = current_env(), error_call = error_call
+  )
 
   for (i in seq_len(n)) {
     pair <- quos_pairs[[i]]
@@ -157,24 +161,24 @@ case_when <- function(...) {
     value[[i]] <- eval_tidy(pair$rhs, env = default_env)
 
     if (!is.logical(query[[i]])) {
-      abort_case_when_logical(pair$lhs, i, query[[i]])
+      abort_case_when_logical(pair$lhs, i, query[[i]], error_call = error_call)
     }
   }
 
-  m <- validate_case_when_length(query, value, fs)
+  m <- validate_case_when_length(query, value, fs, error_call = error_call)
 
   out <- value[[1]][rep(NA_integer_, m)]
   replaced <- rep(FALSE, m)
 
   for (i in seq_len(n)) {
-    out <- replace_with(out, query[[i]] & !replaced, value[[i]], NULL)
+    out <- replace_with(out, query[[i]] & !replaced, value[[i]], NULL, error_call = error_call)
     replaced <- replaced | (query[[i]] & !is.na(query[[i]]))
   }
 
   out
 }
 
-validate_formula <- function(x, i, default_env, dots_env) {
+validate_formula <- function(x, i, default_env, dots_env, error_call = caller_env()) {
   # Formula might be quosured
   if (is_quosure(x)) {
     default_env <- quo_get_env(x)
@@ -183,10 +187,10 @@ validate_formula <- function(x, i, default_env, dots_env) {
 
   if (!is_formula(x)) {
     arg <- substitute(...(), dots_env)[[1]]
-    abort_case_when_formula(arg, i, x)
+    abort_case_when_formula(arg, i, x, error_call = error_call)
   }
   if (is_null(f_lhs(x))) {
-    abort("formulas must be two-sided.")
+    abort("Formulas must be two-sided.", call = error_call)
   }
 
   # Formula might be unevaluated, e.g. if it's been quosured
@@ -198,19 +202,21 @@ validate_formula <- function(x, i, default_env, dots_env) {
   )
 }
 
-abort_case_when_formula <- function(arg, i, obj) {
+abort_case_when_formula <- function(arg, i, obj, error_call = caller_env()) {
   deparsed <- fmt_obj1(deparse_trunc(arg))
   type <- friendly_type_of(obj)
-  abort(glue("Case {i} ({deparsed}) must be a two-sided formula, not {type}."))
+  msg <- glue("Case {i} ({deparsed}) must be a two-sided formula, not {type}.")
+  abort(msg, call = error_call)
 }
 
-abort_case_when_logical <- function(lhs, i, query) {
+abort_case_when_logical <- function(lhs, i, query, error_call = caller_env()) {
   deparsed <- fmt_obj1(deparse_trunc(quo_squash(lhs)))
   type <- friendly_type_of(query)
-  abort(glue("LHS of case {i} ({deparsed}) must be a logical vector, not {type}."))
+  msg <- glue("LHS of case {i} ({deparsed}) must be a logical vector, not {type}.")
+  abort(msg, call = error_call)
 }
 
-validate_case_when_length <- function(query, value, fs) {
+validate_case_when_length <- function(query, value, fs, error_call = caller_env()) {
   lhs_lengths <- lengths(query)
   rhs_lengths <- lengths(value)
   all_lengths <- unique(c(lhs_lengths, rhs_lengths))
@@ -231,8 +237,5 @@ validate_case_when_length <- function(query, value, fs) {
   rhs_problems <- rhs_lengths %in% inconsistent_lengths
   problems <- lhs_problems | rhs_problems
 
-  bad_calls(
-    fs[problems],
-    check_length_val(inconsistent_lengths, len, header = NULL, .abort = identity)
-  )
+  check_length_val(inconsistent_lengths, len, header = fmt_calls(fs[problems]), error_call = error_call)
 }

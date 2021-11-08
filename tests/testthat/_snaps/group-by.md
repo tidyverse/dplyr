@@ -19,7 +19,7 @@
       (expect_error(df %>% group_by(unknown)))
     Output
       <error/rlang_error>
-      Error in `group_by_prepare()`: Must group by variables found in `.data`.
+      Error in `group_by()`: Must group by variables found in `.data`.
       x Column `unknown` is not found.
     Code
       (expect_error(df %>% ungroup(x)))
@@ -34,21 +34,16 @@
       (expect_error(df %>% group_by(x, y) %>% ungroup(z)))
     Output
       <error/vctrs_error_subscript_oob>
-      Error in `stop_subscript()`: Can't subset columns that don't exist.
+      Error in `ungroup()`: Can't subset columns that don't exist.
       x Column `z` doesn't exist.
     Code
       (expect_error(df %>% group_by(z = a + 1)))
     Output
       <error/rlang_error>
-      Error: 
-        Problem adding computed columns in `group_by()`.
-        x Problem with `mutate()` column `z`.
-        i `z = a + 1`.
-        x object 'a' not found
-      Caused by error: 
-        Problem with `mutate()` column `z`.
-        i `z = a + 1`.
-        x object 'a' not found
+      Error in `group_by()`: 
+        Problem adding computed columns.
+      Caused by error in `mutate()`: 
+        Problem while computing `z = a + 1`.
       Caused by error: 
         object 'a' not found
 

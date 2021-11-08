@@ -67,7 +67,7 @@ generics::setequal
 intersect.data.frame <- function(x, y, ...) {
   check_dots_empty()
   check_compatible(x, y)
-  cast <- vec_cast_common(x, y)
+  cast <- vec_cast_common(x = x, y = y)
   new_x <- cast[[1L]]
   new_y <- cast[[2L]]
   out <- vec_unique(vec_slice(new_x, vec_in(new_x, new_y)))
@@ -78,7 +78,8 @@ intersect.data.frame <- function(x, y, ...) {
 union.data.frame <- function(x, y, ...) {
   check_dots_empty()
   check_compatible(x, y)
-  out <- vec_unique(vec_rbind(!!!vec_cast_common(x, y)))
+  cast <- vec_cast_common(x, y)
+  out <- vec_unique(vec_rbind(!!!cast))
   reconstruct_set(out, x)
 }
 
@@ -117,12 +118,13 @@ reconstruct_set <- function(out, x) {
 
 # Helpers -----------------------------------------------------------------
 
-
-
 is_compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = TRUE) {
   nc <- ncol(x)
   if (nc != ncol(y)) {
-    return(glue("- different number of columns: {nc} vs {ncol(y)}"))
+    return(
+      c(x = glue("Different number of columns: {nc} vs {ncol(y)}."))
+    )
+
   }
 
   names_x <- names(x)
@@ -135,23 +137,31 @@ is_compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = TR
     # check if same order
     if (!isTRUE(ignore_col_order)) {
       if (!identical(names_x, names_y)) {
-        return("- Same column names, but different order")
+        return(c(x = "Same column names, but different order."))
       }
     }
   } else {
     # names are not the same, explain why
 
-    msg <- "not compatible: \n"
+    msg <- c()
     if (length(names_y_not_in_x)) {
-      msg <- paste0(msg, "- Cols in y but not x: ", glue_collapse(glue('`{names_y_not_in_x}`'), sep = ", "), ".\n")
+      wrong <- glue_collapse(glue('`{names_y_not_in_x}`'), sep = ", ")
+      msg <- c(
+        msg,
+        x = glue("Cols in `y` but not `x`: {wrong}.")
+      )
     }
     if (length(names_x_not_in_y)) {
-      msg <- paste0(msg, "- Cols in x but not y: ", glue_collapse(glue('`{names_x_not_in_y}`'), sep = ", "), ".\n")
+      wrong <- glue_collapse(glue('`{names_x_not_in_y}`'), sep = ", ")
+      msg <- c(
+        msg,
+        x = glue("Cols in `x` but not `y`: {wrong}.")
+      )
     }
     return(msg)
   }
 
-  msg <- ""
+  msg <- c()
   for (name in names_x) {
     x_i <- x[[name]]
     y_i <- y[[name]]
@@ -160,31 +170,38 @@ is_compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = TR
       tryCatch(
         vec_ptype2(x_i, y_i),
         error = function(e) {
-          msg <<- paste0(msg,
-            glue("- Incompatible types for column `{name}`: {vec_ptype_full(x_i)} vs {vec_ptype_full(y_i)}"),
-            "\n"
+          msg <<- c(
+            msg,
+            x = glue("Incompatible types for column `{name}`: {vec_ptype_full(x_i)} vs {vec_ptype_full(y_i)}.")
           )
         }
       )
     } else {
       if (!identical(vec_ptype(x_i), vec_ptype(y_i))) {
-        msg <- paste0(msg,
-          glue("- Different types for column `{name}`: {vec_ptype_full(x_i)} vs {vec_ptype_full(y_i)}"),
-          "\n"
+        msg <- c(
+          msg,
+          x = glue("Different types for column `{name}`: {vec_ptype_full(x_i)} vs {vec_ptype_full(y_i)}.")
         )
       }
     }
   }
-  if (msg != "") {
+  if (length(msg)) {
     return(msg)
   }
 
   TRUE
 }
 
-check_compatible <- function(x, y, ignore_col_order = TRUE, convert = TRUE) {
+check_compatible <- function(x, y, ignore_col_order = TRUE, convert = TRUE, error_call = caller_env()) {
+  if (!is.data.frame(y)) {
+    abort("`y` must be a data frame. ", call = error_call)
+  }
   compat <- is_compatible_data_frame(x, y, ignore_col_order = ignore_col_order, convert = convert)
   if (is.character(compat)) {
-    abort(paste0("not compatible: \n", glue_collapse(compat, sep = "\n")))
+    bullets <- c(
+      "`x` and `y` are not compatible.",
+      compat
+    )
+    abort(bullets, call = error_call)
   }
 }

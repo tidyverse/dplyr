@@ -82,6 +82,9 @@ test_that("lead() / lag() give meaningful errors", {
 
     "# incompatible default"
     (expect_error(lag(c("1", "2", "3"), default = FALSE)))
+    (expect_error(lead(c("1", "2", "3"), default = FALSE)))
+
     (expect_error(lag(c("1", "2", "3"), default = character())))
+    (expect_error(lead(c("1", "2", "3"), default = character())))
   })
 })

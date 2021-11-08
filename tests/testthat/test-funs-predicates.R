@@ -11,10 +11,3 @@ test_that("any_exprs() creates union", {
   quo <- set_env(quo((!!quo(cyl == 2)) | (!!quo(am == 1))), base_env())
   expect_identical(any_exprs(cyl == 2, am == 1), quo)
 })
-
-test_that("all_exprs() gives meaningful error messages", {
-  expect_snapshot({
-    (expect_error(all_exprs()))
-    (expect_error(any_exprs()))
-  })
-})

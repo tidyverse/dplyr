@@ -13,9 +13,8 @@ src_local <- function(tbl, pkg = NULL, env = NULL) {
   lifecycle::deprecate_warn("1.0.0", "src_local()")
 
   if (!xor(is.null(pkg), is.null(env))) {
-    glubort(NULL, "Exactly one of `pkg` and `env` must be non-NULL, ",
-      "not {(!is.null(pkg)) + (!is.null(env))}."
-    )
+    msg <- glue("Exactly one of `pkg` and `env` must be non-NULL, not {(!is.null(pkg)) + (!is.null(env))}.")
+    abort(msg)
   }
   if (!is.null(pkg)) {
     env <- getNamespaceInfo(pkg, "lazydata")
@@ -53,9 +52,8 @@ copy_to.src_local <- function(dest, df, name = deparse(substitute(df)),
                               overwrite = FALSE, ...) {
 
   if (!overwrite && exists(name, envir = dest$env, inherits = FALSE)) {
-    glubort(NULL, "object with `name` = {fmt_obj(name)} must not already exist, ",
-      "unless `overwrite` = TRUE."
-    )
+    msg <- glue("Object with `name` = {fmt_obj(name)} must not already exist, unless `overwrite` = TRUE.")
+    abort(msg)
   }
 
   assign(name, envir = dest$env, df)

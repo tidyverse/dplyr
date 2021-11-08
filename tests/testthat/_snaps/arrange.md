@@ -3,24 +3,26 @@
     Code
       (expect_error(tibble(x = 1, x = 1, .name_repair = "minimal") %>% arrange(x)))
     Output
-      <error/dplyr_error>
-      Error: arrange() failed at implicit mutate() step. 
-      x Can't transform a data frame with duplicate names.
+      <error/rlang_error>
+      Error in `arrange()`: 
+        Problem with the implicit `mutate()` step. 
+      Caused by error in `mutate()`: 
+        Can't transform a data frame with duplicate names.
     Code
       (expect_error(tibble(x = 1) %>% arrange(y)))
     Output
-      <error/dplyr_error>
-      Error: arrange() failed at implicit mutate() step. 
-      x Problem with `mutate()` column `..1`.
-      i `..1 = y`.
-      x object 'y' not found
+      <error/rlang_error>
+      Error in `arrange()`: 
+        Problem with the implicit `mutate()` step. 
+        x Problem while computing `..1 = y`.
+      Caused by error: 
+        object 'y' not found
     Code
       (expect_error(tibble(x = 1) %>% arrange(rep(x, 2))))
     Output
-      <error/dplyr_error>
-      Error: arrange() failed at implicit mutate() step. 
-      x Problem with `mutate()` column `..1`.
-      i `..1 = rep(x, 2)`.
+      <error/rlang_error>
+      Error in `arrange()`: Problem with the implicit `mutate()` step. 
+      x Problem while computing `..1 = rep(x, 2)`.
       i `..1` must be size 1, not 2.
 
 # desc() inside arrange() checks the number of arguments (#5921)
@@ -30,5 +32,5 @@
       (expect_error(arrange(df, desc(x, y))))
     Output
       <error/rlang_error>
-      Error in `FUN()`: `desc()` expects exactly one argument.
+      Error in `arrange()`: `desc()` must be called with exactly one argument.
 

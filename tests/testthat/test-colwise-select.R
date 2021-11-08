@@ -175,15 +175,33 @@ test_that("colwise select() / rename() give meaningful errors", {
     df <- tibble(x = 0L, y = 0.5, z = 1)
 
     # colwise rename()
-    (expect_error(df %>% rename_all()))
-    (expect_error(df %>% rename_if(is_integerish)))
-    (expect_error(df %>% rename_at(vars(x:y))))
-    (expect_error(df %>% rename_all(list(tolower, toupper))))
+    (expect_error(
+      df %>% rename_all()
+    ))
+    (expect_error(
+      df %>% rename_if(is_integerish)
+    ))
+    (expect_error(
+      df %>% rename_at(vars(x:y))
+    ))
+    (expect_error(
+      df %>% rename_all(list(tolower, toupper))
+    ))
 
     # colwise select()
-    (expect_error(df %>% select_all(list(tolower, toupper))))
-    (expect_error(df %>% select_if(function(.x) 1)))
-    (expect_error(df %>% select_if(function(.x) c(TRUE, TRUE))))
+    (expect_error(
+      df %>% select_all(list(tolower, toupper))
+    ))
+    (expect_error(
+      df %>% select_if(function(.x) 1)
+    ))
+    (expect_error(
+      df %>% select_if(function(.x) c(TRUE, TRUE))
+    ))
+
+    (expect_error(
+      data.frame() %>% select_all(.funs = 42)
+    ))
   })
 
 })

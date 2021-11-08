@@ -4,35 +4,35 @@
       (expect_error(n()))
     Output
       <error/rlang_error>
-      Error in `context_peek()`: `n()` must only be used inside dplyr verbs.
+      Error in `n()`: Must be used inside dplyr verbs.
     Code
       (expect_error(cur_data()))
     Output
       <error/rlang_error>
-      Error in `context_peek()`: `cur_data()` must only be used inside dplyr verbs.
+      Error in `cur_data()`: Must be used inside dplyr verbs.
     Code
       (expect_error(cur_data_all()))
     Output
       <error/rlang_error>
-      Error in `context_peek()`: `cur_data_all()` must only be used inside dplyr verbs.
+      Error in `cur_data_all()`: Must be used inside dplyr verbs.
     Code
       (expect_error(cur_column()))
     Output
       <error/rlang_error>
-      Error in `context_peek()`: `cur_column()` must only be used inside `across()`.
+      Error in `cur_column()`: Must be used inside `across()`.
     Code
       (expect_error(cur_group()))
     Output
       <error/rlang_error>
-      Error in `context_peek()`: `cur_group()` must only be used inside dplyr verbs.
+      Error in `cur_group()`: Must be used inside dplyr verbs.
     Code
       (expect_error(cur_group_id()))
     Output
       <error/rlang_error>
-      Error in `context_peek()`: `cur_group_id()` must only be used inside dplyr verbs.
+      Error in `cur_group_id()`: Must be used inside dplyr verbs.
     Code
       (expect_error(cur_group_rows()))
     Output
       <error/rlang_error>
-      Error in `context_peek()`: `cur_group_rows()` must only be used inside dplyr verbs.
+      Error in `cur_group_rows()`: Must be used inside dplyr verbs.
 

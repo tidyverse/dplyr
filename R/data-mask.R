@@ -1,6 +1,6 @@
 DataMask <- R6Class("DataMask",
   public = list(
-    initialize = function(data, caller) {
+    initialize = function(data, caller, verb, error_call) {
       rows <- group_rows(data)
       # workaround for when there are 0 groups
       if (length(rows) == 0) {
@@ -13,7 +13,7 @@ DataMask <- R6Class("DataMask",
 
       names_bindings <- chr_unserialise_unicode(names2(data))
       if (anyDuplicated(names_bindings)) {
-        abort("Can't transform a data frame with duplicate names.")
+        abort("Can't transform a data frame with duplicate names.", call = error_call)
       }
       names(data) <- names_bindings
       private$data <- data
@@ -25,7 +25,7 @@ DataMask <- R6Class("DataMask",
 
       private$keys <- group_keys(data)
       private$group_vars <- group_vars(data)
-
+      private$verb <- verb
     },
 
     add_one = function(name, chunks, result) {
@@ -129,15 +129,16 @@ DataMask <- R6Class("DataMask",
       private$current_data[self$current_non_group_vars()]
     },
 
-    forget = function(fn) {
+    forget = function() {
       names_bindings <- self$current_vars()
+      verb <- private$verb
 
       osbolete_promise_fn <- function(name) {
         abort(c(
           "Obsolete data mask.",
-          x = glue("Too late to resolve `{name}` after the end of `dplyr::{fn}()`."),
-          i = glue("Did you save an object that uses `{name}` lazily in a column in the `dplyr::{fn}()` expression ?")
-        ))
+          x = glue("Too late to resolve `{name}` after the end of `dplyr::{verb}()`."),
+          i = glue("Did you save an object that uses `{name}` lazily in a column in the `dplyr::{verb}()` expression ?")
+        ), call = NULL)
       }
 
       promises <- map(names_bindings, function(.x) expr(osbolete_promise_fn(!!.x)))
@@ -192,6 +193,8 @@ DataMask <- R6Class("DataMask",
     keys = NULL,
 
     # caller environment of the verb (summarise(), ...)
-    caller = NULL
+    caller = NULL,
+
+    verb = character()
   )
 )

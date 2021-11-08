@@ -143,7 +143,7 @@ rows_patch.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place =
 
   bad <- which(is.na(idx))
   if (has_length(bad)) {
-    abort("Attempting to patch missing rows.")
+    abort("Can't patch missing row.")
   }
 
   new_data <- map2(x[idx, names(y)], y, coalesce)
@@ -196,16 +196,15 @@ rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 
   extra_cols <- setdiff(names(y), key)
   if (has_length(extra_cols)) {
-    inform(glue("Ignoring extra columns: ", commas(tick_if_needed(extra_cols))),
-      class = c("dplyr_message_delete_extra_cols", "dplyr_message")
-    )
+    bullets <- glue("Ignoring extra columns: ", commas(tick_if_needed(extra_cols)))
+    inform(bullets, class = c("dplyr_message_delete_extra_cols", "dplyr_message"))
   }
 
   idx <- vctrs::vec_match(y[key], x[key])
 
   bad <- which(is.na(idx))
   if (has_length(bad)) {
-    abort("Attempting to delete missing rows.")
+    abort("Can't delete missing row.")
   }
 
   dplyr_row_slice(x, -idx)
@@ -213,43 +212,45 @@ rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 
 # helpers -----------------------------------------------------------------
 
-rows_check_key <- function(by, x, y) {
+rows_check_key <- function(by, x, y, error_call = caller_env()) {
   if (is.null(by)) {
     by <- names(y)[[1]]
-    inform(glue("Matching, by = \"{by}\""),
-      class = c("dplyr_message_matching_by", "dplyr_message")
-    )
+    msg <- glue("Matching, by = \"{by}\"")
+    inform(msg, class = c("dplyr_message_matching_by", "dplyr_message"))
   }
 
   if (!is.character(by) || length(by) == 0) {
-    abort("`by` must be a character vector.")
+    abort("`by` must be a character vector.", call = error_call)
   }
   # is_named(by) checks all(names2(by) != ""), we need any(...)
   if (any(names2(by) != "")) {
-    abort("`by` must be unnamed.")
+    abort("`by` must be unnamed.", call = error_call)
   }
 
   bad <- setdiff(colnames(y), colnames(x))
   if (has_length(bad)) {
-    abort("All columns in `y` must exist in `x`.")
+    abort("All columns in `y` must exist in `x`.", call = error_call)
   }
 
   by
 }
 
-rows_check_key_df <- function(df, by, df_name) {
+rows_check_key_df <- function(df, by, df_name, error_call = caller_env()) {
   y_miss <- setdiff(by, colnames(df))
   if (length(y_miss) > 0) {
-    abort(glue("All `by` columns must exist in `{df_name}`."))
+    msg <- glue("All `by` columns must exist in `{df_name}`.")
+    abort(msg, call = error_call)
   }
   if (vctrs::vec_duplicate_any(df[by])) {
-    abort(glue("`{df_name}` key values are not unique."))
+    msg <- glue("`{df_name}` key values must be unique.")
+    abort(msg, call = error_call)
   }
 }
 
-rows_df_in_place <- function(in_place) {
+rows_df_in_place <- function(in_place, error_call = caller_env()) {
   if (is_true(in_place)) {
-    abort("Data frames only support `in_place = FALSE`.")
+    msg <- "Data frames only support `in_place = FALSE`."
+    abort(msg, call = error_call)
   }
 }
 

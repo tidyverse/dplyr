@@ -11,7 +11,7 @@
 #'
 #' @param .data a tbl
 #' @param ... Expressions to apply to each group. If named, results will be
-#'   stored in a new column. If unnamed, should return a data frame. You can
+#'   stored in a new column. If unnamed, must return a data frame. You can
 #'   use `.` to refer to the current group. You can not mix named and
 #'   unnamed arguments.
 #' @keywords internal
@@ -44,7 +44,6 @@
 #'   coef(summary(.$mod)))
 #' )
 #' @examplesIf requireNamespace("broom", quietly = TRUE)
-#'
 #' # ->
 #' models %>% summarise(broom::tidy(mod))
 do <- function(.data, ...) {
@@ -133,7 +132,8 @@ do.data.frame <- function(.data, ...) {
   if (!named) {
     out <- eval_tidy(args[[1]], mask)
     if (!inherits(out, "data.frame")) {
-      bad("Result must be a data frame, not {fmt_classes(out)}")
+      msg <- glue("Result must be a data frame, not {fmt_classes(out)}.")
+      abort(msg)
     }
   } else {
     out <- map(args, function(arg) list(eval_tidy(arg, mask)))
@@ -157,13 +157,15 @@ env_bind_do_pronouns <- function(env, data) {
   bind(env, "." := data, .data = data)
 }
 
-label_output_dataframe <- function(labels, out, groups, .drop) {
+label_output_dataframe <- function(labels, out, groups, .drop, error_call = caller_env()) {
   data_frame <- vapply(out[[1]], is.data.frame, logical(1))
   if (any(!data_frame)) {
-    bad("Results {bad} must be data frames, not {first_bad_class}",
+    msg <- glue(
+      "Results {bad} must be data frames, not {first_bad_class}.",
       bad = fmt_comma(which(!data_frame)),
       first_bad_class = fmt_classes(out[[1]][[which.min(data_frame)]])
     )
+    abort(msg, call = error_call)
   }
 
   rows <- vapply(out[[1]], nrow, numeric(1))
@@ -194,19 +196,16 @@ label_output_list <- function(labels, out, groups) {
   }
 }
 
-named_args <- function(args) {
+named_args <- function(args, error_call = caller_env()) {
   # Arguments must either be all named or all unnamed.
   named <- sum(names2(args) != "")
   if (!(named == 0 || named == length(args))) {
-    abort("Arguments must either be all named or all unnamed.")
+    msg <- "Arguments must either be all named or all unnamed."
+    abort(msg, call = error_call)
   }
   if (named == 0 && length(args) > 1) {
-    bad("Can only supply one unnamed argument, not {length(args)}.")
-  }
-
-  # Check for old syntax
-  if (named == 1 && names(args) == ".f") {
-    abort("`do()` syntax changed in dplyr 0.2. Please see documentation for details.")
+    msg <- glue("Can only supply one unnamed argument, not {length(args)}.")
+    abort(msg, call = error_call)
   }
 
   named != 0

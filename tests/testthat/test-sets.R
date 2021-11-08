@@ -114,9 +114,23 @@ test_that("set operation give useful error message. #903", {
       land = c("Norge", "Danmark", "Island", "Storbritannien"),
       data2 = rnorm(length(land))
     )
-    (expect_error(intersect(alfa, beta)))
-    (expect_error(union(alfa, beta)))
-    (expect_error(setdiff(alfa, beta)))
+    gamma <- tibble(land = 1:2, data = 1:2)
+    (expect_error(
+      intersect(alfa, beta)
+    ))
+    (expect_error(
+      intersect(alfa, 1)
+    ))
+    (expect_error(
+      intersect(alfa, gamma)
+    ))
+
+    (expect_error(
+      union(alfa, beta)
+    ))
+    (expect_error(
+      setdiff(alfa, beta)
+    ))
   })
 
 })

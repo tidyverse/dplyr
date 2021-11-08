@@ -386,20 +386,20 @@ test_that("filter() gives useful error messages", {
   expect_snapshot({
     # wrong type
     (expect_error(
-                    iris %>%
-                      group_by(Species) %>%
-                      filter(1:n())
+      iris %>%
+        group_by(Species) %>%
+        filter(1:n())
     ))
     (expect_error(
-                    iris %>%
-                      filter(1:n())
+      iris %>%
+        filter(1:n())
     ))
 
     # wrong size
     (expect_error(
-                    iris %>%
-                      group_by(Species) %>%
-                      filter(c(TRUE, FALSE))
+      iris %>%
+        group_by(Species) %>%
+        filter(c(TRUE, FALSE))
     ))
     (expect_error(
                     iris %>%

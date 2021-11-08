@@ -38,9 +38,11 @@ auto_copy <- function(x, y, copy = FALSE, ...) {
   if (same_src(x, y)) return(y)
 
   if (!copy) {
-    glubort(NULL, "`x` and `y` must share the same src, ",
-      "set `copy` = TRUE (may be slow)."
+    bullets <- c(
+      "`x` and `y` must share the same src.",
+      i = "set `copy` = TRUE (may be slow)."
     )
+    abort(bullets)
   }
 
   UseMethod("auto_copy")

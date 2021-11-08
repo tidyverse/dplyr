@@ -269,43 +269,43 @@ SEXP dplyr_expand_groups(SEXP old_groups, SEXP positions, SEXP s_nr) {
 
 SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_check_bounds) {
   if (!Rf_inherits(df, "grouped_df")) {
-    return Rf_mkString("not a `grouped_df` object.");
+    return Rf_mkString("Not a `grouped_df` object.");
   }
 
   SEXP groups = PROTECT(Rf_getAttrib(df, dplyr::symbols::groups));
 
   if (!Rf_inherits(groups, "data.frame") || XLENGTH(groups) < 1) {
-    SEXP out = Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`.");
+    SEXP out = Rf_mkString("The `groups` attribute must be a data frame.");
     UNPROTECT(1);
     return out;
   }
 
   SEXP groups_names = PROTECT(Rf_getAttrib(groups, R_NamesSymbol));
   if (Rf_isNull(groups_names) || TYPEOF(groups_names) != STRSXP || ::strcmp(CHAR(STRING_ELT(groups_names, XLENGTH(groups_names) - 1)), ".rows")) {
-    SEXP out = Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`.");
+    SEXP out = Rf_mkString("The last column of the `groups` attribute must be called `.rows`.");
     UNPROTECT(2);
     return out;
   }
 
   SEXP dot_rows = VECTOR_ELT(groups, XLENGTH(groups) - 1);
   if (TYPEOF(dot_rows) != VECSXP) {
-    SEXP out = Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`.");
+    SEXP out = Rf_mkString("The `.rows` column must be list of one-based integer vectors.");
     UNPROTECT(2);
     return out;
   }
   const SEXP* p_dot_rows = VECTOR_PTR_RO(dot_rows);
 
-  if (LOGICAL(s_check_bounds)[0]) {
-    R_xlen_t nr = XLENGTH(dot_rows);
-    for (R_xlen_t i = 0; i < nr; i++) {
-      SEXP rows_i = p_dot_rows[i];
-      if (TYPEOF(rows_i) != INTSXP) {
-        SEXP out = Rf_mkString("`.rows` column is not a list of one-based integer vectors.");
-        UNPROTECT(2);
-        return out;
-      }
+  R_xlen_t nr = XLENGTH(dot_rows);
+  for (R_xlen_t i = 0; i < nr; i++) {
+    SEXP rows_i = p_dot_rows[i];
+    if (TYPEOF(rows_i) != INTSXP) {
+      SEXP out = Rf_mkString("The `.rows` column must be list of one-based integer vectors.");
+      UNPROTECT(2);
+      return out;
     }
+  }
 
+  if (LOGICAL(s_check_bounds)[0]) {
     R_xlen_t nr_df = vctrs::short_vec_size(df);
     for (R_xlen_t i = 0; i < nr; i++) {
       SEXP rows_i = p_dot_rows[i];
@@ -328,20 +328,20 @@ SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_check_bounds) {
 
 SEXP dplyr_validate_rowwise_df(SEXP df) {
   if (!Rf_inherits(df, "rowwise_df")) {
-    return Rf_mkString("not a `rowwise_df` object.");
+    return Rf_mkString("Not a `rowwise_df` object.");
   }
 
   SEXP groups = PROTECT(Rf_getAttrib(df, dplyr::symbols::groups));
 
   if (!Rf_inherits(groups, "data.frame") || XLENGTH(groups) < 1) {
-    SEXP out = Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`.");
+    SEXP out = Rf_mkString("The `groups` attribute must be a data frame.");
     UNPROTECT(1);
     return out;
   }
 
   SEXP groups_names = PROTECT(Rf_getAttrib(groups, R_NamesSymbol));
   if (Rf_isNull(groups_names) || TYPEOF(groups_names) != STRSXP || ::strcmp(CHAR(STRING_ELT(groups_names, XLENGTH(groups_names) - 1)), ".rows")) {
-    SEXP out = Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`.");
+    SEXP out = Rf_mkString("The last column of the `groups` attribute must be called `.rows`.");
     UNPROTECT(2);
     return out;
   }
@@ -350,7 +350,7 @@ SEXP dplyr_validate_rowwise_df(SEXP df) {
 
   R_xlen_t nr = XLENGTH(dot_rows);
   if (nr != vctrs::short_vec_size(df)) {
-    SEXP out = Rf_mkString("The size of the grouping data does not match the size of the rowwise data frame.");
+    SEXP out = Rf_mkString("The size of the grouping data must match the size of the rowwise data frame.");
     UNPROTECT(2);
     return out;
   }
@@ -368,7 +368,7 @@ SEXP dplyr_validate_rowwise_df(SEXP df) {
   }
 
   if(!ok) {
-    SEXP out = Rf_mkString("`.rows` column is not a list of size 1, one-based integer vectors with the right value.");
+    SEXP out = Rf_mkString("The `.rows` column must be a list of size 1, one-based integer vectors with the right value.");
     UNPROTECT(2);
     return out;
   }

@@ -50,24 +50,25 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   }
 
   if (inherits(x, "ts")) {
-    bad_args("x", "must be a vector, not a ts object, do you want `stats::lag()`?")
+    msg <- "`x` must be a vector, not a ts object, do you want `stats::lag()`?"
+    abort(msg)
   }
 
   if (length(n) != 1 || !is.numeric(n) || n < 0) {
-    bad_args("n", "must be a nonnegative integer scalar, ",
-      "not {friendly_type_of(n)} of length {length(n)}."
-    )
+    msg <- glue("`n` must be a positive integer, not {friendly_type_of(n)} of length {length(n)}.")
+    abort(msg)
   }
   if (n == 0) return(x)
 
   if (vec_size(default) != 1L) {
-    abort(glue("`default` must be size 1, not size {vec_size(default)}"))
+    msg <- glue("`default` must be size 1, not size {vec_size(default)}")
+    abort(msg)
   }
 
   xlen <- vec_size(x)
   n <- pmin(n, xlen)
 
-  inputs <- vec_cast_common(default = default, x = x)
+  inputs <- fix_call(vec_cast_common(default = default, x = x))
 
   vec_c(
     vec_rep(inputs$default, n),
@@ -83,20 +84,21 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   }
 
   if (length(n) != 1 || !is.numeric(n) || n < 0) {
-    bad_args("n", "must be a nonnegative integer scalar, ",
-             "not {friendly_type_of(n)} of length {length(n)}."
-    )
+    msg <- glue("`n` must be a positive integer, not {friendly_type_of(n)} of length {length(n)}.")
+    abort(msg)
   }
   if (n == 0) return(x)
 
   if (vec_size(default) != 1L) {
-    abort(glue("`default` must be size 1, not size {vec_size(default)}"))
+    msg <- glue("`default` must be size 1, not size {vec_size(default)}")
+    abort(msg)
   }
 
   xlen <- vec_size(x)
   n <- pmin(n, xlen)
 
-  inputs <- vec_cast_common(default = default, x = x)
+  inputs <- fix_call(vec_cast_common(default = default, x = x))
+
   vec_c(
     vec_slice(inputs$x, -seq_len(n)),
     vec_rep(inputs$default, n)

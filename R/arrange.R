@@ -83,7 +83,7 @@ arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
 
 # Helpers -----------------------------------------------------------------
 
-arrange_rows <- function(.data, dots) {
+arrange_rows <- function(.data, dots, error_call = caller_env()) {
   if (length(dots) == 0L) {
     out <- seq_len(nrow(.data))
     return(out)
@@ -97,7 +97,7 @@ arrange_rows <- function(.data, dots) {
     if (quo_is_call(quosure, "desc", ns = c("", "dplyr"))) {
       expr <- quo_get_expr(quosure)
       if (!has_length(expr, 2L)) {
-        abort("`desc()` expects exactly one argument.")
+        abort("`desc()` must be called with exactly one argument.", call = error_call)
       }
 
       quosure <- new_quosure(node_cadr(expr), quo_get_env(quosure))
@@ -126,14 +126,20 @@ arrange_rows <- function(.data, dots) {
       names <- names2(bullets)
       names[names == ""] <- "x"
       bullets <- set_names(bullets, names)
+
+      # skip the parent as this has reworked the bullets
+      # and this would be confusing to have them
+      parent <- cnd$parent
     } else {
-      bullets <- c(x = conditionMessage(cnd))
+      parent <- cnd
+      bullets <- c()
     }
 
-    abort(c(
-      "arrange() failed at implicit mutate() step. ",
+    bullets <- c(
+      "Problem with the implicit `mutate()` step. ",
       bullets
-    ), class = "dplyr_error")
+    )
+    abort(bullets, call = error_call, parent = parent)
 
   })
 

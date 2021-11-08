@@ -26,24 +26,41 @@
 # dplyr_col_select() aborts when `[` implementation is broken
 
     Code
-      (expect_error(dplyr_col_select(df1, 2)))
+      (expect_error(select(df1, 1:2)))
     Output
       <error/vctrs_error_subscript_oob>
-      Error in `stop_subscript()`: Can't subset elements that don't exist.
+      Error in `select()`: Can't subset columns that don't exist.
       x Location 2 doesn't exist.
-      i There are only 1 element.
+      i There are only 1 column.
     Code
-      (expect_error(dplyr_col_select(df1, 1)))
+      (expect_error(select(df1, 0)))
     Output
       <error/rlang_error>
-      Error in `dplyr_col_select()`: Can't reconstruct data frame.
+      Error in `select()`: Can't reconstruct data frame.
+      x The `[` method for class <dplyr_test_broken_operator/tbl_df/tbl/data.frame> must return a data frame.
+      i It returned a <list>.
+
+---
+
+    Code
+      (expect_error(select(df1, 2)))
+    Output
+      <error/vctrs_error_subscript_oob>
+      Error in `select()`: Can't subset columns that don't exist.
+      x Location 2 doesn't exist.
+      i There are only 1 column.
+    Code
+      (expect_error(select(df1, 1)))
+    Output
+      <error/rlang_error>
+      Error in `select()`: Can't reconstruct data frame.
       x The `[` method for class <dplyr_test_broken_operator/tbl_df/tbl/data.frame> must return a data frame.
       i It returned a <list>.
     Code
-      (expect_error(dplyr_col_select(df2, 1)))
+      (expect_error(select(df2, 1)))
     Output
       <error/rlang_error>
-      Error in `dplyr_col_select()`: Can't reconstruct data frame.
+      Error in `select()`: Can't reconstruct data frame.
       x The `[` method for class <dplyr_test_operator_wrong_size/tbl_df/tbl/data.frame> must return a data frame with 1 column.
       i It returned a <data.frame> of 0 columns.
 
