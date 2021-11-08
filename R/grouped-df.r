@@ -192,7 +192,7 @@ group_sum <- function(x) {
 }
 
 #' @export
-tbl_sum.grouped_df <- function(x) {
+tbl_sum.grouped_df <- function(x, ...) {
   c(
     NextMethod(),
     c("Groups" = group_sum(x))

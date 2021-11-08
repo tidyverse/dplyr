@@ -129,7 +129,7 @@ setOldClass(c("rowwise_df", "tbl_df", "tbl", "data.frame"))
 # methods -----------------------------------------------------------------
 
 #' @export
-tbl_sum.rowwise_df <- function(x) {
+tbl_sum.rowwise_df <- function(x, ...) {
   c(
     NextMethod(),
     "Rowwise" = commas(group_vars(x))
