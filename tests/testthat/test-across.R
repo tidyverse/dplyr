@@ -532,6 +532,7 @@ test_that("across() evaluates ... with promise semantics (#5813)", {
   expect_equal(res$x$foo, 2)
   expect_equal(res$y$foo, 3)
 
+  skip("to be discussed")
   # Dots are evaluated only once
   new_counter <- function() {
     n <- 0L
