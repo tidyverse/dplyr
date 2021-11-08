@@ -310,6 +310,21 @@ mutate_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
               )
             }
           }
+        } else if (!quo_is_symbolic(quo) && !is.null(quo_get_expr(quo))) {
+          # constant, we still need both `result` and `chunks`
+          result <- quo_get_expr(quo)
+
+          result <- withCallingHandlers(
+            vec_recycle(result, vec_size(.data)),
+            error = function(cnd) {
+              abort(
+                class = c("dplyr:::mutate_constant_recycle_error", "dplyr:::internal_error"),
+                constant_size = vec_size(result), data_size = vec_size(.data)
+              )
+            }
+          )
+
+          chunks <- vec_chop(result, rows)
         }
 
         if (is.null(chunks)) {
@@ -470,6 +485,7 @@ mutate_bullets.default <- function(cnd, ...) {
     i = cnd_bullet_cur_group_label()
   )
 }
+#' @export
 `mutate_bullets.dplyr:::error_mutate_incompatible_combine` <- function(cnd, ...) {
   error_name <- peek_error_context()$error_name
   c(
@@ -478,7 +494,15 @@ mutate_bullets.default <- function(cnd, ...) {
     i = cnd_bullet_combine_details(cnd$wrapped$y, cnd$wrapped$y_arg)
   )
 }
-
+#' @export
+`mutate_bullets.dplyr:::mutate_constant_recycle_error` <- function(cnd, ...) {
+  error_name <- peek_error_context()$error_name
+  constant_size <- cnd$constant_size
+  data_size <- cnd$data_size
+  c(
+    glue("Inlined constant `{error_name}` must be size {or_1(data_size)}, not {constant_size}.")
+  )
+}
 
 check_muffled_warning <- function(cnd) {
   early_exit <- TRUE
