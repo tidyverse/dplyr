@@ -90,6 +90,20 @@ test_that("mutate() handles symbol expressions", {
   expect_identical(df$x, res$y)
 })
 
+test_that("mutate() supports constants (#6056)", {
+  df <- data.frame(x = 1:10, g = rep(1:2, each = 5))
+  y <- 1:10
+  z <- 1:2
+
+  expect_error(df %>% mutate(y = !!y), NA)
+  expect_error(df %>% group_by(g) %>% mutate(y = !!y), NA)
+  expect_error(df %>% rowwise() %>% mutate(y = !!y), NA)
+
+  expect_error(df %>% mutate(z = !!z))
+  expect_error(df %>% group_by(g) %>% mutate(z = !!z))
+  expect_error(df %>% rowwise() %>% mutate(z = !!z))
+})
+
 # column types ------------------------------------------------------------
 
 test_that("glue() is supported", {

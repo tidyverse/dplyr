@@ -47,7 +47,8 @@ quo_as_label <- function(quo)  {
 local_error_context <- function(dots, .index, mask, frame = caller_env()) {
   error_context <- env(
     error_name = arg_name(dots, .index),
-    error_expression = quo_as_label(dots[[.index]])
+    error_expression = quo_as_label(dots[[.index]]),
+    mask = mask
   )
   context_local("dplyr_error_context", error_context, frame = frame)
 }
