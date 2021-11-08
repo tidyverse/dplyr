@@ -155,9 +155,7 @@ bind_cols <- function(..., .name_repair = c("unique", "universal", "check_unique
   dots <- discard(dots, is.null)
 
   # Strip names off of data frame components so that vec_cbind() unpacks them
-  names <- names2(dots)
-  names[map_lgl(dots, is.data.frame)] <- ""
-  names(dots) <- names
+  names2(dots)[map_lgl(dots, is.data.frame)] <- ""
 
   out <- vec_cbind(!!!dots, .name_repair = .name_repair)
   if (!any(map_lgl(dots, is.data.frame))) {
