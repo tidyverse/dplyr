@@ -34,3 +34,7 @@
 .onDetach <- function(libpath) {
   setHook(packageEvent("plyr", "attach"), NULL, "replace")
 }
+
+on_load(
+  local_use_cli()
+)
