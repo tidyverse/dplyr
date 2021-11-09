@@ -31,7 +31,8 @@
 #'
 #'   Within these functions you can use [cur_column()] and [cur_group()]
 #'   to access the current column and grouping keys respectively.
-#' @param ... Additional arguments for the function calls in `.fns`.
+#' @param ... Additional arguments for the function calls in `.fns`. Using these
+#'   `...` is strongly discouraged because of issues of timing of evaluation.
 #' @param .names A glue specification that describes how to name the output
 #'   columns. This can use `{.col}` to stand for the selected column name, and
 #'   `{.fn}` to stand for the name of the function being applied. The default
