@@ -136,7 +136,7 @@ arrange_rows <- function(.data, dots, error_call = caller_env()) {
     }
 
     bullets <- c(
-      "Problem with the implicit `mutate()` step. ",
+      "Problem with the implicit `mutate()` step.",
       bullets
     )
     abort(bullets, call = error_call, parent = parent)
