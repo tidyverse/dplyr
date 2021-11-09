@@ -355,7 +355,7 @@ check_slice_size <- function(..., n, prop, error_call = caller_env()) {
     if (length(dots) == 1L && names2(dots)[1] == "") {
       slice_call <- error_call$.Generic
       bullets <- c(
-        "`n` must be explicitely named.",
+        "`n` must be explicitly named.",
         i = glue("Did you mean `{slice_call}(n = {as_label(dots[[1]])})` ?")
       )
       abort(bullets, call = error_call)
