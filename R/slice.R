@@ -132,7 +132,8 @@ slice_head <- function(.data, ..., n, prop) {
 
 #' @export
 slice_head.data.frame <- function(.data, ..., n, prop) {
-  size <- get_slice_size(..., n = n, prop = prop)
+  check_slice_dots(..., n = n, prop = prop)
+  size <- get_slice_size(n = n, prop = prop)
   idx <- function(n) seq2(1, size(n))
   slice_impl(.data, idx(dplyr::n()))
 }
@@ -145,7 +146,8 @@ slice_tail <- function(.data, ..., n, prop) {
 
 #' @export
 slice_tail.data.frame <- function(.data, ..., n, prop) {
-  size <- get_slice_size(..., n = n, prop = prop)
+  check_slice_dots(..., n = n, prop = prop)
+  size <- get_slice_size(n = n, prop = prop)
   idx <- function(n) seq2(n - size(n) + 1, n)
   slice_impl(.data, idx(dplyr::n()))
 }
@@ -164,7 +166,8 @@ slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
   arg_require(order_by)
 
-  size <- get_slice_size(..., n = n, prop = prop)
+  check_slice_dots(..., n = n, prop = prop)
+  size <- get_slice_size(n = n, prop = prop)
   if (with_ties) {
     idx <- function(x, n) head(order(x), smaller_ranks(x, size(n)))
   } else {
@@ -189,7 +192,8 @@ slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
   arg_require(order_by)
 
-  size <- get_slice_size(..., n = n, prop = prop)
+  check_slice_dots(..., n = n, prop = prop)
+  size <- get_slice_size(n = n, prop = prop)
   if (with_ties) {
     idx <- function(x, n) head(
         order(x, decreasing = TRUE), smaller_ranks(desc(x), size(n))
@@ -218,7 +222,8 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 
 #' @export
 slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
-  size <- get_slice_size(..., n = n, prop = prop)
+  check_slice_dots(..., n = n, prop = prop)
+  size <- get_slice_size(n = n, prop = prop)
 
   slice_impl(.data, {
     n <- dplyr::n()
@@ -348,10 +353,12 @@ check_constant <- function(x, name, error_call = caller_env()) {
   })
 }
 
-check_slice_size <- function(..., n, prop, error_call = caller_env()) {
+check_slice_dots <- function(..., n, prop, error_call = caller_env()) {
+  # special case to capture e.g. slice_head(2)
   if (missing(n) && missing(prop)) {
+    # capture as quosure so that we can label
     dots <- enquos(...)
-    # special case to capture e.g. slice_head(2)
+
     if (length(dots) == 1L && names2(dots)[1] == "") {
       slice_call <- error_call$.Generic
       bullets <- c(
@@ -360,17 +367,22 @@ check_slice_size <- function(..., n, prop, error_call = caller_env()) {
       )
       abort(bullets, call = error_call)
     }
-    check_dots_empty(call = error_call)
+  }
+
+  # otherwise, we have either `n` or `prop` so ... must be empty
+  check_dots_empty(call = error_call)
+}
+
+check_slice_n_prop <- function(n, prop, error_call = caller_env()) {
+  if (missing(n) && missing(prop)) {
     list(type = "n", n = 1L)
   } else if (!missing(n) && missing(prop)) {
-    check_dots_empty(call = error_call)
     n <- check_constant(n, "n", error_call = error_call)
     if (!is.numeric(n) || length(n) != 1 || is.na(n)) {
       abort("`n` must be a single number.", call = error_call)
     }
     list(type = "n", n = n)
   } else if (!missing(prop) && missing(n)) {
-    check_dots_empty(call = error_call)
     prop <- check_constant(prop, "prop", error_call = error_call)
     if (!is.numeric(prop) || length(prop) != 1 || is.na(prop)) {
       abort("`prop` must be a single number.", call = error_call)
@@ -381,8 +393,8 @@ check_slice_size <- function(..., n, prop, error_call = caller_env()) {
   }
 }
 
-get_slice_size <- function(..., n, prop, error_call = caller_env()) {
-  slice_input <- check_slice_size(..., n = n, prop = prop, error_call = error_call)
+get_slice_size <- function(n, prop, error_call = caller_env()) {
+  slice_input <- check_slice_n_prop(n, prop, error_call = error_call)
 
   if (slice_input$type == "n") {
     if (slice_input$n < 0) {
