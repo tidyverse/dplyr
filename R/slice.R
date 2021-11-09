@@ -132,9 +132,7 @@ slice_head <- function(.data, ..., n, prop) {
 
 #' @export
 slice_head.data.frame <- function(.data, ..., n, prop) {
-  check_dots_empty()
-
-  size <- get_slice_size(n, prop)
+  size <- get_slice_size(..., n = n, prop = prop)
   idx <- function(n) seq2(1, size(n))
   slice(.data, idx(dplyr::n()))
 }
@@ -147,9 +145,7 @@ slice_tail <- function(.data, ..., n, prop) {
 
 #' @export
 slice_tail.data.frame <- function(.data, ..., n, prop) {
-  check_dots_empty()
-
-  size <- get_slice_size(n, prop)
+  size <- get_slice_size(..., n = n, prop = prop)
   idx <- function(n) seq2(n - size(n) + 1, n)
   slice(.data, idx(dplyr::n()))
 }
@@ -166,10 +162,9 @@ slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 
 #' @export
 slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
-  check_dots_empty()
   arg_require(order_by)
 
-  size <- get_slice_size(n, prop)
+  size <- get_slice_size(..., n = n, prop = prop)
   if (with_ties) {
     idx <- function(x, n) head(order(x), smaller_ranks(x, size(n)))
   } else {
@@ -192,10 +187,9 @@ slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 
 #' @export
 slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
-  check_dots_empty()
   arg_require(order_by)
 
-  size <- get_slice_size(n, prop)
+  size <- get_slice_size(..., n = n, prop = prop)
   if (with_ties) {
     idx <- function(x, n) head(
         order(x, decreasing = TRUE), smaller_ranks(desc(x), size(n))
@@ -224,9 +218,7 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 
 #' @export
 slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
-  check_dots_empty()
-
-  size <- get_slice_size(n, prop)
+  size <- get_slice_size(..., n = n, prop = prop)
 
   slice_impl(.data, {
     n <- dplyr::n()
@@ -356,7 +348,9 @@ check_constant <- function(x, name, error_call = caller_env()) {
   })
 }
 
-check_slice_size <- function(n, prop, error_call = caller_env()) {
+check_slice_size <- function(..., n, prop, error_call = caller_env()) {
+  check_dots_empty(call = error_call)
+
   if (missing(n) && missing(prop)) {
     list(type = "n", n = 1L)
   } else if (!missing(n) && missing(prop)) {
@@ -376,8 +370,8 @@ check_slice_size <- function(n, prop, error_call = caller_env()) {
   }
 }
 
-get_slice_size <- function(n, prop, error_call = caller_env()) {
-  slice_input <- check_slice_size(n, prop, error_call = error_call)
+get_slice_size <- function(..., n, prop, error_call = caller_env()) {
+  slice_input <- check_slice_size(..., n = n, prop = prop, error_call = error_call)
 
   if (slice_input$type == "n") {
     if (slice_input$n < 0) {
