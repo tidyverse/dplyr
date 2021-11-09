@@ -166,8 +166,6 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   k <- 1L
   out <- vector("list", n_cols * n_fns)
 
-  dots <- enquos(...)
-
   # Reset `cur_column()` info on exit
   old_var <- context_peek_bare("column")
   on.exit(context_poke("column", old_var), add = TRUE)
@@ -183,7 +181,7 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 
       for (j in seq_fns) {
         fn <- fns[[j]]
-        out[[k]] <- eval_tidy(call2(fn, col, !!!dots))
+        out[[k]] <- fn(col, ...)
         k <- k + 1L
       }
     }, error = function(cnd) {
