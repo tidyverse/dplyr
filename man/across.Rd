@@ -32,7 +32,8 @@ use a function that takes a data frame.
 Within these functions you can use \code{\link[=cur_column]{cur_column()}} and \code{\link[=cur_group]{cur_group()}}
 to access the current column and grouping keys respectively.}
 
-\item{...}{Additional arguments for the function calls in \code{.fns}.}
+\item{...}{Additional arguments for the function calls in \code{.fns}. Using these
+\code{...} is strongly discouraged because of issues of timing of evaluation.}
 
 \item{.names}{A glue specification that describes how to name the output
 columns. This can use \code{{.col}} to stand for the selected column name, and
