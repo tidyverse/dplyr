@@ -134,7 +134,7 @@ slice_head <- function(.data, ..., n, prop) {
 slice_head.data.frame <- function(.data, ..., n, prop) {
   size <- get_slice_size(..., n = n, prop = prop)
   idx <- function(n) seq2(1, size(n))
-  slice(.data, idx(dplyr::n()))
+  slice_impl(.data, idx(dplyr::n()))
 }
 
 #' @export
@@ -147,7 +147,7 @@ slice_tail <- function(.data, ..., n, prop) {
 slice_tail.data.frame <- function(.data, ..., n, prop) {
   size <- get_slice_size(..., n = n, prop = prop)
   idx <- function(n) seq2(n - size(n) + 1, n)
-  slice(.data, idx(dplyr::n()))
+  slice_impl(.data, idx(dplyr::n()))
 }
 
 #' @export
@@ -349,24 +349,35 @@ check_constant <- function(x, name, error_call = caller_env()) {
 }
 
 check_slice_size <- function(..., n, prop, error_call = caller_env()) {
-  check_dots_empty(call = error_call)
-
   if (missing(n) && missing(prop)) {
+    dots <- enquos(...)
+    # special case to capture e.g. slice_head(2)
+    if (length(dots) == 1L && names2(dots)[1] == "") {
+      slice_call <- error_call$.Generic
+      bullets <- c(
+        "`n` must be explicitely named.",
+        i = glue("Did you mean `{slice_call}(n = {as_label(dots[[1]])})` ?")
+      )
+      abort(bullets, call = error_call)
+    }
+    check_dots_empty(call = error_call)
     list(type = "n", n = 1L)
   } else if (!missing(n) && missing(prop)) {
+    check_dots_empty(call = error_call)
     n <- check_constant(n, "n", error_call = error_call)
     if (!is.numeric(n) || length(n) != 1 || is.na(n)) {
       abort("`n` must be a single number.", call = error_call)
     }
     list(type = "n", n = n)
   } else if (!missing(prop) && missing(n)) {
+    check_dots_empty(call = error_call)
     prop <- check_constant(prop, "prop", error_call = error_call)
     if (!is.numeric(prop) || length(prop) != 1 || is.na(prop)) {
       abort("`prop` must be a single number.", call = error_call)
     }
     list(type = "prop", prop = prop)
   } else {
-    abort("Must supply exactly one of `n` and `prop` arguments.", call = error_call)
+    abort("Must supply `n` or `prop`, but not both.", call = error_call)
   }
 }
 
