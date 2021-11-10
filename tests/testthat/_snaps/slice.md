@@ -1,7 +1,93 @@
-# slice_*() checks for empty ...
+# slice_*() checks that `n=` is explicitly named
 
     Code
       (expect_error(slice_head(df, 5)))
+    Output
+      <error/rlang_error>
+      Error in `slice_head()`: `n` must be explicitly named.
+      i Did you mean `slice_head(n = 5)`?
+    Code
+      (expect_error(slice_tail(df, 5)))
+    Output
+      <error/rlang_error>
+      Error in `slice_tail()`: `n` must be explicitly named.
+      i Did you mean `slice_tail(n = 5)`?
+    Code
+      (expect_error(slice_min(df, x, 5)))
+    Output
+      <error/rlang_error>
+      Error in `slice_min()`: `n` must be explicitly named.
+      i Did you mean `slice_min(n = 5)`?
+    Code
+      (expect_error(slice_max(df, x, 5)))
+    Output
+      <error/rlang_error>
+      Error in `slice_max()`: `n` must be explicitly named.
+      i Did you mean `slice_max(n = 5)`?
+    Code
+      (expect_error(slice_sample(df, 5)))
+    Output
+      <error/rlang_error>
+      Error in `slice_sample()`: `n` must be explicitly named.
+      i Did you mean `slice_sample(n = 5)`?
+
+# slice_*() checks that for empty `...
+
+    Code
+      (expect_error(slice_head(df, 5, 2)))
+    Output
+      <error/rlib_error_dots_nonempty>
+      Error in `slice_head()`: `...` is not empty.
+      i These dots only exist to allow future extensions and should be empty.
+      x We detected these problematic arguments:
+      * `..1`
+      * `..2`
+      i Did you misspecify an argument?
+    Code
+      (expect_error(slice_tail(df, 5, 2)))
+    Output
+      <error/rlib_error_dots_nonempty>
+      Error in `slice_tail()`: `...` is not empty.
+      i These dots only exist to allow future extensions and should be empty.
+      x We detected these problematic arguments:
+      * `..1`
+      * `..2`
+      i Did you misspecify an argument?
+    Code
+      (expect_error(slice_min(df, x, 5, 2)))
+    Output
+      <error/rlib_error_dots_nonempty>
+      Error in `slice_min()`: `...` is not empty.
+      i These dots only exist to allow future extensions and should be empty.
+      x We detected these problematic arguments:
+      * `..1`
+      * `..2`
+      i Did you misspecify an argument?
+    Code
+      (expect_error(slice_max(df, x, 5, 2)))
+    Output
+      <error/rlib_error_dots_nonempty>
+      Error in `slice_max()`: `...` is not empty.
+      i These dots only exist to allow future extensions and should be empty.
+      x We detected these problematic arguments:
+      * `..1`
+      * `..2`
+      i Did you misspecify an argument?
+    Code
+      (expect_error(slice_sample(df, 5, 2)))
+    Output
+      <error/rlib_error_dots_nonempty>
+      Error in `slice_sample()`: `...` is not empty.
+      i These dots only exist to allow future extensions and should be empty.
+      x We detected these problematic arguments:
+      * `..1`
+      * `..2`
+      i Did you misspecify an argument?
+
+---
+
+    Code
+      (expect_error(slice_head(df, n = 5, 2)))
     Output
       <error/rlib_error_dots_nonempty>
       Error in `slice_head()`: `...` is not empty.
@@ -10,7 +96,7 @@
       * `..1`
       i Did you misspecify an argument?
     Code
-      (expect_error(slice_tail(df, 5)))
+      (expect_error(slice_tail(df, n = 5, 2)))
     Output
       <error/rlib_error_dots_nonempty>
       Error in `slice_tail()`: `...` is not empty.
@@ -19,7 +105,7 @@
       * `..1`
       i Did you misspecify an argument?
     Code
-      (expect_error(slice_min(df, x, 5)))
+      (expect_error(slice_min(df, x, n = 5, 2)))
     Output
       <error/rlib_error_dots_nonempty>
       Error in `slice_min()`: `...` is not empty.
@@ -28,7 +114,7 @@
       * `..1`
       i Did you misspecify an argument?
     Code
-      (expect_error(slice_max(df, x, 5)))
+      (expect_error(slice_max(df, x, n = 5, 2)))
     Output
       <error/rlib_error_dots_nonempty>
       Error in `slice_max()`: `...` is not empty.
@@ -37,7 +123,55 @@
       * `..1`
       i Did you misspecify an argument?
     Code
-      (expect_error(slice_sample(df, 5)))
+      (expect_error(slice_sample(df, n = 5, 2)))
+    Output
+      <error/rlib_error_dots_nonempty>
+      Error in `slice_sample()`: `...` is not empty.
+      i These dots only exist to allow future extensions and should be empty.
+      x We detected these problematic arguments:
+      * `..1`
+      i Did you misspecify an argument?
+
+---
+
+    Code
+      (expect_error(slice_head(df, prop = 0.5, 2)))
+    Output
+      <error/rlib_error_dots_nonempty>
+      Error in `slice_head()`: `...` is not empty.
+      i These dots only exist to allow future extensions and should be empty.
+      x We detected these problematic arguments:
+      * `..1`
+      i Did you misspecify an argument?
+    Code
+      (expect_error(slice_tail(df, prop = 0.5, 2)))
+    Output
+      <error/rlib_error_dots_nonempty>
+      Error in `slice_tail()`: `...` is not empty.
+      i These dots only exist to allow future extensions and should be empty.
+      x We detected these problematic arguments:
+      * `..1`
+      i Did you misspecify an argument?
+    Code
+      (expect_error(slice_min(df, x, prop = 0.5, 2)))
+    Output
+      <error/rlib_error_dots_nonempty>
+      Error in `slice_min()`: `...` is not empty.
+      i These dots only exist to allow future extensions and should be empty.
+      x We detected these problematic arguments:
+      * `..1`
+      i Did you misspecify an argument?
+    Code
+      (expect_error(slice_max(df, x, prop = 0.5, 2)))
+    Output
+      <error/rlib_error_dots_nonempty>
+      Error in `slice_max()`: `...` is not empty.
+      i These dots only exist to allow future extensions and should be empty.
+      x We detected these problematic arguments:
+      * `..1`
+      i Did you misspecify an argument?
+    Code
+      (expect_error(slice_sample(df, prop = 0.5, 2)))
     Output
       <error/rlib_error_dots_nonempty>
       Error in `slice_sample()`: `...` is not empty.
@@ -181,7 +315,7 @@
       (expect_error(slice_head(data.frame(), n = 1, prop = 1)))
     Output
       <error/rlang_error>
-      Error in `slice_head()`: Must supply exactly one of `n` and `prop` arguments.
+      Error in `slice_head()`: Must supply `n` or `prop`, but not both.
     Code
       (expect_error(slice_tail(data.frame(), n = "a")))
     Output
