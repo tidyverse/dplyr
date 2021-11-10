@@ -363,7 +363,7 @@ check_slice_dots <- function(..., n, prop, error_call = caller_env()) {
       slice_call <- error_call$.Generic
       bullets <- c(
         "`n` must be explicitly named.",
-        i = glue("Did you mean `{slice_call}(n = {as_label(dots[[1]])})` ?")
+        i = glue("Did you mean `{slice_call}(n = {as_label(dots[[1]])})`?")
       )
       abort(bullets, call = error_call)
     }
