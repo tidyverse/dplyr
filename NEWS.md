@@ -15,6 +15,8 @@
 
 * `slice()` now indicates which group produces an error (#5931).
 
+* Better display of error messages thanks to rlang 1.0.0.
+
 # dplyr 1.0.7
 
 * `across()` uses the formula environment when inlining them (#5886).
