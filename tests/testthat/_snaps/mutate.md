@@ -5,18 +5,18 @@
       (expect_error(tbl %>% mutate(y = NULL, a = sum(y))))
     Output
       <error/dplyr:::mutate_error>
-      Error in `mutate()`: 
+      Error in `mutate()`:
         Problem while computing `a = sum(y)`.
-      Caused by error: 
+      Caused by error:
         object 'y' not found
     Code
       (expect_error(tbl %>% group_by(x) %>% mutate(y = NULL, a = sum(y))))
     Output
       <error/dplyr:::mutate_error>
-      Error in `mutate()`: 
+      Error in `mutate()`:
         Problem while computing `a = sum(y)`.
         i The error occurred in group 1: x = 1.
-      Caused by error: 
+      Caused by error:
         object 'y' not found
     Code
       (expect_error(tibble(x = 1) %>% mutate(y = mean)))
@@ -111,18 +111,18 @@
       (expect_error(tibble(a = 1) %>% mutate(c = .data$b)))
     Output
       <error/dplyr:::mutate_error>
-      Error in `mutate()`: 
+      Error in `mutate()`:
         Problem while computing `c = .data$b`.
-      Caused by error in `.data$b`: 
+      Caused by error in `.data$b`:
         Column `b` not found in `.data`.
     Code
       (expect_error(tibble(a = 1:3) %>% group_by(a) %>% mutate(c = .data$b)))
     Output
       <error/dplyr:::mutate_error>
-      Error in `mutate()`: 
+      Error in `mutate()`:
         Problem while computing `c = .data$b`.
         i The error occurred in group 1: a = 1.
-      Caused by error in `.data$b`: 
+      Caused by error in `.data$b`:
         Column `b` not found in `.data`.
     Code
       lazy <- (function(x) list(enquo(x)))
@@ -137,8 +137,8 @@
       (expect_error(tibble() %>% mutate(stop("{"))))
     Output
       <error/dplyr:::mutate_error>
-      Error in `mutate()`: 
+      Error in `mutate()`:
         Problem while computing `..1 = stop("{")`.
-      Caused by error: 
+      Caused by error:
         {
 

@@ -24,10 +24,10 @@
       (expect_error(df %>% distinct(y = a + 1)))
     Output
       <error/rlang_error>
-      Error in `distinct()`: 
+      Error in `distinct()`:
         Problem adding computed columns.
-      Caused by error in `mutate()`: 
+      Caused by error in `mutate()`:
         Problem while computing `y = a + 1`.
-      Caused by error: 
+      Caused by error:
         object 'a' not found
 

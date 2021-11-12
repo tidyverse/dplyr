@@ -9,9 +9,9 @@
       (expect_error(group_data(df1)))
     Output
       <error/rlang_error>
-      Error in `group_data()`: 
+      Error in `group_data()`:
         `.data` must be a valid <grouped_df> object.
-      Caused by error in `validate_grouped_df()`: 
+      Caused by error in `validate_grouped_df()`:
         The `.rows` column must be list of one-based integer vectors.
     Code
       (expect_error(validate_grouped_df(df2)))

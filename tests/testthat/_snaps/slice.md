@@ -186,81 +186,81 @@
       (expect_error(slice_head(df, n = n())))
     Output
       <error/rlang_error>
-      Error in `slice_head()`: 
+      Error in `slice_head()`:
         `n` must be a constant.
-      Caused by error in `n()`: 
+      Caused by error in `n()`:
         Must be used inside dplyr verbs.
     Code
       (expect_error(slice_head(df, prop = n())))
     Output
       <error/rlang_error>
-      Error in `slice_head()`: 
+      Error in `slice_head()`:
         `prop` must be a constant.
-      Caused by error in `n()`: 
+      Caused by error in `n()`:
         Must be used inside dplyr verbs.
     Code
       (expect_error(slice_tail(df, n = n())))
     Output
       <error/rlang_error>
-      Error in `slice_tail()`: 
+      Error in `slice_tail()`:
         `n` must be a constant.
-      Caused by error in `n()`: 
+      Caused by error in `n()`:
         Must be used inside dplyr verbs.
     Code
       (expect_error(slice_tail(df, prop = n())))
     Output
       <error/rlang_error>
-      Error in `slice_tail()`: 
+      Error in `slice_tail()`:
         `prop` must be a constant.
-      Caused by error in `n()`: 
+      Caused by error in `n()`:
         Must be used inside dplyr verbs.
     Code
       (expect_error(slice_min(df, x, n = n())))
     Output
       <error/rlang_error>
-      Error in `slice_min()`: 
+      Error in `slice_min()`:
         `n` must be a constant.
-      Caused by error in `n()`: 
+      Caused by error in `n()`:
         Must be used inside dplyr verbs.
     Code
       (expect_error(slice_min(df, x, prop = n())))
     Output
       <error/rlang_error>
-      Error in `slice_min()`: 
+      Error in `slice_min()`:
         `prop` must be a constant.
-      Caused by error in `n()`: 
+      Caused by error in `n()`:
         Must be used inside dplyr verbs.
     Code
       (expect_error(slice_max(df, x, n = n())))
     Output
       <error/rlang_error>
-      Error in `slice_max()`: 
+      Error in `slice_max()`:
         `n` must be a constant.
-      Caused by error in `n()`: 
+      Caused by error in `n()`:
         Must be used inside dplyr verbs.
     Code
       (expect_error(slice_max(df, x, prop = n())))
     Output
       <error/rlang_error>
-      Error in `slice_max()`: 
+      Error in `slice_max()`:
         `prop` must be a constant.
-      Caused by error in `n()`: 
+      Caused by error in `n()`:
         Must be used inside dplyr verbs.
     Code
       (expect_error(slice_sample(df, n = n())))
     Output
       <error/rlang_error>
-      Error in `slice_sample()`: 
+      Error in `slice_sample()`:
         `n` must be a constant.
-      Caused by error in `n()`: 
+      Caused by error in `n()`:
         Must be used inside dplyr verbs.
     Code
       (expect_error(slice_sample(df, prop = n())))
     Output
       <error/rlang_error>
-      Error in `slice_sample()`: 
+      Error in `slice_sample()`:
         `prop` must be a constant.
-      Caused by error in `n()`: 
+      Caused by error in `n()`:
         Must be used inside dplyr verbs.
 
 # slice_min/max() check size of `order_by=` (#5922)
@@ -329,17 +329,17 @@
       (expect_error(slice_head(data.frame(), n = n())))
     Output
       <error/rlang_error>
-      Error in `slice_head()`: 
+      Error in `slice_head()`:
         `n` must be a constant.
-      Caused by error in `n()`: 
+      Caused by error in `n()`:
         Must be used inside dplyr verbs.
     Code
       (expect_error(slice_head(data.frame(), prop = n())))
     Output
       <error/rlang_error>
-      Error in `slice_head()`: 
+      Error in `slice_head()`:
         `prop` must be a constant.
-      Caused by error in `n()`: 
+      Caused by error in `n()`:
         Must be used inside dplyr verbs.
     Code
       (expect_error(slice_head(data.frame(), n = NA)))
