@@ -114,35 +114,35 @@
       (expect_error(summarise(mtcars, a = mean(not_there))))
     Output
       <error/rlang_error>
-      Error in `summarise()`: 
+      Error in `summarise()`:
         Problem while computing `a = mean(not_there)`.
-      Caused by error in `mean()`: 
+      Caused by error in `mean()`:
         object 'not_there' not found
     Code
       (expect_error(summarise(group_by(mtcars, cyl), a = mean(not_there))))
     Output
       <error/rlang_error>
-      Error in `summarise()`: 
+      Error in `summarise()`:
         Problem while computing `a = mean(not_there)`.
         i The error occurred in group 1: cyl = 4.
-      Caused by error in `mean()`: 
+      Caused by error in `mean()`:
         object 'not_there' not found
     Code
       (expect_error(summarise(tibble(a = 1), c = .data$b)))
     Output
       <error/rlang_error>
-      Error in `summarise()`: 
+      Error in `summarise()`:
         Problem while computing `c = .data$b`.
-      Caused by error in `.data$b`: 
+      Caused by error in `.data$b`:
         Column `b` not found in `.data`.
     Code
       (expect_error(summarise(group_by(tibble(a = 1:3), a), c = .data$b)))
     Output
       <error/rlang_error>
-      Error in `summarise()`: 
+      Error in `summarise()`:
         Problem while computing `c = .data$b`.
         i The error occurred in group 1: a = 1.
-      Caused by error in `.data$b`: 
+      Caused by error in `.data$b`:
         Column `b` not found in `.data`.
     Code
       (expect_error(tibble(x = 1, x = 1, .name_repair = "minimal") %>% summarise(x)))
@@ -153,18 +153,18 @@
       (expect_error(tibble() %>% summarise(stop("{"))))
     Output
       <error/rlang_error>
-      Error in `summarise()`: 
+      Error in `summarise()`:
         Problem while computing `..1 = stop("{")`.
-      Caused by error: 
+      Caused by error:
         {
     Code
       (expect_error(tibble(a = 1, b = "{value:1, unit:a}") %>% group_by(b) %>%
         summarise(a = stop("!"))))
     Output
       <error/rlang_error>
-      Error in `summarise()`: 
+      Error in `summarise()`:
         Problem while computing `a = stop("!")`.
         i The error occurred in group 1: b = "{value:1, unit:a}".
-      Caused by error: 
+      Caused by error:
         !
 

@@ -4,18 +4,18 @@
       (expect_error(tibble(x = 1, x = 1, .name_repair = "minimal") %>% arrange(x)))
     Output
       <error/rlang_error>
-      Error in `arrange()`: 
+      Error in `arrange()`:
         Problem with the implicit `mutate()` step. 
-      Caused by error in `mutate()`: 
+      Caused by error in `mutate()`:
         Can't transform a data frame with duplicate names.
     Code
       (expect_error(tibble(x = 1) %>% arrange(y)))
     Output
       <error/rlang_error>
-      Error in `arrange()`: 
+      Error in `arrange()`:
         Problem with the implicit `mutate()` step. 
         x Problem while computing `..1 = y`.
-      Caused by error: 
+      Caused by error:
         object 'y' not found
     Code
       (expect_error(tibble(x = 1) %>% arrange(rep(x, 2))))
