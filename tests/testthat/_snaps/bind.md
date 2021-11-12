@@ -2,21 +2,21 @@
 
     Code
       bound <- bind_cols(df, df)
-    Message <rlib_message_name_repair>
+    Message <simpleMessage>
       New names:
-      * `a` -> `a...1`
-      * `b` -> `b...2`
-      * `a` -> `a...3`
-      * `b` -> `b...4`
+      * a -> a...1
+      * b -> b...2
+      * a -> a...3
+      * b -> b...4
 
 # bind_cols() handles unnamed list with name repair (#3402)
 
     Code
       df <- bind_cols(list(1, 2))
-    Message <rlib_message_name_repair>
+    Message <simpleMessage>
       New names:
-      * `` -> `...1`
-      * `` -> `...2`
+      * `` -> ...1
+      * `` -> ...2
 
 # *_bind() give meaningful errors
 
