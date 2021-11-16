@@ -47,3 +47,7 @@ pull.data.frame <- function(.data, var = -1, name = NULL, ...) {
   name <- tidyselect::vars_pull(names(.data), !!name)
   set_names(.data[[var]], nm = .data[[name]])
 }
+
+find_var <- function(expr, vars) {
+  tidyselect::vars_pull(vars, {{ expr }})
+}
