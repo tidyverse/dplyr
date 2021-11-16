@@ -65,7 +65,8 @@ void filter_check_type(SEXP res, R_xlen_t i, SEXP quos) {
     }
 
     if (INTEGER(Rf_getAttrib(res, R_DimSymbol))[1] == 1) {
-      Rf_warningcall(R_NilValue, "Matrices of 1 column are deprecated in `filter()`.");
+      // not yet,
+      // Rf_warningcall(R_NilValue, "Matrices of 1 column are deprecated in `filter()`.");
       return;
     }
   }

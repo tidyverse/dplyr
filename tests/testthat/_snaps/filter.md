@@ -21,10 +21,6 @@
       Error in `filter()`: Problem while computing `..1 = matrix(c(TRUE, FALSE, TRUE, FALSE), nrow = 2)`.
       x Input `..1` must be a logical vector, not a logical[,2].
     Code
-      (expect_warning(filter(data.frame(x = 1:2), matrix(c(TRUE, FALSE), nrow = 2))))
-    Output
-      <simpleWarning: Matrices of 1 column are deprecated in `filter()`.>
-    Code
       (expect_error(iris %>% group_by(Species) %>% filter(c(TRUE, FALSE))))
     Output
       <error/rlang_error>
