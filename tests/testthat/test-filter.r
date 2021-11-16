@@ -376,12 +376,6 @@ test_that("filter() allows named constants that resolve to logical vectors (#461
   )
 })
 
-test_that("filter() forbids matrices (#5973)", {
-  df <- data.frame(x = 1:2)
-
-  expect_error(filter(df, matrix(c(TRUE, FALSE), nrow = 2)))
-})
-
 test_that("filter() gives useful error messages", {
   expect_snapshot({
     # wrong type
@@ -393,6 +387,15 @@ test_that("filter() gives useful error messages", {
     (expect_error(
       iris %>%
         filter(1:n())
+    ))
+
+    # matrix with > 1 columns
+    (expect_error(
+      filter(data.frame(x = 1:2), matrix(c(TRUE, FALSE, TRUE, FALSE), nrow = 2))
+    ))
+    # matrix with 1 column
+    (expect_warning(
+      filter(data.frame(x = 1:2), matrix(c(TRUE, FALSE), nrow = 2))
     ))
 
     # wrong size

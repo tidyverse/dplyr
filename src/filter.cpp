@@ -59,7 +59,16 @@ void filter_check_size(SEXP res, int i, R_xlen_t n, SEXP quos) {
 }
 
 void filter_check_type(SEXP res, R_xlen_t i, SEXP quos) {
-  if (TYPEOF(res) == LGLSXP && !Rf_isMatrix(res)) return;
+  if (TYPEOF(res) == LGLSXP) {
+    if (!Rf_isMatrix(res)) {
+      return;
+    }
+
+    if (INTEGER(Rf_getAttrib(res, R_DimSymbol))[1] == 1) {
+      Rf_warningcall(R_NilValue, "Matrices of 1 column are deprecated in `filter()`.");
+      return;
+    }
+  }
 
   if (Rf_inherits(res, "data.frame")) {
     R_xlen_t ncol = XLENGTH(res);
