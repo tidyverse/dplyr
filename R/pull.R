@@ -49,5 +49,23 @@ pull.data.frame <- function(.data, var = -1, name = NULL, ...) {
 }
 
 find_var <- function(expr, vars) {
-  tidyselect::vars_pull(vars, {{ expr }})
+  var_env <- set_names(as.list(seq_along(vars)), vars)
+  var <- eval_tidy(expr, var_env)
+
+  if (!is.numeric(var) || length(var) != 1) {
+    abort("`var` must evaluate to a single number.")
+  }
+
+  var <- as.integer(var)
+  n <- length(vars)
+
+  if (is.na(var) || abs(var) > n || var == 0L) {
+    abort("`var` must be a value between {-n} and {n} (excluding zero), not {var}.")
+  }
+
+  if (var < 0) {
+    var <- var + n + 1
+  }
+
+  vars[[var]]
 }
