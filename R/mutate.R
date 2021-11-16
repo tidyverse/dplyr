@@ -229,7 +229,28 @@ transmute <- function(.data, ...) {
 #' @export
 transmute.data.frame <- function(.data, ...) {
   dots <- check_transmute_args(...)
-  mutate(.data, !!!dots, .keep = "none")
+  dots <- dplyr_quosures(!!!dots)
+
+  cols <- mutate_cols(.data, dots, caller_env = caller_env())
+
+  out <- dplyr_col_modify(.data, cols)
+
+  # Compact out `NULL` columns that got removed.
+  # These won't exist in `out`, but we don't want them to look "new".
+  # Note that `dplyr_col_modify()` makes it impossible to `NULL` a group column,
+  # which we rely on below.
+  cols <- compact_null(cols)
+
+  # Retain expression columns in order of their appearance
+  cols_expr <- names(cols)
+
+  # Retain untouched group variables up front
+  cols_group <- group_vars(.data)
+  cols_group <- setdiff(cols_group, cols_expr)
+
+  cols_retain <- c(cols_group, cols_expr)
+
+  dplyr_col_select(out, cols_retain)
 }
 
 # Helpers -----------------------------------------------------------------
