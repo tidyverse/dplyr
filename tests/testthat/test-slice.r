@@ -271,6 +271,13 @@ test_that("slice_*() checks that `n=` is explicitly named", {
   })
 })
 
+test_that("slice_*() not confusing `n` (#6089)", {
+  df <- data.frame(x = 1:10, n = 10:1)
+  expect_equal(slice_max(df, order_by = n), data.frame(x = 1L, n = 10L))
+  expect_equal(slice_min(df, order_by = n), data.frame(x = 10L, n = 1L))
+  expect_error(slice_sample(df, weight_by = n, n = 1L), NA)
+})
+
 test_that("slice_*() checks that for empty `...", {
   df <- data.frame(x = 1:10)
   expect_snapshot({
