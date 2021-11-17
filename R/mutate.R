@@ -62,12 +62,17 @@
 #' An object of the same type as `.data`. The output has the following
 #' properties:
 #'
+#' * For `mutate()`:
+#'   * Columns from `.data` will be preserved according to the `.keep` argument.
+#'   * Existing columns that are modified by `...` will always be returned in
+#'     their original location.
+#'   * New columns created through `...` will be placed according to the
+#'     `.before` and `.after` arguments.
+#' * For `transmute()`:
+#'   * Columns created or modified through `...` will be returned in the order
+#'     specified by `...`.
+#'   * Unmodified grouping columns will be placed at the front.
 #' * The number of rows is not affected.
-#' * Columns from `.data` will be preserved according to the `.keep` argument.
-#' * Existing columns that are modified by `...` will always be returned in
-#'   their original location.
-#' * New columns created through `...` will be placed according to the
-#'   `.before` and `.after` arguments.
 #' * Columns given the value `NULL` will be removed.
 #' * Groups will be recomputed if a grouping variable is mutated.
 #' * Data frame attributes are preserved.
@@ -164,8 +169,7 @@ mutate <- function(.data, ...) {
 #'     columns. This is useful if you generate new columns, but no longer need
 #'     the columns used to generate them.
 #'   * `"none"` doesn't retain any extra columns from `.data`. Only the grouping
-#'     variables and columns created by `...` are kept. This is equivalent to
-#'     using [transmute()].
+#'     variables and columns created by `...` are kept.
 #' @param .before,.after `r lifecycle::badge("experimental")`
 #'   <[`tidy-select`][dplyr_tidy_select]> Optionally, control where new columns
 #'   should appear (the default is to add to the right hand side). See
@@ -229,7 +233,28 @@ transmute <- function(.data, ...) {
 #' @export
 transmute.data.frame <- function(.data, ...) {
   dots <- check_transmute_args(...)
-  mutate(.data, !!!dots, .keep = "none")
+  dots <- dplyr_quosures(!!!dots)
+
+  cols <- mutate_cols(.data, dots, caller_env = caller_env())
+
+  out <- dplyr_col_modify(.data, cols)
+
+  # Compact out `NULL` columns that got removed.
+  # These won't exist in `out`, but we don't want them to look "new".
+  # Note that `dplyr_col_modify()` makes it impossible to `NULL` a group column,
+  # which we rely on below.
+  cols <- compact_null(cols)
+
+  # Retain expression columns in order of their appearance
+  cols_expr <- names(cols)
+
+  # Retain untouched group variables up front
+  cols_group <- group_vars(.data)
+  cols_group <- setdiff(cols_group, cols_expr)
+
+  cols_retain <- c(cols_group, cols_expr)
+
+  dplyr_col_select(out, cols_retain)
 }
 
 # Helpers -----------------------------------------------------------------

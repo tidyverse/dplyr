@@ -65,6 +65,23 @@ test_that("transmute() can handle auto splicing", {
   )
 })
 
+test_that("transmute() retains ordering supplied in `...`, even for pre-existing columns (#6086)", {
+  df <- tibble(x = 1:3, y = 4:6)
+  out <- transmute(df, x, z = x + 1, y)
+  expect_named(out, c("x", "z", "y"))
+})
+
+test_that("transmute() retains ordering supplied in `...`, even for group columns (#6086)", {
+  df <- tibble(x = 1:3, g1 = 1:3, g2 = 1:3, y = 4:6)
+  df <- group_by(df, g1, g2)
+
+  out <- transmute(df, x, z = x + 1, y, g1)
+
+  # - Untouched group variables are first
+  # - Following by ordering supplied through `...`
+  expect_named(out, c("g2", "x", "z", "y", "g1"))
+})
+
 test_that("transmute() error messages", {
   expect_snapshot({
     (expect_error(transmute(mtcars, cyl2 = cyl, .keep = 'all')))
