@@ -203,9 +203,10 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
   }
 
   slice_impl(.data, {
-    ...n <- dplyr::n()
-    x <- vec_assert({{ order_by }}, size = ...n, arg = "order_by")
-    idx(x, ...n)
+    order_by <- {{ order_by }}
+    n <- dplyr::n()
+    order_by <- vec_assert(order_by, size = n, arg = "order_by")
+    idx(order_by, n)
   })
 }
 
