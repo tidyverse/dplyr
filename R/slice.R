@@ -174,11 +174,13 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     idx <- function(x, n) head(order(x), size(n))
   }
 
-  slice_impl(.data, {
+  slice_impl(.data, local({
+    order_by <- {{ order_by }}
     n <- dplyr::n()
-    x <- vec_assert({{ order_by }}, size = n, arg = "order_by")
+
+    x <- vec_assert(order_by, size = n, arg = "order_by")
     idx(x, n)
-  })
+  }))
 
 }
 
@@ -202,11 +204,12 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     idx <- function(x, n) head(order(x, decreasing = TRUE), size(n))
   }
 
-  slice_impl(.data, {
+  slice_impl(.data, local({
+    order_by <- {{ order_by }}
     n <- dplyr::n()
-    x <- vec_assert({{ order_by }}, size = n, arg = "order_by")
-    idx(x, n)
-  })
+    order_by <- vec_assert(order_by, size = n, arg = "order_by")
+    idx(order_by, n)
+  }))
 }
 
 #' @export
@@ -225,14 +228,15 @@ slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, repla
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)
 
-  slice_impl(.data, {
-    n <- dplyr::n()
+  slice_impl(.data, local({
     weight_by <- {{ weight_by }}
+
+    n <- dplyr::n()
     if (!is.null(weight_by)) {
       weight_by <- vec_assert(weight_by, size = n, arg = "weight_by")
     }
     sample_int(n, size(n), replace = replace, wt = weight_by)
-  })
+  }))
 }
 
 # helpers -----------------------------------------------------------------

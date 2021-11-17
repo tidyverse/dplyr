@@ -271,6 +271,18 @@ test_that("slice_*() checks that `n=` is explicitly named", {
   })
 })
 
+test_that("slice_*() not confusing `n` (#6089)", {
+  df <- data.frame(x = 1:10, n = 10:1, g = rep(1:2, each = 5))
+  expect_error(slice_max(df, order_by = n), NA)
+  expect_error(slice_min(df, order_by = n), NA)
+  expect_error(slice_sample(df, weight_by = n, n = 1L), NA)
+
+  df <- group_by(df, g)
+  expect_error(slice_max(df, order_by = n), NA)
+  expect_error(slice_min(df, order_by = n), NA)
+  expect_error(slice_sample(df, weight_by = n, n = 1L), NA)
+})
+
 test_that("slice_*() checks that for empty `...", {
   df <- data.frame(x = 1:10)
   expect_snapshot({
