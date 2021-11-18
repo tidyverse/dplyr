@@ -1,44 +1,3 @@
-# AATtools
-
-<details>
-
-* Version: 0.0.1
-* GitHub: https://github.com/Spiritspeak/AATtools
-* Source code: https://github.com/cran/AATtools
-* Date/Publication: 2020-06-14 15:10:06 UTC
-* Number of recursive dependencies: 22
-
-Run `cloud_details(, "AATtools")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘AATtools-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: aat_bootstrap
-    > ### Title: Compute bootstrapped approach-bias scores
-    > ### Aliases: aat_bootstrap print.aat_bootstrap plot.aat_bootstrap
-    > 
-    > ### ** Examples
-    > 
-    > # Compute 10 bootstrapped AAT scores.
-    ...
-    The following objects are masked from ‘package:base’:
-    
-        intersect, setdiff, setequal, union
-    
-    Error in { : 
-      task 1 failed - "Problem while computing `..1 = abs(scale(RT)) < 3`.
-    ✖ Input `..1` must be a logical vector, not a logical[,1].
-    ℹ The error occurred in group 1: subject = 1."
-    Calls: aat_bootstrap -> %dofunc% -> <Anonymous>
-    Execution halted
-    ```
-
 # arrow
 
 <details>
@@ -87,17 +46,17 @@ Run `cloud_details(, "arrow")` for more info
         libs  73.9Mb
     ```
 
-# bigsnpr
+# cvms
 
 <details>
 
-* Version: 1.8.1
-* GitHub: https://github.com/privefl/bigsnpr
-* Source code: https://github.com/cran/bigsnpr
-* Date/Publication: 2021-06-03 11:00:12 UTC
-* Number of recursive dependencies: 136
+* Version: 1.3.3
+* GitHub: https://github.com/ludvigolsen/cvms
+* Source code: https://github.com/cran/cvms
+* Date/Publication: 2021-11-14 17:20:02 UTC
+* Number of recursive dependencies: 128
 
-Run `cloud_details(, "bigsnpr")` for more info
+Run `cloud_details(, "cvms")` for more info
 
 </details>
 
@@ -105,103 +64,24 @@ Run `cloud_details(, "bigsnpr")` for more info
 
 *   checking tests ... ERROR
     ```
-      Running ‘spelling.R’
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      • is_cran is TRUE (1)
+      Expected match: "missing values and NaNs not allowed if narm is FALSE"
+      Actual message: "Problem while computing anum1 structurefunction x 1 y 2 1"
+      Backtrace:
+          ▆
+       1. ├─testthat::expect_error(...) at test_summarize_metrics.R:108:2
+       2. │ └─testthat:::quasi_capture(...)
+       3. │   ├─testthat .capture(...)
+       4. │   │ └─base::withCallingHandlers(...)
+       5. │   └─rlang::eval_bare(quo_get_expr(.quo), quo_get_env(.quo))
+       6. └─xpectr::strip_msg(...)
+       7.   └─xpectr::stop_if(...)
       
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Failure (test-1-readBGEN.R:66:3): same variant infos as with QCTOOL ─────────
-      dplyr::mutate(test$map[-19, 1:6], chromosome = as.integer(chromosome)) not identical to dplyr::as_tibble(...).
-      Names: 3 string mismatches
-      Component 1: Modes: numeric, character
-      Component 1: target is numeric, current is character
-      Component 2: Modes: character, numeric
-      Component 2: target is character, current is numeric
-      Component 3: 198 string mismatches
-      
-      [ FAIL 1 | WARN 0 | SKIP 1 | PASS 226 ]
+      [ FAIL 1 | WARN 0 | SKIP 70 | PASS 3622 ]
       Error: Test failures
       Execution halted
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is 18.3Mb
-      sub-directories of 1Mb or more:
-        libs  16.5Mb
-    ```
-
-# bruceR
-
-<details>
-
-* Version: 0.7.3
-* GitHub: https://github.com/psychbruce/bruceR
-* Source code: https://github.com/cran/bruceR
-* Date/Publication: 2021-11-05 17:40:01 UTC
-* Number of recursive dependencies: 202
-
-Run `cloud_details(, "bruceR")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘bruceR-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: Alpha
-    > ### Title: Reliability analysis (Cronbach's alpha and McDonald's omega).
-    > ### Aliases: Alpha
-    > 
-    > ### ** Examples
-    > 
-    > # ?psych::bfi
-    > Alpha(bfi, "E", 1:5)  # "E1" & "E2" should be reverse scored
-    Warning: replacing previous import ‘ggplot2::enquo’ by ‘jmvcore::enquo’ when loading ‘jmv’
-    Error in jmvcore::enquo(vars) : object 'rlang_enquo' not found
-    Calls: Alpha -> <Anonymous> -> <Anonymous> -> <Anonymous>
-    Execution halted
-    ```
-
-# cohorts
-
-<details>
-
-* Version: 1.0.0
-* GitHub: https://github.com/PeerChristensen/cohorts
-* Source code: https://github.com/cran/cohorts
-* Date/Publication: 2021-07-08 12:00:02 UTC
-* Number of recursive dependencies: 41
-
-Run `cloud_details(, "cohorts")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘cohorts-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: cohort_table_day
-    > ### Title: Create a Cohort Table Using Day Level Event Data
-    > ### Aliases: cohort_table_day
-    > 
-    > ### ** Examples
-    > 
-    > cohort_table_day(gamelaunch, userid, eventDate)
-    Error in get(name, envir = asNamespace(pkg), inherits = FALSE) : 
-      object 'find_var' not found
-    Calls: cohort_table_day ... pivot_wider.dtplyr_step -> unique -> pull -> pull.dtplyr_step -> ::: -> get
-    Execution halted
     ```
 
 # datacleanr
@@ -346,60 +226,9 @@ Run `cloud_details(, "dtplyr")` for more info
        10.       └─dtplyr:::step_subset(...)
        11.         └─base::stopifnot(is.null(j) || is_expression(j))
       
-      [ FAIL 34 | WARN 0 | SKIP 9 | PASS 282 ]
+      [ FAIL 6 | WARN 0 | SKIP 12 | PASS 335 ]
       Error: Test failures
       Execution halted
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Missing object imported by a ':::' call: ‘dplyr:::find_var’
-    ```
-
-# dynfeature
-
-<details>
-
-* Version: 1.0.0
-* GitHub: NA
-* Source code: https://github.com/cran/dynfeature
-* Date/Publication: 2021-06-14 07:30:12 UTC
-* Number of recursive dependencies: 120
-
-Run `cloud_details(, "dynfeature")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-          is_null
-      
-      > 
-      > test_check("dynfeature")
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Failure (test-calculate_feature_importance.R:170:3): Testing calculate_branching_point_feature_importance ──
-      gimp %>% map_chr(class) not equal to c(milestone_id = "factor", feature_id = "factor", importance = "numeric").
-      Names: 3 string mismatches
-      ── Failure (test-calculate_feature_importance.R:178:3): Testing calculate_branch_feature_importance ──
-      gimp %>% map_chr(class) not equal to c(feature_id = "factor", from = "factor", to = "factor", importance = "numeric").
-      Names: 3 string mismatches
-      
-      [ FAIL 2 | WARN 0 | SKIP 0 | PASS 17 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘magrittr’
-      All declared Imports should be used.
     ```
 
 # dynplot
@@ -443,71 +272,6 @@ Run `cloud_details(, "dynplot")` for more info
     Execution halted
     ```
 
-# egor
-
-<details>
-
-* Version: 1.21.10
-* GitHub: https://github.com/tilltnet/egor
-* Source code: https://github.com/cran/egor
-* Date/Publication: 2021-10-07 17:00:05 UTC
-* Number of recursive dependencies: 89
-
-Run `cloud_details(, "egor")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘egor-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: plot_egograms
-    > ### Title: Plotting _egor_ objects
-    > ### Aliases: plot_egograms plot_ego_graphs plot_egor plot.egor
-    > 
-    > ### ** Examples
-    > 
-    > e <- make_egor(net.count = 5, max.alters = 12)
-    ...
-     10. │   └─dplyr:::filter_rows(.data, ..., caller_env = caller_env())
-     11. │     └─dplyr:::filter_eval(dots, mask = mask, error_call = error_call)
-     12. │       ├─base::withCallingHandlers(...)
-     13. │       └─mask$eval_all_filter(dots, env_filter)
-     14. ├─dplyr:::dplyr_internal_error(...)
-     15. │ └─rlang::abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
-     16. │   └─rlang:::signal_abort(cnd, .file)
-     17. │     └─base::signalCondition(cnd)
-     18. └─dplyr `<fn>`(`<dpl:::__>`)
-    Execution halted
-    ```
-
-## In both
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      The following objects are masked from 'package:base':
-      
-          intersect, setdiff, setequal, union
-      
-      Loading required package: tibble
-      > library(dplyr)
-      > 
-      > test_check("egor")
-      Error in parse(con, n = -1, srcfile = srcfile, encoding = "UTF-8") : 
-        test-activate.R:2:11: unexpected '>'
-      1: test_that("activate works with singular and plurals of level names", {
-      2:   egor32 |>
-                   ^
-      Calls: test_check ... doTryCatch -> lapply -> FUN -> source_file -> parse
-      Execution halted
-    ```
-
 # ergm.ego
 
 <details>
@@ -530,90 +294,6 @@ Run `cloud_details(, "ergm.ego")` for more info
       Search path was changed
     ```
 
-# ezcox
-
-<details>
-
-* Version: 1.0.2
-* GitHub: https://github.com/ShixiangWang/ezcox
-* Source code: https://github.com/cran/ezcox
-* Date/Publication: 2021-10-28 15:20:08 UTC
-* Number of recursive dependencies: 88
-
-Run `cloud_details(, "ezcox")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking whether package ‘ezcox’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/tmp/workdir/ezcox/new/ezcox.Rcheck/00install.out’ for details.
-    ```
-
-## Newly fixed
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      During startup - Warning message:
-      package ‘stats’ in options("defaultPackages") was not found 
-      Error: package or namespace load failed for ‘utils’:
-       .onLoad failed in loadNamespace() for 'utils', details:
-        call: system("uname -a", intern = TRUE)
-        error: cannot popen 'uname -a', probable reason 'Cannot allocate memory'
-      Error: package or namespace load failed for ‘grDevices’ in get(Info[i, 1], envir = env):
-       read failed on /opt/R/4.0.3/lib/R/library/grDevices/R/grDevices.rdb
-      Error: package or namespace load failed for ‘graphics’:
-       .onLoad failed in loadNamespace() for 'grDevices', details:
-        call: .select_device()
-        error: lazy-load database '/opt/R/4.0.3/lib/R/library/grDevices/R/grDevices.rdb' is corrupt
-      Killed
-      Error: package or namespace load failed for ‘graphics’ in get(Info[i, 1], envir = env):
-       lazy-load database '/opt/R/4.0.3/lib/R/library/grDevices/R/grDevices.rdb' is corrupt
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘ezcox’ ...
-** package ‘ezcox’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-Killed
-ERROR: lazy loading failed for package ‘ezcox’
-* removing ‘/tmp/workdir/ezcox/new/ezcox.Rcheck/ezcox’
-
-
-```
-### CRAN
-
-```
-* installing *source* package ‘ezcox’ ...
-** package ‘ezcox’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-** help
-*** installing help indices
-*** copying figures
-** building package indices
-** installing vignettes
-** testing if installed package can be loaded from temporary location
-** testing if installed package can be loaded from final location
-** testing if installed package keeps a record of temporary installation path
-* DONE (ezcox)
-
-
-```
 # fable
 
 <details>
@@ -778,94 +458,6 @@ Run `cloud_details(, "gestalt")` for more info
       Execution halted
     ```
 
-# ggcharts
-
-<details>
-
-* Version: 0.2.1
-* GitHub: https://github.com/thomas-neitmann/ggcharts
-* Source code: https://github.com/cran/ggcharts
-* Date/Publication: 2020-05-20 00:40:02 UTC
-* Number of recursive dependencies: 85
-
-Run `cloud_details(, "ggcharts")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘ggcharts-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: diverging_bar_chart
-    > ### Title: Diverging Bar Chart
-    > ### Aliases: diverging_bar_chart
-    > 
-    > ### ** Examples
-    > 
-    > if (requireNamespace("tidyr")) {
-    ...
-      8. │     └─dplyr:::filter_rows(.data, ..., caller_env = caller_env())
-      9. │       └─dplyr:::filter_eval(dots, mask = mask, error_call = error_call)
-     10. │         ├─base::withCallingHandlers(...)
-     11. │         └─mask$eval_all_filter(dots, env_filter)
-     12. ├─dplyr:::dplyr_internal_error(...)
-     13. │ └─rlang::abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
-     14. │   └─rlang:::signal_abort(cnd, .file)
-     15. │     └─base::signalCondition(cnd)
-     16. └─dplyr `<fn>`(`<dpl:::__>`)
-    Execution halted
-    ```
-
-# huxtable
-
-<details>
-
-* Version: 5.4.0
-* GitHub: https://github.com/hughjonesd/huxtable
-* Source code: https://github.com/cran/huxtable
-* Date/Publication: 2021-05-14 21:30:06 UTC
-* Number of recursive dependencies: 169
-
-Run `cloud_details(, "huxtable")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ══ Skipped tests ═══════════════════════════════════════════════════════════════
-      • 0-length tables don't work in flextable yet (1)
-      • Awaiting ftExtra improvements (1)
-      • Couldn't unload dplyr namespace (2)
-      • Not testing, code doesn't play well with R CMD check (3)
-      • On CRAN (16)
-      
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Failure (test-dplyr.R:56:3): mutate, mutate_ and transmute work ─────────────
-      bold(ht4)[, 1] not equivalent to c(FALSE, FALSE, FALSE).
-      1 element mismatch
-      
-      [ FAIL 1 | WARN 2 | SKIP 23 | PASS 1207 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘R6’ ‘xml2’
-      All declared Imports should be used.
-    ```
-
 # immunarch
 
 <details>
@@ -965,118 +557,52 @@ Run `cloud_details(, "isoreader")` for more info
     Missing or unexported object: ‘glue::collapse’
     ```
 
-# janitor
+# keyholder
 
 <details>
 
-* Version: 2.1.0
-* GitHub: https://github.com/sfirke/janitor
-* Source code: https://github.com/cran/janitor
-* Date/Publication: 2021-01-05 01:10:04 UTC
-* Number of recursive dependencies: 67
+* Version: 0.1.5
+* GitHub: https://github.com/echasnovski/keyholder
+* Source code: https://github.com/cran/keyholder
+* Date/Publication: 2020-05-09 11:20:02 UTC
+* Number of recursive dependencies: 56
 
-Run `cloud_details(, "janitor")` for more info
+Run `cloud_details(, "keyholder")` for more info
 
 </details>
 
 ## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘janitor-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: tabyl
-    > ### Title: Generate a frequency table (1-, 2-, or 3-way).
-    > ### Aliases: tabyl tabyl.default tabyl.data.frame
-    > 
-    > ### ** Examples
-    > 
-    > 
-    ...
-     10. │ └─dplyr:::filter_rows(.data, ..., caller_env = caller_env())
-     11. │   └─dplyr:::filter_eval(dots, mask = mask, error_call = error_call)
-     12. │     ├─base::withCallingHandlers(...)
-     13. │     └─mask$eval_all_filter(dots, env_filter)
-     14. ├─dplyr:::dplyr_internal_error(...)
-     15. │ └─rlang::abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
-     16. │   └─rlang:::signal_abort(cnd, .file)
-     17. │     └─base::signalCondition(cnd)
-     18. └─dplyr `<fn>`(`<dpl:::__>`)
-    Execution halted
-    ```
 
 *   checking tests ... ERROR
     ```
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-        9. ├─dplyr::filter(., !is.na(.[1]))
-       10. ├─dplyr:::filter.data.frame(., !is.na(.[1]))
-       11. │ └─dplyr:::filter_rows(.data, ..., caller_env = caller_env())
-       12. │   └─dplyr:::filter_eval(dots, mask = mask, error_call = error_call)
-       13. │     ├─base::withCallingHandlers(...)
-       14. │     └─mask$eval_all_filter(dots, env_filter)
-       15. ├─dplyr:::dplyr_internal_error(...)
-       16. │ └─rlang::abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
-       17. │   └─rlang:::signal_abort(cnd, .file)
-       18. │     └─base::signalCondition(cnd)
-       19. └─dplyr `<fn>`(`<dpl:::__>`)
+        4. └─magrittr .f1(.)
+        5.   └─magrittr::freduce(value, `_function_list`)
+        6.     ├─base::withVisible(function_list[[k]](value))
+        7.     └─function_list[[k]](value)
+        8.       └─dplyr::transmute_at(., vars(mpg, hp), as.integer)
+        9.         ├─dplyr::transmute(.tbl, !!!funs)
+       10.         └─dplyr:::transmute.data.frame(.tbl, !!!funs)
+       11.           └─dplyr:::dplyr_col_select(out, cols_retain)
+       12.             ├─.data[loc]
+       13.             └─keyholder:::`[.keyed_df`(.data, loc)
+       14.               └─keyholder::`keys<-`(`*tmp*`, value = keys(x)[i, , drop = FALSE])
       
-      [ FAIL 11 | WARN 0 | SKIP 1 | PASS 504 ]
+      [ FAIL 4 | WARN 0 | SKIP 0 | PASS 301 ]
       Error: Test failures
       Execution halted
-    ```
-
-# lares
-
-<details>
-
-* Version: 5.0.2
-* GitHub: https://github.com/laresbernardo/lares
-* Source code: https://github.com/cran/lares
-* Date/Publication: 2021-09-10 13:40:02 UTC
-* Number of recursive dependencies: 142
-
-Run `cloud_details(, "lares")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘lares-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: distr
-    > ### Title: Compare Variables with their Distributions
-    > ### Aliases: distr
-    > 
-    > ### ** Examples
-    > 
-    > Sys.unsetenv("LARES_FONT") # Temporal
-    ...
-    > dft %>% distr(Survived, Sex)
-    Error in `distr()`: Can't subset `.data` outside of a data mask context.
-    Backtrace:
-        ▆
-     1. ├─dft %>% distr(Survived, Sex)
-     2. └─lares::distr(., Survived, Sex)
-     3.   ├─<unknown>
-     4.   └─rlang:::`$.rlang_fake_data_pronoun`(.data, "value")
-     5.     └─rlang:::stop_fake_data_subset(call)
-    Execution halted
     ```
 
 # manymodelr
 
 <details>
 
-* Version: 0.3.6
+* Version: 0.3.7
 * GitHub: https://github.com/Nelson-Gon/manymodelr
 * Source code: https://github.com/cran/manymodelr
-* Date/Publication: 2021-08-17 09:20:02 UTC
+* Date/Publication: 2021-11-15 09:20:09 UTC
 * Number of recursive dependencies: 112
 
 Run `cloud_details(, "manymodelr")` for more info
@@ -1107,14 +633,52 @@ Run `cloud_details(, "manymodelr")` for more info
       Execution halted
     ```
 
+# mcp
+
+<details>
+
+* Version: 0.3.1
+* GitHub: https://github.com/lindeloev/mcp
+* Source code: https://github.com/cran/mcp
+* Date/Publication: 2021-11-17 16:50:02 UTC
+* Number of recursive dependencies: 102
+
+Run `cloud_details(, "mcp")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking tests ... ERROR
+    ```
+      Running ‘testthat.R’
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      ── Failure (helper-runs.R:325:7): good_poisson:
+          y ~ 1 + ar(1), ~1 + x + ar(2, 1 + x + I(x^3)) ──
+      stringr::str_starts(error_message, expected_error_poisson) is not TRUE
+      
+      `actual`:   FALSE
+      `expected`: TRUE 
+      Backtrace:
+          ▆
+       1. └─mcp:::test_runs(model, ...) at tests/testthat/helper-runs.R:325:6
+       2.   └─mcp:::test_pp_eval(fit) at tests/testthat/helper-runs.R:113:6
+       3.     └─testthat::expect_true(stringr::str_starts(error_message, expected_error_poisson)) at tests/testthat/helper-runs.R:293:6
+      
+      [ FAIL 5 | WARN 0 | SKIP 6 | PASS 3625 ]
+      Error: Test failures
+      Execution halted
+    ```
+
 # microeco
 
 <details>
 
-* Version: 0.5.1
+* Version: 0.6.0
 * GitHub: NA
 * Source code: https://github.com/cran/microeco
-* Date/Publication: 2021-09-01 21:50:01 UTC
+* Date/Publication: 2021-11-16 09:10:02 UTC
 * Number of recursive dependencies: 190
 
 Run `cloud_details(, "microeco")` for more info
@@ -1136,45 +700,46 @@ Run `cloud_details(, "microeco")` for more info
     Package suggested but not available for checking: ‘ggtree’
     ```
 
-# Momocs
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘reshape2’
+      All declared Imports should be used.
+    ```
+
+# MoMPCA
 
 <details>
 
-* Version: 1.3.2
-* GitHub: https://github.com/MomX/Momocs
-* Source code: https://github.com/cran/Momocs
-* Date/Publication: 2020-10-06 15:20:11 UTC
-* Number of recursive dependencies: 121
+* Version: 1.0.1
+* GitHub: NA
+* Source code: https://github.com/cran/MoMPCA
+* Date/Publication: 2021-01-21 13:10:03 UTC
+* Number of recursive dependencies: 84
 
-Run `cloud_details(, "Momocs")` for more info
+Run `cloud_details(, "MoMPCA")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking examples ... ERROR
+*   checking tests ...ERROR
     ```
-    Running examples in ‘Momocs-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: rm_missing
-    > ### Title: Remove shapes with missing data in fac
-    > ### Aliases: rm_missing
-    > 
-    > ### ** Examples
-    > 
-    > bot$fac$type[3] <- NA
-    ...
-      8. │     └─dplyr:::filter_rows(.data, ..., caller_env = caller_env())
-      9. │       └─dplyr:::filter_eval(dots, mask = mask, error_call = error_call)
-     10. │         ├─base::withCallingHandlers(...)
-     11. │         └─mask$eval_all_filter(dots, env_filter)
-     12. ├─dplyr:::dplyr_internal_error(...)
-     13. │ └─rlang::abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
-     14. │   └─rlang:::signal_abort(cnd, .file)
-     15. │     └─base::signalCondition(cnd)
-     16. └─dplyr `<fn>`(`<dpl:::__>`)
-    Execution halted
+      Running ‘testthat.R’
+    Running the tests in ‘tests/testthat.R’ failed.
+    Complete output:
+      > library(testthat)
+      > library(MoMPCA)
+      > 
+      > test_check("MoMPCA")
+      Killed
+      sh: 1: Cannot fork
+    ```
+
+## In both
+
+*   checking data for non-ASCII characters ... NOTE
+    ```
+      Note: found 16 marked UTF-8 strings
     ```
 
 # motif
@@ -1225,47 +790,6 @@ Run `cloud_details(, "motif")` for more info
         raster   2.2Mb
     ```
 
-# MRFcov
-
-<details>
-
-* Version: 1.0.38
-* GitHub: https://github.com/nicholasjclark/MRFcov
-* Source code: https://github.com/cran/MRFcov
-* Date/Publication: 2021-03-18 06:40:03 UTC
-* Number of recursive dependencies: 103
-
-Run `cloud_details(, "MRFcov")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘MRFcov-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: plotMRF_hm
-    > ### Title: Plot MRF interaction parameters as a heatmap
-    > ### Aliases: plotMRF_hm
-    > 
-    > ### ** Examples
-    > 
-    > 
-    ...
-      6. │ └─dplyr:::filter_rows(.data, ..., caller_env = caller_env())
-      7. │   └─dplyr:::filter_eval(dots, mask = mask, error_call = error_call)
-      8. │     ├─base::withCallingHandlers(...)
-      9. │     └─mask$eval_all_filter(dots, env_filter)
-     10. ├─dplyr:::dplyr_internal_error(...)
-     11. │ └─rlang::abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
-     12. │   └─rlang:::signal_abort(cnd, .file)
-     13. │     └─base::signalCondition(cnd)
-     14. └─dplyr `<fn>`(`<dpl:::__>`)
-    Execution halted
-    ```
-
 # multidplyr
 
 <details>
@@ -1287,19 +811,19 @@ Run `cloud_details(, "multidplyr")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      ── Error (test-partydf.R:49:3): can partition and re-collect ───────────────────
-      Error in `get(name, envir = asNamespace(pkg), inherits = FALSE)`: object 'find_var' not found
-      Backtrace:
-          ▆
-       1. ├─testthat::expect_equal(pull(df2, x), df1$x) at test-partydf.R:49:2
-       2. │ └─testthat::quasi_label(enquo(object), label, arg = "object")
-       3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
-       4. ├─dplyr::pull(df2, x)
-       5. └─multidplyr:::pull.multidplyr_party_df(df2, x)
-       6.   └─dplyr:::find_var
-       7.     └─base::get(name, envir = asNamespace(pkg), inherits = FALSE)
+           ▆
+        1. ├─testthat::expect_equal(pf1 %>% intersect(pf2) %>% pull(), 1) at test-dplyr-dual.R:28:2
+        2. │ └─testthat::quasi_label(enquo(object), label, arg = "object")
+        3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
+        4. ├─pf1 %>% intersect(pf2) %>% pull()
+        5. ├─dplyr::pull(.)
+        6. ├─generics::intersect(., pf2)
+        7. └─multidplyr:::intersect.multidplyr_party_df(., pf2)
+        8.   └─multidplyr:::shard_call_dual("intersect", x, y, ..., by = by)
+        9.     └─multidplyr::cluster_send(...)
+       10.       └─multidplyr::cluster_call(cluster, !!code)
       
-      [ FAIL 3 | WARN 0 | SKIP 4 | PASS 38 ]
+      [ FAIL 1 | WARN 0 | SKIP 4 | PASS 45 ]
       Error: Test failures
       Execution halted
     ```
@@ -1310,20 +834,19 @@ Run `cloud_details(, "multidplyr")` for more info
     ```
     Namespace in Imports field not imported from: ‘R6’
       All declared Imports should be used.
-    Missing object imported by a ':::' call: ‘dplyr:::find_var’
     ```
 
-# multifear
+# multinma
 
 <details>
 
-* Version: 0.1.2
-* GitHub: https://github.com/AngelosPsy/multifear
-* Source code: https://github.com/cran/multifear
-* Date/Publication: 2021-06-01 20:50:02 UTC
-* Number of recursive dependencies: 152
+* Version: 0.3.0
+* GitHub: https://github.com/dmphillippo/multinma
+* Source code: https://github.com/cran/multinma
+* Date/Publication: 2021-03-18 14:00:03 UTC
+* Number of recursive dependencies: 134
 
-Run `cloud_details(, "multifear")` for more info
+Run `cloud_details(, "multinma")` for more info
 
 </details>
 
@@ -1334,29 +857,43 @@ Run `cloud_details(, "multifear")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-       11. ├─dplyr::filter(., excl == FALSE)
-       12. ├─dplyr:::filter.data.frame(., excl == FALSE)
-       13. │ └─dplyr:::filter_rows(.data, ..., caller_env = caller_env())
-       14. │   └─dplyr:::filter_eval(dots, mask = mask, error_call = error_call)
-       15. │     ├─base::withCallingHandlers(...)
-       16. │     └─mask$eval_all_filter(dots, env_filter)
-       17. ├─dplyr:::dplyr_internal_error(...)
-       18. │ └─rlang::abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
-       19. │   └─rlang:::signal_abort(cnd, .file)
-       20. │     └─base::signalCondition(cnd)
-       21. └─dplyr `<fn>`(`<dpl:::__>`)
+        4. │   │ └─base::withCallingHandlers(...)
+        5. │   └─rlang::eval_bare(quo_get_expr(.quo), quo_get_env(.quo))
+        6. ├─multinma::set_ipd(...)
+        7. │ └─multinma:::pull_non_null(data, enquo(r))
+        8. │   ├─dplyr::pull(...)
+        9. │   ├─dplyr::transmute(...)
+       10. │   └─dplyr:::transmute.data.frame(...)
+       11. │     └─dplyr:::mutate_cols(.data, dots, caller_env = caller_env())
+       12. │       ├─base::withCallingHandlers(...)
+       13. │       └─mask$eval_all_mutate(quo)
+       14. └─multinma::multi(r_c, r_b, r_a, inclusive = TRUE)
       
-      [ FAIL 2 | WARN 1 | SKIP 0 | PASS 15 ]
+      [ FAIL 17 | WARN 0 | SKIP 16 | PASS 692 ]
       Error: Test failures
       Execution halted
     ```
 
 ## In both
 
+*   checking installed package size ... NOTE
+    ```
+      installed size is 228.2Mb
+      sub-directories of 1Mb or more:
+        doc     5.9Mb
+        libs  221.0Mb
+    ```
+
 *   checking dependencies in R code ... NOTE
     ```
-    Namespace in Imports field not imported from: ‘ez’
+    Namespaces in Imports field not imported from:
+      ‘RcppParallel’ ‘rstantools’
       All declared Imports should be used.
+    ```
+
+*   checking for GNU extensions in Makefiles ... NOTE
+    ```
+    GNU make is a SystemRequirements.
     ```
 
 # nofrills
@@ -1539,115 +1076,16 @@ Run `cloud_details(, "prider")` for more info
     > 
     > test_fasta <- system.file('extdata', 'test.fasta', package = 'prider')
     ...
-      8. │   └─dplyr:::slice_rows(.data, ..., caller_env = caller_env(2), error_call = error_call)
-      9. │     └─dplyr:::slice_eval(mask, dots, error_call = error_call)
-     10. │       ├─base::withCallingHandlers(...)
-     11. │       └─mask$eval_all(quo)
-     12. ├─vctrs::vec_assert(1, size = n, arg = "order_by")
-     13. │ └─rlang::abort(...)
-     14. │   └─rlang:::signal_abort(cnd, .file)
-     15. │     └─base::signalCondition(cnd)
-     16. └─dplyr `<fn>`(`<vctrs___>`)
+     14. │   └─base::eval(expr, p)
+     15. │     └─base::eval(expr, p)
+     16. │       └─base::eval(...)
+     17. │         └─base::eval(...)
+     18. │           └─vctrs::vec_assert(order_by, size = n, arg = "order_by")
+     19. │             └─rlang::abort(...)
+     20. │               └─rlang:::signal_abort(cnd, .file)
+     21. │                 └─base::signalCondition(cnd)
+     22. └─dplyr `<fn>`(`<vctrs___>`)
     Execution halted
-    ```
-
-# psfmi
-
-<details>
-
-* Version: 1.0.0
-* GitHub: https://github.com/mwheymans/psfmi
-* Source code: https://github.com/cran/psfmi
-* Date/Publication: 2021-09-23 10:10:05 UTC
-* Number of recursive dependencies: 168
-
-Run `cloud_details(, "psfmi")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘psfmi-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: pool_D4
-    > ### Title: Pools the Likelihood Ratio tests across Multiply Imputed
-    > ###   datasets ( method D4)
-    > ### Aliases: pool_D4
-    > 
-    > ### ** Examples
-    > 
-    ...
-      4. │   └─dplyr:::filter_rows(.data, ..., caller_env = caller_env())
-      5. │     └─dplyr:::filter_eval(dots, mask = mask, error_call = error_call)
-      6. │       ├─base::withCallingHandlers(...)
-      7. │       └─mask$eval_all_filter(dots, env_filter)
-      8. ├─dplyr:::dplyr_internal_error(...)
-      9. │ └─rlang::abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
-     10. │   └─rlang:::signal_abort(cnd, .file)
-     11. │     └─base::signalCondition(cnd)
-     12. └─dplyr `<fn>`(`<dpl:::__>`)
-    Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘miceadds’
-      All declared Imports should be used.
-    ```
-
-# psycModel
-
-<details>
-
-* Version: 0.3.2
-* GitHub: NA
-* Source code: https://github.com/cran/psycModel
-* Date/Publication: 2021-09-05 05:00:02 UTC
-* Number of recursive dependencies: 171
-
-Run `cloud_details(, "psycModel")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘psycModel-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: cfa_groupwise
-    > ### Title: Confirmatory Factor Analysis (groupwise)
-    > ### Aliases: cfa_groupwise
-    > 
-    > ### ** Examples
-    > 
-    > # The example is used as the illustration of the function output only.
-    ...
-      5. │ └─dplyr:::filter_rows(.data, ..., caller_env = caller_env())
-      6. │   └─dplyr:::filter_eval(dots, mask = mask, error_call = error_call)
-      7. │     ├─base::withCallingHandlers(...)
-      8. │     └─mask$eval_all_filter(dots, env_filter)
-      9. ├─dplyr:::dplyr_internal_error(...)
-     10. │ └─rlang::abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
-     11. │   └─rlang:::signal_abort(cnd, .file)
-     12. │     └─base::signalCondition(cnd)
-     13. └─dplyr `<fn>`(`<dpl:::__>`)
-    Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘lifecycle’ ‘patchwork’
-      All declared Imports should be used.
     ```
 
 # PVplr
@@ -1699,55 +1137,17 @@ Run `cloud_details(, "PVplr")` for more info
       All declared Imports should be used.
     ```
 
-# r2dii.match
+# ruler
 
 <details>
 
-* Version: 0.0.11
-* GitHub: https://github.com/2DegreesInvesting/r2dii.match
-* Source code: https://github.com/cran/r2dii.match
-* Date/Publication: 2021-09-23 04:40:08 UTC
-* Number of recursive dependencies: 66
+* Version: 0.2.4
+* GitHub: https://github.com/echasnovski/ruler
+* Source code: https://github.com/cran/ruler
+* Date/Publication: 2020-11-25 08:00:03 UTC
+* Number of recursive dependencies: 59
 
-Run `cloud_details(, "r2dii.match")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘spelling.R’
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      > library(testthat)
-      > library(r2dii.match)
-      > 
-      > test_check("r2dii.match")
-      ══ Skipped tests ═══════════════════════════════════════════════════════════════
-      • On CRAN (6)
-      
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Failure (test-restructure_ald.R:50:3): restructure_ald outputs the expected tibble ──
-      Names of `out` ('sector', 'name', 'alias') don't match 'name', 'sector', 'alias'
-      
-      [ FAIL 1 | WARN 0 | SKIP 6 | PASS 169 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-# saeSim
-
-<details>
-
-* Version: 0.10.0
-* GitHub: https://github.com/wahani/saeSim
-* Source code: https://github.com/cran/saeSim
-* Date/Publication: 2019-03-28 12:50:03 UTC
-* Number of recursive dependencies: 101
-
-Run `cloud_details(, "saeSim")` for more info
+Run `cloud_details(, "ruler")` for more info
 
 </details>
 
@@ -1755,47 +1155,47 @@ Run `cloud_details(, "saeSim")` for more info
 
 *   checking examples ... ERROR
     ```
-    Running examples in ‘saeSim-Ex.R’ failed
+    Running examples in ‘ruler-Ex.R’ failed
     The error most likely occurred in:
     
-    > ### Name: sim_sample
-    > ### Title: Sampling component
-    > ### Aliases: sim_sample
+    > ### Name: cell-pack
+    > ### Title: Cell rule pack
+    > ### Aliases: cell-pack
     > 
     > ### ** Examples
     > 
-    > # Simple random sample - 5% sample:
+    > cell_outlier_rules <- . %>% dplyr::transmute_at(
     ...
-     12. │   └─dplyr:::slice_rows(.data, ..., caller_env = caller_env(2), error_call = error_call)
-     13. │     └─dplyr:::slice_eval(mask, dots, error_call = error_call)
-     14. │       ├─base::withCallingHandlers(...)
-     15. │       └─mask$eval_all(quo)
-     16. ├─dplyr:::check_frac(size, replace = replace)
-     17. │ └─rlang::abort(bullets)
-     18. │   └─rlang:::signal_abort(cnd, .file)
-     19. │     └─base::signalCondition(cnd)
-     20. └─dplyr `<fn>`(`<rlng_rrr>`)
+    +   rules(proper_is_neg = . < 0)
+    + )
+    > 
+    > mtcars[1:2, ] %>%
+    +   expose(cell_packs(improper_pack, proper_pack)) %>%
+    +   get_report()
+    Error in `keys<-`(`*tmp*`, value = keys(x)[i, , drop = FALSE]) : 
+      Keys object should have the same number of rows as data.
+    Calls: %>% ... transmute.data.frame -> dplyr_col_select -> [ -> [.keyed_df -> keys<-
     Execution halted
     ```
 
 *   checking tests ... ERROR
     ```
-      Running ‘test-all.R’
-    Running the tests in ‘tests/test-all.R’ failed.
+      Running ‘testthat.R’
+    Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-       17. ├─dplyr:::sample_frac.data.frame(...)
-       18. │ └─dplyr:::slice_impl(...)
-       19. │   └─dplyr:::slice_rows(.data, ..., caller_env = caller_env(2), error_call = error_call)
-       20. │     └─dplyr:::slice_eval(mask, dots, error_call = error_call)
-       21. │       ├─base::withCallingHandlers(...)
-       22. │       └─mask$eval_all(quo)
-       23. ├─dplyr:::check_frac(size, replace = replace)
-       24. │ └─rlang::abort(bullets)
-       25. │   └─rlang:::signal_abort(cnd, .file)
-       26. │     └─base::signalCondition(cnd)
-       27. └─dplyr `<fn>`(`<rlng_rrr>`)
+       14. └─magrittr .pack(.)
+       15.   └─magrittr::freduce(value, `_function_list`)
+       16.     ├─base::withVisible(function_list[[k]](value))
+       17.     └─function_list[[k]](value)
+       18.       └─dplyr::transmute_if(...)
+       19.         ├─dplyr::transmute(.tbl, !!!funs)
+       20.         └─dplyr:::transmute.data.frame(.tbl, !!!funs)
+       21.           └─dplyr:::dplyr_col_select(out, cols_retain)
+       22.             ├─.data[loc]
+       23.             └─keyholder:::`[.keyed_df`(.data, loc)
+       24.               └─keyholder::`keys<-`(`*tmp*`, value = keys(x)[i, , drop = FALSE])
       
-      [ FAIL 2 | WARN 6 | SKIP 0 | PASS 134 ]
+      [ FAIL 7 | WARN 0 | SKIP 1 | PASS 282 ]
       Error: Test failures
       Execution halted
     ```
@@ -1845,42 +1245,41 @@ Run `cloud_details(, "sapfluxnetr")` for more info
       Note: found 4 marked UTF-8 strings
     ```
 
-# SimplyAgree
+# shinymodels
 
 <details>
 
-* Version: 0.0.2
-* GitHub: NA
-* Source code: https://github.com/cran/SimplyAgree
-* Date/Publication: 2021-05-18 14:10:16 UTC
-* Number of recursive dependencies: 182
+* Version: 0.1.0
+* GitHub: https://github.com/tidymodels/shinymodels
+* Source code: https://github.com/cran/shinymodels
+* Date/Publication: 2021-11-17 21:00:02 UTC
+* Number of recursive dependencies: 146
 
-Run `cloud_details(, "SimplyAgree")` for more info
+Run `cloud_details(, "shinymodels")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking tests ... ERROR
+*   checking contents of ‘data’ directory ... WARNING
     ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-          ▆
-       1. └─SimplyAgree::jmvreli(...) at test-reli_stats.R:25:2
-       2.   ├─jmvcore::resolveQuo(jmvcore::enquo(vars))
-       3.   └─jmvcore::enquo(vars)
-      ── Error (test_agree_test.R:9:3): Simple Use Run Through ───────────────────────
-      Error in `jmvcore::enquo(method1)`: object 'rlang_enquo' not found
-      Backtrace:
-          ▆
-       1. └─SimplyAgree::jmvagree(...) at test_agree_test.R:9:2
-       2.   ├─jmvcore::resolveQuo(jmvcore::enquo(method1))
-       3.   └─jmvcore::enquo(method1)
-      
-      [ FAIL 4 | WARN 16 | SKIP 0 | PASS 28 ]
-      Error: Test failures
-      Execution halted
+    Output for data("ames_mlp_itr", package = "shinymodels"):
+      Search path was changed
+    Output for data("cars_bag_vfld", package = "shinymodels"):
+      Search path was changed
+    Output for data("cell_race", package = "shinymodels"):
+      Search path was changed
+    Output for data("scat_fda_bt", package = "shinymodels"):
+      Search path was changed
+    Output for data("two_class_final", package = "shinymodels"):
+      Search path was changed
+    ```
+
+## In both
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘finetune’
     ```
 
 # srvyr
@@ -1919,47 +1318,6 @@ Run `cloud_details(, "srvyr")` for more info
       [ FAIL 45 | WARN 0 | SKIP 0 | PASS 313 ]
       Error: Test failures
       Execution halted
-    ```
-
-# tangram.pipe
-
-<details>
-
-* Version: 1.1.0
-* GitHub: https://github.com/thomasgstewart/tangram.pipe
-* Source code: https://github.com/cran/tangram.pipe
-* Date/Publication: 2021-10-11 22:00:02 UTC
-* Number of recursive dependencies: 58
-
-Run `cloud_details(, "tangram.pipe")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘tangram.pipe-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: binary_row
-    > ### Title: Binary Row
-    > ### Aliases: binary_row
-    > ### Keywords: tangram.pipe
-    > 
-    > ### ** Examples
-    > 
-    ...
-      9. │ └─dplyr:::filter_rows(.data, ..., caller_env = caller_env())
-     10. │   └─dplyr:::filter_eval(dots, mask = mask, error_call = error_call)
-     11. │     ├─base::withCallingHandlers(...)
-     12. │     └─mask$eval_all_filter(dots, env_filter)
-     13. ├─dplyr:::dplyr_internal_error(...)
-     14. │ └─rlang::abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
-     15. │   └─rlang:::signal_abort(cnd, .file)
-     16. │     └─base::signalCondition(cnd)
-     17. └─dplyr `<fn>`(`<dpl:::__>`)
-    Execution halted
     ```
 
 # tbrf
@@ -2001,47 +1359,6 @@ Run `cloud_details(, "tbrf")` for more info
       Execution halted
     ```
 
-# TeachHist
-
-<details>
-
-* Version: 0.1.2
-* GitHub: NA
-* Source code: https://github.com/cran/TeachHist
-* Date/Publication: 2021-04-08 07:50:05 UTC
-* Number of recursive dependencies: 35
-
-Run `cloud_details(, "TeachHist")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘TeachHist-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: TeachHistConfInterv
-    > ### Title: Histogram to Visualize Confidence Intervalls
-    > ### Aliases: TeachHistConfInterv
-    > 
-    > ### ** Examples
-    > 
-    > TeachHistConfInterv()
-    ...
-      5. │     └─dplyr:::filter_rows(.data, ..., caller_env = caller_env())
-      6. │       └─dplyr:::filter_eval(dots, mask = mask, error_call = error_call)
-      7. │         ├─base::withCallingHandlers(...)
-      8. │         └─mask$eval_all_filter(dots, env_filter)
-      9. ├─dplyr:::dplyr_internal_error(...)
-     10. │ └─rlang::abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
-     11. │   └─rlang:::signal_abort(cnd, .file)
-     12. │     └─base::signalCondition(cnd)
-     13. └─dplyr `<fn>`(`<dpl:::__>`)
-    Execution halted
-    ```
-
 # testdat
 
 <details>
@@ -2075,50 +1392,9 @@ Run `cloud_details(, "testdat")` for more info
       1/1 mismatches
       [1] 1 - 0 == 1
       
-      [ FAIL 3 | WARN 27 | SKIP 0 | PASS 165 ]
+      [ FAIL 3 | WARN 27 | SKIP 0 | PASS 159 ]
       Error: Test failures
       Execution halted
-    ```
-
-# texter
-
-<details>
-
-* Version: 0.1.9
-* GitHub: https://github.com/simmieyungie/texter
-* Source code: https://github.com/cran/texter
-* Date/Publication: 2021-09-20 14:20:02 UTC
-* Number of recursive dependencies: 75
-
-Run `cloud_details(, "texter")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘texter-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: top_Sentiments
-    > ### Title: Get the top 10 negative and positive words
-    > ### Aliases: top_Sentiments
-    > 
-    > ### ** Examples
-    > 
-    > top_Sentiments(doge$text, plot = TRUE)
-    ...
-      8. │   └─dplyr:::slice_rows(.data, ..., caller_env = caller_env(2), error_call = error_call)
-      9. │     └─dplyr:::slice_eval(mask, dots, error_call = error_call)
-     10. │       ├─base::withCallingHandlers(...)
-     11. │       └─mask$eval_all(quo)
-     12. ├─vctrs::vec_assert(n, size = n, arg = "order_by")
-     13. │ └─rlang::abort(...)
-     14. │   └─rlang:::signal_abort(cnd, .file)
-     15. │     └─base::signalCondition(cnd)
-     16. └─dplyr `<fn>`(`<vctrs___>`)
-    Execution halted
     ```
 
 # tidyMicro
@@ -2236,11 +1512,11 @@ Run `cloud_details(, "tidyquery")` for more info
 
 <details>
 
-* Version: 2.6.1
+* Version: 2.6.2
 * GitHub: https://github.com/business-science/timetk
 * Source code: https://github.com/cran/timetk
-* Date/Publication: 2021-01-18 17:40:02 UTC
-* Number of recursive dependencies: 207
+* Date/Publication: 2021-11-16 07:00:05 UTC
+* Number of recursive dependencies: 209
 
 Run `cloud_details(, "timetk")` for more info
 
@@ -2274,12 +1550,6 @@ Run `cloud_details(, "timetk")` for more info
     ```
 
 ## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘generics’
-      All declared Imports should be used.
-    ```
 
 *   checking data for non-ASCII characters ... NOTE
     ```
@@ -2359,168 +1629,6 @@ Run `cloud_details(, "tsibble")` for more info
        19. └─dplyr `<fn>`(`<smplErrr>`)
       
       [ FAIL 1 | WARN 1 | SKIP 5 | PASS 743 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-# validata
-
-<details>
-
-* Version: 0.1.0
-* GitHub: https://github.com/Harrison4192/validata
-* Source code: https://github.com/cran/validata
-* Date/Publication: 2021-10-05 08:20:02 UTC
-* Number of recursive dependencies: 123
-
-Run `cloud_details(, "validata")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘validata-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: confirm_strlen
-    > ### Title: confirm string length
-    > ### Aliases: confirm_strlen choose_strlen
-    > 
-    > ### ** Examples
-    > 
-    > 
-    ...
-     14. │ └─dplyr:::filter_rows(.data, ..., caller_env = caller_env())
-     15. │   └─dplyr:::filter_eval(dots, mask = mask, error_call = error_call)
-     16. │     ├─base::withCallingHandlers(...)
-     17. │     └─mask$eval_all_filter(dots, env_filter)
-     18. ├─dplyr:::dplyr_internal_error(...)
-     19. │ └─rlang::abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
-     20. │   └─rlang:::signal_abort(cnd, .file)
-     21. │     └─base::signalCondition(cnd)
-     22. └─dplyr `<fn>`(`<dpl:::__>`)
-    Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘BBmisc’ ‘badger’
-      All declared Imports should be used.
-    ```
-
-# widyr
-
-<details>
-
-* Version: 0.1.4
-* GitHub: https://github.com/dgrtwo/widyr
-* Source code: https://github.com/cran/widyr
-* Date/Publication: 2021-08-12 17:10:02 UTC
-* Number of recursive dependencies: 104
-
-Run `cloud_details(, "widyr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘widyr-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: widely_svd
-    > ### Title: Turn into a wide matrix, perform SVD, return to tidy form
-    > ### Aliases: widely_svd widely_svd_
-    > 
-    > ### ** Examples
-    > 
-    > 
-    ...
-     1. ├─... %>% ggplot(aes(`1`, `2`, label = country))
-     2. ├─ggplot2::ggplot(., aes(`1`, `2`, label = country))
-     3. ├─dplyr::inner_join(...)
-     4. ├─tidyr::spread(., dimension, value)
-     5. └─tidyr:::spread.data.frame(., dimension, value)
-     6.   └─tidyselect::vars_pull(names(data), !!enquo(value))
-     7.     ├─tidyselect:::instrument_base_errors(...)
-     8.     │ └─base::withCallingHandlers(...)
-     9.     └─rlang::eval_tidy(enquo(var), set_names(seq_along(vars), vars))
-    Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘gapminder’
-      All declared Imports should be used.
-    ```
-
-# xpose
-
-<details>
-
-* Version: 0.4.13
-* GitHub: https://github.com/UUPharmacometrics/xpose
-* Source code: https://github.com/cran/xpose
-* Date/Publication: 2021-06-30 08:00:02 UTC
-* Number of recursive dependencies: 102
-
-Run `cloud_details(, "xpose")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘xpose-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: minimization_plots
-    > ### Title: Parameter value or gradient vs. iterations
-    > ### Aliases: minimization_plots prm_vs_iteration grd_vs_iteration
-    > 
-    > ### ** Examples
-    > 
-    > prm_vs_iteration(xpdb_ex_pk)
-    ...
-     14. │ └─dplyr:::filter_rows(.data, ..., caller_env = caller_env())
-     15. │   └─dplyr:::filter_eval(dots, mask = mask, error_call = error_call)
-     16. │     ├─base::withCallingHandlers(...)
-     17. │     └─mask$eval_all_filter(dots, env_filter)
-     18. ├─dplyr:::dplyr_internal_error(...)
-     19. │ └─rlang::abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
-     20. │   └─rlang:::signal_abort(cnd, .file)
-     21. │     └─base::signalCondition(cnd)
-     22. └─dplyr `<fn>`(`<dpl:::__>`)
-    Execution halted
-    ```
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-       55. ├─dplyr::filter(., .[, x_var] >= 0)
-       56. ├─dplyr:::filter.data.frame(., .[, x_var] >= 0)
-       57. │ └─dplyr:::filter_rows(.data, ..., caller_env = caller_env())
-       58. │   └─dplyr:::filter_eval(dots, mask = mask, error_call = error_call)
-       59. │     ├─base::withCallingHandlers(...)
-       60. │     └─mask$eval_all_filter(dots, env_filter)
-       61. ├─dplyr:::dplyr_internal_error(...)
-       62. │ └─rlang::abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
-       63. │   └─rlang:::signal_abort(cnd, .file)
-       64. │     └─base::signalCondition(cnd)
-       65. └─dplyr `<fn>`(`<dpl:::__>`)
-      
-      [ FAIL 10 | WARN 0 | SKIP 7 | PASS 512 ]
       Error: Test failures
       Execution halted
     ```

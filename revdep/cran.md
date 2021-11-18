@@ -1,29 +1,20 @@
 ## revdepcheck results
 
-We checked 3010 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 3025 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 54 new problems
- * We failed to check 47 packages
+ * We saw 37 new problems
+ * We failed to check 73 packages
 
 Issues with CRAN packages are summarised below.
 
 ### New problems
 (This reports the first line of each new failure)
 
-* AATtools
-  checking examples ... ERROR
-
 * arrow
   checking tests ... ERROR
 
-* bigsnpr
+* cvms
   checking tests ... ERROR
-
-* bruceR
-  checking examples ... ERROR
-
-* cohorts
-  checking examples ... ERROR
 
 * datacleanr
   checking tests ... ERROR
@@ -34,15 +25,8 @@ Issues with CRAN packages are summarised below.
 * dtplyr
   checking examples ... ERROR
   checking tests ... ERROR
-  checking dependencies in R code ... NOTE
-
-* dynfeature
-  checking tests ... ERROR
 
 * dynplot
-  checking examples ... ERROR
-
-* egor
   checking examples ... ERROR
 
 * ergm.ego
@@ -59,44 +43,34 @@ Issues with CRAN packages are summarised below.
 * gestalt
   checking tests ... ERROR
 
-* ggcharts
-  checking examples ... ERROR
-
-* huxtable
-  checking tests ... ERROR
-
 * immunarch
   checking examples ... ERROR
 
 * isoreader
   checking tests ... ERROR
 
-* janitor
-  checking examples ... ERROR
+* keyholder
   checking tests ... ERROR
 
-* lares
-  checking examples ... ERROR
-
 * manymodelr
+  checking tests ... ERROR
+
+* mcp
   checking tests ... ERROR
 
 * microeco
   checking contents of ‘data’ directory ... WARNING
 
-* Momocs
-  checking examples ... ERROR
+* MoMPCA
+  checking tests ...ERROR
 
 * motif
   checking tests ... ERROR
 
-* MRFcov
-  checking examples ... ERROR
-
 * multidplyr
   checking tests ... ERROR
 
-* multifear
+* multinma
   checking tests ... ERROR
 
 * nofrills
@@ -112,45 +86,27 @@ Issues with CRAN packages are summarised below.
 * prider
   checking examples ... ERROR
 
-* psfmi
-  checking examples ... ERROR
-
-* psycModel
-  checking examples ... ERROR
-
 * PVplr
   checking examples ... ERROR
 
-* r2dii.match
-  checking tests ... ERROR
-
-* saeSim
+* ruler
   checking examples ... ERROR
   checking tests ... ERROR
 
 * sapfluxnetr
   checking tests ... ERROR
 
-* SimplyAgree
-  checking tests ... ERROR
+* shinymodels
+  checking contents of ‘data’ directory ... WARNING
 
 * srvyr
   checking tests ... ERROR
 
-* tangram.pipe
-  checking examples ... ERROR
-
 * tbrf
   checking tests ... ERROR
 
-* TeachHist
-  checking examples ... ERROR
-
 * testdat
   checking tests ... ERROR
-
-* texter
-  checking examples ... ERROR
 
 * tidyMicro
   checking examples ... ERROR
@@ -168,65 +124,81 @@ Issues with CRAN packages are summarised below.
 * tsibble
   checking tests ... ERROR
 
-* validata
-  checking examples ... ERROR
-
-* widyr
-  checking examples ... ERROR
-
-* xpose
-  checking examples ... ERROR
-  checking tests ... ERROR
-
 * yardstick
   checking tests ... ERROR
 
 ### Failed to check
 
-* bayesdfa     (NA)
-* butcher      (NA)
-* CausalImpact (NA)
-* CB2          (NA)
-* cbar         (NA)
-* DAISIE       (NA)
-* diceR        (NA)
-* ecocomDP     (NA)
-* ezcox        (NA)
-* galah        (NA)
-* gitdown      (NA)
-* glmmfields   (NA)
-* gtfs2gps     (NA)
-* idiogramFISH (NA)
-* isotracer    (NA)
-* loon.ggplot  (NA)
-* loon.shiny   (NA)
-* matsbyname   (NA)
-* metacoder    (NA)
-* multinma     (NA)
-* myTAI        (NA)
-* nodeSub      (NA)
-* occCite      (NA)
-* pencal       (NA)
-* phyr         (NA)
-* Platypus     (NA)
-* pmc          (NA)
-* Rarefy       (NA)
-* raw          (NA)
-* rbison       (NA)
-* RevGadgets   (NA)
-* rmdcev       (NA)
-* RNeXML       (NA)
-* rnoaa        (NA)
-* scoper       (NA)
-* SPLICE       (NA)
-* SynthETIC    (NA)
-* taxizedb     (NA)
-* tigger       (NA)
-* tinyarray    (NA)
-* TR8          (NA)
-* trackr       (NA)
-* traits       (NA)
-* treeplyr     (NA)
-* vinereg      (NA)
-* vivid        (NA)
-* wrswoR       (NA)
+* AATtools       (NA)
+* adventr        (NA)
+* bayesmodels    (NA)
+* butcher        (NA)
+* CausalImpact   (NA)
+* CB2            (NA)
+* cbar           (NA)
+* chorrrds       (NA)
+* clockify       (NA)
+* ClustAssess    (NA)
+* DAISIE         (NA)
+* diceR          (NA)
+* diproperm      (NA)
+* ecocomDP       (NA)
+* facerec        (NA)
+* galah          (NA)
+* gwdegree       (NA)
+* idiogramFISH   (NA)
+* lcsm           (NA)
+* loon.ggplot    (NA)
+* loon.shiny     (NA)
+* MarketMatching (NA)
+* metacoder      (NA)
+* monobinShiny   (NA)
+* mousetrap      (NA)
+* myTAI          (NA)
+* nmarank        (NA)
+* nodeSub        (NA)
+* nonmemica      (NA)
+* occCite        (NA)
+* partition      (NA)
+* pencal         (NA)
+* phyr           (NA)
+* Platypus       (NA)
+* pmc            (NA)
+* poio           (NA)
+* predtools      (NA)
+* radiant.design (NA)
+* rainette       (NA)
+* Rarefy         (NA)
+* raw            (NA)
+* rbison         (NA)
+* Rcompadre      (NA)
+* rdflib         (NA)
+* REDCapR        (NA)
+* RevGadgets     (NA)
+* rgsp           (NA)
+* RNeXML         (NA)
+* rnoaa          (NA)
+* robber         (NA)
+* rsample        (NA)
+* saeME          (NA)
+* sampsizeval    (NA)
+* scoper         (NA)
+* sdStaf         (NA)
+* sfo            (NA)
+* sift           (NA)
+* SMMT           (NA)
+* SPLICE         (NA)
+* SynthETIC      (NA)
+* taxizedb       (NA)
+* TestDimorph    (NA)
+* tigger         (NA)
+* tinyarray      (NA)
+* TR8            (NA)
+* trackr         (NA)
+* traits         (NA)
+* treeplyr       (NA)
+* TwoArmSurvSim  (NA)
+* vinereg        (NA)
+* vivid          (NA)
+* whoa           (NA)
+* wrswoR         (NA)
