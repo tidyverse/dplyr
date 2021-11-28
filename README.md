@@ -15,7 +15,7 @@ coverage](https://codecov.io/gh/tidyverse/dplyr/branch/main/graph/badge.svg)](ht
 
 ## Overview
 
-dplyr is a grammar of data manipulation, providing a consistent set of
+ddplyr is a grammar of data manipulation, providing a consistent set of
 verbs that help you solve the most common data manipulation challenges:
 
   - `mutate()` adds new variables that are functions of existing
