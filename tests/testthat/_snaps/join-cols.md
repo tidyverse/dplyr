@@ -15,7 +15,7 @@
     Code
       xy <- c("x", "y")
       vars <- join_cols(xy, xy)
-    Message <rlang_message>
+    Message
       Joining, by = c("x", "y")
     Code
       (expect_error(join_cols(xy, c("a", "b"))))

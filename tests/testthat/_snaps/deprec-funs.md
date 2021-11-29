@@ -2,8 +2,8 @@
 
     Code
       funs(fn = bar)
-    Warning <lifecycle_warning_deprecated>
-      `funs()` was deprecated in dplyr 0.8.0.
+    Condition
+      Warning: `funs()` was deprecated in dplyr 0.8.0.
       Please use a list of either functions or lambdas: 
       
         # Simple named list: 
