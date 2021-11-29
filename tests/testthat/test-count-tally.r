@@ -54,8 +54,7 @@ test_that("output preserves class & attributes where possible", {
   out <- df %>% group_by(g) %>% count()
   expect_s3_class(out, "grouped_df")
   expect_equal(group_vars(out), "g")
-  # summarise() currently drops attributes
-  expect_equal(attr(out, "my_attr"), NULL)
+  expect_equal(attr(out, "my_attr"), 1)
 })
 
 test_that("works with dbplyr", {

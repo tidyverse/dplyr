@@ -171,6 +171,19 @@ test_that("unchop only called for when multiple groups", {
   expect_s3_class(out$x, "ts")
 })
 
+test_that("mutate() keeps attributes for grouped data frames (#6100)", {
+  df <- data.frame(x = 1, g = 1)
+  attr(df, "test") <- "foo"
+  expect_equal(
+    attr(mutate(group_by(df, g)), "test"),
+    "foo"
+  )
+  expect_equal(
+    attr(mutate(rowwise(df)), "test"),
+    "foo"
+  )
+})
+
 # output types ------------------------------------------------------------
 
 test_that("mutate preserves grouping", {

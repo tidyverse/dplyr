@@ -134,6 +134,32 @@ dplyr_col_modify <- function(data, cols) {
 
 #' @export
 dplyr_col_modify.data.frame <- function(data, cols) {
+  out <- dplyr_col_modify_core(data, cols)
+  dplyr_reconstruct(out, data)
+}
+
+#' @export
+dplyr_col_modify.grouped_df <- function(data, cols) {
+  out <- dplyr_col_modify_core(data, cols)
+  out <- dplyr_reconstruct_core(out, data)
+
+  if (any(names(cols) %in% group_vars(data))) {
+    # regroup
+    grouped_df(out, group_vars(data), drop = group_by_drop_default(data))
+  } else {
+    new_grouped_df(out, group_data(data))
+  }
+}
+
+#' @export
+dplyr_col_modify.rowwise_df <- function(data, cols) {
+  out <- dplyr_col_modify_core(data, cols)
+  out <- dplyr_reconstruct_core(out, data)
+
+  rowwise_df(out, group_vars(data))
+}
+
+dplyr_col_modify_core <- function(data, cols) {
   # Must be implemented from first principles to avoiding edge cases in
   # [.data.frame and [.tibble (2.1.3 and earlier).
 
@@ -153,28 +179,9 @@ dplyr_col_modify.data.frame <- function(data, cols) {
 
   # Transform back to data frame before reconstruction
   row_names <- .row_names_info(data, type = 0L)
-  out <- new_data_frame(out, n = nrow(data), row.names = row_names)
-
-  dplyr_reconstruct(out, data)
+  new_data_frame(out, n = nrow(data), row.names = row_names)
 }
 
-#' @export
-dplyr_col_modify.grouped_df <- function(data, cols) {
-  out <- dplyr_col_modify(as_tibble(data), cols)
-
-  if (any(names(cols) %in% group_vars(data))) {
-    # regroup
-    grouped_df(out, group_vars(data), drop = group_by_drop_default(data))
-  } else {
-    new_grouped_df(out, group_data(data))
-  }
-}
-
-#' @export
-dplyr_col_modify.rowwise_df <- function(data, cols) {
-  out <- dplyr_col_modify(as_tibble(data), cols)
-  rowwise_df(out, group_vars(data))
-}
 
 #' @param template Template to use for restoring attributes
 #' @export
@@ -192,24 +199,37 @@ dplyr_reconstruct_dispatch <- function(data, template) {
 
 #' @export
 dplyr_reconstruct.data.frame <- function(data, template) {
-  attrs <- attributes(template)
-  attrs$names <- names(data)
-  attrs$row.names <- .row_names_info(data, type = 0L)
-
-  attributes(data) <- attrs
-  data
+  dplyr_reconstruct_core(data, template)
 }
 
 #' @export
 dplyr_reconstruct.grouped_df <- function(data, template) {
   group_vars <- group_intersect(template, data)
+
+  # copy all attributes
+  data <- dplyr_reconstruct_core(data, template)
+
+  # however, this might wrongly reconstruct the grouped_df
+  # specific attribute 'groups' so regroup
   grouped_df(data, group_vars, drop = group_by_drop_default(template))
 }
 
 #' @export
 dplyr_reconstruct.rowwise_df <- function(data, template) {
   group_vars <- group_intersect(template, data)
+  data <- dplyr_reconstruct_core(data, template)
   rowwise_df(data, group_vars)
+}
+
+# just carefully copy the attributes
+# this specifically does not handle dplyr special attributes like "groups"
+dplyr_reconstruct_core <- function(data, template) {
+  attrs <- attributes(template)
+  attrs$names <- names(data)
+  attrs$row.names <- .row_names_info(data, type = 0L)
+
+  attributes(data) <- attrs
+  data
 }
 
 dplyr_col_select <- function(.data, loc, names = NULL, error_call = caller_env()) {
