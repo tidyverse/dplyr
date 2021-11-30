@@ -2,7 +2,7 @@
 
     Code
       out <- mutate_if(gdf, is.factor, as.character)
-    Message <rlang_message>
+    Message
       `mutate_if()` ignored the following grouping variables:
       Column `Species`
 

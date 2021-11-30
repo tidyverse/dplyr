@@ -14,7 +14,7 @@
       1 10
     Code
       df %>% count(n)
-    Message <rlang_message>
+    Message
       Storing counts in `nn`, as `n` already present in input
       i Use `name = "new_name"` to pick a new name.
     Output
