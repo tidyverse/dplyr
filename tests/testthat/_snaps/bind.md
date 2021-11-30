@@ -2,7 +2,7 @@
 
     Code
       bound <- bind_cols(df, df)
-    Message <simpleMessage>
+    Message
       New names:
       * a -> a...1
       * b -> b...2
@@ -13,7 +13,7 @@
 
     Code
       df <- bind_cols(list(1, 2))
-    Message <simpleMessage>
+    Message
       New names:
       * `` -> ...1
       * `` -> ...2
