@@ -42,6 +42,18 @@ test_that("arrange() gives meaningful errors", {
 
 })
 
+test_that("empty data frames don't participate in arrange(). (#6093)", {
+  df <- data.frame(x = 1:2, y = 2:1)
+  expect_identical(
+    arrange(df, across(c())),
+    df
+  )
+  expect_identical(
+    arrange(df, y, across(c())),
+    arrange(df, y)
+  )
+})
+
 # column types ----------------------------------------------------------
 
 test_that("arrange handles list columns (#282)", {

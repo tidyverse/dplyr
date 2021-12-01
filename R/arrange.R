@@ -152,6 +152,11 @@ arrange_rows <- function(.data, dots, error_call = caller_env()) {
     proxy <- vec_proxy_order(column)
     desc <- identical(direction, "desc")
     if (is.data.frame(proxy)) {
+      # a data frame with 0 columns does not contribute
+      # this will be removed later from the proxies
+      if (ncol(proxy) == 0) {
+        return(zap())
+      }
       proxy <- order(vec_order(proxy,
         direction = direction,
         na_value = if(desc) "smallest" else "largest"
@@ -162,5 +167,13 @@ arrange_rows <- function(.data, dots, error_call = caller_env()) {
     proxy
   })
 
-  exec("order", !!!unname(proxies), decreasing = FALSE, na.last = TRUE)
+  # remove the proxies that don't contribute
+  proxies <- discard(proxies, is_zap)
+
+  if (length(proxies)) {
+    exec("order", !!!unname(proxies), decreasing = FALSE, na.last = TRUE)
+  } else {
+    # if there are no more proxy left, this is similar to ... being empty
+    seq_len(nrow(.data))
+  }
 }
