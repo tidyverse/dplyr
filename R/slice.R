@@ -314,7 +314,10 @@ slice_combine <- function(chunks, mask, error_call = caller_env()) {
     if (is.logical(res) && all(is.na(res))) {
       res <- integer()
     } else if (is.numeric(res)) {
-      res <- vec_cast(res, integer())
+      if (is.matrix(res) && ncol(res) == 1) {
+        res <- as.vector(res)
+      }
+      res <- fix_call(vec_cast(res, integer()), error_call)
     } else if (!is.integer(res)) {
       mask$set_current_group(group)
       msg <- c(

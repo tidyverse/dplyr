@@ -1,3 +1,12 @@
+# slice() handles matrices
+
+    Code
+      (expect_error(slice(df, matrix(c(1, 2), ncol = 2))))
+    Output
+      <error/vctrs_error_incompatible_type>
+      Error in `slice()`: Can't convert <integer[,2]> to <integer>.
+      Cannot decrease dimensions.
+
 # slice_*() checks that `n=` is explicitly named
 
     Code
