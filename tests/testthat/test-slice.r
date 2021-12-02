@@ -256,12 +256,25 @@ test_that("slice() handles matrices", {
     slice(df, 1),
     slice(df, matrix(1))
   )
+})
+
+test_that("slice() gives meaningfull errors", {
+  df <- data.frame(x = 1)
 
   expect_snapshot({
     (expect_error(
       slice(df, matrix(c(1, 2), ncol = 2))
     ))
+
+    (expect_error(
+      slice(df, "a")
+    ))
+
+    (expect_error(
+      slice(df, c(1, -1))
+    ))
   })
+
 })
 
 test_that("slice_*() checks that `n=` is explicitly named", {

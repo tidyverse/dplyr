@@ -318,7 +318,7 @@ slice_combine <- function(chunks, mask, error_call = caller_env()) {
         res <- as.vector(res)
       }
       res <- fix_call(vec_cast(res, integer()), error_call)
-    } else if (!is.integer(res)) {
+    } else {
       mask$set_current_group(group)
       msg <- c(
         glue("Invalid result of type <{vec_ptype_full(res)}>."),
