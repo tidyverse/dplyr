@@ -1,122 +1,65 @@
 # Revdeps
 
-## Failed to check (73)
+## Failed to check (29)
 
 |package        |version |error |warning |note |
 |:--------------|:-------|:-----|:-------|:----|
-|AATtools       |?       |      |        |     |
-|adventr        |?       |      |        |     |
 |bayesmodels    |?       |      |        |     |
-|butcher        |?       |      |        |     |
 |CausalImpact   |?       |      |        |     |
-|CB2            |?       |      |        |     |
 |cbar           |?       |      |        |     |
-|chorrrds       |?       |      |        |     |
-|clockify       |?       |      |        |     |
-|ClustAssess    |?       |      |        |     |
 |DAISIE         |?       |      |        |     |
-|diceR          |?       |      |        |     |
-|diproperm      |?       |      |        |     |
 |ecocomDP       |?       |      |        |     |
-|facerec        |?       |      |        |     |
 |galah          |?       |      |        |     |
-|gwdegree       |?       |      |        |     |
 |idiogramFISH   |?       |      |        |     |
-|lcsm           |?       |      |        |     |
 |loon.ggplot    |?       |      |        |     |
 |loon.shiny     |?       |      |        |     |
 |MarketMatching |?       |      |        |     |
 |metacoder      |?       |      |        |     |
-|monobinShiny   |?       |      |        |     |
-|mousetrap      |?       |      |        |     |
 |myTAI          |?       |      |        |     |
-|nmarank        |?       |      |        |     |
 |nodeSub        |?       |      |        |     |
-|nonmemica      |?       |      |        |     |
-|occCite        |?       |      |        |     |
-|partition      |?       |      |        |     |
-|pencal         |?       |      |        |     |
 |phyr           |?       |      |        |     |
 |Platypus       |?       |      |        |     |
 |pmc            |?       |      |        |     |
-|poio           |?       |      |        |     |
-|predtools      |?       |      |        |     |
-|radiant.design |?       |      |        |     |
-|rainette       |?       |      |        |     |
 |Rarefy         |?       |      |        |     |
 |raw            |?       |      |        |     |
 |rbison         |?       |      |        |     |
-|Rcompadre      |?       |      |        |     |
-|rdflib         |?       |      |        |     |
-|REDCapR        |?       |      |        |     |
 |RevGadgets     |?       |      |        |     |
-|rgsp           |?       |      |        |     |
 |RNeXML         |?       |      |        |     |
 |rnoaa          |?       |      |        |     |
-|robber         |?       |      |        |     |
-|rsample        |?       |      |        |     |
-|saeME          |?       |      |        |     |
-|sampsizeval    |?       |      |        |     |
-|scoper         |?       |      |        |     |
-|sdStaf         |?       |      |        |     |
-|sfo            |?       |      |        |     |
-|sift           |?       |      |        |     |
-|SMMT           |?       |      |        |     |
 |SPLICE         |?       |      |        |     |
 |SynthETIC      |?       |      |        |     |
 |taxizedb       |?       |      |        |     |
-|TestDimorph    |?       |      |        |     |
-|tigger         |?       |      |        |     |
-|tinyarray      |?       |      |        |     |
 |TR8            |?       |      |        |     |
-|trackr         |?       |      |        |     |
 |traits         |?       |      |        |     |
 |treeplyr       |?       |      |        |     |
-|TwoArmSurvSim  |?       |      |        |     |
-|vinereg        |?       |      |        |     |
 |vivid          |?       |      |        |     |
-|whoa           |?       |      |        |     |
-|wrswoR         |?       |      |        |     |
 
-## New problems (37)
+## New problems (24)
 
 |package                                |version |error  |warning |note |
 |:--------------------------------------|:-------|:------|:-------|:----|
-|[arrow](problems.md#arrow)             |6.0.0.2 |__+1__ |        |1    |
-|[cvms](problems.md#cvms)               |1.3.3   |__+1__ |        |     |
-|[datacleanr](problems.md#datacleanr)   |1.0.2   |__+1__ |        |1    |
-|[dm](problems.md#dm)                   |0.2.5   |__+1__ |        |     |
 |[dtplyr](problems.md#dtplyr)           |1.1.0   |__+2__ |        |     |
 |[dynplot](problems.md#dynplot)         |1.1.1   |__+1__ |        |     |
 |[ergm.ego](problems.md#ergmego)        |1.0.0   |       |__+1__  |     |
-|[fable](problems.md#fable)             |0.3.1   |__+2__ |        |     |
-|[fabletools](problems.md#fabletools)   |0.3.1   |__+2__ |        |     |
+|[excluder](problems.md#excluder)       |0.3.2   |__+2__ |        |     |
 |[gestalt](problems.md#gestalt)         |0.1.8   |__+1__ |        |     |
 |[immunarch](problems.md#immunarch)     |0.6.7   |__+1__ |        |2    |
-|[isoreader](problems.md#isoreader)     |1.3.1   |__+1__ |        |1    |
 |[keyholder](problems.md#keyholder)     |0.1.5   |__+1__ |        |     |
-|[manymodelr](problems.md#manymodelr)   |0.3.7   |__+1__ |        |     |
 |[mcp](problems.md#mcp)                 |0.3.1   |__+1__ |        |     |
 |[microeco](problems.md#microeco)       |0.6.0   |       |__+1__  |2    |
 |[MoMPCA](problems.md#mompca)           |1.0.1   |__+1__ |        |1    |
 |[motif](problems.md#motif)             |0.5.0   |__+1__ |        |1    |
 |[multidplyr](problems.md#multidplyr)   |0.1.0   |__+1__ |        |1    |
-|[multinma](problems.md#multinma)       |0.3.0   |__+1__ |        |3    |
 |[nofrills](problems.md#nofrills)       |0.3.1   |__+2__ |        |     |
 |[pammtools](problems.md#pammtools)     |0.5.7   |__+1__ |        |     |
 |[PPforest](problems.md#ppforest)       |0.1.2   |__+1__ |        |1    |
 |[prider](problems.md#prider)           |1.0.2   |__+1__ |        |     |
 |[PVplr](problems.md#pvplr)             |0.1.0   |__+1__ |        |1    |
 |[ruler](problems.md#ruler)             |0.2.4   |__+2__ |        |     |
-|[sapfluxnetr](problems.md#sapfluxnetr) |0.1.2   |__+1__ |        |1    |
 |[shinymodels](problems.md#shinymodels) |0.1.0   |       |__+1__  |1    |
-|[srvyr](problems.md#srvyr)             |1.1.0   |__+1__ |        |     |
-|[tbrf](problems.md#tbrf)               |0.1.5   |__+1__ |        |     |
 |[testdat](problems.md#testdat)         |0.3.0   |__+1__ |        |     |
 |[tidyMicro](problems.md#tidymicro)     |1.47    |__+2__ |        |1    |
 |[tidyquery](problems.md#tidyquery)     |0.2.2   |__+1__ |        |     |
 |[timetk](problems.md#timetk)           |2.6.2   |__+1__ |        |1    |
-|[Tplyr](problems.md#tplyr)             |0.4.2   |__+1__ |        |     |
 |[tsibble](problems.md#tsibble)         |1.1.0   |__+1__ |        |     |
-|[yardstick](problems.md#yardstick)     |0.0.8   |__+1__ |        |     |
 
