@@ -60,7 +60,7 @@ Suggests:
     RMySQL,
     RPostgreSQL,
     RSQLite,
-    testthat (>= 3.0.2),
+    testthat (>= 3.1.1),
     tidyr, 
     withr
 VignetteBuilder: 
@@ -76,5 +76,4 @@ Config/Needs/website:
     r-lib/pkgdown,
     tidyverse/tidytemplate
 Remotes:
-    r-lib/rlang, 
-    r-lib/testthat
+    r-lib/rlang
