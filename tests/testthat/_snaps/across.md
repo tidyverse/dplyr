@@ -69,12 +69,14 @@
       (expect_error(across()))
     Output
       <error/rlang_error>
-      Error in `across()`: Must be used inside dplyr verbs.
+      Error in `across()`:
+      Must be used inside dplyr verbs.
     Code
       (expect_error(c_across()))
     Output
       <error/rlang_error>
-      Error in `c_across()`: Must be used inside dplyr verbs.
+      Error in `c_across()`:
+      Must be used inside dplyr verbs.
     Code
       error_fn <- (function(.) {
         if (all(. > 10)) {

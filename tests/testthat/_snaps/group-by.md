@@ -19,22 +19,24 @@
       (expect_error(df %>% group_by(unknown)))
     Output
       <error/rlang_error>
-      Error in `group_by()`: Must group by variables found in `.data`.
+      Error in `group_by()`:
+      Must group by variables found in `.data`.
       x Column `unknown` is not found.
     Code
       (expect_error(df %>% ungroup(x)))
     Output
       <error/rlib_error_dots_nonempty>
-      Error in `ungroup()`: `...` is not empty.
-      i These dots only exist to allow future extensions and should be empty.
-      x We detected these problematic arguments:
-      * `..1`
-      i Did you misspecify an argument?
+      Error in `ungroup()`:
+      `...` must be empty.
+      x Problematic argument:
+      * ..1 = x
+      i Did you forget to name an argument?
     Code
       (expect_error(df %>% group_by(x, y) %>% ungroup(z)))
     Output
       <error/vctrs_error_subscript_oob>
-      Error in `ungroup()`: Can't subset columns that don't exist.
+      Error in `ungroup()`:
+      Can't subset columns that don't exist.
       x Column `z` doesn't exist.
     Code
       (expect_error(df %>% group_by(z = a + 1)))

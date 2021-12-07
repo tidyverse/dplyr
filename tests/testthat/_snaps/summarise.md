@@ -43,14 +43,16 @@
         a = 1))))
     Output
       <error/rlang_error>
-      Error in `summarise()`: Problem while computing `a = rlang::env(a = 1)`.
+      Error in `summarise()`:
+      Problem while computing `a = rlang::env(a = 1)`.
       x `a` must be a vector, not an environment.
     Code
       (expect_error(tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% group_by(x, y) %>%
         summarise(a = rlang::env(a = 1))))
     Output
       <error/rlang_error>
-      Error in `summarise()`: Problem while computing `a = rlang::env(a = 1)`.
+      Error in `summarise()`:
+      Problem while computing `a = rlang::env(a = 1)`.
       x `a` must be a vector, not an environment.
       i The error occurred in group 1: x = 1, y = 1.
     Code
@@ -58,7 +60,8 @@
         summarise(a = lm(y ~ x))))
     Output
       <error/rlang_error>
-      Error in `summarise()`: Problem while computing `a = lm(y ~ x)`.
+      Error in `summarise()`:
+      Problem while computing `a = lm(y ~ x)`.
       x `a` must be a vector, not a `lm` object.
       i Did you mean: `a = list(lm(y ~ x))` ?
       i The error occurred in row 1.
@@ -67,7 +70,8 @@
         a = a[[1]])))
     Output
       <error/rlang_error>
-      Error in `summarise()`: Problem while computing `a = a[[1]]`.
+      Error in `summarise()`:
+      Problem while computing `a = a[[1]]`.
       x `a` must return compatible vectors across groups.
       i Result type for group 1 (id = 1): <double>.
       i Result type for group 2 (id = 2): <character>.
@@ -76,20 +80,23 @@
         1]])))
     Output
       <error/rlang_error>
-      Error in `summarise()`: Problem while computing `a = a[[1]]`.
+      Error in `summarise()`:
+      Problem while computing `a = a[[1]]`.
       x `a` must return compatible vectors across groups.
     Code
       (expect_error(tibble(z = 1) %>% summarise(x = 1:3, y = 1:2)))
     Output
       <error/rlang_error>
-      Error in `summarise()`: Problem while recycling `y = 1:2`.
+      Error in `summarise()`:
+      Problem while recycling `y = 1:2`.
       x `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
     Code
       (expect_error(tibble(z = 1:2) %>% group_by(z) %>% summarise(x = 1:3, y = 1:2)))
     Output
       <error/rlang_error>
-      Error in `summarise()`: Problem while recycling `y = 1:2`.
+      Error in `summarise()`:
+      Problem while recycling `y = 1:2`.
       x `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
       i The error occurred in group 1: z = 1.
@@ -98,7 +105,8 @@
       y = 1:2)))
     Output
       <error/rlang_error>
-      Error in `summarise()`: Problem while recycling `y = 1:2`.
+      Error in `summarise()`:
+      Problem while recycling `y = 1:2`.
       x `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
       i The error occurred in group 2: z = 3.
@@ -107,7 +115,8 @@
         g == 1) 42)))
     Output
       <error/rlang_error>
-      Error in `summarise()`: Problem while computing `x = if (g == 1) 42`.
+      Error in `summarise()`:
+      Problem while computing `x = if (g == 1) 42`.
       x `x` must return compatible vectors across groups.
       i Cannot combine NULL and non NULL results.
     Code
@@ -148,7 +157,8 @@
       (expect_error(tibble(x = 1, x = 1, .name_repair = "minimal") %>% summarise(x)))
     Output
       <error/rlang_error>
-      Error in `summarise()`: Can't transform a data frame with duplicate names.
+      Error in `summarise()`:
+      Can't transform a data frame with duplicate names.
     Code
       (expect_error(tibble() %>% summarise(stop("{"))))
     Output

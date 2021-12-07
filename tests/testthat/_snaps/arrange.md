@@ -21,7 +21,8 @@
       (expect_error(tibble(x = 1) %>% arrange(rep(x, 2))))
     Output
       <error/rlang_error>
-      Error in `arrange()`: Problem with the implicit `transmute()` step. 
+      Error in `arrange()`:
+      Problem with the implicit `transmute()` step. 
       x Problem while computing `..1 = rep(x, 2)`.
       i `..1` must be size 1, not 2.
 
@@ -32,5 +33,6 @@
       (expect_error(arrange(df, desc(x, y))))
     Output
       <error/rlang_error>
-      Error in `arrange()`: `desc()` must be called with exactly one argument.
+      Error in `arrange()`:
+      `desc()` must be called with exactly one argument.
 

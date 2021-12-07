@@ -164,7 +164,7 @@ slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 
 #' @export
 slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
-  arg_require(order_by)
+  check_required(order_by)
 
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)
@@ -192,7 +192,7 @@ slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
 
 #' @export
 slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
-  arg_require(order_by)
+  check_required(order_by)
 
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)

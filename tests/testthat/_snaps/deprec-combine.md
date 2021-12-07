@@ -14,10 +14,12 @@
       (expect_error(combine("a", 1)))
     Output
       <error/vctrs_error_incompatible_type>
-      Error in `combine()`: Can't combine `..1` <character> and `..2` <double>.
+      Error in `combine()`:
+      Can't combine `..1` <character> and `..2` <double>.
     Code
       (expect_error(combine(factor("a"), 1L)))
     Output
       <error/vctrs_error_incompatible_type>
-      Error in `combine()`: Can't combine `..1` <factor<4d52a>> and `..2` <integer>.
+      Error in `combine()`:
+      Can't combine `..1` <factor<4d52a>> and `..2` <integer>.
 
