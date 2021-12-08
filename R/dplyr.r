@@ -14,3 +14,5 @@
 
 # We're importing vctrs without `data_frame()` because we currently
 # reexport the deprecated `tibble::data_frame()` function
+
+on_load(local_use_cli())

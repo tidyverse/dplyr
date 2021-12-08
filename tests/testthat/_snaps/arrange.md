@@ -5,7 +5,7 @@
     Output
       <error/rlang_error>
       Error in `arrange()`:
-        Problem with the implicit `transmute()` step. 
+        Problem with the implicit `transmute()` step.
       Caused by error in `transmute()`:
         Can't transform a data frame with duplicate names.
     Code
@@ -13,7 +13,7 @@
     Output
       <error/rlang_error>
       Error in `arrange()`:
-        Problem with the implicit `transmute()` step. 
+        Problem with the implicit `transmute()` step.
         x Problem while computing `..1 = y`.
       Caused by error:
         object 'y' not found
@@ -21,7 +21,7 @@
       (expect_error(tibble(x = 1) %>% arrange(rep(x, 2))))
     Output
       <error/rlang_error>
-      Error in `arrange()`: Problem with the implicit `transmute()` step. 
+      Error in `arrange()`: Problem with the implicit `transmute()` step.
       x Problem while computing `..1 = rep(x, 2)`.
       i `..1` must be size 1, not 2.
 
