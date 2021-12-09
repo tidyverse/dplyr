@@ -120,8 +120,8 @@ slice <- function(.data, ..., .preserve = FALSE) {
 }
 
 #' @export
-slice.data.frame <- function(.data, ..., .preserve = FALSE) {
-  loc <- slice_rows(.data, ..., caller_env = caller_env(), error_call = current_env())
+slice.data.frame <- function(.data, ..., .preserve = FALSE, .error_call = current_env()) {
+  loc <- slice_rows(.data, ..., caller_env = caller_env(), error_call = .error_call)
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
@@ -137,8 +137,7 @@ slice_head.data.frame <- function(.data, ..., n, prop) {
   size <- get_slice_size(n = n, prop = prop)
   idx <- function(n) seq2(1, size(n))
 
-  local_slice_helper()
-  slice(.data, idx(dplyr::n()))
+  slice(.data, .error_call = current_env(), idx(dplyr::n()))
 }
 
 #' @export
@@ -152,9 +151,8 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)
   idx <- function(n) seq2(n - size(n) + 1, n)
-  local_slice_helper()
 
-  slice(.data, idx(dplyr::n()))
+  slice(.data, .error_call = current_env(), idx(dplyr::n()))
 }
 
 #' @export
@@ -179,8 +177,7 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     idx <- function(x, n) head(order(x), size(n))
   }
 
-  local_slice_helper()
-  slice(.data, local({
+  slice(.data, .error_call = current_env(), local({
     order_by <- {{ order_by }}
     n <- dplyr::n()
 
@@ -210,8 +207,7 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     idx <- function(x, n) head(order(x, decreasing = TRUE), size(n))
   }
 
-  local_slice_helper()
-  slice(.data, local({
+  slice(.data, .error_call = current_env(), local({
     order_by <- {{ order_by }}
     n <- dplyr::n()
     order_by <- vec_assert(order_by, size = n, arg = "order_by")
@@ -235,8 +231,7 @@ slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, repla
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)
 
-  local_slice_helper()
-  slice(.data, local({
+  slice(.data, .error_call = current_env(), local({
     weight_by <- {{ weight_by }}
 
     n <- dplyr::n()
@@ -248,10 +243,6 @@ slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, repla
 }
 
 # helpers -----------------------------------------------------------------
-
-local_slice_helper <- function(env = caller_env()) {
-  assign("slice_helper", env, envir = env)
-}
 
 slice_rows <- function(.data, ..., caller_env, error_call = caller_env()) {
   dots <- enquos(...)
@@ -279,22 +270,22 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
     error = function(cnd) {
       # this behaves differently based on if
       # slice() called by a slice_helper, e.g. slice_head()
-      slice_call_env <- error_call$.GenericCallEnv
-      slice_helper <- slice_call_env$slice_helper
+      is_slice_helper <- !identical(error_call$.Generic, "slice")
 
-      if (is.null(slice_helper)) {
+      if (is_slice_helper) {
+        msg <- c(
+          cnd_header(cnd),
+          set_names(cnd_body(cnd), "i")
+        )
+        parent <- cnd$parent
+      } else {
         msg <- glue("Problem evaluating `... = {as_label(quo_squash(quo))}` . ")
         parent <- cnd
-        call <- error_call
-      } else {
-        msg <- cnd_header(cnd)
-        parent <- cnd$parent
-        call <- slice_helper
       }
       bullets <- c(msg,
         i = cnd_bullet_cur_group_label()
       )
-      abort(bullets, call = call, parent = parent)
+      abort(bullets, call = error_call, parent = parent)
     }
   )
 }
