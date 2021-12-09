@@ -45,9 +45,16 @@ quo_as_label <- function(quo)  {
 }
 
 local_error_context <- function(dots, .index, mask, frame = caller_env()) {
+  expr <- dots[[.index]]
+  if (quo_is_call(expr, "invisible")) {
+    expr <- ""
+  } else {
+    expr <- quo_as_label(dots[[.index]])
+  }
+
   error_context <- env(
     error_name = arg_name(dots, .index),
-    error_expression = quo_as_label(dots[[.index]]),
+    error_expression = expr,
     mask = mask
   )
   context_local("dplyr_error_context", error_context, frame = frame)
@@ -60,7 +67,14 @@ cnd_bullet_header <- function(what) {
   error_context <- peek_error_context()
   error_name <- error_context$error_name
   error_expression <- error_context$error_expression
-  glue("Problem while {what} `{error_name} = {error_expression}`.")
+
+  if (nzchar(error_expression)) {
+    sep <- " = "
+  } else {
+    sep <- ""
+  }
+
+  glue("Problem while {what} `{error_name}{sep}{error_expression}`.")
 }
 
 cnd_bullet_combine_details <- function(x, arg) {
