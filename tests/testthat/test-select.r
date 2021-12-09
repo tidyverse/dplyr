@@ -151,6 +151,13 @@ test_that("select() keeps attributes of raw data frames (#5831)", {
   expect_equal(attr(select(df, x), "a"), "b")
 })
 
+test_that("select() provides informative errors", {
+  expect_snapshot({
+    (expect_error(select(mtcars, 1 + "")))
+  })
+})
+
+
 # dplyr_col_select() ------------------------------------------------------
 
 test_that("dplyr_col_select() aborts when `[` implementation is broken", {
