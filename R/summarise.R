@@ -327,10 +327,7 @@ summarise_eval_one <- function(quo, mask) {
     return(NULL)
   }
 
-  types_k <- wrap_error(
-    vec_ptype_common(!!!chunks_k),
-    class = c("dplyr:::error_summarise_incompatible_combine", "dplyr:::internal_error")
-  )
+  types_k <- dplyr_vec_ptype_common(chunks_k, quo_data$name_auto)
 
   chunks_k <- vec_cast_common(!!!chunks_k, .to = types_k)
   result_k <- vec_c(!!!chunks_k, .ptype = types_k)
@@ -355,13 +352,8 @@ summarise_bullets.default <- function(cnd, ...) {
 }
 
 #' @export
-`summarise_bullets.dplyr:::error_summarise_incompatible_combine` <- function(cnd, ...) {
-  error_name <- peek_error_context()$error_name
-  c(
-    x = glue("`{error_name}` must return compatible vectors across groups."),
-    i = cnd_bullet_combine_details(cnd$wrapped$x, cnd$wrapped$x_arg),
-    i = cnd_bullet_combine_details(cnd$wrapped$y, cnd$wrapped$y_arg)
-  )
+`summarise_bullets.dplyr:::error_incompatible_combine` <- function(cnd, ...) {
+  c()
 }
 
 #' @export

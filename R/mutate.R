@@ -375,10 +375,7 @@ mutate_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
           if (length(rows) == 1) {
             result <- chunks[[1]]
           } else {
-            chunks <- wrap_error(
-              vec_cast_common(!!!chunks),
-              class = c("dplyr:::error_mutate_incompatible_combine", "dplyr:::internal_error")
-            )
+            chunks <- dplyr_vec_cast_common(chunks, quo_data$name_auto)
             result <- vec_unchop(chunks, rows)
           }
         }
@@ -511,13 +508,9 @@ mutate_bullets.default <- function(cnd, ...) {
   )
 }
 #' @export
-`mutate_bullets.dplyr:::error_mutate_incompatible_combine` <- function(cnd, ...) {
-  error_name <- peek_error_context()$error_name
-  c(
-    x = glue("`{error_name}` must return compatible vectors across groups."),
-    i = cnd_bullet_combine_details(cnd$wrapped$x, cnd$wrapped$x_arg),
-    i = cnd_bullet_combine_details(cnd$wrapped$y, cnd$wrapped$y_arg)
-  )
+`mutate_bullets.dplyr:::error_incompatible_combine` <- function(cnd, ...) {
+  # the details are included in the parent error
+  c()
 }
 #' @export
 `mutate_bullets.dplyr:::mutate_constant_recycle_error` <- function(cnd, ...) {
