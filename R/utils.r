@@ -109,16 +109,3 @@ fix_call <- function(expr, call = caller_env()) {
     cnd_signal(cnd)
   })
 }
-
-wrap_error <- function(expr, class, ...) {
-  withCallingHandlers(expr, error = function(cnd) {
-    abort(
-      message = cnd_header(cnd),
-      body = cnd_body(cnd),
-      class = class,
-      call = cnd$call,
-      wrapped = cnd,
-      ...
-    )
-  })
-}
