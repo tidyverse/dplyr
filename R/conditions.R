@@ -34,10 +34,10 @@ is_data_pronoun <- function(x) {
   is_call(x, c("[[", "$")) && identical(node_cadr(x), sym(".data"))
 }
 
+# Because as_label() strips off .data$<> and .data[[<>]]
 quo_as_label <- function(quo)  {
   expr <- quo_get_expr(quo)
-  error_expression  <- if (is_data_pronoun(expr)) {
-    # because as_label() strips off .data$<> and .data[[<>]]
+  if (is_data_pronoun(expr)) {
     deparse(expr)[[1]]
   } else{
     as_label(expr)
