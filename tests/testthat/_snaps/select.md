@@ -23,6 +23,14 @@
     Message
       Adding missing grouping variables: `a b`
 
+# select() provides informative errors
+
+    Code
+      (expect_error(select(mtcars, 1 + "")))
+    Output
+      <error/rlang_error>
+      Error in `select()`: non-numeric argument to binary operator
+
 # dplyr_col_select() aborts when `[` implementation is broken
 
     Code
