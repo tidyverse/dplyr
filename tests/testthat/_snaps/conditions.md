@@ -80,3 +80,68 @@
       Caused by error in `+`:
         non-numeric argument to binary operator
 
+# can pass verb-level error call
+
+    Code
+      mutate(mtcars, 1 + "", .error_call = call("foo"))
+    Condition
+      Error in `foo()`:
+        Problem while computing `..1 = 1 + ""`.
+      Caused by error in `+`:
+        non-numeric argument to binary operator
+    Code
+      transmute(mtcars, 1 + "", .error_call = call("foo"))
+    Condition
+      Error in `foo()`:
+        Problem while computing `..1 = 1 + ""`.
+      Caused by error in `+`:
+        non-numeric argument to binary operator
+    Code
+      summarise(mtcars, 1 + "", .error_call = call("foo"))
+    Condition
+      Error in `foo()`:
+        Problem while computing `..1 = 1 + ""`.
+      Caused by error in `+`:
+        non-numeric argument to binary operator
+    Code
+      filter(mtcars, 1 + "", .error_call = call("foo"))
+    Condition
+      Error in `foo()`:
+        Problem while computing `..1 = 1 + ""`.
+      Caused by error in `+`:
+        non-numeric argument to binary operator
+    Code
+      arrange(mtcars, 1 + "", .error_call = call("foo"))
+    Condition
+      Error in `foo()`:
+        Problem with the implicit `transmute()` step.
+        x Problem while computing `..1 = 1 + ""`.
+      Caused by error in `+`:
+        non-numeric argument to binary operator
+    Code
+      select(mtcars, 1 + "", .error_call = call("foo"))
+    Condition
+      Error in `foo()`: non-numeric argument to binary operator
+    Code
+      slice(mtcars, 1 + "", .error_call = call("foo"))
+    Condition
+      Error in `foo()`:
+        Problem evaluating `... = <fn>` .
+      Caused by error in `+`:
+        non-numeric argument to binary operator
+
+# can pass verb-level error call (example case)
+
+    Code
+      my_verb(mtcars, 1 + "", am)
+    Condition
+      Error in `my_verb()`:
+        Problem while computing `.result = (1 + "") * am`.
+      Caused by error in `+`:
+        non-numeric argument to binary operator
+    Code
+      my_verb(mtcars, cyl, c(am, vs))
+    Condition
+      Error in `my_verb()`: Problem while computing `.result = cyl * c(am, vs)`.
+      i `.result` must be size 32 or 1, not 64.
+

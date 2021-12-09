@@ -120,8 +120,16 @@ slice <- function(.data, ..., .preserve = FALSE) {
 }
 
 #' @export
-slice.data.frame <- function(.data, ..., .preserve = FALSE) {
-  slice_impl(.data, ..., .preserve = .preserve)
+slice.data.frame <- function(.data,
+                             ...,
+                             .preserve = FALSE,
+                             .error_call = current_env()) {
+  slice_impl(
+    .data,
+    ...,
+    .preserve = .preserve,
+    error_call = .error_call
+  )
 }
 
 #' @export

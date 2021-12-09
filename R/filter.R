@@ -110,8 +110,16 @@ filter <- function(.data, ..., .preserve = FALSE) {
 }
 
 #' @export
-filter.data.frame <- function(.data, ..., .preserve = FALSE) {
-  loc <- filter_rows(.data, ..., caller_env = caller_env())
+filter.data.frame <- function(.data,
+                              ...,
+                              .preserve = FALSE,
+                              .error_call = current_env()) {
+  loc <- filter_rows(
+    .data,
+    ...,
+    caller_env = caller_env(),
+    error_call = .error_call
+  )
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 

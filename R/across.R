@@ -388,7 +388,7 @@ new_dplyr_quosure <- function(quo, ...) {
   quo
 }
 
-dplyr_quosures <- function(...) {
+dplyr_quosures <- function(..., .error_call = NULL) {
   quosures <- enquos(..., .ignore_empty = "all")
   names_given <- names2(quosures)
   names_auto  <- names(enquos(..., .named = TRUE, .ignore_empty = "all"))
@@ -401,6 +401,8 @@ dplyr_quosures <- function(...) {
       index = i
     )
   }
+
+  attr(quosures, "error_call") <- .error_call
   quosures
 }
 

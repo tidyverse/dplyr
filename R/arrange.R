@@ -40,6 +40,8 @@
 #'   more details.
 #' @param ... <[`data-masking`][dplyr_data_masking]> Variables, or functions of
 #'   variables. Use [desc()] to sort a variable in descending order.
+#' @param .by_group If `TRUE`, will sort first by grouping variable. Applies to
+#'   grouped data frames only.
 #' @family single table verbs
 #' @examples
 #' arrange(mtcars, cyl, disp)
@@ -66,18 +68,18 @@ arrange <- function(.data, ..., .by_group = FALSE) {
   UseMethod("arrange")
 }
 
-#' @param .by_group If `TRUE`, will sort first by grouping variable. Applies to
-#'   grouped data frames only.
-#' @rdname arrange
 #' @export
-arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
+arrange.data.frame <- function(.data,
+                               ...,
+                               .by_group = FALSE,
+                               .error_call = current_env()) {
   dots <- enquos(...)
 
   if (.by_group) {
     dots <- c(quos(!!!groups(.data)), dots)
   }
 
-  loc <- arrange_rows(.data, dots)
+  loc <- arrange_rows(.data, dots, error_call = .error_call)
   dplyr_row_slice(.data, loc)
 }
 
