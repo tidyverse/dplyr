@@ -16,7 +16,7 @@
       (expect_error(intersect(alfa, 1)))
     Output
       <error/rlang_error>
-      Error in `intersect()`: `y` must be a data frame. 
+      Error in `intersect()`: `y` must be a data frame.
     Code
       (expect_error(intersect(alfa, gamma)))
     Output

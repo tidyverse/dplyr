@@ -4,7 +4,7 @@
       out <- mutate_if(gdf, is.factor, as.character)
     Message
       `mutate_if()` ignored the following grouping variables:
-      Column `Species`
+      * Column `Species`
 
 # colwise mutate gives meaningful error messages
 

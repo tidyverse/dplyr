@@ -280,7 +280,7 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
     mask$eval_all(quo),
     error = function(cnd) {
       bullets <- slice_bullets(cnd, error_call)
-      parent <- if(is_slice_call(error_call)) cnd else cnd$parent
+      parent <- if (is_slice_call(error_call)) cnd else cnd$parent
 
       abort(bullets, call = error_call, parent = parent)
     }
@@ -300,6 +300,7 @@ slice_bullets.default <- function(cnd, error_call, ...) {
   }
   c(
     msg,
+    cnd_body(cnd),
     i = cnd_bullet_cur_group_label()
   )
 }

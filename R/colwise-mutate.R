@@ -328,10 +328,10 @@ check_grouped <- function(tbl, verb, suffix, alt = FALSE) {
     } else {
       alt_line <- chr()
     }
-    inform(paste_line(
+    inform(c(
       sprintf("`%s_%s()` ignored the following grouping variables:", verb, suffix),
-      fmt_cols(group_vars(tbl)),
-      alt_line
+      set_names(fmt_cols(group_vars(tbl)), "*"),
+      "i" = alt_line
     ))
   }
 }

@@ -26,9 +26,7 @@
       })))
     Output
       <error/rlang_error>
-      Error in `funs()`: `function(si) {
-          mp[si]
-      }` must be a function name (quoted or unquoted) or an unquoted call, not `function`.
+      Error in `funs()`: `function(si) { mp[si] }` must be a function name (quoted or unquoted) or an unquoted call, not `function`.
     Code
       (expect_error(funs(~ mp[.])))
     Output
