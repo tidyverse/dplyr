@@ -1,3 +1,24 @@
+# slice() gives meaningfull errors
+
+    Code
+      (expect_error(slice(df, matrix(c(1, 2), ncol = 2))))
+    Output
+      <error/vctrs_error_incompatible_type>
+      Error in `slice()`: Can't convert <integer[,2]> to <integer>.
+      Cannot decrease dimensions.
+    Code
+      (expect_error(slice(df, "a")))
+    Output
+      <error/rlang_error>
+      Error in `slice()`: Invalid result of type <character>.
+      i Indices must be positive or negative integers.
+    Code
+      (expect_error(slice(df, c(1, -1))))
+    Output
+      <error/rlang_error>
+      Error in `slice()`: Indices must be all positive or all negative.
+      i Got 1 positives, 1 negatives.
+
 # slice_*() checks that `n=` is explicitly named
 
     Code
