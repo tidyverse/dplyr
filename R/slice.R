@@ -270,31 +270,42 @@ is_slice_call <- function(error_call) {
 }
 
 slice_eval <- function(mask, dots, error_call = caller_env()) {
-  quo <- if (length(dots) == 1L) {
-    dots[[1L]]
-  } else {
-    quo(c(!!!dots))
+  index <- 0L
+  impl <- function(...) {
+    n <- ...length2()
+    out <- vector("list", n)
+
+    for (i in seq_len(n)) {
+      index <<- i
+      out[[i]] <- ...elt2(i)
+    }
+
+    index <<- 0L
+
+    fix_call(
+      vec_c(!!!out),
+      error_call
+    )
   }
 
   withCallingHandlers(
-    mask$eval_all(quo),
+    mask$eval_all(quo(impl(!!!dots))),
     error = function(cnd) {
-      bullets <- slice_bullets(cnd, error_call)
-      parent <- if (is_slice_call(error_call)) cnd else cnd$parent
+      if (index) {
+        local_error_context(dots = dots, .index = index, mask = mask)
+      }
+
+      bullets <- slice_bullets(cnd, error_call, index)
+      parent <- if (index && is_slice_call(error_call)) cnd else cnd$parent
 
       abort(bullets, call = error_call, parent = parent)
     }
   )
 }
 
-slice_bullets <- function(cnd, error_call, ...) {
-  UseMethod("slice_bullets")
-}
-
-#' @export
-slice_bullets.default <- function(cnd, error_call, ...) {
-  if (is_slice_call(error_call)) {
-    msg <- glue("Problem evaluating `... = {as_label(quo_squash(quo))}` . ")
+slice_bullets <- function(cnd, error_call, index) {
+  if (index && is_slice_call(error_call)) {
+    msg <- cnd_bullet_header("evaluating")
   } else {
     msg <- cnd_header(cnd)
   }

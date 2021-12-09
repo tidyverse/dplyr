@@ -309,6 +309,14 @@
 
     Code
       df <- tibble(x = 1:3)
+      (expect_error(slice(mtcars, 1, 1 + "")))
+    Output
+      <error/rlang_error>
+      Error in `slice()`:
+        Problem while evaluating `..2 = 1 + ""`.
+      Caused by error in `+`:
+        non-numeric argument to binary operator
+    Code
       (expect_error(slice(df, TRUE)))
     Output
       <error/rlang_error>
@@ -320,6 +328,11 @@
       <error/rlang_error>
       Error in `slice()`: Invalid result of type <logical>.
       i Indices must be positive or negative integers.
+    Code
+      (expect_error(slice(mtcars, 1, 1, "")))
+    Output
+      <error/rlang_error>
+      Error in `slice()`: Can't combine `..1` <double> and `..3` <character>.
     Code
       (expect_error(mtcars %>% slice(c(-1, 2))))
     Output

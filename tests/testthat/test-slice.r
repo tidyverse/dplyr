@@ -484,9 +484,13 @@ test_that("rename errors with invalid grouped data frame (#640)", {
   expect_snapshot({
     df <- tibble(x = 1:3)
 
+    # User errors are labelled
+    (expect_error(slice(mtcars, 1, 1 + "")))
+
     # Incompatible type
     (expect_error(slice(df, TRUE)))
     (expect_error(slice(df, FALSE)))
+    (expect_error(slice(mtcars, 1, 1, "")))
 
     # Mix of positive and negative integers
     (expect_error(mtcars %>% slice(c(-1, 2))))

@@ -119,3 +119,11 @@ tidyselect_fix_call <- function(expr, call = caller_env()) {
       cnd_signal(cnd)
     })
 }
+
+# Backports for R 3.5.0 utils
+...length2 <- function(frame = caller_env()) {
+  length(env_get(frame, "..."))
+}
+...elt2 <- function(i, frame = caller_env()) {
+  eval_bare(sym(paste0("..", i)), frame)
+}
