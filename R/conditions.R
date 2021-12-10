@@ -68,20 +68,13 @@ cnd_bullet_header <- function(what) {
   error_name <- error_context$error_name
   error_expression <- error_context$error_expression
 
-  invisible_name <- grepl("^\\.__.*__\\.$", error_name)
-  invisible_expr <- !nzchar(error_expression)
-
-  if (invisible_name && invisible_expr) {
-    expr <- "result"
-  } else if (invisible_name) {
-    expr <- glue("`{error_expression}`")
-  } else if (invisible_expr) {
-    expr <- glue("`{error_name}`")
+  if (nzchar(error_expression)) {
+    sep <- " = "
   } else {
-    expr <- glue("`{error_name} = {error_expression}`")
+    sep <- ""
   }
 
-  glue("Problem while {what} {expr}.")
+  glue("Problem while {what} `{error_name}{sep}{error_expression}`.")
 }
 
 cnd_bullet_combine_details <- function(x, arg) {
