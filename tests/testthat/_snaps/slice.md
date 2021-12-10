@@ -317,6 +317,15 @@
       Caused by error in `+`:
         non-numeric argument to binary operator
     Code
+      (expect_error(group_by(mtcars, cyl) %>% slice(1, 1 + "")))
+    Output
+      <error/rlang_error>
+      Error in `slice()`:
+        Problem while evaluating `..2 = 1 + ""`.
+        i The error occurred in group 1: cyl = 4.
+      Caused by error in `+`:
+        non-numeric argument to binary operator
+    Code
       (expect_error(slice(df, TRUE)))
     Output
       <error/rlang_error>
@@ -333,6 +342,12 @@
     Output
       <error/rlang_error>
       Error in `slice()`: Can't combine `..1` <double> and `..3` <character>.
+    Code
+      (expect_error(group_by(mtcars, cyl) %>% slice(1, 1, "")))
+    Output
+      <error/rlang_error>
+      Error in `slice()`: Can't combine `..1` <double> and `..3` <character>.
+      i The error occurred in group 1: cyl = 4.
     Code
       (expect_error(mtcars %>% slice(c(-1, 2))))
     Output
