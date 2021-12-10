@@ -2,14 +2,12 @@ url: https://dplyr.tidyverse.org
 
 template:
   package: tidytemplate
-  params:
-    docsearch:
-      api_key: 1270c4079b26a138795263974bbf302d
-      index_name: tidyverse
+  bootstrap: 5
+  includes:
+    in_header: |
+      <script defer data-domain="dplyr.tidyverse.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
 
 home:
-  strip_header: true
-
   links:
   - text: Learn more
     href: http://r4ds.had.co.nz/transform.html
@@ -152,13 +150,5 @@ news:
   - text: "Version 0.7.5"
     href: https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/
 
-navbar:
-  components:
-    home: ~
-
 development:
   mode: auto
-
-authors:
-  Kirill Müller:
-    href: https://krlmlr.info
