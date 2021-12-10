@@ -85,7 +85,8 @@ sample_n.data.frame <- function(tbl, size, replace = FALSE,
   size <- enquo(size)
   weight <- enquo(weight)
 
-  slice_impl(tbl, local({
+  dplyr_local_error_call()
+  slice(tbl, local({
     size <- check_size(!!size, n(), replace = replace)
     sample.int(n(), size, replace = replace, prob = !!weight)
   }))
@@ -116,7 +117,8 @@ sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
   size <- enquo(size)
   weight <- enquo(weight)
 
-  slice_impl(tbl, local({
+  dplyr_local_error_call()
+  slice(tbl, local({
     size <- round(n() * check_frac(!!size, replace = replace))
     sample.int(n(), size, replace = replace, prob = !!weight)
   }))
@@ -132,7 +134,7 @@ check_size <- function(size, n, replace = FALSE) {
     glue("`size` must be less than or equal to {n} (size of data)."),
     i = "set `replace = TRUE` to use sampling with replacement."
   )
-  abort(bullets)
+  abort(bullets, call = NULL)
 }
 
 check_frac <- function(size, replace = FALSE) {
@@ -142,5 +144,5 @@ check_frac <- function(size, replace = FALSE) {
     glue("`size` of sampled fraction must be less or equal to one."),
     i = "set `replace = TRUE` to use sampling with replacement."
   )
-  abort(bullets)
+  abort(bullets, call = NULL)
 }

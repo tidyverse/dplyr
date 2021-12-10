@@ -121,11 +121,8 @@ slice <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 slice.data.frame <- function(.data, ..., .preserve = FALSE) {
-  slice_impl(
-    .data,
-    ...,
-    .preserve = .preserve
-  )
+  loc <- slice_rows(.data, ..., caller_env = caller_env(), error_call = current_env())
+  dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
 #' @export
@@ -139,7 +136,9 @@ slice_head.data.frame <- function(.data, ..., n, prop) {
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)
   idx <- function(n) seq2(1, size(n))
-  slice_impl(.data, idx(dplyr::n()))
+
+  dplyr_local_error_call()
+  slice(.data, idx(dplyr::n()))
 }
 
 #' @export
@@ -153,7 +152,9 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)
   idx <- function(n) seq2(n - size(n) + 1, n)
-  slice_impl(.data, idx(dplyr::n()))
+
+  dplyr_local_error_call()
+  slice(.data, idx(dplyr::n()))
 }
 
 #' @export
@@ -178,11 +179,12 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     idx <- function(x, n) head(order(x), size(n))
   }
 
-  slice_impl(.data, local({
+  dplyr_local_error_call()
+  slice(.data, local({
     order_by <- {{ order_by }}
     n <- dplyr::n()
 
-    x <- vec_assert(order_by, size = n, arg = "order_by")
+    x <- fix_call(vec_assert(order_by, size = n, arg = "order_by"), NULL)
     idx(x, n)
   }))
 
@@ -208,10 +210,11 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     idx <- function(x, n) head(order(x, decreasing = TRUE), size(n))
   }
 
-  slice_impl(.data, local({
+  dplyr_local_error_call()
+  slice(.data, local({
     order_by <- {{ order_by }}
     n <- dplyr::n()
-    order_by <- vec_assert(order_by, size = n, arg = "order_by")
+    order_by <- fix_call(vec_assert(order_by, size = n, arg = "order_by"), NULL)
     idx(order_by, n)
   }))
 }
@@ -232,23 +235,19 @@ slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, repla
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)
 
-  slice_impl(.data, local({
+  dplyr_local_error_call()
+  slice(.data, local({
     weight_by <- {{ weight_by }}
 
     n <- dplyr::n()
     if (!is.null(weight_by)) {
-      weight_by <- vec_assert(weight_by, size = n, arg = "weight_by")
+      weight_by <- fix_call(vec_assert(weight_by, size = n, arg = "weight_by"), NULL)
     }
     sample_int(n, size(n), replace = replace, wt = weight_by)
   }))
 }
 
 # helpers -----------------------------------------------------------------
-
-slice_impl <- function(.data, ..., .preserve = FALSE, error_call = caller_env()) {
-  loc <- slice_rows(.data, ..., caller_env = caller_env(2), error_call = error_call)
-  dplyr_row_slice(.data, loc, preserve = .preserve)
-}
 
 slice_rows <- function(.data, ..., caller_env, error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
@@ -297,32 +296,16 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
   withCallingHandlers(
     mask$eval_all(quo(impl(!!!dots))),
     error = function(cnd) {
-      if (index) {
+      if (index && is_slice_call(error_call)) {
         local_error_context(dots = dots, .index = index, mask = mask)
+        header <- cnd_bullet_header("evaluating")
+      } else {
+        header <- "Problem while computing indices."
       }
 
-      bullets <- slice_bullets(cnd, error_call, index)
-      parent <- if (is_slice_call(error_call)) cnd else cnd$parent
-
-      abort(bullets, call = error_call, parent = parent)
+      bullets <- c(header, i = cnd_bullet_cur_group_label())
+      abort(bullets, call = error_call, parent = cnd)
     }
-  )
-}
-
-slice_bullets <- function(cnd, error_call, index) {
-  if (is_slice_call(error_call)) {
-    if (index) {
-      msg <- cnd_bullet_header("evaluating")
-    } else {
-      msg <- "Problem while computing indices."
-    }
-  } else {
-    msg <- cnd_header(cnd)
-  }
-  c(
-    msg,
-    cnd_body(cnd),
-    i = cnd_bullet_cur_group_label()
   )
 }
 

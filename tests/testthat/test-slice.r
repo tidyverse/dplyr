@@ -487,6 +487,30 @@ test_that("Non-integer number of rows computed correctly", {
   expect_equal(get_slice_size(prop = -0.16)(10), 9)
 })
 
+test_that("slice_helpers do call slice() and benefit from dispatch (#6084)", {
+  local_methods(
+    slice.noisy = function(.data, ..., .preserve = FALSE) {
+      warning("noisy")
+      NextMethod()
+    }
+  )
+
+  noisy <- function(x) {
+    class(x) <- c("noisy", class(x))
+    x
+  }
+
+  df <- tibble(x = 1:10, g = rep(1:2, each = 5)) %>% group_by(g)
+
+  expect_warning(slice(noisy(df), 1:2), "noisy")
+  expect_warning(slice_sample(noisy(df), n = 2), "noisy")
+  expect_warning(slice_head(noisy(df), n = 2), "noisy")
+  expect_warning(slice_tail(noisy(df), n = 2), "noisy")
+  expect_warning(slice_min(noisy(df), x, n = 2), "noisy")
+  expect_warning(slice_max(noisy(df), x, n = 2), "noisy")
+  expect_warning(sample_n(noisy(df), 2), "noisy")
+  expect_warning(sample_frac(noisy(df), .5), "noisy")
+})
 
 # Errors ------------------------------------------------------------------
 
