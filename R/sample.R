@@ -85,7 +85,8 @@ sample_n.data.frame <- function(tbl, size, replace = FALSE,
   size <- enquo(size)
   weight <- enquo(weight)
 
-  slice_impl(tbl, local({
+  dplyr_local_error_call()
+  slice(tbl, local({
     size <- check_size(!!size, n(), replace = replace)
     sample.int(n(), size, replace = replace, prob = !!weight)
   }))
@@ -116,7 +117,8 @@ sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
   size <- enquo(size)
   weight <- enquo(weight)
 
-  slice_impl(tbl, local({
+  dplyr_local_error_call()
+  slice(tbl, local({
     size <- round(n() * check_frac(!!size, replace = replace))
     sample.int(n(), size, replace = replace, prob = !!weight)
   }))

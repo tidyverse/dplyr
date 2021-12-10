@@ -121,11 +121,8 @@ slice <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 slice.data.frame <- function(.data, ..., .preserve = FALSE) {
-  slice_impl(
-    .data,
-    ...,
-    .preserve = .preserve
-  )
+  loc <- slice_rows(.data, ..., caller_env = caller_env(), error_call = current_env())
+  dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
 #' @export
@@ -139,7 +136,9 @@ slice_head.data.frame <- function(.data, ..., n, prop) {
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)
   idx <- function(n) seq2(1, size(n))
-  slice_impl(.data, idx(dplyr::n()))
+
+  dplyr_local_error_call()
+  slice(.data, idx(dplyr::n()))
 }
 
 #' @export
@@ -153,7 +152,9 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)
   idx <- function(n) seq2(n - size(n) + 1, n)
-  slice_impl(.data, idx(dplyr::n()))
+
+  dplyr_local_error_call()
+  slice(.data, idx(dplyr::n()))
 }
 
 #' @export
@@ -178,7 +179,8 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     idx <- function(x, n) head(order(x), size(n))
   }
 
-  slice_impl(.data, local({
+  dplyr_local_error_call()
+  slice(.data, local({
     order_by <- {{ order_by }}
     n <- dplyr::n()
 
@@ -208,7 +210,8 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     idx <- function(x, n) head(order(x, decreasing = TRUE), size(n))
   }
 
-  slice_impl(.data, local({
+  dplyr_local_error_call()
+  slice(.data, local({
     order_by <- {{ order_by }}
     n <- dplyr::n()
     order_by <- vec_assert(order_by, size = n, arg = "order_by")
@@ -232,7 +235,8 @@ slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, repla
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)
 
-  slice_impl(.data, local({
+  dplyr_local_error_call()
+  slice(.data, local({
     weight_by <- {{ weight_by }}
 
     n <- dplyr::n()
@@ -244,11 +248,6 @@ slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, repla
 }
 
 # helpers -----------------------------------------------------------------
-
-slice_impl <- function(.data, ..., .preserve = FALSE, error_call = caller_env()) {
-  loc <- slice_rows(.data, ..., caller_env = caller_env(2), error_call = error_call)
-  dplyr_row_slice(.data, loc, preserve = .preserve)
-}
 
 slice_rows <- function(.data, ..., caller_env, error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
