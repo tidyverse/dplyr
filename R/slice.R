@@ -296,32 +296,16 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
   withCallingHandlers(
     mask$eval_all(quo(impl(!!!dots))),
     error = function(cnd) {
-      if (index) {
+      if (index && is_slice_call(error_call)) {
         local_error_context(dots = dots, .index = index, mask = mask)
+        header <- cnd_bullet_header("evaluating")
+      } else {
+        header <- "Problem while computing indices."
       }
 
-      bullets <- slice_bullets(cnd, error_call, index)
-      parent <- if (is_slice_call(error_call)) cnd else cnd$parent
-
-      abort(bullets, call = error_call, parent = parent)
+      bullets <- c(header, i = cnd_bullet_cur_group_label())
+      abort(bullets, call = error_call, parent = cnd)
     }
-  )
-}
-
-slice_bullets <- function(cnd, error_call, index) {
-  if (is_slice_call(error_call)) {
-    if (index) {
-      msg <- cnd_bullet_header("evaluating")
-    } else {
-      msg <- "Problem while computing indices."
-    }
-  } else {
-    msg <- cnd_header(cnd)
-  }
-  c(
-    msg,
-    cnd_body(cnd),
-    i = cnd_bullet_cur_group_label()
   )
 }
 
