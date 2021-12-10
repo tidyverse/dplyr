@@ -259,19 +259,29 @@ test_that("slice() handles matrices", {
 })
 
 test_that("slice() gives meaningfull errors", {
-  df <- data.frame(x = 1)
+  df <- data.frame(x = 1:2)
+  gdf <- group_by(df, x)
 
   expect_snapshot({
     (expect_error(
       slice(df, matrix(c(1, 2), ncol = 2))
     ))
+    (expect_error(
+      slice(gdf, matrix(c(1, 2), ncol = 2))
+    ))
 
     (expect_error(
       slice(df, "a")
     ))
+    (expect_error(
+      slice(gdf, "a")
+    ))
 
     (expect_error(
       slice(df, c(1, -1))
+    ))
+    (expect_error(
+      slice(gdf, c(1, -1))
     ))
   })
 
