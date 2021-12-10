@@ -27,7 +27,7 @@
       Error in `sample_n()`:
         Problem while computing indices.
         i The error occurred in group 2: cyl = 6.
-      Caused by error in `check_size()`:
+      Caused by error:
         `size` must be less than or equal to 7 (size of data).
         i set `replace = TRUE` to use sampling with replacement.
     Code
@@ -56,7 +56,7 @@
       <error/rlang_error>
       Error in `sample_frac()`:
         Problem while computing indices.
-      Caused by error in `check_frac()`:
+      Caused by error:
         `size` of sampled fraction must be less or equal to one.
         i set `replace = TRUE` to use sampling with replacement.
     Code
@@ -66,7 +66,7 @@
       Error in `sample_frac()`:
         Problem while computing indices.
         i The error occurred in group 1: y = 0.
-      Caused by error in `check_frac()`:
+      Caused by error:
         `size` of sampled fraction must be less or equal to one.
         i set `replace = TRUE` to use sampling with replacement.
     Code

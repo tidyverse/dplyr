@@ -134,7 +134,7 @@ check_size <- function(size, n, replace = FALSE) {
     glue("`size` must be less than or equal to {n} (size of data)."),
     i = "set `replace = TRUE` to use sampling with replacement."
   )
-  abort(bullets)
+  abort(bullets, call = NULL)
 }
 
 check_frac <- function(size, replace = FALSE) {
@@ -144,5 +144,5 @@ check_frac <- function(size, replace = FALSE) {
     glue("`size` of sampled fraction must be less or equal to one."),
     i = "set `replace = TRUE` to use sampling with replacement."
   )
-  abort(bullets)
+  abort(bullets, call = NULL)
 }
