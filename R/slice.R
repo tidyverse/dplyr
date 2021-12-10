@@ -121,7 +121,11 @@ slice <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 slice.data.frame <- function(.data, ..., .preserve = FALSE) {
-  slice_impl(.data, ..., .preserve = .preserve)
+  slice_impl(
+    .data,
+    ...,
+    .preserve = .preserve
+  )
 }
 
 #' @export
@@ -247,6 +251,8 @@ slice_impl <- function(.data, ..., .preserve = FALSE, error_call = caller_env())
 }
 
 slice_rows <- function(.data, ..., caller_env, error_call = caller_env()) {
+  error_call <- dplyr_error_call(error_call)
+
   dots <- enquos(...)
   if (is_empty(dots)) {
     return(TRUE)

@@ -122,7 +122,12 @@ select.list <- function(.data, ...) {
 
 #' @export
 select.data.frame <- function(.data, ...) {
-  loc <- tidyselect_fix_call(tidyselect::eval_select(expr(c(...)), .data))
+  error_call <- dplyr_error_call()
+
+  loc <- tidyselect_fix_call(
+    tidyselect::eval_select(expr(c(...)), .data),
+    call = error_call
+  )
   loc <- ensure_group_vars(loc, .data, notify = TRUE)
 
   dplyr_col_select(.data, loc, names(loc))

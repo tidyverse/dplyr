@@ -1,3 +1,32 @@
+#' Local error call for dplyr verbs
+#' @noRd
+dplyr_local_error_call <- function(call = frame, frame = caller_env()) {
+  # This doesn't implement the semantics of a `local_` function
+  # perfectly in order to be as fast as possible
+  frame$.__dplyr_error_call__. <- call
+  invisible(NULL)
+}
+
+# Takes the local call by default. If the caller of the verb has
+# called `dplyr_local_error_call()`, we used that call instead.  This
+# logic is slightly different than in checking functions or error
+# helpers, where the error call is always taken from the parent by
+# default.
+dplyr_error_call <- function(call) {
+  if (is_missing(call)) {
+    call <- caller_env()
+  }
+  if (is_environment(call)) {
+    caller <- eval_bare(quote(base::parent.frame()), call)
+    caller_call <- caller[[".__dplyr_error_call__."]]
+    if (!is_null(caller_call)) {
+      call <- caller_call
+    }
+  }
+
+  call
+}
+
 arg_name <- function(quos, index) {
   name  <- names(quos)[index]
   if (is.null(name) || name == "") {

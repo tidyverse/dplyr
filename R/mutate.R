@@ -175,9 +175,11 @@ mutate <- function(.data, ...) {
 #'   should appear (the default is to add to the right hand side). See
 #'   [relocate()] for more details.
 #' @export
-mutate.data.frame <- function(.data, ...,
+mutate.data.frame <- function(.data,
+                              ...,
                               .keep = c("all", "used", "unused", "none"),
-                              .before = NULL, .after = NULL) {
+                              .before = NULL,
+                              .after = NULL) {
   keep <- arg_match(.keep)
 
   cols <- mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
@@ -273,6 +275,8 @@ check_transmute_args <- function(..., .keep, .before, .after, error_call = calle
 }
 
 mutate_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
+  error_call <- dplyr_error_call(error_call)
+
   mask <- DataMask$new(.data, caller_env, "mutate", error_call = error_call)
   old_current_column <- context_peek_bare("column")
 

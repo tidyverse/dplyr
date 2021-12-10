@@ -116,6 +116,8 @@ filter.data.frame <- function(.data, ..., .preserve = FALSE) {
 }
 
 filter_rows <- function(.data, ..., caller_env, error_call = caller_env()) {
+  error_call <- dplyr_error_call(error_call)
+
   dots <- dplyr_quosures(...)
   check_filter(dots, error_call = error_call)
 

@@ -18,3 +18,28 @@ test_that("can hide expression in error messages", {
     slice(mtcars, var = invisible(999 + ""))
   })
 })
+
+test_that("can pass verb-level error call", {
+  dplyr_local_error_call(call("foo"))
+  expect_snapshot(error = TRUE, {
+    mutate(mtcars, 1 + "")
+    transmute(mtcars, 1 + "")
+    summarise(mtcars, 1 + "")
+    summarise(group_by(mtcars, cyl), 1 + "")
+    filter(mtcars, 1 + "")
+    arrange(mtcars, 1 + "")
+    select(mtcars, 1 + "")
+    slice(mtcars, 1 + "")
+  })
+})
+
+test_that("can pass verb-level error call (example case)", {
+  my_verb <- function(data, var1, var2) {
+    dplyr_local_error_call()
+    pull(transmute(data, .result = {{ var1 }} * {{ var2 }}))
+  }
+  expect_snapshot(error = TRUE, {
+    my_verb(mtcars, 1 + "", am)
+    my_verb(mtcars, cyl, c(am, vs))
+  })
+})
