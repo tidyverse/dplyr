@@ -6,7 +6,7 @@
       <error/rlang_error>
       Error in `slice()`:
         Problem while checking indices.
-      Caused by error:
+      Caused by error in `vec_cast()`:
         Can't convert <integer[,2]> to <integer>.
         Cannot decrease dimensions.
     Code
@@ -16,7 +16,7 @@
       Error in `slice()`:
         Problem while checking indices.
         i The error occurred in group 1: x = 1.
-      Caused by error:
+      Caused by error in `vec_cast()`:
         Can't convert <integer[,2]> to <integer>.
         Cannot decrease dimensions.
     Code
