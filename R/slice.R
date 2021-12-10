@@ -323,47 +323,54 @@ slice_bullets <- function(cnd, error_call, index) {
 slice_combine <- function(chunks, mask, error_call = caller_env()) {
   rows <- mask$get_rows()
   slice_indices <- new_list(length(rows))
-  for (group in seq_along(rows)) {
-    current_rows <- rows[[group]]
-    res <- chunks[[group]]
 
-    if (is.logical(res) && all(is.na(res))) {
-      res <- integer()
-    } else if (is.numeric(res)) {
-      if (is.matrix(res) && ncol(res) == 1) {
-        res <- as.vector(res)
+  withCallingHandlers(
+    for (group in seq_along(rows)) {
+      current_rows <- rows[[group]]
+      res <- chunks[[group]]
+
+      if (is.logical(res) && all(is.na(res))) {
+        res <- integer()
+      } else if (is.numeric(res)) {
+        if (is.matrix(res) && ncol(res) == 1) {
+          res <- as.vector(res)
+        }
+        res <- fix_call(vec_cast(res, integer()), NULL)
+      } else {
+        bullets <- c(
+          glue("Invalid result of type <{vec_ptype_full(res)}>."),
+          i = "Indices must be positive or negative integers."
+        )
+        abort(bullets, call = NULL)
       }
-      res <- fix_call(vec_cast(res, integer()), error_call)
-    } else {
-      mask$set_current_group(group)
-      msg <- c(
-        glue("Invalid result of type <{vec_ptype_full(res)}>."),
-        i = "Indices must be positive or negative integers.",
-        i = cnd_bullet_cur_group_label()
-      )
-      abort(msg, call = error_call)
-    }
 
-    if (length(res) == 0L) {
-      # nothing to do
-    } else if (all(res >= 0, na.rm = TRUE)) {
-      res <- res[!is.na(res) & res <= length(current_rows) & res > 0]
-    } else if (all(res <= 0, na.rm = TRUE)) {
-      res <- setdiff(seq_along(current_rows), -res)
-    } else {
-      mask$set_current_group(group)
-      n_positive <- sum(res >= 0, na.rm = TRUE)
-      n_negative <- sum(res <= 0, na.rm = TRUE)
-      msg <- c(
-        "Indices must be all positive or all negative.",
-        i = glue("Got {n_positive} positives, {n_negative} negatives."),
-        i = cnd_bullet_cur_group_label()
-      )
-      abort(msg, call = error_call)
-    }
+      if (length(res) == 0L) {
+        # nothing to do
+      } else if (all(res >= 0, na.rm = TRUE)) {
+        res <- res[!is.na(res) & res <= length(current_rows) & res > 0]
+      } else if (all(res <= 0, na.rm = TRUE)) {
+        res <- setdiff(seq_along(current_rows), -res)
+      } else {
+        mask$set_current_group(group)
+        n_positive <- sum(res >= 0, na.rm = TRUE)
+        n_negative <- sum(res <= 0, na.rm = TRUE)
+        bullets <- c(
+          "Indices must be all positive or all negative.",
+          i = glue("Got {n_positive} positives, {n_negative} negatives.")
+        )
+        abort(bullets, call = NULL)
+      }
 
-    slice_indices[[group]] <- current_rows[res]
-  }
+      slice_indices[[group]] <- current_rows[res]
+    }, error = function(cnd) {
+    mask$set_current_group(group)
+    bullets <- c(
+      "Problem while checking indices.",
+      i = cnd_bullet_cur_group_label()
+    )
+    abort(bullets, call = error_call, parent = cnd)
+  })
+
   slice_indices
 }
 
