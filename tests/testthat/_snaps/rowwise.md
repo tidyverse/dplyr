@@ -41,6 +41,14 @@
       <error/rlang_error>
       Error in `validate_rowwise_df()`: The `.rows` column must be a list of size 1, one-based integer vectors with the right value.
     Code
+      (expect_error(attr(df8, "groups")$.rows <- 1:8))
+    Output
+      <error/tibble_error_assign_incompatible_size>
+      Error: Assigned data `1:8` must be compatible with existing data.
+      x Existing data has 10 rows.
+      x Assigned data has 8 rows.
+      i Only vectors of size 1 are recycled.
+    Code
       (expect_error(validate_rowwise_df(df10)))
     Output
       <error/rlang_error>

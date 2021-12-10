@@ -118,7 +118,7 @@ test_that("validate_rowwise_df() gives useful errors", {
     (expect_error(validate_rowwise_df(df3)))
     (expect_error(validate_rowwise_df(df4)))
     (expect_error(validate_rowwise_df(df7)))
-    # (expect_error(attr(df8, "groups")$.rows <- 1:8))
+    (expect_error(attr(df8, "groups")$.rows <- 1:8))
     (expect_error(validate_rowwise_df(df10)))
     (expect_error(validate_rowwise_df(df11)))
 
