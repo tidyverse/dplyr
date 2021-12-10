@@ -8,11 +8,13 @@ test_that("can hide expression in error messages", {
     filter(mtcars, invisible(999 + ""))
     arrange(mtcars, invisible(999 + ""))
     select(mtcars, invisible(999 + ""))
+    slice(mtcars, invisible(999 + ""))
 
     mutate(mtcars, var = invisible(999 + ""))
     summarise(mtcars, var = invisible(999 + ""))
     filter(mtcars, var = invisible(999 + ""))    # Named arg error
     arrange(mtcars, var = invisible(999 + ""))   # Suboptimal
     select(mtcars, var = invisible(999 + ""))
+    slice(mtcars, var = invisible(999 + ""))
   })
 })
