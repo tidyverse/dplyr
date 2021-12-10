@@ -284,7 +284,7 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
 
     fix_call(
       vec_c(!!!out),
-      error_call
+      call = NULL
     )
   }
 
@@ -296,7 +296,7 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
       }
 
       bullets <- slice_bullets(cnd, error_call, index)
-      parent <- if (index && is_slice_call(error_call)) cnd else cnd$parent
+      parent <- if (is_slice_call(error_call)) cnd else cnd$parent
 
       abort(bullets, call = error_call, parent = parent)
     }
@@ -304,8 +304,12 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
 }
 
 slice_bullets <- function(cnd, error_call, index) {
-  if (index && is_slice_call(error_call)) {
-    msg <- cnd_bullet_header("evaluating")
+  if (is_slice_call(error_call)) {
+    if (index) {
+      msg <- cnd_bullet_header("evaluating")
+    } else {
+      msg <- "Problem while computing indices."
+    }
   } else {
     msg <- cnd_header(cnd)
   }

@@ -341,13 +341,19 @@
       (expect_error(slice(mtcars, 1, 1, "")))
     Output
       <error/rlang_error>
-      Error in `slice()`: Can't combine `..1` <double> and `..3` <character>.
+      Error in `slice()`:
+        Problem while computing indices.
+      Caused by error:
+        Can't combine `..1` <double> and `..3` <character>.
     Code
       (expect_error(group_by(mtcars, cyl) %>% slice(1, 1, "")))
     Output
       <error/rlang_error>
-      Error in `slice()`: Can't combine `..1` <double> and `..3` <character>.
-      i The error occurred in group 1: cyl = 4.
+      Error in `slice()`:
+        Problem while computing indices.
+        i The error occurred in group 1: cyl = 4.
+      Caused by error:
+        Can't combine `..1` <double> and `..3` <character>.
     Code
       (expect_error(mtcars %>% slice(c(-1, 2))))
     Output
