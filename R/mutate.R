@@ -182,19 +182,7 @@ mutate.data.frame <- function(.data,
                               .after = NULL) {
   keep <- arg_match(.keep)
 
-  # Don't take `.error_call` in the signature to avoid including this
-  # rather technical argument in user facing documentation. Methods
-  # for other verbs don't need this workaround because they aren't
-  # included in their verb topic.
-  dots <- dplyr_quosures(...)
-  error_call <- attr(dots, "error_call") %||% current_env()
-
-  cols <- mutate_cols(
-    .data,
-    dots,
-    caller_env = caller_env(),
-    error_call = error_call
-  )
+  cols <- mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
   used <- attr(cols, "used")
 
   out <- dplyr_col_modify(.data, cols)
@@ -245,18 +233,11 @@ transmute <- function(.data, ...) {
 }
 
 #' @export
-transmute.data.frame <- function(.data,
-                                 ...,
-                                 .error_call = current_env()) {
+transmute.data.frame <- function(.data, ...) {
   dots <- check_transmute_args(...)
   dots <- dplyr_quosures(!!!dots)
 
-  cols <- mutate_cols(
-    .data,
-    dots,
-    caller_env = caller_env(),
-    error_call = .error_call
-  )
+  cols <- mutate_cols(.data, dots, caller_env = caller_env())
 
   out <- dplyr_col_modify(.data, cols)
 
@@ -294,6 +275,8 @@ check_transmute_args <- function(..., .keep, .before, .after, error_call = calle
 }
 
 mutate_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
+  error_call <- dplyr_error_call(error_call)
+
   mask <- DataMask$new(.data, caller_env, "mutate", error_call = error_call)
   old_current_column <- context_peek_bare("column")
 

@@ -121,12 +121,12 @@ select.list <- function(.data, ...) {
 }
 
 #' @export
-select.data.frame <- function(.data,
-                              ...,
-                              .error_call = current_env()) {
+select.data.frame <- function(.data, ...) {
+  error_call <- dplyr_error_call()
+
   loc <- tidyselect_fix_call(
     tidyselect::eval_select(expr(c(...)), .data),
-    call = .error_call
+    call = error_call
   )
   loc <- ensure_group_vars(loc, .data, notify = TRUE)
 

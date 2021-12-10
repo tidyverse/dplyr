@@ -69,23 +69,22 @@ arrange <- function(.data, ..., .by_group = FALSE) {
 }
 
 #' @export
-arrange.data.frame <- function(.data,
-                               ...,
-                               .by_group = FALSE,
-                               .error_call = current_env()) {
+arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
   dots <- enquos(...)
 
   if (.by_group) {
     dots <- c(quos(!!!groups(.data)), dots)
   }
 
-  loc <- arrange_rows(.data, dots, error_call = .error_call)
+  loc <- arrange_rows(.data, dots)
   dplyr_row_slice(.data, loc)
 }
 
 # Helpers -----------------------------------------------------------------
 
 arrange_rows <- function(.data, dots, error_call = caller_env()) {
+  error_call <- dplyr_error_call(error_call)
+
   if (length(dots) == 0L) {
     out <- seq_len(nrow(.data))
     return(out)

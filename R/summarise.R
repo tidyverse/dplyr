@@ -124,16 +124,8 @@ summarise <- function(.data, ..., .groups = NULL) {
 summarize <- summarise
 
 #' @export
-summarise.data.frame <- function(.data,
-                                 ...,
-                                 .groups = NULL,
-                                 .error_call = current_env()) {
-  cols <- summarise_cols(
-    .data,
-    dplyr_quosures(...),
-    caller_env = caller_env(),
-    error_call = .error_call
-  )
+summarise.data.frame <- function(.data, ..., .groups = NULL) {
+  cols <- summarise_cols(.data, dplyr_quosures(...), caller_env = caller_env())
   out <- summarise_build(.data, cols)
   if (identical(.groups, "rowwise")) {
     out <- rowwise_df(out, character())
@@ -211,6 +203,8 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
 }
 
 summarise_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
+  error_call <- dplyr_error_call(error_call)
+
   mask <- DataMask$new(.data, caller_env, "summarise", error_call = error_call)
   old_current_column <- context_peek_bare("column")
 

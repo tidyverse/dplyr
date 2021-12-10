@@ -20,24 +20,23 @@ test_that("can hide expression in error messages", {
 })
 
 test_that("can pass verb-level error call", {
+  dplyr_local_error_call(call("foo"))
   expect_snapshot(error = TRUE, {
-    mutate(mtcars, 1 + "", .error_call = call("foo"))
-    transmute(mtcars, 1 + "", .error_call = call("foo"))
-    summarise(mtcars, 1 + "", .error_call = call("foo"))
-    filter(mtcars, 1 + "", .error_call = call("foo"))
-    arrange(mtcars, 1 + "", .error_call = call("foo"))
-    select(mtcars, 1 + "", .error_call = call("foo"))
-    slice(mtcars, 1 + "", .error_call = call("foo"))
+    mutate(mtcars, 1 + "")
+    transmute(mtcars, 1 + "")
+    summarise(mtcars, 1 + "")
+    summarise(group_by(mtcars, cyl), 1 + "")
+    filter(mtcars, 1 + "")
+    arrange(mtcars, 1 + "")
+    select(mtcars, 1 + "")
+    slice(mtcars, 1 + "")
   })
 })
 
 test_that("can pass verb-level error call (example case)", {
-  my_verb <- function(data, var1, var2, error_call = current_env()) {
-    pull(transmute(
-      data,
-      .result = {{ var1 }} * {{ var2 }},
-      .error_call = error_call
-    ))
+  my_verb <- function(data, var1, var2) {
+    dplyr_local_error_call()
+    pull(transmute(data, .result = {{ var1 }} * {{ var2 }}))
   }
   expect_snapshot(error = TRUE, {
     my_verb(mtcars, 1 + "", am)

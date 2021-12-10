@@ -83,35 +83,43 @@
 # can pass verb-level error call
 
     Code
-      mutate(mtcars, 1 + "", .error_call = call("foo"))
+      mutate(mtcars, 1 + "")
     Condition
       Error in `foo()`:
         Problem while computing `..1 = 1 + ""`.
       Caused by error in `+`:
         non-numeric argument to binary operator
     Code
-      transmute(mtcars, 1 + "", .error_call = call("foo"))
+      transmute(mtcars, 1 + "")
     Condition
       Error in `foo()`:
         Problem while computing `..1 = 1 + ""`.
       Caused by error in `+`:
         non-numeric argument to binary operator
     Code
-      summarise(mtcars, 1 + "", .error_call = call("foo"))
+      summarise(mtcars, 1 + "")
     Condition
       Error in `foo()`:
         Problem while computing `..1 = 1 + ""`.
       Caused by error in `+`:
         non-numeric argument to binary operator
     Code
-      filter(mtcars, 1 + "", .error_call = call("foo"))
+      summarise(group_by(mtcars, cyl), 1 + "")
+    Condition
+      Error in `foo()`:
+        Problem while computing `..1 = 1 + ""`.
+        i The error occurred in group 1: cyl = 4.
+      Caused by error in `+`:
+        non-numeric argument to binary operator
+    Code
+      filter(mtcars, 1 + "")
     Condition
       Error in `foo()`:
         Problem while computing `..1 = 1 + ""`.
       Caused by error in `+`:
         non-numeric argument to binary operator
     Code
-      arrange(mtcars, 1 + "", .error_call = call("foo"))
+      arrange(mtcars, 1 + "")
     Condition
       Error in `foo()`:
         Problem with the implicit `transmute()` step.
@@ -119,14 +127,14 @@
       Caused by error in `+`:
         non-numeric argument to binary operator
     Code
-      select(mtcars, 1 + "", .error_call = call("foo"))
+      select(mtcars, 1 + "")
     Condition
       Error in `foo()`: non-numeric argument to binary operator
     Code
-      slice(mtcars, 1 + "", .error_call = call("foo"))
+      slice(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-        Problem evaluating `... = <fn>` .
+        Problem while evaluating `..1 = 1 + ""`.
       Caused by error in `+`:
         non-numeric argument to binary operator
 

@@ -110,20 +110,14 @@ filter <- function(.data, ..., .preserve = FALSE) {
 }
 
 #' @export
-filter.data.frame <- function(.data,
-                              ...,
-                              .preserve = FALSE,
-                              .error_call = current_env()) {
-  loc <- filter_rows(
-    .data,
-    ...,
-    caller_env = caller_env(),
-    error_call = .error_call
-  )
+filter.data.frame <- function(.data, ..., .preserve = FALSE) {
+  loc <- filter_rows(.data, ..., caller_env = caller_env())
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
 filter_rows <- function(.data, ..., caller_env, error_call = caller_env()) {
+  error_call <- dplyr_error_call(error_call)
+
   dots <- dplyr_quosures(...)
   check_filter(dots, error_call = error_call)
 
