@@ -5,7 +5,7 @@
     Output
       <error/rlang_error>
       Error in `slice()`:
-        Problem while checking indices.
+        Problem while computing indices.
       Caused by error in `vec_cast()`:
         Can't convert <integer[,2]> to <integer>.
         Cannot decrease dimensions.
@@ -14,7 +14,7 @@
     Output
       <error/rlang_error>
       Error in `slice()`:
-        Problem while checking indices.
+        Problem while computing indices.
         i The error occurred in group 1: x = 1.
       Caused by error in `vec_cast()`:
         Can't convert <integer[,2]> to <integer>.
@@ -24,7 +24,7 @@
     Output
       <error/rlang_error>
       Error in `slice()`:
-        Problem while checking indices.
+        Problem while computing indices.
       Caused by error:
         Invalid result of type <character>.
         i Indices must be positive or negative integers.
@@ -33,7 +33,7 @@
     Output
       <error/rlang_error>
       Error in `slice()`:
-        Problem while checking indices.
+        Problem while computing indices.
         i The error occurred in group 1: x = 1.
       Caused by error:
         Invalid result of type <character>.
@@ -43,7 +43,7 @@
     Output
       <error/rlang_error>
       Error in `slice()`:
-        Problem while checking indices.
+        Problem while computing indices.
       Caused by error:
         Indices must be all positive or all negative.
         i Got 1 positives, 1 negatives.
@@ -52,7 +52,7 @@
     Output
       <error/rlang_error>
       Error in `slice()`:
-        Problem while checking indices.
+        Problem while computing indices.
         i The error occurred in group 1: x = 1.
       Caused by error:
         Indices must be all positive or all negative.
@@ -369,7 +369,7 @@
     Output
       <error/rlang_error>
       Error in `slice()`:
-        Problem while checking indices.
+        Problem while computing indices.
       Caused by error:
         Invalid result of type <logical>.
         i Indices must be positive or negative integers.
@@ -378,7 +378,7 @@
     Output
       <error/rlang_error>
       Error in `slice()`:
-        Problem while checking indices.
+        Problem while computing indices.
       Caused by error:
         Invalid result of type <logical>.
         i Indices must be positive or negative integers.
@@ -404,7 +404,7 @@
     Output
       <error/rlang_error>
       Error in `slice()`:
-        Problem while checking indices.
+        Problem while computing indices.
       Caused by error:
         Indices must be all positive or all negative.
         i Got 1 positives, 1 negatives.
@@ -413,7 +413,7 @@
     Output
       <error/rlang_error>
       Error in `slice()`:
-        Problem while checking indices.
+        Problem while computing indices.
       Caused by error:
         Indices must be all positive or all negative.
         i Got 2 positives, 1 negatives.

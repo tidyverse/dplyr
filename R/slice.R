@@ -365,7 +365,7 @@ slice_combine <- function(chunks, mask, error_call = caller_env()) {
     }, error = function(cnd) {
     mask$set_current_group(group)
     bullets <- c(
-      "Problem while checking indices.",
+      "Problem while computing indices.",
       i = cnd_bullet_cur_group_label()
     )
     abort(bullets, call = error_call, parent = cnd)
