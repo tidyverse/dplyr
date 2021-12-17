@@ -5,10 +5,3 @@ test_that("quo_is_variable_reference handles .data",{
   quo <- new_quosure(quote(.data[[identity("x")]]))
   expect_false(quo_is_variable_reference(quo))
 })
-
-test_that("check_pkg() give meaningful error messages", {
-  expect_snapshot({
-    (expect_error(dplyr:::check_pkg("dplyrFooBarBaz", "foobar a baz")))
-    (expect_error(dplyr:::check_pkg("dplyrFooBarBaz", "foobar a baz", install = FALSE)))
-  })
-})

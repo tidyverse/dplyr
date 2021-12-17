@@ -26,7 +26,7 @@
 location <- function(df) {
   lifecycle::deprecate_warn("1.0.0", "location()", "lobst::ref()")
 
-  check_pkg("lobstr", "compute package locations")
+  check_installed("lobstr", "to compute package locations.")
 
   if (!is.data.frame(df)) {
     abort("`location()` is meant for data frames.")

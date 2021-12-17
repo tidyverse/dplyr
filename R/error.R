@@ -1,15 +1,3 @@
-check_pkg <- function(name, reason, install = TRUE) {
-  if (is_installed(name)) {
-    return(invisible(TRUE))
-  }
-
-  bullets <- c(
-    glue("The {name} package is required to {reason}."),
-    i = if (install) glue('Please install it with `install.packages("{name}")`.')
-  )
-  abort(bullets)
-}
-
 # ngettext() does extra work, this function is a simpler version
 ntext <- function(n, msg1, msg2) {
   if (n == 1) msg1 else msg2
