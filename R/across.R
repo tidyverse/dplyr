@@ -517,7 +517,7 @@ expand_across <- function(quo) {
 
   # Empty expansion
   if (length(vars) == 0L) {
-    return(list())
+    return(new_expanded_quosures(list()))
   }
 
   fns <- setup$fns
@@ -537,6 +537,7 @@ expand_across <- function(quo) {
       )
     })
     names(expressions) <- names
+    expressions <- new_expanded_quosures(expressions)
     return(expressions)
   }
 
