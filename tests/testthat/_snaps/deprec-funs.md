@@ -3,7 +3,8 @@
     Code
       funs(fn = bar)
     Condition
-      Warning: `funs()` was deprecated in dplyr 0.8.0.
+      Warning:
+      `funs()` was deprecated in dplyr 0.8.0.
       Please use a list of either functions or lambdas: 
       
         # Simple named list: 
@@ -26,10 +27,12 @@
       })))
     Output
       <error/rlang_error>
-      Error in `funs()`: `function(si) { mp[si] }` must be a function name (quoted or unquoted) or an unquoted call, not `function`.
+      Error in `funs()`:
+      ! `function(si) { mp[si] }` must be a function name (quoted or unquoted) or an unquoted call, not `function`.
     Code
       (expect_error(funs(~ mp[.])))
     Output
       <error/rlang_error>
-      Error in `funs()`: `~mp[.]` must be a function name (quoted or unquoted) or an unquoted call, not `~`.
+      Error in `funs()`:
+      ! `~mp[.]` must be a function name (quoted or unquoted) or an unquoted call, not `~`.
 
