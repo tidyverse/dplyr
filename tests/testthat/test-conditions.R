@@ -1,6 +1,6 @@
 test_that("can hide expression in error messages", {
   err <- catch_cnd(mutate(mtcars, invisible(999 + "")), "error")
-  expect_false(grepl("999", conditionMessage(err)))
+  expect_false(grepl("999", cnd_header(err)))
 
   expect_snapshot(error = TRUE, {
     mutate(mtcars, invisible(999 + ""))
