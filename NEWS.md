@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* dplyr now uses `rlang::check_installed()` to prompt you whether to install
+  required packages that are missing.
+
 * `mutate(.keep = "none")` is no longer identical to `transmute()`.
   `transmute()` has not been changed, and completely ignores the column ordering
   of the existing data, instead relying on the ordering of expressions

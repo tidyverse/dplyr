@@ -39,7 +39,7 @@ NULL
 src_mysql <- function(dbname, host = NULL, port = 0L, username = "root",
                       password = "", ...) {
   check_dbplyr()
-  check_pkg("RMySQL", "connect to MySQL/MariaDB")
+  check_installed("RMySQL", "to connect to MySQL/MariaDB.")
   lifecycle::deprecate_warn(
     "1.0.0", "dplyr::src_mysql()",
     details = "Please use `tbl()` directly with a database connection"
@@ -62,7 +62,7 @@ src_mysql <- function(dbname, host = NULL, port = 0L, username = "root",
 src_postgres <- function(dbname = NULL, host = NULL, port = NULL,
                          user = NULL, password = NULL, ...) {
   check_dbplyr()
-  check_pkg("RPostgreSQL", "connect to PostgreSQL")
+  check_installed("RPostgreSQL", "to connect to PostgreSQL.")
   lifecycle::deprecate_warn(
     "1.0.0", "dplyr::src_postgres()",
     details = "Please use `tbl()` directly with a database connection"
