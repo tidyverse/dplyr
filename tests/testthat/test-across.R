@@ -879,6 +879,24 @@ test_that("expand_across() expands lambdas", {
   )
 })
 
+test_that("expand_if_across() expands lambdas", {
+  quo <- quo(if_any(c(cyl, am), ~ . > 4))
+  quo <- new_dplyr_quosure(
+    quo,
+    name_given = "",
+    name_auto = "if_any()",
+    is_named = FALSE,
+    index = 1
+  )
+
+  DataMask$new(mtcars, current_env(), "mutate", call("caller"))
+
+  expect_equal(
+    map(expand_if_across(quo), quo_squash),
+    alist(`|`(cyl > 4, am > 4))
+  )
+})
+
 
 # c_across ----------------------------------------------------------------
 
