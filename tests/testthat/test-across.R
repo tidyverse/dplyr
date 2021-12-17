@@ -858,6 +858,45 @@ test_that("across() predicates operate on whole data", {
   expect_equal(out, exp)
 })
 
+test_that("expand_across() expands lambdas", {
+  quo <- quo(across(c(cyl, am), ~ identity(.x)))
+  quo <- new_dplyr_quosure(
+    quo,
+    name_given = "",
+    name_auto = "across()",
+    is_named = FALSE,
+    index = 1
+  )
+
+  DataMask$new(mtcars, current_env(), "mutate", call("caller"))
+
+  expect_equal(
+    map(expand_across(quo), quo_get_expr),
+    exprs(
+      cyl = identity(cyl),
+      am = identity(am)
+    )
+  )
+})
+
+test_that("expand_if_across() expands lambdas", {
+  quo <- quo(if_any(c(cyl, am), ~ . > 4))
+  quo <- new_dplyr_quosure(
+    quo,
+    name_given = "",
+    name_auto = "if_any()",
+    is_named = FALSE,
+    index = 1
+  )
+
+  DataMask$new(mtcars, current_env(), "mutate", call("caller"))
+
+  expect_equal(
+    map(expand_if_across(quo), quo_squash),
+    alist(`|`(cyl > 4, am > 4))
+  )
+})
+
 
 # c_across ----------------------------------------------------------------
 
