@@ -546,7 +546,7 @@ expand_across <- function(quo) {
   seq_vars <- seq_len(n_vars)
   seq_fns  <- seq_len(n_fns)
 
-  expressions <- structure(vector(mode = "list", n_vars * n_fns), class = "dplyr_expanded_quosures")
+  expressions <- vector(mode = "list", n_vars * n_fns)
   columns <- character(n_vars * n_fns)
 
   k <- 1L
@@ -571,7 +571,11 @@ expand_across <- function(quo) {
   }
 
   names(expressions) <- names
-  expressions
+  new_expanded_quosures(expressions)
+}
+
+new_expanded_quosures <- function(x) {
+  structure(x, class = "dplyr_expanded_quosures")
 }
 
 # TODO: Take unevaluated `.fns` and inline calls to `function`. This
@@ -612,7 +616,8 @@ as_across_fn_call <- function(fn, var, env, mask) {
 # bug.
 is_inlinable_formula <- function(x, mask) {
   if (is_formula(x, lhs = FALSE, scoped = TRUE)) {
-    identical(x, mask) || !env_inherits(f_env(x), mask)
+    env <- f_env(x)
+    identical(env, mask) || !env_inherits(env, mask)
   } else {
     FALSE
   }
