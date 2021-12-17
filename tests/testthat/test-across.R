@@ -868,8 +868,7 @@ test_that("expand_across() expands lambdas", {
     index = 1
   )
 
-  mask <- DataMask$new(mtcars, current_env(), "mutate", call("caller"))
-  local_mask(mask)
+  DataMask$new(mtcars, current_env(), "mutate", call("caller"))
 
   expect_equal(
     map(expand_across(quo), quo_get_expr),
