@@ -4,12 +4,17 @@
       (expect_error(dplyr:::check_pkg("`__foobarbaz__`", "foobar a baz")))
     Output
       <error/rlang_error>
-      Error in `dplyr:::check_pkg()`: The `__foobarbaz__` package is required to foobar a baz.
-      i Please install it with `install.packages("`__foobarbaz__`")`.
+      Error in `is_installed()`:
+      ! Must supply valid package names.
+      x Problematic names:
+      * "`__foobarbaz__`"
     Code
       (expect_error(dplyr:::check_pkg("`__foobarbaz__`", "foobar a baz", install = FALSE))
       )
     Output
       <error/rlang_error>
-      Error in `dplyr:::check_pkg()`: The `__foobarbaz__` package is required to foobar a baz.
+      Error in `is_installed()`:
+      ! Must supply valid package names.
+      x Problematic names:
+      * "`__foobarbaz__`"
 

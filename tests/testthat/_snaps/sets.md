@@ -9,32 +9,37 @@
       (expect_error(intersect(alfa, beta)))
     Output
       <error/rlang_error>
-      Error in `intersect()`: `x` and `y` are not compatible.
+      Error in `intersect()`:
+      ! `x` and `y` are not compatible.
       x Cols in `y` but not `x`: `data2`.
       x Cols in `x` but not `y`: `data`.
     Code
       (expect_error(intersect(alfa, 1)))
     Output
       <error/rlang_error>
-      Error in `intersect()`: `y` must be a data frame.
+      Error in `intersect()`:
+      ! `y` must be a data frame.
     Code
       (expect_error(intersect(alfa, gamma)))
     Output
       <error/rlang_error>
-      Error in `intersect()`: `x` and `y` are not compatible.
+      Error in `intersect()`:
+      ! `x` and `y` are not compatible.
       x Incompatible types for column `land`: character vs integer.
     Code
       (expect_error(union(alfa, beta)))
     Output
       <error/rlang_error>
-      Error in `union()`: `x` and `y` are not compatible.
+      Error in `union()`:
+      ! `x` and `y` are not compatible.
       x Cols in `y` but not `x`: `data2`.
       x Cols in `x` but not `y`: `data`.
     Code
       (expect_error(setdiff(alfa, beta)))
     Output
       <error/rlang_error>
-      Error in `setdiff()`: `x` and `y` are not compatible.
+      Error in `setdiff()`:
+      ! `x` and `y` are not compatible.
       x Cols in `y` but not `x`: `data2`.
       x Cols in `x` but not `y`: `data`.
 
