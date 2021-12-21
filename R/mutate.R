@@ -487,7 +487,7 @@ mutate_bullets.default <- function(cnd, ...) {
   result_size <- cnd$dplyr_error_data$result_size
   expected_size <- cnd$dplyr_error_data$expected_size
   c(
-    i = glue("`{error_name}` must be size {or_1(expected_size)}, not {result_size}."),
+    x = glue("`{error_name}` must be size {or_1(expected_size)}, not {result_size}."),
     i = cnd_bullet_rowwise_unlist(),
     i = cnd_bullet_cur_group_label()
   )
@@ -497,7 +497,7 @@ mutate_bullets.default <- function(cnd, ...) {
   error_name <- peek_error_context()$error_name
   c(
     x = glue("`{error_name}` must return compatible vectors across groups."),
-    i = "Cannot combine NULL and non NULL results.",
+    x = "Can't combine NULL and non NULL results.",
     i = cnd_bullet_rowwise_unlist()
   )
 }
