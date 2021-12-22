@@ -156,5 +156,5 @@
     Condition
       Error in `my_verb()`:
       ! Problem while computing `.result = cyl * c(am, vs)`.
-      i `.result` must be size 32 or 1, not 64.
+      x `.result` must be size 32 or 1, not 64.
 

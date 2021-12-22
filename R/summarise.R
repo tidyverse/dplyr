@@ -393,7 +393,7 @@ summarise_bullets.default <- function(cnd, ...) {
   error_name    <- peek_error_context()$error_name
   c(
     x = glue("`{error_name}` must return compatible vectors across groups."),
-    i = "Cannot combine NULL and non NULL results."
+    x = "Can't combine NULL and non NULL results."
   )
 }
 

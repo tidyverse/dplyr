@@ -69,14 +69,14 @@
       Error in `mutate()`:
       ! Problem while computing `..1 = if (a == 1) NULL else "foo"`.
       x `..1` must return compatible vectors across groups.
-      i Cannot combine NULL and non NULL results.
+      x Can't combine NULL and non NULL results.
     Code
       (expect_error(data.frame(x = c(2, 2, 3, 3)) %>% mutate(int = 1:5)))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       ! Problem while computing `int = 1:5`.
-      i `int` must be size 4 or 1, not 5.
+      x `int` must be size 4 or 1, not 5.
     Code
       (expect_error(data.frame(x = c(2, 2, 3, 3)) %>% group_by(x) %>% mutate(int = 1:
       5)))
@@ -84,7 +84,7 @@
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       ! Problem while computing `int = 1:5`.
-      i `int` must be size 2 or 1, not 5.
+      x `int` must be size 2 or 1, not 5.
       i The error occurred in group 1: x = 2.
     Code
       (expect_error(data.frame(x = c(2, 3, 3)) %>% group_by(x) %>% mutate(int = 1:5)))
@@ -92,7 +92,7 @@
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       ! Problem while computing `int = 1:5`.
-      i `int` must be size 1, not 5.
+      x `int` must be size 1, not 5.
       i The error occurred in group 1: x = 2.
     Code
       (expect_error(data.frame(x = c(2, 2, 3, 3)) %>% rowwise() %>% mutate(int = 1:5))
@@ -101,7 +101,7 @@
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       ! Problem while computing `int = 1:5`.
-      i `int` must be size 1, not 5.
+      x `int` must be size 1, not 5.
       i Did you mean: `int = list(1:5)` ?
       i The error occurred in row 1.
     Code
@@ -110,7 +110,7 @@
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       ! Problem while computing `y2 = y`.
-      i `y2` must be size 1, not 3.
+      x `y2` must be size 1, not 3.
       i Did you mean: `y2 = list(y)` ?
       i The error occurred in row 1.
     Code
@@ -119,7 +119,7 @@
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       ! Problem while computing `y = 1:2`.
-      i `y` must be size 10 or 1, not 2.
+      x `y` must be size 10 or 1, not 2.
     Code
       (expect_error(tibble(a = 1) %>% mutate(c = .data$b)))
     Output

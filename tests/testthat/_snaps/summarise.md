@@ -120,7 +120,7 @@
       Error in `summarise()`:
       ! Problem while computing `x = if (g == 1) 42`.
       x `x` must return compatible vectors across groups.
-      i Cannot combine NULL and non NULL results.
+      x Can't combine NULL and non NULL results.
     Code
       (expect_error(summarise(mtcars, a = mean(not_there))))
     Output

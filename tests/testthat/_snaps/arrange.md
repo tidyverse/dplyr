@@ -24,7 +24,7 @@
       Error in `arrange()`:
       ! Problem with the implicit `transmute()` step.
       x Problem while computing `..1 = rep(x, 2)`.
-      i `..1` must be size 1, not 2.
+      x `..1` must be size 1, not 2.
 
 # desc() inside arrange() checks the number of arguments (#5921)
 
