@@ -41,7 +41,7 @@ check_length_val <- function(length_x, n, header, reason = NULL, error_call = ca
 }
 
 check_length <- function(x, template, header, reason = NULL, error_call = caller_env()) {
-  check_length_val(length(x), length(template), header, reason, error_call = error_call)
+  check_length_val(vec_size(x), length(template), header, reason, error_call = error_call)
 }
 
 check_type <- function(x, template, header, error_call = caller_env()) {

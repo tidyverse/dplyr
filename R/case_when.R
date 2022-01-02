@@ -218,7 +218,7 @@ abort_case_when_logical <- function(lhs, i, query, error_call = caller_env()) {
 
 validate_case_when_length <- function(query, value, fs, error_call = caller_env()) {
   lhs_lengths <- lengths(query)
-  rhs_lengths <- lengths(value)
+  rhs_lengths <- map_int(value, vec_size)
   all_lengths <- unique(c(lhs_lengths, rhs_lengths))
 
   if (length(all_lengths) <= 1) {
