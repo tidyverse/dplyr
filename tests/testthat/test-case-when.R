@@ -161,21 +161,32 @@ test_that("NULL inputs are compacted", {
 
   bool <- FALSE
   out <- case_when(
-    x == 2           ~ TRUE,
-    if (bool) x == 3 ~ NA,
-    TRUE             ~ FALSE
+    x == 2             ~ TRUE,
+    if (bool) { x == 3 ~ NA },
+    TRUE               ~ FALSE
   )
   expect_identical(out, c(FALSE, TRUE, FALSE))
 
   bool <- TRUE
   out <- case_when(
-    x == 2           ~ TRUE,
-    if (bool) x == 3 ~ NA,
-    TRUE             ~ FALSE
+    x == 2             ~ TRUE,
+    if (bool) { x == 3 ~ NA },
+    TRUE               ~ FALSE
   )
   expect_identical(out, c(FALSE, TRUE, NA))
 })
 
+test_that("tibbles are returned (#6145)", {
+  x <- 1:3
+  expect_equal(
+    case_when(
+      x <= 1 ~ tibble(a = 1, b = 2),
+      x <= 2 ~ tibble(a = 2, b = 3),
+      x <= 3 ~ tibble(b = 4, a = 3)
+    ),
+    tibble(a = 1:3, b = 2:4)
+  )
+})
 
 # Errors ------------------------------------------------------------------
 

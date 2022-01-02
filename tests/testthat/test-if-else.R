@@ -1,6 +1,9 @@
-test_that("scalar true and false are vectorised", {
+test_that("scalar true, false, and NA are vectorised", {
   x <- c(TRUE, TRUE, FALSE, FALSE)
   expect_equal(if_else(x, 1, 2), c(1, 1, 2, 2))
+  x <- c(TRUE, TRUE, FALSE, FALSE, NA)
+  expect_equal(if_else(x, 1, 2), c(1, 1, 2, 2, NA))
+  expect_equal(if_else(x, 1, 2, 3), c(1, 1, 2, 2, 3))
 })
 
 test_that("vector true and false are ok", {
@@ -20,6 +23,14 @@ test_that("works with lists", {
   expect_equal(
     if_else(c(TRUE, TRUE, FALSE), x, list(NULL)),
     list(1, 2, NULL)
+  )
+})
+
+test_that("tibbles are returned (#6145)", {
+  x <- c(TRUE, TRUE, FALSE, FALSE)
+  expect_equal(
+    if_else(x, tibble(a = 1, b = 2), tibble(b = 1, a = 2)),
+    tibble(a = c(1, 1, 2, 2), b = c(2, 2, 1, 1))
   )
 })
 
