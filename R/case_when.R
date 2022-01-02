@@ -167,7 +167,7 @@ case_when <- function(...) {
 
   m <- validate_case_when_length(query, value, fs, error_call = error_call)
 
-  out <- value[[1]][rep(NA_integer_, m)]
+  out <- vec_slice(value[[1]], rep(NA_integer_, m))
   replaced <- rep(FALSE, m)
 
   for (i in seq_len(n)) {

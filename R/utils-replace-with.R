@@ -9,13 +9,11 @@ replace_with <- function(x, i, val, name, reason = NULL, error_call = caller_env
 
   i[is.na(i)] <- FALSE
 
-  if (length(val) == 1L) {
-    x[i] <- val
+  if (vec_size(val) == 1L) {
+    vec_assign(x, i, val)
   } else {
-    x[i] <- val[i]
+    vec_assign(x, i, vec_slice(val, i))
   }
-
-  x
 }
 
 fmt_check_length_val <- function(length_x, n, header, reason = NULL) {

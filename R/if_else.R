@@ -33,7 +33,7 @@ if_else <- function(condition, true, false, missing = NULL) {
     abort(msg)
   }
 
-  out <- true[rep(NA_integer_, length(condition))]
+  out <- vec_slice(true, rep(NA_integer_, length(condition)))
   out <- replace_with(out, condition       , true   , "`true`"   , "length of `condition`")
   out <- replace_with(out, !condition      , false  , "`false`"  , "length of `condition`")
   out <- replace_with(out, is.na(condition), missing, "`missing`", "length of `condition`")
