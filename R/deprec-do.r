@@ -4,7 +4,7 @@
 #' `r lifecycle::badge("superseded")`
 #'
 #' `do()` is superseded as of dplyr 1.0.0, because its syntax never really
-#' felt like it belong with the rest of dplyr. It's replaced by a combination
+#' felt like it belonged with the rest of dplyr. It's replaced by a combination
 #' of [summarise()] (which can now produce multiple rows and multiple columns),
 #' [nest_by()] (which creates a [rowwise] tibble of nested data),
 #' and [across()] (which allows you to access the data for the "current" group).
