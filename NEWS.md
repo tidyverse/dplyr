@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* The deprecated `trunc_mat()` is no longer reexported from dplyr, no CRAN packages import it from dplyr (#6141).
+
 * dplyr now uses `rlang::check_installed()` to prompt you whether to install
   required packages that are missing.
 

@@ -87,10 +87,6 @@ tibble::view
 
 # utils -------------------------------------------------------------------
 
-#' @importFrom tibble trunc_mat
-#' @export
-tibble::trunc_mat
-
 #' @importFrom tibble tbl_sum
 #' @export
 tibble::tbl_sum
