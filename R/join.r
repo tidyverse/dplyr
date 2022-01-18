@@ -590,7 +590,7 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
   filter <- by$filter
 
   # We only care about whether or not any matches exist
-  multiple <- "first"
+  multiple <- "any"
 
   # Since we are actually testing the presence of matches, it doesn't make
   # sense to ever error on unmatched values.
