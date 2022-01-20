@@ -177,7 +177,7 @@ As with data masking, tidy selection makes a common task easier at the cost of m
     mtcars %>% select(!all_of(vars))
     ```
 
-## How tos
+## How-tos
 
 The following examples solve a grab bag of common problems. We show you the minimum amount of code so that you can get the basic idea; most real problems will require more code or combining multiple techniques.
 
