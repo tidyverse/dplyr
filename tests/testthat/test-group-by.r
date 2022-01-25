@@ -429,6 +429,18 @@ test_that("group_by(.drop = FALSE) preserve ordered factors (#5455)", {
   expect_true(is.ordered(nodrop$x))
 })
 
+test_that("group_by(.drop = FALSE) preserves metadata of classes inheriting factor", {
+  df <- tibble(
+    x = structure(1L, levels = "x", extra_info = "xyz", class = c("custom", "factor"))
+  )
+  nodrop <- df %>% group_by(x, .drop = FALSE) %>% group_data()
+
+  expect_equal(
+    attributes(nodrop$x),
+    list(levels = "x", extra_info = "xyz", class = c("custom", "factor"))
+  )
+})
+
 test_that("summarise maintains the .drop attribute (#4061)", {
   df <- tibble(
     f1 = factor("a", levels = c("a", "b", "c")),
