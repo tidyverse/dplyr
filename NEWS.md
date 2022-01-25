@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `group_by(..., .drop = FALSE)` preserves all metadata on a factor including for subclasses (@gergness, #6164).
+
 * The deprecated `trunc_mat()` is no longer reexported from dplyr, no CRAN packages import it from dplyr (#6141).
 
 * dplyr now uses `rlang::check_installed()` to prompt you whether to install
