@@ -1,120 +1,74 @@
 ## revdepcheck results
 
-We checked 3055 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 3178 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 24 new problems
- * We failed to check 29 packages
+ * We saw 14 new problems
+ * We failed to check 11 packages
 
 Issues with CRAN packages are summarised below.
 
 ### New problems
 (This reports the first line of each new failure)
 
-* dtplyr
-  checking examples ... ERROR
+* chunked
+  checking tests ... ERROR
+  checking R code for possible problems ... NOTE
+
+* collapse
   checking tests ... ERROR
 
-* dynplot
-  checking examples ... ERROR
+* covid19br
+  checking re-building of vignette outputs ... WARNING
 
-* ergm.ego
-  checking contents of ‘data’ directory ... WARNING
-
-* excluder
-  checking examples ... ERROR
-  checking tests ... ERROR
-
-* gestalt
-  checking tests ... ERROR
-
-* immunarch
-  checking examples ... ERROR
-
-* keyholder
-  checking tests ... ERROR
+* functiondepends
+  checking re-building of vignette outputs ... WARNING
 
 * mcp
-  checking tests ... ERROR
-
-* microeco
-  checking contents of ‘data’ directory ... WARNING
-
-* MoMPCA
   checking tests ... ERROR
 
 * motif
   checking tests ... ERROR
 
-* multidplyr
-  checking tests ... ERROR
+* nomisr
+  checking re-building of vignette outputs ... WARNING
 
-* nofrills
+* photobiology
   checking examples ... ERROR
-  checking tests ... ERROR
+  checking dependencies in R code ... WARNING
+  checking re-building of vignette outputs ... WARNING
 
-* pammtools
-  checking tests ... ERROR
-
-* PPforest
+* photobiologyInOut
   checking examples ... ERROR
+  checking re-building of vignette outputs ... WARNING
 
 * prider
   checking examples ... ERROR
 
-* PVplr
-  checking examples ... ERROR
-
-* ruler
+* saeSim
   checking examples ... ERROR
   checking tests ... ERROR
+  checking re-building of vignette outputs ... WARNING
+  checking R code for possible problems ... NOTE
 
-* shinymodels
-  checking contents of ‘data’ directory ... WARNING
+* salem
+  checking re-building of vignette outputs ... WARNING
 
-* testdat
-  checking tests ... ERROR
+* sfnetworks
+  checking re-building of vignette outputs ... WARNING
 
-* tidyMicro
-  checking examples ... ERROR
-  checking tests ... ERROR
-
-* tidyquery
-  checking tests ... ERROR
-
-* timetk
-  checking examples ... ERROR
-
-* tsibble
-  checking tests ... ERROR
+* telemac
+  checking re-building of vignette outputs ... WARNING
 
 ### Failed to check
 
-* bayesmodels    (NA)
+* accept         (NA)
 * CausalImpact   (NA)
 * cbar           (NA)
-* DAISIE         (NA)
-* ecocomDP       (NA)
-* galah          (NA)
-* idiogramFISH   (NA)
+* conos          (NA)
+* geocmeans      (NA)
 * loon.ggplot    (NA)
 * loon.shiny     (NA)
 * MarketMatching (NA)
-* metacoder      (NA)
-* myTAI          (NA)
-* nodeSub        (NA)
-* phyr           (NA)
-* Platypus       (NA)
-* pmc            (NA)
-* Rarefy         (NA)
-* raw            (NA)
-* rbison         (NA)
-* RevGadgets     (NA)
-* RNeXML         (NA)
-* rnoaa          (NA)
-* SPLICE         (NA)
-* SynthETIC      (NA)
-* taxizedb       (NA)
-* TR8            (NA)
-* traits         (NA)
-* treeplyr       (NA)
+* PLNmodels      (NA)
+* RAQSAPI        (NA)
 * vivid          (NA)

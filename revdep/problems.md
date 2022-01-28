@@ -1,203 +1,14 @@
-# dtplyr
+# chunked
 
 <details>
 
-* Version: 1.1.0
-* GitHub: https://github.com/tidyverse/dtplyr
-* Source code: https://github.com/cran/dtplyr
-* Date/Publication: 2021-02-20 01:50:05 UTC
-* Number of recursive dependencies: 61
+* Version: 0.5.1
+* GitHub: https://github.com/edwindj/chunked
+* Source code: https://github.com/cran/chunked
+* Date/Publication: 2020-11-03 06:40:19 UTC
+* Number of recursive dependencies: 51
 
-Run `cloud_details(, "dtplyr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘dtplyr-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: filter.dtplyr_step
-    > ### Title: Subset rows using column values
-    > ### Aliases: filter.dtplyr_step
-    > 
-    > ### ** Examples
-    > 
-    > library(dplyr, warn.conflicts = FALSE)
-    ...
-    
-    # Use as.data.table()/as.data.frame()/as_tibble() to access results
-    > 
-    > dt %>%
-    +   group_by(cyl) %>%
-    +   filter(mpg > mean(mpg))
-    Error in step_subset(parent, i = i) : 
-      is.null(i) || is_expression(i) || is_step(i) is not TRUE
-    Calls: %>% ... filter.dtplyr_step -> step_subset_i -> step_subset -> stopifnot
-    Execution halted
-    ```
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        1. ├─testthat::expect_equal(...) at test-tidyeval.R:202:2
-        2. │ └─testthat::quasi_label(enquo(object), label, arg = "object")
-        3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
-        4. ├─dt %>% summarise_at(vars(x), add) %>% pull()
-        5. ├─dplyr::pull(.)
-        6. └─dplyr::summarise_at(., vars(x), add)
-        7.   ├─dplyr::summarise(.tbl, !!!funs)
-        8.   └─dtplyr:::summarise.dtplyr_step(.tbl, !!!funs)
-        9.     └─dtplyr:::step_subset_j(...)
-       10.       └─dtplyr:::step_subset(...)
-       11.         └─base::stopifnot(is.null(j) || is_expression(j))
-      
-      [ FAIL 6 | WARN 0 | SKIP 12 | PASS 335 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-# dynplot
-
-<details>
-
-* Version: 1.1.1
-* GitHub: https://github.com/dynverse/dynplot
-* Source code: https://github.com/cran/dynplot
-* Date/Publication: 2021-06-28 06:30:02 UTC
-* Number of recursive dependencies: 129
-
-Run `cloud_details(, "dynplot")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘dynplot-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: plot_heatmap
-    > ### Title: Plot expression data along a trajectory
-    > ### Aliases: plot_heatmap
-    > ### Keywords: plot_trajectory
-    > 
-    > ### ** Examples
-    > 
-    ...
-     16. │                   └─vctrs `<fn>`()
-     17. │                     └─vctrs:::validate_unique(names = names, arg = arg)
-     18. │                       └─vctrs:::stop_names_must_be_unique(names, arg)
-     19. │                         └─vctrs:::stop_names(...)
-     20. │                           └─vctrs:::stop_vctrs(class = c(class, "vctrs_error_names"), ...)
-     21. ├─dplyr::mutate(., level = NA, direct = near(.data$x_diff, linearised$margin))
-     22. ├─dplyr::arrange(., .data$x_diff)
-     23. ├─dplyr::mutate(., x_diff = abs(.data$x_to - .data$x_from))
-     24. └─dplyr::filter(., .data$from == .data$to, .data$x_from != .data$x_to)
-    Execution halted
-    ```
-
-# ergm.ego
-
-<details>
-
-* Version: 1.0.0
-* GitHub: https://github.com/statnet/ergm.ego
-* Source code: https://github.com/cran/ergm.ego
-* Date/Publication: 2021-06-23 07:00:04 UTC
-* Number of recursive dependencies: 74
-
-Run `cloud_details(, "ergm.ego")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking contents of ‘data’ directory ... WARNING
-    ```
-    Output for data("fmhfit", package = "ergm.ego"):
-      Search path was changed
-    ```
-
-# excluder
-
-<details>
-
-* Version: 0.3.2
-* GitHub: https://github.com/ropensci/excluder
-* Source code: https://github.com/cran/excluder
-* Date/Publication: 2021-11-18 14:30:05 UTC
-* Number of recursive dependencies: 76
-
-Run `cloud_details(, "excluder")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘excluder-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: check_location
-    > ### Title: Check for locations outside of the US
-    > ### Aliases: check_location
-    > 
-    > ### ** Examples
-    > 
-    > # Check for locations outside of the US
-    ...
-     10. ├─excluder:::keep_marked_column(., .data$exclusion_location, keep)
-     11. │ └─x %>% ...
-     12. ├─dplyr::select(...)
-     13. ├─dplyr::filter(., .data$exclusion_location == "location")
-     14. ├─dplyr:::dplyr_internal_error(...)
-     15. │ └─rlang::abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
-     16. │   └─rlang:::signal_abort(cnd, .file)
-     17. │     └─base::signalCondition(cnd)
-     18. └─dplyr `<fn>`(`<dpl:::__>`)
-    Execution halted
-    ```
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-       12. │     └─dplyr:::filter_rows(.data, ..., caller_env = caller_env())
-       13. │       └─dplyr:::filter_eval(dots, mask = mask, error_call = error_call)
-       14. │         ├─base::withCallingHandlers(...)
-       15. │         └─mask$eval_all_filter(dots, env_filter)
-       16. ├─dplyr::select(., -.data$exclusion_location)
-       17. ├─dplyr::filter(., .data$exclusion_location != "location")
-       18. ├─dplyr:::dplyr_internal_error(...)
-       19. │ └─rlang::abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
-       20. │   └─rlang:::signal_abort(cnd, .file)
-       21. │     └─base::signalCondition(cnd)
-       22. └─dplyr `<fn>`(`<dpl:::__>`)
-      
-      [ FAIL 13 | WARN 0 | SKIP 15 | PASS 278 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-# gestalt
-
-<details>
-
-* Version: 0.1.8
-* GitHub: https://github.com/egnha/gestalt
-* Source code: https://github.com/cran/gestalt
-* Date/Publication: 2019-06-27 08:20:03 UTC
-* Number of recursive dependencies: 47
-
-Run `cloud_details(, "gestalt")` for more info
+Run `cloud_details(, "chunked")` for more info
 
 </details>
 
@@ -208,58 +19,122 @@ Run `cloud_details(, "gestalt")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Error (test-functions.R:65:3): body can be a closure ────────────────────────
-      Error: Body must be an expression or closure
-      Backtrace:
-          ▆
-       1. ├─testthat::expect_equal(foo, fn(x ~ function(y) x + y)) at test-functions.R:65:2
-       2. │ └─testthat::quasi_label(enquo(expected), expected.label, arg = "expected")
-       3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
-       4. └─gestalt::fn(x ~ function(y) x + y)
-       5.   └─gestalt make_fn(fun$args, fun$body, ..env)
-       6.     └─is_expression(body) %because% ...
+        4. │ └─testthat:::quasi_capture(...)
+        5. │   ├─testthat .capture(...)
+        6. │   │ └─testthat::capture_output_lines(code, print, width = width)
+        7. │   │   └─testthat:::eval_with_output(code, print = print, width = width)
+        8. │   │     ├─withr::with_output_sink(path, withVisible(code))
+        9. │   │     │ └─base::force(code)
+       10. │   │     └─base::withVisible(code)
+       11. │   └─rlang::eval_bare(quo_get_expr(.quo), quo_get_env(.quo))
+       12. ├─base::print(tbl_iris)
+       13. └─chunked:::print.chunkwise(tbl_iris)
+       14.   └─base::print(trunc_mat(h, n = n, width = width))
       
-      [ FAIL 1 | WARN 0 | SKIP 0 | PASS 1040 ]
+      [ FAIL 2 | WARN 0 | SKIP 0 | PASS 43 ]
       Error: Test failures
       Execution halted
     ```
 
-# immunarch
+*   checking R code for possible problems ... NOTE
+    ```
+    print.chunkwise: no visible global function definition for ‘trunc_mat’
+    Undefined global functions or variables:
+      trunc_mat
+    ```
+
+## In both
+
+*   checking LazyData ... NOTE
+    ```
+      'LazyData' is specified without a 'data' directory
+    ```
+
+# collapse
 
 <details>
 
-* Version: 0.6.7
-* GitHub: https://github.com/immunomind/immunarch
-* Source code: https://github.com/cran/immunarch
-* Date/Publication: 2021-10-29 12:00:07 UTC
-* Number of recursive dependencies: 204
+* Version: 1.7.3
+* GitHub: https://github.com/SebKrantz/collapse
+* Source code: https://github.com/cran/collapse
+* Date/Publication: 2022-01-26 15:42:46 UTC
+* Number of recursive dependencies: 106
 
-Run `cloud_details(, "immunarch")` for more info
+Run `cloud_details(, "collapse")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking examples ... ERROR
+*   checking tests ... ERROR
     ```
-    Running examples in ‘immunarch-Ex.R’ failed
-    The error most likely occurred in:
+      Running ‘testthat.R’
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      Component 3: Mean relative difference: 63.24242
+      Component 4: Mean relative difference: 0.2126747
+      ── Failure (test-fmutate.R:404:3): fmutate miscellaneous ───────────────────────
+      fmutate(...) not equal to dplyr::mutate(...).
+      Names: 6 string mismatches
+      Component 2: Mean relative difference: 12.78229
+      Component 3: Mean relative difference: 2.166667
+      Component 4: Mean relative difference: 0.9797791
+      Component 5: Mean relative difference: 0.9494575
+      Component 6: Mean relative difference: 63.24242
+      Component 7: Mean relative difference: 0.2126747
+      
+      [ FAIL 2 | WARN 0 | SKIP 0 | PASS 12101 ]
+      Error: Test failures
+      Execution halted
+    ```
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is 35.0Mb
+      sub-directories of 1Mb or more:
+        libs  32.7Mb
+    ```
+
+# covid19br
+
+<details>
+
+* Version: 0.1.3
+* GitHub: https://github.com/fndemarqui/covid19br
+* Source code: https://github.com/cran/covid19br
+* Date/Publication: 2021-10-17 17:50:02 UTC
+* Number of recursive dependencies: 137
+
+Run `cloud_details(, "covid19br")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error(s) in re-building vignettes:
+    --- re-building ‘covid19br.Rmd’ using rmarkdown
+    ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
+    ✔ ggplot2 3.3.5          ✔ purrr   0.3.4     
+    ✔ tibble  3.1.6          ✔ dplyr   1.0.7.9000
+    ✔ tidyr   1.1.4          ✔ stringr 1.4.0     
+    ✔ readr   2.1.1          ✔ forcats 0.5.1     
+    ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    ✖ dplyr::filter() masks stats::filter()
+    ✖ dplyr::lag()    masks stats::lag()
+    ...
+    Please, be patient...
+     Done!
+    Joining, by = c("region", "state", "pop", "state_code")
+    --- finished re-building ‘maps.Rmd’
     
-    > ### Name: pubRepStatistics
-    > ### Title: Statistics of number of public clonotypes for each possible
-    > ###   combinations of repertoires
-    > ### Aliases: pubRepStatistics
-    > 
-    > ### ** Examples
-    > 
-    > data(immdata)
-    > immdata$data <- lapply(immdata$data, head, 2000)
-    > pr <- pubRep(immdata$data, .verbose = FALSE)
-    > pubRepStatistics(pr) %>% vis()
-    Error in step_subset(parent, i = i) : 
-      is.null(i) || is_expression(i) || is_step(i) is not TRUE
-    Calls: %>% ... filter.dtplyr_step -> step_subset_i -> step_subset -> stopifnot
+    SUMMARY: processing the following file failed:
+      ‘election2018.Rmd’
+    
+    Error: Vignette re-building failed.
     Execution halted
     ```
 
@@ -267,54 +142,62 @@ Run `cloud_details(, "immunarch")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  8.5Mb
+      installed size is  7.8Mb
       sub-directories of 1Mb or more:
-        data   4.3Mb
-        doc    1.6Mb
+        doc   7.5Mb
     ```
 
-*   checking dependencies in R code ... NOTE
+*   checking data for non-ASCII characters ... NOTE
     ```
-    Namespace in Imports field not imported from: ‘dbplyr’
-      All declared Imports should be used.
+      Note: found 2385 marked UTF-8 strings
     ```
 
-# keyholder
+# functiondepends
 
 <details>
 
-* Version: 0.1.5
-* GitHub: https://github.com/echasnovski/keyholder
-* Source code: https://github.com/cran/keyholder
-* Date/Publication: 2020-05-09 11:20:02 UTC
-* Number of recursive dependencies: 56
+* Version: 0.2.1
+* GitHub: NA
+* Source code: https://github.com/cran/functiondepends
+* Date/Publication: 2020-11-03 12:30:02 UTC
+* Number of recursive dependencies: 74
 
-Run `cloud_details(, "keyholder")` for more info
+Run `cloud_details(, "functiondepends")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking tests ... ERROR
+*   checking re-building of vignette outputs ... WARNING
     ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        4. └─magrittr .f1(.)
-        5.   └─magrittr::freduce(value, `_function_list`)
-        6.     ├─base::withVisible(function_list[[k]](value))
-        7.     └─function_list[[k]](value)
-        8.       └─dplyr::transmute_at(., vars(mpg, hp), as.integer)
-        9.         ├─dplyr::transmute(.tbl, !!!funs)
-       10.         └─dplyr:::transmute.data.frame(.tbl, !!!funs)
-       11.           └─dplyr:::dplyr_col_select(out, cols_retain)
-       12.             ├─.data[loc]
-       13.             └─keyholder:::`[.keyed_df`(.data, loc)
-       14.               └─keyholder::`keys<-`(`*tmp*`, value = keys(x)[i, , drop = FALSE])
-      
-      [ FAIL 4 | WARN 0 | SKIP 0 | PASS 301 ]
-      Error: Test failures
-      Execution halted
+    Error(s) in re-building vignettes:
+    --- re-building ‘functiondepends-usage.Rmd’ using rmarkdown
+    
+    Attaching package: 'dplyr'
+    
+    The following objects are masked from 'package:stats':
+    
+        filter, lag
+    
+    The following objects are masked from 'package:base':
+    ...
+    Error: processing vignette 'functiondepends-usage.Rmd' failed with diagnostics:
+    Problem while computing `..1 = !is.na(.)`.
+    ✖ Input `..1` must be a logical vector, not a logical[,2].
+    --- failed re-building ‘functiondepends-usage.Rmd’
+    
+    SUMMARY: processing the following file failed:
+      ‘functiondepends-usage.Rmd’
+    
+    Error: Vignette re-building failed.
+    Execution halted
+    ```
+
+## In both
+
+*   checking LazyData ... NOTE
+    ```
+      'LazyData' is specified without a 'data' directory
     ```
 
 # mcp
@@ -355,76 +238,6 @@ Run `cloud_details(, "mcp")` for more info
       Execution halted
     ```
 
-# microeco
-
-<details>
-
-* Version: 0.6.0
-* GitHub: NA
-* Source code: https://github.com/cran/microeco
-* Date/Publication: 2021-11-16 09:10:02 UTC
-* Number of recursive dependencies: 190
-
-Run `cloud_details(, "microeco")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking contents of ‘data’ directory ... WARNING
-    ```
-    Output for data("dataset", package = "microeco"):
-      Search path was changed
-    ```
-
-## In both
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘ggtree’
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘reshape2’
-      All declared Imports should be used.
-    ```
-
-# MoMPCA
-
-<details>
-
-* Version: 1.0.1
-* GitHub: NA
-* Source code: https://github.com/cran/MoMPCA
-* Date/Publication: 2021-01-21 13:10:03 UTC
-* Number of recursive dependencies: 84
-
-Run `cloud_details(, "MoMPCA")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Complete output:
-      > library(testthat)
-      > library(MoMPCA)
-      > 
-      > test_check("MoMPCA")
-      Killed
-    ```
-
-## In both
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 16 marked UTF-8 strings
-    ```
-
 # motif
 
 <details>
@@ -433,7 +246,7 @@ Run `cloud_details(, "MoMPCA")` for more info
 * GitHub: https://github.com/Nowosad/motif
 * Source code: https://github.com/cran/motif
 * Date/Publication: 2021-08-23 12:50:02 UTC
-* Number of recursive dependencies: 91
+* Number of recursive dependencies: 82
 
 Run `cloud_details(, "motif")` for more info
 
@@ -446,17 +259,17 @@ Run `cloud_details(, "motif")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      > 
-      > # prepare my fun ----------------------------------------------------------
-      > my_fun = function(x) sum(!is.na(c(x[[1]])))
-      > 
-      > test_check("motif")
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Error (test-lsp_add_clusters.R:47:1): (code run outside of `test_that()`) ───
-      Error in `UseMethod("lsp_add_examples")`: no applicable method for 'lsp_add_examples' applied to an object of class "c('grouped_df', 'tbl_df', 'tbl', 'data.frame')"
+      })(dots[[1L]][[1L]], dots[[2L]][[1L]], dots[[3L]][[1L]], dots[[4L]][[1L]], 
+          along = dots[[5L]][[1L]])`: arg 'X2' has dims=200, 200, 1; but need dims=346, 346, X
       Backtrace:
           ▆
-       1. └─motif::lsp_add_examples(x = landform_grid_sf_sel, y = landform) at test-lsp_add_clusters.R:47:0
+       1. └─motif::lsp_mosaic(landform_grid_sf_sel) at test-lsp_add_clusters.R:49:0
+       2.   ├─base::do.call(c, all_mosaics)
+       3.   ├─base `<fn>`(...)
+       4.   └─stars:::c.stars(...)
+       5.     ├─stars:::propagate_units(...)
+       6.     └─base::mapply(abind, ..., along = along_dim, SIMPLIFY = FALSE)
+       7.       └─abind `<fn>`(...)
       
       [ FAIL 1 | WARN 0 | SKIP 0 | PASS 52 ]
       Error: Test failures
@@ -473,201 +286,183 @@ Run `cloud_details(, "motif")` for more info
         raster   2.2Mb
     ```
 
-# multidplyr
+# nomisr
 
 <details>
 
-* Version: 0.1.0
-* GitHub: https://github.com/tidyverse/multidplyr
-* Source code: https://github.com/cran/multidplyr
-* Date/Publication: 2021-02-08 19:10:03 UTC
-* Number of recursive dependencies: 75
+* Version: 0.4.4
+* GitHub: https://github.com/ropensci/nomisr
+* Source code: https://github.com/cran/nomisr
+* Date/Publication: 2021-01-23 17:20:02 UTC
+* Number of recursive dependencies: 87
 
-Run `cloud_details(, "multidplyr")` for more info
+Run `cloud_details(, "nomisr")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking tests ... ERROR
+*   checking re-building of vignette outputs ... WARNING
     ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-           ▆
-        1. ├─testthat::expect_equal(pf1 %>% intersect(pf2) %>% pull(), 1) at test-dplyr-dual.R:28:2
-        2. │ └─testthat::quasi_label(enquo(object), label, arg = "object")
-        3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
-        4. ├─pf1 %>% intersect(pf2) %>% pull()
-        5. ├─dplyr::pull(.)
-        6. ├─generics::intersect(., pf2)
-        7. └─multidplyr:::intersect.multidplyr_party_df(., pf2)
-        8.   └─multidplyr:::shard_call_dual("intersect", x, y, ..., by = by)
-        9.     └─multidplyr::cluster_send(...)
-       10.       └─multidplyr::cluster_call(cluster, !!code)
-      
-      [ FAIL 1 | WARN 0 | SKIP 4 | PASS 45 ]
-      Error: Test failures
-      Execution halted
+    Error(s) in re-building vignettes:
+      ...
+    --- re-building ‘Introduction-to-work-and-health-nomis-indicators.Rmd’ using rmarkdown
+    Quitting from lines 194-365 (Introduction-to-work-and-health-nomis-indicators.Rmd) 
+    Error: processing vignette 'Introduction-to-work-and-health-nomis-indicators.Rmd' failed with diagnostics:
+    `desc()` must be called with exactly one argument.
+    --- failed re-building ‘Introduction-to-work-and-health-nomis-indicators.Rmd’
+    
+    --- re-building ‘introduction.Rmd’ using rmarkdown
+    --- finished re-building ‘introduction.Rmd’
+    
+    SUMMARY: processing the following file failed:
+      ‘Introduction-to-work-and-health-nomis-indicators.Rmd’
+    
+    Error: Vignette re-building failed.
+    Execution halted
+    ```
+
+# photobiology
+
+<details>
+
+* Version: 0.10.8
+* GitHub: https://github.com/aphalo/photobiology
+* Source code: https://github.com/cran/photobiology
+* Date/Publication: 2021-12-08 11:50:02 UTC
+* Number of recursive dependencies: 60
+
+Run `cloud_details(, "photobiology")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘photobiology-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: A.illuminant.spct
+    > ### Title: CIE A illuminant data
+    > ### Aliases: A.illuminant.spct
+    > ### Keywords: datasets
+    > 
+    > ### ** Examples
+    > 
+    > A.illuminant.spct
+    Object: source_spct [97 x 2]
+    Wavelength range 300 to 780 nm, step 5 nm 
+    Label: CIE A standard illuminant, normalized to one at 560 nm 
+    Time unit 1s
+    Spectral data normalized to 1 at 560 nm 
+    
+    Error: 'trunc_mat' is not an exported object from 'namespace:dplyr'
+    Execution halted
+    ```
+
+*   checking dependencies in R code ... WARNING
+    ```
+    Missing or unexported object: ‘dplyr::trunc_mat’
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error(s) in re-building vignettes:
+    --- re-building ‘userguide-1-radiation.Rmd’ using rmarkdown
+    News at https://www.r4photobiology.info/
+    
+    Attaching package: 'lubridate'
+    
+    The following objects are masked from 'package:base':
+    
+        date, intersect, setdiff, union
+    
+    ...
+    
+        date, intersect, setdiff, union
+    
+    --- finished re-building ‘userguide-2-astronomy.Rmd’
+    
+    SUMMARY: processing the following file failed:
+      ‘userguide-1-radiation.Rmd’
+    
+    Error: Vignette re-building failed.
+    Execution halted
+    ```
+
+# photobiologyInOut
+
+<details>
+
+* Version: 0.4.23
+* GitHub: https://github.com/aphalo/photobiologyinout
+* Source code: https://github.com/cran/photobiologyInOut
+* Date/Publication: 2021-10-11 04:10:01 UTC
+* Number of recursive dependencies: 117
+
+Run `cloud_details(, "photobiologyInOut")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘photobiologyInOut-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: colorSpec2mspct
+    > ### Title: Convert 'colorSpec::colorSpec' objects
+    > ### Aliases: colorSpec2mspct as.source_spct.colorSpec
+    > ###   as.source_mspct.colorSpec as.response_spct.colorSpec
+    > ###   as.response_mspct.colorSpec as.filter_spct.colorSpec
+    > ###   as.filter_mspct.colorSpec as.reflector_spct.colorSpec
+    > ###   as.reflector_mspct.colorSpec as.chroma_mspct.colorSpec colorSpec2spct
+    ...
+    The following object is masked from ‘package:photobiology’:
+    
+        normalize
+    
+    Object: source_spct [93 x 2]
+    Wavelength range 320 to 780 nm, step 5 nm 
+    Time unit 1s
+    
+    Error: 'trunc_mat' is not an exported object from 'namespace:dplyr'
+    Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error(s) in re-building vignettes:
+    --- re-building ‘user-guide.Rmd’ using rmarkdown
+    News at https://www.r4photobiology.info/
+    
+    Attaching package: 'lubridate'
+    
+    The following objects are masked from 'package:base':
+    
+        date, intersect, setdiff, union
+    
+    ...
+    Quitting from lines 525-530 (user-guide.Rmd) 
+    Error: processing vignette 'user-guide.Rmd' failed with diagnostics:
+    'trunc_mat' is not an exported object from 'namespace:dplyr'
+    --- failed re-building ‘user-guide.Rmd’
+    
+    SUMMARY: processing the following file failed:
+      ‘user-guide.Rmd’
+    
+    Error: Vignette re-building failed.
+    Execution halted
     ```
 
 ## In both
 
 *   checking dependencies in R code ... NOTE
     ```
-    Namespace in Imports field not imported from: ‘R6’
+    Namespace in Imports field not imported from: ‘lazyeval’
       All declared Imports should be used.
-    ```
-
-# nofrills
-
-<details>
-
-* Version: 0.3.1
-* GitHub: https://github.com/egnha/nofrills
-* Source code: https://github.com/cran/nofrills
-* Date/Publication: 2021-01-08 19:50:05 UTC
-* Number of recursive dependencies: 35
-
-Run `cloud_details(, "nofrills")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘nofrills-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: as_fn
-    > ### Title: Abbreviated functional arguments
-    > ### Aliases: as_fn
-    > 
-    > ### ** Examples
-    > 
-    > call_fn <- function(.f, x) {
-    ...
-    Backtrace:
-        ▆
-     1. ├─global call_fn(.(. ~ (!!f)(.)^2), 1)
-     2. │ └─nofrills::as_fn(.f)
-     3. │   └─nofrills:::interpret_fn(x, match.fun(.f), parent.frame(2))
-     4. │     └─base::eval(x, env)
-     5. │       └─base::eval(x, env)
-     6. └─nofrills `<fn>`(. ~ (!!f)(.)^2)
-     7.   └─nofrills function_(d$args, d$body, ..env)
-    Execution halted
-    ```
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      > test_check("nofrills")
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Error (test-functions.R:48:3): body can be a closure ────────────────────────
-      Error in `function_(d$args, d$body, ..env)`: Body must be an expression or closure.
-      Backtrace:
-          ▆
-       1. ├─testthat::expect_equal(fn(x ~ function(y) x + y), foo) at test-functions.R:48:2
-       2. │ └─testthat::quasi_label(enquo(object), label, arg = "object")
-       3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
-       4. └─nofrills::fn(x ~ function(y) x + y)
-       5.   └─nofrills function_(d$args, d$body, ..env)
-      
-      [ FAIL 1 | WARN 0 | SKIP 0 | PASS 107 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-# pammtools
-
-<details>
-
-* Version: 0.5.7
-* GitHub: https://github.com/adibender/pammtools
-* Source code: https://github.com/cran/pammtools
-* Date/Publication: 2021-06-21 13:00:02 UTC
-* Number of recursive dependencies: 130
-
-Run `cloud_details(, "pammtools")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Backtrace:
-          ▆
-       1. ├─... %>% add_cif(pam) at test-add-functions.R:268:2
-       2. ├─pammtools::add_cif(., pam)
-       3. └─pammtools:::add_cif.default(., pam)
-       4.   └─purrr::map_dfr(...)
-       5.     └─purrr::map(.x, .f, ...)
-       6.       └─pammtools .f(.x[[i]], ...)
-       7.         ├─pammtools:::get_cif(...)
-       8.         └─pammtools:::get_cif.default(...)
-       9.           └─base::apply(...)
-      
-      [ FAIL 1 | WARN 0 | SKIP 0 | PASS 359 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-# PPforest
-
-<details>
-
-* Version: 0.1.2
-* GitHub: https://github.com/natydasilva/PPforest
-* Source code: https://github.com/cran/PPforest
-* Date/Publication: 2021-10-14 14:40:05 UTC
-* Number of recursive dependencies: 81
-
-Run `cloud_details(, "PPforest")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘PPforest-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: PPforest
-    > ### Title: Projection Pursuit Random Forest
-    > ### Aliases: PPforest
-    > 
-    > ### ** Examples
-    > 
-    > #crab example with all the observations used as training
-    ...
-      7.       └─dplyr:::slice_combine(chunks, mask = mask, error_call = error_call)
-      8.         └─vctrs::vec_cast(res, integer())
-      9.           └─vctrs `<fn>`()
-     10.             └─vctrs:::vec_cast.integer.double(...)
-     11.               └─vctrs:::shape_broadcast(out, to, x_arg = x_arg, to_arg = to_arg)
-     12.                 └─vctrs::stop_incompatible_cast(...)
-     13.                   └─vctrs::stop_incompatible_type(...)
-     14.                     └─vctrs:::stop_incompatible(...)
-     15.                       └─vctrs:::stop_vctrs(...)
-    Execution halted
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  8.3Mb
-      sub-directories of 1Mb or more:
-        libs   7.2Mb
     ```
 
 # prider
@@ -699,29 +494,29 @@ Run `cloud_details(, "prider")` for more info
     > 
     > test_fasta <- system.file('extdata', 'test.fasta', package = 'prider')
     ...
-     14. │   └─base::eval(expr, p)
-     15. │     └─base::eval(expr, p)
-     16. │       └─base::eval(...)
-     17. │         └─base::eval(...)
-     18. │           └─vctrs::vec_assert(order_by, size = n, arg = "order_by")
-     19. │             └─rlang::abort(...)
-     20. │               └─rlang:::signal_abort(cnd, .file)
-     21. │                 └─base::signalCondition(cnd)
-     22. └─dplyr `<fn>`(`<vctrs___>`)
+     18.   └─base::eval.parent(substitute(eval(quote(expr), envir)))
+     19.     └─base::eval(expr, p)
+     20.       └─base::eval(expr, p)
+     21.         └─base::eval(...)
+     22.           └─base::eval(...)
+     23.             ├─dplyr:::fix_call(...)
+     24.             │ └─base::withCallingHandlers(...)
+     25.             └─vctrs::vec_assert(order_by, size = n, arg = "order_by")
+     26.               └─rlang::abort(...)
     Execution halted
     ```
 
-# PVplr
+# saeSim
 
 <details>
 
-* Version: 0.1.0
-* GitHub: NA
-* Source code: https://github.com/cran/PVplr
-* Date/Publication: 2020-10-07 12:00:20 UTC
-* Number of recursive dependencies: 72
+* Version: 0.10.0
+* GitHub: https://github.com/wahani/saeSim
+* Source code: https://github.com/cran/saeSim
+* Date/Publication: 2019-03-28 12:50:03 UTC
+* Number of recursive dependencies: 94
 
-Run `cloud_details(, "PVplr")` for more info
+Run `cloud_details(, "saeSim")` for more info
 
 </details>
 
@@ -729,370 +524,207 @@ Run `cloud_details(, "PVplr")` for more info
 
 *   checking examples ... ERROR
     ```
-    Running examples in ‘PVplr-Ex.R’ failed
+    Running examples in ‘saeSim-Ex.R’ failed
     The error most likely occurred in:
     
-    > ### Name: plr_weighted_regression
-    > ### Title: Weighted Regression
-    > ### Aliases: plr_weighted_regression
+    > ### Name: agg_all
+    > ### Title: Aggregation function
+    > ### Aliases: agg_all
     > 
     > ### ** Examples
     > 
-    > # build var_list
+    > sim_base() %>% sim_gen_x() %>% sim_gen_e() %>% sim_agg(agg_all())
     ...
-      3.   │ └─base::eval(mf, parent.frame())
-      4.   │   └─base::eval(mf, parent.frame())
-      5.   ├─stats::model.frame(...)
-      6.   └─stats::model.frame.default(...)
-      7.     └─base::eval(extras, data, env)
-      8.       └─base::eval(extras, data, env)
-      9.         ├─wvar
-     10.         └─rlang:::`$.rlang_fake_data_pronoun`(.data, wvar)
-     11.           └─rlang:::stop_fake_data_subset(call)
-    Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘ggplot2’
-      All declared Imports should be used.
-    ```
-
-# ruler
-
-<details>
-
-* Version: 0.2.4
-* GitHub: https://github.com/echasnovski/ruler
-* Source code: https://github.com/cran/ruler
-* Date/Publication: 2020-11-25 08:00:03 UTC
-* Number of recursive dependencies: 59
-
-Run `cloud_details(, "ruler")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘ruler-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: cell-pack
-    > ### Title: Cell rule pack
-    > ### Aliases: cell-pack
-    > 
-    > ### ** Examples
-    > 
-    > cell_outlier_rules <- . %>% dplyr::transmute_at(
-    ...
-    +   rules(proper_is_neg = . < 0)
-    + )
-    > 
-    > mtcars[1:2, ] %>%
-    +   expose(cell_packs(improper_pack, proper_pack)) %>%
-    +   get_report()
-    Error in `keys<-`(`*tmp*`, value = keys(x)[i, , drop = FALSE]) : 
-      Keys object should have the same number of rows as data.
-    Calls: %>% ... transmute.data.frame -> dplyr_col_select -> [ -> [.keyed_df -> keys<-
+    Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+    Warning: `group_by_()` was deprecated in dplyr 0.7.0.
+    Please use `group_by()` instead.
+    See vignette('programming') for more help
+    This warning is displayed once every 8 hours.
+    Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+    Error in trunc_mat(dat, n = 6, width = NULL) : 
+      could not find function "trunc_mat"
+    Calls: <Anonymous> -> <Anonymous> -> print
     Execution halted
     ```
 
 *   checking tests ... ERROR
     ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
+      Running ‘test-all.R’
+    Running the tests in ‘tests/test-all.R’ failed.
     Last 13 lines of output:
-       14. └─magrittr .pack(.)
-       15.   └─magrittr::freduce(value, `_function_list`)
-       16.     ├─base::withVisible(function_list[[k]](value))
-       17.     └─function_list[[k]](value)
-       18.       └─dplyr::transmute_if(...)
-       19.         ├─dplyr::transmute(.tbl, !!!funs)
-       20.         └─dplyr:::transmute.data.frame(.tbl, !!!funs)
-       21.           └─dplyr:::dplyr_col_select(out, cols_retain)
-       22.             ├─.data[loc]
-       23.             └─keyholder:::`[.keyed_df`(.data, loc)
-       24.               └─keyholder::`keys<-`(`*tmp*`, value = keys(x)[i, , drop = FALSE])
       
-      [ FAIL 7 | WARN 0 | SKIP 1 | PASS 282 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-# shinymodels
-
-<details>
-
-* Version: 0.1.0
-* GitHub: https://github.com/tidymodels/shinymodels
-* Source code: https://github.com/cran/shinymodels
-* Date/Publication: 2021-11-17 21:00:02 UTC
-* Number of recursive dependencies: 146
-
-Run `cloud_details(, "shinymodels")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking contents of ‘data’ directory ... WARNING
-    ```
-    Output for data("ames_mlp_itr", package = "shinymodels"):
-      Search path was changed
-    Output for data("cars_bag_vfld", package = "shinymodels"):
-      Search path was changed
-    Output for data("cell_race", package = "shinymodels"):
-      Search path was changed
-    Output for data("scat_fda_bt", package = "shinymodels"):
-      Search path was changed
-    Output for data("two_class_final", package = "shinymodels"):
-      Search path was changed
-    ```
-
-## In both
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘finetune’
-    ```
-
-# testdat
-
-<details>
-
-* Version: 0.3.0
-* GitHub: https://github.com/socialresearchcentre/testdat
-* Source code: https://github.com/cran/testdat
-* Date/Publication: 2021-11-12 10:10:02 UTC
-* Number of recursive dependencies: 74
-
-Run `cloud_details(, "testdat")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      x_summ[x_summ$test == "passes", ] has 1 records failing value check on variable `status`.
-      Filter: None
-      Arguments: `"success", miss = <chr: NA, "">`
-      ── Failure (test-reporter_excel.R:44:3): excel_results ─────────────────────────
-      `x_xl_summary` not equal to `xl_summary`.
-      Component "tests": Mean relative difference: 0.25
-      Component "warning": Mean relative difference: 1
-      ── Failure (test-reporter_excel.R:47:3): excel_results ─────────────────────────
-      nrow(x_xl_passing) not equal to 0.
-      1/1 mismatches
-      [1] 1 - 0 == 1
+      [ FAIL 1 | WARN 6 | SKIP 0 | PASS 133 ]
       
-      [ FAIL 3 | WARN 27 | SKIP 0 | PASS 163 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-# tidyMicro
-
-<details>
-
-* Version: 1.47
-* GitHub: https://github.com/CharlieCarpenter/tidyMicro
-* Source code: https://github.com/cran/tidyMicro
-* Date/Publication: 2020-09-13 17:10:03 UTC
-* Number of recursive dependencies: 200
-
-Run `cloud_details(, "tidyMicro")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘tidyMicro-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: alpha_div
-    > ### Title: Alpha Diversity Calculations for tidy_micro
-    > ### Aliases: alpha_div
-    > 
-    > ### ** Examples
-    > 
-    > data(bpd_phy); data(bpd_cla); data(bpd_ord); data(bpd_fam); data(bpd_clin)
-    ...
-     27. │       └─tidyselect:::walk_data_tree(expr, data_mask, context_mask)
-     28. │         └─tidyselect:::eval_c(expr, data_mask, context_mask)
-     29. │           └─tidyselect:::reduce_sels(node, data_mask, context_mask, init = init)
-     30. │             └─tidyselect:::walk_data_tree(new, data_mask, context_mask)
-     31. │               └─tidyselect:::eval_context(expr, context_mask)
-     32. │                 └─rlang::eval_tidy(expr, context_mask)
-     33. ├─rlang::.data$Lib
-     34. └─rlang:::`$.rlang_fake_data_pronoun`(rlang::.data, Lib)
-     35.   └─rlang:::stop_fake_data_subset(call)
-    Execution halted
-    ```
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-       23. │     │   └─base::withCallingHandlers(...)
-       24. │     └─tidyselect:::vars_select_eval(...)
-       25. │       └─tidyselect:::walk_data_tree(expr, data_mask, context_mask)
-       26. │         └─tidyselect:::eval_c(expr, data_mask, context_mask)
-       27. │           └─tidyselect:::reduce_sels(node, data_mask, context_mask, init = init)
-       28. │             └─tidyselect:::walk_data_tree(new, data_mask, context_mask)
-       29. │               └─tidyselect:::eval_context(expr, context_mask)
-       30. │                 └─rlang::eval_tidy(expr, context_mask)
-       31. ├─rlang::.data$Lib
-       32. └─rlang:::`$.rlang_fake_data_pronoun`(rlang::.data, Lib)
-       33.   └─rlang:::stop_fake_data_subset(call)
-      
-      [ FAIL 18 | WARN 0 | SKIP 2 | PASS 2 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘Evomorph’ ‘cowplot’ ‘factoextra’ ‘gridExtra’ ‘lme4’ ‘lsr’ ‘plotly’
-      ‘png’ ‘shapes’
-      All declared Imports should be used.
-    ```
-
-# tidyquery
-
-<details>
-
-* Version: 0.2.2
-* GitHub: https://github.com/ianmcook/tidyquery
-* Source code: https://github.com/cran/tidyquery
-* Date/Publication: 2021-02-06 07:30:04 UTC
-* Number of recursive dependencies: 65
-
-Run `cloud_details(, "tidyquery")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-       11. ├─dplyr fun(., ...)
-       12. └─dtplyr:::filter.dtplyr_step(., ...)
-       13.   └─dtplyr:::step_subset_i(.data, i)
-       14.     └─dtplyr:::step_subset(parent, i = i)
-       15.       └─base::stopifnot(is.null(i) || is_expression(i) || is_step(i))
-      ── Failure (test-errors.R:96:3): query() fails on two very long expressions with no aliases ──
-      `query("SELECT 1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1, 1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+2 FROM games")` did not throw the expected error.
+      ══ Failed tests ════════════════════════════════════════════════════════════════
+      ── Error (test-sim_setup.R:14:3): methods equal ────────────────────────────────
+      Error in `trunc_mat(dat, n = 6, width = NULL)`: could not find function "trunc_mat"
       Backtrace:
           ▆
-       1. └─testthat::expect_error(...) at test-errors.R:96:2
-       2.   └─testthat:::expect_condition_matching(...)
+       1. ├─methods::show(setup) at test-sim_setup.R:14:2
+       2. └─saeSim::show(setup)
+       3.   └─base::print(trunc_mat(dat, n = 6, width = NULL))
       
-      [ FAIL 2 | WARN 0 | SKIP 1 | PASS 216 ]
+      [ FAIL 1 | WARN 6 | SKIP 0 | PASS 133 ]
       Error: Test failures
       Execution halted
     ```
 
-# timetk
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error(s) in re-building vignettes:
+      ...
+    --- re-building ‘Introduction.Rmd’ using rmarkdown
+    Quitting from lines 31-39 (Introduction.Rmd) 
+    Error: processing vignette 'Introduction.Rmd' failed with diagnostics:
+    could not find function "trunc_mat"
+    --- failed re-building ‘Introduction.Rmd’
+    
+    SUMMARY: processing the following file failed:
+      ‘Introduction.Rmd’
+    
+    Error: Vignette re-building failed.
+    Execution halted
+    ```
+
+*   checking R code for possible problems ... NOTE
+    ```
+    show,sim_setup: no visible global function definition for ‘trunc_mat’
+    Undefined global functions or variables:
+      trunc_mat
+    ```
+
+# salem
 
 <details>
 
-* Version: 2.6.2
-* GitHub: https://github.com/business-science/timetk
-* Source code: https://github.com/cran/timetk
-* Date/Publication: 2021-11-16 07:00:05 UTC
-* Number of recursive dependencies: 209
+* Version: 0.2.0
+* GitHub: NA
+* Source code: https://github.com/cran/salem
+* Date/Publication: 2020-11-05 16:40:05 UTC
+* Number of recursive dependencies: 62
 
-Run `cloud_details(, "timetk")` for more info
+Run `cloud_details(, "salem")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking examples ... ERROR
+*   checking re-building of vignette outputs ... WARNING
     ```
-    Running examples in ‘timetk-Ex.R’ failed
-    The error most likely occurred in:
+    Error(s) in re-building vignettes:
+      ...
+    --- re-building ‘introduction.Rmd’ using rmarkdown
+    --- finished re-building ‘introduction.Rmd’
     
-    > ### Name: tk_augment_differences
-    > ### Title: Add many differenced columns to the data
-    > ### Aliases: tk_augment_differences
-    > 
-    > ### ** Examples
-    > 
-    > library(tidyverse)
+    --- re-building ‘recreating_analyses.Rmd’ using rmarkdown
+    Joining, by = "Month"
+    Quitting from lines 348-367 (recreating_analyses.Rmd) 
+    Error: processing vignette 'recreating_analyses.Rmd' failed with diagnostics:
+    Can't convert NULL to a symbol.
+    --- failed re-building ‘recreating_analyses.Rmd’
+    
+    SUMMARY: processing the following file failed:
+      ‘recreating_analyses.Rmd’
+    
+    Error: Vignette re-building failed.
+    Execution halted
+    ```
+
+# sfnetworks
+
+<details>
+
+* Version: 0.5.4
+* GitHub: https://github.com/luukvdmeer/sfnetworks
+* Source code: https://github.com/cran/sfnetworks
+* Date/Publication: 2021-12-17 09:00:02 UTC
+* Number of recursive dependencies: 139
+
+Run `cloud_details(, "sfnetworks")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error(s) in re-building vignettes:
+    --- re-building ‘sfn01_structure.Rmd’ using rmarkdown
+    Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1; sf_use_s2() is TRUE
+    
+    Attaching package: 'tidygraph'
+    
+    The following object is masked from 'package:stats':
+    
+        filter
+    
     ...
+    Quitting from lines 190-198 (sfn05_morphers.Rmd) 
+    Error: processing vignette 'sfn05_morphers.Rmd' failed with diagnostics:
+    [1m[22m`desc()` must be called with exactly one argument.
+    --- failed re-building ‘sfn05_morphers.Rmd’
+    
+    SUMMARY: processing the following file failed:
+      ‘sfn05_morphers.Rmd’
+    
+    Error: Vignette re-building failed.
+    Execution halted
+    ```
+
+# telemac
+
+<details>
+
+* Version: 0.1.0
+* GitHub: https://github.com/tpilz/telemac
+* Source code: https://github.com/cran/telemac
+* Date/Publication: 2021-02-19 10:10:05 UTC
+* Number of recursive dependencies: 123
+
+Run `cloud_details(, "telemac")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error(s) in re-building vignettes:
+    --- re-building ‘t2d_basics.Rmd’ using rmarkdown
+    Loading required package: sp
+    Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1; sf_use_s2() is TRUE
+    ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
+    ✔ ggplot2 3.3.5          ✔ purrr   0.3.4     
+    ✔ tibble  3.1.6          ✔ dplyr   1.0.7.9000
+    ✔ tidyr   1.1.4          ✔ stringr 1.4.0     
+    ✔ readr   2.1.1          ✔ forcats 0.5.1     
     ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    ...
     ✖ dplyr::filter() masks stats::filter()
     ✖ dplyr::lag()    masks stats::lag()
-    > library(timetk)
-    > 
-    > m4_monthly %>%
-    +     group_by(id) %>%
-    +     tk_augment_differences(value, .lags = 1:20)
-    Error: tk_augment_differences(.differences) is missing.
+    Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1; sf_use_s2() is TRUE
+    --- finished re-building ‘t2d_rainfall_runoff.Rmd’
+    
+    SUMMARY: processing the following file failed:
+      ‘t2d_basics.Rmd’
+    
+    Error: Vignette re-building failed.
     Execution halted
     ```
 
 ## In both
 
-*   checking data for non-ASCII characters ... NOTE
+*   checking installed package size ... NOTE
     ```
-      Note: found 2750 marked UTF-8 strings
+      installed size is  8.3Mb
+      sub-directories of 1Mb or more:
+        doc       3.3Mb
+        libs      3.4Mb
+        telemac   1.0Mb
     ```
 
-# tsibble
-
-<details>
-
-* Version: 1.1.0
-* GitHub: https://github.com/tidyverts/tsibble
-* Source code: https://github.com/cran/tsibble
-* Date/Publication: 2021-10-22 11:10:01 UTC
-* Number of recursive dependencies: 90
-
-Run `cloud_details(, "tsibble")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
+*   checking LazyData ... NOTE
     ```
-      Running ‘spelling.R’
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        9. │ └─dplyr:::summarise.grouped_df(...)
-       10. │   └─dplyr:::summarise_cols(.data, dplyr_quosures(...), caller_env = caller_env())
-       11. │     ├─base::withCallingHandlers(...)
-       12. │     └─dplyr:::map(quosures, summarise_eval_one, mask = mask)
-       13. │       └─base::lapply(.x, .f, ...)
-       14. │         └─dplyr FUN(X[[i]], ...)
-       15. │           └─mask$eval_all_summarise(quo)
-       16. ├─tsibble:::tbl_gaps(date, idx_full, .name = .name)
-       17. │ └─base::stopifnot(has_length(.name, 3))
-       18. │   └─base::stop(simpleError(msg, call = if (p <- sys.parent(1L)) sys.call(p)))
-       19. └─dplyr `<fn>`(`<smplErrr>`)
-      
-      [ FAIL 1 | WARN 1 | SKIP 5 | PASS 743 ]
-      Error: Test failures
-      Execution halted
+      'LazyData' is specified without a 'data' directory
     ```
 
