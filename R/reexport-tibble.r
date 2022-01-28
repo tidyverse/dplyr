@@ -59,7 +59,7 @@ tibble::type_sum
 #'   select(1:3)
 #'
 #' glimpse(starwars)
-#' @importFrom tibble glimpse
+#' @importFrom pillar glimpse
 #' @export
 #' @name glimpse
 glimpse
