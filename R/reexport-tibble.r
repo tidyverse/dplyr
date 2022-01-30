@@ -47,6 +47,10 @@ tibble::view
 
 # utils -------------------------------------------------------------------
 
+#' @importFrom tibble trunc_mat
+#' @export
+tibble::trunc_mat
+
 #' @importFrom pillar tbl_sum
 #' @export
 pillar::tbl_sum
