@@ -215,6 +215,7 @@ dplyr_reconstruct.rowwise_df <- function(data, template) {
 dplyr_col_select <- function(.data, loc, names = NULL, error_call = caller_env()) {
   loc <- vec_as_location(loc, n = ncol(.data), names = names(.data))
 
+  .datatable.aware <- TRUE
   out <- .data[loc]
   if (!inherits(out, "data.frame")) {
     classes_data <- glue_collapse(class(.data), sep = "/")
