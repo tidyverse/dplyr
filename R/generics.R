@@ -215,7 +215,6 @@ dplyr_reconstruct.rowwise_df <- function(data, template) {
 dplyr_col_select <- function(.data, loc, names = NULL, error_call = caller_env()) {
   loc <- vec_as_location(loc, n = ncol(.data), names = names(.data))
 
-  .datatable.aware <- TRUE
   out <- .data[loc]
   if (!inherits(out, "data.frame")) {
     classes_data <- glue_collapse(class(.data), sep = "/")
@@ -241,7 +240,7 @@ dplyr_col_select <- function(.data, loc, names = NULL, error_call = caller_env()
 
   # Patch base data frames to restore extra attributes that `[.data.frame` drops.
   # We require `[` methods to keep extra attributes for all data frame subclasses.
-  if (identical(class(.data), "data.frame")) {
+  if (identical(class(.data), "data.frame") || identical(class(.data), c("data.table", "data.frame"))) {
     out <- dplyr_reconstruct(out, .data)
   }
 
