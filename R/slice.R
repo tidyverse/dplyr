@@ -233,7 +233,7 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 #' @export
 slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
   check_slice_dots(..., n = n, prop = prop)
-  size <- get_slice_size(n = n, prop = prop)
+  size <- get_slice_sample_size(n = n, prop = prop)
 
   dplyr_local_error_call()
   slice(.data, local({
@@ -430,10 +430,24 @@ get_slice_size <- function(n, prop, error_call = caller_env()) {
   }
 }
 
-sample_int <- function(n, size, replace = FALSE, wt = NULL) {
-  if (!replace) {
-    size <- min(size, n)
+get_slice_sample_size <- function(n, prop, error_call = caller_env()) {
+  slice_input <- check_slice_n_prop(n, prop, error_call = error_call)
+  if (slice_input$type == "n") {
+    if (slice_input$n < 0) {
+      function(n) abort("`n` must be positive.", call = error_call)
+    } else {
+      function(n) floor(slice_input$n)
+    }
+  } else if (slice_input$type == "prop") {
+    if (slice_input$prop < 0) {
+      function(n) abort("`prop` must be positive.", call = error_call)
+    } else {
+      function(n) floor(slice_input$prop * n)
+    }
   }
+}
+
+sample_int <- function(n, size, replace = FALSE, wt = NULL) {
   if (size == 0L) {
     integer(0)
   } else {
