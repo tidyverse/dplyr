@@ -238,9 +238,9 @@ dplyr_col_select <- function(.data, loc, names = NULL, error_call = caller_env()
     abort(bullets, call = error_call)
   }
 
-  # Patch base data frames to restore extra attributes that `[.data.frame` drops.
+  # Patch base data frames and data.table (#6171) to restore extra attributes that `[.data.frame` drops.
   # We require `[` methods to keep extra attributes for all data frame subclasses.
-  if (identical(class(.data), "data.frame")) {
+  if (identical(class(.data), "data.frame") || identical(class(.data), c("data.table", "data.frame"))) {
     out <- dplyr_reconstruct(out, .data)
   }
 
