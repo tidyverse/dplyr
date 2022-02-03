@@ -5,7 +5,8 @@
 #'
 #' `rename_if()`, `rename_at()`, and `rename_all()` have been superseded by
 #' `rename_with()`. The matching select statements have been superseded by the
-#' combination of a `select()` + `rename_with()`.
+#' combination of a `select()` + `rename_with()`. Any predicate functions passed
+#' as arguments to `select()` or `rename_with()` must be wrapped in [where()].
 #'
 #' These functions were superseded because `mutate_if()` and friends were
 #' superseded by `across()`. `select_if()` and `rename_if()` already use tidy
