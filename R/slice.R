@@ -233,7 +233,7 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 #' @export
 slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
   check_slice_dots(..., n = n, prop = prop)
-  size <- get_slice_sample_size(n = n, prop = prop)
+  size <- get_slice_size(n = n, prop = prop, allow_negative = FALSE)
 
   dplyr_local_error_call()
   slice(.data, local({
@@ -412,37 +412,24 @@ check_slice_n_prop <- function(n, prop, error_call = caller_env()) {
   }
 }
 
-get_slice_size <- function(n, prop, error_call = caller_env()) {
+get_slice_size <- function(n, prop, allow_negative = TRUE, error_call = caller_env()) {
   slice_input <- check_slice_n_prop(n, prop, error_call = error_call)
 
   if (slice_input$type == "n") {
-    if (slice_input$n < 0) {
-      function(n) max(ceiling(n + slice_input$n), 0)
-    } else {
-      function(n) min(floor(slice_input$n), n)
-    }
-  } else if (slice_input$type == "prop") {
-    if (slice_input$prop < 0) {
-      function(n) max(ceiling(n + slice_input$prop * n), 0)
-    } else {
-      function(n) min(floor(slice_input$prop * n), n)
-    }
-  }
-}
-
-get_slice_sample_size <- function(n, prop, error_call = caller_env()) {
-  slice_input <- check_slice_n_prop(n, prop, error_call = error_call)
-  if (slice_input$type == "n") {
-    if (slice_input$n < 0) {
-      function(n) abort("`n` must be positive.", call = error_call)
-    } else {
+    if (slice_input$n > 0) {
       function(n) floor(slice_input$n)
+    } else if (allow_negative) {
+      function(n) ceiling(n + slice_input$n)
+    } else {
+      abort("`n` must be positive.", call = error_call)
     }
   } else if (slice_input$type == "prop") {
-    if (slice_input$prop < 0) {
-      function(n) abort("`prop` must be positive.", call = error_call)
-    } else {
+    if (slice_input$prop > 0) {
       function(n) floor(slice_input$prop * n)
+    } else if (allow_negative) {
+      function(n) ceiling(n + slice_input$prop * n)
+    } else {
+      abort("`prop` must be positive.", call = error_call)
     }
   }
 }

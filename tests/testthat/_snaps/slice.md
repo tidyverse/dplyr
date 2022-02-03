@@ -5,16 +5,12 @@
     Output
       <error/rlang_error>
       Error in `slice_sample()`:
-      ! Problem while computing indices.
-      Caused by error:
       ! `n` must be positive.
     Code
       (expect_error(df %>% slice_sample(prop = -1)))
     Output
       <error/rlang_error>
       Error in `slice_sample()`:
-      ! Problem while computing indices.
-      Caused by error:
       ! `prop` must be positive.
     Code
       (expect_error(df %>% slice_sample(n = 4, replace = FALSE)))
