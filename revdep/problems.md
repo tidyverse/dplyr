@@ -50,108 +50,6 @@ Run `cloud_details(, "chunked")` for more info
       'LazyData' is specified without a 'data' directory
     ```
 
-# collapse
-
-<details>
-
-* Version: 1.7.3
-* GitHub: https://github.com/SebKrantz/collapse
-* Source code: https://github.com/cran/collapse
-* Date/Publication: 2022-01-26 15:42:46 UTC
-* Number of recursive dependencies: 106
-
-Run `cloud_details(, "collapse")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Component 3: Mean relative difference: 63.24242
-      Component 4: Mean relative difference: 0.2126747
-      ── Failure (test-fmutate.R:404:3): fmutate miscellaneous ───────────────────────
-      fmutate(...) not equal to dplyr::mutate(...).
-      Names: 6 string mismatches
-      Component 2: Mean relative difference: 12.78229
-      Component 3: Mean relative difference: 2.166667
-      Component 4: Mean relative difference: 0.9797791
-      Component 5: Mean relative difference: 0.9494575
-      Component 6: Mean relative difference: 63.24242
-      Component 7: Mean relative difference: 0.2126747
-      
-      [ FAIL 2 | WARN 0 | SKIP 0 | PASS 12101 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is 35.0Mb
-      sub-directories of 1Mb or more:
-        libs  32.7Mb
-    ```
-
-# covid19br
-
-<details>
-
-* Version: 0.1.3
-* GitHub: https://github.com/fndemarqui/covid19br
-* Source code: https://github.com/cran/covid19br
-* Date/Publication: 2021-10-17 17:50:02 UTC
-* Number of recursive dependencies: 137
-
-Run `cloud_details(, "covid19br")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘covid19br.Rmd’ using rmarkdown
-    ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
-    ✔ ggplot2 3.3.5          ✔ purrr   0.3.4     
-    ✔ tibble  3.1.6          ✔ dplyr   1.0.7.9000
-    ✔ tidyr   1.1.4          ✔ stringr 1.4.0     
-    ✔ readr   2.1.1          ✔ forcats 0.5.1     
-    ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ✖ dplyr::filter() masks stats::filter()
-    ✖ dplyr::lag()    masks stats::lag()
-    ...
-    Please, be patient...
-     Done!
-    Joining, by = c("region", "state", "pop", "state_code")
-    --- finished re-building ‘maps.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘election2018.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  7.8Mb
-      sub-directories of 1Mb or more:
-        doc   7.5Mb
-    ```
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 2385 marked UTF-8 strings
-    ```
-
 # functiondepends
 
 <details>
@@ -200,6 +98,44 @@ Run `cloud_details(, "functiondepends")` for more info
       'LazyData' is specified without a 'data' directory
     ```
 
+# imfr
+
+<details>
+
+* Version: 0.1.9.1
+* GitHub: https://github.com/christophergandrud/imfr
+* Source code: https://github.com/cran/imfr
+* Date/Publication: 2020-10-03 06:20:02 UTC
+* Number of recursive dependencies: 41
+
+Run `cloud_details(, "imfr")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking tests ... ERROR
+    ```
+      Running ‘testthat.R’
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+        2. │ └─testthat::quasi_label(enquo(object), label, arg = "object")
+        3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
+        4. ├─base::ncol(...)
+        5. ├─imfr::imf_data(...)
+        6. │ └─imfr:::imf_data_one(...)
+        7. │   └─imfr:::download_parse(URL)
+        8. │     ├─... %>% content(type = "text", encoding = "UTF-8")
+        9. │     └─httr::RETRY("GET", URL, user_agent(""), progress(), times = times)
+       10. └─httr::content(., type = "text", encoding = "UTF-8")
+       11.   ├─base::stopifnot(is.response(x))
+       12.   └─httr:::is.response(x)
+      
+      [ FAIL 1 | WARN 0 | SKIP 0 | PASS 1 ]
+      Error: Test failures
+      Execution halted
+    ```
+
 # mcp
 
 <details>
@@ -221,8 +157,9 @@ Run `cloud_details(, "mcp")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+      ── Failure (helper-runs.R:325:7): good_poisson:
           y ~ 1 + ar(1), ~1 + x + ar(2, 1 + x + I(x^3)) ──
-      fit$family$family != "poisson" | ... is not TRUE
+      stringr::str_starts(error_message, expected_error_poisson) is not TRUE
       
       `actual`:   FALSE
       `expected`: TRUE 
@@ -230,25 +167,87 @@ Run `cloud_details(, "mcp")` for more info
           ▆
        1. └─mcp:::test_runs(model, ...) at tests/testthat/helper-runs.R:325:6
        2.   └─mcp:::test_pp_eval(fit) at tests/testthat/helper-runs.R:113:6
-       3.     └─mcp:::test_pp_eval_func(fit, predict) at tests/testthat/helper-runs.R:241:2
-       4.       └─testthat::expect_true(...) at tests/testthat/helper-runs.R:228:4
+       3.     └─testthat::expect_true(stringr::str_starts(error_message, expected_error_poisson)) at tests/testthat/helper-runs.R:293:6
       
-      [ FAIL 5 | WARN 0 | SKIP 6 | PASS 3625 ]
+      [ FAIL 9 | WARN 1 | SKIP 6 | PASS 3617 ]
       Error: Test failures
       Execution halted
     ```
 
-# motif
+# modeltime
 
 <details>
 
-* Version: 0.5.0
-* GitHub: https://github.com/Nowosad/motif
-* Source code: https://github.com/cran/motif
-* Date/Publication: 2021-08-23 12:50:02 UTC
-* Number of recursive dependencies: 82
+* Version: 1.1.1
+* GitHub: https://github.com/business-science/modeltime
+* Source code: https://github.com/cran/modeltime
+* Date/Publication: 2022-01-12 16:22:42 UTC
+* Number of recursive dependencies: 238
 
-Run `cloud_details(, "motif")` for more info
+Run `cloud_details(, "modeltime")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘modeltime-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: window_reg
+    > ### Title: General Interface for Window Forecast Models
+    > ### Aliases: window_reg
+    > 
+    > ### ** Examples
+    > 
+    > library(dplyr)
+    ...
+     22. │ └─dplyr:::...elt2(i)
+     23. │   └─rlang::eval_bare(sym(paste0("..", i)), frame)
+     24. ├─rlang idx(dplyr::n())
+     25. ├─dplyr idx(dplyr::n())
+     26. │ └─rlang::seq2(n - size(n) + 1, n)
+     27. └─base::.handleSimpleError(...)
+     28.   └─dplyr h(simpleError(msg, call))
+     29.     └─rlang::abort(bullets, call = error_call, parent = cnd)
+    Timing stopped at: 0.266 0.003 0.269
+    Execution halted
+    ```
+
+*   checking tests ... ERROR
+    ```
+      Running ‘testthat.R’
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+        8. ├─dplyr:::slice_tail.data.frame(., n = .length_actual)
+        9. │ ├─dplyr::slice(.data, idx(dplyr::n()))
+       10. │ └─dplyr:::slice.data.frame(.data, idx(dplyr::n()))
+       11. │   └─dplyr:::slice_rows(.data, ..., caller_env = caller_env(), error_call = current_env())
+       12. │     └─dplyr:::slice_combine(chunks, mask = mask, error_call = error_call)
+       13. │       ├─base::withCallingHandlers(...)
+       14. │       └─rlang::abort(bullets, call = NULL)
+       15. │         └─rlang:::signal_abort(cnd, .file)
+       16. │           └─base::signalCondition(cnd)
+       17. └─dplyr `<fn>`(`<rlng_rrr>`)
+       18.   └─rlang::abort(bullets, call = error_call, parent = cnd)
+      
+      [ FAIL 3 | WARN 2 | SKIP 22 | PASS 482 ]
+      Error: Test failures
+      Execution halted
+    ```
+
+# NEONiso
+
+<details>
+
+* Version: 0.5.3
+* GitHub: https://github.com/SPATIAL-Lab/NEONiso
+* Source code: https://github.com/cran/NEONiso
+* Date/Publication: 2022-01-03 21:20:02 UTC
+* Number of recursive dependencies: 68
+
+Run `cloud_details(, "NEONiso")` for more info
 
 </details>
 
@@ -259,67 +258,21 @@ Run `cloud_details(, "motif")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      })(dots[[1L]][[1L]], dots[[2L]][[1L]], dots[[3L]][[1L]], dots[[4L]][[1L]], 
-          along = dots[[5L]][[1L]])`: arg 'X2' has dims=200, 200, 1; but need dims=346, 346, X
-      Backtrace:
-          ▆
-       1. └─motif::lsp_mosaic(landform_grid_sf_sel) at test-lsp_add_clusters.R:49:0
-       2.   ├─base::do.call(c, all_mosaics)
-       3.   ├─base `<fn>`(...)
-       4.   └─stars:::c.stars(...)
-       5.     ├─stars:::propagate_units(...)
-       6.     └─base::mapply(abind, ..., along = along_dim, SIMPLIFY = FALSE)
-       7.       └─abind `<fn>`(...)
+        4. ├─dplyr:::slice_tail.data.frame(., n = 3)
+        5. │ ├─dplyr::slice(.data, idx(dplyr::n()))
+        6. │ └─dplyr:::slice.data.frame(.data, idx(dplyr::n()))
+        7. │   └─dplyr:::slice_rows(.data, ..., caller_env = caller_env(), error_call = current_env())
+        8. │     └─dplyr:::slice_combine(chunks, mask = mask, error_call = error_call)
+        9. │       ├─base::withCallingHandlers(...)
+       10. │       └─rlang::abort(bullets, call = NULL)
+       11. │         └─rlang:::signal_abort(cnd, .file)
+       12. │           └─base::signalCondition(cnd)
+       13. └─dplyr `<fn>`(`<rlng_rrr>`)
+       14.   └─rlang::abort(bullets, call = error_call, parent = cnd)
       
-      [ FAIL 1 | WARN 0 | SKIP 0 | PASS 52 ]
+      [ FAIL 1 | WARN 0 | SKIP 0 | PASS 68 ]
       Error: Test failures
       Execution halted
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  9.6Mb
-      sub-directories of 1Mb or more:
-        libs     6.3Mb
-        raster   2.2Mb
-    ```
-
-# nomisr
-
-<details>
-
-* Version: 0.4.4
-* GitHub: https://github.com/ropensci/nomisr
-* Source code: https://github.com/cran/nomisr
-* Date/Publication: 2021-01-23 17:20:02 UTC
-* Number of recursive dependencies: 87
-
-Run `cloud_details(, "nomisr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-      ...
-    --- re-building ‘Introduction-to-work-and-health-nomis-indicators.Rmd’ using rmarkdown
-    Quitting from lines 194-365 (Introduction-to-work-and-health-nomis-indicators.Rmd) 
-    Error: processing vignette 'Introduction-to-work-and-health-nomis-indicators.Rmd' failed with diagnostics:
-    `desc()` must be called with exactly one argument.
-    --- failed re-building ‘Introduction-to-work-and-health-nomis-indicators.Rmd’
-    
-    --- re-building ‘introduction.Rmd’ using rmarkdown
-    --- finished re-building ‘introduction.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘Introduction-to-work-and-health-nomis-indicators.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
     ```
 
 # photobiology
@@ -696,8 +649,8 @@ Run `cloud_details(, "telemac")` for more info
     ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
     ✔ ggplot2 3.3.5          ✔ purrr   0.3.4     
     ✔ tibble  3.1.6          ✔ dplyr   1.0.7.9000
-    ✔ tidyr   1.1.4          ✔ stringr 1.4.0     
-    ✔ readr   2.1.1          ✔ forcats 0.5.1     
+    ✔ tidyr   1.2.0          ✔ stringr 1.4.0     
+    ✔ readr   2.1.2          ✔ forcats 0.5.1     
     ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
     ...
     ✖ dplyr::filter() masks stats::filter()

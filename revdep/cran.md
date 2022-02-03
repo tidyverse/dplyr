@@ -1,9 +1,9 @@
 ## revdepcheck results
 
-We checked 3178 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 3196 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 14 new problems
- * We failed to check 11 packages
+ * We saw 13 new problems
+ * We failed to check 10 packages
 
 Issues with CRAN packages are summarised below.
 
@@ -14,23 +14,21 @@ Issues with CRAN packages are summarised below.
   checking tests ... ERROR
   checking R code for possible problems ... NOTE
 
-* collapse
-  checking tests ... ERROR
-
-* covid19br
-  checking re-building of vignette outputs ... WARNING
-
 * functiondepends
   checking re-building of vignette outputs ... WARNING
+
+* imfr
+  checking tests ... ERROR
 
 * mcp
   checking tests ... ERROR
 
-* motif
+* modeltime
+  checking examples ... ERROR
   checking tests ... ERROR
 
-* nomisr
-  checking re-building of vignette outputs ... WARNING
+* NEONiso
+  checking tests ... ERROR
 
 * photobiology
   checking examples ... ERROR
@@ -62,6 +60,7 @@ Issues with CRAN packages are summarised below.
 ### Failed to check
 
 * accept         (NA)
+* bayesmodels    (NA)
 * CausalImpact   (NA)
 * cbar           (NA)
 * conos          (NA)
@@ -69,6 +68,4 @@ Issues with CRAN packages are summarised below.
 * loon.ggplot    (NA)
 * loon.shiny     (NA)
 * MarketMatching (NA)
-* PLNmodels      (NA)
-* RAQSAPI        (NA)
 * vivid          (NA)
