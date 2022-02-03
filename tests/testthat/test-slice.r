@@ -189,17 +189,46 @@ test_that("slice() handles matrix and data frame columns (#3630)", {
 
 # Slice variants ----------------------------------------------------------
 
+test_that("slice_sample() handles n= and prop=", {
+  df <- data.frame(a = 1)
+
+  expect_equal(
+    df %>% slice_sample(n = 4, replace = TRUE),
+    df %>% slice(rep(1, 4))
+  )
+
+  expect_equal(
+    df %>% slice_sample(prop = 4, replace = TRUE),
+    df %>% slice(rep(1, 4))
+  )
+
+  expect_snapshot({
+    (expect_error(
+      df %>% slice_sample(n = -1)
+    ))
+    (expect_error(
+      df %>% slice_sample(prop = -1)
+    ))
+
+    (expect_error(
+      df %>% slice_sample(n = 4, replace = FALSE)
+    ))
+
+    (expect_error(
+      df %>% slice_sample(prop = 4, replace = FALSE)
+    ))
+  })
+})
+
 test_that("functions silently truncate results", {
   df <- data.frame(x = 1:5)
 
   expect_equal(df %>% slice_head(n = 6) %>% nrow(), 5)
   expect_equal(df %>% slice_tail(n = 6) %>% nrow(), 5)
-  expect_equal(df %>% slice_sample(n = 6) %>% nrow(), 5)
   expect_equal(df %>% slice_min(x, n = 6) %>% nrow(), 5)
   expect_equal(df %>% slice_max(x, n = 6) %>% nrow(), 5)
   expect_equal(df %>% slice_head(n = -6) %>% nrow(), 0)
   expect_equal(df %>% slice_tail(n = -6) %>% nrow(), 0)
-  expect_equal(df %>% slice_sample(n = -6) %>% nrow(), 0)
   expect_equal(df %>% slice_min(x, n = -6) %>% nrow(), 0)
   expect_equal(df %>% slice_max(x, n = -6) %>% nrow(), 0)
 })

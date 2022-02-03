@@ -1,3 +1,34 @@
+# slice_sample() handles n= and prop=
+
+    Code
+      (expect_error(df %>% slice_sample(n = -1)))
+    Output
+      <error/rlang_error>
+      Error in `slice_sample()`:
+      ! `n` must be positive.
+    Code
+      (expect_error(df %>% slice_sample(prop = -1)))
+    Output
+      <error/rlang_error>
+      Error in `slice_sample()`:
+      ! `prop` must be positive.
+    Code
+      (expect_error(df %>% slice_sample(n = 4, replace = FALSE)))
+    Output
+      <error/rlang_error>
+      Error in `slice_sample()`:
+      ! Problem while computing indices.
+      Caused by error in `sample.int()`:
+      ! cannot take a sample larger than the population when 'replace = FALSE'
+    Code
+      (expect_error(df %>% slice_sample(prop = 4, replace = FALSE)))
+    Output
+      <error/rlang_error>
+      Error in `slice_sample()`:
+      ! Problem while computing indices.
+      Caused by error in `sample.int()`:
+      ! cannot take a sample larger than the population when 'replace = FALSE'
+
 # slice() gives meaningfull errors
 
     Code
