@@ -1,9 +1,6 @@
 # dplyr (development version)
 
-* The deprecated `trunc_mat()` is no longer reexported from dplyr, no CRAN packages import it from dplyr (#6141).
-
-* dplyr now uses `rlang::check_installed()` to prompt you whether to install
-  required packages that are missing.
+* Better display of error messages thanks to rlang 1.0.0.
 
 * `mutate(.keep = "none")` is no longer identical to `transmute()`.
   `transmute()` has not been changed, and completely ignores the column ordering
@@ -12,22 +9,25 @@
   that pre-existing columns are never moved, which aligns more closely with the
   other `.keep` options (#6086).
 
+* `filter()` forbids matrix results (#5973) and warns about data frame 
+  results, especially data frames created from `across()` with a hint 
+  to use `if_any()` or `if_all()`. 
+
+* `slice()` helpers (`slice_head()`, `slice_tail()`, `slice_min()`, `slice_max()`) 
+  now accept negative values for `n` and `prop` (#5961).
+
+* `slice()` now indicates which group produces an error (#5931).
+
 * `cur_data()` and `cur_data_all()` don't simplify list columns in rowwise data frames (#5901).
+
+* dplyr now uses `rlang::check_installed()` to prompt you whether to install
+  required packages that are missing.
 
 * `storms` data updated to 2020 (@steveharoz, #5899).
 
 * `coalesce()` accepts 1-D arrays (#5557).
 
-* `filter()` forbids matrix results (#5973) and warns about data frame 
-  results, especially data frames created from `across()` with a hint 
-  to use `if_any()` or `if_all()`. 
-
-* `slice()` helpers (`slice_head()`, `slice_tail()`, `slice_min()`, `slice_max()` 
-   and `slice_sample()`) now accept negative values for `n` and `prop` (#5961).
-
-* `slice()` now indicates which group produces an error (#5931).
-
-* Better display of error messages thanks to rlang 1.0.0.
+* The deprecated `trunc_mat()` is no longer reexported from dplyr (#6141).
 
 # dplyr 1.0.7
 
