@@ -1,4 +1,4 @@
-# dplyr (development version)
+# dplyr 1.0.8
 
 * Better display of error messages thanks to rlang 1.0.0.
 
