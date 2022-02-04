@@ -487,6 +487,19 @@ test_that("slice_head/slice_tail correctly slice ungrouped df when n < 0", {
   )
 })
 
+test_that("slice_head,tail() handle n,prop = Inf", {
+  df <- data.frame(x = 1)
+  expect_identical(slice_head(df, n = Inf), df)
+  expect_identical(slice_tail(df, n = Inf), df)
+  expect_identical(slice_head(df, prop = Inf), df)
+  expect_identical(slice_tail(df, prop = Inf), df)
+
+  expect_identical(slice_head(df, n = -Inf), data.frame(x = numeric()))
+  expect_identical(slice_tail(df, n = -Inf), data.frame(x = numeric()))
+  expect_identical(slice_head(df, prop = -Inf), data.frame(x = numeric()))
+  expect_identical(slice_tail(df, prop = -Inf), data.frame(x = numeric()))
+})
+
 test_that("slice_head/slice_tail correctly slice grouped df when n < 0", {
   df <- data.frame(x = 1:10, g = c(rep(1, 8), rep(2, 2))) %>% group_by(g)
 

@@ -135,7 +135,13 @@ slice_head <- function(.data, ..., n, prop) {
 slice_head.data.frame <- function(.data, ..., n, prop) {
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)
-  idx <- function(n) seq2(1, size(n))
+  idx <- function(n) {
+    to <- size(n)
+    if (to > n) {
+      to <- n
+    }
+    seq2(1, to)
+  }
 
   dplyr_local_error_call()
   slice(.data, idx(dplyr::n()))
@@ -151,7 +157,13 @@ slice_tail <- function(.data, ..., n, prop) {
 slice_tail.data.frame <- function(.data, ..., n, prop) {
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)
-  idx <- function(n) seq2(n - size(n) + 1, n)
+  idx <- function(n) {
+    from <- n - size(n) + 1
+    if (from < 1L) {
+      from <- 1L
+    }
+    seq2(from, n)
+  }
 
   dplyr_local_error_call()
   slice(.data, idx(dplyr::n()))
