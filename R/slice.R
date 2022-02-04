@@ -159,7 +159,7 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
   size <- get_slice_size(n = n, prop = prop)
   idx <- function(n) {
     from <- n - size(n) + 1
-    if (from < 0) {
+    if (from < 1L) {
       from <- 1L
     }
     seq2(from, n)
