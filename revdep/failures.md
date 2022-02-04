@@ -64,6 +64,68 @@ Status: 1 ERROR
 
 
 ```
+# AgroReg
+
+<details>
+
+* Version: 1.2.1
+* GitHub: NA
+* Source code: https://github.com/cran/AgroReg
+* Date/Publication: 2021-11-18 12:30:01 UTC
+* Number of recursive dependencies: 111
+
+Run `cloud_details(, "AgroReg")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘AgroReg’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/AgroReg/new/AgroReg.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘AgroReg’ ...
+** package ‘AgroReg’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘rstudioapi’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘AgroReg’
+* removing ‘/tmp/workdir/AgroReg/new/AgroReg.Rcheck/AgroReg’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘AgroReg’ ...
+** package ‘AgroReg’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘rstudioapi’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘AgroReg’
+* removing ‘/tmp/workdir/AgroReg/old/AgroReg.Rcheck/AgroReg’
+
+
+```
 # bayesmodels
 
 <details>
@@ -127,6 +189,65 @@ Status: 1 ERROR
 
 
 
+
+
+```
+# bsem
+
+<details>
+
+* Version: 1.0.0
+* GitHub: https://github.com/rvpanaro/bsem
+* Source code: https://github.com/cran/bsem
+* Date/Publication: 2020-08-14 13:40:03 UTC
+* Number of recursive dependencies: 159
+
+Run `cloud_details(, "bsem")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘bsem’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/bsem/new/bsem.Rcheck/00install.out’ for details.
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘gridExtra’
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘bsem’ ...
+** package ‘bsem’ successfully unpacked and MD5 sums checked
+** using staged installation
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘gridExtra’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: configuration failed for package ‘bsem’
+* removing ‘/tmp/workdir/bsem/new/bsem.Rcheck/bsem’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘bsem’ ...
+** package ‘bsem’ successfully unpacked and MD5 sums checked
+** using staged installation
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘gridExtra’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: configuration failed for package ‘bsem’
+* removing ‘/tmp/workdir/bsem/old/bsem.Rcheck/bsem’
 
 
 ```
@@ -406,6 +527,68 @@ Status: 1 ERROR
 
 
 ```
+# icardaFIGSr
+
+<details>
+
+* Version: 1.0.2
+* GitHub: NA
+* Source code: https://github.com/cran/icardaFIGSr
+* Date/Publication: 2021-12-10 12:10:02 UTC
+* Number of recursive dependencies: 113
+
+Run `cloud_details(, "icardaFIGSr")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘icardaFIGSr’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/icardaFIGSr/new/icardaFIGSr.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘icardaFIGSr’ ...
+** package ‘icardaFIGSr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘Rcpp’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘icardaFIGSr’
+* removing ‘/tmp/workdir/icardaFIGSr/new/icardaFIGSr.Rcheck/icardaFIGSr’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘icardaFIGSr’ ...
+** package ‘icardaFIGSr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘Rcpp’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘icardaFIGSr’
+* removing ‘/tmp/workdir/icardaFIGSr/old/icardaFIGSr.Rcheck/icardaFIGSr’
+
+
+```
 # loon.ggplot
 
 <details>
@@ -609,6 +792,212 @@ Status: 1 ERROR
 
 
 
+
+
+```
+# MSiP
+
+<details>
+
+* Version: 1.3.7
+* GitHub: NA
+* Source code: https://github.com/cran/MSiP
+* Date/Publication: 2021-06-17 08:20:05 UTC
+* Number of recursive dependencies: 84
+
+Run `cloud_details(, "MSiP")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘MSiP’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/MSiP/new/MSiP.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘MSiP’ ...
+** package ‘MSiP’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘listenv’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘MSiP’
+* removing ‘/tmp/workdir/MSiP/new/MSiP.Rcheck/MSiP’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘MSiP’ ...
+** package ‘MSiP’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘listenv’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘MSiP’
+* removing ‘/tmp/workdir/MSiP/old/MSiP.Rcheck/MSiP’
+
+
+```
+# scRNAstat
+
+<details>
+
+* Version: 0.1.1
+* GitHub: NA
+* Source code: https://github.com/cran/scRNAstat
+* Date/Publication: 2021-09-22 08:10:02 UTC
+* Number of recursive dependencies: 142
+
+Run `cloud_details(, "scRNAstat")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘scRNAstat’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/scRNAstat/new/scRNAstat.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘scRNAstat’ ...
+** package ‘scRNAstat’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+Warning: namespace ‘Seurat’ is not available and has been replaced
+by .GlobalEnv when processing object ‘AJ064_small_last_sce’
+Warning: namespace ‘DBI’ is not available and has been replaced
+by .GlobalEnv when processing object ‘AJ064_small_last_sce’
+...
+by .GlobalEnv when processing object ‘AJ064_small_last_sce’
+Warning: namespace ‘DBI’ is not available and has been replaced
+by .GlobalEnv when processing object ‘AJ064_small_last_sce’
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘reshape2’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘scRNAstat’
+* removing ‘/tmp/workdir/scRNAstat/new/scRNAstat.Rcheck/scRNAstat’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘scRNAstat’ ...
+** package ‘scRNAstat’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+Warning: namespace ‘Seurat’ is not available and has been replaced
+by .GlobalEnv when processing object ‘AJ064_small_last_sce’
+Warning: namespace ‘DBI’ is not available and has been replaced
+by .GlobalEnv when processing object ‘AJ064_small_last_sce’
+...
+by .GlobalEnv when processing object ‘AJ064_small_last_sce’
+Warning: namespace ‘DBI’ is not available and has been replaced
+by .GlobalEnv when processing object ‘AJ064_small_last_sce’
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘reshape2’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘scRNAstat’
+* removing ‘/tmp/workdir/scRNAstat/old/scRNAstat.Rcheck/scRNAstat’
+
+
+```
+# SWMPr
+
+<details>
+
+* Version: 2.4.1
+* GitHub: https://github.com/fawda123/SWMPr
+* Source code: https://github.com/cran/SWMPr
+* Date/Publication: 2021-09-02 21:10:39 UTC
+* Number of recursive dependencies: 92
+
+Run `cloud_details(, "SWMPr")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘SWMPr’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/SWMPr/new/SWMPr.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘SWMPr’ ...
+** package ‘SWMPr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘gsw’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘SWMPr’
+* removing ‘/tmp/workdir/SWMPr/new/SWMPr.Rcheck/SWMPr’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘SWMPr’ ...
+** package ‘SWMPr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘gsw’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘SWMPr’
+* removing ‘/tmp/workdir/SWMPr/old/SWMPr.Rcheck/SWMPr’
 
 
 ```

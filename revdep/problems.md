@@ -98,44 +98,6 @@ Run `cloud_details(, "functiondepends")` for more info
       'LazyData' is specified without a 'data' directory
     ```
 
-# imfr
-
-<details>
-
-* Version: 0.1.9.1
-* GitHub: https://github.com/christophergandrud/imfr
-* Source code: https://github.com/cran/imfr
-* Date/Publication: 2020-10-03 06:20:02 UTC
-* Number of recursive dependencies: 41
-
-Run `cloud_details(, "imfr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        2. │ └─testthat::quasi_label(enquo(object), label, arg = "object")
-        3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
-        4. ├─base::ncol(...)
-        5. ├─imfr::imf_data(...)
-        6. │ └─imfr:::imf_data_one(...)
-        7. │   └─imfr:::download_parse(URL)
-        8. │     ├─... %>% content(type = "text", encoding = "UTF-8")
-        9. │     └─httr::RETRY("GET", URL, user_agent(""), progress(), times = times)
-       10. └─httr::content(., type = "text", encoding = "UTF-8")
-       11.   ├─base::stopifnot(is.response(x))
-       12.   └─httr:::is.response(x)
-      
-      [ FAIL 1 | WARN 0 | SKIP 0 | PASS 1 ]
-      Error: Test failures
-      Execution halted
-    ```
-
 # mcp
 
 <details>
@@ -169,110 +131,45 @@ Run `cloud_details(, "mcp")` for more info
        2.   └─mcp:::test_pp_eval(fit) at tests/testthat/helper-runs.R:113:6
        3.     └─testthat::expect_true(stringr::str_starts(error_message, expected_error_poisson)) at tests/testthat/helper-runs.R:293:6
       
-      [ FAIL 9 | WARN 1 | SKIP 6 | PASS 3617 ]
+      [ FAIL 7 | WARN 1 | SKIP 6 | PASS 3619 ]
       Error: Test failures
       Execution halted
     ```
 
-# modeltime
+# nomisr
 
 <details>
 
-* Version: 1.1.1
-* GitHub: https://github.com/business-science/modeltime
-* Source code: https://github.com/cran/modeltime
-* Date/Publication: 2022-01-12 16:22:42 UTC
-* Number of recursive dependencies: 238
+* Version: 0.4.4
+* GitHub: https://github.com/ropensci/nomisr
+* Source code: https://github.com/cran/nomisr
+* Date/Publication: 2021-01-23 17:20:02 UTC
+* Number of recursive dependencies: 87
 
-Run `cloud_details(, "modeltime")` for more info
+Run `cloud_details(, "nomisr")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking examples ... ERROR
+*   checking re-building of vignette outputs ... WARNING
     ```
-    Running examples in ‘modeltime-Ex.R’ failed
-    The error most likely occurred in:
+    Error(s) in re-building vignettes:
+      ...
+    --- re-building ‘Introduction-to-work-and-health-nomis-indicators.Rmd’ using rmarkdown
+    Quitting from lines 194-365 (Introduction-to-work-and-health-nomis-indicators.Rmd) 
+    Error: processing vignette 'Introduction-to-work-and-health-nomis-indicators.Rmd' failed with diagnostics:
+    `desc()` must be called with exactly one argument.
+    --- failed re-building ‘Introduction-to-work-and-health-nomis-indicators.Rmd’
     
-    > ### Name: window_reg
-    > ### Title: General Interface for Window Forecast Models
-    > ### Aliases: window_reg
-    > 
-    > ### ** Examples
-    > 
-    > library(dplyr)
-    ...
-     22. │ └─dplyr:::...elt2(i)
-     23. │   └─rlang::eval_bare(sym(paste0("..", i)), frame)
-     24. ├─rlang idx(dplyr::n())
-     25. ├─dplyr idx(dplyr::n())
-     26. │ └─rlang::seq2(n - size(n) + 1, n)
-     27. └─base::.handleSimpleError(...)
-     28.   └─dplyr h(simpleError(msg, call))
-     29.     └─rlang::abort(bullets, call = error_call, parent = cnd)
-    Timing stopped at: 0.266 0.003 0.269
+    --- re-building ‘introduction.Rmd’ using rmarkdown
+    --- finished re-building ‘introduction.Rmd’
+    
+    SUMMARY: processing the following file failed:
+      ‘Introduction-to-work-and-health-nomis-indicators.Rmd’
+    
+    Error: Vignette re-building failed.
     Execution halted
-    ```
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        8. ├─dplyr:::slice_tail.data.frame(., n = .length_actual)
-        9. │ ├─dplyr::slice(.data, idx(dplyr::n()))
-       10. │ └─dplyr:::slice.data.frame(.data, idx(dplyr::n()))
-       11. │   └─dplyr:::slice_rows(.data, ..., caller_env = caller_env(), error_call = current_env())
-       12. │     └─dplyr:::slice_combine(chunks, mask = mask, error_call = error_call)
-       13. │       ├─base::withCallingHandlers(...)
-       14. │       └─rlang::abort(bullets, call = NULL)
-       15. │         └─rlang:::signal_abort(cnd, .file)
-       16. │           └─base::signalCondition(cnd)
-       17. └─dplyr `<fn>`(`<rlng_rrr>`)
-       18.   └─rlang::abort(bullets, call = error_call, parent = cnd)
-      
-      [ FAIL 3 | WARN 2 | SKIP 22 | PASS 482 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-# NEONiso
-
-<details>
-
-* Version: 0.5.3
-* GitHub: https://github.com/SPATIAL-Lab/NEONiso
-* Source code: https://github.com/cran/NEONiso
-* Date/Publication: 2022-01-03 21:20:02 UTC
-* Number of recursive dependencies: 68
-
-Run `cloud_details(, "NEONiso")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        4. ├─dplyr:::slice_tail.data.frame(., n = 3)
-        5. │ ├─dplyr::slice(.data, idx(dplyr::n()))
-        6. │ └─dplyr:::slice.data.frame(.data, idx(dplyr::n()))
-        7. │   └─dplyr:::slice_rows(.data, ..., caller_env = caller_env(), error_call = current_env())
-        8. │     └─dplyr:::slice_combine(chunks, mask = mask, error_call = error_call)
-        9. │       ├─base::withCallingHandlers(...)
-       10. │       └─rlang::abort(bullets, call = NULL)
-       11. │         └─rlang:::signal_abort(cnd, .file)
-       12. │           └─base::signalCondition(cnd)
-       13. └─dplyr `<fn>`(`<rlng_rrr>`)
-       14.   └─rlang::abort(bullets, call = error_call, parent = cnd)
-      
-      [ FAIL 1 | WARN 0 | SKIP 0 | PASS 68 ]
-      Error: Test failures
-      Execution halted
     ```
 
 # photobiology
