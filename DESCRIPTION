@@ -73,5 +73,5 @@ Config/testthat/edition: 3
 Config/Needs/website:
     tidyverse,
     shiny,
-    r-lib/pkgdown,
+    pkgdown,
     tidyverse/tidytemplate
