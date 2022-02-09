@@ -10,6 +10,11 @@ test_that("rows_insert()", {
     rows_insert(data, tibble(a = 3, b = "z"), by = "a"),
     "insert duplicate"
   )
+
+  expect_error(
+    rows_insert(data, tibble()),
+    "at least 1 column"
+  )
 })
 
 test_that("rows_update()", {
@@ -30,6 +35,11 @@ test_that("rows_update()", {
       rows_update(data, tibble(b = "z", a = 2:3), by = "a"),
       tibble(a = 1:3, b = c("a", "z", "z"), c = data$c)
     )
+  )
+
+  expect_error(
+    rows_update(data, tibble()),
+    "at least 1 column"
   )
 })
 
@@ -52,6 +62,11 @@ test_that("rows_patch()", {
       tibble(a = 1:3, b = c("a", "b", "z"), c = data$c)
     )
   )
+
+  expect_error(
+    rows_patch(data, tibble()),
+    "at least 1 column"
+  )
 })
 
 test_that("rows_upsert()", {
@@ -60,6 +75,11 @@ test_that("rows_upsert()", {
   expect_identical(
     rows_upsert(data, tibble(a = 2:4, b = "z"), by = "a"),
     tibble(a = 1:4, b = c("a", "z", "z", "z"), c = c(data$c, NA))
+  )
+
+  expect_error(
+    rows_upsert(data, tibble()),
+    "at least 1 column"
   )
 })
 
@@ -82,6 +102,11 @@ test_that("rows_delete()", {
   expect_error(
     rows_delete(data, tibble(a = 2:3, b = "b"), by = c("a", "b")),
     "delete missing"
+  )
+
+  expect_error(
+    rows_delete(data, tibble()),
+    "at least 1 column"
   )
 })
 

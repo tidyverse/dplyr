@@ -213,6 +213,10 @@ rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 # helpers -----------------------------------------------------------------
 
 rows_check_key <- function(by, x, y, error_call = caller_env()) {
+  if (!length(y)) {
+    abort("`y` must have at least 1 column so a key variable can be set.", call = error_call)
+  }
+
   if (is.null(by)) {
     by <- names(y)[[1]]
     msg <- glue("Matching, by = \"{by}\"")
