@@ -13,7 +13,7 @@ test_that("`multiple` default behavior is correct", {
   expect_equal(out$x, c(1L, 1L, 2L, 2L))
   expect_equal(out$y, c(1L, 2L, 1L, 2L))
 
-  expect_warning(out <- join_rows(c(1, 1), c(1, 1), condition = NULL), NA)
+  expect_warning(out <- join_rows(c(1, 1), c(1, 1), cross = TRUE), NA)
   expect_equal(out$x, c(1L, 1L, 2L, 2L))
   expect_equal(out$y, c(1L, 2L, 1L, 2L))
 })

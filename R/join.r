@@ -459,8 +459,9 @@ nest_join.data.frame <- function(x,
   x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
   y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
 
-  condition <- standardise_join_condition(by)
+  condition <- by$condition
   filter <- by$filter
+  cross <- by$cross
 
   rows <- join_rows(
     x_key = x_key,
@@ -469,6 +470,7 @@ nest_join.data.frame <- function(x,
     na_matches = na_matches,
     condition = condition,
     filter = filter,
+    cross = cross,
     multiple = multiple,
     unmatched = unmatched
   )
@@ -520,8 +522,9 @@ join_mutate <- function(x,
   x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
   y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
 
-  condition <- standardise_join_condition(by)
+  condition <- by$condition
   filter <- by$filter
+  cross <- by$cross
 
   rows <- join_rows(
     x_key = x_key,
@@ -530,6 +533,7 @@ join_mutate <- function(x,
     na_matches = na_matches,
     condition = condition,
     filter = filter,
+    cross = cross,
     multiple = multiple,
     unmatched = unmatched
   )
@@ -586,8 +590,9 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
   x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
   y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
 
-  condition <- standardise_join_condition(by)
+  condition <- by$condition
   filter <- by$filter
+  cross <- by$cross
 
   # We only care about whether or not any matches exist
   multiple <- "any"
@@ -603,6 +608,7 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
     na_matches = na_matches,
     condition = condition,
     filter = filter,
+    cross = cross,
     multiple = multiple,
     unmatched = unmatched
   )
@@ -635,15 +641,4 @@ check_na_matches <- function(na_matches) {
 
 check_unmatched <- function(unmatched) {
   arg_match0(unmatched, values = c("drop", "error"), arg_nm = "unmatched")
-}
-
-standardise_join_condition <- function(by) {
-  condition <- by$condition
-
-  if (identical(condition, character())) {
-    # Cross join, `by = join_by()` or `by = character()`
-    condition <- NULL
-  }
-
-  condition
 }

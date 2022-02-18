@@ -4,14 +4,25 @@ join_rows <- function(x_key,
                       na_matches = "na",
                       condition = "==",
                       filter = "none",
+                      cross = FALSE,
                       multiple = NULL,
                       unmatched = "drop") {
   type <- arg_match(type)
 
+  if (cross) {
+    # Rather than matching on key values, match on a proxy where every x value
+    # matches every y value. This purposefully does not propagate missings, as
+    # missing values aren't considered in a cross-join.
+    x_key <- vec_rep(1L, times = vec_size(x_key))
+    y_key <- vec_rep(1L, times = vec_size(y_key))
+    condition <- "=="
+    filter <- "none"
+  }
+
   incomplete <- standardise_join_incomplete(type, na_matches, unmatched)
   no_match <- standardise_join_no_match(type, unmatched)
   remaining <- standardise_join_remaining(type, unmatched)
-  multiple <- standardise_multiple(multiple, condition, filter)
+  multiple <- standardise_multiple(multiple, condition, filter, cross)
 
   matches <- dplyr_locate_matches(
     needles = x_key,
@@ -201,13 +212,13 @@ standardise_join_remaining <- function(type, unmatched) {
   }
 }
 
-standardise_multiple <- function(multiple, condition, filter) {
+standardise_multiple <- function(multiple, condition, filter, cross) {
   if (!is_null(multiple)) {
     # User supplied value always wins
     return(multiple)
   }
 
-  if (is_null(condition)) {
+  if (cross) {
     # Cross join is special cased to never warn
     return("all")
   }

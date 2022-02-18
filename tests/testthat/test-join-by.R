@@ -8,6 +8,7 @@ test_that("works with equi conditions", {
   expect_identical(by$y, c("y", "b"))
   expect_identical(by$condition, c("==", "=="))
   expect_identical(by$filter, c("none", "none"))
+  expect_identical(by$cross, FALSE)
 })
 
 test_that("works with non-equi conditions", {
@@ -151,6 +152,7 @@ test_that("can join_by() nothing for a cross join", {
   by <- join_by()
   expect_identical(by$x, character())
   expect_identical(by$y, character())
+  expect_identical(by$cross, TRUE)
 })
 
 test_that("has an informative print method", {

@@ -228,10 +228,14 @@ join_by <- function(...) {
   filter <- flat_map_chr(bys, function(by) by$filter)
   condition <- flat_map_chr(bys, function(by) by$condition)
 
+  # Cross join for empty `join_by()` calls
+  cross <- n == 0L
+
   new_join_by(
     exprs = exprs,
     condition = condition,
     filter = filter,
+    cross = cross,
     x = x,
     y = y
   )
@@ -239,18 +243,25 @@ join_by <- function(...) {
 
 #' @export
 print.dplyr_join_by <- function(x, ...) {
-  out <- map_chr(x$exprs, expr_deparse)
-  out <- glue_collapse(glue("- {out}"), sep = "\n")
+  if (x$cross) {
+    out <- "- Cross"
+  } else {
+    out <- map_chr(x$exprs, expr_deparse)
+    out <- glue_collapse(glue("- {out}"), sep = "\n")
+  }
+
   cat("Join By:\n")
   cat(out)
+
   invisible(x)
 }
 
-new_join_by <- function(exprs, condition, filter, x, y) {
+new_join_by <- function(exprs, condition, filter, cross, x, y) {
   out <- list(
     exprs = exprs,
     condition = condition,
     filter = filter,
+    cross = cross,
     x = x,
     y = y
   )
@@ -298,14 +309,18 @@ as_join_by.list <- function(x) {
 }
 
 finalise_equi_join_by <- function(x_names, y_names) {
+  n <- length(x_names)
+
   exprs <- map2(x_names, y_names, function(x, y) expr(!!x == !!y))
-  condition <- vec_rep("==", times = length(x_names))
-  filter <- vec_rep("none", times = length(x_names))
+  condition <- vec_rep("==", times = n)
+  filter <- vec_rep("none", times = n)
+  cross <- n == 0L
 
   new_join_by(
     exprs = exprs,
     condition = condition,
     filter = filter,
+    cross = cross,
     x = x_names,
     y = y_names
   )
