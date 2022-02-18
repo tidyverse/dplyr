@@ -36,11 +36,11 @@ Imports:
     magrittr (>= 1.5),
     methods,
     R6,
-    rlang (>= 0.4.11.9001),
+    rlang (>= 1.0.1),
     tibble (>= 2.1.3),
     tidyselect (>= 1.1.1),
     utils,
-    vctrs (>= 0.3.5), 
+    vctrs (>= 0.3.8.9001), 
     pillar (>= 1.5.1)
 Suggests: 
     bench,
@@ -76,5 +76,4 @@ Config/Needs/website:
     r-lib/pkgdown,
     tidyverse/tidytemplate
 Remotes:
-    r-lib/rlang,
-    r-lib/vctrs#1472
+    r-lib/vctrs
