@@ -90,6 +90,40 @@ test_that("matching rows can be filtered", {
   expect_equal(out$y, c(3, 3))
 })
 
+test_that("missing values only match with `==`, `>=`, and `<=` conditions", {
+  out <- join_rows(NA, NA, condition = "==")
+  expect_identical(out$x, 1L)
+  expect_identical(out$y, 1L)
+
+  out <- join_rows(NA, NA, condition = ">=")
+  expect_identical(out$x, 1L)
+  expect_identical(out$y, 1L)
+
+  out <- join_rows(NA, NA, condition = "<=")
+  expect_identical(out$x, 1L)
+  expect_identical(out$y, 1L)
+
+  out <- join_rows(NA, NA, condition = ">")
+  expect_identical(out$x, integer())
+  expect_identical(out$y, integer())
+
+  out <- join_rows(NA, NA, condition = "<")
+  expect_identical(out$x, integer())
+  expect_identical(out$y, integer())
+
+
+  x <- tibble(x = c(1, 1), y = c(2, NA))
+  y <- tibble(x = c(1, 1), y = c(3, NA))
+
+  out <- join_rows(x, y, condition = c("==", "<="))
+  expect_identical(out$x, c(1L, 2L))
+  expect_identical(out$y, c(1L, 2L))
+
+  out <- join_rows(x, y, condition = c("==", "<"))
+  expect_identical(out$x, 1L)
+  expect_identical(out$y, 1L)
+})
+
 test_that("join_rows() doesn't error on unmatched rows if they won't be dropped", {
   # 2 is unmatched, but a left join means we always retain that key
   out <- join_rows(c(1, 2), 1, type = "left", unmatched = "error")

@@ -34,7 +34,7 @@ dplyr_locate_matches <- function(needles,
                                  ...,
                                  condition = "==",
                                  filter = "none",
-                                 incomplete = "match",
+                                 incomplete = "compare",
                                  no_match = NA_integer_,
                                  remaining = "drop",
                                  multiple = "all",
@@ -155,8 +155,8 @@ warn_dplyr <- function(message = NULL, class = NULL, ...) {
 
 standardise_join_incomplete <- function(type, na_matches, unmatched) {
   if (na_matches == "na") {
-    # Matching incomplete values overrides the other arguments
-    "match"
+    # Comparing missings in incomplete observations overrides the other arguments
+    "compare"
   } else if (unmatched == "error" && (type == "right" || type == "inner")) {
     # Ensure that `x` can't drop rows when `na_matches = "never"`
     "error"
