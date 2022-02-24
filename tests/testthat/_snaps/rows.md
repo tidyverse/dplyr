@@ -37,6 +37,25 @@
       Error in `rows_update()`:
       ! `y` key values must be unique.
 
+# rows_patch() requires `y` keys to exist in `x`
+
+    Code
+      (expect_error(rows_patch(x, y, "a")))
+    Output
+      <error/rlang_error>
+      Error in `rows_patch()`:
+      ! Can't patch with `y` keys that don't exist in `x`.
+      i The following rows in `y` have keys that don't exist in `x`: 1 and 3.
+
+# rows_patch() doesn't allow `y` keys to be duplicated (#5553)
+
+    Code
+      (expect_error(rows_patch(x, y, by = "a")))
+    Output
+      <error/rlang_error>
+      Error in `rows_patch()`:
+      ! `y` key values must be unique.
+
 # rows_delete()
 
     Code
@@ -127,12 +146,6 @@
 
     Code
       data <- tibble(a = 1:3, b = letters[c(1:2, NA)], c = 0.5 + 0:2)
-      (expect_error(rows_patch(data, tibble(a = 2:3, b = "z"), by = c("a", "b"))))
-    Output
-      <error/rlang_error>
-      Error in `rows_patch()`:
-      ! Can't patch missing row.
-    Code
       (expect_error(rows_delete(data, tibble(a = 2:4))))
     Message
       Matching, by = "a"

@@ -154,17 +154,8 @@ rows_update.data.frame <- function(x,
   y_loc <- loc[match]
   x_loc <- which(match)
 
-  y_unmatched <- setdiff(vec_seq_along(y_key), y_loc)
-  if (!is_empty(y_unmatched)) {
-    y_unmatched <- err_vars(y_unmatched)
-
-    message <- c(
-      "Can't update with `y` keys that don't exist in `x`.",
-      i = glue("The following rows in `y` have keys that don't exist in `x`: {y_unmatched}.")
-    )
-
-    abort(message)
-  }
+  y_size <- vec_size(y_key)
+  rows_check_y_unmatched(y_loc, y_size, "update")
 
   x[x_loc, names(y)] <- dplyr_row_slice(y, y_loc)
 
@@ -173,30 +164,51 @@ rows_update.data.frame <- function(x,
 
 #' @rdname rows
 #' @export
-rows_patch <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+rows_patch <- function(x,
+                       y,
+                       by = NULL,
+                       ...,
+                       copy = FALSE,
+                       in_place = FALSE) {
   lifecycle::signal_stage("experimental", "rows_patch()")
   UseMethod("rows_patch", x)
 }
 
 #' @export
-rows_patch.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+rows_patch.data.frame <- function(x,
+                                  y,
+                                  by = NULL,
+                                  ...,
+                                  copy = FALSE,
+                                  in_place = FALSE) {
   check_dots_empty()
-  key <- rows_check_key(by, x, y)
-  y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
 
-  rows_check_key_df(x, key, df_name = "x")
-  rows_check_key_df(y, key, df_name = "y")
-  idx <- vctrs::vec_match(y[key], x[key])
+  y <- auto_copy(x, y, copy = copy)
 
-  bad <- which(is.na(idx))
-  if (has_length(bad)) {
-    abort("Can't patch missing row.")
-  }
+  rows_check_containment(x, y)
 
-  new_data <- map2(x[idx, names(y)], y, coalesce)
+  by <- rows_check_by(by, y)
 
-  x[idx, names(y)] <- new_data
+  x_key <- rows_select_key(x, by, "x")
+  y_key <- rows_select_key(y, by, "y", unique = TRUE)
+
+  loc <- vec_match(x_key, y_key)
+  match <- !is.na(loc)
+
+  y_loc <- loc[match]
+  x_loc <- which(match)
+
+  y_size <- vec_size(y_key)
+  rows_check_y_unmatched(y_loc, y_size, "patch")
+
+  x_slice <- x[x_loc, names(y)]
+  y_slice <- dplyr_row_slice(y, y_loc)
+
+  x_patched <- map2(x_slice, y_slice, coalesce)
+
+  x[x_loc, names(y)] <- x_patched
+
   x
 }
 
@@ -337,6 +349,29 @@ rows_select_key <- function(x,
   }
 
   out
+}
+
+rows_check_y_unmatched <- function(loc,
+                                   size,
+                                   verb,
+                                   ...,
+                                   error_call = caller_env()) {
+  check_dots_empty()
+
+  unmatched <- setdiff(seq_len(size), loc)
+
+  if (is_empty(unmatched)) {
+    return(invisible())
+  }
+
+  unmatched <- err_vars(unmatched)
+
+  message <- c(
+    glue("Can't {verb} with `y` keys that don't exist in `x`."),
+    i = glue("The following rows in `y` have keys that don't exist in `x`: {unmatched}.")
+  )
+
+  abort(message, call = error_call)
 }
 
 rows_check_key <- function(by, x, y, error_call = caller_env()) {
