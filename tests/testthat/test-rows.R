@@ -48,17 +48,12 @@ test_that("rows_insert() allows `y` keys to be duplicated (#5553)", {
 
 # ------------------------------------------------------------------------------
 
-test_that("rows_update()", {
+test_that("rows_update() works", {
   data <- tibble(a = 1:3, b = letters[c(1:2, NA)], c = 0.5 + 0:2)
 
   expect_identical(
     rows_update(data, tibble(a = 2:3, b = "z"), by = "a"),
     tibble(a = 1:3, b = c("a", "z", "z"), c = data$c)
-  )
-
-  expect_error(
-    rows_update(data, tibble(a = 2:3, b = "z"), by = c("a", "b")),
-    "update missing"
   )
 
   expect_silent(
@@ -68,6 +63,32 @@ test_that("rows_update()", {
     )
   )
 })
+
+test_that("rows_update() requires `y` keys to exist in `x`", {
+  x <- tibble(a = 1, b = 2)
+  y <- tibble(a = c(2, 1, 3), b = c(1, 1, 1))
+
+  expect_snapshot((expect_error(rows_update(x, y, "a"))))
+})
+
+test_that("rows_update() allows `x` keys to be duplicated (#5553)", {
+  x <- tibble(a = c(1, 2, 1, 3), b = c(2, 3, 4, 5), c = letters[1:4])
+  y <- tibble(a = c(1, 3), b = c(99, 88))
+
+  expect_identical(
+    rows_update(x, y, by = "a"),
+    tibble(a = c(1, 2, 1, 3), b = c(99, 3, 99, 88), c = letters[1:4])
+  )
+})
+
+test_that("rows_update() doesn't allow `y` keys to be duplicated (#5553)", {
+  x <- tibble(a = 2, b = 4)
+  y <- tibble(a = c(1, 1), b = c(2, 3))
+
+  expect_snapshot((expect_error(rows_update(x, y, by = "a"))))
+})
+
+# ------------------------------------------------------------------------------
 
 test_that("rows_patch()", {
   data <- tibble(a = 1:3, b = letters[c(1:2, NA)], c = 0.5 + 0:2)
@@ -189,11 +210,6 @@ test_that("rows_select_key() optionally requires uniqueness", {
 test_that("rows_*() errors", {
   expect_snapshot({
     data <- tibble(a = 1:3, b = letters[c(1:2, NA)], c = 0.5 + 0:2)
-
-    # Update
-    (expect_error(
-                    rows_update(data, tibble(a = 2:3, b = "z"), by = c("a", "b"))
-    ))
 
     # Variants: patch
     (expect_error(

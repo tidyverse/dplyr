@@ -18,6 +18,25 @@
       ! Can't insert rows with keys that already exist in `x`.
       i The following rows in `y` have keys that already exist in `x`: 1, 2, and 3.
 
+# rows_update() requires `y` keys to exist in `x`
+
+    Code
+      (expect_error(rows_update(x, y, "a")))
+    Output
+      <error/rlang_error>
+      Error in `rows_update()`:
+      ! Can't update with `y` keys that don't exist in `x`.
+      i The following rows in `y` have keys that don't exist in `x`: 1 and 3.
+
+# rows_update() doesn't allow `y` keys to be duplicated (#5553)
+
+    Code
+      (expect_error(rows_update(x, y, by = "a")))
+    Output
+      <error/rlang_error>
+      Error in `rows_update()`:
+      ! `y` key values must be unique.
+
 # rows_delete()
 
     Code
@@ -108,12 +127,6 @@
 
     Code
       data <- tibble(a = 1:3, b = letters[c(1:2, NA)], c = 0.5 + 0:2)
-      (expect_error(rows_update(data, tibble(a = 2:3, b = "z"), by = c("a", "b"))))
-    Output
-      <error/rlang_error>
-      Error in `rows_update()`:
-      ! Attempting to update missing rows.
-    Code
       (expect_error(rows_patch(data, tibble(a = 2:3, b = "z"), by = c("a", "b"))))
     Output
       <error/rlang_error>

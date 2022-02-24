@@ -119,28 +119,55 @@ rows_insert.data.frame <- function(x,
 
 #' @rdname rows
 #' @export
-rows_update <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+rows_update <- function(x,
+                        y,
+                        by = NULL,
+                        ...,
+                        copy = FALSE,
+                        in_place = FALSE) {
   lifecycle::signal_stage("experimental", "rows_update()")
   UseMethod("rows_update", x)
 }
 
 #' @export
-rows_update.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+rows_update.data.frame <- function(x,
+                                   y,
+                                   by = NULL,
+                                   ...,
+                                   copy = FALSE,
+                                   in_place = FALSE) {
   check_dots_empty()
-  key <- rows_check_key(by, x, y)
-  y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
 
-  rows_check_key_df(x, key, df_name = "x")
-  rows_check_key_df(y, key, df_name = "y")
-  idx <- vctrs::vec_match(y[key], x[key])
+  y <- auto_copy(x, y, copy = copy)
 
-  bad <- which(is.na(idx))
-  if (has_length(bad)) {
-    abort("Attempting to update missing rows.")
+  rows_check_containment(x, y)
+
+  by <- rows_check_by(by, y)
+
+  x_key <- rows_select_key(x, by, "x")
+  y_key <- rows_select_key(y, by, "y", unique = TRUE)
+
+  loc <- vec_match(x_key, y_key)
+  match <- !is.na(loc)
+
+  y_loc <- loc[match]
+  x_loc <- which(match)
+
+  y_unmatched <- setdiff(vec_seq_along(y_key), y_loc)
+  if (!is_empty(y_unmatched)) {
+    y_unmatched <- err_vars(y_unmatched)
+
+    message <- c(
+      "Can't update with `y` keys that don't exist in `x`.",
+      i = glue("The following rows in `y` have keys that don't exist in `x`: {y_unmatched}.")
+    )
+
+    abort(message)
   }
 
-  x[idx, names(y)] <- y
+  x[x_loc, names(y)] <- dplyr_row_slice(y, y_loc)
+
   x
 }
 
