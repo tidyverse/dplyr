@@ -160,25 +160,56 @@ test_that("rows_upsert() doesn't allow `y` keys to be duplicated (#5553)", {
 
 # ------------------------------------------------------------------------------
 
-test_that("rows_delete()", {
+test_that("rows_delete() works", {
   data <- tibble(a = 1:3, b = letters[c(1:2, NA)], c = 0.5 + 0:2)
 
   expect_identical(
     rows_delete(data, tibble(a = 2:3), by = "a"),
     data[1, ]
   )
+})
 
-  expect_error(
-    rows_delete(data, tibble(a = 2:4), by = "a"),
-    "delete missing"
+test_that("rows_delete() ignores extra `y` columns, with a message", {
+  x <- tibble(a = 1)
+  y <- tibble(a = 1, b = 2)
+
+  expect_snapshot({
+    out <- rows_delete(x, y)
+  })
+
+  expect_identical(out, x[0,])
+
+  expect_snapshot({
+    out <- rows_delete(x, y, by = "a")
+  })
+
+  expect_identical(out, x[0,])
+})
+
+test_that("rows_delete() requires `y` keys to exist in `x`", {
+  x <- tibble(a = 1, b = 2)
+  y <- tibble(a = c(2, 1, 3), b = c(1, 1, 1))
+
+  expect_snapshot((expect_error(rows_delete(x, y, "a"))))
+})
+
+test_that("rows_delete() allows `x` keys to be duplicated (#5553)", {
+  x <- tibble(a = c(1, 2, 1, 3), b = c(NA, 3, 4, NA), c = letters[1:4])
+  y <- tibble(a = c(1, 3))
+
+  expect_identical(
+    rows_delete(x, y, by = "a"),
+    x[2,]
   )
+})
 
-  expect_snapshot(res <- rows_delete(data, tibble(a = 2:3, b = "b"), by = "a"))
-  expect_identical(res, data[1, ])
+test_that("rows_delete() allows `y` keys to be duplicated (#5553)", {
+  x <- tibble(a = c(1, 2, 3), b = c(4, 5, 6))
+  y <- tibble(a = c(1, 1))
 
-  expect_error(
-    rows_delete(data, tibble(a = 2:3, b = "b"), by = c("a", "b")),
-    "delete missing"
+  expect_identical(
+    rows_delete(x, y, by = "a"),
+    x[c(2, 3),]
   )
 })
 
@@ -245,23 +276,4 @@ test_that("rows_select_key() optionally requires uniqueness", {
     (expect_error(rows_select_key(x, "x", arg = "x", unique = TRUE)))
     (expect_error(rows_select_key(x, c("x", "y"), arg = "y", unique = TRUE)))
   })
-})
-
-test_that("rows_*() errors", {
-  expect_snapshot({
-    data <- tibble(a = 1:3, b = letters[c(1:2, NA)], c = 0.5 + 0:2)
-
-    # Delete and truncate
-    (expect_error(
-                    rows_delete(data, tibble(a = 2:4))
-    ))
-    (expect_error(
-                    rows_delete(data, tibble(a = 2:3, b = "b"), by = c("a", "b"))
-    ))
-    rows_delete(data, tibble(a = 2:3))
-    rows_delete(data, tibble(a = 2:3, b = "b"))
-
-  })
-
-
 })

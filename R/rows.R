@@ -261,35 +261,51 @@ rows_upsert.data.frame <- function(x,
 
 #' @rdname rows
 #' @export
-rows_delete <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+rows_delete <- function(x,
+                        y,
+                        by = NULL,
+                        ...,
+                        copy = FALSE,
+                        in_place = FALSE) {
   lifecycle::signal_stage("experimental", "rows_delete()")
   UseMethod("rows_delete", x)
 }
 
 #' @export
-rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+rows_delete.data.frame <- function(x,
+                                   y,
+                                   by = NULL,
+                                   ...,
+                                   copy = FALSE,
+                                   in_place = FALSE) {
   check_dots_empty()
-  key <- rows_check_key(by, x, y)
-  y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
 
-  rows_check_key_df(x, key, df_name = "x")
-  rows_check_key_df(y, key, df_name = "y")
+  y <- auto_copy(x, y, copy = copy)
 
-  extra_cols <- setdiff(names(y), key)
-  if (has_length(extra_cols)) {
-    bullets <- glue("Ignoring extra columns: ", commas(tick_if_needed(extra_cols)))
-    inform(bullets, class = c("dplyr_message_delete_extra_cols", "dplyr_message"))
+  by <- rows_check_by(by, y)
+
+  x_key <- rows_select_key(x, by, "x")
+  y_key <- rows_select_key(y, by, "y")
+
+  extra <- setdiff(names(y), names(y_key))
+  if (!is_empty(extra)) {
+    message <- glue("Ignoring extra `y` columns: ", commas(tick_if_needed(extra)))
+    inform(message, class = c("dplyr_message_delete_extra_cols", "dplyr_message"))
   }
 
-  idx <- vctrs::vec_match(y[key], x[key])
+  loc <- vec_match(x_key, y_key)
+  match <- !is.na(loc)
 
-  bad <- which(is.na(idx))
-  if (has_length(bad)) {
-    abort("Can't delete missing row.")
-  }
+  x_loc <- which(match)
 
-  dplyr_row_slice(x, -idx)
+  # Have to use `vec_in()` to see if any keys in `y` are unmatched because `y`
+  # may have duplicate keys, which the `vec_match()` call above won't pick up
+  y_loc <- which(vec_in(y_key, x_key))
+  y_size <- vec_size(y_key)
+  rows_check_y_unmatched(y_loc, y_size, "delete")
+
+  dplyr_row_slice(x, -x_loc)
 }
 
 # helpers -----------------------------------------------------------------

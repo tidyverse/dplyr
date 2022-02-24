@@ -65,12 +65,32 @@
       Error in `rows_upsert()`:
       ! `y` key values must be unique.
 
-# rows_delete()
+# rows_delete() ignores extra `y` columns, with a message
 
     Code
-      res <- rows_delete(data, tibble(a = 2:3, b = "b"), by = "a")
+      out <- rows_delete(x, y)
     Message
-      Ignoring extra columns: b
+      Matching, by = "a"
+      Ignoring extra `y` columns: b
+
+---
+
+    Code
+      out <- rows_delete(x, y, by = "a")
+    Message
+      Ignoring extra `y` columns: b
+
+# rows_delete() requires `y` keys to exist in `x`
+
+    Code
+      (expect_error(rows_delete(x, y, "a")))
+    Message
+      Ignoring extra `y` columns: b
+    Output
+      <error/rlang_error>
+      Error in `rows_delete()`:
+      ! Can't delete with `y` keys that don't exist in `x`.
+      i The following rows in `y` have keys that don't exist in `x`: 1 and 3.
 
 # rows_check_containment() checks that `y` columns are in `x`
 
@@ -150,41 +170,4 @@
       <error/rlang_error>
       Error:
       ! `y` key values must be unique.
-
-# rows_*() errors
-
-    Code
-      data <- tibble(a = 1:3, b = letters[c(1:2, NA)], c = 0.5 + 0:2)
-      (expect_error(rows_delete(data, tibble(a = 2:4))))
-    Message
-      Matching, by = "a"
-    Output
-      <error/rlang_error>
-      Error in `rows_delete()`:
-      ! Can't delete missing row.
-    Code
-      (expect_error(rows_delete(data, tibble(a = 2:3, b = "b"), by = c("a", "b"))))
-    Output
-      <error/rlang_error>
-      Error in `rows_delete()`:
-      ! Can't delete missing row.
-    Code
-      rows_delete(data, tibble(a = 2:3))
-    Message
-      Matching, by = "a"
-    Output
-      # A tibble: 1 x 3
-            a b         c
-        <int> <chr> <dbl>
-      1     1 a       0.5
-    Code
-      rows_delete(data, tibble(a = 2:3, b = "b"))
-    Message
-      Matching, by = "a"
-      Ignoring extra columns: b
-    Output
-      # A tibble: 1 x 3
-            a b         c
-        <int> <chr> <dbl>
-      1     1 a       0.5
 
