@@ -250,7 +250,7 @@ rows_upsert.data.frame <- function(x,
   x_loc <- which(match)
 
   y_size <- vec_size(y_key)
-  y_extra <- setdiff(seq_len(y_size), y_loc)
+  y_extra <- vec_as_location_invert(y_loc, y_size)
   y_extra <- dplyr_row_slice(y, y_extra)
 
   x[x_loc, names(y)] <- dplyr_row_slice(y, y_loc)
@@ -297,7 +297,9 @@ rows_delete.data.frame <- function(x,
   loc <- vec_match(x_key, y_key)
   match <- !is.na(loc)
 
+  x_size <- vec_size(x_key)
   x_loc <- which(match)
+  x_loc <- vec_as_location_invert(x_loc, x_size)
 
   # Have to use `vec_in()` to see if any keys in `y` are unmatched because `y`
   # may have duplicate keys, which the `vec_match()` call above won't pick up
@@ -305,7 +307,7 @@ rows_delete.data.frame <- function(x,
   y_size <- vec_size(y_key)
   rows_check_y_unmatched(y_loc, y_size, "delete")
 
-  dplyr_row_slice(x, -x_loc)
+  dplyr_row_slice(x, x_loc)
 }
 
 # helpers -----------------------------------------------------------------
@@ -396,7 +398,7 @@ rows_check_y_unmatched <- function(loc,
                                    error_call = caller_env()) {
   check_dots_empty()
 
-  unmatched <- setdiff(seq_len(size), loc)
+  unmatched <- vec_as_location_invert(loc, size)
 
   if (is_empty(unmatched)) {
     return(invisible())
@@ -421,4 +423,12 @@ rows_df_in_place <- function(in_place, error_call = caller_env()) {
 
 rows_bind <- function(x, y) {
   dplyr_reconstruct(vctrs::vec_rbind(x, y), x)
+}
+
+vec_as_location_invert <- function(i, n) {
+  if (is_empty(i)) {
+    seq_len(n)
+  } else {
+    vec_as_location(-i, n)
+  }
 }
