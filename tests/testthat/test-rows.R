@@ -132,7 +132,7 @@ test_that("rows_patch() doesn't allow `y` keys to be duplicated (#5553)", {
 
 # ------------------------------------------------------------------------------
 
-test_that("rows_upsert()", {
+test_that("rows_upsert() works", {
   data <- tibble(a = 1:3, b = letters[c(1:2, NA)], c = 0.5 + 0:2)
 
   expect_identical(
@@ -140,6 +140,25 @@ test_that("rows_upsert()", {
     tibble(a = 1:4, b = c("a", "z", "z", "z"), c = c(data$c, NA))
   )
 })
+
+test_that("rows_upsert() allows `x` keys to be duplicated (#5553)", {
+  x <- tibble(a = c(1, 2, 1, 3), b = c(NA, 3, 4, NA), c = letters[1:4])
+  y <- tibble(a = c(1, 3, 4), b = c(99, 88, 100))
+
+  expect_identical(
+    rows_upsert(x, y, by = "a"),
+    tibble(a = c(1, 2, 1, 3, 4), b = c(99, 3, 99, 88, 100), c = c(letters[1:4], NA))
+  )
+})
+
+test_that("rows_upsert() doesn't allow `y` keys to be duplicated (#5553)", {
+  x <- tibble(a = 2, b = 4)
+  y <- tibble(a = c(1, 1), b = c(2, 3))
+
+  expect_snapshot((expect_error(rows_upsert(x, y, by = "a"))))
+})
+
+# ------------------------------------------------------------------------------
 
 test_that("rows_delete()", {
   data <- tibble(a = 1:3, b = letters[c(1:2, NA)], c = 0.5 + 0:2)

@@ -214,27 +214,49 @@ rows_patch.data.frame <- function(x,
 
 #' @rdname rows
 #' @export
-rows_upsert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+rows_upsert <- function(x,
+                        y,
+                        by = NULL,
+                        ...,
+                        copy = FALSE,
+                        in_place = FALSE) {
   lifecycle::signal_stage("experimental", "rows_upsert()")
   UseMethod("rows_upsert", x)
 }
 
 #' @export
-rows_upsert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+rows_upsert.data.frame <- function(x,
+                                   y,
+                                   by = NULL,
+                                   ...,
+                                   copy = FALSE,
+                                   in_place = FALSE) {
   check_dots_empty()
-  key <- rows_check_key(by, x, y)
-  y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
 
-  rows_check_key_df(x, key, df_name = "x")
-  rows_check_key_df(y, key, df_name = "y")
-  idx <- vctrs::vec_match(y[key], x[key])
-  new <- is.na(idx)
-  idx_existing <- idx[!new]
-  idx_new <- idx[new]
+  y <- auto_copy(x, y, copy = copy)
 
-  x[idx_existing, names(y)] <- vec_slice(y, !new)
-  rows_bind(x, vec_slice(y, new))
+  rows_check_containment(x, y)
+
+  by <- rows_check_by(by, y)
+
+  x_key <- rows_select_key(x, by, "x")
+  y_key <- rows_select_key(y, by, "y", unique = TRUE)
+
+  loc <- vec_match(x_key, y_key)
+  match <- !is.na(loc)
+
+  y_loc <- loc[match]
+  x_loc <- which(match)
+
+  y_size <- vec_size(y_key)
+  y_extra <- setdiff(seq_len(y_size), y_loc)
+  y_extra <- dplyr_row_slice(y, y_extra)
+
+  x[x_loc, names(y)] <- dplyr_row_slice(y, y_loc)
+  x <- rows_bind(x, y_extra)
+
+  x
 }
 
 #' @rdname rows

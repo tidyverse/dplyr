@@ -56,6 +56,15 @@
       Error in `rows_patch()`:
       ! `y` key values must be unique.
 
+# rows_upsert() doesn't allow `y` keys to be duplicated (#5553)
+
+    Code
+      (expect_error(rows_upsert(x, y, by = "a")))
+    Output
+      <error/rlang_error>
+      Error in `rows_upsert()`:
+      ! `y` key values must be unique.
+
 # rows_delete()
 
     Code
