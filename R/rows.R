@@ -72,25 +72,46 @@ NULL
 
 #' @rdname rows
 #' @export
-rows_insert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+rows_insert <- function(x,
+                        y,
+                        by = NULL,
+                        ...,
+                        copy = FALSE,
+                        in_place = FALSE) {
   lifecycle::signal_stage("experimental", "rows_insert()")
   UseMethod("rows_insert")
 }
 
 #' @export
-rows_insert.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
+rows_insert.data.frame <- function(x,
+                                   y,
+                                   by = NULL,
+                                   ...,
+                                   copy = FALSE,
+                                   in_place = FALSE) {
   check_dots_empty()
-  key <- rows_check_key(by, x, y)
-  y <- auto_copy(x, y, copy = copy)
   rows_df_in_place(in_place)
 
-  rows_check_key_df(x, key, df_name = "x")
-  rows_check_key_df(y, key, df_name = "y")
+  y <- auto_copy(x, y, copy = copy)
 
-  idx <- vctrs::vec_match(y[key], x[key])
-  bad <- which(!is.na(idx))
-  if (has_length(bad)) {
-    abort("Attempting to insert duplicate rows.")
+  rows_check_containment(x, y)
+
+  by <- rows_check_by(by, y)
+
+  x_key <- rows_select_key(x, by, "x")
+  y_key <- rows_select_key(y, by, "y")
+
+  y_in_x <- vec_in(y_key, x_key)
+
+  if (any(y_in_x)) {
+    y_in_x <- err_vars(y_in_x)
+
+    message <- c(
+      "Can't insert rows with keys that already exist in `x`.",
+      i = glue("The following rows in `y` have keys that already exist in `x`: {y_in_x}.")
+    )
+
+    abort(message)
   }
 
   rows_bind(x, y)
@@ -211,6 +232,85 @@ rows_delete.data.frame <- function(x, y, by = NULL, ..., copy = FALSE, in_place 
 }
 
 # helpers -----------------------------------------------------------------
+
+rows_check_by <- function(by, y, ..., error_call = caller_env()) {
+  check_dots_empty()
+
+  if (is.null(by)) {
+    if (ncol(y) == 0L) {
+      abort("`y` must have at least one column to use as a key.")
+    }
+
+    by <- names(y)[[1]]
+
+    inform(
+      message = glue("Matching, by = \"{by}\""),
+      class = c("dplyr_message_matching_by", "dplyr_message")
+    )
+  }
+
+  if (!is.character(by)) {
+    abort("`by` must be a character vector.", call = error_call)
+  }
+  if (is_empty(by)) {
+    abort("Must specify at least 1 column in `by`.", call = error_call)
+  }
+  if (!all(names2(by) == "")) {
+    abort("`by` must be unnamed.", call = error_call)
+  }
+
+  by
+}
+
+rows_check_containment <- function(x, y, ..., error_call = caller_env()) {
+  check_dots_empty()
+
+  bad <- setdiff(names(y), names(x))
+
+  if (!is_empty(bad)) {
+    bad <- err_vars(bad)
+
+    message <- c(
+      "All columns in `y` must exist in `x`.",
+      i = glue("The following columns only exist in `y`: {bad}.")
+    )
+
+    abort(message, call = error_call)
+  }
+
+  invisible()
+}
+
+rows_select_key <- function(x,
+                            by,
+                            arg,
+                            ...,
+                            unique = FALSE,
+                            error_call = caller_env()) {
+  check_dots_empty()
+
+  missing <- setdiff(by, names(x))
+
+  if (!is_empty(missing)) {
+    missing <- err_vars(missing)
+
+    message <- c(
+      glue("All `by` columns must exist in `{arg}`."),
+      i = glue("The following columns are missing from `{arg}`: {missing}.")
+    )
+
+    abort(message, call = error_call)
+  }
+
+  out <- x[by]
+
+  if (unique && vec_duplicate_any(out)) {
+    message <- glue("`{arg}` key values must be unique.")
+    abort(message, call = error_call)
+  }
+
+  out
+}
 
 rows_check_key <- function(by, x, y, error_call = caller_env()) {
   if (is.null(by)) {
