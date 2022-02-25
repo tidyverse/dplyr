@@ -317,7 +317,7 @@ rows_check_by <- function(by, y, ..., error_call = caller_env()) {
 
   if (is.null(by)) {
     if (ncol(y) == 0L) {
-      abort("`y` must have at least one column to use as a key.")
+      abort("`y` must have at least one column to use as a key.", call = error_call)
     }
 
     by <- names(y)[[1]]

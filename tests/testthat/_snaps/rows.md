@@ -108,7 +108,7 @@
       (expect_error(rows_check_by(by = NULL, y = y)))
     Output
       <error/rlang_error>
-      Error in `rows_check_by()`:
+      Error:
       ! `y` must have at least one column to use as a key.
 
 # rows_check_by() uses the first column from `y` by default, with a message
