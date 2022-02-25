@@ -157,7 +157,9 @@ rows_update.data.frame <- function(x,
   y_size <- vec_size(y_key)
   rows_check_y_unmatched(y_loc, y_size, "update")
 
-  x[x_loc, names(y)] <- dplyr_row_slice(y, y_loc)
+  values_cols <- setdiff(names(y), names(y_key))
+
+  x[x_loc, values_cols] <- y[y_loc, values_cols]
 
   x
 }
@@ -202,12 +204,14 @@ rows_patch.data.frame <- function(x,
   y_size <- vec_size(y_key)
   rows_check_y_unmatched(y_loc, y_size, "patch")
 
-  x_slice <- x[x_loc, names(y)]
-  y_slice <- dplyr_row_slice(y, y_loc)
+  values_cols <- setdiff(names(y), names(y_key))
 
-  x_patched <- map2(x_slice, y_slice, coalesce)
+  x_values <- x[x_loc, values_cols]
+  y_values <- y[y_loc, values_cols]
 
-  x[x_loc, names(y)] <- x_patched
+  x_patched <- map2(x_values, y_values, coalesce)
+
+  x[x_loc, values_cols] <- x_patched
 
   x
 }
@@ -253,7 +257,9 @@ rows_upsert.data.frame <- function(x,
   y_extra <- vec_as_location_invert(y_loc, y_size)
   y_extra <- dplyr_row_slice(y, y_extra)
 
-  x[x_loc, names(y)] <- dplyr_row_slice(y, y_loc)
+  values_cols <- setdiff(names(y), names(y_key))
+
+  x[x_loc, values_cols] <- y[y_loc, values_cols]
   x <- rows_bind(x, y_extra)
 
   x
