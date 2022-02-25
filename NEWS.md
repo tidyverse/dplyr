@@ -1,5 +1,19 @@
 # dplyr (development version)
 
+* The `rows_*()` functions no longer require that the key values in `x` uniquely
+  identify each row. Additionally, `rows_insert()` and `rows_delete()` no
+  longer require that the key values in `y` uniquely identify each row. Relaxing
+  this restriction should make these functions more practically useful for
+  data frames, and alternative backends can enforce this in other ways as needed
+  (i.e. through primary keys) (#5553).
+  
+* The `rows_*()` functions now fail elegantly if `y` is a zero column data frame
+  and `by` isn't specified (#6179).
+
+* `rows_delete()` no longer requires that the columns of `y` be a strict subset
+  of `x`. Only the columns specified through `by` will be utilized from `y`,
+  all others will be dropped with a message.
+
 # dplyr 1.0.8
 
 * Better display of error messages thanks to rlang 1.0.0.
