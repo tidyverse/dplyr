@@ -3,29 +3,29 @@
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
-#' These functions provide a framework for modifying rows in a table using
-#' a second table of data. The two tables are matched `by` a set of key
-#' variables whose values must uniquely identify each row. The functions are
-#' inspired by SQL's `INSERT`, `UPDATE`, and `DELETE`, and can optionally
-#' modify `in_place` for selected backends.
+#' These functions provide a framework for modifying rows in a table using a
+#' second table of data. The two tables are matched `by` a set of key variables
+#' whose values typically uniquely identify each row. The functions are inspired
+#' by SQL's `INSERT`, `UPDATE`, and `DELETE`, and can optionally modify
+#' `in_place` for selected backends.
 #'
-#' * `rows_insert()` adds new rows (like `INSERT`); key values in `y` must
+#' * `rows_insert()` adds new rows (like `INSERT`). Key values in `y` must
 #'    not occur in `x`.
-#' * `rows_update()` modifies existing rows (like `UPDATE`); key values in
-#'   `y` must occur in `x`.
+#' * `rows_update()` modifies existing rows (like `UPDATE`). Key values in
+#'   `y` must occur in `x`, and key values in `y` must be unique.
 #' * `rows_patch()` works like `rows_update()` but only overwrites `NA` values.
 #' * `rows_upsert()` inserts or updates depending on whether or not the
-#'   key value in `y` already exists in `x`.
-#' * `rows_delete()` deletes rows (like `DELETE`); key values in `y` must
+#'   key value in `y` already exists in `x`. Key values in `y` must be unique.
+#' * `rows_delete()` deletes rows (like `DELETE`). Key values in `y` must
 #'   exist in `x`.
 #'
 #' @inheritParams left_join
 #' @param x,y A pair of data frames or data frame extensions (e.g. a tibble).
 #'   `y` must have the same columns of `x` or a subset.
-#' @param by An unnamed character vector giving the key columns. The key
-#'   values must uniquely identify each row (i.e. each combination of key
-#'   values occurs at most once), and the key columns must exist in both `x`
-#'   and `y`.
+#' @param by An unnamed character vector giving the key columns. The key columns
+#'   must exist in both `x` and `y`. Keys typically uniquely identify each row,
+#'   but this is only enforced for the key values of `y` when `rows_update()`,
+#'   `rows_patch()`, or `rows_upsert()` are used.
 #'
 #'   By default, we use the first column in `y`, since the first column is
 #'   a reasonable place to put an identifier variable.

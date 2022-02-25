@@ -23,10 +23,10 @@ rows_delete(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE)
 \item{x, y}{A pair of data frames or data frame extensions (e.g. a tibble).
 \code{y} must have the same columns of \code{x} or a subset.}
 
-\item{by}{An unnamed character vector giving the key columns. The key
-values must uniquely identify each row (i.e. each combination of key
-values occurs at most once), and the key columns must exist in both \code{x}
-and \code{y}.
+\item{by}{An unnamed character vector giving the key columns. The key columns
+must exist in both \code{x} and \code{y}. Keys typically uniquely identify each row,
+but this is only enforced for the key values of \code{y} when \code{rows_update()},
+\code{rows_patch()}, or \code{rows_upsert()} are used.
 
 By default, we use the first column in \code{y}, since the first column is
 a reasonable place to put an identifier variable.}
@@ -61,20 +61,20 @@ If \code{in_place = TRUE}, the result will be returned invisibly.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-These functions provide a framework for modifying rows in a table using
-a second table of data. The two tables are matched \code{by} a set of key
-variables whose values must uniquely identify each row. The functions are
-inspired by SQL's \code{INSERT}, \code{UPDATE}, and \code{DELETE}, and can optionally
-modify \code{in_place} for selected backends.
+These functions provide a framework for modifying rows in a table using a
+second table of data. The two tables are matched \code{by} a set of key variables
+whose values typically uniquely identify each row. The functions are inspired
+by SQL's \code{INSERT}, \code{UPDATE}, and \code{DELETE}, and can optionally modify
+\code{in_place} for selected backends.
 \itemize{
-\item \code{rows_insert()} adds new rows (like \code{INSERT}); key values in \code{y} must
+\item \code{rows_insert()} adds new rows (like \code{INSERT}). Key values in \code{y} must
 not occur in \code{x}.
-\item \code{rows_update()} modifies existing rows (like \code{UPDATE}); key values in
-\code{y} must occur in \code{x}.
+\item \code{rows_update()} modifies existing rows (like \code{UPDATE}). Key values in
+\code{y} must occur in \code{x}, and key values in \code{y} must be unique.
 \item \code{rows_patch()} works like \code{rows_update()} but only overwrites \code{NA} values.
 \item \code{rows_upsert()} inserts or updates depending on whether or not the
-key value in \code{y} already exists in \code{x}.
-\item \code{rows_delete()} deletes rows (like \code{DELETE}); key values in \code{y} must
+key value in \code{y} already exists in \code{x}. Key values in \code{y} must be unique.
+\item \code{rows_delete()} deletes rows (like \code{DELETE}). Key values in \code{y} must
 exist in \code{x}.
 }
 }
