@@ -137,14 +137,13 @@ rows_update.data.frame <- function(x,
   x_key <- rows_select_key(x, by, "x")
   y_key <- rows_select_key(y, by, "y", unique = TRUE)
 
+  rows_check_y_unmatched(x_key, y_key)
+
   loc <- vec_match(x_key, y_key)
   match <- !is.na(loc)
 
   y_loc <- loc[match]
   x_loc <- which(match)
-
-  y_size <- vec_size(y_key)
-  rows_check_y_unmatched(y_loc, y_size)
 
   values_cols <- setdiff(names(y), names(y_key))
 
@@ -184,14 +183,13 @@ rows_patch.data.frame <- function(x,
   x_key <- rows_select_key(x, by, "x")
   y_key <- rows_select_key(y, by, "y", unique = TRUE)
 
+  rows_check_y_unmatched(x_key, y_key)
+
   loc <- vec_match(x_key, y_key)
   match <- !is.na(loc)
 
   y_loc <- loc[match]
   x_loc <- which(match)
-
-  y_size <- vec_size(y_key)
-  rows_check_y_unmatched(y_loc, y_size)
 
   values_cols <- setdiff(names(y), names(y_key))
 
@@ -283,6 +281,8 @@ rows_delete.data.frame <- function(x,
   x_key <- rows_select_key(x, by, "x")
   y_key <- rows_select_key(y, by, "y")
 
+  rows_check_y_unmatched(x_key, y_key)
+
   extra <- setdiff(names(y), names(y_key))
   if (!is_empty(extra)) {
     message <- glue("Ignoring extra `y` columns: ", commas(tick_if_needed(extra)))
@@ -295,12 +295,6 @@ rows_delete.data.frame <- function(x,
   x_size <- vec_size(x_key)
   x_loc <- which(match)
   x_loc <- vec_as_location_invert(x_loc, x_size)
-
-  # Have to use `vec_in()` to see if any keys in `y` are unmatched because `y`
-  # may have duplicate keys, which the `vec_match()` call above won't pick up
-  y_loc <- which(vec_in(y_key, x_key))
-  y_size <- vec_size(y_key)
-  rows_check_y_unmatched(y_loc, y_size)
 
   dplyr_row_slice(x, x_loc)
 }
@@ -407,26 +401,25 @@ rows_check_y_matched <- function(x_key,
   }
 }
 
-rows_check_y_unmatched <- function(loc,
-                                   size,
+rows_check_y_unmatched <- function(x_key,
+                                   y_key,
                                    ...,
                                    error_call = caller_env()) {
   check_dots_empty()
 
-  unmatched <- vec_as_location_invert(loc, size)
+  unmatched <- !vec_in(y_key, x_key)
 
-  if (is_empty(unmatched)) {
-    return(invisible())
+  if (any(unmatched)) {
+    unmatched <- which(unmatched)
+    unmatched <- err_locs(unmatched)
+
+    message <- c(
+      "`y` must contain keys that already exist in `x`.",
+      i = glue("The following rows in `y` have keys that don't exist in `x`: {unmatched}.")
+    )
+
+    abort(message, call = error_call)
   }
-
-  unmatched <- err_locs(unmatched)
-
-  message <- c(
-    "`y` must contain keys that already exist in `x`.",
-    i = glue("The following rows in `y` have keys that don't exist in `x`: {unmatched}.")
-  )
-
-  abort(message, call = error_call)
 }
 
 rows_df_in_place <- function(in_place, error_call = caller_env()) {

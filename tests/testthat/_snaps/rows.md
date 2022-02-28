@@ -84,8 +84,6 @@
 
     Code
       (expect_error(rows_delete(x, y, "a")))
-    Message
-      Ignoring extra `y` columns: b
     Output
       <error/rlang_error>
       Error in `rows_delete()`:
