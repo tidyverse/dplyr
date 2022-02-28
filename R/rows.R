@@ -108,7 +108,7 @@ rows_insert.data.frame <- function(x,
     y_in_x <- err_locs(y_in_x)
 
     message <- c(
-      "Can't insert rows with keys that already exist in `x`.",
+      "`y` must contain keys that don't exist in `x`.",
       i = glue("The following rows in `y` have keys that already exist in `x`: {y_in_x}.")
     )
 
@@ -413,7 +413,7 @@ rows_check_y_unmatched <- function(loc,
   unmatched <- err_locs(unmatched)
 
   message <- c(
-    "`y` can't contain unmatched keys.",
+    "`y` must contain keys that already exist in `x`.",
     i = glue("The following rows in `y` have keys that don't exist in `x`: {unmatched}.")
   )
 
