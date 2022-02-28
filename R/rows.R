@@ -290,11 +290,9 @@ rows_delete.data.frame <- function(x,
   }
 
   loc <- vec_match(x_key, y_key)
-  match <- !is.na(loc)
+  unmatched <- is.na(loc)
 
-  x_size <- vec_size(x_key)
-  x_loc <- which(match)
-  x_loc <- vec_as_location_invert(x_loc, x_size)
+  x_loc <- which(unmatched)
 
   dplyr_row_slice(x, x_loc)
 }
