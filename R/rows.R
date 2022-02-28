@@ -380,7 +380,7 @@ rows_select_key <- function(x,
     missing <- err_vars(missing)
 
     message <- c(
-      glue("All `by` columns must exist in `{arg}`."),
+      "All columns specified through `by` must exist in `x` and `y`.",
       i = glue("The following columns are missing from `{arg}`: {missing}.")
     )
 

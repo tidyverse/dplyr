@@ -146,14 +146,14 @@
     Output
       <error/rlang_error>
       Error:
-      ! All `by` columns must exist in `x`.
+      ! All columns specified through `by` must exist in `x` and `y`.
       i The following columns are missing from `x`: `y`.
     Code
       (expect_error(rows_select_key(x, c("y", "x", "z"), arg = "y")))
     Output
       <error/rlang_error>
       Error:
-      ! All `by` columns must exist in `y`.
+      ! All columns specified through `by` must exist in `x` and `y`.
       i The following columns are missing from `y`: `y` and `z`.
 
 # rows_select_key() optionally requires uniqueness
