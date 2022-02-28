@@ -101,19 +101,7 @@ rows_insert.data.frame <- function(x,
   x_key <- rows_select_key(x, by, "x")
   y_key <- rows_select_key(y, by, "y")
 
-  y_in_x <- vec_in(y_key, x_key)
-
-  if (any(y_in_x)) {
-    y_in_x <- which(y_in_x)
-    y_in_x <- err_locs(y_in_x)
-
-    message <- c(
-      "`y` must contain keys that don't exist in `x`.",
-      i = glue("The following rows in `y` have keys that already exist in `x`: {y_in_x}.")
-    )
-
-    abort(message)
-  }
+  rows_check_y_matched(x_key, y_key)
 
   rows_bind(x, y)
 }
@@ -396,6 +384,27 @@ rows_select_key <- function(x,
   }
 
   out
+}
+
+rows_check_y_matched <- function(x_key,
+                                 y_key,
+                                 ...,
+                                 error_call = caller_env()) {
+  check_dots_empty()
+
+  matched <- vec_in(y_key, x_key)
+
+  if (any(matched)) {
+    matched <- which(matched)
+    matched <- err_locs(matched)
+
+    message <- c(
+      "`y` must contain keys that don't exist in `x`.",
+      i = glue("The following rows in `y` have keys that already exist in `x`: {matched}.")
+    )
+
+    abort(message, call = error_call)
+  }
 }
 
 rows_check_y_unmatched <- function(loc,
