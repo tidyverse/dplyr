@@ -109,7 +109,7 @@
     Output
       <error/rlang_error>
       Error:
-      ! `y` must have at least one column to use as a key.
+      ! `y` must have at least one column.
 
 # rows_check_by() uses the first column from `y` by default, with a message
 
