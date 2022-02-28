@@ -131,7 +131,7 @@
     Output
       <error/rlang_error>
       Error:
-      ! Must specify at least 1 column in `by`.
+      ! `by` must specify at least 1 column.
     Code
       (expect_error(rows_check_by(by = c(x = "y"), y = y)))
     Output

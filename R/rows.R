@@ -338,7 +338,7 @@ rows_check_by <- function(by, y, ..., error_call = caller_env()) {
     abort("`by` must be a character vector.", call = error_call)
   }
   if (is_empty(by)) {
-    abort("Must specify at least 1 column in `by`.", call = error_call)
+    abort("`by` must specify at least 1 column.", call = error_call)
   }
   if (!all(names2(by) == "")) {
     abort("`by` must be unnamed.", call = error_call)
