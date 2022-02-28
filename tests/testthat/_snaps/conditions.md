@@ -158,3 +158,40 @@
       ! Problem while computing `.result = cyl * c(am, vs)`.
       x `.result` must be size 32 or 1, not 64.
 
+# `err_locs()` works as expected
+
+    Code
+      err_locs(1.5)
+    Condition
+      Error in `err_locs()`:
+      ! `x` must be an integer vector of locations.
+      i This is an internal error, please report it to the package authors.
+
+---
+
+    Code
+      err_locs(integer())
+    Condition
+      Error in `err_locs()`:
+      ! `x` must have at least 1 location.
+      i This is an internal error, please report it to the package authors.
+
+---
+
+    Code
+      err_locs(1L)
+    Output
+      `1`
+    Code
+      err_locs(1:5)
+    Output
+      `c(1, 2, 3, 4, 5)`
+    Code
+      err_locs(1:6)
+    Output
+      `c(1, 2, 3, 4, 5)` and 1 more
+    Code
+      err_locs(1:7)
+    Output
+      `c(1, 2, 3, 4, 5)` and 2 more
+
