@@ -6,7 +6,7 @@
       <error/rlang_error>
       Error in `rows_insert()`:
       ! Can't insert rows with keys that already exist in `x`.
-      i The following rows in `y` have keys that already exist in `x`: 1.
+      i The following rows in `y` have keys that already exist in `x`: `1`.
 
 ---
 
@@ -16,7 +16,7 @@
       <error/rlang_error>
       Error in `rows_insert()`:
       ! Can't insert rows with keys that already exist in `x`.
-      i The following rows in `y` have keys that already exist in `x`: 1, 2, and 3.
+      i The following rows in `y` have keys that already exist in `x`: `c(1, 2, 3)`.
 
 # rows_update() requires `y` keys to exist in `x`
 
@@ -26,7 +26,7 @@
       <error/rlang_error>
       Error in `rows_update()`:
       ! `y` can't contain unmatched keys.
-      i The following rows in `y` have keys that don't exist in `x`: 1 and 3.
+      i The following rows in `y` have keys that don't exist in `x`: `c(1, 3)`.
 
 # rows_update() doesn't allow `y` keys to be duplicated (#5553)
 
@@ -45,7 +45,7 @@
       <error/rlang_error>
       Error in `rows_patch()`:
       ! `y` can't contain unmatched keys.
-      i The following rows in `y` have keys that don't exist in `x`: 1 and 3.
+      i The following rows in `y` have keys that don't exist in `x`: `c(1, 3)`.
 
 # rows_patch() doesn't allow `y` keys to be duplicated (#5553)
 
@@ -90,7 +90,7 @@
       <error/rlang_error>
       Error in `rows_delete()`:
       ! `y` can't contain unmatched keys.
-      i The following rows in `y` have keys that don't exist in `x`: 1 and 3.
+      i The following rows in `y` have keys that don't exist in `x`: `c(1, 3)`.
 
 # rows_check_containment() checks that `y` columns are in `x`
 

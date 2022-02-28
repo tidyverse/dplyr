@@ -104,7 +104,8 @@ rows_insert.data.frame <- function(x,
   y_in_x <- vec_in(y_key, x_key)
 
   if (any(y_in_x)) {
-    y_in_x <- err_vars(y_in_x)
+    y_in_x <- which(y_in_x)
+    y_in_x <- err_locs(y_in_x)
 
     message <- c(
       "Can't insert rows with keys that already exist in `x`.",
@@ -409,7 +410,7 @@ rows_check_y_unmatched <- function(loc,
     return(invisible())
   }
 
-  unmatched <- err_vars(unmatched)
+  unmatched <- err_locs(unmatched)
 
   message <- c(
     "`y` can't contain unmatched keys.",
