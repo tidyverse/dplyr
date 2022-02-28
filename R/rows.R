@@ -155,7 +155,7 @@ rows_update.data.frame <- function(x,
   x_loc <- which(match)
 
   y_size <- vec_size(y_key)
-  rows_check_y_unmatched(y_loc, y_size, "update")
+  rows_check_y_unmatched(y_loc, y_size)
 
   values_cols <- setdiff(names(y), names(y_key))
 
@@ -202,7 +202,7 @@ rows_patch.data.frame <- function(x,
   x_loc <- which(match)
 
   y_size <- vec_size(y_key)
-  rows_check_y_unmatched(y_loc, y_size, "patch")
+  rows_check_y_unmatched(y_loc, y_size)
 
   values_cols <- setdiff(names(y), names(y_key))
 
@@ -311,7 +311,7 @@ rows_delete.data.frame <- function(x,
   # may have duplicate keys, which the `vec_match()` call above won't pick up
   y_loc <- which(vec_in(y_key, x_key))
   y_size <- vec_size(y_key)
-  rows_check_y_unmatched(y_loc, y_size, "delete")
+  rows_check_y_unmatched(y_loc, y_size)
 
   dplyr_row_slice(x, x_loc)
 }
@@ -399,7 +399,6 @@ rows_select_key <- function(x,
 
 rows_check_y_unmatched <- function(loc,
                                    size,
-                                   verb,
                                    ...,
                                    error_call = caller_env()) {
   check_dots_empty()
@@ -413,7 +412,7 @@ rows_check_y_unmatched <- function(loc,
   unmatched <- err_vars(unmatched)
 
   message <- c(
-    glue("Can't {verb} with `y` keys that don't exist in `x`."),
+    "`y` can't contain unmatched keys.",
     i = glue("The following rows in `y` have keys that don't exist in `x`: {unmatched}.")
   )
 

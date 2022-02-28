@@ -25,7 +25,7 @@
     Output
       <error/rlang_error>
       Error in `rows_update()`:
-      ! Can't update with `y` keys that don't exist in `x`.
+      ! `y` can't contain unmatched keys.
       i The following rows in `y` have keys that don't exist in `x`: 1 and 3.
 
 # rows_update() doesn't allow `y` keys to be duplicated (#5553)
@@ -44,7 +44,7 @@
     Output
       <error/rlang_error>
       Error in `rows_patch()`:
-      ! Can't patch with `y` keys that don't exist in `x`.
+      ! `y` can't contain unmatched keys.
       i The following rows in `y` have keys that don't exist in `x`: 1 and 3.
 
 # rows_patch() doesn't allow `y` keys to be duplicated (#5553)
@@ -89,7 +89,7 @@
     Output
       <error/rlang_error>
       Error in `rows_delete()`:
-      ! Can't delete with `y` keys that don't exist in `x`.
+      ! `y` can't contain unmatched keys.
       i The following rows in `y` have keys that don't exist in `x`: 1 and 3.
 
 # rows_check_containment() checks that `y` columns are in `x`
