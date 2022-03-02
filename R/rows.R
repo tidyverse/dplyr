@@ -371,7 +371,15 @@ rows_select_key <- function(x,
   out <- x[by]
 
   if (unique && vec_duplicate_any(out)) {
-    message <- glue("`{arg}` key values must be unique.")
+    duplicated <- vec_duplicate_detect(out)
+    duplicated <- which(duplicated)
+    duplicated <- err_locs(duplicated)
+
+    message <- c(
+      glue("`{arg}` key values must be unique."),
+      i = glue("The following rows contain duplicate key values: {duplicated}.")
+    )
+
     abort(message, call = error_call)
   }
 

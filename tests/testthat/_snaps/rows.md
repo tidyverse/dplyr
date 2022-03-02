@@ -36,6 +36,7 @@
       <error/rlang_error>
       Error in `rows_update()`:
       ! `y` key values must be unique.
+      i The following rows contain duplicate key values: `c(1, 2)`.
 
 # rows_patch() requires `y` keys to exist in `x`
 
@@ -55,6 +56,7 @@
       <error/rlang_error>
       Error in `rows_patch()`:
       ! `y` key values must be unique.
+      i The following rows contain duplicate key values: `c(1, 2)`.
 
 # rows_upsert() doesn't allow `y` keys to be duplicated (#5553)
 
@@ -64,6 +66,7 @@
       <error/rlang_error>
       Error in `rows_upsert()`:
       ! `y` key values must be unique.
+      i The following rows contain duplicate key values: `c(1, 2)`.
 
 # rows_delete() ignores extra `y` columns, with a message
 
@@ -162,10 +165,12 @@
       <error/rlang_error>
       Error:
       ! `x` key values must be unique.
+      i The following rows contain duplicate key values: `c(1, 2, 3)`.
     Code
       (expect_error(rows_select_key(x, c("x", "y"), arg = "y", unique = TRUE)))
     Output
       <error/rlang_error>
       Error:
       ! `y` key values must be unique.
+      i The following rows contain duplicate key values: `c(1, 3)`.
 
