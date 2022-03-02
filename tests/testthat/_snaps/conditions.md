@@ -181,7 +181,7 @@
     Code
       err_locs(1L)
     Output
-      `1`
+      `c(1)`
     Code
       err_locs(1:5)
     Output
