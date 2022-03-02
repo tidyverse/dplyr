@@ -43,3 +43,15 @@ test_that("can pass verb-level error call (example case)", {
     my_verb(mtcars, cyl, c(am, vs))
   })
 })
+
+test_that("`err_locs()` works as expected", {
+  expect_snapshot(error = TRUE, err_locs(1.5))
+  expect_snapshot(error = TRUE, err_locs(integer()))
+
+  expect_snapshot({
+    err_locs(1L)
+    err_locs(1:5)
+    err_locs(1:6)
+    err_locs(1:7)
+  })
+})
