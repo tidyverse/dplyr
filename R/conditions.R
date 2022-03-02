@@ -135,10 +135,6 @@ err_locs <- function(x) {
     abort("`x` must have at least 1 location.", .internal = TRUE)
   }
 
-  if (size == 1L) {
-    return(glue("`{x}`"))
-  }
-
   if (size > 5L) {
     x <- x[1:5]
     extra <- glue(" and {size - 5L} more")

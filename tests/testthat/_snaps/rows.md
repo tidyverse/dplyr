@@ -6,7 +6,7 @@
       <error/rlang_error>
       Error in `rows_insert()`:
       ! `y` must contain keys that don't exist in `x`.
-      i The following rows in `y` have keys that already exist in `x`: `1`.
+      i The following rows in `y` have keys that already exist in `x`: `c(1)`.
 
 ---
 
