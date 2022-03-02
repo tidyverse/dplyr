@@ -9,15 +9,47 @@
 \alias{rows_delete}
 \title{Manipulate individual rows}
 \usage{
-rows_insert(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE)
+rows_insert(
+  x,
+  y,
+  by = NULL,
+  ...,
+  conflict = "error",
+  copy = FALSE,
+  in_place = FALSE
+)
 
-rows_update(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE)
+rows_update(
+  x,
+  y,
+  by = NULL,
+  ...,
+  conflict = "error",
+  copy = FALSE,
+  in_place = FALSE
+)
 
-rows_patch(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE)
+rows_patch(
+  x,
+  y,
+  by = NULL,
+  ...,
+  conflict = "error",
+  copy = FALSE,
+  in_place = FALSE
+)
 
 rows_upsert(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE)
 
-rows_delete(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE)
+rows_delete(
+  x,
+  y,
+  by = NULL,
+  ...,
+  conflict = "error",
+  copy = FALSE,
+  in_place = FALSE
+)
 }
 \arguments{
 \item{x, y}{A pair of data frames or data frame extensions (e.g. a tibble).
@@ -32,6 +64,23 @@ By default, we use the first column in \code{y}, since the first column is
 a reasonable place to put an identifier variable.}
 
 \item{...}{Other parameters passed onto methods.}
+
+\item{conflict}{How should keys in \code{y} that conflict with keys in \code{x} be
+handled?
+
+For \code{rows_insert()}, a conflict arises if there is a key in \code{y} that
+already exists in \code{x}.
+
+For \code{rows_patch()}, \code{rows_delete()}, and \code{rows_update()}, a conflict arises
+if there is a key in \code{y} that doesn't exist in \code{x}.
+
+One of:
+\itemize{
+\item \code{"error"}, the default, will error if there are any keys in \code{y} that
+conflict with keys in \code{x}.
+\item \code{"ignore"} will ignore rows in \code{y} with keys that conflict with keys in
+\code{x}.
+}}
 
 \item{copy}{If \code{x} and \code{y} are not from the same data source,
 and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
@@ -67,15 +116,15 @@ whose values typically uniquely identify each row. The functions are inspired
 by SQL's \code{INSERT}, \code{UPDATE}, and \code{DELETE}, and can optionally modify
 \code{in_place} for selected backends.
 \itemize{
-\item \code{rows_insert()} adds new rows (like \code{INSERT}). Key values in \code{y} must
-not occur in \code{x}.
-\item \code{rows_update()} modifies existing rows (like \code{UPDATE}). Key values in
-\code{y} must occur in \code{x}, and key values in \code{y} must be unique.
+\item \code{rows_insert()} adds new rows (like \code{INSERT}). By default, key values in
+\code{y} must not exist in \code{x}.
+\item \code{rows_update()} modifies existing rows (like \code{UPDATE}). Key values in \code{y}
+must be unique, and, by default, key values in \code{y} must exist in \code{x}.
 \item \code{rows_patch()} works like \code{rows_update()} but only overwrites \code{NA} values.
 \item \code{rows_upsert()} inserts or updates depending on whether or not the
 key value in \code{y} already exists in \code{x}. Key values in \code{y} must be unique.
-\item \code{rows_delete()} deletes rows (like \code{DELETE}). Key values in \code{y} must
-exist in \code{x}.
+\item \code{rows_delete()} deletes rows (like \code{DELETE}). By default, key values in \code{y}
+must exist in \code{x}.
 }
 }
 \examples{
@@ -84,7 +133,12 @@ data
 
 # Insert
 rows_insert(data, tibble(a = 4, b = "z"))
+
+# By default, if a key in `y` matches a key in `x`, then it can't be inserted
+# and will throw an error. Alternatively, you can ignore rows in `y`
+# containing keys that conflict with keys in `x` with `conflict = "ignore"`.
 try(rows_insert(data, tibble(a = 3, b = "z")))
+rows_insert(data, tibble(a = 3, b = "z"), conflict = "ignore")
 
 # Update
 rows_update(data, tibble(a = 2:3, b = "z"))
@@ -97,5 +151,13 @@ rows_upsert(data, tibble(a = 2:4, b = "z"))
 # Delete and truncate
 rows_delete(data, tibble(a = 2:3))
 rows_delete(data, tibble(a = 2:3, b = "b"))
-try(rows_delete(data, tibble(a = 2:3, b = "b"), by = c("a", "b")))
+
+# By default, for update, patch, and delete it is an error if a key in `y`
+# doesn't exist in `x`. You can ignore rows in `y` that have unmatched keys
+# with `conflict = "ignore"`.
+y <- tibble(a = 3:4, b = "z")
+try(rows_update(data, y, by = "a"))
+rows_update(data, y, by = "a", conflict = "ignore")
+rows_patch(data, y, by = "a", conflict = "ignore")
+rows_delete(data, y, by = "a", conflict = "ignore")
 }
