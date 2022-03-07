@@ -23,10 +23,11 @@
 #'
 #'  Either a string or NULL. If a string, the output will contain a new
 #'  variable with that name, storing either the inputs' names (if the 
-#'  arguments to `bind_rows()` is named or if the list of data frames 
-#'  provided to `bind_rows()` are named) or numeric indices (if the data 
-#'  frames are unnamed). This creates an identifier for each row that 
-#'  links to its original data frame. 
+#'  input arguments to `bind_rows()` are named or if an inputted list 
+#'  of data frames provided to `bind_rows()` has names) or numeric 
+#'  indices (if the inputted data frames are unnamed). 
+#'  This creates an identifier for each row that links to its original 
+#'  data frame. 
 #'  If NULL, the default, no variable will be created.
 #' 
 #'  Only applies to _dfr variant.
