@@ -22,11 +22,12 @@
 #' @param .id Name of data frame identifier column.
 #'
 #'  Either a string or NULL. If a string, the output will contain a new
-#'  variable with that name, storing either the name (if the arguments 
-#'  to `bind_rows()` is named or if the list of data frames provided to 
-#'  `bind_rows()` are named) or the numeric index (if the data frames 
-#'  are unnamed) of the input. This links each row with its original 
-#'  data frame. If NULL, the default, no variable will be created.
+#'  variable with that name, storing either the inputs' names (if the 
+#'  arguments to `bind_rows()` is named or if the list of data frames 
+#'  provided to `bind_rows()` are named) or numeric indices (if the data 
+#'  frames are unnamed). This creates an identifier for each row that 
+#'  links to its original data frame. 
+#'  If NULL, the default, no variable will be created.
 #' 
 #'  Only applies to _dfr variant.
 #' 
