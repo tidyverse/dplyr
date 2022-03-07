@@ -18,7 +18,7 @@
 #'   When column-binding, rows are matched by position, so all data
 #'   frames must have the same number of rows. To match by value, not
 #'   position, see [mutate-joins].
-#' @param .id Data frame identifier.
+#' @param .id Name of data frame identifier column.
 #'
 #'   When `.id` is supplied, a new column of identifiers is
 #'   created to link each row to its original data frame. The labels
