@@ -185,8 +185,8 @@ test_that("bind_rows() promotes integer to numeric", {
   df2 <- tibble(a = 1, b = 1L)
 
   res <- bind_rows(df1, df2)
-  expect_equal(typeof(res$a), "double")
-  expect_equal(typeof(res$b), "integer")
+  expect_type(res$a, "double")
+  expect_type(res$b, "integer")
 })
 
 test_that("bind_rows() promotes factor to character with warning", {
@@ -194,7 +194,7 @@ test_that("bind_rows() promotes factor to character with warning", {
   df2 <- tibble(a = "b")
 
   res <- bind_rows(df1, df2)
-  expect_equal(typeof(res$a), "character")
+  expect_type(res$a, "character")
 })
 
 test_that("bind_rows() coerces factor when levels don't match", {
