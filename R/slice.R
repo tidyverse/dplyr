@@ -188,7 +188,7 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
   if (with_ties) {
     idx <- function(x, n) head(order(x), smaller_ranks(x, size(n)))
   } else {
-    idx <- function(x, n) head(order(x), size(n))
+    idx <- function(x, n) head(order(x[!is.na(x)]), size(n))
   }
 
   dplyr_local_error_call()
@@ -219,7 +219,7 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
         order(x, decreasing = TRUE), smaller_ranks(desc(x), size(n))
     )
   } else {
-    idx <- function(x, n) head(order(x, decreasing = TRUE), size(n))
+    idx <- function(x, n) head(order(x[!is.na(x)], decreasing = TRUE), size(n))
   }
 
   dplyr_local_error_call()

@@ -270,6 +270,8 @@ test_that("min and max ignore NA's (#4826)", {
   expect_equal(df %>% slice_min(y, n = 2) %>% nrow(), 0)
   expect_equal(df %>% slice_max(x, n = 2) %>% pull(id), c(1, 4))
   expect_equal(df %>% slice_max(y, n = 2) %>% nrow(), 0)
+  expect_equal(df %>% slice_min(y, n = 2, with_ties = FALSE) %>% nrow(), 0)
+  expect_equal(df %>% slice_max(y, n = 2, with_ties = FALSE) %>% nrow(), 0)
 })
 
 test_that("arguments to sample are passed along", {
