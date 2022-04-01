@@ -171,10 +171,15 @@ case_when <- function(...) {
   replaced <- rep(FALSE, m)
 
   for (i in seq_len(n)) {
-    out <- replace_with(out, query[[i]] & !replaced, value[[i]], NULL, error_call = error_call)
+    out <- replace_with(
+      out,
+      query[[i]] & !replaced,
+      value[[i]],
+      name = fmt_calls(pair$rhs[i]),
+      error_call = error_call
+    )
     replaced <- replaced | (query[[i]] & !is.na(query[[i]]))
   }
-
   out
 }
 
