@@ -180,6 +180,7 @@ case_when <- function(...) {
     )
     replaced <- replaced | (query[[i]] & !is.na(query[[i]]))
   }
+
   out
 }
 
