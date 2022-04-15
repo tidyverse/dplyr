@@ -175,7 +175,7 @@ case_when <- function(...) {
       out,
       query[[i]] & !replaced,
       value[[i]],
-      name = fmt_calls(pair$rhs[i]),
+      name = fmt_calls(quos_pairs[[i]]$rhs[2]),
       error_call = error_call
     )
     replaced <- replaced | (query[[i]] & !is.na(query[[i]]))

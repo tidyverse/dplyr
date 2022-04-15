@@ -210,7 +210,7 @@ test_that("case_when() give meaningful errors", {
     ))
 
     (expect_error(
-      case_when(c(TRUE, FALSE) ~ c(3, 4), TRUE ~ c('a', 'b'))
+      case_when(c(TRUE, FALSE) ~ c(3, 4), TRUE ~ c('a', 'b'), TRUE ~ c(5, 6)) 
     ))
   })
 
