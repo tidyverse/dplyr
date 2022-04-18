@@ -54,7 +54,7 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
     abort(msg)
   }
 
-  if (!is.numeric(n) || n < 0) {
+  if (!is.numeric(n) || any(n < 0)) {
     msg <- glue("`n` must be a vector of positive integers.")
     abort(msg)
   }
@@ -72,7 +72,7 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   out <- lapply(n, function(i) {
     vec_c(
       vec_rep(inputs$default, i),
-      vec_slice(inputs$x, seq_len(ifelse(xlen - i <= 0, NA, xlen - i)))
+      vec_slice(inputs$x, seq_len(ifelse(xlen - i <= 0, NA_integer_, xlen - i)))
     )
   })
 
@@ -88,7 +88,7 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
     return(with_order(order_by, lead, x, n = n, default = default))
   }
 
-  if (!is.numeric(n) || n < 0) {
+  if (!is.numeric(n) || any(n < 0)) {
     msg <- glue("`n` must be a vector of positive integers.")
     abort(msg)
   }
@@ -105,7 +105,7 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
 
   out <- lapply(n, function(i) {
     vec_c(
-      vec_slice(inputs$x, -seq_len(ifelse(i >= xlen, NA,i))),
+      vec_slice(inputs$x, -seq_len(ifelse(i >= xlen, NA_integer_, i))),
       vec_rep(inputs$default, i)
     )
   })
