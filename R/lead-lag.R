@@ -54,26 +54,31 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
     abort(msg)
   }
 
-  if (length(n) != 1 || !is.numeric(n) || n < 0) {
-    msg <- glue("`n` must be a positive integer, not {friendly_type_of(n)} of length {length(n)}.")
+  if (!is.numeric(n) || n < 0) {
+    msg <- glue("`n` must be a vector of positive integers.")
     abort(msg)
   }
-  if (n == 0) return(x)
 
   if (vec_size(default) != 1L) {
     msg <- glue("`default` must be size 1, not size {vec_size(default)}")
     abort(msg)
   }
 
+  inputs <- fix_call(vec_cast_common(default = default, x = x))
+
   xlen <- vec_size(x)
   n <- pmin(n, xlen)
 
-  inputs <- fix_call(vec_cast_common(default = default, x = x))
+  out <- lapply(n, function(i) {
+    vec_c(
+      vec_rep(inputs$default, i),
+      vec_slice(inputs$x, seq_len(ifelse(xlen - i <= 0, NA, xlen - i)))
+    )
+  })
 
-  vec_c(
-    vec_rep(inputs$default, n),
-    vec_slice(inputs$x, seq_len(xlen - n))
-  )
+  out <- do.call(cbind, out)
+
+  out
 }
 
 #' @export
@@ -83,24 +88,29 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
     return(with_order(order_by, lead, x, n = n, default = default))
   }
 
-  if (length(n) != 1 || !is.numeric(n) || n < 0) {
-    msg <- glue("`n` must be a positive integer, not {friendly_type_of(n)} of length {length(n)}.")
+  if (!is.numeric(n) || n < 0) {
+    msg <- glue("`n` must be a vector of positive integers.")
     abort(msg)
   }
-  if (n == 0) return(x)
 
   if (vec_size(default) != 1L) {
     msg <- glue("`default` must be size 1, not size {vec_size(default)}")
     abort(msg)
   }
 
+  inputs <- fix_call(vec_cast_common(default = default, x = x))
+
   xlen <- vec_size(x)
   n <- pmin(n, xlen)
 
-  inputs <- fix_call(vec_cast_common(default = default, x = x))
+  out <- lapply(n, function(i) {
+    vec_c(
+      vec_slice(inputs$x, -seq_len(ifelse(i >= xlen, NA,i))),
+      vec_rep(inputs$default, i)
+    )
+  })
 
-  vec_c(
-    vec_slice(inputs$x, -seq_len(n)),
-    vec_rep(inputs$default, n)
-  )
+  out <- do.call(cbind, out)
+
+  out
 }
