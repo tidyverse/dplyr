@@ -7,8 +7,7 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/dplyr)](https://cran.r-project.org/package=dplyr)
-[![R build
-status](https://github.com/tidyverse/dplyr/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/dplyr/actions?workflow=R-CMD-check)
+[![R-CMD-check](https://github.com/DavisVaughan/dplyr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/DavisVaughan/dplyr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/tidyverse/dplyr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidyverse/dplyr?branch=main)
 <!-- badges: end -->
