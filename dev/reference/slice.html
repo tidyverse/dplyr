@@ -10,7 +10,7 @@ of a variable.
 
 If .data is a grouped_df, the operation will be performed on each group,
 so that (e.g.) slice_head(df, n = 5) will select the first five rows in
-each group."><title>Subset rows using their positions — slice • dplyr</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Source%20Sans%20Pro-0.4.0/font.css" rel="stylesheet"><link href="../deps/_Source%20Code%20Pro-0.4.0/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Subset rows using their positions — slice"><meta property="og:description" content="slice() lets you index rows by their (integer) locations. It allows you
+each group."><title>Subset rows using their positions — slice • dplyr</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Source%20Sans%20Pro-0.4.1/font.css" rel="stylesheet"><link href="../deps/_Source%20Code%20Pro-0.4.1/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Subset rows using their positions — slice"><meta property="og:description" content="slice() lets you index rows by their (integer) locations. It allows you
 to select, remove, and duplicate rows. It is accompanied by a number of
 helpers for common use cases:
 slice_head() and slice_tail() select the first or last rows.
@@ -333,30 +333,30 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># slice_sample() allows you to random select with or without replacement</span></span>
 <span class="r-in"><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">slice_sample</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental 10.4   8  460 215 3.00 5.424 17.82  0  0    3    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag       21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E          21.4   4  121 109 4.11 2.780 18.60  1  1    4    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout   18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino        19.7   6  145 175 3.62 2.770 15.50  0  1    5    6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1</span>
 <span class="r-in"><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">slice_sample</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   mpg cyl  disp  hp drat    wt qsec vs am gear carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa...1 30.4   4  95.1 113 3.77 1.513 16.9  1  1    5    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC      15.2   8 275.8 180 3.07 3.780 18.0  0  0    3    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9        27.3   4  79.0  66 4.08 1.935 18.9  1  1    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa...4 30.4   4  95.1 113 3.77 1.513 16.9  1  1    5    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora    15.0   8 301.0 335 3.54 3.570 14.6  0  1    5    8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280           19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC        15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant            18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag      21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># you can optionally weight by a variable - this code weights by the</span></span>
 <span class="r-in"><span class="co"># physical weight of the cars, so heavy cars are more likely to get</span></span>
 <span class="r-in"><span class="co"># selected</span></span>
 <span class="r-in"><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">slice_sample</span><span class="op">(</span>weight_by <span class="op">=</span> <span class="va">wt</span>, n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4        21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag    21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger 15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL       17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive   21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Group wise operation ----------------------------------------</span></span>
 <span class="r-in"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
@@ -371,11 +371,11 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   group [3]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   group     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> a     0.642</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> b     0.417</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> b     0.600</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> c     0.555</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> c     0.998</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> a     0.434</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> b     0.721</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> b     0.688</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> c     0.409</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> c     0.831</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># When specifying the proportion of rows to include non-integer sizes</span></span>
 <span class="r-in"><span class="co"># are rounded down, so group a gets 0 rows</span></span>
@@ -384,9 +384,9 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   group [2]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   group     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> b     0.417</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> c     0.555</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> c     0.998</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> b     0.721</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> c     0.409</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> c     0.831</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Filter equivalents --------------------------------------------</span></span>
 <span class="r-in"><span class="co"># slice() expressions can often be written to use `filter()` and</span></span>
