@@ -39,9 +39,9 @@
     Output
       <error/vctrs_error_subscript_oob>
       Error in `select()`:
-      ! Can't subset columns that don't exist.
-      x Location 2 doesn't exist.
-      i There are only 1 column.
+      ! Can't subset columns past the end.
+      i Location 2 doesn't exist.
+      i There is only 1 column.
     Code
       (expect_error(select(df1, 0)))
     Output
@@ -58,9 +58,9 @@
     Output
       <error/vctrs_error_subscript_oob>
       Error in `select()`:
-      ! Can't subset columns that don't exist.
-      x Location 2 doesn't exist.
-      i There are only 1 column.
+      ! Can't subset columns past the end.
+      i Location 2 doesn't exist.
+      i There is only 1 column.
     Code
       (expect_error(select(df1, 1)))
     Output
