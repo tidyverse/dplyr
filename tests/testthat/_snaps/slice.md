@@ -38,7 +38,7 @@
       Error in `slice()`:
       ! Problem while computing indices.
       Caused by error:
-      ! Can't convert <integer[,2]> to <integer>.
+      ! Can't convert `res` <integer[,2]> to <integer>.
       Cannot decrease dimensions.
     Code
       (expect_error(slice(gdf, matrix(c(1, 2), ncol = 2))))
@@ -48,7 +48,7 @@
       ! Problem while computing indices.
       i The error occurred in group 1: x = 1.
       Caused by error:
-      ! Can't convert <integer[,2]> to <integer>.
+      ! Can't convert `res` <integer[,2]> to <integer>.
       Cannot decrease dimensions.
     Code
       (expect_error(slice(df, "a")))
