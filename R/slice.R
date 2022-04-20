@@ -336,7 +336,7 @@ slice_combine <- function(chunks, mask, error_call = caller_env()) {
         if (is.matrix(res) && ncol(res) == 1) {
           res <- as.vector(res)
         }
-        res <- fix_call(vec_cast(res, integer()), NULL)
+        res <- fix_call(vec_cast(res, integer(), x_arg = ""), NULL)
       } else {
         bullets <- c(
           glue("Invalid result of type <{vec_ptype_full(res)}>."),
