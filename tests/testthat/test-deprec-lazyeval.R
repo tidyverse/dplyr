@@ -79,11 +79,11 @@ test_that("count_() works", {
     count(df, b, wt = a)
   )
 
-  wt <- 1:4
-  expect_identical(
-    count_(df, "b", "wt"),
-    count(df, b, wt = wt)
-  )
+  # wt <- 1:4
+  # expect_identical(
+  #   count_(df, "b", "wt"),
+  #   count(df, b, wt = wt)
+  # )
 
   expect_identical(
     add_count(df, b),
