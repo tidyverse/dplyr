@@ -93,10 +93,14 @@ tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 #' @export
 tally.data.frame <- function(x, wt = NULL, sort = FALSE, name = NULL) {
   n <- tally_n(x, {{ wt }})
-  name <- check_name(name, group_vars(x))
 
   local_options(dplyr.summarise.inform = FALSE)
-  out <- summarise(x, !!name := !!n)
+  out <- if (is_call(n, "n", n = 0)) {
+    name <- check_name(name, group_vars(x))
+    summarise(x, !!name := !!n)
+  } else {
+    summarise(x, !!n)
+  }
 
   if (sort) {
     arrange(out, desc(!!sym(name)))
@@ -147,8 +151,13 @@ add_count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .
 #' @export
 add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
   n <- tally_n(x, {{ wt }})
-  name <- check_name(name, tbl_vars(x))
-  out <- mutate(x, !!name := !!n)
+
+  out <- if (is_call(n, "n", n = 0)) {
+    name <- check_name(name, tbl_vars(x))
+    mutate(x, !!name := !!n)
+  } else {
+    mutate(x, !!n)
+  }
 
   if (sort) {
     arrange(out, desc(!!sym(name)))
@@ -174,7 +183,7 @@ tally_n <- function(x, wt) {
   if (quo_is_null(wt)) {
     expr(n())
   } else {
-    expr(sum(!!wt, na.rm = TRUE))
+    expr(across(!!wt, sum, na.rm = TRUE, .names = name))
   }
 }
 
