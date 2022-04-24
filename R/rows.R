@@ -103,7 +103,7 @@ rows_insert <- function(x,
                         y,
                         by = NULL,
                         ...,
-                        conflict = "error",
+                        conflict = c("error", "ignore"),
                         copy = FALSE,
                         in_place = FALSE) {
   lifecycle::signal_stage("experimental", "rows_insert()")
@@ -115,7 +115,7 @@ rows_insert.data.frame <- function(x,
                                    y,
                                    by = NULL,
                                    ...,
-                                   conflict = "error",
+                                   conflict = c("error", "ignore"),
                                    copy = FALSE,
                                    in_place = FALSE) {
   check_dots_empty()
@@ -145,7 +145,7 @@ rows_update <- function(x,
                         y,
                         by = NULL,
                         ...,
-                        conflict = "error",
+                        conflict = c("error", "ignore"),
                         copy = FALSE,
                         in_place = FALSE) {
   lifecycle::signal_stage("experimental", "rows_update()")
@@ -157,7 +157,7 @@ rows_update.data.frame <- function(x,
                                    y,
                                    by = NULL,
                                    ...,
-                                   conflict = "error",
+                                   conflict = c("error", "ignore"),
                                    copy = FALSE,
                                    in_place = FALSE) {
   check_dots_empty()
@@ -198,7 +198,7 @@ rows_patch <- function(x,
                        y,
                        by = NULL,
                        ...,
-                       conflict = "error",
+                       conflict = c("error", "ignore"),
                        copy = FALSE,
                        in_place = FALSE) {
   lifecycle::signal_stage("experimental", "rows_patch()")
@@ -210,7 +210,7 @@ rows_patch.data.frame <- function(x,
                                   y,
                                   by = NULL,
                                   ...,
-                                  conflict = "error",
+                                  conflict = c("error", "ignore"),
                                   copy = FALSE,
                                   in_place = FALSE) {
   check_dots_empty()
@@ -305,7 +305,7 @@ rows_delete <- function(x,
                         y,
                         by = NULL,
                         ...,
-                        conflict = "error",
+                        conflict = c("error", "ignore"),
                         copy = FALSE,
                         in_place = FALSE) {
   lifecycle::signal_stage("experimental", "rows_delete()")
@@ -317,7 +317,7 @@ rows_delete.data.frame <- function(x,
                                    y,
                                    by = NULL,
                                    ...,
-                                   conflict = "error",
+                                   conflict = c("error", "ignore"),
                                    copy = FALSE,
                                    in_place = FALSE) {
   check_dots_empty()

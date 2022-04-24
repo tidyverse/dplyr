@@ -14,7 +14,7 @@ rows_insert(
   y,
   by = NULL,
   ...,
-  conflict = "error",
+  conflict = c("error", "ignore"),
   copy = FALSE,
   in_place = FALSE
 )
@@ -24,7 +24,7 @@ rows_update(
   y,
   by = NULL,
   ...,
-  conflict = "error",
+  conflict = c("error", "ignore"),
   copy = FALSE,
   in_place = FALSE
 )
@@ -34,7 +34,7 @@ rows_patch(
   y,
   by = NULL,
   ...,
-  conflict = "error",
+  conflict = c("error", "ignore"),
   copy = FALSE,
   in_place = FALSE
 )
@@ -46,7 +46,7 @@ rows_delete(
   y,
   by = NULL,
   ...,
-  conflict = "error",
+  conflict = c("error", "ignore"),
   copy = FALSE,
   in_place = FALSE
 )
