@@ -34,20 +34,23 @@
 #'
 #'   When `TRUE`, a modified version of `x` is returned invisibly;
 #'   when `FALSE`, a new object representing the resulting changes is returned.
-#' @param conflict How should keys in `y` that conflict with keys in `x` be
-#'   handled?
-#'
-#'   For `rows_insert()`, a conflict arises if there is a key in `y` that
-#'   already exists in `x`.
-#'
-#'   For `rows_patch()`, `rows_delete()`, and `rows_update()`, a conflict arises
-#'   if there is a key in `y` that doesn't exist in `x`.
+#' @param conflict For `rows_insert()`, how should keys in `y` that conflict
+#'   with keys in `x` be handled? A conflict arises if there is a key in `y`
+#'   that already exists in `x`.
 #'
 #'   One of:
 #'   - `"error"`, the default, will error if there are any keys in `y` that
 #'     conflict with keys in `x`.
 #'   - `"ignore"` will ignore rows in `y` with keys that conflict with keys in
 #'     `x`.
+#' @param unmatched For `rows_update()`, `rows_patch()`, and `rows_delete()`,
+#'   how should keys in `y` that are unmatched by the keys in `x` be handled?
+#'
+#'   One of:
+#'   - `"error"`, the default, will error if there are any keys in `y` that
+#'     are unmatched by the keys in `x`.
+#'   - `"ignore"` will ignore rows in `y` with keys that are unmatched by the
+#'     keys in `x`.
 #' @returns
 #' An object of the same type as `x`. The order of the rows and columns of `x`
 #' is preserved as much as possible. The output has the following properties:
@@ -55,7 +58,8 @@
 #' * `rows_update()` preserves rows as is; `rows_insert()` and `rows_upsert()`
 #'   return all existing rows and potentially new rows; `rows_delete()` returns
 #'   a subset of the rows.
-#' * Columns are not added, removed, or relocated, though the data may be updated.
+#' * Columns are not added, removed, or relocated, though the data may be
+#'   updated.
 #' * Groups are taken from `x`.
 #' * Data frame attributes are taken from `x`.
 #'
@@ -88,12 +92,12 @@
 #'
 #' # By default, for update, patch, and delete it is an error if a key in `y`
 #' # doesn't exist in `x`. You can ignore rows in `y` that have unmatched keys
-#' # with `conflict = "ignore"`.
+#' # with `unmatched = "ignore"`.
 #' y <- tibble(a = 3:4, b = "z")
 #' try(rows_update(data, y, by = "a"))
-#' rows_update(data, y, by = "a", conflict = "ignore")
-#' rows_patch(data, y, by = "a", conflict = "ignore")
-#' rows_delete(data, y, by = "a", conflict = "ignore")
+#' rows_update(data, y, by = "a", unmatched = "ignore")
+#' rows_patch(data, y, by = "a", unmatched = "ignore")
+#' rows_delete(data, y, by = "a", unmatched = "ignore")
 NULL
 
 
@@ -130,7 +134,7 @@ rows_insert.data.frame <- function(x,
   x_key <- rows_select_key(x, by, "x")
   y_key <- rows_select_key(y, by, "y")
 
-  keep <- rows_check_y_matched(x_key, y_key, conflict)
+  keep <- rows_check_y_conflict(x_key, y_key, conflict)
 
   if (!is.null(keep)) {
     y <- dplyr_row_slice(y, keep)
@@ -145,7 +149,7 @@ rows_update <- function(x,
                         y,
                         by = NULL,
                         ...,
-                        conflict = c("error", "ignore"),
+                        unmatched = c("error", "ignore"),
                         copy = FALSE,
                         in_place = FALSE) {
   lifecycle::signal_stage("experimental", "rows_update()")
@@ -157,7 +161,7 @@ rows_update.data.frame <- function(x,
                                    y,
                                    by = NULL,
                                    ...,
-                                   conflict = c("error", "ignore"),
+                                   unmatched = c("error", "ignore"),
                                    copy = FALSE,
                                    in_place = FALSE) {
   check_dots_empty()
@@ -172,7 +176,7 @@ rows_update.data.frame <- function(x,
   x_key <- rows_select_key(x, by, "x")
   y_key <- rows_select_key(y, by, "y", unique = TRUE)
 
-  keep <- rows_check_y_unmatched(x_key, y_key, conflict)
+  keep <- rows_check_y_unmatched(x_key, y_key, unmatched)
 
   if (!is.null(keep)) {
     y <- dplyr_row_slice(y, keep)
@@ -198,7 +202,7 @@ rows_patch <- function(x,
                        y,
                        by = NULL,
                        ...,
-                       conflict = c("error", "ignore"),
+                       unmatched = c("error", "ignore"),
                        copy = FALSE,
                        in_place = FALSE) {
   lifecycle::signal_stage("experimental", "rows_patch()")
@@ -210,7 +214,7 @@ rows_patch.data.frame <- function(x,
                                   y,
                                   by = NULL,
                                   ...,
-                                  conflict = c("error", "ignore"),
+                                  unmatched = c("error", "ignore"),
                                   copy = FALSE,
                                   in_place = FALSE) {
   check_dots_empty()
@@ -225,7 +229,7 @@ rows_patch.data.frame <- function(x,
   x_key <- rows_select_key(x, by, "x")
   y_key <- rows_select_key(y, by, "y", unique = TRUE)
 
-  keep <- rows_check_y_unmatched(x_key, y_key, conflict)
+  keep <- rows_check_y_unmatched(x_key, y_key, unmatched)
 
   if (!is.null(keep)) {
     y <- dplyr_row_slice(y, keep)
@@ -305,7 +309,7 @@ rows_delete <- function(x,
                         y,
                         by = NULL,
                         ...,
-                        conflict = c("error", "ignore"),
+                        unmatched = c("error", "ignore"),
                         copy = FALSE,
                         in_place = FALSE) {
   lifecycle::signal_stage("experimental", "rows_delete()")
@@ -317,7 +321,7 @@ rows_delete.data.frame <- function(x,
                                    y,
                                    by = NULL,
                                    ...,
-                                   conflict = c("error", "ignore"),
+                                   unmatched = c("error", "ignore"),
                                    copy = FALSE,
                                    in_place = FALSE) {
   check_dots_empty()
@@ -330,7 +334,7 @@ rows_delete.data.frame <- function(x,
   x_key <- rows_select_key(x, by, "x")
   y_key <- rows_select_key(y, by, "y")
 
-  keep <- rows_check_y_unmatched(x_key, y_key, conflict)
+  keep <- rows_check_y_unmatched(x_key, y_key, unmatched)
 
   if (!is.null(keep)) {
     y_key <- dplyr_row_slice(y_key, keep)
@@ -439,31 +443,31 @@ rows_select_key <- function(x,
   out
 }
 
-rows_check_y_matched <- function(x_key,
-                                 y_key,
-                                 conflict,
-                                 ...,
-                                 error_call = caller_env()) {
+rows_check_y_conflict <- function(x_key,
+                                  y_key,
+                                  conflict,
+                                  ...,
+                                  error_call = caller_env()) {
   check_dots_empty()
 
   conflict <- rows_check_conflict(conflict, error_call = error_call)
 
   keep <- NULL
-  matched <- vec_in(y_key, x_key)
+  rows_matched <- vec_in(y_key, x_key)
 
-  if (any(matched)) {
+  if (any(rows_matched)) {
     if (conflict == "error") {
-      matched <- which(matched)
-      matched <- err_locs(matched)
+      rows_matched <- which(rows_matched)
+      rows_matched <- err_locs(rows_matched)
 
       message <- c(
         "`y` must contain keys that don't exist in `x`.",
-        i = glue("The following rows in `y` have keys that already exist in `x`: {matched}.")
+        i = glue("The following rows in `y` have keys that already exist in `x`: {rows_matched}.")
       )
 
       abort(message, call = error_call)
     } else if (conflict == "ignore") {
-      keep <- which(!matched)
+      keep <- which(!rows_matched)
     } else {
       abort("Unknown `conflict` value.", .internal = TRUE)
     }
@@ -474,31 +478,31 @@ rows_check_y_matched <- function(x_key,
 
 rows_check_y_unmatched <- function(x_key,
                                    y_key,
-                                   conflict,
+                                   unmatched,
                                    ...,
                                    error_call = caller_env()) {
   check_dots_empty()
 
-  conflict <- rows_check_conflict(conflict, error_call = error_call)
+  unmatched <- rows_check_unmatched(unmatched, error_call = error_call)
 
   keep <- NULL
-  unmatched <- !vec_in(y_key, x_key)
+  rows_unmatched <- !vec_in(y_key, x_key)
 
-  if (any(unmatched)) {
-    if (conflict == "error") {
-      unmatched <- which(unmatched)
-      unmatched <- err_locs(unmatched)
+  if (any(rows_unmatched)) {
+    if (unmatched == "error") {
+      rows_unmatched <- which(rows_unmatched)
+      rows_unmatched <- err_locs(rows_unmatched)
 
       message <- c(
         "`y` must contain keys that already exist in `x`.",
-        i = glue("The following rows in `y` have keys that don't exist in `x`: {unmatched}.")
+        i = glue("The following rows in `y` have keys that don't exist in `x`: {rows_unmatched}.")
       )
 
       abort(message, call = error_call)
-    } else if (conflict == "ignore") {
-      keep <- which(!unmatched)
+    } else if (unmatched == "ignore") {
+      keep <- which(!rows_unmatched)
     } else {
-      abort("Unknown `conflict` value.", .internal = TRUE)
+      abort("Unknown `unmatched` value.", .internal = TRUE)
     }
   }
 
@@ -512,6 +516,17 @@ rows_check_conflict <- function(conflict, ..., error_call = caller_env()) {
     arg = conflict,
     values = c("error", "ignore"),
     error_arg = "conflict",
+    error_call = error_call
+  )
+}
+
+rows_check_unmatched <- function(unmatched, ..., error_call = caller_env()) {
+  check_dots_empty()
+
+  arg_match(
+    arg = unmatched,
+    values = c("error", "ignore"),
+    error_arg = "unmatched",
     error_call = error_call
   )
 }

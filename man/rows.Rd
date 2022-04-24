@@ -24,7 +24,7 @@ rows_update(
   y,
   by = NULL,
   ...,
-  conflict = c("error", "ignore"),
+  unmatched = c("error", "ignore"),
   copy = FALSE,
   in_place = FALSE
 )
@@ -34,7 +34,7 @@ rows_patch(
   y,
   by = NULL,
   ...,
-  conflict = c("error", "ignore"),
+  unmatched = c("error", "ignore"),
   copy = FALSE,
   in_place = FALSE
 )
@@ -46,7 +46,7 @@ rows_delete(
   y,
   by = NULL,
   ...,
-  conflict = c("error", "ignore"),
+  unmatched = c("error", "ignore"),
   copy = FALSE,
   in_place = FALSE
 )
@@ -65,14 +65,9 @@ a reasonable place to put an identifier variable.}
 
 \item{...}{Other parameters passed onto methods.}
 
-\item{conflict}{How should keys in \code{y} that conflict with keys in \code{x} be
-handled?
-
-For \code{rows_insert()}, a conflict arises if there is a key in \code{y} that
-already exists in \code{x}.
-
-For \code{rows_patch()}, \code{rows_delete()}, and \code{rows_update()}, a conflict arises
-if there is a key in \code{y} that doesn't exist in \code{x}.
+\item{conflict}{For \code{rows_insert()}, how should keys in \code{y} that conflict
+with keys in \code{x} be handled? A conflict arises if there is a key in \code{y}
+that already exists in \code{x}.
 
 One of:
 \itemize{
@@ -92,6 +87,17 @@ relevant for mutable backends (e.g. databases, data.tables).
 
 When \code{TRUE}, a modified version of \code{x} is returned invisibly;
 when \code{FALSE}, a new object representing the resulting changes is returned.}
+
+\item{unmatched}{For \code{rows_update()}, \code{rows_patch()}, and \code{rows_delete()},
+how should keys in \code{y} that are unmatched by the keys in \code{x} be handled?
+
+One of:
+\itemize{
+\item \code{"error"}, the default, will error if there are any keys in \code{y} that
+are unmatched by the keys in \code{x}.
+\item \code{"ignore"} will ignore rows in \code{y} with keys that are unmatched by the
+keys in \code{x}.
+}}
 }
 \value{
 An object of the same type as \code{x}. The order of the rows and columns of \code{x}
@@ -100,7 +106,8 @@ is preserved as much as possible. The output has the following properties:
 \item \code{rows_update()} preserves rows as is; \code{rows_insert()} and \code{rows_upsert()}
 return all existing rows and potentially new rows; \code{rows_delete()} returns
 a subset of the rows.
-\item Columns are not added, removed, or relocated, though the data may be updated.
+\item Columns are not added, removed, or relocated, though the data may be
+updated.
 \item Groups are taken from \code{x}.
 \item Data frame attributes are taken from \code{x}.
 }
@@ -154,10 +161,10 @@ rows_delete(data, tibble(a = 2:3, b = "b"))
 
 # By default, for update, patch, and delete it is an error if a key in `y`
 # doesn't exist in `x`. You can ignore rows in `y` that have unmatched keys
-# with `conflict = "ignore"`.
+# with `unmatched = "ignore"`.
 y <- tibble(a = 3:4, b = "z")
 try(rows_update(data, y, by = "a"))
-rows_update(data, y, by = "a", conflict = "ignore")
-rows_patch(data, y, by = "a", conflict = "ignore")
-rows_delete(data, y, by = "a", conflict = "ignore")
+rows_update(data, y, by = "a", unmatched = "ignore")
+rows_patch(data, y, by = "a", unmatched = "ignore")
+rows_delete(data, y, by = "a", unmatched = "ignore")
 }

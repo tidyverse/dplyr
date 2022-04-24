@@ -1,18 +1,16 @@
 # dplyr (development version)
 
-* `rows_insert()`, `rows_update()`, `rows_patch()`, and `rows_delete()` have
-  gained a new `conflict` argument allowing you greater control over rows in
-  `y` with keys that conflict with keys in `x`.
-  
-  For `rows_insert()`, a conflict arises if a key in `y` already exists in `x`.
-  
-  For `rows_update()`, `rows_patch()`, and `rows_delete()`, a conflict arises
-  if a key in `y` doesn't exist in `x`.
-  
-  By default, a conflict of any kind is an error, but you can now also
-  `"ignore"` the rows in `y` where a conflict occurs. In particular, for
-  `rows_insert()` this is very similar to the `ON CONFLICT DO NOTHING` command
-  from SQL (#5588, #5984, #5699, with helpful additions from @mgirlich).
+* `rows_insert()` gained a new `conflict` argument allowing you greater control
+  over rows in `y` with keys that conflict with keys in `x`. A conflict arises
+  if a key in `y` already exists in `x`. By default, a conflict results in an
+  error, but you can now also `"ignore"` these `y` rows. This is very similar to
+  the `ON CONFLICT DO NOTHING` command from SQL (#5588, with helpful additions
+  from @mgirlich and @krlmlr).
+
+* `rows_update()`, `rows_patch()`, and `rows_delete()` gained a new `unmatched`
+  argument allowing you greater control over rows in `y` with keys that are
+  unmatched by the keys in `x`. By default, an unmatched key results in an
+  error, but you can now also `"ignore"` these `y` rows (#5984, #5699).
 
 * The `rows_*()` functions no longer require that the key values in `x` uniquely
   identify each row. Additionally, `rows_insert()` and `rows_delete()` no

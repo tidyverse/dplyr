@@ -33,21 +33,6 @@
       Error in `rows_insert()`:
       ! `conflict` must be a character vector, not a number.
 
----
-
-    Code
-      (expect_error(rows_update(x, y, by = "a", conflict = "foo")))
-    Output
-      <error/rlang_error>
-      Error in `rows_update()`:
-      ! `conflict` must be one of "error" or "ignore", not "foo".
-    Code
-      (expect_error(rows_update(x, y, by = "a", conflict = 1)))
-    Output
-      <error/rlang_error>
-      Error in `rows_update()`:
-      ! `conflict` must be a character vector, not a number.
-
 # rows_update() requires `y` keys to exist in `x` by default
 
     Code
@@ -67,6 +52,21 @@
       Error in `rows_update()`:
       ! `y` key values must be unique.
       i The following rows contain duplicate key values: `c(1, 2)`.
+
+# `unmatched` is validated
+
+    Code
+      (expect_error(rows_update(x, y, by = "a", unmatched = "foo")))
+    Output
+      <error/rlang_error>
+      Error in `rows_update()`:
+      ! `unmatched` must be one of "error" or "ignore", not "foo".
+    Code
+      (expect_error(rows_update(x, y, by = "a", unmatched = 1)))
+    Output
+      <error/rlang_error>
+      Error in `rows_update()`:
+      ! `unmatched` must be a character vector, not a number.
 
 # rows_patch() requires `y` keys to exist in `x` by default
 

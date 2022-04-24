@@ -101,7 +101,7 @@ test_that("rows_update() allows `y` keys that don't exist in `x` to be ignored",
   y <- tibble(a = c(2, 1, 3), b = c(1, 1, 1))
 
   expect_identical(
-    rows_update(x, y, "a", conflict = "ignore"),
+    rows_update(x, y, "a", unmatched = "ignore"),
     tibble(a = 1, b = 1)
   )
 })
@@ -123,13 +123,13 @@ test_that("rows_update() doesn't allow `y` keys to be duplicated (#5553)", {
   expect_snapshot((expect_error(rows_update(x, y, by = "a"))))
 })
 
-test_that("`conflict` is validated", {
+test_that("`unmatched` is validated", {
   x <- tibble(a = 1)
   y <- tibble(a = 1)
 
   expect_snapshot({
-    (expect_error(rows_update(x, y, by = "a", conflict = "foo")))
-    (expect_error(rows_update(x, y, by = "a", conflict = 1)))
+    (expect_error(rows_update(x, y, by = "a", unmatched = "foo")))
+    (expect_error(rows_update(x, y, by = "a", unmatched = 1)))
   })
 })
 
@@ -163,7 +163,7 @@ test_that("rows_patch() allows `y` keys that don't exist in `x` to be ignored", 
   y <- tibble(a = c(2, 1, 3), b = c(1, 1, 1))
 
   expect_identical(
-    rows_patch(x, y, "a", conflict = "ignore"),
+    rows_patch(x, y, "a", unmatched = "ignore"),
     tibble(a = 1, b = 1)
   )
 })
@@ -253,7 +253,7 @@ test_that("rows_delete() allows `y` keys that don't exist in `x` to be ignored",
   y <- tibble(a = c(2, 1, 3))
 
   expect_identical(
-    rows_delete(x, y, "a", conflict = "ignore"),
+    rows_delete(x, y, "a", unmatched = "ignore"),
     tibble(a = double(), b = double())
   )
 })
