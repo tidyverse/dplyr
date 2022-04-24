@@ -461,8 +461,9 @@ rows_check_y_conflict <- function(x_key,
       rows_matched <- err_locs(rows_matched)
 
       message <- c(
-        "`y` must contain keys that don't exist in `x`.",
-        i = glue("The following rows in `y` have keys that already exist in `x`: {rows_matched}.")
+        "`y` can't contain keys that already exist in `x`.",
+        i = glue("The following rows in `y` have keys that already exist in `x`: {rows_matched}."),
+        i = "Use `conflict = \"ignore\"` if you want to ignore these `y` rows."
       )
 
       abort(message, call = error_call)
@@ -495,7 +496,8 @@ rows_check_y_unmatched <- function(x_key,
 
       message <- c(
         "`y` must contain keys that already exist in `x`.",
-        i = glue("The following rows in `y` have keys that don't exist in `x`: {rows_unmatched}.")
+        i = glue("The following rows in `y` have keys that don't exist in `x`: {rows_unmatched}."),
+        i = "Use `unmatched = \"ignore\"` if you want to ignore these `y` rows."
       )
 
       abort(message, call = error_call)

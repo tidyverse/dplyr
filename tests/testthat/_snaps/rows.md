@@ -5,8 +5,9 @@
     Output
       <error/rlang_error>
       Error in `rows_insert()`:
-      ! `y` must contain keys that don't exist in `x`.
+      ! `y` can't contain keys that already exist in `x`.
       i The following rows in `y` have keys that already exist in `x`: `c(1)`.
+      i Use `conflict = "ignore"` if you want to ignore these `y` rows.
 
 ---
 
@@ -15,8 +16,9 @@
     Output
       <error/rlang_error>
       Error in `rows_insert()`:
-      ! `y` must contain keys that don't exist in `x`.
+      ! `y` can't contain keys that already exist in `x`.
       i The following rows in `y` have keys that already exist in `x`: `c(1, 2, 3)`.
+      i Use `conflict = "ignore"` if you want to ignore these `y` rows.
 
 # `conflict` is validated
 
@@ -42,6 +44,7 @@
       Error in `rows_update()`:
       ! `y` must contain keys that already exist in `x`.
       i The following rows in `y` have keys that don't exist in `x`: `c(1, 3)`.
+      i Use `unmatched = "ignore"` if you want to ignore these `y` rows.
 
 # rows_update() doesn't allow `y` keys to be duplicated (#5553)
 
@@ -77,6 +80,7 @@
       Error in `rows_patch()`:
       ! `y` must contain keys that already exist in `x`.
       i The following rows in `y` have keys that don't exist in `x`: `c(1, 3)`.
+      i Use `unmatched = "ignore"` if you want to ignore these `y` rows.
 
 # rows_patch() doesn't allow `y` keys to be duplicated (#5553)
 
@@ -122,6 +126,7 @@
       Error in `rows_delete()`:
       ! `y` must contain keys that already exist in `x`.
       i The following rows in `y` have keys that don't exist in `x`: `c(1, 3)`.
+      i Use `unmatched = "ignore"` if you want to ignore these `y` rows.
 
 # rows_check_containment() checks that `y` columns are in `x`
 
