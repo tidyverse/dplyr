@@ -20,6 +20,26 @@
       i The following rows in `y` have keys that already exist in `x`: `c(1, 2, 3)`.
       i Use `conflict = "ignore"` if you want to ignore these `y` rows.
 
+# rows_insert() casts keys to the type of `x`
+
+    Code
+      (expect_error(rows_insert(x, y, "key")))
+    Output
+      <error/vctrs_error_cast_lossy>
+      Error in `rows_insert()`:
+      ! Can't convert from `y$key` <double> to `x$key` <integer> due to loss of precision.
+      * Locations: 1
+
+# rows_insert() casts values to the type of `x`
+
+    Code
+      (expect_error(rows_insert(x, y, "key")))
+    Output
+      <error/vctrs_error_cast_lossy>
+      Error in `rows_insert()`:
+      ! Can't convert from `y$value` <double> to `x$value` <integer> due to loss of precision.
+      * Locations: 1
+
 # `conflict` is validated
 
     Code
@@ -55,6 +75,25 @@
       Error in `rows_update()`:
       ! `y` key values must be unique.
       i The following rows contain duplicate key values: `c(1, 2)`.
+
+# rows_update() casts keys to their common type for matching but retains `x` type
+
+    Code
+      (expect_error(rows_update(x, y, "key")))
+    Output
+      <error/vctrs_error_incompatible_type>
+      Error in `rows_update()`:
+      ! Can't combine `x$key` <integer> and `y$key` <character>.
+
+# rows_update() casts values to the type of `x`
+
+    Code
+      (expect_error(rows_update(x, y, "key")))
+    Output
+      <error/vctrs_error_cast_lossy>
+      Error in `rows_update()`:
+      ! Can't convert from `y$value` <double> to `x$value` <integer> due to loss of precision.
+      * Locations: 1
 
 # `unmatched` is validated
 
@@ -92,6 +131,25 @@
       ! `y` key values must be unique.
       i The following rows contain duplicate key values: `c(1, 2)`.
 
+# rows_patch() casts keys to their common type for matching but retains `x` type
+
+    Code
+      (expect_error(rows_patch(x, y, "key")))
+    Output
+      <error/vctrs_error_incompatible_type>
+      Error in `rows_patch()`:
+      ! Can't combine `x$key` <integer> and `y$key` <character>.
+
+# rows_patch() casts values to the type of `x`
+
+    Code
+      (expect_error(rows_patch(x, y, "key")))
+    Output
+      <error/vctrs_error_cast_lossy>
+      Error in `rows_patch()`:
+      ! Can't convert from `y$value` <double> to `x$value` <integer> due to loss of precision.
+      * Locations: 1
+
 # rows_upsert() doesn't allow `y` keys to be duplicated (#5553)
 
     Code
@@ -101,6 +159,35 @@
       Error in `rows_upsert()`:
       ! `y` key values must be unique.
       i The following rows contain duplicate key values: `c(1, 2)`.
+
+# rows_upsert() casts keys to their common type for matching but retains `x` type
+
+    Code
+      (expect_error(rows_upsert(x, y, "key")))
+    Output
+      <error/vctrs_error_incompatible_type>
+      Error in `rows_upsert()`:
+      ! Can't combine `x$key` <integer> and `y$key` <character>.
+
+# rows_upsert() casts keys to the type of `x`
+
+    Code
+      (expect_error(rows_upsert(x, y, "key")))
+    Output
+      <error/vctrs_error_cast_lossy>
+      Error in `rows_upsert()`:
+      ! Can't convert from `y$key` <double> to `x$key` <integer> due to loss of precision.
+      * Locations: 1
+
+# rows_upsert() casts values to the type of `x`
+
+    Code
+      (expect_error(rows_upsert(x, y, "key")))
+    Output
+      <error/vctrs_error_cast_lossy>
+      Error in `rows_upsert()`:
+      ! Can't convert from `y$value` <double> to `x$value` <integer> due to loss of precision.
+      * Locations: 1
 
 # rows_delete() ignores extra `y` columns, with a message
 
@@ -127,6 +214,15 @@
       ! `y` must contain keys that already exist in `x`.
       i The following rows in `y` have keys that don't exist in `x`: `c(1, 3)`.
       i Use `unmatched = "ignore"` if you want to ignore these `y` rows.
+
+# rows_delete() casts keys to their common type for matching but retains `x` type
+
+    Code
+      (expect_error(rows_delete(x, y, "key")))
+    Output
+      <error/vctrs_error_incompatible_type>
+      Error in `rows_delete()`:
+      ! Can't combine `x$key` <integer> and `y$key` <character>.
 
 # rows_check_containment() checks that `y` columns are in `x`
 

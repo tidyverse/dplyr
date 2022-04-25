@@ -77,6 +77,23 @@ dplyr_new_data_frame <- function(x = data.frame(),
   )
 }
 
+# Strips a list-like vector down to just names
+dplyr_new_list <- function(x) {
+  if (!is_list(x)) {
+    abort("`x` must be a VECSXP.", .internal = TRUE)
+  }
+
+  names <- names(x)
+
+  if (is.null(names)) {
+    attributes(x) <- NULL
+  } else {
+    attributes(x) <- list(names = names)
+  }
+
+  x
+}
+
 maybe_restart <- function(restart) {
   if (!is_null(findRestart(restart))) {
     invokeRestart(restart)
