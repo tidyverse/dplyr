@@ -9,15 +9,47 @@
 \alias{rows_delete}
 \title{Manipulate individual rows}
 \usage{
-rows_insert(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE)
+rows_insert(
+  x,
+  y,
+  by = NULL,
+  ...,
+  conflict = c("error", "ignore"),
+  copy = FALSE,
+  in_place = FALSE
+)
 
-rows_update(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE)
+rows_update(
+  x,
+  y,
+  by = NULL,
+  ...,
+  unmatched = c("error", "ignore"),
+  copy = FALSE,
+  in_place = FALSE
+)
 
-rows_patch(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE)
+rows_patch(
+  x,
+  y,
+  by = NULL,
+  ...,
+  unmatched = c("error", "ignore"),
+  copy = FALSE,
+  in_place = FALSE
+)
 
 rows_upsert(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE)
 
-rows_delete(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE)
+rows_delete(
+  x,
+  y,
+  by = NULL,
+  ...,
+  unmatched = c("error", "ignore"),
+  copy = FALSE,
+  in_place = FALSE
+)
 }
 \arguments{
 \item{x, y}{A pair of data frames or data frame extensions (e.g. a tibble).
@@ -33,6 +65,18 @@ a reasonable place to put an identifier variable.}
 
 \item{...}{Other parameters passed onto methods.}
 
+\item{conflict}{For \code{rows_insert()}, how should keys in \code{y} that conflict
+with keys in \code{x} be handled? A conflict arises if there is a key in \code{y}
+that already exists in \code{x}.
+
+One of:
+\itemize{
+\item \code{"error"}, the default, will error if there are any keys in \code{y} that
+conflict with keys in \code{x}.
+\item \code{"ignore"} will ignore rows in \code{y} with keys that conflict with keys in
+\code{x}.
+}}
+
 \item{copy}{If \code{x} and \code{y} are not from the same data source,
 and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
 same src as \code{x}.  This allows you to join tables across srcs, but
@@ -43,6 +87,17 @@ relevant for mutable backends (e.g. databases, data.tables).
 
 When \code{TRUE}, a modified version of \code{x} is returned invisibly;
 when \code{FALSE}, a new object representing the resulting changes is returned.}
+
+\item{unmatched}{For \code{rows_update()}, \code{rows_patch()}, and \code{rows_delete()},
+how should keys in \code{y} that are unmatched by the keys in \code{x} be handled?
+
+One of:
+\itemize{
+\item \code{"error"}, the default, will error if there are any keys in \code{y} that
+are unmatched by the keys in \code{x}.
+\item \code{"ignore"} will ignore rows in \code{y} with keys that are unmatched by the
+keys in \code{x}.
+}}
 }
 \value{
 An object of the same type as \code{x}. The order of the rows and columns of \code{x}
@@ -51,7 +106,8 @@ is preserved as much as possible. The output has the following properties:
 \item \code{rows_update()} preserves rows as is; \code{rows_insert()} and \code{rows_upsert()}
 return all existing rows and potentially new rows; \code{rows_delete()} returns
 a subset of the rows.
-\item Columns are not added, removed, or relocated, though the data may be updated.
+\item Columns are not added, removed, or relocated, though the data may be
+updated.
 \item Groups are taken from \code{x}.
 \item Data frame attributes are taken from \code{x}.
 }
@@ -67,15 +123,15 @@ whose values typically uniquely identify each row. The functions are inspired
 by SQL's \code{INSERT}, \code{UPDATE}, and \code{DELETE}, and can optionally modify
 \code{in_place} for selected backends.
 \itemize{
-\item \code{rows_insert()} adds new rows (like \code{INSERT}). Key values in \code{y} must
-not occur in \code{x}.
-\item \code{rows_update()} modifies existing rows (like \code{UPDATE}). Key values in
-\code{y} must occur in \code{x}, and key values in \code{y} must be unique.
+\item \code{rows_insert()} adds new rows (like \code{INSERT}). By default, key values in
+\code{y} must not exist in \code{x}.
+\item \code{rows_update()} modifies existing rows (like \code{UPDATE}). Key values in \code{y}
+must be unique, and, by default, key values in \code{y} must exist in \code{x}.
 \item \code{rows_patch()} works like \code{rows_update()} but only overwrites \code{NA} values.
 \item \code{rows_upsert()} inserts or updates depending on whether or not the
 key value in \code{y} already exists in \code{x}. Key values in \code{y} must be unique.
-\item \code{rows_delete()} deletes rows (like \code{DELETE}). Key values in \code{y} must
-exist in \code{x}.
+\item \code{rows_delete()} deletes rows (like \code{DELETE}). By default, key values in \code{y}
+must exist in \code{x}.
 }
 }
 \examples{
@@ -84,7 +140,12 @@ data
 
 # Insert
 rows_insert(data, tibble(a = 4, b = "z"))
+
+# By default, if a key in `y` matches a key in `x`, then it can't be inserted
+# and will throw an error. Alternatively, you can ignore rows in `y`
+# containing keys that conflict with keys in `x` with `conflict = "ignore"`.
 try(rows_insert(data, tibble(a = 3, b = "z")))
+rows_insert(data, tibble(a = 3, b = "z"), conflict = "ignore")
 
 # Update
 rows_update(data, tibble(a = 2:3, b = "z"))
@@ -97,5 +158,13 @@ rows_upsert(data, tibble(a = 2:4, b = "z"))
 # Delete and truncate
 rows_delete(data, tibble(a = 2:3))
 rows_delete(data, tibble(a = 2:3, b = "b"))
-try(rows_delete(data, tibble(a = 2:3, b = "b"), by = c("a", "b")))
+
+# By default, for update, patch, and delete it is an error if a key in `y`
+# doesn't exist in `x`. You can ignore rows in `y` that have unmatched keys
+# with `unmatched = "ignore"`.
+y <- tibble(a = 3:4, b = "z")
+try(rows_update(data, y, by = "a"))
+rows_update(data, y, by = "a", unmatched = "ignore")
+rows_patch(data, y, by = "a", unmatched = "ignore")
+rows_delete(data, y, by = "a", unmatched = "ignore")
 }

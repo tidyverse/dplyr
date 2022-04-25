@@ -1,12 +1,13 @@
-# rows_insert() doesn't allow insertion of duplicate keys
+# rows_insert() doesn't allow insertion of matched keys by default
 
     Code
       (expect_error(rows_insert(x, y, by = "a")))
     Output
       <error/rlang_error>
       Error in `rows_insert()`:
-      ! `y` must contain keys that don't exist in `x`.
+      ! `y` can't contain keys that already exist in `x`.
       i The following rows in `y` have keys that already exist in `x`: `c(1)`.
+      i Use `conflict = "ignore"` if you want to ignore these `y` rows.
 
 ---
 
@@ -15,10 +16,26 @@
     Output
       <error/rlang_error>
       Error in `rows_insert()`:
-      ! `y` must contain keys that don't exist in `x`.
+      ! `y` can't contain keys that already exist in `x`.
       i The following rows in `y` have keys that already exist in `x`: `c(1, 2, 3)`.
+      i Use `conflict = "ignore"` if you want to ignore these `y` rows.
 
-# rows_update() requires `y` keys to exist in `x`
+# `conflict` is validated
+
+    Code
+      (expect_error(rows_insert(x, y, by = "a", conflict = "foo")))
+    Output
+      <error/rlang_error>
+      Error in `rows_insert()`:
+      ! `conflict` must be one of "error" or "ignore", not "foo".
+    Code
+      (expect_error(rows_insert(x, y, by = "a", conflict = 1)))
+    Output
+      <error/rlang_error>
+      Error in `rows_insert()`:
+      ! `conflict` must be a character vector, not a number.
+
+# rows_update() requires `y` keys to exist in `x` by default
 
     Code
       (expect_error(rows_update(x, y, "a")))
@@ -27,6 +44,7 @@
       Error in `rows_update()`:
       ! `y` must contain keys that already exist in `x`.
       i The following rows in `y` have keys that don't exist in `x`: `c(1, 3)`.
+      i Use `unmatched = "ignore"` if you want to ignore these `y` rows.
 
 # rows_update() doesn't allow `y` keys to be duplicated (#5553)
 
@@ -38,7 +56,22 @@
       ! `y` key values must be unique.
       i The following rows contain duplicate key values: `c(1, 2)`.
 
-# rows_patch() requires `y` keys to exist in `x`
+# `unmatched` is validated
+
+    Code
+      (expect_error(rows_update(x, y, by = "a", unmatched = "foo")))
+    Output
+      <error/rlang_error>
+      Error in `rows_update()`:
+      ! `unmatched` must be one of "error" or "ignore", not "foo".
+    Code
+      (expect_error(rows_update(x, y, by = "a", unmatched = 1)))
+    Output
+      <error/rlang_error>
+      Error in `rows_update()`:
+      ! `unmatched` must be a character vector, not a number.
+
+# rows_patch() requires `y` keys to exist in `x` by default
 
     Code
       (expect_error(rows_patch(x, y, "a")))
@@ -47,6 +80,7 @@
       Error in `rows_patch()`:
       ! `y` must contain keys that already exist in `x`.
       i The following rows in `y` have keys that don't exist in `x`: `c(1, 3)`.
+      i Use `unmatched = "ignore"` if you want to ignore these `y` rows.
 
 # rows_patch() doesn't allow `y` keys to be duplicated (#5553)
 
@@ -83,7 +117,7 @@
     Message
       Ignoring extra `y` columns: b
 
-# rows_delete() requires `y` keys to exist in `x`
+# rows_delete() requires `y` keys to exist in `x` by default
 
     Code
       (expect_error(rows_delete(x, y, "a")))
@@ -92,6 +126,7 @@
       Error in `rows_delete()`:
       ! `y` must contain keys that already exist in `x`.
       i The following rows in `y` have keys that don't exist in `x`: `c(1, 3)`.
+      i Use `unmatched = "ignore"` if you want to ignore these `y` rows.
 
 # rows_check_containment() checks that `y` columns are in `x`
 
