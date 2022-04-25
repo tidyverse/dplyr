@@ -127,9 +127,10 @@ rows_insert.data.frame <- function(x,
 
   y <- auto_copy(x, y, copy = copy)
 
-  rows_check_containment(x, y)
-
   by <- rows_check_by(by, y)
+
+  rows_check_containment(x, y)
+  y <- rows_cast_y(y, x)
 
   x_key <- rows_select_key(x, by, "x")
   y_key <- rows_select_key(y, by, "y")
@@ -169,18 +170,27 @@ rows_update.data.frame <- function(x,
 
   y <- auto_copy(x, y, copy = copy)
 
-  rows_check_containment(x, y)
-
   by <- rows_check_by(by, y)
+
+  rows_check_containment(x, y)
 
   x_key <- rows_select_key(x, by, "x")
   y_key <- rows_select_key(y, by, "y", unique = TRUE)
+  args <- vec_cast_common(x = x_key, y = y_key)
+  x_key <- args$x
+  y_key <- args$y
+
+  values_names <- setdiff(names(y), names(y_key))
+
+  x_values <- x[values_names]
+  y_values <- y[values_names]
+  y_values <- rows_cast_y(y_values, x_values)
 
   keep <- rows_check_y_unmatched(x_key, y_key, unmatched)
 
   if (!is.null(keep)) {
-    y <- dplyr_row_slice(y, keep)
-    y_key <- rows_select_key(y, by, "y")
+    y_key <- dplyr_row_slice(y_key, keep)
+    y_values <- dplyr_row_slice(y_values, keep)
   }
 
   loc <- vec_match(x_key, y_key)
@@ -189,9 +199,12 @@ rows_update.data.frame <- function(x,
   y_loc <- loc[match]
   x_loc <- which(match)
 
-  values_cols <- setdiff(names(y), names(y_key))
+  y_values <- dplyr_row_slice(y_values, y_loc)
 
-  x[x_loc, values_cols] <- y[y_loc, values_cols]
+  x_values <- vec_assign(x_values, x_loc, y_values)
+  x_values <- dplyr_new_list(x_values)
+
+  x <- dplyr_col_modify(x, x_values)
 
   x
 }
@@ -222,18 +235,27 @@ rows_patch.data.frame <- function(x,
 
   y <- auto_copy(x, y, copy = copy)
 
-  rows_check_containment(x, y)
-
   by <- rows_check_by(by, y)
+
+  rows_check_containment(x, y)
 
   x_key <- rows_select_key(x, by, "x")
   y_key <- rows_select_key(y, by, "y", unique = TRUE)
+  args <- vec_cast_common(x = x_key, y = y_key)
+  x_key <- args$x
+  y_key <- args$y
+
+  values_names <- setdiff(names(y), names(y_key))
+
+  x_values <- x[values_names]
+  y_values <- y[values_names]
+  y_values <- rows_cast_y(y_values, x_values)
 
   keep <- rows_check_y_unmatched(x_key, y_key, unmatched)
 
   if (!is.null(keep)) {
-    y <- dplyr_row_slice(y, keep)
-    y_key <- rows_select_key(y, by, "y")
+    y_key <- dplyr_row_slice(y_key, keep)
+    y_values <- dplyr_row_slice(y_values, keep)
   }
 
   loc <- vec_match(x_key, y_key)
@@ -242,14 +264,19 @@ rows_patch.data.frame <- function(x,
   y_loc <- loc[match]
   x_loc <- which(match)
 
-  values_cols <- setdiff(names(y), names(y_key))
+  x_slice <- dplyr_row_slice(x_values, x_loc)
+  x_slice <- dplyr_new_list(x_slice)
 
-  x_values <- x[x_loc, values_cols]
-  y_values <- y[y_loc, values_cols]
+  y_slice <- dplyr_row_slice(y_values, y_loc)
+  y_slice <- dplyr_new_list(y_slice)
 
-  x_patched <- map2(x_values, y_values, coalesce)
+  x_patched <- map2(x_slice, y_slice, coalesce)
+  x_patched <- new_data_frame(x_patched, n = length(x_loc))
 
-  x[x_loc, values_cols] <- x_patched
+  x_values <- vec_assign(x_values, x_loc, x_patched)
+  x_values <- dplyr_new_list(x_values)
+
+  x <- dplyr_col_modify(x, x_values)
 
   x
 }
@@ -278,12 +305,21 @@ rows_upsert.data.frame <- function(x,
 
   y <- auto_copy(x, y, copy = copy)
 
-  rows_check_containment(x, y)
-
   by <- rows_check_by(by, y)
+
+  rows_check_containment(x, y)
 
   x_key <- rows_select_key(x, by, "x")
   y_key <- rows_select_key(y, by, "y", unique = TRUE)
+  args <- vec_cast_common(x = x_key, y = y_key)
+  x_key <- args$x
+  y_key <- args$y
+
+  values_names <- setdiff(names(y), names(y_key))
+
+  x_values <- x[values_names]
+  y_values <- y[values_names]
+  y_values <- rows_cast_y(y_values, x_values)
 
   loc <- vec_match(x_key, y_key)
   match <- !is.na(loc)
@@ -291,14 +327,21 @@ rows_upsert.data.frame <- function(x,
   y_loc <- loc[match]
   x_loc <- which(match)
 
+  # Update
+  y_values <- dplyr_row_slice(y_values, y_loc)
+  x_values <- vec_assign(x_values, x_loc, y_values)
+  x_values <- dplyr_new_list(x_values)
+
+  x <- dplyr_col_modify(x, x_values)
+
+  # Insert
   y_size <- vec_size(y_key)
   y_extra <- vec_as_location_invert(y_loc, y_size)
-  y_extra <- dplyr_row_slice(y, y_extra)
 
-  values_cols <- setdiff(names(y), names(y_key))
+  y <- dplyr_row_slice(y, y_extra)
+  y <- rows_cast_y(y, x)
 
-  x[x_loc, values_cols] <- y[y_loc, values_cols]
-  x <- rows_bind(x, y_extra)
+  x <- rows_bind(x, y)
 
   x
 }
@@ -333,6 +376,9 @@ rows_delete.data.frame <- function(x,
 
   x_key <- rows_select_key(x, by, "x")
   y_key <- rows_select_key(y, by, "y")
+  args <- vec_cast_common(x = x_key, y = y_key)
+  x_key <- args$x
+  y_key <- args$y
 
   keep <- rows_check_y_unmatched(x_key, y_key, unmatched)
 
@@ -402,6 +448,10 @@ rows_check_containment <- function(x, y, ..., error_call = caller_env()) {
   }
 
   invisible()
+}
+
+rows_cast_y <- function(y, x, ..., call = caller_env()) {
+  vec_cast(x = y, to = x, x_arg = "y", to_arg = "x", call = call)
 }
 
 rows_select_key <- function(x,

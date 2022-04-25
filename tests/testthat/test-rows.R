@@ -61,6 +61,24 @@ test_that("rows_insert() allows `y` keys to be duplicated (#5553)", {
   )
 })
 
+test_that("rows_insert() casts keys to the type of `x`", {
+  x <- vctrs::data_frame(key = 1L, value = 2)
+  y <- vctrs::data_frame(key = 1.5, value = 1.5)
+
+  expect_snapshot({
+    (expect_error(rows_insert(x, y, "key")))
+  })
+})
+
+test_that("rows_insert() casts values to the type of `x`", {
+  x <- vctrs::data_frame(key = 1, value = 2L)
+  y <- vctrs::data_frame(key = 2, value = 1.5)
+
+  expect_snapshot({
+    (expect_error(rows_insert(x, y, "key")))
+  })
+})
+
 test_that("`conflict` is validated", {
   x <- tibble(a = 1)
   y <- tibble(a = 2)
@@ -121,6 +139,41 @@ test_that("rows_update() doesn't allow `y` keys to be duplicated (#5553)", {
   y <- tibble(a = c(1, 1), b = c(2, 3))
 
   expect_snapshot((expect_error(rows_update(x, y, by = "a"))))
+})
+
+test_that("rows_update() avoids bare data.frame `drop = FALSE` issues", {
+  x <- vctrs::data_frame(x = c(1, 2, 3), y = I(list(1:2, 3:4, 5:6)))
+  y <- vctrs::data_frame(x = c(1, 3), y = I(list(0L, 100:101)))
+
+  out <- rows_update(x, y, "x")
+  expect_identical(out$y, I(list(0L, 3:4, 100:101)))
+})
+
+test_that("rows_update() casts keys to their common type for matching but retains `x` type", {
+  x <- vctrs::data_frame(key = 1L, value = 2)
+  y <- vctrs::data_frame(key = 1, value = 1.5)
+
+  out <- rows_update(x, y, "key")
+  expect_identical(out$key, x$key)
+  expect_identical(out$value, y$value)
+
+  y <- vctrs::data_frame(key = "x", value = 1.5)
+
+  expect_snapshot({
+    (expect_error(rows_update(x, y, "key")))
+  })
+})
+
+test_that("rows_update() casts values to the type of `x`", {
+  x <- vctrs::data_frame(key = 1, value = 2L)
+  y <- vctrs::data_frame(key = 1, value = 1.5)
+
+  expect_snapshot({
+    (expect_error(rows_update(x, y, "key")))
+  })
+
+  out <- rows_update(y, x, "key")
+  expect_identical(out$value, 2)
 })
 
 test_that("`unmatched` is validated", {
@@ -185,6 +238,38 @@ test_that("rows_patch() doesn't allow `y` keys to be duplicated (#5553)", {
   expect_snapshot((expect_error(rows_patch(x, y, by = "a"))))
 })
 
+test_that("rows_patch() avoids bare data.frame `drop = FALSE` issues", {
+  x <- vctrs::data_frame(x = c(1, 2, 3, 3), y = c(NA, 5, NA, 6))
+  y <- vctrs::data_frame(x = c(1, 3), y = c(0, 100))
+
+  out <- rows_patch(x, y, "x")
+  expect_identical(out$y, c(0, 5, 100, 6))
+})
+
+test_that("rows_patch() casts keys to their common type for matching but retains `x` type", {
+  x <- vctrs::data_frame(key = 1L, value = NA_real_)
+  y <- vctrs::data_frame(key = 1, value = 1.5)
+
+  out <- rows_patch(x, y, "key")
+  expect_identical(out$key, x$key)
+  expect_identical(out$value, y$value)
+
+  y <- vctrs::data_frame(key = "x", value = 1.5)
+
+  expect_snapshot({
+    (expect_error(rows_patch(x, y, "key")))
+  })
+})
+
+test_that("rows_patch() casts values to the type of `x`", {
+  x <- vctrs::data_frame(key = 1, value = 2L)
+  y <- vctrs::data_frame(key = 1, value = 1.5)
+
+  expect_snapshot({
+    (expect_error(rows_patch(x, y, "key")))
+  })
+})
+
 # ------------------------------------------------------------------------------
 
 test_that("rows_upsert() works", {
@@ -211,6 +296,47 @@ test_that("rows_upsert() doesn't allow `y` keys to be duplicated (#5553)", {
   y <- tibble(a = c(1, 1), b = c(2, 3))
 
   expect_snapshot((expect_error(rows_upsert(x, y, by = "a"))))
+})
+
+test_that("rows_upsert() avoids bare data.frame `drop = FALSE` issues", {
+  x <- vctrs::data_frame(x = c(1, 2, 3), y = I(list(1:2, 3:4, 5:6)))
+  y <- vctrs::data_frame(x = c(1, 3, 4), y = I(list(0L, 100:101, -1L)))
+
+  out <- rows_upsert(x, y, "x")
+  expect_identical(out$y, I(list(0L, 3:4, 100:101, -1L)))
+})
+
+test_that("rows_upsert() casts keys to their common type for matching but retains `x` type", {
+  x <- vctrs::data_frame(key = 1L, value = 2)
+  y <- vctrs::data_frame(key = c(2, 1), value = c(1.5, 2.5))
+
+  out <- rows_upsert(x, y, "key")
+  expect_identical(out$key, c(1L, 2L))
+  expect_identical(out$value, c(2.5, 1.5))
+
+  y <- vctrs::data_frame(key = "x", value = 1.5)
+
+  expect_snapshot({
+    (expect_error(rows_upsert(x, y, "key")))
+  })
+})
+
+test_that("rows_upsert() casts keys to the type of `x`", {
+  x <- vctrs::data_frame(key = 1L, value = 2)
+  y <- vctrs::data_frame(key = 1.5, value = 1.5)
+
+  expect_snapshot({
+    (expect_error(rows_upsert(x, y, "key")))
+  })
+})
+
+test_that("rows_upsert() casts values to the type of `x`", {
+  x <- vctrs::data_frame(key = 1, value = 2L)
+  y <- vctrs::data_frame(key = 1, value = 1.5)
+
+  expect_snapshot({
+    (expect_error(rows_upsert(x, y, "key")))
+  })
 })
 
 # ------------------------------------------------------------------------------
@@ -276,6 +402,20 @@ test_that("rows_delete() allows `y` keys to be duplicated (#5553)", {
     rows_delete(x, y, by = "a"),
     x[c(2, 3),]
   )
+})
+
+test_that("rows_delete() casts keys to their common type for matching but retains `x` type", {
+  x <- vctrs::data_frame(key = c(1L, 2L), value = c("x", "y"))
+  y <- vctrs::data_frame(key = 2)
+
+  out <- rows_delete(x, y, "key")
+  expect_identical(out$key, 1L)
+
+  y <- vctrs::data_frame(key = "x", value = 1.5)
+
+  expect_snapshot({
+    (expect_error(rows_delete(x, y, "key")))
+  })
 })
 
 # ------------------------------------------------------------------------------

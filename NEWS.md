@@ -1,5 +1,9 @@
 # dplyr (development version)
 
+* The `rows_*()` functions now always retain the column types of `x`. This
+  behavior was documented, but previously wasn't being applied correctly
+  (#6240).
+
 * `rows_insert()` gained a new `conflict` argument allowing you greater control
   over rows in `y` with keys that conflict with keys in `x`. A conflict arises
   if a key in `y` already exists in `x`. By default, a conflict results in an
