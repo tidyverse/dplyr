@@ -38,7 +38,16 @@
 #' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("select")}.
 #'
 #' @section Examples:
-#' ```{r, child = "man/rmd/setup.Rmd"}
+#' ```{r setup, include = FALSE}
+#' opts <- options(
+#'   tibble.print_min = 4,
+#'   tibble.max_extra_cols = 8,
+#'   digits = 2,
+#'   crayon.enabled = FALSE,
+#'   cli.unicode = FALSE
+#' )
+#'
+#' library(tidyverse)
 #' ```
 #'
 #' Here we show the usage for the basic selection operators. See the
@@ -110,6 +119,9 @@
 #' iris %>% select(starts_with("Petal") & !ends_with("Width"))
 #' ```
 #'
+#' ```{r teardown, include = FALSE}
+#' do.call(options, opts)
+#' ```
 #' @family single table verbs
 #' @export
 select <- function(.data, ...) {
