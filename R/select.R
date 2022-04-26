@@ -38,76 +38,18 @@
 #' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("select")}.
 #'
 #' @section Examples:
-#' ```{r, child = "man/rmd/setup.Rmd"}
-#' ```
 #'
-#' Here we show the usage for the basic selection operators. See the
-#' specific help pages to learn about helpers like [starts_with()].
-#'
-#' The selection language can be used in functions like
-#' `dplyr::select()` or `tidyr::pivot_longer()`. Let's first attach
-#' the tidyverse:
-#'
-#' ```{r, comment = "#>", collapse = TRUE}
-#' library(tidyverse)
-#'
-#' # For better printing
-#' iris <- as_tibble(iris)
-#' ```
-#'
-#' Select variables by name:
-#'
-#' ```{r, comment = "#>", collapse = TRUE}
-#' starwars %>% select(height)
-#'
-#' iris %>% pivot_longer(Sepal.Length)
-#' ```
-#'
-#' Select multiple variables by separating them with commas. Note how
-#' the order of columns is determined by the order of inputs:
-#'
-#' ```{r, comment = "#>", collapse = TRUE}
-#' starwars %>% select(homeworld, height, mass)
-#' ```
-#'
-#' Functions like `tidyr::pivot_longer()` don't take variables with
-#' dots. In this case use `c()` to select multiple variables:
-#'
-#' ```{r, comment = "#>", collapse = TRUE}
-#' iris %>% pivot_longer(c(Sepal.Length, Petal.Length))
-#' ```
-#'
-#' ## Operators:
-#'
-#' The `:` operator selects a range of consecutive variables:
-#'
-#' ```{r, comment = "#>", collapse = TRUE}
-#' starwars %>% select(name:mass)
-#' ```
-#'
-#' The `!` operator negates a selection:
-#'
-#' ```{r, comment = "#>", collapse = TRUE}
-#' starwars %>% select(!(name:mass))
-#'
-#' iris %>% select(!c(Sepal.Length, Petal.Length))
-#'
-#' iris %>% select(!ends_with("Width"))
-#' ```
-#'
-#' `&` and `|` take the intersection or the union of two selections:
-#'
-#' ```{r, comment = "#>", collapse = TRUE}
-#' iris %>% select(starts_with("Petal") & ends_with("Width"))
-#'
-#' iris %>% select(starts_with("Petal") | ends_with("Width"))
-#' ```
-#'
-#' To take the difference between two selections, combine the `&` and
-#' `!` operators:
-#'
-#' ```{r, comment = "#>", collapse = TRUE}
-#' iris %>% select(starts_with("Petal") & !ends_with("Width"))
+#' ```{r, echo = FALSE, results = "asis"}
+#' result <- rlang::with_options(
+#'   knitr::knit_child("man/rmd/select.Rmd"),
+#'   tibble.print_min = 4,
+#'   tibble.max_extra_cols = 8,
+#'   digits = 2,
+#'   crayon.enabled = FALSE,
+#'   cli.unicode = FALSE,
+#'   width = 80
+#' )
+#' cat(result, sep = "\n")
 #' ```
 #'
 #' @family single table verbs
