@@ -44,7 +44,8 @@
 #'   tibble.max_extra_cols = 8,
 #'   digits = 2,
 #'   crayon.enabled = FALSE,
-#'   cli.unicode = FALSE
+#'   cli.unicode = FALSE,
+#'   width = 80
 #' )
 #'
 #' library(tidyverse)
