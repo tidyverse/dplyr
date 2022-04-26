@@ -1,9 +1,12 @@
 # dplyr (development version)
 
-* The `rows_*()` functions now always retain the column types of `x`. This
-  behavior was documented, but previously wasn't being applied correctly
-  (#6240).
-
+* The `rows_*()` functions no longer require that the key values in `x` uniquely
+  identify each row. Additionally, `rows_insert()` and `rows_delete()` no
+  longer require that the key values in `y` uniquely identify each row. Relaxing
+  this restriction should make these functions more practically useful for
+  data frames, and alternative backends can enforce this in other ways as needed
+  (i.e. through primary keys) (#5553).
+  
 * `rows_insert()` gained a new `conflict` argument allowing you greater control
   over rows in `y` with keys that conflict with keys in `x`. A conflict arises
   if a key in `y` already exists in `x`. By default, a conflict results in an
@@ -15,20 +18,17 @@
   argument allowing you greater control over rows in `y` with keys that are
   unmatched by the keys in `x`. By default, an unmatched key results in an
   error, but you can now also `"ignore"` these `y` rows (#5984, #5699).
-
-* The `rows_*()` functions no longer require that the key values in `x` uniquely
-  identify each row. Additionally, `rows_insert()` and `rows_delete()` no
-  longer require that the key values in `y` uniquely identify each row. Relaxing
-  this restriction should make these functions more practically useful for
-  data frames, and alternative backends can enforce this in other ways as needed
-  (i.e. through primary keys) (#5553).
   
-* The `rows_*()` functions now fail elegantly if `y` is a zero column data frame
-  and `by` isn't specified (#6179).
-
 * `rows_delete()` no longer requires that the columns of `y` be a strict subset
   of `x`. Only the columns specified through `by` will be utilized from `y`,
   all others will be dropped with a message.
+
+* The `rows_*()` functions now always retain the column types of `x`. This
+  behavior was documented, but previously wasn't being applied correctly
+  (#6240).
+  
+* The `rows_*()` functions now fail elegantly if `y` is a zero column data frame
+  and `by` isn't specified (#6179).
 
 # dplyr 1.0.8
 
