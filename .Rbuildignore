@@ -5,7 +5,6 @@
 ^.Rprofile$
 ^inst/db$
 ^inst/bench$
-^bench$
 ^man-roxygen$
 ^demo/pandas$
 ^\.httr-oauth$
