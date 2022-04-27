@@ -148,7 +148,7 @@ rows_insert(data, tibble(a = 4, b = "z"))
 # By default, if a key in `y` matches a key in `x`, then it can't be inserted
 # and will throw an error. Alternatively, you can ignore rows in `y`
 # containing keys that conflict with keys in `x` with `conflict = "ignore"`,
-# or use `rows_append()`.
+# or you can use `rows_append()` to ignore keys entirely.
 try(rows_insert(data, tibble(a = 3, b = "z")))
 rows_insert(data, tibble(a = 3, b = "z"), conflict = "ignore")
 rows_append(data, tibble(a = 3, b = "z"))
