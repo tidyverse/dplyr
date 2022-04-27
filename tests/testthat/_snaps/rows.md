@@ -55,6 +55,26 @@
       Error in `rows_insert()`:
       ! `conflict` must be a character vector, not a number.
 
+# rows_append() casts to the type of `x`
+
+    Code
+      (expect_error(rows_append(x, y)))
+    Output
+      <error/vctrs_error_cast_lossy>
+      Error in `rows_append()`:
+      ! Can't convert from `y$key` <double> to `x$key` <integer> due to loss of precision.
+      * Locations: 1
+
+# rows_append() requires that `y` columns be a subset of `x`
+
+    Code
+      (expect_error(rows_append(x, y)))
+    Output
+      <error/rlang_error>
+      Error in `rows_append()`:
+      ! All columns in `y` must exist in `x`.
+      i The following columns only exist in `y`: `c`.
+
 # rows_update() requires `y` keys to exist in `x` by default
 
     Code
