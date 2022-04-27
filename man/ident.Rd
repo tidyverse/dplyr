@@ -13,7 +13,7 @@ ident(...)
 \code{ident()} takes unquoted strings and flags them as identifiers.
 \code{ident_q()} assumes its input has already been quoted, and ensures
 it does not get quoted again. This is currently used only for
-\code{schema.table}.
+for \code{schema.table}.
 }
 \examples{
 # Identifiers are escaped with "
