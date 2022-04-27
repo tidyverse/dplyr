@@ -3,6 +3,7 @@
 \name{rows}
 \alias{rows}
 \alias{rows_insert}
+\alias{rows_append}
 \alias{rows_update}
 \alias{rows_patch}
 \alias{rows_upsert}
@@ -18,6 +19,8 @@ rows_insert(
   copy = FALSE,
   in_place = FALSE
 )
+
+rows_append(x, y, ..., copy = FALSE, in_place = FALSE)
 
 rows_update(
   x,

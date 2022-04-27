@@ -41,6 +41,21 @@ test_that("rows_insert() allows you to ignore matched keys with `conflict = 'ign
   )
 })
 
+test_that("rows_append() allows you to insert unconditionally", {
+  x <- tibble(a = 1, b = 2)
+
+  y <- tibble(a = 1, b = 3)
+
+  expect_identical(rows_append(x, y), bind_rows(x, y))
+
+  y <- tibble(a = c(1, 2, 1), b = c(3, 4, 5))
+
+  expect_identical(
+    rows_append(x, y),
+    bind_rows(x, y)
+  )
+})
+
 test_that("rows_insert() allows `x` keys to be duplicated (#5553)", {
   x <- tibble(a = c(1, 1), b = c(2, 3))
   y <- tibble(a = 2, b = 4)
