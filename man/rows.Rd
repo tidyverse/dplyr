@@ -106,9 +106,10 @@ keys in \code{x}.
 An object of the same type as \code{x}. The order of the rows and columns of \code{x}
 is preserved as much as possible. The output has the following properties:
 \itemize{
-\item \code{rows_update()} preserves rows as is; \code{rows_insert()} and \code{rows_upsert()}
-return all existing rows and potentially new rows; \code{rows_delete()} returns
-a subset of the rows.
+\item \code{rows_update()} and \code{rows_patch()} preserve the number of rows;
+\code{rows_insert()}, \code{rows_append()}, and \code{rows_upsert()} return all existing
+rows and potentially new rows; \code{rows_delete()} returns a subset of the
+rows.
 \item Columns are not added, removed, or relocated, though the data may be
 updated.
 \item Groups are taken from \code{x}.

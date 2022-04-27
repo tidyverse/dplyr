@@ -56,9 +56,10 @@
 #' An object of the same type as `x`. The order of the rows and columns of `x`
 #' is preserved as much as possible. The output has the following properties:
 #'
-#' * `rows_update()` preserves rows as is; `rows_insert()` and `rows_upsert()`
-#'   return all existing rows and potentially new rows; `rows_delete()` returns
-#'   a subset of the rows.
+#' * `rows_update()` and `rows_patch()` preserve the number of rows;
+#'   `rows_insert()`, `rows_append()`, and `rows_upsert()` return all existing
+#'   rows and potentially new rows; `rows_delete()` returns a subset of the
+#'   rows.
 #' * Columns are not added, removed, or relocated, though the data may be
 #'   updated.
 #' * Groups are taken from `x`.
