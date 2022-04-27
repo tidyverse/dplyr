@@ -3,6 +3,7 @@
 \name{rows}
 \alias{rows}
 \alias{rows_insert}
+\alias{rows_append}
 \alias{rows_update}
 \alias{rows_patch}
 \alias{rows_upsert}
@@ -18,6 +19,8 @@ rows_insert(
   copy = FALSE,
   in_place = FALSE
 )
+
+rows_append(x, y, ..., copy = FALSE, in_place = FALSE)
 
 rows_update(
   x,
@@ -103,9 +106,10 @@ keys in \code{x}.
 An object of the same type as \code{x}. The order of the rows and columns of \code{x}
 is preserved as much as possible. The output has the following properties:
 \itemize{
-\item \code{rows_update()} preserves rows as is; \code{rows_insert()} and \code{rows_upsert()}
-return all existing rows and potentially new rows; \code{rows_delete()} returns
-a subset of the rows.
+\item \code{rows_update()} and \code{rows_patch()} preserve the number of rows;
+\code{rows_insert()}, \code{rows_append()}, and \code{rows_upsert()} return all existing
+rows and potentially new rows; \code{rows_delete()} returns a subset of the
+rows.
 \item Columns are not added, removed, or relocated, though the data may be
 updated.
 \item Groups are taken from \code{x}.
@@ -125,6 +129,7 @@ by SQL's \code{INSERT}, \code{UPDATE}, and \code{DELETE}, and can optionally mod
 \itemize{
 \item \code{rows_insert()} adds new rows (like \code{INSERT}). By default, key values in
 \code{y} must not exist in \code{x}.
+\item \code{rows_append()} works like \code{rows_insert()} but ignores keys.
 \item \code{rows_update()} modifies existing rows (like \code{UPDATE}). Key values in \code{y}
 must be unique, and, by default, key values in \code{y} must exist in \code{x}.
 \item \code{rows_patch()} works like \code{rows_update()} but only overwrites \code{NA} values.
@@ -143,9 +148,11 @@ rows_insert(data, tibble(a = 4, b = "z"))
 
 # By default, if a key in `y` matches a key in `x`, then it can't be inserted
 # and will throw an error. Alternatively, you can ignore rows in `y`
-# containing keys that conflict with keys in `x` with `conflict = "ignore"`.
+# containing keys that conflict with keys in `x` with `conflict = "ignore"`,
+# or you can use `rows_append()` to ignore keys entirely.
 try(rows_insert(data, tibble(a = 3, b = "z")))
 rows_insert(data, tibble(a = 3, b = "z"), conflict = "ignore")
+rows_append(data, tibble(a = 3, b = "z"))
 
 # Update
 rows_update(data, tibble(a = 2:3, b = "z"))

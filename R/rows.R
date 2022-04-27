@@ -11,6 +11,7 @@
 #'
 #' * `rows_insert()` adds new rows (like `INSERT`). By default, key values in
 #'   `y` must not exist in `x`.
+#' * `rows_append()` works like `rows_insert()` but ignores keys.
 #' * `rows_update()` modifies existing rows (like `UPDATE`). Key values in `y`
 #'   must be unique, and, by default, key values in `y` must exist in `x`.
 #' * `rows_patch()` works like `rows_update()` but only overwrites `NA` values.
@@ -55,9 +56,10 @@
 #' An object of the same type as `x`. The order of the rows and columns of `x`
 #' is preserved as much as possible. The output has the following properties:
 #'
-#' * `rows_update()` preserves rows as is; `rows_insert()` and `rows_upsert()`
-#'   return all existing rows and potentially new rows; `rows_delete()` returns
-#'   a subset of the rows.
+#' * `rows_update()` and `rows_patch()` preserve the number of rows;
+#'   `rows_insert()`, `rows_append()`, and `rows_upsert()` return all existing
+#'   rows and potentially new rows; `rows_delete()` returns a subset of the
+#'   rows.
 #' * Columns are not added, removed, or relocated, though the data may be
 #'   updated.
 #' * Groups are taken from `x`.
@@ -74,9 +76,11 @@
 #'
 #' # By default, if a key in `y` matches a key in `x`, then it can't be inserted
 #' # and will throw an error. Alternatively, you can ignore rows in `y`
-#' # containing keys that conflict with keys in `x` with `conflict = "ignore"`.
+#' # containing keys that conflict with keys in `x` with `conflict = "ignore"`,
+#' # or you can use `rows_append()` to ignore keys entirely.
 #' try(rows_insert(data, tibble(a = 3, b = "z")))
 #' rows_insert(data, tibble(a = 3, b = "z"), conflict = "ignore")
+#' rows_append(data, tibble(a = 3, b = "z"))
 #'
 #' # Update
 #' rows_update(data, tibble(a = 2:3, b = "z"))
@@ -140,6 +144,34 @@ rows_insert.data.frame <- function(x,
   if (!is.null(keep)) {
     y <- dplyr_row_slice(y, keep)
   }
+
+  rows_bind(x, y)
+}
+
+#' @rdname rows
+#' @export
+rows_append <- function(x,
+                        y,
+                        ...,
+                        copy = FALSE,
+                        in_place = FALSE) {
+  lifecycle::signal_stage("experimental", "rows_append()")
+  UseMethod("rows_append")
+}
+
+#' @export
+rows_append.data.frame <- function(x,
+                                   y,
+                                   ...,
+                                   copy = FALSE,
+                                   in_place = FALSE) {
+  check_dots_empty()
+  rows_df_in_place(in_place)
+
+  y <- auto_copy(x, y, copy = copy)
+
+  rows_check_containment(x, y)
+  y <- rows_cast_y(y, x)
 
   rows_bind(x, y)
 }

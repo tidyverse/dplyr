@@ -90,6 +90,53 @@ test_that("`conflict` is validated", {
 })
 
 # ------------------------------------------------------------------------------
+# rows_append()
+
+test_that("rows_append() allows you to insert unconditionally", {
+  x <- tibble(a = 1, b = 2)
+  y <- tibble(a = 1, b = 3)
+
+  expect_identical(rows_append(x, y), bind_rows(x, y))
+
+  y <- tibble(a = c(1, 2, 1), b = c(3, 4, 5))
+
+  expect_identical(rows_append(x, y), bind_rows(x, y))
+})
+
+test_that("rows_append() casts to the type of `x`", {
+  x <- vctrs::data_frame(key = 1L, value = 2)
+
+  y <- vctrs::data_frame(key = 1.5, value = 1.5)
+
+  expect_snapshot({
+    (expect_error(rows_append(x, y)))
+  })
+
+  y <- vctrs::data_frame(key = 2, value = 3L)
+
+  out <- rows_append(x, y)
+  expect_identical(out$key, c(1L, 2L))
+  expect_identical(out$value, c(2, 3))
+})
+
+test_that("rows_append() requires that `y` columns be a subset of `x`", {
+  x <- tibble(a = 1, b = 2)
+  y <- tibble(a = 1, b = 2, c = 3)
+
+  expect_snapshot({
+    (expect_error(rows_append(x, y)))
+  })
+})
+
+test_that("rows_append() doesn't require that `x` columns be a subset of `y`", {
+  x <- tibble(a = 1, b = 2, c = 3)
+  y <- tibble(a = 1, b = 2)
+
+  out <- rows_append(x, y)
+  expect_identical(out$c, c(3, NA))
+})
+
+# ------------------------------------------------------------------------------
 
 test_that("rows_update() works", {
   data <- tibble(a = 1:3, b = letters[c(1:2, NA)], c = 0.5 + 0:2)
