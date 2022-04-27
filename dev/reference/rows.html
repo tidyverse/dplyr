@@ -7,6 +7,7 @@ by SQL's INSERT, UPDATE, and DELETE, and can optionally modify
 in_place for selected backends.
 rows_insert() adds new rows (like INSERT). By default, key values in
 y must not exist in x.
+rows_append() works like rows_insert() but ignores keys.
 rows_update() modifies existing rows (like UPDATE). Key values in y
 must be unique, and, by default, key values in y must exist in x.
 rows_patch() works like rows_update() but only overwrites NA values.
@@ -23,6 +24,7 @@ by SQL's INSERT, UPDATE, and DELETE, and can optionally modify
 in_place for selected backends.
 rows_insert() adds new rows (like INSERT). By default, key values in
 y must not exist in x.
+rows_append() works like rows_insert() but ignores keys.
 rows_update() modifies existing rows (like UPDATE). Key values in y
 must be unique, and, by default, key values in y must exist in x.
 rows_patch() works like rows_update() but only overwrites NA values.
@@ -114,6 +116,7 @@ whose values typically uniquely identify each row. The functions are inspired
 by SQL's <code>INSERT</code>, <code>UPDATE</code>, and <code>DELETE</code>, and can optionally modify
 <code>in_place</code> for selected backends.</p><ul><li><p><code>rows_insert()</code> adds new rows (like <code>INSERT</code>). By default, key values in
 <code>y</code> must not exist in <code>x</code>.</p></li>
+<li><p><code>rows_append()</code> works like <code>rows_insert()</code> but ignores keys.</p></li>
 <li><p><code>rows_update()</code> modifies existing rows (like <code>UPDATE</code>). Key values in <code>y</code>
 must be unique, and, by default, key values in <code>y</code> must exist in <code>x</code>.</p></li>
 <li><p><code>rows_patch()</code> works like <code>rows_update()</code> but only overwrites <code>NA</code> values.</p></li>
@@ -134,6 +137,8 @@ must exist in <code>x</code>.</p></li>
   copy <span class="op">=</span> <span class="cn">FALSE</span>,
   in_place <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span>
+
+<span class="fu">rows_append</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">...</span>, copy <span class="op">=</span> <span class="cn">FALSE</span>, in_place <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="fu">rows_update</span><span class="op">(</span>
   <span class="va">x</span>,
@@ -212,9 +217,10 @@ keys in <code>x</code>.</p></li>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of the same type as <code>x</code>. The order of the rows and columns of <code>x</code>is preserved as much as possible. The output has the following properties:</p><ul><li><p><code>rows_update()</code> preserves rows as is; <code>rows_insert()</code> and <code>rows_upsert()</code>
-return all existing rows and potentially new rows; <code>rows_delete()</code> returns
-a subset of the rows.</p></li>
+    <p>An object of the same type as <code>x</code>. The order of the rows and columns of <code>x</code>is preserved as much as possible. The output has the following properties:</p><ul><li><p><code>rows_update()</code> and <code>rows_patch()</code> preserve the number of rows;
+<code>rows_insert()</code>, <code>rows_append()</code>, and <code>rows_upsert()</code> return all existing
+rows and potentially new rows; <code>rows_delete()</code> returns a subset of the
+rows.</p></li>
 <li><p>Columns are not added, removed, or relocated, though the data may be
 updated.</p></li>
 <li><p>Groups are taken from <code>x</code>.</p></li>
@@ -246,7 +252,8 @@ updated.</p></li>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># By default, if a key in `y` matches a key in `x`, then it can't be inserted</span></span>
 <span class="r-in"><span class="co"># and will throw an error. Alternatively, you can ignore rows in `y`</span></span>
-<span class="r-in"><span class="co"># containing keys that conflict with keys in `x` with `conflict = "ignore"`.</span></span>
+<span class="r-in"><span class="co"># containing keys that conflict with keys in `x` with `conflict = "ignore"`,</span></span>
+<span class="r-in"><span class="co"># or you can use `rows_append()` to ignore keys entirely.</span></span>
 <span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">rows_insert</span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">3</span>, b <span class="op">=</span> <span class="st">"z"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Matching, by = "a"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in rows_insert(data, tibble(a = 3, b = "z")) : </span>
@@ -261,6 +268,14 @@ updated.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1 a       0.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     2 b       1.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     3 <span style="color: #BB0000;">NA</span>      2.5</span>
+<span class="r-in"><span class="fu">rows_append</span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">3</span>, b <span class="op">=</span> <span class="st">"z"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       a b         c</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1 a       0.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     2 b       1.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     3 <span style="color: #BB0000;">NA</span>      2.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     3 z      <span style="color: #BB0000;">NA</span>  </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Update</span></span>
 <span class="r-in"><span class="fu">rows_update</span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">3</span>, b <span class="op">=</span> <span class="st">"z"</span><span class="op">)</span><span class="op">)</span></span>
