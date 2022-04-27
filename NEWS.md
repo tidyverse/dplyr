@@ -1,5 +1,10 @@
 # dplyr (development version)
 
+* New `rows_append()` which works like `rows_insert()` but ignores keys and
+  allows you to insert arbitrary rows with a guarantee that the type of `x`
+  won't change (#6249, thanks to @krlmlr for the implementation and @mgirlich
+  for the idea).
+
 * The `rows_*()` functions no longer require that the key values in `x` uniquely
   identify each row. Additionally, `rows_insert()` and `rows_delete()` no
   longer require that the key values in `y` uniquely identify each row. Relaxing
