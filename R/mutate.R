@@ -221,7 +221,9 @@ mutate.data.frame <- function(.data,
     cols_retain <- setdiff(cols_out, c(cols_used, cols_unused))
   }
 
-  dplyr_col_select(out, cols_retain)
+  out <- dplyr_col_select(out, cols_retain)
+  attr(out, "pillar_focus") <- intersect(cols_retain, c(cols_expr, cols_used))
+  out
 }
 
 #' @rdname mutate

@@ -80,3 +80,5 @@ Config/Needs/website:
     shiny,
     pkgdown,
     tidyverse/tidytemplate
+Remotes: 
+    r-lib/pillar@f-focus-attr

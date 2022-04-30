@@ -57,7 +57,11 @@ collapse <- function(x, ...) {
 }
 
 #' @export
-collect.data.frame <- function(x, ...) x
+collect.data.frame <- function(x, ...) {
+  attr(x, "pillar_focus") <- NULL
+  x
+}
+
 #' @export
 compute.data.frame <- function(x, ...) x
 #' @export
