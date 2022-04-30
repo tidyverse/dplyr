@@ -222,7 +222,7 @@ mutate.data.frame <- function(.data,
   }
 
   out <- dplyr_col_select(out, cols_retain)
-  attr(out, "pillar_focus") <- intersect(cols_retain, c(cols_expr, cols_used))
+  attr(out, "pillar_focus") <- intersect(c(cols_expr, cols_used), cols_retain)
   out
 }
 
