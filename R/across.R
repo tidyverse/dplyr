@@ -489,12 +489,13 @@ expand_across <- function(quo) {
   # `across()` call would lead to either `n_group * n_col` evaluations
   # if dots are delayed or only 1 evaluation if they are eagerly
   # evaluated.
+  # https://github.com/tidyverse/dplyr/issues/6073
   if (!is_null(expr$...)) {
     return(list(quo))
   }
 
   dplyr_mask <- peek_mask()
-  mask <- dplyr_mask$get_rlang_mask()
+  mask <- dplyr_mask$full_data()
 
   # Differentiate between missing and null (`match.call()` doesn't
   # expand default argument)
@@ -617,6 +618,9 @@ as_across_fn_call <- function(fn, var, env, mask) {
 # bug.
 is_inlinable_formula <- function(x, mask) {
   if (is_formula(x, lhs = FALSE, scoped = TRUE)) {
+    if (!is.environment(mask)) {
+      return(TRUE)
+    }
     env <- f_env(x)
     identical(env, mask) || !env_inherits(env, mask)
   } else {
