@@ -497,12 +497,15 @@ join_mutate <- function(x,
                         y,
                         by,
                         type,
+                        ...,
                         suffix = c(".x", ".y"),
                         na_matches = "na",
                         keep = NULL,
                         multiple = NULL,
                         unmatched = "drop",
                         error_call = caller_env()) {
+  check_dots_empty0(...)
+
   na_matches <- check_na_matches(na_matches)
   unmatched <- check_unmatched(unmatched)
 
@@ -583,8 +586,11 @@ join_filter <- function(x,
                         y,
                         by = NULL,
                         type,
+                        ...,
                         na_matches = c("na", "never"),
                         error_call = caller_env()) {
+  check_dots_empty0(...)
+
   na_matches <- check_na_matches(na_matches)
 
   x_names <- tbl_vars(x)

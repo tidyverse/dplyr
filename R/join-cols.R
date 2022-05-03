@@ -1,9 +1,12 @@
 join_cols <- function(x_names,
                       y_names,
                       by,
+                      ...,
                       suffix = c(".x", ".y"),
                       keep = NULL,
                       error_call = caller_env()) {
+  check_dots_empty0(...)
+
   check_duplicate_vars(x_names, "x", error_call = error_call)
   check_duplicate_vars(y_names, "y", error_call = error_call)
 
@@ -59,7 +62,14 @@ join_cols <- function(x_names,
   )
 }
 
-check_join_vars <- function(vars, names, condition, keep, error_call = caller_env()) {
+check_join_vars <- function(vars,
+                            names,
+                            condition,
+                            keep,
+                            ...,
+                            error_call = caller_env()) {
+  check_dots_empty0(...)
+
   if (!is.character(vars)) {
     abort("Join columns must be character vectors.", call = error_call)
   }
@@ -101,8 +111,14 @@ check_join_vars <- function(vars, names, condition, keep, error_call = caller_en
   }
 }
 
-check_duplicate_vars <- function(vars, input, error_call = caller_env()) {
+check_duplicate_vars <- function(vars,
+                                 input,
+                                 ...,
+                                 error_call = caller_env()) {
+  check_dots_empty0(...)
+
   dup <- duplicated(vars)
+
   if (any(dup)) {
     bullets <- c(
       glue("Input columns in `{input}` must be unique."),
@@ -112,7 +128,11 @@ check_duplicate_vars <- function(vars, input, error_call = caller_env()) {
   }
 }
 
-standardise_join_suffix <- function(x, error_call = caller_env()) {
+standardise_join_suffix <- function(x,
+                                    ...,
+                                    error_call = caller_env()) {
+  check_dots_empty0(...)
+
   if (!is.character(x) || length(x) != 2) {
     bullets <- c(
       "`suffix` must be a character vector of length 2.",

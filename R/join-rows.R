@@ -1,5 +1,6 @@
 join_rows <- function(x_key,
                       y_key,
+                      ...,
                       type = c("inner", "left", "right", "full", "semi", "anti", "nest"),
                       na_matches = "na",
                       condition = "==",
@@ -8,6 +9,8 @@ join_rows <- function(x_key,
                       multiple = NULL,
                       unmatched = "drop",
                       error_call = caller_env()) {
+  check_dots_empty0(...)
+
   type <- arg_match(type, error_call = error_call)
 
   if (cross) {
@@ -54,11 +57,12 @@ dplyr_locate_matches <- function(needles,
                                  needles_arg = "",
                                  haystack_arg = "",
                                  error_call = caller_env()) {
+  check_dots_empty0(...)
+
   withCallingHandlers(
     vctrs::vec_locate_matches(
       needles = needles,
       haystack = haystack,
-      ...,
       condition = condition,
       filter = filter,
       incomplete = incomplete,
