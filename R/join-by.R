@@ -374,6 +374,12 @@ join_by_common <- function(x_names,
 
 # ------------------------------------------------------------------------------
 
+# In the parsing implementation below, note that all `binding_*()` functions
+# should maintain a function signature that exactly matches what is documented
+# in `?join_by`, as these get bound directly to their corresponding function
+# name, i.e. `binding_join_by_between()` is bound to `between()`. This is why
+# these functions don't have an `error_call` argument.
+
 parse_join_by_expr <- function(expr, i, error_call) {
   if (length(expr) == 0L) {
     message <- c(
