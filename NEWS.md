@@ -2,6 +2,11 @@
 
 # dplyr 1.0.9
 
+
+
+* `nth()`, `first()`, and `last()` gained the `na.rm` argument since they are
+  summary functions (#6242).
+
 * New `rows_append()` which works like `rows_insert()` but ignores keys and
   allows you to insert arbitrary rows with a guarantee that the type of `x`
   won't change (#6249, thanks to @krlmlr for the implementation and @mgirlich
