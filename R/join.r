@@ -584,7 +584,7 @@ join_mutate <- function(x,
 
 join_filter <- function(x,
                         y,
-                        by = NULL,
+                        by,
                         type,
                         ...,
                         na_matches = c("na", "never"),
