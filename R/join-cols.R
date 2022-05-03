@@ -61,7 +61,7 @@ join_cols <- function(x_names,
 
 check_join_vars <- function(vars, names, condition, keep, error_call = caller_env()) {
   if (!is.character(vars)) {
-    abort("join columns must be character vectors.", call = error_call)
+    abort("Join columns must be character vectors.", call = error_call)
   }
 
   na <- is.na(vars)

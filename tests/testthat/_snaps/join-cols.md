@@ -58,7 +58,7 @@
       join_cols(xy, xy, by = as_join_by(list(1, 2)))
     Condition
       Error:
-      ! join columns must be character vectors.
+      ! Join columns must be character vectors.
 
 ---
 
