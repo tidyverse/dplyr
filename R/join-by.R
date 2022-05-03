@@ -142,28 +142,32 @@
 #'   id = c(1L, 1L, 1L, 2L, 2L),
 #'   sale_date = as.Date(c("2018-12-31", "2019-01-02", "2019-01-05", "2019-01-04", "2019-01-01"))
 #' )
+#' sales
 #'
 #' promos <- tibble(
 #'   id = c(1L, 1L, 2L),
 #'   promo_date = as.Date(c("2019-01-01", "2019-01-05", "2019-01-02"))
 #' )
+#' promos
 #'
-#' # Match `id` to `id`, and `sales_date` to `promo_date`
+#' # Match `id` to `id`, and `sale_date` to `promo_date`
 #' by <- join_by(id, sale_date == promo_date)
 #' left_join(sales, promos, by)
 #'
-#' # For each `sales_date` within a particular `id`,
+#' # For each `sale_date` within a particular `id`,
 #' # find all `promo_date`s that occurred before that particular sale
 #' by <- join_by(id, sale_date >= promo_date)
 #' left_join(sales, promos, by)
 #'
-#' # For each `sales_date` within a particular `id`,
-#' # find only the preceding `promo_date` that occurred before that sale
+#' # For each `sale_date` within a particular `id`,
+#' # find only the preceding `promo_date` that occurred directly
+#' # before that sale
 #' by <- join_by(id, preceding(sale_date, promo_date))
 #' left_join(sales, promos, by)
 #'
 #' # If you want to disallow exact matching in rolling joins,
-#' # set `inclusive = FALSE`. Note that `2019-01-05` no longer matches exactly.
+#' # set `inclusive = FALSE`. Note that the promo on `2019-01-05` is no longer
+#' # considered the preceding match for the sale on the same date.
 #' by <- join_by(id, preceding(sale_date, promo_date, inclusive = FALSE))
 #' left_join(sales, promos, by)
 #'
@@ -182,6 +186,7 @@
 #'   start = c(140, 210, 380, 230),
 #'   end = c(150, 240, 415, 280)
 #' )
+#' segments
 #'
 #' reference <- tibble(
 #'   reference_id = 1:4,
@@ -189,6 +194,7 @@
 #'   start = c(100, 200, 300, 400),
 #'   end = c(150, 250, 399, 450)
 #' )
+#' reference
 #'
 #' # Find every time a segment `start` falls between the reference
 #' # `[start, end]` range.
