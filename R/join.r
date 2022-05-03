@@ -569,13 +569,23 @@ join_mutate <- function(x,
     x_merge <- x_key[merge]
     y_merge <- y_key[merge]
 
-    key_type <- vec_ptype_common(x_merge, y_merge)
-    out[names(x_merge)] <- vec_cast(out[names(x_merge)], key_type)
+    key_type <- vec_ptype_common(x_merge, y_merge, .call = error_call)
+
+    out[names(x_merge)] <- vec_cast(
+      x = out[names(x_merge)],
+      to = key_type,
+      call = error_call
+    )
 
     if ((type == "right" || type == "full") && anyNA(x_slicer)) {
       new_rows <- which(is.na(x_slicer))
       y_replacer <- y_slicer[new_rows]
-      out[new_rows, names(y_merge)] <- vec_cast(vec_slice(y_merge, y_replacer), key_type)
+
+      out[new_rows, names(y_merge)] <- vec_cast(
+        x = vec_slice(y_merge, y_replacer),
+        to = key_type,
+        call = error_call
+      )
     }
   }
 
