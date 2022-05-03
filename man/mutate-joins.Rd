@@ -171,6 +171,9 @@ For each row of \code{x}:
 \itemize{
 \item \code{"all"} returns every match detected in \code{y}. This is the same behavior
 as SQL.
+\item \code{"any"} returns one match detected in \code{y}, with no guarantees on which
+match will be returned. It is often faster than \code{"first"} and \code{"last"}
+if you just need to detect if there is at least one match.
 \item \code{"first"} returns the first match detected in \code{y}.
 \item \code{"last"} returns the last match detected in \code{y}.
 \item \code{"warning"} throws a warning if multiple matches are detected, and

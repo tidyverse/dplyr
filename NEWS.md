@@ -45,7 +45,7 @@
     but still returns all of the matches. For non-equi joins and cross joins,
     where multiple matches are usually expected, this defaults to returning
     `"all"` of the matches. You can also return only the `"first"` or `"last"`
-    match, or you can `"error"`.
+    match, `"any"` of the matches, or you can `"error"`.
     
   * `keep` now defaults to `NULL` rather than `FALSE`. `NULL` implies
     `keep = FALSE` for equi-join conditions, but `keep = TRUE` for non-equi

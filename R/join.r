@@ -97,6 +97,9 @@
 #'   For each row of `x`:
 #'   - `"all"` returns every match detected in `y`. This is the same behavior
 #'     as SQL.
+#'   - `"any"` returns one match detected in `y`, with no guarantees on which
+#'     match will be returned. It is often faster than `"first"` and `"last"`
+#'     if you just need to detect if there is at least one match.
 #'   - `"first"` returns the first match detected in `y`.
 #'   - `"last"` returns the last match detected in `y`.
 #'   - `"warning"` throws a warning if multiple matches are detected, and

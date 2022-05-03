@@ -18,7 +18,7 @@ test_that("`multiple` default behavior is correct", {
   expect_equal(out$y, c(1L, 2L, 1L, 2L))
 })
 
-test_that("`multiple` first/last works correctly", {
+test_that("`multiple` first/last/any works correctly", {
   out <- join_rows(c(1, 1), c(1, 1), multiple = "first")
   expect_equal(out$x, c(1L, 2L))
   expect_equal(out$y, c(1L, 1L))
@@ -26,6 +26,10 @@ test_that("`multiple` first/last works correctly", {
   out <- join_rows(c(1, 1), c(1, 1), multiple = "last")
   expect_equal(out$x, c(1L, 2L))
   expect_equal(out$y, c(2L, 2L))
+
+  out <- join_rows(c(1, 1), c(1, 1), multiple = "any")
+  expect_equal(out$x, c(1L, 2L))
+  expect_equal(out$y %in% c(1L, 2L), c(TRUE, TRUE))
 })
 
 test_that("inner join only outputs matching keys", {
