@@ -215,11 +215,13 @@ join_by <- function(...) {
     ))
   }
 
+  error_call <- environment()
+
   n <- length(exprs)
   bys <- vector("list", length = n)
 
   for (i in seq_len(n)) {
-    bys[[i]] <- parse_join_by_expr(exprs[[i]], i)
+    bys[[i]] <- parse_join_by_expr(exprs[[i]], i, error_call = error_call)
   }
 
   # `between()`, `overlaps()`, and `within()` parse into >1 binary conditions
@@ -355,12 +357,13 @@ join_by_common <- function(x_names, y_names) {
 
 # ------------------------------------------------------------------------------
 
-parse_join_by_expr <- function(expr, i) {
+parse_join_by_expr <- function(expr, i, error_call) {
   if (length(expr) == 0L) {
-    abort(c(
+    message <- c(
       "Join by expressions can't be empty.",
       x = glue("Expression {i} is empty.")
-    ))
+    )
+    abort(message, call = error_call)
   }
 
   if (is_symbol_or_string(expr)) {
@@ -368,10 +371,11 @@ parse_join_by_expr <- function(expr, i) {
   }
 
   if (!is_call(expr)) {
-    abort(c(
+    message <- c(
       "Each element of `...` must be a single column name or a join by expression.",
       x = glue("Element {i} is not a name and not an expression.")
-    ))
+    )
+    abort(message, call = error_call)
   }
 
   op <- as_string(expr[[1]])
@@ -383,126 +387,145 @@ parse_join_by_expr <- function(expr, i) {
     ">=" =,
     ">" =,
     "<=" =,
-    "<" = parse_join_by_binary(expr, i),
+    "<" = parse_join_by_binary(expr, i, error_call),
 
-    "between" = parse_join_by_between(expr, i),
+    "between" = parse_join_by_between(expr, i, error_call),
 
     "overlaps" =,
-    "within" = parse_join_by_containment(expr, i),
+    "within" = parse_join_by_containment(expr, i, error_call),
 
     "preceding" =,
-    "following" = parse_join_by_rolling(expr, i),
+    "following" = parse_join_by_rolling(expr, i, error_call),
 
-    "$" = stop_invalid_dollar_sign(expr, i),
+    "$" = stop_invalid_dollar_sign(expr, i, error_call),
 
-    stop_invalid_top_expression(expr, i)
+    stop_invalid_top_expression(expr, i, error_call)
   )
 }
 
-stop_invalid_dollar_sign <- function(expr, i) {
-  abort(c(
+stop_invalid_dollar_sign <- function(expr, i, call) {
+  message <- c(
     "When specifying a single column name, `$` cannot be used.",
-    x = glue("Expression {i} is {err_expr(expr)}.")
-  ))
+    i = glue("Expression {i} is {err_expr(expr)}.")
+  )
+
+  abort(message, call = call)
 }
 
-stop_invalid_top_expression <- function(expr, i) {
+stop_invalid_top_expression <- function(expr, i, call) {
   options <- c("==", ">=", ">", "<=", "<", "preceding()", "following()", "between()", "overlaps()", "within()")
   options <- glue::backtick(options)
   options <- glue_collapse(options, sep = ", ", last = ", or ")
 
-  abort(c(
+  message <- c(
     glue("Join by expressions must use one of: {options}."),
-    x = glue("Expression {i} is {err_expr(expr)}.")
-  ))
+    i = glue("Expression {i} is {err_expr(expr)}.")
+  )
+
+  abort(message, call = call)
 }
 
-parse_join_by_name <- function(expr, i, default_side) {
+parse_join_by_name <- function(expr,
+                               i,
+                               default_side,
+                               error_call) {
   if (is_symbol_or_string(expr)) {
     name <- as_string(expr)
     return(list(name = name, side = default_side))
   }
 
   if (is_call(expr, name = "$")) {
-    return(parse_join_by_dollar(expr, i))
+    return(parse_join_by_dollar(expr, i, error_call))
   }
 
-  abort(c(
+  message <- c(
     paste0(
       "`join_by()` expressions cannot contain computed columns, ",
       "and can only reference columns by name or by explicitly specifying ",
       "a side, like `x$col` or `y$col`."
     ),
-    x = glue("Expression {i} contains {err_expr(expr)}.")
-  ))
+    i = glue("Expression {i} contains {err_expr(expr)}.")
+  )
+  abort(message, call = error_call)
 }
 
-parse_join_by_dollar <- function(expr, i) {
-  args <- eval_join_by_dollar(expr)
+parse_join_by_dollar <- function(expr,
+                                 i,
+                                 error_call) {
+  args <- eval_join_by_dollar(expr, error_call)
 
   side <- args$side
 
   if (!is_symbol_or_string(side)) {
-    abort(c(
+    message <- c(
       "The left-hand side of a `$` expression must be a symbol or string.",
-      x = glue("Expression {i} contains {err_expr(expr)}.")
-    ))
+      i = glue("Expression {i} contains {err_expr(expr)}.")
+    )
+    abort(message, call = error_call)
   }
 
   side <- as_string(side)
   sides <- c("x", "y")
 
   if (!side %in% sides) {
-    abort(c(
+    message <- c(
       "The left-hand side of a `$` expression must be either `x$` or `y$`.",
-      x = glue("Expression {i} contains {err_expr(expr)}.")
-    ))
+      i = glue("Expression {i} contains {err_expr(expr)}.")
+    )
+    abort(message, call = error_call)
   }
 
   name <- args$name
 
   if (!is_symbol_or_string(name)) {
-    abort(c(
+    message <- c(
       "The right-hand side of a `$` expression must be a symbol or string.",
-      x = glue("Expression {i} contains {err_expr(expr)}.")
-    ))
+      i = glue("Expression {i} contains {err_expr(expr)}.")
+    )
+    abort(message, call = error_call)
   }
 
   name <- as_string(name)
 
   list(name = name, side = side)
 }
-eval_join_by_dollar <- function(expr) {
+eval_join_by_dollar <- function(expr, error_call) {
   env <- new_environment()
+  local_error_call(error_call, frame = env)
+
   env_poke(env, "$", binding_join_by_dollar)
+
   eval_tidy(expr, env = env)
 }
 binding_join_by_dollar <- function(x, name) {
+  error_call <- caller_env()
+
   x <- enexpr(x)
   name <- enexpr(name)
 
-  check_missing_arg(x, "x", "$", binary_op = TRUE)
-  check_missing_arg(name, "name", "$", binary_op = TRUE)
+  check_missing_arg(x, "x", "$", error_call, binary_op = TRUE)
+  check_missing_arg(name, "name", "$", error_call, binary_op = TRUE)
 
   list(side = x, name = name)
 }
 
-parse_join_by_binary <- function(expr, i) {
-  args <- eval_join_by_binary(expr)
+parse_join_by_binary <- function(expr, i, error_call) {
+  args <- eval_join_by_binary(expr, error_call)
 
   condition <- args$condition
 
   lhs <- args$lhs
   rhs <- args$rhs
 
-  lhs <- parse_join_by_name(lhs, i, default_side = "x")
-  rhs <- parse_join_by_name(rhs, i, default_side = "y")
+  lhs <- parse_join_by_name(lhs, i, default_side = "x", error_call = error_call)
+  rhs <- parse_join_by_name(rhs, i, default_side = "y", error_call = error_call)
 
   if (lhs$side == rhs$side) {
-    abort(c(
+    message <- c(
       "The left and right-hand sides of a binary expression must reference different tables.",
-      x = glue("Expression {i} contains {err_expr(expr)}.")
-    ))
+      i = glue("Expression {i} contains {err_expr(expr)}.")
+    )
+    abort(message, call = error_call)
   }
 
   if (lhs$side == "x") {
@@ -523,8 +546,9 @@ parse_join_by_binary <- function(expr, i) {
     filter = "none"
   )
 }
-eval_join_by_binary <- function(expr) {
+eval_join_by_binary <- function(expr, error_call) {
   env <- new_environment()
+  local_error_call(error_call, frame = env)
 
   env_bind(
     env,
@@ -537,33 +561,33 @@ eval_join_by_binary <- function(expr) {
 
   eval_tidy(expr, env = env)
 }
-binding_join_by_binary <- function(condition, x, y) {
+binding_join_by_binary <- function(condition, error_call, x, y) {
   x <- enexpr(x)
   y <- enexpr(y)
 
-  check_missing_arg(x, "x", condition, binary_op = TRUE)
-  check_missing_arg(y, "y", condition, binary_op = TRUE)
+  check_missing_arg(x, "x", condition, error_call, binary_op = TRUE)
+  check_missing_arg(y, "y", condition, error_call, binary_op = TRUE)
 
   list(condition = condition, lhs = x, rhs = y)
 }
 binding_join_by_equality <- function(x, y) {
-  binding_join_by_binary("==", !!enexpr(x), !!enexpr(y))
+  binding_join_by_binary("==", caller_env(), !!enexpr(x), !!enexpr(y))
 }
 binding_join_by_greater_than <- function(x, y) {
-  binding_join_by_binary(">", !!enexpr(x), !!enexpr(y))
+  binding_join_by_binary(">", caller_env(), !!enexpr(x), !!enexpr(y))
 }
 binding_join_by_greater_than_or_equal <- function(x, y) {
-  binding_join_by_binary(">=", !!enexpr(x), !!enexpr(y))
+  binding_join_by_binary(">=", caller_env(), !!enexpr(x), !!enexpr(y))
 }
 binding_join_by_less_than <- function(x, y) {
-  binding_join_by_binary("<", !!enexpr(x), !!enexpr(y))
+  binding_join_by_binary("<", caller_env(), !!enexpr(x), !!enexpr(y))
 }
 binding_join_by_less_than_or_equal <- function(x, y) {
-  binding_join_by_binary("<=", !!enexpr(x), !!enexpr(y))
+  binding_join_by_binary("<=", caller_env(), !!enexpr(x), !!enexpr(y))
 }
 
-parse_join_by_rolling <- function(expr, i) {
-  args <- eval_join_by_rolling(expr)
+parse_join_by_rolling <- function(expr, i, error_call) {
+  args <- eval_join_by_rolling(expr, error_call)
 
   rolling <- args$rolling
   inclusive <- args$inclusive
@@ -572,40 +596,42 @@ parse_join_by_rolling <- function(expr, i) {
     rolling,
     preceding = "max",
     following = "min",
-    abort("Internal error. Unknown `rolling` value.")
+    abort("Unknown `rolling` value.", .internal = TRUE)
   )
 
   condition <- switch(
     rolling,
     preceding = if (inclusive) ">=" else ">",
     following = if (inclusive) "<=" else "<",
-    abort("Internal error. Unknown `rolling` value.")
+    abort("Unknown `rolling` value.", .internal = TRUE)
   )
 
   lhs <- args$lhs
   rhs <- args$rhs
 
-  lhs <- parse_join_by_name(lhs, i, default_side = "x")
-  rhs <- parse_join_by_name(rhs, i, default_side = "y")
+  lhs <- parse_join_by_name(lhs, i, default_side = "x", error_call = error_call)
+  rhs <- parse_join_by_name(rhs, i, default_side = "y", error_call = error_call)
 
   # It doesn't make sense to allow `preceding(y$a, x$b)`, as that can't
   # translate to anything meaningful / intuitive.
   if (lhs$side == "y") {
     rolling <- glue::backtick(glue("{rolling}()"))
 
-    abort(c(
+    message <- c(
       glue("The first argument to {rolling} must reference the `x` table."),
-      x = glue("Expression {i} contains {err_expr(expr)}.")
-    ))
+      i = glue("Expression {i} contains {err_expr(expr)}.")
+    )
+    abort(message, call = error_call)
   }
 
   if (rhs$side == "x") {
     rolling <- glue::backtick(glue("{rolling}()"))
 
-    abort(c(
+    message <- c(
       glue("The second argument to {rolling} must reference the `y` table."),
-      x = glue("Expression {i} contains {err_expr(expr)}.")
-    ))
+      i = glue("Expression {i} contains {err_expr(expr)}.")
+    )
+    abort(message, call = error_call)
   }
 
   x <- lhs$name
@@ -618,8 +644,9 @@ parse_join_by_rolling <- function(expr, i) {
     filter = filter
   )
 }
-eval_join_by_rolling <- function(expr) {
+eval_join_by_rolling <- function(expr, error_call) {
   env <- new_environment()
+  local_error_call(error_call, frame = env)
 
   env_bind(
     env,
@@ -629,47 +656,61 @@ eval_join_by_rolling <- function(expr) {
 
   eval_tidy(expr, env = env)
 }
-binding_join_by_rolling <- function(rolling, x, y, ..., inclusive) {
-  check_dots_empty(call = call(rolling))
+binding_join_by_rolling <- function(rolling, error_call, x, y, ..., inclusive) {
+  if (dots_n(...) > 0L) {
+    rolling <- glue::backtick(glue("{rolling}()"))
+    message <- c(
+      "`...` must be empty.",
+      i = glue("Non-empty dots were detected inside {rolling}.")
+    )
+    abort(message, call = error_call)
+  }
 
   x <- enexpr(x)
   y <- enexpr(y)
 
-  check_missing_arg(x, "x", rolling)
-  check_missing_arg(y, "y", rolling)
+  check_missing_arg(x, "x", rolling, error_call)
+  check_missing_arg(y, "y", rolling, error_call)
 
   if (!is_bool(inclusive)) {
-    abort("`inclusive` must be a single `TRUE` or `FALSE`.")
+    rolling <- glue::backtick(glue("{rolling}()"))
+    message <- c(
+      "`inclusive` must be a single `TRUE` or `FALSE`.",
+      i = glue("An invalid `inclusive` value was detected inside {rolling}.")
+    )
+    abort(message, call = error_call)
   }
 
   list(rolling = rolling, lhs = x, rhs = y, inclusive = inclusive)
 }
 binding_join_by_preceding <- function(x, y, ..., inclusive = TRUE) {
-  binding_join_by_rolling("preceding", !!enexpr(x), !!enexpr(y), ..., inclusive = inclusive)
+  binding_join_by_rolling("preceding", caller_env(), !!enexpr(x), !!enexpr(y), ..., inclusive = inclusive)
 }
 binding_join_by_following <- function(x, y, ..., inclusive = TRUE) {
-  binding_join_by_rolling("following", !!enexpr(x), !!enexpr(y), ..., inclusive = inclusive)
+  binding_join_by_rolling("following", caller_env(), !!enexpr(x), !!enexpr(y), ..., inclusive = inclusive)
 }
 
-parse_join_by_between <- function(expr, i) {
-  args <- eval_join_by_between(expr)
+parse_join_by_between <- function(expr, i, error_call) {
+  args <- eval_join_by_between(expr, error_call)
 
-  lhs <- parse_join_by_name(args$lhs, i, "x")
-  rhs_lower <- parse_join_by_name(args$rhs_lower, i, "y")
-  rhs_upper <- parse_join_by_name(args$rhs_upper, i, "y")
+  lhs <- parse_join_by_name(args$lhs, i, "x", error_call)
+  rhs_lower <- parse_join_by_name(args$rhs_lower, i, "y", error_call)
+  rhs_upper <- parse_join_by_name(args$rhs_upper, i, "y", error_call)
 
   if (rhs_lower$side != rhs_upper$side) {
-    abort(c(
+    message <- c(
       "Expressions containing `between()` must reference the same table for the lower and upper bounds.",
-      x = glue("Expression {i} is {err_expr(expr)}.")
-    ))
+      i = glue("Expression {i} is {err_expr(expr)}.")
+    )
+    abort(message, call = error_call)
   }
 
   if (lhs$side == rhs_lower$side) {
-    abort(c(
+    message <- c(
       "Expressions containing `between()` can't all reference the same table.",
-      x = glue("Expression {i} is {err_expr(expr)}.")
-    ))
+      i = glue("Expression {i} is {err_expr(expr)}.")
+    )
+    abort(message, call = error_call)
   }
 
   if (lhs$side == "x") {
@@ -691,58 +732,66 @@ parse_join_by_between <- function(expr, i) {
     filter = filter
   )
 }
-eval_join_by_between <- function(expr) {
+eval_join_by_between <- function(expr, error_call) {
   env <- new_environment()
+  local_error_call(error_call, frame = env)
+
   env_poke(env, "between", binding_join_by_between)
+
   eval_tidy(expr, env = env)
 }
 binding_join_by_between <- function(x, y_lower, y_upper) {
+  error_call <- caller_env()
+
   x <- enexpr(x)
   y_lower <- enexpr(y_lower)
   y_upper <- enexpr(y_upper)
 
-  check_missing_arg(x, "x", "between")
-  check_missing_arg(y_lower, "y_lower", "between")
-  check_missing_arg(y_upper, "y_upper", "between")
+  check_missing_arg(x, "x", "between", error_call)
+  check_missing_arg(y_lower, "y_lower", "between", error_call)
+  check_missing_arg(y_upper, "y_upper", "between", error_call)
 
   list(lhs = x, rhs_lower = y_lower, rhs_upper = y_upper)
 }
 
-parse_join_by_containment <- function(expr, i) {
-  args <- eval_join_by_containment(expr)
+parse_join_by_containment <- function(expr, i, error_call) {
+  args <- eval_join_by_containment(expr, error_call)
 
   type <- args$type
 
-  lhs_lower <- parse_join_by_name(args$lhs_lower, i, "x")
-  lhs_upper <- parse_join_by_name(args$lhs_upper, i, "x")
-  rhs_lower <- parse_join_by_name(args$rhs_lower, i, "y")
-  rhs_upper <- parse_join_by_name(args$rhs_upper, i, "y")
+  lhs_lower <- parse_join_by_name(args$lhs_lower, i, "x", error_call)
+  lhs_upper <- parse_join_by_name(args$lhs_upper, i, "x", error_call)
+  rhs_lower <- parse_join_by_name(args$rhs_lower, i, "y", error_call)
+  rhs_upper <- parse_join_by_name(args$rhs_upper, i, "y", error_call)
 
   if (lhs_lower$side != lhs_upper$side) {
-    abort(c(
+    message <- c(
       paste0(
         "Expressions containing `overlaps()` or `within()` must reference ",
         "the same table for the left-hand side lower and upper bounds."
       ),
-      x = glue("Expression {i} is {err_expr(expr)}.")
-    ))
+      i = glue("Expression {i} is {err_expr(expr)}.")
+    )
+    abort(message, call = error_call)
   }
 
   if (rhs_lower$side != rhs_upper$side) {
-    abort(c(
+    message <- c(
       paste0(
         "Expressions containing `overlaps()` or `within()` must reference ",
         "the same table for the right-hand side lower and upper bounds."
       ),
-      x = glue("Expression {i} is {err_expr(expr)}.")
-    ))
+      i = glue("Expression {i} is {err_expr(expr)}.")
+    )
+    abort(message, call = error_call)
   }
 
   if (lhs_lower$side == rhs_lower$side) {
-    abort(c(
+    message <- c(
       "Expressions containing `overlaps()` or `within()` can't all reference the same table.",
-      x = glue("Expression {i} is {err_expr(expr)}.")
-    ))
+      i = glue("Expression {i} is {err_expr(expr)}.")
+    )
+    abort(message, call = error_call)
   }
 
   if (type == "overlaps") {
@@ -766,7 +815,7 @@ parse_join_by_containment <- function(expr, i) {
       condition <- c("<=", ">=")
     }
   } else {
-    abort("Internal error: Unknown containment `type`.")
+    abort("Unknown containment `type`.", .internal = TRUE)
   }
 
   filter <- c("none", "none")
@@ -778,8 +827,9 @@ parse_join_by_containment <- function(expr, i) {
     filter = filter
   )
 }
-eval_join_by_containment <- function(expr) {
+eval_join_by_containment <- function(expr, error_call) {
   env <- new_environment()
+  local_error_call(error_call, frame = env)
 
   env_bind(
     env,
@@ -789,16 +839,21 @@ eval_join_by_containment <- function(expr) {
 
   eval_tidy(expr, env = env)
 }
-binding_join_by_containment <- function(type, x_lower, x_upper, y_lower, y_upper) {
+binding_join_by_containment <- function(type,
+                                        error_call,
+                                        x_lower,
+                                        x_upper,
+                                        y_lower,
+                                        y_upper) {
   x_lower <- enexpr(x_lower)
   x_upper <- enexpr(x_upper)
   y_lower <- enexpr(y_lower)
   y_upper <- enexpr(y_upper)
 
-  check_missing_arg(x_lower, "x_lower", type)
-  check_missing_arg(x_upper, "x_upper", type)
-  check_missing_arg(y_lower, "y_lower", type)
-  check_missing_arg(y_upper, "y_upper", type)
+  check_missing_arg(x_lower, "x_lower", type, error_call)
+  check_missing_arg(x_upper, "x_upper", type, error_call)
+  check_missing_arg(y_lower, "y_lower", type, error_call)
+  check_missing_arg(y_upper, "y_upper", type, error_call)
 
   list(
     type = type,
@@ -811,6 +866,7 @@ binding_join_by_containment <- function(type, x_lower, x_upper, y_lower, y_upper
 binding_join_by_within <- function(x_lower, x_upper, y_lower, y_upper) {
   binding_join_by_containment(
     type = "within",
+    error_call = caller_env(),
     x_lower = !!enexpr(x_lower),
     x_upper = !!enexpr(x_upper),
     y_lower = !!enexpr(y_lower),
@@ -820,6 +876,7 @@ binding_join_by_within <- function(x_lower, x_upper, y_lower, y_upper) {
 binding_join_by_overlaps <- function(x_lower, x_upper, y_lower, y_upper) {
   binding_join_by_containment(
     type = "overlaps",
+    error_call = caller_env(),
     x_lower = !!enexpr(x_lower),
     x_upper = !!enexpr(x_upper),
     y_lower = !!enexpr(y_lower),
@@ -827,7 +884,14 @@ binding_join_by_overlaps <- function(x_lower, x_upper, y_lower, y_upper) {
   )
 }
 
-check_missing_arg <- function(arg, arg_name, fn_name, ..., binary_op = FALSE) {
+check_missing_arg <- function(arg,
+                              arg_name,
+                              fn_name,
+                              error_call,
+                              ...,
+                              binary_op = FALSE) {
+  check_dots_empty0(...)
+
   if (!is_missing(arg)) {
     return(invisible())
   }
@@ -839,10 +903,11 @@ check_missing_arg <- function(arg, arg_name, fn_name, ..., binary_op = FALSE) {
   arg_name <- glue::backtick(arg_name)
   fn_name <- glue::backtick(fn_name)
 
-  abort(c(
+  message <- c(
     glue("Expressions using {fn_name} can't contain missing arguments."),
     x = glue("Argument {arg_name} is missing.")
-  ))
+  )
+  abort(message, call = error_call)
 }
 
 is_symbol_or_string <- function(x) {
