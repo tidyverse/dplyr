@@ -334,14 +334,20 @@ finalise_equi_join_by <- function(x_names, y_names) {
 
 # ------------------------------------------------------------------------------
 
-join_by_common <- function(x_names, y_names) {
+join_by_common <- function(x_names,
+                           y_names,
+                           ...,
+                           error_call = caller_env()) {
+  check_dots_empty0(...)
+
   by <- intersect(x_names, y_names)
 
   if (length(by) == 0) {
-    abort(c(
+    message <- c(
       "`by` must be supplied when `x` and `y` have no common variables.",
-      i = "use `by = character()` to perform a cross-join."
-    ))
+      i = "Use `by = character()` to perform a cross-join."
+    )
+    abort(message, call = error_call)
   }
 
   by_quoted <- encodeString(by, quote = '"')

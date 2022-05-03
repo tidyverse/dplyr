@@ -513,7 +513,7 @@ join_mutate <- function(x,
   y_names <- tbl_vars(y)
 
   if (is_null(by)) {
-    by <- join_by_common(x_names, y_names)
+    by <- join_by_common(x_names, y_names, error_call = error_call)
   } else {
     by <- as_join_by(by)
   }
@@ -607,7 +607,7 @@ join_filter <- function(x,
   y_names <- tbl_vars(y)
 
   if (is_null(by)) {
-    by <- join_by_common(x_names, y_names)
+    by <- join_by_common(x_names, y_names, error_call = error_call)
   } else {
     by <- as_join_by(by)
   }

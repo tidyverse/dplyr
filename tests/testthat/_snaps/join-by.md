@@ -351,7 +351,7 @@
     Code
       join_by_common(c("x", "y"), c("w", "z"))
     Condition
-      Error in `join_by_common()`:
+      Error:
       ! `by` must be supplied when `x` and `y` have no common variables.
-      i use `by = character()` to perform a cross-join.
+      i Use `by = character()` to perform a cross-join.
 
