@@ -506,7 +506,7 @@ join_mutate <- function(x,
                         error_call = caller_env()) {
   check_dots_empty0(...)
 
-  na_matches <- check_na_matches(na_matches)
+  na_matches <- check_na_matches(na_matches, error_call = error_call)
   unmatched <- check_unmatched(unmatched)
 
   x_names <- tbl_vars(x)
@@ -591,7 +591,7 @@ join_filter <- function(x,
                         error_call = caller_env()) {
   check_dots_empty0(...)
 
-  na_matches <- check_na_matches(na_matches)
+  na_matches <- check_na_matches(na_matches, error_call = error_call)
 
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
@@ -646,7 +646,9 @@ join_filter <- function(x,
   dplyr_row_slice(x, idx)
 }
 
-check_na_matches <- function(na_matches) {
+check_na_matches <- function(na_matches,
+                             ...,
+                             error_call = caller_env()) {
   if (isNamespaceLoaded("pkgconfig")) {
     conf <- asNamespace("pkgconfig")$get_config("dplyr::na_matches")
     if (!is.null(conf)) {
@@ -657,7 +659,12 @@ check_na_matches <- function(na_matches) {
     }
   }
 
-  arg_match0(na_matches, values = c("na", "never"), arg_nm = "na_matches")
+  arg_match0(
+    arg = na_matches,
+    values = c("na", "never"),
+    arg_nm = "na_matches",
+    error_call = error_call
+  )
 }
 
 check_unmatched <- function(unmatched) {

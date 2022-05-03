@@ -191,6 +191,26 @@ test_that("joins don't match NA when na_matches = 'never' (#2033)", {
   )
 })
 
+test_that("`na_matches` is validated", {
+  df <- tibble(x = 1)
+
+  # Mutating joins
+  expect_snapshot(error = TRUE, {
+    join_mutate(df, df, by = "x", type = "left", na_matches = 1)
+  })
+  expect_snapshot(error = TRUE, {
+    join_mutate(df, df, by = "x", type = "left", na_matches = "foo")
+  })
+
+  # Filtering joins
+  expect_snapshot(error = TRUE, {
+    join_filter(df, df, by = "x", type = "semi", na_matches = 1)
+  })
+  expect_snapshot(error = TRUE, {
+    join_filter(df, df, by = "x", type = "semi", na_matches = "foo")
+  })
+})
+
 test_that("mutating joins compute common columns", {
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- tibble(x = c(1, 3), z = c(2, 3))
