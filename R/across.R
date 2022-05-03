@@ -15,21 +15,24 @@
 #' `across()` supersedes the family of "scoped variants" like
 #' `summarise_at()`, `summarise_if()`, and `summarise_all()`.
 #'
-#' @param cols,.cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
+#' @param .cols,cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
 #'   Because `across()` is used within functions like `summarise()` and
 #'   `mutate()`, you can't select or compute upon grouping variables.
 #' @param .fns Functions to apply to each of the selected columns.
 #'   Possible values are:
 #'
-#'   - `NULL`, to returns the columns untransformed.
 #'   - A function, e.g. `mean`.
 #'   - A purrr-style lambda, e.g. `~ mean(.x, na.rm = TRUE)`
 #'   - A list of functions/lambdas, e.g.
 #'     `list(mean = mean, n_miss = ~ sum(is.na(.x))`
+#'   - `NULL`: the default value, returns the selected columns in a data
+#'   frame without applying a transformation. This is useful for when you want to
+#'   use a function that takes a data frame.
 #'
 #'   Within these functions you can use [cur_column()] and [cur_group()]
 #'   to access the current column and grouping keys respectively.
-#' @param ... Additional arguments for the function calls in `.fns`.
+#' @param ... Additional arguments for the function calls in `.fns`. Using these
+#'   `...` is strongly discouraged because of issues of timing of evaluation.
 #' @param .names A glue specification that describes how to name the output
 #'   columns. This can use `{.col}` to stand for the selected column name, and
 #'   `{.fn}` to stand for the name of the function being applied. The default
@@ -106,6 +109,17 @@
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{.col}.fn{.fn}"))
 #'
+#' # across() returns a data frame, which can be used as input of another function
+#' df <- data.frame(
+#'   x1  = c(1, 2, NA),
+#'   x2  = c(4, NA, 6),
+#'   y   = c("a", "b", "c")
+#' )
+#' df %>%
+#'   mutate(x_complete = complete.cases(across(starts_with("x"))))
+#' df %>%
+#'   filter(complete.cases(across(starts_with("x"))))
+#'
 #' # if_any() and if_all() ----------------------------------------------------
 #' iris %>%
 #'   filter(if_any(ends_with("Width"), ~ . > 4))
@@ -159,18 +173,25 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
 
   # Loop in such an order that all functions are applied
   # to a single column before moving on to the next column
-  for (i in seq_n_cols) {
-    var <- vars[[i]]
-    col <- data[[i]]
+  withCallingHandlers(
+    for (i in seq_n_cols) {
+      var <- vars[[i]]
+      col <- data[[i]]
 
-    context_poke("column", var)
+      context_poke("column", var)
 
-    for (j in seq_fns) {
-      fn <- fns[[j]]
-      out[[k]] <- fn(col, ...)
-      k <- k + 1L
+      for (j in seq_fns) {
+        fn <- fns[[j]]
+        out[[k]] <- fn(col, ...)
+        k <- k + 1L
+      }
+    }, error = function(cnd) {
+      bullets <- c(
+        glue("Problem while computing column `{names[k]}`.")
+      )
+      abort(bullets, call = call(setup$across_if_fn), parent = cnd)
     }
-  }
+  )
 
   size <- vec_size_common(!!!out)
   out <- vec_recycle_common(!!!out, .size = size)
@@ -234,7 +255,7 @@ c_across <- function(cols = everything()) {
   cols <- enquo(cols)
   vars <- c_across_setup(!!cols)
 
-  mask <- peek_mask("c_across()")
+  mask <- peek_mask("c_across")
 
   cols <- mask$current_cols(vars)
   vec_c(!!!cols, .name_spec = zap())
@@ -253,7 +274,7 @@ across_setup <- function(cols,
                          fns,
                          names,
                          .caller_env,
-                         mask = peek_mask("across()"),
+                         mask = peek_mask("across"),
                          inline = FALSE) {
   cols <- enquo(cols)
 
@@ -261,27 +282,35 @@ across_setup <- function(cols,
   # mask layer from the quosure environment (#5460)
   cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = FALSE, inherit = FALSE))
 
+  across_if_fn <- context_peek_bare("across_if_fn") %||% "across"
+
   # TODO: call eval_select with a calling handler to intercept
   #       classed error, after https://github.com/r-lib/tidyselect/issues/233
   if (is.null(fns) && quo_is_call(cols, "~")) {
-    if_fn <- context_peek_bare("across_if_fn") %||% "across"
-    abort(c(
-      "Predicate used in lieu of column selection.",
-      i = glue("You most likely meant: `{if_fn}(everything(), {as_label(cols)})`."),
+    bullets <- c(
+      "Must supply a column selection.",
+      i = glue("You most likely meant: `{across_if_fn}(everything(), {as_label(cols)})`."),
       i = "The first argument `.cols` selects a set of columns.",
       i = "The second argument `.fns` operates on each selected columns."
-    ))
+    )
+    abort(bullets, call = call(across_if_fn))
   }
   across_cols <- mask$across_cols()
 
-  vars <- tidyselect::eval_select(cols, data = across_cols)
+  vars <- fix_call(
+    tidyselect::eval_select(cols, data = across_cols),
+    call = call(across_if_fn)
+  )
   names_vars <- names(vars)
   vars <- names(across_cols)[vars]
 
   if (is.null(fns)) {
     if (!is.null(names)) {
       glue_mask <- across_glue_mask(.caller_env, .col = names_vars, .fn = "1")
-      names <- vec_as_names(glue(names, .envir = glue_mask), repair = "check_unique")
+      names <- fix_call(
+        vec_as_names(glue(names, .envir = glue_mask), repair = "check_unique"),
+        call = call(across_if_fn)
+      )
     } else {
       names <- names_vars
     }
@@ -299,9 +328,8 @@ across_setup <- function(cols,
   }
 
   if (!is.list(fns)) {
-    abort(c("Problem with `across()` input `.fns`.",
-      i = "`.fns` must be NULL, a function, a formula, or a list of functions/formulas."
-    ))
+    msg <- c("`.fns` must be NULL, a function, a formula, or a list of functions/formulas.")
+    abort(msg, call = call(across_if_fn))
   }
 
   # make sure fns has names, use number to replace unnamed
@@ -315,17 +343,20 @@ across_setup <- function(cols,
     }
   }
 
-  glue_mask <- glue_mask <- across_glue_mask(.caller_env,
+  glue_mask <- across_glue_mask(.caller_env,
     .col = rep(names_vars, each = length(fns)),
     .fn  = rep(names_fns , length(vars))
   )
-  names <- vec_as_names(glue(names, .envir = glue_mask), repair = "check_unique")
+  names <- fix_call(
+    vec_as_names(glue(names, .envir = glue_mask), repair = "check_unique"),
+    call = call(across_if_fn)
+  )
 
   if (!inline) {
     fns <- map(fns, as_function)
   }
 
-  list(vars = vars, fns = fns, names = names)
+  list(vars = vars, fns = fns, names = names, across_if_fn = across_if_fn)
 }
 
 # FIXME: This pattern should be encapsulated by rlang
@@ -341,7 +372,7 @@ data_mask_top <- function(env, recursive = FALSE, inherit = FALSE) {
 }
 
 c_across_setup <- function(cols) {
-  mask <- peek_mask("c_across()")
+  mask <- peek_mask("c_across")
 
   cols <- enquo(cols)
   across_cols <- mask$across_cols()
@@ -486,7 +517,7 @@ expand_across <- function(quo) {
 
   # Empty expansion
   if (length(vars) == 0L) {
-    return(list())
+    return(new_expanded_quosures(list()))
   }
 
   fns <- setup$fns
@@ -506,6 +537,7 @@ expand_across <- function(quo) {
       )
     })
     names(expressions) <- names
+    expressions <- new_expanded_quosures(expressions)
     return(expressions)
   }
 
@@ -540,7 +572,11 @@ expand_across <- function(quo) {
   }
 
   names(expressions) <- names
-  expressions
+  new_expanded_quosures(expressions)
+}
+
+new_expanded_quosures <- function(x) {
+  structure(x, class = "dplyr_expanded_quosures")
 }
 
 # TODO: Take unevaluated `.fns` and inline calls to `function`. This
@@ -581,7 +617,8 @@ as_across_fn_call <- function(fn, var, env, mask) {
 # bug.
 is_inlinable_formula <- function(x, mask) {
   if (is_formula(x, lhs = FALSE, scoped = TRUE)) {
-    identical(x, mask) || !env_inherits(f_env(x), mask)
+    env <- f_env(x)
+    identical(env, mask) || !env_inherits(env, mask)
   } else {
     FALSE
   }

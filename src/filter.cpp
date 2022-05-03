@@ -9,9 +9,6 @@ void stop_filter_incompatible_size(R_xlen_t i, SEXP quos, R_xlen_t nres, R_xlen_
     DPLYR_ERROR_SET(1, "size", Rf_ScalarInteger(nres));
     DPLYR_ERROR_SET(2, "expected_size", Rf_ScalarInteger(n));
 
-  DPLYR_ERROR_MESG_INIT(1);
-    DPLYR_ERROR_MSG_SET(0, "Input `..{index}` must be of size {or_1(expected_size)}, not size {size}.");
-
   DPLYR_ERROR_THROW("dplyr:::filter_incompatible_size");
 }
 
@@ -20,13 +17,6 @@ void stop_filter_incompatible_type(R_xlen_t i, SEXP quos, SEXP column_name, SEXP
     DPLYR_ERROR_SET(0, "index", Rf_ScalarInteger(i + 1));
     DPLYR_ERROR_SET(1, "column_name", column_name);
     DPLYR_ERROR_SET(2, "result", result);
-
-  DPLYR_ERROR_MESG_INIT(1);
-    if (column_name == R_NilValue) {
-      DPLYR_ERROR_MSG_SET(0, "Input `..{index}` must be a logical vector, not a {vec_ptype_full(result)}.");
-    } else {
-      DPLYR_ERROR_MSG_SET(0, "Input `..{index}${column_name}` must be a logical vector, not a {vec_ptype_full(result)}.");
-    }
 
   DPLYR_ERROR_THROW("dplyr:::filter_incompatible_type");
 }
@@ -69,7 +59,17 @@ void filter_check_size(SEXP res, int i, R_xlen_t n, SEXP quos) {
 }
 
 void filter_check_type(SEXP res, R_xlen_t i, SEXP quos) {
-  if (TYPEOF(res) == LGLSXP && !Rf_isMatrix(res)) return;
+  if (TYPEOF(res) == LGLSXP) {
+    if (!Rf_isMatrix(res)) {
+      return;
+    }
+
+    if (INTEGER(Rf_getAttrib(res, R_DimSymbol))[1] == 1) {
+      // not yet,
+      // Rf_warningcall(R_NilValue, "Matrices of 1 column are deprecated in `filter()`.");
+      return;
+    }
+  }
 
   if (Rf_inherits(res, "data.frame")) {
     R_xlen_t ncol = XLENGTH(res);

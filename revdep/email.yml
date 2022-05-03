@@ -1,6 +1,6 @@
 release_date: May 29
 rel_release_date: two weeks
-my_news_url: https://github.com/tidyverse/dplyr/blob/master/NEWS.md
+my_news_url: https://github.com/tidyverse/dplyr/blob/main/NEWS.md
 release_version: 1.0.0
 release_details: |
   We've pushed back the package release by two weeks, just to give everyone

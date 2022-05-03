@@ -301,23 +301,23 @@ transmute_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
 
 # Helpers -----------------------------------------------------------------
 
-manip_all <- function(.tbl, .funs, .quo, .env, ..., .include_group_vars = FALSE, .caller) {
+manip_all <- function(.tbl, .funs, .quo, .env, ..., .include_group_vars = FALSE, .caller, error_call = caller_env()) {
   if (.include_group_vars) {
     syms <- syms(tbl_vars(.tbl))
   } else {
     syms <- syms(tbl_nongroup_vars(.tbl))
   }
-  funs <- as_fun_list(.funs, .env, ..., .caller = .caller)
+  funs <- as_fun_list(.funs, .env, ..., .caller = .caller, error_call = error_call)
   manip_apply_syms(funs, syms, .tbl)
 }
-manip_if <- function(.tbl, .predicate, .funs, .quo, .env, ..., .include_group_vars = FALSE, .caller) {
-  vars <- tbl_if_syms(.tbl, .predicate, .env, .include_group_vars = .include_group_vars)
-  funs <- as_fun_list(.funs, .env, ..., .caller = .caller)
+manip_if <- function(.tbl, .predicate, .funs, .quo, .env, ..., .include_group_vars = FALSE, .caller, error_call = caller_env()) {
+  vars <- tbl_if_syms(.tbl, .predicate, .env, .include_group_vars = .include_group_vars, error_call = error_call)
+  funs <- as_fun_list(.funs, .env, ..., .caller = .caller, error_call = error_call)
   manip_apply_syms(funs, vars, .tbl)
 }
-manip_at <- function(.tbl, .vars, .funs, .quo, .env, ..., .include_group_vars = FALSE, .caller) {
-  syms <- tbl_at_syms(.tbl, .vars, .include_group_vars = .include_group_vars)
-  funs <- as_fun_list(.funs, .env, ..., .caller = .caller)
+manip_at <- function(.tbl, .vars, .funs, .quo, .env, ..., .include_group_vars = FALSE, .caller, error_call = caller_env()) {
+  syms <- tbl_at_syms(.tbl, .vars, .include_group_vars = .include_group_vars, error_call = error_call)
+  funs <- as_fun_list(.funs, .env, ..., .caller = .caller, error_call = error_call)
   manip_apply_syms(funs, syms, .tbl)
 }
 
@@ -328,10 +328,10 @@ check_grouped <- function(tbl, verb, suffix, alt = FALSE) {
     } else {
       alt_line <- chr()
     }
-    inform(paste_line(
+    inform(c(
       sprintf("`%s_%s()` ignored the following grouping variables:", verb, suffix),
-      fmt_cols(group_vars(tbl)),
-      alt_line
+      set_names(fmt_cols(group_vars(tbl)), "*"),
+      "i" = alt_line
     ))
   }
 }

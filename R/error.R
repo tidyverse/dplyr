@@ -1,43 +1,6 @@
-check_pkg <- function(name, reason, install = TRUE) {
-  if (is_installed(name)) {
-    return(invisible(TRUE))
-  }
-
-  glubort(NULL, "The {name} package is required to {reason}.",
-    if (install) '\nPlease install it with `install.packages("{name}")`' else ""
-  )
-}
-
 # ngettext() does extra work, this function is a simpler version
 ntext <- function(n, msg1, msg2) {
   if (n == 1) msg1 else msg2
-}
-
-bad <- function(..., .envir = parent.frame()) {
-  glubort(NULL, ..., .envir = parent.frame())
-}
-
-bad_args <- function(args, ..., .envir = parent.frame()) {
-  glubort(fmt_args(args), ..., .envir = .envir)
-}
-
-bad_pos_args <- function(pos_args, ..., .envir = parent.frame()) {
-  glubort(fmt_pos_args(pos_args), ..., .envir = .envir)
-}
-
-bad_calls <- function(calls, ..., .envir = parent.frame()) {
-  glubort(fmt_calls(calls), ..., .envir = .envir)
-}
-
-glubort <- function(header, ..., .envir = parent.frame(), .abort = abort) {
-  text <- glue(..., .envir = .envir)
-  if (!is_null(header)) text <- paste0(header, " ", text)
-  .abort(text)
-}
-
-fmt_args <- function(x) {
-  x <- parse_args(x)
-  fmt_obj(x)
 }
 
 fmt_pos_args <- function(x) {
@@ -50,31 +13,9 @@ fmt_calls <- function(...) {
   fmt_obj(x)
 }
 
-fmt_named_calls <- function(...) {
-  x <- parse_named_call(...)
-  fmt_named(x)
-}
-
-fmt_wrong_eq_ops <- function(...) {
-  x <- parse_named_call(...)
-  fmt_items(
-    paste0("Did you mean ", fmt_obj1(paste0(names2(x), " == ", x)), "?"),
-    bullet = "*"
-  )
-}
-
 fmt_cols <- function(x) {
   cols <- ntext(length(x), "Column", "Columns")
   glue("{cols} {fmt_obj(x)}")
-}
-
-fmt_measures <- function(x) {
-  measures <- ntext(length(x), "Measure", "Measures")
-  glue("{measures} {fmt_obj(x)}")
-}
-
-fmt_named <- function(x) {
-  fmt_comma(paste0(fmt_obj1(names2(x)), " = ", x))
 }
 
 fmt_obj <- function(x) {
@@ -101,16 +42,6 @@ fmt_comma <- function(..., .max = 6) {
   }
 
   commas(x)
-}
-
-fmt_items <- function(x, bullet = "-", .max = 6) {
-  if (length(x) > .max) {
-    more <- glue("({length(x) - (.max - 1)} more)")
-    length(x) <- .max
-    x[.max] <- more
-  }
-
-  paste0(glue("{bullet} {x}"), collapse = "\n")
 }
 
 parse_args <- function(x) {

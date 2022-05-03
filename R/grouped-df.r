@@ -136,16 +136,13 @@ show_regroups <- function(code) {
 #' @export
 new_grouped_df <- function(x, groups, ..., class = character()) {
   if (!is.data.frame(x)) {
-    abort(c(
-      "`new_grouped_df()` incompatible argument.",
-      x = "`x` is not a data frame.")
-    )
+    abort("`x` must be a data frame.")
   }
-  if (!is.data.frame(groups) || tail(names(groups), 1L) != ".rows") {
-    abort(c(
-      "`new_grouped_df()` incompatible argument.",
-      i = "`groups` should be a data frame, and its last column be called `.rows`."
-    ))
+  if (!is.data.frame(groups)) {
+    abort("`groups` must be a data frame")
+  }
+  if (tail(names(groups), 1L) != ".rows") {
+    abort('The last column of `groups` must be called ".rows".')
   }
 
   new_tibble(
@@ -166,10 +163,11 @@ new_grouped_df <- function(x, groups, ..., class = character()) {
 #' @export
 validate_grouped_df <- function(x, check_bounds = FALSE) {
   if (is.null(attr(x, "groups")) && !is.null(attr(x, "vars"))) {
-    abort(c(
+    bullets <- c(
       "Corrupt `grouped_df` using old (< 0.8.0) format.",
       i = "Strip off old grouping with `ungroup()`."
-    ))
+    )
+    abort(bullets)
   }
 
   result <- .Call(`dplyr_validate_grouped_df`, x, check_bounds)
@@ -194,7 +192,7 @@ group_sum <- function(x) {
 }
 
 #' @export
-tbl_sum.grouped_df <- function(x) {
+tbl_sum.grouped_df <- function(x, ...) {
   c(
     NextMethod(),
     c("Groups" = group_sum(x))

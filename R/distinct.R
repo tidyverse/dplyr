@@ -73,7 +73,9 @@ distinct_prepare <- function(.data,
                              vars,
                              group_vars = character(),
                              .keep_all = FALSE,
-                             caller_env = caller_env(2)) {
+                             caller_env = caller_env(2),
+                             error_call = caller_env()
+                             ) {
   stopifnot(is_quosures(vars), is.character(group_vars))
 
   # If no input, keep all variables
@@ -86,11 +88,9 @@ distinct_prepare <- function(.data,
   }
 
   # If any calls, use mutate to add new columns, then distinct on those
-  computed_columns <- add_computed_columns(
-    .data,
-    vars,
-    "distinct",
-    caller_env = caller_env
+  computed_columns <- add_computed_columns(.data, vars,
+    caller_env = caller_env,
+    error_call = error_call
   )
   .data <- computed_columns$data
   distinct_vars <- computed_columns$added_names
@@ -99,11 +99,11 @@ distinct_prepare <- function(.data,
   # can instead just use their names
   missing_vars <- setdiff(distinct_vars, names(.data))
   if (length(missing_vars) > 0) {
-    bullets <- set_names(glue("`{missing_vars}` not found in `.data`."), rep("x", length(missing_vars)))
-    abort(c(
-      "`distinct()` must use existing variables.",
-      bullets
-    ))
+    bullets <- c(
+      "Must use existing variables.",
+      set_names(glue("`{missing_vars}` not found in `.data`."), rep("x", length(missing_vars)))
+    )
+    abort(bullets, call = error_call)
   }
 
   # Always include grouping variables preserving input order
@@ -131,7 +131,6 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
   # out <- as_tibble(prep$data)
   out <- prep$data
   loc <- vec_unique_loc(as_tibble(out)[prep$vars])
-
 
   dplyr_row_slice(out[prep$keep], loc)
 }

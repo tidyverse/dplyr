@@ -376,99 +376,116 @@ test_that("filter() allows named constants that resolve to logical vectors (#461
   )
 })
 
-test_that("filter() forbids matrices (#5973)", {
-  df <- data.frame(x = 1:2)
-
-  expect_error(filter(df, matrix(c(TRUE, FALSE), nrow = 2)))
+test_that("filter() allowing matrices with 1 column", {
+  out <- expect_warning(
+    filter(data.frame(x = 1:2), matrix(c(TRUE, FALSE), nrow = 2)), NA
+  )
+  expect_identical(out, data.frame(x = 1L))
 })
 
 test_that("filter() gives useful error messages", {
-  # wrong type
-  expect_snapshot(error = TRUE,
-    iris %>%
-      group_by(Species) %>%
-      filter(1:n())
-  )
-  expect_snapshot(error = TRUE,
-    iris %>%
-      filter(1:n())
-  )
+  expect_snapshot({
+    # wrong type
+    (expect_error(
+      iris %>%
+        group_by(Species) %>%
+        filter(1:n())
+    ))
+    (expect_error(
+      iris %>%
+        filter(1:n())
+    ))
 
-  # wrong size
-  expect_snapshot(error = TRUE,
-    iris %>%
-      group_by(Species) %>%
-      filter(c(TRUE, FALSE))
-  )
-  expect_snapshot(error = TRUE,
-    iris %>%
-      rowwise(Species) %>%
-      filter(c(TRUE, FALSE))
-  )
-  expect_snapshot(error = TRUE,
-    iris %>%
-      filter(c(TRUE, FALSE))
-  )
+    # matrix with > 1 columns
+    (expect_error(
+      filter(data.frame(x = 1:2), matrix(c(TRUE, FALSE, TRUE, FALSE), nrow = 2))
+    ))
 
-  # wrong size in column
-  expect_snapshot(error = TRUE,
-    iris %>%
-      group_by(Species) %>%
-      filter(data.frame(c(TRUE, FALSE)))
-  )
-  expect_snapshot(error = TRUE,
-    iris %>%
-      rowwise() %>%
-      filter(data.frame(c(TRUE, FALSE)))
-  )
-  expect_snapshot(error = TRUE,
-    iris %>%
-      filter(data.frame(c(TRUE, FALSE)))
-  )
-  expect_snapshot(error = TRUE,
-    tibble(x = 1) %>%
-      filter(c(TRUE, TRUE))
-  )
+    # wrong size
+    (expect_error(
+      iris %>%
+        group_by(Species) %>%
+        filter(c(TRUE, FALSE))
+    ))
+    (expect_error(
+                    iris %>%
+                      rowwise(Species) %>%
+                      filter(c(TRUE, FALSE))
+    ))
+    (expect_error(
+                    iris %>%
+                      filter(c(TRUE, FALSE))
+    ))
 
-  # wrong type in column
-  expect_snapshot(error = TRUE,
-    iris %>%
-      group_by(Species) %>%
-      filter(data.frame(Sepal.Length > 3, 1:n()))
-  )
-  expect_snapshot(error = TRUE,
-    iris %>%
-      filter(data.frame(Sepal.Length > 3, 1:n()))
-  )
+    # wrong size in column
+    (expect_error(
+                    iris %>%
+                      group_by(Species) %>%
+                      filter(data.frame(c(TRUE, FALSE)))
+    ))
+    (expect_error(
+                    iris %>%
+                      rowwise() %>%
+                      filter(data.frame(c(TRUE, FALSE)))
+    ))
+    (expect_error(
+                    iris %>%
+                      filter(data.frame(c(TRUE, FALSE)))
+    ))
+    (expect_error(
+                    tibble(x = 1) %>%
+                      filter(c(TRUE, TRUE))
+    ))
 
-  # evaluation error
-  expect_snapshot(error = TRUE, mtcars %>% filter(`_x`))
-  expect_snapshot(error = TRUE,
-    mtcars %>%
-      group_by(cyl) %>%
-      filter(`_x`)
-  )
+    # wrong type in column
+    (expect_error(
+                    iris %>%
+                      group_by(Species) %>%
+                      filter(data.frame(Sepal.Length > 3, 1:n()))
+    ))
+    (expect_error(
+                    iris %>%
+                      filter(data.frame(Sepal.Length > 3, 1:n()))
+    ))
 
-  # named inputs
-  expect_snapshot(error = TRUE, filter(mtcars, x = 1))
-  expect_snapshot(error = TRUE, filter(mtcars, y > 2, z = 3))
-  expect_snapshot(error = TRUE, filter(mtcars, TRUE, x = 1))
+    # evaluation error
+    (expect_error(
+      mtcars %>% filter(`_x`)
+    ))
+    (expect_error(
+                    mtcars %>%
+                      group_by(cyl) %>%
+                      filter(`_x`)
+    ))
 
-  # ts
-  expect_snapshot(error = TRUE, filter(ts(1:10)))
+    # named inputs
+    (expect_error(
+      filter(mtcars, x = 1)
+    ))
+    (expect_error(
+      filter(mtcars, y > 2, z = 3)
+    ))
+    (expect_error(
+      filter(mtcars, TRUE, x = 1)
+    ))
 
-  # Error that contains {
-  expect_snapshot(error = TRUE, tibble() %>% filter(stop("{")))
+    # ts
+    (expect_error(
+      filter(ts(1:10))
+    ))
 
-  # across() in filter() does not warn yet
-  expect_snapshot(
+    # Error that contains {
+    (expect_error(
+      tibble() %>% filter(stop("{"))
+    ))
+
+    # across() in filter() does not warn yet
     data.frame(x = 1, y = 1) %>%
       filter(across(everything(), ~ .x > 0))
-  )
-  expect_snapshot(
+
     data.frame(x = 1, y = 1) %>%
       filter(data.frame(x > 0, y > 0))
-  )
+  })
 })
 
 test_that("filter preserves grouping", {

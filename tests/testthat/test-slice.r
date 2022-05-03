@@ -189,17 +189,46 @@ test_that("slice() handles matrix and data frame columns (#3630)", {
 
 # Slice variants ----------------------------------------------------------
 
+test_that("slice_sample() handles n= and prop=", {
+  df <- data.frame(a = 1)
+
+  expect_equal(
+    df %>% slice_sample(n = 4, replace = TRUE),
+    df %>% slice(rep(1, 4))
+  )
+
+  expect_equal(
+    df %>% slice_sample(prop = 4, replace = TRUE),
+    df %>% slice(rep(1, 4))
+  )
+
+  expect_snapshot({
+    (expect_error(
+      df %>% slice_sample(n = -1)
+    ))
+    (expect_error(
+      df %>% slice_sample(prop = -1)
+    ))
+
+    (expect_error(
+      df %>% slice_sample(n = 4, replace = FALSE)
+    ))
+
+    (expect_error(
+      df %>% slice_sample(prop = 4, replace = FALSE)
+    ))
+  })
+})
+
 test_that("functions silently truncate results", {
   df <- data.frame(x = 1:5)
 
   expect_equal(df %>% slice_head(n = 6) %>% nrow(), 5)
   expect_equal(df %>% slice_tail(n = 6) %>% nrow(), 5)
-  expect_equal(df %>% slice_sample(n = 6) %>% nrow(), 5)
   expect_equal(df %>% slice_min(x, n = 6) %>% nrow(), 5)
   expect_equal(df %>% slice_max(x, n = 6) %>% nrow(), 5)
   expect_equal(df %>% slice_head(n = -6) %>% nrow(), 0)
   expect_equal(df %>% slice_tail(n = -6) %>% nrow(), 0)
-  expect_equal(df %>% slice_sample(n = -6) %>% nrow(), 0)
   expect_equal(df %>% slice_min(x, n = -6) %>% nrow(), 0)
   expect_equal(df %>% slice_max(x, n = -6) %>% nrow(), 0)
 })
@@ -250,43 +279,192 @@ test_that("arguments to sample are passed along", {
   expect_equal(df %>% slice_sample(n = 2, weight_by = wt, replace = TRUE) %>% pull(x), c(1, 1))
 })
 
-test_that("slice_*() checks for empty ...", {
-  df <- data.frame(x = 1:10)
-  expect_error(slice_head(df, 5))
-  expect_error(slice_tail(df, 5))
-  expect_error(slice_min(df, x, 5))
-  expect_error(slice_max(df, x, 5))
-  expect_error(slice_sample(df, 5))
+test_that("slice() handles matrices", {
+  df <- data.frame(x = 1)
+  expect_identical(
+    slice(df, 1),
+    slice(df, matrix(1))
+  )
 })
+
+test_that("slice() gives meaningfull errors", {
+  df <- data.frame(x = 1:2)
+  gdf <- group_by(df, x)
+
+  expect_snapshot({
+    (expect_error(
+      slice(df, matrix(c(1, 2), ncol = 2))
+    ))
+    (expect_error(
+      slice(gdf, matrix(c(1, 2), ncol = 2))
+    ))
+
+    (expect_error(
+      slice(df, "a")
+    ))
+    (expect_error(
+      slice(gdf, "a")
+    ))
+
+    (expect_error(
+      slice(df, c(1, -1))
+    ))
+    (expect_error(
+      slice(gdf, c(1, -1))
+    ))
+  })
+
+})
+
+test_that("slice_*() checks that `n=` is explicitly named", {
+  df <- data.frame(x = 1:10)
+  expect_snapshot({
+    (expect_error(
+      slice_head(df, 5)
+    ))
+    (expect_error(
+      slice_tail(df, 5)
+    ))
+    (expect_error(
+      slice_min(df, x, 5)
+    ))
+    (expect_error(
+      slice_max(df, x, 5)
+    ))
+    (expect_error(
+      slice_sample(df, 5)
+    ))
+  })
+})
+
+test_that("slice_*() not confusing `n` (#6089)", {
+  df <- data.frame(x = 1:10, n = 10:1, g = rep(1:2, each = 5))
+  expect_error(slice_max(df, order_by = n), NA)
+  expect_error(slice_min(df, order_by = n), NA)
+  expect_error(slice_sample(df, weight_by = n, n = 1L), NA)
+
+  df <- group_by(df, g)
+  expect_error(slice_max(df, order_by = n), NA)
+  expect_error(slice_min(df, order_by = n), NA)
+  expect_error(slice_sample(df, weight_by = n, n = 1L), NA)
+})
+
+test_that("slice_*() checks that for empty `...", {
+  df <- data.frame(x = 1:10)
+  expect_snapshot({
+    (expect_error(
+      slice_head(df, 5, 2)
+    ))
+    (expect_error(
+      slice_tail(df, 5, 2)
+    ))
+    (expect_error(
+      slice_min(df, x, 5, 2)
+    ))
+    (expect_error(
+      slice_max(df, x, 5, 2)
+    ))
+    (expect_error(
+      slice_sample(df, 5, 2)
+    ))
+  })
+
+  expect_snapshot({
+    (expect_error(
+      slice_head(df, n = 5, 2)
+    ))
+    (expect_error(
+      slice_tail(df, n = 5, 2)
+    ))
+    (expect_error(
+      slice_min(df, x, n = 5, 2)
+    ))
+    (expect_error(
+      slice_max(df, x, n = 5, 2)
+    ))
+    (expect_error(
+      slice_sample(df, n = 5, 2)
+    ))
+  })
+
+  expect_snapshot({
+    (expect_error(
+      slice_head(df, prop = .5, 2)
+    ))
+    (expect_error(
+      slice_tail(df, prop = .5, 2)
+    ))
+    (expect_error(
+      slice_min(df, x, prop = .5, 2)
+    ))
+    (expect_error(
+      slice_max(df, x, prop = .5, 2)
+    ))
+    (expect_error(
+      slice_sample(df, prop = .5, 2)
+    ))
+  })
+})
+
 
 test_that("slice_*() checks for constant n= and prop=", {
   df <- data.frame(x = 1:10)
-  expect_error(slice_head(df, n = n()), "constant")
-  expect_error(slice_head(df, prop = n()), "constant")
 
-  expect_error(slice_tail(df, n = n()), "constant")
-  expect_error(slice_tail(df, prop = n()), "constant")
+  expect_snapshot({
+    (expect_error(
+      slice_head(df, n = n())
+    ))
+    (expect_error(
+      slice_head(df, prop = n())
+    ))
 
-  expect_error(slice_min(df, x, n = n()), "constant")
-  expect_error(slice_min(df, x, prop = n()), "constant")
+    (expect_error(
+      slice_tail(df, n = n())
+    ))
+    (expect_error(
+      slice_tail(df, prop = n())
+    ))
 
-  expect_error(slice_max(df, x, n = n()), "constant")
-  expect_error(slice_max(df, x, prop = n()), "constant")
+    (expect_error(
+      slice_min(df, x, n = n())
+    ))
+    (expect_error(
+      slice_min(df, x, prop = n())
+    ))
 
-  expect_error(slice_sample(df, n = n()), "constant")
-  expect_error(slice_sample(df, prop = n()), "constant")
+    (expect_error(
+      slice_max(df, x, n = n())
+    ))
+    (expect_error(
+      slice_max(df, x, prop = n())
+    ))
+
+    (expect_error(
+      slice_sample(df, n = n())
+    ))
+    (expect_error(
+      slice_sample(df, prop = n())
+    ))
+  })
+
 })
 
 test_that("slice_min/max() check size of `order_by=` (#5922)", {
-  expect_snapshot(error = TRUE, {
-    slice_min(data.frame(x = 1:10), 1:6)
-    slice_max(data.frame(x = 1:10), 1:6)
+  expect_snapshot({
+    (expect_error(
+      slice_min(data.frame(x = 1:10), 1:6)
+    ))
+    (expect_error(
+      slice_max(data.frame(x = 1:10), 1:6)
+    ))
   })
 })
 
 test_that("slice_sample() check size of `weight_by=` (#5922)", {
-  expect_snapshot(error = TRUE, {
-    slice_sample(data.frame(x = 1:10), n = 2, weight_by = 1:6)
+  expect_snapshot({
+    (expect_error(
+      slice_sample(data.frame(x = 1:10), n = 2, weight_by = 1:6)
+    ))
   })
 })
 
@@ -307,6 +485,19 @@ test_that("slice_head/slice_tail correctly slice ungrouped df when n < 0", {
     slice_tail(df, n = -2),
     slice_tail(df, n = nrow(df) - 2)
   )
+})
+
+test_that("slice_head,tail() handle n,prop = Inf", {
+  df <- data.frame(x = 1)
+  expect_identical(slice_head(df, n = Inf), df)
+  expect_identical(slice_tail(df, n = Inf), df)
+  expect_identical(slice_head(df, prop = Inf), df)
+  expect_identical(slice_tail(df, prop = Inf), df)
+
+  expect_identical(slice_head(df, n = -Inf), data.frame(x = numeric()))
+  expect_identical(slice_tail(df, n = -Inf), data.frame(x = numeric()))
+  expect_identical(slice_head(df, prop = -Inf), data.frame(x = numeric()))
+  expect_identical(slice_tail(df, prop = -Inf), data.frame(x = numeric()))
 })
 
 test_that("slice_head/slice_tail correctly slice grouped df when n < 0", {
@@ -338,26 +529,58 @@ test_that("Non-integer number of rows computed correctly", {
   expect_equal(get_slice_size(prop = -0.16)(10), 9)
 })
 
+test_that("slice_helpers do call slice() and benefit from dispatch (#6084)", {
+  local_methods(
+    slice.noisy = function(.data, ..., .preserve = FALSE) {
+      warning("noisy")
+      NextMethod()
+    }
+  )
+
+  noisy <- function(x) {
+    class(x) <- c("noisy", class(x))
+    x
+  }
+
+  df <- tibble(x = 1:10, g = rep(1:2, each = 5)) %>% group_by(g)
+
+  expect_warning(slice(noisy(df), 1:2), "noisy")
+  expect_warning(slice_sample(noisy(df), n = 2), "noisy")
+  expect_warning(slice_head(noisy(df), n = 2), "noisy")
+  expect_warning(slice_tail(noisy(df), n = 2), "noisy")
+  expect_warning(slice_min(noisy(df), x, n = 2), "noisy")
+  expect_warning(slice_max(noisy(df), x, n = 2), "noisy")
+  expect_warning(sample_n(noisy(df), 2), "noisy")
+  expect_warning(sample_frac(noisy(df), .5), "noisy")
+})
 
 # Errors ------------------------------------------------------------------
 
 test_that("rename errors with invalid grouped data frame (#640)", {
-  df <- tibble(x = 1:3)
+  expect_snapshot({
+    df <- tibble(x = 1:3)
 
-  # Incompatible type
-  expect_snapshot(error = TRUE, slice(df, TRUE))
-  expect_snapshot(error = TRUE, slice(df, FALSE))
+    # User errors are labelled
+    (expect_error(slice(mtcars, 1, 1 + "")))
+    (expect_error(group_by(mtcars, cyl) %>% slice(1, 1 + "")))
 
-  # Mix of positive and negative integers
-  expect_snapshot(error = TRUE, mtcars %>% slice(c(-1, 2)))
-  expect_snapshot(error = TRUE, mtcars %>% slice(c(2:3, -1)))
+    # Incompatible type
+    (expect_error(slice(df, TRUE)))
+    (expect_error(slice(df, FALSE)))
+    (expect_error(slice(mtcars, 1, 1, "")))
+    (expect_error(group_by(mtcars, cyl) %>% slice(1, 1, "")))
 
-  # n and prop are carefully validated
-  expect_snapshot(error = TRUE, check_slice_size(n = 1, prop = 1))
-  expect_snapshot(error = TRUE, check_slice_size(n = "a"))
-  expect_snapshot(error = TRUE, check_slice_size(prop = "a"))
-  expect_snapshot(error = TRUE, check_slice_size(n = n()))
-  expect_snapshot(error = TRUE, check_slice_size(prop = n()))
-  expect_snapshot(error = TRUE, check_slice_size(n = NA))
-  expect_snapshot(error = TRUE, check_slice_size(prop = NA))
+    # Mix of positive and negative integers
+    (expect_error(mtcars %>% slice(c(-1, 2))))
+    (expect_error(mtcars %>% slice(c(2:3, -1))))
+
+    # n and prop are carefully validated
+    (expect_error(slice_head(data.frame(), n = 1, prop = 1)))
+    (expect_error(slice_tail(data.frame(), n = "a")))
+    (expect_error(slide_head(data.frame(), prop = "a")))
+    (expect_error(slice_head(data.frame(), n = n())))
+    (expect_error(slice_head(data.frame(), prop = n())))
+    (expect_error(slice_head(data.frame(), n = NA)))
+    (expect_error(slice_head(data.frame(), prop = NA)))
+  })
 })

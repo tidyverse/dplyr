@@ -150,35 +150,42 @@ test_that("validate_grouped_df() gives useful errors", {
   df11 <- df6
   attr(df11, "groups") <- NULL
 
-  # Invalid `groups` attribute
-  expect_snapshot(error = TRUE, validate_grouped_df(df1))
-  expect_snapshot(error = TRUE, validate_grouped_df(df2))
-  expect_snapshot(error = TRUE, validate_grouped_df(df3))
-  expect_snapshot(error = TRUE, validate_grouped_df(df4))
+  expect_snapshot({
+     # Invalid `groups` attribute
+    (expect_error(validate_grouped_df(df1)))
+    (expect_error(group_data(df1)))
+    (expect_error(validate_grouped_df(df2)))
+    (expect_error(validate_grouped_df(df2)))
+    (expect_error(validate_grouped_df(df3)))
+    (expect_error(validate_grouped_df(df4)))
 
-  # Older style grouped_df
-  expect_snapshot(error = TRUE, validate_grouped_df(df5))
+    # Older style grouped_df
+    (expect_error(validate_grouped_df(df5)))
 
-  # validate_grouped_df(
-  expect_snapshot(error = TRUE, validate_grouped_df(df6, check_bounds = TRUE))
-  expect_snapshot(error = TRUE, validate_grouped_df(df7, check_bounds = TRUE))
-  expect_snapshot(error = TRUE, validate_grouped_df(df8, check_bounds = TRUE))
-  expect_snapshot(error = TRUE, validate_grouped_df(df10))
-  expect_snapshot(error = TRUE, validate_grouped_df(df11))
+    # validate_grouped_df(
+    (expect_error(validate_grouped_df(df6, check_bounds = TRUE)))
+    (expect_error(validate_grouped_df(df7, check_bounds = TRUE)))
+    (expect_error(validate_grouped_df(df8, check_bounds = TRUE)))
+    (expect_error(validate_grouped_df(df10)))
+    (expect_error(validate_grouped_df(df11)))
 
-  # new_grouped_df()
-  expect_snapshot(error = TRUE,
-    new_grouped_df(
-      tibble(x = 1:10),
-      tibble(other = list(1:2))
-    )
-  )
-  expect_snapshot(error = TRUE, new_grouped_df(10))
+    # new_grouped_df()
+    (expect_error(
+                    new_grouped_df(
+                      tibble(x = 1:10),
+                      tibble(other = list(1:2))
+                    )
+    ))
+    (expect_error(new_grouped_df(10)))
+  })
+
 })
 
 # compute_group ----------------------------------------------------------
 
 test_that("helper gives meaningful error messages", {
-  expect_snapshot(error = TRUE, grouped_df(data.frame(x = 1), "y", FALSE))
-  expect_snapshot(error = TRUE, grouped_df(data.frame(x = 1), 1))
+  expect_snapshot({
+    (expect_error(grouped_df(data.frame(x = 1), "y", FALSE)))
+    (expect_error(grouped_df(data.frame(x = 1), 1)))
+  })
 })

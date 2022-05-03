@@ -1,36 +1,38 @@
 # arrange() gives meaningful errors
 
     Code
-      tibble(x = 1, x = 1, .name_repair = "minimal") %>% arrange(x)
-    Error <dplyr_error>
-      arrange() failed at implicit mutate() step. 
-      x Can't transform a data frame with duplicate names.
-
----
-
+      (expect_error(tibble(x = 1, x = 1, .name_repair = "minimal") %>% arrange(x)))
+    Output
+      <error/rlang_error>
+      Error in `arrange()`:
+      ! Problem with the implicit `transmute()` step.
+      Caused by error in `transmute()`:
+      ! Can't transform a data frame with duplicate names.
     Code
-      tibble(x = 1) %>% arrange(y)
-    Error <dplyr_error>
-      arrange() failed at implicit mutate() step. 
-      x Problem with `mutate()` column `..1`.
-      i `..1 = y`.
-      x object 'y' not found
-
----
-
+      (expect_error(tibble(x = 1) %>% arrange(y)))
+    Output
+      <error/rlang_error>
+      Error in `arrange()`:
+      ! Problem with the implicit `transmute()` step.
+      x Problem while computing `..1 = y`.
+      Caused by error:
+      ! object 'y' not found
     Code
-      tibble(x = 1) %>% arrange(rep(x, 2))
-    Error <dplyr_error>
-      arrange() failed at implicit mutate() step. 
-      x Problem with `mutate()` column `..1`.
-      i `..1 = rep(x, 2)`.
-      i `..1` must be size 1, not 2.
+      (expect_error(tibble(x = 1) %>% arrange(rep(x, 2))))
+    Output
+      <error/rlang_error>
+      Error in `arrange()`:
+      ! Problem with the implicit `transmute()` step.
+      x Problem while computing `..1 = rep(x, 2)`.
+      x `..1` must be size 1, not 2.
 
 # desc() inside arrange() checks the number of arguments (#5921)
 
     Code
       df <- data.frame(x = 1, y = 2)
-      arrange(df, desc(x, y))
-    Error <rlang_error>
-      `desc()` expects exactly one argument.
+      (expect_error(arrange(df, desc(x, y))))
+    Output
+      <error/rlang_error>
+      Error in `arrange()`:
+      ! `desc()` must be called with exactly one argument.
 

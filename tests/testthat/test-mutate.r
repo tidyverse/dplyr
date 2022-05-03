@@ -90,6 +90,20 @@ test_that("mutate() handles symbol expressions", {
   expect_identical(df$x, res$y)
 })
 
+test_that("mutate() supports constants (#6056)", {
+  df <- data.frame(x = 1:10, g = rep(1:2, each = 5))
+  y <- 1:10
+  z <- 1:2
+
+  expect_error(df %>% mutate(y = !!y), NA)
+  expect_error(df %>% group_by(g) %>% mutate(y = !!y), NA)
+  expect_error(df %>% rowwise() %>% mutate(y = !!y), NA)
+
+  expect_error(df %>% mutate(z = !!z))
+  expect_error(df %>% group_by(g) %>% mutate(z = !!z))
+  expect_error(df %>% rowwise() %>% mutate(z = !!z))
+})
+
 # column types ------------------------------------------------------------
 
 test_that("glue() is supported", {
@@ -482,7 +496,7 @@ test_that("can suppress or catch warnings from the outside (#5675)", {
   # Check that caught warnings are instrumented. Requires
   # <https://github.com/wch/r-source/commit/688eaebf>.
   if (can_return_from_exit) {
-    expect_match(msg, "Problem with")
+    expect_match(msg, "Problem while")
   }
 })
 
@@ -514,88 +528,95 @@ test_that("mutate() fails on named empty arguments (#5925)", {
 # Error messages ----------------------------------------------------------
 
 test_that("mutate() give meaningful errors", {
-  tbl <- tibble(x = 1:2, y = 1:2)
+  expect_snapshot({
+    tbl <- tibble(x = 1:2, y = 1:2)
 
-  # setting column to NULL makes it unavailable
-  expect_snapshot(error = TRUE, tbl %>% mutate(y = NULL, a = sum(y)))
-  expect_snapshot(error = TRUE, tbl %>%
-    group_by(x) %>%
-    mutate(y = NULL, a = sum(y))
-  )
+    # setting column to NULL makes it unavailable
+    (expect_error(tbl %>% mutate(y = NULL, a = sum(y))))
+    (expect_error(tbl %>%
+                      group_by(x) %>%
+                      mutate(y = NULL, a = sum(y))
+    ))
 
-  # incompatible column type
-  expect_snapshot(error = TRUE, tibble(x = 1) %>% mutate(y = mean))
+    # incompatible column type
+    (expect_error(tibble(x = 1) %>% mutate(y = mean)))
 
-  # Unsupported type"
-  df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
-  expect_snapshot(error = TRUE, df %>% mutate(out = env(a = 1)))
-  expect_snapshot(error = TRUE, df %>%
-    group_by(g) %>%
-    mutate(out = env(a = 1))
-  )
-  expect_snapshot(error = TRUE, df %>%
-    rowwise() %>%
-    mutate(out = rnorm)
-  )
+    # Unsupported type"
+    df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
+    (expect_error(df %>% mutate(out = env(a = 1))))
+    (expect_error(df %>%
+                      group_by(g) %>%
+                      mutate(out = env(a = 1))
+    ))
+    (expect_error(df %>%
+                      rowwise() %>%
+                      mutate(out = rnorm)
+    ))
 
-  # incompatible types across groups
-  expect_snapshot(error = TRUE,
-    data.frame(x = rep(1:5, each = 3)) %>%
-      group_by(x) %>%
-      mutate(val = ifelse(x < 3, "foo", 2))
-  )
+    # incompatible types across groups
+    (expect_error(
+                    data.frame(x = rep(1:5, each = 3)) %>%
+                      group_by(x) %>%
+                      mutate(val = ifelse(x < 3, "foo", 2))
+    ))
 
-  expect_snapshot(error = TRUE,
-    tibble(a = 1:3, b=4:6) %>%
-      group_by(a) %>%
-      mutate(if(a==1) NULL else "foo")
-  )
+    (expect_error(
+                    tibble(a = 1:3, b=4:6) %>%
+                      group_by(a) %>%
+                      mutate(if(a==1) NULL else "foo")
+    ))
 
-  # incompatible size
-  expect_snapshot(error = TRUE,
-    data.frame(x = c(2, 2, 3, 3)) %>% mutate(int = 1:5)
-  )
-  expect_snapshot(error = TRUE,
-    data.frame(x = c(2, 2, 3, 3)) %>%
-      group_by(x) %>%
-      mutate(int = 1:5)
-  )
-  expect_snapshot(error = TRUE,
-    data.frame(x = c(2, 3, 3)) %>%
-      group_by(x) %>%
-      mutate(int = 1:5)
-  )
-  expect_snapshot(error = TRUE,
-    data.frame(x = c(2, 2, 3, 3)) %>%
+    # incompatible size
+    (expect_error(
+                    data.frame(x = c(2, 2, 3, 3)) %>% mutate(int = 1:5)
+    ))
+    (expect_error(
+                    data.frame(x = c(2, 2, 3, 3)) %>%
+                      group_by(x) %>%
+                      mutate(int = 1:5)
+    ))
+    (expect_error(
+                    data.frame(x = c(2, 3, 3)) %>%
+                      group_by(x) %>%
+                      mutate(int = 1:5)
+    ))
+    (expect_error(
+                    data.frame(x = c(2, 2, 3, 3)) %>%
+                      rowwise() %>%
+                      mutate(int = 1:5)
+    ))
+    (expect_error(
+                    tibble(y = list(1:3, "a")) %>%
+                      rowwise() %>%
+                      mutate(y2 = y)
+    ))
+    (expect_error(
+                    data.frame(x = 1:10) %>% mutate(y = 11:20, y = 1:2)
+    ))
+
+    # .data pronoun
+    (expect_error(
+                    tibble(a = 1) %>% mutate(c = .data$b)
+    ))
+    (expect_error(
+                    tibble(a = 1:3) %>%
+                      group_by(a) %>%
+                      mutate(c = .data$b)
+    ))
+
+    # obsolete data mask
+    lazy <- function(x) list(enquo(x))
+    res <- tbl %>%
       rowwise() %>%
-      mutate(int = 1:5)
-  )
-  expect_snapshot(error = TRUE,
-    tibble(y = list(1:3, "a")) %>%
-      rowwise() %>%
-      mutate(y2 = y)
-  )
-  expect_snapshot(error = TRUE,
-    data.frame(x = 1:10) %>% mutate(y = 11:20, y = 1:2)
-  )
+      mutate(z = lazy(x), .keep = "unused")
+    (expect_error(
+      eval_tidy(res$z[[1]])
+    ))
 
-  # .data pronoun
-  expect_snapshot(error = TRUE,
-    tibble(a = 1) %>% mutate(c = .data$b)
-  )
-  expect_snapshot(error = TRUE,
-    tibble(a = 1:3) %>%
-      group_by(a) %>%
-      mutate(c = .data$b)
-  )
 
-  # obsolete data mask
-  lazy <- function(x) list(enquo(x))
-  res <- tbl %>%
-    rowwise() %>%
-    mutate(z = lazy(x), .keep = "unused")
-  expect_snapshot(error = TRUE, eval_tidy(res$z[[1]]))
-
-  # Error that contains {
-  expect_snapshot(error = TRUE, tibble() %>% mutate(stop("{")))
+    # Error that contains {
+    (expect_error(
+      tibble() %>% mutate(stop("{"))
+    ))
+  })
 })

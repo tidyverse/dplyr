@@ -122,7 +122,7 @@ ungroup.grouped_df <- function(x, ...) {
     as_tibble(x)
   } else {
     old_groups <- group_vars(x)
-    to_remove <- tidyselect::vars_select(names(x), ...)
+    to_remove <- fix_call(tidyselect::vars_select(names(x), ...))
 
     new_groups <- setdiff(old_groups, to_remove)
     group_by(x, !!!syms(new_groups))
@@ -157,7 +157,8 @@ group_by_prepare <- function(.data,
                              caller_env = caller_env(2),
                              .add = FALSE,
                              .dots = deprecated(),
-                             add = deprecated()) {
+                             add = deprecated(),
+                             error_call = caller_env()) {
 
   if (!missing(add)) {
     lifecycle::deprecate_warn("1.0.0", "group_by(add = )", "group_by(.add = )")
@@ -172,11 +173,9 @@ group_by_prepare <- function(.data,
   }
 
   # If any calls, use mutate to add new columns, then group by those
-  computed_columns <- add_computed_columns(
-    .data,
-    new_groups,
-    "group_by",
-    caller_env = caller_env
+  computed_columns <- add_computed_columns(.data, new_groups,
+    caller_env = caller_env,
+    error_call = error_call
   )
 
   out <- computed_columns$data
@@ -188,10 +187,11 @@ group_by_prepare <- function(.data,
 
   unknown <- setdiff(group_names, tbl_vars(out))
   if (length(unknown) > 0) {
-    abort(c(
+    bullets <- c(
       "Must group by variables found in `.data`.",
       x = glue("Column `{unknown}` is not found.")
-    ))
+    )
+    abort(bullets, call = error_call)
   }
 
   list(
@@ -203,8 +203,8 @@ group_by_prepare <- function(.data,
 
 add_computed_columns <- function(.data,
                                  vars,
-                                 .fn = "group_by",
-                                 caller_env) {
+                                 caller_env,
+                                 error_call = caller_env()) {
   is_symbol <- map_lgl(vars, quo_is_variable_reference)
   needs_mutate <- have_name(vars) | !is_symbol
 
@@ -212,12 +212,12 @@ add_computed_columns <- function(.data,
     # TODO: use less of a hack
     if (inherits(.data, "data.frame")) {
       cols <- withCallingHandlers(
-        mutate_cols(ungroup(.data), !!!vars, caller_env = caller_env),
+        mutate_cols(
+          ungroup(.data), dplyr_quosures(!!!vars), caller_env = caller_env,
+          error_call = call("mutate") # this is a pretend `mutate()`
+        ),
         error = function(e) {
-          abort(c(
-            glue("Problem adding computed columns in `{.fn}()`."),
-            x = e$message
-          ), parent = e)
+          abort("Problem adding computed columns.", parent = e, call = error_call)
         }
       )
 

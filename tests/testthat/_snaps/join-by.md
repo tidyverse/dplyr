@@ -340,7 +340,7 @@
     Code
       as_join_by(FALSE)
     Condition
-      Error in `glubort()`:
+      Error in `as_join_by()`:
       ! `by` must be a (named) character vector, list, `join_by()` result, or NULL, not a logical vector.
 
 # join_by_common() emits useful information

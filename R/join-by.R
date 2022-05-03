@@ -281,7 +281,11 @@ as_join_by <- function(x) {
 
 #' @export
 as_join_by.default <- function(x) {
-  bad_args("by", "must be a (named) character vector, list, `join_by()` result, or NULL, not {friendly_type_of(x)}.")
+  message <- glue(paste0(
+    "`by` must be a (named) character vector, list, `join_by()` result, ",
+    "or NULL, not {friendly_type_of(x)}."
+  ))
+  abort(message)
 }
 
 #' @export

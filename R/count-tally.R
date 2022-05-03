@@ -95,11 +95,8 @@ tally.data.frame <- function(x, wt = NULL, sort = FALSE, name = NULL) {
   n <- tally_n(x, {{ wt }})
   name <- check_name(name, group_vars(x))
 
-  out <- local({
-    old.options <- options(dplyr.summarise.inform = FALSE)
-    on.exit(options(old.options))
-    summarise(x, !!name := !!n)
-  })
+  local_options(dplyr.summarise.inform = FALSE)
+  out <- summarise(x, !!name := !!n)
 
   if (sort) {
     arrange(out, desc(!!sym(name)))

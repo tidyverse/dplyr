@@ -11,6 +11,8 @@ test_that("arguments to rename() don't match vars_rename() arguments (#2861)", {
 })
 
 test_that("rename() to UTF-8 column names", {
+  skip_if_not(l10n_info()$"UTF-8")
+
   df <- tibble(a = 1) %>% rename("\u5e78" := a)
   expect_equal(colnames(df), "\u5e78")
 })

@@ -7,10 +7,9 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/dplyr)](https://cran.r-project.org/package=dplyr)
-[![R build
-status](https://github.com/tidyverse/dplyr/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/dplyr/actions?workflow=R-CMD-check)
+[![R-CMD-check](https://github.com/DavisVaughan/dplyr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/DavisVaughan/dplyr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/tidyverse/dplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/dplyr?branch=master)
+coverage](https://codecov.io/gh/tidyverse/dplyr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidyverse/dplyr?branch=main)
 <!-- badges: end -->
 
 ## Overview
@@ -18,12 +17,12 @@ coverage](https://codecov.io/gh/tidyverse/dplyr/branch/master/graph/badge.svg)](
 dplyr is a grammar of data manipulation, providing a consistent set of
 verbs that help you solve the most common data manipulation challenges:
 
-  - `mutate()` adds new variables that are functions of existing
+-   `mutate()` adds new variables that are functions of existing
     variables
-  - `select()` picks variables based on their names.
-  - `filter()` picks cases based on their values.
-  - `summarise()` reduces multiple values down to a single summary.
-  - `arrange()` changes the ordering of the rows.
+-   `select()` picks variables based on their names.
+-   `filter()` picks cases based on their values.
+-   `summarise()` reduces multiple values down to a single summary.
+-   `arrange()` changes the ordering of the rows.
 
 These all combine naturally with `group_by()` which allows you to
 perform any operation “by group”. You can learn more about them in
@@ -41,14 +40,14 @@ In addition to data frames/tibbles, dplyr makes working with other
 computational backends accessible and efficient. Below is a list of
 alternative backends:
 
-  - [dtplyr](https://dtplyr.tidyverse.org/): for large, in-memory
+-   [dtplyr](https://dtplyr.tidyverse.org/): for large, in-memory
     datasets. Translates your dplyr code to high performance
     [data.table](https://rdatatable.gitlab.io/data.table/) code.
 
-  - [dbplyr](https://dbplyr.tidyverse.org/): for data stored in a
+-   [dbplyr](https://dbplyr.tidyverse.org/): for data stored in a
     relational database. Translates your dplyr code to SQL.
 
-  - [sparklyr](https://spark.rstudio.com): for very large datasets
+-   [sparklyr](https://spark.rstudio.com): for very large datasets
     stored in [Apache Spark](https://spark.apache.org).
 
 ## Installation
@@ -73,7 +72,7 @@ devtools::install_github("tidyverse/dplyr")
 
 ## Cheat Sheet
 
-<a href="https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/master/pngs/thumbnails/data-transformation-cheatsheet-thumbs.png" width="630" height="252"/></a>
+<a href="https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf"><img src="https://raw.githubusercontent.com/rstudio/cheatsheets/main/pngs/thumbnails/data-transformation-cheatsheet-thumbs.png" width="630" height="252"/></a>
 
 ## Usage
 
@@ -82,7 +81,7 @@ library(dplyr)
 
 starwars %>% 
   filter(species == "Droid")
-#> # A tibble: 6 x 14
+#> # A tibble: 6 × 14
 #>   name   height  mass hair_color skin_color  eye_color birth_year sex   gender  
 #>   <chr>   <int> <dbl> <chr>      <chr>       <chr>          <dbl> <chr> <chr>   
 #> 1 C-3PO     167    75 <NA>       gold        yellow           112 none  masculi…
@@ -95,7 +94,7 @@ starwars %>%
 
 starwars %>% 
   select(name, ends_with("color"))
-#> # A tibble: 87 x 4
+#> # A tibble: 87 × 4
 #>   name           hair_color skin_color  eye_color
 #>   <chr>          <chr>      <chr>       <chr>    
 #> 1 Luke Skywalker blond      fair        blue     
@@ -108,7 +107,7 @@ starwars %>%
 starwars %>% 
   mutate(name, bmi = mass / ((height / 100)  ^ 2)) %>%
   select(name:mass, bmi)
-#> # A tibble: 87 x 4
+#> # A tibble: 87 × 4
 #>   name           height  mass   bmi
 #>   <chr>           <int> <dbl> <dbl>
 #> 1 Luke Skywalker    172    77  26.0
@@ -120,14 +119,14 @@ starwars %>%
 
 starwars %>% 
   arrange(desc(mass))
-#> # A tibble: 87 x 14
-#>   name    height  mass hair_color skin_color  eye_color  birth_year sex   gender
-#>   <chr>    <int> <dbl> <chr>      <chr>       <chr>           <dbl> <chr> <chr> 
-#> 1 Jabba …    175  1358 <NA>       green-tan,… orange          600   herm… mascu…
-#> 2 Grievo…    216   159 none       brown, whi… green, ye…       NA   male  mascu…
-#> 3 IG-88      200   140 none       metal       red              15   none  mascu…
-#> 4 Darth …    202   136 none       white       yellow           41.9 male  mascu…
-#> 5 Tarfful    234   136 brown      brown       blue             NA   male  mascu…
+#> # A tibble: 87 × 14
+#>   name      height  mass hair_color skin_color eye_color birth_year sex   gender
+#>   <chr>      <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> <chr> 
+#> 1 Jabba De…    175  1358 <NA>       green-tan… orange         600   herm… mascu…
+#> 2 Grievous     216   159 none       brown, wh… green, y…       NA   male  mascu…
+#> 3 IG-88        200   140 none       metal      red             15   none  mascu…
+#> 4 Darth Va…    202   136 none       white      yellow          41.9 male  mascu…
+#> 5 Tarfful      234   136 brown      brown      blue            NA   male  mascu…
 #> # … with 82 more rows, and 5 more variables: homeworld <chr>, species <chr>,
 #> #   films <list>, vehicles <list>, starships <list>
 
@@ -141,7 +140,7 @@ starwars %>%
     n > 1,
     mass > 50
   )
-#> # A tibble: 8 x 3
+#> # A tibble: 8 × 3
 #>   species      n  mass
 #>   <chr>    <int> <dbl>
 #> 1 Droid        6  69.8
@@ -161,7 +160,7 @@ other discussion, please use
 [community.rstudio.com](https://community.rstudio.com/) or the
 [manipulatr mailing list](https://groups.google.com/d/forum/manipulatr).
 
------
+------------------------------------------------------------------------
 
 Please note that this project is released with a [Contributor Code of
 Conduct](https://dplyr.tidyverse.org/CODE_OF_CONDUCT). By participating

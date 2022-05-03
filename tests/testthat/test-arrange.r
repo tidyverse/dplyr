@@ -25,18 +25,21 @@ test_that("local arrange sorts missing values to end", {
 })
 
 test_that("arrange() gives meaningful errors", {
-  # duplicated column name
-  expect_snapshot(error = TRUE,
-    tibble(x = 1, x = 1, .name_repair = "minimal") %>% arrange(x)
-  )
+  expect_snapshot({
+    # duplicated column name
+    (expect_error(
+      tibble(x = 1, x = 1, .name_repair = "minimal") %>% arrange(x)
+    ))
 
-  # error in mutate() step
-  expect_snapshot(error = TRUE,
-    tibble(x = 1) %>% arrange(y)
-  )
-  expect_snapshot(error = TRUE,
-    tibble(x = 1) %>% arrange(rep(x, 2))
-  )
+    # error in mutate() step
+    (expect_error(
+      tibble(x = 1) %>% arrange(y)
+    ))
+    (expect_error(
+      tibble(x = 1) %>% arrange(rep(x, 2))
+    ))
+  })
+
 })
 
 # column types ----------------------------------------------------------
@@ -180,10 +183,10 @@ test_that("arrange() preserves the call stack on error (#5308)", {
 })
 
 test_that("desc() inside arrange() checks the number of arguments (#5921)", {
-  expect_snapshot(error = TRUE, {
+  expect_snapshot({
     df <- data.frame(x = 1, y = 2)
 
-    arrange(df, desc(x, y))
+    (expect_error(arrange(df, desc(x, y))))
   })
 })
 

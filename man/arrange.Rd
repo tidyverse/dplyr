@@ -2,12 +2,9 @@
 % Please edit documentation in R/arrange.R
 \name{arrange}
 \alias{arrange}
-\alias{arrange.data.frame}
 \title{Arrange rows by column values}
 \usage{
 arrange(.data, ..., .by_group = FALSE)
-
-\method{arrange}{data.frame}(.data, ..., .by_group = FALSE)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a

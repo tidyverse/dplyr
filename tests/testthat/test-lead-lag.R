@@ -70,16 +70,21 @@ test_that("lead() and lag() checks size of default (#5641)", {
 # Errors ------------------------------------------------------------------
 
 test_that("lead() / lag() give meaningful errors", {
-  "# complicance of n argument"
-  expect_snapshot(error = TRUE, lead(letters, -1))
-  expect_snapshot(error = TRUE, lead(letters, "1"))
-  expect_snapshot(error = TRUE, lag(letters, -1))
-  expect_snapshot(error = TRUE, lag(letters, "1"))
+  expect_snapshot({
+    "# complicance of n argument"
+    (expect_error(lead(letters, -1)))
+    (expect_error(lead(letters, "1")))
+    (expect_error(lag(letters, -1)))
+    (expect_error(lag(letters, "1")))
 
-  "# ts"
-  expect_snapshot(error = TRUE, lag(ts(1:10)))
+    "# ts"
+    (expect_error(lag(ts(1:10))))
 
-  "# incompatible default"
-  expect_snapshot(error = TRUE, lag(c("1", "2", "3"), default = FALSE))
-  expect_snapshot(error = TRUE, lag(c("1", "2", "3"), default = character()))
+    "# incompatible default"
+    (expect_error(lag(c("1", "2", "3"), default = FALSE)))
+    (expect_error(lead(c("1", "2", "3"), default = FALSE)))
+
+    (expect_error(lag(c("1", "2", "3"), default = character())))
+    (expect_error(lead(c("1", "2", "3"), default = character())))
+  })
 })

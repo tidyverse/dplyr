@@ -1,5 +1,5 @@
 
-as_fun_list <- function(.funs, .env, ..., .caller, .caller_arg = "...") {
+as_fun_list <- function(.funs, .env, ..., .caller, .caller_arg = "...", error_call = caller_env()) {
   args <- list2(...)
 
   if (is_fun_list(.funs)) {
@@ -41,7 +41,8 @@ as_fun_list <- function(.funs, .env, ..., .caller, .caller_arg = "...") {
       if (is_character(.x)) {
         .x <- get(.x, .env, mode = "function")
       } else if (!is_function(.x)) {
-        abort("expecting a one sided formula, a function, or a function name.")
+        msg <- "`.funs` must be a one sided formula, a function, or a function name."
+        abort(msg, call = error_call)
       }
       if (length(args)) {
         .x <- new_quosure(
@@ -62,7 +63,7 @@ auto_name_formulas <- function(funs) {
   funs
 }
 
-as_fun <- function(.x, .env, .args) {
+as_fun <- function(.x, .env, .args, error_call = caller_env()) {
   quo <- as_quosure(.x, .env)
 
   # For legacy reasons, we support strings. Those are enclosed in the
@@ -73,7 +74,8 @@ as_fun <- function(.x, .env, .args) {
 
   if (is_call(expr, c("function", "~"))) {
     top_level <- as_string(expr[[1]])
-    bad_args(quo_text(expr), "must be a function name (quoted or unquoted) or an unquoted call, not `{top_level}`.")
+    msg <- glue("`{quo_text(expr)}` must be a function name (quoted or unquoted) or an unquoted call, not `{top_level}`.")
+    abort(msg, call = error_call)
   }
 
   if (is_call(expr) && !is_call(expr, c("::", ":::"))) {

@@ -117,11 +117,14 @@ test_that("group_map() does not warn about .keep= for rowwise_df", {
 test_that("group_map() give meaningful errors", {
   head1 <- function(d) head(d, 1)
 
-  # group_modify()
-  expect_snapshot(error = TRUE, mtcars %>% group_by(cyl) %>% group_modify(~ data.frame(cyl = 19)))
-  expect_snapshot(error = TRUE, mtcars %>% group_by(cyl) %>% group_modify(~ 10))
-  expect_snapshot(error = TRUE, iris %>% group_by(Species) %>% group_modify(head1))
+  expect_snapshot({
+    # group_modify()
+    (expect_error(mtcars %>% group_by(cyl) %>% group_modify(~ data.frame(cyl = 19))))
+    (expect_error(mtcars %>% group_by(cyl) %>% group_modify(~ 10)))
+    (expect_error(iris %>% group_by(Species) %>% group_modify(head1)))
 
-  # group_map()
-  expect_snapshot(error = TRUE, iris %>% group_by(Species) %>% group_map(head1))
+    # group_map()
+    (expect_error(iris %>% group_by(Species) %>% group_map(head1)))
+  })
+
 })

@@ -1,15 +1,16 @@
 # order_by() gives useful error messages
 
     Code
-      order_by(mtcars, 10)
-    Error <rlang_error>
-      `call` must be a function call, not a double vector.
-
----
-
+      (expect_error(order_by(mtcars, 10)))
+    Output
+      <error/rlang_error>
+      Error in `order_by()`:
+      ! `call` must be a function call, not a double vector.
     Code
-      order_by(mtcars, cyl)
-    Error <rlang_error>
-      `call` must be a function call, not a symbol.
-      * Did you mean `arrange(mtcars, cyl)`?
+      (expect_error(order_by(mtcars, cyl)))
+    Output
+      <error/rlang_error>
+      Error in `order_by()`:
+      ! `call` must be a function call, not a symbol.
+      i Did you mean `arrange(mtcars, cyl)`?
 

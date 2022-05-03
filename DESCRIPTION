@@ -1,7 +1,7 @@
 Type: Package
 Package: dplyr
 Title: A Grammar of Data Manipulation
-Version: 1.0.7.9000
+Version: 1.0.9.9000
 Authors@R: 
     c(person(given = "Hadley",
              family = "Wickham",
@@ -60,7 +60,7 @@ Suggests:
     RMySQL,
     RPostgreSQL,
     RSQLite,
-    testthat (>= 3.0.2),
+    testthat (>= 3.1.1),
     tidyr, 
     withr
 VignetteBuilder: 
@@ -73,5 +73,5 @@ Config/testthat/edition: 3
 Config/Needs/website:
     tidyverse,
     shiny,
-    r-lib/pkgdown,
+    pkgdown,
     tidyverse/tidytemplate

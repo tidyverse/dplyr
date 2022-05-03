@@ -10,7 +10,7 @@ do(.data, ...)
 \item{.data}{a tbl}
 
 \item{...}{Expressions to apply to each group. If named, results will be
-stored in a new column. If unnamed, should return a data frame. You can
+stored in a new column. If unnamed, must return a data frame. You can
 use \code{.} to refer to the current group. You can not mix named and
 unnamed arguments.}
 }
@@ -18,7 +18,7 @@ unnamed arguments.}
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
 \code{do()} is superseded as of dplyr 1.0.0, because its syntax never really
-felt like it belong with the rest of dplyr. It's replaced by a combination
+felt like it belonged with the rest of dplyr. It's replaced by a combination
 of \code{\link[=summarise]{summarise()}} (which can now produce multiple rows and multiple columns),
 \code{\link[=nest_by]{nest_by()}} (which creates a \link{rowwise} tibble of nested data),
 and \code{\link[=across]{across()}} (which allows you to access the data for the "current" group).
@@ -51,7 +51,6 @@ models \%>\% do(data.frame(
   coef(summary(.$mod)))
 )
 \dontshow{if (requireNamespace("broom", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-
 # ->
 models \%>\% summarise(broom::tidy(mod))
 \dontshow{\}) # examplesIf}

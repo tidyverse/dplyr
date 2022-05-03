@@ -46,7 +46,6 @@ tibble::type_sum
 #' `glimpse()` is provided by the pillar package, and re-exported
 #' by dplyr. See [pillar::glimpse()] for more details.
 #'
-#' @inheritParams pillar::glimpse
 #' @return x original x is (invisibly) returned, allowing `glimpse()` to be
 #'   used within a data pipeline.
 #' @examples
@@ -59,7 +58,7 @@ tibble::type_sum
 #'   select(1:3)
 #'
 #' glimpse(starwars)
-#' @importFrom tibble glimpse
+#' @importFrom pillar glimpse
 #' @export
 #' @name glimpse
 glimpse
@@ -86,10 +85,6 @@ tibble::as_tibble
 tibble::view
 
 # utils -------------------------------------------------------------------
-
-#' @importFrom tibble trunc_mat
-#' @export
-tibble::trunc_mat
 
 #' @importFrom tibble tbl_sum
 #' @export

@@ -29,25 +29,14 @@
 #' # Attributes are taken from the `true` vector,
 if_else <- function(condition, true, false, missing = NULL) {
   if (!is.logical(condition)) {
-    bad_args("condition", "must be a logical vector, not {friendly_type_of(condition)}.")
+    msg <- glue("`condition` must be a logical vector, not {friendly_type_of(condition)}.")
+    abort(msg)
   }
 
   out <- true[rep(NA_integer_, length(condition))]
-  out <- replace_with(
-    out, condition, true,
-    fmt_args(~ true),
-    glue("length of {fmt_args(~condition)}")
-  )
-  out <- replace_with(
-    out, !condition, false,
-    fmt_args(~ false),
-    glue("length of {fmt_args(~condition)}")
-  )
-  out <- replace_with(
-    out, is.na(condition), missing,
-    fmt_args(~ missing),
-    glue("length of {fmt_args(~condition)}")
-  )
+  out <- replace_with(out, condition       , true   , "`true`"   , "length of `condition`")
+  out <- replace_with(out, !condition      , false  , "`false`"  , "length of `condition`")
+  out <- replace_with(out, is.na(condition), missing, "`missing`", "length of `condition`")
 
   out
 }

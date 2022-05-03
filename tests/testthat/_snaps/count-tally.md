@@ -1,25 +1,20 @@
 # can only explicitly chain together multiple tallies
 
     Code
+      df <- data.frame(g = c(1, 1, 2, 2), n = 1:4)
       df %>% count(g, wt = n)
     Output
         g n
       1 1 3
       2 2 7
-
----
-
     Code
       df %>% count(g, wt = n) %>% count(wt = n)
     Output
          n
       1 10
-
----
-
     Code
       df %>% count(n)
-    Message <rlang_message>
+    Message
       Storing counts in `nn`, as `n` already present in input
       i Use `name = "new_name"` to pick a new name.
     Output

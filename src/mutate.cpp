@@ -1,25 +1,22 @@
 #include "dplyr.h"
 
 namespace dplyr {
-void stop_mutate_recycle_incompatible_size(R_len_t n_result_i) {
-  DPLYR_ERROR_INIT(1);
-    DPLYR_ERROR_SET(0, "x_size", Rf_ScalarInteger(n_result_i));
-
-  DPLYR_ERROR_MESG_INIT(0);
+void stop_mutate_recycle_incompatible_size(R_len_t n_result_i, R_xlen_t n_expected_i) {
+  DPLYR_ERROR_INIT(2);
+    DPLYR_ERROR_SET(0, "result_size", Rf_ScalarInteger(n_result_i));
+    DPLYR_ERROR_SET(1, "expected_size", Rf_ScalarInteger(n_expected_i));
 
   DPLYR_ERROR_THROW("dplyr:::mutate_incompatible_size");
 }
 
 void stop_mutate_mixed_null() {
   DPLYR_ERROR_INIT(0);
-  DPLYR_ERROR_MESG_INIT(0);
   DPLYR_ERROR_THROW("dplyr:::mutate_mixed_null");
 }
 
 void stop_mutate_not_vector(SEXP result) {
   DPLYR_ERROR_INIT(1);
     DPLYR_ERROR_SET(0, "result", result);
-  DPLYR_ERROR_MESG_INIT(0);
   DPLYR_ERROR_THROW("dplyr:::mutate_not_vector");
 }
 }
@@ -53,7 +50,7 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private) {
       if (n_result_i != n_i) {
         // only allow sizes 1 and n_i are allowed
         if (n_result_i != 1) {
-          dplyr::stop_mutate_recycle_incompatible_size(n_result_i);
+          dplyr::stop_mutate_recycle_incompatible_size(n_result_i, n_i);
         } else {
           SET_VECTOR_ELT(chunks, i, vctrs::short_vec_recycle(result_i, n_i));
         }

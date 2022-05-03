@@ -6,8 +6,9 @@ join_rows <- function(x_key,
                       filter = "none",
                       cross = FALSE,
                       multiple = NULL,
-                      unmatched = "drop") {
-  type <- arg_match(type)
+                      unmatched = "drop",
+                      error_call = caller_env()) {
+  type <- arg_match(type, error_call = error_call)
 
   if (cross) {
     # Rather than matching on key values, match on a proxy where every x value
@@ -34,7 +35,8 @@ join_rows <- function(x_key,
     remaining = remaining,
     multiple = multiple,
     needles_arg = "x",
-    haystack_arg = "y"
+    haystack_arg = "y",
+    error_call = error_call
   )
 
   list(x = matches$needles, y = matches$haystack)
@@ -50,7 +52,8 @@ dplyr_locate_matches <- function(needles,
                                  remaining = "drop",
                                  multiple = "all",
                                  needles_arg = "",
-                                 haystack_arg = "") {
+                                 haystack_arg = "",
+                                 error_call = caller_env()) {
   withCallingHandlers(
     vctrs::vec_locate_matches(
       needles = needles,
@@ -66,16 +69,28 @@ dplyr_locate_matches <- function(needles,
       haystack_arg = haystack_arg,
       nan_distinct = TRUE
     ),
-    vctrs_error_incompatible_type = rethrow_error_join_incompatible_type,
-    vctrs_error_matches_nothing = rethrow_error_join_matches_nothing,
-    vctrs_error_matches_incomplete = rethrow_error_join_matches_incomplete,
-    vctrs_error_matches_remaining = rethrow_error_join_matches_remaining,
-    vctrs_error_matches_multiple = rethrow_error_join_matches_multiple,
-    vctrs_warning_matches_multiple = rethrow_warning_join_matches_multiple
+    vctrs_error_incompatible_type = function(cnd) {
+      rethrow_error_join_incompatible_type(cnd, error_call)
+    },
+    vctrs_error_matches_nothing = function(cnd) {
+      rethrow_error_join_matches_nothing(cnd, error_call)
+    },
+    vctrs_error_matches_incomplete = function(cnd) {
+      rethrow_error_join_matches_incomplete(cnd, error_call)
+    },
+    vctrs_error_matches_remaining = function(cnd) {
+      rethrow_error_join_matches_remaining(cnd, error_call)
+    },
+    vctrs_error_matches_multiple = function(cnd) {
+      rethrow_error_join_matches_multiple(cnd, error_call)
+    },
+    vctrs_warning_matches_multiple = function(cnd) {
+      rethrow_warning_join_matches_multiple(cnd)
+    }
   )
 }
 
-rethrow_error_join_incompatible_type <- function(cnd) {
+rethrow_error_join_incompatible_type <- function(cnd, call) {
   x_name <- cnd$x_arg
   y_name <- cnd$y_arg
 
@@ -88,11 +103,12 @@ rethrow_error_join_incompatible_type <- function(cnd) {
       i = glue("`{x_name}` is of type <{x_type}>."),
       i = glue("`{y_name}` is of type <{y_type}>.")
     ),
-    class = "dplyr_error_join_incompatible_type"
+    class = "dplyr_error_join_incompatible_type",
+    call = call
   )
 }
 
-rethrow_error_join_matches_nothing <- function(cnd) {
+rethrow_error_join_matches_nothing <- function(cnd, call) {
   i <- cnd$i
 
   stop_join(
@@ -100,18 +116,19 @@ rethrow_error_join_matches_nothing <- function(cnd) {
       "Each row of `x` must have a match in `y`.",
       i = glue("Row {i} of `x` does not have a match.")
     ),
-    class = "dplyr_error_join_matches_nothing"
+    class = "dplyr_error_join_matches_nothing",
+    call = call
   )
 }
 
-rethrow_error_join_matches_incomplete <- function(cnd) {
+rethrow_error_join_matches_incomplete <- function(cnd, call) {
   # Only occurs with `na_matches = "never", unmatched = "error"` for
   # right and inner joins, and is a signal that `x` has unmatched incompletes
   # that would result in dropped rows. So really this is a matched-nothing case.
-  rethrow_error_join_matches_nothing(cnd)
+  rethrow_error_join_matches_nothing(cnd, call)
 }
 
-rethrow_error_join_matches_remaining <- function(cnd) {
+rethrow_error_join_matches_remaining <- function(cnd, call) {
   i <- cnd$i
 
   stop_join(
@@ -119,11 +136,12 @@ rethrow_error_join_matches_remaining <- function(cnd) {
       "Each row of `y` must be matched by `x`.",
       i = glue("Row {i} of `y` was not matched.")
     ),
-    class = "dplyr_error_join_matches_remaining"
+    class = "dplyr_error_join_matches_remaining",
+    call = call
   )
 }
 
-rethrow_error_join_matches_multiple <- function(cnd) {
+rethrow_error_join_matches_multiple <- function(cnd, call) {
   i <- cnd$i
 
   stop_join(
@@ -131,7 +149,8 @@ rethrow_error_join_matches_multiple <- function(cnd) {
       glue("Each row in `x` can match at most 1 row in `y`."),
       i = glue("Row {i} of `x` matches multiple rows.")
     ),
-    class = "dplyr_error_join_matches_multiple"
+    class = "dplyr_error_join_matches_multiple",
+    call = call
   )
 }
 
@@ -150,15 +169,15 @@ rethrow_warning_join_matches_multiple <- function(cnd) {
   maybe_restart("muffleWarning")
 }
 
-stop_join <- function(message = NULL, class = NULL, ...) {
-  stop_dplyr(message = message, class = c(class, "dplyr_error_join"), ...)
+stop_join <- function(message = NULL, class = NULL, ..., call = caller_env()) {
+  stop_dplyr(message = message, class = c(class, "dplyr_error_join"), ..., call = call)
 }
 warn_join <- function(message = NULL, class = NULL, ...) {
   warn_dplyr(message = message, class = c(class, "dplyr_warning_join"), ...)
 }
 
-stop_dplyr <- function(message = NULL, class = NULL, ...) {
-  abort(message = message, class = c(class, "dplyr_error"), ...)
+stop_dplyr <- function(message = NULL, class = NULL, ..., call = caller_env()) {
+  abort(message = message, class = c(class, "dplyr_error"), ..., call = call)
 }
 warn_dplyr <- function(message = NULL, class = NULL, ...) {
   warn(message = message, class = c(class, "dplyr_warning"), ...)

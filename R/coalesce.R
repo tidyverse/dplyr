@@ -35,8 +35,8 @@ coalesce <- function(...) {
   }
 
   values <- list2(...)
-  values <- vec_cast_common(!!!values)
-  values <- vec_recycle_common(!!!values)
+  values <- fix_call(vec_cast_common(!!!values))
+  values <- fix_call(vec_recycle_common(!!!values))
 
   x <- values[[1]]
   values <- values[-1]

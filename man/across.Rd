@@ -13,30 +13,33 @@ if_any(.cols = everything(), .fns = NULL, ..., .names = NULL)
 if_all(.cols = everything(), .fns = NULL, ..., .names = NULL)
 }
 \arguments{
+\item{.cols, cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.
+Because \code{across()} is used within functions like \code{summarise()} and
+\code{mutate()}, you can't select or compute upon grouping variables.}
+
 \item{.fns}{Functions to apply to each of the selected columns.
 Possible values are:
 \itemize{
-\item \code{NULL}, to returns the columns untransformed.
 \item A function, e.g. \code{mean}.
 \item A purrr-style lambda, e.g. \code{~ mean(.x, na.rm = TRUE)}
 \item A list of functions/lambdas, e.g.
 \verb{list(mean = mean, n_miss = ~ sum(is.na(.x))}
+\item \code{NULL}: the default value, returns the selected columns in a data
+frame without applying a transformation. This is useful for when you want to
+use a function that takes a data frame.
 }
 
 Within these functions you can use \code{\link[=cur_column]{cur_column()}} and \code{\link[=cur_group]{cur_group()}}
 to access the current column and grouping keys respectively.}
 
-\item{...}{Additional arguments for the function calls in \code{.fns}.}
+\item{...}{Additional arguments for the function calls in \code{.fns}. Using these
+\code{...} is strongly discouraged because of issues of timing of evaluation.}
 
 \item{.names}{A glue specification that describes how to name the output
 columns. This can use \code{{.col}} to stand for the selected column name, and
 \code{{.fn}} to stand for the name of the function being applied. The default
 (\code{NULL}) is equivalent to \code{"{.col}"} for the single function case and
 \code{"{.col}_{.fn}"} for the case where a list is used for \code{.fns}.}
-
-\item{cols, .cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.
-Because \code{across()} is used within functions like \code{summarise()} and
-\code{mutate()}, you can't select or compute upon grouping variables.}
 }
 \value{
 \code{across()} returns a tibble with one column for each column in \code{.cols} and each function in \code{.fns}.
@@ -143,6 +146,17 @@ iris \%>\%
 iris \%>\%
   group_by(Species) \%>\%
   summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{.col}.fn{.fn}"))
+
+# across() returns a data frame, which can be used as input of another function
+df <- data.frame(
+  x1  = c(1, 2, NA),
+  x2  = c(4, NA, 6),
+  y   = c("a", "b", "c")
+)
+df \%>\%
+  mutate(x_complete = complete.cases(across(starts_with("x"))))
+df \%>\%
+  filter(complete.cases(across(starts_with("x"))))
 
 # if_any() and if_all() ----------------------------------------------------
 iris \%>\%

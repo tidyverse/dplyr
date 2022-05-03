@@ -59,20 +59,73 @@
 
 * `nest_join()` has gained the `na_matches` argument that all other joins have.
 
-* `cur_data()` and `cur_data_all()` don't simplify list columns in rowwise data frames (#5901).
+# dplyr 1.0.9
 
-* `storms` data updated to 2020 (@steveharoz, #5899).
+* New `rows_append()` which works like `rows_insert()` but ignores keys and
+  allows you to insert arbitrary rows with a guarantee that the type of `x`
+  won't change (#6249, thanks to @krlmlr for the implementation and @mgirlich
+  for the idea).
 
-* `coalesce()` accepts 1-D arrays (#5557).
+* The `rows_*()` functions no longer require that the key values in `x` uniquely
+  identify each row. Additionally, `rows_insert()` and `rows_delete()` no
+  longer require that the key values in `y` uniquely identify each row. Relaxing
+  this restriction should make these functions more practically useful for
+  data frames, and alternative backends can enforce this in other ways as needed
+  (i.e. through primary keys) (#5553).
+  
+* `rows_insert()` gained a new `conflict` argument allowing you greater control
+  over rows in `y` with keys that conflict with keys in `x`. A conflict arises
+  if a key in `y` already exists in `x`. By default, a conflict results in an
+  error, but you can now also `"ignore"` these `y` rows. This is very similar to
+  the `ON CONFLICT DO NOTHING` command from SQL (#5588, with helpful additions
+  from @mgirlich and @krlmlr).
+
+* `rows_update()`, `rows_patch()`, and `rows_delete()` gained a new `unmatched`
+  argument allowing you greater control over rows in `y` with keys that are
+  unmatched by the keys in `x`. By default, an unmatched key results in an
+  error, but you can now also `"ignore"` these `y` rows (#5984, #5699).
+  
+* `rows_delete()` no longer requires that the columns of `y` be a strict subset
+  of `x`. Only the columns specified through `by` will be utilized from `y`,
+  all others will be dropped with a message.
+
+* The `rows_*()` functions now always retain the column types of `x`. This
+  behavior was documented, but previously wasn't being applied correctly
+  (#6240).
+  
+* The `rows_*()` functions now fail elegantly if `y` is a zero column data frame
+  and `by` isn't specified (#6179).
+
+# dplyr 1.0.8
+
+* Better display of error messages thanks to rlang 1.0.0.
+
+* `mutate(.keep = "none")` is no longer identical to `transmute()`.
+  `transmute()` has not been changed, and completely ignores the column ordering
+  of the existing data, instead relying on the ordering of expressions
+  supplied through `...`. `mutate(.keep = "none")` has been changed to ensure
+  that pre-existing columns are never moved, which aligns more closely with the
+  other `.keep` options (#6086).
 
 * `filter()` forbids matrix results (#5973) and warns about data frame 
   results, especially data frames created from `across()` with a hint 
   to use `if_any()` or `if_all()`. 
 
-* `slice()` helpers (`slice_head()`, `slice_tail()`, `slice_min()`, `slice_max()` 
-   and `slice_sample()`) now accept negative values for `n` and `prop` (#5961).
+* `slice()` helpers (`slice_head()`, `slice_tail()`, `slice_min()`, `slice_max()`) 
+  now accept negative values for `n` and `prop` (#5961).
 
 * `slice()` now indicates which group produces an error (#5931).
+
+* `cur_data()` and `cur_data_all()` don't simplify list columns in rowwise data frames (#5901).
+
+* dplyr now uses `rlang::check_installed()` to prompt you whether to install
+  required packages that are missing.
+
+* `storms` data updated to 2020 (@steveharoz, #5899).
+
+* `coalesce()` accepts 1-D arrays (#5557).
+
+* The deprecated `trunc_mat()` is no longer reexported from dplyr (#6141).
 
 # dplyr 1.0.7
 
@@ -1244,7 +1297,7 @@ mtcars2
 
 This is particularly useful if you want to perform non-SELECT queries as you can do whatever you want with `DBI::dbGetQuery()` and `DBI::dbExecute()`.
 
-If you've implemented a database backend for dplyr, please read the [backend news](https://github.com/tidyverse/dbplyr/blob/master/NEWS.md#backends) to see what's changed from your perspective (not much). If you want to ensure your package works with both the current and previous version of dplyr, see `wrap_dbplyr_obj()` for helpers.
+If you've implemented a database backend for dplyr, please read the [backend news](https://github.com/tidyverse/dbplyr/blob/main/NEWS.md#backends) to see what's changed from your perspective (not much). If you want to ensure your package works with both the current and previous version of dplyr, see `wrap_dbplyr_obj()` for helpers.
 
 ## UTF-8
 
@@ -1630,7 +1683,7 @@ All data table related code has been separated out in to a new dtplyr package. T
 
 ### Tibble
 
-Functions related to the creation and coercion of `tbl_df`s, now live in their own package: [tibble](https://blog.rstudio.com/2016/03/24/tibble-1-0-0/). See `vignette("tibble")` for more details.
+Functions related to the creation and coercion of `tbl_df`s, now live in their own package: [tibble](https://www.rstudio.com/blog/tibble-1-0-0/). See `vignette("tibble")` for more details.
 
 * `$` and `[[` methods that never do partial matching (#1504), and throw
   an error if the variable does not exist.

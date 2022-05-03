@@ -1,6 +1,6 @@
 # columns -----------------------------------------------------------------
 
-test_that("cbind uses shallow copies", {
+test_that("bind_cols() uses shallow copies", {
   df1 <- data.frame(
     int = 1:10,
     num = rnorm(10),
@@ -18,7 +18,7 @@ test_that("cbind uses shallow copies", {
   expect_equal(lobstr::obj_addrs(df2), lobstr::obj_addrs(df[names(df2)]))
 })
 
-test_that("bind_cols handles lists (#1104)", {
+test_that("bind_cols() handles lists (#1104)", {
   exp <- tibble(x = 1, y = "a", z = 2)
 
   l1 <- list(x = 1, y = "a")
@@ -28,16 +28,16 @@ test_that("bind_cols handles lists (#1104)", {
   expect_identical(bind_cols(list(l1, l2)), exp)
 })
 
-test_that("bind_cols handles empty argument list (#1963)", {
+test_that("bind_cols() handles empty argument list (#1963)", {
   expect_equal(bind_cols(), tibble())
 })
 
-test_that("bind_cols handles all-NULL values (#2303)", {
+test_that("bind_cols() handles all-NULL values (#2303)", {
   expect_identical(bind_cols(list(a = NULL, b = NULL)), tibble())
   expect_identical(bind_cols(NULL), tibble())
 })
 
-test_that("bind_cols repairs names", {
+test_that("bind_cols() repairs names", {
   df <- tibble(a = 1, b = 2)
   expect_snapshot(bound <- bind_cols(df, df))
 
@@ -51,7 +51,7 @@ test_that("bind_cols repairs names", {
   expect_identical(bound, repaired)
 })
 
-test_that("bind_cols unpacks tibbles", {
+test_that("bind_cols() unpacks tibbles", {
   expect_equal(
     bind_cols(list(y = tibble(x = 1:2))),
     tibble(x = 1:2)
@@ -94,7 +94,7 @@ test_that("bind_rows() equivalent to rbind()", {
   expect_equal(res, exp)
 })
 
-test_that("bind_rows reorders columns", {
+test_that("bind_rows() reorders columns", {
   df_var_scramble <- df_var[sample(ncol(df_var))]
 
   expect_equal(
@@ -103,27 +103,27 @@ test_that("bind_rows reorders columns", {
   )
 })
 
-test_that("bind_rows ignores NULL", {
+test_that("bind_rows() ignores NULL", {
   df <- tibble(a = 1)
 
   expect_equal(bind_rows(df, NULL), df)
   expect_equal(bind_rows(list(df, NULL)), df)
 })
 
-test_that("bind_rows handles list columns (#463)", {
+test_that("bind_rows() handles list columns (#463)", {
   dfl <- tibble(x = list(1:2, 1:3, 1:4))
   res <- bind_rows(list(dfl, dfl))
   expect_equal(rep(dfl$x, 2L), res$x)
 })
 
-test_that("can bind lists of data frames #1389", {
+test_that("bind_rows() handles lists of data frames #1389", {
   df <- tibble(x = 1)
 
   res <- bind_rows(list(df, df), list(df, df))
   expect_equal(nrow(res), 4)
 })
 
-test_that("bind_rows handles data frames with no rows (#597)", {
+test_that("bind_rows() handles data frames with no rows (#597)", {
   df1 <- tibble(x = 1, y = factor("a"))
   df0 <- df1[0, ]
 
@@ -132,7 +132,7 @@ test_that("bind_rows handles data frames with no rows (#597)", {
   expect_identical(bind_rows(df0, df1), df1)
 })
 
-test_that("bind_rows handles data frames with no columns (#1346)", {
+test_that("bind_rows() handles data frames with no columns (#1346)", {
   df1 <- tibble(x = 1, y = factor("a"))
   df0 <- df1[, 0]
 
@@ -143,7 +143,7 @@ test_that("bind_rows handles data frames with no columns (#1346)", {
   expect_equal(res$x, c(NA, 1))
 })
 
-test_that("bind_rows handles lists with NULL values (#2056)", {
+test_that("bind_rows() handles lists with NULL values (#2056)", {
   df1 <- tibble(x = 1, y = 1)
   df2 <- tibble(x = 2, y = 2)
   lst1 <- list(a = df1, NULL, b = df2)
@@ -157,11 +157,11 @@ test_that("bind_rows handles lists with NULL values (#2056)", {
   expect_identical(bind_rows(lst1, .id = "names"), df3)
 })
 
-test_that("bind_rows handles lists with list() values (#2826)", {
+test_that("bind_rows() handles lists with list() values (#2826)", {
   expect_equal(bind_rows(list(iris, list())), iris)
 })
 
-test_that("bind_rows puts data frames in order received even if no columns (#2175)", {
+test_that("bind_rows() puts data frames in order received even if no columns (#2175)", {
   df2 <- tibble(x = 2, y = "b")
   df1 <- df2[, 0]
 
@@ -180,7 +180,7 @@ test_that("bind_rows(.id= NULL) does not set names (#5089)", {
 
 # Column coercion --------------------------------------------------------------
 
-test_that("bind_rows promotes integer to numeric", {
+test_that("bind_rows() promotes integer to numeric", {
   df1 <- tibble(a = 1L, b = 1L)
   df2 <- tibble(a = 1, b = 1L)
 
@@ -189,7 +189,7 @@ test_that("bind_rows promotes integer to numeric", {
   expect_equal(typeof(res$b), "integer")
 })
 
-test_that("bind_rows promotes factor to character with warning", {
+test_that("bind_rows() promotes factor to character with warning", {
   df1 <- tibble(a = factor("a"))
   df2 <- tibble(a = "b")
 
@@ -197,7 +197,7 @@ test_that("bind_rows promotes factor to character with warning", {
   expect_equal(typeof(res$a), "character")
 })
 
-test_that("bind_rows coerces factor when levels don't match", {
+test_that("bind_rows() coerces factor when levels don't match", {
   df1 <- data.frame(a = factor("a"))
   df2 <- data.frame(a = factor("b"))
 
@@ -205,7 +205,7 @@ test_that("bind_rows coerces factor when levels don't match", {
   expect_equal(res$a, factor(c("a", "b")))
 })
 
-test_that("bind_rows handles NA in factors #279", {
+test_that("bind_rows() handles NA in factors #279", {
   df1 <- tibble(a = factor("a"))
   df2 <- tibble(a = factor(NA))
 
@@ -213,7 +213,7 @@ test_that("bind_rows handles NA in factors #279", {
   expect_equal(res$a, factor(c("a", NA)))
 })
 
-test_that("bind_rows preserves timezones #298", {
+test_that("bind_rows() preserves timezones #298", {
   dates1 <- data.frame(
     ID = c("a", "b", "c"),
     dates = structure(c(-247320000, -246196800, -245073600),
@@ -236,7 +236,7 @@ test_that("bind_rows preserves timezones #298", {
   expect_equal(attr(alldates$dates, "tzone"), "GMT")
 })
 
-test_that("bind_rows handles all NA columns (#493)", {
+test_that("bind_rows() handles all NA columns (#493)", {
   mydata <- list(
     data.frame(x = c("foo", "bar"), stringsAsFactors = TRUE),
     data.frame(x = NA)
@@ -254,7 +254,7 @@ test_that("bind_rows handles all NA columns (#493)", {
   expect_s3_class(res$x, "factor")
 })
 
-test_that("bind_rows handles complex. #933", {
+test_that("bind_rows() handles complex. #933", {
   df1 <- data.frame(r = c(1 + 1i, 2 - 1i))
   df2 <- data.frame(r = c(1 - 1i, 2 + 1i))
   df3 <- bind_rows(df1, df2)
@@ -262,7 +262,7 @@ test_that("bind_rows handles complex. #933", {
   expect_equal(df3$r, c(df1$r, df2$r))
 })
 
-test_that("bind_rows is careful about column names encoding #1265", {
+test_that("bind_rows() is careful about column names encoding #1265", {
   one <- data.frame(foo = 1:3, bar = 1:3)
   names(one) <- c("f\u00fc", "bar")
   two <- data.frame(foo = 1:3, bar = 1:3)
@@ -273,7 +273,7 @@ test_that("bind_rows is careful about column names encoding #1265", {
   expect_equal(ncol(res), 2L)
 })
 
-test_that("bind_rows handles POSIXct (#1125)", {
+test_that("bind_rows() handles POSIXct (#1125)", {
   df1 <- data.frame(date = as.POSIXct(NA))
   df2 <- data.frame(date = as.POSIXct("2015-05-05"))
   res <- bind_rows(df1, df2)
@@ -281,7 +281,7 @@ test_that("bind_rows handles POSIXct (#1125)", {
   expect_true(is.na(res$date[1]))
 })
 
-test_that("bind_rows respects ordered factors (#1112)", {
+test_that("bind_rows() respects ordered factors (#1112)", {
   l <- c("a", "b", "c", "d")
   id <- factor(c("a", "c", "d"), levels = l, ordered = TRUE)
   df <- data.frame(id = rep(id, 2), val = rnorm(6))
@@ -294,7 +294,7 @@ test_that("bind_rows respects ordered factors (#1112)", {
   expect_equal(levels(df$id), levels(res$id))
 })
 
-test_that("bind_rows keeps ordered factors (#948)", {
+test_that("bind_rows() keeps ordered factors (#948)", {
   y <- bind_rows(
     data.frame(x = factor(c(1, 2, 3), ordered = TRUE)),
     data.frame(x = factor(c(1, 2, 3), ordered = TRUE))
@@ -303,7 +303,7 @@ test_that("bind_rows keeps ordered factors (#948)", {
   expect_equal(levels(y$x), as.character(1:3))
 })
 
-test_that("bind handles POSIXct of different tz ", {
+test_that("bind_rows() handles POSIXct of different tz ", {
   date1 <- structure(-1735660800, tzone = "America/Chicago", class = c("POSIXct", "POSIXt"))
   date2 <- structure(-1735660800, tzone = "UTC", class = c("POSIXct", "POSIXt"))
   date3 <- structure(-1735660800, class = c("POSIXct", "POSIXt"))
@@ -354,7 +354,7 @@ test_that("string vectors are filled with NA not blanks before collection (#595)
   expect_true(all(is.na(res$char_col[1:10])))
 })
 
-test_that("bind_rows handles POSIXct stored as integer (#1402)", {
+test_that("bind_rows() handles POSIXct stored as integer (#1402)", {
   now <- Sys.time()
 
   df1 <- data.frame(time = now)
@@ -368,7 +368,7 @@ test_that("bind_rows handles POSIXct stored as integer (#1402)", {
   expect_true(all(res$time == c(df1$time, df2$time)))
 })
 
-test_that("bind_cols accepts NULL (#1148)", {
+test_that("bind_cols() accepts NULL (#1148)", {
   df1 <- tibble(a = 1:10, b = 1:10)
   df2 <- tibble(c = 1:10, d = 1:10)
 
@@ -382,14 +382,14 @@ test_that("bind_cols accepts NULL (#1148)", {
   expect_identical(res1, res4)
 })
 
-test_that("bind_rows handles 0-length named list (#1515)", {
+test_that("bind_rows() handles 0-length named list (#1515)", {
   res <- bind_rows(list(a = 1)[-1])
   expect_equal(nrow(res), 0L)
   expect_s3_class(res, "data.frame")
   expect_equal(ncol(res), 0L)
 })
 
-test_that("bind_rows infers classes from first result (#1692)", {
+test_that("bind_rows() infers classes from first result (#1692)", {
   d1 <- data.frame(a = 1:10, b = rep(1:2, each = 5))
   d2 <- as_tibble(d1)
   d3 <- group_by(d1, b)
@@ -422,7 +422,7 @@ test_that("bind_cols() infers classes from first result (#1692)", {
   expect_equal(class(bind_cols(d5, d1)), "data.frame")
 })
 
-test_that("bind_rows accepts data frame columns (#2015)", {
+test_that("bind_rows() accepts data frame columns (#2015)", {
   df <- list(
     x = 1:10,
     y = data.frame(a = 1:10, y = 1:10)
@@ -435,7 +435,7 @@ test_that("bind_rows accepts data frame columns (#2015)", {
   expect_equal(names(df$y), c("a", "y"))
 })
 
-test_that("bind_rows accepts difftime objects", {
+test_that("bind_rows() accepts difftime objects", {
   df1 <- data.frame(x = as.difftime(1, units = "hours"))
   df2 <- data.frame(x = as.difftime(1, units = "mins"))
   res <- bind_rows(df1, df2)
@@ -463,7 +463,7 @@ test_that("bind_rows() accepts lists of dataframe-like lists as first argument",
   expect_equal(bind_rows(list(ll, ll)), tibble(a = c(1, 1), b = c(2, 2)))
 })
 
-test_that("bind_rows can handle lists (#1104)", {
+test_that("bind_rows() can handle lists (#1104)", {
   my_list <- list(list(x = 1, y = "a"), list(x = 2, y = "b"))
   res <- bind_rows(my_list)
   expect_equal(nrow(res), 2L)
@@ -625,37 +625,40 @@ test_that("bind_rows() handles missing, null, and empty elements (#5429)", {
 # Errors ------------------------------------------------------------------
 
 test_that("*_bind() give meaningful errors", {
-  # invalid .id
-  df1 <- tibble(x = 1:3)
-  df2 <- tibble(x = 4:6)
-  expect_snapshot(error = TRUE, bind_rows(df1, df2, .id = 5))
+  expect_snapshot({
+    # invalid .id
+    df1 <- tibble(x = 1:3)
+    df2 <- tibble(x = 4:6)
+    (expect_error(bind_rows(df1, df2, .id = 5)))
 
-  # invalid type"
-  ll <- list(1:5, env(a = 1))
-  expect_snapshot(error = TRUE, bind_rows(ll))
+    # invalid type"
+    ll <- list(1:5, env(a = 1))
+    (expect_error(bind_rows(ll)))
 
-  ll <- list(tibble(a = 1:5), env(a = 1))
-  expect_snapshot(error = TRUE, bind_rows(ll))
+    ll <- list(tibble(a = 1:5), env(a = 1))
+    (expect_error(bind_rows(ll)))
 
-  df1 <- tibble(a = factor("a"))
-  df2 <- tibble(a = 1L)
-  df3 <- tibble(a = 1)
-  expect_snapshot(error = TRUE, bind_rows(df1, df2))
-  expect_snapshot(error = TRUE, bind_rows(df1, df3))
+    df1 <- tibble(a = factor("a"))
+    df2 <- tibble(a = 1L)
+    df3 <- tibble(a = 1)
+    (expect_error(bind_rows(df1, df2)))
+    (expect_error(bind_rows(df1, df3)))
 
-  df1 <- tibble(b = c(1, 2))
-  df2 <- tibble(b = c(1L, 2L))
-  df3 <- tibble(b = factor(c("A", "B")))
-  df4 <- tibble(b = c("C", "D"))
-  expect_snapshot(error = TRUE, bind_rows(df1, df3))
-  expect_snapshot(error = TRUE, bind_rows(df1, df4))
-  expect_snapshot(error = TRUE, bind_rows(df2, df3))
-  expect_snapshot(error = TRUE, bind_rows(df2, df4))
+    df1 <- tibble(b = c(1, 2))
+    df2 <- tibble(b = c(1L, 2L))
+    df3 <- tibble(b = factor(c("A", "B")))
+    df4 <- tibble(b = c("C", "D"))
+    (expect_error(bind_rows(df1, df3)))
+    (expect_error(bind_rows(df1, df4)))
+    (expect_error(bind_rows(df2, df3)))
+    (expect_error(bind_rows(df2, df4)))
 
-  "# unnamed vectors"
-  expect_snapshot(error = TRUE, bind_rows(1:2))
+    "# unnamed vectors"
+    (expect_error(bind_rows(1:2)))
 
-  "# incompatible size"
-  expect_snapshot(error = TRUE, bind_cols(a = 1:2, mtcars))
-  expect_snapshot(error = TRUE, bind_cols(mtcars, a = 1:3))
+    "# incompatible size"
+    (expect_error(bind_cols(a = 1:2, mtcars)))
+    (expect_error(bind_cols(mtcars, a = 1:3)))
+  })
+
 })

@@ -501,7 +501,8 @@ join_mutate <- function(x,
                         na_matches = "na",
                         keep = NULL,
                         multiple = NULL,
-                        unmatched = "drop") {
+                        unmatched = "drop",
+                        error_call = caller_env()) {
   na_matches <- check_na_matches(na_matches)
   unmatched <- check_unmatched(unmatched)
 
@@ -514,7 +515,14 @@ join_mutate <- function(x,
     by <- as_join_by(by)
   }
 
-  vars <- join_cols(x_names, y_names, by = by, suffix = suffix, keep = keep)
+  vars <- join_cols(
+    x_names = x_names,
+    y_names = y_names,
+    by = by,
+    suffix = suffix,
+    keep = keep,
+    error_call = error_call
+  )
 
   x_in <- as_tibble(x, .name_repair = "minimal")
   y_in <- as_tibble(y, .name_repair = "minimal")
@@ -535,7 +543,8 @@ join_mutate <- function(x,
     filter = filter,
     cross = cross,
     multiple = multiple,
-    unmatched = unmatched
+    unmatched = unmatched,
+    error_call = error_call
   )
 
   x_slicer <- rows$x
@@ -570,7 +579,12 @@ join_mutate <- function(x,
   dplyr_reconstruct(out, x)
 }
 
-join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
+join_filter <- function(x,
+                        y,
+                        by = NULL,
+                        type,
+                        na_matches = c("na", "never"),
+                        error_call = caller_env()) {
   na_matches <- check_na_matches(na_matches)
 
   x_names <- tbl_vars(x)
@@ -582,7 +596,7 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
     by <- as_join_by(by)
   }
 
-  vars <- join_cols(x_names, y_names, by = by)
+  vars <- join_cols(x_names, y_names, by = by, error_call = error_call)
 
   x_in <- as_tibble(x, .name_repair = "minimal")
   y_in <- as_tibble(y, .name_repair = "minimal")
@@ -610,7 +624,8 @@ join_filter <- function(x, y, by = NULL, type, na_matches = c("na", "never")) {
     filter = filter,
     cross = cross,
     multiple = multiple,
-    unmatched = unmatched
+    unmatched = unmatched,
+    error_call = error_call
   )
 
   if (type == "semi") {

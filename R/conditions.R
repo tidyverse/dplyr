@@ -1,3 +1,32 @@
+#' Local error call for dplyr verbs
+#' @noRd
+dplyr_local_error_call <- function(call = frame, frame = caller_env()) {
+  # This doesn't implement the semantics of a `local_` function
+  # perfectly in order to be as fast as possible
+  frame$.__dplyr_error_call__. <- call
+  invisible(NULL)
+}
+
+# Takes the local call by default. If the caller of the verb has
+# called `dplyr_local_error_call()`, we used that call instead.  This
+# logic is slightly different than in checking functions or error
+# helpers, where the error call is always taken from the parent by
+# default.
+dplyr_error_call <- function(call) {
+  if (is_missing(call)) {
+    call <- caller_env()
+  }
+  if (is_environment(call)) {
+    caller <- eval_bare(quote(base::parent.frame()), call)
+    caller_call <- caller[[".__dplyr_error_call__."]]
+    if (!is_null(caller_call)) {
+      call <- caller_call
+    }
+  }
+
+  call
+}
+
 arg_name <- function(quos, index) {
   name  <- names(quos)[index]
   if (is.null(name) || name == "") {
@@ -16,7 +45,7 @@ cnd_bullet_cur_group_label <- function(what = "error") {
 cnd_bullet_rowwise_unlist <- function() {
   data <- peek_mask()$full_data()
   if (inherits(data, "rowwise_df")) {
-    glue("Did you mean: `{error_name} = list({error_expression})` ?", .envir = peek_call_step())
+    glue_data(peek_error_context(), "Did you mean: `{error_name} = list({error_expression})` ?")
   }
 }
 
@@ -30,46 +59,51 @@ or_1 <- function(x) {
 
 # Common ------------------------------------------------------------------
 
-local_call_step <- function(dots, .index, .fn, .dot_data = FALSE, frame = caller_env()) {
-  error_expression  <- if (.dot_data) {
-    deparse(quo_get_expr(dots[[.index]]))
+is_data_pronoun <- function(x) {
+  is_call(x, c("[[", "$")) && identical(node_cadr(x), sym(".data"))
+}
+
+# Because as_label() strips off .data$<> and .data[[<>]]
+quo_as_label <- function(quo)  {
+  expr <- quo_get_expr(quo)
+  if (is_data_pronoun(expr)) {
+    deparse(expr)[[1]]
   } else{
-    as_label(quo_get_expr(dots[[.index]]))
+    as_label(expr)
   }
-  context_local(
-    "dplyr_call_step",
-    env(
-      error_name = arg_name(dots, .index),
-      error_expression = error_expression,
-      index = .index,
-      dots = dots,
-      fn = .fn,
-      environment()
-    ),
-    frame = frame
+}
+
+local_error_context <- function(dots, .index, mask, frame = caller_env()) {
+  expr <- dots[[.index]]
+  if (quo_is_call(expr, "invisible")) {
+    expr <- ""
+  } else {
+    expr <- quo_as_label(dots[[.index]])
+  }
+
+  error_context <- env(
+    error_name = arg_name(dots, .index),
+    error_expression = expr,
+    mask = mask
   )
+  context_local("dplyr_error_context", error_context, frame = frame)
 }
-peek_call_step <- function() {
-  context_peek("dplyr_call_step", "peek_call_step", "dplyr error handling")
+peek_error_context <- function() {
+  context_peek("dplyr_error_context", "peek_error_context", "dplyr error handling")
 }
 
-cnd_bullet_header <- function() {
-  call_step <- peek_call_step()
+cnd_bullet_header <- function(what) {
+  error_context <- peek_error_context()
+  error_name <- error_context$error_name
+  error_expression <- error_context$error_expression
 
-  input_name <- "column"
-  if (call_step[["fn"]] == "filter" || grepl("^[.][.]", call_step[["error_name"]])) {
-    input_name <- "input"
+  if (nzchar(error_expression)) {
+    sep <- " = "
+  } else {
+    sep <- ""
   }
 
-  glue("Problem with `{fn}()` {name} `{error_name}`.", .envir = env(name = input_name, call_step))
-}
-
-cnd_bullet_column_info <- function(){
-  glue("`{error_name} = {error_expression}`.", .envir = peek_call_step())
-}
-
-cnd_bullet_input_info <- function(){
-  glue("Input `{error_name}` is `{error_expression}`.", .envir = peek_call_step())
+  glue("Problem while {what} `{error_name}{sep}{error_expression}`.")
 }
 
 cnd_bullet_combine_details <- function(x, arg) {
@@ -90,12 +124,37 @@ err_vars <- function(x) {
   glue_collapse(x, sep = ", ", last = if (length(x) <= 2) " and " else ", and ")
 }
 
-abort_glue <- function(message, data = list(), class = NULL) {
-  if (length(message)) {
-    message <- exec(glue, message, !!!data)
-    exec(abort, message = message, class = class, !!!data)
-  } else {
-    exec(abort, class = class, !!!data)
+err_locs <- function(x) {
+  if (!is.integer(x)) {
+    abort("`x` must be an integer vector of locations.", .internal = TRUE)
   }
+
+  size <- length(x)
+
+  if (size == 0L) {
+    abort("`x` must have at least 1 location.", .internal = TRUE)
+  }
+
+  if (size > 5L) {
+    x <- x[1:5]
+    extra <- glue(" and {size - 5L} more")
+  } else {
+    extra <- ""
+  }
+
+  x <- glue_collapse(x, sep = ", ")
+
+  glue("`c({x})`{extra}")
 }
 
+dplyr_internal_error <- function(class = NULL, data = list()) {
+  abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
+}
+
+skip_internal_condition <- function(cnd) {
+  if (inherits(cnd, "dplyr:::internal_error")) {
+    cnd$parent
+  } else {
+    cnd
+  }
+}

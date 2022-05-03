@@ -34,7 +34,6 @@
 #' all_equal(df1, df2, convert = TRUE)
 all_equal <- function(target, current, ignore_col_order = TRUE,
                       ignore_row_order = TRUE, convert = FALSE, ...) {
-
   equal_data_frame(target, current,
     ignore_col_order = ignore_col_order,
     ignore_row_order = ignore_row_order,
@@ -45,13 +44,14 @@ all_equal <- function(target, current, ignore_col_order = TRUE,
 equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = TRUE, convert = FALSE) {
   compat <- is_compatible_data_frame(x, y, ignore_col_order = ignore_col_order, convert = convert)
   if (!isTRUE(compat)) {
-    return(compat)
+    # revert the bulleting from is_compatible_data_frame()
+    return(glue_collapse(compat, sep = "\n"))
   }
 
   nrows_x <- nrow(x)
   nrows_y <- nrow(y)
   if (nrows_x != nrows_y) {
-    return("Different number of rows")
+    return("Different number of rows.")
   }
 
   if (ncol(x) == 0L) {

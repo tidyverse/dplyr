@@ -50,13 +50,13 @@ NULL
 #' @rdname context
 #' @export
 n <- function() {
-  length(peek_mask("n()")$current_rows())
+  length(peek_mask("n")$current_rows())
 }
 
 #' @rdname context
 #' @export
 cur_data <- function() {
-  mask <- peek_mask("cur_data()")
+  mask <- peek_mask("cur_data")
   vars <- mask$current_non_group_vars()
   mask$pick(vars)
 }
@@ -64,7 +64,7 @@ cur_data <- function() {
 #' @rdname context
 #' @export
 cur_data_all <- function() {
-  mask <- peek_mask("cur_data_all()")
+  mask <- peek_mask("cur_data_all")
   vars <- mask$current_vars()
   mask$pick(vars)
 }
@@ -81,13 +81,13 @@ cur_group_id <- function() {
   # [] to get a copy because the current group is dealt with internally
   # if we don't get a copy, code like this won't give correct result:
   # summarise(id = cur_group_id())
-  peek_mask("cur_group_id()")$get_current_group()[]
+  peek_mask("cur_group_id")$get_current_group()[]
 }
 
 #' @rdname context
 #' @export
 cur_group_rows <- function() {
-  peek_mask("cur_group_rows()")$current_rows()
+  peek_mask("cur_group_rows")$current_rows()
 }
 
 #' @importFrom pillar format_glimpse
@@ -98,7 +98,7 @@ group_labels_details <- function(keys) {
 }
 
 cur_group_label <- function() {
-  mask <- peek_mask("cur_group_label()")
+  mask <- peek_mask("cur_group_label")
   data <- mask$full_data()
   if(is_grouped_df(data) && nrow(data) > 0) {
     glue("group {id}: {label}", id = cur_group_id(), label = group_labels_details(cur_group()))
@@ -128,7 +128,7 @@ context_peek_bare <- function(name) {
 }
 context_peek <- function(name, fun, location = "dplyr verbs") {
   context_peek_bare(name) %||%
-    abort(glue("`{fun}` must only be used inside {location}."))
+    abort(glue("Must be used inside {location}."), call = call(fun))
 }
 context_local <- function(name, value, frame = caller_env()) {
   old <- context_poke(name, value)
@@ -137,13 +137,13 @@ context_local <- function(name, value, frame = caller_env()) {
 }
 
 peek_column <- function() {
-  context_peek("column", "cur_column()", "`across()`")
+  context_peek("column", "cur_column", "`across()`")
 }
 local_column <- function(x, frame = caller_env()) {
   context_local("column", x, frame = frame)
 }
 
-peek_mask <- function(fun = "peek_mask()") {
+peek_mask <- function(fun = "peek_mask") {
   context_peek("mask", fun)
 }
 local_mask <- function(x, frame = caller_env()) {

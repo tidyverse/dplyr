@@ -5,13 +5,11 @@ namespace dplyr {
 void stop_summarise_unsupported_type(SEXP result) {
   DPLYR_ERROR_INIT(1);
     DPLYR_ERROR_SET(0, "result", result);
-  DPLYR_ERROR_MESG_INIT(0);
   DPLYR_ERROR_THROW("dplyr:::summarise_unsupported_type");
 }
 
 void stop_summarise_mixed_null() {
   DPLYR_ERROR_INIT(0);
-  DPLYR_ERROR_MESG_INIT(0);
   DPLYR_ERROR_THROW("dplyr:::summarise_mixed_null");
 }
 
@@ -21,7 +19,6 @@ void stop_summarise_incompatible_size(int index_group, int index_expression, int
     DPLYR_ERROR_SET(1, "index", Rf_ScalarInteger(index_expression + 1));
     DPLYR_ERROR_SET(2, "expected_size", Rf_ScalarInteger(expected_size));
     DPLYR_ERROR_SET(3, "size", Rf_ScalarInteger(size));
-  DPLYR_ERROR_MESG_INIT(0);
   DPLYR_ERROR_THROW("dplyr:::summarise_incompatible_size");
 }
 

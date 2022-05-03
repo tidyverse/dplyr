@@ -31,13 +31,15 @@ order_by <- function(order_by, call) {
 
   if (!is_call(expr)) {
     if (is_symbol(expr)) {
-      bad_args("call",
-        "must be a function call, not a symbol.\n",
-        "* Did you mean `arrange({as_label(enquo(order_by))}, {expr})`?"
+      bullets <- c(
+        glue("`call` must be a function call, not a symbol."),
+        i = glue("Did you mean `arrange({as_label(enquo(order_by))}, {expr})`?")
       )
+      abort(bullets)
     } else {
       type <- friendly_type_of(expr)
-      bad_args("call", "must be a function call, not { type }.")
+      msg <- glue("`call` must be a function call, not { type }.")
+      abort(msg)
     }
   }
 

@@ -136,19 +136,18 @@ test_that("join_rows() doesn't error on unmatched rows if they won't be dropped"
 })
 
 test_that("join_rows() gives meaningful error message on incompatible types", {
-  expect_snapshot(error = TRUE,
-    join_rows(
-      data.frame(x = 1),
-      data.frame(x = factor("a"))
-    )
-  )
+  expect_snapshot({
+    (expect_error(
+      join_rows(data.frame(x = 1), data.frame(x = factor("a")))
+    ))
+  })
 })
 
 test_that("join_rows() gives meaningful error/warning message on multiple matches", {
   expect_snapshot(error = TRUE, join_rows(1, c(1, 1), multiple = "error"))
 
   cnd <- catch_cnd(join_rows(1, c(1, 1), multiple = "warning"), classes = "warning")
-  expect_snapshot(cat(cnd$message))
+  expect_snapshot(cat(conditionMessage(cnd)))
 })
 
 test_that("join_rows() gives meaningful error message on unmatched rows", {

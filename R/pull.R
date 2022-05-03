@@ -48,20 +48,19 @@ pull.data.frame <- function(.data, var = -1, name = NULL, ...) {
   set_names(.data[[var]], nm = .data[[name]])
 }
 
-# FIXME: remove this once dbplyr uses vars_pull()
 find_var <- function(expr, vars) {
   var_env <- set_names(as.list(seq_along(vars)), vars)
   var <- eval_tidy(expr, var_env)
 
   if (!is.numeric(var) || length(var) != 1) {
-    bad_args("var", "must evaluate to a single number.")
+    abort("`var` must evaluate to a single number.")
   }
 
   var <- as.integer(var)
   n <- length(vars)
 
   if (is.na(var) || abs(var) > n || var == 0L) {
-    bad_args("var", "must be a value between {-n} and {n} (excluding zero), not {var}.")
+    abort("`var` must be a value between {-n} and {n} (excluding zero), not {var}.")
   }
 
   if (var < 0) {

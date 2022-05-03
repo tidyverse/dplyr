@@ -47,8 +47,7 @@ and outputs side-by-side.
 columns. This is useful if you generate new columns, but no longer need
 the columns used to generate them.
 \item \code{"none"} doesn't retain any extra columns from \code{.data}. Only the grouping
-variables and columns created by \code{...} are kept. This is equivalent to
-using \code{\link[=transmute]{transmute()}}.
+variables and columns created by \code{...} are kept.
 }}
 
 \item{.before, .after}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
@@ -60,12 +59,21 @@ should appear (the default is to add to the right hand side). See
 An object of the same type as \code{.data}. The output has the following
 properties:
 \itemize{
-\item The number of rows is not affected.
+\item For \code{mutate()}:
+\itemize{
 \item Columns from \code{.data} will be preserved according to the \code{.keep} argument.
 \item Existing columns that are modified by \code{...} will always be returned in
 their original location.
 \item New columns created through \code{...} will be placed according to the
 \code{.before} and \code{.after} arguments.
+}
+\item For \code{transmute()}:
+\itemize{
+\item Columns created or modified through \code{...} will be returned in the order
+specified by \code{...}.
+\item Unmodified grouping columns will be placed at the front.
+}
+\item The number of rows is not affected.
 \item Columns given the value \code{NULL} will be removed.
 \item Groups will be recomputed if a grouping variable is mutated.
 \item Data frame attributes are preserved.

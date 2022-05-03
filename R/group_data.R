@@ -60,7 +60,16 @@ group_data.rowwise_df <- function(.data) {
 
 #' @export
 group_data.grouped_df <- function(.data) {
-  attr(validate_grouped_df(.data), "groups")
+  error_call <- current_env()
+  withCallingHandlers(
+    validate_grouped_df(.data),
+    error = function(cnd) {
+      msg  <- glue("`.data` must be a valid <grouped_df> object.")
+      abort(msg, parent = cnd, call = error_call)
+    }
+  )
+
+  attr(.data, "groups")
 }
 
 # -------------------------------------------------------------------------

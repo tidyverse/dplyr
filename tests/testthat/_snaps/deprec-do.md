@@ -1,35 +1,33 @@
 # do() gives meaningful error messages
 
     Code
-      df %>% do(head, tail)
-    Error <rlang_error>
-      Can only supply one unnamed argument, not 2.
-
----
-
+      (expect_error(df %>% do(head, tail)))
+    Output
+      <error/rlang_error>
+      Error in `do()`:
+      ! Can only supply one unnamed argument, not 2.
     Code
-      df %>% ungroup() %>% do(1)
-    Error <rlang_error>
-      Result must be a data frame, not numeric
-
----
-
+      (expect_error(df %>% ungroup() %>% do(1)))
+    Output
+      <error/rlang_error>
+      Error in `do()`:
+      ! Result must be a data frame, not numeric.
     Code
-      df %>% do(1)
-    Error <rlang_error>
-      Results 1, 2, 3 must be data frames, not numeric
-
----
-
+      (expect_error(df %>% do(1)))
+    Output
+      <error/rlang_error>
+      Error in `do()`:
+      ! Results 1, 2, 3 must be data frames, not numeric.
     Code
-      df %>% do("a")
-    Error <rlang_error>
-      Results 1, 2, 3 must be data frames, not character
-
----
-
+      (expect_error(df %>% do("a")))
+    Output
+      <error/rlang_error>
+      Error in `do()`:
+      ! Results 1, 2, 3 must be data frames, not character.
     Code
-      df %>% do(x = 1, 2)
-    Error <rlang_error>
-      Arguments must either be all named or all unnamed.
+      (expect_error(df %>% do(x = 1, 2)))
+    Output
+      <error/rlang_error>
+      Error in `do()`:
+      ! Arguments must either be all named or all unnamed.
 
