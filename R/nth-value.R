@@ -39,11 +39,15 @@
 #'
 #' # These functions always return a single value
 #' first(integer())
-nth <- function(x, n, order_by = NULL, default = default_missing(x)) {
+nth <- function(x, n, order_by = NULL, default = default_missing(x), na.rm = FALSE) {
   if (length(n) != 1 || !is.numeric(n)) {
     abort("`n` must be a single integer.")
   }
   n <- trunc(n)
+
+  if (na.rm) {
+    x <- x[!is.na(x)]
+  }
 
   if (n == 0 || n > length(x) || n < -length(x)) {
     return(default)
@@ -63,14 +67,14 @@ nth <- function(x, n, order_by = NULL, default = default_missing(x)) {
 
 #' @export
 #' @rdname nth
-first <- function(x, order_by = NULL, default = default_missing(x)) {
-  nth(x, 1L, order_by = order_by, default = default)
+first <- function(x, order_by = NULL, default = default_missing(x), na.rm = FALSE) {
+  nth(x, 1L, order_by = order_by, default = default, na.rm = na.rm)
 }
 
 #' @export
 #' @rdname nth
-last <- function(x, order_by = NULL, default = default_missing(x)) {
-  nth(x, -1L, order_by = order_by, default = default)
+last <- function(x, order_by = NULL, default = default_missing(x), na.rm = FALSE) {
+  nth(x, -1L, order_by = order_by, default = default, na.rm = na.rm)
 }
 
 default_missing <- function(x) {
