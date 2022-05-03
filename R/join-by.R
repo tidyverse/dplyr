@@ -41,23 +41,27 @@
 #'
 #' - `preceding(x, y, ..., inclusive = TRUE)`
 #'
-#'   Matches using the binary condition `x >= y`, then filters the matches to
-#'   only include the one corresponding to the maximum value of `y` (i.e. the
-#'   preceding match).
+#'   For each value in `x`, this finds the value in `y` that is directly
+#'   preceding it. If `inclusive = TRUE`, an exact match is allowed to count as
+#'   the preceding value.
 #'
-#'   If `inclusive = FALSE`, `>=` is replaced with `>`, preventing an exact
-#'   match from occurring.
+#'   Technically, this finds all matches using the binary condition `x >= y`,
+#'   then filters those matches to only include the one corresponding to the
+#'   maximum value of `y` (i.e. the preceding match). If `inclusive = FALSE`,
+#'   `>=` is replaced with `>`.
 #'
 #'   Dots are for future extensions and must be empty.
 #'
 #' - `following(x, y, ..., inclusive = TRUE)`
 #'
-#'   Matches using the binary condition `x <= y`, then filters the matches to
-#'   only include the one corresponding to the minimum value of `y` (i.e. the
-#'   following match).
+#'   For each value in `x`, this finds the value in `y` that is directly
+#'   following it. If `inclusive = TRUE`, an exact match is allowed to count as
+#'   the following value.
 #'
-#'   If `inclusive = FALSE`, `<=` is replaced with `<`, preventing an exact
-#'   match from occurring.
+#'   Technically, this finds all matches using the binary condition `x <= y`,
+#'   then filters those matches to only include the one corresponding to the
+#'   minimum value of `y` (i.e. the following match). If `inclusive = FALSE`,
+#'   `<=` is replaced with `<`.
 #'
 #'   Dots are for future extensions and must be empty.
 #'
@@ -73,26 +77,27 @@
 #' ## Overlap joins:
 #'
 #' Overlap joins are a special case of a non-equi join generally involving one
-#' or two columns from the left-hand side _overlapping_ a range computed from
-#' two columns from the right-hand side. There are three helpers that
-#' `join_by()` recognizes to assist with constructing overlap joins, all
-#' of which can be constructed from simpler binary expressions.
+#' or two columns from the left-hand table _overlapping_ a range computed from
+#' two columns from the right-hand table. There are three helpers that
+#' `join_by()` recognizes to assist with constructing overlap joins, all of
+#' which can be constructed from simpler binary expressions.
 #'
 #' - `between(x, y_lower, y_upper)`
 #'
-#'   Matches when `x` falls between `[y_lower, y_upper]`. Equivalent to
-#'   `x >= y_lower, x <= y_upper`.
+#'   For each value in `x`, this finds everywhere that value falls between
+#'   `[y_lower, y_upper]`. Equivalent to `x >= y_lower, x <= y_upper`.
 #'
 #' - `within(x_lower, x_upper, y_lower, y_upper)`
 #'
-#'   Matches when `[x_lower, x_upper]` falls completely within
-#'   `[y_lower, y_upper]`. Equivalent to
-#'   `x_lower >= y_lower, x_upper <= y_upper`.
+#'   For each range in `[x_lower, x_upper]`, this finds everywhere that range
+#'   falls completely within `[y_lower, y_upper]`. Equivalent to `x_lower >=
+#'   y_lower, x_upper <= y_upper`.
 #'
 #' - `overlaps(x_lower, x_upper, y_lower, y_upper)`
 #'
-#'   Matches when `[x_lower, x_upper]` overlaps `[y_lower, y_upper]` in any
-#'   capacity. Equivalent to `x_lower <= y_upper, x_upper >= y_lower`.
+#'   For each range in `[x_lower, x_upper]`, this finds everywhere that range
+#'   overlaps `[y_lower, y_upper]` in any capacity. Equivalent to `x_lower <=
+#'   y_upper, x_upper >= y_lower`.
 #'
 #' These conditions assume that the ranges are well-formed, i.e.
 #' `x_lower <= x_upper`.

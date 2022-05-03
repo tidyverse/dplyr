@@ -67,22 +67,26 @@ to assist with constructing rolling joins.
 \itemize{
 \item \code{preceding(x, y, ..., inclusive = TRUE)}
 
-Matches using the binary condition \code{x >= y}, then filters the matches to
-only include the one corresponding to the maximum value of \code{y} (i.e. the
-preceding match).
+For each value in \code{x}, this finds the value in \code{y} that is directly
+preceding it. If \code{inclusive = TRUE}, an exact match is allowed to count as
+the preceding value.
 
-If \code{inclusive = FALSE}, \code{>=} is replaced with \code{>}, preventing an exact
-match from occurring.
+Technically, this finds all matches using the binary condition \code{x >= y},
+then filters those matches to only include the one corresponding to the
+maximum value of \code{y} (i.e. the preceding match). If \code{inclusive = FALSE},
+\code{>=} is replaced with \code{>}.
 
 Dots are for future extensions and must be empty.
 \item \code{following(x, y, ..., inclusive = TRUE)}
 
-Matches using the binary condition \code{x <= y}, then filters the matches to
-only include the one corresponding to the minimum value of \code{y} (i.e. the
-following match).
+For each value in \code{x}, this finds the value in \code{y} that is directly
+following it. If \code{inclusive = TRUE}, an exact match is allowed to count as
+the following value.
 
-If \code{inclusive = FALSE}, \code{<=} is replaced with \code{<}, preventing an exact
-match from occurring.
+Technically, this finds all matches using the binary condition \code{x <= y},
+then filters those matches to only include the one corresponding to the
+minimum value of \code{y} (i.e. the following match). If \code{inclusive = FALSE},
+\code{<=} is replaced with \code{<}.
 
 Dots are for future extensions and must be empty.
 }
@@ -100,24 +104,23 @@ followed by a \code{filter()} for only the maximum or minimum \code{y} value.
 \subsection{Overlap joins:}{
 
 Overlap joins are a special case of a non-equi join generally involving one
-or two columns from the left-hand side \emph{overlapping} a range computed from
-two columns from the right-hand side. There are three helpers that
-\code{join_by()} recognizes to assist with constructing overlap joins, all
-of which can be constructed from simpler binary expressions.
+or two columns from the left-hand table \emph{overlapping} a range computed from
+two columns from the right-hand table. There are three helpers that
+\code{join_by()} recognizes to assist with constructing overlap joins, all of
+which can be constructed from simpler binary expressions.
 \itemize{
 \item \code{between(x, y_lower, y_upper)}
 
-Matches when \code{x} falls between \verb{[y_lower, y_upper]}. Equivalent to
-\verb{x >= y_lower, x <= y_upper}.
+For each value in \code{x}, this finds everywhere that value falls between
+\verb{[y_lower, y_upper]}. Equivalent to \verb{x >= y_lower, x <= y_upper}.
 \item \code{within(x_lower, x_upper, y_lower, y_upper)}
 
-Matches when \verb{[x_lower, x_upper]} falls completely within
-\verb{[y_lower, y_upper]}. Equivalent to
-\verb{x_lower >= y_lower, x_upper <= y_upper}.
+For each range in \verb{[x_lower, x_upper]}, this finds everywhere that range
+falls completely within \verb{[y_lower, y_upper]}. Equivalent to \verb{x_lower >= y_lower, x_upper <= y_upper}.
 \item \code{overlaps(x_lower, x_upper, y_lower, y_upper)}
 
-Matches when \verb{[x_lower, x_upper]} overlaps \verb{[y_lower, y_upper]} in any
-capacity. Equivalent to \verb{x_lower <= y_upper, x_upper >= y_lower}.
+For each range in \verb{[x_lower, x_upper]}, this finds everywhere that range
+overlaps \verb{[y_lower, y_upper]} in any capacity. Equivalent to \verb{x_lower <= y_upper, x_upper >= y_lower}.
 }
 
 These conditions assume that the ranges are well-formed, i.e.
