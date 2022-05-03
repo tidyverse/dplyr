@@ -19,6 +19,7 @@
 #'
 #'   For more complicated objects, you'll need to supply this value.
 #'   Make sure it is the same type as `x`.
+#' @param na.rm if `TRUE` missing values don't count
 #' @return A single value. `[[` is used to do the subsetting.
 #' @export
 #' @examples
