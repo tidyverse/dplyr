@@ -211,6 +211,17 @@ test_that("`na_matches` is validated", {
   })
 })
 
+test_that("`unmatched` is validated", {
+  df <- tibble(x = 1)
+
+  expect_snapshot(error = TRUE, {
+    join_mutate(df, df, by = "x", type = "left", unmatched = 1)
+  })
+  expect_snapshot(error = TRUE, {
+    join_mutate(df, df, by = "x", type = "left", unmatched = "foo")
+  })
+})
+
 test_that("mutating joins compute common columns", {
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- tibble(x = c(1, 3), z = c(2, 3))

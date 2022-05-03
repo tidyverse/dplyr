@@ -30,6 +30,22 @@
       Error:
       ! `na_matches` must be one of "na" or "never", not "foo".
 
+# `unmatched` is validated
+
+    Code
+      join_mutate(df, df, by = "x", type = "left", unmatched = 1)
+    Condition
+      Error in `arg_match0()`:
+      ! `unmatched` must be a string or character vector.
+
+---
+
+    Code
+      join_mutate(df, df, by = "x", type = "left", unmatched = "foo")
+    Condition
+      Error:
+      ! `unmatched` must be one of "drop" or "error", not "foo".
+
 # mutating joins compute common columns
 
     Code

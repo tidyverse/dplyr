@@ -507,7 +507,7 @@ join_mutate <- function(x,
   check_dots_empty0(...)
 
   na_matches <- check_na_matches(na_matches, error_call = error_call)
-  unmatched <- check_unmatched(unmatched)
+  unmatched <- check_unmatched(unmatched, error_call = error_call)
 
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
@@ -667,6 +667,13 @@ check_na_matches <- function(na_matches,
   )
 }
 
-check_unmatched <- function(unmatched) {
-  arg_match0(unmatched, values = c("drop", "error"), arg_nm = "unmatched")
+check_unmatched <- function(unmatched, ..., error_call = caller_env()) {
+  check_dots_empty0(...)
+
+  arg_match0(
+    arg = unmatched,
+    values = c("drop", "error"),
+    arg_nm = "unmatched",
+    error_call = error_call
+  )
 }
