@@ -1,14 +1,14 @@
-# chunked
+# comperes
 
 <details>
 
-* Version: 0.5.1
-* GitHub: https://github.com/edwindj/chunked
-* Source code: https://github.com/cran/chunked
-* Date/Publication: 2020-11-03 06:40:19 UTC
-* Number of recursive dependencies: 51
+* Version: 0.2.5
+* GitHub: https://github.com/echasnovski/comperes
+* Source code: https://github.com/cran/comperes
+* Date/Publication: 2020-11-23 21:20:02 UTC
+* Number of recursive dependencies: 62
 
-Run `cloud_details(, "chunked")` for more info
+Run `cloud_details(, "comperes")` for more info
 
 </details>
 
@@ -19,28 +19,152 @@ Run `cloud_details(, "chunked")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-        4. │ └─testthat:::quasi_capture(...)
-        5. │   ├─testthat .capture(...)
-        6. │   │ └─testthat::capture_output_lines(code, print, width = width)
-        7. │   │   └─testthat:::eval_with_output(code, print = print, width = width)
-        8. │   │     ├─withr::with_output_sink(path, withVisible(code))
-        9. │   │     │ └─base::force(code)
-       10. │   │     └─base::withVisible(code)
-       11. │   └─rlang::eval_bare(quo_get_expr(.quo), quo_get_env(.quo))
-       12. ├─base::print(tbl_iris)
-       13. └─chunked:::print.chunkwise(tbl_iris)
-       14.   └─base::print(trunc_mat(h, n = n, width = width))
+      > library(comperes)
+      > 
+      > test_check("comperes")
+      [ FAIL 1 | WARN 16 | SKIP 5 | PASS 256 ]
       
-      [ FAIL 2 | WARN 0 | SKIP 0 | PASS 43 ]
+      ══ Skipped tests ═══════════════════════════════════════════════════════════════
+      • On CRAN (5)
+      
+      ══ Failed tests ════════════════════════════════════════════════════════════════
+      ── Failure (test-head-to-head.R:168:3): h2h_mat allows multiple Head-to-Head functions ──
+      `h2h_mat(cr_data)` produced warnings.
+      
+      [ FAIL 1 | WARN 16 | SKIP 5 | PASS 256 ]
       Error: Test failures
       Execution halted
     ```
 
-*   checking R code for possible problems ... NOTE
+# dodgr
+
+<details>
+
+* Version: 0.2.13
+* GitHub: https://github.com/ATFutures/dodgr
+* Source code: https://github.com/cran/dodgr
+* Date/Publication: 2022-04-01 23:50:02 UTC
+* Number of recursive dependencies: 107
+
+Run `cloud_details(, "dodgr")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking tests ... ERROR
     ```
-    print.chunkwise: no visible global function definition for ‘trunc_mat’
-    Undefined global functions or variables:
-      trunc_mat
+      Running ‘sc-conversion-fns.R’
+      Running ‘testthat.R’
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      > 
+      > test_check("dodgr")
+      [ FAIL 1 | WARN 0 | SKIP 10 | PASS 201 ]
+      
+      ══ Skipped tests ═══════════════════════════════════════════════════════════════
+      • !test_all is TRUE (1)
+      • On CRAN (9)
+      
+      ══ Failed tests ════════════════════════════════════════════════════════════════
+      ── Failure (test-iso.R:16:15): isodists ────────────────────────────────────────
+      `net <- weight_streetnet(hsc, wt_profile = "bicycle")` produced warnings.
+      
+      [ FAIL 1 | WARN 0 | SKIP 10 | PASS 201 ]
+      Error: Test failures
+      Execution halted
+    ```
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is 31.1Mb
+      sub-directories of 1Mb or more:
+        doc    5.2Mb
+        libs  25.3Mb
+    ```
+
+*   checking for GNU extensions in Makefiles ... NOTE
+    ```
+    GNU make is a SystemRequirements.
+    ```
+
+# exuber
+
+<details>
+
+* Version: 0.4.2
+* GitHub: https://github.com/kvasilopoulos/exuber
+* Source code: https://github.com/cran/exuber
+* Date/Publication: 2020-12-18 07:30:19 UTC
+* Number of recursive dependencies: 98
+
+Run `cloud_details(, "exuber")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking tests ... ERROR
+    ```
+      Running ‘spelling.R’
+      Running ‘testthat.R’
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+       32. │           └─base withOneRestart(expr, restarts[[1L]])
+       33. │             └─base doWithOneRestart(return(expr), restart)
+       34. └─dplyr `<fn>`(`<vctrs___>`)
+       35.   └─dplyr:::rethrow_warning_join_matches_multiple(cnd)
+       36.     └─dplyr:::warn_join(...)
+       37.       └─dplyr:::warn_dplyr(...)
+       38.         └─rlang::warn(...)
+       39.           └─base::warning(cnd)
+       40.             └─base::withRestarts(...)
+       41.               └─base withOneRestart(expr, restarts[[1L]])
+       42.                 └─base doWithOneRestart(return(expr), restart)
+      
+      [ FAIL 42 | WARN 50 | SKIP 4 | PASS 155 ]
+      Error: Test failures
+      Execution halted
+    ```
+
+# lans2r
+
+<details>
+
+* Version: 1.1.0
+* GitHub: https://github.com/KopfLab/lans2r
+* Source code: https://github.com/cran/lans2r
+* Date/Publication: 2020-06-24 05:20:03 UTC
+* Number of recursive dependencies: 84
+
+Run `cloud_details(, "lans2r")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking tests ... ERROR
+    ```
+      Running ‘testthat.R’
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      [ FAIL 4 | WARN 5 | SKIP 0 | PASS 140 ]
+      
+      ══ Failed tests ════════════════════════════════════════════════════════════════
+      ── Failure (test-load-data.R:24:3): test that it is possible to load multiple LANS summaries ──
+      `... <- NULL` produced warnings.
+      ── Failure (test-load-data.R:43:3): test that it is possible to load multiple LANS summaries ──
+      `... <- NULL` produced warnings.
+      ── Failure (test-load-data.R:58:3): test that it is possible to load multiple LANS summaries ──
+      `... <- NULL` produced warnings.
+      ── Failure (test-load-data.R:81:3): test that it is possible to load LANS maps ──
+      `... <- NULL` produced warnings.
+      
+      [ FAIL 4 | WARN 5 | SKIP 0 | PASS 140 ]
+      Error: Test failures
+      Execution halted
     ```
 
 ## In both
@@ -50,65 +174,17 @@ Run `cloud_details(, "chunked")` for more info
       'LazyData' is specified without a 'data' directory
     ```
 
-# functiondepends
+# MBNMAtime
 
 <details>
 
 * Version: 0.2.1
 * GitHub: NA
-* Source code: https://github.com/cran/functiondepends
-* Date/Publication: 2020-11-03 12:30:02 UTC
-* Number of recursive dependencies: 74
+* Source code: https://github.com/cran/MBNMAtime
+* Date/Publication: 2021-09-13 15:10:02 UTC
+* Number of recursive dependencies: 107
 
-Run `cloud_details(, "functiondepends")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘functiondepends-usage.Rmd’ using rmarkdown
-    
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
-    ...
-    Error: processing vignette 'functiondepends-usage.Rmd' failed with diagnostics:
-    Problem while computing `..1 = !is.na(.)`.
-    ✖ Input `..1` must be a logical vector, not a logical[,2].
-    --- failed re-building ‘functiondepends-usage.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘functiondepends-usage.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-## In both
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
-    ```
-
-# mcp
-
-<details>
-
-* Version: 0.3.1
-* GitHub: https://github.com/lindeloev/mcp
-* Source code: https://github.com/cran/mcp
-* Date/Publication: 2021-11-17 16:50:02 UTC
-* Number of recursive dependencies: 102
-
-Run `cloud_details(, "mcp")` for more info
+Run `cloud_details(, "MBNMAtime")` for more info
 
 </details>
 
@@ -119,382 +195,249 @@ Run `cloud_details(, "mcp")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      ── Failure (helper-runs.R:325:7): good_poisson:
-          y ~ 1 + ar(1), ~1 + x + ar(2, 1 + x + I(x^3)) ──
-      stringr::str_starts(error_message, expected_error_poisson) is not TRUE
+        1 
+      [ FAIL 2 | WARN 0 | SKIP 13 | PASS 186 ]
       
-      `actual`:   FALSE
-      `expected`: TRUE 
-      Backtrace:
-          ▆
-       1. └─mcp:::test_runs(model, ...) at tests/testthat/helper-runs.R:325:6
-       2.   └─mcp:::test_pp_eval(fit) at tests/testthat/helper-runs.R:113:6
-       3.     └─testthat::expect_true(stringr::str_starts(error_message, expected_error_poisson)) at tests/testthat/helper-runs.R:293:6
+      ══ Skipped tests ═══════════════════════════════════════════════════════════════
+      • On CRAN (13)
       
-      [ FAIL 7 | WARN 1 | SKIP 6 | PASS 3619 ]
+      ══ Failed tests ════════════════════════════════════════════════════════════════
+      ── Failure (test_plot.functions.R:350:3): timeplot functions correctly ─────────
+      `timeplot(painnet, plotby = "rel")` produced warnings.
+      ── Failure (test_plot.functions.R:357:3): timeplot functions correctly ─────────
+      `timeplot(classnetwork, plotby = "rel", level = "class")` produced warnings.
+      
+      [ FAIL 2 | WARN 0 | SKIP 13 | PASS 186 ]
       Error: Test failures
       Execution halted
     ```
 
-# nomisr
+## In both
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘gemtc’
+    ```
+
+# modeldb
 
 <details>
 
-* Version: 0.4.4
-* GitHub: https://github.com/ropensci/nomisr
-* Source code: https://github.com/cran/nomisr
-* Date/Publication: 2021-01-23 17:20:02 UTC
-* Number of recursive dependencies: 87
+* Version: 0.2.2
+* GitHub: https://github.com/tidymodels/modeldb
+* Source code: https://github.com/cran/modeldb
+* Date/Publication: 2020-02-10 20:50:07 UTC
+* Number of recursive dependencies: 93
 
-Run `cloud_details(, "nomisr")` for more info
+Run `cloud_details(, "modeldb")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking re-building of vignette outputs ... WARNING
+*   checking tests ... ERROR
     ```
-    Error(s) in re-building vignettes:
-      ...
-    --- re-building ‘Introduction-to-work-and-health-nomis-indicators.Rmd’ using rmarkdown
-    Quitting from lines 194-365 (Introduction-to-work-and-health-nomis-indicators.Rmd) 
-    Error: processing vignette 'Introduction-to-work-and-health-nomis-indicators.Rmd' failed with diagnostics:
-    `desc()` must be called with exactly one argument.
-    --- failed re-building ‘Introduction-to-work-and-health-nomis-indicators.Rmd’
-    
-    --- re-building ‘introduction.Rmd’ using rmarkdown
-    --- finished re-building ‘introduction.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘Introduction-to-work-and-health-nomis-indicators.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
+      Running ‘testthat.R’
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      
+      > library(modeldb)
+      > 
+      > test_check("modeldb")
+      [ FAIL 2 | WARN 1 | SKIP 0 | PASS 17 ]
+      
+      ══ Failed tests ════════════════════════════════════════════════════════════════
+      ── Failure (test_kmeans.R:11:3): Not specifying variables works ────────────────
+      `select(mtcars, wt, mpg) %>% simple_kmeans_db()` produced warnings.
+      ── Failure (test_kmeans.R:23:3): Centroid argument is accepted ─────────────────
+      `simple_kmeans_db(mtcars, mpg, wt, initial_kmeans = ik)` produced warnings.
+      
+      [ FAIL 2 | WARN 1 | SKIP 0 | PASS 17 ]
+      Error: Test failures
+      Execution halted
     ```
 
-# photobiology
+# multicolor
 
 <details>
 
-* Version: 0.10.8
-* GitHub: https://github.com/aphalo/photobiology
-* Source code: https://github.com/cran/photobiology
-* Date/Publication: 2021-12-08 11:50:02 UTC
-* Number of recursive dependencies: 60
+* Version: 0.1.5
+* GitHub: https://github.com/aedobbyn/multicolor
+* Source code: https://github.com/cran/multicolor
+* Date/Publication: 2021-11-04 16:50:02 UTC
+* Number of recursive dependencies: 67
 
-Run `cloud_details(, "photobiology")` for more info
+Run `cloud_details(, "multicolor")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking examples ... ERROR
+*   checking tests ... ERROR
     ```
-    Running examples in ‘photobiology-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: A.illuminant.spct
-    > ### Title: CIE A illuminant data
-    > ### Aliases: A.illuminant.spct
-    > ### Keywords: datasets
-    > 
-    > ### ** Examples
-    > 
-    > A.illuminant.spct
-    Object: source_spct [97 x 2]
-    Wavelength range 300 to 780 nm, step 5 nm 
-    Label: CIE A standard illuminant, normalized to one at 560 nm 
-    Time unit 1s
-    Spectral data normalized to 1 at 560 nm 
-    
-    Error: 'trunc_mat' is not an exported object from 'namespace:dplyr'
-    Execution halted
-    ```
-
-*   checking dependencies in R code ... WARNING
-    ```
-    Missing or unexported object: ‘dplyr::trunc_mat’
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘userguide-1-radiation.Rmd’ using rmarkdown
-    News at https://www.r4photobiology.info/
-    
-    Attaching package: 'lubridate'
-    
-    The following objects are masked from 'package:base':
-    
-        date, intersect, setdiff, union
-    
-    ...
-    
-        date, intersect, setdiff, union
-    
-    --- finished re-building ‘userguide-2-astronomy.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘userguide-1-radiation.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-# photobiologyInOut
-
-<details>
-
-* Version: 0.4.23
-* GitHub: https://github.com/aphalo/photobiologyinout
-* Source code: https://github.com/cran/photobiologyInOut
-* Date/Publication: 2021-10-11 04:10:01 UTC
-* Number of recursive dependencies: 117
-
-Run `cloud_details(, "photobiologyInOut")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘photobiologyInOut-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: colorSpec2mspct
-    > ### Title: Convert 'colorSpec::colorSpec' objects
-    > ### Aliases: colorSpec2mspct as.source_spct.colorSpec
-    > ###   as.source_mspct.colorSpec as.response_spct.colorSpec
-    > ###   as.response_mspct.colorSpec as.filter_spct.colorSpec
-    > ###   as.filter_mspct.colorSpec as.reflector_spct.colorSpec
-    > ###   as.reflector_mspct.colorSpec as.chroma_mspct.colorSpec colorSpec2spct
-    ...
-    The following object is masked from ‘package:photobiology’:
-    
-        normalize
-    
-    Object: source_spct [93 x 2]
-    Wavelength range 320 to 780 nm, step 5 nm 
-    Time unit 1s
-    
-    Error: 'trunc_mat' is not an exported object from 'namespace:dplyr'
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘user-guide.Rmd’ using rmarkdown
-    News at https://www.r4photobiology.info/
-    
-    Attaching package: 'lubridate'
-    
-    The following objects are masked from 'package:base':
-    
-        date, intersect, setdiff, union
-    
-    ...
-    Quitting from lines 525-530 (user-guide.Rmd) 
-    Error: processing vignette 'user-guide.Rmd' failed with diagnostics:
-    'trunc_mat' is not an exported object from 'namespace:dplyr'
-    --- failed re-building ‘user-guide.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘user-guide.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
+      Running ‘testthat.R’
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      Colors cannot be applied in this environment. Please use another application, such as RStudio or a color-enabled terminal.
+      > 
+      > test_check("multicolor")
+      [ FAIL 1 | WARN 1 | SKIP 1 | PASS 29 ]
+      
+      ══ Skipped tests ═══════════════════════════════════════════════════════════════
+      • use_color() is not TRUE (1)
+      
+      ══ Failed tests ════════════════════════════════════════════════════════════════
+      ── Failure (test-multicolor.R:103:3): colors(), including grays, rainbow, and rbg work ──
+      `suppressMessages(...)` produced warnings.
+      
+      [ FAIL 1 | WARN 1 | SKIP 1 | PASS 29 ]
+      Error: Test failures
+      Execution halted
     ```
 
 ## In both
 
 *   checking dependencies in R code ... NOTE
     ```
-    Namespace in Imports field not imported from: ‘lazyeval’
+    Namespace in Imports field not imported from: ‘cowsay’
       All declared Imports should be used.
     ```
 
-# prider
+# parsnip
 
 <details>
 
-* Version: 1.0.2
-* GitHub: NA
-* Source code: https://github.com/cran/prider
-* Date/Publication: 2021-09-13 07:30:02 UTC
-* Number of recursive dependencies: 29
+* Version: 0.2.1
+* GitHub: https://github.com/tidymodels/parsnip
+* Source code: https://github.com/cran/parsnip
+* Date/Publication: 2022-03-17 11:40:02 UTC
+* Number of recursive dependencies: 132
 
-Run `cloud_details(, "prider")` for more info
+Run `cloud_details(, "parsnip")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking examples ... ERROR
+*   checking Rd files ... WARNING
     ```
-    Running examples in ‘prider-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: prider
-    > ### Title: Prider
-    > ### Aliases: prider print.prider plot.prider
-    > 
-    > ### ** Examples
-    > 
-    > test_fasta <- system.file('extdata', 'test.fasta', package = 'prider')
+    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
+    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
+    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
+    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
+    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
     ...
-     18.   └─base::eval.parent(substitute(eval(quote(expr), envir)))
-     19.     └─base::eval(expr, p)
-     20.       └─base::eval(expr, p)
-     21.         └─base::eval(...)
-     22.           └─base::eval(...)
-     23.             ├─dplyr:::fix_call(...)
-     24.             │ └─base::withCallingHandlers(...)
-     25.             └─vctrs::vec_assert(order_by, size = n, arg = "order_by")
-     26.               └─rlang::abort(...)
-    Execution halted
+    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
+    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
+    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
+    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
+    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
     ```
 
-# saeSim
-
-<details>
-
-* Version: 0.10.0
-* GitHub: https://github.com/wahani/saeSim
-* Source code: https://github.com/cran/saeSim
-* Date/Publication: 2019-03-28 12:50:03 UTC
-* Number of recursive dependencies: 94
-
-Run `cloud_details(, "saeSim")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
+*   checking for unstated dependencies in examples ... WARNING
     ```
-    Running examples in ‘saeSim-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: agg_all
-    > ### Title: Aggregation function
-    > ### Aliases: agg_all
-    > 
-    > ### ** Examples
-    > 
-    > sim_base() %>% sim_gen_x() %>% sim_gen_e() %>% sim_agg(agg_all())
+    Warning: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
+    Warning: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
+    Warning: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
+    Warning: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
+    Warning: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
     ...
-    Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
-    Warning: `group_by_()` was deprecated in dplyr 0.7.0.
-    Please use `group_by()` instead.
-    See vignette('programming') for more help
-    This warning is displayed once every 8 hours.
-    Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
-    Error in trunc_mat(dat, n = 6, width = NULL) : 
-      could not find function "trunc_mat"
-    Calls: <Anonymous> -> <Anonymous> -> print
-    Execution halted
+    Warning: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
+    Warning: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
+    Warning: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
+    Warning: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
+    Warning: Each row in `x` can match at most 1 row in `y`.
+    ℹ Row 1 of `x` matches multiple rows.
     ```
 
-*   checking tests ... ERROR
+## In both
+
+*   checking Rd cross-references ... NOTE
     ```
-      Running ‘test-all.R’
-    Running the tests in ‘tests/test-all.R’ failed.
-    Last 13 lines of output:
-      
-      [ FAIL 1 | WARN 6 | SKIP 0 | PASS 133 ]
-      
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Error (test-sim_setup.R:14:3): methods equal ────────────────────────────────
-      Error in `trunc_mat(dat, n = 6, width = NULL)`: could not find function "trunc_mat"
-      Backtrace:
-          ▆
-       1. ├─methods::show(setup) at test-sim_setup.R:14:2
-       2. └─saeSim::show(setup)
-       3.   └─base::print(trunc_mat(dat, n = 6, width = NULL))
-      
-      [ FAIL 1 | WARN 6 | SKIP 0 | PASS 133 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-      ...
-    --- re-building ‘Introduction.Rmd’ using rmarkdown
-    Quitting from lines 31-39 (Introduction.Rmd) 
-    Error: processing vignette 'Introduction.Rmd' failed with diagnostics:
-    could not find function "trunc_mat"
-    --- failed re-building ‘Introduction.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘Introduction.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    show,sim_setup: no visible global function definition for ‘trunc_mat’
-    Undefined global functions or variables:
-      trunc_mat
-    ```
-
-# salem
-
-<details>
-
-* Version: 0.2.0
-* GitHub: NA
-* Source code: https://github.com/cran/salem
-* Date/Publication: 2020-11-05 16:40:05 UTC
-* Number of recursive dependencies: 62
-
-Run `cloud_details(, "salem")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-      ...
-    --- re-building ‘introduction.Rmd’ using rmarkdown
-    --- finished re-building ‘introduction.Rmd’
-    
-    --- re-building ‘recreating_analyses.Rmd’ using rmarkdown
-    Joining, by = "Month"
-    Quitting from lines 348-367 (recreating_analyses.Rmd) 
-    Error: processing vignette 'recreating_analyses.Rmd' failed with diagnostics:
-    Can't convert NULL to a symbol.
-    --- failed re-building ‘recreating_analyses.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘recreating_analyses.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
+    Packages unavailable to check Rd xrefs: ‘rules’, ‘baguette’, ‘ipred’, ‘dbarts’, ‘mboost’, ‘party’, ‘mda’, ‘sda’, ‘sparsediscrim’, ‘klaR’, ‘brulee’, ‘glmnet’, ‘rstan’, ‘rstanarm’, ‘naivebayes’, ‘plsmod’, ‘mixOmics’, ‘pscl’, ‘workflows’, ‘randomForest’, ‘xrf’, ‘flexsurv’, ‘broom’
     ```
 
 # sfnetworks
 
 <details>
 
-* Version: 0.5.4
+* Version: 0.5.5
 * GitHub: https://github.com/luukvdmeer/sfnetworks
 * Source code: https://github.com/cran/sfnetworks
-* Date/Publication: 2021-12-17 09:00:02 UTC
-* Number of recursive dependencies: 139
+* Date/Publication: 2022-02-16 18:50:02 UTC
+* Number of recursive dependencies: 142
 
 Run `cloud_details(, "sfnetworks")` for more info
 
 </details>
 
 ## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘sfnetworks-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: st_network_join
+    > ### Title: Join two spatial networks based on equality of node geometries
+    > ### Aliases: st_network_join
+    > 
+    > ### ** Examples
+    > 
+    > library(sf, quietly = TRUE)
+    ...
+    > edge1 = st_sfc(st_linestring(c(node1, node2)))
+    > edge2 = st_sfc(st_linestring(c(node2, node3)))
+    > edge3 = st_sfc(st_linestring(c(node3, node4)))
+    > 
+    > net1 = as_sfnetwork(c(edge1, edge2))
+    > net2 = as_sfnetwork(c(edge2, edge3))
+    > 
+    > joined = st_network_join(net1, net2)
+    Error: This type is not supported by `vec_order()`.
+    Execution halted
+    ```
+
+*   checking tests ... ERROR
+    ```
+      Running ‘testthat.R’
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+        4. ├─sfnetworks::st_network_join(net, rdm_net)
+        5. └─sfnetworks:::st_network_join.sfnetwork(net, rdm_net)
+        6.   └─sfnetworks:::spatial_join_network(x, y, ...)
+        7.     └─tidygraph::graph_join(...)
+        8.       ├─dplyr::full_join(...)
+        9.       └─dplyr:::full_join.data.frame(...)
+       10.         └─dplyr:::join_mutate(...)
+       11.           └─dplyr:::join_rows(...)
+       12.             └─dplyr:::dplyr_locate_matches(...)
+       13.               ├─base::withCallingHandlers(...)
+       14.               └─vctrs::vec_locate_matches(...)
+      
+      [ FAIL 1 | WARN 0 | SKIP 0 | PASS 241 ]
+      Error: Test failures
+      Execution halted
+    ```
 
 *   checking re-building of vignette outputs ... WARNING
     ```
@@ -509,72 +452,104 @@ Run `cloud_details(, "sfnetworks")` for more info
         filter
     
     ...
-    Quitting from lines 190-198 (sfn05_morphers.Rmd) 
-    Error: processing vignette 'sfn05_morphers.Rmd' failed with diagnostics:
-    [1m[22m`desc()` must be called with exactly one argument.
-    --- failed re-building ‘sfn05_morphers.Rmd’
+    
+        union
+    
+    --- finished re-building ‘sfn05_morphers.Rmd’
     
     SUMMARY: processing the following file failed:
-      ‘sfn05_morphers.Rmd’
+      ‘sfn03_join_filter.Rmd’
     
     Error: Vignette re-building failed.
     Execution halted
     ```
 
-# telemac
+# stars
 
 <details>
 
-* Version: 0.1.0
-* GitHub: https://github.com/tpilz/telemac
-* Source code: https://github.com/cran/telemac
-* Date/Publication: 2021-02-19 10:10:05 UTC
-* Number of recursive dependencies: 123
+* Version: 0.5-5
+* GitHub: https://github.com/r-spatial/stars
+* Source code: https://github.com/cran/stars
+* Date/Publication: 2021-12-19 03:20:02 UTC
+* Number of recursive dependencies: 148
 
-Run `cloud_details(, "telemac")` for more info
+Run `cloud_details(, "stars")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking re-building of vignette outputs ... WARNING
+*   checking tests ... ERROR
     ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘t2d_basics.Rmd’ using rmarkdown
-    Loading required package: sp
-    Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1; sf_use_s2() is TRUE
-    ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
-    ✔ ggplot2 3.3.5          ✔ purrr   0.3.4     
-    ✔ tibble  3.1.6          ✔ dplyr   1.0.7.9000
-    ✔ tidyr   1.2.0          ✔ stringr 1.4.0     
-    ✔ readr   2.1.2          ✔ forcats 0.5.1     
-    ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+      Running ‘aggregate.R’
+      Comparing ‘aggregate.Rout’ to ‘aggregate.Rout.save’ ...4c4
+    < Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1; sf_use_s2() is TRUE
+    ---
+    > Linking to GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1
+    57c57
+    < file1d84474128c6.tif    33  199.25  365.5 365.5  531.75  698
+    ---
+    > file46ef83309cd.tif    33  199.25  365.5 365.5  531.75  698
+      Running ‘area.R’
     ...
-    ✖ dplyr::filter() masks stats::filter()
-    ✖ dplyr::lag()    masks stats::lag()
-    Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1; sf_use_s2() is TRUE
-    --- finished re-building ‘t2d_rainfall_runoff.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘t2d_basics.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
+      warn\[1\] does not match "Non-canonical axis order found, attempting to correct.".
+      Actual value: "Each row in `x` can match at most 1 row in `y`\.\\nℹ Row 2 of `x` matches multiple rows\."
+      Backtrace:
+          ▆
+       1. └─testthat::expect_match(warn[1], "Non-canonical axis order found, attempting to correct.") at test_ncdf.R:123:2
+       2.   └─testthat:::expect_match_(...)
+      
+      [ FAIL 2 | WARN 42 | SKIP 0 | PASS 98 ]
+      Error: Test failures
+      Execution halted
     ```
 
 ## In both
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  8.3Mb
+      installed size is  8.8Mb
       sub-directories of 1Mb or more:
-        doc       3.3Mb
-        libs      3.4Mb
-        telemac   1.0Mb
+        doc   2.3Mb
+        nc    4.5Mb
     ```
 
-*   checking LazyData ... NOTE
+# Tplyr
+
+<details>
+
+* Version: 0.4.4
+* GitHub: https://github.com/atorus-research/Tplyr
+* Source code: https://github.com/cran/Tplyr
+* Date/Publication: 2022-01-27 16:00:02 UTC
+* Number of recursive dependencies: 117
+
+Run `cloud_details(, "Tplyr")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking tests ... ERROR
     ```
-      'LazyData' is specified without a 'data' directory
+      Running ‘testthat.R’
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      
+      i Use `spec()` to retrieve the full column specification for this data.
+      i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+      [ FAIL 1 | WARN 0 | SKIP 52 | PASS 554 ]
+      
+      ══ Skipped tests ═══════════════════════════════════════════════════════════════
+      • On CRAN (52)
+      
+      ══ Failed tests ════════════════════════════════════════════════════════════════
+      ── Failure (test-count.R:197:3): Count layers are summarized without errors and warnings ──
+      `build(t19)` produced warnings.
+      
+      [ FAIL 1 | WARN 0 | SKIP 52 | PASS 554 ]
+      Error: Test failures
+      Execution halted
     ```
 
