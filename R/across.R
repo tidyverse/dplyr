@@ -389,7 +389,7 @@ new_dplyr_quosure <- function(quo, ...) {
 }
 
 dplyr_quosures <- function(...) {
-  quosures <- enquos(..., .ignore_empty = "all")
+  quosures <- quos(..., .ignore_empty = "all")
   names_given <- names2(quosures)
 
   for (i in seq_along(quosures)) {
