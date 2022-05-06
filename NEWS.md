@@ -1,5 +1,11 @@
 # dplyr (development version)
 
+* `between()` has been rewritten to utilize vctrs. This means that it is no
+  longer restricted to just numeric and date-time vectors. Additionally, `left`
+  and `right` are no longer required to be scalars, they can now also be vectors
+  with the same length as `x`. Finally, `left` and `right` are now cast to the
+  type of `x` before the comparison is made (#6183, #6260).
+
 * Joins have undergone a complete overhaul. The purpose of this overhaul is to
   enable more flexible join operations, while also providing tools to perform
   quality control checks directly in the join call. Many of these changes are
