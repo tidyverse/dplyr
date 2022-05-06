@@ -389,6 +389,8 @@ new_dplyr_quosure <- function(quo, ...) {
 }
 
 dplyr_quosures <- function(...) {
+  # We're using quos() instead of enquos() here for speed, because we're not defusing named arguments --
+  # only the ellipsis is converted to quosures, there are no further arguments.
   quosures <- quos(..., .ignore_empty = "all")
   names_given <- names2(quosures)
 
