@@ -1,26 +1,5 @@
 #include "dplyr.h"
 
-SEXP dplyr_between(SEXP x, SEXP s_left, SEXP s_right) {
-  R_xlen_t n = XLENGTH(x);
-
-  double left = REAL(s_left)[0], right = REAL(s_right)[0];
-  SEXP out = PROTECT(Rf_allocVector(LGLSXP, n));
-
-  int* p_out = LOGICAL(out);
-  if (R_IsNA(left) || R_IsNA(right)) {
-    for (R_xlen_t i=0; i<XLENGTH(out); i++, ++p_out) *p_out = NA_LOGICAL;
-
-  } else {
-    double* p_x = REAL(x);
-    for (R_xlen_t i = 0; i < n; ++i, ++p_x, ++p_out) {
-      *p_out = R_IsNA(*p_x) ? NA_LOGICAL : (*p_x >= left) && (*p_x <= right);
-    }
-  }
-
-  UNPROTECT(1);
-  return out;
-}
-
 SEXP dplyr_cumall(SEXP x) {
   R_xlen_t n = XLENGTH(x);
   SEXP out = PROTECT(Rf_allocVector(LGLSXP, n));
