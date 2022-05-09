@@ -96,7 +96,6 @@ inline bool vec_is_list(SEXP x) {
 
 SEXP dplyr_expand_groups(SEXP old_groups, SEXP positions, SEXP s_nr);
 SEXP dplyr_filter_update_rows(SEXP s_n_rows, SEXP group_indices, SEXP keep, SEXP new_rows_sizes);
-SEXP dplyr_between(SEXP x, SEXP s_left, SEXP s_right);
 SEXP dplyr_cumall(SEXP x);
 SEXP dplyr_cumany(SEXP x);
 SEXP dplyr_cummean(SEXP x);

@@ -243,70 +243,6 @@ Run `cloud_details(, "NA")` for more info
 
 
 ```
-# CausalImpact
-
-<details>
-
-* Version: 1.2.7
-* GitHub: NA
-* Source code: https://github.com/cran/CausalImpact
-* Date/Publication: 2021-06-07 06:40:02 UTC
-* Number of recursive dependencies: 72
-
-Run `cloud_details(, "CausalImpact")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-* using log directory ‘/tmp/workdir/CausalImpact/new/CausalImpact.Rcheck’
-* using R version 4.1.1 (2021-08-10)
-* using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using option ‘--no-manual’
-* checking for file ‘CausalImpact/DESCRIPTION’ ... OK
-* this is package ‘CausalImpact’ version ‘1.2.7’
-* checking package namespace information ... OK
-* checking package dependencies ... ERROR
-Packages required but not available: 'bsts', 'Boom'
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
-* DONE
-Status: 1 ERROR
-
-
-
-
-
-```
-### CRAN
-
-```
-* using log directory ‘/tmp/workdir/CausalImpact/old/CausalImpact.Rcheck’
-* using R version 4.1.1 (2021-08-10)
-* using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using option ‘--no-manual’
-* checking for file ‘CausalImpact/DESCRIPTION’ ... OK
-* this is package ‘CausalImpact’ version ‘1.2.7’
-* checking package namespace information ... OK
-* checking package dependencies ... ERROR
-Packages required but not available: 'bsts', 'Boom'
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
-* DONE
-Status: 1 ERROR
-
-
-
-
-
-```
 # NA
 
 <details>
@@ -584,6 +520,68 @@ Run `cloud_details(, "NA")` for more info
 
 
 
+
+
+```
+# diproperm
+
+<details>
+
+* Version: 0.2.0
+* GitHub: NA
+* Source code: https://github.com/cran/diproperm
+* Date/Publication: 2021-05-14 20:02:12 UTC
+* Number of recursive dependencies: 82
+
+Run `cloud_details(, "diproperm")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘diproperm’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/diproperm/new/diproperm.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘diproperm’ ...
+** package ‘diproperm’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘rprojroot’
+Error: unable to load R code in package ‘diproperm’
+Execution halted
+ERROR: lazy loading failed for package ‘diproperm’
+* removing ‘/tmp/workdir/diproperm/new/diproperm.Rcheck/diproperm’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘diproperm’ ...
+** package ‘diproperm’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘rprojroot’
+Error: unable to load R code in package ‘diproperm’
+Execution halted
+ERROR: lazy loading failed for package ‘diproperm’
+* removing ‘/tmp/workdir/diproperm/old/diproperm.Rcheck/diproperm’
 
 
 ```
@@ -999,6 +997,72 @@ Status: 1 ERROR
 
 
 ```
+# MarketMatching
+
+<details>
+
+* Version: 1.2.0
+* GitHub: NA
+* Source code: https://github.com/cran/MarketMatching
+* Date/Publication: 2021-01-08 20:10:02 UTC
+* Number of recursive dependencies: 71
+
+Run `cloud_details(, "MarketMatching")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/MarketMatching/new/MarketMatching.Rcheck’
+* using R version 4.1.1 (2021-08-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using option ‘--no-manual’
+* checking for file ‘MarketMatching/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘MarketMatching’ version ‘1.2.0’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available: 'CausalImpact', 'bsts', 'Boom'
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/MarketMatching/old/MarketMatching.Rcheck’
+* using R version 4.1.1 (2021-08-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using option ‘--no-manual’
+* checking for file ‘MarketMatching/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘MarketMatching’ version ‘1.2.0’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available: 'CausalImpact', 'bsts', 'Boom'
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+```
 # NA
 
 <details>
@@ -1031,6 +1095,128 @@ Run `cloud_details(, "NA")` for more info
 
 
 
+
+
+```
+# psychReport
+
+<details>
+
+* Version: 3.0.1
+* GitHub: NA
+* Source code: https://github.com/cran/psychReport
+* Date/Publication: 2021-05-06 13:00:02 UTC
+* Number of recursive dependencies: 83
+
+Run `cloud_details(, "psychReport")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘psychReport’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/psychReport/new/psychReport.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘psychReport’ ...
+** package ‘psychReport’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘munsell’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘psychReport’
+* removing ‘/tmp/workdir/psychReport/new/psychReport.Rcheck/psychReport’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘psychReport’ ...
+** package ‘psychReport’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘munsell’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘psychReport’
+* removing ‘/tmp/workdir/psychReport/old/psychReport.Rcheck/psychReport’
+
+
+```
+# TestDimorph
+
+<details>
+
+* Version: 0.4.1
+* GitHub: NA
+* Source code: https://github.com/cran/TestDimorph
+* Date/Publication: 2021-02-23 14:20:03 UTC
+* Number of recursive dependencies: 113
+
+Run `cloud_details(, "TestDimorph")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘TestDimorph’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/TestDimorph/new/TestDimorph.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘TestDimorph’ ...
+** package ‘TestDimorph’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘timeDate’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘TestDimorph’
+* removing ‘/tmp/workdir/TestDimorph/new/TestDimorph.Rcheck/TestDimorph’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘TestDimorph’ ...
+** package ‘TestDimorph’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘timeDate’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘TestDimorph’
+* removing ‘/tmp/workdir/TestDimorph/old/TestDimorph.Rcheck/TestDimorph’
 
 
 ```

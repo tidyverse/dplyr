@@ -1,50 +1,51 @@
 # Revdeps
 
-## Failed to check (27)
+## Failed to check (30)
 
-|package      |version |error |warning |note |
-|:------------|:-------|:-----|:-------|:----|
-|NA           |?       |      |        |     |
-|NA           |?       |      |        |     |
-|NA           |?       |      |        |     |
-|NA           |?       |      |        |     |
-|NA           |?       |      |        |     |
-|NA           |?       |      |        |     |
-|NA           |?       |      |        |     |
-|CausalImpact |?       |      |        |     |
-|NA           |?       |      |        |     |
-|NA           |?       |      |        |     |
-|NA           |?       |      |        |     |
-|NA           |?       |      |        |     |
-|NA           |?       |      |        |     |
-|NA           |?       |      |        |     |
-|NA           |?       |      |        |     |
-|NA           |?       |      |        |     |
-|NA           |?       |      |        |     |
-|elbird       |0.2.3   |1     |        |     |
-|NA           |?       |      |        |     |
-|NA           |?       |      |        |     |
-|NA           |?       |      |        |     |
-|NA           |?       |      |        |     |
-|NA           |?       |      |        |     |
-|loon.ggplot  |?       |      |        |     |
-|loon.shiny   |?       |      |        |     |
-|NA           |?       |      |        |     |
-|vivid        |?       |      |        |     |
+|package        |version |error |warning |note |
+|:--------------|:-------|:-----|:-------|:----|
+|NA             |?       |      |        |     |
+|NA             |?       |      |        |     |
+|NA             |?       |      |        |     |
+|NA             |?       |      |        |     |
+|NA             |?       |      |        |     |
+|NA             |?       |      |        |     |
+|NA             |?       |      |        |     |
+|NA             |?       |      |        |     |
+|NA             |?       |      |        |     |
+|NA             |?       |      |        |     |
+|NA             |?       |      |        |     |
+|NA             |?       |      |        |     |
+|NA             |?       |      |        |     |
+|NA             |?       |      |        |     |
+|NA             |?       |      |        |     |
+|diproperm      |0.2.0   |1     |        |     |
+|NA             |?       |      |        |     |
+|elbird         |0.2.3   |1     |        |     |
+|NA             |?       |      |        |     |
+|NA             |?       |      |        |     |
+|NA             |?       |      |        |     |
+|NA             |?       |      |        |     |
+|NA             |?       |      |        |     |
+|loon.ggplot    |?       |      |        |     |
+|loon.shiny     |?       |      |        |     |
+|MarketMatching |?       |      |        |     |
+|NA             |?       |      |        |     |
+|psychReport    |3.0.1   |1     |        |     |
+|TestDimorph    |0.4.1   |1     |        |     |
+|vivid          |?       |      |        |     |
 
-## New problems (11)
+## New problems (9)
 
-|package                              |version |error  |warning |note |
-|:------------------------------------|:-------|:------|:-------|:----|
-|[comperes](problems.md#comperes)     |0.2.5   |__+1__ |        |     |
-|[dodgr](problems.md#dodgr)           |0.2.13  |__+1__ |        |2    |
-|[exuber](problems.md#exuber)         |0.4.2   |__+1__ |        |     |
-|[lans2r](problems.md#lans2r)         |1.1.0   |__+1__ |        |1    |
-|[MBNMAtime](problems.md#mbnmatime)   |0.2.1   |__+1__ |        |1    |
-|[modeldb](problems.md#modeldb)       |0.2.2   |__+1__ |        |     |
-|[multicolor](problems.md#multicolor) |0.1.5   |__+1__ |        |1    |
-|[parsnip](problems.md#parsnip)       |0.2.1   |       |__+2__  |1    |
-|[sfnetworks](problems.md#sfnetworks) |0.5.5   |__+2__ |__+1__  |     |
-|[stars](problems.md#stars)           |0.5-5   |__+1__ |        |1    |
-|[Tplyr](problems.md#tplyr)           |0.4.4   |__+1__ |        |     |
+|package                            |version |error    |warning |note |
+|:----------------------------------|:-------|:--------|:-------|:----|
+|[brolgar](problems.md#brolgar)     |0.1.2   |__+1__   |        |     |
+|[cubble](problems.md#cubble)       |0.1.0   |         |__+1__  |     |
+|[gmgm](problems.md#gmgm)           |1.1.0   |__+1__   |        |     |
+|[helda](problems.md#helda)         |1.1.5   |__+1__   |        |1    |
+|[hgnc](problems.md#hgnc)           |0.1.0   |__+1__   |        |     |
+|[imfr](problems.md#imfr)           |0.1.9.1 |1 __+1__ |        |     |
+|[inti](problems.md#inti)           |0.5.5   |         |__+1__  |     |
+|[presenter](problems.md#presenter) |0.1.1   |         |__+1__  |1    |
+|[respR](problems.md#respr)         |2.0.2   |__+2__   |        |     |
 

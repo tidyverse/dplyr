@@ -1,106 +1,14 @@
-# comperes
+# brolgar
 
 <details>
 
-* Version: 0.2.5
-* GitHub: https://github.com/echasnovski/comperes
-* Source code: https://github.com/cran/comperes
-* Date/Publication: 2020-11-23 21:20:02 UTC
-* Number of recursive dependencies: 62
+* Version: 0.1.2
+* GitHub: https://github.com/njtierney/brolgar
+* Source code: https://github.com/cran/brolgar
+* Date/Publication: 2021-08-25 12:50:18 UTC
+* Number of recursive dependencies: 113
 
-Run `cloud_details(, "comperes")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      > library(comperes)
-      > 
-      > test_check("comperes")
-      [ FAIL 1 | WARN 16 | SKIP 5 | PASS 256 ]
-      
-      ══ Skipped tests ═══════════════════════════════════════════════════════════════
-      • On CRAN (5)
-      
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Failure (test-head-to-head.R:168:3): h2h_mat allows multiple Head-to-Head functions ──
-      `h2h_mat(cr_data)` produced warnings.
-      
-      [ FAIL 1 | WARN 16 | SKIP 5 | PASS 256 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-# dodgr
-
-<details>
-
-* Version: 0.2.13
-* GitHub: https://github.com/ATFutures/dodgr
-* Source code: https://github.com/cran/dodgr
-* Date/Publication: 2022-04-01 23:50:02 UTC
-* Number of recursive dependencies: 107
-
-Run `cloud_details(, "dodgr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘sc-conversion-fns.R’
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      > 
-      > test_check("dodgr")
-      [ FAIL 1 | WARN 0 | SKIP 10 | PASS 201 ]
-      
-      ══ Skipped tests ═══════════════════════════════════════════════════════════════
-      • !test_all is TRUE (1)
-      • On CRAN (9)
-      
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Failure (test-iso.R:16:15): isodists ────────────────────────────────────────
-      `net <- weight_streetnet(hsc, wt_profile = "bicycle")` produced warnings.
-      
-      [ FAIL 1 | WARN 0 | SKIP 10 | PASS 201 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is 31.1Mb
-      sub-directories of 1Mb or more:
-        doc    5.2Mb
-        libs  25.3Mb
-    ```
-
-*   checking for GNU extensions in Makefiles ... NOTE
-    ```
-    GNU make is a SystemRequirements.
-    ```
-
-# exuber
-
-<details>
-
-* Version: 0.4.2
-* GitHub: https://github.com/kvasilopoulos/exuber
-* Source code: https://github.com/cran/exuber
-* Date/Publication: 2020-12-18 07:30:19 UTC
-* Number of recursive dependencies: 98
-
-Run `cloud_details(, "exuber")` for more info
+Run `cloud_details(, "brolgar")` for more info
 
 </details>
 
@@ -112,124 +20,75 @@ Run `cloud_details(, "exuber")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-       32. │           └─base withOneRestart(expr, restarts[[1L]])
-       33. │             └─base doWithOneRestart(return(expr), restart)
-       34. └─dplyr `<fn>`(`<vctrs___>`)
-       35.   └─dplyr:::rethrow_warning_join_matches_multiple(cnd)
-       36.     └─dplyr:::warn_join(...)
-       37.       └─dplyr:::warn_dplyr(...)
-       38.         └─rlang::warn(...)
-       39.           └─base::warning(cnd)
-       40.             └─base::withRestarts(...)
-       41.               └─base withOneRestart(expr, restarts[[1L]])
-       42.                 └─base doWithOneRestart(return(expr), restart)
+       20.           └─vctrs:::stop_lossy_cast(...)
+       21.             └─vctrs::stop_incompatible_cast(...)
+       22.               └─vctrs::stop_incompatible_type(...)
+       23.                 └─vctrs:::stop_incompatible(...)
+       24.                   └─vctrs:::stop_vctrs(...)
+       25.                     └─rlang::abort(message, class = c(class, "vctrs_error"), ..., call = vctrs_error_call(call))
       
-      [ FAIL 42 | WARN 50 | SKIP 4 | PASS 155 ]
+      [ FAIL 1 | WARN 0 | SKIP 5 | PASS 270 ]
+      Deleting unused snapshots:
+      • facet-sample/gg-facet-sample-alt.svg
+      • facet-sample/gg-facet-sample.svg
+      • facet-strata/gg-facet-strata-along.svg
+      • facet-strata/gg-facet-strata.svg
       Error: Test failures
       Execution halted
     ```
 
-# lans2r
+# cubble
+
+<details>
+
+* Version: 0.1.0
+* GitHub: https://github.com/huizezhang-sherry/cubble
+* Source code: https://github.com/cran/cubble
+* Date/Publication: 2022-04-22 09:20:05 UTC
+* Number of recursive dependencies: 144
+
+Run `cloud_details(, "cubble")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error(s) in re-building vignettes:
+    --- re-building ‘aggregation.Rmd’ using rmarkdown
+    `summarise()` has grouped output by 'id'. You can override using the `.groups`
+    argument.
+    `summarise()` has grouped output by 'cluster', 'id'. You can override using the
+    `.groups` argument.
+    `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
+    Adding missing grouping variables: `id`
+    Warning: The concaveman package is required for geom_mark_hull
+    --- finished re-building ‘aggregation.Rmd’
+    ...
+    ℹ The error occurred in row 1.
+    Caused by error in `between()`:
+    ! Can't convert `left` <double> to <character>.
+    --- failed re-building ‘matching.Rmd’
+    
+    SUMMARY: processing the following files failed:
+      ‘cubble.Rmd’ ‘matching.Rmd’
+    
+    Error: Vignette re-building failed.
+    Execution halted
+    ```
+
+# gmgm
 
 <details>
 
 * Version: 1.1.0
-* GitHub: https://github.com/KopfLab/lans2r
-* Source code: https://github.com/cran/lans2r
-* Date/Publication: 2020-06-24 05:20:03 UTC
-* Number of recursive dependencies: 84
-
-Run `cloud_details(, "lans2r")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      [ FAIL 4 | WARN 5 | SKIP 0 | PASS 140 ]
-      
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Failure (test-load-data.R:24:3): test that it is possible to load multiple LANS summaries ──
-      `... <- NULL` produced warnings.
-      ── Failure (test-load-data.R:43:3): test that it is possible to load multiple LANS summaries ──
-      `... <- NULL` produced warnings.
-      ── Failure (test-load-data.R:58:3): test that it is possible to load multiple LANS summaries ──
-      `... <- NULL` produced warnings.
-      ── Failure (test-load-data.R:81:3): test that it is possible to load LANS maps ──
-      `... <- NULL` produced warnings.
-      
-      [ FAIL 4 | WARN 5 | SKIP 0 | PASS 140 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-## In both
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
-    ```
-
-# MBNMAtime
-
-<details>
-
-* Version: 0.2.1
 * GitHub: NA
-* Source code: https://github.com/cran/MBNMAtime
-* Date/Publication: 2021-09-13 15:10:02 UTC
-* Number of recursive dependencies: 107
+* Source code: https://github.com/cran/gmgm
+* Date/Publication: 2021-09-02 17:00:02 UTC
+* Number of recursive dependencies: 60
 
-Run `cloud_details(, "MBNMAtime")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        1 
-      [ FAIL 2 | WARN 0 | SKIP 13 | PASS 186 ]
-      
-      ══ Skipped tests ═══════════════════════════════════════════════════════════════
-      • On CRAN (13)
-      
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Failure (test_plot.functions.R:350:3): timeplot functions correctly ─────────
-      `timeplot(painnet, plotby = "rel")` produced warnings.
-      ── Failure (test_plot.functions.R:357:3): timeplot functions correctly ─────────
-      `timeplot(classnetwork, plotby = "rel", level = "class")` produced warnings.
-      
-      [ FAIL 2 | WARN 0 | SKIP 13 | PASS 186 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-## In both
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘gemtc’
-    ```
-
-# modeldb
-
-<details>
-
-* Version: 0.2.2
-* GitHub: https://github.com/tidymodels/modeldb
-* Source code: https://github.com/cran/modeldb
-* Date/Publication: 2020-02-10 20:50:07 UTC
-* Number of recursive dependencies: 93
-
-Run `cloud_details(, "modeldb")` for more info
+Run `cloud_details(, "gmgm")` for more info
 
 </details>
 
@@ -240,153 +99,34 @@ Run `cloud_details(, "modeldb")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+       21.         └─vctrs:::vec_cast.integer.double(...)
+       22.           └─vctrs::maybe_lossy_cast(...)
+       23.             ├─base::withRestarts(...)
+       24.             │ └─base withOneRestart(expr, restarts[[1L]])
+       25.             │   └─base doWithOneRestart(return(expr), restart)
+       26.             └─vctrs:::stop_lossy_cast(...)
+       27.               └─vctrs::stop_incompatible_cast(...)
+       28.                 └─vctrs::stop_incompatible_type(...)
+       29.                   └─vctrs:::stop_incompatible(...)
+       30.                     └─vctrs:::stop_vctrs(...)
+       31.                       └─rlang::abort(message, class = c(class, "vctrs_error"), ..., call = vctrs_error_call(call))
       
-      > library(modeldb)
-      > 
-      > test_check("modeldb")
-      [ FAIL 2 | WARN 1 | SKIP 0 | PASS 17 ]
-      
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Failure (test_kmeans.R:11:3): Not specifying variables works ────────────────
-      `select(mtcars, wt, mpg) %>% simple_kmeans_db()` produced warnings.
-      ── Failure (test_kmeans.R:23:3): Centroid argument is accepted ─────────────────
-      `simple_kmeans_db(mtcars, mpg, wt, initial_kmeans = ik)` produced warnings.
-      
-      [ FAIL 2 | WARN 1 | SKIP 0 | PASS 17 ]
+      [ FAIL 57 | WARN 0 | SKIP 0 | PASS 353 ]
       Error: Test failures
       Execution halted
     ```
 
-# multicolor
+# helda
 
 <details>
 
-* Version: 0.1.5
-* GitHub: https://github.com/aedobbyn/multicolor
-* Source code: https://github.com/cran/multicolor
-* Date/Publication: 2021-11-04 16:50:02 UTC
-* Number of recursive dependencies: 67
+* Version: 1.1.5
+* GitHub: https://github.com/Redcart/helda
+* Source code: https://github.com/cran/helda
+* Date/Publication: 2021-01-06 11:00:16 UTC
+* Number of recursive dependencies: 103
 
-Run `cloud_details(, "multicolor")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Colors cannot be applied in this environment. Please use another application, such as RStudio or a color-enabled terminal.
-      > 
-      > test_check("multicolor")
-      [ FAIL 1 | WARN 1 | SKIP 1 | PASS 29 ]
-      
-      ══ Skipped tests ═══════════════════════════════════════════════════════════════
-      • use_color() is not TRUE (1)
-      
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Failure (test-multicolor.R:103:3): colors(), including grays, rainbow, and rbg work ──
-      `suppressMessages(...)` produced warnings.
-      
-      [ FAIL 1 | WARN 1 | SKIP 1 | PASS 29 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘cowsay’
-      All declared Imports should be used.
-    ```
-
-# parsnip
-
-<details>
-
-* Version: 0.2.1
-* GitHub: https://github.com/tidymodels/parsnip
-* Source code: https://github.com/cran/parsnip
-* Date/Publication: 2022-03-17 11:40:02 UTC
-* Number of recursive dependencies: 132
-
-Run `cloud_details(, "parsnip")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking Rd files ... WARNING
-    ```
-    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ...
-    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    prepare_Rd: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ```
-
-*   checking for unstated dependencies in examples ... WARNING
-    ```
-    Warning: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    Warning: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    Warning: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    Warning: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    Warning: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ...
-    Warning: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    Warning: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    Warning: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    Warning: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    Warning: Each row in `x` can match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ```
-
-## In both
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Packages unavailable to check Rd xrefs: ‘rules’, ‘baguette’, ‘ipred’, ‘dbarts’, ‘mboost’, ‘party’, ‘mda’, ‘sda’, ‘sparsediscrim’, ‘klaR’, ‘brulee’, ‘glmnet’, ‘rstan’, ‘rstanarm’, ‘naivebayes’, ‘plsmod’, ‘mixOmics’, ‘pscl’, ‘workflows’, ‘randomForest’, ‘xrf’, ‘flexsurv’, ‘broom’
-    ```
-
-# sfnetworks
-
-<details>
-
-* Version: 0.5.5
-* GitHub: https://github.com/luukvdmeer/sfnetworks
-* Source code: https://github.com/cran/sfnetworks
-* Date/Publication: 2022-02-16 18:50:02 UTC
-* Number of recursive dependencies: 142
-
-Run `cloud_details(, "sfnetworks")` for more info
+Run `cloud_details(, "helda")` for more info
 
 </details>
 
@@ -394,161 +134,283 @@ Run `cloud_details(, "sfnetworks")` for more info
 
 *   checking examples ... ERROR
     ```
-    Running examples in ‘sfnetworks-Ex.R’ failed
+    Running examples in ‘helda-Ex.R’ failed
     The error most likely occurred in:
     
-    > ### Name: st_network_join
-    > ### Title: Join two spatial networks based on equality of node geometries
-    > ### Aliases: st_network_join
+    > ### Name: kmeans_procedure
+    > ### Title: K-means procedure
+    > ### Aliases: kmeans_procedure
+    > ### Keywords: cluster kmeans sizes
     > 
     > ### ** Examples
     > 
-    > library(sf, quietly = TRUE)
     ...
-    > edge1 = st_sfc(st_linestring(c(node1, node2)))
-    > edge2 = st_sfc(st_linestring(c(node2, node3)))
-    > edge3 = st_sfc(st_linestring(c(node3, node4)))
-    > 
-    > net1 = as_sfnetwork(c(edge1, edge2))
-    > net2 = as_sfnetwork(c(edge2, edge3))
-    > 
-    > joined = st_network_join(net1, net2)
-    Error: This type is not supported by `vec_order()`.
+      2.   └─dplyr::between(...)
+      3.     └─vctrs::vec_cast_common(!!!args, .to = x)
+      4.       └─vctrs `<fn>`()
+      5.         └─vctrs::vec_default_cast(...)
+      6.           └─vctrs::stop_incompatible_cast(...)
+      7.             └─vctrs::stop_incompatible_type(...)
+      8.               └─vctrs:::stop_incompatible(...)
+      9.                 └─vctrs:::stop_vctrs(...)
+     10.                   └─rlang::abort(message, class = c(class, "vctrs_error"), ..., call = vctrs_error_call(call))
     Execution halted
     ```
+
+## In both
+
+*   checking data for non-ASCII characters ... NOTE
+    ```
+      Note: found 1 marked UTF-8 string
+    ```
+
+# hgnc
+
+<details>
+
+* Version: 0.1.0
+* GitHub: https://github.com/maialab/hgnc
+* Source code: https://github.com/cran/hgnc
+* Date/Publication: 2022-03-21 19:00:02 UTC
+* Number of recursive dependencies: 52
+
+Run `cloud_details(, "hgnc")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘hgnc-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: list_archives
+    > ### Title: List monthly and quarterly archives
+    > ### Aliases: list_archives
+    > 
+    > ### ** Examples
+    > 
+    > list_archives()
+    Error in open.connection(x, "rb") : HTTP error 502.
+    Calls: list_archives ... <Anonymous> -> <Anonymous> -> <Anonymous> -> read_html.default
+    Execution halted
+    ```
+
+# imfr
+
+<details>
+
+* Version: 0.1.9.1
+* GitHub: https://github.com/christophergandrud/imfr
+* Source code: https://github.com/cran/imfr
+* Date/Publication: 2020-10-03 06:20:02 UTC
+* Number of recursive dependencies: 41
+
+Run `cloud_details(, "imfr")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘imfr-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: imf_codes
+    > ### Title: Retrieve individual database codes
+    > ### Aliases: imf_codes
+    > 
+    > ### ** Examples
+    > 
+    > # Retrieve indicators from BOP database
+    ...
+    Downloading: 150 kB     
+    Downloading: 150 kB     
+    Downloading: 150 kB     
+    Downloading: 150 kB     
+    Downloading: 150 kB     
+    Downloading: 150 kB     
+    Downloading: 150 kB     
+    Downloading: 150 kB     
+    Downloading: 150 kB     Error: data.imf.org appears to be down.
+    Execution halted
+    ```
+
+## In both
 
 *   checking tests ... ERROR
     ```
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-        4. ├─sfnetworks::st_network_join(net, rdm_net)
-        5. └─sfnetworks:::st_network_join.sfnetwork(net, rdm_net)
-        6.   └─sfnetworks:::spatial_join_network(x, y, ...)
-        7.     └─tidygraph::graph_join(...)
-        8.       ├─dplyr::full_join(...)
-        9.       └─dplyr:::full_join.data.frame(...)
-       10.         └─dplyr:::join_mutate(...)
-       11.           └─dplyr:::join_rows(...)
-       12.             └─dplyr:::dplyr_locate_matches(...)
-       13.               ├─base::withCallingHandlers(...)
-       14.               └─vctrs::vec_locate_matches(...)
+      ── Error (test-next.R:11:1): (code run outside of `test_that()`) ───────────────
+      Error: data.imf.org appears to be down.
+      Backtrace:
+          ▆
+       1. ├─testthat::expect_equal(...) at test-next.R:11:0
+       2. │ └─testthat::quasi_label(enquo(object), label, arg = "object")
+       3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
+       4. ├─base::ncol(...)
+       5. └─imfr::imf_data(...)
+       6.   └─imfr:::imf_data_one(...)
+       7.     └─imfr:::download_parse(URL)
       
-      [ FAIL 1 | WARN 0 | SKIP 0 | PASS 241 ]
+      [ FAIL 2 | WARN 0 | SKIP 0 | PASS 0 ]
       Error: Test failures
       Execution halted
     ```
 
+# inti
+
+<details>
+
+* Version: 0.5.5
+* GitHub: https://github.com/flavjack/inti
+* Source code: https://github.com/cran/inti
+* Date/Publication: 2022-04-01 07:00:05 UTC
+* Number of recursive dependencies: 148
+
+Run `cloud_details(, "inti")` for more info
+
+</details>
+
+## Newly broken
+
 *   checking re-building of vignette outputs ... WARNING
     ```
     Error(s) in re-building vignettes:
-    --- re-building ‘sfn01_structure.Rmd’ using rmarkdown
-    Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1; sf_use_s2() is TRUE
-    
-    Attaching package: 'tidygraph'
-    
-    The following object is masked from 'package:stats':
-    
-        filter
-    
+    --- re-building ‘apps.Rmd’ using rmarkdown
+    Could not fetch https://flavjack.github.io/inti/img/tarpuy.png
+    HttpExceptionRequest Request {
+      host                 = "flavjack.github.io"
+      port                 = 443
+      secure               = True
+      requestHeaders       = []
+      path                 = "/inti/img/tarpuy.png"
+      queryString          = ""
     ...
+    --- finished re-building ‘tarpuy.Rmd’
     
-        union
-    
-    --- finished re-building ‘sfn05_morphers.Rmd’
+    --- re-building ‘yupana.Rmd’ using rmarkdown
+    --- finished re-building ‘yupana.Rmd’
     
     SUMMARY: processing the following file failed:
-      ‘sfn03_join_filter.Rmd’
+      ‘apps.Rmd’
     
     Error: Vignette re-building failed.
     Execution halted
     ```
 
-# stars
+# presenter
 
 <details>
 
-* Version: 0.5-5
-* GitHub: https://github.com/r-spatial/stars
-* Source code: https://github.com/cran/stars
-* Date/Publication: 2021-12-19 03:20:02 UTC
-* Number of recursive dependencies: 148
+* Version: 0.1.1
+* GitHub: https://github.com/Harrison4192/presenter
+* Source code: https://github.com/cran/presenter
+* Date/Publication: 2021-11-18 06:20:05 UTC
+* Number of recursive dependencies: 118
 
-Run `cloud_details(, "stars")` for more info
+Run `cloud_details(, "presenter")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking tests ... ERROR
+*   checking re-building of vignette outputs ... WARNING
     ```
-      Running ‘aggregate.R’
-      Comparing ‘aggregate.Rout’ to ‘aggregate.Rout.save’ ...4c4
-    < Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1; sf_use_s2() is TRUE
-    ---
-    > Linking to GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1
-    57c57
-    < file1d84474128c6.tif    33  199.25  365.5 365.5  531.75  698
-    ---
-    > file46ef83309cd.tif    33  199.25  365.5 365.5  531.75  698
-      Running ‘area.R’
+    Error(s) in re-building vignettes:
+    --- re-building ‘exportToExcel.Rmd’ using rmarkdown
+    
+    Attaching package: 'dplyr'
+    
+    The following objects are masked from 'package:stats':
+    
+        filter, lag
+    
+    The following objects are masked from 'package:base':
     ...
-      warn\[1\] does not match "Non-canonical axis order found, attempting to correct.".
-      Actual value: "Each row in `x` can match at most 1 row in `y`\.\\nℹ Row 2 of `x` matches multiple rows\."
-      Backtrace:
-          ▆
-       1. └─testthat::expect_match(warn[1], "Non-canonical axis order found, attempting to correct.") at test_ncdf.R:123:2
-       2.   └─testthat:::expect_match_(...)
-      
-      [ FAIL 2 | WARN 42 | SKIP 0 | PASS 98 ]
-      Error: Test failures
-      Execution halted
+    --- finished re-building ‘formattedFlextable.Rmd’
+    
+    --- re-building ‘pivotSummary.Rmd’ using rmarkdown
+    --- finished re-building ‘pivotSummary.Rmd’
+    
+    SUMMARY: processing the following files failed:
+      ‘flextableAndPowerpoint.Rmd’ ‘flextableThemes.Rmd’
+    
+    Error: Vignette re-building failed.
+    Execution halted
     ```
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking dependencies in R code ... NOTE
     ```
-      installed size is  8.8Mb
-      sub-directories of 1Mb or more:
-        doc   2.3Mb
-        nc    4.5Mb
+    Namespace in Imports field not imported from: ‘badger’
+      All declared Imports should be used.
     ```
 
-# Tplyr
+# respR
 
 <details>
 
-* Version: 0.4.4
-* GitHub: https://github.com/atorus-research/Tplyr
-* Source code: https://github.com/cran/Tplyr
-* Date/Publication: 2022-01-27 16:00:02 UTC
-* Number of recursive dependencies: 117
+* Version: 2.0.2
+* GitHub: https://github.com/januarharianto/respr
+* Source code: https://github.com/cran/respR
+* Date/Publication: 2022-03-23 15:50:02 UTC
+* Number of recursive dependencies: 122
 
-Run `cloud_details(, "Tplyr")` for more info
+Run `cloud_details(, "respR")` for more info
 
 </details>
 
 ## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘respR-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: calc_rate.ft
+    > ### Title: Calculate rate of change in oxygen from flowthrough respirometry
+    > ###   data
+    > ### Aliases: calc_rate.ft
+    > 
+    > ### ** Examples
+    > 
+    ...
+     15.                           ├─base::withRestarts(...)
+     16.                           │ └─base withOneRestart(expr, restarts[[1L]])
+     17.                           │   └─base doWithOneRestart(return(expr), restart)
+     18.                           └─vctrs:::stop_lossy_cast(...)
+     19.                             └─vctrs::stop_incompatible_cast(...)
+     20.                               └─vctrs::stop_incompatible_type(...)
+     21.                                 └─vctrs:::stop_incompatible(...)
+     22.                                   └─vctrs:::stop_vctrs(...)
+     23.                                     └─rlang::abort(message, class = c(class, "vctrs_error"), ..., call = vctrs_error_call(call))
+    Execution halted
+    ```
 
 *   checking tests ... ERROR
     ```
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+       12.                 └─vctrs:::vec_cast.integer.double(...)
+       13.                   └─vctrs::maybe_lossy_cast(...)
+       14.                     ├─base::withRestarts(...)
+       15.                     │ └─base withOneRestart(expr, restarts[[1L]])
+       16.                     │   └─base doWithOneRestart(return(expr), restart)
+       17.                     └─vctrs:::stop_lossy_cast(...)
+       18.                       └─vctrs::stop_incompatible_cast(...)
+       19.                         └─vctrs::stop_incompatible_type(...)
+       20.                           └─vctrs:::stop_incompatible(...)
+       21.                             └─vctrs:::stop_vctrs(...)
+       22.                               └─rlang::abort(message, class = c(class, "vctrs_error"), ..., call = vctrs_error_call(call))
       
-      i Use `spec()` to retrieve the full column specification for this data.
-      i Specify the column types or set `show_col_types = FALSE` to quiet this message.
-      [ FAIL 1 | WARN 0 | SKIP 52 | PASS 554 ]
-      
-      ══ Skipped tests ═══════════════════════════════════════════════════════════════
-      • On CRAN (52)
-      
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Failure (test-count.R:197:3): Count layers are summarized without errors and warnings ──
-      `build(t19)` produced warnings.
-      
-      [ FAIL 1 | WARN 0 | SKIP 52 | PASS 554 ]
+      [ FAIL 10 | WARN 0 | SKIP 5 | PASS 4508 ]
       Error: Test failures
       Execution halted
     ```
