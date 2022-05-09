@@ -14,7 +14,7 @@ is a 0-row tibble."><meta property="og:image" content="https://dplyr.tidyverse.o
     
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.9.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.99.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,10 +86,21 @@ is a 0-row tibble.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">nest_join</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, by <span class="op">=</span> <span class="cn">NULL</span>, copy <span class="op">=</span> <span class="cn">FALSE</span>, keep <span class="op">=</span> <span class="cn">FALSE</span>, name <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">nest_join</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, by <span class="op">=</span> <span class="cn">NULL</span>, copy <span class="op">=</span> <span class="cn">FALSE</span>, keep <span class="op">=</span> <span class="cn">NULL</span>, name <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="co"># S3 method for data.frame</span>
-<span class="fu">nest_join</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, by <span class="op">=</span> <span class="cn">NULL</span>, copy <span class="op">=</span> <span class="cn">FALSE</span>, keep <span class="op">=</span> <span class="cn">FALSE</span>, name <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+<span class="fu">nest_join</span><span class="op">(</span>
+  <span class="va">x</span>,
+  <span class="va">y</span>,
+  by <span class="op">=</span> <span class="cn">NULL</span>,
+  copy <span class="op">=</span> <span class="cn">FALSE</span>,
+  keep <span class="op">=</span> <span class="cn">NULL</span>,
+  name <span class="op">=</span> <span class="cn">NULL</span>,
+  <span class="va">...</span>,
+  na_matches <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"na"</span>, <span class="st">"never"</span><span class="op">)</span>,
+  multiple <span class="op">=</span> <span class="cn">NULL</span>,
+  unmatched <span class="op">=</span> <span class="st">"drop"</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -99,19 +110,25 @@ is a 0-row tibble.</p>
 lazy data frames (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for
 more details.</p></dd>
 <dt>by</dt>
-<dd><p>A character vector of variables to join by.</p>
+<dd><p>A character vector of variables to join by or a join specification
+created with <code><a href="join_by.html">join_by()</a></code>.</p>
 <p>If <code>NULL</code>, the default, <code>*_join()</code> will perform a natural join, using all
-variables in common across <code>x</code> and <code>y</code>. A message lists the variables so that you
-can check they're correct; suppress the message by supplying <code>by</code> explicitly.</p>
-<p>To join by different variables on <code>x</code> and <code>y</code>, use a named vector.
-For example, <code>by = c("a" = "b")</code> will match <code>x$a</code> to <code>y$b</code>.</p>
-<p>To join by multiple variables, use a vector with length &gt; 1.
-For example, <code>by = c("a", "b")</code> will match <code>x$a</code> to <code>y$a</code> and <code>x$b</code> to
-<code>y$b</code>. Use a named vector to match different variables in <code>x</code> and <code>y</code>.
-For example, <code>by = c("a" = "b", "c" = "d")</code> will match <code>x$a</code> to <code>y$b</code> and
-<code>x$c</code> to <code>y$d</code>.</p>
-<p>To perform a cross-join, generating all combinations of <code>x</code> and <code>y</code>,
-use <code>by = character()</code>.</p></dd>
+variables in common across <code>x</code> and <code>y</code>. A message lists the variables so
+that you can check they're correct; suppress the message by supplying <code>by</code>
+explicitly.</p>
+<p>To join on different variables between <code>x</code> and <code>y</code>, use a named vector or a
+<code><a href="join_by.html">join_by()</a></code> specification. For example, <code>by = c("a" = "b")</code> and <code>by = join_by(a == b)</code> will match <code>x$a</code> to <code>y$b</code>.</p>
+<p>To join by multiple variables, use a vector with length &gt;1 or a <code><a href="join_by.html">join_by()</a></code>
+specification with multiple expressions. For example, <code>by = c("a", "b")</code>
+and <code>by = join_by(a, b)</code> will match <code>x$a</code> to <code>y$a</code> and <code>x$b</code> to <code>y$b</code>. Use
+a named vector to match different variables in <code>x</code> and <code>y</code>. For example,
+<code>by = c("a" = "b", "c" = "d")</code> and <code>by = join_by(a == b, c == d)</code> will
+match <code>x$a</code> to <code>y$b</code> and <code>x$c</code> to <code>y$d</code>.</p>
+<p>To join on conditions other than equality, like non-equi or rolling joins,
+you'll need to create a join specification with <code><a href="join_by.html">join_by()</a></code>. See the
+documentation there for details on these types of joins.</p>
+<p>To perform a cross-join, generating all combinations of <code>x</code> and <code>y</code>, use
+<code>by = character()</code> or <code>by = join_by()</code>.</p></dd>
 <dt>copy</dt>
 <dd><p>If <code>x</code> and <code>y</code> are not from the same data source,
 and <code>copy</code> is <code>TRUE</code>, then <code>y</code> will be copied into the
@@ -119,12 +136,50 @@ same src as <code>x</code>.  This allows you to join tables across srcs, but
 it is a potentially expensive operation so you must opt into it.</p></dd>
 <dt>keep</dt>
 <dd><p>Should the join keys from both <code>x</code> and <code>y</code> be preserved in the
-output?</p></dd>
+output?</p><ul><li><p>If <code>NULL</code>, the default, joins on equality retain only the keys from <code>x</code>,
+while joins on inequality retain the keys from both inputs.</p></li>
+<li><p>If <code>TRUE</code>, keys from both inputs are retained.</p></li>
+<li><p>If <code>FALSE</code>, only keys from <code>x</code> are retained. For right and full joins,
+the data in key columns corresponding to rows that only exist in <code>y</code> are
+merged into the key columns from <code>x</code>.</p></li>
+</ul></dd>
 <dt>name</dt>
 <dd><p>The name of the list column nesting joins create.
 If <code>NULL</code> the name of <code>y</code> is used.</p></dd>
 <dt>...</dt>
 <dd><p>Other parameters passed onto methods.</p></dd>
+<dt>na_matches</dt>
+<dd><p>Should two <code>NA</code> or two <code>NaN</code> values match?</p><ul><li><p><code>"na"</code>, the default, treats two <code>NA</code> or two <code>NaN</code> values as equal, like
+<code>%in%</code>, <code><a href="https://rdrr.io/r/base/match.html" class="external-link">match()</a></code>, and <code><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge()</a></code>.</p></li>
+<li><p><code>"never"</code> treats two <code>NA</code> or two <code>NaN</code> values as different, and will
+never match them together or to any other values. This is similar to joins
+for database sources and to <code>base::merge(incomparables = NA)</code>.</p></li>
+</ul></dd>
+<dt>multiple</dt>
+<dd><p>Handling of rows in <code>x</code> with multiple matches in <code>y</code>.
+For each row of <code>x</code>:</p><ul><li><p><code>"all"</code> returns every match detected in <code>y</code>. This is the same behavior
+as SQL.</p></li>
+<li><p><code>"any"</code> returns one match detected in <code>y</code>, with no guarantees on which
+match will be returned. It is often faster than <code>"first"</code> and <code>"last"</code>
+if you just need to detect if there is at least one match.</p></li>
+<li><p><code>"first"</code> returns the first match detected in <code>y</code>.</p></li>
+<li><p><code>"last"</code> returns the last match detected in <code>y</code>.</p></li>
+<li><p><code>"warning"</code> throws a warning if multiple matches are detected, and
+then falls back to <code>"all"</code>.</p></li>
+<li><p><code>"error"</code> throws an error if multiple matches are detected.</p></li>
+</ul><p>The default value of <code>NULL</code> is equivalent to <code>"warning"</code> for equi joins and
+rolling joins, where multiple matches are usually surprising. If any
+non-equi join conditions are present or if you are doing a cross join, then
+it is equivalent to <code>"all"</code>, since multiple matches are usually expected.</p></dd>
+<dt>unmatched</dt>
+<dd><p>How should unmatched keys that would result in dropped rows
+be handled?</p><ul><li><p><code>"drop"</code> drops unmatched keys from the result.</p></li>
+<li><p><code>"error"</code> throws an error if unmatched keys are detected.</p></li>
+</ul><p><code>unmatched</code> is intended to protect you from accidentally dropping rows
+during a join. It only checks for unmatched keys in the input that could
+potentially drop rows. For example, in <code><a href="mutate-joins.html">left_join()</a></code> only <code>y</code> is
+checked for unmatched keys, because all keys from <code>x</code> are always retained,
+even if they don't have a match.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>

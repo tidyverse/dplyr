@@ -20,7 +20,7 @@ anti_join() return all rows from x without a match in y.
     
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.9.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.99.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -110,19 +110,25 @@ of matches in <code>y</code>:</p><ul><li><p><code>semi_join()</code> return all 
 lazy data frames (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for
 more details.</p></dd>
 <dt>by</dt>
-<dd><p>A character vector of variables to join by.</p>
+<dd><p>A character vector of variables to join by or a join specification
+created with <code><a href="join_by.html">join_by()</a></code>.</p>
 <p>If <code>NULL</code>, the default, <code>*_join()</code> will perform a natural join, using all
-variables in common across <code>x</code> and <code>y</code>. A message lists the variables so that you
-can check they're correct; suppress the message by supplying <code>by</code> explicitly.</p>
-<p>To join by different variables on <code>x</code> and <code>y</code>, use a named vector.
-For example, <code>by = c("a" = "b")</code> will match <code>x$a</code> to <code>y$b</code>.</p>
-<p>To join by multiple variables, use a vector with length &gt; 1.
-For example, <code>by = c("a", "b")</code> will match <code>x$a</code> to <code>y$a</code> and <code>x$b</code> to
-<code>y$b</code>. Use a named vector to match different variables in <code>x</code> and <code>y</code>.
-For example, <code>by = c("a" = "b", "c" = "d")</code> will match <code>x$a</code> to <code>y$b</code> and
-<code>x$c</code> to <code>y$d</code>.</p>
-<p>To perform a cross-join, generating all combinations of <code>x</code> and <code>y</code>,
-use <code>by = character()</code>.</p></dd>
+variables in common across <code>x</code> and <code>y</code>. A message lists the variables so
+that you can check they're correct; suppress the message by supplying <code>by</code>
+explicitly.</p>
+<p>To join on different variables between <code>x</code> and <code>y</code>, use a named vector or a
+<code><a href="join_by.html">join_by()</a></code> specification. For example, <code>by = c("a" = "b")</code> and <code>by = join_by(a == b)</code> will match <code>x$a</code> to <code>y$b</code>.</p>
+<p>To join by multiple variables, use a vector with length &gt;1 or a <code><a href="join_by.html">join_by()</a></code>
+specification with multiple expressions. For example, <code>by = c("a", "b")</code>
+and <code>by = join_by(a, b)</code> will match <code>x$a</code> to <code>y$a</code> and <code>x$b</code> to <code>y$b</code>. Use
+a named vector to match different variables in <code>x</code> and <code>y</code>. For example,
+<code>by = c("a" = "b", "c" = "d")</code> and <code>by = join_by(a == b, c == d)</code> will
+match <code>x$a</code> to <code>y$b</code> and <code>x$c</code> to <code>y$d</code>.</p>
+<p>To join on conditions other than equality, like non-equi or rolling joins,
+you'll need to create a join specification with <code><a href="join_by.html">join_by()</a></code>. See the
+documentation there for details on these types of joins.</p>
+<p>To perform a cross-join, generating all combinations of <code>x</code> and <code>y</code>, use
+<code>by = character()</code> or <code>by = join_by()</code>.</p></dd>
 <dt>copy</dt>
 <dd><p>If <code>x</code> and <code>y</code> are not from the same data source,
 and <code>copy</code> is <code>TRUE</code>, then <code>y</code> will be copied into the
@@ -131,11 +137,12 @@ it is a potentially expensive operation so you must opt into it.</p></dd>
 <dt>...</dt>
 <dd><p>Other parameters passed onto methods.</p></dd>
 <dt>na_matches</dt>
-<dd><p>Should <code>NA</code> and <code>NaN</code> values match one another?</p>
-<p>The default, <code>"na"</code>, treats two <code>NA</code> or <code>NaN</code> values as equal, like
-<code>%in%</code>, <code><a href="https://rdrr.io/r/base/match.html" class="external-link">match()</a></code>, <code><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge()</a></code>.</p>
-<p>Use <code>"never"</code> to always treat two <code>NA</code> or <code>NaN</code> values as different, like
-joins for database sources, similarly to <code>merge(incomparables = FALSE)</code>.</p></dd>
+<dd><p>Should two <code>NA</code> or two <code>NaN</code> values match?</p><ul><li><p><code>"na"</code>, the default, treats two <code>NA</code> or two <code>NaN</code> values as equal, like
+<code>%in%</code>, <code><a href="https://rdrr.io/r/base/match.html" class="external-link">match()</a></code>, and <code><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge()</a></code>.</p></li>
+<li><p><code>"never"</code> treats two <code>NA</code> or two <code>NaN</code> values as different, and will
+never match them together or to any other values. This is similar to joins
+for database sources and to <code>base::merge(incomparables = NA)</code>.</p></li>
+</ul></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.9.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.99.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,7 +73,25 @@
       <small>Source: <a href="https://github.com/tidyverse/dplyr/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
-    <div class="section level2"><h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
+<ul><li>
+<p>Joins have undergone a complete overhaul. The purpose of this overhaul is to enable more flexible join operations, while also providing tools to perform quality control checks directly in the join call. Many of these changes are inspired by data.table’s join syntax (<a href="https://github.com/tidyverse/dplyr/issues/5914" class="external-link">#5914</a>, <a href="https://github.com/tidyverse/dplyr/issues/5661" class="external-link">#5661</a>, <a href="https://github.com/tidyverse/dplyr/issues/5413" class="external-link">#5413</a>, <a href="https://github.com/tidyverse/dplyr/issues/2240" class="external-link">#2240</a>).</p>
+<ul><li><p>A <em>join specification</em> can now be created through <code><a href="../reference/join_by.html">join_by()</a></code>. This allows you to specify both the left and right hand side of a join using unquoted column names, such as <code>join_by(sale_date == commercial_date)</code>. Join specifications can be supplied to any <code>*_join()</code> function as the <code>by</code> argument.</p></li>
+<li>
+<p>Join specifications allow for various new types of joins:</p>
+<ul><li><p>Equi joins: The most common join, specified by <code>==</code>. For example, <code>join_by(sale_date == commercial_date)</code>.</p></li>
+<li><p>Non-equi joins: For joining on conditions other than equality, specified by <code>&gt;=</code>, <code>&gt;</code>, <code>&lt;</code>, and <code>&lt;=</code>. For example, <code>join_by(sale_date &gt;= commercial_date)</code> to find every commercial that aired before a particular sale.</p></li>
+<li><p>Rolling joins: For “rolling” the preceding value forward or the following value backwards when there isn’t an exact match, specified by using one of the rolling helpers: <code>preceding()</code> or <code>following()</code>. For example, <code>join_by(preceding(sale_date, commercial_date))</code> to find only the most recent commercial that aired before a particular sale.</p></li>
+<li><p>Overlap joins: For detecting overlaps between sets of columns, specified by using one of the overlap helpers: <code><a href="../reference/between.html">between()</a></code>, <code><a href="https://rdrr.io/r/base/with.html" class="external-link">within()</a></code>, or <code>overlaps()</code>. For example, <code>join_by(between(commercial_date, sale_date_lower, sale_date))</code> to find commercials that aired before a particular sale, as long as they occurred after some lower bound, such as 40 days before the sale was made.</p></li>
+</ul><p>Note that you cannot use arbitrary expressions in the join conditions, like <code>join_by(sale_date - 40 &gt;= commercial_date)</code>. Instead, use <code><a href="../reference/mutate.html">mutate()</a></code> to create a new column containing the result of <code>sale_date - 40</code> and refer to that by name in <code><a href="../reference/join_by.html">join_by()</a></code>.</p>
+</li>
+<li><p><code>multiple</code> is a new argument for controlling what happens when a row in <code>x</code> matches multiple rows in <code>y</code>. For equi joins and rolling joins, where this is usually surprising, this defaults to signaling a <code>"warning"</code>, but still returns all of the matches. For non-equi joins and cross joins, where multiple matches are usually expected, this defaults to returning <code>"all"</code> of the matches. You can also return only the <code>"first"</code> or <code>"last"</code> match, <code>"any"</code> of the matches, or you can <code>"error"</code>.</p></li>
+<li><p><code>keep</code> now defaults to <code>NULL</code> rather than <code>FALSE</code>. <code>NULL</code> implies <code>keep = FALSE</code> for equi-join conditions, but <code>keep = TRUE</code> for non-equi join conditions, since you generally want to preserve both sides of a non-equi join.</p></li>
+<li><p><code>unmatched</code> is a new argument for controlling what happens when a row would be dropped because it doesn’t have a match. For backwards compatibility, the default is <code>"drop"</code>, but you can also choose to <code>"error"</code> if dropped rows would be surprising.</p></li>
+</ul></li>
+<li><p><code><a href="../reference/nest_join.html">nest_join()</a></code> has gained the <code>na_matches</code> argument that all other joins have.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.9" id="dplyr-109">dplyr 1.0.9<a class="anchor" aria-label="anchor" href="#dplyr-109"></a></h2><p class="text-muted">CRAN release: 2022-04-28</p>
 <ul><li><p>New <code><a href="../reference/rows.html">rows_append()</a></code> which works like <code><a href="../reference/rows.html">rows_insert()</a></code> but ignores keys and allows you to insert arbitrary rows with a guarantee that the type of <code>x</code> won’t change (<a href="https://github.com/tidyverse/dplyr/issues/6249" class="external-link">#6249</a>, thanks to <a href="https://github.com/krlmlr" class="external-link">@krlmlr</a> for the implementation and <a href="https://github.com/mgirlich" class="external-link">@mgirlich</a> for the idea).</p></li>
