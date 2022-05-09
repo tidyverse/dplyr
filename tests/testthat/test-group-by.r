@@ -52,10 +52,11 @@ test_that("add = TRUE is deprecated", {
 })
 
 test_that("joins preserve grouping", {
+  df <- data.frame(x = rep(1:2, each = 4), y = rep(1:4, each = 2))
   g <- group_by(df, x)
 
-  expect_equal(group_vars(inner_join(g, g, by = c("x", "y"))), "x")
-  expect_equal(group_vars(left_join(g, g, by = c("x", "y"))), "x")
+  expect_equal(group_vars(inner_join(g, g, by = c("x", "y"), multiple = "all")), "x")
+  expect_equal(group_vars(left_join(g, g, by = c("x", "y"), multiple = "all")), "x")
   expect_equal(group_vars(semi_join(g, g, by = c("x", "y"))), "x")
   expect_equal(group_vars(anti_join(g, g, by = c("x", "y"))), "x")
 })

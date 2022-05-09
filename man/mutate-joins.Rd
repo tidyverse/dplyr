@@ -21,7 +21,7 @@ inner_join(
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  keep = FALSE
+  keep = NULL
 )
 
 \method{inner_join}{data.frame}(
@@ -31,8 +31,10 @@ inner_join(
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  keep = FALSE,
-  na_matches = c("na", "never")
+  keep = NULL,
+  na_matches = c("na", "never"),
+  multiple = NULL,
+  unmatched = "drop"
 )
 
 left_join(
@@ -42,7 +44,7 @@ left_join(
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  keep = FALSE
+  keep = NULL
 )
 
 \method{left_join}{data.frame}(
@@ -52,8 +54,10 @@ left_join(
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  keep = FALSE,
-  na_matches = c("na", "never")
+  keep = NULL,
+  na_matches = c("na", "never"),
+  multiple = NULL,
+  unmatched = "drop"
 )
 
 right_join(
@@ -63,7 +67,7 @@ right_join(
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  keep = FALSE
+  keep = NULL
 )
 
 \method{right_join}{data.frame}(
@@ -73,8 +77,10 @@ right_join(
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  keep = FALSE,
-  na_matches = c("na", "never")
+  keep = NULL,
+  na_matches = c("na", "never"),
+  multiple = NULL,
+  unmatched = "drop"
 )
 
 full_join(
@@ -84,7 +90,7 @@ full_join(
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  keep = FALSE
+  keep = NULL
 )
 
 \method{full_join}{data.frame}(
@@ -94,8 +100,9 @@ full_join(
   copy = FALSE,
   suffix = c(".x", ".y"),
   ...,
-  keep = FALSE,
-  na_matches = c("na", "never")
+  keep = NULL,
+  na_matches = c("na", "never"),
+  multiple = NULL
 )
 }
 \arguments{
@@ -103,23 +110,30 @@ full_join(
 lazy data frames (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{by}{A character vector of variables to join by.
+\item{by}{A character vector of variables to join by or a join specification
+created with \code{\link[=join_by]{join_by()}}.
 
 If \code{NULL}, the default, \verb{*_join()} will perform a natural join, using all
-variables in common across \code{x} and \code{y}. A message lists the variables so that you
-can check they're correct; suppress the message by supplying \code{by} explicitly.
+variables in common across \code{x} and \code{y}. A message lists the variables so
+that you can check they're correct; suppress the message by supplying \code{by}
+explicitly.
 
-To join by different variables on \code{x} and \code{y}, use a named vector.
-For example, \code{by = c("a" = "b")} will match \code{x$a} to \code{y$b}.
+To join on different variables between \code{x} and \code{y}, use a named vector or a
+\code{\link[=join_by]{join_by()}} specification. For example, \code{by = c("a" = "b")} and \code{by = join_by(a == b)} will match \code{x$a} to \code{y$b}.
 
-To join by multiple variables, use a vector with length > 1.
-For example, \code{by = c("a", "b")} will match \code{x$a} to \code{y$a} and \code{x$b} to
-\code{y$b}. Use a named vector to match different variables in \code{x} and \code{y}.
-For example, \code{by = c("a" = "b", "c" = "d")} will match \code{x$a} to \code{y$b} and
-\code{x$c} to \code{y$d}.
+To join by multiple variables, use a vector with length >1 or a \code{\link[=join_by]{join_by()}}
+specification with multiple expressions. For example, \code{by = c("a", "b")}
+and \code{by = join_by(a, b)} will match \code{x$a} to \code{y$a} and \code{x$b} to \code{y$b}. Use
+a named vector to match different variables in \code{x} and \code{y}. For example,
+\code{by = c("a" = "b", "c" = "d")} and \code{by = join_by(a == b, c == d)} will
+match \code{x$a} to \code{y$b} and \code{x$c} to \code{y$d}.
 
-To perform a cross-join, generating all combinations of \code{x} and \code{y},
-use \code{by = character()}.}
+To join on conditions other than equality, like non-equi or rolling joins,
+you'll need to create a join specification with \code{\link[=join_by]{join_by()}}. See the
+documentation there for details on these types of joins.
+
+To perform a cross-join, generating all combinations of \code{x} and \code{y}, use
+\code{by = character()} or \code{by = join_by()}.}
 
 \item{copy}{If \code{x} and \code{y} are not from the same data source,
 and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
@@ -133,15 +147,57 @@ Should be a character vector of length 2.}
 \item{...}{Other parameters passed onto methods.}
 
 \item{keep}{Should the join keys from both \code{x} and \code{y} be preserved in the
-output?}
+output?
+\itemize{
+\item If \code{NULL}, the default, joins on equality retain only the keys from \code{x},
+while joins on inequality retain the keys from both inputs.
+\item If \code{TRUE}, keys from both inputs are retained.
+\item If \code{FALSE}, only keys from \code{x} are retained. For right and full joins,
+the data in key columns corresponding to rows that only exist in \code{y} are
+merged into the key columns from \code{x}.
+}}
 
-\item{na_matches}{Should \code{NA} and \code{NaN} values match one another?
+\item{na_matches}{Should two \code{NA} or two \code{NaN} values match?
+\itemize{
+\item \code{"na"}, the default, treats two \code{NA} or two \code{NaN} values as equal, like
+\code{\%in\%}, \code{\link[=match]{match()}}, and \code{\link[=merge]{merge()}}.
+\item \code{"never"} treats two \code{NA} or two \code{NaN} values as different, and will
+never match them together or to any other values. This is similar to joins
+for database sources and to \code{base::merge(incomparables = NA)}.
+}}
 
-The default, \code{"na"}, treats two \code{NA} or \code{NaN} values as equal, like
-\code{\%in\%}, \code{\link[=match]{match()}}, \code{\link[=merge]{merge()}}.
+\item{multiple}{Handling of rows in \code{x} with multiple matches in \code{y}.
+For each row of \code{x}:
+\itemize{
+\item \code{"all"} returns every match detected in \code{y}. This is the same behavior
+as SQL.
+\item \code{"any"} returns one match detected in \code{y}, with no guarantees on which
+match will be returned. It is often faster than \code{"first"} and \code{"last"}
+if you just need to detect if there is at least one match.
+\item \code{"first"} returns the first match detected in \code{y}.
+\item \code{"last"} returns the last match detected in \code{y}.
+\item \code{"warning"} throws a warning if multiple matches are detected, and
+then falls back to \code{"all"}.
+\item \code{"error"} throws an error if multiple matches are detected.
+}
 
-Use \code{"never"} to always treat two \code{NA} or \code{NaN} values as different, like
-joins for database sources, similarly to \code{merge(incomparables = FALSE)}.}
+The default value of \code{NULL} is equivalent to \code{"warning"} for equi joins and
+rolling joins, where multiple matches are usually surprising. If any
+non-equi join conditions are present or if you are doing a cross join, then
+it is equivalent to \code{"all"}, since multiple matches are usually expected.}
+
+\item{unmatched}{How should unmatched keys that would result in dropped rows
+be handled?
+\itemize{
+\item \code{"drop"} drops unmatched keys from the result.
+\item \code{"error"} throws an error if unmatched keys are detected.
+}
+
+\code{unmatched} is intended to protect you from accidentally dropping rows
+during a join. It only checks for unmatched keys in the input that could
+potentially drop rows. For example, in \code{left_join()} only \code{y} is
+checked for unmatched keys, because all keys from \code{x} are always retained,
+even if they don't have a match.}
 }
 \value{
 An object of the same type as \code{x}. The order of the rows and columns of \code{x}
@@ -151,13 +207,13 @@ is preserved as much as possible. The output has the following properties:
 For \code{left_join()}, all \code{x} rows.
 For \code{right_join()}, a subset of \code{x} rows, followed by unmatched \code{y} rows.
 For \code{full_join()}, all \code{x} rows, followed by unmatched \code{y} rows.
-\item For all joins, rows will be duplicated if one or more rows in \code{x} matches
-multiple rows in \code{y}.
-\item Output columns include all \code{x} columns and all \code{y} columns. If columns in
-\code{x} and \code{y} have the same name (and aren't included in \code{by}), \code{suffix}es are
-added to disambiguate.
-\item Output columns included in \code{by} are coerced to common type across
-\code{x} and \code{y}.
+\item Output columns include all columns from \code{x} and all non-key columns from
+\code{y}. If \code{keep = TRUE}, the key columns from \code{y} are included as well.
+\item If non-key columns in \code{x} and \code{y} have the same name, \code{suffix}es are added
+to disambiguate. If \code{keep = TRUE} and key columns in \code{x} and \code{y} have
+the same name, \code{suffix}es are added to disambiguate these as well.
+\item If \code{keep = FALSE}, output columns included in \code{by} are coerced to their
+common type between \code{x} and \code{y}.
 \item Groups are taken from \code{x}.
 }
 }
@@ -171,8 +227,11 @@ keys:
 \item \code{full_join()}: includes all rows in \code{x} or \code{y}.
 }
 
-If a row in \code{x} matches multiple rows in \code{y}, all the rows in \code{y} will be returned
-once for each matching row in \code{x}.
+By default, if a row in \code{x} matches multiple rows in \code{y}, all of the matching
+rows in \code{y} will be returned. If this occurs in an equi join or a rolling
+join, a warning will be thrown stating that multiple matches have been
+detected since this is usually surprising. If multiple matches are expected
+in these cases, silence this warning by explicitly setting \code{multiple = "all"}.
 }
 \section{Methods}{
 
@@ -207,10 +266,18 @@ band_members \%>\%
   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
 
 # If a row in `x` matches multiple rows in `y`, all the rows in `y` will be
-# returned once for each matching row in `x`
+# returned once for each matching row in `x`, with a warning.
 df1 <- tibble(x = 1:3)
 df2 <- tibble(x = c(1, 1, 2), y = c("first", "second", "third"))
 df1 \%>\% left_join(df2)
+
+# If multiple matches are expected, set `multiple` to `"all"` to silence
+# the warning
+df1 \%>\% left_join(df2, multiple = "all")
+
+# Use `join_by()` with a condition other than `==` to perform a non-equi
+# join. Here we match on every instance where `df1$x > df2$x`.
+df1 \%>\% left_join(df2, join_by(x > x))
 
 # By default, NAs match other NAs so that there are two
 # rows in the output of this join:

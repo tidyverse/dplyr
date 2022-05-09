@@ -1,5 +1,64 @@
 # dplyr (development version)
 
+* Joins have undergone a complete overhaul. The purpose of this overhaul is to
+  enable more flexible join operations, while also providing tools to perform
+  quality control checks directly in the join call. Many of these changes are
+  inspired by data.table's join syntax (#5914, #5661, #5413, #2240).
+
+  * A _join specification_ can now be created through `join_by()`. This allows
+    you to specify both the left and right hand side of a join using unquoted
+    column names, such as `join_by(sale_date == commercial_date)`. Join
+    specifications can be supplied to any `*_join()` function as the `by`
+    argument.
+    
+  * Join specifications allow for various new types of joins:
+  
+    * Equi joins: The most common join, specified by `==`. For example,
+      `join_by(sale_date == commercial_date)`.
+      
+    * Non-equi joins: For joining on conditions other than equality, specified
+      by `>=`, `>`, `<`, and `<=`. For example,
+      `join_by(sale_date >= commercial_date)` to find every commercial that
+      aired before a particular sale.
+      
+    * Rolling joins: For "rolling" the preceding value forward or the following
+      value backwards when there isn't an exact match, specified by using one of
+      the rolling helpers: `preceding()` or `following()`. For example,
+      `join_by(preceding(sale_date, commercial_date))` to find only the most
+      recent commercial that aired before a particular sale.
+      
+    * Overlap joins: For detecting overlaps between sets of columns, specified
+      by using one of the overlap helpers: `between()`, `within()`, or
+      `overlaps()`. For example,
+      `join_by(between(commercial_date, sale_date_lower, sale_date))` to
+      find commercials that aired before a particular sale, as long as they
+      occurred after some lower bound, such as 40 days before the sale was made.
+      
+    Note that you cannot use arbitrary expressions in the join conditions, like
+    `join_by(sale_date - 40 >= commercial_date)`. Instead, use `mutate()` to
+    create a new column containing the result of `sale_date - 40` and refer
+    to that by name in `join_by()`.
+    
+  * `multiple` is a new argument for controlling what happens when a row
+    in `x` matches multiple rows in `y`. For equi joins and rolling joins,
+    where this is usually surprising, this defaults to signaling a `"warning"`,
+    but still returns all of the matches. For non-equi joins and cross joins,
+    where multiple matches are usually expected, this defaults to returning
+    `"all"` of the matches. You can also return only the `"first"` or `"last"`
+    match, `"any"` of the matches, or you can `"error"`.
+    
+  * `keep` now defaults to `NULL` rather than `FALSE`. `NULL` implies
+    `keep = FALSE` for equi-join conditions, but `keep = TRUE` for non-equi
+    join conditions, since you generally want to preserve both sides of a
+    non-equi join.
+    
+  * `unmatched` is a new argument for controlling what happens when a row
+    would be dropped because it doesn't have a match. For backwards
+    compatibility, the default is `"drop"`, but you can also choose to
+    `"error"` if dropped rows would be surprising.
+
+* `nest_join()` has gained the `na_matches` argument that all other joins have.
+
 # dplyr 1.0.9
 
 * New `rows_append()` which works like `rows_insert()` but ignores keys and
