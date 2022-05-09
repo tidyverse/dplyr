@@ -4,7 +4,11 @@
   longer restricted to just numeric and date-time vectors. Additionally, `left`
   and `right` are no longer required to be scalars, they can now also be vectors
   with the same length as `x`. Finally, `left` and `right` are now cast to the
-  type of `x` before the comparison is made (#6183, #6260).
+  type of `x` before the comparison is made. This last change means that you
+  can no longer make comparisons like `between(<int>, 0, 2.5)`, as `2.5` can't
+  be cast to integer without losing information. We recommend that you convert
+  the `<int>` vector to double before calling `between()` if you require this
+  (#6183, #6260).
 
 * Joins have undergone a complete overhaul. The purpose of this overhaul is to
   enable more flexible join operations, while also providing tools to perform
