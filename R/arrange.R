@@ -10,10 +10,6 @@
 #' once per data frame, not once per group.
 #'
 #' @details
-#' ## Locales
-#' The sort order for character vectors will depend on the collating sequence
-#' of the locale in use: see [locales()].
-#'
 #' ## Missing values
 #' Unlike base sorting with `sort()`, `NA` are:
 #' * always sorted to the end for local data, even when wrapped with `desc()`.
@@ -42,6 +38,21 @@
 #'   variables. Use [desc()] to sort a variable in descending order.
 #' @param .by_group If `TRUE`, will sort first by grouping variable. Applies to
 #'   grouped data frames only.
+#' @param .locale The locale to sort character vectors in.
+#'
+#'   - Defaults to [dplyr_locale()], which uses the American English locale
+#'     if the stringi package is installed and the global default locale
+#'     has not been altered. See the help page for [dplyr_locale()] for the
+#'     exact details.
+#'
+#'   - If a single string is supplied, then this will be used as the sorting
+#'     locale. For example, `"fr"` will sort with the French locale. This
+#'     requires the stringi package. Use [stringi::stri_locale_list()] to
+#'     generate a list of possible locale identifiers.
+#'
+#'   - If `"C"` is supplied, then character vectors will be sorted in the C
+#'     locale. This does not require stringi and is often much faster than
+#'     supplying a locale identifier.
 #' @family single table verbs
 #' @examples
 #' arrange(mtcars, cyl, disp)
@@ -68,31 +79,42 @@ arrange <- function(.data, ..., .by_group = FALSE) {
   UseMethod("arrange")
 }
 
+#' @rdname arrange
 #' @export
-arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
+arrange.data.frame <- function(.data,
+                               ...,
+                               .by_group = FALSE,
+                               .locale = dplyr_locale()) {
   dots <- enquos(...)
 
   if (.by_group) {
     dots <- c(quos(!!!groups(.data)), dots)
   }
 
-  loc <- arrange_rows(.data, dots)
+  chr_proxy_collate <- locale_to_chr_proxy_collate(.locale)
+
+  loc <- arrange_rows(.data, dots, chr_proxy_collate)
   dplyr_row_slice(.data, loc)
 }
 
 # Helpers -----------------------------------------------------------------
 
-arrange_rows <- function(.data, dots, error_call = caller_env()) {
+arrange_rows <- function(data,
+                         dots,
+                         chr_proxy_collate,
+                         error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
 
   if (length(dots) == 0L) {
-    out <- seq_len(nrow(.data))
+    out <- seq_len(nrow(data))
     return(out)
   }
 
   directions <- map_chr(dots, function(quosure) {
     if(quo_is_call(quosure, "desc")) "desc" else "asc"
   })
+
+  na_values <- if_else(directions == "desc", "smallest", "largest")
 
   quosures <- map(dots, function(quosure) {
     if (quo_is_call(quosure, "desc", ns = c("", "dplyr"))) {
@@ -117,7 +139,7 @@ arrange_rows <- function(.data, dots, error_call = caller_env()) {
   #       revisit when we have something like mutate_one() to
   #       evaluate one quosure in the data mask
   data <- withCallingHandlers({
-    transmute(new_data_frame(.data), !!!quosures)
+    transmute(new_data_frame(data), !!!quosures)
   }, error = function(cnd) {
 
     if (inherits(cnd, "dplyr:::mutate_error")) {
@@ -144,24 +166,43 @@ arrange_rows <- function(.data, dots, error_call = caller_env()) {
 
   })
 
-  # we can't just use vec_compare_proxy(data) because we need to apply
-  # direction for each column, so we get a list of proxies instead
-  # and then mimic vctrs:::order_proxy
-  #
-  # should really be map2(quosures, directions, ...)
-  proxies <- map2(data, directions, function(column, direction) {
-    proxy <- vec_proxy_order(column)
-    desc <- identical(direction, "desc")
-    if (is.data.frame(proxy)) {
-      proxy <- order(vec_order(proxy,
-        direction = direction,
-        na_value = if(desc) "smallest" else "largest"
-      ))
-    } else if(desc) {
-      proxy <- desc(proxy)
-    }
-    proxy
-  })
+  vec_order_radix(
+    x = data,
+    direction = directions,
+    na_value = na_values,
+    chr_proxy_collate = chr_proxy_collate
+  )
+}
 
-  exec("order", !!!unname(proxies), decreasing = FALSE, na.last = TRUE)
+locale_to_chr_proxy_collate <- function(locale,
+                                        ...,
+                                        has_stringi = has_minimum_stringi(),
+                                        error_call = caller_env()) {
+  check_dots_empty0(...)
+
+  if (identical(locale, "C")) {
+    return(NULL)
+  }
+
+  if (is_character(locale)) {
+    if (!is_string(locale)) {
+      abort("If `.locale` is a character vector, it must be a single string.", call = error_call)
+    }
+    if (!has_stringi) {
+      abort("stringi >=1.5.3 is required to arrange in a different locale.", call = error_call)
+    }
+    if (!locale %in% stringi::stri_locale_list()) {
+      abort("`.locale` must be one of the locales within `stringi::stri_locale_list()`.", call = error_call)
+    }
+
+    return(sort_key_generator(locale))
+  }
+
+  abort("`.locale` must be a string.", call = error_call)
+}
+
+sort_key_generator <- function(locale) {
+  function(x) {
+    stringi::stri_sort_key(x, locale = locale)
+  }
 }
