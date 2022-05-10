@@ -64,3 +64,4 @@ rlang::with_options(dplyr.locale = "da", {
 })
 \dontshow{\}) # examplesIf}
 }
+\keyword{internal}

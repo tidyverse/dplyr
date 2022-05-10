@@ -31,6 +31,7 @@
 #' This can be useful when a package that you don't control calls `arrange()`
 #' internally.
 #' @export
+#' @keywords internal
 #' @examplesIf dplyr:::has_minimum_stringi()
 #' # Default locale is American English
 #' dplyr_locale()
