@@ -50,7 +50,7 @@
       Error in `arrange()`:
       ! If `.locale` is a character vector, it must be a single string.
 
----
+# arrange validates that `.locale` must be one from stringi
 
     Code
       arrange(df, .locale = "x")

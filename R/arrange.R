@@ -40,19 +40,22 @@
 #'   grouped data frames only.
 #' @param .locale The locale to sort character vectors in.
 #'
-#'   - Defaults to [dplyr_locale()], which uses the American English locale
-#'     if the stringi package is installed and the global default locale
-#'     has not been altered. See the help page for [dplyr_locale()] for the
+#'   - Defaults to [dplyr_locale()], which uses the `"C"` locale unless this is
+#'     explicitly overriden. See the help page for [dplyr_locale()] for the
 #'     exact details.
 #'
-#'   - If a single string is supplied, then this will be used as the sorting
-#'     locale. For example, `"fr"` will sort with the French locale. This
-#'     requires the stringi package. Use [stringi::stri_locale_list()] to
-#'     generate a list of possible locale identifiers.
+#'   - If a single string from [stringi::stri_locale_list()] is supplied, then
+#'     this will be used as the locale to sort with. For example, `"en"` will
+#'     sort with the American English locale. This requires the stringi package.
 #'
-#'   - If `"C"` is supplied, then character vectors will be sorted in the C
-#'     locale. This does not require stringi and is often much faster than
+#'   - If `"C"` is supplied, then character vectors will always be sorted in the
+#'     C locale. This does not require stringi and is often much faster than
 #'     supplying a locale identifier.
+#'
+#'   The C locale is not the same as English locales, such as `"en"`,
+#'   particularly when it comes to case-sensitivity. This is explained in
+#'   more detail in the help page of [dplyr_locale()] under the `Default locale`
+#'   section.
 #' @family single table verbs
 #' @examples
 #' arrange(mtcars, cyl, disp)

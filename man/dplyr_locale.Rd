@@ -11,23 +11,26 @@ dplyr_locale()
 by dplyr when ordering character vectors. It is used as the default value of
 \code{.locale} in \code{\link[=arrange]{arrange()}}.
 \subsection{Default locale}{
-\itemize{
-\item If stringi >=1.5.3 is installed, the default locale is set to American
-English, represented by the locale identifier \code{"en"}.
-\item If stringi is not installed or is older than 1.5.3, the default locale
-falls back to the C locale, represented by \code{"C"}. When this occurs, a
-warning will be thrown encouraging you to either install stringi or
-replace usage of \code{dplyr_locale()} with \code{"C"} to explicitly force the C
-locale.
-}
+
+The default locale returned by \code{dplyr_locale()} is the C locale, identical
+to explicitly supplying \code{.locale = "C"}.
+
+The C locale is not exactly the same as English locales, such as \code{"en"}. The
+main difference is that the C locale groups the English alphabet by \emph{case},
+while most English locales group the alphabet by \emph{letter}. For example,
+\code{c("a", "b", "C", "B", "c")} will sort as \code{c("B", "C", "a", "b", "c")} in the
+C locale, with all uppercase letters coming before lowercase letters, but
+will sort as \code{c("a", "b", "B", "c", "C")} in an English locale. This often
+makes little practical difference during data analysis, because both return
+identical results when case is consistent between observations.
 }
 
 \subsection{Global override}{
 
 To override the above default behavior, you can set the global option,
-\code{dplyr.locale}, to either \code{"C"} or a stringi locale identifier from
-\code{\link[stringi:stri_locale_list]{stringi::stri_locale_list()}} to globally alter the default locale.
-Setting this option to anything other than \code{"C"} requires stringi >=1.5.3.
+\code{dplyr.locale}, to a stringi locale identifier from
+\code{\link[stringi:stri_locale_list]{stringi::stri_locale_list()}} to globally alter the default locale. This
+requires stringi >=1.5.3.
 
 We generally recommend that you set the \code{.locale} argument of \code{\link[=arrange]{arrange()}}
 explicitly rather than overriding the global locale, if possible.
@@ -37,21 +40,32 @@ scope through the use of \code{\link[rlang:local_options]{rlang::local_options()
 This can be useful when a package that you don't control calls \code{arrange()}
 internally.
 }
+
+\subsection{Reproducibility}{
+
+The C locale has the benefit of being completely reproducible across all
+supported R versions and operating systems with no extra effort.
+
+If you set \code{.locale} to an option from \code{\link[stringi:stri_locale_list]{stringi::stri_locale_list()}}, then
+stringi must be installed by anyone who wants to run your code. If you
+utilize this in a package, then stringi should be placed in \code{Imports}.
+}
 }
 \examples{
 \dontshow{if (dplyr:::has_minimum_stringi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-# Default locale is American English
+# Default locale is C
 dplyr_locale()
 
-# This Danish letter is typically sorted after `z`
-df <- tibble(x = x <- c("o", "p", "\u00F8", "z"))
+df <- tibble(x = c("a", "b", "C", "B", "c"))
 df
 
-# The American English locale sorts it right after `o`
+# The C locale groups the English alphabet by case, placing uppercase letters
+# before lowercase letters. This is the default.
 arrange(df, x)
 
-# Explicitly override `.locale` to `"da"` for Danish ordering
-arrange(df, x, .locale = "da")
+# The American English locale groups the alphabet by letter.
+# Explicitly override `.locale` with `"en"` for this ordering.
+arrange(df, x, .locale = "en")
 
 # Or temporarily override the `dplyr.locale` global option, which is useful
 # if `arrange()` is called from a function you don't control
@@ -59,9 +73,19 @@ col_sorter <- function(df) {
   arrange(df, x)
 }
 
-rlang::with_options(dplyr.locale = "da", {
+rlang::with_options(dplyr.locale = "en", {
   col_sorter(df)
 })
+
+# This Danish letter is expected to sort after `z`
+df <- tibble(x = c("o", "p", "\u00F8", "z"))
+df
+
+# The American English locale sorts it right after `o`
+arrange(df, x, .locale = "en")
+
+# Using `"da"` for Danish ordering gives the expected result
+arrange(df, x, .locale = "da")
 \dontshow{\}) # examplesIf}
 }
 \keyword{internal}

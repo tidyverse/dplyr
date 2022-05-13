@@ -1,7 +1,5 @@
-test_that("`dplyr_locale()` uses 'en' if stringi is available", {
-  skip_if_not_installed("stringi", "1.5.3")
-
-  expect_identical(dplyr_locale(), "en")
+test_that("`dplyr_locale()` uses the C locale by default", {
+  expect_identical(dplyr_locale(), "C")
 })
 
 test_that("`dplyr_locale()` respects `dplyr.locale`", {
@@ -12,9 +10,4 @@ test_that("`dplyr_locale()` respects `dplyr.locale`", {
   expect_snapshot(error = TRUE, {
     dplyr_locale()
   })
-})
-
-test_that("`dplyr_locale()` falls back to the C locale with a warning if stringi is not available", {
-  expect_snapshot(dplyr_locale_default(has_stringi = FALSE))
-  expect_warning(dplyr_locale_default(has_stringi = FALSE), class = "dplyr_warn_locale_fallback")
 })

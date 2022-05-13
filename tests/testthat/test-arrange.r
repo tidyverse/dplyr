@@ -84,38 +84,51 @@ test_that("arrange handles S4 classes (#1105)", {
 
 # locale --------------------------------------------------------------
 
-test_that("arrange defaults to the American English locale if stringi is installed", {
+test_that("arrange defaults to the C locale", {
+  x <- c("A", "a", "b", "B")
+  df <- tibble(x = x)
+
+  res <- arrange(df, x)
+  expect_identical(res$x, c("A", "B", "a", "b"))
+
+  res <- arrange(df, desc(x))
+  expect_identical(res$x, rev(c("A", "B", "a", "b")))
+})
+
+test_that("locale can be set to an English locale", {
   skip_if_not_installed("stringi", "1.5.3")
 
   x <- c("A", "a", "b", "B")
   df <- tibble(x = x)
 
-  res <- arrange(df, x)
+  res <- arrange(df, x, .locale = "en")
   expect_identical(res$x, c("a", "A", "b", "B"))
-
-  res <- arrange(df, desc(x))
-  expect_identical(res$x, rev(c("a", "A", "b", "B")))
-})
-
-test_that("locale can be set to C", {
-  x <- c("A", "a", "b", "B")
-  df <- tibble(x = x)
-
-  res <- arrange(df, x, .locale = "C")
-  expect_identical(res$x, c("A", "B", "a", "b"))
 })
 
 test_that("non-English locales can be used", {
   skip_if_not_installed("stringi", "1.5.3")
 
-  # Danish `o` with `/` through it sorts after `z`
+  # Danish `o` with `/` through it sorts after `z` in Danish locale
+  x <- c("o", "\u00F8", "p", "z")
+  df <- tibble(x = x)
+
+  # American English locale puts it right after `o`
+  res <- arrange(df, x, .locale = "en")
+  expect_identical(res$x, x)
+
+  res <- arrange(df, x, .locale = "da")
+  expect_identical(res$x, x[c(1, 3, 4, 2)])
+})
+
+test_that("arrange respects the `dplyr.locale` global option", {
+  skip_if_not_installed("stringi", "1.5.3")
+
+  local_options(dplyr.locale = "da")
+
   x <- c("o", "\u00F8", "p", "z")
   df <- tibble(x = x)
 
   res <- arrange(df, x)
-  expect_identical(res$x, x)
-
-  res <- arrange(df, x, .locale = "da")
   expect_identical(res$x, x[c(1, 3, 4, 2)])
 })
 
@@ -134,6 +147,13 @@ test_that("arrange validates `.locale`", {
   expect_snapshot(error = TRUE, {
     arrange(df, .locale = c("en_US", "fr_BF"))
   })
+})
+
+test_that("arrange validates that `.locale` must be one from stringi", {
+  skip_if_not_installed("stringi", "1.5.3")
+
+  df <- tibble()
+
   expect_snapshot(error = TRUE, {
     arrange(df, .locale = "x")
   })

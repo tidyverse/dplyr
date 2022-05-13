@@ -7,21 +7,24 @@
 #'
 #' ## Default locale
 #'
-#' - If stringi >=1.5.3 is installed, the default locale is set to American
-#'   English, represented by the locale identifier `"en"`.
+#' The default locale returned by `dplyr_locale()` is the C locale, identical
+#' to explicitly supplying `.locale = "C"`.
 #'
-#' - If stringi is not installed or is older than 1.5.3, the default locale
-#'   falls back to the C locale, represented by `"C"`. When this occurs, a
-#'   warning will be thrown encouraging you to either install stringi or
-#'   replace usage of `dplyr_locale()` with `"C"` to explicitly force the C
-#'   locale.
+#' The C locale is not exactly the same as English locales, such as `"en"`. The
+#' main difference is that the C locale groups the English alphabet by _case_,
+#' while most English locales group the alphabet by _letter_. For example,
+#' `c("a", "b", "C", "B", "c")` will sort as `c("B", "C", "a", "b", "c")` in the
+#' C locale, with all uppercase letters coming before lowercase letters, but
+#' will sort as `c("a", "b", "B", "c", "C")` in an English locale. This often
+#' makes little practical difference during data analysis, because both return
+#' identical results when case is consistent between observations.
 #'
 #' ## Global override
 #'
 #' To override the above default behavior, you can set the global option,
-#' `dplyr.locale`, to either `"C"` or a stringi locale identifier from
-#' [stringi::stri_locale_list()] to globally alter the default locale.
-#' Setting this option to anything other than `"C"` requires stringi >=1.5.3.
+#' `dplyr.locale`, to a stringi locale identifier from
+#' [stringi::stri_locale_list()] to globally alter the default locale. This
+#' requires stringi >=1.5.3.
 #'
 #' We generally recommend that you set the `.locale` argument of [arrange()]
 #' explicitly rather than overriding the global locale, if possible.
@@ -30,21 +33,31 @@
 #' scope through the use of [rlang::local_options()] or [rlang::with_options()].
 #' This can be useful when a package that you don't control calls `arrange()`
 #' internally.
+#'
+#' ## Reproducibility
+#'
+#' The C locale has the benefit of being completely reproducible across all
+#' supported R versions and operating systems with no extra effort.
+#'
+#' If you set `.locale` to an option from [stringi::stri_locale_list()], then
+#' stringi must be installed by anyone who wants to run your code. If you
+#' utilize this in a package, then stringi should be placed in `Imports`.
 #' @export
 #' @keywords internal
 #' @examplesIf dplyr:::has_minimum_stringi()
-#' # Default locale is American English
+#' # Default locale is C
 #' dplyr_locale()
 #'
-#' # This Danish letter is typically sorted after `z`
-#' df <- tibble(x = x <- c("o", "p", "\u00F8", "z"))
+#' df <- tibble(x = c("a", "b", "C", "B", "c"))
 #' df
 #'
-#' # The American English locale sorts it right after `o`
+#' # The C locale groups the English alphabet by case, placing uppercase letters
+#' # before lowercase letters. This is the default.
 #' arrange(df, x)
 #'
-#' # Explicitly override `.locale` to `"da"` for Danish ordering
-#' arrange(df, x, .locale = "da")
+#' # The American English locale groups the alphabet by letter.
+#' # Explicitly override `.locale` with `"en"` for this ordering.
+#' arrange(df, x, .locale = "en")
 #'
 #' # Or temporarily override the `dplyr.locale` global option, which is useful
 #' # if `arrange()` is called from a function you don't control
@@ -52,9 +65,19 @@
 #'   arrange(df, x)
 #' }
 #'
-#' rlang::with_options(dplyr.locale = "da", {
+#' rlang::with_options(dplyr.locale = "en", {
 #'   col_sorter(df)
 #' })
+#'
+#' # This Danish letter is expected to sort after `z`
+#' df <- tibble(x = c("o", "p", "\u00F8", "z"))
+#' df
+#'
+#' # The American English locale sorts it right after `o`
+#' arrange(df, x, .locale = "en")
+#'
+#' # Using `"da"` for Danish ordering gives the expected result
+#' arrange(df, x, .locale = "da")
 dplyr_locale <- function() {
   locale <- peek_option("dplyr.locale")
 
@@ -65,36 +88,7 @@ dplyr_locale <- function() {
     abort("If set, the global option `dplyr.locale` must be a string.")
   }
 
-  dplyr_locale_default()
-}
-
-dplyr_locale_default <- function(has_stringi = has_minimum_stringi()) {
-  if (has_stringi) {
-    "en"
-  } else {
-    warn_locale_fallback()
-    "C"
-  }
-}
-
-warn_locale_fallback <- function() {
-  header <- paste0(
-    "`dplyr_locale()` attempted to default to the American English locale (\"en\"), ",
-    "but the required package, stringi >=1.5.3, is not installed."
-  )
-
-  bullets <- c(
-    i = "Falling back to the C locale.",
-    i = paste0(
-      "Silence this warning by installing stringi or by ",
-      "explicitly replacing usage of `dplyr_locale()` with \"C\"."
-    )
-  )
-
-  warn(
-    message = c(header, bullets),
-    class = "dplyr_warn_locale_fallback"
-  )
+  "C"
 }
 
 has_minimum_stringi <- function() {
