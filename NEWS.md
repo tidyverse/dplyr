@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `lst_()` is no longer reexported from tibble (#6276).
+
 * `data_frame_()` is no longer reexported from tibble (#6277).
 
 * `between()` has been rewritten to utilize vctrs. This means that it is no
