@@ -1,5 +1,3 @@
-# dataframe ---------------------------------------------------------------
-
 #' @importFrom tibble data_frame
 #' @export
 tibble::data_frame
@@ -16,13 +14,9 @@ tibble::lst
 #' @export
 tibble::add_row
 
-# type_sum ----------------------------------------------------------------
-
 #' @importFrom tibble type_sum
 #' @export
 tibble::type_sum
-
-# glimpse -----------------------------------------------------------------
 
 #' Get a glimpse of your data
 #'
@@ -55,8 +49,6 @@ tibble::type_sum
 #' @name glimpse
 glimpse
 
-# tibble ------------------------------------------------------------------
-
 #' @importFrom tibble tribble
 #' @export
 tibble::tribble
@@ -71,8 +63,6 @@ tibble::as_tibble
 
 #' @importFrom tibble view
 tibble::view
-
-# utils -------------------------------------------------------------------
 
 #' @importFrom tibble tbl_sum
 #' @export
