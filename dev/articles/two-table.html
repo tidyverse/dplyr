@@ -293,8 +293,10 @@
 
 <span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span>
 <span class="co">#&gt; Joining, by = "x"</span>
-<span class="co">#&gt; Warning: Each row in `x` can match at most 1 row in `y`.</span>
+<span class="co">#&gt; Warning: Each row in `x` should match at most 1 row in `y`.</span>
 <span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Row 1 of `x` matches multiple rows.</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> If multiple matches are expected, specify `multiple = "all"` in the</span>
+<span class="co">#&gt;   join call to silence this warning.</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 3</span></span>
 <span class="co">#&gt;       x     y z    </span>
 <span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
@@ -340,8 +342,10 @@
 <span class="co">#&gt; [1] 4</span>
 <span class="co"># And we get four rows after the join</span>
 <span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">df2</span>, by <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Each row in `x` can match at most 1 row in `y`.</span>
+<span class="co">#&gt; Warning: Each row in `x` should match at most 1 row in `y`.</span>
 <span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Row 1 of `x` matches multiple rows.</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> If multiple matches are expected, specify `multiple = "all"` in the</span>
+<span class="co">#&gt;   join call to silence this warning.</span>
 <span class="co">#&gt; [1] 4</span>
 <span class="co"># But only two rows actually match</span>
 <span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/filter-joins.html">semi_join</a></span><span class="op">(</span><span class="va">df2</span>, by <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="op">)</span>
