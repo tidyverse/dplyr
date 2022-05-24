@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `data_frame_()` is no longer reexported from tibble (#6277).
+
 * `between()` has been rewritten to utilize vctrs. This means that it is no
   longer restricted to just numeric and date-time vectors. Additionally, `left`
   and `right` are no longer required to be scalars, they can now also be vectors

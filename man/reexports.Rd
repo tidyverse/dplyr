@@ -5,7 +5,6 @@
 \name{reexports}
 \alias{reexports}
 \alias{data_frame}
-\alias{data_frame_}
 \alias{as_data_frame}
 \alias{lst}
 \alias{lst_}
@@ -44,7 +43,7 @@ below to see their documentation.
 
   \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}
 
-  \item{tibble}{\code{\link[tibble]{add_row}}, \code{\link[tibble:deprecated]{as_data_frame}}, \code{\link[tibble]{as_tibble}}, \code{\link[tibble:deprecated]{data_frame}}, \code{\link[tibble:deprecated]{data_frame_}}, \code{\link[tibble:deprecated]{frame_data}}, \code{\link[tibble]{lst}}, \code{\link[tibble:deprecated]{lst_}}, \code{\link[tibble:reexports]{tbl_sum}}, \code{\link[tibble]{tibble}}, \code{\link[tibble]{tribble}}, \code{\link[tibble:reexports]{type_sum}}, \code{\link[tibble]{view}}}
+  \item{tibble}{\code{\link[tibble]{add_row}}, \code{\link[tibble:deprecated]{as_data_frame}}, \code{\link[tibble]{as_tibble}}, \code{\link[tibble:deprecated]{data_frame}}, \code{\link[tibble:deprecated]{frame_data}}, \code{\link[tibble]{lst}}, \code{\link[tibble:deprecated]{lst_}}, \code{\link[tibble:reexports]{tbl_sum}}, \code{\link[tibble]{tibble}}, \code{\link[tibble]{tribble}}, \code{\link[tibble:reexports]{type_sum}}, \code{\link[tibble]{view}}}
 
   \item{tidyselect}{\code{\link[tidyselect]{all_of}}, \code{\link[tidyselect:all_of]{any_of}}, \code{\link[tidyselect:starts_with]{contains}}, \code{\link[tidyselect:starts_with]{ends_with}}, \code{\link[tidyselect]{everything}}, \code{\link[tidyselect:everything]{last_col}}, \code{\link[tidyselect:starts_with]{matches}}, \code{\link[tidyselect:starts_with]{num_range}}, \code{\link[tidyselect]{one_of}}, \code{\link[tidyselect]{starts_with}}}
 }}
