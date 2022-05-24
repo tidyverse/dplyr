@@ -462,7 +462,6 @@ sample_int <- function(n, size, replace = FALSE, wt = NULL, call = caller_env())
       i = glue("{n} rows are present in the data."),
       i = "Set `replace = TRUE` to sample with replacement."
     )
-
     abort(message, call = call)
   }
 
