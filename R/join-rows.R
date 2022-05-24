@@ -163,8 +163,12 @@ rethrow_warning_join_matches_multiple <- function(cnd) {
 
   warn_join(
     message = c(
-      glue("Each row in `x` can match at most 1 row in `y`."),
-      i = glue("Row {i} of `x` matches multiple rows.")
+      glue("Each row in `x` should match at most 1 row in `y`."),
+      i = glue("Row {i} of `x` matches multiple rows."),
+      i = paste0(
+        "If multiple matches are expected, specify `multiple = \"all\"` in ",
+        "the join call to silence this warning."
+      )
     ),
     class = "dplyr_warning_join_matches_multiple"
   )

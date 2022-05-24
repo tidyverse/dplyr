@@ -4,8 +4,9 @@
       out <- join_rows(c(1, 1), c(1, 1), condition = "==")
     Condition
       Warning:
-      Each row in `x` can match at most 1 row in `y`.
+      Each row in `x` should match at most 1 row in `y`.
       i Row 1 of `x` matches multiple rows.
+      i If multiple matches are expected, specify `multiple = "all"` in the join call to silence this warning.
 
 ---
 
@@ -13,8 +14,9 @@
       out <- join_rows(c(1, 1), c(1, 1), condition = ">=", filter = "max")
     Condition
       Warning:
-      Each row in `x` can match at most 1 row in `y`.
+      Each row in `x` should match at most 1 row in `y`.
       i Row 1 of `x` matches multiple rows.
+      i If multiple matches are expected, specify `multiple = "all"` in the join call to silence this warning.
 
 # join_rows() gives meaningful error message on incompatible types
 
@@ -41,8 +43,9 @@
     Code
       cat(conditionMessage(cnd))
     Output
-      Each row in `x` can match at most 1 row in `y`.
+      Each row in `x` should match at most 1 row in `y`.
       i Row 1 of `x` matches multiple rows.
+      i If multiple matches are expected, specify `multiple = "all"` in the join call to silence this warning.
 
 # join_rows() gives meaningful error message on unmatched rows
 
