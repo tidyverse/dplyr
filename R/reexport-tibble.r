@@ -55,11 +55,7 @@ tibble::type_sum
 #' @name glimpse
 glimpse
 
-# frame-data --------------------------------------------------------------
-
-#' @importFrom tibble frame_data
-#' @export
-tibble::frame_data
+# tibble ------------------------------------------------------------------
 
 #' @importFrom tibble tribble
 #' @export
