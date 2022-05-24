@@ -1,20 +1,39 @@
 #' Mutating joins
 #'
 #' @description
-#' The mutating joins add columns from `y` to `x`, matching rows based on the
-#' keys:
+#' Mutating joins add columns from `y` to `x`, matching observations based on
+#' the keys. There are four mutating joins: the inner join, and the three outer
+#' joins.
 #'
-#' * `inner_join()`: includes all rows in `x` and `y`.
-#' * `left_join()`: includes all rows in `x`.
-#' * `right_join()`: includes all rows in `y`.
-#' * `full_join()`: includes all rows in `x` or `y`.
+#' ## Inner join
 #'
-#' By default, if a row in `x` matches multiple rows in `y`, all of the matching
-#' rows in `y` will be returned. If this occurs in an equi join or a rolling
-#' join, a warning will be thrown stating that multiple matches have been
-#' detected since this is usually surprising. If multiple matches are expected
-#' in these cases, silence this warning by explicitly setting `multiple =
-#' "all"`.
+#' An `inner_join()` only keeps observations from `x` that have a matching key
+#' in `y`.
+#'
+#' The most important property of an inner join is that unmatched rows in either
+#' input are not included in the result. This means that generally inner joins
+#' are not appropriate in most analyses, because it is too easy to lose
+#' observations.
+#'
+#' ## Outer joins
+#'
+#' The three outer joins keep observations that appear in at least one of the
+#' data frames:
+#'
+#' * A `left_join()` keeps all observations in `x`.
+#'
+#' * A `right_join()` keeps all observations in `y`.
+#'
+#' * A `full_join()` keeps all observations in `x` and `y`.
+#'
+#' ## Multiple matches
+#'
+#' By default, if an observation in `x` matches multiple observations in `y`,
+#' all of the matching observations in `y` will be returned. If this occurs in
+#' an equi join or a rolling join, a warning will be thrown stating that
+#' multiple matches have been detected since this is usually surprising. If
+#' multiple matches are expected in these cases, silence this warning by
+#' explicitly setting `multiple = "all"`.
 #'
 #' @return
 #' An object of the same type as `x`. The order of the rows and columns of `x`
