@@ -106,13 +106,13 @@ columns will be filled with NA.</p>
 frames must have the same number of rows. To match by value, not
 position, see <a href="mutate-joins.html">mutate-joins</a>.</p></dd>
 <dt>.id</dt>
-<dd><p>Data frame identifier.</p>
-<p>When <code>.id</code> is supplied, a new column of identifiers is
-created to link each row to its original data frame. The labels
-are taken from the named arguments to <code>bind_rows()</code>. When a
-list of data frames is supplied, the labels are taken from the
-names of the list. If no names are found a numeric sequence is
-used instead.</p></dd>
+<dd><p>The name of an optional identifier column.</p>
+<p>If a string is supplied, the output will contain a column with that name
+filled with identifiers that link each row to its original data frame. The
+labels are taken from the named arguments to <code>bind_rows()</code>. When a list of
+data frames is supplied, the labels are taken from the names of the list.
+If no names are found, then a numeric sequence is used instead.</p>
+<p>If <code>NULL</code>, the default, then no identifier column will be created.</p></dd>
 <dt>.name_repair</dt>
 <dd><p>One of <code>"unique"</code>, <code>"universal"</code>, or
 <code>"check_unique"</code>. See <code><a href="https://vctrs.r-lib.org/reference/vec_as_names.html" class="external-link">vctrs::vec_as_names()</a></code> for the meaning of these
