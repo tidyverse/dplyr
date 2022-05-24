@@ -176,18 +176,18 @@ in <code>...</code>. The levels in <code>.default</code> and <code>.missing</cod
 <span class="r-in"><span class="co"># values are unchanged.</span></span>
 <span class="r-in"><span class="va">char_vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span>, <span class="fl">10</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">recode</span><span class="op">(</span><span class="va">char_vec</span>, a <span class="op">=</span> <span class="st">"Apple"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Apple" "b"     "Apple" "b"     "b"     "c"     "Apple" "Apple"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "Apple" "c"    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "b"     "c"     "b"     "Apple" "Apple" "c"     "Apple" "c"    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "c"     "Apple"</span>
 <span class="r-in"><span class="fu">recode</span><span class="op">(</span><span class="va">char_vec</span>, a <span class="op">=</span> <span class="st">"Apple"</span>, b <span class="op">=</span> <span class="st">"Banana"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Apple"  "Banana" "Apple"  "Banana" "Banana" "c"      "Apple" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "Apple"  "Apple"  "c"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Banana" "c"      "Banana" "Apple"  "Apple"  "c"      "Apple" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "c"      "c"      "Apple" </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Use .default as replacement for unmatched values. Note that NA and</span></span>
 <span class="r-in"><span class="co"># replacement values need to be of the same type. For more information, see</span></span>
 <span class="r-in"><span class="co"># https://adv-r.hadley.nz/vectors-chap.html#missing-values</span></span>
 <span class="r-in"><span class="fu">recode</span><span class="op">(</span><span class="va">char_vec</span>, a <span class="op">=</span> <span class="st">"Apple"</span>, b <span class="op">=</span> <span class="st">"Banana"</span>, .default <span class="op">=</span> <span class="cn">NA_character_</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Apple"  "Banana" "Apple"  "Banana" "Banana" NA       "Apple" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "Apple"  "Apple"  NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Banana" NA       "Banana" "Apple"  "Apple"  NA       "Apple" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] NA       NA       "Apple" </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Throws an error as NA is logical, not character.</span></span>
 <span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">recode</span><span class="op">(</span><span class="va">char_vec</span>, a <span class="op">=</span> <span class="st">"Apple"</span>, b <span class="op">=</span> <span class="st">"Banana"</span>, .default <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span>
@@ -197,8 +197,8 @@ in <code>...</code>. The levels in <code>.default</code> and <code>.missing</cod
 <span class="r-in"><span class="co"># Use a named character vector for unquote splicing with !!!</span></span>
 <span class="r-in"><span class="va">level_key</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>a <span class="op">=</span> <span class="st">"apple"</span>, b <span class="op">=</span> <span class="st">"banana"</span>, c <span class="op">=</span> <span class="st">"carrot"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">recode</span><span class="op">(</span><span class="va">char_vec</span>, <span class="op">!</span><span class="op">!</span><span class="op">!</span><span class="va">level_key</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "apple"  "banana" "apple"  "banana" "banana" "carrot" "apple" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "apple"  "apple"  "carrot"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "banana" "carrot" "banana" "apple"  "apple"  "carrot" "apple" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "carrot" "carrot" "apple" </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># For numeric values, named arguments can also be used</span></span>
 <span class="r-in"><span class="va">num_vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="cn">NA</span><span class="op">)</span></span>
@@ -263,7 +263,7 @@ in <code>...</code>. The levels in <code>.default</code> and <code>.missing</cod
 <span class="r-in"><span class="co"># Use a named character vector to recode factors with unquote splicing.</span></span>
 <span class="r-in"><span class="va">level_key</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>a <span class="op">=</span> <span class="st">"apple"</span>, b <span class="op">=</span> <span class="st">"banana"</span>, c <span class="op">=</span> <span class="st">"carrot"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">recode_factor</span><span class="op">(</span><span class="va">char_vec</span>, <span class="op">!</span><span class="op">!</span><span class="op">!</span><span class="va">level_key</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] apple  banana apple  banana banana carrot apple  apple  apple  carrot</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] banana carrot banana apple  apple  carrot apple  carrot carrot apple </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: apple banana carrot</span>
 </code></pre></div>
     </div>
