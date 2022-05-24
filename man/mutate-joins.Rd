@@ -218,20 +218,40 @@ common type between \code{x} and \code{y}.
 }
 }
 \description{
-The mutating joins add columns from \code{y} to \code{x}, matching rows based on the
-keys:
-\itemize{
-\item \code{inner_join()}: includes all rows in \code{x} and \code{y}.
-\item \code{left_join()}: includes all rows in \code{x}.
-\item \code{right_join()}: includes all rows in \code{y}.
-\item \code{full_join()}: includes all rows in \code{x} or \code{y}.
+Mutating joins add columns from \code{y} to \code{x}, matching observations based on
+the keys. There are four mutating joins: the inner join, and the three outer
+joins.
+\subsection{Inner join}{
+
+An \code{inner_join()} only keeps observations from \code{x} that have a matching key
+in \code{y}.
+
+The most important property of an inner join is that unmatched rows in either
+input are not included in the result. This means that generally inner joins
+are not appropriate in most analyses, because it is too easy to lose
+observations.
 }
 
-By default, if a row in \code{x} matches multiple rows in \code{y}, all of the matching
-rows in \code{y} will be returned. If this occurs in an equi join or a rolling
-join, a warning will be thrown stating that multiple matches have been
-detected since this is usually surprising. If multiple matches are expected
-in these cases, silence this warning by explicitly setting \code{multiple = "all"}.
+\subsection{Outer joins}{
+
+The three outer joins keep observations that appear in at least one of the
+data frames:
+\itemize{
+\item A \code{left_join()} keeps all observations in \code{x}.
+\item A \code{right_join()} keeps all observations in \code{y}.
+\item A \code{full_join()} keeps all observations in \code{x} and \code{y}.
+}
+}
+
+\subsection{Multiple matches}{
+
+By default, if an observation in \code{x} matches multiple observations in \code{y},
+all of the matching observations in \code{y} will be returned. If this occurs in
+an equi join or a rolling join, a warning will be thrown stating that
+multiple matches have been detected since this is usually surprising. If
+multiple matches are expected in these cases, silence this warning by
+explicitly setting \code{multiple = "all"}.
+}
 }
 \section{Methods}{
 
