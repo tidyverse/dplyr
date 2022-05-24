@@ -18,20 +18,17 @@
 #'   When column-binding, rows are matched by position, so all data
 #'   frames must have the same number of rows. To match by value, not
 #'   position, see [mutate-joins].
-#' 
-#' @param .id Name of data frame identifier column.
 #'
-#'  Either a string or NULL. If a string, the output will contain a new
-#'  variable with that name, storing either the inputs' names (if the 
-#'  input arguments to `bind_rows()` are named or if an inputted list 
-#'  of data frames provided to `bind_rows()` has names) or numeric 
-#'  indices (if the inputted data frames are unnamed). 
-#'  This creates an identifier for each row that links to its original 
-#'  data frame. 
-#'  If NULL, the default, no variable will be created.
-#' 
-#'  Only applies to _dfr variant.
-#' 
+#' @param .id The name of an optional identifier column.
+#'
+#'   If a string is supplied, the output will contain a column with that name
+#'   filled with identifiers that link each row to its original data frame. The
+#'   labels are taken from the named arguments to `bind_rows()`. When a list of
+#'   data frames is supplied, the labels are taken from the names of the list.
+#'   If no names are found, then a numeric sequence is used instead.
+#'
+#'   If `NULL`, the default, then no identifier column will be created.
+#'
 #' @param .name_repair One of `"unique"`, `"universal"`, or
 #'   `"check_unique"`. See [vctrs::vec_as_names()] for the meaning of these
 #'   options.
