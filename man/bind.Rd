@@ -26,14 +26,15 @@ When column-binding, rows are matched by position, so all data
 frames must have the same number of rows. To match by value, not
 position, see \link{mutate-joins}.}
 
-\item{.id}{Data frame identifier.
+\item{.id}{The name of an optional identifier column.
 
-When \code{.id} is supplied, a new column of identifiers is
-created to link each row to its original data frame. The labels
-are taken from the named arguments to \code{bind_rows()}. When a
-list of data frames is supplied, the labels are taken from the
-names of the list. If no names are found a numeric sequence is
-used instead.}
+If a string is supplied, the output will contain a column with that name
+filled with identifiers that link each row to its original data frame. The
+labels are taken from the named arguments to \code{bind_rows()}. When a list of
+data frames is supplied, the labels are taken from the names of the list.
+If no names are found, then a numeric sequence is used instead.
+
+If \code{NULL}, the default, then no identifier column will be created.}
 
 \item{.name_repair}{One of \code{"unique"}, \code{"universal"}, or
 \code{"check_unique"}. See \code{\link[vctrs:vec_as_names]{vctrs::vec_as_names()}} for the meaning of these
