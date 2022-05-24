@@ -14,10 +14,6 @@ tibble::lst
 #' @export
 tibble::add_row
 
-#' @importFrom tibble type_sum
-#' @export
-tibble::type_sum
-
 #' @importFrom tibble tribble
 #' @export
 tibble::tribble
