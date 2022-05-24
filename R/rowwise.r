@@ -141,7 +141,6 @@ as_tibble.rowwise_df <- function(x, ...) {
   new_tibble(dplyr_vec_data(x), nrow = nrow(x))
 }
 
-#' @importFrom tibble is_tibble
 #' @export
 `[.rowwise_df` <- function(x, i, j, drop = FALSE) {
   out <- NextMethod()

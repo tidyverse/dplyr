@@ -131,7 +131,6 @@ show_regroups <- function(code) {
 #' # mean of each bootstrap sample
 #' summarise(tbl, x = mean(x))
 #'
-#' @importFrom tibble new_tibble
 #' @keywords internal
 #' @export
 new_grouped_df <- function(x, groups, ..., class = character()) {
@@ -210,7 +209,6 @@ as_tibble.grouped_df <- function(x, ...) {
   new_tibble(dplyr_vec_data(x), nrow = nrow(x))
 }
 
-#' @importFrom tibble is_tibble
 #' @export
 `[.grouped_df` <- function(x, i, j, drop = FALSE) {
   out <- NextMethod()
