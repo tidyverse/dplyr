@@ -55,7 +55,7 @@ test_that("output preserves class & attributes where possible", {
   expect_s3_class(out, "grouped_df")
   expect_equal(group_vars(out), "g")
   # summarise() currently drops attributes
-  expect_equal(attr(out, "my_attr"), NULL)
+  expect_null(attr(out, "my_attr"))
 })
 
 test_that("works with dbplyr", {
