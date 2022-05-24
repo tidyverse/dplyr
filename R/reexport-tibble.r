@@ -4,10 +4,6 @@
 #' @export
 tibble::data_frame
 
-#' @importFrom tibble data_frame_
-#' @export
-tibble::data_frame_
-
 #' @importFrom tibble as_data_frame
 #' @export
 tibble::as_data_frame
