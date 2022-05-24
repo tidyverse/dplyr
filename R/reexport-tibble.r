@@ -12,10 +12,6 @@ tibble::as_data_frame
 #' @export
 tibble::lst
 
-#' @importFrom tibble lst_
-#' @export
-tibble::lst_
-
 #' @importFrom tibble add_row
 #' @export
 tibble::add_row
