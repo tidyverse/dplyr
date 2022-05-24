@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `frame_data()` is no longer reexported from tibble (#6278).
+
 * `lst_()` is no longer reexported from tibble (#6276).
 
 * `data_frame_()` is no longer reexported from tibble (#6277).
