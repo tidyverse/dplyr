@@ -7,6 +7,7 @@
 #' @rawNamespace import(vctrs, except = data_frame)
 #' @importFrom glue glue glue_collapse glue_data
 #' @importFrom tibble new_tibble is_tibble
+#' @importFrom pillar tbl_sum
 #' @importFrom stats setNames update
 #' @importFrom utils head tail
 #' @importFrom methods is

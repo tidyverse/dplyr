@@ -32,7 +32,3 @@ tibble::as_tibble
 
 #' @importFrom tibble view
 tibble::view
-
-#' @importFrom tibble tbl_sum
-#' @export
-tibble::tbl_sum
