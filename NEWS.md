@@ -1,5 +1,9 @@
 # dplyr (development version)
 
+* `slice_sample()` now gives a more informative error when `replace = FALSE` and
+  the number of rows requested in the sample exceeds the number of rows in the
+  data (#6271).
+
 * `frame_data()` is no longer reexported from tibble (#6278).
 
 * `lst_()` is no longer reexported from tibble (#6276).
