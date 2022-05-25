@@ -18,16 +18,46 @@
       <error/rlang_error>
       Error in `slice_sample()`:
       ! Problem while computing indices.
-      Caused by error in `sample.int()`:
-      ! cannot take a sample larger than the population when 'replace = FALSE'
+      Caused by error:
+      ! Can't sample without replacement using a size that is larger than the number of rows in the data.
+      i 4 rows were requested in the sample.
+      i 1 rows are present in the data.
+      i Set `replace = TRUE` to sample with replacement.
+    Code
+      (expect_error(gdf %>% slice_sample(n = 4, replace = FALSE)))
+    Output
+      <error/rlang_error>
+      Error in `slice_sample()`:
+      ! Problem while computing indices.
+      i The error occurred in group 1: a = 1.
+      Caused by error:
+      ! Can't sample without replacement using a size that is larger than the number of rows in the data.
+      i 4 rows were requested in the sample.
+      i 1 rows are present in the data.
+      i Set `replace = TRUE` to sample with replacement.
     Code
       (expect_error(df %>% slice_sample(prop = 4, replace = FALSE)))
     Output
       <error/rlang_error>
       Error in `slice_sample()`:
       ! Problem while computing indices.
-      Caused by error in `sample.int()`:
-      ! cannot take a sample larger than the population when 'replace = FALSE'
+      Caused by error:
+      ! Can't sample without replacement using a size that is larger than the number of rows in the data.
+      i 4 rows were requested in the sample.
+      i 1 rows are present in the data.
+      i Set `replace = TRUE` to sample with replacement.
+    Code
+      (expect_error(gdf %>% slice_sample(prop = 4, replace = FALSE)))
+    Output
+      <error/rlang_error>
+      Error in `slice_sample()`:
+      ! Problem while computing indices.
+      i The error occurred in group 1: a = 1.
+      Caused by error:
+      ! Can't sample without replacement using a size that is larger than the number of rows in the data.
+      i 4 rows were requested in the sample.
+      i 1 rows are present in the data.
+      i Set `replace = TRUE` to sample with replacement.
 
 # slice() gives meaningfull errors
 
@@ -506,4 +536,19 @@
       <error/rlang_error>
       Error in `slice_head()`:
       ! `prop` must be a single number.
+
+# `slice_sample()` validates `replace`
+
+    Code
+      (expect_error(slice_sample(data.frame(), replace = 1)))
+    Output
+      <error/rlang_error>
+      Error in `slice_sample()`:
+      ! `replace` must be a single `TRUE` or `FALSE`.
+    Code
+      (expect_error(slice_sample(data.frame(), replace = NA)))
+    Output
+      <error/rlang_error>
+      Error in `slice_sample()`:
+      ! `replace` must be a single `TRUE` or `FALSE`.
 

@@ -190,7 +190,8 @@ test_that("slice() handles matrix and data frame columns (#3630)", {
 # Slice variants ----------------------------------------------------------
 
 test_that("slice_sample() handles n= and prop=", {
-  df <- data.frame(a = 1)
+  df <- data.frame(a = 1, b = 1)
+  gdf <- group_by(df, a)
 
   expect_equal(
     df %>% slice_sample(n = 4, replace = TRUE),
@@ -213,9 +214,15 @@ test_that("slice_sample() handles n= and prop=", {
     (expect_error(
       df %>% slice_sample(n = 4, replace = FALSE)
     ))
+    (expect_error(
+      gdf %>% slice_sample(n = 4, replace = FALSE)
+    ))
 
     (expect_error(
       df %>% slice_sample(prop = 4, replace = FALSE)
+    ))
+    (expect_error(
+      gdf %>% slice_sample(prop = 4, replace = FALSE)
     ))
   })
 })
@@ -582,5 +589,12 @@ test_that("rename errors with invalid grouped data frame (#640)", {
     (expect_error(slice_head(data.frame(), prop = n())))
     (expect_error(slice_head(data.frame(), n = NA)))
     (expect_error(slice_head(data.frame(), prop = NA)))
+  })
+})
+
+test_that("`slice_sample()` validates `replace`", {
+  expect_snapshot({
+    (expect_error(slice_sample(data.frame(), replace = 1)))
+    (expect_error(slice_sample(data.frame(), replace = NA)))
   })
 })
