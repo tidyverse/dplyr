@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `tbl_sum()` is no longer reexported from tibble (#6284).
+
 * `slice_sample()` now gives a more informative error when `replace = FALSE` and
   the number of rows requested in the sample exceeds the number of rows in the
   data (#6271).
