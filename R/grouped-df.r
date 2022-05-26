@@ -190,6 +190,7 @@ group_sum <- function(x) {
   paste0(commas(group_vars(x)), " [", big_mark(grps), "]")
 }
 
+#' @importFrom pillar tbl_sum
 #' @export
 tbl_sum.grouped_df <- function(x, ...) {
   c(

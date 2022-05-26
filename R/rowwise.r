@@ -128,6 +128,7 @@ setOldClass(c("rowwise_df", "tbl_df", "tbl", "data.frame"))
 
 # methods -----------------------------------------------------------------
 
+#' @importFrom pillar tbl_sum
 #' @export
 tbl_sum.rowwise_df <- function(x, ...) {
   c(
