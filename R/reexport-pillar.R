@@ -28,3 +28,7 @@
 #' @export
 #' @name glimpse
 glimpse
+
+#' @importFrom pillar type_sum
+#' @export
+pillar::type_sum
