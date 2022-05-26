@@ -314,7 +314,7 @@ test_that("group_by() does not mutate for nothing when using the .data pronoun (
 })
 
 test_that("tbl_sum gets the right number of groups", {
-  res <- data.frame(x=c(1,1,2,2)) %>% group_by(x) %>% tbl_sum()
+  res <- data.frame(x=c(1,1,2,2)) %>% group_by(x) %>% pillar::tbl_sum()
   expect_equal(res, c("A tibble" = "4 x 1", "Groups" = "x [2]"))
 })
 
