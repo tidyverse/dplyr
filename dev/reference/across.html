@@ -157,7 +157,8 @@ columns. This can use <code>{.col}</code> to stand for the selected column name,
 Inside <code>across()</code> however, code is evaluated once for each
 combination of columns and groups. If the evaluation timing is
 important, for example if you're generating random variables, think
-about when it should happen and place your code in consequence.</p><div class="sourceCode r"><pre><code><span class="va">gdf</span> <span class="op">&lt;-</span>
+about when it should happen and place your code in consequence.</p>
+<p></p><div class="sourceCode r"><pre><code><span class="va">gdf</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>g <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, v1 <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">13</span>, v2 <span class="op">=</span> <span class="fl">20</span><span class="op">:</span><span class="fl">23</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span>
 
@@ -165,31 +166,14 @@ about when it should happen and place your code in consequence.</p><div class="s
 
 <span class="co"># Outside: 1 normal variate</span>
 <span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
-<span class="va">gdf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="va">v1</span><span class="op">:</span><span class="va">v2</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op">+</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre><p></p></div><div class="sourceCode"><pre><code><span class="co">## # A tibble: 4 × 3</span>
-<span class="co">## # Groups:   g [3]</span>
-<span class="co">##       g    v1    v2</span>
-<span class="co">##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">## 1     1  9.37  19.4</span>
-<span class="co">## 2     1 10.4   20.4</span>
-<span class="co">## 3     2 11.4   21.4</span>
-<span class="co">## 4     3 12.4   22.4</span></code></pre></div><p></p><div class="sourceCode r"><pre><code><span class="co"># Inside a verb: 3 normal variates (ngroup)</span>
-<span class="va">gdf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="va">v1</span><span class="op">:</span><span class="va">v2</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op">+</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre><p></p></div><div class="sourceCode"><pre><code><span class="co">## # A tibble: 4 × 4</span>
-<span class="co">## # Groups:   g [3]</span>
-<span class="co">##       g    v1    v2      n</span>
-<span class="co">##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">## 1     1  10.2  20.2  0.184</span>
-<span class="co">## 2     1  11.2  21.2  0.184</span>
-<span class="co">## 3     2  11.2  21.2 -0.836</span>
-<span class="co">## 4     3  14.6  24.6  1.60</span></code></pre></div><p></p><div class="sourceCode r"><pre><code><span class="co"># Inside `across()`: 6 normal variates (ncol * ngroup)</span>
-<span class="va">gdf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="va">v1</span><span class="op">:</span><span class="va">v2</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre><p></p></div><div class="sourceCode"><pre><code><span class="co">## # A tibble: 4 × 3</span>
-<span class="co">## # Groups:   g [3]</span>
-<span class="co">##       g    v1    v2</span>
-<span class="co">##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">## 1     1  10.3  20.7</span>
-<span class="co">## 2     1  11.3  21.7</span>
-<span class="co">## 3     2  11.2  22.6</span>
-<span class="co">## 4     3  13.5  22.7</span></code></pre></div>
-
+<span class="va">gdf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="va">v1</span><span class="op">:</span><span class="va">v2</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op">+</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode r"><pre><code><span class="co"># Inside a verb: 3 normal variates (ngroup)</span>
+<span class="va">gdf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="va">v1</span><span class="op">:</span><span class="va">v2</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op">+</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode r"><pre><code><span class="co"># Inside `across()`: 6 normal variates (ncol * ngroup)</span>
+<span class="va">gdf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="va">v1</span><span class="op">:</span><span class="va">v2</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

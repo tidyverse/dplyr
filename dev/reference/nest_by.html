@@ -134,15 +134,11 @@ with matching rows of the remaining columns.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Note that <code>df %&gt;% nest_by(x, y)</code> is roughly equivalent to</p><div class="sourceCode"><pre><code><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/context.html">cur_data</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-
+    <p>Note that <code>df %&gt;% nest_by(x, y)</code> is roughly equivalent to</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
 <p>If you want to unnest a nested data frame, you can either use
-<code><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">tidyr::unnest()</a></code> or take advantage of <code><a href="summarise.html">summarise()</a></code>s multi-row behaviour:</p><div class="sourceCode"><pre><code><span class="va">nested</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-
+<code><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">tidyr::unnest()</a></code> or take advantage of <code><a href="summarise.html">summarise()</a></code>s multi-row behaviour:</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
     </div>
     <div class="section level2">
     <h2 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a></h2>
