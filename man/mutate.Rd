@@ -104,16 +104,20 @@ Variables can be removed by setting their value to \code{NULL}.
 Because mutating expressions are computed within groups, they may
 yield different results on grouped tibbles. This will be the case
 as soon as an aggregating, lagging, or ranking function is
-involved. Compare this ungrouped mutate:\preformatted{starwars \%>\%
+involved. Compare this ungrouped mutate:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{starwars \%>\%
   select(name, mass, species) \%>\%
   mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
-}
+}\if{html}{\out{</div>}}
 
-With the grouped equivalent:\preformatted{starwars \%>\%
+With the grouped equivalent:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{starwars \%>\%
   select(name, mass, species) \%>\%
   group_by(species) \%>\%
   mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
-}
+}\if{html}{\out{</div>}}
 
 The former normalises \code{mass} by the global average whereas the
 latter normalises by the averages within species levels.
