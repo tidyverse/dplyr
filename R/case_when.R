@@ -138,6 +138,17 @@
 #'     )
 #'   )
 #'
+#' # You can use data frames to create multiple columns at once.
+#' # The data frames will automatically be unpacked.
+#' starwars %>%
+#'   select(name:mass, gender, species) %>%
+#'   mutate(
+#'     case_when(
+#'       height > 200 | mass > 200, tibble(type = "large", vehicle = "car"),
+#'       species == "Droid", tibble(type = "robot", vehicle = "none"),
+#'       .default = tibble(type = "other", vehicle = "unknown")
+#'     )
+#'   )
 #'
 #' # `case_when()` is not a tidy eval function. If you'd like to reuse
 #' # the same patterns, extract the `case_when()` call in a normal
