@@ -1,5 +1,55 @@
 # dplyr (development version)
 
+* `case_when()` has a new interface and has been rewritten to utilize vctrs. The
+  existing formula interface will continue to work for awhile, but we now feel
+  that it is suboptimal and encourage you to switch to the new interface
+  (#5106).
+  
+  Where you used to use:
+  
+  ```
+  case_when(
+    condition1 ~ value1,
+    condition2 ~ value2,
+    TRUE ~ default
+  )
+  ```
+  
+  You now supply pairs of inputs (with no `~`) and an explicit `.default`
+  argument:
+  
+  ```
+  case_when(
+    condition1, value1,
+    condition2, value2,
+    .default = default
+  )
+  ```
+  
+  The rewrite with vctrs includes a number of additional benefits:
+  
+  - The types of the values no longer have to match exactly. For example, the
+    following no longer requires you to use `NA_character_` instead of just
+    `NA`.
+  
+    ```
+    case_when(
+      x %in% c("little", "small"), "one"
+      x %in% c("big", "large"), "two",
+      x %in% c("missing", "unknown"), NA
+    )
+    ```
+    
+  - `case_when()` now supports a larger variety of value types. For example,
+    you can use a data frame to create multiple columns at once.
+    
+  - There are new `.ptype` and `.size` arguments which allow you to enforce
+    a particular output type and size. This allows you to construct a completely
+    type and size stable call to `case_when()`.
+  
+  - The error thrown when types or lengths were incorrect has now been
+    improved (#6261, #6206).
+
 * `tbl_sum()` is no longer reexported from tibble (#6284).
 
 * `slice_sample()` now gives a more informative error when `replace = FALSE` and
