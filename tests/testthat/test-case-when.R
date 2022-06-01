@@ -94,6 +94,12 @@ test_that("doesn't support quosures in the new interface", {
   })
 })
 
+test_that("invalid type errors are correct (#6261) (#6206)", {
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE ~ 1, TRUE ~ "x")
+  })
+})
+
 test_that("trying to mix the old interface with new arguments isn't allowed", {
   expect_snapshot(error = TRUE, case_when(1 ~ 2, .default = 3))
   expect_snapshot(error = TRUE, case_when(1 ~ 2, .ptype = integer()))

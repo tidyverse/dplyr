@@ -14,6 +14,14 @@
       Error:
       ! Case 1 (`!!!fs`) must be a two-sided formula, not a call.
 
+# invalid type errors are correct (#6261) (#6206)
+
+    Code
+      case_when(TRUE ~ 1, TRUE ~ "x")
+    Condition
+      Error in `case_when()`:
+      ! Can't combine `TRUE ~ 1` <double> and `TRUE ~ "x"` <character>.
+
 # trying to mix the old interface with new arguments isn't allowed
 
     Code
