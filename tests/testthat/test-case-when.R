@@ -1,3 +1,108 @@
+# ------------------------------------------------------------------------------
+# case_when()
+
+test_that("basic example is working", {
+  x <- c(1, 2, 3)
+
+  expect_identical(
+    case_when(
+      x <= 1, 1,
+      x <= 2, 2,
+      x <= 3, 3
+    ),
+    c(1, 2, 3)
+  )
+})
+
+test_that("unhandled `NA` are propagated", {
+  x <- c(NA, 0, 10)
+
+  expect_identical(
+    case_when(
+      x > 2, 0,
+      .default = 1
+    ),
+    c(NA, 1, 0)
+  )
+})
+
+test_that("any `TRUE` overrides an `NA`", {
+  x <- c(1, 2, NA, 3)
+  expect <- c("one", "not_one", "missing", "not_one")
+
+  # `TRUE` overriding before the `NA`
+  expect_identical(
+    case_when(
+      is.na(x), "missing",
+      x == 1, "one",
+      .default = "not_one"
+    ),
+    expect
+  )
+
+  # `TRUE` overriding after the `NA`
+  expect_identical(
+    case_when(
+      x == 1, "one",
+      is.na(x), "missing",
+      .default = "not_one"
+    ),
+    expect
+  )
+})
+
+test_that("passes through `.default` correctly", {
+  expect_identical(case_when(FALSE, 1, .default = 2), 2)
+})
+
+test_that("passes through `.ptype` correctly", {
+  expect_identical(case_when(TRUE, 1, .ptype = integer()), 1L)
+})
+
+test_that("passes through `.size` correctly", {
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE, 1, .size = 2)
+  })
+})
+
+test_that("the new interface supports splicing in expressions that utilize the data mask", {
+  fs <- exprs(
+    cyl == 4, 1,
+    am == 1, 2
+  )
+
+  out <- mutate(mtcars[1:4, ], out = case_when(!!!fs, .default = 0))
+  out <- pull(out)
+
+  expect_identical(out, c(2, 2, 1, 0))
+})
+
+test_that("doesn't support quosures in the new interface", {
+  fs <- local({
+    x <- 3:1
+    quos(
+      x < 2,
+      1,
+      x < 5,
+      2
+    )
+  })
+
+  # Tries to hand off to the old style interface because a quosure was detected
+  expect_snapshot(error = TRUE, {
+    case_when(!!!fs)
+  })
+})
+
+test_that("trying to mix the old interface with new arguments isn't allowed", {
+  expect_snapshot(error = TRUE, case_when(1 ~ 2, .default = 3))
+  expect_snapshot(error = TRUE, case_when(1 ~ 2, .ptype = integer()))
+  expect_snapshot(error = TRUE, case_when(1 ~ 2, .size = 1))
+})
+
+# ------------------------------------------------------------------------------
+# Pre-existing old interface tests
+
 test_that("matches values in order", {
   x <- 1:3
   expect_equal(
@@ -175,9 +280,6 @@ test_that("NULL inputs are compacted", {
   )
   expect_identical(out, c(FALSE, TRUE, NA))
 })
-
-
-# Errors ------------------------------------------------------------------
 
 test_that("case_when() give meaningful errors", {
   expect_snapshot({

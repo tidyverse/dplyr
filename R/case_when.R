@@ -1,104 +1,140 @@
-#' A general vectorised if
+#' A general vectorised if-else
 #'
-#' This function allows you to vectorise multiple [if_else()]
-#' statements. It is an R equivalent of the SQL `CASE WHEN` statement.
-#' If no cases match, `NA` is returned.
+#' This function allows you to vectorise multiple [if_else()] statements. It is
+#' an R equivalent of the SQL `CASE WHEN` statement. If no cases match, a
+#' missing value is returned unless a `.default` is supplied.
 #'
-#' @param ... <[`dynamic-dots`][rlang::dyn-dots]> A sequence of two-sided formulas. The left hand side (LHS)
-#'   determines which values match this case. The right hand side (RHS)
-#'   provides the replacement value.
+#' @param ... <[`dynamic-dots`][rlang::dyn-dots]>
 #'
-#'   The LHS must evaluate to a logical vector. The RHS does not need to be
-#'   logical, but all RHSs must evaluate to the same type of vector.
+#'   Pairs of inputs supplied like
+#'   `condition1, value1, condition2, value2, ...`. The `condition`s determine
+#'   which values match this case, the `value`s provide the value to use for
+#'   this case.
 #'
-#'   Both LHS and RHS may have the same length of either 1 or `n`. The
-#'   value of `n` must be consistent across all cases. The case of
-#'   `n == 0` is treated as a variant of `n != 1`.
+#'   Each `condition` input must evaluate to a logical vector. All `condition`
+#'   inputs must be the same length.
 #'
-#'   `NULL` inputs are ignored.
+#'   The `value` inputs will be coerced to their common type. All `value`
+#'   inputs must be length 1 or the same length as the `condition`s.
+#'
+#'   An `NA` in a `condition` will result in a missing value in that location
+#'   of the output unless another `condition` evaluates to `TRUE` for that
+#'   location.
+#'
+#'   If the `...` are named, those names will be utilized in any error messages.
+#'
+#' @param .default The default value used when all `condition`s return `FALSE`
+#'   for a particular location. `.default` must be length 1 or the same length
+#'   as the `condition`s. `.default` participates in the computation of the
+#'   common type alongside the `value` inputs.
+#'
+#'   If `NULL`, the default, a missing value will be placed in the result.
+#'
+#' @param .ptype An optional prototype declaring the desired output type. If
+#'   supplied, this overrides the common type of the `value` inputs.
+#'
+#' @param .size An optional size declaring the desired output size. If supplied,
+#'   this overrides the size of the `condition` inputs.
+#'
+#' @return A vector with the same length as the `condition` inputs and the same
+#'   type as the common type of the `value` inputs.
+#'
+#' @section Previous interface:
+#'
+#' Previously, `case_when()` used an interface based on formulas. Rather than:
+#'
+#' ```
+#' case_when(
+#'   condition1, value1,
+#'   condition2, value2,
+#'   .default = default
+#' )
+#' ```
+#'
+#' you used to use:
+#'
+#' ```
+#' case_when(
+#'   condition1 ~ value1,
+#'   condition2 ~ value2,
+#'   TRUE ~ default
+#' )
+#' ```
+#'
+#' The formula interface currently still works, but we now believe it to be
+#' suboptimal and encourage you to switch to the new interface. In particular,
+#' we believe that `.default` is a safer way to provide a default value, as it
+#' allows us to require that all of the `condition`s have the same size. It is
+#' also only applied to locations where all of the `condition`s have returned
+#' `FALSE`, and doesn't apply to locations where an `NA` should have been
+#' propagated through, unlike the `TRUE ~ default` approach.
+#'
+#' The old interface was also the only place in the tidyverse that we used
+#' formulas in this way, and it had the potential to be confusing with how we
+#' use formulas for modeling or for generating anonymous functions in purrr,
+#' like `~ .x + 1`. We generally feel that the new interface aligns better with
+#' other code that you'll write while using the tidyverse.
+#'
 #' @export
-#' @return A vector of length 1 or `n`, matching the length of the logical
-#'   input or output vectors, with the type (and attributes) of the first
-#'   RHS. Inconsistent lengths or types will generate an error.
 #' @examples
 #' x <- 1:50
-#' case_when(
-#'   x %% 35 == 0 ~ "fizz buzz",
-#'   x %% 5 == 0 ~ "fizz",
-#'   x %% 7 == 0 ~ "buzz",
-#'   TRUE ~ as.character(x)
-#' )
 #'
 #' # Like an if statement, the arguments are evaluated in order, so you must
-#' # proceed from the most specific to the most general. This won't work:
+#' # proceed from the most specific to the most general.
 #' case_when(
-#'   TRUE ~ as.character(x),
-#'   x %%  5 == 0 ~ "fizz",
-#'   x %%  7 == 0 ~ "buzz",
-#'   x %% 35 == 0 ~ "fizz buzz"
+#'   x %% 35 == 0, "fizz buzz",
+#'   x %% 5 == 0, "fizz",
+#'   x %% 7 == 0, "buzz",
+#'   .default = as.character(x)
 #' )
 #'
-#' # If none of the cases match, NA is used:
+#' # If none of the cases match, `NA` is used:
 #' case_when(
-#'   x %%  5 == 0 ~ "fizz",
-#'   x %%  7 == 0 ~ "buzz",
-#'   x %% 35 == 0 ~ "fizz buzz"
+#'   x %% 5 == 0, "fizz",
+#'   x %% 7 == 0, "buzz",
+#'   x %% 35 == 0, "fizz buzz"
 #' )
 #'
-#' # Note that NA values in the vector x do not get special treatment. If you want
-#' # to explicitly handle NA values you can use the `is.na` function:
-#' x[2:4] <- NA_real_
+#' # An `NA` value in a logical condition gets passed through as `NA` in the
+#' # output if none of the other conditions return `TRUE`
+#' x[2:4] <- NA
+#'
 #' case_when(
-#'   x %% 35 == 0 ~ "fizz buzz",
-#'   x %% 5 == 0 ~ "fizz",
-#'   x %% 7 == 0 ~ "buzz",
-#'   is.na(x) ~ "nope",
-#'   TRUE ~ as.character(x)
+#'   x %% 35 == 0, "fizz buzz",
+#'   x %% 5 == 0, "fizz",
+#'   x %% 7 == 0, "buzz",
+#'   .default = as.character(x)
 #' )
 #'
-#' # All RHS values need to be of the same type. Inconsistent types will throw an error.
-#' # This applies also to NA values used in RHS: NA is logical, use
-#' # typed values like NA_real_, NA_complex, NA_character_, NA_integer_ as appropriate.
+#' # Use `is.na()` to handle the missing values if you know where they are
+#' # coming from
 #' case_when(
-#'   x %% 35 == 0 ~ NA_character_,
-#'   x %% 5 == 0 ~ "fizz",
-#'   x %% 7 == 0 ~ "buzz",
-#'   TRUE ~ as.character(x)
-#' )
-#' case_when(
-#'   x %% 35 == 0 ~ 35,
-#'   x %% 5 == 0 ~ 5,
-#'   x %% 7 == 0 ~ 7,
-#'   TRUE ~ NA_real_
+#'   x %% 35 == 0, "fizz buzz",
+#'   x %% 5 == 0, "fizz",
+#'   x %% 7 == 0, "buzz",
+#'   is.na(x), "nope",
+#'   .default = as.character(x)
 #' )
 #'
-#' # case_when() evaluates all RHS expressions, and then constructs its
-#' # result by extracting the selected (via the LHS expressions) parts.
-#' # In particular NaNs are produced in this case:
+#' # case_when() evaluates all value expressions, and then constructs its
+#' # result by extracting the selected (via the condition expressions) parts.
+#' # In particular `NaN`s are produced in this case:
 #' y <- seq(-2, 2, by = .5)
 #' case_when(
-#'   y >= 0 ~ sqrt(y),
-#'   TRUE   ~ y
+#'   y >= 0, sqrt(y),
+#'   .default = y
 #' )
 #'
-#' # This throws an error as NA is logical not numeric
-#' try(case_when(
-#'   x %% 35 == 0 ~ 35,
-#'   x %% 5 == 0 ~ 5,
-#'   x %% 7 == 0 ~ 7,
-#'   TRUE ~ NA
-#' ))
-#'
-#' # case_when is particularly useful inside mutate when you want to
+#' # `case_when()` is particularly useful inside `mutate()` when you want to
 #' # create a new variable that relies on a complex combination of existing
 #' # variables
 #' starwars %>%
 #'   select(name:mass, gender, species) %>%
 #'   mutate(
 #'     type = case_when(
-#'       height > 200 | mass > 200 ~ "large",
-#'       species == "Droid"        ~ "robot",
-#'       TRUE                      ~ "other"
+#'       height > 200 | mass > 200, "large",
+#'       species == "Droid", "robot",
+#'       .default = "other"
 #'     )
 #'   )
 #'
@@ -108,9 +144,9 @@
 #' # function:
 #' case_character_type <- function(height, mass, species) {
 #'   case_when(
-#'     height > 200 | mass > 200 ~ "large",
-#'     species == "Droid"        ~ "robot",
-#'     TRUE                      ~ "other"
+#'     height > 200 | mass > 200, "large",
+#'     species == "Droid", "robot",
+#'     .default = "other"
 #'   )
 #' }
 #'
@@ -121,66 +157,103 @@
 #' starwars %>%
 #'   mutate(type = case_character_type(height, mass, species)) %>%
 #'   pull(type)
-#'
-#' # `case_when()` ignores `NULL` inputs. This is useful when you'd
-#' # like to use a pattern only under certain conditions. Here we'll
-#' # take advantage of the fact that `if` returns `NULL` when there is
-#' # no `else` clause:
-#' case_character_type <- function(height, mass, species, robots = TRUE) {
-#'   case_when(
-#'     height > 200 | mass > 200      ~ "large",
-#'     if (robots) species == "Droid" ~ "robot",
-#'     TRUE                           ~ "other"
-#'   )
-#' }
-#'
-#' starwars %>%
-#'   mutate(type = case_character_type(height, mass, species, robots = FALSE)) %>%
-#'   pull(type)
-case_when <- function(...) {
-  fs <- compact_null(list2(...))
-  n <- length(fs)
+case_when <- function(...,
+                      .default = NULL,
+                      .ptype = NULL,
+                      .size = NULL) {
+  args <- list2(...)
 
-  error_call <- current_env()
-  if (n == 0) {
-    abort("No cases provided.", call = error_call)
+  any_quosures <- any(map_lgl(args, is_quosure))
+  any_formulas <- any(map_lgl(args, is_formula))
+
+  if (any_quosures || any_formulas) {
+    if (!is.null(.default)) {
+      abort("`.default` can only be used with the new interface.")
+    }
+    if (!is.null(.ptype)) {
+      abort("`.ptype` can only be used with the new interface.")
+    }
+    if (!is.null(.size)) {
+      abort("`.size` can only be used with the new interface.")
+    }
+
+    default_env <- caller_env()
+    dots_env <- current_env()
+    error_call <- caller_env()
+
+    # Handle the old interface
+    args <- case_when_formula_evaluate(
+      args = args,
+      default_env = default_env,
+      dots_env = dots_env,
+      error_call = error_call
+    )
   }
 
-  query <- vector("list", n)
+  vec_case_when(
+    !!!args,
+    .default = .default,
+    .ptype = .ptype,
+    .size = .size
+  )
+}
+
+# ------------------------------------------------------------------------------
+# Backwards compatibility
+
+case_when_formula_evaluate <- function(args,
+                                       default_env,
+                                       dots_env,
+                                       error_call) {
+  # `case_when()` used to compact `NULL`s, but the new interface doesn't
+  # because of how the inputs are supplied in pairs
+  args <- compact_null(args)
+  n <- length(args)
+
+  where <- vector("list", n)
   value <- vector("list", n)
 
-  default_env <- caller_env()
   quos_pairs <- map2(
-    fs, seq_along(fs),
-    validate_formula, default_env = default_env, dots_env = current_env(), error_call = error_call
+    .x = args,
+    .y = seq_along(args),
+    .f = validate_formula,
+    default_env = default_env,
+    dots_env = dots_env,
+    error_call = error_call
   )
 
   for (i in seq_len(n)) {
     pair <- quos_pairs[[i]]
-    query[[i]] <- eval_tidy(pair$lhs, env = default_env)
+    where[[i]] <- eval_tidy(pair$lhs, env = default_env)
     value[[i]] <- eval_tidy(pair$rhs, env = default_env)
-
-    if (!is.logical(query[[i]])) {
-      abort_case_when_logical(pair$lhs, i, query[[i]], error_call = error_call)
-    }
   }
 
-  m <- validate_case_when_length(query, value, fs, error_call = error_call)
+  # Add the formula call as the name for both `where` and `value`.
+  # These names also get passed on to `vec_case_when()`.
+  names <- parse_named_call(args)
+  names(where) <- names
+  names(value) <- names
 
-  out <- value[[1]][rep(NA_integer_, m)]
-  replaced <- rep(FALSE, m)
+  # `case_when()` used to find the common size of ALL of its inputs.
+  # This is what allowed `TRUE ~` to work.
+  size <- vec_size_common(!!!where, !!!value, .call = error_call)
 
-  for (i in seq_len(n)) {
-    out <- replace_with(out, query[[i]] & !replaced, value[[i]], NULL, error_call = error_call)
-    replaced <- replaced | (query[[i]] & !is.na(query[[i]]))
-  }
+  where <- vec_recycle_common(!!!where, .size = size)
+  value <- vec_recycle_common(!!!value, .size = size)
 
-  out
+  args <- vec_interleave(where, value)
+
+  args
 }
 
-validate_formula <- function(x, i, default_env, dots_env, error_call = caller_env()) {
-  # Formula might be quosured
+validate_formula <- function(x,
+                             i,
+                             default_env,
+                             dots_env,
+                             error_call) {
   if (is_quosure(x)) {
+    # We specially handle quosures, assuming they hold formulas.
+    # The new interface doesn't allow quosures.
     default_env <- quo_get_env(x)
     x <- quo_get_expr(x)
   }
@@ -207,35 +280,4 @@ abort_case_when_formula <- function(arg, i, obj, error_call = caller_env()) {
   type <- friendly_type_of(obj)
   msg <- glue("Case {i} ({deparsed}) must be a two-sided formula, not {type}.")
   abort(msg, call = error_call)
-}
-
-abort_case_when_logical <- function(lhs, i, query, error_call = caller_env()) {
-  deparsed <- fmt_obj1(deparse_trunc(quo_squash(lhs)))
-  type <- friendly_type_of(query)
-  msg <- glue("LHS of case {i} ({deparsed}) must be a logical vector, not {type}.")
-  abort(msg, call = error_call)
-}
-
-validate_case_when_length <- function(query, value, fs, error_call = caller_env()) {
-  lhs_lengths <- lengths(query)
-  rhs_lengths <- lengths(value)
-  all_lengths <- unique(c(lhs_lengths, rhs_lengths))
-
-  if (length(all_lengths) <= 1) {
-    return(all_lengths[[1]])
-  }
-
-  non_atomic_lengths <- all_lengths[all_lengths != 1]
-  len <- non_atomic_lengths[[1]]
-
-  if (length(non_atomic_lengths) == 1) {
-    return(len)
-  }
-
-  inconsistent_lengths <- non_atomic_lengths[-1]
-  lhs_problems <- lhs_lengths %in% inconsistent_lengths
-  rhs_problems <- rhs_lengths %in% inconsistent_lengths
-  problems <- lhs_problems | rhs_problems
-
-  check_length_val(inconsistent_lengths, len, header = fmt_calls(fs[problems]), error_call = error_call)
 }
