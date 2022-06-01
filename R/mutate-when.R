@@ -52,13 +52,46 @@ mutate_when <- function(.data, ...) {
   .data
 }
 
-# Take a data frame and update it at `loc` with `revisions`.
+revise <- function(.data, .when, ...) {
+  caller_env <- caller_env()
+  error_call <- caller_env
+
+  size <- vec_size(.data)
+
+  # Evaluate `.when` on all of `.data`.
+  # This handles `NA`s for us, and converts them to `FALSE`.
+  loc <- filter_rows(.data, {{ .when }}, caller_env = caller_env)
+  loc <- vec_as_location(loc, n = size)
+
+  dots <- dplyr_quosures(...)
+
+  # Only evaluate `...` on the slice of `.data` we are updating
+  updates <- dplyr_row_slice(.data, loc)
+
+  updates <- mutate_cols(
+    .data = updates,
+    dots = dots,
+    caller_env = caller_env,
+    error_call = error_call
+  )
+
+  out <- df_update(
+    x = .data,
+    loc = loc,
+    updates = updates,
+    error_call = error_call
+  )
+
+  out
+}
+
+# Take a data frame and update it at `loc` with `updates`.
 # Similar in spirit to:
-# x[loc, names(revisions)] <- revisions
+# x[loc, names(updates)] <- updates
 # but built from first principles to only use `dplyr_col_modify()`.
 df_update <- function(x, loc, updates, error_call = caller_env()) {
   if (any(map_lgl(updates, is.null))) {
-    abort("Can't delete columns when using `mutate_when()`.", call = error_call)
+    abort("Can't delete columns.", call = error_call)
   }
 
   names <- names(updates)
@@ -76,6 +109,7 @@ df_update <- function(x, loc, updates, error_call = caller_env()) {
 
     if (exists[[i]]) {
       col <- old[[name]]
+      update <- vec_cast(update, to = col, x_arg = name, call = error_call)
     } else {
       col <- vec_init(update, n = vec_size(x))
     }
