@@ -4,7 +4,7 @@
 
 
 
-* `nth()`, `first()`, and `last()` gained the `na.rm` argument since they are
+* `nth()`, `first()`, and `last()` gained the `na_rm` argument since they are
   summary functions (#6242).
 
 * New `rows_append()` which works like `rows_insert()` but ignores keys and

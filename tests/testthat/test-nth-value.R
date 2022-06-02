@@ -43,14 +43,14 @@ test_that("nth() gives meaningful error message (#5466)", {
   })
 })
 
-test_that("nth() works with NA values when na.rm = TRUE", {
-  expect_equal(nth(c(as.numeric(NA), 1:3), 1, na.rm = TRUE), 1)
-  expect_equal(nth(c(1, as.numeric(NA), 2, 3), 2, na.rm = TRUE), 2)
-  expect_equal(nth(c(1:3, as.numeric(NA)), -1, na.rm = TRUE), 3)
+test_that("nth() works with NA values when na_rm = TRUE", {
+  expect_equal(nth(c(as.numeric(NA), 1:3), 1, na_rm = TRUE), 1)
+  expect_equal(nth(c(1, as.numeric(NA), 2, 3), 2, na_rm = TRUE), 2)
+  expect_equal(nth(c(1:3, as.numeric(NA)), -1, na_rm = TRUE), 3)
 })
 
-test_that("nth() uses default value when na.rm = TRUE and all NA values", {
-  expect_equal(nth(rep(as.numeric(NA), 3), 1, na.rm = TRUE), as.numeric(NA))
-  expect_equal(nth(rep(as.numeric(NA), 3), 2, na.rm = TRUE), as.numeric(NA))
-  expect_equal(nth(rep(as.numeric(NA), 3), -1, na.rm = TRUE), as.numeric(NA))
+test_that("nth() uses default value when na_rm = TRUE and all NA values", {
+  expect_equal(nth(rep(as.numeric(NA), 3), 1, na_rm = TRUE), as.numeric(NA))
+  expect_equal(nth(rep(as.numeric(NA), 3), 2, na_rm = TRUE), as.numeric(NA))
+  expect_equal(nth(rep(as.numeric(NA), 3), -1, na_rm = TRUE), as.numeric(NA))
 })

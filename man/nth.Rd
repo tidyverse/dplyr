@@ -6,11 +6,11 @@
 \alias{last}
 \title{Extract the first, last or nth value from a vector}
 \usage{
-nth(x, n, order_by = NULL, default = default_missing(x), na.rm = FALSE)
+nth(x, n, order_by = NULL, default = default_missing(x), na_rm = FALSE)
 
-first(x, order_by = NULL, default = default_missing(x), na.rm = FALSE)
+first(x, order_by = NULL, default = default_missing(x), na_rm = FALSE)
 
-last(x, order_by = NULL, default = default_missing(x), na.rm = FALSE)
+last(x, order_by = NULL, default = default_missing(x), na_rm = FALSE)
 }
 \arguments{
 \item{x}{A vector}
@@ -31,7 +31,7 @@ a \code{NULL} is return.
 For more complicated objects, you'll need to supply this value.
 Make sure it is the same type as \code{x}.}
 
-\item{na.rm}{if \code{TRUE} missing values don't count}
+\item{na_rm}{if \code{TRUE} missing values don't count}
 }
 \value{
 A single value. \code{[[} is used to do the subsetting.

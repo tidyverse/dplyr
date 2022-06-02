@@ -19,7 +19,7 @@
 #'
 #'   For more complicated objects, you'll need to supply this value.
 #'   Make sure it is the same type as `x`.
-#' @param na.rm if `TRUE` missing values don't count
+#' @param na_rm if `TRUE` missing values don't count
 #' @return A single value. `[[` is used to do the subsetting.
 #' @export
 #' @examples
@@ -40,13 +40,13 @@
 #'
 #' # These functions always return a single value
 #' first(integer())
-nth <- function(x, n, order_by = NULL, default = default_missing(x), na.rm = FALSE) {
+nth <- function(x, n, order_by = NULL, default = default_missing(x), na_rm = FALSE) {
   if (length(n) != 1 || !is.numeric(n)) {
     abort("`n` must be a single integer.")
   }
   n <- trunc(n)
 
-  if (na.rm) {
+  if (na_rm) {
     x <- x[!is.na(x)]
   }
 
@@ -68,14 +68,14 @@ nth <- function(x, n, order_by = NULL, default = default_missing(x), na.rm = FAL
 
 #' @export
 #' @rdname nth
-first <- function(x, order_by = NULL, default = default_missing(x), na.rm = FALSE) {
-  nth(x, 1L, order_by = order_by, default = default, na.rm = na.rm)
+first <- function(x, order_by = NULL, default = default_missing(x), na_rm = FALSE) {
+  nth(x, 1L, order_by = order_by, default = default, na_rm = na_rm)
 }
 
 #' @export
 #' @rdname nth
-last <- function(x, order_by = NULL, default = default_missing(x), na.rm = FALSE) {
-  nth(x, -1L, order_by = order_by, default = default, na.rm = na.rm)
+last <- function(x, order_by = NULL, default = default_missing(x), na_rm = FALSE) {
+  nth(x, -1L, order_by = order_by, default = default, na_rm = na_rm)
 }
 
 default_missing <- function(x) {
