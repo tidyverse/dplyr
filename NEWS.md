@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `percent_rank()` documentation has been updated to provide a more accurate
+  description of how it compares to `min_rank()`. jon.downs88.jd@gmail.com, issue [#5943](https://github.com/tidyverse/dplyr/issues/5943).
+
 * `tbl_sum()` is no longer reexported from tibble (#6284).
 
 * `slice_sample()` now gives a more informative error when `replace = FALSE` and
