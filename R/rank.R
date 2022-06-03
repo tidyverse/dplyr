@@ -13,8 +13,8 @@
 #' * `dense_rank()`: like `min_rank()`, but with no gaps between
 #'   ranks
 #'
-#' * `percent_rank()`: a number between 0 and 1 computed by
-#'   rescaling `min_rank` to `[0, 1]`
+#' * `percent_rank()`: the percentage of values ranked below the given value.
+#'   Note that this is not the same as scaling `min_rank()` between `[0, 1]`.
 #'
 #' * `cume_dist()`: a cumulative distribution function. Proportion
 #'   of all values less than or equal to the current rank.
