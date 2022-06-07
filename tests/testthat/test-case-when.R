@@ -26,6 +26,44 @@ test_that("unhandled `NA` are propagated", {
   )
 })
 
+test_that("unhandled `NA` can be handled by `.missing`", {
+  x <- c(NA, 0, 10)
+
+  expect_identical(
+    case_when(
+      x > 2, 0,
+      .default = 1,
+      .missing = 2
+    ),
+    c(2, 1, 0)
+  )
+})
+
+test_that("complex condition can actually remove `NA`s from the original inputs (#6286, comment)", {
+  x <- c(1, 2, 6)
+  y <- c(1, NA, NA)
+
+  out <- case_when(
+    x <= 2 & y <= 2, "low",
+    .default = "high",
+    .missing = "unknown"
+  )
+
+  # For the 2nd element, `TRUE & NA = NA`, resulting in `.missing`.
+  # For the 3rd element, `FALSE & NA = FALSE`, resulting in `.default`.
+  # case_when() never "sees" the original missing values.
+  expect_identical(out, c("low", "unknown", "high"))
+
+  out <- case_when(
+    x <= 2 & y <= 2, "low",
+    is.na(x) | is.na(y), "missing",
+    .default = "high",
+    .missing = "unknown"
+  )
+
+  expect_identical(out, c("low", "missing", "missing"))
+})
+
 test_that("any `TRUE` overrides an `NA`", {
   x <- c(1, 2, NA, 3)
   expect <- c("one", "not_one", "missing", "not_one")
@@ -53,6 +91,10 @@ test_that("any `TRUE` overrides an `NA`", {
 
 test_that("passes through `.default` correctly", {
   expect_identical(case_when(FALSE, 1, .default = 2), 2)
+})
+
+test_that("passes through `.missing` correctly", {
+  expect_identical(case_when(NA, 1, .missing = 2), 2)
 })
 
 test_that("passes through `.ptype` correctly", {
@@ -102,6 +144,7 @@ test_that("invalid type errors are correct (#6261) (#6206)", {
 
 test_that("trying to mix the old interface with new arguments isn't allowed", {
   expect_snapshot(error = TRUE, case_when(1 ~ 2, .default = 3))
+  expect_snapshot(error = TRUE, case_when(1 ~ 2, .missing = 3))
   expect_snapshot(error = TRUE, case_when(1 ~ 2, .ptype = integer()))
   expect_snapshot(error = TRUE, case_when(1 ~ 2, .size = 1))
 })

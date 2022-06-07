@@ -33,6 +33,14 @@
 ---
 
     Code
+      case_when(1 ~ 2, .missing = 3)
+    Condition
+      Error in `case_when()`:
+      ! `.missing` can only be used with the new interface.
+
+---
+
+    Code
       case_when(1 ~ 2, .ptype = integer())
     Condition
       Error in `case_when()`:

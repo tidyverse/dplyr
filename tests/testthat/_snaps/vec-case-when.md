@@ -30,6 +30,14 @@
       Error:
       ! `.default` must have size 1, not size 2.
 
+# `.missing` must be size 1 or same size as logical conditions (exact same as any other even numbered input)
+
+    Code
+      vec_case_when(FALSE, 1L, .missing = 2:3)
+    Condition
+      Error:
+      ! `.missing` must have size 1, not size 2.
+
 # `.default_arg` can be customized
 
     Code
@@ -46,6 +54,22 @@
       Error:
       ! Can't combine `..2` <integer> and `foo` <character>.
 
+# `.missing_arg` can be customized
+
+    Code
+      vec_case_when(FALSE, 1L, .missing = 2:3, .missing_arg = "foo")
+    Condition
+      Error:
+      ! `foo` must have size 1, not size 2.
+
+---
+
+    Code
+      vec_case_when(FALSE, 1L, .missing = "x", .missing_arg = "foo")
+    Condition
+      Error:
+      ! Can't combine `..2` <integer> and `foo` <character>.
+
 # `.default_arg` is validated
 
     Code
@@ -53,6 +77,14 @@
     Condition
       Error:
       ! `.default_arg` must be a string.
+
+# `.missing_arg` is validated
+
+    Code
+      vec_case_when(TRUE, 1, .missing_arg = 1)
+    Condition
+      Error:
+      ! `.missing_arg` must be a string.
 
 # odd numbered inputs must all be the same size
 

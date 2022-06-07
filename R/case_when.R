@@ -17,18 +17,29 @@
 #'   The `value` inputs will be coerced to their common type. All `value`
 #'   inputs must be length 1 or the same length as the `condition`s.
 #'
-#'   An `NA` in a `condition` will result in a missing value in that location
-#'   of the output unless another `condition` evaluates to `TRUE` for that
-#'   location.
+#'   `value` inputs are only used when the condition returns `TRUE`. If all
+#'   conditions return `FALSE`, then `.default` will be used. If at least one
+#'   condition returns `NA` and no condition returns `TRUE`, then `.missing`
+#'   will be used.
 #'
 #'   If the `...` are named, those names will be utilized in any error messages.
 #'
-#' @param .default The default value used when all `condition`s return `FALSE`
-#'   for a particular location. `.default` must be length 1 or the same length
-#'   as the `condition`s. `.default` participates in the computation of the
-#'   common type alongside the `value` inputs.
+#' @param .default The value used when all `condition`s return `FALSE`.
 #'
-#'   If `NULL`, the default, a missing value will be placed in the result.
+#'   `.default` must be length 1 or the same length as the `condition`s.
+#'   `.default` participates in the computation of the common type alongside the
+#'   `value` inputs.
+#'
+#'   If `NULL`, the default, a missing value will be used.
+#'
+#' @param .missing The value used when at least one `condition` returns `NA` and
+#'   none of the conditions are `TRUE`.
+#'
+#'   `.missing` must be length 1 or the same length as the `condition`s.
+#'   `.missing` participates in the computation of the common type alongside the
+#'   `value` inputs.
+#'
+#'   If `NULL`, the default, a missing value will be used.
 #'
 #' @param .ptype An optional prototype declaring the desired output type. If
 #'   supplied, this overrides the common type of the `value` inputs.
@@ -67,7 +78,9 @@
 #' allows us to require that all of the `condition`s have the same size. It is
 #' also only applied to locations where all of the `condition`s have returned
 #' `FALSE`, and doesn't apply to locations where an `NA` should have been
-#' propagated through, unlike the `TRUE ~ default` approach.
+#' propagated through, unlike the `TRUE ~ default` approach. For controlling
+#' the result when `NA` values are present in the `condition`s, you should now
+#' use `.missing`.
 #'
 #' The old interface was also the only place in the tidyverse that we used
 #' formulas in this way, and it had the potential to be confusing with how we
@@ -106,14 +119,13 @@
 #'   .default = as.character(x)
 #' )
 #'
-#' # Use `is.na()` to handle the missing values if you know where they are
-#' # coming from
+#' # Use `.missing` to handle the missing values
 #' case_when(
 #'   x %% 35 == 0, "fizz buzz",
 #'   x %% 5 == 0, "fizz",
 #'   x %% 7 == 0, "buzz",
-#'   is.na(x), "nope",
-#'   .default = as.character(x)
+#'   .default = as.character(x),
+#'   .missing = "nope"
 #' )
 #'
 #' # case_when() evaluates all value expressions, and then constructs its
@@ -170,6 +182,7 @@
 #'   pull(type)
 case_when <- function(...,
                       .default = NULL,
+                      .missing = NULL,
                       .ptype = NULL,
                       .size = NULL) {
   args <- list2(...)
@@ -180,6 +193,9 @@ case_when <- function(...,
   if (any_quosures || any_formulas) {
     if (!is.null(.default)) {
       abort("`.default` can only be used with the new interface.")
+    }
+    if (!is.null(.missing)) {
+      abort("`.missing` can only be used with the new interface.")
     }
     if (!is.null(.ptype)) {
       abort("`.ptype` can only be used with the new interface.")
@@ -204,6 +220,7 @@ case_when <- function(...,
   vec_case_when(
     !!!args,
     .default = .default,
+    .missing = .missing,
     .ptype = .ptype,
     .size = .size
   )

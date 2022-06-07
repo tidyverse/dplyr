@@ -1,6 +1,8 @@
 vec_case_when <- function(...,
                           .default = NULL,
                           .default_arg = ".default",
+                          .missing = NULL,
+                          .missing_arg = ".missing",
                           .ptype = NULL,
                           .size = NULL,
                           .call = caller_env()) {
@@ -22,6 +24,9 @@ vec_case_when <- function(...,
 
   if (!is_string(.default_arg)) {
     abort("`.default_arg` must be a string.", call = .call)
+  }
+  if (!is_string(.missing_arg)) {
+    abort("`.missing_arg` must be a string.", call = .call)
   }
 
   n_wheres <- n_args / 2L
@@ -52,11 +57,16 @@ vec_case_when <- function(...,
   values <- args[loc_values]
   value_args <- names2(values)
 
-  # Allow `.default` to participate in common type determination.
-  # In terms of size/ptype behavior it is exactly like any other `values` element.
+  # Allow `.default` and `.missing` to participate in common type determination.
+  # In terms of size/ptype behavior they are exactly like any other `values` element.
+  # Have to collect inputs and splice them in all at once due to
+  # https://github.com/r-lib/vctrs/issues/1570
+  extras <- list(.default, .missing)
+  names(extras) <- c(.default_arg, .missing_arg)
+  everything <- c(values, extras)
+
   .ptype <- vec_ptype_common(
-    !!!values,
-    "{.default_arg}" := .default,
+    !!!everything,
     .ptype = .ptype,
     .call = .call
   )
@@ -75,6 +85,17 @@ vec_case_when <- function(...,
       x = .default,
       to = .ptype,
       x_arg = .default_arg,
+      call = .call
+    )
+  }
+
+  if (is.null(.missing)) {
+    .missing <- vec_init(.ptype)
+  } else {
+    .missing <- vec_cast(
+      x = .missing,
+      to = .ptype,
+      x_arg = .missing_arg,
       call = .call
     )
   }
@@ -101,64 +122,68 @@ vec_case_when <- function(...,
   }
 
   default_size <- vec_size(.default)
-
   if (default_size != 1L) {
     vec_assert(.default, size = .size, arg = .default_arg, call = .call)
+  }
+
+  missing_size <- vec_size(.missing)
+  if (missing_size != 1L) {
+    vec_assert(.missing, size = .size, arg = .missing_arg, call = .call)
   }
 
   n_used <- 0L
   locs <- vector("list", n_values)
 
   # Starts as unused. Any `TRUE` value in `where` flips it to used.
-  unused <- vec_rep(TRUE, times = .size)
+  are_unused <- vec_rep(TRUE, times = .size)
 
   # Track unhandled missings using boolean operations.
   # If `FALSE`, any `NA` in `where` flips it to `NA`.
   # Any `TRUE` in `where` overrides both `NA` and `FALSE` to `TRUE`.
-  missing <- vec_rep(FALSE, times = .size)
+  are_missing <- vec_rep(FALSE, times = .size)
 
   for (i in seq_len(n_wheres)) {
-    if (!any(unused)) {
+    if (!any(are_unused)) {
       break
     }
 
     where <- wheres[[i]]
 
-    loc <- unused & where
-    missing <- missing | where
+    loc <- are_unused & where
+    are_missing <- are_missing | where
 
     loc <- which(loc)
     locs[[i]] <- loc
 
-    unused[loc] <- FALSE
+    are_unused[loc] <- FALSE
     n_used <- n_used + 1L
   }
 
   if (n_used == n_wheres) {
     # If all of the `where` conditions are used,
-    # then we check if we need `missing` or `.default`
+    # then we check if we need `.missing` or `.default`
 
-    missing <- vec_equal_na(missing)
+    are_missing <- vec_equal_na(are_missing)
 
-    if (any(missing)) {
-      missing <- which(missing)
+    if (any(are_missing)) {
+      are_missing <- which(are_missing)
 
       n_used <- n_used + 1L
       n_values <- n_values + 1L
-      locs[[n_values]] <- missing
-      values[[n_values]] <- vec_init(.ptype)
-      value_sizes[[n_values]] <- 1L
+      locs[[n_values]] <- are_missing
+      values[[n_values]] <- .missing
+      value_sizes[[n_values]] <- missing_size
 
       # Missing locations don't count as unused
-      unused[missing] <- FALSE
+      are_unused[are_missing] <- FALSE
     }
 
-    if (any(unused)) {
-      unused <- which(unused)
+    if (any(are_unused)) {
+      are_unused <- which(are_unused)
 
       n_used <- n_used + 1L
       n_values <- n_values + 1L
-      locs[[n_values]] <- unused
+      locs[[n_values]] <- are_unused
       values[[n_values]] <- .default
       value_sizes[[n_values]] <- default_size
     }
@@ -213,8 +238,13 @@ name_unnamed <- function(names) {
 
   if (any(unnamed)) {
     unnamed <- which(unnamed)
-    names[unnamed] <- paste0("..", unnamed)
+    names[unnamed] <- vec_paste0("..", unnamed)
   }
 
   names
+}
+
+vec_paste0 <- function (...) {
+  args <- vec_recycle_common(...)
+  exec(paste0, !!!args)
 }

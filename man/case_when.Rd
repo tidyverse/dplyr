@@ -4,7 +4,7 @@
 \alias{case_when}
 \title{A general vectorised if-else}
 \usage{
-case_when(..., .default = NULL, .ptype = NULL, .size = NULL)
+case_when(..., .default = NULL, .missing = NULL, .ptype = NULL, .size = NULL)
 }
 \arguments{
 \item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}>
@@ -20,18 +20,29 @@ inputs must be the same length.
 The \code{value} inputs will be coerced to their common type. All \code{value}
 inputs must be length 1 or the same length as the \code{condition}s.
 
-An \code{NA} in a \code{condition} will result in a missing value in that location
-of the output unless another \code{condition} evaluates to \code{TRUE} for that
-location.
+\code{value} inputs are only used when the condition returns \code{TRUE}. If all
+conditions return \code{FALSE}, then \code{.default} will be used. If at least one
+condition returns \code{NA} and no condition returns \code{TRUE}, then \code{.missing}
+will be used.
 
 If the \code{...} are named, those names will be utilized in any error messages.}
 
-\item{.default}{The default value used when all \code{condition}s return \code{FALSE}
-for a particular location. \code{.default} must be length 1 or the same length
-as the \code{condition}s. \code{.default} participates in the computation of the
-common type alongside the \code{value} inputs.
+\item{.default}{The value used when all \code{condition}s return \code{FALSE}.
 
-If \code{NULL}, the default, a missing value will be placed in the result.}
+\code{.default} must be length 1 or the same length as the \code{condition}s.
+\code{.default} participates in the computation of the common type alongside the
+\code{value} inputs.
+
+If \code{NULL}, the default, a missing value will be used.}
+
+\item{.missing}{The value used when at least one \code{condition} returns \code{NA} and
+none of the conditions are \code{TRUE}.
+
+\code{.missing} must be length 1 or the same length as the \code{condition}s.
+\code{.missing} participates in the computation of the common type alongside the
+\code{value} inputs.
+
+If \code{NULL}, the default, a missing value will be used.}
 
 \item{.ptype}{An optional prototype declaring the desired output type. If
 supplied, this overrides the common type of the \code{value} inputs.}
@@ -75,7 +86,9 @@ we believe that \code{.default} is a safer way to provide a default value, as it
 allows us to require that all of the \code{condition}s have the same size. It is
 also only applied to locations where all of the \code{condition}s have returned
 \code{FALSE}, and doesn't apply to locations where an \code{NA} should have been
-propagated through, unlike the \code{TRUE ~ default} approach.
+propagated through, unlike the \code{TRUE ~ default} approach. For controlling
+the result when \code{NA} values are present in the \code{condition}s, you should now
+use \code{.missing}.
 
 The old interface was also the only place in the tidyverse that we used
 formulas in this way, and it had the potential to be confusing with how we
@@ -114,14 +127,13 @@ case_when(
   .default = as.character(x)
 )
 
-# Use `is.na()` to handle the missing values if you know where they are
-# coming from
+# Use `.missing` to handle the missing values
 case_when(
   x \%\% 35 == 0, "fizz buzz",
   x \%\% 5 == 0, "fizz",
   x \%\% 7 == 0, "buzz",
-  is.na(x), "nope",
-  .default = as.character(x)
+  .default = as.character(x),
+  .missing = "nope"
 )
 
 # case_when() evaluates all value expressions, and then constructs its

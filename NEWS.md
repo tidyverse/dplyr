@@ -26,6 +26,11 @@
   )
   ```
   
+  Additionally, unlike `TRUE ~ default`, the `.default` argument isn't used for
+  cases where an `NA` should have been propagated through. To handle those
+  cases, there is a new `.missing` argument. This should replace most uses
+  of `is.na(x) ~ value`.
+  
   The rewrite with vctrs includes a number of additional benefits:
   
   - The types of the values no longer have to match exactly. For example, the
