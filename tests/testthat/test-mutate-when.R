@@ -74,13 +74,21 @@ test_that("condition can be directly followed by another condition", {
 test_that("all conditions are evaluated on original data", {
   df <- tibble(x = 1)
 
+  stop_on_negative_x <- function(x) {
+    if (any(x < 0)) {
+      abort(class = "negative_x")
+    } else {
+      rep_along(x, TRUE)
+    }
+  }
+
   expect_identical(
     mutate_when(
       df,
-      x == 1, x = 2,
-      x == 2, x = 3
+      x == 1, x = -1,
+      stop_on_negative_x(x), x = 3
     ),
-    tibble(x = 2)
+    tibble(x = -1)
   )
 })
 

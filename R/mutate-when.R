@@ -26,6 +26,8 @@ mutate_when <- function(.data, ...) {
   size <- vec_size(.data)
   unused <- vec_rep(TRUE, size)
 
+  out <- .data
+
   for (i in seq_len(n_conditions)) {
     condition <- conditions[[i]]
     value <- values[[i]]
@@ -46,10 +48,10 @@ mutate_when <- function(.data, ...) {
     updates <- dplyr_row_slice(.data, loc)
     updates <- mutate_cols(updates, dots = value, caller_env = caller_env)
 
-    .data <- df_update(.data, loc, updates)
+    out <- df_update(out, loc, updates)
   }
 
-  .data
+  out
 }
 
 revise <- function(.data, .when, ...) {
