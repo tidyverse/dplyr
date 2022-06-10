@@ -106,6 +106,8 @@ for each of the summary statistics that you have specified.</p>
 <dd><p>A data frame, data frame extension (e.g. a tibble), or a
 lazy data frame (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for
 more details.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>&lt;<code><a href="dplyr_data_masking.html">data-masking</a></code>&gt; Name-value pairs of summary
 functions. The name will be the name of the variable in the result.</p>
@@ -113,6 +115,8 @@ functions. The name will be the name of the variable in the result.</p>
 <li><p>A vector of length <code>n</code>, e.g. <code><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile()</a></code>.</p></li>
 <li><p>A data frame, to add multiple columns from a single expression.</p></li>
 </ul></dd>
+
+
 <dt>.groups</dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a> Grouping structure of the result.</p><ul><li><p>"drop_last": dropping the last level of grouping. This was the
 only supported option before version 1.0.0.</p></li>
@@ -125,10 +129,13 @@ based on the number of rows of the results:</p><ul><li><p>If all the results hav
 </ul><p>In addition, a message informs you of that choice, unless the result is ungrouped,
 the option "dplyr.summarise.inform" is set to <code>FALSE</code>,
 or when <code>summarise()</code> is called from a function in a package.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object <em>usually</em> of the same type as <code>.data</code>.</p><ul><li><p>The rows come from the underlying <code><a href="group_data.html">group_keys()</a></code>.</p></li>
+    
+
+<p>An object <em>usually</em> of the same type as <code>.data</code>.</p><ul><li><p>The rows come from the underlying <code><a href="group_data.html">group_keys()</a></code>.</p></li>
 <li><p>The columns are a combination of the grouping keys and the summary
 expressions that you provide.</p></li>
 <li><p>The grouping structure is controlled by the <code>.groups=</code> argument, the
@@ -283,7 +290,7 @@ dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/summarise.tbl_lazy
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>

@@ -97,6 +97,8 @@ where operations are performed "by group". <code>ungroup()</code> removes groupi
 <dd><p>A data frame, data frame extension (e.g. a tibble), or a
 lazy data frame (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for
 more details.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>In <code>group_by()</code>, variables or computations to group by.
 Computations are always done on the ungrouped data frame.
@@ -104,6 +106,8 @@ To perform computations on the grouped data, you need to use
 a separate <code><a href="mutate.html">mutate()</a></code> step before the <code>group_by()</code>.
 Computations are not allowed in <code><a href="nest_by.html">nest_by()</a></code>.
 In <code>ungroup()</code>, variables to remove from the grouping.</p></dd>
+
+
 <dt>.add</dt>
 <dd><p>When <code>FALSE</code>, the default, <code>group_by()</code> will
 override existing groups. To add to the existing groups, use
@@ -111,16 +115,23 @@ override existing groups. To add to the existing groups, use
 <p>This argument was previously called <code>add</code>, but that prevented
 creating a new grouping variable called <code>add</code>, and conflicts with
 our naming conventions.</p></dd>
+
+
 <dt>.drop</dt>
 <dd><p>Drop groups formed by factor levels that don't appear in the
 data? The default is <code>TRUE</code> except when <code>.data</code> has been previously
 grouped with <code>.drop = FALSE</code>. See <code><a href="group_by_drop_default.html">group_by_drop_default()</a></code> for details.</p></dd>
+
+
 <dt>x</dt>
 <dd><p>A <code><a href="tbl.html">tbl()</a></code></p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A grouped data frame with class <code><a href="grouped_df.html">grouped_df</a></code>,
+    
+
+<p>A grouped data frame with class <code><a href="grouped_df.html">grouped_df</a></code>,
 unless the combination of <code>...</code> and <code>add</code> yields a empty set of
 grouping columns, in which case a tibble will be returned.</p>
     </div>
@@ -326,7 +337,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>

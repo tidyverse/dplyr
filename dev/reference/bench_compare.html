@@ -104,30 +104,49 @@ generate more informative test failures.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>tbls, tbls_x, tbls_y</dt>
 <dd><p>A list of <code><a href="tbl.html">tbl()</a></code>s.</p></dd>
+
+
 <dt>op</dt>
 <dd><p>A function with a single argument, called often with each
 element of <code>tbls</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>For <code>compare_tbls()</code>: additional parameters passed on the
 <code>compare()</code> function</p>
 <p>For <code>bench_tbls()</code>: additional benchmarks to run.</p></dd>
+
+
 <dt>times</dt>
 <dd><p>For benchmarking, the number of times each operation is
 repeated.</p></dd>
+
+
 <dt>ref</dt>
 <dd><p>For checking, a data frame to test results against. If not
 supplied, defaults to the results from the first <code>src</code>.</p></dd>
+
+
 <dt>compare</dt>
 <dd><p>A function used to compare the results. Defaults to
 <code>equal_data_frame</code> which ignores the order of rows and columns.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code>eval_tbls()</code>: a list of data frames.
-<code>compare_tbls()</code>: an invisible <code>TRUE</code> on success, otherwise
-an error is thrown.
-<code>bench_tbls()</code>: an object of class
+    
+
+<p><code>eval_tbls()</code>: a list of data frames.</p>
+
+
+<p><code>compare_tbls()</code>: an invisible <code>TRUE</code> on success, otherwise
+an error is thrown.</p>
+
+
+<p><code>bench_tbls()</code>: an object of class
 <code><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark::microbenchmark()</a></code></p>
+
+
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -141,7 +160,7 @@ an error is thrown.
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>

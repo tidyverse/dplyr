@@ -178,6 +178,8 @@ must exist in <code>x</code>.</p></li>
     <dl><dt>x, y</dt>
 <dd><p>A pair of data frames or data frame extensions (e.g. a tibble).
 <code>y</code> must have the same columns of <code>x</code> or a subset.</p></dd>
+
+
 <dt>by</dt>
 <dd><p>An unnamed character vector giving the key columns. The key columns
 must exist in both <code>x</code> and <code>y</code>. Keys typically uniquely identify each row,
@@ -185,8 +187,12 @@ but this is only enforced for the key values of <code>y</code> when <code>rows_u
 <code>rows_patch()</code>, or <code>rows_upsert()</code> are used.</p>
 <p>By default, we use the first column in <code>y</code>, since the first column is
 a reasonable place to put an identifier variable.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Other parameters passed onto methods.</p></dd>
+
+
 <dt>conflict</dt>
 <dd><p>For <code>rows_insert()</code>, how should keys in <code>y</code> that conflict
 with keys in <code>x</code> be handled? A conflict arises if there is a key in <code>y</code>
@@ -196,16 +202,22 @@ conflict with keys in <code>x</code>.</p></li>
 <li><p><code>"ignore"</code> will ignore rows in <code>y</code> with keys that conflict with keys in
 <code>x</code>.</p></li>
 </ul></dd>
+
+
 <dt>copy</dt>
 <dd><p>If <code>x</code> and <code>y</code> are not from the same data source,
 and <code>copy</code> is <code>TRUE</code>, then <code>y</code> will be copied into the
 same src as <code>x</code>.  This allows you to join tables across srcs, but
 it is a potentially expensive operation so you must opt into it.</p></dd>
+
+
 <dt>in_place</dt>
 <dd><p>Should <code>x</code> be modified in place? This argument is only
 relevant for mutable backends (e.g. databases, data.tables).</p>
 <p>When <code>TRUE</code>, a modified version of <code>x</code> is returned invisibly;
 when <code>FALSE</code>, a new object representing the resulting changes is returned.</p></dd>
+
+
 <dt>unmatched</dt>
 <dd><p>For <code>rows_update()</code>, <code>rows_patch()</code>, and <code>rows_delete()</code>,
 how should keys in <code>y</code> that are unmatched by the keys in <code>x</code> be handled?</p>
@@ -214,10 +226,16 @@ are unmatched by the keys in <code>x</code>.</p></li>
 <li><p><code>"ignore"</code> will ignore rows in <code>y</code> with keys that are unmatched by the
 keys in <code>x</code>.</p></li>
 </ul></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of the same type as <code>x</code>. The order of the rows and columns of <code>x</code>is preserved as much as possible. The output has the following properties:</p><ul><li><p><code>rows_update()</code> and <code>rows_patch()</code> preserve the number of rows;
+    
+
+<p>An object of the same type as <code>x</code>. The order of the rows and columns of <code>x</code></p>
+
+
+<p>is preserved as much as possible. The output has the following properties:</p><ul><li><p><code>rows_update()</code> and <code>rows_patch()</code> preserve the number of rows;
 <code>rows_insert()</code>, <code>rows_append()</code>, and <code>rows_upsert()</code> return all existing
 rows and potentially new rows; <code>rows_delete()</code> returns a subset of the
 rows.</p></li>
@@ -371,7 +389,7 @@ updated.</p></li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>

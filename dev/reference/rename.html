@@ -97,20 +97,29 @@ function.</p>
 <dd><p>A data frame, data frame extension (e.g. a tibble), or a
 lazy data frame (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for
 more details.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>For <code>rename()</code>: &lt;<code><a href="dplyr_tidy_select.html">tidy-select</a></code>&gt; Use
 <code>new_name = old_name</code> to rename selected variables.</p>
 <p>For <code>rename_with()</code>: additional arguments passed onto <code>.fn</code>.</p></dd>
+
+
 <dt>.fn</dt>
 <dd><p>A function used to transform the selected <code>.cols</code>. Should
 return a character vector the same length as the input.</p></dd>
+
+
 <dt>.cols</dt>
 <dd><p>&lt;<code><a href="dplyr_tidy_select.html">tidy-select</a></code>&gt; Columns to rename;
 defaults to all columns.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of the same type as <code>.data</code>. The output has the following
+    
+
+<p>An object of the same type as <code>.data</code>. The output has the following
 properties:</p><ul><li><p>Rows are not affected.</p></li>
 <li><p>Column names are changed; column order is preserved.</p></li>
 <li><p>Data frame attributes are preserved.</p></li>
@@ -215,7 +224,7 @@ dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/select.tbl_lazy.ht
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>

@@ -97,6 +97,8 @@ be used to iterate on grouped tibbles.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>.data</dt>
 <dd><p>A grouped tibble</p></dd>
+
+
 <dt>.f</dt>
 <dd><p>A function or formula to apply to each group.</p>
 <p>If a <strong>function</strong>, it is used as is. It should have at least 2 formal arguments.</p>
@@ -106,14 +108,21 @@ for the given group</p></li>
 <li><p><code>.y</code> to refer to the key, a one row tibble with one column per grouping variable
 that identifies the group</p></li>
 </ul></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments passed on to <code>.f</code></p></dd>
+
+
 <dt>.keep</dt>
 <dd><p>are the grouping variables kept in <code>.x</code></p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <ul><li><p><code>group_modify()</code> returns a grouped tibble. In that case <code>.f</code> must return a data frame.</p></li>
+    
+
+<ul><li><p><code>group_modify()</code> returns a grouped tibble. In that case <code>.f</code> must return a data frame.</p></li>
 <li><p><code>group_map()</code> returns a list of results from calling <code>.f</code> on each group.</p></li>
 <li><p><code>group_walk()</code> calls <code>.f</code> for side effects and returns the input <code>.tbl</code>, invisibly.</p></li>
 </ul></div>
@@ -319,7 +328,7 @@ column, consistently with <code><a href="group_data.html">group_keys()</a></code
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>

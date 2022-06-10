@@ -114,12 +114,18 @@ more details.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>dbname</dt>
 <dd><p>Database name</p></dd>
+
+
 <dt>host, port</dt>
 <dd><p>Host name and port number of database</p></dd>
+
+
 <dt>...</dt>
 <dd><p>for the src, other arguments passed on to the underlying
 database connector, <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">DBI::dbConnect()</a></code>. For the tbl, included for
 compatibility with the generic, but otherwise ignored.</p></dd>
+
+
 <dt>user, username, password</dt>
 <dd><p>User name and password.</p>
 <p>Generally, you should avoid saving username and password in your
@@ -127,18 +133,25 @@ scripts as it is easy to accidentally expose valuable credentials.
 Instead, retrieve them from environment variables, or use database
 specific credential scores. For example, with MySQL you can set up <code>my.cnf</code>
 as described in <code><a href="https://rdrr.io/pkg/RMySQL/man/MySQLDriver-class.html" class="external-link">RMySQL::MySQL()</a></code>.</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Path to SQLite database. You can use the special path
 ":memory:" to create a temporary in memory database.</p></dd>
+
+
 <dt>create</dt>
 <dd><p>if <code>FALSE</code>, <code>path</code> must already exist. If
 <code>TRUE</code>, will create a new SQLite3 database at <code>path</code> if
 <code>path</code> does not exist and connect to the existing database if
 <code>path</code> does exist.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An S3 object with class <code>src_dbi</code>, <code>src_sql</code>, <code>src</code>.</p>
+    
+
+<p>An S3 object with class <code>src_dbi</code>, <code>src_sql</code>, <code>src</code>.</p>
     </div>
 
     <div class="section level2">
@@ -195,7 +208,7 @@ as described in <code><a href="https://rdrr.io/pkg/RMySQL/man/MySQLDriver-class.
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>

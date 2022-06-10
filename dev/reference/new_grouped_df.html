@@ -105,16 +105,25 @@ of a <code>grouped_df</code> or a <code>rowwise_df</code>.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
 <dd><p>A data frame</p></dd>
+
+
 <dt>groups</dt>
 <dd><p>The grouped structure, <code>groups</code> should be a data frame.
 Its last column should be called <code>.rows</code> and be
 a list of 1 based integer vectors that all are between 1 and the number of rows of <code>.data</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional attributes</p></dd>
+
+
 <dt>class</dt>
 <dd><p>additional class, will be prepended to canonical classes.</p></dd>
+
+
 <dt>check_bounds</dt>
 <dd><p>whether to check all indices for out of bounds problems in <code>grouped_df</code> objects</p></dd>
+
 </dl></div>
 
     <div class="section level2">
@@ -127,13 +136,13 @@ a list of 1 based integer vectors that all are between 1 and the number of rows 
 <span class="r-in"><span class="co"># mean of each bootstrap sample</span></span>
 <span class="r-in"><span class="fu"><a href="summarise.html">summarise</a></span><span class="op">(</span><span class="va">tbl</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 1</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 1.19  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 0.059<span style="text-decoration: underline;">0</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 0.648 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 0.580 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 0.874 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  0.028<span style="text-decoration: underline;">5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>  0.567 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>  0.341 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> -<span style="color: #BB0000;">0.799</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> -<span style="color: #BB0000;">0.027</span><span style="color: #BB0000; text-decoration: underline;">0</span></span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
@@ -148,7 +157,7 @@ a list of 1 based integer vectors that all are between 1 and the number of rows 
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>

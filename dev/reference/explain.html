@@ -95,12 +95,17 @@ str()."><meta property="og:image" content="https://dplyr.tidyverse.org/logo.png"
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
 <dd><p>An object to explain</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Other parameters possibly used by generic</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>The first argument, invisibly.</p>
+    
+
+<p>The first argument, invisibly.</p>
     </div>
     <div class="section level2">
     <h2 id="databases">Databases<a class="anchor" aria-label="anchor" href="#databases"></a></h2>
@@ -147,12 +152,12 @@ diagnosing performance problems.</p>
 <span class="r-in"><span class="va">batting</span> <span class="op">&lt;-</span> <span class="fu"><a href="tbl.html">tbl</a></span><span class="op">(</span><span class="va">lahman_s</span>, <span class="st">"Batting"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">show_query</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;SQL&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SELECT *</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> FROM `Batting`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">SELECT</span> *</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">FROM</span> `Batting`</span>
 <span class="r-in"><span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">explain</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;SQL&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SELECT *</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> FROM `Batting`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">SELECT</span> *</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">FROM</span> `Batting`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PLAN&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   id parent notused       detail</span>
@@ -162,9 +167,9 @@ diagnosing performance problems.</p>
 <span class="r-in"><span class="co"># SQLite automatically picks the most restrictive index</span></span>
 <span class="r-in"><span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">lgID</span> <span class="op">==</span> <span class="st">"NL"</span> <span class="op">&amp;</span> <span class="va">yearID</span> <span class="op">==</span> <span class="fl">2000L</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">explain</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;SQL&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SELECT *</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> FROM `Batting`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> WHERE (`lgID` = 'NL' AND `yearID` = 2000)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">SELECT</span> *</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">FROM</span> `Batting`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">WHERE</span> (`lgID` = 'NL' AND `yearID` = 2000)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PLAN&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   id parent notused                                               detail</span>
@@ -173,9 +178,9 @@ diagnosing performance problems.</p>
 <span class="r-in"><span class="co"># OR's will use multiple indexes</span></span>
 <span class="r-in"><span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">lgID</span> <span class="op">==</span> <span class="st">"NL"</span> <span class="op">|</span> <span class="va">yearID</span> <span class="op">==</span> <span class="fl">2000</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">explain</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;SQL&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SELECT *</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> FROM `Batting`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> WHERE (`lgID` = 'NL' OR `yearID` = 2000.0)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">SELECT</span> *</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">FROM</span> `Batting`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">WHERE</span> (`lgID` = 'NL' OR `yearID` = 2000.0)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PLAN&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   id parent notused                                               detail</span>
@@ -189,11 +194,78 @@ diagnosing performance problems.</p>
 <span class="r-in"><span class="va">teams</span> <span class="op">&lt;-</span> <span class="fu"><a href="tbl.html">tbl</a></span><span class="op">(</span><span class="va">lahman_s</span>, <span class="st">"Teams"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">teams</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"yearID"</span>, <span class="st">"teamID"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">explain</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;SQL&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SELECT `playerID`, `LHS`.`yearID` AS `yearID`, `stint`, `LHS`.`teamID` AS `teamID`, `LHS`.`lgID` AS `lgID.x`, `LHS`.`G` AS `G.x`, `LHS`.`AB` AS `AB.x`, `LHS`.`R` AS `R.x`, `LHS`.`H` AS `H.x`, `LHS`.`X2B` AS `X2B.x`, `LHS`.`X3B` AS `X3B.x`, `LHS`.`HR` AS `HR.x`, `RBI`, `LHS`.`SB` AS `SB.x`, `LHS`.`CS` AS `CS.x`, `LHS`.`BB` AS `BB.x`, `LHS`.`SO` AS `SO.x`, `IBB`, `LHS`.`HBP` AS `HBP.x`, `SH`, `LHS`.`SF` AS `SF.x`, `GIDP`, `RHS`.`lgID` AS `lgID.y`, `franchID`, `divID`, `Rank`, `RHS`.`G` AS `G.y`, `Ghome`, `W`, `L`, `DivWin`, `WCWin`, `LgWin`, `WSWin`, `RHS`.`R` AS `R.y`, `RHS`.`AB` AS `AB.y`, `RHS`.`H` AS `H.y`, `RHS`.`X2B` AS `X2B.y`, `RHS`.`X3B` AS `X3B.y`, `RHS`.`HR` AS `HR.y`, `RHS`.`BB` AS `BB.y`, `RHS`.`SO` AS `SO.y`, `RHS`.`SB` AS `SB.y`, `RHS`.`CS` AS `CS.y`, `RHS`.`HBP` AS `HBP.y`, `RHS`.`SF` AS `SF.y`, `RA`, `ER`, `ERA`, `CG`, `SHO`, `SV`, `IPouts`, `HA`, `HRA`, `BBA`, `SOA`, `E`, `DP`, `FP`, `name`, `park`, `attendance`, `BPF`, `PPF`, `teamIDBR`, `teamIDlahman45`, `teamIDretro`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> FROM `Batting` AS `LHS`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> LEFT JOIN `Teams` AS `RHS`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ON (`LHS`.`yearID` = `RHS`.`yearID` AND `LHS`.`teamID` = `RHS`.`teamID`)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">SELECT</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `playerID`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`yearID`<span style="color: #0000BB;"> AS </span>`yearID`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `stint`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`teamID`<span style="color: #0000BB;"> AS </span>`teamID`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`lgID`<span style="color: #0000BB;"> AS </span>`lgID.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`G`<span style="color: #0000BB;"> AS </span>`G.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`AB`<span style="color: #0000BB;"> AS </span>`AB.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`R`<span style="color: #0000BB;"> AS </span>`R.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`H`<span style="color: #0000BB;"> AS </span>`H.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`X2B`<span style="color: #0000BB;"> AS </span>`X2B.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`X3B`<span style="color: #0000BB;"> AS </span>`X3B.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`HR`<span style="color: #0000BB;"> AS </span>`HR.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `RBI`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`SB`<span style="color: #0000BB;"> AS </span>`SB.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`CS`<span style="color: #0000BB;"> AS </span>`CS.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`BB`<span style="color: #0000BB;"> AS </span>`BB.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`SO`<span style="color: #0000BB;"> AS </span>`SO.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `IBB`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`HBP`<span style="color: #0000BB;"> AS </span>`HBP.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `SH`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`SF`<span style="color: #0000BB;"> AS </span>`SF.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `GIDP`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`lgID`<span style="color: #0000BB;"> AS </span>`lgID.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `franchID`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `divID`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Rank`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`G`<span style="color: #0000BB;"> AS </span>`G.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Ghome`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `W`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `L`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `DivWin`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `WCWin`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `LgWin`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `WSWin`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`R`<span style="color: #0000BB;"> AS </span>`R.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`AB`<span style="color: #0000BB;"> AS </span>`AB.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`H`<span style="color: #0000BB;"> AS </span>`H.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`X2B`<span style="color: #0000BB;"> AS </span>`X2B.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`X3B`<span style="color: #0000BB;"> AS </span>`X3B.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`HR`<span style="color: #0000BB;"> AS </span>`HR.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`BB`<span style="color: #0000BB;"> AS </span>`BB.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`SO`<span style="color: #0000BB;"> AS </span>`SO.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`SB`<span style="color: #0000BB;"> AS </span>`SB.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`CS`<span style="color: #0000BB;"> AS </span>`CS.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`HBP`<span style="color: #0000BB;"> AS </span>`HBP.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`SF`<span style="color: #0000BB;"> AS </span>`SF.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `RA`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `ER`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `ERA`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `CG`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `SHO`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `SV`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `IPouts`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `HA`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `HRA`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `BBA`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `SOA`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `E`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `DP`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `FP`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `name`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `park`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `attendance`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `BPF`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `PPF`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `teamIDBR`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `teamIDlahman45`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `teamIDretro`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">FROM</span> `Batting`<span style="color: #0000BB;"> AS </span>`LHS`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">LEFT JOIN</span> `Teams`<span style="color: #0000BB;"> AS </span>`RHS`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #0000BB;">ON</span> (`LHS`.`yearID` = `RHS`.`yearID`<span style="color: #0000BB;"> AND</span> `LHS`.`teamID` = `RHS`.`teamID`)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PLAN&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   id parent notused                                         detail</span>
@@ -213,7 +285,7 @@ diagnosing performance problems.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>

@@ -105,6 +105,8 @@ columns will be filled with NA.</p>
 <p>When column-binding, rows are matched by position, so all data
 frames must have the same number of rows. To match by value, not
 position, see <a href="mutate-joins.html">mutate-joins</a>.</p></dd>
+
+
 <dt>.id</dt>
 <dd><p>The name of an optional identifier column.</p>
 <p>If a string is supplied, the output will contain a column with that name
@@ -113,14 +115,19 @@ labels are taken from the named arguments to <code>bind_rows()</code>. When a li
 data frames is supplied, the labels are taken from the names of the list.
 If no names are found, then a numeric sequence is used instead.</p>
 <p>If <code>NULL</code>, the default, then no identifier column will be created.</p></dd>
+
+
 <dt>.name_repair</dt>
 <dd><p>One of <code>"unique"</code>, <code>"universal"</code>, or
 <code>"check_unique"</code>. See <code><a href="https://vctrs.r-lib.org/reference/vec_as_names.html" class="external-link">vctrs::vec_as_names()</a></code> for the meaning of these
 options.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code>bind_rows()</code> and <code>bind_cols()</code> return the same type as
+    
+
+<p><code>bind_rows()</code> and <code>bind_cols()</code> return the same type as
 the first input, either a data frame, <code>tbl_df</code>, or <code>grouped_df</code>.</p>
     </div>
     <div class="section level2">
@@ -403,7 +410,7 @@ appears in any of the inputs.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>

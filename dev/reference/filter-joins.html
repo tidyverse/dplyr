@@ -109,6 +109,8 @@ of matches in <code>y</code>:</p><ul><li><p><code>semi_join()</code> return all 
 <dd><p>A pair of data frames, data frame extensions (e.g. a tibble), or
 lazy data frames (e.g. from dbplyr or dtplyr). See <em>Methods</em>, below, for
 more details.</p></dd>
+
+
 <dt>by</dt>
 <dd><p>A character vector of variables to join by or a join specification
 created with <code><a href="join_by.html">join_by()</a></code>.</p>
@@ -129,13 +131,19 @@ you'll need to create a join specification with <code><a href="join_by.html">joi
 documentation there for details on these types of joins.</p>
 <p>To perform a cross-join, generating all combinations of <code>x</code> and <code>y</code>, use
 <code>by = character()</code> or <code>by = join_by()</code>.</p></dd>
+
+
 <dt>copy</dt>
 <dd><p>If <code>x</code> and <code>y</code> are not from the same data source,
 and <code>copy</code> is <code>TRUE</code>, then <code>y</code> will be copied into the
 same src as <code>x</code>.  This allows you to join tables across srcs, but
 it is a potentially expensive operation so you must opt into it.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Other parameters passed onto methods.</p></dd>
+
+
 <dt>na_matches</dt>
 <dd><p>Should two <code>NA</code> or two <code>NaN</code> values match?</p><ul><li><p><code>"na"</code>, the default, treats two <code>NA</code> or two <code>NaN</code> values as equal, like
 <code>%in%</code>, <code><a href="https://rdrr.io/r/base/match.html" class="external-link">match()</a></code>, and <code><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge()</a></code>.</p></li>
@@ -143,10 +151,13 @@ it is a potentially expensive operation so you must opt into it.</p></dd>
 never match them together or to any other values. This is similar to joins
 for database sources and to <code>base::merge(incomparables = NA)</code>.</p></li>
 </ul></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of the same type as <code>x</code>. The output has the following properties:</p><ul><li><p>Rows are a subset of the input, but appear in the same order.</p></li>
+    
+
+<p>An object of the same type as <code>x</code>. The output has the following properties:</p><ul><li><p>Rows are a subset of the input, but appear in the same order.</p></li>
 <li><p>Columns are not modified.</p></li>
 <li><p>Data frame attributes are preserved.</p></li>
 <li><p>Groups are taken from <code>x</code>. The number of groups may be reduced.</p></li>
@@ -208,7 +219,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>

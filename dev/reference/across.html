@@ -123,6 +123,8 @@ is <code>TRUE</code> when the predicate is <code>TRUE</code> for <em>all</em> se
 <dd><p>&lt;<code><a href="dplyr_tidy_select.html">tidy-select</a></code>&gt; Columns to transform.
 Because <code>across()</code> is used within functions like <code><a href="summarise.html">summarise()</a></code> and
 <code><a href="mutate.html">mutate()</a></code>, you can't select or compute upon grouping variables.</p></dd>
+
+
 <dt>.fns</dt>
 <dd><p>Functions to apply to each of the selected columns.
 Possible values are:</p><ul><li><p>A function, e.g. <code>mean</code>.</p></li>
@@ -134,20 +136,29 @@ frame without applying a transformation. This is useful for when you want to
 use a function that takes a data frame.</p></li>
 </ul><p>Within these functions you can use <code><a href="context.html">cur_column()</a></code> and <code><a href="context.html">cur_group()</a></code>
 to access the current column and grouping keys respectively.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments for the function calls in <code>.fns</code>. Using these
 <code>...</code> is strongly discouraged because of issues of timing of evaluation.</p></dd>
+
+
 <dt>.names</dt>
 <dd><p>A glue specification that describes how to name the output
 columns. This can use <code>{.col}</code> to stand for the selected column name, and
 <code>{.fn}</code> to stand for the name of the function being applied. The default
 (<code>NULL</code>) is equivalent to <code>"{.col}"</code> for the single function case and
 <code>"{.col}_{.fn}"</code> for the case where a list is used for <code>.fns</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code>across()</code> returns a tibble with one column for each column in <code>.cols</code> and each function in <code>.fns</code>.
-<code>if_any()</code> and <code>if_all()</code> return a logical vector.</p>
+    
+
+<p><code>across()</code> returns a tibble with one column for each column in <code>.cols</code> and each function in <code>.fns</code>.</p>
+
+
+<p><code>if_any()</code> and <code>if_all()</code> return a logical vector.</p>
     </div>
     <div class="section level2">
     <h2 id="timing-of-evaluation">Timing of evaluation<a class="anchor" aria-label="anchor" href="#timing-of-evaluation"></a></h2>
@@ -167,13 +178,34 @@ about when it should happen and place your code in consequence.</p>
 <span class="co"># Outside: 1 normal variate</span>
 <span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
 <span class="va">gdf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="va">v1</span><span class="op">:</span><span class="va">v2</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op">+</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre><p></p></div>
-<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 4 × 3</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## # Groups:   g [3]</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="do">##       g    v1    v2</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="do">##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="do">## 1     1  9.37  19.4</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="do">## 2     1 10.4   20.4</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 3     2 11.4   21.4</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 4     3 12.4   22.4</span></span></code></pre><p></p></div>
 <p></p><div class="sourceCode r"><pre><code><span class="co"># Inside a verb: 3 normal variates (ngroup)</span>
 <span class="va">gdf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="va">v1</span><span class="op">:</span><span class="va">v2</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op">+</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre><p></p></div>
-<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 4 × 4</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## # Groups:   g [3]</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="do">##       g    v1    v2      n</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="do">##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="do">## 1     1  10.2  20.2  0.184</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="do">## 2     1  11.2  21.2  0.184</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 3     2  11.2  21.2 -0.836</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 4     3  14.6  24.6  1.60</span></span></code></pre><p></p></div>
 <p></p><div class="sourceCode r"><pre><code><span class="co"># Inside `across()`: 6 normal variates (ncol * ngroup)</span>
 <span class="va">gdf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="va">v1</span><span class="op">:</span><span class="va">v2</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre><p></p></div>
-<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 4 × 3</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## # Groups:   g [3]</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="do">##       g    v1    v2</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="do">##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="do">## 1     1  10.3  20.7</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="do">## 2     1  11.3  21.7</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 3     2  11.2  22.6</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 4     3  13.5  22.7</span></span></code></pre><p></p></div>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -372,7 +404,7 @@ about when it should happen and place your code in consequence.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>
