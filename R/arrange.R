@@ -94,9 +94,7 @@ arrange.data.frame <- function(.data,
     dots <- c(quos(!!!groups(.data)), dots)
   }
 
-  chr_proxy_collate <- locale_to_chr_proxy_collate(.locale)
-
-  loc <- arrange_rows(.data, dots, chr_proxy_collate)
+  loc <- arrange_rows(.data, dots = dots, locale = .locale)
   dplyr_row_slice(.data, loc)
 }
 
@@ -104,9 +102,14 @@ arrange.data.frame <- function(.data,
 
 arrange_rows <- function(data,
                          dots,
-                         chr_proxy_collate,
+                         locale,
                          error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
+
+  chr_proxy_collate <- locale_to_chr_proxy_collate(
+    locale = locale,
+    error_call = error_call
+  )
 
   if (length(dots) == 0L) {
     out <- seq_len(nrow(data))
