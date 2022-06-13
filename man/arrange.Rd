@@ -34,9 +34,9 @@ supplying a locale identifier.
 }
 
 The C locale is not the same as English locales, such as \code{"en"},
-particularly when it comes to case-sensitivity. This is explained in
-more detail in the help page of \code{\link[=dplyr_locale]{dplyr_locale()}} under the \verb{Default locale}
-section.}
+particularly when it comes to data containing a mix of upper and lower case
+letters. This is explained in more detail in the help page of
+\code{\link[=dplyr_locale]{dplyr_locale()}} under the \verb{Default locale} section.}
 }
 \value{
 An object of the same type as \code{.data}. The output has the following
