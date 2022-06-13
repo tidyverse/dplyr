@@ -95,11 +95,31 @@ variables before ordering with the <code>.funs</code> argument.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">arrange_all</span><span class="op">(</span><span class="va">.tbl</span>, .funs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span>, .by_group <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">arrange_all</span><span class="op">(</span>
+  <span class="va">.tbl</span>,
+  .funs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
+  <span class="va">...</span>,
+  .by_group <span class="op">=</span> <span class="cn">FALSE</span>,
+  .locale <span class="op">=</span> <span class="fu"><a href="dplyr_locale.html">dplyr_locale</a></span><span class="op">(</span><span class="op">)</span>
+<span class="op">)</span>
 
-<span class="fu">arrange_at</span><span class="op">(</span><span class="va">.tbl</span>, <span class="va">.vars</span>, .funs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span>, .by_group <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu">arrange_at</span><span class="op">(</span>
+  <span class="va">.tbl</span>,
+  <span class="va">.vars</span>,
+  .funs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
+  <span class="va">...</span>,
+  .by_group <span class="op">=</span> <span class="cn">FALSE</span>,
+  .locale <span class="op">=</span> <span class="fu"><a href="dplyr_locale.html">dplyr_locale</a></span><span class="op">(</span><span class="op">)</span>
+<span class="op">)</span>
 
-<span class="fu">arrange_if</span><span class="op">(</span><span class="va">.tbl</span>, <span class="va">.predicate</span>, .funs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span>, .by_group <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<span class="fu">arrange_if</span><span class="op">(</span>
+  <span class="va">.tbl</span>,
+  <span class="va">.predicate</span>,
+  .funs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
+  <span class="va">...</span>,
+  .by_group <span class="op">=</span> <span class="cn">FALSE</span>,
+  .locale <span class="op">=</span> <span class="fu"><a href="dplyr_locale.html">dplyr_locale</a></span><span class="op">(</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -120,6 +140,22 @@ variables before ordering with the <code>.funs</code> argument.</p>
 <dt>.by_group</dt>
 <dd><p>If <code>TRUE</code>, will sort first by grouping variable. Applies to
 grouped data frames only.</p></dd>
+
+
+<dt>.locale</dt>
+<dd><p>The locale to sort character vectors in.</p><ul><li><p>Defaults to <code><a href="dplyr_locale.html">dplyr_locale()</a></code>, which uses the <code>"C"</code> locale unless this is
+explicitly overriden. See the help page for <code><a href="dplyr_locale.html">dplyr_locale()</a></code> for the
+exact details.</p></li>
+<li><p>If a single string from <code><a href="https://rdrr.io/pkg/stringi/man/stri_locale_list.html" class="external-link">stringi::stri_locale_list()</a></code> is supplied, then
+this will be used as the locale to sort with. For example, <code>"en"</code> will
+sort with the American English locale. This requires the stringi package.</p></li>
+<li><p>If <code>"C"</code> is supplied, then character vectors will always be sorted in the
+C locale. This does not require stringi and is often much faster than
+supplying a locale identifier.</p></li>
+</ul><p>The C locale is not the same as English locales, such as <code>"en"</code>,
+particularly when it comes to data containing a mix of upper and lower case
+letters. This is explained in more detail in the help page of
+<code><a href="dplyr_locale.html">dplyr_locale()</a></code> under the <code>Default locale</code> section.</p></dd>
 
 
 <dt>.vars</dt>
