@@ -60,6 +60,7 @@ Suggests:
     RMySQL,
     RPostgreSQL,
     RSQLite,
+    stringi (>= 1.7.6),
     testthat (>= 3.1.1),
     tidyr, 
     withr

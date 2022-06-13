@@ -1,4 +1,6 @@
 .onLoad <- function(libname, pkgname) {
+  ns_dplyr <- ns_env(pkgname)
+
   op <- options()
   op.dplyr <- list(
     dplyr.show_progress = TRUE
@@ -6,13 +8,23 @@
   toset <- !(names(op.dplyr) %in% names(op))
   if (any(toset)) options(op.dplyr[toset])
 
-  .Call(dplyr_init_library, ns_env("dplyr"), ns_env("vctrs"), ns_env("rlang"))
+  .Call(dplyr_init_library, ns_dplyr, ns_env("vctrs"), ns_env("rlang"))
 
   has_dbplyr <- is_installed("dbplyr")
   if (!has_dbplyr || !exists("count.tbl_sql", ns_env("dbplyr"))) {
     s3_register("dplyr::count", "tbl_sql")
     s3_register("dplyr::tally", "tbl_sql")
   }
+
+  # TODO: For `arrange()`, `group_by()`, and `with_order()` until vctrs changes
+  # `vec_order()` to the new ordering algorithm and officially exports
+  # `vec_order_base()`, at which point we should use `vec_order()` and
+  # `vec_order_base()` directly and remove this.
+  env_bind(
+    .env = ns_dplyr,
+    vec_order_base = import_vctrs("vec_order_base"),
+    vec_order_radix = import_vctrs("vec_order_radix")
+  )
 
   run_on_load()
 
@@ -33,4 +45,17 @@
 
 .onDetach <- function(libpath) {
   setHook(packageEvent("plyr", "attach"), NULL, "replace")
+}
+
+import_vctrs <- function(name) {
+  import_from(name, "vctrs")
+}
+import_from <- function(name, package) {
+  ns <- getNamespace(package)
+
+  if (!exists(name, mode = "function", envir = ns, inherits = FALSE)) {
+    abort(sprintf("No such '%s' function: `%s()`.", package, name))
+  }
+
+  get(name, mode = "function", envir = ns, inherits = FALSE)
 }

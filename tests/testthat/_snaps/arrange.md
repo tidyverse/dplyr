@@ -26,6 +26,38 @@
       x Problem while computing `..1 = rep(x, 2)`.
       x `..1` must be size 1, not 2.
 
+# arrange errors if stringi is not installed and a locale identifier is used
+
+    Code
+      locale_to_chr_proxy_collate("fr", has_stringi = FALSE)
+    Condition
+      Error:
+      ! stringi >=1.5.3 is required to arrange in a different locale.
+
+# arrange validates `.locale`
+
+    Code
+      arrange(df, .locale = 1)
+    Condition
+      Error in `arrange()`:
+      ! `.locale` must be a string.
+
+---
+
+    Code
+      arrange(df, .locale = c("en_US", "fr_BF"))
+    Condition
+      Error in `arrange()`:
+      ! If `.locale` is a character vector, it must be a single string.
+
+# arrange validates that `.locale` must be one from stringi
+
+    Code
+      arrange(df, .locale = "x")
+    Condition
+      Error in `arrange()`:
+      ! `.locale` must be one of the locales within `stringi::stri_locale_list()`.
+
 # desc() inside arrange() checks the number of arguments (#5921)
 
     Code

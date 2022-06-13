@@ -1,5 +1,16 @@
 # dplyr (development version)
 
+* `arrange()` now uses a faster algorithm for sorting character vectors, which
+  is heavily inspired by data.table's `forder()`. Additionally, the default
+  locale for sorting character vectors is now the C locale, which is a breaking
+  change from the previous behavior that utilized the system locale. The new
+  `.locale` argument can be used to adjust this to, say, the American English
+  locale, which is an optional feature that requires the stringi package. This
+  change improves reproducibility across R sessions and operating systems. For a
+  fuller explanation, refer to this
+  [tidyup](https://github.com/tidyverse/tidyups/blob/main/003-dplyr-radix-ordering.md)
+  which outlines and justifies this change (#4962).
+
 * `tbl_sum()` is no longer reexported from tibble (#6284).
 
 * `slice_sample()` now gives a more informative error when `replace = FALSE` and
