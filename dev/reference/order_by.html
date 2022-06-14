@@ -121,12 +121,12 @@ is the vector being operated on</p></dd>
 <span class="r-in"><span class="va">wrong</span> <span class="op">&lt;-</span> <span class="fu"><a href="mutate.html">mutate</a></span><span class="op">(</span><span class="va">scrambled</span>, running <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="arrange.html">arrange</a></span><span class="op">(</span><span class="va">wrong</span>, <span class="va">year</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   year value running</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2000     0      30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2001     1      10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2002     4      30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2003     9       9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 2004    16      26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 2005    25      55</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2000     0      46</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2001     1       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2002     4       4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2003     9      55</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 2004    16      46</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 2005    25      30</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">right</span> <span class="op">&lt;-</span> <span class="fu"><a href="mutate.html">mutate</a></span><span class="op">(</span><span class="va">scrambled</span>, running <span class="op">=</span> <span class="fu">order_by</span><span class="op">(</span><span class="va">year</span>, <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="arrange.html">arrange</a></span><span class="op">(</span><span class="va">right</span>, <span class="va">year</span><span class="op">)</span></span>
