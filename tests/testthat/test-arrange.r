@@ -82,6 +82,18 @@ test_that("arrange handles S4 classes (#1105)", {
   expect_equal(arrange(df, y), df[3:1, ])
 })
 
+test_that("arrange works with two columns when the first has a data frame proxy (#6268)", {
+  # `id1` has a data frame proxy for `vec_proxy_order()`
+  df <- tibble(
+    id1 = new_rcrd(list(x = 1, y = 1)),
+    id2 = c(1, 3, 2)
+  )
+
+  out <- arrange(df, id1, id2)
+
+  expect_identical(out$id2, c(1, 2, 3))
+})
+
 # locale --------------------------------------------------------------
 
 test_that("arrange defaults to the C locale", {
