@@ -189,3 +189,32 @@ test_that("helper gives meaningful error messages", {
     (expect_error(grouped_df(data.frame(x = 1), 1)))
   })
 })
+
+test_that("NA and NaN are in separate groups at the end", {
+  df <- tibble(x = c(NA, NaN, NA, 1))
+  result <- compute_groups(df, "x")
+  expect_identical(result$x, c(1, NaN, NA))
+})
+
+test_that("groups are ordered in the C locale", {
+  df <- tibble(x = c("a", "A", "Z", "b"))
+  result <- compute_groups(df, "x")
+  expect_identical(result$x, c("A", "Z", "a", "b"))
+})
+
+test_that("using the global option `dplyr.legacy_group_by_locale` forces the system locale", {
+  on_mac <- identical(tolower(Sys.info()[["sysname"]]), "darwin")
+  skip_if_not(on_mac, message = "Not on Mac. Unsure if we can use 'en_US' locale.")
+
+  local_options(dplyr.legacy_group_by_locale = TRUE)
+  withr::local_collate("en_US")
+
+  df <- tibble(x = c("a", "A", "Z", "b"))
+  result <- compute_groups(df, "x")
+  expect_identical(result$x, c("a", "A", "b", "Z"))
+})
+
+test_that("`dplyr.legacy_group_by_locale` is validated", {
+  local_options(dplyr.legacy_group_by_locale = 1)
+  expect_snapshot(error = TRUE, dplyr_legacy_group_by_locale())
+})

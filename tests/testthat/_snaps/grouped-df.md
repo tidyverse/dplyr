@@ -103,3 +103,11 @@
       Error in `grouped_df()`:
       ! `vars` must be a character vector.
 
+# `dplyr.legacy_group_by_locale` is validated
+
+    Code
+      dplyr_legacy_group_by_locale()
+    Condition
+      Error:
+      ! Global option `dplyr.legacy_group_by_locale` must be a single `TRUE` or `FALSE`.
+
