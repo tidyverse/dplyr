@@ -85,7 +85,7 @@ starwars <- mutate(starwars,
   gender = case_when(
     sex == "male" ~ "masculine",
     sex == "female" ~ "feminine",
-    TRUE ~ unname(genders[name])
+    .default = unname(genders[name])
   )
 )
 

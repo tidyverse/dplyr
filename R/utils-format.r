@@ -33,7 +33,7 @@ ruler <- function(width = getOption("width")) {
   y <- case_when(
     x %% 10 == 0 ~ as.character((x %/% 10) %% 10),
     x %% 5 == 0  ~ "+",
-    TRUE         ~ "-"
+    .default = "-"
   )
   cat(y, "\n", sep = "")
   cat(x %% 10, "\n", sep = "")
