@@ -52,6 +52,10 @@ relocate <- function(.data, ..., .before = NULL, .after = NULL) {
 #' @export
 relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
   to_move <- tidyselect::eval_select(expr(c(...)), .data)
+  if (anyDuplicated(to_move)) {
+    duplicated_col <- names(.data)[which.max(duplicated(to_move))]
+    abort(glue("Columns to move must be unique, but `{duplicated_col}` is supplied twice"))
+  }
 
   .before <- enquo(.before)
   .after <- enquo(.after)
@@ -80,7 +84,7 @@ relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
   lhs <- setdiff(seq2(1, where - 1), to_move)
   rhs <- setdiff(seq2(where + 1, ncol(.data)), to_move)
 
-  pos <- vec_unique(c(lhs, to_move, rhs))
+  pos <- c(lhs, to_move, rhs)
   out <- .data[pos]
   new_names <- names(pos)
 

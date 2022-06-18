@@ -70,3 +70,8 @@ test_that("relocate() can rename (#5569)", {
     tibble(a = 1, b = 1, c = 1, ffff = "a", d = "a", e = "a")
   )
 })
+
+test_that("cannot supply duplicate cols in ...", {
+  df <- tibble(a = 1, b = 2)
+  expect_error(relocate(df, new = b, new2 = b), "must be unique")
+})
