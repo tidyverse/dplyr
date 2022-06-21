@@ -252,6 +252,40 @@ test_that("proportion computed correctly", {
   expect_equal(df %>% slice_max(x, prop = 0.11, with_ties = FALSE) %>% nrow(), 1)
 })
 
+test_that("slice helpers with n = 0 and prop = 0 behave as slice(0)", {
+  # when not grouped
+  df <- data.frame(x = 1:5)
+  slice0 <- slice(df, 0)
+
+  expect_identical(df %>% slice_head(n = 0), slice0)
+  expect_identical(df %>% slice_tail(n = 0), slice0)
+  expect_identical(df %>% slice_min(x, n = 0), slice0)
+  expect_identical(df %>% slice_max(x, n = 0), slice0)
+  expect_identical(df %>% slice_sample(n = 0), slice0)
+
+  expect_identical(df %>% slice_head(prop = 0), slice0)
+  expect_identical(df %>% slice_tail(prop = 0), slice0)
+  expect_identical(df %>% slice_min(x, prop = 0), slice0)
+  expect_identical(df %>% slice_max(x, prop = 0), slice0)
+  expect_identical(df %>% slice_sample(prop = 0), slice0)
+
+  # when grouped
+  df <- data.frame(x = 1:5) %>% group_by(x)
+  slice0 <- slice(df, 0)
+
+  expect_identical(df %>% slice_head(n = 0), slice0)
+  expect_identical(df %>% slice_tail(n = 0), slice0)
+  expect_identical(df %>% slice_min(x, n = 0), slice0)
+  expect_identical(df %>% slice_max(x, n = 0), slice0)
+  expect_identical(df %>% slice_sample(n = 0), slice0)
+
+  expect_identical(df %>% slice_head(prop = 0), slice0)
+  expect_identical(df %>% slice_tail(prop = 0), slice0)
+  expect_identical(df %>% slice_min(x, prop = 0), slice0)
+  expect_identical(df %>% slice_max(x, prop = 0), slice0)
+  expect_identical(df %>% slice_sample(prop = 0), slice0)
+})
+
 test_that("min and max return ties by default", {
   df <- data.frame(x = c(1, 1, 1, 2, 2))
   expect_equal(df %>% slice_min(x) %>% nrow(), 3)
