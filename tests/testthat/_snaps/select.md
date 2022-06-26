@@ -30,6 +30,7 @@
     Output
       <error/rlang_error>
       Error in `select()`:
+      Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
 
 # dplyr_col_select() aborts when `[` implementation is broken

@@ -66,9 +66,10 @@ select.list <- function(.data, ...) {
 select.data.frame <- function(.data, ...) {
   error_call <- dplyr_error_call()
 
-  loc <- tidyselect_fix_call(
-    tidyselect::eval_select(expr(c(...)), .data),
-    call = error_call
+  loc <- tidyselect::eval_select(
+    expr(c(...)),
+    data = .data,
+    error_call = error_call
   )
   loc <- ensure_group_vars(loc, .data, notify = TRUE)
 
