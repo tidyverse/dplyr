@@ -98,11 +98,11 @@ with <code><a href="all_vars.html">all_vars()</a></code> or <code><a href="all_v
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">filter_all</span><span class="op">(</span><span class="va">.tbl</span>, <span class="va">.vars_predicate</span>, .preserve <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">filter_if</span><span class="op">(</span><span class="va">.tbl</span>, <span class="va">.predicate</span>, <span class="va">.vars_predicate</span>, .preserve <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">filter_at</span><span class="op">(</span><span class="va">.tbl</span>, <span class="va">.vars</span>, <span class="va">.vars_predicate</span>, .preserve <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">filter_all</span><span class="op">(</span><span class="va">.tbl</span>, <span class="va">.vars_predicate</span>, .preserve <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">filter_if</span><span class="op">(</span><span class="va">.tbl</span>, <span class="va">.predicate</span>, <span class="va">.vars_predicate</span>, .preserve <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">filter_at</span><span class="op">(</span><span class="va">.tbl</span>, <span class="va">.vars</span>, <span class="va">.vars_predicate</span>, .preserve <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -149,33 +149,33 @@ into account to determine filtered rows.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># While filter() accepts expressions with specific variables, the</span></span>
-<span class="r-in"><span class="co"># scoped filter verbs take an expression with the pronoun `.` and</span></span>
-<span class="r-in"><span class="co"># replicate it over all variables. This expression should be quoted</span></span>
-<span class="r-in"><span class="co"># with all_vars() or any_vars():</span></span>
-<span class="r-in"><span class="fu"><a href="all_vars.html">all_vars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># While filter() accepts expressions with specific variables, the</span></span></span>
+<span class="r-in"><span><span class="co"># scoped filter verbs take an expression with the pronoun `.` and</span></span></span>
+<span class="r-in"><span><span class="co"># replicate it over all variables. This expression should be quoted</span></span></span>
+<span class="r-in"><span><span class="co"># with all_vars() or any_vars():</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="all_vars.html">all_vars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;predicate intersection&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">&lt;quosure&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> expr: <span style="color: #0000BB;">^is.na(.)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> env:  <span style="color: #0000BB;">0x561d4cc05518</span></span>
-<span class="r-in"><span class="fu"><a href="all_vars.html">any_vars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> env:  <span style="color: #0000BB;">0x55b6a1506d90</span></span>
+<span class="r-in"><span><span class="fu"><a href="all_vars.html">any_vars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;predicate union&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">&lt;quosure&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> expr: <span style="color: #0000BB;">^is.na(.)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> env:  <span style="color: #0000BB;">0x561d4cc05518</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># You can take the intersection of the replicated expressions:</span></span>
-<span class="r-in"><span class="fu">filter_all</span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="all_vars.html">all_vars</a></span><span class="op">(</span><span class="va">.</span> <span class="op">&gt;</span> <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> env:  <span style="color: #0000BB;">0x55b6a1506d90</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># You can take the intersection of the replicated expressions:</span></span></span>
+<span class="r-in"><span><span class="fu">filter_all</span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="all_vars.html">all_vars</a></span><span class="op">(</span><span class="va">.</span> <span class="op">&gt;</span> <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] mpg  cyl  disp hp   drat wt   qsec vs   am   gear carb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;0 rows&gt; (or 0-length row.names)</span>
-<span class="r-in"><span class="co"># -&gt;</span></span>
-<span class="r-in"><span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="across.html">if_all</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op">&gt;</span> <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># -&gt;</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="across.html">if_all</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op">&gt;</span> <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] mpg  cyl  disp hp   drat wt   qsec vs   am   gear carb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;0 rows&gt; (or 0-length row.names)</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Or the union:</span></span>
-<span class="r-in"><span class="fu">filter_all</span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="all_vars.html">any_vars</a></span><span class="op">(</span><span class="va">.</span> <span class="op">&gt;</span> <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Or the union:</span></span></span>
+<span class="r-in"><span><span class="fu">filter_all</span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="all_vars.html">any_vars</a></span><span class="op">(</span><span class="va">.</span> <span class="op">&gt;</span> <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
@@ -198,8 +198,8 @@ into account to determine filtered rows.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</span>
-<span class="r-in"><span class="co"># -&gt;</span></span>
-<span class="r-in"><span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="across.html">if_any</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span> <span class="va">.</span> <span class="op">&gt;</span> <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># -&gt;</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="across.html">if_any</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span> <span class="va">.</span> <span class="op">&gt;</span> <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
@@ -222,11 +222,11 @@ into account to determine filtered rows.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># You can vary the selection of columns on which to apply the</span></span>
-<span class="r-in"><span class="co"># predicate. filter_at() takes a vars() specification:</span></span>
-<span class="r-in"><span class="fu">filter_at</span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="vars.html">vars</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"d"</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="all_vars.html">any_vars</a></span><span class="op">(</span><span class="op">(</span><span class="va">.</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html" class="external-link">%%</a></span> <span class="fl">2</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># You can vary the selection of columns on which to apply the</span></span></span>
+<span class="r-in"><span><span class="co"># predicate. filter_at() takes a vars() specification:</span></span></span>
+<span class="r-in"><span><span class="fu">filter_at</span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="vars.html">vars</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"d"</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="all_vars.html">any_vars</a></span><span class="op">(</span><span class="op">(</span><span class="va">.</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html" class="external-link">%%</a></span> <span class="fl">2</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4           21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag       21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span>
@@ -241,8 +241,8 @@ into account to determine filtered rows.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin         15.2   8  304 150 3.15 3.435 17.30  0  0    3    2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28          13.3   8  350 245 3.73 3.840 15.41  0  0    3    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird    19.2   8  400 175 3.08 3.845 17.05  0  0    3    2</span>
-<span class="r-in"><span class="co"># -&gt;</span></span>
-<span class="r-in"><span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="across.html">if_any</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"d"</span><span class="op">)</span>, <span class="op">~</span> <span class="op">(</span><span class="va">.x</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html" class="external-link">%%</a></span> <span class="fl">2</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># -&gt;</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="across.html">if_any</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"d"</span><span class="op">)</span>, <span class="op">~</span> <span class="op">(</span><span class="va">.x</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html" class="external-link">%%</a></span> <span class="fl">2</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4           21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag       21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span>
@@ -257,9 +257,9 @@ into account to determine filtered rows.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin         15.2   8  304 150 3.15 3.435 17.30  0  0    3    2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28          13.3   8  350 245 3.73 3.840 15.41  0  0    3    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird    19.2   8  400 175 3.08 3.845 17.05  0  0    3    2</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># And filter_if() selects variables with a predicate function:</span></span>
-<span class="r-in"><span class="fu">filter_if</span><span class="op">(</span><span class="va">mtcars</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span> <span class="op">==</span> <span class="va">.</span><span class="op">)</span>, <span class="fu"><a href="all_vars.html">all_vars</a></span><span class="op">(</span><span class="va">.</span> <span class="op">!=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># And filter_if() selects variables with a predicate function:</span></span></span>
+<span class="r-in"><span><span class="fu">filter_if</span><span class="op">(</span><span class="va">mtcars</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span> <span class="op">==</span> <span class="va">.</span><span class="op">)</span>, <span class="fu"><a href="all_vars.html">all_vars</a></span><span class="op">(</span><span class="va">.</span> <span class="op">!=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710     22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128       32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1</span>
@@ -268,9 +268,9 @@ into account to determine filtered rows.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9      27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa   30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E     21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</span>
-<span class="r-in"><span class="co"># -&gt;</span></span>
-<span class="r-in"><span class="va">is_int</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">==</span> <span class="va">x</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="across.html">if_all</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is_int</span><span class="op">)</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op">!=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># -&gt;</span></span></span>
+<span class="r-in"><span><span class="va">is_int</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">==</span> <span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="across.html">if_all</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is_int</span><span class="op">)</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op">!=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710     22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128       32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1</span>
@@ -292,7 +292,7 @@ into account to determine filtered rows.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
   </div></footer></body></html>

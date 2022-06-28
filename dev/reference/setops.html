@@ -89,7 +89,7 @@ provided. The default methods call the base versions. Beware that
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">union_all</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">union_all</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -105,11 +105,11 @@ provided. The default methods call the base versions. Beware that
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">mtcars</span><span class="op">$</span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">first</span> <span class="op">&lt;-</span> <span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, <span class="op">]</span></span>
-<span class="r-in"><span class="va">second</span> <span class="op">&lt;-</span> <span class="va">mtcars</span><span class="op">[</span><span class="fl">10</span><span class="op">:</span><span class="fl">32</span>, <span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">intersect</a></span><span class="op">(</span><span class="va">first</span>, <span class="va">second</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">mtcars</span><span class="op">$</span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">first</span> <span class="op">&lt;-</span> <span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">second</span> <span class="op">&lt;-</span> <span class="va">mtcars</span><span class="op">[</span><span class="fl">10</span><span class="op">:</span><span class="fl">32</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">intersect</a></span><span class="op">(</span><span class="va">first</span>, <span class="va">second</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4</span>
@@ -134,7 +134,7 @@ provided. The default methods call the base versions. Beware that
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128                       Fiat 128</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic                 Honda Civic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla           Toyota Corolla</span>
-<span class="r-in"><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">union</a></span><span class="op">(</span><span class="va">first</span>, <span class="va">second</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">union</a></span><span class="op">(</span><span class="va">first</span>, <span class="va">second</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
@@ -201,7 +201,7 @@ provided. The default methods call the base versions. Beware that
 <span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino               Ferrari Dino</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora             Maserati Bora</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E                   Volvo 142E</span>
-<span class="r-in"><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">first</span>, <span class="va">second</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">first</span>, <span class="va">second</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4         21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag     21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
@@ -222,7 +222,7 @@ provided. The default methods call the base versions. Beware that
 <span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360               Duster 360</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D                 Merc 240D</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230                   Merc 230</span>
-<span class="r-in"><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">second</span>, <span class="va">first</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">second</span>, <span class="va">first</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona    21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger 15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2</span>
@@ -249,8 +249,8 @@ provided. The default methods call the base versions. Beware that
 <span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino         Ferrari Dino</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora       Maserati Bora</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E             Volvo 142E</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">union_all</span><span class="op">(</span><span class="va">first</span>, <span class="va">second</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">union_all</span><span class="op">(</span><span class="va">first</span>, <span class="va">second</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                           mpg cyl  disp  hp drat    wt  qsec vs am gear</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4                21.0   6 160.0 110 3.90 2.620 16.46  0  1    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag            21.0   6 160.0 110 3.90 2.875 17.02  0  1    4</span>
@@ -339,24 +339,24 @@ provided. The default methods call the base versions. Beware that
 <span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino                6        Ferrari Dino</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora               8       Maserati Bora</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E                  2          Volvo 142E</span>
-<span class="r-in"><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setequal</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">mtcars</span><span class="op">[</span><span class="fl">32</span><span class="op">:</span><span class="fl">1</span>, <span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setequal</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">mtcars</span><span class="op">[</span><span class="fl">32</span><span class="op">:</span><span class="fl">1</span>, <span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Handling of duplicates:</span></span>
-<span class="r-in"><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>column <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>column <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># intersection is 1 to 5, duplicates removed (5)</span></span>
-<span class="r-in"><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">intersect</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Handling of duplicates:</span></span></span>
+<span class="r-in"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>column <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>column <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># intersection is 1 to 5, duplicates removed (5)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">intersect</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   column</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1      1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2      2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3      3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4      4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5      5</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># union is 1 to 10, duplicates removed (5 and 10)</span></span>
-<span class="r-in"><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">union</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># union is 1 to 10, duplicates removed (5 and 10)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">union</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    column</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1       1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2       2</span>
@@ -368,18 +368,18 @@ provided. The default methods call the base versions. Beware that
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8       8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9       9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10     10</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># set difference, duplicates removed (10)</span></span>
-<span class="r-in"><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># set difference, duplicates removed (10)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   column</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1      6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2      7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3      8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4      9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5     10</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># union all does not remove duplicates</span></span>
-<span class="r-in"><span class="fu">union_all</span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># union all does not remove duplicates</span></span></span>
+<span class="r-in"><span><span class="fu">union_all</span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    column</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1       1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2       2</span>
@@ -411,7 +411,7 @@ provided. The default methods call the base versions. Beware that
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
   </div></footer></body></html>

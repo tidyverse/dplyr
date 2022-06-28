@@ -128,22 +128,22 @@
 </h2>
 <p>Mutating joins allow you to combine variables from multiple tables. For example, consider the flights and airlines data from the nycflights13 package. In one table we have flight information with an abbreviation for carrier, and in another we have a mapping between abbreviations and full names. You can use a join to add the carrier names to the flight data:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/nycflights13" class="external-link">nycflights13</a></span><span class="op">)</span>
-<span class="co"># Drop unimportant variables so it's easier to understand the join results.</span>
-<span class="va">flights2</span> <span class="op">&lt;-</span> <span class="va">flights</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">year</span><span class="op">:</span><span class="va">day</span>, <span class="va">hour</span>, <span class="va">origin</span>, <span class="va">dest</span>, <span class="va">tailnum</span>, <span class="va">carrier</span><span class="op">)</span>
-
-<span class="va">flights2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">airlines</span><span class="op">)</span>
-<span class="co">#&gt; Joining, by = "carrier"</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 336,776 × 9</span></span>
-<span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name               </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 EWR    IAH   N14228  UA      United Air Lines I…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 LGA    IAH   N24211  UA      United Air Lines I…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    MIA   N619AA  AA      American Airlines …</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    BQN   N804JB  B6      JetBlue Airways    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">2</span>013     1     1     6 LGA    ATL   N668DN  DL      Delta Air Lines In…</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 336,771 more rows</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/nycflights13" class="external-link">nycflights13</a></span><span class="op">)</span></span>
+<span><span class="co"># Drop unimportant variables so it's easier to understand the join results.</span></span>
+<span><span class="va">flights2</span> <span class="op">&lt;-</span> <span class="va">flights</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">year</span><span class="op">:</span><span class="va">day</span>, <span class="va">hour</span>, <span class="va">origin</span>, <span class="va">dest</span>, <span class="va">tailnum</span>, <span class="va">carrier</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">flights2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">airlines</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining, by = "carrier"</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 336,776 × 9</span></span></span>
+<span><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name               </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 EWR    IAH   N14228  UA      United Air Lines I…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 LGA    IAH   N24211  UA      United Air Lines I…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    MIA   N619AA  AA      American Airlines …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    BQN   N804JB  B6      JetBlue Airways    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">2</span>013     1     1     6 LGA    ATL   N668DN  DL      Delta Air Lines In…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 336,771 more rows</span></span></span></code></pre></div>
 <div class="section level3">
 <h3 id="controlling-how-the-tables-are-matched">Controlling how the tables are matched<a class="anchor" aria-label="anchor" href="#controlling-how-the-tables-are-matched"></a>
 </h3>
@@ -152,62 +152,62 @@
 <li>
 <p><code>NULL</code>, the default. dplyr will will use all variables that appear in both tables, a <strong>natural</strong> join. For example, the flights and weather tables match on their common variables: year, month, day, hour and origin.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flights2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">weather</span><span class="op">)</span>
-<span class="co">#&gt; Joining, by = c("year", "month", "day", "hour", "origin")</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 336,776 × 18</span></span>
-<span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier  temp  dewp humid</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 EWR    IAH   N14228  UA       39.0  28.0  64.4</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 LGA    IAH   N24211  UA       39.9  25.0  54.8</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    MIA   N619AA  AA       39.0  27.0  61.6</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    BQN   N804JB  B6       39.0  27.0  61.6</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">2</span>013     1     1     6 LGA    ATL   N668DN  DL       39.9  25.0  54.8</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 336,771 more rows, and 7 more variables: wind_dir &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   wind_speed &lt;dbl&gt;, wind_gust &lt;dbl&gt;, precip &lt;dbl&gt;, pressure &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   visib &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">flights2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">weather</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining, by = c("year", "month", "day", "hour", "origin")</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 336,776 × 18</span></span></span>
+<span><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier  temp  dewp humid</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 EWR    IAH   N14228  UA       39.0  28.0  64.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 LGA    IAH   N24211  UA       39.9  25.0  54.8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    MIA   N619AA  AA       39.0  27.0  61.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    BQN   N804JB  B6       39.0  27.0  61.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">2</span>013     1     1     6 LGA    ATL   N668DN  DL       39.9  25.0  54.8</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 336,771 more rows, and 7 more variables: wind_dir &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   wind_speed &lt;dbl&gt;, wind_gust &lt;dbl&gt;, precip &lt;dbl&gt;, pressure &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   visib &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></span></span></code></pre></div>
 </li>
 <li>
 <p>A character vector, <code>by = "x"</code>. Like a natural join, but uses only some of the common variables. For example, <code>flights</code> and <code>planes</code> have <code>year</code> columns, but they mean different things so we only want to join by <code>tailnum</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flights2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">planes</span>, by <span class="op">=</span> <span class="st">"tailnum"</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 336,776 × 16</span></span>
-<span class="co">#&gt;   year.x month   day  hour origin dest  tailnum carrier year.y type       </span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   <span style="text-decoration: underline;">2</span>013     1     1     5 EWR    IAH   N14228  UA        <span style="text-decoration: underline;">1</span>999 Fixed wing…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>   <span style="text-decoration: underline;">2</span>013     1     1     5 LGA    IAH   N24211  UA        <span style="text-decoration: underline;">1</span>998 Fixed wing…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    MIA   N619AA  AA        <span style="text-decoration: underline;">1</span>990 Fixed wing…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>   <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    BQN   N804JB  B6        <span style="text-decoration: underline;">2</span>012 Fixed wing…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>   <span style="text-decoration: underline;">2</span>013     1     1     6 LGA    ATL   N668DN  DL        <span style="text-decoration: underline;">1</span>991 Fixed wing…</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 336,771 more rows, and 6 more variables: manufacturer &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;, engine &lt;chr&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">flights2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">planes</span>, by <span class="op">=</span> <span class="st">"tailnum"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 336,776 × 16</span></span></span>
+<span><span class="co">#&gt;   year.x month   day  hour origin dest  tailnum carrier year.y type       </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   <span style="text-decoration: underline;">2</span>013     1     1     5 EWR    IAH   N14228  UA        <span style="text-decoration: underline;">1</span>999 Fixed wing…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>   <span style="text-decoration: underline;">2</span>013     1     1     5 LGA    IAH   N24211  UA        <span style="text-decoration: underline;">1</span>998 Fixed wing…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    MIA   N619AA  AA        <span style="text-decoration: underline;">1</span>990 Fixed wing…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>   <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    BQN   N804JB  B6        <span style="text-decoration: underline;">2</span>012 Fixed wing…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>   <span style="text-decoration: underline;">2</span>013     1     1     6 LGA    ATL   N668DN  DL        <span style="text-decoration: underline;">1</span>991 Fixed wing…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 336,771 more rows, and 6 more variables: manufacturer &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;, engine &lt;chr&gt;</span></span></span></code></pre></div>
 <p>Note that the year columns in the output are disambiguated with a suffix.</p>
 </li>
 <li>
 <p>A named character vector: <code>by = c("x" = "a")</code>. This will match variable <code>x</code> in table <code>x</code> to variable <code>a</code> in table <code>y</code>. The variables from use will be used in the output.</p>
 <p>Each flight has an origin and destination <code>airport</code>, so we need to specify which one we want to join to:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flights2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">airports</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dest"</span> <span class="op">=</span> <span class="st">"faa"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 336,776 × 15</span></span>
-<span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name      lat   lon</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 EWR    IAH   N14228  UA      George…  30.0 -<span style="color: #BB0000;">95.3</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 LGA    IAH   N24211  UA      George…  30.0 -<span style="color: #BB0000;">95.3</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    MIA   N619AA  AA      Miami …  25.8 -<span style="color: #BB0000;">80.3</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    BQN   N804JB  B6      <span style="color: #BB0000;">NA</span>       <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">2</span>013     1     1     6 LGA    ATL   N668DN  DL      Hartsf…  33.6 -<span style="color: #BB0000;">84.4</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 336,771 more rows, and 4 more variables: alt &lt;dbl&gt;, tz &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   dst &lt;chr&gt;, tzone &lt;chr&gt;</span></span>
-<span class="va">flights2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">airports</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"origin"</span> <span class="op">=</span> <span class="st">"faa"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 336,776 × 15</span></span>
-<span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name      lat   lon</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 EWR    IAH   N14228  UA      Newark…  40.7 -<span style="color: #BB0000;">74.2</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 LGA    IAH   N24211  UA      La Gua…  40.8 -<span style="color: #BB0000;">73.9</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    MIA   N619AA  AA      John F…  40.6 -<span style="color: #BB0000;">73.8</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    BQN   N804JB  B6      John F…  40.6 -<span style="color: #BB0000;">73.8</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">2</span>013     1     1     6 LGA    ATL   N668DN  DL      La Gua…  40.8 -<span style="color: #BB0000;">73.9</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 336,771 more rows, and 4 more variables: alt &lt;dbl&gt;, tz &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   dst &lt;chr&gt;, tzone &lt;chr&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">flights2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">airports</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dest"</span> <span class="op">=</span> <span class="st">"faa"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 336,776 × 15</span></span></span>
+<span><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name      lat   lon</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 EWR    IAH   N14228  UA      George…  30.0 -<span style="color: #BB0000;">95.3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 LGA    IAH   N24211  UA      George…  30.0 -<span style="color: #BB0000;">95.3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    MIA   N619AA  AA      Miami …  25.8 -<span style="color: #BB0000;">80.3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    BQN   N804JB  B6      <span style="color: #BB0000;">NA</span>       <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">2</span>013     1     1     6 LGA    ATL   N668DN  DL      Hartsf…  33.6 -<span style="color: #BB0000;">84.4</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 336,771 more rows, and 4 more variables: alt &lt;dbl&gt;, tz &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   dst &lt;chr&gt;, tzone &lt;chr&gt;</span></span></span>
+<span><span class="va">flights2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">airports</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"origin"</span> <span class="op">=</span> <span class="st">"faa"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 336,776 × 15</span></span></span>
+<span><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name      lat   lon</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 EWR    IAH   N14228  UA      Newark…  40.7 -<span style="color: #BB0000;">74.2</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 LGA    IAH   N24211  UA      La Gua…  40.8 -<span style="color: #BB0000;">73.9</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    MIA   N619AA  AA      John F…  40.6 -<span style="color: #BB0000;">73.8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    BQN   N804JB  B6      John F…  40.6 -<span style="color: #BB0000;">73.8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">2</span>013     1     1     6 LGA    ATL   N668DN  DL      La Gua…  40.8 -<span style="color: #BB0000;">73.9</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 336,771 more rows, and 4 more variables: alt &lt;dbl&gt;, tz &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   dst &lt;chr&gt;, tzone &lt;chr&gt;</span></span></span></code></pre></div>
 </li>
 </ul>
 </div>
@@ -216,14 +216,14 @@
 </h3>
 <p>There are four types of mutating join, which differ in their behaviour when a match is not found. We’ll illustrate each with a simple example:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, y <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span>
-<span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span>, a <span class="op">=</span> <span class="fl">10</span>, b <span class="op">=</span> <span class="st">"a"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, y <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span>, a <span class="op">=</span> <span class="fl">10</span>, b <span class="op">=</span> <span class="st">"a"</span><span class="op">)</span></span></code></pre></div>
 <ul>
 <li>
 <p><code>inner_join(x, y)</code> only includes observations that match in both <code>x</code> and <code>y</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Joining, by = "x"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining, by = "x"</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">x</th>
@@ -242,43 +242,43 @@
 <li>
 <p><code>left_join(x, y)</code> includes all observations in <code>x</code>, regardless of whether they match or not. This is the most commonly used join because it ensures that you don’t lose observations from your primary table.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span>
-<span class="co">#&gt; Joining, by = "x"</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span>
-<span class="co">#&gt;       x     y     a b    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2    10 a    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2     1    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining, by = "x"</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span></span>
+<span><span class="co">#&gt;       x     y     a b    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2    10 a    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2     1    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span></span></span></code></pre></div>
 </li>
 <li>
 <p><code>right_join(x, y)</code> includes all observations in <code>y</code>. It’s equivalent to <code>left_join(y, x)</code>, but the columns and rows will be ordered differently.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">right_join</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span>
-<span class="co">#&gt; Joining, by = "x"</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span>
-<span class="co">#&gt;       x     y     a b    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2    10 a    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     3    <span style="color: #BB0000;">NA</span>    10 a</span>
-<span class="va">df2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">df1</span><span class="op">)</span>
-<span class="co">#&gt; Joining, by = "x"</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span>
-<span class="co">#&gt;       x     a b         y</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     3    10 a        <span style="color: #BB0000;">NA</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1    10 a         2</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">right_join</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining, by = "x"</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span></span>
+<span><span class="co">#&gt;       x     y     a b    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2    10 a    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     3    <span style="color: #BB0000;">NA</span>    10 a</span></span>
+<span><span class="va">df2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">df1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining, by = "x"</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span></span>
+<span><span class="co">#&gt;       x     a b         y</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     3    10 a        <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1    10 a         2</span></span></code></pre></div>
 </li>
 <li>
 <p><code><a href="../reference/mutate-joins.html">full_join()</a></code> includes all observations from <code>x</code> and <code>y</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span>
-<span class="co">#&gt; Joining, by = "x"</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 4</span></span>
-<span class="co">#&gt;       x     y     a b    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2    10 a    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2     1    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    <span style="color: #BB0000;">NA</span>    10 a</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining, by = "x"</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 4</span></span></span>
+<span><span class="co">#&gt;       x     y     a b    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2    10 a    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2     1    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    <span style="color: #BB0000;">NA</span>    10 a</span></span></code></pre></div>
 </li>
 </ul>
 <p>The left, right and full joins are collectively know as <strong>outer joins</strong>. When a row doesn’t match in an outer join, the new variables are filled in with missing values.</p>
@@ -288,23 +288,23 @@
 </h3>
 <p>While mutating joins are primarily used to add new variables, they can also generate new observations. If a match is not unique, a join will add all possible combinations (the Cartesian product) of the matching observations:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>
-<span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span>
-<span class="co">#&gt; Joining, by = "x"</span>
-<span class="co">#&gt; Warning: Each row in `x` should match at most 1 row in `y`.</span>
-<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Row 1 of `x` matches multiple rows.</span>
-<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> If multiple matches are expected, specify `multiple = "all"` in the</span>
-<span class="co">#&gt;   join call to silence this warning.</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 3</span></span>
-<span class="co">#&gt;       x     y z    </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     1 a    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1     1 b    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1     2 a    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1     2 b    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     2     3 a</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining, by = "x"</span></span>
+<span><span class="co">#&gt; Warning: Each row in `x` should match at most 1 row in `y`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Row 1 of `x` matches multiple rows.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> If multiple matches are expected, specify `multiple = "all"` in the</span></span>
+<span><span class="co">#&gt;   join call to silence this warning.</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 3</span></span></span>
+<span><span class="co">#&gt;       x     y z    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     1 a    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1     1 b    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1     2 a    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1     2 b    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     2     3 a</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -319,37 +319,37 @@
 </ul>
 <p>These are most useful for diagnosing join mismatches. For example, there are many flights in the nycflights13 dataset that don’t have a matching tail number in the planes table:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/hadley/nycflights13" class="external-link">"nycflights13"</a></span><span class="op">)</span>
-<span class="va">flights</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="../reference/filter-joins.html">anti_join</a></span><span class="op">(</span><span class="va">planes</span>, by <span class="op">=</span> <span class="st">"tailnum"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="../reference/count.html">count</a></span><span class="op">(</span><span class="va">tailnum</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 722 × 2</span></span>
-<span class="co">#&gt;   tailnum     n</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>       <span style="text-decoration: underline;">2</span>512</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> N725MQ    575</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> N722MQ    513</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> N723MQ    507</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> N713MQ    483</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 717 more rows</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/hadley/nycflights13" class="external-link">"nycflights13"</a></span><span class="op">)</span></span>
+<span><span class="va">flights</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/filter-joins.html">anti_join</a></span><span class="op">(</span><span class="va">planes</span>, by <span class="op">=</span> <span class="st">"tailnum"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/count.html">count</a></span><span class="op">(</span><span class="va">tailnum</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 722 × 2</span></span></span>
+<span><span class="co">#&gt;   tailnum     n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>       <span style="text-decoration: underline;">2</span>512</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> N725MQ    575</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> N722MQ    513</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> N723MQ    507</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> N713MQ    483</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 717 more rows</span></span></span></code></pre></div>
 <p>If you’re worried about what observations your joins will match, start with a <code><a href="../reference/filter-joins.html">semi_join()</a></code> or <code><a href="../reference/filter-joins.html">anti_join()</a></code>. <code><a href="../reference/filter-joins.html">semi_join()</a></code> and <code><a href="../reference/filter-joins.html">anti_join()</a></code> never duplicate; they only ever remove observations.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>, y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span>
-<span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># Four rows to start with:</span>
-<span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; [1] 4</span>
-<span class="co"># And we get four rows after the join</span>
-<span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">df2</span>, by <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Each row in `x` should match at most 1 row in `y`.</span>
-<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Row 1 of `x` matches multiple rows.</span>
-<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> If multiple matches are expected, specify `multiple = "all"` in the</span>
-<span class="co">#&gt;   join call to silence this warning.</span>
-<span class="co">#&gt; [1] 4</span>
-<span class="co"># But only two rows actually match</span>
-<span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/filter-joins.html">semi_join</a></span><span class="op">(</span><span class="va">df2</span>, by <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; [1] 2</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>, y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Four rows to start with:</span></span>
+<span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 4</span></span>
+<span><span class="co"># And we get four rows after the join</span></span>
+<span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">df2</span>, by <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Each row in `x` should match at most 1 row in `y`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Row 1 of `x` matches multiple rows.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> If multiple matches are expected, specify `multiple = "all"` in the</span></span>
+<span><span class="co">#&gt;   join call to silence this warning.</span></span>
+<span><span class="co">#&gt; [1] 4</span></span>
+<span><span class="co"># But only two rows actually match</span></span>
+<span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/filter-joins.html">semi_join</a></span><span class="op">(</span><span class="va">df2</span>, by <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="set-operations">Set operations<a class="anchor" aria-label="anchor" href="#set-operations"></a>
@@ -367,43 +367,43 @@
 </ul>
 <p>Given this simple data:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="op">(</span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">1L</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span>
-<span class="co">#&gt;       x     y</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2     1</span>
-<span class="op">(</span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span>
-<span class="co">#&gt;       x     y</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2     2</span></code></pre></div>
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">1L</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
+<span><span class="co">#&gt;       x     y</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2     1</span></span>
+<span><span class="op">(</span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
+<span><span class="co">#&gt;       x     y</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2     2</span></span></code></pre></div>
 <p>The four possibilities are:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">intersect</a></span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="co">#&gt;       x     y</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     1</span>
-<span class="co"># Note that we get 3 rows, not 4</span>
-<span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">union</a></span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span>
-<span class="co">#&gt;       x     y</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2     1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     2     2</span>
-<span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="co">#&gt;       x     y</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     2     1</span>
-<span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">df2</span>, <span class="va">df1</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="co">#&gt;       x     y</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     2     2</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">intersect</a></span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">#&gt;       x     y</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     1</span></span>
+<span><span class="co"># Note that we get 3 rows, not 4</span></span>
+<span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">union</a></span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
+<span><span class="co">#&gt;       x     y</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     2     2</span></span>
+<span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">#&gt;       x     y</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     2     1</span></span>
+<span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">df2</span>, <span class="va">df1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">#&gt;       x     y</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     2     2</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="multiple-table-verbs">Multiple-table verbs<a class="anchor" aria-label="anchor" href="#multiple-table-verbs"></a>
@@ -425,7 +425,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
   </div></footer>

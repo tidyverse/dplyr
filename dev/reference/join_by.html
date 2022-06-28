@@ -389,7 +389,7 @@ come from.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">join_by</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">join_by</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -418,11 +418,11 @@ and refer to that column by name in <code>join_by()</code>.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">sales</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span class="r-in">  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">1L</span>, <span class="fl">1L</span>, <span class="fl">2L</span>, <span class="fl">2L</span><span class="op">)</span>,</span>
-<span class="r-in">  sale_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2018-12-31"</span>, <span class="st">"2019-01-02"</span>, <span class="st">"2019-01-05"</span>, <span class="st">"2019-01-04"</span>, <span class="st">"2019-01-01"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">sales</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">sales</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">1L</span>, <span class="fl">1L</span>, <span class="fl">2L</span>, <span class="fl">2L</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  sale_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2018-12-31"</span>, <span class="st">"2019-01-02"</span>, <span class="st">"2019-01-05"</span>, <span class="st">"2019-01-04"</span>, <span class="st">"2019-01-01"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sales</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id sale_date </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>    </span>
@@ -431,22 +431,22 @@ and refer to that column by name in <code>join_by()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     1 2019-01-05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     2 2019-01-04</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     2 2019-01-01</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">promos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span class="r-in">  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">1L</span>, <span class="fl">2L</span><span class="op">)</span>,</span>
-<span class="r-in">  promo_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2019-01-01"</span>, <span class="st">"2019-01-05"</span>, <span class="st">"2019-01-02"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">promos</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">promos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">1L</span>, <span class="fl">2L</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  promo_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2019-01-01"</span>, <span class="st">"2019-01-05"</span>, <span class="st">"2019-01-02"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">promos</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id promo_date</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1 2019-01-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     1 2019-01-05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     2 2019-01-02</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Match `id` to `id`, and `sale_date` to `promo_date`</span></span>
-<span class="r-in"><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">id</span>, <span class="va">sale_date</span> <span class="op">==</span> <span class="va">promo_date</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">sales</span>, <span class="va">promos</span>, <span class="va">by</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Match `id` to `id`, and `sale_date` to `promo_date`</span></span></span>
+<span class="r-in"><span><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">id</span>, <span class="va">sale_date</span> <span class="op">==</span> <span class="va">promo_date</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">sales</span>, <span class="va">promos</span>, <span class="va">by</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id sale_date </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>    </span>
@@ -455,11 +455,11 @@ and refer to that column by name in <code>join_by()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     1 2019-01-05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     2 2019-01-04</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     2 2019-01-01</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># For each `sale_date` within a particular `id`,</span></span>
-<span class="r-in"><span class="co"># find all `promo_date`s that occurred before that particular sale</span></span>
-<span class="r-in"><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">id</span>, <span class="va">sale_date</span> <span class="op">&gt;=</span> <span class="va">promo_date</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">sales</span>, <span class="va">promos</span>, <span class="va">by</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># For each `sale_date` within a particular `id`,</span></span></span>
+<span class="r-in"><span><span class="co"># find all `promo_date`s that occurred before that particular sale</span></span></span>
+<span class="r-in"><span><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">id</span>, <span class="va">sale_date</span> <span class="op">&gt;=</span> <span class="va">promo_date</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">sales</span>, <span class="va">promos</span>, <span class="va">by</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id sale_date  promo_date</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>    </span>
@@ -469,12 +469,12 @@ and refer to that column by name in <code>join_by()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     1 2019-01-05 2019-01-05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     2 2019-01-04 2019-01-02</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>     2 2019-01-01 <span style="color: #BB0000;">NA</span>        </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># For each `sale_date` within a particular `id`,</span></span>
-<span class="r-in"><span class="co"># find only the preceding `promo_date` that occurred directly</span></span>
-<span class="r-in"><span class="co"># before that sale</span></span>
-<span class="r-in"><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">id</span>, <span class="fu">preceding</span><span class="op">(</span><span class="va">sale_date</span>, <span class="va">promo_date</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">sales</span>, <span class="va">promos</span>, <span class="va">by</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># For each `sale_date` within a particular `id`,</span></span></span>
+<span class="r-in"><span><span class="co"># find only the preceding `promo_date` that occurred directly</span></span></span>
+<span class="r-in"><span><span class="co"># before that sale</span></span></span>
+<span class="r-in"><span><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">id</span>, <span class="fu">preceding</span><span class="op">(</span><span class="va">sale_date</span>, <span class="va">promo_date</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">sales</span>, <span class="va">promos</span>, <span class="va">by</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id sale_date  promo_date</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>    </span>
@@ -483,12 +483,12 @@ and refer to that column by name in <code>join_by()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     1 2019-01-05 2019-01-05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     2 2019-01-04 2019-01-02</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     2 2019-01-01 <span style="color: #BB0000;">NA</span>        </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># If you want to disallow exact matching in rolling joins,</span></span>
-<span class="r-in"><span class="co"># set `inclusive = FALSE`. Note that the promo on `2019-01-05` is no longer</span></span>
-<span class="r-in"><span class="co"># considered the preceding match for the sale on the same date.</span></span>
-<span class="r-in"><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">id</span>, <span class="fu">preceding</span><span class="op">(</span><span class="va">sale_date</span>, <span class="va">promo_date</span>, inclusive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">sales</span>, <span class="va">promos</span>, <span class="va">by</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># If you want to disallow exact matching in rolling joins,</span></span></span>
+<span class="r-in"><span><span class="co"># set `inclusive = FALSE`. Note that the promo on `2019-01-05` is no longer</span></span></span>
+<span class="r-in"><span><span class="co"># considered the preceding match for the sale on the same date.</span></span></span>
+<span class="r-in"><span><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">id</span>, <span class="fu">preceding</span><span class="op">(</span><span class="va">sale_date</span>, <span class="va">promo_date</span>, inclusive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">sales</span>, <span class="va">promos</span>, <span class="va">by</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id sale_date  promo_date</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>    </span>
@@ -497,13 +497,13 @@ and refer to that column by name in <code>join_by()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     1 2019-01-05 2019-01-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     2 2019-01-04 2019-01-02</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     2 2019-01-01 <span style="color: #BB0000;">NA</span>        </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Same as before, but also require that the promo had to occur at most 1</span></span>
-<span class="r-in"><span class="co"># day before the sale was made. We'll use a full join to see that id 2's</span></span>
-<span class="r-in"><span class="co"># promo on `2019-01-02` is no longer matched to the sale on `2019-01-04`.</span></span>
-<span class="r-in"><span class="va">sales</span> <span class="op">&lt;-</span> <span class="fu"><a href="mutate.html">mutate</a></span><span class="op">(</span><span class="va">sales</span>, sale_date_lower <span class="op">=</span> <span class="va">sale_date</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">id</span>, <span class="fu">preceding</span><span class="op">(</span><span class="va">sale_date</span>, <span class="va">promo_date</span><span class="op">)</span>, <span class="va">sale_date_lower</span> <span class="op">&lt;=</span> <span class="va">promo_date</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">sales</span>, <span class="va">promos</span>, <span class="va">by</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Same as before, but also require that the promo had to occur at most 1</span></span></span>
+<span class="r-in"><span><span class="co"># day before the sale was made. We'll use a full join to see that id 2's</span></span></span>
+<span class="r-in"><span><span class="co"># promo on `2019-01-02` is no longer matched to the sale on `2019-01-04`.</span></span></span>
+<span class="r-in"><span><span class="va">sales</span> <span class="op">&lt;-</span> <span class="fu"><a href="mutate.html">mutate</a></span><span class="op">(</span><span class="va">sales</span>, sale_date_lower <span class="op">=</span> <span class="va">sale_date</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">id</span>, <span class="fu">preceding</span><span class="op">(</span><span class="va">sale_date</span>, <span class="va">promo_date</span><span class="op">)</span>, <span class="va">sale_date_lower</span> <span class="op">&lt;=</span> <span class="va">promo_date</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">sales</span>, <span class="va">promos</span>, <span class="va">by</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id sale_date  sale_date_lower promo_date</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>    </span>
@@ -513,16 +513,16 @@ and refer to that column by name in <code>join_by()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     2 2019-01-04 2019-01-03      <span style="color: #BB0000;">NA</span>        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     2 2019-01-01 2018-12-31      <span style="color: #BB0000;">NA</span>        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>     2 <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              2019-01-02</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># ---------------------------------------------------------------------------</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">segments</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span class="r-in">  segment_id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,</span>
-<span class="r-in">  chromosome <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"chr1"</span>, <span class="st">"chr2"</span>, <span class="st">"chr2"</span>, <span class="st">"chr1"</span><span class="op">)</span>,</span>
-<span class="r-in">  start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">140</span>, <span class="fl">210</span>, <span class="fl">380</span>, <span class="fl">230</span><span class="op">)</span>,</span>
-<span class="r-in">  end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">150</span>, <span class="fl">240</span>, <span class="fl">415</span>, <span class="fl">280</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">segments</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># ---------------------------------------------------------------------------</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">segments</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  segment_id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,</span></span>
+<span class="r-in"><span>  chromosome <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"chr1"</span>, <span class="st">"chr2"</span>, <span class="st">"chr2"</span>, <span class="st">"chr1"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">140</span>, <span class="fl">210</span>, <span class="fl">380</span>, <span class="fl">230</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">150</span>, <span class="fl">240</span>, <span class="fl">415</span>, <span class="fl">280</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">segments</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   segment_id chromosome start   end</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -530,14 +530,14 @@ and refer to that column by name in <code>join_by()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>          2 chr2         210   240</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>          3 chr2         380   415</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>          4 chr1         230   280</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">reference</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span class="r-in">  reference_id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,</span>
-<span class="r-in">  chromosome <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"chr1"</span>, <span class="st">"chr1"</span>, <span class="st">"chr2"</span>, <span class="st">"chr2"</span><span class="op">)</span>,</span>
-<span class="r-in">  start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">300</span>, <span class="fl">400</span><span class="op">)</span>,</span>
-<span class="r-in">  end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">150</span>, <span class="fl">250</span>, <span class="fl">399</span>, <span class="fl">450</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">reference</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">reference</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  reference_id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,</span></span>
+<span class="r-in"><span>  chromosome <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"chr1"</span>, <span class="st">"chr1"</span>, <span class="st">"chr2"</span>, <span class="st">"chr2"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">300</span>, <span class="fl">400</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">150</span>, <span class="fl">250</span>, <span class="fl">399</span>, <span class="fl">450</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">reference</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   reference_id chromosome start   end</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -545,11 +545,11 @@ and refer to that column by name in <code>join_by()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>            2 chr1         200   250</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>            3 chr2         300   399</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>            4 chr2         400   450</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Find every time a segment `start` falls between the reference</span></span>
-<span class="r-in"><span class="co"># `[start, end]` range.</span></span>
-<span class="r-in"><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">chromosome</span>, <span class="fu"><a href="between.html">between</a></span><span class="op">(</span><span class="va">start</span>, <span class="va">start</span>, <span class="va">end</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">segments</span>, <span class="va">reference</span>, <span class="va">by</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Find every time a segment `start` falls between the reference</span></span></span>
+<span class="r-in"><span><span class="co"># `[start, end]` range.</span></span></span>
+<span class="r-in"><span><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">chromosome</span>, <span class="fu"><a href="between.html">between</a></span><span class="op">(</span><span class="va">start</span>, <span class="va">start</span>, <span class="va">end</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">segments</span>, <span class="va">reference</span>, <span class="va">by</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   segment_id chromosome start.x end.x reference_id start.y end.y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -558,12 +558,12 @@ and refer to that column by name in <code>join_by()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>          3 chr2           380   415            3     300   399</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>          4 chr1           230   280            2     200   250</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>         <span style="color: #BB0000;">NA</span> chr2            <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>            4     400   450</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># If you wanted the reference columns first, supply `reference` as `x`</span></span>
-<span class="r-in"><span class="co"># and `segments` as `y`, then explicitly refer to their columns using `x$`</span></span>
-<span class="r-in"><span class="co"># and `y$`.</span></span>
-<span class="r-in"><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">chromosome</span>, <span class="fu"><a href="between.html">between</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">start</span>, <span class="va">x</span><span class="op">$</span><span class="va">start</span>, <span class="va">x</span><span class="op">$</span><span class="va">end</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">reference</span>, <span class="va">segments</span>, <span class="va">by</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># If you wanted the reference columns first, supply `reference` as `x`</span></span></span>
+<span class="r-in"><span><span class="co"># and `segments` as `y`, then explicitly refer to their columns using `x$`</span></span></span>
+<span class="r-in"><span><span class="co"># and `y$`.</span></span></span>
+<span class="r-in"><span><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">chromosome</span>, <span class="fu"><a href="between.html">between</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">start</span>, <span class="va">x</span><span class="op">$</span><span class="va">start</span>, <span class="va">x</span><span class="op">$</span><span class="va">end</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">reference</span>, <span class="va">segments</span>, <span class="va">by</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   reference_id chromosome start.x end.x segment_id start.y end.y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -572,20 +572,20 @@ and refer to that column by name in <code>join_by()</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>            3 chr2           300   399          3     380   415</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>            4 chr2           400   450         <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>           <span style="color: #BB0000;">NA</span> chr2            <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>          2     210   240</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Find every time a segment falls completely within a reference.</span></span>
-<span class="r-in"><span class="co"># Sometimes using `x$` and `y$` makes your intentions clearer, even if they</span></span>
-<span class="r-in"><span class="co"># match the default behavior.</span></span>
-<span class="r-in"><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">chromosome</span>, <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">within</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">start</span>, <span class="va">x</span><span class="op">$</span><span class="va">end</span>, <span class="va">y</span><span class="op">$</span><span class="va">start</span>, <span class="va">y</span><span class="op">$</span><span class="va">end</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">segments</span>, <span class="va">reference</span>, <span class="va">by</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Find every time a segment falls completely within a reference.</span></span></span>
+<span class="r-in"><span><span class="co"># Sometimes using `x$` and `y$` makes your intentions clearer, even if they</span></span></span>
+<span class="r-in"><span><span class="co"># match the default behavior.</span></span></span>
+<span class="r-in"><span><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">chromosome</span>, <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">within</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">start</span>, <span class="va">x</span><span class="op">$</span><span class="va">end</span>, <span class="va">y</span><span class="op">$</span><span class="va">start</span>, <span class="va">y</span><span class="op">$</span><span class="va">end</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">segments</span>, <span class="va">reference</span>, <span class="va">by</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   segment_id chromosome start.x end.x reference_id start.y end.y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>          1 chr1           140   150            1     100   150</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Find every time a segment overlaps a reference in any way.</span></span>
-<span class="r-in"><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">chromosome</span>, <span class="fu">overlaps</span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">start</span>, <span class="va">x</span><span class="op">$</span><span class="va">end</span>, <span class="va">y</span><span class="op">$</span><span class="va">start</span>, <span class="va">y</span><span class="op">$</span><span class="va">end</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">segments</span>, <span class="va">reference</span>, <span class="va">by</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Find every time a segment overlaps a reference in any way.</span></span></span>
+<span class="r-in"><span><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">chromosome</span>, <span class="fu">overlaps</span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">start</span>, <span class="va">x</span><span class="op">$</span><span class="va">end</span>, <span class="va">y</span><span class="op">$</span><span class="va">start</span>, <span class="va">y</span><span class="op">$</span><span class="va">end</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">segments</span>, <span class="va">reference</span>, <span class="va">by</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   segment_id chromosome start.x end.x reference_id start.y end.y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -607,7 +607,7 @@ and refer to that column by name in <code>join_by()</code>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
   </div></footer></body></html>

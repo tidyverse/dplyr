@@ -212,18 +212,18 @@ utilize this in a package, then stringi should be placed in <code>Imports</code>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">dplyr_locale</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dplyr_locale</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
     </div>
 
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Default locale is C</span></span>
-<span class="r-in"><span class="fu">dplyr_locale</span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Default locale is C</span></span></span>
+<span class="r-in"><span><span class="fu">dplyr_locale</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "C"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"C"</span>, <span class="st">"B"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">df</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"C"</span>, <span class="st">"B"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   x    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
@@ -232,10 +232,10 @@ utilize this in a package, then stringi should be placed in <code>Imports</code>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> C    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> B    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> c    </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># The C locale groups the English alphabet by case, placing uppercase letters</span></span>
-<span class="r-in"><span class="co"># before lowercase letters. This is the default.</span></span>
-<span class="r-in"><span class="fu"><a href="arrange.html">arrange</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">x</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The C locale groups the English alphabet by case, placing uppercase letters</span></span></span>
+<span class="r-in"><span><span class="co"># before lowercase letters. This is the default.</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="arrange.html">arrange</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   x    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
@@ -244,10 +244,10 @@ utilize this in a package, then stringi should be placed in <code>Imports</code>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> a    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> b    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> c    </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># The American English locale groups the alphabet by letter.</span></span>
-<span class="r-in"><span class="co"># Explicitly override `.locale` with `"en"` for this ordering.</span></span>
-<span class="r-in"><span class="fu"><a href="arrange.html">arrange</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">x</span>, .locale <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The American English locale groups the alphabet by letter.</span></span></span>
+<span class="r-in"><span><span class="co"># Explicitly override `.locale` with `"en"` for this ordering.</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="arrange.html">arrange</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">x</span>, .locale <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   x    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
@@ -256,16 +256,16 @@ utilize this in a package, then stringi should be placed in <code>Imports</code>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> B    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> c    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> C    </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Or temporarily override the `dplyr.locale` global option, which is useful</span></span>
-<span class="r-in"><span class="co"># if `arrange()` is called from a function you don't control</span></span>
-<span class="r-in"><span class="va">col_sorter</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="fu"><a href="arrange.html">arrange</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">x</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/local_options.html" class="external-link">with_options</a></span><span class="op">(</span>dplyr.locale <span class="op">=</span> <span class="st">"en"</span>, <span class="op">{</span></span>
-<span class="r-in">  <span class="fu">col_sorter</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Or temporarily override the `dplyr.locale` global option, which is useful</span></span></span>
+<span class="r-in"><span><span class="co"># if `arrange()` is called from a function you don't control</span></span></span>
+<span class="r-in"><span><span class="va">col_sorter</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="arrange.html">arrange</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/local_options.html" class="external-link">with_options</a></span><span class="op">(</span>dplyr.locale <span class="op">=</span> <span class="st">"en"</span>, <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu">col_sorter</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   x    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
@@ -274,10 +274,10 @@ utilize this in a package, then stringi should be placed in <code>Imports</code>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> B    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> c    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> C    </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># This Danish letter is expected to sort after `z`</span></span>
-<span class="r-in"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"o"</span>, <span class="st">"p"</span>, <span class="st">"\u00F8"</span>, <span class="st">"z"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">df</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># This Danish letter is expected to sort after `z`</span></span></span>
+<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"o"</span>, <span class="st">"p"</span>, <span class="st">"\u00F8"</span>, <span class="st">"z"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   x    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
@@ -285,9 +285,9 @@ utilize this in a package, then stringi should be placed in <code>Imports</code>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> p    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> ø    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> z    </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># The American English locale sorts it right after `o`</span></span>
-<span class="r-in"><span class="fu"><a href="arrange.html">arrange</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">x</span>, .locale <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The American English locale sorts it right after `o`</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="arrange.html">arrange</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">x</span>, .locale <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   x    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
@@ -295,9 +295,9 @@ utilize this in a package, then stringi should be placed in <code>Imports</code>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> ø    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> p    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> z    </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Using `"da"` for Danish ordering gives the expected result</span></span>
-<span class="r-in"><span class="fu"><a href="arrange.html">arrange</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">x</span>, .locale <span class="op">=</span> <span class="st">"da"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Using `"da"` for Danish ordering gives the expected result</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="arrange.html">arrange</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">x</span>, .locale <span class="op">=</span> <span class="st">"da"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   x    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
@@ -318,7 +318,7 @@ utilize this in a package, then stringi should be placed in <code>Imports</code>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
   </div></footer></body></html>

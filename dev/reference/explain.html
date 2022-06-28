@@ -86,9 +86,9 @@ str()."><meta property="og:image" content="https://dplyr.tidyverse.org/logo.png"
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">explain</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">show_query</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">explain</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">show_query</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -119,8 +119,8 @@ diagnosing performance problems.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="va">lahman_s</span> <span class="op">&lt;-</span> <span class="fu">dbplyr</span><span class="fu">::</span><span class="fu"><a href="https://dbplyr.tidyverse.org/reference/lahman.html" class="external-link">lahman_sqlite</a></span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="va">lahman_s</span> <span class="op">&lt;-</span> <span class="fu">dbplyr</span><span class="fu">::</span><span class="fu"><a href="https://dbplyr.tidyverse.org/reference/lahman.html" class="external-link">lahman_sqlite</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Creating table: AllstarFull</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Creating table: Appearances</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Creating table: AwardsManagers</span>
@@ -149,12 +149,12 @@ diagnosing performance problems.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Creating table: Teams</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Creating table: TeamsFranchises</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Creating table: TeamsHalf</span>
-<span class="r-in"><span class="va">batting</span> <span class="op">&lt;-</span> <span class="fu"><a href="tbl.html">tbl</a></span><span class="op">(</span><span class="va">lahman_s</span>, <span class="st">"Batting"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">show_query</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">batting</span> <span class="op">&lt;-</span> <span class="fu"><a href="tbl.html">tbl</a></span><span class="op">(</span><span class="va">lahman_s</span>, <span class="st">"Batting"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">show_query</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;SQL&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">SELECT</span> *</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">FROM</span> `Batting`</span>
-<span class="r-in"><span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">explain</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">explain</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;SQL&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">SELECT</span> *</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">FROM</span> `Batting`</span>
@@ -162,10 +162,10 @@ diagnosing performance problems.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PLAN&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   id parent notused       detail</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  2      0       0 SCAN Batting</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># The batting database has indices on all ID variables:</span></span>
-<span class="r-in"><span class="co"># SQLite automatically picks the most restrictive index</span></span>
-<span class="r-in"><span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">lgID</span> <span class="op">==</span> <span class="st">"NL"</span> <span class="op">&amp;</span> <span class="va">yearID</span> <span class="op">==</span> <span class="fl">2000L</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">explain</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The batting database has indices on all ID variables:</span></span></span>
+<span class="r-in"><span><span class="co"># SQLite automatically picks the most restrictive index</span></span></span>
+<span class="r-in"><span><span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">lgID</span> <span class="op">==</span> <span class="st">"NL"</span> <span class="op">&amp;</span> <span class="va">yearID</span> <span class="op">==</span> <span class="fl">2000L</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">explain</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;SQL&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">SELECT</span> *</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">FROM</span> `Batting`</span>
@@ -174,9 +174,9 @@ diagnosing performance problems.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PLAN&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   id parent notused                                               detail</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  3      0       0 SEARCH Batting USING INDEX Batting_yearID (yearID=?)</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># OR's will use multiple indexes</span></span>
-<span class="r-in"><span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">lgID</span> <span class="op">==</span> <span class="st">"NL"</span> <span class="op">|</span> <span class="va">yearID</span> <span class="op">==</span> <span class="fl">2000</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">explain</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># OR's will use multiple indexes</span></span></span>
+<span class="r-in"><span><span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">lgID</span> <span class="op">==</span> <span class="st">"NL"</span> <span class="op">|</span> <span class="va">yearID</span> <span class="op">==</span> <span class="fl">2000</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">explain</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;SQL&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">SELECT</span> *</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">FROM</span> `Batting`</span>
@@ -189,10 +189,10 @@ diagnosing performance problems.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 11      5       0     SEARCH Batting USING INDEX Batting_lgID (lgID=?)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 16      4       0                                              INDEX 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 22     16       0 SEARCH Batting USING INDEX Batting_yearID (yearID=?)</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Joins will use indexes in both tables</span></span>
-<span class="r-in"><span class="va">teams</span> <span class="op">&lt;-</span> <span class="fu"><a href="tbl.html">tbl</a></span><span class="op">(</span><span class="va">lahman_s</span>, <span class="st">"Teams"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">teams</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"yearID"</span>, <span class="st">"teamID"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">explain</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Joins will use indexes in both tables</span></span></span>
+<span class="r-in"><span><span class="va">teams</span> <span class="op">&lt;-</span> <span class="fu"><a href="tbl.html">tbl</a></span><span class="op">(</span><span class="va">lahman_s</span>, <span class="st">"Teams"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">teams</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"yearID"</span>, <span class="st">"teamID"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">explain</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;SQL&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">SELECT</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `playerID`,</span>
@@ -271,7 +271,7 @@ diagnosing performance problems.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   id parent notused                                         detail</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  4      0       0                                       SCAN LHS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  6      0       0 SEARCH RHS USING INDEX Teams_yearID (yearID=?)</span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -285,7 +285,7 @@ diagnosing performance problems.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
   </div></footer></body></html>

@@ -113,7 +113,7 @@ used within a data pipeline.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">glimpse</span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">glimpse</span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 32</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ mpg  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 21.0, 21.0, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2,…</span>
@@ -127,12 +127,12 @@ used within a data pipeline.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ am   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ gear <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4,…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ carb <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1,…</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Note that original x is (invisibly) returned, allowing `glimpse()` to be</span></span>
-<span class="r-in"><span class="co"># used within a pipeline.</span></span>
-<span class="r-in"><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">glimpse</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu"><a href="select.html">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Note that original x is (invisibly) returned, allowing `glimpse()` to be</span></span></span>
+<span class="r-in"><span><span class="co"># used within a pipeline.</span></span></span>
+<span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">glimpse</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="select.html">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 32</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ mpg  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 21.0, 21.0, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2,…</span>
@@ -179,8 +179,8 @@ used within a data pipeline.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino        19.7   6 145.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora       15.0   8 301.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E          21.4   4 121.0</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">glimpse</span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">glimpse</span><span class="op">(</span><span class="va">starwars</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 87</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 14</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ name       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Luke Skywalker", "C-3PO", "R2-D2", "Darth Vader", "L…</span>
@@ -210,7 +210,7 @@ used within a data pipeline.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
   </div></footer></body></html>

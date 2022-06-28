@@ -92,17 +92,17 @@ to smallest outputs. Use <code><a href="desc.html">desc()</a></code> to reverse 
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">row_number</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-
-<span class="fu">ntile</span><span class="op">(</span>x <span class="op">=</span> <span class="fu">row_number</span><span class="op">(</span><span class="op">)</span>, <span class="va">n</span><span class="op">)</span>
-
-<span class="fu">min_rank</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-
-<span class="fu">dense_rank</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-
-<span class="fu">percent_rank</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-
-<span class="fu">cume_dist</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">row_number</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ntile</span><span class="op">(</span>x <span class="op">=</span> <span class="fu">row_number</span><span class="op">(</span><span class="op">)</span>, <span class="va">n</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">min_rank</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">dense_rank</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">percent_rank</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">cume_dist</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -135,26 +135,26 @@ larger buckets have lower rank.</p></li>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="cn">NA</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">row_number</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="cn">NA</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">row_number</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  5  1  4  2  3 NA</span>
-<span class="r-in"><span class="fu">min_rank</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">min_rank</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  5  1  4  2  2 NA</span>
-<span class="r-in"><span class="fu">dense_rank</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">dense_rank</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  4  1  3  2  2 NA</span>
-<span class="r-in"><span class="fu">percent_rank</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">percent_rank</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.00 0.00 0.75 0.25 0.25   NA</span>
-<span class="r-in"><span class="fu">cume_dist</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">cume_dist</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.0 0.2 0.8 0.6 0.6  NA</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">ntile</span><span class="op">(</span><span class="va">x</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">ntile</span><span class="op">(</span><span class="va">x</span>, <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  2  1  2  1  1 NA</span>
-<span class="r-in"><span class="fu">ntile</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">ntile</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span>, <span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 1 1 2 2 2 3 3</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># row_number can be used with single table verbs without specifying x</span></span>
-<span class="r-in"><span class="co"># (for data frames and databases that support windowing)</span></span>
-<span class="r-in"><span class="fu"><a href="mutate.html">mutate</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu">row_number</span><span class="op">(</span><span class="op">)</span> <span class="op">==</span> <span class="fl">1L</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># row_number can be used with single table verbs without specifying x</span></span></span>
+<span class="r-in"><span><span class="co"># (for data frames and databases that support windowing)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="mutate.html">mutate</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu">row_number</span><span class="op">(</span><span class="op">)</span> <span class="op">==</span> <span class="fl">1L</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
@@ -221,7 +221,7 @@ larger buckets have lower rank.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino                     FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora                    FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E                       FALSE</span>
-<span class="r-in"><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="between.html">between</a></span><span class="op">(</span><span class="fu">row_number</span><span class="op">(</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="between.html">between</a></span><span class="op">(</span><span class="fu">row_number</span><span class="op">(</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4         21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag     21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
@@ -246,7 +246,7 @@ larger buckets have lower rank.</p></li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
   </div></footer></body></html>

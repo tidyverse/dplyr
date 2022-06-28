@@ -89,25 +89,25 @@ more details.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">src_mysql</span><span class="op">(</span>
-  <span class="va">dbname</span>,
-  host <span class="op">=</span> <span class="cn">NULL</span>,
-  port <span class="op">=</span> <span class="fl">0L</span>,
-  username <span class="op">=</span> <span class="st">"root"</span>,
-  password <span class="op">=</span> <span class="st">""</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">src_postgres</span><span class="op">(</span>
-  dbname <span class="op">=</span> <span class="cn">NULL</span>,
-  host <span class="op">=</span> <span class="cn">NULL</span>,
-  port <span class="op">=</span> <span class="cn">NULL</span>,
-  user <span class="op">=</span> <span class="cn">NULL</span>,
-  password <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">src_sqlite</span><span class="op">(</span><span class="va">path</span>, create <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">src_mysql</span><span class="op">(</span></span>
+<span>  <span class="va">dbname</span>,</span>
+<span>  host <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  port <span class="op">=</span> <span class="fl">0L</span>,</span>
+<span>  username <span class="op">=</span> <span class="st">"root"</span>,</span>
+<span>  password <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">src_postgres</span><span class="op">(</span></span>
+<span>  dbname <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  host <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  port <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  user <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  password <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">src_sqlite</span><span class="op">(</span><span class="va">path</span>, create <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -156,12 +156,12 @@ as described in <code><a href="https://rdrr.io/pkg/RMySQL/man/MySQLDriver-class.
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html" class="external-link">SQLite</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">":memory:"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="copy_to.html">copy_to</a></span><span class="op">(</span><span class="va">con</span>, <span class="va">mtcars</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># To retrieve a single table from a source, use `tbl()`</span></span>
-<span class="r-in"><span class="va">mtcars</span> <span class="op">&lt;-</span> <span class="va">con</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="tbl.html">tbl</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">mtcars</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html" class="external-link">SQLite</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">":memory:"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="copy_to.html">copy_to</a></span><span class="op">(</span><span class="va">con</span>, <span class="va">mtcars</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># To retrieve a single table from a source, use `tbl()`</span></span></span>
+<span class="r-in"><span><span class="va">mtcars</span> <span class="op">&lt;-</span> <span class="va">con</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="tbl.html">tbl</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">mtcars</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Source:   table&lt;mtcars&gt; [?? x 11]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Database: sqlite 3.38.5 [:memory:]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
@@ -177,9 +177,9 @@ as described in <code><a href="https://rdrr.io/pkg/RMySQL/man/MySQLDriver-class.
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with more rows</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># You can also use pass raw SQL if you want a more sophisticated query</span></span>
-<span class="r-in"><span class="va">con</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="tbl.html">tbl</a></span><span class="op">(</span><span class="fu"><a href="sql.html">sql</a></span><span class="op">(</span><span class="st">"SELECT * FROM mtcars WHERE cyl == 8"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># You can also use pass raw SQL if you want a more sophisticated query</span></span></span>
+<span class="r-in"><span><span class="va">con</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="tbl.html">tbl</a></span><span class="op">(</span><span class="fu"><a href="sql.html">sql</a></span><span class="op">(</span><span class="st">"SELECT * FROM mtcars WHERE cyl == 8"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Source:   SQL [?? x 11]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Database: sqlite 3.38.5 [:memory:]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
@@ -208,7 +208,7 @@ as described in <code><a href="https://rdrr.io/pkg/RMySQL/man/MySQLDriver-class.
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
   </div></footer></body></html>

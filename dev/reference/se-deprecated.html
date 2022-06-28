@@ -116,45 +116,45 @@ argument. See <code><a href="../articles/programming.html">vignette("programming
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">add_count_</span><span class="op">(</span><span class="va">x</span>, <span class="va">vars</span>, wt <span class="op">=</span> <span class="cn">NULL</span>, sort <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">add_tally_</span><span class="op">(</span><span class="va">x</span>, <span class="va">wt</span>, sort <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">arrange_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">count_</span><span class="op">(</span><span class="va">x</span>, <span class="va">vars</span>, wt <span class="op">=</span> <span class="cn">NULL</span>, sort <span class="op">=</span> <span class="cn">FALSE</span>, .drop <span class="op">=</span> <span class="fu"><a href="group_by_drop_default.html">group_by_drop_default</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">distinct_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, <span class="va">.dots</span>, .keep_all <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">do_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">filter_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">funs_</span><span class="op">(</span><span class="va">dots</span>, args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, env <span class="op">=</span> <span class="fu">base_env</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">group_by_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">group_indices_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">mutate_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">tally_</span><span class="op">(</span><span class="va">x</span>, <span class="va">wt</span>, sort <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">transmute_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">rename_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">rename_vars_</span><span class="op">(</span><span class="va">vars</span>, <span class="va">args</span><span class="op">)</span>
-
-<span class="fu">select_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">select_vars_</span><span class="op">(</span><span class="va">vars</span>, <span class="va">args</span>, include <span class="op">=</span> <span class="fu">chr</span><span class="op">(</span><span class="op">)</span>, exclude <span class="op">=</span> <span class="fu">chr</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">slice_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">summarise_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">summarize_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add_count_</span><span class="op">(</span><span class="va">x</span>, <span class="va">vars</span>, wt <span class="op">=</span> <span class="cn">NULL</span>, sort <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">add_tally_</span><span class="op">(</span><span class="va">x</span>, <span class="va">wt</span>, sort <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">arrange_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">count_</span><span class="op">(</span><span class="va">x</span>, <span class="va">vars</span>, wt <span class="op">=</span> <span class="cn">NULL</span>, sort <span class="op">=</span> <span class="cn">FALSE</span>, .drop <span class="op">=</span> <span class="fu"><a href="group_by_drop_default.html">group_by_drop_default</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">distinct_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, <span class="va">.dots</span>, .keep_all <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">do_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">filter_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">funs_</span><span class="op">(</span><span class="va">dots</span>, args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, env <span class="op">=</span> <span class="fu">base_env</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">group_by_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">group_indices_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">mutate_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tally_</span><span class="op">(</span><span class="va">x</span>, <span class="va">wt</span>, sort <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">transmute_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">rename_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">rename_vars_</span><span class="op">(</span><span class="va">vars</span>, <span class="va">args</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">select_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">select_vars_</span><span class="op">(</span><span class="va">vars</span>, <span class="va">args</span>, include <span class="op">=</span> <span class="fu">chr</span><span class="op">(</span><span class="op">)</span>, exclude <span class="op">=</span> <span class="fu">chr</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">slice_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">summarise_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">summarize_</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .dots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -232,7 +232,7 @@ include/exclude.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
   </div></footer></body></html>

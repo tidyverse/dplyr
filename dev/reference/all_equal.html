@@ -86,14 +86,14 @@ seems to solve a problem that no longer seems that important.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">all_equal</span><span class="op">(</span>
-  <span class="va">target</span>,
-  <span class="va">current</span>,
-  ignore_col_order <span class="op">=</span> <span class="cn">TRUE</span>,
-  ignore_row_order <span class="op">=</span> <span class="cn">TRUE</span>,
-  convert <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">all_equal</span><span class="op">(</span></span>
+<span>  <span class="va">target</span>,</span>
+<span>  <span class="va">current</span>,</span>
+<span>  ignore_col_order <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  ignore_row_order <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  convert <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -130,25 +130,25 @@ result in an <code>if</code> expression.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">scramble</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># By default, ordering of rows and columns ignored</span></span>
-<span class="r-in"><span class="fu">all_equal</span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu">scramble</span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">scramble</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># By default, ordering of rows and columns ignored</span></span></span>
+<span class="r-in"><span><span class="fu">all_equal</span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu">scramble</span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># But those can be overriden if desired</span></span>
-<span class="r-in"><span class="fu">all_equal</span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu">scramble</span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, ignore_col_order <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># But those can be overriden if desired</span></span></span>
+<span class="r-in"><span><span class="fu">all_equal</span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu">scramble</span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, ignore_col_order <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Same column names, but different order.</span>
-<span class="r-in"><span class="fu">all_equal</span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu">scramble</span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, ignore_row_order <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">all_equal</span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu">scramble</span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, ignore_row_order <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Same row values, but different order"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># By default all_equal is sensitive to variable differences</span></span>
-<span class="r-in"><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"a"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="st">"a"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">all_equal</span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># By default all_equal is sensitive to variable differences</span></span></span>
+<span class="r-in"><span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"a"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="st">"a"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">all_equal</span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Different types for column `x`: character vs factor&lt;4d52a&gt;.</span>
-<span class="r-in"><span class="co"># But you can request dplyr convert similar types</span></span>
-<span class="r-in"><span class="fu">all_equal</span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span>, convert <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># But you can request dplyr convert similar types</span></span></span>
+<span class="r-in"><span><span class="fu">all_equal</span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span>, convert <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 </code></pre></div>
     </div>
@@ -163,7 +163,7 @@ result in an <code>if</code> expression.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
   </div></footer></body></html>
