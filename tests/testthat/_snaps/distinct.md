@@ -31,6 +31,6 @@
       ! Problem adding computed columns.
       Caused by error in `mutate()`:
       ! Problem while computing `y = a + 1`.
-      Caused by error:
+      Caused by error in `mask$eval_all_mutate()`:
       ! object 'a' not found
 

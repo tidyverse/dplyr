@@ -167,7 +167,7 @@
       <error/rlang_error>
       Error in `summarise()`:
       ! Problem while computing `..1 = stop("{")`.
-      Caused by error:
+      Caused by error in `mask$eval_all_summarise()`:
       ! {
     Code
       (expect_error(tibble(a = 1, b = "{value:1, unit:a}") %>% group_by(b) %>%
@@ -177,6 +177,6 @@
       Error in `summarise()`:
       ! Problem while computing `a = stop("!")`.
       i The error occurred in group 1: b = "{value:1, unit:a}".
-      Caused by error:
+      Caused by error in `mask$eval_all_summarise()`:
       ! !
 
