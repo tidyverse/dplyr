@@ -16,6 +16,10 @@ Each expression should consist of either a join condition or a join helper:
 \item Overlap helpers: \code{between()}, \code{within()}, or \code{overlaps()}.
 }
 
+Other expressions are not supported. If you need to perform a join on
+a computed variable, e.g. \code{join_by(sales_date - 40 >= promo_date)},
+you'll need to precompute and store it in a separate column.
+
 Column names should be specified as quoted or unquoted names. By default,
 the name on the left-hand side of a join condition refers to the left-hand
 table, unless overriden by explicitly prefixing the column name with either
@@ -29,15 +33,16 @@ i.e. \code{x} is interpreted as \code{x == x}.}
 \code{join_by()} constructs a specification that describes how to join two tables
 using a small domain specific language. The result can be supplied as the
 \code{by} argument to any of the join functions (such as \code{\link[=left_join]{left_join()}}).
-
-\code{join_by()} is constructed from a comma-separated set of expressions that
-are generally of the form \verb{x_col OP y_col}, where \code{OP} is one of \code{==},
-\code{>=}, \code{>}, \code{<=}, or \code{<}. These are described in detail below, along with
-additional modifiers that are used to perform rolling and overlap joins.
-
-Multiple expressions are combined using an "and" operation in the order
-they are specified.
-\subsection{Equi joins:}{
+}
+\section{Join types}{
+\code{join_by()} supports four types of join, as described below:
+\itemize{
+\item Equi joins
+\item Non-equi joins
+\item Rolling joins
+\item Overlap joins
+}
+\subsection{Equi joins}{
 
 Equi joins match on equality, and are the most common type of join. To
 construct an equi join, supply two column names to join with separated by
@@ -46,7 +51,7 @@ join between two columns of the same name. For example, \code{join_by(x)} is
 equivalent to \code{join_by(x == x)}.
 }
 
-\subsection{Non-equi joins:}{
+\subsection{Non-equi joins}{
 
 Non-equi joins match on an inequality, and are common in time series analysis
 and genomics. To construct a non-equi join, supply two column names separated
@@ -57,7 +62,7 @@ large number of rows in \code{y}. Be extra careful when constructing non-equi
 join specifications!
 }
 
-\subsection{Rolling joins:}{
+\subsection{Rolling joins}{
 
 Rolling joins are a variant of a non-equi join that limit the results
 returned from the non-equi join condition. They are useful for "rolling"
@@ -101,7 +106,7 @@ approximately equivalent to applying the binary condition mentioned above
 followed by a \code{filter()} for only the maximum or minimum \code{y} value.
 }
 
-\subsection{Overlap joins:}{
+\subsection{Overlap joins}{
 
 Overlap joins are a special case of a non-equi join generally involving one
 or two columns from the left-hand table \emph{overlapping} a range computed from
@@ -126,9 +131,9 @@ overlaps \verb{[y_lower, y_upper]} in any capacity. Equivalent to \verb{x_lower 
 These conditions assume that the ranges are well-formed, i.e.
 \code{x_lower <= x_upper}.
 }
+}
 
-\subsection{Column referencing:}{
-
+\section{Column referencing}{
 When specifying join conditions, \code{join_by()} assumes that column names on the
 left-hand side of the condition refer to the left-hand table (\code{x}), and names
 on the right-hand side of the condition refer to the right-hand table (\code{y}).
@@ -137,13 +142,7 @@ the left-hand side of the condition, and vice versa. To support this, column
 names can be prefixed by \verb{x$} or \verb{y$} to explicitly specify which table they
 come from.
 }
-}
-\details{
-Note that \code{join_by()} does not support arbitrary expressions on each side of
-the join condition. For example, \code{join_by(sales_date - 40 >= promo_date)} is not allowed. To perform a join like this, pre-compute
-\code{sales_date - 40} and store it in a separate column, like \code{sales_date_lower},
-and refer to that column by name in \code{join_by()}.
-}
+
 \examples{
 sales <- tibble(
   id = c(1L, 1L, 1L, 2L, 2L),
