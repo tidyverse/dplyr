@@ -1,12 +1,17 @@
 DataMask <- R6Class("DataMask",
   public = list(
-    initialize = function(data, caller, verb, error_call) {
-      rows <- group_rows(data)
-      # workaround for when there are 0 groups
-      if (length(rows) == 0) {
-        rows <- list(integer())
+    initialize = function(data, caller, verb, group_data, error_call, loc = NULL) {
+      private$rows <- group_data[[".rows"]]
+      if (length(private$rows) == 0L) {
+        # Handle case of zero groups
+        private$rows <- new_list_of(list(integer()), ptype = integer())
       }
-      private$rows <- rows
+
+      if (is.null(loc)) {
+        private$size <- nrow(data)
+      } else {
+        private$size <- length(loc)
+      }
 
       frame <- caller_env(n = 2)
       local_mask(self, frame)
@@ -20,11 +25,13 @@ DataMask <- R6Class("DataMask",
       private$caller <- caller
       private$current_data <- unclass(data)
 
-      private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows)
-      private$mask <- .Call(dplyr_data_masks_setup, private$chops, data, rows)
+      private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, private$rows, loc, private$size)
+      private$mask <- .Call(dplyr_data_masks_setup, private$chops, data, private$rows)
 
-      private$keys <- group_keys(data)
-      private$group_vars <- group_vars(data)
+      private$keys <- as_group_keys(group_data)
+      private$keys_size <- vec_size(private$keys)
+      private$group_vars <- names(private$keys)
+
       private$verb <- verb
     },
 
@@ -88,7 +95,12 @@ DataMask <- R6Class("DataMask",
     },
 
     current_key = function() {
-      vec_slice(private$keys, self$get_current_group())
+      if (private$keys_size == 0L) {
+        # Handle case of zero groups, like in `$initialize()`
+        private$keys
+      } else {
+        vec_slice(private$keys, self$get_current_group())
+      }
     },
 
     current_vars = function() {
@@ -105,10 +117,6 @@ DataMask <- R6Class("DataMask",
 
     set_current_group = function(group) {
       parent.env(private$chops)$.current_group[] <- group
-    },
-
-    full_data = function() {
-      private$data
     },
 
     get_used = function() {
@@ -147,6 +155,22 @@ DataMask <- R6Class("DataMask",
         rm(list = names_bindings, envir = bindings)
         env_bind_lazy(bindings, !!!set_names(promises, names_bindings))
       })
+    },
+
+    is_grouped_df = function() {
+      is_grouped_df(private$data)
+    },
+
+    is_rowwise_df = function() {
+      is_rowwise_df(private$data)
+    },
+
+    get_size = function() {
+      private$size
+    },
+
+    get_keys = function() {
+      private$keys
     },
 
     get_env_bindings = function() {
@@ -191,6 +215,13 @@ DataMask <- R6Class("DataMask",
 
     # data frame of keys, one row per group
     keys = NULL,
+
+    # number of rows in the keys, used for zero group case in `current_key()`
+    keys_size = NULL,
+
+    # number of rows from `data` actually used.
+    # either the size of `data` or the length of `loc`.
+    size = NULL,
 
     # caller environment of the verb (summarise(), ...)
     caller = NULL,

@@ -205,7 +205,14 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
 summarise_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
 
-  mask <- DataMask$new(.data, caller_env, "summarise", error_call = error_call)
+  mask <- DataMask$new(
+    data = .data,
+    caller = caller_env,
+    verb = "summarise",
+    group_data = group_data(.data),
+    error_call = error_call
+  )
+
   old_current_column <- context_peek_bare("column")
 
   on.exit(context_poke("column", old_current_column), add = TRUE)
@@ -246,8 +253,16 @@ summarise_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
         results_k <- quo_result$results
 
         if (!quo_data$is_named && is.data.frame(types_k)) {
-          chunks_extracted <- .Call(dplyr_extract_chunks, chunks_k, types_k)
+          types_k_n_columns <- length(types_k)
           types_k_names <- names(types_k)
+
+          chunks_extracted <- .Call(
+            dplyr_extract_chunks,
+            chunks_k,
+            types_k_n_columns,
+            types_k_names
+          )
+
           for (j in seq_along(chunks_extracted)) {
             mask$add_one(
               name   = types_k_names[j],

@@ -250,3 +250,51 @@ dplyr_col_select <- function(.data, loc, names = NULL, error_call = caller_env()
 
   out
 }
+
+dplyr_col_update <- function(x, loc, updates, error_call = caller_env()) {
+  # Take a data frame and update it at `loc` with a named list of `updates`.
+  # Similar in spirit to:
+  # x[loc, names(updates)] <- updates
+  # but built from first principles to only use `dplyr_col_modify()`.
+
+  if (any(map_lgl(updates, is.null))) {
+    abort(
+      "Can't delete columns with `NULL` when updating, this should have been handled already.",
+      .internal = TRUE
+    )
+  }
+
+  names <- names(updates)
+  exists <- names %in% names(x)
+
+  n_updates <- length(updates)
+
+  cols <- vector("list", length = n_updates)
+  cols <- set_names(cols, names)
+
+  size <- vec_size(x)
+
+  # Avoid any subclass `[[` methods
+  old <- unclass(x)
+
+  for (i in seq_len(n_updates)) {
+    name <- names[[i]]
+    update <- updates[[i]]
+
+    if (exists[[i]]) {
+      # Updating existing column. Retain existing type.
+      # When called after `mutate_cols()`, `update` should already be cast
+      # to the right type so this should be superfluous, but is required if
+      # we use this helper elsewhere.
+      col <- old[[name]]
+      update <- vec_cast(update, to = col, x_arg = name, call = error_call)
+    } else {
+      # Entirely new column
+      col <- vec_init(update, n = size)
+    }
+
+    cols[[i]] <- vec_assign(col, loc, update, x_arg = name)
+  }
+
+  dplyr_col_modify(x, cols)
+}

@@ -65,6 +65,7 @@ SEXP vectors::names_expanded = get_names_expanded();
 SEXP vectors::names_summarise_recycle_chunks = get_names_summarise_recycle_chunks();
 
 SEXP functions::vec_chop = NULL;
+SEXP functions::vec_slice = NULL;
 SEXP functions::dot_subset2 = NULL;
 SEXP functions::list = NULL;
 SEXP functions::function = NULL;
@@ -76,16 +77,18 @@ SEXP dplyr_init_library(SEXP ns_dplyr, SEXP ns_vctrs, SEXP ns_rlang) {
   dplyr::envs::ns_vctrs = ns_vctrs;
   dplyr::envs::ns_rlang = ns_rlang;
   dplyr::functions::vec_chop = PROTECT(Rf_findVarInFrame(ns_vctrs, Rf_install("vec_chop")));
+  dplyr::functions::vec_slice = PROTECT(Rf_findVarInFrame(ns_vctrs, Rf_install("vec_slice")));
   dplyr::functions::dot_subset2 = PROTECT(Rf_findVarInFrame(R_BaseEnv, Rf_install(".subset2")));
   dplyr::functions::list = PROTECT(Rf_findVarInFrame(R_BaseEnv, Rf_install("list")));
   dplyr::functions::function = PROTECT(Rf_eval(Rf_install("function"), R_BaseEnv));
 
   R_PreserveObject(dplyr::functions::vec_chop);
+  R_PreserveObject(dplyr::functions::vec_slice);
   R_PreserveObject(dplyr::functions::dot_subset2);
   R_PreserveObject(dplyr::functions::list);
   R_PreserveObject(dplyr::functions::function);
 
-  UNPROTECT(4);
+  UNPROTECT(5);
 
   return R_NilValue;
 }
@@ -105,6 +108,8 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_mask_eval_all_mutate", (DL_FUNC)& dplyr_mask_eval_all_mutate, 2},
   {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 4},
 
+  {"dplyr_mutate_when_chop_runs", (DL_FUNC)& dplyr_mutate_when_chop_runs, 3},
+
   {"dplyr_summarise_recycle_chunks", (DL_FUNC)& dplyr_summarise_recycle_chunks, 4},
 
   {"dplyr_group_indices", (DL_FUNC)& dplyr_group_indices, 2},
@@ -113,11 +118,11 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_mask_remove", (DL_FUNC)& dplyr_mask_remove, 2},
   {"dplyr_mask_add", (DL_FUNC)& dplyr_mask_add, 4},
 
-  {"dplyr_lazy_vec_chop_impl", (DL_FUNC)& dplyr_lazy_vec_chop, 2},
+  {"dplyr_lazy_vec_chop_impl", (DL_FUNC)& dplyr_lazy_vec_chop, 4},
   {"dplyr_data_masks_setup", (DL_FUNC)& dplyr_data_masks_setup, 3},
   {"env_resolved", (DL_FUNC)& env_resolved, 2},
 
-  {"dplyr_extract_chunks", (DL_FUNC)& dplyr_extract_chunks, 2},
+  {"dplyr_extract_chunks", (DL_FUNC)& dplyr_extract_chunks, 3},
 
   {NULL, NULL, 0}
 };

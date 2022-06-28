@@ -88,6 +88,10 @@ rowwise_df <- function(data, group_vars) {
   new_rowwise_df(data, group_data)
 }
 
+is_rowwise_df <- function(x) {
+  inherits(x, "rowwise_df")
+}
+
 #' @rdname new_grouped_df
 #' @export
 new_rowwise_df <- function(data, group_data = NULL, ..., class = character()) {

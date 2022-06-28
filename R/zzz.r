@@ -23,7 +23,8 @@
   env_bind(
     .env = ns_dplyr,
     vec_order_base = import_vctrs("vec_order_base"),
-    vec_order_radix = import_vctrs("vec_order_radix")
+    vec_order_radix = import_vctrs("vec_order_radix"),
+    vec_locate_runs = import_vctrs("vec_locate_runs")
   )
 
   run_on_load()

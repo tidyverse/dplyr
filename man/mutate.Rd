@@ -11,6 +11,7 @@ mutate(.data, ...)
 \method{mutate}{data.frame}(
   .data,
   ...,
+  .when = NULL,
   .keep = c("all", "used", "unused", "none"),
   .before = NULL,
   .after = NULL
@@ -34,6 +35,25 @@ if ungrouped).
 \item \code{NULL}, to remove the column.
 \item A data frame or tibble, to create multiple columns in the output.
 }}
+
+\item{.when}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+Control which rows from \code{.data} are affected by \code{...}.
+
+\code{.when} must evaluate to a single logical vector the same size as \code{.data}.
+\code{NA} values in the resulting logical vector are treated as \code{FALSE}.
+
+\code{.when} is mainly useful for \emph{updating} one or more existing columns at
+locations that match the specified condition. The type of the column being
+updated is not allowed to change; values provided in \code{...} will be cast to
+the type of the column being updated.
+
+When evaluating \code{.when}, groups are ignored, meaning that \code{.when} is
+evaluated once on all of \code{.data}. Groups are recomputed on the data that
+remains after filtering \code{.data} to where \code{.when} is \code{TRUE}.
+
+If \code{.when} is being used, columns can't be removed by setting them to
+\code{NULL}. An error will be thrown if this is attempted.}
 
 \item{.keep}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 Control which columns from \code{.data} are retained in the output. Grouping
@@ -167,6 +187,14 @@ starwars \%>\%
  group_by(homeworld) \%>\%
  mutate(rank = min_rank(desc(mass)))
 # see `vignette("window-functions")` for more details
+
+# Experimental: `.when` can be used to modify a subset of the data frame
+starwars \%>\%
+  mutate(hair_color = "none", .when = is.na(hair_color))
+
+starwars \%>\%
+  select(height, mass, hair_color) \%>\%
+  mutate(height = NA, mass = NA, .when = is.na(hair_color))
 
 # By default, new columns are placed on the far right.
 # Experimental: you can override with `.before` or `.after`

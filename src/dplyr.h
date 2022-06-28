@@ -64,6 +64,7 @@ struct vectors {
 
 struct functions {
   static SEXP vec_chop;
+  static SEXP vec_slice;
   static SEXP dot_subset2;
   static SEXP list;
   static SEXP function;
@@ -82,8 +83,10 @@ void env_unbind(SEXP, SEXP);
 
 namespace vctrs {
 bool vec_is_vector(SEXP x) ;
+SEXP vec_chop(SEXP x, SEXP indices);
 R_len_t short_vec_size(SEXP x) ;
 SEXP short_vec_recycle(SEXP x, R_len_t n);
+SEXP short_compact_seq(R_len_t start, R_len_t size, bool increasing);
 
 inline bool vec_is_list(SEXP x) {
   SEXP call = PROTECT(Rf_lang2(dplyr::symbols::vec_is_list, x));
@@ -105,6 +108,7 @@ SEXP dplyr_mask_eval_all(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_filter);
+SEXP dplyr_mutate_when_chop_runs(SEXP locs, SEXP when_locs, SEXP ends);
 SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes, SEXP results);
 SEXP dplyr_group_indices(SEXP data, SEXP rows);
 SEXP dplyr_group_keys(SEXP group_data);
@@ -114,12 +118,12 @@ SEXP dplyr_reduce_lgl_and(SEXP, SEXP);
 SEXP dplyr_mask_remove(SEXP env_private, SEXP s_name);
 SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP ptype, SEXP chunks);
 
-SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows);
+SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows, SEXP loc, SEXP size);
 SEXP dplyr_data_masks_setup(SEXP chops, SEXP data, SEXP rows);
 SEXP env_resolved(SEXP env, SEXP names);
 void add_mask_binding(SEXP name, SEXP env_bindings, SEXP env_chops);
 
-SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype);
+SEXP dplyr_extract_chunks(SEXP df_list, SEXP n_columns, SEXP column_names);
 
 #define DPLYR_MASK_INIT()                                                                    \
 SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));                   \

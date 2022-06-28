@@ -153,14 +153,14 @@ SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes, SEXP re
   return res;
 }
 
-SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype) {
-  R_xlen_t n_columns = XLENGTH(df_ptype);
-  R_xlen_t n_rows = XLENGTH(df_list);
+SEXP dplyr_extract_chunks(SEXP df_list, SEXP n_columns, SEXP column_names) {
+  const R_xlen_t c_n_columns = static_cast<R_xlen_t>(INTEGER(n_columns)[0]);
+  const R_xlen_t n_rows = XLENGTH(df_list);
 
   const SEXP* p_df_list = VECTOR_PTR_RO(df_list);
 
-  SEXP out = PROTECT(Rf_allocVector(VECSXP, n_columns));
-  for (R_xlen_t i = 0; i < n_columns; i++) {
+  SEXP out = PROTECT(Rf_allocVector(VECSXP, c_n_columns));
+  for (R_xlen_t i = 0; i < c_n_columns; i++) {
     SEXP out_i = PROTECT(Rf_allocVector(VECSXP, n_rows));
     for (R_xlen_t j = 0; j < n_rows; j++) {
       SET_VECTOR_ELT(out_i, j, VECTOR_ELT(p_df_list[j], i));
@@ -168,7 +168,7 @@ SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype) {
     SET_VECTOR_ELT(out, i, out_i);
     UNPROTECT(1);
   }
-  Rf_namesgets(out, Rf_getAttrib(df_ptype, R_NamesSymbol));
+  Rf_namesgets(out, column_names);
   UNPROTECT(1);
   return out;
 }

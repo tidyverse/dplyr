@@ -89,8 +89,15 @@ group_keys.data.frame <- function(.tbl, ...) {
     .tbl <- group_by(.tbl, ...)
   }
   out <- group_data(.tbl)
-  .Call(`dplyr_group_keys`, out)
+  as_group_keys(out)
 }
+as_group_keys <- function(group_data) {
+  # - Removes `.rows`
+  # - Drops `.drop` attribute
+  # - Retains original data frame class (i.e. tibble or data.frame)
+  .Call(`dplyr_group_keys`, group_data)
+}
+
 #' @rdname group_data
 #' @export
 group_rows <- function(.data) {

@@ -85,3 +85,30 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private) {
 
   return chunks;
 }
+
+SEXP dplyr_mutate_when_chop_runs(SEXP locs, SEXP when_locs, SEXP ends) {
+  const R_xlen_t n_groups = Rf_xlength(ends);
+  const int* v_ends = INTEGER(ends);
+
+  SEXP indices = PROTECT(Rf_allocVector(VECSXP, n_groups));
+
+  const bool increasing = true;
+  R_xlen_t start = 0;
+
+  for (R_xlen_t i = 0; i < n_groups; ++i) {
+    const R_xlen_t end = v_ends[i];
+    const R_xlen_t size = end - start;
+
+    SEXP index = vctrs::short_compact_seq(start, size, increasing);
+    SET_VECTOR_ELT(indices, i, index);
+
+    start = end;
+  }
+
+  SEXP out = PROTECT(Rf_allocVector(VECSXP, 2));
+  SET_VECTOR_ELT(out, 0, vctrs::vec_chop(locs, indices));
+  SET_VECTOR_ELT(out, 1, vctrs::vec_chop(when_locs, indices));
+
+  UNPROTECT(2);
+  return out;
+}

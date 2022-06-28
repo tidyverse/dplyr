@@ -117,6 +117,14 @@
 #'  mutate(rank = min_rank(desc(mass)))
 #' # see `vignette("window-functions")` for more details
 #'
+#' # Experimental: `.when` can be used to modify a subset of the data frame
+#' starwars %>%
+#'   mutate(hair_color = "none", .when = is.na(hair_color))
+#'
+#' starwars %>%
+#'   select(height, mass, hair_color) %>%
+#'   mutate(height = NA, mass = NA, .when = is.na(hair_color))
+#'
 #' # By default, new columns are placed on the far right.
 #' # Experimental: you can override with `.before` or `.after`
 #' df <- tibble(x = 1, y = 2)
@@ -157,6 +165,24 @@ mutate <- function(.data, ...) {
 }
 
 #' @rdname mutate
+#' @param .when `r lifecycle::badge("experimental")`
+#'
+#'   Control which rows from `.data` are affected by `...`.
+#'
+#'   `.when` must evaluate to a single logical vector the same size as `.data`.
+#'   `NA` values in the resulting logical vector are treated as `FALSE`.
+#'
+#'   `.when` is mainly useful for _updating_ one or more existing columns at
+#'   locations that match the specified condition. The type of the column being
+#'   updated is not allowed to change; values provided in `...` will be cast to
+#'   the type of the column being updated.
+#'
+#'   When evaluating `.when`, groups are ignored, meaning that `.when` is
+#'   evaluated once on all of `.data`. Groups are recomputed on the data that
+#'   remains after filtering `.data` to where `.when` is `TRUE`.
+#'
+#'   If `.when` is being used, columns can't be removed by setting them to
+#'   `NULL`. An error will be thrown if this is attempted.
 #' @param .keep `r lifecycle::badge("experimental")`
 #'   Control which columns from `.data` are retained in the output. Grouping
 #'   columns and columns created by `...` are always kept.
@@ -177,15 +203,31 @@ mutate <- function(.data, ...) {
 #' @export
 mutate.data.frame <- function(.data,
                               ...,
+                              .when = NULL,
                               .keep = c("all", "used", "unused", "none"),
                               .before = NULL,
                               .after = NULL) {
   keep <- arg_match(.keep)
 
-  cols <- mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+  caller_env <- caller_env()
+
+  when <- mutate_when(.data, when = {{.when}}, caller_env = caller_env)
+
+  cols <- mutate_cols(
+    .data,
+    dots = dplyr_quosures(...),
+    when = when,
+    caller_env = caller_env
+  )
+
   used <- attr(cols, "used")
 
-  out <- dplyr_col_modify(.data, cols)
+  if (is.null(when)) {
+    out <- dplyr_col_modify(.data, cols)
+  } else {
+    loc <- when$loc
+    out <- dplyr_col_update(.data, loc = loc, updates = cols)
+  }
 
   # Compact out `NULL` columns that got removed.
   # These won't exist in `out`, but we don't want them to look "new".
@@ -237,7 +279,11 @@ transmute.data.frame <- function(.data, ...) {
   dots <- check_transmute_args(...)
   dots <- dplyr_quosures(!!!dots)
 
-  cols <- mutate_cols(.data, dots, caller_env = caller_env())
+  cols <- mutate_cols(
+    .data = .data,
+    dots = dots,
+    caller_env = caller_env()
+  )
 
   out <- dplyr_col_modify(.data, cols)
 
@@ -274,16 +320,47 @@ check_transmute_args <- function(..., .keep, .before, .after, error_call = calle
   enquos(...)
 }
 
-mutate_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
+mutate_cols <- function(.data,
+                        dots,
+                        ...,
+                        when = NULL,
+                        caller_env,
+                        error_call = caller_env()) {
+  check_dots_empty0(...)
+
   error_call <- dplyr_error_call(error_call)
 
-  mask <- DataMask$new(.data, caller_env, "mutate", error_call = error_call)
+  if (is.null(when)) {
+    group_data <- group_data(.data)
+    group_when_rows <- group_data[[".rows"]]
+    loc <- NULL
+    is_update <- FALSE
+  } else {
+    info <- group_data_when(.data, when)
+    group_data <- info$data
+    group_when_rows <- info$rows
+    loc <- when$loc
+    is_update <- TRUE
+  }
+
+  if (length(group_when_rows) == 0L) {
+    # Handle case of empty groups. Same patch as in `DataMask$initialize()`.
+    group_when_rows <- new_list_of(list(integer()), ptype = integer())
+  }
+
+  mask <- DataMask$new(
+    data = .data,
+    caller = caller_env,
+    verb = "mutate",
+    group_data = group_data,
+    error_call = error_call,
+    loc = loc
+  )
+
   old_current_column <- context_peek_bare("column")
 
   on.exit(context_poke("column", old_current_column), add = TRUE)
   on.exit(mask$forget(), add = TRUE)
-
-  rows <- mask$get_rows()
 
   new_columns <- set_names(list(), character())
 
@@ -322,6 +399,12 @@ mutate_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
           } else if (name %in% names(.data)) {
             # column from the original data
             result <- .data[[name]]
+
+            if (is_update) {
+              # Sliced to match `when$loc`
+              result <- vec_slice(result, loc)
+            }
+
             chunks <- mask$resolve(name)
           }
 
@@ -344,16 +427,16 @@ mutate_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
           result <- quo_get_expr(quo)
 
           result <- withCallingHandlers(
-            vec_recycle(result, vec_size(.data)),
+            vec_recycle(result, size = mask$get_size()),
             error = function(cnd) {
               abort(
                 class = c("dplyr:::mutate_constant_recycle_error", "dplyr:::internal_error"),
-                constant_size = vec_size(result), data_size = vec_size(.data)
+                constant_size = vec_size(result), data_size = mask$get_size()
               )
             }
           )
 
-          chunks <- vec_chop(result, rows)
+          chunks <- vec_chop(result, group_when_rows)
         }
 
         if (is.null(chunks)) {
@@ -374,16 +457,6 @@ mutate_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
           next
         }
 
-        # only unchop if needed
-        if (is.null(result)) {
-          if (length(rows) == 1) {
-            result <- chunks[[1]]
-          } else {
-            chunks <- dplyr_vec_cast_common(chunks, quo_data$name_auto)
-            result <- vec_unchop(chunks, rows)
-          }
-        }
-
         quosures_results[[k]] <- list(result = result, chunks = chunks)
       }
 
@@ -393,36 +466,68 @@ mutate_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
         quo_data <- attr(quo, "dplyr:::data")
 
         quo_result <- quosures_results[[k]]
+
         if (is.null(quo_result)) {
           if (quo_data$is_named) {
+            if (is_update) {
+              stop_update_column_removal()
+            }
             name <- quo_data$name_given
             new_columns[[name]] <- zap()
             mask$remove(name)
           }
+
           next
         }
 
         result <- quo_result$result
         chunks <- quo_result$chunks
 
-        if (!quo_data$is_named && is.data.frame(result)) {
-          types <- vec_ptype(result)
-          types_names <- names(types)
-          chunks_extracted <- .Call(dplyr_extract_chunks, chunks, types)
-
-          for (j in seq_along(types)) {
-            mask$add_one(types_names[j], chunks_extracted[[j]], result = result[[j]])
+        # Only unchop if needed
+        if (is.null(result)) {
+          if (length(group_when_rows) == 1) {
+            result <- chunks[[1]]
+          } else {
+            chunks <- dplyr_vec_cast_common(chunks, quo_data$name_auto)
+            result <- vec_unchop(chunks, group_when_rows)
           }
-
-          new_columns[types_names] <- result
-        } else {
-          # treat as a single output otherwise
-          name <- quo_data$name_auto
-          mask$add_one(name = name, chunks = chunks, result = result)
-
-          new_columns[[name]] <- result
         }
 
+        if (!quo_data$is_named && is.data.frame(result)) {
+          # Auto splice data frames
+          n_columns <- length(result)
+          column_names <- names(result)
+          column_chunks <- .Call(dplyr_extract_chunks, chunks, n_columns, column_names)
+          column_results <- unclass(result)
+        } else {
+          n_columns <- 1L
+          column_names <- quo_data$name_auto
+          column_chunks <- list(chunks)
+          column_results <- list(result)
+        }
+
+        for (j in seq_len(n_columns)) {
+          column_name <- column_names[[j]]
+          column_chunk <- column_chunks[[j]]
+          column_result <- column_results[[j]]
+
+          if (is_update && column_name %in% names(.data)) {
+            # Cast to type of column in `.data` for type stability
+            column_ptype <- vec_ptype(.data[[column_name]])
+
+            column_result <- with_incompatible_update_type_handler(
+              vec_cast(x = column_result, to = column_ptype)
+            )
+            column_results[[j]] <- column_result
+
+            column_chunk <- vec_cast_common(!!!column_chunk, .to = column_ptype)
+            column_chunks[[j]] <- column_chunk
+          }
+
+          mask$add_one(column_name, column_chunk, column_result)
+        }
+
+        new_columns[column_names] <- column_results
       }
 
     }
@@ -525,6 +630,51 @@ mutate_bullets.default <- function(cnd, ...) {
     glue("Inlined constant `{error_name}` must be size {or_1(data_size)}, not {constant_size}.")
   )
 }
+
+#' @export
+`mutate_bullets.dplyr:::mutate_incompatible_update_type` <- function(cnd, ...) {
+  error_context <- peek_error_context()
+  error_name <- error_context$error_name
+
+  x <- vec_ptype_full(cnd$x)
+  to <- vec_ptype_full(cnd$to)
+
+  c(
+    x = glue("Can't alter the type of `{error_name}`."),
+    i = glue("`{error_name}` has type <{to}>."),
+    i = glue("Attempting to update with incompatible vector of type <{x}>.")
+  )
+}
+
+with_incompatible_update_type_handler <- function(expr) {
+  withCallingHandlers(
+    expr = expr,
+    vctrs_error_incompatible_type = function(cnd) {
+      abort(
+        class = "dplyr:::mutate_incompatible_update_type",
+        x = cnd$x,
+        to = cnd$to
+      )
+    }
+  )
+}
+
+#' @export
+`mutate_bullets.dplyr:::mutate_update_column_removal` <- function(cnd, ...) {
+  error_context <- peek_error_context()
+  error_name <- error_context$error_name
+
+  c(
+    x = "Can't remove columns when using `.when`.",
+    i = glue("`{error_name}` would be removed.")
+  )
+}
+
+stop_update_column_removal <- function() {
+  abort(class = "dplyr:::mutate_update_column_removal")
+}
+
+# ------------------------------------------------------------------------------
 
 check_muffled_warning <- function(cnd) {
   early_exit <- TRUE

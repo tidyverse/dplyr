@@ -7,9 +7,15 @@ SEXP new_environment(int size, SEXP parent)  {
   return res;
 }
 
-void dplyr_lazy_vec_chop_grouped(SEXP chops_env, SEXP rows, SEXP data, bool rowwise) {
+void dplyr_lazy_vec_chop_grouped(SEXP chops_env,
+                                 SEXP rows,
+                                 SEXP data,
+                                 SEXP loc,
+                                 SEXP size,
+                                 bool rowwise) {
   SEXP names = PROTECT(Rf_getAttrib(data, R_NamesSymbol));
-  R_xlen_t n = XLENGTH(data);
+  const R_xlen_t n = XLENGTH(data);
+  const R_xlen_t c_size = static_cast<R_xlen_t>(INTEGER(size)[0]);
 
   const SEXP* p_data = VECTOR_PTR_RO(data);
   const SEXP* p_names = STRING_PTR_RO(names);
@@ -17,8 +23,12 @@ void dplyr_lazy_vec_chop_grouped(SEXP chops_env, SEXP rows, SEXP data, bool roww
     SEXP prom = PROTECT(Rf_allocSExp(PROMSXP));
     SET_PRENV(prom, R_EmptyEnv);
     SEXP column = p_data[i];
-    if (rowwise && vctrs::vec_is_list(column) && Rf_length(column) > 0) {
-      SET_PRCODE(prom, column);
+    if (rowwise && vctrs::vec_is_list(column) && c_size > 0) {
+      if (loc == R_NilValue) {
+        SET_PRCODE(prom, column);
+      } else {
+        SET_PRCODE(prom, Rf_lang3(dplyr::functions::vec_slice, column, loc));
+      }
     } else {
       SET_PRCODE(prom, Rf_lang3(dplyr::functions::vec_chop, column, rows));
     }
@@ -31,27 +41,34 @@ void dplyr_lazy_vec_chop_grouped(SEXP chops_env, SEXP rows, SEXP data, bool roww
   UNPROTECT(1);
 }
 
-void dplyr_lazy_vec_chop_ungrouped(SEXP chops_env, SEXP data) {
+void dplyr_lazy_vec_chop_ungrouped(SEXP chops_env, SEXP data, SEXP loc) {
   SEXP names = PROTECT(Rf_getAttrib(data, R_NamesSymbol));
   R_xlen_t n = XLENGTH(data);
 
   const SEXP* p_data = VECTOR_PTR_RO(data);
   const SEXP* p_names = STRING_PTR_RO(names);
   for (R_xlen_t i = 0; i < n; i++) {
+    SEXP column = p_data[i];
+
+    if (loc != R_NilValue) {
+      column = Rf_lang3(dplyr::functions::vec_slice, column, loc);
+    }
+    PROTECT(column);
+
     SEXP prom = PROTECT(Rf_allocSExp(PROMSXP));
     SET_PRENV(prom, R_EmptyEnv);
-    SET_PRCODE(prom, Rf_lang2(dplyr::functions::list, p_data[i]));
+    SET_PRCODE(prom, Rf_lang2(dplyr::functions::list, column));
     SET_PRVALUE(prom, R_UnboundValue);
 
     SEXP symb = rlang::str_as_symbol(p_names[i]);
     Rf_defineVar(symb, prom, chops_env);
-    UNPROTECT(1);
+    UNPROTECT(2);
   }
 
   UNPROTECT(1);
 }
 
-SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows) {
+SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows, SEXP loc, SEXP size) {
   // a first environment to hide `.indices` and `.current_group`
   // this is for example used by funs::
   SEXP indices_env = PROTECT(new_environment(2, R_EmptyEnv));
@@ -61,11 +78,11 @@ SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows) {
   // then an environment to hold the chops of the columns
   SEXP chops_env = PROTECT(new_environment(XLENGTH(data), indices_env));
   if (Rf_inherits(data, "grouped_df")) {
-    dplyr_lazy_vec_chop_grouped(chops_env, rows, data, false);
+    dplyr_lazy_vec_chop_grouped(chops_env, rows, data, loc, size, false);
   } else if (Rf_inherits(data, "rowwise_df")) {
-    dplyr_lazy_vec_chop_grouped(chops_env, rows, data, true);
+    dplyr_lazy_vec_chop_grouped(chops_env, rows, data, loc, size, true);
   } else {
-    dplyr_lazy_vec_chop_ungrouped(chops_env, data);
+    dplyr_lazy_vec_chop_ungrouped(chops_env, data, loc);
   }
   UNPROTECT(2);
   return chops_env;

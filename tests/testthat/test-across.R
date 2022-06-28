@@ -868,7 +868,13 @@ test_that("expand_across() expands lambdas", {
     index = 1
   )
 
-  DataMask$new(mtcars, current_env(), "mutate", call("caller"))
+  DataMask$new(
+    data = mtcars,
+    caller = current_env(),
+    verb = "mutate",
+    group_data = group_data(mtcars),
+    error_call = call("caller")
+  )
 
   expect_equal(
     map(expand_across(quo), quo_get_expr),
@@ -889,7 +895,13 @@ test_that("expand_if_across() expands lambdas", {
     index = 1
   )
 
-  DataMask$new(mtcars, current_env(), "mutate", call("caller"))
+  DataMask$new(
+    data = mtcars,
+    caller = current_env(),
+    verb = "mutate",
+    group_data = group_data(mtcars),
+    error_call = call("caller")
+  )
 
   expect_equal(
     map(expand_if_across(quo), quo_squash),
