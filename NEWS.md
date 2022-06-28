@@ -1,5 +1,11 @@
 # dplyr (development version)
 
+* `mutate()` has gained a new experimental `.when` argument. `.when` is useful
+  for _updating_ one or more existing columns in `.data` _when_ a logical
+  condition is true. For example, to ensure that both `x` and `y` are missing if
+  either one is missing, you could write:
+  `df %>% mutate(x = NA, y = NA, .when = is.na(x) | is.na(y))` (#4050, #6313).
+
 * `arrange()` now uses a faster algorithm for sorting character vectors, which
   is heavily inspired by data.table's `forder()`. Additionally, the default
   locale for sorting character vectors is now the C locale, which is a breaking
