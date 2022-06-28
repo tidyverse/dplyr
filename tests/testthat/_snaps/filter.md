@@ -99,7 +99,7 @@
       <error/rlang_error>
       Error in `filter()`:
       ! Problem while computing `..1 = _x`.
-      Caused by error:
+      Caused by error in `mask$eval_all_filter()`:
       ! object '_x' not found
     Code
       (expect_error(mtcars %>% group_by(cyl) %>% filter(`_x`)))
@@ -108,7 +108,7 @@
       Error in `filter()`:
       ! Problem while computing `..1 = _x`.
       i The error occurred in group 1: cyl = 4.
-      Caused by error:
+      Caused by error in `mask$eval_all_filter()`:
       ! object '_x' not found
     Code
       (expect_error(filter(mtcars, x = 1)))
@@ -148,7 +148,7 @@
       <error/rlang_error>
       Error in `filter()`:
       ! Problem while computing `..1 = stop("{")`.
-      Caused by error:
+      Caused by error in `mask$eval_all_filter()`:
       ! {
     Code
       data.frame(x = 1, y = 1) %>% filter(across(everything(), ~ .x > 0))
