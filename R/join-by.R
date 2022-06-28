@@ -1,6 +1,5 @@
 #' Join specifications
 #'
-#' @description
 #' `join_by()` constructs a specification that describes how to join two tables
 #' using a small domain specific language. The result can be supplied as the
 #' `by` argument to any of the join functions (such as [left_join()]).
