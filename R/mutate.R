@@ -651,7 +651,10 @@ with_incompatible_update_type_handler <- function(expr) {
     expr = expr,
     vctrs_error_incompatible_type = function(cnd) {
       abort(
-        class = "dplyr:::mutate_incompatible_update_type",
+        class = c(
+          "dplyr:::mutate_incompatible_update_type",
+          "dplyr:::internal_error"
+        ),
         x = cnd$x,
         to = cnd$to
       )
@@ -671,7 +674,7 @@ with_incompatible_update_type_handler <- function(expr) {
 }
 
 stop_update_column_removal <- function() {
-  abort(class = "dplyr:::mutate_update_column_removal")
+  abort(class = c("dplyr:::mutate_update_column_removal", "dplyr:::internal_error"))
 }
 
 # ------------------------------------------------------------------------------

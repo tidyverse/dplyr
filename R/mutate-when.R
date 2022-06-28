@@ -94,7 +94,7 @@ mutate_when_bullets.default <- function(cnd) {
 
 stop_mutate_when_incompatible_size <- function(when_size, expected_size) {
   abort(
-    class = "dplyr:::mutate_when_incompatible_size",
+    class = c("dplyr:::mutate_when_incompatible_size", "dplyr:::internal_error"),
     when_size = when_size,
     expected_size = expected_size
   )
@@ -111,7 +111,7 @@ stop_mutate_when_incompatible_size <- function(when_size, expected_size) {
 
 stop_mutate_when_incompatible_type <- function(when) {
   abort(
-    class = "dplyr:::mutate_when_incompatible_type",
+    class = c("dplyr:::mutate_when_incompatible_type", "dplyr:::internal_error"),
     when = when
   )
 }
