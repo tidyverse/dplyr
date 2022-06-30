@@ -373,6 +373,9 @@ test_that("named inputs show up in the error message", {
   expect_snapshot(error = TRUE, {
     vec_case_when(list(x = 1.5), list(1), conditions_arg = "foo")
   })
+  expect_snapshot(error = TRUE, {
+    vec_case_when(list(x = 1.5), list(1), conditions_arg = "")
+  })
 
   expect_snapshot(error = TRUE, {
     vec_case_when(list(x = TRUE, y = c(TRUE, FALSE)), list(1, 2))
@@ -380,12 +383,18 @@ test_that("named inputs show up in the error message", {
   expect_snapshot(error = TRUE, {
     vec_case_when(list(x = TRUE, y = c(TRUE, FALSE)), list(1, 2), conditions_arg = "foo")
   })
+  expect_snapshot(error = TRUE, {
+    vec_case_when(list(x = TRUE, y = c(TRUE, FALSE)), list(1, 2), conditions_arg = "")
+  })
 
   expect_snapshot(error = TRUE, {
     vec_case_when(list(TRUE, FALSE), list(1, x = "y"))
   })
   expect_snapshot(error = TRUE, {
     vec_case_when(list(TRUE, FALSE), list(1, x = "y"), values_arg = "foo")
+  })
+  expect_snapshot(error = TRUE, {
+    vec_case_when(list(TRUE, FALSE), list(1, x = "y"), values_arg = "")
   })
 
   expect_snapshot(error = TRUE, {
@@ -399,5 +408,11 @@ test_that("named inputs show up in the error message", {
   })
   expect_snapshot(error = TRUE, {
     vec_case_when(list(TRUE), list(x = NULL), values_arg = "foo")
+  })
+  expect_snapshot(error = TRUE, {
+    vec_case_when(list(TRUE), list(NULL), values_arg = "")
+  })
+  expect_snapshot(error = TRUE, {
+    vec_case_when(list(TRUE), list(x = NULL), values_arg = "")
   })
 })

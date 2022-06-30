@@ -1,14 +1,14 @@
 vec_case_when <- function(conditions,
                           values,
                           ...,
-                          conditions_arg = "",
-                          values_arg = "",
+                          conditions_arg = "conditions",
+                          values_arg = "values",
                           default = NULL,
                           default_arg = "default",
                           ptype = NULL,
                           size = NULL,
-                          call = caller_env()) {
-  check_dots_empty0(..., call = call)
+                          call = current_env()) {
+  check_dots_empty0(...)
 
   vec_check_list(conditions, arg = "conditions", call = call)
   vec_check_list(values, arg = "values", call = call)

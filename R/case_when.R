@@ -160,10 +160,13 @@ case_when <- function(...,
   vec_case_when(
     conditions = conditions,
     values = values,
+    conditions_arg = "",
+    values_arg = "",
     default = .default,
     default_arg = ".default",
     ptype = .ptype,
-    size = .size
+    size = .size,
+    call = error_call
   )
 }
 
