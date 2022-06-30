@@ -152,12 +152,12 @@ vec_case_when <- function(conditions,
 
   if (n_processed == n_conditions && any(are_unused)) {
     # If all of the `conditions` are used, then we check if we need `default`
-    are_unused <- which(are_unused)
+    loc_unused <- which(are_unused)
 
     n_processed <- n_processed + 1L
     n_values <- n_values + 1L
 
-    locs[[n_values]] <- are_unused
+    locs[[n_values]] <- loc_unused
     values[[n_values]] <- default
     value_sizes[[n_values]] <- default_size
   }
