@@ -124,7 +124,7 @@ vec_case_when <- function(conditions,
     vec_assert(default, size = size, arg = default_arg, call = call)
   }
 
-  n_used <- 0L
+  n_processed <- 0L
   locs <- vector("list", n_values)
 
   # Starts as unused. Any `TRUE` value in `condition` flips it to used.
@@ -147,14 +147,14 @@ vec_case_when <- function(conditions,
     locs[[i]] <- loc
 
     are_unused[loc] <- FALSE
-    n_used <- n_used + 1L
+    n_processed <- n_processed + 1L
   }
 
-  if (n_used == n_conditions && any(are_unused)) {
+  if (n_processed == n_conditions && any(are_unused)) {
     # If all of the `conditions` are used, then we check if we need `default`
     are_unused <- which(are_unused)
 
-    n_used <- n_used + 1L
+    n_processed <- n_processed + 1L
     n_values <- n_values + 1L
 
     locs[[n_values]] <- are_unused
@@ -162,7 +162,7 @@ vec_case_when <- function(conditions,
     value_sizes[[n_values]] <- default_size
   }
 
-  for (i in seq_len(n_used)) {
+  for (i in seq_len(n_processed)) {
     loc <- locs[[i]]
     value <- values[[i]]
     value_size <- value_sizes[[i]]
@@ -181,11 +181,11 @@ vec_case_when <- function(conditions,
   # Remove names used for error messages. We don't want them in the result.
   values <- unname(values)
 
-  if (n_used != n_values) {
+  if (n_processed != n_values) {
     # Trim to only what will be used to fill the result
-    seq_used <- seq_len(n_used)
-    values <- values[seq_used]
-    locs <- locs[seq_used]
+    seq_processed <- seq_len(n_processed)
+    values <- values[seq_processed]
+    locs <- locs[seq_processed]
   }
 
   vec_unchop(
