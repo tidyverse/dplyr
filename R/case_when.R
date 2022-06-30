@@ -230,7 +230,7 @@ validate_and_split_formula <- function(x,
 
   if (!is_formula(x, lhs = TRUE)) {
     arg <- substitute(...(), dots_env)[[i]]
-    deparsed <- fmt_obj1(deparse_trunc(arg))
+    arg <- glue::backtick(as_label(arg))
 
     if (is_formula(x)) {
       type <- "a two-sided formula"
@@ -238,7 +238,7 @@ validate_and_split_formula <- function(x,
       type <- glue("a two-sided formula, not {friendly_type_of(x)}")
     }
 
-    message <- glue("Case {i} ({deparsed}) must be {type}.")
+    message <- glue("Case {i} ({arg}) must be {type}.")
     abort(message, call = error_call)
   }
 
