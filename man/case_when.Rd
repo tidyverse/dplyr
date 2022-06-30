@@ -31,6 +31,13 @@ from \code{...}.
 \code{.default} participates in the computation of the common type with the RHS
 inputs.
 
+\code{NA} values in the LHS conditions are treated like \code{FALSE}, meaning that
+the result at those locations will be assigned the \code{.default} value. To
+handle missing values in the conditions differently, you must explicitly
+catch them with another condition before they fall through to the
+\code{.default}. This typically involves some variation of \code{is.na(x) ~ value}
+tailored to your usage of \code{case_when()}.
+
 If \code{NULL}, the default, a missing value will be used.}
 
 \item{.ptype}{An optional prototype declaring the desired output type. If

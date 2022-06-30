@@ -28,6 +28,13 @@
 #'   `.default` participates in the computation of the common type with the RHS
 #'   inputs.
 #'
+#'   `NA` values in the LHS conditions are treated like `FALSE`, meaning that
+#'   the result at those locations will be assigned the `.default` value. To
+#'   handle missing values in the conditions differently, you must explicitly
+#'   catch them with another condition before they fall through to the
+#'   `.default`. This typically involves some variation of `is.na(x) ~ value`
+#'   tailored to your usage of `case_when()`.
+#'
 #'   If `NULL`, the default, a missing value will be used.
 #'
 #' @param .ptype An optional prototype declaring the desired output type. If
