@@ -228,15 +228,18 @@ validate_and_split_formula <- function(x,
     x <- quo_get_expr(x)
   }
 
-  if (!is_formula(x)) {
+  if (!is_formula(x, lhs = TRUE)) {
     arg <- substitute(...(), dots_env)[[i]]
     deparsed <- fmt_obj1(deparse_trunc(arg))
-    type <- friendly_type_of(x)
-    message <- glue("Case {i} ({deparsed}) must be a two-sided formula, not {type}.")
+
+    if (is_formula(x)) {
+      type <- "a two-sided formula"
+    } else {
+      type <- glue("a two-sided formula, not {friendly_type_of(x)}")
+    }
+
+    message <- glue("Case {i} ({deparsed}) must be {type}.")
     abort(message, call = error_call)
-  }
-  if (is_null(f_lhs(x))) {
-    abort("Formulas must be two-sided.", call = error_call)
   }
 
   # Formula might be unevaluated, e.g. if it's been quosured

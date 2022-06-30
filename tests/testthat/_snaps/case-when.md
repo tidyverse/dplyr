@@ -81,5 +81,5 @@
     Output
       <error/rlang_error>
       Error in `case_when()`:
-      ! Formulas must be two-sided.
+      ! Case 1 (`~1:2`) must be a two-sided formula.
 
