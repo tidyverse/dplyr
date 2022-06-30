@@ -237,3 +237,35 @@
       Error:
       ! Can't combine `foo[[1]]` <double> and `foo$x` <character>.
 
+---
+
+    Code
+      vec_case_when(list(TRUE), list(NULL))
+    Condition
+      Error:
+      ! `..1` must be a vector, not NULL.
+
+---
+
+    Code
+      vec_case_when(list(TRUE), list(x = NULL))
+    Condition
+      Error:
+      ! `x` must be a vector, not NULL.
+
+---
+
+    Code
+      vec_case_when(list(TRUE), list(NULL), values_arg = "foo")
+    Condition
+      Error:
+      ! `foo[[1]]` must be a vector, not NULL.
+
+---
+
+    Code
+      vec_case_when(list(TRUE), list(x = NULL), values_arg = "foo")
+    Condition
+      Error:
+      ! `foo$x` must be a vector, not NULL.
+

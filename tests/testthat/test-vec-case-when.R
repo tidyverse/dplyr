@@ -5,16 +5,16 @@ test_that("works with data frames", {
     c(FALSE, TRUE, FALSE, TRUE)
   )
   values <- list(
-    data_frame(x = 1, y = 2),
-    data_frame(x = 3, y = 4),
-    data_frame(x = 3:6, y = 4:7)
+    vctrs::data_frame(x = 1, y = 2),
+    vctrs::data_frame(x = 3, y = 4),
+    vctrs::data_frame(x = 3:6, y = 4:7)
   )
 
   out <- vec_case_when(conditions, values)
 
   expect_identical(
     out,
-    data_frame(
+    vctrs::data_frame(
       x = c(3, 1, NA, 6),
       y = c(4, 2, NA, 7)
     )
