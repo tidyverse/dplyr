@@ -17,9 +17,9 @@
     x <- c("little", "unknown", "small", "missing", "large")
     
     case_when(
-     x %in% c("little", "small") ~ "one",
-     x %in% c("big", "large") ~ "two",
-     x %in% c("missing", "unknown") ~ NA
+      x %in% c("little", "small") ~ "one",
+      x %in% c("big", "large") ~ "two",
+      x %in% c("missing", "unknown") ~ NA
     )
     ```
     
