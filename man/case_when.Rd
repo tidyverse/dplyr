@@ -16,9 +16,9 @@ The LHS inputs must evaluate to logical vectors.
 The RHS inputs will be coerced to their common type.
 
 All inputs will be recycled to their common size. That said, we encourage
-all LHS inputs to be the same size, and encourage the RHS inputs to be
-either size 1 or the same size as the LHS inputs. This produces the most
-predictable and stable code.
+all LHS inputs to be the same size. Recycling is mainly useful for RHS
+inputs, where you might supply a size 1 input that will be recycled to the
+size of the LHS inputs.
 
 \code{NULL} inputs are ignored.}
 
