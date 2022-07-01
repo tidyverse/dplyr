@@ -1,5 +1,38 @@
 # dplyr (development version)
 
+* `case_when()` has been rewritten to utilize vctrs (#5106). This comes with a
+  number of useful improvements:
+  
+  * There is a new `.default` argument that is intended to replace usage of
+    `TRUE ~ default_value` as a more explicit and readable way to specify
+    a default value. In the future, we will deprecate the unsafe recycling of
+    the LHS inputs that allows `TRUE ~` to work, so we encourage you to switch
+    over to using `.default` instead.
+  
+  * The types of the RHS inputs no longer have to match exactly. For example,
+    the following no longer requires you to use `NA_character_` instead of just
+    `NA`.
+
+    ```
+    x <- c("little", "unknown", "small", "missing", "large")
+    
+    case_when(
+      x %in% c("little", "small") ~ "one",
+      x %in% c("big", "large") ~ "two",
+      x %in% c("missing", "unknown") ~ NA
+    )
+    ```
+    
+  * `case_when()` now supports a larger variety of value types. For example,
+     you can use a data frame to create multiple columns at once.
+     
+  * There are new `.ptype` and `.size` arguments which allow you to enforce
+    a particular output type and size. This allows you to construct a completely
+    type and size stable call to `case_when()`.
+
+  * The error thrown when types or lengths were incorrect has been improved
+    (#6261, #6206).
+
 * `arrange()` now uses a faster algorithm for sorting character vectors, which
   is heavily inspired by data.table's `forder()`. Additionally, the default
   locale for sorting character vectors is now the C locale, which is a breaking
