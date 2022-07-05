@@ -75,7 +75,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
-<ul><li>
+<ul><li><p><code><a href="../reference/if_else.html">if_else()</a></code> has been rewritten to utilize vctrs. This comes with most of the same benefits as the <code><a href="../reference/case_when.html">case_when()</a></code> rewrite. In particular, <code><a href="../reference/if_else.html">if_else()</a></code> now takes the common type of <code>true</code>, <code>false</code>, and <code>missing</code> when determining what the output type should be, meaning that you no longer have to be quite as strict about types when supplying values for them (for example, you no longer need to supply typed <code>NA</code> values, like <code>NA_character_</code>) (<a href="https://github.com/tidyverse/dplyr/issues/6243" class="external-link">#6243</a>).</p></li>
+<li>
 <p><code><a href="../reference/case_when.html">case_when()</a></code> has been rewritten to utilize vctrs (<a href="https://github.com/tidyverse/dplyr/issues/5106" class="external-link">#5106</a>). This comes with a number of useful improvements:</p>
 <ul><li><p>There is a new <code>.default</code> argument that is intended to replace usage of <code>TRUE ~ default_value</code> as a more explicit and readable way to specify a default value. In the future, we will deprecate the unsafe recycling of the LHS inputs that allows <code>TRUE ~</code> to work, so we encourage you to switch over to using <code>.default</code> instead.</p></li>
 <li>
