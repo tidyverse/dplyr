@@ -306,11 +306,7 @@ dplyr_locate_sorted_groups <- function(x) {
   out
 }
 dplyr_legacy_group_by_locale <- function() {
-  out <- peek_option("dplyr.legacy_group_by_locale")
-
-  if (is_null(out)) {
-    out <- FALSE
-  }
+  out <- peek_option("dplyr.legacy_group_by_locale") %||% FALSE
 
   if (!is_bool(out)) {
     message <- paste0(
