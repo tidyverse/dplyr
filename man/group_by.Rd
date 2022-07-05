@@ -61,9 +61,8 @@ Methods available in currently loaded packages:
 \section{Ordering}{
 
 Currently, \code{group_by()} internally orders the groups in ascending order. This
-should be seen as an implementation detail and is not a behavior that should
-be relied upon. This results in ordered output from functions that aggregate
-groups, such as \code{\link[=summarise]{summarise()}}.
+results in ordered output from functions that aggregate groups, such as
+\code{\link[=summarise]{summarise()}}.
 
 When used as grouping columns, character vectors are ordered in the C locale
 for performance and reproducibility across R sessions. If the resulting
