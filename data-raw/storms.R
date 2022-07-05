@@ -1,26 +1,27 @@
 library(tidyverse)
 
 # Creates storms data set from NOAA Atlantic Hurricane data, which is provided
-# in an unorthodox format: a csv that alternates between header/identifier rows
+# in an unorthodox format: a csv that alternates between metadata/identifier rows
 # and data rows.
 
 # TO UPDATE: get the latest URL from https://www.nhc.noaa.gov/data/#hurdat, and rerun this code
 
 # Read in data set so each line is a character string
-storm_file_complete <- read_file("https://www.nhc.noaa.gov/data/hurdat/hurdat2-1851-2020-052921.txt")
+storm_file_complete <- read_file("https://www.nhc.noaa.gov/data/hurdat/hurdat2-1851-2021-041922.txt")
 storm_strings <- read_lines(storm_file_complete)
 
 # Identify the header lines that have three commas
-header_locations <- (1:length(storm_strings))[str_count(storm_strings, "\\,") == 3]
+header_locations <- str_count(storm_strings, "\\,") == 3
+header_locations <- (1:length(storm_strings))[header_locations]
 
 # Extract length of each sub-dataset
 headers <- as.list(storm_strings[header_locations])
 headers_df <- headers %>%
   map(str_sub, start = 1, end = -2) %>% # to remove trailing comma
   map(paste0, "\n") %>%                 # to trigger literal read
-  map_df(read_csv, col_names = c("id", "name", "n_obs")) %>%
+  map_df(read_csv, col_names = c("id", "name", "n_obs"), col_types = "cci") %>%
   mutate(name = recode(name, "UNNAMED" = id), skip = header_locations) %>%
-  select(name, skip, n_obs)
+  select(id, name, skip, n_obs)
 
 column_types <- list(
   date = col_character(),
@@ -58,15 +59,19 @@ for (i in 1:nrow(headers_df)) {
   data_subset = storm_strings[row_start:row_end] %>%
     paste(collapse = "\n") %>%
     paste0("\n")
+  # read it as a csv
   data_subset = read_csv(
     data_subset,
     col_names = column_names,
     col_types = column_types,
     na = c("", "-99", "-999")
   )
-  # name at the front
+  problems()
+  # name and id at the front
   data_subset$name = headers_df[i,]$name
   data_subset = data_subset %>% relocate(name)
+  data_subset$id = headers_df[i,]$id
+  data_subset = data_subset %>% relocate(id)
   # add to list of storms
   storm_dataframes[[i]] = data_subset
 }
@@ -74,8 +79,11 @@ for (i in 1:nrow(headers_df)) {
 # Combine and clean the data sets
 library(lubridate)
 
+# combine the storms into one dataframe
 storms <- storm_dataframes %>%
-  bind_rows() %>%
+  bind_rows()
+# format the columns
+storms <- storms %>%
   mutate(
     date = ymd(date),
     year = year(date),
@@ -100,23 +108,33 @@ storms <- storm_dataframes %>%
     HUradius1 = extent_64_NE + extent_64_SW,
     HUradius2 = extent_64_NW + extent_64_SE,
     hurricane_force_diameter = pmax(HUradius1, HUradius2),
-    status = recode(status, "HU" = "hurricane", "TS" = "tropical storm", "TD" = "tropical depression")
+    status = factor(recode(status, "HU" = "hurricane", "TS" = "tropical storm", "TD" = "tropical depression"))
   ) %>%
   select(name, year, month, day, hour, lat, long, status, category, wind, pressure, tropicalstorm_force_diameter, hurricane_force_diameter)
 
-# Narrow to storms that have complete pressure record
-completeish <- storms %>%
-  group_by(name) %>%
-  summarise(n_pressure = sum(!is.na(pressure)), p_pressure = mean(!is.na(pressure))) %>%
-  filter(p_pressure == 1) %>%
-  .[["name"]]
-
+# drop rows with missing pressure record
 storms <- storms %>%
-  filter(
-    status %in% c("hurricane", "tropical storm", "tropical depression"),
-    name %in% completeish
-  ) %>%
+  filter(!is.na(pressure))
+
+# drop storms without at least one record that is a tropical depression or higher
+storms <- storms %>%
+  group_by(year, name) %>%
+  mutate(is_depression_or_higher = any(status %in% c("hurricane", "tropical storm", "tropical depression"))) %>%
+  ungroup() %>%
+  filter(is_depression_or_higher) %>%
+  select(-is_depression_or_higher)
+
+# drop all sub-depression rows
+# might want to use this filter if the file size is an issue
+# storms <- storms %>% filter(status %in% c("hurricane", "tropical storm", "tropical depression"))
+
+# make names Title casing
+storms <- storms %>%
   mutate(name = if_else(str_sub(name, 1, 3) %in% c("AL0", "AL1"), name, str_to_title(name)))
+
+# drop a bad data point (add more if found)
+storms <- storms %>%
+  filter( !((year == 1969) & (name == "Debbie") & (long < -350)) )
 
 # output for the package
 usethis::use_data(storms, overwrite = TRUE)
