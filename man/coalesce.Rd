@@ -12,12 +12,12 @@ coalesce(..., .ptype = NULL, .size = NULL)
 \item{.ptype}{The type to cast the vectors in \code{...} to. If \code{NULL}, the
 vectors will be cast to their common type, which is consistent with SQL.}
 
-\item{.size}{The size to recycle the vectors in \code{...} to. If \code{NULL}, the
-vectors will be recycled to their common size.}
+\item{.size}{The size to \link[vctrs:vector_recycling_rules]{recycle} the vectors
+in \code{...} to. If \code{NULL}, the vectors will be recycled to their common size.}
 }
 \value{
-A vector with the same type and length as the common type and length
-of the vectors in \code{...}.
+A vector with the same type and size as the common type and size of
+the vectors in \code{...}.
 }
 \description{
 Given a set of vectors, \code{coalesce()} finds the first non-missing value at

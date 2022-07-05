@@ -7,10 +7,10 @@
 #' @param ... <[`dynamic-dots`][rlang::dyn-dots]> One or more vectors.
 #' @param .ptype The type to cast the vectors in `...` to. If `NULL`, the
 #'   vectors will be cast to their common type, which is consistent with SQL.
-#' @param .size The size to recycle the vectors in `...` to. If `NULL`, the
-#'   vectors will be recycled to their common size.
-#' @return A vector with the same type and length as the common type and length
-#'   of the vectors in `...`.
+#' @param .size The size to [recycle][vctrs::vector_recycling_rules] the vectors
+#'   in `...` to. If `NULL`, the vectors will be recycled to their common size.
+#' @return A vector with the same type and size as the common type and size of
+#'   the vectors in `...`.
 #' @seealso [na_if()] to replace specified values with an `NA`.
 #'   [tidyr::replace_na()] to replace `NA` with a value.
 #' @export
@@ -35,27 +35,36 @@
 #' coalesce(!!!vecs)
 coalesce <- function(..., .ptype = NULL, .size = NULL) {
   args <- list2(...)
+
+  # Drop `NULL`s
+  # TODO: Use cheaper `vctrs::vec_any_missing()` approach
+  # https://github.com/r-lib/vctrs/issues/1563
   args <- discard(args, is.null)
 
   if (length(args) == 0L) {
-    abort("`...` must contain at least one input.")
+    abort("`...` can't be empty.")
   }
 
-  args <- vec_cast_common(!!!args, .to = .ptype)
+  # Recycle early so logical conditions computed below will be the same length,
+  # as required by `vec_case_when()`
   args <- vec_recycle_common(!!!args, .size = .size)
 
-  out <- args[[1L]]
-  args <- args[-1L]
+  # Name early to get correct indexing in `vec_case_when()` error messages
+  names <- names2(args)
+  names <- names_as_error_names(names)
+  args <- set_names(args, names)
 
-  for (arg in args) {
-    is_na <- vec_equal_na(out)
+  conditions <- map(args, ~{
+    !vec_equal_na(.x)
+  })
 
-    if (!any(is_na)) {
-      break
-    }
-
-    out <- vec_assign(out, is_na, vec_slice(arg, is_na))
-  }
-
-  out
+  vec_case_when(
+    conditions = conditions,
+    values = args,
+    conditions_arg = "",
+    values_arg = "",
+    ptype = .ptype,
+    size = .size,
+    call = current_env()
+  )
 }

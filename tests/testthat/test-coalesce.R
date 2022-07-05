@@ -10,6 +10,10 @@ test_that("coerces to common type", {
   expect_identical(coalesce(NA, f), f)
 })
 
+test_that("inputs are recycled to their common size", {
+  expect_identical(coalesce(1, c(2, 3)), c(1, 1))
+})
+
 test_that("finds non-missing values in multiple positions", {
   x1 <- c(1L, NA, NA)
   x2 <- c(NA, 2L, NA)
@@ -71,6 +75,10 @@ test_that("only updates entirely missing rcrd observations", {
   expect_identical(coalesce(x, y), expect)
 })
 
+test_that("recycling is done on the values early", {
+  expect_identical(coalesce(1, 1:2), c(1, 1))
+})
+
 test_that("`.ptype` overrides the common type (r-lib/funs#64)", {
   x <- c(1L, NA)
   expect_identical(coalesce(x, 99, .ptype = x), c(1L, 99L))
@@ -103,5 +111,14 @@ test_that("`NULL`s are discarded (r-lib/funs#80)", {
 test_that("inputs must be vectors", {
   expect_snapshot(error = TRUE, {
     coalesce(1, environment())
+  })
+})
+
+test_that("names in error messages are indexed correctly", {
+  expect_snapshot(error = TRUE, {
+    coalesce(1, "x")
+  })
+  expect_snapshot(error = TRUE, {
+    coalesce(1, y = "x")
   })
 })

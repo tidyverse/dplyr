@@ -27,7 +27,7 @@
       coalesce()
     Condition
       Error in `coalesce()`:
-      ! `...` must contain at least one input.
+      ! `...` can't be empty.
 
 ---
 
@@ -35,7 +35,7 @@
       coalesce(NULL, NULL)
     Condition
       Error in `coalesce()`:
-      ! `...` must contain at least one input.
+      ! `...` can't be empty.
 
 # inputs must be vectors
 
@@ -44,4 +44,20 @@
     Condition
       Error in `coalesce()`:
       ! `..2` must be a vector, not an environment.
+
+# names in error messages are indexed correctly
+
+    Code
+      coalesce(1, "x")
+    Condition
+      Error in `coalesce()`:
+      ! Can't combine `..1` <double> and `..2` <character>.
+
+---
+
+    Code
+      coalesce(1, y = "x")
+    Condition
+      Error in `coalesce()`:
+      ! Can't combine `..1` <double> and `y` <character>.
 
