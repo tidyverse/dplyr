@@ -1,5 +1,12 @@
 # dplyr (development version)
 
+* `if_else()` has been rewritten to utilize vctrs. This comes with most of the
+  same benefits as the `case_when()` rewrite. In particular, `if_else()` now
+  takes the common type of `true`, `false`, and `missing` when determining what
+  the output type should be, meaning that you no longer have to be quite as
+  strict about types when supplying values for them (for example, you no longer
+  need to supply typed `NA` values, like `NA_character_`) (#6243).
+
 * `case_when()` has been rewritten to utilize vctrs (#5106). This comes with a
   number of useful improvements:
   

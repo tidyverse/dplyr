@@ -40,7 +40,7 @@ Imports:
     tibble (>= 2.1.3),
     tidyselect (>= 1.1.1),
     utils,
-    vctrs (>= 0.4.1), 
+    vctrs (>= 0.4.1.9000), 
     pillar (>= 1.5.1)
 Suggests: 
     bench,
@@ -64,6 +64,8 @@ Suggests:
     testthat (>= 3.1.1),
     tidyr, 
     withr
+Remotes:
+    r-lib/vctrs
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
