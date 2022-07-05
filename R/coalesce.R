@@ -19,7 +19,7 @@
 #' x <- sample(c(1:5, NA, NA, NA))
 #' coalesce(x, 0L)
 #'
-#' # The equivalent to a missing value in a list is NULL
+#' # The equivalent to a missing value in a list is `NULL`
 #' coalesce(list(1, 2, NULL), list(NA))
 #'
 #' # Or generate a complete vector from partially missing pieces
