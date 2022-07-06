@@ -1,42 +1,89 @@
-#' Vectorised if
+#' Vectorised if-else
 #'
-#' Compared to the base [ifelse()], this function is more strict.
-#' It checks that `true` and `false` are the same type. This
-#' strictness makes the output type more predictable, and makes it somewhat
-#' faster.
+#' `if_else()` is a vectorized [if-else][if]. Compared to the base R equivalent,
+#' [ifelse()], this function allows you to handle missing values in the
+#' `condition` with `missing` and always takes `true`, `false`, and `missing`
+#' into account when determining what the output type should be.
 #'
-#' @param condition Logical vector
+#' @inheritParams rlang::args_dots_empty
+#'
+#' @param condition A logical vector
+#'
 #' @param true,false Values to use for `TRUE` and `FALSE` values of
-#'   `condition`. They must be either the same length as `condition`,
-#'   or length 1. They must also be the same type: `if_else()` checks that
-#'   they have the same type and same class. All other attributes are
-#'   taken from `true`.
-#' @param missing If not `NULL`, will be used to replace missing
-#'   values.
-#' @return Where `condition` is `TRUE`, the matching value from
-#'   `true`, where it's `FALSE`, the matching value from `false`,
-#'   otherwise `NA`.
+#'   `condition`.
+#'
+#'   Both `true` and `false` will be [recycled][vctrs::vector_recycling_rules]
+#'   to the size of `condition`.
+#'
+#'   `true`, `false`, and `missing` (if used) will be cast to their common type.
+#'
+#' @param missing If not `NULL`, will be used as the value for `NA` values of
+#'   `condition`. Follows the same size and type rules as `true` and `false`.
+#'
+#' @param ptype An optional prototype declaring the desired output type. If
+#'   supplied, this overrides the common type of `true`, `false`, and `missing`.
+#'
+#' @param size An optional size declaring the desired output size. If supplied,
+#'   this overrides the size of `condition`.
+#'
+#' @return
+#' A vector with the same size as `condition` and the same type as the common
+#' type of `true`, `false`, and `missing`.
+#'
+#' Where `condition` is `TRUE`, the matching values from `true`, where it is
+#' `FALSE`, the matching values from `false`, and where it is `NA`, the matching
+#' values from `missing`, if provided, otherwise a missing value will be used.
+#'
 #' @export
 #' @examples
 #' x <- c(-5:5, NA)
-#' if_else(x < 0, NA_integer_, x)
-#' if_else(x < 0, "negative", "positive", "missing")
+#' if_else(x < 0, NA, x)
 #'
-#' # Unlike ifelse, if_else preserves types
+#' # Explicitly handle `NA` values in the `condition` with `missing`
+#' if_else(x < 0, "negative", "positive", missing = "missing")
+#'
+#' # Unlike `ifelse()`, `if_else()` preserves types
 #' x <- factor(sample(letters[1:5], 10, replace = TRUE))
-#' ifelse(x %in% c("a", "b", "c"), x, factor(NA))
-#' if_else(x %in% c("a", "b", "c"), x, factor(NA))
-#' # Attributes are taken from the `true` vector,
-if_else <- function(condition, true, false, missing = NULL) {
-  if (!is.logical(condition)) {
-    msg <- glue("`condition` must be a logical vector, not {friendly_type_of(condition)}.")
-    abort(msg)
-  }
+#' ifelse(x %in% c("a", "b", "c"), x, NA)
+#' if_else(x %in% c("a", "b", "c"), x, NA)
+#'
+#' # `if_else()` is often useful for creating new columns inside of `mutate()`
+#' starwars %>%
+#'   mutate(category = if_else(height < 100, "short", "tall"), .keep = "used")
+if_else <- function(condition,
+                    true,
+                    false,
+                    missing = NULL,
+                    ...,
+                    ptype = NULL,
+                    size = NULL) {
+  check_dots_empty0(...)
 
-  out <- true[rep(NA_integer_, length(condition))]
-  out <- replace_with(out, condition       , true   , "`true`"   , "length of `condition`")
-  out <- replace_with(out, !condition      , false  , "`false`"  , "length of `condition`")
-  out <- replace_with(out, is.na(condition), missing, "`missing`", "length of `condition`")
+  # Assert early since we `!` the `condition`
+  vec_assert(
+    x = condition,
+    ptype = logical(),
+    arg = "condition"
+  )
 
-  out
+  conditions <- list(
+    condition = condition,
+    !condition
+  )
+  values <- list(
+    true = true,
+    false = false
+  )
+
+  vec_case_when(
+    conditions = conditions,
+    values = values,
+    conditions_arg = "",
+    values_arg = "",
+    default = missing,
+    default_arg = "missing",
+    ptype = ptype,
+    size = size,
+    call = current_env()
+  )
 }
