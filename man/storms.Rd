@@ -34,8 +34,8 @@ The modern storms are measured every six hours during the lifetime of the storm.
 # show a plot of the storm paths in 1975 or later
 if (requireNamespace("ggplot2", quietly = TRUE)) {
   library(ggplot2)
-  storms |>
-    filter(year >= 1975) |>
+  storms \%>\%
+    filter(year >= 1975) \%>\%
   ggplot() +
     aes(x=long, y=lat, color=paste(year, name)) +
     geom_path() +
