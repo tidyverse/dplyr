@@ -7,17 +7,21 @@
 coalesce(..., .ptype = NULL, .size = NULL)
 }
 \arguments{
-\item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> One or more vectors.}
+\item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}>
 
-\item{.ptype}{The type to cast the vectors in \code{...} to. If \code{NULL}, the
-vectors will be cast to their common type, which is consistent with SQL.}
+One or more vectors. These will be
+\link[vctrs:vector_recycling_rules]{recycled} against each other, and will be
+cast to their common type.}
 
-\item{.size}{The size to \link[vctrs:vector_recycling_rules]{recycle} the vectors
-in \code{...} to. If \code{NULL}, the vectors will be recycled to their common size.}
+\item{.ptype}{An optional prototype declaring the desired output type. If
+supplied, this overrides the common type of the vectors in \code{...}.}
+
+\item{.size}{An optional size declaring the desired output size. If supplied,
+this overrides the common size of the vectors in \code{...}.}
 }
 \value{
-A vector with the same type and size as the common type and size of
-the vectors in \code{...}.
+A vector with the same type and size as the common type and common
+size of the vectors in \code{...}.
 }
 \description{
 Given a set of vectors, \code{coalesce()} finds the first non-missing value at

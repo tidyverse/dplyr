@@ -4,15 +4,24 @@
 #' each position. It's inspired by the SQL `COALESCE` function which does the
 #' same thing for SQL `NULL`s.
 #'
-#' @param ... <[`dynamic-dots`][rlang::dyn-dots]> One or more vectors.
-#' @param .ptype The type to cast the vectors in `...` to. If `NULL`, the
-#'   vectors will be cast to their common type, which is consistent with SQL.
-#' @param .size The size to [recycle][vctrs::vector_recycling_rules] the vectors
-#'   in `...` to. If `NULL`, the vectors will be recycled to their common size.
-#' @return A vector with the same type and size as the common type and size of
-#'   the vectors in `...`.
+#' @param ... <[`dynamic-dots`][rlang::dyn-dots]>
+#'
+#'   One or more vectors. These will be
+#'   [recycled][vctrs::vector_recycling_rules] against each other, and will be
+#'   cast to their common type.
+#'
+#' @param .ptype An optional prototype declaring the desired output type. If
+#'   supplied, this overrides the common type of the vectors in `...`.
+#'
+#' @param .size An optional size declaring the desired output size. If supplied,
+#'   this overrides the common size of the vectors in `...`.
+#'
+#' @return A vector with the same type and size as the common type and common
+#'   size of the vectors in `...`.
+#'
 #' @seealso [na_if()] to replace specified values with an `NA`.
 #'   [tidyr::replace_na()] to replace `NA` with a value.
+#'
 #' @export
 #' @examples
 #' # Use a single value to replace all missing values
