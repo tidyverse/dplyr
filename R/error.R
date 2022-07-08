@@ -30,10 +30,6 @@ fmt_classes <- function(x) {
   paste(class(x), collapse = "/")
 }
 
-fmt_dims <- function(x) {
-  paste0("[", paste0(x, collapse = " x "), "]")
-}
-
 fmt_comma <- function(..., .max = 6) {
   x <- paste0(...)
   if (length(x) > .max) {

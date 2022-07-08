@@ -13,7 +13,7 @@ dim_desc <- function(x) {
   d2 <- big_mark(d)
   d2[is.na(d)] <- "??"
 
-  fmt_dims(d2)
+  paste0("[", paste0(d2, collapse = " x "), "]")
 }
 
 wrap <- function(..., indent = 0) {
