@@ -11,8 +11,6 @@ deparse_trunc <- function(x, width = getOption("width")) {
 
 commas <- function(...) paste0(..., collapse = ", ")
 
-in_travis <- function() identical(Sys.getenv("TRAVIS"), "true")
-
 named <- function(...) {
   x <- c(...)
 
