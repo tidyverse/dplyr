@@ -81,10 +81,10 @@ for humans, such as an HTML table.
 
 Prior to dplyr 1.1.0, character vector grouping columns were ordered in the
 system locale. If you need to temporarily revert to this behavior, you can
-set the global option \code{dplyr.legacy_group_by_locale} to \code{TRUE}, but this
-should be used sparingly and you should expect this option to be removed in a
-future version of dplyr. It is better to update existing code to explicitly
-call \code{arrange()} instead.
+set the global option \code{dplyr.legacy_locale} to \code{TRUE}, but this should be
+used sparingly and you should expect this option to be removed in a future
+version of dplyr. It is better to update existing code to explicitly call
+\code{arrange()} instead.
 }
 
 \examples{

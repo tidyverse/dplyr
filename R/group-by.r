@@ -59,10 +59,10 @@
 #'
 #' Prior to dplyr 1.1.0, character vector grouping columns were ordered in the
 #' system locale. If you need to temporarily revert to this behavior, you can
-#' set the global option `dplyr.legacy_group_by_locale` to `TRUE`, but this
-#' should be used sparingly and you should expect this option to be removed in a
-#' future version of dplyr. It is better to update existing code to explicitly
-#' call `arrange()` instead.
+#' set the global option `dplyr.legacy_locale` to `TRUE`, but this should be
+#' used sparingly and you should expect this option to be removed in a future
+#' version of dplyr. It is better to update existing code to explicitly call
+#' `arrange()` instead.
 #'
 #' @export
 #' @examples

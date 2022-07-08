@@ -298,22 +298,9 @@ dplyr_locate_sorted_groups <- function(x) {
   out <- vec_locate_sorted_groups(x, nan_distinct = TRUE)
   out$loc <- new_list_of(out$loc, ptype = integer())
 
-  if (dplyr_legacy_group_by_locale()) {
+  if (dplyr_legacy_locale()) {
     # Temporary legacy support for respecting the system locale
     out <- vec_slice(out, vec_order_base(out$key))
-  }
-
-  out
-}
-dplyr_legacy_group_by_locale <- function() {
-  out <- peek_option("dplyr.legacy_group_by_locale") %||% FALSE
-
-  if (!is_bool(out)) {
-    message <- paste0(
-      "Global option `dplyr.legacy_group_by_locale` ",
-      "must be a single `TRUE` or `FALSE`."
-    )
-    abort(message, call = NULL)
   }
 
   out

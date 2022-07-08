@@ -202,18 +202,13 @@ test_that("groups are ordered in the C locale", {
   expect_identical(result$x, c("A", "Z", "a", "b"))
 })
 
-test_that("using the global option `dplyr.legacy_group_by_locale` forces the system locale", {
+test_that("using the global option `dplyr.legacy_locale` forces the system locale", {
   skip_if_not(has_collate_locale("en_US"), message = "Can't use 'en_US' locale")
 
-  local_options(dplyr.legacy_group_by_locale = TRUE)
+  local_options(dplyr.legacy_locale = TRUE)
   withr::local_collate("en_US")
 
   df <- tibble(x = c("a", "A", "Z", "b"))
   result <- compute_groups(df, "x")
   expect_identical(result$x, c("a", "A", "b", "Z"))
-})
-
-test_that("`dplyr.legacy_group_by_locale` is validated", {
-  local_options(dplyr.legacy_group_by_locale = 1)
-  expect_snapshot(error = TRUE, dplyr_legacy_group_by_locale())
 })
