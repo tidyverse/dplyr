@@ -203,8 +203,7 @@ test_that("groups are ordered in the C locale", {
 })
 
 test_that("using the global option `dplyr.legacy_group_by_locale` forces the system locale", {
-  on_mac <- identical(tolower(Sys.info()[["sysname"]]), "darwin")
-  skip_if_not(on_mac, message = "Not on Mac. Unsure if we can use 'en_US' locale.")
+  skip_if_not(has_collate_locale("en_US"), message = "Can't use 'en_US' locale")
 
   local_options(dplyr.legacy_group_by_locale = TRUE)
   withr::local_collate("en_US")
