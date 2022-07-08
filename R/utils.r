@@ -27,10 +27,6 @@ is_1d <- function(x) {
   (is_atomic(x) || is.list(x)) && length(dim(x)) <= 1
 }
 
-random_table_name <- function(n = 10) {
-  paste0(sample(letters, n, replace = TRUE), collapse = "")
-}
-
 unstructure <- function(x) {
   attributes(x) <- NULL
   x
