@@ -68,7 +68,9 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL,
     details = "Please use `tbl()` directly with a database connection"
   )
 
-  user <- user %||% if (in_travis()) "postgres" else ""
+  in_travis <- identical(Sys.getenv("TRAVIS"), "true")
+
+  user <- user %||% if (in_travis) "postgres" else ""
 
   con <- DBI::dbConnect(
     RPostgreSQL::PostgreSQL(),

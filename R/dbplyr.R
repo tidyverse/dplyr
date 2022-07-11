@@ -157,6 +157,10 @@ sql_subquery <- function(con, from, name = random_table_name(), ...) {
   UseMethod("sql_subquery")
 }
 
+random_table_name <- function(n = 10) {
+  paste0(sample(letters, n, replace = TRUE), collapse = "")
+}
+
 #' @rdname backend_dbplyr
 #' @export
 sql_join <- function(con, x, y, vars, type = "inner", by = NULL, ...) {
