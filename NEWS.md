@@ -1,5 +1,17 @@
 # dplyr (development version)
 
+* `coalesce()` now more fully embraces the principles of vctrs (#6265).
+
+  * `.ptype` and `.size` arguments have been added to allow you to explicitly
+    enforce an output type and size.
+    
+  * `NULL` inputs are now discarded up front.
+
+  * `coalesce()` no longer iterates over the columns of data frame input.
+    Instead, a row is now only coalesced if it is entirely missing, which is
+    consistent with `vctrs::vec_equal_na()` and greatly simplifies the
+    implementation.
+
 * `group_by()` now uses a new algorithm for computing groups. It is often faster
   than the previous approach (especially when there are many groups), and in
   most cases there should be no changes. The exception is with character vector
