@@ -1,5 +1,17 @@
 # dplyr (development version)
 
+* `group_by()` now uses a new algorithm for computing groups. It is often faster
+  than the previous approach (especially when there are many groups), and in
+  most cases there should be no changes. The exception is with character vector
+  group columns, which are now internally ordered in the C locale rather than
+  the system locale and may result in differently ordered results when you
+  follow up a `group_by()` with functions that use the group data, such as
+  `summarise()` or `group_split()` (#4406, #6297).
+  
+  See the Ordering section of `?group_by()` for more information. For a full
+  explanation of this change, refer to this
+  [tidyup](https://github.com/tidyverse/tidyups/blob/main/006-dplyr-group-by-ordering.md).
+
 * `if_else()` has been rewritten to utilize vctrs. This comes with most of the
   same benefits as the `case_when()` rewrite. In particular, `if_else()` now
   takes the common type of `true`, `false`, and `missing` when determining what

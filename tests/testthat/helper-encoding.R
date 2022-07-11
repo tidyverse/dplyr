@@ -28,16 +28,24 @@ get_alien_lang_string <- function() {
   lang_strings$different[[1L]]
 }
 
-try_encoding <- function(enc) {
-  orig_encoding <- Sys.getlocale("LC_CTYPE")
-  on.exit(Sys.setlocale("LC_CTYPE", orig_encoding), add = TRUE)
-  tryCatch({
-    Sys.setlocale("LC_CTYPE", enc)
-    TRUE
-  },
-  warning = function(w) FALSE,
-  error = function(e) FALSE
+has_locale <- function(locale, category) {
+  original <- Sys.getlocale(category = category)
+  on.exit(Sys.setlocale(category = category, locale = original), add = TRUE)
+
+  tryCatch(
+    expr = {
+      Sys.setlocale(category = category, locale = locale)
+      TRUE
+    },
+    warning = function(w) FALSE,
+    error = function(e) FALSE
   )
+}
+has_collate_locale <- function(locale) {
+  has_locale(locale = locale, category = "LC_COLLATE")
+}
+has_ctype_locale <- function(enc) {
+  has_locale(locale = enc, category = "LC_CTYPE")
 }
 
 non_utf8_encoding <- function(enc = NULL) {
@@ -50,7 +58,7 @@ non_utf8_encoding <- function(enc = NULL) {
     "fr_CH.ISO8859-1",
     "fr_CH.ISO8859-15"
   )
-  available <- vapply(enc, try_encoding, logical(1))
+  available <- vapply(enc, has_ctype_locale, logical(1))
   if (any(available)) {
     enc[available][1]
   } else {
