@@ -76,6 +76,12 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
 <ul><li>
+<p><code><a href="../reference/coalesce.html">coalesce()</a></code> now more fully embraces the principles of vctrs (<a href="https://github.com/tidyverse/dplyr/issues/6265" class="external-link">#6265</a>).</p>
+<ul><li><p><code>.ptype</code> and <code>.size</code> arguments have been added to allow you to explicitly enforce an output type and size.</p></li>
+<li><p><code>NULL</code> inputs are now discarded up front.</p></li>
+<li><p><code><a href="../reference/coalesce.html">coalesce()</a></code> no longer iterates over the columns of data frame input. Instead, a row is now only coalesced if it is entirely missing, which is consistent with <code><a href="https://vctrs.r-lib.org/reference/vec_equal.html" class="external-link">vctrs::vec_equal_na()</a></code> and greatly simplifies the implementation.</p></li>
+</ul></li>
+<li>
 <p><code><a href="../reference/group_by.html">group_by()</a></code> now uses a new algorithm for computing groups. It is often faster than the previous approach (especially when there are many groups), and in most cases there should be no changes. The exception is with character vector group columns, which are now internally ordered in the C locale rather than the system locale and may result in differently ordered results when you follow up a <code><a href="../reference/group_by.html">group_by()</a></code> with functions that use the group data, such as <code><a href="../reference/summarise.html">summarise()</a></code> or <code><a href="../reference/group_split.html">group_split()</a></code> (<a href="https://github.com/tidyverse/dplyr/issues/4406" class="external-link">#4406</a>, <a href="https://github.com/tidyverse/dplyr/issues/6297" class="external-link">#6297</a>).</p>
 <p>See the Ordering section of <code>?group_by()</code> for more information. For a full explanation of this change, refer to this <a href="https://github.com/tidyverse/tidyups/blob/main/006-dplyr-group-by-ordering.md" class="external-link">tidyup</a>.</p>
 </li>
