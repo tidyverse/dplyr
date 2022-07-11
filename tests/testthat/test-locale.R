@@ -1,5 +1,5 @@
-test_that("`dplyr_locale()` uses the C locale by default", {
-  expect_identical(dplyr_locale(), "C")
+test_that("`dplyr_locale()` returns `NULL` by default", {
+  expect_null(dplyr_locale())
 })
 
 test_that("`dplyr_locale()` respects `dplyr.locale`", {
@@ -9,6 +9,9 @@ test_that("`dplyr_locale()` respects `dplyr.locale`", {
   local_options(dplyr.locale = 1)
   expect_snapshot(error = TRUE, {
     dplyr_locale()
+  })
+  expect_snapshot(error = TRUE, {
+    arrange(data.frame())
   })
 })
 

@@ -40,9 +40,9 @@
 #'   grouped data frames only.
 #' @param .locale The locale to sort character vectors in.
 #'
-#'   - Defaults to [dplyr_locale()], which uses the `"C"` locale unless this is
-#'     explicitly overridden. See the help page for [dplyr_locale()] for the
-#'     exact details.
+#'   - If `NULL`, the default, then the `"C"` locale will be used unless this is
+#'     explicitly overriden. See the [locale][dplyr-locale] help page for the
+#'     exact details of how to override the default.
 #'
 #'   - If a single string from [stringi::stri_locale_list()] is supplied, then
 #'     this will be used as the locale to sort with. For example, `"en"` will
@@ -54,8 +54,8 @@
 #'
 #'   The C locale is not the same as English locales, such as `"en"`,
 #'   particularly when it comes to data containing a mix of upper and lower case
-#'   letters. This is explained in more detail in the help page of
-#'   [dplyr_locale()] under the `Default locale` section.
+#'   letters. This is explained in more detail on the [locale][dplyr-locale]
+#'   help page under the `Default locale` section.
 #' @family single table verbs
 #' @examples
 #' arrange(mtcars, cyl, disp)
@@ -87,7 +87,7 @@ arrange <- function(.data, ..., .by_group = FALSE) {
 arrange.data.frame <- function(.data,
                                ...,
                                .by_group = FALSE,
-                               .locale = dplyr_locale()) {
+                               .locale = NULL) {
   dots <- enquos(...)
 
   if (.by_group) {
@@ -105,6 +105,18 @@ arrange_rows <- function(data,
                          locale,
                          error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
+
+  locale <- locale %||% dplyr_locale(error_call = error_call)
+  user_specified_locale <- !is.null(locale)
+  locale <- locale %||% dplyr_locale_default()
+
+  # If either `.locale` or `dplyr.locale` are set,
+  # then they override any usage of `dplyr.legacy_locale`
+  if (user_specified_locale) {
+    use_legacy_locale <- FALSE
+  } else {
+    use_legacy_locale <- dplyr_legacy_locale()
+  }
 
   chr_proxy_collate <- locale_to_chr_proxy_collate(
     locale = locale,
@@ -176,6 +188,17 @@ arrange_rows <- function(data,
   })
 
   directions <- directions[quo_names %in% names(data)]
+
+  if (use_legacy_locale) {
+    # Temporary legacy support for respecting the system locale.
+    # Matches legacy `group_by()` ordering.
+    out <- dplyr_order_legacy(
+      x = data,
+      direction = directions
+    )
+    return(out)
+  }
+
   na_values <- if_else(directions == "desc", "smallest", "largest")
 
   vec_order_radix(
@@ -217,4 +240,47 @@ sort_key_generator <- function(locale) {
   function(x) {
     stringi::stri_sort_key(x, locale = locale)
   }
+}
+
+# ------------------------------------------------------------------------------
+
+dplyr_order_legacy <- function(x, direction) {
+  proxies <- map2(x, direction, dplyr_proxy_order_legacy)
+  proxies <- unname(proxies)
+  inject(order(!!!proxies, decreasing = FALSE, na.last = TRUE))
+}
+
+dplyr_proxy_order_legacy <- function(x, direction) {
+  # `order()` doesn't have a vectorized `decreasing` argument for most values of
+  # `method` ("radix" is an exception). So we need to apply this by column ahead
+  # of time. We have to apply `vec_proxy_order()` by column too, rather than on
+  # the original data frame, because it flattens df-cols and we can lose track
+  # of where to apply `direction`.
+  x <- vec_proxy_order(x)
+
+  if (is.data.frame(x)) {
+    if (any(map_lgl(x, is.data.frame))) {
+      abort(
+        "All data frame columns should have been flattened by now.",
+        .internal = TRUE
+      )
+    }
+
+    # Special handling for data frame proxies (either from df-cols or from
+    # vector classes with df proxies, like rcrds), which `order()` can't handle.
+    # We have to replace the df proxy with a single vector that orders the same
+    # way, so we use a dense rank that utilizes the system locale.
+    unique <- vec_unique(x)
+    order <- dplyr_order_legacy(unique, direction)
+    sorted_unique <- vec_slice(unique, order)
+    out <- vec_match(x, sorted_unique)
+
+    return(out)
+  }
+
+  if (direction == "desc") {
+    x <- desc(x)
+  }
+
+  x
 }

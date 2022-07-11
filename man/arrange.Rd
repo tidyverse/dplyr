@@ -7,7 +7,7 @@
 \usage{
 arrange(.data, ..., .by_group = FALSE)
 
-\method{arrange}{data.frame}(.data, ..., .by_group = FALSE, .locale = dplyr_locale())
+\method{arrange}{data.frame}(.data, ..., .by_group = FALSE, .locale = NULL)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
@@ -22,9 +22,9 @@ grouped data frames only.}
 
 \item{.locale}{The locale to sort character vectors in.
 \itemize{
-\item Defaults to \code{\link[=dplyr_locale]{dplyr_locale()}}, which uses the \code{"C"} locale unless this is
-explicitly overridden. See the help page for \code{\link[=dplyr_locale]{dplyr_locale()}} for the
-exact details.
+\item If \code{NULL}, the default, then the \code{"C"} locale will be used unless this is
+explicitly overriden. See the \link[=dplyr-locale]{locale} help page for the
+exact details of how to override the default.
 \item If a single string from \code{\link[stringi:stri_locale_list]{stringi::stri_locale_list()}} is supplied, then
 this will be used as the locale to sort with. For example, \code{"en"} will
 sort with the American English locale. This requires the stringi package.
@@ -35,8 +35,8 @@ supplying a locale identifier.
 
 The C locale is not the same as English locales, such as \code{"en"},
 particularly when it comes to data containing a mix of upper and lower case
-letters. This is explained in more detail in the help page of
-\code{\link[=dplyr_locale]{dplyr_locale()}} under the \verb{Default locale} section.}
+letters. This is explained in more detail on the \link[=dplyr-locale]{locale}
+help page under the \verb{Default locale} section.}
 }
 \value{
 An object of the same type as \code{.data}. The output has the following
