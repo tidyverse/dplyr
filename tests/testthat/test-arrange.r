@@ -76,7 +76,7 @@ test_that("arrange handles complex columns", {
 test_that("arrange handles S4 classes (#1105)", {
   TestS4 <- suppressWarnings(setClass("TestS4", contains = "integer"))
   setMethod('[', 'TestS4', function(x, i, ...){ TestS4(unclass(x)[i, ...])  })
-  on.exit(removeClass("TestS4"))
+  on.exit(removeClass("TestS4"), add = TRUE)
 
   df <- tibble(x = 1:3, y = TestS4(3:1))
   expect_equal(arrange(df, y), df[3:1, ])
@@ -397,7 +397,7 @@ test_that("legacy - arrange handles S4 classes (#1105)", {
 
   TestS4 <- suppressWarnings(setClass("TestS4", contains = "integer"))
   setMethod('[', 'TestS4', function(x, i, ...){ TestS4(unclass(x)[i, ...])  })
-  on.exit(removeClass("TestS4"))
+  on.exit(removeClass("TestS4"), add = TRUE)
 
   df <- tibble(x = 1:3, y = TestS4(3:1))
   expect_equal(arrange(df, y), df[3:1, ])
