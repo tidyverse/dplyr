@@ -2,36 +2,46 @@
 % Please edit documentation in R/coalesce.R
 \name{coalesce}
 \alias{coalesce}
-\title{Find first non-missing element}
+\title{Find the first non-missing element}
 \usage{
-coalesce(...)
+coalesce(..., .ptype = NULL, .size = NULL)
 }
 \arguments{
-\item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> Vectors. Inputs should be
-recyclable (either be length 1 or same length as the longest vector) and
-coercible to a common type. If data frames, they are coalesced column by
-column.}
+\item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}>
+
+One or more vectors. These will be
+\link[vctrs:vector_recycling_rules]{recycled} against each other, and will be
+cast to their common type.}
+
+\item{.ptype}{An optional prototype declaring the desired output type. If
+supplied, this overrides the common type of the vectors in \code{...}.}
+
+\item{.size}{An optional size declaring the desired output size. If supplied,
+this overrides the common size of the vectors in \code{...}.}
 }
 \value{
-A vector the same length as the first \code{...} argument with
-missing values replaced by the first non-missing value.
+A vector with the same type and size as the common type and common
+size of the vectors in \code{...}.
 }
 \description{
-Given a set of vectors, \code{coalesce()} finds the first non-missing value
-at each position. This is inspired by the SQL \code{COALESCE} function
-which does the same thing for \code{NULL}s.
+Given a set of vectors, \code{coalesce()} finds the first non-missing value at
+each position. It's inspired by the SQL \code{COALESCE} function which does the
+same thing for SQL \code{NULL}s.
 }
 \examples{
 # Use a single value to replace all missing values
 x <- sample(c(1:5, NA, NA, NA))
 coalesce(x, 0L)
 
-# Or match together a complete vector from missing pieces
+# The equivalent to a missing value in a list is `NULL`
+coalesce(list(1, 2, NULL), list(NA))
+
+# Or generate a complete vector from partially missing pieces
 y <- c(1, 2, NA, NA, 5)
 z <- c(NA, NA, 3, 4, 5)
 coalesce(y, z)
 
-# Supply lists by with dynamic dots
+# Supply lists by splicing them into dots:
 vecs <- list(
   c(1, 2, NA, NA, 5),
   c(NA, NA, 3, 4, 5)
@@ -39,6 +49,6 @@ vecs <- list(
 coalesce(!!!vecs)
 }
 \seealso{
-\code{\link[=na_if]{na_if()}} to replace specified values with a \code{NA}.
-\code{\link[tidyr:replace_na]{tidyr::replace_na()}} to replace \code{NA} with a value
+\code{\link[=na_if]{na_if()}} to replace specified values with an \code{NA}.
+\code{\link[tidyr:replace_na]{tidyr::replace_na()}} to replace \code{NA} with a value.
 }

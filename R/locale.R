@@ -94,3 +94,19 @@ dplyr_locale <- function() {
 has_minimum_stringi <- function() {
   is_installed("stringi", version = "1.5.3")
 }
+
+dplyr_legacy_locale <- function() {
+  # Used to determine if `group_by()` and `arrange()` should use
+  # base R's `order()` for sorting, which respects the system locale and was
+  # our sorting engine pre-1.1.0.
+  out <- peek_option("dplyr.legacy_locale") %||% FALSE
+
+  if (!is_bool(out)) {
+    abort(
+      "Global option `dplyr.legacy_locale` must be a single `TRUE` or `FALSE`.",
+      call = NULL
+    )
+  }
+
+  out
+}
