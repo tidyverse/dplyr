@@ -14,8 +14,15 @@
 #' \item{lat,long}{Location of storm center}
 #' \item{status}{Storm classification (Tropical Depression, Tropical Storm,
 #'   or Hurricane)}
-#' \item{category}{Saffir-Simpson storm category (estimated from wind speed.
-#' -1 = Tropical Depression, 0 = Tropical Storm)}
+#' \item{category}{Saffir-Simpson hurricane category calculated from wind speed. Only applies to hurricanes.
+#'   \itemize{
+#'     \item 64+ knots = Category 1
+#'     \item 83+ knots = Category 2
+#'     \item 96+ knots = Category 3
+#'     \item 113+ knots = Category 4
+#'     \item 137+ knots = Category 5
+#'   }
+#' }
 #' \item{wind}{storm's maximum sustained wind speed (in knots)}
 #' \item{pressure}{Air pressure at the storm's center (in millibars)}
 #' \item{tropicalstorm_force_diameter}{Diameter (in nautical miles) of the area experiencing tropical storm strength winds (34 knots or above). Only available starting in 2004.}

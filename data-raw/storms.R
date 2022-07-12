@@ -82,6 +82,12 @@ library(lubridate)
 # combine the storms into one dataframe
 storms <- storm_dataframes %>%
   bind_rows()
+
+
+#####################
+# format and cleanup
+
+
 # format the columns
 storms <- storms %>%
   mutate(
@@ -96,25 +102,47 @@ storms <- storms %>%
     long_hemisphere = str_sub(long, -1),
     long_sign = if_else(long_hemisphere == "E", 1, -1),
     long = as.numeric(str_sub(long, 1, -2)) * long_sign,
-    category = cut(wind,
-      breaks = c(0, 34, 64, 83, 96, 113, 137, 500),
-      labels = c(-1, 0, 1, 2, 3, 4, 5),
-      include.lowest = TRUE, ordered = TRUE
-    ),
     # wind = wind * 1.15078, # transforms knots to mph,
     TSradius1 = extent_34_NE + extent_34_SW,
     TSradius2 = extent_34_NW + extent_34_SE,
     tropicalstorm_force_diameter = pmax(TSradius1, TSradius2),
     HUradius1 = extent_64_NE + extent_64_SW,
     HUradius2 = extent_64_NW + extent_64_SE,
-    hurricane_force_diameter = pmax(HUradius1, HUradius2),
-    status = factor(recode(status, "HU" = "hurricane", "TS" = "tropical storm", "TD" = "tropical depression"))
+    hurricane_force_diameter = pmax(HUradius1, HUradius2)
   ) %>%
-  select(name, year, month, day, hour, lat, long, status, category, wind, pressure, tropicalstorm_force_diameter, hurricane_force_diameter)
+  select(name, year, month, day, hour, lat, long, status, wind, pressure, tropicalstorm_force_diameter, hurricane_force_diameter)
 
 # drop rows with missing pressure record
 storms <- storms %>%
   filter(!is.na(pressure))
+
+# don't abrev.
+storms <- storms %>% mutate(
+  status = factor(recode(status,
+    "HU" = "hurricane",
+    "TS" = "tropical storm",
+    "TD" = "tropical depression",
+    "EX" = "extratropical",
+    "SD" = "subtropical depression",
+    "SS" = "subtropical storm",
+    "LO" = "other low",
+    "WV" = "tropical wave",
+    "DB" = "disturbance"
+  ))
+)
+
+# hurricane category
+storms <- storms %>%
+  mutate(category = case_when(
+    status != "hurricane" ~ NA,
+    wind >= 64 ~ 1,
+    wind >= 83 ~ 2,
+    wind >= 96 ~ 3,
+    wind >= 113 ~ 4,
+    wind >= 137 ~ 5,
+    .default = NA
+  )) %>%
+  relocate(category, .after = status)
 
 # drop storms without at least one record that is a tropical depression or higher
 storms <- storms %>%
@@ -124,7 +152,7 @@ storms <- storms %>%
   filter(is_depression_or_higher) %>%
   select(-is_depression_or_higher)
 
-# drop all sub-depression rows
+# drop all rows that are not at least a depression
 # might want to use this filter if the file size is an issue
 # storms <- storms %>% filter(status %in% c("hurricane", "tropical storm", "tropical depression"))
 
