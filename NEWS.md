@@ -1,5 +1,10 @@
 # dplyr (development version)
 
+* `na_if()` has been rewritten to utilize vctrs. It now casts `y` to the type of
+  `x` before comparing them, which makes it clearer that this function is type
+  and size stable on `x`. Additionally, it now works with a larger variety of
+  types, like data frames (#6329).
+
 * `first()`, `last()`, and `nth()` have been rewritten to use vctrs. This comes
   with the following improvements (#6331):
   
