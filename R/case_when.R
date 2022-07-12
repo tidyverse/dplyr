@@ -153,16 +153,22 @@ case_when <- function(...,
   dots_env <- current_env()
   error_call <- current_env()
 
-  args <- case_when_formula_evaluate(
+  args <- case_formula_evaluate(
     args = args,
-    size = .size,
     default_env = default_env,
     dots_env = dots_env,
     error_call = error_call
   )
 
-  conditions <- args$conditions
-  values <- args$values
+  conditions <- args$lhs
+  values <- args$rhs
+
+  # `case_when()`'s formula interface finds the common size of ALL of its inputs.
+  # This is what allows `TRUE ~` to work.
+  .size <- vec_size_common(!!!conditions, !!!values, .size = .size, .call = error_call)
+
+  conditions <- vec_recycle_common(!!!conditions, .size = .size, .call = error_call)
+  values <- vec_recycle_common(!!!values, .size = .size, .call = error_call)
 
   vec_case_when(
     conditions = conditions,
@@ -177,17 +183,16 @@ case_when <- function(...,
   )
 }
 
-case_when_formula_evaluate <- function(args,
-                                       size,
-                                       default_env,
-                                       dots_env,
-                                       error_call) {
+case_formula_evaluate <- function(args,
+                                  default_env,
+                                  dots_env,
+                                  error_call) {
   # `case_when()`'s formula interface compacts `NULL`s
   args <- compact_null(args)
   n_args <- length(args)
 
-  conditions <- vector("list", n_args)
-  values <- vector("list", n_args)
+  lhs <- vector("list", n_args)
+  rhs <- vector("list", n_args)
 
   quos_pairs <- map2(
     .x = args,
@@ -200,30 +205,23 @@ case_when_formula_evaluate <- function(args,
 
   for (i in seq_len(n_args)) {
     pair <- quos_pairs[[i]]
-    conditions[[i]] <- eval_tidy(pair$lhs, env = default_env)
-    values[[i]] <- eval_tidy(pair$rhs, env = default_env)
+    lhs[[i]] <- eval_tidy(pair$lhs, env = default_env)
+    rhs[[i]] <- eval_tidy(pair$rhs, env = default_env)
   }
 
-  # Add the expressions as names for `conditions` and `values` for nice errors.
-  # These names also get passed on to `vec_case_when()`.
-  condition_names <- map(quos_pairs, function(pair) pair$lhs)
-  condition_names <- map_chr(condition_names, as_label)
-  names(conditions) <- condition_names
+  # Add the expressions as names for `lhs` and `rhs` for nice errors.
+  # These names also get passed on to the underlying vctrs backend.
+  lhs_names <- map(quos_pairs, function(pair) pair$lhs)
+  lhs_names <- map_chr(lhs_names, as_label)
+  names(lhs) <- lhs_names
 
-  value_names <- map(quos_pairs, function(pair) pair$rhs)
-  value_names <- map_chr(value_names, as_label)
-  names(values) <- value_names
-
-  # `case_when()`'s formula interface finds the common size of ALL of its inputs.
-  # This is what allows `TRUE ~` to work.
-  size <- vec_size_common(!!!conditions, !!!values, .size = size, .call = error_call)
-
-  conditions <- vec_recycle_common(!!!conditions, .size = size, .call = error_call)
-  values <- vec_recycle_common(!!!values, .size = size, .call = error_call)
+  rhs_names <- map(quos_pairs, function(pair) pair$rhs)
+  rhs_names <- map_chr(rhs_names, as_label)
+  names(rhs) <- rhs_names
 
   list(
-    conditions = conditions,
-    values = values
+    lhs = lhs,
+    rhs = rhs
   )
 }
 
