@@ -1,5 +1,22 @@
 # dplyr (development version)
 
+* `first()`, `last()`, and `nth()` have been rewritten to use vctrs. This comes
+  with the following improvements (#6331):
+  
+  * Elements are now extracted with `vctrs::vec_slice()` rather than `[[`. This
+    is more similar to `[`, and won't change the behavior of these functions for
+    most types. However, `first()` on a list will now return a list of size 1
+    rather than the first inner element of the list. This change ensures that
+    these functions are type stable on `x` and always return a value with size 1
+    (which makes them more useful in `summarise()`).
+    
+  * The `default` is no longer "guessed", and will always automatically be set
+    to a missing value appropriate for the type of `x`.
+    
+  * Fractional values of `n` are no longer truncated to integers, and will now
+    cause an error. For example, `nth(x, n = 2)` is fine, but
+    `nth(x, n = 2.5)` is now an error.
+
 * `lag()` and `lead()` now cast `default` to the type of `x`, rather than taking
   the common type. This ensures that these functions are type stable on `x`
   (#6330).
