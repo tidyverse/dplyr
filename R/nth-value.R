@@ -1,25 +1,26 @@
-#' Extract the first, last or nth value from a vector
+#' Extract the first, last, or nth value from a vector
 #'
-#' These are straightforward wrappers around \code{\link{[[}}. The main
-#' advantage is that you can provide an optional secondary vector that defines
-#' the ordering, and provide a default value to use when the input is shorter
-#' than expected.
+#' These are useful helpers for extracting a single value from a vector. They
+#' always return a result that is size 1, even when the input is shorter than
+#' expected. You can also provide an optional secondary vector that defines the
+#' ordering.
 #'
 #' @param x A vector
 #' @param n For `nth()`, a single integer specifying the position.
 #'   Negative integers index from the end (i.e. `-1L` will return the
 #'   last value in the vector).
+#' @param order_by An optional vector the same size as `x` used to determine the
+#'   order.
+#' @param default A default value to use if the position does not exist in `x`.
 #'
-#'   If a double is supplied, it will be silently truncated.
-#' @param order_by An optional vector used to determine the order
-#' @param default A default value to use if the position does not exist in
-#'   the input. This is guessed by default for base vectors, where a
-#'   missing value of the appropriate type is returned, and for lists, where
-#'   a `NULL` is return.
+#'   If `NULL`, the default, a missing value is used.
 #'
-#'   For more complicated objects, you'll need to supply this value.
-#'   Make sure it is the same type as `x`.
-#' @return A single value. `[[` is used to do the subsetting.
+#'   If supplied, this must be a single value, which will be cast to the type of
+#'   `x`.
+#'
+#' @return
+#' A vector the same type as `x` with size 1.
+#'
 #' @export
 #' @examples
 #' x <- 1:10
@@ -31,62 +32,72 @@
 #' nth(x, 1)
 #' nth(x, 5)
 #' nth(x, -2)
+#'
+#' # `first()` and `last()` are often useful in `summarise()`
+#' df <- tibble(x = x, y = y)
+#' df %>%
+#'   summarise(
+#'     across(x:y, first, .names = "{col}_first"),
+#'     y_last = last(y)
+#'   )
+#'
+#' # Selecting a position that is out of bounds returns a default value
 #' nth(x, 11)
+#' nth(x, 0)
 #'
 #' last(x)
-#' # Second argument provides optional ordering
-#' last(x, y)
+#' # `order_by` provides optional ordering
+#' last(x, order_by = y)
 #'
-#' # These functions always return a single value
+#' # These functions always return a single value, even with empty vectors
 #' first(integer())
-nth <- function(x, n, order_by = NULL, default = default_missing(x)) {
-  if (length(n) != 1 || !is.numeric(n)) {
-    abort("`n` must be a single integer.")
-  }
-  n <- trunc(n)
+#'
+#' # For data frames, these select entire rows
+#' df <- tibble(a = 1:5, b = 6:10)
+#' first(df)
+#' nth(df, 4)
+nth <- function(x, n, order_by = NULL, default = NULL) {
+  size <- vec_size(x)
 
-  if (n == 0 || n > length(x) || n < -length(x)) {
+  vec_assert(n, size = 1L, arg = "n")
+  n <- vec_cast(n, to = integer(), x_arg = "n")
+
+  if (!is.null(order_by)) {
+    vec_assert(order_by, size = size, arg = "order_by")
+  }
+
+  if (is.null(default)) {
+    default <- vec_init(x)
+  } else {
+    vec_assert(default, size = 1L, arg = "default")
+    default <- vec_cast(default, to = x, x_arg = "default", to_arg = "x")
+  }
+
+  if (n < 0L) {
+    # Negative values index from RHS
+    n <- size + n + 1L
+  }
+
+  if (n <= 0L || n > size) {
     return(default)
   }
 
-  # Negative values index from RHS
-  if (n < 0) {
-    n <- length(x) + n + 1
+  if (!is.null(order_by)) {
+    order <- vec_order_base(order_by)
+    n <- order[[n]]
   }
 
-  if (is.null(order_by)) {
-    x[[n]]
-  } else {
-    x[[ order(order_by)[[n]] ]]
-  }
+  vec_slice(x, n)
 }
 
 #' @export
 #' @rdname nth
-first <- function(x, order_by = NULL, default = default_missing(x)) {
+first <- function(x, order_by = NULL, default = NULL) {
   nth(x, 1L, order_by = order_by, default = default)
 }
 
 #' @export
 #' @rdname nth
-last <- function(x, order_by = NULL, default = default_missing(x)) {
+last <- function(x, order_by = NULL, default = NULL) {
   nth(x, -1L, order_by = order_by, default = default)
-}
-
-default_missing <- function(x) {
-  UseMethod("default_missing")
-}
-
-#' @export
-default_missing.default <- function(x) {
-  if (!is.object(x) && is.list(x)) {
-    NULL
-  } else {
-    x[NA_real_]
-  }
-}
-
-#' @export
-default_missing.data.frame <- function(x) {
-  rep(NA, nrow(x))
 }
