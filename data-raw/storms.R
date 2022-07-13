@@ -135,11 +135,11 @@ storms <- storms %>% mutate(
 storms <- storms %>%
   mutate(category = case_when(
     status != "hurricane" ~ NA,
-    wind >= 64 ~ 1,
-    wind >= 83 ~ 2,
-    wind >= 96 ~ 3,
-    wind >= 113 ~ 4,
     wind >= 137 ~ 5,
+    wind >= 113 ~ 4,
+    wind >= 96 ~ 3,
+    wind >= 83 ~ 2,
+    wind >= 64 ~ 1,
     .default = NA
   )) %>%
   relocate(category, .after = status)
