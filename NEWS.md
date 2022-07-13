@@ -2,8 +2,11 @@
 
 * `na_if()` has been rewritten to utilize vctrs. It now casts `y` to the type of
   `x` before comparing them, which makes it clearer that this function is type
-  and size stable on `x`. Additionally, it now works with a larger variety of
-  types, like data frames (#6329).
+  and size stable on `x`. In particular, this means that you can no longer do
+  `na_if(<tibble>, 0)`, which previously accidentally allowed you to replace
+  any instance of `0` across every column of the tibble with `NA`. `na_if()`
+  was never intended to work this way, and this is considered off-label usage
+  (#6329).
 
 * `first()`, `last()`, and `nth()` have been rewritten to use vctrs. This comes
   with the following improvements (#6331):
