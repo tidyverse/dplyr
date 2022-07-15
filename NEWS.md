@@ -3,12 +3,9 @@
 * `first()`, `last()`, and `nth()` have been rewritten to use vctrs. This comes
   with the following improvements (#6331):
   
-  * Elements are now extracted with `vctrs::vec_slice()` rather than `[[`. This
-    is more similar to `[`, and won't change the behavior of these functions for
-    most types. However, `first()` on a list will now return a list of size 1
-    rather than the first inner element of the list. This change ensures that
-    these functions are type stable on `x` and always return a value with size 1
-    (which makes them more useful in `summarise()`).
+  * When used on a data frame, these functions now return a single row rather
+    than a single column. This is more consistent with the vctrs principle that
+    a data frame is generally treated as a vector of rows.
     
   * The `default` is no longer "guessed", and will always automatically be set
     to a missing value appropriate for the type of `x`.
