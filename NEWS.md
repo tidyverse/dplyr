@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `with_order()` now works correctly when data frames are used as the `order_by`
+  value (#6334).
+
 * `coalesce()` now more fully embraces the principles of vctrs (#6265).
 
   * `.ptype` and `.size` arguments have been added to allow you to explicitly
