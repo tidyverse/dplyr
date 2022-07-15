@@ -1,18 +1,46 @@
 # ------------------------------------------------------------------------------
 # nth()
 
-test_that("nth works with lists and always returns an object of size 1", {
-  x <- list(1, 2, 3)
+test_that("nth works with lists and uses `vec_slice2()` to return elements (#6331)", {
+  # We'd like to use `vec_slice()` everywhere, but it breaks too many revdeps
+  # that rely on `nth(<list>)` returning list elements
+  x <- list(1, 2, 3:5)
 
-  expect_equal(nth(x, 1), list(1))
-  expect_equal(nth(x, 4), list(NULL))
-  expect_equal(nth(x, 4, default = list(0)), list(0))
+  expect_equal(nth(x, 1), 1)
+  expect_equal(nth(x, 3), 3:5)
 })
 
-test_that("nth works with data frames and always returns an object of size 1", {
+test_that("nth `default` for lists defaults to `NULL` since it uses `vec_slice2()`", {
+  expect_null(nth(list(1), 2))
+  expect_null(nth(list(), 1))
+})
+
+test_that("nth `default` for lists can be anything", {
+  # Because list elements can be anything
+  x <- list(1, 2)
+
+  default <- environment()
+  expect_identical(nth(x, 3, default = default), default)
+
+  default <- 1:3
+  expect_identical(nth(x, 3, default = default), default)
+})
+
+test_that("nth treats list-of like lists", {
+  x <- list_of(1, 2, c(3, 4))
+
+  expect_identical(nth(x, 3), c(3, 4))
+  expect_identical(nth(x, 4), NULL)
+
+  # Not particularly strict about `default` here,
+  # even though `list_of()` elements are typed
+  expect_identical(nth(x, 4, default = "x"), "x")
+})
+
+test_that("nth works with data frames and always returns a single row", {
   x <- tibble(x = 1:3, y = 4:6)
 
-  expect_identical(nth(x, 1), vec_slice(x, 1))
+  expect_identical(nth(x, 1), tibble(x = 1L, y = 4L))
   expect_identical(nth(x, 4), tibble(x = NA_integer_, y = NA_integer_))
   expect_identical(nth(x, 4, default = tibble(x = 0, y = 0)), tibble(x = 0L, y = 0L))
 })
@@ -25,9 +53,9 @@ test_that("nth works with rcrds", {
   expect_identical(nth(x, 4, default = x[2]), x[2])
 })
 
-test_that("retains names, because it uses `vec_slice()` to always return an object of size 1", {
+test_that("drops names, because it uses `vec_slice2()`", {
   x <- c(a = 1, b = 2)
-  expect_named(nth(x, 2), "b")
+  expect_named(nth(x, 2), NULL)
 })
 
 test_that("negative values index from end", {
@@ -60,6 +88,7 @@ test_that("gets corner case indexing correct", {
 
 test_that("`order_by` can be used to alter the order", {
   expect_identical(nth(1:5, n = 1L, order_by = 5:1), 5L)
+  expect_identical(nth(as.list(1:5), n = 1L, order_by = 5:1), 5L)
 })
 
 test_that("can use a data frame as `order_by`", {
@@ -70,15 +99,15 @@ test_that("can use a data frame as `order_by`", {
   expect_identical(nth(x, 2, order_by = order_by), 1L)
 })
 
-test_that("`default` must be size 1", {
+test_that("`default` must be size 1 (when not used with lists)", {
   expect_snapshot(error = TRUE, {
     nth(1L, n = 2L, default = 1:2)
   })
 })
 
-test_that("`default` is cast to the type of `x`", {
+test_that("`default` is cast to the type of `x` (when not used with lists)", {
   expect_snapshot(error = TRUE, {
-    nth(list(1), 2, default = 2)
+    nth("x", 2, default = 2)
   })
 })
 
@@ -120,7 +149,10 @@ test_that("`first()` uses default value for 0 length vectors", {
   expect_equal(first(integer()), NA_integer_)
   expect_equal(first(numeric()), NA_real_)
   expect_equal(first(character()), NA_character_)
-  expect_equal(first(list()), list(NULL))
+})
+
+test_that("`first()` uses `NULL` default for 0 length lists", {
+  expect_identical(first(list()), NULL)
 })
 
 test_that("`first()` uses default value for 0 length augmented vectors", {
@@ -133,9 +165,17 @@ test_that("`first()` uses default value for 0 length augmented vectors", {
   expect_equal(first(tm), vec_init(tm))
 })
 
+test_that("`first()` returns list elements", {
+  expect_identical(first(list(2:3, 4:5)), 2:3)
+})
+
 # ------------------------------------------------------------------------------
 # last()
 
 test_that("`last()` selects the last value", {
   expect_identical(last(1:5), 5L)
+})
+
+test_that("`last()` returns list elements", {
+  expect_identical(last(list(2:3, 4:5)), 4:5)
 })

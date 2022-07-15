@@ -27,16 +27,27 @@ order.}
 If \code{NULL}, the default, a missing value is used.
 
 If supplied, this must be a single value, which will be cast to the type of
-\code{x}.}
+\code{x}.
+
+When \code{x} is a list , \code{default} is allowed to be any value. There are no
+type or size restrictions in this case.}
 }
 \value{
-A vector the same type as \code{x} with size 1.
+If \code{x} is a list, a single element from that list.
+
+Otherwise, a vector the same type as \code{x} with size 1.
 }
 \description{
 These are useful helpers for extracting a single value from a vector. They
-always return a result that is size 1, even when the input is shorter than
-expected. You can also provide an optional secondary vector that defines the
-ordering.
+are guaranteed to return a meaningful value, even when the input is shorter
+than expected. You can also provide an optional secondary vector that defines
+the ordering.
+}
+\details{
+For most vector types, this works similarly to \code{[[}. However, for data frames
+this returns a single row rather than a single column. This is more
+consistent with the vctrs principle that a data frame is generally treated as
+a vector of rows.
 }
 \examples{
 x <- 1:10
@@ -65,8 +76,11 @@ last(x)
 # `order_by` provides optional ordering
 last(x, order_by = y)
 
-# These functions always return a single value, even with empty vectors
+# With empty atomic vectors, these functions still return a single value
 first(integer())
+
+# You can customize this value with `default`
+first(integer(), default = 0L)
 
 # For data frames, these select entire rows
 df <- tibble(a = 1:5, b = 6:10)

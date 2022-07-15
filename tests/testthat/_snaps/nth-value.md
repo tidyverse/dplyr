@@ -1,4 +1,4 @@
-# `default` must be size 1
+# `default` must be size 1 (when not used with lists)
 
     Code
       nth(1L, n = 2L, default = 1:2)
@@ -6,13 +6,13 @@
       Error in `nth()`:
       ! `default` must have size 1, not size 2.
 
-# `default` is cast to the type of `x`
+# `default` is cast to the type of `x` (when not used with lists)
 
     Code
-      nth(list(1), 2, default = 2)
+      nth("x", 2, default = 2)
     Condition
       Error in `nth()`:
-      ! Can't convert `default` <double> to match type of `x` <list>.
+      ! Can't convert `default` <double> to match type of `x` <character>.
 
 # `n` is validated (#5466)
 

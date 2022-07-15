@@ -1,9 +1,15 @@
 #' Extract the first, last, or nth value from a vector
 #'
 #' These are useful helpers for extracting a single value from a vector. They
-#' always return a result that is size 1, even when the input is shorter than
-#' expected. You can also provide an optional secondary vector that defines the
-#' ordering.
+#' are guaranteed to return a meaningful value, even when the input is shorter
+#' than expected. You can also provide an optional secondary vector that defines
+#' the ordering.
+#'
+#' @details
+#' For most vector types, this works similarly to `[[`. However, for data frames
+#' this returns a single row rather than a single column. This is more
+#' consistent with the vctrs principle that a data frame is generally treated as
+#' a vector of rows.
 #'
 #' @param x A vector
 #' @param n For `nth()`, a single integer specifying the position.
@@ -18,8 +24,13 @@
 #'   If supplied, this must be a single value, which will be cast to the type of
 #'   `x`.
 #'
+#'   When `x` is a list , `default` is allowed to be any value. There are no
+#'   type or size restrictions in this case.
+#'
 #' @return
-#' A vector the same type as `x` with size 1.
+#' If `x` is a list, a single element from that list.
+#'
+#' Otherwise, a vector the same type as `x` with size 1.
 #'
 #' @export
 #' @examples
@@ -49,8 +60,11 @@
 #' # `order_by` provides optional ordering
 #' last(x, order_by = y)
 #'
-#' # These functions always return a single value, even with empty vectors
+#' # With empty atomic vectors, these functions still return a single value
 #' first(integer())
+#'
+#' # You can customize this value with `default`
+#' first(integer(), default = 0L)
 #'
 #' # For data frames, these select entire rows
 #' df <- tibble(a = 1:5, b = 6:10)
@@ -66,12 +80,7 @@ nth <- function(x, n, order_by = NULL, default = NULL) {
     vec_assert(order_by, size = size, arg = "order_by")
   }
 
-  if (is.null(default)) {
-    default <- vec_init(x)
-  } else {
-    vec_assert(default, size = 1L, arg = "default")
-    default <- vec_cast(default, to = x, x_arg = "default", to_arg = "x")
-  }
+  default <- check_nth_default(default, x = x)
 
   if (n < 0L) {
     # Negative values index from RHS
@@ -87,7 +96,7 @@ nth <- function(x, n, order_by = NULL, default = NULL) {
     n <- order[[n]]
   }
 
-  vec_slice(x, n)
+  vec_slice2(x, n)
 }
 
 #' @export
@@ -100,4 +109,47 @@ first <- function(x, order_by = NULL, default = NULL) {
 #' @rdname nth
 last <- function(x, order_by = NULL, default = NULL) {
   nth(x, -1L, order_by = order_by, default = default)
+}
+
+check_nth_default <- function(default, x, ..., error_call = caller_env()) {
+  check_dots_empty0(...)
+
+  if (vec_is_list(x)) {
+    # Very special behavior for lists, since we use `[[` on them.
+    # Valid to use any `default` here (even non-vectors).
+    # And `default = NULL` is the correct default `default` for lists.
+    return(default)
+  }
+
+  if (is.null(default)) {
+    return(vec_init(x))
+  }
+
+  vec_assert(default, size = 1L, arg = "default", call = error_call)
+
+  default <- vec_cast(
+    x = default,
+    to = x,
+    x_arg = "default",
+    to_arg = "x",
+    call = error_call
+  )
+
+  default
+}
+
+vec_slice2 <- function(x, i) {
+  # Our unimplemeneted vctrs equivalent of `[[`
+  # https://github.com/r-lib/vctrs/pull/1228/
+
+  i <- vec_as_location2(i, vec_size(x))
+
+  if (vec_is_list(x)) {
+    out <- .subset2(x, i)
+  } else {
+    out <- vec_slice(x, i)
+    out <- vec_set_names(out, NULL)
+  }
+
+  out
 }
