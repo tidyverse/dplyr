@@ -6,7 +6,7 @@ description: >
   in philosophy, and shows the base R code most closely equivalent to each
   dplyr verb.
 vignette: >
-  %\VignetteIndexEntry{From base R to dplyr}
+  %\VignetteIndexEntry{dplyr <-> base R}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
