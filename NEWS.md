@@ -1,5 +1,11 @@
 # dplyr (development version)
 
+* `lag()` and `lead()` now cast `default` to the type of `x`, rather than taking
+  the common type. This ensures that these functions are type stable on `x`
+  (#6330).
+
+* `with_order()` now checks that the size of `order_by` is the same size as `x`.
+
 * `with_order()` now works correctly when data frames are used as the `order_by`
   value (#6334).
 
