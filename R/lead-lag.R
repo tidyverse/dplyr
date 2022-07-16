@@ -1,15 +1,24 @@
 #' Compute lagged or leading values
 #'
-#' Find the "previous" (`lag()`) or "next" (`lead()`) values in a vector.
-#' Useful for comparing values behind of or ahead of the current values.
+#' Find the "previous" (`lag()`) or "next" (`lead()`) values in a vector. Useful
+#' for comparing values behind of or ahead of the current values.
 #'
-#' @param x Vector of values
+#' @param x A vector
 #' @param n Positive integer of length 1, giving the number of positions to
-#'   lead or lag by
-#' @param default Value used for non-existent rows. Defaults to `NA`.
-#' @param order_by Override the default ordering to use another vector or column
-#' @param ... Needed for compatibility with lag generic.
-#' @importFrom stats lag
+#'   lag or lead by
+#' @param default The value used to pad `x` back to its original size after the
+#'   lag or lead has been applied. The default, `NULL`, pads with a missing
+#'   value. If supplied, this must be a vector with size 1, which will be cast
+#'   to the type of `x`.
+#' @param order_by An optional secondary vector that defines the ordering to use
+#'   when applying the lag or lead to `x`. If supplied, this must be the same
+#'   size as `x`.
+#' @param ... Not used.
+#'
+#' @return
+#' A vector with the same type and size as `x`.
+#'
+#' @name lead-lag
 #' @examples
 #' lag(1:5)
 #' lead(1:5)
@@ -24,83 +33,148 @@
 #' lead(1:5, n = 1)
 #' lead(1:5, n = 2)
 #'
-#' # If you want to define a value for non-existing rows, use `default`
+#' # If you want to define a value to pad with, use `default`
 #' lag(1:5)
 #' lag(1:5, default = 0)
 #'
 #' lead(1:5)
 #' lead(1:5, default = 6)
 #'
-#' # If data are not already ordered, use `order_by`
-#' scrambled <- slice_sample(tibble(year = 2000:2005, value = (0:5) ^ 2), prop = 1)
+#' # If the data are not already ordered, use `order_by`
+#' scrambled <- slice_sample(
+#'   tibble(year = 2000:2005, value = (0:5) ^ 2),
+#'   prop = 1
+#' )
 #'
 #' wrong <- mutate(scrambled, previous_year_value = lag(value))
 #' arrange(wrong, year)
 #'
 #' right <- mutate(scrambled, previous_year_value = lag(value, order_by = year))
 #' arrange(right, year)
-#' @name lead-lag
 NULL
 
 #' @export
 #' @rdname lead-lag
-lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
-  if (!is.null(order_by)) {
-    return(with_order(order_by, lag, x, n = n, default = default))
-  }
-
+lag <- function(x, n = 1L, default = NULL, order_by = NULL, ...) {
   if (inherits(x, "ts")) {
-    msg <- "`x` must be a vector, not a ts object, do you want `stats::lag()`?"
-    abort(msg)
+    abort("`x` must be a vector, not a <ts>, do you want `stats::lag()`?")
+  }
+  check_dots_empty0(...)
+
+  n <- check_shift_n(n)
+
+  if (n < 0L) {
+    abort("`n` must be positive.")
   }
 
-  if (length(n) != 1 || !is.numeric(n) || n < 0) {
-    msg <- glue("`n` must be a positive integer, not {friendly_type_of(n)} of length {length(n)}.")
-    abort(msg)
-  }
-  if (n == 0) return(x)
-
-  if (vec_size(default) != 1L) {
-    msg <- glue("`default` must be size 1, not size {vec_size(default)}")
-    abort(msg)
-  }
-
-  xlen <- vec_size(x)
-  n <- pmin(n, xlen)
-
-  inputs <- fix_call(vec_cast_common(default = default, x = x))
-
-  vec_c(
-    vec_rep(inputs$default, n),
-    vec_slice(inputs$x, seq_len(xlen - n))
-  )
+  shift(x, n = n, default = default, order_by = order_by)
 }
 
 #' @export
 #' @rdname lead-lag
-lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
+lead <- function(x, n = 1L, default = NULL, order_by = NULL, ...) {
+  check_dots_empty0(...)
+
+  n <- check_shift_n(n)
+
+  if (n < 0L) {
+    abort("`n` must be positive.")
+  }
+
+  n <- n * -1L
+
+  shift(x, n = n, default = default, order_by = order_by)
+}
+
+shift <- function(x,
+                  ...,
+                  n = 1L,
+                  default = NULL,
+                  order_by = NULL,
+                  error_call = caller_env()) {
+  check_dots_empty0(...)
+
   if (!is.null(order_by)) {
-    return(with_order(order_by, lead, x, n = n, default = default))
+    out <- with_order(
+      order_by = order_by,
+      fun = shift,
+      x = x,
+      n = n,
+      default = default,
+      error_call = error_call
+    )
+    return(out)
   }
 
-  if (length(n) != 1 || !is.numeric(n) || n < 0) {
-    msg <- glue("`n` must be a positive integer, not {friendly_type_of(n)} of length {length(n)}.")
-    abort(msg)
+  vec_assert(x, arg = "x", call = error_call)
+
+  n <- check_shift_n(n, error_call = error_call)
+
+  if (!is.null(default)) {
+    vec_assert(default, size = 1L, arg = "default", call = error_call)
+
+    default <- vec_cast(
+      x = default,
+      to = x,
+      x_arg = "default",
+      to_arg = "x",
+      call = error_call
+    )
   }
-  if (n == 0) return(x)
 
-  if (vec_size(default) != 1L) {
-    msg <- glue("`default` must be size 1, not size {vec_size(default)}")
-    abort(msg)
+  lag <- n >= 0L
+  n <- abs(n)
+
+  size <- vec_size(x)
+
+  if (n > size) {
+    n <- size
   }
 
-  xlen <- vec_size(x)
-  n <- pmin(n, xlen)
+  if (is.null(default)) {
+    shift_slice(x, n, size, lag)
+  } else {
+    shift_c(x, n, size, lag, default)
+  }
+}
 
-  inputs <- fix_call(vec_cast_common(default = default, x = x))
+shift_slice <- function(x, n, size, lag) {
+  loc_default <- vec_rep(NA_integer_, n)
 
-  vec_c(
-    vec_slice(inputs$x, -seq_len(n)),
-    vec_rep(inputs$default, n)
-  )
+  if (lag) {
+    loc <- seq2(1L, size - n)
+    loc <- vec_c(loc_default, loc)
+    vec_slice(x, loc)
+  } else {
+    loc <- seq2(1L + n, size)
+    loc <- vec_c(loc, loc_default)
+    vec_slice(x, loc)
+  }
+}
+
+shift_c <- function(x, n, size, lag, default) {
+  default <- vec_rep(default, n)
+
+  if (lag) {
+    loc <- seq2(1L, size - n)
+    x <- vec_slice(x, loc)
+    vec_c(default, x, .ptype = x)
+  } else {
+    loc <- seq2(1L + n, size)
+    x <- vec_slice(x, loc)
+    vec_c(x, default, .ptype = x)
+  }
+}
+
+check_shift_n <- function(n, ..., error_call = caller_env()) {
+  check_dots_empty0(...)
+
+  vec_assert(n, size = 1L, arg = "n", call = error_call)
+  n <- vec_cast(n, integer(), x_arg = "n", call = error_call)
+
+  if (is.na(n)) {
+    abort("`n` can't be missing.", call = error_call)
+  }
+
+  n
 }
