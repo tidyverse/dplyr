@@ -65,7 +65,7 @@
 #'   group_split(Species)
 #'
 #' iris %>%
-#' group_by(Species) %>%
+#'   group_by(Species) %>%
 #'   group_keys()
 group_split <- function(.tbl, ..., .keep = TRUE) {
   lifecycle::signal_stage("experimental", "group_split()")
