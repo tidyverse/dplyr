@@ -1,6 +1,6 @@
 #' Storm tracks data
 #'
-#' This dataset is the NOAA Atlantic hurricane database best track data, \url{https://www.nhc.noaa.gov/data/#hurdat}.
+#' This dataset is the NOAA Atlantic hurricane database best track data, <https://www.nhc.noaa.gov/data/#hurdat>.
 #' The data includes the positions and attributes of storms from 1852-2021.
 #' The modern storms are measured every six hours during the lifetime of the storm.
 #'
