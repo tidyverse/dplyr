@@ -371,11 +371,8 @@ other, because otherwise the grouping algorithm is performed each time.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="group_data.html">group_keys</a></span><span class="op">(</span><span class="va">Species</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The `...` argument of `group_keys()` is deprecated as of dplyr 1.0.0.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Please `group_by()` first</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">Species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="group_data.html">group_keys</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Species   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     </span>
