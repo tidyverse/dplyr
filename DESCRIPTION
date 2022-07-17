@@ -1,7 +1,7 @@
 Type: Package
 Package: dplyr
 Title: A Grammar of Data Manipulation
-Version: 1.0.8.9000
+Version: 1.0.99.9000
 Authors@R: 
     c(person(given = "Hadley",
              family = "Wickham",
@@ -36,11 +36,11 @@ Imports:
     magrittr (>= 1.5),
     methods,
     R6,
-    rlang (>= 1.0.2),
+    rlang (>= 1.0.3),
     tibble (>= 2.1.3),
     tidyselect (>= 1.1.1),
     utils,
-    vctrs (>= 0.4.1), 
+    vctrs (>= 0.4.1.9000), 
     pillar (>= 1.5.1)
 Suggests: 
     bench,
@@ -48,7 +48,7 @@ Suggests:
     callr,
     covr,
     DBI,
-    dbplyr (>= 1.4.3),
+    dbplyr (>= 2.2.1),
     ggplot2,
     knitr,
     Lahman,
@@ -60,15 +60,18 @@ Suggests:
     RMySQL,
     RPostgreSQL,
     RSQLite,
+    stringi (>= 1.7.6),
     testthat (>= 3.1.1),
     tidyr, 
     withr
+Remotes:
+    r-lib/vctrs
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Config/testthat/edition: 3
 Config/Needs/website:
     tidyverse,

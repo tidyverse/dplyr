@@ -2,9 +2,12 @@
 % Please edit documentation in R/arrange.R
 \name{arrange}
 \alias{arrange}
+\alias{arrange.data.frame}
 \title{Arrange rows by column values}
 \usage{
 arrange(.data, ..., .by_group = FALSE)
+
+\method{arrange}{data.frame}(.data, ..., .by_group = FALSE, .locale = dplyr_locale())
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
@@ -16,6 +19,24 @@ variables. Use \code{\link[=desc]{desc()}} to sort a variable in descending orde
 
 \item{.by_group}{If \code{TRUE}, will sort first by grouping variable. Applies to
 grouped data frames only.}
+
+\item{.locale}{The locale to sort character vectors in.
+\itemize{
+\item Defaults to \code{\link[=dplyr_locale]{dplyr_locale()}}, which uses the \code{"C"} locale unless this is
+explicitly overriden. See the help page for \code{\link[=dplyr_locale]{dplyr_locale()}} for the
+exact details.
+\item If a single string from \code{\link[stringi:stri_locale_list]{stringi::stri_locale_list()}} is supplied, then
+this will be used as the locale to sort with. For example, \code{"en"} will
+sort with the American English locale. This requires the stringi package.
+\item If \code{"C"} is supplied, then character vectors will always be sorted in the
+C locale. This does not require stringi and is often much faster than
+supplying a locale identifier.
+}
+
+The C locale is not the same as English locales, such as \code{"en"},
+particularly when it comes to data containing a mix of upper and lower case
+letters. This is explained in more detail in the help page of
+\code{\link[=dplyr_locale]{dplyr_locale()}} under the \verb{Default locale} section.}
 }
 \value{
 An object of the same type as \code{.data}. The output has the following
@@ -37,12 +58,6 @@ in order to group by them, and functions of variables are evaluated
 once per data frame, not once per group.
 }
 \details{
-\subsection{Locales}{
-
-The sort order for character vectors will depend on the collating sequence
-of the locale in use: see \code{\link[=locales]{locales()}}.
-}
-
 \subsection{Missing values}{
 
 Unlike base sorting with \code{sort()}, \code{NA} are:

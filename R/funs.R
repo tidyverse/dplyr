@@ -1,11 +1,11 @@
-#' Do values in a numeric vector fall in specified range?
+#' Detect where values fall in a specified range
 #'
-#' This is a shortcut for `x >= left & x <= right`, implemented
-#' efficiently in C++ for local values, and translated to the
-#' appropriate SQL for remote tables.
+#' This is a shortcut for `x >= left & x <= right`, implemented for local
+#' vectors and translated to the appropriate SQL for remote tables.
 #'
-#' @param x A numeric vector of values
-#' @param left,right Boundary values (must be scalars).
+#' @param x A vector
+#' @param left,right Boundary values. Both `left` and `right` are recycled to
+#'   the size of `x` and are cast to the type of `x`.
 #' @export
 #' @examples
 #' between(1:12, 7, 9)
@@ -13,24 +13,22 @@
 #' x <- rnorm(1e2)
 #' x[between(x, -1, 1)]
 #'
-#' ## Or on a tibble using filter
+#' # On a tibble using `filter()`
 #' filter(starwars, between(height, 100, 150))
 between <- function(x, left, right) {
-  if (!is.null(attr(x, "class")) && !inherits(x, c("Date", "POSIXct"))) {
-    warn("between() called on numeric vector with S3 class");
-  }
+  args <- list(left = left, right = right)
+  args <- vec_cast_common(!!!args, .to = x)
+  args <- vec_recycle_common(!!!args, .size = vec_size(x))
+  left <- args[[1L]]
+  right <- args[[2L]]
 
-  if (length(left) != 1) {
-    abort("`left` must be length 1")
-  }
-  if (length(right) != 1) {
-    abort("`right` must be length 1")
-  }
+  left <- vec_compare(x, left)
+  left <- left >= 0L
 
-  if (!is.double(x)) {
-    x <- as.numeric(x)
-  }
-  .Call(`dplyr_between`, x, as.numeric(left), as.numeric(right))
+  right <- vec_compare(x, right)
+  right <- right <= 0L
+
+  left & right
 }
 
 #' Cumulativate versions of any, all, and mean

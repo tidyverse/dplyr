@@ -63,8 +63,8 @@ equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = T
     y <- as_tibble(y, .name_repair = "universal")
   # })
 
-  x_split <- vec_split_id_order(x)
-  y_split <- vec_split_id_order(y[, names(x), drop = FALSE])
+  x_split <- dplyr_locate_sorted_groups(x)
+  y_split <- dplyr_locate_sorted_groups(y[, names(x), drop = FALSE])
 
   # keys must be identical
   msg <- ""

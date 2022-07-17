@@ -128,6 +128,7 @@ setOldClass(c("rowwise_df", "tbl_df", "tbl", "data.frame"))
 
 # methods -----------------------------------------------------------------
 
+#' @importFrom pillar tbl_sum
 #' @export
 tbl_sum.rowwise_df <- function(x, ...) {
   c(
@@ -141,7 +142,6 @@ as_tibble.rowwise_df <- function(x, ...) {
   new_tibble(dplyr_vec_data(x), nrow = nrow(x))
 }
 
-#' @importFrom tibble is_tibble
 #' @export
 `[.rowwise_df` <- function(x, i, j, drop = FALSE) {
   out <- NextMethod()

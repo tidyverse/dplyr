@@ -5,7 +5,7 @@ description: >
   columns using `across()`.
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{colwise}
+  %\VignetteIndexEntry{Column-wise operations}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

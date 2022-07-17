@@ -38,37 +38,45 @@ want to supply it in a function argument or character vector.
 There are two main cases:
 \itemize{
 \item If you want the user to supply the variable (or function of variables)
-in a function argument, embrace the argument, e.g. \code{filter(df, {{ var }})}.\preformatted{dist_summary <- function(df, var) \{
+in a function argument, embrace the argument, e.g. \code{filter(df, {{ var }})}.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{dist_summary <- function(df, var) \{
   df \%>\%
     summarise(n = n(), min = min(\{\{ var \}\}), max = max(\{\{ var \}\}))
 \}
 mtcars \%>\% dist_summary(mpg)
 mtcars \%>\% group_by(cyl) \%>\% dist_summary(mpg)
-}
+}\if{html}{\out{</div>}}
 \item If you have the column name as a character vector, use the \code{.data}
-pronoun, e.g. \code{summarise(df, mean = mean(.data[[var]]))}.\preformatted{for (var in names(mtcars)) \{
+pronoun, e.g. \code{summarise(df, mean = mean(.data[[var]]))}.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{for (var in names(mtcars)) \{
   mtcars \%>\% count(.data[[var]]) \%>\% print()
 \}
 
 lapply(names(mtcars), function(var) mtcars \%>\% count(.data[[var]]))
-}
+}\if{html}{\out{</div>}}
 }
 }
 
 \section{Dot-dot-dot (...)}{
 When this modifier is applied to \code{...}, there is one other useful technique
 which solves the problem of creating a new variable with a name supplied by
-the user. Use the interpolation syntax from the glue package: \code{"{var}" := expression}. (Note the use of \verb{:=} instead of \code{=} to enable this syntax).\preformatted{var_name <- "l100km"
+the user. Use the interpolation syntax from the glue package: \code{"{var}" := expression}. (Note the use of \verb{:=} instead of \code{=} to enable this syntax).
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{var_name <- "l100km"
 mtcars \%>\% mutate("\{var_name\}" := 235 / mpg)
-}
+}\if{html}{\out{</div>}}
 
 Note that \code{...} automatically provides indirection, so you can use it as is
-(i.e. without embracing) inside a function:\preformatted{grouped_mean <- function(df, var, ...) \{
+(i.e. without embracing) inside a function:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{grouped_mean <- function(df, var, ...) \{
   df \%>\%
     group_by(...) \%>\%
     summarise(mean = mean(\{\{ var \}\}))
 \}
-}
+}\if{html}{\out{</div>}}
 }
 
 \keyword{internal}

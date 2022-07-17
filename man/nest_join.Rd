@@ -5,32 +5,50 @@
 \alias{nest_join.data.frame}
 \title{Nest join}
 \usage{
-nest_join(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...)
+nest_join(x, y, by = NULL, copy = FALSE, keep = NULL, name = NULL, ...)
 
-\method{nest_join}{data.frame}(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...)
+\method{nest_join}{data.frame}(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  keep = NULL,
+  name = NULL,
+  ...,
+  na_matches = c("na", "never"),
+  multiple = NULL,
+  unmatched = "drop"
+)
 }
 \arguments{
 \item{x, y}{A pair of data frames, data frame extensions (e.g. a tibble), or
 lazy data frames (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{by}{A character vector of variables to join by.
+\item{by}{A character vector of variables to join by or a join specification
+created with \code{\link[=join_by]{join_by()}}.
 
 If \code{NULL}, the default, \verb{*_join()} will perform a natural join, using all
-variables in common across \code{x} and \code{y}. A message lists the variables so that you
-can check they're correct; suppress the message by supplying \code{by} explicitly.
+variables in common across \code{x} and \code{y}. A message lists the variables so
+that you can check they're correct; suppress the message by supplying \code{by}
+explicitly.
 
-To join by different variables on \code{x} and \code{y}, use a named vector.
-For example, \code{by = c("a" = "b")} will match \code{x$a} to \code{y$b}.
+To join on different variables between \code{x} and \code{y}, use a named vector or a
+\code{\link[=join_by]{join_by()}} specification. For example, \code{by = c("a" = "b")} and \code{by = join_by(a == b)} will match \code{x$a} to \code{y$b}.
 
-To join by multiple variables, use a vector with length > 1.
-For example, \code{by = c("a", "b")} will match \code{x$a} to \code{y$a} and \code{x$b} to
-\code{y$b}. Use a named vector to match different variables in \code{x} and \code{y}.
-For example, \code{by = c("a" = "b", "c" = "d")} will match \code{x$a} to \code{y$b} and
-\code{x$c} to \code{y$d}.
+To join by multiple variables, use a vector with length >1 or a \code{\link[=join_by]{join_by()}}
+specification with multiple expressions. For example, \code{by = c("a", "b")}
+and \code{by = join_by(a, b)} will match \code{x$a} to \code{y$a} and \code{x$b} to \code{y$b}. Use
+a named vector to match different variables in \code{x} and \code{y}. For example,
+\code{by = c("a" = "b", "c" = "d")} and \code{by = join_by(a == b, c == d)} will
+match \code{x$a} to \code{y$b} and \code{x$c} to \code{y$d}.
 
-To perform a cross-join, generating all combinations of \code{x} and \code{y},
-use \code{by = character()}.}
+To join on conditions other than equality, like non-equi or rolling joins,
+you'll need to create a join specification with \code{\link[=join_by]{join_by()}}. See the
+documentation there for details on these types of joins.
+
+To perform a cross-join, generating all combinations of \code{x} and \code{y}, use
+\code{by = character()} or \code{by = join_by()}.}
 
 \item{copy}{If \code{x} and \code{y} are not from the same data source,
 and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
@@ -38,12 +56,62 @@ same src as \code{x}.  This allows you to join tables across srcs, but
 it is a potentially expensive operation so you must opt into it.}
 
 \item{keep}{Should the join keys from both \code{x} and \code{y} be preserved in the
-output?}
+output?
+\itemize{
+\item If \code{NULL}, the default, joins on equality retain only the keys from \code{x},
+while joins on inequality retain the keys from both inputs.
+\item If \code{TRUE}, keys from both inputs are retained.
+\item If \code{FALSE}, only keys from \code{x} are retained. For right and full joins,
+the data in key columns corresponding to rows that only exist in \code{y} are
+merged into the key columns from \code{x}.
+}}
 
 \item{name}{The name of the list column nesting joins create.
 If \code{NULL} the name of \code{y} is used.}
 
 \item{...}{Other parameters passed onto methods.}
+
+\item{na_matches}{Should two \code{NA} or two \code{NaN} values match?
+\itemize{
+\item \code{"na"}, the default, treats two \code{NA} or two \code{NaN} values as equal, like
+\code{\%in\%}, \code{\link[=match]{match()}}, and \code{\link[=merge]{merge()}}.
+\item \code{"never"} treats two \code{NA} or two \code{NaN} values as different, and will
+never match them together or to any other values. This is similar to joins
+for database sources and to \code{base::merge(incomparables = NA)}.
+}}
+
+\item{multiple}{Handling of rows in \code{x} with multiple matches in \code{y}.
+For each row of \code{x}:
+\itemize{
+\item \code{"all"} returns every match detected in \code{y}. This is the same behavior
+as SQL.
+\item \code{"any"} returns one match detected in \code{y}, with no guarantees on which
+match will be returned. It is often faster than \code{"first"} and \code{"last"}
+if you just need to detect if there is at least one match.
+\item \code{"first"} returns the first match detected in \code{y}.
+\item \code{"last"} returns the last match detected in \code{y}.
+\item \code{"warning"} throws a warning if multiple matches are detected, and
+then falls back to \code{"all"}.
+\item \code{"error"} throws an error if multiple matches are detected.
+}
+
+The default value of \code{NULL} is equivalent to \code{"warning"} for equi joins and
+rolling joins, where multiple matches are usually surprising. If any
+non-equi join conditions are present or if you are doing a cross join, then
+it is equivalent to \code{"all"}, since multiple matches are usually expected.}
+
+\item{unmatched}{How should unmatched keys that would result in dropped rows
+be handled?
+\itemize{
+\item \code{"drop"} drops unmatched keys from the result.
+\item \code{"error"} throws an error if unmatched keys are detected.
+}
+
+\code{unmatched} is intended to protect you from accidentally dropping rows
+during a join. It only checks for unmatched keys in the input that could
+potentially drop rows. For example, in \code{left_join()} only \code{y} is
+checked for unmatched keys, because all keys from \code{x} are always retained,
+even if they don't have a match.}
 }
 \description{
 \code{nest_join()} returns all rows and columns in \code{x} with a new nested-df column

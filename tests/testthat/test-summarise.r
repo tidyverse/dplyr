@@ -66,11 +66,11 @@ test_that("preserved class, but not attributes", {
 
   out <- df %>% summarise(n = n())
   expect_s3_class(out, "data.frame", exact = TRUE)
-  expect_equal(attr(out, "res"), NULL)
+  expect_null(attr(out, "res"))
 
   out <- df %>% group_by(g1) %>% summarise(n = n())
   # expect_s3_class(out, "data.frame", exact = TRUE)
-  expect_equal(attr(out, "res"), NULL)
+  expect_null(attr(out, "res"))
 })
 
 test_that("works with unquoted values", {

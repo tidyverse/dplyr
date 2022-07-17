@@ -1,5 +1,171 @@
 # dplyr (development version)
 
+* `with_order()` now works correctly when data frames are used as the `order_by`
+  value (#6334).
+
+* `coalesce()` now more fully embraces the principles of vctrs (#6265).
+
+  * `.ptype` and `.size` arguments have been added to allow you to explicitly
+    enforce an output type and size.
+    
+  * `NULL` inputs are now discarded up front.
+
+  * `coalesce()` no longer iterates over the columns of data frame input.
+    Instead, a row is now only coalesced if it is entirely missing, which is
+    consistent with `vctrs::vec_equal_na()` and greatly simplifies the
+    implementation.
+
+* `group_by()` now uses a new algorithm for computing groups. It is often faster
+  than the previous approach (especially when there are many groups), and in
+  most cases there should be no changes. The exception is with character vector
+  group columns, which are now internally ordered in the C locale rather than
+  the system locale and may result in differently ordered results when you
+  follow up a `group_by()` with functions that use the group data, such as
+  `summarise()` or `group_split()` (#4406, #6297).
+  
+  See the Ordering section of `?group_by()` for more information. For a full
+  explanation of this change, refer to this
+  [tidyup](https://github.com/tidyverse/tidyups/blob/main/006-dplyr-group-by-ordering.md).
+
+* `if_else()` has been rewritten to utilize vctrs. This comes with most of the
+  same benefits as the `case_when()` rewrite. In particular, `if_else()` now
+  takes the common type of `true`, `false`, and `missing` when determining what
+  the output type should be, meaning that you no longer have to be quite as
+  strict about types when supplying values for them (for example, you no longer
+  need to supply typed `NA` values, like `NA_character_`) (#6243).
+
+* `case_when()` has been rewritten to utilize vctrs (#5106). This comes with a
+  number of useful improvements:
+  
+  * There is a new `.default` argument that is intended to replace usage of
+    `TRUE ~ default_value` as a more explicit and readable way to specify
+    a default value. In the future, we will deprecate the unsafe recycling of
+    the LHS inputs that allows `TRUE ~` to work, so we encourage you to switch
+    over to using `.default` instead.
+  
+  * The types of the RHS inputs no longer have to match exactly. For example,
+    the following no longer requires you to use `NA_character_` instead of just
+    `NA`.
+
+    ```
+    x <- c("little", "unknown", "small", "missing", "large")
+    
+    case_when(
+      x %in% c("little", "small") ~ "one",
+      x %in% c("big", "large") ~ "two",
+      x %in% c("missing", "unknown") ~ NA
+    )
+    ```
+    
+  * `case_when()` now supports a larger variety of value types. For example,
+     you can use a data frame to create multiple columns at once.
+     
+  * There are new `.ptype` and `.size` arguments which allow you to enforce
+    a particular output type and size. This allows you to construct a completely
+    type and size stable call to `case_when()`.
+
+  * The error thrown when types or lengths were incorrect has been improved
+    (#6261, #6206).
+
+* `arrange()` now uses a faster algorithm for sorting character vectors, which
+  is heavily inspired by data.table's `forder()`. Additionally, the default
+  locale for sorting character vectors is now the C locale, which is a breaking
+  change from the previous behavior that utilized the system locale. The new
+  `.locale` argument can be used to adjust this to, say, the American English
+  locale, which is an optional feature that requires the stringi package. This
+  change improves reproducibility across R sessions and operating systems. For a
+  fuller explanation, refer to this
+  [tidyup](https://github.com/tidyverse/tidyups/blob/main/003-dplyr-radix-ordering.md)
+  which outlines and justifies this change (#4962).
+
+* `tbl_sum()` is no longer reexported from tibble (#6284).
+
+* `slice_sample()` now gives a more informative error when `replace = FALSE` and
+  the number of rows requested in the sample exceeds the number of rows in the
+  data (#6271).
+
+* `frame_data()` is no longer reexported from tibble (#6278).
+
+* `lst_()` is no longer reexported from tibble (#6276).
+
+* `data_frame_()` is no longer reexported from tibble (#6277).
+
+* `between()` has been rewritten to utilize vctrs. This means that it is no
+  longer restricted to just numeric and date-time vectors. Additionally, `left`
+  and `right` are no longer required to be scalars, they can now also be vectors
+  with the same length as `x`. Finally, `left` and `right` are now cast to the
+  type of `x` before the comparison is made. This last change means that you
+  can no longer make comparisons like `between(<int>, 0, 2.5)`, as `2.5` can't
+  be cast to integer without losing information. We recommend that you convert
+  the `<int>` vector to double before calling `between()` if you require this
+  (#6183, #6260).
+
+* Joins have undergone a complete overhaul. The purpose of this overhaul is to
+  enable more flexible join operations, while also providing tools to perform
+  quality control checks directly in the join call. Many of these changes are
+  inspired by data.table's join syntax (#5914, #5661, #5413, #2240).
+
+  * A _join specification_ can now be created through `join_by()`. This allows
+    you to specify both the left and right hand side of a join using unquoted
+    column names, such as `join_by(sale_date == commercial_date)`. Join
+    specifications can be supplied to any `*_join()` function as the `by`
+    argument.
+    
+  * Join specifications allow for various new types of joins:
+  
+    * Equi joins: The most common join, specified by `==`. For example,
+      `join_by(sale_date == commercial_date)`.
+      
+    * Non-equi joins: For joining on conditions other than equality, specified
+      by `>=`, `>`, `<`, and `<=`. For example,
+      `join_by(sale_date >= commercial_date)` to find every commercial that
+      aired before a particular sale.
+      
+    * Rolling joins: For "rolling" the preceding value forward or the following
+      value backwards when there isn't an exact match, specified by using one of
+      the rolling helpers: `preceding()` or `following()`. For example,
+      `join_by(preceding(sale_date, commercial_date))` to find only the most
+      recent commercial that aired before a particular sale.
+      
+    * Overlap joins: For detecting overlaps between sets of columns, specified
+      by using one of the overlap helpers: `between()`, `within()`, or
+      `overlaps()`. For example,
+      `join_by(between(commercial_date, sale_date_lower, sale_date))` to
+      find commercials that aired before a particular sale, as long as they
+      occurred after some lower bound, such as 40 days before the sale was made.
+      
+    Note that you cannot use arbitrary expressions in the join conditions, like
+    `join_by(sale_date - 40 >= commercial_date)`. Instead, use `mutate()` to
+    create a new column containing the result of `sale_date - 40` and refer
+    to that by name in `join_by()`.
+    
+  * `multiple` is a new argument for controlling what happens when a row
+    in `x` matches multiple rows in `y`. For equi joins and rolling joins,
+    where this is usually surprising, this defaults to signaling a `"warning"`,
+    but still returns all of the matches. For non-equi joins and cross joins,
+    where multiple matches are usually expected, this defaults to returning
+    `"all"` of the matches. You can also return only the `"first"` or `"last"`
+    match, `"any"` of the matches, or you can `"error"`.
+    
+  * `keep` now defaults to `NULL` rather than `FALSE`. `NULL` implies
+    `keep = FALSE` for equi-join conditions, but `keep = TRUE` for non-equi
+    join conditions, since you generally want to preserve both sides of a
+    non-equi join.
+    
+  * `unmatched` is a new argument for controlling what happens when a row
+    would be dropped because it doesn't have a match. For backwards
+    compatibility, the default is `"drop"`, but you can also choose to
+    `"error"` if dropped rows would be surprising.
+
+* `nest_join()` has gained the `na_matches` argument that all other joins have.
+
+# dplyr 1.0.9
+
+* New `rows_append()` which works like `rows_insert()` but ignores keys and
+  allows you to insert arbitrary rows with a guarantee that the type of `x`
+  won't change (#6249, thanks to @krlmlr for the implementation and @mgirlich
+  for the idea).
+
 * The `rows_*()` functions no longer require that the key values in `x` uniquely
   identify each row. Additionally, `rows_insert()` and `rows_delete()` no
   longer require that the key values in `y` uniquely identify each row. Relaxing

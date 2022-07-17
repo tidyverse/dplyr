@@ -83,7 +83,7 @@ test_that("can enfun() purrr-style lambdas", {
   my_mean <- as_function(~ mean(.x))
   res <- enfun(~ mean(.x))
   expect_equal(length(res), 1L)
-  expect_true(typeof(res[[1]]) == "closure")
+  expect_type(res[[1]], "closure")
 })
 
 test_that("funs_ works", {

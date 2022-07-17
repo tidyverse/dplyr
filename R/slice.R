@@ -247,6 +247,10 @@ slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, repla
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop, allow_negative = FALSE)
 
+  if (!is_bool(replace)) {
+    abort("`replace` must be a single `TRUE` or `FALSE`.")
+  }
+
   dplyr_local_error_call()
   slice(.data, local({
     weight_by <- {{ weight_by }}
@@ -446,7 +450,21 @@ get_slice_size <- function(n, prop, allow_negative = TRUE, error_call = caller_e
   }
 }
 
-sample_int <- function(n, size, replace = FALSE, wt = NULL) {
+sample_int <- function(n, size, replace = FALSE, wt = NULL, call = caller_env()) {
+  if (!replace && n < size) {
+    header <- paste0(
+      "Can't sample without replacement using a size that is larger than ",
+      "the number of rows in the data."
+    )
+    message <- c(
+      header,
+      i = glue("{size} rows were requested in the sample."),
+      i = glue("{n} rows are present in the data."),
+      i = "Set `replace = TRUE` to sample with replacement."
+    )
+    abort(message, call = call)
+  }
+
   if (size == 0L) {
     integer(0)
   } else {

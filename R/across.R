@@ -389,15 +389,25 @@ new_dplyr_quosure <- function(quo, ...) {
 }
 
 dplyr_quosures <- function(...) {
-  quosures <- enquos(..., .ignore_empty = "all")
+  # We're using quos() instead of enquos() here for speed, because we're not defusing named arguments --
+  # only the ellipsis is converted to quosures, there are no further arguments.
+  quosures <- quos(..., .ignore_empty = "all")
   names_given <- names2(quosures)
-  names_auto  <- names(enquos(..., .named = TRUE, .ignore_empty = "all"))
 
   for (i in seq_along(quosures)) {
-    quosures[[i]] <- new_dplyr_quosure(quosures[[i]],
-      name_given = names_given[i],
-      name_auto = names_auto[i],
-      is_named = names_given[i] != "",
+    quosure <- quosures[[i]]
+    name_given <- names_given[[i]]
+    is_named <- (name_given != "")
+    if (is_named) {
+      name_auto <- name_given
+    } else {
+      name_auto <- as_label(quosure)
+    }
+
+    quosures[[i]] <- new_dplyr_quosure(quosure,
+      name_given = name_given,
+      name_auto = name_auto,
+      is_named = is_named,
       index = i
     )
   }

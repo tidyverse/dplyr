@@ -58,6 +58,35 @@ Methods available in currently loaded packages:
 }
 }
 
+\section{Ordering}{
+
+Currently, \code{group_by()} internally orders the groups in ascending order. This
+results in ordered output from functions that aggregate groups, such as
+\code{\link[=summarise]{summarise()}}.
+
+When used as grouping columns, character vectors are ordered in the C locale
+for performance and reproducibility across R sessions. If the resulting
+ordering of your grouped operation matters and is dependent on the locale,
+you should follow up the grouped operation with an explicit call to
+\code{\link[=arrange]{arrange()}} and set the \code{.locale} argument. For example:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{data \%>\%
+  group_by(chr) \%>\%
+  summarise(avg = mean(x)) \%>\%
+  arrange(chr, .locale = "en")
+}\if{html}{\out{</div>}}
+
+This is often useful as a preliminary step before generating content intended
+for humans, such as an HTML table.
+
+Prior to dplyr 1.1.0, character vector grouping columns were ordered in the
+system locale. If you need to temporarily revert to this behavior, you can
+set the global option \code{dplyr.legacy_locale} to \code{TRUE}, but this should be
+used sparingly and you should expect this option to be removed in a future
+version of dplyr. It is better to update existing code to explicitly call
+\code{arrange()} instead.
+}
+
 \examples{
 by_cyl <- mtcars \%>\% group_by(cyl)
 

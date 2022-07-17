@@ -94,7 +94,6 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_init_library", (DL_FUNC)& dplyr_init_library, 3},
 
   {"dplyr_expand_groups", (DL_FUNC)& dplyr_expand_groups, 3},
-  {"dplyr_between", (DL_FUNC)& dplyr_between, 3},
   {"dplyr_cumall", (DL_FUNC)& dplyr_cumall, 1},
   {"dplyr_cumany", (DL_FUNC)& dplyr_cumany, 1},
   {"dplyr_cummean", (DL_FUNC)& dplyr_cummean, 1},

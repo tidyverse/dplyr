@@ -7,7 +7,7 @@ description: >
   and see how you might perform simulations and modelling within dplyr verbs.
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{rowwise}
+  %\VignetteIndexEntry{Row-wise operations}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
