@@ -52,9 +52,10 @@ relocate <- function(.data, ..., .before = NULL, .after = NULL) {
 #' @export
 relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
   to_move <- tidyselect::eval_select(expr(c(...)), .data)
-  if (anyDuplicated(to_move)) {
-    duplicated_col <- names(.data)[which.max(duplicated(to_move))]
-    abort(glue("Columns to move must be unique, but `{duplicated_col}` is supplied twice"))
+  if (vec_duplicate_any(to_move)) {
+    first_duplicate_loc <- first(to_move[vec_duplicate_detect(to_move)])
+    duplicated_col <- names(.data)[first_duplicate_loc]
+    abort(glue("Named arguments must be unique, but `{duplicated_col}` is supplied twice"))
   }
 
   .before <- enquo(.before)
