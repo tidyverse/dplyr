@@ -53,7 +53,7 @@ relocate <- function(.data, ..., .before = NULL, .after = NULL) {
 relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
   to_move <- tidyselect::eval_select(expr(c(...)), .data)
   if (vec_duplicate_any(to_move)) {
-    first_duplicate_loc <- first(to_move[vec_duplicate_detect(to_move)])
+    first_duplicate_loc <- to_move[which.max(vec_duplicate_detect(to_move))]
     duplicated_col <- names(.data)[first_duplicate_loc]
     abort(glue("Named arguments must be unique, but `{duplicated_col}` is supplied twice"))
   }
