@@ -1,60 +1,165 @@
-# lead() / lag() give meaningful errors
+# `lead()` / `lag()` catch negative `n`
 
     Code
-      # # complicance of n argument
-      (expect_error(lead(letters, -1)))
-    Output
-      <error/rlang_error>
+      lead(1:5, -1)
+    Condition
       Error in `lead()`:
-      ! `n` must be a positive integer, not a double vector of length 1.
+      ! `n` must be positive.
+
+---
+
     Code
-      (expect_error(lead(letters, "1")))
-    Output
-      <error/rlang_error>
+      lag(1:5, -1)
+    Condition
+      Error in `lag()`:
+      ! `n` must be positive.
+
+# `lead()` / `lag()` check `n` properties before checking if positive
+
+    Code
+      lead(1:5, n = 1:2)
+    Condition
       Error in `lead()`:
-      ! `n` must be a positive integer, not a character vector of length 1.
+      ! `n` must have size 1, not size 2.
+
+---
+
     Code
-      (expect_error(lag(letters, -1)))
-    Output
-      <error/rlang_error>
+      lag(1:5, n = 1:2)
+    Condition
       Error in `lag()`:
-      ! `n` must be a positive integer, not a double vector of length 1.
+      ! `n` must have size 1, not size 2.
+
+---
+
     Code
-      (expect_error(lag(letters, "1")))
-    Output
-      <error/rlang_error>
-      Error in `lag()`:
-      ! `n` must be a positive integer, not a character vector of length 1.
-    Code
-      # # ts
-      (expect_error(lag(ts(1:10))))
-    Output
-      <error/rlang_error>
-      Error in `lag()`:
-      ! `x` must be a vector, not a ts object, do you want `stats::lag()`?
-    Code
-      # # incompatible default
-      (expect_error(lag(c("1", "2", "3"), default = FALSE)))
-    Output
-      <error/vctrs_error_incompatible_type>
-      Error in `lag()`:
-      ! Can't combine `default` <logical> and `x` <character>.
-    Code
-      (expect_error(lead(c("1", "2", "3"), default = FALSE)))
-    Output
-      <error/vctrs_error_incompatible_type>
+      lead(1:5, n = "x")
+    Condition
       Error in `lead()`:
-      ! Can't combine `default` <logical> and `x` <character>.
+      ! Can't convert `n` <character> to <integer>.
+
+---
+
     Code
-      (expect_error(lag(c("1", "2", "3"), default = character())))
-    Output
-      <error/rlang_error>
+      lag(1:5, n = "x")
+    Condition
       Error in `lag()`:
-      ! `default` must be size 1, not size 0
+      ! Can't convert `n` <character> to <integer>.
+
+---
+
     Code
-      (expect_error(lead(c("1", "2", "3"), default = character())))
-    Output
-      <error/rlang_error>
+      lead(1:5, n = NA_integer_)
+    Condition
       Error in `lead()`:
-      ! `default` must be size 1, not size 0
+      ! `n` can't be missing.
+
+---
+
+    Code
+      lag(1:5, n = NA_integer_)
+    Condition
+      Error in `lag()`:
+      ! `n` can't be missing.
+
+# `lead()` / `lag()` check for empty dots
+
+    Code
+      lead(1:5, deault = 1)
+    Condition
+      Error in `lead()`:
+      ! `...` must be empty.
+      x Problematic argument:
+      * deault = 1
+
+---
+
+    Code
+      lag(1:5, deault = 1)
+    Condition
+      Error in `lag()`:
+      ! `...` must be empty.
+      x Problematic argument:
+      * deault = 1
+
+# `lag()` errors on <ts> objects
+
+    Code
+      lag(ts(1:10))
+    Condition
+      Error in `lag()`:
+      ! `x` must be a vector, not a <ts>, do you want `stats::lag()`?
+
+# `lead()` / `lag()` require that `x` is a vector
+
+    Code
+      lead(environment())
+    Condition
+      Error in `lead()`:
+      ! `x` must be a vector, not an environment.
+
+---
+
+    Code
+      lag(environment())
+    Condition
+      Error in `lag()`:
+      ! `x` must be a vector, not an environment.
+
+# `default` is cast to the type of `x` (#6330)
+
+    Code
+      shift(1L, default = 1.5)
+    Condition
+      Error:
+      ! Can't convert from `default` <double> to `x` <integer> due to loss of precision.
+      * Locations: 1
+
+# `default` must be size 1 (#5641)
+
+    Code
+      shift(1:5, default = 1:2)
+    Condition
+      Error:
+      ! `default` must have size 1, not size 2.
+
+---
+
+    Code
+      shift(1:5, default = integer())
+    Condition
+      Error:
+      ! `default` must have size 1, not size 0.
+
+# `n` is validated
+
+    Code
+      shift(1, n = 1:2)
+    Condition
+      Error:
+      ! `n` must have size 1, not size 2.
+
+---
+
+    Code
+      shift(1, n = "x")
+    Condition
+      Error:
+      ! Can't convert `n` <character> to <integer>.
+
+---
+
+    Code
+      shift(1, n = NA_integer_)
+    Condition
+      Error:
+      ! `n` can't be missing.
+
+# `order_by` must be the same size as `x`
+
+    Code
+      shift(1:5, order_by = 1:4)
+    Condition
+      Error in `with_order()`:
+      ! `order_by` must have size 5, not size 4.
 

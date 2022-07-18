@@ -61,9 +61,13 @@ order_by <- function(order_by, call) {
 #' @keywords internal
 #' @export
 with_order <- function(order_by, fun, x, ...) {
-  ord <- vec_order_base(order_by)
-  undo <- vec_match(vec_seq_along(order_by), ord)
+  vec_assert(order_by, size = vec_size(x), arg = "order_by")
 
-  out <- fun(vec_slice(x, ord), ...)
-  vec_slice(out, undo)
+  o <- vec_order_base(order_by)
+  x <- vec_slice(x, o)
+
+  out <- fun(x, ...)
+
+  o <- vec_order_base(o)
+  vec_slice(out, o)
 }
