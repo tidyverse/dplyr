@@ -33,9 +33,8 @@ When \code{x} is a list , \code{default} is allowed to be any value. There are n
 type or size restrictions in this case.}
 }
 \value{
-If \code{x} is a list, a single element from that list.
-
-Otherwise, a vector the same type as \code{x} with size 1.
+If \code{x} is a list, a single element from that list. Otherwise, a vector the
+same type as \code{x} with size 1.
 }
 \description{
 These are useful helpers for extracting a single value from a vector. They
@@ -44,10 +43,10 @@ than expected. You can also provide an optional secondary vector that defines
 the ordering.
 }
 \details{
-For most vector types, this works similarly to \code{[[}. However, for data frames
-this returns a single row rather than a single column. This is more
-consistent with the vctrs principle that a data frame is generally treated as
-a vector of rows.
+For most vector types, \code{first(x)}, \code{last(x)}, and \code{nth(x, n)} work like
+\code{x[[1]]}, \verb{x[[length(x)]}, and \code{x[[n]]}, respectively. The primary exception
+is data frames, where they instead retrieve rows, i.e. \code{x[1, ]}, \code{x[nrow(x), ]}, and \code{x[n, ]}. This is consistent with the tidyverse/vctrs principle which
+treats data frames as a vector of rows, rather than a vector of columns.
 }
 \examples{
 x <- 1:10
@@ -72,15 +71,16 @@ df \%>\%
 nth(x, 11)
 nth(x, 0)
 
-last(x)
-# `order_by` provides optional ordering
-last(x, order_by = y)
-
-# With empty atomic vectors, these functions still return a single value
+# This out of bounds behavior also applies to empty vectors
 first(integer())
 
-# You can customize this value with `default`
+# You can customize the default value with `default`
+nth(x, 11, default = -1L)
 first(integer(), default = 0L)
+
+# `order_by` provides optional ordering
+last(x)
+last(x, order_by = y)
 
 # For data frames, these select entire rows
 df <- tibble(a = 1:5, b = 6:10)

@@ -6,10 +6,11 @@
 #' the ordering.
 #'
 #' @details
-#' For most vector types, this works similarly to `[[`. However, for data frames
-#' this returns a single row rather than a single column. This is more
-#' consistent with the vctrs principle that a data frame is generally treated as
-#' a vector of rows.
+#' For most vector types, `first(x)`, `last(x)`, and `nth(x, n)` work like
+#' `x[[1]]`, `x[[length(x)]`, and `x[[n]]`, respectively. The primary exception
+#' is data frames, where they instead retrieve rows, i.e. `x[1, ]`, `x[nrow(x),
+#' ]`, and `x[n, ]`. This is consistent with the tidyverse/vctrs principle which
+#' treats data frames as a vector of rows, rather than a vector of columns.
 #'
 #' @param x A vector
 #' @param n For `nth()`, a single integer specifying the position.
@@ -28,9 +29,8 @@
 #'   type or size restrictions in this case.
 #'
 #' @return
-#' If `x` is a list, a single element from that list.
-#'
-#' Otherwise, a vector the same type as `x` with size 1.
+#' If `x` is a list, a single element from that list. Otherwise, a vector the
+#' same type as `x` with size 1.
 #'
 #' @export
 #' @examples
@@ -56,15 +56,16 @@
 #' nth(x, 11)
 #' nth(x, 0)
 #'
-#' last(x)
-#' # `order_by` provides optional ordering
-#' last(x, order_by = y)
-#'
-#' # With empty atomic vectors, these functions still return a single value
+#' # This out of bounds behavior also applies to empty vectors
 #' first(integer())
 #'
-#' # You can customize this value with `default`
+#' # You can customize the default value with `default`
+#' nth(x, 11, default = -1L)
 #' first(integer(), default = 0L)
+#'
+#' # `order_by` provides optional ordering
+#' last(x)
+#' last(x, order_by = y)
 #'
 #' # For data frames, these select entire rows
 #' df <- tibble(a = 1:5, b = 6:10)
