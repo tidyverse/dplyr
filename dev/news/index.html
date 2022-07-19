@@ -75,7 +75,13 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
-<ul><li><p><code><a href="../reference/lead-lag.html">lag()</a></code> and <code><a href="../reference/lead-lag.html">lead()</a></code> now cast <code>default</code> to the type of <code>x</code>, rather than taking the common type. This ensures that these functions are type stable on <code>x</code> (<a href="https://github.com/tidyverse/dplyr/issues/6330" class="external-link">#6330</a>).</p></li>
+<ul><li>
+<p><code><a href="../reference/nth.html">first()</a></code>, <code><a href="../reference/nth.html">last()</a></code>, and <code><a href="../reference/nth.html">nth()</a></code> have been rewritten to use vctrs. This comes with the following improvements (<a href="https://github.com/tidyverse/dplyr/issues/6331" class="external-link">#6331</a>):</p>
+<ul><li><p>When used on a data frame, these functions now return a single row rather than a single column. This is more consistent with the vctrs principle that a data frame is generally treated as a vector of rows.</p></li>
+<li><p>The <code>default</code> is no longer “guessed”, and will always automatically be set to a missing value appropriate for the type of <code>x</code>.</p></li>
+<li><p>Fractional values of <code>n</code> are no longer truncated to integers, and will now cause an error. For example, <code>nth(x, n = 2)</code> is fine, but <code>nth(x, n = 2.5)</code> is now an error.</p></li>
+</ul></li>
+<li><p><code><a href="../reference/lead-lag.html">lag()</a></code> and <code><a href="../reference/lead-lag.html">lead()</a></code> now cast <code>default</code> to the type of <code>x</code>, rather than taking the common type. This ensures that these functions are type stable on <code>x</code> (<a href="https://github.com/tidyverse/dplyr/issues/6330" class="external-link">#6330</a>).</p></li>
 <li><p><code><a href="../reference/with_order.html">with_order()</a></code> now checks that the size of <code>order_by</code> is the same size as <code>x</code>.</p></li>
 <li><p><code><a href="../reference/with_order.html">with_order()</a></code> now works correctly when data frames are used as the <code>order_by</code> value (<a href="https://github.com/tidyverse/dplyr/issues/6334" class="external-link">#6334</a>).</p></li>
 <li>
