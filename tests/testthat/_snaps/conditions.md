@@ -33,6 +33,8 @@
       select(mtcars, invisible(999 + ""))
     Condition
       Error in `select()`:
+      ! Problem while evaluating `invisible(999 + "")`.
+      Caused by error in `999 + ""`:
       ! non-numeric argument to binary operator
     Code
       slice(mtcars, invisible(999 + ""))
@@ -74,6 +76,8 @@
       select(mtcars, var = invisible(999 + ""))
     Condition
       Error in `select()`:
+      ! Problem while evaluating `invisible(999 + "")`.
+      Caused by error in `999 + ""`:
       ! non-numeric argument to binary operator
     Code
       slice(mtcars, var = invisible(999 + ""))
@@ -133,6 +137,7 @@
       select(mtcars, 1 + "")
     Condition
       Error in `foo()`:
+      Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
       slice(mtcars, 1 + "")
