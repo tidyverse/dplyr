@@ -140,7 +140,7 @@ check_nth_default <- function(default, x, ..., error_call = caller_env()) {
 }
 
 vec_slice2 <- function(x, i) {
-  # Our unimplemeneted vctrs equivalent of `[[`
+  # Our unimplemented vctrs equivalent of `[[`
   # https://github.com/r-lib/vctrs/pull/1228/
 
   i <- vec_as_location2(i, vec_size(x))
