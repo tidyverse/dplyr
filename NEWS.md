@@ -1,5 +1,9 @@
 # dplyr (development version)
 
+* `relocate()` now retains the last name change when a single column is renamed
+  multiple times while it is being moved. This better matches the behavior of
+  `rename()` (#6209, with help from @eutwt).
+
 * `na_if()` has been rewritten to utilize vctrs. This comes with the following
   improvements (#6329):
 
