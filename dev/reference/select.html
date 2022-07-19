@@ -264,6 +264,7 @@ the tidyverse:</p>
 <span><span class="co">#&gt; 3     96</span></span>
 <span><span class="co">#&gt; 4    202</span></span>
 <span><span class="co">#&gt; # ... with 83 more rows</span></span>
+<span><span class="co">#&gt; # i Use `print(n = ...)` to see more rows</span></span>
 <span></span>
 <span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 150 x 6</span></span>
@@ -273,7 +274,8 @@ the tidyverse:</p>
 <span><span class="co">#&gt; 2         3            1.4         0.2 setosa  Sepal.Length   4.9</span></span>
 <span><span class="co">#&gt; 3         3.2          1.3         0.2 setosa  Sepal.Length   4.7</span></span>
 <span><span class="co">#&gt; 4         3.1          1.5         0.2 setosa  Sepal.Length   4.6</span></span>
-<span><span class="co">#&gt; # ... with 146 more rows</span></span></code></pre><p></p></div>
+<span><span class="co">#&gt; # ... with 146 more rows</span></span>
+<span><span class="co">#&gt; # i Use `print(n = ...)` to see more rows</span></span></code></pre><p></p></div>
 <p>Select multiple variables by separating them with commas. Note how
 the order of columns is determined by the order of inputs:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">homeworld</span>, <span class="va">height</span>, <span class="va">mass</span><span class="op">)</span></span>
@@ -284,7 +286,8 @@ the order of columns is determined by the order of inputs:</p>
 <span><span class="co">#&gt; 2 Tatooine     167    75</span></span>
 <span><span class="co">#&gt; 3 Naboo         96    32</span></span>
 <span><span class="co">#&gt; 4 Tatooine     202   136</span></span>
-<span><span class="co">#&gt; # ... with 83 more rows</span></span></code></pre><p></p></div>
+<span><span class="co">#&gt; # ... with 83 more rows</span></span>
+<span><span class="co">#&gt; # i Use `print(n = ...)` to see more rows</span></span></code></pre><p></p></div>
 <p>Functions like <code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">tidyr::pivot_longer()</a></code> don't take variables with
 dots. In this case use <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> to select multiple variables:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Sepal.Length</span>, <span class="va">Petal.Length</span><span class="op">)</span><span class="op">)</span></span>
@@ -295,7 +298,8 @@ dots. In this case use <code><a href="https://rdrr.io/r/base/c.html" class="exte
 <span><span class="co">#&gt; 2         3.5         0.2 setosa  Petal.Length   1.4</span></span>
 <span><span class="co">#&gt; 3         3           0.2 setosa  Sepal.Length   4.9</span></span>
 <span><span class="co">#&gt; 4         3           0.2 setosa  Petal.Length   1.4</span></span>
-<span><span class="co">#&gt; # ... with 296 more rows</span></span></code></pre><p></p></div><div class="section">
+<span><span class="co">#&gt; # ... with 296 more rows</span></span>
+<span><span class="co">#&gt; # i Use `print(n = ...)` to see more rows</span></span></code></pre><p></p></div><div class="section">
 <h3 id="operators-">Operators:<a class="anchor" aria-label="anchor" href="#operators-"></a></h3>
 
 
@@ -308,18 +312,21 @@ dots. In this case use <code><a href="https://rdrr.io/r/base/c.html" class="exte
 <span><span class="co">#&gt; 2 C-3PO             167    75</span></span>
 <span><span class="co">#&gt; 3 R2-D2              96    32</span></span>
 <span><span class="co">#&gt; 4 Darth Vader       202   136</span></span>
-<span><span class="co">#&gt; # ... with 83 more rows</span></span></code></pre><p></p></div>
+<span><span class="co">#&gt; # ... with 83 more rows</span></span>
+<span><span class="co">#&gt; # i Use `print(n = ...)` to see more rows</span></span></code></pre><p></p></div>
 <p>The <code>!</code> operator negates a selection:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="va">name</span><span class="op">:</span><span class="va">mass</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 87 x 11</span></span>
-<span><span class="co">#&gt;   hair_color skin_color  eye_color birth_year sex   gender    homeworld species</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;  </span></span>
-<span><span class="co">#&gt; 1 blond      fair        blue            19   male  masculine Tatooine  Human  </span></span>
-<span><span class="co">#&gt; 2 &lt;NA&gt;       gold        yellow         112   none  masculine Tatooine  Droid  </span></span>
-<span><span class="co">#&gt; 3 &lt;NA&gt;       white, blue red             33   none  masculine Naboo     Droid  </span></span>
-<span><span class="co">#&gt; 4 none       white       yellow          41.9 male  masculine Tatooine  Human  </span></span>
-<span><span class="co">#&gt; # ... with 83 more rows, and 3 more variables: films &lt;list&gt;, vehicles &lt;list&gt;,</span></span>
-<span><span class="co">#&gt; #   starships &lt;list&gt;</span></span>
+<span><span class="co">#&gt;   hair_color skin_c~1 eye_c~2 birth~3 sex   gender homew~4 species films vehic~5</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;   &lt;lis&gt; &lt;list&gt; </span></span>
+<span><span class="co">#&gt; 1 blond      fair     blue       19   male  mascu~ Tatooi~ Human   &lt;chr&gt; &lt;chr&gt;  </span></span>
+<span><span class="co">#&gt; 2 &lt;NA&gt;       gold     yellow    112   none  mascu~ Tatooi~ Droid   &lt;chr&gt; &lt;chr&gt;  </span></span>
+<span><span class="co">#&gt; 3 &lt;NA&gt;       white, ~ red        33   none  mascu~ Naboo   Droid   &lt;chr&gt; &lt;chr&gt;  </span></span>
+<span><span class="co">#&gt; 4 none       white    yellow     41.9 male  mascu~ Tatooi~ Human   &lt;chr&gt; &lt;chr&gt;  </span></span>
+<span><span class="co">#&gt; # ... with 83 more rows, 1 more variable: starships &lt;list&gt;, and abbreviated</span></span>
+<span><span class="co">#&gt; #   variable names 1: skin_color, 2: eye_color, 3: birth_year, 4: homeworld,</span></span>
+<span><span class="co">#&gt; #   5: vehicles</span></span>
+<span><span class="co">#&gt; # i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span>
 <span></span>
 <span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Sepal.Length</span>, <span class="va">Petal.Length</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 150 x 3</span></span>
@@ -330,6 +337,7 @@ dots. In this case use <code><a href="https://rdrr.io/r/base/c.html" class="exte
 <span><span class="co">#&gt; 3         3.2         0.2 setosa </span></span>
 <span><span class="co">#&gt; 4         3.1         0.2 setosa </span></span>
 <span><span class="co">#&gt; # ... with 146 more rows</span></span>
+<span><span class="co">#&gt; # i Use `print(n = ...)` to see more rows</span></span>
 <span></span>
 <span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">ends_with</a></span><span class="op">(</span><span class="st">"Width"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 150 x 3</span></span>
@@ -339,7 +347,8 @@ dots. In this case use <code><a href="https://rdrr.io/r/base/c.html" class="exte
 <span><span class="co">#&gt; 2          4.9          1.4 setosa </span></span>
 <span><span class="co">#&gt; 3          4.7          1.3 setosa </span></span>
 <span><span class="co">#&gt; 4          4.6          1.5 setosa </span></span>
-<span><span class="co">#&gt; # ... with 146 more rows</span></span></code></pre><p></p></div>
+<span><span class="co">#&gt; # ... with 146 more rows</span></span>
+<span><span class="co">#&gt; # i Use `print(n = ...)` to see more rows</span></span></code></pre><p></p></div>
 <p><code>&amp;</code> and <code>|</code> take the intersection or the union of two selections:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Petal"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">ends_with</a></span><span class="op">(</span><span class="st">"Width"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 150 x 1</span></span>
@@ -350,6 +359,7 @@ dots. In this case use <code><a href="https://rdrr.io/r/base/c.html" class="exte
 <span><span class="co">#&gt; 3         0.2</span></span>
 <span><span class="co">#&gt; 4         0.2</span></span>
 <span><span class="co">#&gt; # ... with 146 more rows</span></span>
+<span><span class="co">#&gt; # i Use `print(n = ...)` to see more rows</span></span>
 <span></span>
 <span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Petal"</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">ends_with</a></span><span class="op">(</span><span class="st">"Width"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 150 x 3</span></span>
@@ -359,7 +369,8 @@ dots. In this case use <code><a href="https://rdrr.io/r/base/c.html" class="exte
 <span><span class="co">#&gt; 2          1.4         0.2         3  </span></span>
 <span><span class="co">#&gt; 3          1.3         0.2         3.2</span></span>
 <span><span class="co">#&gt; 4          1.5         0.2         3.1</span></span>
-<span><span class="co">#&gt; # ... with 146 more rows</span></span></code></pre><p></p></div>
+<span><span class="co">#&gt; # ... with 146 more rows</span></span>
+<span><span class="co">#&gt; # i Use `print(n = ...)` to see more rows</span></span></code></pre><p></p></div>
 <p>To take the difference between two selections, combine the <code>&amp;</code> and
 <code>!</code> operators:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Petal"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">!</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">ends_with</a></span><span class="op">(</span><span class="st">"Width"</span><span class="op">)</span><span class="op">)</span></span>
@@ -370,7 +381,8 @@ dots. In this case use <code><a href="https://rdrr.io/r/base/c.html" class="exte
 <span><span class="co">#&gt; 2          1.4</span></span>
 <span><span class="co">#&gt; 3          1.3</span></span>
 <span><span class="co">#&gt; 4          1.5</span></span>
-<span><span class="co">#&gt; # ... with 146 more rows</span></span></code></pre><p></p></div>
+<span><span class="co">#&gt; # ... with 146 more rows</span></span>
+<span><span class="co">#&gt; # i Use `print(n = ...)` to see more rows</span></span></code></pre><p></p></div>
 </div>
 
     </div>

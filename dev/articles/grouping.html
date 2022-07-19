@@ -137,27 +137,29 @@
 <code class="sourceCode R"><span><span class="va">by_species</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 14</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   species [38]</span></span></span>
-<span><span class="co">#&gt;   name       height  mass hair_color skin_color eye_color birth_year sex  </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Luke Skyw…    172    77 blond      fair       blue            19   male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> C-3PO         167    75 <span style="color: #BB0000;">NA</span>         gold       yellow         112   none </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> R2-D2          96    32 <span style="color: #BB0000;">NA</span>         white, bl… red             33   none </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Darth Vad…    202   136 none       white      yellow          41.9 male </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows, and 6 more variables: gender &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   starships &lt;list&gt;</span></span></span>
+<span><span class="co">#&gt;   name   height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Luke …    172    77 blond   fair    blue       19   male  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> C-3PO     167    75 <span style="color: #BB0000;">NA</span>      gold    yellow    112   none  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> R2-D2      96    32 <span style="color: #BB0000;">NA</span>      white,… red        33   none  mascu… Naboo  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Darth…    202   136 none    white   yellow     41.9 male  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span>
 <span><span class="va">by_sex_gender</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 14</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   sex, gender [6]</span></span></span>
-<span><span class="co">#&gt;   name       height  mass hair_color skin_color eye_color birth_year sex  </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Luke Skyw…    172    77 blond      fair       blue            19   male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> C-3PO         167    75 <span style="color: #BB0000;">NA</span>         gold       yellow         112   none </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> R2-D2          96    32 <span style="color: #BB0000;">NA</span>         white, bl… red             33   none </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Darth Vad…    202   136 none       white      yellow          41.9 male </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows, and 6 more variables: gender &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   starships &lt;list&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   name   height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Luke …    172    77 blond   fair    blue       19   male  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> C-3PO     167    75 <span style="color: #BB0000;">NA</span>      gold    yellow    112   none  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> R2-D2      96    32 <span style="color: #BB0000;">NA</span>      white,… red        33   none  mascu… Naboo  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Darth…    202   136 none    white   yellow     41.9 male  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span></code></pre></div>
 <p>Or use <code><a href="../reference/count.html">tally()</a></code> to count the number of rows in each group. The <code>sort</code> argument is useful if you want to see the largest groups up front.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -169,6 +171,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cerean       1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Chagrian     1</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 34 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span></span>
 <span><span class="va">by_sex_gender</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span>sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
@@ -179,7 +182,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> female feminine     16</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> none   masculine     5</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>            4</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>As well as grouping by existing variables, you can group by any function of existing variables. This is equivalent to performing a <code><a href="../reference/mutate.html">mutate()</a></code> <strong>before</strong> the <code><a href="../reference/group_by.html">group_by()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bmi_breaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">18.5</span>, <span class="fl">25</span>, <span class="fl">30</span>, <span class="cn">Inf</span><span class="op">)</span></span>
@@ -194,7 +198,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> (18.5,25]    24</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> (25,30]      13</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> (30,Inf]     12</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 1 more row</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 1 more row</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="group-metadata">Group metadata<a class="anchor" aria-label="anchor" href="#group-metadata"></a>
@@ -210,6 +215,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cerean  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Chagrian</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 34 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span></span>
 <span><span class="va">by_sex_gender</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_data.html">group_keys</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span></span>
@@ -219,7 +225,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> hermaphroditic masculine</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> male           masculine</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> none           feminine </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>You can see which group each row belongs to with <code><a href="../reference/group_data.html">group_indices()</a></code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_data.html">group_indices</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -269,7 +276,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Aleen Minor     1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Bespin          1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Bestine IV      1</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 45 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 45 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>To <strong>augment</strong> the grouping, using <code>.add = TRUE</code><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Note that the argument changed from &lt;code&gt;add = TRUE&lt;/code&gt; to &lt;code&gt;.add = TRUE&lt;/code&gt; in dplyr 1.0.0.&lt;/p&gt;"><sup>1</sup></a>. For example, the following code groups by species and homeworld:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -283,7 +291,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Besalisk Ojom            1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cerean   Cerea           1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Chagrian Champala        1</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 54 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 54 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="removing-grouping-variables">Removing grouping variables<a class="anchor" aria-label="anchor" href="#removing-grouping-variables"></a>
@@ -332,7 +341,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Besalisk     1    198</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cerean       1    198</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Chagrian     1    196</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 34 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 34 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>The <code>.groups=</code> argument controls the grouping structure of the output. The historical behaviour of removing the right hand side grouping variable corresponds to <code>.groups = "drop_last"</code> without a message or <code>.groups = NULL</code> with a message (the default).</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_sex_gender</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -375,7 +385,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Droid      75</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Droid      32</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Human     136</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>If you don’t want the grouping variables, you’ll have to first <code><a href="../reference/group_by.html">ungroup()</a></code>. (This design is possibly a mistake, but we’re stuck with it for now.)</p>
 </div>
 <div class="section level3">
@@ -389,28 +400,32 @@
 <span>  <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">mass</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 14</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   species [38]</span></span></span>
-<span><span class="co">#&gt;   species  mass name     height hair_color skin_color eye_color birth_year</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Hutt     <span style="text-decoration: underline;">1</span>358 Jabba D…    175 <span style="color: #BB0000;">NA</span>         green-tan… orange         600  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Kaleesh   159 Grievous    216 none       brown, wh… green, y…       <span style="color: #BB0000;">NA</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Droid     140 IG-88       200 none       metal      red             15  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Human     136 Darth V…    202 none       white      yellow          41.9</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows, and 6 more variables: sex &lt;chr&gt;, gender &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   homeworld &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></span>
+<span><span class="co">#&gt;   species  mass name   height hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Hutt     <span style="text-decoration: underline;">1</span>358 Jabba…    175 <span style="color: #BB0000;">NA</span>      green-… orange    600   herm… mascu…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Kaleesh   159 Griev…    216 none    brown,… green,…    <span style="color: #BB0000;">NA</span>   male  mascu…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Droid     140 IG-88     200 none    metal   red        15   none  mascu…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Human     136 Darth…    202 none    white   yellow     41.9 male  mascu…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows, 4 more variables: homeworld &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span>
 <span></span>
 <span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span>, .by_group <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">mass</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 14</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   species [38]</span></span></span>
-<span><span class="co">#&gt;   species   mass name    height hair_color skin_color eye_color birth_year</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Aleena      15 Ratts …     79 none       grey, blue unknown           <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Besalisk   102 Dexter…    198 none       brown      yellow            <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cerean      82 Ki-Adi…    198 white      pale       yellow            92</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Chagrian    <span style="color: #BB0000;">NA</span> Mas Am…    196 none       blue       blue              <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows, and 6 more variables: sex &lt;chr&gt;, gender &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   homeworld &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   species   mass name  height hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Aleena      15 Ratt…     79 none    grey, … unknown      <span style="color: #BB0000;">NA</span> male  mascu…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Besalisk   102 Dext…    198 none    brown   yellow       <span style="color: #BB0000;">NA</span> male  mascu…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cerean      82 Ki-A…    198 white   pale    yellow       92 male  mascu…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Chagrian    <span style="color: #BB0000;">NA</span> Mas …    196 none    blue    blue         <span style="color: #BB0000;">NA</span> male  mascu…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows, 4 more variables: homeworld &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span></code></pre></div>
 <p>Note that second example is sorted by <code>species</code> (from the <code><a href="../reference/group_by.html">group_by()</a></code> statement) and then by <code>mass</code> (within species).</p>
 </div>
 <div class="section level3">
@@ -431,6 +446,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> R2-D2          Naboo        32         -<span style="color: #BB0000;">65.3</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Darth Vader    Tatooine    136          38.7</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span></span>
 <span><span class="co"># Subtract off homeworld mean</span></span>
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -445,7 +461,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> C-3PO          Tatooine     75        -<span style="color: #BB0000;">10.4</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> R2-D2          Naboo        32        -<span style="color: #BB0000;">32.2</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Darth Vader    Tatooine    136         50.6 </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>Or with window functions like <code><a href="../reference/ranking.html">min_rank()</a></code>:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Overall rank</span></span>
@@ -460,6 +477,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> R2-D2          Naboo         96     5</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Darth Vader    Tatooine     202    72</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span></span>
 <span><span class="co"># Rank per homeworld</span></span>
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -474,7 +492,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> C-3PO          Tatooine     167     4</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> R2-D2          Naboo         96     1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Darth Vader    Tatooine     202    10</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="filter">
@@ -493,7 +512,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Jabba Desilijic Tiure Hutt              175</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Yoda                  Yoda's species     66</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Bossk                 Trandoshan        190</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 31 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 31 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>You can also use <code><a href="../reference/filter.html">filter()</a></code> to remove entire groups. For example, the following code eliminates all groups that only have a single member:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -506,7 +526,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Gungan       3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Human       35</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Kaminoan     2</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="slice-and-friends">
@@ -519,14 +540,16 @@
 <span>  <span class="fu"><a href="../reference/slice.html">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 38 × 14</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   species [38]</span></span></span>
-<span><span class="co">#&gt;   species  name    height  mass hair_color skin_color eye_color birth_year</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Aleena   Ratts …     79    15 none       grey, blue unknown           <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Besalisk Dexter…    198   102 none       brown      yellow            <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cerean   Ki-Adi…    198    82 white      pale       yellow            92</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Chagrian Mas Am…    196    <span style="color: #BB0000;">NA</span> none       blue       blue              <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 34 more rows, and 6 more variables: sex &lt;chr&gt;, gender &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   homeworld &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   species  name  height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Aleena   Ratt…     79    15 none    grey, … unknown      <span style="color: #BB0000;">NA</span> male  mascu…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Besalisk Dext…    198   102 none    brown   yellow       <span style="color: #BB0000;">NA</span> male  mascu…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cerean   Ki-A…    198    82 white   pale    yellow       92 male  mascu…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Chagrian Mas …    196    <span style="color: #BB0000;">NA</span> none    blue    blue         <span style="color: #BB0000;">NA</span> male  mascu…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 34 more rows, 4 more variables: homeworld &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span></code></pre></div>
 <p>Similarly, we can use <code><a href="../reference/slice.html">slice_min()</a></code> to select the smallest <code>n</code> values of a variable:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -534,15 +557,16 @@
 <span>  <span class="fu"><a href="../reference/slice.html">slice_min</a></span><span class="op">(</span><span class="va">height</span>, n <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 48 × 14</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   species [38]</span></span></span>
-<span><span class="co">#&gt;   name       height  mass hair_color skin_color eye_color birth_year sex  </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Ratts Tye…     79    15 none       grey, blue unknown           <span style="color: #BB0000;">NA</span> male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Dexter Je…    198   102 none       brown      yellow            <span style="color: #BB0000;">NA</span> male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Ki-Adi-Mu…    198    82 white      pale       yellow            92 male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Mas Amedda    196    <span style="color: #BB0000;">NA</span> none       blue       blue              <span style="color: #BB0000;">NA</span> male </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 44 more rows, and 6 more variables: gender &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   starships &lt;list&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   name   height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Ratts…     79    15 none    grey, … unknown      <span style="color: #BB0000;">NA</span> male  mascu… Aleen …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Dexte…    198   102 none    brown   yellow       <span style="color: #BB0000;">NA</span> male  mascu… Ojom   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Ki-Ad…    198    82 white   pale    yellow       92 male  mascu… Cerea  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Mas A…    196    <span style="color: #BB0000;">NA</span> none    blue    blue         <span style="color: #BB0000;">NA</span> male  mascu… Champa…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 44 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -560,15 +584,17 @@
 <span>  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>mod <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mass</span> <span class="op">~</span> <span class="va">height</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/context.html">cur_data</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 58 × 15</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   species [9]</span></span></span>
-<span><span class="co">#&gt;   name       height  mass hair_color skin_color eye_color birth_year sex  </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Luke Skyw…    172    77 blond      fair       blue            19   male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> C-3PO         167    75 <span style="color: #BB0000;">NA</span>         gold       yellow         112   none </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> R2-D2          96    32 <span style="color: #BB0000;">NA</span>         white, bl… red             33   none </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Darth Vad…    202   136 none       white      yellow          41.9 male </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 54 more rows, and 7 more variables: gender &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   starships &lt;list&gt;, mod &lt;list&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   name   height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Luke …    172    77 blond   fair    blue       19   male  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> C-3PO     167    75 <span style="color: #BB0000;">NA</span>      gold    yellow    112   none  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> R2-D2      96    32 <span style="color: #BB0000;">NA</span>      white,… red        33   none  mascu… Naboo  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Darth…    202   136 none    white   yellow     41.9 male  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 54 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, mod &lt;list&gt;, and abbreviated</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   variable names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ⁵​homeworld</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="cur_group-and-cur_group_id">
@@ -588,7 +614,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Dexter Jettster Besalisk Ojom            2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Ki-Adi-Mundi    Cerean   Cerea           3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Mas Amedda      Chagrian Champala        4</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 </div>
 </div>
 

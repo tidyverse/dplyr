@@ -216,7 +216,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  30.4     4  75.7    52  4.93  1.62  18.5     1     1     4     2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  27.3     4  79      66  4.08  1.94  18.9     1     1     4     1</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 28 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 28 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>The <code><a href="../reference/desc.html">desc()</a></code> helper allows you to order selected variables in descending order:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span>, <span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">disp</span><span class="op">)</span><span class="op">)</span></span>
@@ -227,7 +228,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  10.4     8   460   215  3     5.42  17.8     0     0     3     4</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  14.7     8   440   230  3.23  5.34  17.4     0     0     3     4</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  19.2     8   400   175  3.08  3.84  17.0     0     0     3     2</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 28 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 28 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>We can replicate in base R by using <code>[</code> with <code><a href="https://rdrr.io/r/base/order.html" class="external-link">order()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">$</span><span class="va">cyl</span>, <span class="va">mtcars</span><span class="op">$</span><span class="va">disp</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
@@ -238,7 +240,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  30.4     4  75.7    52  4.93  1.62  18.5     1     1     4     2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  27.3     4  79      66  4.08  1.94  18.9     1     1     4     1</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 28 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 28 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>Note the use of <code>drop = FALSE</code>. If you forget this, and the input is a data frame with a single column, the output will be a vector, not a data frame. This is a source of subtle bugs.</p>
 <p>Base R does not provide a convenient and general way to sort individual variables in descending order, so you have two options:</p>
 <ul>
@@ -265,19 +268,21 @@
 <span><span class="co">#&gt;       x</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    10</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     5</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/distinct.html">distinct</a></span><span class="op">(</span><span class="va">x</span>, .keep_all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># whole data frame</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 2</span></span></span>
 <span><span class="co">#&gt;       x     y</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     5     7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    10     9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     8     6</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     7     6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     6     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     5     5</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>There are two equivalents in base R, depending on whether you want the whole data frame, or just selected variables:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">df</span><span class="op">[</span><span class="st">"x"</span><span class="op">]</span><span class="op">)</span> <span class="co"># selected columns</span></span>
@@ -285,19 +290,21 @@
 <span><span class="co">#&gt;       x</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    10</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     5</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="va">df</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">duplicated</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">x</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span> <span class="co"># whole data frame</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 2</span></span></span>
 <span><span class="co">#&gt;       x     y</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     5     7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    10     9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     8     6</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     7     6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     6     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     5     5</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="filter-return-rows-with-matching-conditions">
@@ -307,95 +314,107 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 35 × 14</span></span></span>
-<span><span class="co">#&gt;   name       height  mass hair_color skin_color eye_color birth_year sex  </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Luke Skyw…    172    77 blond      fair       blue            19   male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Darth Vad…    202   136 none       white      yellow          41.9 male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Leia Orga…    150    49 brown      light      brown           19   fema…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Owen Lars     178   120 brown, gr… light      blue            52   male </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 31 more rows, and 6 more variables: gender &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   starships &lt;list&gt;</span></span></span>
+<span><span class="co">#&gt;   name   height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Luke …    172    77 blond   fair    blue       19   male  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Darth…    202   136 none    white   yellow     41.9 male  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Leia …    150    49 brown   light   brown      19   fema… femin… Aldera…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Owen …    178   120 brown,… light   blue       52   male  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 31 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span>
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">mass</span> <span class="op">&gt;</span> <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 14</span></span></span>
-<span><span class="co">#&gt;   name       height  mass hair_color skin_color eye_color birth_year sex  </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Jabba Des…    175  <span style="text-decoration: underline;">1</span>358 <span style="color: #BB0000;">NA</span>         green-tan… orange           600 herm…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></span>
+<span><span class="co">#&gt;   name   height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Jabba…    175  <span style="text-decoration: underline;">1</span>358 <span style="color: #BB0000;">NA</span>      green-… orange      600 herm… mascu… Nal Hu…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span>
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">hair_color</span> <span class="op">==</span> <span class="st">"none"</span> <span class="op">&amp;</span> <span class="va">eye_color</span> <span class="op">==</span> <span class="st">"black"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 14</span></span></span>
-<span><span class="co">#&gt;   name      height  mass hair_color skin_color  eye_color birth_year sex  </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Nien Nunb    160    68 none       grey        black             <span style="color: #BB0000;">NA</span> male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Gasgano      122    <span style="color: #BB0000;">NA</span> none       white, blue black             <span style="color: #BB0000;">NA</span> male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Kit Fisto    196    87 none       green       black             <span style="color: #BB0000;">NA</span> male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Plo Koon     188    80 none       orange      black             22 male </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows, and 6 more variables: gender &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   starships &lt;list&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   name   height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Nien …    160    68 none    grey    black        <span style="color: #BB0000;">NA</span> male  mascu… Sullust</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Gasga…    122    <span style="color: #BB0000;">NA</span> none    white,… black        <span style="color: #BB0000;">NA</span> male  mascu… Troiken</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Kit F…    196    87 none    green   black        <span style="color: #BB0000;">NA</span> male  mascu… Glee A…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Plo K…    188    80 none    orange  black        22 male  mascu… Dorin  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span></code></pre></div>
 <p>The closest base equivalent (and the inspiration for <code><a href="../reference/filter.html">filter()</a></code>) is <code><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset()</a></code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 35 × 14</span></span></span>
-<span><span class="co">#&gt;   name       height  mass hair_color skin_color eye_color birth_year sex  </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Luke Skyw…    172    77 blond      fair       blue            19   male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Darth Vad…    202   136 none       white      yellow          41.9 male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Leia Orga…    150    49 brown      light      brown           19   fema…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Owen Lars     178   120 brown, gr… light      blue            52   male </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 31 more rows, and 6 more variables: gender &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   starships &lt;list&gt;</span></span></span>
+<span><span class="co">#&gt;   name   height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Luke …    172    77 blond   fair    blue       19   male  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Darth…    202   136 none    white   yellow     41.9 male  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Leia …    150    49 brown   light   brown      19   fema… femin… Aldera…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Owen …    178   120 brown,… light   blue       52   male  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 31 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="va">mass</span> <span class="op">&gt;</span> <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 14</span></span></span>
-<span><span class="co">#&gt;   name       height  mass hair_color skin_color eye_color birth_year sex  </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Jabba Des…    175  <span style="text-decoration: underline;">1</span>358 <span style="color: #BB0000;">NA</span>         green-tan… orange           600 herm…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></span>
+<span><span class="co">#&gt;   name   height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Jabba…    175  <span style="text-decoration: underline;">1</span>358 <span style="color: #BB0000;">NA</span>      green-… orange      600 herm… mascu… Nal Hu…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="va">hair_color</span> <span class="op">==</span> <span class="st">"none"</span> <span class="op">&amp;</span> <span class="va">eye_color</span> <span class="op">==</span> <span class="st">"black"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 14</span></span></span>
-<span><span class="co">#&gt;   name      height  mass hair_color skin_color  eye_color birth_year sex  </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Nien Nunb    160    68 none       grey        black             <span style="color: #BB0000;">NA</span> male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Gasgano      122    <span style="color: #BB0000;">NA</span> none       white, blue black             <span style="color: #BB0000;">NA</span> male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Kit Fisto    196    87 none       green       black             <span style="color: #BB0000;">NA</span> male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Plo Koon     188    80 none       orange      black             22 male </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows, and 6 more variables: gender &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   starships &lt;list&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   name   height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Nien …    160    68 none    grey    black        <span style="color: #BB0000;">NA</span> male  mascu… Sullust</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Gasga…    122    <span style="color: #BB0000;">NA</span> none    white,… black        <span style="color: #BB0000;">NA</span> male  mascu… Troiken</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Kit F…    196    87 none    green   black        <span style="color: #BB0000;">NA</span> male  mascu… Glee A…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Plo K…    188    80 none    orange  black        22 male  mascu… Dorin  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span></code></pre></div>
 <p>You can also use <code>[</code> but this also requires the use of <code><a href="https://rdrr.io/r/base/which.html" class="external-link">which()</a></code> to remove <code>NA</code>s:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">starwars</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">$</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 35 × 14</span></span></span>
-<span><span class="co">#&gt;   name       height  mass hair_color skin_color eye_color birth_year sex  </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Luke Skyw…    172    77 blond      fair       blue            19   male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Darth Vad…    202   136 none       white      yellow          41.9 male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Leia Orga…    150    49 brown      light      brown           19   fema…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Owen Lars     178   120 brown, gr… light      blue            52   male </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 31 more rows, and 6 more variables: gender &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   starships &lt;list&gt;</span></span></span>
+<span><span class="co">#&gt;   name   height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Luke …    172    77 blond   fair    blue       19   male  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Darth…    202   136 none    white   yellow     41.9 male  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Leia …    150    49 brown   light   brown      19   fema… femin… Aldera…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Owen …    178   120 brown,… light   blue       52   male  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 31 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span>
 <span><span class="va">starwars</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">$</span><span class="va">mass</span> <span class="op">&gt;</span> <span class="fl">1000</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 14</span></span></span>
-<span><span class="co">#&gt;   name       height  mass hair_color skin_color eye_color birth_year sex  </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Jabba Des…    175  <span style="text-decoration: underline;">1</span>358 <span style="color: #BB0000;">NA</span>         green-tan… orange           600 herm…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></span>
+<span><span class="co">#&gt;   name   height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Jabba…    175  <span style="text-decoration: underline;">1</span>358 <span style="color: #BB0000;">NA</span>      green-… orange      600 herm… mascu… Nal Hu…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span>
 <span><span class="va">starwars</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">starwars</span><span class="op">$</span><span class="va">hair_color</span> <span class="op">==</span> <span class="st">"none"</span> <span class="op">&amp;</span> <span class="va">starwars</span><span class="op">$</span><span class="va">eye_color</span> <span class="op">==</span> <span class="st">"black"</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 14</span></span></span>
-<span><span class="co">#&gt;   name      height  mass hair_color skin_color  eye_color birth_year sex  </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Nien Nunb    160    68 none       grey        black             <span style="color: #BB0000;">NA</span> male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Gasgano      122    <span style="color: #BB0000;">NA</span> none       white, blue black             <span style="color: #BB0000;">NA</span> male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Kit Fisto    196    87 none       green       black             <span style="color: #BB0000;">NA</span> male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Plo Koon     188    80 none       orange      black             22 male </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows, and 6 more variables: gender &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   starships &lt;list&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   name   height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Nien …    160    68 none    grey    black        <span style="color: #BB0000;">NA</span> male  mascu… Sullust</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Gasga…    122    <span style="color: #BB0000;">NA</span> none    white,… black        <span style="color: #BB0000;">NA</span> male  mascu… Troiken</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Kit F…    196    87 none    green   black        <span style="color: #BB0000;">NA</span> male  mascu… Glee A…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Plo K…    188    80 none    orange  black        22 male  mascu… Dorin  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="mutate-create-or-transform-variables">
@@ -407,21 +426,22 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 100 × 4</span></span></span>
 <span><span class="co">#&gt;       x     y     z    z2</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     6     7    49</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     5     7    12   144</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    10     9    19   361</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1     6     7    49</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 96 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     4     5    25</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1     9    10   100</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1    10    11   121</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     7     6    13   169</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 96 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>The closest base equivalent is <code><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform()</a></code>, but note that it cannot use freshly created variables:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform</a></span><span class="op">(</span><span class="va">df</span>, z <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span>, z2 <span class="op">=</span> <span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    x  y  z  z2</span></span>
-<span><span class="co">#&gt; 1  1  6  7  49</span></span>
-<span><span class="co">#&gt; 2  5  7 12 144</span></span>
-<span><span class="co">#&gt; 3 10  9 19 361</span></span>
-<span><span class="co">#&gt; 4  1  6  7  49</span></span>
-<span><span class="co">#&gt; 5  8  6 14 196</span></span>
-<span><span class="co">#&gt; 6  3 10 13 169</span></span></code></pre></div>
+<span><span class="co">#&gt;   x  y  z  z2</span></span>
+<span><span class="co">#&gt; 1 1  4  5  25</span></span>
+<span><span class="co">#&gt; 2 1  9 10 100</span></span>
+<span><span class="co">#&gt; 3 1 10 11 121</span></span>
+<span><span class="co">#&gt; 4 7  6 13 169</span></span>
+<span><span class="co">#&gt; 5 6  2  8  64</span></span>
+<span><span class="co">#&gt; 6 5  5 10 100</span></span></code></pre></div>
 <p>Alternatively, you can use <code>$&lt;-</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span><span class="op">$</span><span class="va">cyl2</span> <span class="op">&lt;-</span> <span class="va">mtcars</span><span class="op">$</span><span class="va">cyl</span> <span class="op">*</span> <span class="fl">2</span></span>
@@ -489,6 +509,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     4     1  22.8     4   108    93  3.85  2.32  18.6     1     1     8</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     3     1  21.4     6   258   110  3.08  3.22  19.4     1     0    12</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 28 more rows, and 1 more variable: cyl4 &lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span>
 <span></span>
 <span><span class="co"># to back</span></span>
 <span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="va">cyl</span>, .after <span class="op">=</span> <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">last_col</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> </span>
@@ -499,7 +520,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>   160   110  3.9   2.88  17.0     0     1     4     4    12    24  21  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   108    93  3.85  2.32  18.6     1     1     4     1     8    16  22.8</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>   258   110  3.08  3.22  19.4     1     0     3     1    12    24  21.4</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 28 more rows, and 1 more variable: cyl &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 28 more rows, and 1 more variable: cyl &lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span></code></pre></div>
 <p>We can replicate this in base R with a little set manipulation:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span><span class="op">[</span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">union</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gear"</span>, <span class="st">"carb"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
@@ -511,6 +533,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     4     1  22.8     4   108    93  3.85  2.32  18.6     1     1     8</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     3     1  21.4     6   258   110  3.08  3.22  19.4     1     0    12</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 28 more rows, and 1 more variable: cyl4 &lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span>
 <span></span>
 <span><span class="va">to_back</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mpg"</span>, <span class="st">"cyl"</span><span class="op">)</span></span>
 <span><span class="va">mtcars</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="va">to_back</span><span class="op">)</span>, <span class="va">to_back</span><span class="op">)</span><span class="op">]</span></span>
@@ -521,7 +544,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>   160   110  3.9   2.88  17.0     0     1     4     4    12    24  21  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   108    93  3.85  2.32  18.6     1     1     4     1     8    16  22.8</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>   258   110  3.08  3.22  19.4     1     0     3     1    12    24  21.4</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 28 more rows, and 1 more variable: cyl &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 28 more rows, and 1 more variable: cyl &lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span></code></pre></div>
 <p>Moving columns to somewhere in the middle requires a little more set twiddling.</p>
 </div>
 <div class="section level3">
@@ -538,7 +562,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>          4.9         3            1.4         0.2 setosa </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>          4.7         3.2          1.3         0.2 setosa </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>          4.6         3.1          1.5         0.2 setosa </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>Renaming variables by position is straight forward in base R:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">iris2</span> <span class="op">&lt;-</span> <span class="va">iris</span></span>
@@ -561,7 +586,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>          4.9         3            1.4         0.2 setosa </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>          4.7         3.2          1.3         0.2 setosa </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>          4.6         3.1          1.5         0.2 setosa </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>A similar effect can be achieved with <code><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames()</a></code> in base R:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">toupper</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -572,7 +598,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>          4.9         3            1.4         0.2 setosa </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>          4.7         3.2          1.3         0.2 setosa </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>          4.6         3.1          1.5         0.2 setosa </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="select-select-variables-by-name">
@@ -589,6 +616,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>          4.7         3.2          1.3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>          4.6         3.1          1.5</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">Species</span>, <span class="va">Sepal.Length</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 150 × 2</span></span></span>
 <span><span class="co">#&gt;   Species Sepal.Length</span></span>
@@ -598,6 +626,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> setosa           4.7</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> setosa           4.6</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Petal"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 150 × 2</span></span></span>
 <span><span class="co">#&gt;   Petal.Length Petal.Width</span></span>
@@ -607,6 +636,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>          1.3         0.2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>          1.5         0.2</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.factor</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 150 × 1</span></span></span>
 <span><span class="co">#&gt;   Species</span></span>
@@ -615,7 +645,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> setosa </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> setosa </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> setosa </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>Subsetting variables by position is straightforward in base R:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span> <span class="co"># single argument selects columns; never drops</span></span>
@@ -627,6 +658,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>          4.7         3.2          1.3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>          4.6         3.1          1.5</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
 <span><span class="co">#&gt;   Sepal.Length Sepal.Width Petal.Length Petal.Width Species</span></span>
@@ -645,6 +677,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> setosa           4.7</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> setosa           4.6</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">iris</span>, select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Species</span>, <span class="va">Sepal.Length</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 150 × 2</span></span></span>
 <span><span class="co">#&gt;   Species Sepal.Length</span></span>
@@ -653,7 +686,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> setosa           4.9</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> setosa           4.7</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> setosa           4.6</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>Subsetting by function of name requires a bit of work with <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep()</a></code>:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">iris</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="st">"^Petal"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
@@ -664,7 +698,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>          1.4         0.2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>          1.3         0.2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>          1.5         0.2</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>And you can use <code><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Filter()</a></code> to subset by type:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Filter</a></span><span class="op">(</span><span class="va">is.factor</span>, <span class="va">iris</span><span class="op">)</span></span>
@@ -675,7 +710,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> setosa </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> setosa </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> setosa </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 146 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="summarise-reduce-multiple-values-down-to-a-single-value">
@@ -735,7 +771,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  27.3     4  79      66  4.08  1.94  18.9     1     1     4     1     8</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  26       4 120.     91  4.43  2.14  16.7     0     1     5     2     8</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  30.4     4  95.1   113  3.77  1.51  16.9     1     1     5     2     8</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more rows, and 1 more variable: cyl4 &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more rows, and 1 more variable: cyl4 &lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span></code></pre></div>
 <p>This is straightforward to replicate with <code>[</code>:</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span><span class="op">[</span><span class="fl">25</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
@@ -746,7 +783,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  27.3     4  79      66  4.08  1.94  18.9     1     1     4     1     8</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  26       4 120.     91  4.43  2.14  16.7     0     1     5     2     8</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  30.4     4  95.1   113  3.77  1.51  16.9     1     1     5     2     8</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more rows, and 1 more variable: cyl4 &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more rows, and 1 more variable: cyl4 &lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
