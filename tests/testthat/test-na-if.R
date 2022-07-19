@@ -10,8 +10,26 @@ test_that("`y` can be a vector the same length as `x` (matching SQL NULLIF)", {
   expect_identical(na_if(x, y), c(NA, NA, 0))
 })
 
-test_that("comparison is done with equality, so missings don't match", {
-  expect_identical(na_if(NaN, NaN), NaN)
+test_that("`NA` replacing itself is a no-op", {
+  expect_identical(na_if(NA, NA), NA)
+})
+
+test_that("missing values are allowed to equal each other, so `NaN`s can be standardized", {
+  expect_identical(na_if(NaN, NaN), NA_real_)
+})
+
+test_that("missing values equal each other in partially incomplete data frame rows", {
+  x <- tibble(
+    x = c(2, 1, NA, 1),
+    y = c(1, NA, NA, NA),
+    z = c(3, NaN, NA, NaN)
+  )
+
+  y <- tibble(x = 1, y = NA, z = NaN)
+
+  expect <- vec_assign(x, i = c(2, 4), value = NA)
+
+  expect_identical(na_if(x, y), expect)
 })
 
 test_that("works when there are missings in either input", {

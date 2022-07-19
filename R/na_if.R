@@ -29,6 +29,11 @@
 #' y <- c("abc", "def", "", "ghi")
 #' na_if(y, "")
 #'
+#' # `na_if()` allows you to replace `NaN` with `NA`,
+#' # even though `NaN == NaN` returns `NA`
+#' z <- c(1, NaN, NA, 2, NaN)
+#' na_if(z, NaN)
+#'
 #' # `na_if()` is particularly useful inside `mutate()`,
 #' # and is meant for use with vectors rather than entire data frames
 #' starwars %>%
@@ -45,7 +50,7 @@ na_if <- function(x, y) {
   y <- vec_recycle(y, size = vec_size(x), x_arg = "y")
 
   na <- vec_init(x)
-  where <- vec_equal(x, y)
+  where <- vec_equal(x, y, na_equal = TRUE)
 
   x <- vec_assign(x, where, na)
 

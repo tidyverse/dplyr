@@ -36,6 +36,11 @@ x <- c(1, -1, 0, 10)
 y <- c("abc", "def", "", "ghi")
 na_if(y, "")
 
+# `na_if()` allows you to replace `NaN` with `NA`,
+# even though `NaN == NaN` returns `NA`
+z <- c(1, NaN, NA, 2, NaN)
+na_if(z, NaN)
+
 # `na_if()` is particularly useful inside `mutate()`,
 # and is meant for use with vectors rather than entire data frames
 starwars \%>\%
