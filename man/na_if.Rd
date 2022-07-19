@@ -2,22 +2,29 @@
 % Please edit documentation in R/na_if.R
 \name{na_if}
 \alias{na_if}
-\title{Convert values to NA}
+\title{Convert values to \code{NA}}
 \usage{
 na_if(x, y)
 }
 \arguments{
 \item{x}{Vector to modify}
 
-\item{y}{Value to replace with NA}
+\item{y}{Value or vector to compare against. When \code{x} and \code{y} are equal, the
+value in \code{x} will be replaced with \code{NA}.
+
+\code{y} is cast to the type of \code{x} before comparison.
+
+\code{y} is \link[vctrs:vector_recycling_rules]{recycled} to the size of \code{x} before
+comparison. This means that \code{y} can be a vector with the same size as \code{x},
+but most of the time this will be a single value.}
 }
 \value{
 A modified version of \code{x} that replaces any values that
-are equal to \code{y} with NA.
+are equal to \code{y} with \code{NA}.
 }
 \description{
-This is a translation of the SQL command \code{NULLIF}. It is useful
-if you want to convert an annoying value to \code{NA}.
+This is a translation of the SQL command \code{NULLIF}. It is useful if you want
+to convert an annoying value to \code{NA}.
 }
 \examples{
 na_if(1:5, 5:1)
@@ -29,14 +36,19 @@ x <- c(1, -1, 0, 10)
 y <- c("abc", "def", "", "ghi")
 na_if(y, "")
 
-# na_if() is particularly useful inside mutate(),
+# `na_if()` allows you to replace `NaN` with `NA`,
+# even though `NaN == NaN` returns `NA`
+z <- c(1, NaN, NA, 2, NaN)
+na_if(z, NaN)
+
+# `na_if()` is particularly useful inside `mutate()`,
 # and is meant for use with vectors rather than entire data frames
 starwars \%>\%
   select(name, eye_color) \%>\%
   mutate(eye_color = na_if(eye_color, "unknown"))
 
-# na_if() can also be used with mutate() and across()
-# to mutate multiple columns
+# `na_if()` can also be used with `mutate()` and `across()`
+# to alter multiple columns
 starwars \%>\%
    mutate(across(where(is.character), ~na_if(., "unknown")))
 }
@@ -45,6 +57,4 @@ starwars \%>\%
 value.
 
 \code{\link[tidyr:replace_na]{tidyr::replace_na()}} to replace \code{NA} with a value.
-
-\code{\link[=recode]{recode()}} to more generally replace values.
 }
