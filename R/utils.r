@@ -107,17 +107,6 @@ fix_call <- function(expr, call = caller_env()) {
   })
 }
 
-# tidyselect creates chained errors
-tidyselect_fix_call <- function(expr, call = caller_env()) {
-  withCallingHandlers(
-    expr,
-    error = function(cnd) {
-      cnd$call <- call
-      cnd$parent <- NULL
-      cnd_signal(cnd)
-    })
-}
-
 # Backports for R 3.5.0 utils
 ...length2 <- function(frame = caller_env()) {
   length(env_get(frame, "..."))
