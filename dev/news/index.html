@@ -76,6 +76,11 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
 <ul><li>
+<p><code><a href="../reference/na_if.html">na_if()</a></code> has been rewritten to utilize vctrs. This comes with the following improvements (<a href="https://github.com/tidyverse/dplyr/issues/6329" class="external-link">#6329</a>):</p>
+<ul><li><p>It now casts <code>y</code> to the type of <code>x</code> before comparing them, which makes it clearer that this function is type and size stable on <code>x</code>. In particular, this means that you can no longer do <code>na_if(&lt;tibble&gt;, 0)</code>, which previously accidentally allowed you to replace any instance of <code>0</code> across every column of the tibble with <code>NA</code>. <code><a href="../reference/na_if.html">na_if()</a></code> was never intended to work this way, and this is considered off-label usage.</p></li>
+<li><p>You can now replace <code>NaN</code> values in <code>x</code> with <code>NA</code> through <code>na_if(x, NaN)</code>.</p></li>
+</ul></li>
+<li>
 <p><code><a href="../reference/nth.html">first()</a></code>, <code><a href="../reference/nth.html">last()</a></code>, and <code><a href="../reference/nth.html">nth()</a></code> have been rewritten to use vctrs. This comes with the following improvements (<a href="https://github.com/tidyverse/dplyr/issues/6331" class="external-link">#6331</a>):</p>
 <ul><li><p>When used on a data frame, these functions now return a single row rather than a single column. This is more consistent with the vctrs principle that a data frame is generally treated as a vector of rows.</p></li>
 <li><p>The <code>default</code> is no longer “guessed”, and will always automatically be set to a missing value appropriate for the type of <code>x</code>.</p></li>
