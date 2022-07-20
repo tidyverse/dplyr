@@ -1,8 +1,108 @@
 # dplyr (development version)
 
+
 * `slice()` helpers again produce output equivalent to `slice(.data, 0)` when
   the `n` or `prop` argument is 0, fixing a bug introduced in the previous
   version (@eutwt, #6184).
+
+* `na_if()` has been rewritten to utilize vctrs. This comes with the following
+  improvements (#6329):
+
+  * It now casts `y` to the type of `x` before comparing them, which makes it
+    clearer that this function is type and size stable on `x`. In particular,
+    this means that you can no longer do `na_if(<tibble>, 0)`, which previously
+    accidentally allowed you to replace any instance of `0` across every column
+    of the tibble with `NA`. `na_if()` was never intended to work this way, and
+    this is considered off-label usage.
+    
+  * You can now replace `NaN` values in `x` with `NA` through `na_if(x, NaN)`.
+
+* `first()`, `last()`, and `nth()` have been rewritten to use vctrs. This comes
+  with the following improvements (#6331):
+  
+  * When used on a data frame, these functions now return a single row rather
+    than a single column. This is more consistent with the vctrs principle that
+    a data frame is generally treated as a vector of rows.
+    
+  * The `default` is no longer "guessed", and will always automatically be set
+    to a missing value appropriate for the type of `x`.
+    
+  * Fractional values of `n` are no longer truncated to integers, and will now
+    cause an error. For example, `nth(x, n = 2)` is fine, but
+    `nth(x, n = 2.5)` is now an error.
+
+* `lag()` and `lead()` now cast `default` to the type of `x`, rather than taking
+  the common type. This ensures that these functions are type stable on `x`
+  (#6330).
+
+* `with_order()` now checks that the size of `order_by` is the same size as `x`.
+
+* `with_order()` now works correctly when data frames are used as the `order_by`
+  value (#6334).
+
+* `coalesce()` now more fully embraces the principles of vctrs (#6265).
+
+  * `.ptype` and `.size` arguments have been added to allow you to explicitly
+    enforce an output type and size.
+    
+  * `NULL` inputs are now discarded up front.
+
+  * `coalesce()` no longer iterates over the columns of data frame input.
+    Instead, a row is now only coalesced if it is entirely missing, which is
+    consistent with `vctrs::vec_equal_na()` and greatly simplifies the
+    implementation.
+
+* `group_by()` now uses a new algorithm for computing groups. It is often faster
+  than the previous approach (especially when there are many groups), and in
+  most cases there should be no changes. The exception is with character vector
+  group columns, which are now internally ordered in the C locale rather than
+  the system locale and may result in differently ordered results when you
+  follow up a `group_by()` with functions that use the group data, such as
+  `summarise()` or `group_split()` (#4406, #6297).
+  
+  See the Ordering section of `?group_by()` for more information. For a full
+  explanation of this change, refer to this
+  [tidyup](https://github.com/tidyverse/tidyups/blob/main/006-dplyr-group-by-ordering.md).
+
+* `if_else()` has been rewritten to utilize vctrs. This comes with most of the
+  same benefits as the `case_when()` rewrite. In particular, `if_else()` now
+  takes the common type of `true`, `false`, and `missing` when determining what
+  the output type should be, meaning that you no longer have to be quite as
+  strict about types when supplying values for them (for example, you no longer
+  need to supply typed `NA` values, like `NA_character_`) (#6243).
+
+* `case_when()` has been rewritten to utilize vctrs (#5106). This comes with a
+  number of useful improvements:
+  
+  * There is a new `.default` argument that is intended to replace usage of
+    `TRUE ~ default_value` as a more explicit and readable way to specify
+    a default value. In the future, we will deprecate the unsafe recycling of
+    the LHS inputs that allows `TRUE ~` to work, so we encourage you to switch
+    over to using `.default` instead.
+  
+  * The types of the RHS inputs no longer have to match exactly. For example,
+    the following no longer requires you to use `NA_character_` instead of just
+    `NA`.
+
+    ```
+    x <- c("little", "unknown", "small", "missing", "large")
+    
+    case_when(
+      x %in% c("little", "small") ~ "one",
+      x %in% c("big", "large") ~ "two",
+      x %in% c("missing", "unknown") ~ NA
+    )
+    ```
+    
+  * `case_when()` now supports a larger variety of value types. For example,
+     you can use a data frame to create multiple columns at once.
+     
+  * There are new `.ptype` and `.size` arguments which allow you to enforce
+    a particular output type and size. This allows you to construct a completely
+    type and size stable call to `case_when()`.
+
+  * The error thrown when types or lengths were incorrect has been improved
+    (#6261, #6206).
 
 * `arrange()` now uses a faster algorithm for sorting character vectors, which
   is heavily inspired by data.table's `forder()`. Additionally, the default

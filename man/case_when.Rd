@@ -2,104 +2,108 @@
 % Please edit documentation in R/case_when.R
 \name{case_when}
 \alias{case_when}
-\title{A general vectorised if}
+\title{A general vectorised if-else}
 \usage{
-case_when(...)
+case_when(..., .default = NULL, .ptype = NULL, .size = NULL)
 }
 \arguments{
-\item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> A sequence of two-sided formulas. The left hand side (LHS)
-determines which values match this case. The right hand side (RHS)
-provides the replacement value.
+\item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> A sequence of two-sided
+formulas. The left hand side (LHS) determines which values match this case.
+The right hand side (RHS) provides the replacement value.
 
-The LHS must evaluate to a logical vector. The RHS does not need to be
-logical, but all RHSs must evaluate to the same type of vector.
+The LHS inputs must evaluate to logical vectors.
 
-Both LHS and RHS may have the same length of either 1 or \code{n}. The
-value of \code{n} must be consistent across all cases. The case of
-\code{n == 0} is treated as a variant of \code{n != 1}.
+The RHS inputs will be coerced to their common type.
+
+All inputs will be recycled to their common size. That said, we encourage
+all LHS inputs to be the same size. Recycling is mainly useful for RHS
+inputs, where you might supply a size 1 input that will be recycled to the
+size of the LHS inputs.
 
 \code{NULL} inputs are ignored.}
+
+\item{.default}{The value used when all of the LHS inputs return either
+\code{FALSE} or \code{NA}.
+
+\code{.default} must be size 1 or the same size as the common size computed
+from \code{...}.
+
+\code{.default} participates in the computation of the common type with the RHS
+inputs.
+
+\code{NA} values in the LHS conditions are treated like \code{FALSE}, meaning that
+the result at those locations will be assigned the \code{.default} value. To
+handle missing values in the conditions differently, you must explicitly
+catch them with another condition before they fall through to the
+\code{.default}. This typically involves some variation of \code{is.na(x) ~ value}
+tailored to your usage of \code{case_when()}.
+
+If \code{NULL}, the default, a missing value will be used.}
+
+\item{.ptype}{An optional prototype declaring the desired output type. If
+supplied, this overrides the common type of the RHS inputs.}
+
+\item{.size}{An optional size declaring the desired output size. If supplied,
+this overrides the common size computed from \code{...}.}
 }
 \value{
-A vector of length 1 or \code{n}, matching the length of the logical
-input or output vectors, with the type (and attributes) of the first
-RHS. Inconsistent lengths or types will generate an error.
+A vector with the same size as the common size computed from the
+inputs in \code{...} and the same type as the common type of the RHS inputs
+in \code{...}.
 }
 \description{
-This function allows you to vectorise multiple \code{\link[=if_else]{if_else()}}
-statements. It is an R equivalent of the SQL \verb{CASE WHEN} statement.
-If no cases match, \code{NA} is returned.
+This function allows you to vectorise multiple \code{\link[=if_else]{if_else()}} statements. It is
+an R equivalent of the SQL \verb{CASE WHEN} statement. If no cases match, a
+missing value is returned unless a \code{.default} is supplied.
 }
 \examples{
-x <- 1:50
+x <- 1:70
 case_when(
   x \%\% 35 == 0 ~ "fizz buzz",
   x \%\% 5 == 0 ~ "fizz",
   x \%\% 7 == 0 ~ "buzz",
-  TRUE ~ as.character(x)
+  .default = as.character(x)
 )
 
 # Like an if statement, the arguments are evaluated in order, so you must
 # proceed from the most specific to the most general. This won't work:
 case_when(
-  TRUE ~ as.character(x),
   x \%\%  5 == 0 ~ "fizz",
   x \%\%  7 == 0 ~ "buzz",
-  x \%\% 35 == 0 ~ "fizz buzz"
+  x \%\% 35 == 0 ~ "fizz buzz",
+  .default = as.character(x)
 )
 
-# If none of the cases match, NA is used:
+# If none of the cases match and no `.default` is supplied, NA is used:
 case_when(
-  x \%\%  5 == 0 ~ "fizz",
-  x \%\%  7 == 0 ~ "buzz",
-  x \%\% 35 == 0 ~ "fizz buzz"
+  x \%\% 35 == 0 ~ "fizz buzz",
+  x \%\% 5 == 0 ~ "fizz",
+  x \%\% 7 == 0 ~ "buzz",
 )
 
-# Note that NA values in the vector x do not get special treatment. If you want
-# to explicitly handle NA values you can use the `is.na` function:
+# Note that `NA` values on the LHS are treated like `FALSE` and will be
+# assigned the `.default` value. You must handle them explicitly if you
+# want to use a different value. The exact way to handle missing values is
+# dependent on the set of LHS conditions you use.
 x[2:4] <- NA_real_
 case_when(
   x \%\% 35 == 0 ~ "fizz buzz",
   x \%\% 5 == 0 ~ "fizz",
   x \%\% 7 == 0 ~ "buzz",
   is.na(x) ~ "nope",
-  TRUE ~ as.character(x)
+  .default = as.character(x)
 )
 
-# All RHS values need to be of the same type. Inconsistent types will throw an error.
-# This applies also to NA values used in RHS: NA is logical, use
-# typed values like NA_real_, NA_complex, NA_character_, NA_integer_ as appropriate.
-case_when(
-  x \%\% 35 == 0 ~ NA_character_,
-  x \%\% 5 == 0 ~ "fizz",
-  x \%\% 7 == 0 ~ "buzz",
-  TRUE ~ as.character(x)
-)
-case_when(
-  x \%\% 35 == 0 ~ 35,
-  x \%\% 5 == 0 ~ 5,
-  x \%\% 7 == 0 ~ 7,
-  TRUE ~ NA_real_
-)
-
-# case_when() evaluates all RHS expressions, and then constructs its
+# `case_when()` evaluates all RHS expressions, and then constructs its
 # result by extracting the selected (via the LHS expressions) parts.
-# In particular NaNs are produced in this case:
+# In particular `NaN`s are produced in this case:
 y <- seq(-2, 2, by = .5)
 case_when(
   y >= 0 ~ sqrt(y),
-  TRUE   ~ y
+  .default = y
 )
 
-# This throws an error as NA is logical not numeric
-try(case_when(
-  x \%\% 35 == 0 ~ 35,
-  x \%\% 5 == 0 ~ 5,
-  x \%\% 7 == 0 ~ 7,
-  TRUE ~ NA
-))
-
-# case_when is particularly useful inside mutate when you want to
+# `case_when()` is particularly useful inside `mutate()` when you want to
 # create a new variable that relies on a complex combination of existing
 # variables
 starwars \%>\%
@@ -107,8 +111,8 @@ starwars \%>\%
   mutate(
     type = case_when(
       height > 200 | mass > 200 ~ "large",
-      species == "Droid"        ~ "robot",
-      TRUE                      ~ "other"
+      species == "Droid" ~ "robot",
+      .default = "other"
     )
   )
 
@@ -119,8 +123,8 @@ starwars \%>\%
 case_character_type <- function(height, mass, species) {
   case_when(
     height > 200 | mass > 200 ~ "large",
-    species == "Droid"        ~ "robot",
-    TRUE                      ~ "other"
+    species == "Droid" ~ "robot",
+    .default = "other"
   )
 }
 
@@ -138,9 +142,9 @@ starwars \%>\%
 # no `else` clause:
 case_character_type <- function(height, mass, species, robots = TRUE) {
   case_when(
-    height > 200 | mass > 200      ~ "large",
+    height > 200 | mass > 200 ~ "large",
     if (robots) species == "Droid" ~ "robot",
-    TRUE                           ~ "other"
+    .default = "other"
   )
 }
 

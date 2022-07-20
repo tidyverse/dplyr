@@ -1,25 +1,37 @@
-#' Extract the first, last or nth value from a vector
+#' Extract the first, last, or nth value from a vector
 #'
-#' These are straightforward wrappers around \code{\link{[[}}. The main
-#' advantage is that you can provide an optional secondary vector that defines
-#' the ordering, and provide a default value to use when the input is shorter
-#' than expected.
+#' These are useful helpers for extracting a single value from a vector. They
+#' are guaranteed to return a meaningful value, even when the input is shorter
+#' than expected. You can also provide an optional secondary vector that defines
+#' the ordering.
+#'
+#' @details
+#' For most vector types, `first(x)`, `last(x)`, and `nth(x, n)` work like
+#' `x[[1]]`, `x[[length(x)]`, and `x[[n]]`, respectively. The primary exception
+#' is data frames, where they instead retrieve rows, i.e. `x[1, ]`, `x[nrow(x),
+#' ]`, and `x[n, ]`. This is consistent with the tidyverse/vctrs principle which
+#' treats data frames as a vector of rows, rather than a vector of columns.
 #'
 #' @param x A vector
 #' @param n For `nth()`, a single integer specifying the position.
 #'   Negative integers index from the end (i.e. `-1L` will return the
 #'   last value in the vector).
+#' @param order_by An optional vector the same size as `x` used to determine the
+#'   order.
+#' @param default A default value to use if the position does not exist in `x`.
 #'
-#'   If a double is supplied, it will be silently truncated.
-#' @param order_by An optional vector used to determine the order
-#' @param default A default value to use if the position does not exist in
-#'   the input. This is guessed by default for base vectors, where a
-#'   missing value of the appropriate type is returned, and for lists, where
-#'   a `NULL` is return.
+#'   If `NULL`, the default, a missing value is used.
 #'
-#'   For more complicated objects, you'll need to supply this value.
-#'   Make sure it is the same type as `x`.
-#' @return A single value. `[[` is used to do the subsetting.
+#'   If supplied, this must be a single value, which will be cast to the type of
+#'   `x`.
+#'
+#'   When `x` is a list , `default` is allowed to be any value. There are no
+#'   type or size restrictions in this case.
+#'
+#' @return
+#' If `x` is a list, a single element from that list. Otherwise, a vector the
+#' same type as `x` with size 1.
+#'
 #' @export
 #' @examples
 #' x <- 1:10
@@ -31,62 +43,114 @@
 #' nth(x, 1)
 #' nth(x, 5)
 #' nth(x, -2)
+#'
+#' # `first()` and `last()` are often useful in `summarise()`
+#' df <- tibble(x = x, y = y)
+#' df %>%
+#'   summarise(
+#'     across(x:y, first, .names = "{col}_first"),
+#'     y_last = last(y)
+#'   )
+#'
+#' # Selecting a position that is out of bounds returns a default value
 #' nth(x, 11)
+#' nth(x, 0)
 #'
-#' last(x)
-#' # Second argument provides optional ordering
-#' last(x, y)
-#'
-#' # These functions always return a single value
+#' # This out of bounds behavior also applies to empty vectors
 #' first(integer())
-nth <- function(x, n, order_by = NULL, default = default_missing(x)) {
-  if (length(n) != 1 || !is.numeric(n)) {
-    abort("`n` must be a single integer.")
-  }
-  n <- trunc(n)
+#'
+#' # You can customize the default value with `default`
+#' nth(x, 11, default = -1L)
+#' first(integer(), default = 0L)
+#'
+#' # `order_by` provides optional ordering
+#' last(x)
+#' last(x, order_by = y)
+#'
+#' # For data frames, these select entire rows
+#' df <- tibble(a = 1:5, b = 6:10)
+#' first(df)
+#' nth(df, 4)
+nth <- function(x, n, order_by = NULL, default = NULL) {
+  size <- vec_size(x)
 
-  if (n == 0 || n > length(x) || n < -length(x)) {
+  vec_assert(n, size = 1L, arg = "n")
+  n <- vec_cast(n, to = integer(), x_arg = "n")
+
+  if (!is.null(order_by)) {
+    vec_assert(order_by, size = size, arg = "order_by")
+  }
+
+  default <- check_nth_default(default, x = x)
+
+  if (n < 0L) {
+    # Negative values index from RHS
+    n <- size + n + 1L
+  }
+
+  if (n <= 0L || n > size) {
     return(default)
   }
 
-  # Negative values index from RHS
-  if (n < 0) {
-    n <- length(x) + n + 1
+  if (!is.null(order_by)) {
+    order <- vec_order_base(order_by)
+    n <- order[[n]]
   }
 
-  if (is.null(order_by)) {
-    x[[n]]
-  } else {
-    x[[ order(order_by)[[n]] ]]
-  }
+  vec_slice2(x, n)
 }
 
 #' @export
 #' @rdname nth
-first <- function(x, order_by = NULL, default = default_missing(x)) {
+first <- function(x, order_by = NULL, default = NULL) {
   nth(x, 1L, order_by = order_by, default = default)
 }
 
 #' @export
 #' @rdname nth
-last <- function(x, order_by = NULL, default = default_missing(x)) {
+last <- function(x, order_by = NULL, default = NULL) {
   nth(x, -1L, order_by = order_by, default = default)
 }
 
-default_missing <- function(x) {
-  UseMethod("default_missing")
-}
+check_nth_default <- function(default, x, ..., error_call = caller_env()) {
+  check_dots_empty0(...)
 
-#' @export
-default_missing.default <- function(x) {
-  if (!is.object(x) && is.list(x)) {
-    NULL
-  } else {
-    x[NA_real_]
+  if (vec_is_list(x)) {
+    # Very special behavior for lists, since we use `[[` on them.
+    # Valid to use any `default` here (even non-vectors).
+    # And `default = NULL` is the correct default `default` for lists.
+    return(default)
   }
+
+  if (is.null(default)) {
+    return(vec_init(x))
+  }
+
+  vec_assert(default, size = 1L, arg = "default", call = error_call)
+
+  default <- vec_cast(
+    x = default,
+    to = x,
+    x_arg = "default",
+    to_arg = "x",
+    call = error_call
+  )
+
+  default
 }
 
-#' @export
-default_missing.data.frame <- function(x) {
-  rep(NA, nrow(x))
+vec_slice2 <- function(x, i) {
+  # Our unimplemented vctrs equivalent of `[[`
+  # https://github.com/r-lib/vctrs/pull/1228/
+
+  i <- vec_as_location2(i, vec_size(x))
+
+  if (vec_is_list(x)) {
+    out <- .subset2(x, i)
+  } else {
+    out <- vec_slice(x, i)
+    out <- vec_set_names(out, NULL)
+  }
+
+  out
 }

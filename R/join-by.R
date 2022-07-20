@@ -1,19 +1,18 @@
 #' Join specifications
 #'
-#' @description
 #' `join_by()` constructs a specification that describes how to join two tables
 #' using a small domain specific language. The result can be supplied as the
 #' `by` argument to any of the join functions (such as [left_join()]).
 #'
-#' `join_by()` is constructed from a comma-separated set of expressions that
-#' are generally of the form `x_col OP y_col`, where `OP` is one of `==`,
-#' `>=`, `>`, `<=`, or `<`. These are described in detail below, along with
-#' additional modifiers that are used to perform rolling and overlap joins.
+#' # Join types
+#' `join_by()` supports four types of join, as described below:
 #'
-#' Multiple expressions are combined using an "and" operation in the order
-#' they are specified.
+#' * Equi joins
+#' * Non-equi joins
+#' * Rolling joins
+#' * Overlap joins
 #'
-#' ## Equi joins:
+#' ## Equi joins
 #'
 #' Equi joins match on equality, and are the most common type of join. To
 #' construct an equi join, supply two column names to join with separated by
@@ -21,7 +20,7 @@
 #' join between two columns of the same name. For example, `join_by(x)` is
 #' equivalent to `join_by(x == x)`.
 #'
-#' ## Non-equi joins:
+#' ## Non-equi joins
 #'
 #' Non-equi joins match on an inequality, and are common in time series analysis
 #' and genomics. To construct a non-equi join, supply two column names separated
@@ -31,7 +30,7 @@
 #' large number of rows in `y`. Be extra careful when constructing non-equi
 #' join specifications!
 #'
-#' ## Rolling joins:
+#' ## Rolling joins
 #'
 #' Rolling joins are a variant of a non-equi join that limit the results
 #' returned from the non-equi join condition. They are useful for "rolling"
@@ -74,7 +73,7 @@
 #' approximately equivalent to applying the binary condition mentioned above
 #' followed by a `filter()` for only the maximum or minimum `y` value.
 #'
-#' ## Overlap joins:
+#' ## Overlap joins
 #'
 #' Overlap joins are a special case of a non-equi join generally involving one
 #' or two columns from the left-hand table _overlapping_ a range computed from
@@ -102,7 +101,7 @@
 #' These conditions assume that the ranges are well-formed, i.e.
 #' `x_lower <= x_upper`.
 #'
-#' ## Column referencing:
+#' # Column referencing
 #'
 #' When specifying join conditions, `join_by()` assumes that column names on the
 #' left-hand side of the condition refer to the left-hand table (`x`), and names
@@ -112,13 +111,6 @@
 #' names can be prefixed by `x$` or `y$` to explicitly specify which table they
 #' come from.
 #'
-#' @details
-#' Note that `join_by()` does not support arbitrary expressions on each side of
-#' the join condition. For example, `join_by(sales_date - 40 >=
-#' promo_date)` is not allowed. To perform a join like this, pre-compute
-#' `sales_date - 40` and store it in a separate column, like `sales_date_lower`,
-#' and refer to that column by name in `join_by()`.
-#'
 #' @param ... Expressions specifying the join.
 #'
 #'   Each expression should consist of either a join condition or a join helper:
@@ -126,6 +118,10 @@
 #'   - Join conditions: `==`, `>=`, `>`, `<=`, or `<`.
 #'   - Rolling helpers: `preceding()` or `following()`.
 #'   - Overlap helpers: `between()`, `within()`, or `overlaps()`.
+#'
+#'   Other expressions are not supported. If you need to perform a join on
+#'   a computed variable, e.g. `join_by(sales_date - 40 >= promo_date)`,
+#'   you'll need to precompute and store it in a separate column.
 #'
 #'   Column names should be specified as quoted or unquoted names. By default,
 #'   the name on the left-hand side of a join condition refers to the left-hand

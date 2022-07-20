@@ -83,7 +83,8 @@ iris \%>\%
   group_split(Species)
 
 iris \%>\%
-  group_keys(Species)
+  group_by(Species) \%>\%
+  group_keys()
 }
 \seealso{
 Other grouping functions: 

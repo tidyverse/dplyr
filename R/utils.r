@@ -11,24 +11,9 @@ deparse_trunc <- function(x, width = getOption("width")) {
 
 commas <- function(...) paste0(..., collapse = ", ")
 
-in_travis <- function() identical(Sys.getenv("TRAVIS"), "true")
-
-named <- function(...) {
-  x <- c(...)
-
-  missing_names <- names2(x) == ""
-  names(x)[missing_names] <- x[missing_names]
-
-  x
-}
-
 is_1d <- function(x) {
   # dimension check is for matrices and data.frames
   (is_atomic(x) || is.list(x)) && length(dim(x)) <= 1
-}
-
-random_table_name <- function(n = 10) {
-  paste0(sample(letters, n, replace = TRUE), collapse = "")
 }
 
 unstructure <- function(x) {
@@ -120,17 +105,6 @@ fix_call <- function(expr, call = caller_env()) {
     cnd$call <- call
     cnd_signal(cnd)
   })
-}
-
-# tidyselect creates chained errors
-tidyselect_fix_call <- function(expr, call = caller_env()) {
-  withCallingHandlers(
-    expr,
-    error = function(cnd) {
-      cnd$call <- call
-      cnd$parent <- NULL
-      cnd_signal(cnd)
-    })
 }
 
 # Backports for R 3.5.0 utils

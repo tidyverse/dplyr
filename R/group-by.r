@@ -35,6 +35,35 @@
 #'
 #' * `group_by()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("group_by")}.
 #' * `ungroup()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("ungroup")}.
+#'
+#' @section Ordering:
+#' Currently, `group_by()` internally orders the groups in ascending order. This
+#' results in ordered output from functions that aggregate groups, such as
+#' [summarise()].
+#'
+#' When used as grouping columns, character vectors are ordered in the C locale
+#' for performance and reproducibility across R sessions. If the resulting
+#' ordering of your grouped operation matters and is dependent on the locale,
+#' you should follow up the grouped operation with an explicit call to
+#' [arrange()] and set the `.locale` argument. For example:
+#'
+#' ```
+#' data %>%
+#'   group_by(chr) %>%
+#'   summarise(avg = mean(x)) %>%
+#'   arrange(chr, .locale = "en")
+#' ```
+#'
+#' This is often useful as a preliminary step before generating content intended
+#' for humans, such as an HTML table.
+#'
+#' Prior to dplyr 1.1.0, character vector grouping columns were ordered in the
+#' system locale. If you need to temporarily revert to this behavior, you can
+#' set the global option `dplyr.legacy_locale` to `TRUE`, but this should be
+#' used sparingly and you should expect this option to be removed in a future
+#' version of dplyr. It is better to update existing code to explicitly call
+#' `arrange()` instead.
+#'
 #' @export
 #' @examples
 #' by_cyl <- mtcars %>% group_by(cyl)

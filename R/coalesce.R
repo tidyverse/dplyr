@@ -1,69 +1,79 @@
-#' Find first non-missing element
+#' Find the first non-missing element
 #'
-#' Given a set of vectors, `coalesce()` finds the first non-missing value
-#' at each position. This is inspired by the SQL `COALESCE` function
-#' which does the same thing for `NULL`s.
+#' Given a set of vectors, `coalesce()` finds the first non-missing value at
+#' each position. It's inspired by the SQL `COALESCE` function which does the
+#' same thing for SQL `NULL`s.
 #'
-#' @param ... <[`dynamic-dots`][rlang::dyn-dots]> Vectors. Inputs should be
-#'   recyclable (either be length 1 or same length as the longest vector) and
-#'   coercible to a common type. If data frames, they are coalesced column by
-#'   column.
-#' @return A vector the same length as the first `...` argument with
-#'   missing values replaced by the first non-missing value.
-#' @seealso [na_if()] to replace specified values with a `NA`.
-#' [tidyr::replace_na()] to replace `NA` with a value
+#' @param ... <[`dynamic-dots`][rlang::dyn-dots]>
+#'
+#'   One or more vectors. These will be
+#'   [recycled][vctrs::vector_recycling_rules] against each other, and will be
+#'   cast to their common type.
+#'
+#' @param .ptype An optional prototype declaring the desired output type. If
+#'   supplied, this overrides the common type of the vectors in `...`.
+#'
+#' @param .size An optional size declaring the desired output size. If supplied,
+#'   this overrides the common size of the vectors in `...`.
+#'
+#' @return A vector with the same type and size as the common type and common
+#'   size of the vectors in `...`.
+#'
+#' @seealso [na_if()] to replace specified values with an `NA`.
+#'   [tidyr::replace_na()] to replace `NA` with a value.
+#'
 #' @export
 #' @examples
 #' # Use a single value to replace all missing values
 #' x <- sample(c(1:5, NA, NA, NA))
 #' coalesce(x, 0L)
 #'
-#' # Or match together a complete vector from missing pieces
+#' # The equivalent to a missing value in a list is `NULL`
+#' coalesce(list(1, 2, NULL), list(NA))
+#'
+#' # Or generate a complete vector from partially missing pieces
 #' y <- c(1, 2, NA, NA, 5)
 #' z <- c(NA, NA, 3, 4, 5)
 #' coalesce(y, z)
 #'
-#' # Supply lists by with dynamic dots
+#' # Supply lists by splicing them into dots:
 #' vecs <- list(
 #'   c(1, 2, NA, NA, 5),
 #'   c(NA, NA, 3, 4, 5)
 #' )
 #' coalesce(!!!vecs)
-coalesce <- function(...) {
-  if (missing(..1)) {
-    abort("At least one argument must be supplied.")
+coalesce <- function(..., .ptype = NULL, .size = NULL) {
+  args <- list2(...)
+
+  # Drop `NULL`s
+  # TODO: Use cheaper `vctrs::vec_any_missing()` approach
+  # https://github.com/r-lib/vctrs/issues/1563
+  args <- discard(args, is.null)
+
+  if (length(args) == 0L) {
+    abort("`...` can't be empty.")
   }
 
-  values <- list2(...)
-  values <- fix_call(vec_cast_common(!!!values))
-  values <- fix_call(vec_recycle_common(!!!values))
+  # Recycle early so logical conditions computed below will be the same length,
+  # as required by `vec_case_when()`
+  args <- vec_recycle_common(!!!args, .size = .size)
 
-  x <- values[[1]]
-  values <- values[-1]
+  # Name early to get correct indexing in `vec_case_when()` error messages
+  names <- names2(args)
+  names <- names_as_error_names(names)
+  args <- set_names(args, names)
 
-  if (is.array(x) && length(dim(x)) > 1) {
-    abort("Can't coalesce matrices.")
-  }
-  if (is.data.frame(x)) {
-    df_coalesce(x, values)
-  } else {
-    vec_coalesce(x, values)
-  }
-}
+  conditions <- map(args, ~{
+    !vec_equal_na(.x)
+  })
 
-vec_coalesce <- function(x, values) {
-  for (i in seq_along(values)) {
-    x_miss <- is.na(x)
-    vec_slice(x, x_miss) <- vec_slice(values[[i]], x_miss)
-  }
-
-  x
-}
-df_coalesce <- function(x, values) {
-  for (i in seq_along(x)) {
-    col_values <- map(values, `[[`, i)
-    x[[i]] <- vec_coalesce(x[[i]], col_values)
-  }
-
-  x
+  vec_case_when(
+    conditions = conditions,
+    values = args,
+    conditions_arg = "",
+    values_arg = "",
+    ptype = .ptype,
+    size = .size,
+    call = current_env()
+  )
 }

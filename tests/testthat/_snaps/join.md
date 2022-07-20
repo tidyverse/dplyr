@@ -3,7 +3,7 @@
     Code
       join_mutate(df, df, by = "x", type = "left", na_matches = 1)
     Condition
-      Error in `arg_match0()`:
+      Error:
       ! `na_matches` must be a string or character vector.
 
 ---
@@ -19,7 +19,7 @@
     Code
       join_filter(df, df, by = "x", type = "semi", na_matches = 1)
     Condition
-      Error in `arg_match0()`:
+      Error:
       ! `na_matches` must be a string or character vector.
 
 ---
@@ -35,7 +35,7 @@
     Code
       join_mutate(df, df, by = "x", type = "left", unmatched = 1)
     Condition
-      Error in `arg_match0()`:
+      Error:
       ! `unmatched` must be a string or character vector.
 
 ---

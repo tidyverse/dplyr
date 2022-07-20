@@ -10,6 +10,10 @@ test_that("coerces to common type", {
   expect_identical(coalesce(NA, f), f)
 })
 
+test_that("inputs are recycled to their common size", {
+  expect_identical(coalesce(1, c(2, 3)), c(1, 1))
+})
+
 test_that("finds non-missing values in multiple positions", {
   x1 <- c(1L, NA, NA)
   x2 <- c(NA, 2L, NA)
@@ -25,33 +29,96 @@ test_that("coalesce() gives meaningful error messages", {
   })
 })
 
-test_that("coalesce() supports data frames (#5326)", {
-  out <- coalesce(
-    data.frame(x = c(NA, 1)),
-    data.frame(x = 1:2)
-  )
-  expect_identical(out, data.frame(x = c(1, 1)))
-
-  df1 <- data.frame(x = c(NA, 1, NA), y = c(2, NA, NA), z = c(1:2, NA))
-  df2 <- tibble::tibble(x = 1:3, y = c(3, 4, NA), z = c(NA, NA, NA))
-  df3 <- data.frame(x = NA, y = c(30, 40, 50), z = 101:103)
-  out <- coalesce(df1, df2, df3)
-  exp <- tibble(x = c(1, 1, 3), y = c(2, 4, 50), z = c(1L, 2L, 103L))
-  expect_identical(out, exp)
-
-  expect_error(
-    coalesce(
-      data.frame(x = c(NA, 1)),
-      data.frame(x = c("a", "b"))
-    ),
-    class = "vctrs_error_incompatible_type"
-  )
-
-  expect_error(coalesce(as.matrix(mtcars), as.matrix(mtcars)), "matrices")
-})
-
 test_that("coalesce() supports one-dimensional arrays (#5557)", {
   x <- array(1:10)
-  out <- coalesce(x, 0)
-  expect_equal(out, x)
+  out <- coalesce(x, 0L)
+  expect_identical(out, x)
+})
+
+test_that("only updates entirely missing matrix rows", {
+  x <- c(
+    1, NA,
+    NA, NA
+  )
+  x <- matrix(x, nrow = 2, byrow = TRUE)
+
+  y <- c(
+    2, 2,
+    NA, 1
+  )
+  y <- matrix(y, nrow = 2, byrow = TRUE)
+
+  expect <- c(
+    1, NA,
+    NA, 1
+  )
+  expect <- matrix(expect, nrow = 2, byrow = TRUE)
+
+  expect_identical(coalesce(x, y), expect)
+})
+
+test_that("only updates entirely missing data frame rows", {
+  x <- tibble(x = c(1, NA), y = c(NA, NA))
+  y <- tibble(x = c(2, NA), y = c(TRUE, TRUE))
+
+  expect <- tibble(x = c(1, NA), y = c(NA, TRUE))
+
+  expect_identical(coalesce(x, y), expect)
+})
+
+test_that("only updates entirely missing rcrd observations", {
+  x <- new_rcrd(list(x = c(1, NA), y = c(NA, NA)))
+  y <- new_rcrd(list(x = c(2, NA), y = c(TRUE, TRUE)))
+
+  expect <- new_rcrd(list(x = c(1, NA), y = c(NA, TRUE)))
+
+  expect_identical(coalesce(x, y), expect)
+})
+
+test_that("recycling is done on the values early", {
+  expect_identical(coalesce(1, 1:2), c(1, 1))
+})
+
+test_that("`.ptype` overrides the common type (r-lib/funs#64)", {
+  x <- c(1L, NA)
+  expect_identical(coalesce(x, 99, .ptype = x), c(1L, 99L))
+})
+
+test_that("`.size` overrides the common size", {
+  x <- 1L
+
+  expect_snapshot(error = TRUE, {
+    coalesce(x, 1:2, .size = vec_size(x))
+  })
+})
+
+test_that("must have at least one non-`NULL` vector", {
+  expect_snapshot(error = TRUE, {
+    coalesce()
+  })
+  expect_snapshot(error = TRUE, {
+    coalesce(NULL, NULL)
+  })
+})
+
+test_that("`NULL`s are discarded (r-lib/funs#80)", {
+  expect_identical(
+    coalesce(c(1, NA, NA), NULL, c(1, 2, NA), NULL, 3),
+    c(1, 2, 3)
+  )
+})
+
+test_that("inputs must be vectors", {
+  expect_snapshot(error = TRUE, {
+    coalesce(1, environment())
+  })
+})
+
+test_that("names in error messages are indexed correctly", {
+  expect_snapshot(error = TRUE, {
+    coalesce(1, "x")
+  })
+  expect_snapshot(error = TRUE, {
+    coalesce(1, y = "x")
+  })
 })
