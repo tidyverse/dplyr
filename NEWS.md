@@ -1,5 +1,10 @@
 # dplyr (development version)
 
+* dplyr no longer provides `count()` and `tally()` methods for `tbl_sql`.
+  These methods have been accidentally overriding the `tbl_lazy` methods that
+  dbplyr provides, which has resulted in issues with the grouping structure of
+  the output (#6338, tidyverse/dbplyr#940).
+
 * `relocate()` now retains the last name change when a single column is renamed
   multiple times while it is being moved. This better matches the behavior of
   `rename()` (#6209, with help from @eutwt).

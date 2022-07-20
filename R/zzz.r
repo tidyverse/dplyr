@@ -10,12 +10,6 @@
 
   .Call(dplyr_init_library, ns_dplyr, ns_env("vctrs"), ns_env("rlang"))
 
-  has_dbplyr <- is_installed("dbplyr")
-  if (!has_dbplyr || !exists("count.tbl_sql", ns_env("dbplyr"))) {
-    s3_register("dplyr::count", "tbl_sql")
-    s3_register("dplyr::tally", "tbl_sql")
-  }
-
   # TODO: For `arrange()`, `group_by()`, and `with_order()` until vctrs changes
   # `vec_order()` to the new ordering algorithm and officially exports
   # `vec_order_base()`, at which point we should use `vec_order()` and
