@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `distinct()` now retains attributes of bare data frames (#6318).
+
 * dplyr no longer provides `count()` and `tally()` methods for `tbl_sql`.
   These methods have been accidentally overriding the `tbl_lazy` methods that
   dbplyr provides, which has resulted in issues with the grouping structure of
