@@ -13,7 +13,8 @@
 #' properties:
 #'
 #' * Rows are not affected.
-#' * The same columns appear in the output, but (usually) in a different place.
+#' * The same columns appear in the output, but (usually) in a different place
+#'   and possibly renamed.
 #' * Data frame attributes are preserved.
 #' * Groups are not affected.
 #' @section Methods:
@@ -53,6 +54,14 @@ relocate <- function(.data, ..., .before = NULL, .after = NULL) {
 relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
   to_move <- tidyselect::eval_select(expr(c(...)), .data)
 
+  # Enforce the invariant that `ncol(.data) == ncol(relocate(.data, ...))` by
+  # retaining only the last instance of a column that is renamed multiple times
+  # while it is being moved
+  # TODO: https://github.com/r-lib/vctrs/issues/1442
+  # `to_move <- vec_unique(to_move, which = "last")`
+  loc_last <- which(!duplicated(to_move, fromLast = TRUE))
+  to_move <- vec_slice(to_move, loc_last)
+
   .before <- enquo(.before)
   .after <- enquo(.after)
   has_before <- !quo_is_null(.before)
@@ -80,7 +89,7 @@ relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
   lhs <- setdiff(seq2(1, where - 1), to_move)
   rhs <- setdiff(seq2(where + 1, ncol(.data)), to_move)
 
-  pos <- vec_unique(c(lhs, to_move, rhs))
+  pos <- c(lhs, to_move, rhs)
   out <- .data[pos]
   new_names <- names(pos)
 

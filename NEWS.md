@@ -1,9 +1,22 @@
 # dplyr (development version)
 
-
 * `slice()` helpers again produce output equivalent to `slice(.data, 0)` when
   the `n` or `prop` argument is 0, fixing a bug introduced in the previous
   version (@eutwt, #6184).
+
+* Fixed an issue with latest rlang that caused internal tools (such as
+  `mask$eval_all_summarise()`) to be mentioned in error messages (#6308).
+
+* `distinct()` now retains attributes of bare data frames (#6318).
+
+* dplyr no longer provides `count()` and `tally()` methods for `tbl_sql`.
+  These methods have been accidentally overriding the `tbl_lazy` methods that
+  dbplyr provides, which has resulted in issues with the grouping structure of
+  the output (#6338, tidyverse/dbplyr#940).
+
+* `relocate()` now retains the last name change when a single column is renamed
+  multiple times while it is being moved. This better matches the behavior of
+  `rename()` (#6209, with help from @eutwt).
 
 * `na_if()` has been rewritten to utilize vctrs. This comes with the following
   improvements (#6329):

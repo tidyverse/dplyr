@@ -61,12 +61,36 @@ test_that("output preserves class & attributes where possible", {
 test_that("works with dbplyr", {
   skip_if_not_installed("dbplyr")
   skip_if_not_installed("RSQLite")
+
   db <- dbplyr::memdb_frame(x = c(1, 1, 1, 2, 2))
   df1 <- db %>% count(x) %>% as_tibble()
   expect_equal(df1, tibble(x = c(1, 2), n = c(3, 2)))
 
   df2 <- db %>% add_count(x) %>% as_tibble()
   expect_equal(df2, tibble(x = c(1, 1, 1, 2, 2), n = c(3, 3, 3, 2, 2)))
+})
+
+test_that("dbplyr `count()` method has transient internal grouping (#6338, tidyverse/dbplyr#940)", {
+  skip_if_not_installed("dbplyr")
+  skip_if_not_installed("RSQLite")
+
+  db <- dbplyr::memdb_frame(
+    x = c(1, 1, 1, 2, 2),
+    y = c("a", "a", "b", "c", "c")
+  )
+
+  df <- db %>%
+    count(x, y) %>%
+    collect()
+
+  expect <- tibble(
+    x = c(1, 1, 2),
+    y = c("a", "b", "c"),
+    n = c(2L, 1L, 2L)
+  )
+
+  expect_false(is_grouped_df(df))
+  expect_identical(df, expect)
 })
 
 test_that("can only explicitly chain together multiple tallies", {

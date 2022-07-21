@@ -70,3 +70,24 @@ test_that("relocate() can rename (#5569)", {
     tibble(a = 1, b = 1, c = 1, ffff = "a", d = "a", e = "a")
   )
 })
+
+test_that("`relocate()` retains the last duplicate when renaming while moving (#6209)", {
+  # To enforce the invariant that `ncol(.data) == ncol(relocate(.data, ...))`.
+  # Also matches `rename()` behavior.
+
+  df <- tibble(x = 1)
+
+  expect_named(relocate(df, a = x, b = x), "b")
+  expect_identical(
+    relocate(df, a = x, b = x),
+    rename(df, a = x, b = x)
+  )
+
+  df <- tibble(x = 1, y = 2)
+
+  expect_named(relocate(df, a = x, b = y, c = x), c("b", "c"))
+  expect_identical(
+    relocate(df, a = x, b = y, c = x),
+    select(rename(df, a = x, b = y, c = x), b, c)
+  )
+})

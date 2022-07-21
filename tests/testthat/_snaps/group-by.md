@@ -46,6 +46,6 @@
       ! Problem adding computed columns.
       Caused by error in `mutate()`:
       ! Problem while computing `z = a + 1`.
-      Caused by error in `mask$eval_all_mutate()`:
+      Caused by error:
       ! object 'a' not found
 

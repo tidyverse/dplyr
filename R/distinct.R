@@ -128,11 +128,13 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
     caller_env = caller_env()
   )
 
-  # out <- as_tibble(prep$data)
   out <- prep$data
-  loc <- vec_unique_loc(as_tibble(out)[prep$vars])
 
-  dplyr_row_slice(out[prep$keep], loc)
+  cols <- dplyr_col_select(out, prep$vars)
+  loc <- vec_unique_loc(cols)
+
+  out <- dplyr_col_select(out, prep$keep)
+  dplyr_row_slice(out, loc)
 }
 
 

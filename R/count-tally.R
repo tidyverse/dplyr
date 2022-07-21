@@ -76,13 +76,10 @@ count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
   out <- tally(out, wt = !!enquo(wt), sort = sort, name = name)
 
   # Ensure grouping is transient
-  if (is.data.frame(x)) {
-    out <- dplyr_reconstruct(out, x)
-  }
+  out <- dplyr_reconstruct(out, x)
+
   out
 }
-
-count.tbl_sql <- count.data.frame
 
 #' @export
 #' @rdname count
@@ -104,8 +101,6 @@ tally.data.frame <- function(x, wt = NULL, sort = FALSE, name = NULL) {
     out
   }
 }
-
-tally.tbl_sql <- tally.data.frame
 
 #' @export
 #' @rdname count

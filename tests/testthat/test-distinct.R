@@ -156,6 +156,16 @@ test_that("distinct() propagates caller env", {
   expect_caller_env(distinct(mtcars, sig_caller_env()))
 })
 
+test_that("distinct() preserves attributes on bare data frames (#6318)", {
+  df <- vctrs::data_frame(x = c(1, 1))
+  attr(df, "foo") <- "bar"
+
+  out <- distinct(df, x)
+  expect_identical(attr(out, "foo"), "bar")
+
+  out <- distinct(df, y = x + 1L)
+  expect_identical(attr(out, "foo"), "bar")
+})
 
 # Errors ------------------------------------------------------------------
 
