@@ -1,5 +1,10 @@
 # dplyr (development version)
 
+* The `.keep`, `.before`, and `.after` arguments to `mutate()` 
+  are no longer experimental.
+  
+* The `rows_` family of functions are no longer experimental.
+
 * `slice()` helpers again produce output equivalent to `slice(.data, 0)` when
   the `n` or `prop` argument is 0, fixing a bug introduced in the previous
   version (@eutwt, #6184).
