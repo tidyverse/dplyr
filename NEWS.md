@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `distinct()` returns columns ordered the way you request, not the same
+  as the input data (#6156).
+
 * Fixed an issue with latest rlang that caused internal tools (such as
   `mask$eval_all_summarise()`) to be mentioned in error messages (#6308).
 

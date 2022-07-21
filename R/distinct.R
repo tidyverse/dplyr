@@ -107,7 +107,8 @@ distinct_prepare <- function(.data,
   }
 
   # Always include grouping variables preserving input order
-  out_vars <- intersect(names(.data), c(distinct_vars, group_vars))
+  new_vars <- c(setdiff(group_vars, distinct_vars), distinct_vars)
+  out_vars <- intersect(new_vars, names(.data))
 
   if (.keep_all) {
     keep <- seq_along(.data)
