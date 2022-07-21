@@ -432,7 +432,7 @@ get_slice_size <- function(n, prop, allow_negative = TRUE, error_call = caller_e
   slice_input <- check_slice_n_prop(n, prop, error_call = error_call)
 
   if (slice_input$type == "n") {
-    if (slice_input$n > 0) {
+    if (slice_input$n >= 0) {
       function(n) floor(slice_input$n)
     } else if (allow_negative) {
       function(n) ceiling(n + slice_input$n)
@@ -440,7 +440,7 @@ get_slice_size <- function(n, prop, allow_negative = TRUE, error_call = caller_e
       abort("`n` must be positive.", call = error_call)
     }
   } else if (slice_input$type == "prop") {
-    if (slice_input$prop > 0) {
+    if (slice_input$prop >= 0) {
       function(n) floor(slice_input$prop * n)
     } else if (allow_negative) {
       function(n) ceiling(n + slice_input$prop * n)

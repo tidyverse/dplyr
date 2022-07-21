@@ -1,5 +1,9 @@
 # dplyr (development version)
 
+* `slice()` helpers again produce output equivalent to `slice(.data, 0)` when
+  the `n` or `prop` argument is 0, fixing a bug introduced in the previous
+  version (@eutwt, #6184).
+
 * Fixed an issue with latest rlang that caused internal tools (such as
   `mask$eval_all_summarise()`) to be mentioned in error messages (#6308).
 
