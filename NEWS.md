@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* Fixed an issue with latest rlang that caused internal tools (such as
+  `mask$eval_all_summarise()`) to be mentioned in error messages (#6308).
+
 * `distinct()` now retains attributes of bare data frames (#6318).
 
 * dplyr no longer provides `count()` and `tally()` methods for `tbl_sql`.

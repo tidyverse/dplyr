@@ -54,15 +54,21 @@ DataMask <- R6Class("DataMask",
     },
 
     eval_all_summarise = function(quo) {
-      .Call(`dplyr_mask_eval_all_summarise`, quo, private)
+      # Wrap in a function called `eval()` so that rlang ignores the
+      # call in error messages. This only concerns errors that occur
+      # directly in `quo`.
+      eval <- function() .Call(`dplyr_mask_eval_all_summarise`, quo, private)
+      eval()
     },
 
     eval_all_mutate = function(quo) {
-      .Call(`dplyr_mask_eval_all_mutate`, quo, private)
+      eval <- function() .Call(`dplyr_mask_eval_all_mutate`, quo, private)
+      eval()
     },
 
     eval_all_filter = function(quos, env_filter) {
-      .Call(`dplyr_mask_eval_all_filter`, quos, private, nrow(private$data), env_filter)
+      eval <- function() .Call(`dplyr_mask_eval_all_filter`, quos, private, nrow(private$data), env_filter)
+      eval()
     },
 
     pick = function(vars) {
