@@ -5,7 +5,7 @@
 \alias{tally}
 \alias{add_count}
 \alias{add_tally}
-\title{Count observations by group}
+\title{Count the observations in each group}
 \usage{
 count(x, ..., wt = NULL, sort = FALSE, name = NULL)
 

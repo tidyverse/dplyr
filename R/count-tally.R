@@ -1,4 +1,4 @@
-#' Count observations by group
+#' Count the observations in each group
 #'
 #' @description
 #' `count()` lets you quickly count the unique values of one or more variables:

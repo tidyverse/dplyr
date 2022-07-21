@@ -2,7 +2,7 @@
 % Please edit documentation in R/select.R
 \name{select}
 \alias{select}
-\title{Subset columns using their names and types}
+\title{Keep or drop columns using their names and types}
 \usage{
 select(.data, ...)
 }

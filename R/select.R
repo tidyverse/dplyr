@@ -1,4 +1,4 @@
-#' Subset columns using their names and types
+#' Keep or drop columns using their names and types
 #'
 #' @description
 #'
