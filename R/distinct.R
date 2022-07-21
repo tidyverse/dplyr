@@ -134,7 +134,6 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
   loc <- vec_unique_loc(cols)
 
   out <- dplyr_col_select(out, prep$keep)
-
   dplyr_row_slice(out, loc)
 }
 
