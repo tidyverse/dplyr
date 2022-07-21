@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `all_equal()` is formally deprecated. We've advise against it for
+  some time, and we explicitly recommend you use something else (#6324).
+
 * `slice()` helpers again produce output equivalent to `slice(.data, 0)` when
   the `n` or `prop` argument is 0, fixing a bug introduced in the previous
   version (@eutwt, #6184).
