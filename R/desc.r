@@ -13,4 +13,10 @@
 #' desc(first_day)
 #'
 #' starwars %>% arrange(desc(mass))
-desc <- function(x) -xtfrm(x)
+desc <- function(x) {
+  if (!vctrs::vec_is(x)) {
+    abort("`x` must be a vector")
+  }
+
+  -xtfrm(x)
+}

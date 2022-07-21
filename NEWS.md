@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `desc()` gives a useful error message if you give it a non-vector (#6028).
+
 * Fixed an issue with latest rlang that caused internal tools (such as
   `mask$eval_all_summarise()`) to be mentioned in error messages (#6308).
 
