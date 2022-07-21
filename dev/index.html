@@ -132,9 +132,10 @@
 </h2>
 <p>In addition to data frames/tibbles, dplyr makes working with other computational backends accessible and efficient. Below is a list of alternative backends:</p>
 <ul>
-<li><p><a href="https://dtplyr.tidyverse.org/" class="external-link">dtplyr</a>: for large, in-memory datasets. Translates your dplyr code to high performance <a href="https://rdatatable.gitlab.io/data.table/" class="external-link">data.table</a> code.</p></li>
-<li><p><a href="https://dbplyr.tidyverse.org/" class="external-link">dbplyr</a>: for data stored in a relational database. Translates your dplyr code to SQL.</p></li>
-<li><p><a href="https://spark.rstudio.com" class="external-link">sparklyr</a>: for very large datasets stored in <a href="https://spark.apache.org" class="external-link">Apache Spark</a>.</p></li>
+<li><p><a href="https://dtplyr.tidyverse.org/" class="external-link">dtplyr</a> for large, in-memory datasets. Translates your dplyr code to high performance <a href="https://rdatatable.gitlab.io/data.table/" class="external-link">data.table</a> code.</p></li>
+<li><p><a href="https://dbplyr.tidyverse.org/" class="external-link">dbplyr</a> for data stored in a relational database. Translates your dplyr code to SQL.</p></li>
+<li><p><a href="https://duckdb.org/docs/api/r" class="external-link">duckdb</a> or <a href="https://arrow.apache.org/docs/r/" class="external-link">arrow</a> for large datasets that are still small enough to fit on your computer.</p></li>
+<li><p><a href="https://spark.rstudio.com" class="external-link">sparklyr</a> for very large datasets stored in <a href="https://spark.apache.org" class="external-link">Apache Spark</a>.</p></li>
 </ul>
 </div>
 <div class="section level2">
@@ -169,15 +170,17 @@
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="reference/filter.html">filter</a></span><span class="op">(</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Droid"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 6 × 14</span></span>
-<span><span class="co">#&gt;   name   height  mass hair_color skin_color  eye_color birth_year sex   gender  </span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   </span></span>
-<span><span class="co">#&gt; 1 C-3PO     167    75 &lt;NA&gt;       gold        yellow           112 none  masculi…</span></span>
-<span><span class="co">#&gt; 2 R2-D2      96    32 &lt;NA&gt;       white, blue red               33 none  masculi…</span></span>
-<span><span class="co">#&gt; 3 R5-D4      97    32 &lt;NA&gt;       white, red  red               NA none  masculi…</span></span>
-<span><span class="co">#&gt; 4 IG-88     200   140 none       metal       red               15 none  masculi…</span></span>
-<span><span class="co">#&gt; 5 R4-P17     96    NA none       silver, red red, blue         NA none  feminine</span></span>
-<span><span class="co">#&gt; # … with 1 more row, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span>
+<span><span class="co">#&gt;   name   height  mass hair_color skin_color eye_c…¹ birth…² sex   gender homew…³</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  </span></span>
+<span><span class="co">#&gt; 1 C-3PO     167    75 &lt;NA&gt;       gold       yellow      112 none  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; 2 R2-D2      96    32 &lt;NA&gt;       white, bl… red          33 none  mascu… Naboo  </span></span>
+<span><span class="co">#&gt; 3 R5-D4      97    32 &lt;NA&gt;       white, red red          NA none  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; 4 IG-88     200   140 none       metal      red          15 none  mascu… &lt;NA&gt;   </span></span>
+<span><span class="co">#&gt; 5 R4-P17     96    NA none       silver, r… red, b…      NA none  femin… &lt;NA&gt;   </span></span>
+<span><span class="co">#&gt; # … with 1 more row, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span></span>
+<span><span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span>
+<span><span class="co">#&gt; #   ¹​eye_color, ²​birth_year, ³​homeworld</span></span>
+<span><span class="co">#&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span>
 <span></span>
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">ends_with</a></span><span class="op">(</span><span class="st">"color"</span><span class="op">)</span><span class="op">)</span></span>
@@ -190,6 +193,7 @@
 <span><span class="co">#&gt; 4 Darth Vader    none       white       yellow   </span></span>
 <span><span class="co">#&gt; 5 Leia Organa    brown      light       brown    </span></span>
 <span><span class="co">#&gt; # … with 82 more rows</span></span>
+<span><span class="co">#&gt; # ℹ Use `print(n = ...)` to see more rows</span></span>
 <span></span>
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">name</span>, bmi <span class="op">=</span> <span class="va">mass</span> <span class="op">/</span> <span class="op">(</span><span class="op">(</span><span class="va">height</span> <span class="op">/</span> <span class="fl">100</span><span class="op">)</span>  <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -203,19 +207,22 @@
 <span><span class="co">#&gt; 4 Darth Vader       202   136  33.3</span></span>
 <span><span class="co">#&gt; 5 Leia Organa       150    49  21.8</span></span>
 <span><span class="co">#&gt; # … with 82 more rows</span></span>
+<span><span class="co">#&gt; # ℹ Use `print(n = ...)` to see more rows</span></span>
 <span></span>
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 87 × 14</span></span>
-<span><span class="co">#&gt;   name      height  mass hair_color skin_color eye_color birth_year sex   gender</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></span>
-<span><span class="co">#&gt; 1 Jabba De…    175  1358 &lt;NA&gt;       green-tan… orange         600   herm… mascu…</span></span>
-<span><span class="co">#&gt; 2 Grievous     216   159 none       brown, wh… green, y…       NA   male  mascu…</span></span>
-<span><span class="co">#&gt; 3 IG-88        200   140 none       metal      red             15   none  mascu…</span></span>
-<span><span class="co">#&gt; 4 Darth Va…    202   136 none       white      yellow          41.9 male  mascu…</span></span>
-<span><span class="co">#&gt; 5 Tarfful      234   136 brown      brown      blue            NA   male  mascu…</span></span>
-<span><span class="co">#&gt; # … with 82 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span>
+<span><span class="co">#&gt;   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  </span></span>
+<span><span class="co">#&gt; 1 Jabba Desil…    175  1358 &lt;NA&gt;    green-… orange    600   herm… mascu… Nal Hu…</span></span>
+<span><span class="co">#&gt; 2 Grievous        216   159 none    brown,… green,…    NA   male  mascu… Kalee  </span></span>
+<span><span class="co">#&gt; 3 IG-88           200   140 none    metal   red        15   none  mascu… &lt;NA&gt;   </span></span>
+<span><span class="co">#&gt; 4 Darth Vader     202   136 none    white   yellow     41.9 male  mascu… Tatooi…</span></span>
+<span><span class="co">#&gt; 5 Tarfful         234   136 brown   brown   blue       NA   male  mascu… Kashyy…</span></span>
+<span><span class="co">#&gt; # … with 82 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span></span>
+<span><span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span>
+<span><span class="co">#&gt; #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span>
+<span><span class="co">#&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span>
 <span></span>
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -235,7 +242,8 @@
 <span><span class="co">#&gt; 3 Human       35  82.8</span></span>
 <span><span class="co">#&gt; 4 Kaminoan     2  88  </span></span>
 <span><span class="co">#&gt; 5 Mirialan     2  53.1</span></span>
-<span><span class="co">#&gt; # … with 3 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; # … with 3 more rows</span></span>
+<span><span class="co">#&gt; # ℹ Use `print(n = ...)` to see more rows</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="getting-help">Getting help<a class="anchor" aria-label="anchor" href="#getting-help"></a>
