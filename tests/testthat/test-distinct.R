@@ -102,7 +102,7 @@ test_that("distinct handles 0 columns edge case (#2954)", {
   expect_equal(nrow(distinct(tibble())), 0L)
 })
 
-test_that("distinct respects order of the specified variables (#3195)",{
+test_that("distinct respects order of the specified variables (#3195, #6156)",{
   d <- data.frame(x = 1:2, y = 3:4)
   expect_named(distinct(d, y, x), c("y", "x"))
 })

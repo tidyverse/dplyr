@@ -106,7 +106,7 @@ distinct_prepare <- function(.data,
     abort(bullets, call = error_call)
   }
 
-  # Always include grouping variables preserving input order
+  # Missing grouping variables are added to the front
   new_vars <- c(setdiff(group_vars, distinct_vars), distinct_vars)
   out_vars <- intersect(new_vars, names(.data))
 
