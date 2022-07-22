@@ -210,34 +210,37 @@ test_that("slice_sample() handles n= and prop=", {
     (expect_error(
       df %>% slice_sample(prop = -1)
     ))
-
-    (expect_error(
-      df %>% slice_sample(n = 4, replace = FALSE)
-    ))
-    (expect_error(
-      gdf %>% slice_sample(n = 4, replace = FALSE)
-    ))
-
-    (expect_error(
-      df %>% slice_sample(prop = 4, replace = FALSE)
-    ))
-    (expect_error(
-      gdf %>% slice_sample(prop = 4, replace = FALSE)
-    ))
   })
 })
 
 test_that("functions silently truncate results", {
   df <- data.frame(x = 1:5)
 
+  # positive n
+  expect_equal(df %>% slice_sample(n = 6) %>% nrow(), 5)
   expect_equal(df %>% slice_head(n = 6) %>% nrow(), 5)
   expect_equal(df %>% slice_tail(n = 6) %>% nrow(), 5)
   expect_equal(df %>% slice_min(x, n = 6) %>% nrow(), 5)
   expect_equal(df %>% slice_max(x, n = 6) %>% nrow(), 5)
+
+  # positive prop
+  expect_equal(df %>% slice_sample(prop = 2) %>% nrow(), 5)
+  expect_equal(df %>% slice_head(prop = 2) %>% nrow(), 5)
+  expect_equal(df %>% slice_tail(prop = 2) %>% nrow(), 5)
+  expect_equal(df %>% slice_min(x, prop = 2) %>% nrow(), 5)
+  expect_equal(df %>% slice_max(x, prop = 2) %>% nrow(), 5)
+
+  # negative n
   expect_equal(df %>% slice_head(n = -6) %>% nrow(), 0)
   expect_equal(df %>% slice_tail(n = -6) %>% nrow(), 0)
   expect_equal(df %>% slice_min(x, n = -6) %>% nrow(), 0)
   expect_equal(df %>% slice_max(x, n = -6) %>% nrow(), 0)
+
+  # negative prop
+  expect_equal(df %>% slice_head(prop = -2) %>% nrow(), 0)
+  expect_equal(df %>% slice_tail(prop = -2) %>% nrow(), 0)
+  expect_equal(df %>% slice_min(x, prop = -2) %>% nrow(), 0)
+  expect_equal(df %>% slice_max(x, prop = -2) %>% nrow(), 0)
 })
 
 test_that("proportion computed correctly", {

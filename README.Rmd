@@ -40,14 +40,18 @@ If you are new to dplyr, the best place to start is the [data transformation cha
 
 In addition to data frames/tibbles, dplyr makes working with other computational backends accessible and efficient. Below is a list of alternative backends:
 
-- [dtplyr](https://dtplyr.tidyverse.org/): for large, in-memory datasets. 
+- [dtplyr](https://dtplyr.tidyverse.org/) for large, in-memory datasets. 
   Translates your dplyr code to high performance 
   [data.table](https://rdatatable.gitlab.io/data.table/) code.
 
-- [dbplyr](https://dbplyr.tidyverse.org/): for data stored in a relational 
+- [dbplyr](https://dbplyr.tidyverse.org/) for data stored in a relational 
   database. Translates your dplyr code to SQL.
 
-- [sparklyr](https://spark.rstudio.com): for very large datasets stored in 
+- [duckdb](https://duckdb.org/docs/api/r) or 
+  [arrow](https://arrow.apache.org/docs/r/) for large datasets that are 
+  still small enough to fit on your computer.
+
+- [sparklyr](https://spark.rstudio.com) for very large datasets stored in 
   [Apache Spark](https://spark.apache.org).
 
 ## Installation
