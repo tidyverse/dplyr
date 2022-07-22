@@ -302,11 +302,7 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
     }
 
     index <<- 0L
-
-    fix_call(
-      vec_c(!!!out),
-      call = NULL
-    )
+    vec_c(!!!out)
   }
 
   withCallingHandlers(

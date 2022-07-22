@@ -139,7 +139,7 @@ bind_rows <- function(..., .id = NULL) {
   if (is.null(.id)) {
     names(dots) <- NULL
   }
-  out <- fix_call(vec_rbind(!!!dots, .names_to = .id))
+  out <- vec_rbind(!!!dots, .names_to = .id)
   if (length(dots)) {
     if (is.data.frame(first)) {
       out <- dplyr_reconstruct(out, first)
@@ -161,7 +161,7 @@ bind_cols <- function(..., .name_repair = c("unique", "universal", "check_unique
   # Strip names off of data frame components so that vec_cbind() unpacks them
   names2(dots)[map_lgl(dots, is.data.frame)] <- ""
 
-  out <- fix_call(vec_cbind(!!!dots, .name_repair = .name_repair))
+  out <- vec_cbind(!!!dots, .name_repair = .name_repair)
   if (!any(map_lgl(dots, is.data.frame))) {
     out <- as_tibble(out)
   }
