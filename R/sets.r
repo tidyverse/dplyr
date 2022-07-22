@@ -67,10 +67,9 @@ generics::setequal
 intersect.data.frame <- function(x, y, ...) {
   check_dots_empty()
   check_compatible(x, y)
+
   cast <- vec_cast_common(x = x, y = y)
-  new_x <- cast[[1L]]
-  new_y <- cast[[2L]]
-  out <- vec_unique(vec_slice(new_x, vec_in(new_x, new_y)))
+  out <- vec_unique(vec_slice(cast$x, vec_in(cast$x, cast$y)))
   reconstruct_set(out, x)
 }
 
@@ -78,15 +77,16 @@ intersect.data.frame <- function(x, y, ...) {
 union.data.frame <- function(x, y, ...) {
   check_dots_empty()
   check_compatible(x, y)
-  cast <- vec_cast_common(x, y)
-  out <- vec_unique(vec_rbind(!!!cast))
+
+  out <- vec_unique(vec_rbind(x, y))
   reconstruct_set(out, x)
 }
 
 #' @export
 union_all.data.frame <- function(x, y, ...) {
   check_dots_empty()
-  out <- bind_rows(x, y)
+
+  out <- vec_rbind(x, y)
   reconstruct_set(out, x)
 }
 
@@ -94,10 +94,9 @@ union_all.data.frame <- function(x, y, ...) {
 setdiff.data.frame <- function(x, y, ...) {
   check_dots_empty()
   check_compatible(x, y)
-  cast <- vec_cast_common(x, y)
-  new_x <- cast[[1L]]
-  new_y <- cast[[2L]]
-  out <- vec_unique(vec_slice(new_x, !vec_in(new_x, new_y)))
+
+  cast <- vec_cast_common(x = x, y = y)
+  out <- vec_unique(vec_slice(cast$x, !vec_in(cast$x, cast$y)))
   reconstruct_set(out, x)
 }
 
