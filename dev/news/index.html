@@ -75,7 +75,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
-<ul><li><p><code><a href="../reference/distinct.html">distinct()</a></code> returns columns ordered the way you request, not the same as the input data (<a href="https://github.com/tidyverse/dplyr/issues/6156" class="external-link">#6156</a>).</p></li>
+<ul><li><p><code><a href="../reference/all_equal.html">all_equal()</a></code> is formally deprecated. We’ve advised against it for some time, and we explicitly recommend you use <code><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal()</a></code>, manually reordering the rows and columns (<a href="https://github.com/tidyverse/dplyr/issues/6324" class="external-link">#6324</a>).</p></li>
+<li><p><code><a href="../reference/distinct.html">distinct()</a></code> returns columns ordered the way you request, not the same as the input data (<a href="https://github.com/tidyverse/dplyr/issues/6156" class="external-link">#6156</a>).</p></li>
 <li><p>The <code>.keep</code>, <code>.before</code>, and <code>.after</code> arguments to <code><a href="../reference/mutate.html">mutate()</a></code> are no longer experimental.</p></li>
 <li><p>The <code>rows_*()</code> family of functions are no longer experimental.</p></li>
 <li><p><code><a href="../reference/desc.html">desc()</a></code> gives a useful error message if you give it a non-vector (<a href="https://github.com/tidyverse/dplyr/issues/6028" class="external-link">#6028</a>).</p></li>
