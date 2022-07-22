@@ -196,7 +196,7 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
     order_by <- {{ order_by }}
     n <- dplyr::n()
 
-    x <- fix_call(vec_assert(order_by, size = n, arg = "order_by"), NULL)
+    x <- vec_assert(order_by, size = n, arg = "order_by")
     idx(x, n)
   }))
 
@@ -226,7 +226,7 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
   slice(.data, local({
     order_by <- {{ order_by }}
     n <- dplyr::n()
-    order_by <- fix_call(vec_assert(order_by, size = n, arg = "order_by"), NULL)
+    order_by <- vec_assert(order_by, size = n, arg = "order_by")
     idx(order_by, n)
   }))
 }
@@ -257,7 +257,7 @@ slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, repla
 
     n <- dplyr::n()
     if (!is.null(weight_by)) {
-      weight_by <- fix_call(vec_assert(weight_by, size = n, arg = "weight_by"), NULL)
+      weight_by <- vec_assert(weight_by, size = n, arg = "weight_by")
     }
     sample_int(n, size(n), replace = replace, wt = weight_by)
   }))
@@ -340,7 +340,7 @@ slice_combine <- function(chunks, mask, error_call = caller_env()) {
         if (is.matrix(res) && ncol(res) == 1) {
           res <- as.vector(res)
         }
-        res <- fix_call(vec_cast(res, integer(), x_arg = ""), NULL)
+        res <- vec_cast(res, integer(), x_arg = "", call = error_call)
       } else {
         bullets <- c(
           glue("Invalid result of type <{vec_ptype_full(res)}>."),
