@@ -106,17 +106,18 @@ distinct_prepare <- function(.data,
     abort(bullets, call = error_call)
   }
 
+  # Only keep unique vars
+  distinct_vars <- unique(distinct_vars)
   # Missing grouping variables are added to the front
   new_vars <- c(setdiff(group_vars, distinct_vars), distinct_vars)
-  out_vars <- intersect(new_vars, names(.data))
 
   if (.keep_all) {
     keep <- seq_along(.data)
   } else {
-    keep <- out_vars
+    keep <- new_vars
   }
 
-  list(data = .data, vars = out_vars, keep = keep)
+  list(data = .data, vars = new_vars, keep = keep)
 }
 
 #' @export
