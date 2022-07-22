@@ -1,7 +1,6 @@
 #' Manipulate individual rows
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
 #'
 #' These functions provide a framework for modifying rows in a table using a
 #' second table of data. The two tables are matched `by` a set of key variables
@@ -114,7 +113,6 @@ rows_insert <- function(x,
                         conflict = c("error", "ignore"),
                         copy = FALSE,
                         in_place = FALSE) {
-  lifecycle::signal_stage("experimental", "rows_insert()")
   UseMethod("rows_insert")
 }
 
@@ -155,7 +153,6 @@ rows_append <- function(x,
                         ...,
                         copy = FALSE,
                         in_place = FALSE) {
-  lifecycle::signal_stage("experimental", "rows_append()")
   UseMethod("rows_append")
 }
 
@@ -185,7 +182,6 @@ rows_update <- function(x,
                         unmatched = c("error", "ignore"),
                         copy = FALSE,
                         in_place = FALSE) {
-  lifecycle::signal_stage("experimental", "rows_update()")
   UseMethod("rows_update", x)
 }
 
@@ -250,7 +246,6 @@ rows_patch <- function(x,
                        unmatched = c("error", "ignore"),
                        copy = FALSE,
                        in_place = FALSE) {
-  lifecycle::signal_stage("experimental", "rows_patch()")
   UseMethod("rows_patch", x)
 }
 
@@ -321,7 +316,6 @@ rows_upsert <- function(x,
                         ...,
                         copy = FALSE,
                         in_place = FALSE) {
-  lifecycle::signal_stage("experimental", "rows_upsert()")
   UseMethod("rows_upsert", x)
 }
 
@@ -387,7 +381,6 @@ rows_delete <- function(x,
                         unmatched = c("error", "ignore"),
                         copy = FALSE,
                         in_place = FALSE) {
-  lifecycle::signal_stage("experimental", "rows_delete()")
   UseMethod("rows_delete", x)
 }
 
