@@ -1,7 +1,7 @@
 # dplyr (development version)
 
 * `setequal()` ignores differences between freely coercible types (e.g. integer 
-  and double) (#6114).
+  and double) (#6114) and ignores duplicated rows (#6057).
 
 * `all_equal()` is formally deprecated. We've advised against it for
   some time, and we explicitly recommend you use `all.equal()`,

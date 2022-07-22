@@ -25,13 +25,6 @@ test_that("set operations use coercion rules (#799)", {
   expect_equal(res, tibble(x = letters[11:15]), ignore_attr = TRUE)
 })
 
-test_that("setequal uses coercion rules", {
-  df1 <- tibble(x = 1)
-  df2 <- tibble(x = 1L)
-
-  expect_true(setequal(df1, df2))
-})
-
 test_that("setdiff handles factors with NA (#1526)", {
   df1 <- tibble(x = factor(c(NA, "a")))
   df2 <- tibble(x = factor("a"))
@@ -87,6 +80,9 @@ test_that("set operations remove duplicates", {
   expect_equal(union(df1, df2), tibble(x = 1:6, g = rep(1:3, each = 2)), ignore_attr = TRUE)
 })
 
+
+# setequal ----------------------------------------------------------------
+
 test_that("set equality", {
   df1 <- tibble(x = 1:4, g = rep(1:2, each = 2)) %>% group_by(g)
   df2 <- tibble(x = 3:6, g = rep(2:3, each = 2))
@@ -96,6 +92,32 @@ test_that("set equality", {
   expect_false(setequal(df1, df2))
   expect_false(setequal(df2, df1))
 })
+
+test_that("setequal ignores column and row order", {
+  df1 <- tibble(x = 1:2, y = 3:4)
+  df2 <- df1[2:1, 2:1]
+
+  expect_true(setequal(df1, df2))
+  expect_true(setequal(df1, df2))
+})
+
+test_that("setequal equality ignores duplicated rows", {
+  df1 <- tibble(x = 1)
+  df2 <- df1[c(1, 1, 1), ]
+
+  expect_true(setequal(df1, df2))
+  expect_true(setequal(df2, df1))
+})
+
+test_that("setequal uses coercion rules", {
+  df1 <- tibble(x = 1)
+  df2 <- tibble(x = 1L)
+
+  expect_true(setequal(df1, df2))
+  expect_true(setequal(df2, df1))
+})
+
+# Errors ------------------------------------------------------------------
 
 test_that("set operations enforce empty ... (#5891)", {
   a <- tibble(var = 1:3)
@@ -108,8 +130,6 @@ test_that("set operations enforce empty ... (#5891)", {
   expect_error(union(a, b, c))
   expect_error(union_all(a, b, c))
 })
-
-# Errors ------------------------------------------------------------------
 
 test_that("set operation give useful error message. #903", {
   expect_snapshot({
