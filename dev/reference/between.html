@@ -106,19 +106,17 @@ the size of <code>x</code> and are cast to the type of <code>x</code>.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1e2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="fu">between</span><span class="op">(</span><span class="va">x</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  0.35662613 -0.25643785  0.60433868 -0.26943147 -0.22559209</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6]  0.82978688  0.78611397  0.39451767  0.43427736  0.72551641</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11]  0.98779117  0.11692141 -0.42188796 -0.29456406 -0.63740023</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16]  0.40521380  0.57822758  0.44753341 -0.80466172  0.95398619</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21]  0.65946613 -0.36951172 -0.18758548 -0.05747166 -0.06011071</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [26] -0.01696711  0.64344924  0.89282172  0.87778612  0.60376048</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31]  0.07822779  0.87332633 -0.62672568  0.33775503  0.51436736</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [36]  0.56043146  0.65300251 -0.34635125  0.02214903 -0.23582479</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [41] -0.35754318 -0.28165651  0.90246889  0.81266348 -0.58337320</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [46]  0.61794055 -0.64821704  0.80740544 -0.36752078  0.13820898</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [51] -0.49884404 -0.47991489  0.09773944 -0.15890500  0.85180198</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [56] -0.40998641  0.34069501 -0.29055325 -0.72509955 -0.02694812</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [61] -0.03863066</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] -0.430243716 -0.266501271 -0.125343682  0.501934334 -0.139752070</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] -0.390768121 -0.007288974  0.722157383  0.462918969  0.656636556</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11]  0.556812509 -0.634760514  0.593478639  0.112078407  0.126825576</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16]  0.247826226  0.139749290  0.007825184 -0.251651983 -0.174874361</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21]  0.221073872  0.575010723  0.764809104  0.673125966  0.957043442</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26] -0.738667813  0.160100126 -0.764344378 -0.113056089 -0.183393534</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31] -0.414479969 -0.137880594 -0.901377675  0.849750084  0.338622306</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36]  0.795740904  0.459196995  0.346239078 -0.235357359  0.931754404</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [41]  0.983885055 -0.446358418 -0.781053966  0.459754101 -0.029811524</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [46]  0.657931200 -0.460345234  0.290573276  0.324221957  0.583912911</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [51]  0.188983598  0.512128740 -0.747171868 -0.918508743 -0.185692268</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># On a tibble using `filter()`</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="fu">between</span><span class="op">(</span><span class="va">height</span>, <span class="fl">100</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></span>
