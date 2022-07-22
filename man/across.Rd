@@ -22,10 +22,12 @@ Possible values are:
 \itemize{
 \item A function, e.g. \code{mean}.
 \item A purrr-style lambda, e.g. \code{~ mean(.x, na.rm = TRUE)}
-\item A list of functions/lambdas, e.g.
-\verb{list(mean = mean, n_miss = ~ sum(is.na(.x))}
-\item \code{NULL}: the default value, returns the selected columns in a data
-frame without applying a transformation. This is useful for when you want to
+\item A named list of functions/lambdas, e.g.
+\verb{list(mean = mean, n_miss = ~ sum(is.na(.x))}. Each function is applied
+to each column, and the output is named by combining the function name
+and the column name using the glue specification in \code{.name}.
+\item \code{NULL}: the default, returns the selected columns in a data frame
+without applying a transformation. This is useful for when you want to
 use a function that takes a data frame.
 }
 
