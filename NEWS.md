@@ -1,5 +1,9 @@
 # dplyr (development version)
 
+* `all_equal()` is formally deprecated. We've advised against it for
+  some time, and we explicitly recommend you use `all.equal()`,
+  manually reordering the rows and columns (#6324).
+
 * `distinct()` returns columns ordered the way you request, not the same
   as the input data (#6156).
 
