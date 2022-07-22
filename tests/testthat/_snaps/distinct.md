@@ -1,4 +1,4 @@
-# distinct gives a warning when selecting an unknown column (#3140)
+# distinct errors when selecting an unknown column (#3140)
 
     Code
       df <- tibble(g = c(1, 2), x = c(1, 2))

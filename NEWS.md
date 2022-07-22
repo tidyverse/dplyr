@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `distinct()` returns columns ordered the way you request, not the same
+  as the input data (#6156).
+
 * The `.keep`, `.before`, and `.after` arguments to `mutate()` 
   are no longer experimental.
   
