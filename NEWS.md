@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `union_all()`, like `union()`, now requires that data frames be compatible:
+  i.e. they have the same columns, and the columns have compatible types.
+
 * `setequal()` ignores differences between freely coercible types (e.g. integer 
   and double) (#6114) and ignores duplicated rows (#6057).
 

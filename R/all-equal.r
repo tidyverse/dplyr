@@ -48,9 +48,9 @@ all_equal <- function(target, current, ignore_col_order = TRUE,
 }
 
 equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = TRUE, convert = FALSE) {
-  compat <- is_compatible_data_frame(x, y, ignore_col_order = ignore_col_order, convert = convert)
+  compat <- is_compatible(x, y, ignore_col_order = ignore_col_order, convert = convert)
   if (!isTRUE(compat)) {
-    # revert the bulleting from is_compatible_data_frame()
+    # revert the bulleting from is_compatible()
     return(glue_collapse(compat, sep = "\n"))
   }
 

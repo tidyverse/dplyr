@@ -107,7 +107,7 @@ setequal.data.frame <- function(x, y, ...) {
   if (!is.data.frame(y)) {
     abort("`y` must be a data frame.")
   }
-  if (!isTRUE(is_compatible_data_frame(x, y))) {
+  if (!isTRUE(is_compatible(x, y))) {
     return(FALSE)
   }
 
@@ -118,7 +118,11 @@ setequal.data.frame <- function(x, y, ...) {
 
 # Helpers -----------------------------------------------------------------
 
-is_compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = TRUE) {
+is_compatible <- function(x, y, ignore_col_order = TRUE, convert = TRUE) {
+  if (!is.data.frame(y)) {
+    return("`y` must be a data frame.")
+  }
+
   nc <- ncol(x)
   if (nc != ncol(y)) {
     return(
@@ -192,15 +196,10 @@ is_compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = TR
 }
 
 check_compatible <- function(x, y, ignore_col_order = TRUE, convert = TRUE, error_call = caller_env()) {
-  if (!is.data.frame(y)) {
-    abort("`y` must be a data frame.", call = error_call)
+  compat <- is_compatible(x, y, ignore_col_order = ignore_col_order, convert = convert)
+  if (isTRUE(compat)) {
+    return()
   }
-  compat <- is_compatible_data_frame(x, y, ignore_col_order = ignore_col_order, convert = convert)
-  if (is.character(compat)) {
-    bullets <- c(
-      "`x` and `y` are not compatible.",
-      compat
-    )
-    abort(bullets, call = error_call)
-  }
+
+  abort(c("`x` and `y` are not compatible.", compat), call = error_call)
 }
