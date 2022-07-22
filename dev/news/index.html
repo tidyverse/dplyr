@@ -75,7 +75,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
-<ul><li><p>The <code>.keep</code>, <code>.before</code>, and <code>.after</code> arguments to <code><a href="../reference/mutate.html">mutate()</a></code> are no longer experimental.</p></li>
+<ul><li><p><code><a href="../reference/distinct.html">distinct()</a></code> returns columns ordered the way you request, not the same as the input data (<a href="https://github.com/tidyverse/dplyr/issues/6156" class="external-link">#6156</a>).</p></li>
+<li><p>The <code>.keep</code>, <code>.before</code>, and <code>.after</code> arguments to <code><a href="../reference/mutate.html">mutate()</a></code> are no longer experimental.</p></li>
 <li><p>The <code>rows_*()</code> family of functions are no longer experimental.</p></li>
 <li><p><code><a href="../reference/desc.html">desc()</a></code> gives a useful error message if you give it a non-vector (<a href="https://github.com/tidyverse/dplyr/issues/6028" class="external-link">#6028</a>).</p></li>
 <li><p><code><a href="../reference/slice.html">slice_sample()</a></code> returns a data frame or group with the same number of rows as the input when <code>replace = FALSE</code> and <code>n</code> is larger than the number of rows or <code>prop</code> is larger than 1. This reverts a change made in 1.0.8, returning to the behavior of 1.0.7 (<a href="https://github.com/tidyverse/dplyr/issues/6185" class="external-link">#6185</a>)</p></li>

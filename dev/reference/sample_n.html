@@ -171,132 +171,81 @@ the input. Weights are automatically standardised to sum to 1.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># sample_n() -&gt; slice_sample() ----------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="fu">sample_n</span><span class="op">(</span><span class="va">mtcars</span>, <span class="fl">10</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                    mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout 18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin       15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive    21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4         21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora     15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280          19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa      30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL        17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla    33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag     21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4</span>
 <span class="r-in"><span><span class="fu">sample_n</span><span class="op">(</span><span class="va">mtcars</span>, <span class="fl">50</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                           mpg cyl  disp  hp drat    wt  qsec vs am gear</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino...1         19.7   6 145.0 175 3.62 2.770 15.50  0  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...2            21.0   6 160.0 110 3.90 2.620 16.46  0  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D                24.4   4 146.7  62 3.69 3.190 20.00  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710...4           22.8   4 108.0  93 3.85 2.320 18.61  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710...5           22.8   4 108.0  93 3.85 2.320 18.61  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...6            21.0   6 160.0 110 3.90 2.620 16.46  0  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial...7    14.7   8 440.0 230 3.23 5.345 17.42  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280                 19.2   6 167.6 123 3.92 3.440 18.30  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...9        15.0   8 301.0 335 3.54 3.570 14.60  0  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230                 22.8   4 140.8  95 3.92 3.150 22.90  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28...11          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2...12       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger...13    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic              30.4   4  75.7  52 4.93 1.615 18.52  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...15           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710...16          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag...17       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28...18          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive...19      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino...20        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin...21         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive...22      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC...23         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial...24   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2...25       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...26          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E               21.4   4 121.0 109 4.11 2.780 18.60  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9                27.3   4  79.0  66 4.08 1.935 18.90  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC...29         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL...30          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28...31          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC...32         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger...33    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag...34       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...35          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla           33.9   4  71.1  65 4.22 1.835 19.90  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...37       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...38       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental...39 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag...40       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental...41 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin...42         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE               16.4   8 275.8 180 3.07 4.070 17.40  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...44          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL...45          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...46          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...47       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive...48      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial...49   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird         19.2   8 400.0 175 3.08 3.845 17.05  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                          carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino...1            6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...2               4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D                   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710...4              1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710...5              1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...6               4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial...7       4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280                    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...9           8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230                    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28...11             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2...12          2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger...13       2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic                 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...15              4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710...16             1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag...17          4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28...18             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive...19         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino...20           6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin...21            2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive...22         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC...23            3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial...24      4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2...25          2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...26             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E                  2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9                   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC...29            3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL...30             3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28...31             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC...32            3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger...33       2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag...34          4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...35             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla              1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...37          8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...38          8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental...39    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag...40          4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental...41    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin...42            2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE                  3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...44             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL...45             3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...46             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...47          8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive...48         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial...49      4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird            2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                        mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28...1        13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood    10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...3        14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280...4          19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...5     15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout     18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL...7        17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230...8          22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic           30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa...10     30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...11       14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger...12 15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280...13         19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2         26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128...15         32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E            21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9...17        27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28...18       13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino          19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28...20       13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...21    15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa...22     30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128...23         32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive...24   21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L...25   15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC...26      15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...27    15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird...28 19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa...29     30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant...30          18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230...31         22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive...32   21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4             21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28...34       13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9...35        27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL...36       17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710            22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant...38          18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C             17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla...40   33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230...41         22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC...42      15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird...43 19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L...44   15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant...45          18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla...46   33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE            16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger...48 15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280...49         19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...50       14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4</span>
 <span class="r-in"><span><span class="fu">sample_n</span><span class="op">(</span><span class="va">mtcars</span>, <span class="fl">10</span>, weight <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout 18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa      30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230          22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag     21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive    21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28        13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic       30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin       15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D         24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128          32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout 18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360        14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona     21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L    15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230          22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant           18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE        16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Changes:</span></span></span>
 <span class="r-in"><span><span class="co"># * explicitly name the `n` argument,</span></span></span>
@@ -304,131 +253,131 @@ the input. Weights are automatically standardised to sum to 1.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="slice.html">slice_sample</a></span><span class="op">(</span><span class="va">mtcars</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2     26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710        22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial 14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C         17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin       15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL        17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger  15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360        14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E        21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D         24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora     15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE        16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag     21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28        13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC       15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C         17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E        21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout 18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710        22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1</span>
 <span class="r-in"><span><span class="fu"><a href="slice.html">slice_sample</a></span><span class="op">(</span><span class="va">mtcars</span>, n <span class="op">=</span> <span class="fl">50</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                           mpg cyl  disp  hp drat    wt  qsec vs am gear</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280...1             19.2   6 167.6 123 3.92 3.440 18.30  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora            15.0   8 301.0 335 3.54 3.570 14.60  0  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E               21.4   4 121.0 109 4.11 2.780 18.60  1  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive...1       21.4   6 258.0 110 3.08 3.215 19.44  1  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla           33.9   4  71.1  65 4.22 1.835 19.90  1  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9...3            27.3   4  79.0  66 4.08 1.935 18.90  1  1    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa...4         30.4   4  95.1 113 3.77 1.513 16.90  1  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...5          30.4   4  75.7  52 4.93 1.615 18.52  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C...6            17.8   6 167.6 123 3.92 3.440 18.90  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2            26.0   4 120.3  91 4.43 2.140 16.70  0  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710...8           22.8   4 108.0  93 3.85 2.320 18.61  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL...9           17.3   8 275.8 180 3.07 3.730 17.60  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona...10       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla...11      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280...12            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L           15.8   8 351.0 264 4.22 3.170 14.50  0  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive...14      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...15         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...16         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...5            21.0   6 160.0 110 3.90 2.620 16.46  0  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino...6         19.7   6 145.0 175 3.62 2.770 15.50  0  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird         19.2   8 400.0 175 3.08 3.845 17.05  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...8        15.0   8 301.0 335 3.54 3.570 14.60  0  1    5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood       10.4   8 472.0 205 2.93 5.250 17.98  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230...18            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...10         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger...11    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental...12 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial...13   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger...14    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag...15       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE...16          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360               14.3   8 360.0 245 3.21 3.570 15.84  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial...18   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2            26.0   4 120.3  91 4.43 2.140 16.70  0  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona...20       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...21           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger...22    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230                 22.8   4 140.8  95 3.92 3.150 22.90  1  0    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280                 19.2   6 167.6 123 3.92 3.440 18.30  1  0    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9...25           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona...26       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE...27          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE...28          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...29         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...30         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa...31        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive...32      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin...33         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710               22.8   4 108.0  93 3.85 2.320 18.61  1  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L...35      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin...36         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...37         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout        18.7   8 360.0 175 3.15 3.440 17.02  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C...20           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC...21         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental...22 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280...23            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa...24        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental...25 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC...26         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial        14.7   8 440.0 230 3.23 5.345 17.42  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...28         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona...29       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230...30            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird...31    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird...32    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9...33           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL...34          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive...35      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D...36           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710...37          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...38          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino             19.7   6 145.0 175 3.62 2.770 15.50  0  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin              15.2   8 304.0 150 3.15 3.435 17.30  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...41          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger         15.5   8 318.0 150 2.76 3.520 16.87  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9...43           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental...44 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla...45      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird...46    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L...39      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger...40    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona...41       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...42       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag...43       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL               17.3   8 275.8 180 3.07 3.730 17.60  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive...45      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Valiant                  18.1   6 225.0 105 2.76 3.460 20.22  1  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...48         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D...49           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28               13.3   8 350.0 245 3.73 3.840 15.41  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino...47        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental...48 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger...49    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...50           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                          carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280...1                4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora               8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E                  2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive...1          1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9...3               1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa...4            2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...5             2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C...6               4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2               2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710...8              1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL...9              3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona...10          1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla...11         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280...12               4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L              4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive...14         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...15            2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...16            2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...5               4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino...6            6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird            2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...8           8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood          4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230...18               2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...10            2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger...11       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental...12    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial...13      4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger...14       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag...15          4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE...16             3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360                  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial...18      4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2               2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona...20          1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...21              4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger...22       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230                    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280                    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9...25              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona...26          1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE...27             3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE...28             3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...29            2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...30            2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa...31           2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive...32         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin...33            2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710                  1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L...35         4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin...36            2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...37            2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout           2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C...20              4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC...21            3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental...22    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280...23               4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa...24           2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental...25    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC...26            3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial           4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...28            2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona...29          1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230...30               2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird...31       2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird...32       2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9...33              1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL...34             3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive...35         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D...36              2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710...37             1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...38             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino                6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin                 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...41             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger            2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9...43              1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental...44    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla...45         1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird...46       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L...39         4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger...40       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona...41          1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...42          8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag...43          4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL                  3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive...45         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Valiant                     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...48            2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D...49              2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28                  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino...47           6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental...48    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger...49       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...50              4</span>
 <span class="r-in"><span><span class="fu"><a href="slice.html">slice_sample</a></span><span class="op">(</span><span class="va">mtcars</span>, n <span class="op">=</span> <span class="fl">10</span>, weight_by <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Note that sample_n() would error if n was bigger than the group size</span></span></span>
 <span class="r-in"><span><span class="co"># slice_sample() will just use the available rows for consistency with</span></span></span>
@@ -437,210 +386,210 @@ the input. Weights are automatically standardised to sum to 1.</p></dd>
 <span class="r-in"><span><span class="co"># sample_frac() -&gt; slice_sample() -------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="fu">sample_frac</span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3</span>
 <span class="r-in"><span><span class="fu">sample_frac</span><span class="op">(</span><span class="va">mtcars</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                          mpg cyl  disp  hp drat    wt  qsec vs am gear</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...1          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla          33.9   4  71.1  65 4.22 1.835 19.90  1  1    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive          21.4   6 258.0 110 3.08 3.215 19.44  1  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood...4  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D               24.4   4 146.7  62 3.69 3.190 20.00  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128...6            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...7           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood...8  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood...2  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC             15.2   8 275.8 180 3.07 3.780 18.00  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9               27.3   4  79.0  66 4.08 1.935 18.90  1  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E              21.4   4 121.0 109 4.11 2.780 18.60  1  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE...6          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird        19.2   8 400.0 175 3.08 3.845 17.05  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE...8          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL...9          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...10         14.3   8 360.0 245 3.21 3.570 15.84  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino            19.7   6 145.0 175 3.62 2.770 15.50  0  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa            30.4   4  95.1 113 3.77 1.513 16.90  1  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant...13            18.1   6 225.0 105 2.76 3.460 20.22  1  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...14        30.4   4  75.7  52 4.93 1.615 18.52  1  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2           26.0   4 120.3  91 4.43 2.140 16.70  0  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D...16          24.4   4 146.7  62 3.69 3.190 20.00  1  0    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D...17          24.4   4 146.7  62 3.69 3.190 20.00  1  0    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona           21.5   4 120.1  97 3.70 2.465 20.01  1  0    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag           21.0   6 160.0 110 3.90 2.875 17.02  0  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E...10         21.4   4 121.0 109 4.11 2.780 18.60  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout       18.7   8 360.0 175 3.15 3.440 17.02  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger        15.5   8 318.0 150 2.76 3.520 16.87  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL              17.3   8 275.8 180 3.07 3.730 17.60  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant                 18.1   6 225.0 105 2.76 3.460 20.22  1  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood...15 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9...16          27.3   4  79.0  66 4.08 1.935 18.90  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E...17         21.4   4 121.0 109 4.11 2.780 18.60  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128...18           32.4   4  78.7  66 4.08 2.200 19.47  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial       14.7   8 440.0 230 3.23 5.345 17.42  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280                19.2   6 167.6 123 3.92 3.440 18.30  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...21         14.3   8 360.0 245 3.21 3.570 15.84  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128...22           32.4   4  78.7  66 4.08 2.200 19.47  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230                22.8   4 140.8  95 3.92 3.150 22.90  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9...24          27.3   4  79.0  66 4.08 1.935 18.90  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin             15.2   8 304.0 150 3.15 3.435 17.30  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E...26         21.4   4 121.0 109 4.11 2.780 18.60  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood...27 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C               17.8   6 167.6 123 3.92 3.440 18.90  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic             30.4   4  75.7  52 4.93 1.615 18.52  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...30          21.0   6 160.0 110 3.90 2.620 16.46  0  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental     10.4   8 460.0 215 3.00 5.424 17.82  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710              22.8   4 108.0  93 3.85 2.320 18.61  1  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...21        30.4   4  75.7  52 4.93 1.615 18.52  1  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128                32.4   4  78.7  66 4.08 2.200 19.47  1  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...23        30.4   4  75.7  52 4.93 1.615 18.52  1  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant...24            18.1   6 225.0 105 2.76 3.460 20.22  1  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial       14.7   8 440.0 230 3.23 5.345 17.42  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL...26         17.3   8 275.8 180 3.07 3.730 17.60  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4               21.0   6 160.0 110 3.90 2.620 16.46  0  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...28         14.3   8 360.0 245 3.21 3.570 15.84  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D...29          24.4   4 146.7  62 3.69 3.190 20.00  1  0    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...30         14.3   8 360.0 245 3.21 3.570 15.84  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood...31 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora           15.0   8 301.0 335 3.54 3.570 14.60  0  1    5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                         carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...1             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla             1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive             1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood...4     4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D                  2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128...6               1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...7              4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood...8     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood...2     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC                3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9                  1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E                 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE...6             3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird           2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE...8             3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL...9             3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...10            4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino               6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa               2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant...13               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...14           2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2              2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D...16             2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D...17             2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona              1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag              4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E...10            2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout          2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger           2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL                 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant                    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood...15    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9...16             1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E...17            2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128...18              1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial          4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280                   4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...21            4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128...22              1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230                   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9...24             1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin                2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E...26            2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood...27    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C                  4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic                2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...30             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental        4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710                 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...21           2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128                   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...23           2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant...24               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial          4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL...26            3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4                  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...28            4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D...29             2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...30            4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood...31    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora              8</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Changes:</span></span></span>
 <span class="r-in"><span><span class="co"># * use prop = 1 to randomly sample all rows</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="slice.html">slice_sample</a></span><span class="op">(</span><span class="va">mtcars</span>, prop <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4</span>
 <span class="r-in"><span><span class="fu"><a href="slice.html">slice_sample</a></span><span class="op">(</span><span class="va">mtcars</span>, prop <span class="op">=</span> <span class="fl">1</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                          mpg cyl  disp  hp drat    wt  qsec vs am gear</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger        15.5   8 318.0 150 2.76 3.520 16.87  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...2         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...3          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...4         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental     10.4   8 460.0 215 3.00 5.424 17.82  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa            30.4   4  95.1 113 3.77 1.513 16.90  1  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...7         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin             15.2   8 304.0 150 3.15 3.435 17.30  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E              21.4   4 121.0 109 4.11 2.780 18.60  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora           15.0   8 301.0 335 3.54 3.570 14.60  0  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout       18.7   8 360.0 175 3.15 3.440 17.02  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...12          21.0   6 160.0 110 3.90 2.620 16.46  0  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C...13          17.8   6 167.6 123 3.92 3.440 18.90  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC             15.2   8 275.8 180 3.07 3.780 18.00  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...15         14.3   8 360.0 245 3.21 3.570 15.84  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L          15.8   8 351.0 264 4.22 3.170 14.50  0  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood...17 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2...18      26.0   4 120.3  91 4.43 2.140 16.70  0  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D               24.4   4 146.7  62 3.69 3.190 20.00  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9               27.3   4  79.0  66 4.08 1.935 18.90  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood...21 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino            19.7   6 145.0 175 3.62 2.770 15.50  0  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...23          21.0   6 160.0 110 3.90 2.620 16.46  0  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128                32.4   4  78.7  66 4.08 2.200 19.47  1  1    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280...25           19.2   6 167.6 123 3.92 3.440 18.30  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE              16.4   8 275.8 180 3.07 4.070 17.40  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL              17.3   8 275.8 180 3.07 3.730 17.60  0  0    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280...28           19.2   6 167.6 123 3.92 3.440 18.30  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2...29      26.0   4 120.3  91 4.43 2.140 16.70  0  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2...30      26.0   4 120.3  91 4.43 2.140 16.70  0  1    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C...31          17.8   6 167.6 123 3.92 3.440 18.90  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230                22.8   4 140.8  95 3.92 3.150 22.90  1  0    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                         carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger           2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...2            2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...3             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...4            2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental        4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa               2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic...7            2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin                2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E                 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora              8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout          2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...12             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C...13             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC                3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360...15            4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood...17    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2...18         2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D                  2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9                  1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood...21    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino               6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4...23             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128                   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280...25              4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE                 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL                 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280...28              4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2...29         2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2...30         2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C...31             4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230                   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                           mpg cyl  disp  hp drat    wt  qsec vs am gear</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L...1       15.8   8 351.0 264 4.22 3.170 14.50  0  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE...2           16.4   8 275.8 180 3.07 4.070 17.40  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE...3           16.4   8 275.8 180 3.07 4.070 17.40  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial...4    14.7   8 440.0 230 3.23 5.345 17.42  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...5        15.0   8 301.0 335 3.54 3.570 14.60  0  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant...6              18.1   6 225.0 105 2.76 3.460 20.22  1  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona...7        21.5   4 120.1  97 3.70 2.465 20.01  1  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla           33.9   4  71.1  65 4.22 1.835 19.90  1  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L...9       15.8   8 351.0 264 4.22 3.170 14.50  0  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag...10       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental...11 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...12       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...13       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin...14         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant...15             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L...16      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird         19.2   8 400.0 175 3.08 3.845 17.05  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710               22.8   4 108.0  93 3.85 2.320 18.61  1  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C...19           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C...20           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental...21 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino             19.7   6 145.0 175 3.62 2.770 15.50  0  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial...23   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230                 22.8   4 140.8  95 3.92 3.150 22.90  1  0    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout        18.7   8 360.0 175 3.15 3.440 17.02  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2            26.0   4 120.3  91 4.43 2.140 16.70  0  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4                21.0   6 160.0 110 3.90 2.620 16.46  0  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger         15.5   8 318.0 150 2.76 3.520 16.87  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona...29       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa             30.4   4  95.1 113 3.77 1.513 16.90  1  1    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag...31       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin...32         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                          carb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L...1          4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE...2              3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE...3              3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial...4       4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...5           8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant...6                 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona...7           1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla              1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L...9          4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag...10          4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental...11    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...12          8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora...13          8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin...14            2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant...15                1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ford Pantera L...16         4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird            2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710                  1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C...19              4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C...20              4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental...21    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino                6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial...23      4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230                    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout           2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2               2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4                   4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger            2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona...29          1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa                2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag...31          4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin...32            2</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
