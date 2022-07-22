@@ -125,14 +125,10 @@ test_that("set operation give useful error message. #903", {
 
 # setequal ----------------------------------------------------------------
 
-test_that("set equality", {
-  df1 <- tibble(x = 1:4, g = rep(1:2, each = 2)) %>% group_by(g)
-  df2 <- tibble(x = 3:6, g = rep(2:3, each = 2))
-
-  expect_true(setequal(df1, df1))
-  expect_true(setequal(df2, df2))
-  expect_false(setequal(df1, df2))
-  expect_false(setequal(df2, df1))
+test_that("setequal tibbles must have same rows and columns", {
+  expect_false(setequal(tibble(x = 1:2), tibble(y = 1:2)))
+  expect_false(setequal(tibble(x = 1:2), tibble(x = 2:3)))
+  expect_false(setequal(tibble(x = 1:2), tibble(x = c("a", "b"))))
 })
 
 test_that("setequal checks y is a data frame", {

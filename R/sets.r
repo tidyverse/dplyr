@@ -107,7 +107,7 @@ setequal.data.frame <- function(x, y, ...) {
   if (!is.data.frame(y)) {
     abort("`y` must be a data frame.")
   }
-  if (!is_compatible_data_frame(x, y)) {
+  if (!isTRUE(is_compatible_data_frame(x, y))) {
     return(FALSE)
   }
 
@@ -124,7 +124,6 @@ is_compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = TR
     return(
       c(x = glue("Different number of columns: {nc} vs {ncol(y)}."))
     )
-
   }
 
   names_x <- names(x)
