@@ -29,8 +29,7 @@ x <- c(5, 1, 3, 2, 2, NA)
 ntile(x, 2)
 ntile(x, 4)
 
-# Note that if the bucket sizes are uneven, the larger buckets
-# come first
+# If the bucket sizes are uneven, the larger buckets n come first
 ntile(1:8, 3)
 }
 \seealso{
