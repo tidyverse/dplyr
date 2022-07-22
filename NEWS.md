@@ -1,6 +1,6 @@
 # dplyr (development version)
 
-* `all_equal()` is formally deprecated. We've advise against it for
+* `all_equal()` is formally deprecated. We've advised against it for
   some time, and we explicitly recommend you use something else (#6324).
 
 * `slice()` helpers again produce output equivalent to `slice(.data, 0)` when
