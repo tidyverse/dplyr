@@ -3,6 +3,11 @@
 * `distinct()` returns columns ordered the way you request, not the same
   as the input data (#6156).
 
+* The `.keep`, `.before`, and `.after` arguments to `mutate()` 
+  are no longer experimental.
+  
+* The `rows_*()` family of functions are no longer experimental.
+
 * `desc()` gives a useful error message if you give it a non-vector (#6028).
 
 * `slice_sample()` returns a data frame or group with the same number of rows as 
