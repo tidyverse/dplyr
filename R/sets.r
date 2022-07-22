@@ -104,7 +104,7 @@ setdiff.data.frame <- function(x, y, ...) {
 #' @export
 setequal.data.frame <- function(x, y, ...) {
   check_dots_empty()
-  isTRUE(equal_data_frame(x, y))
+  isTRUE(equal_data_frame(x, y, convert = TRUE))
 }
 
 reconstruct_set <- function(out, x) {

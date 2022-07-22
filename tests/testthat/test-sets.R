@@ -25,6 +25,13 @@ test_that("set operations use coercion rules (#799)", {
   expect_equal(res, tibble(x = letters[11:15]), ignore_attr = TRUE)
 })
 
+test_that("setequal uses coercion rules", {
+  df1 <- tibble(x = 1)
+  df2 <- tibble(x = 1L)
+
+  expect_true(setequal(df1, df2))
+})
+
 test_that("setdiff handles factors with NA (#1526)", {
   df1 <- tibble(x = factor(c(NA, "a")))
   df2 <- tibble(x = factor("a"))
