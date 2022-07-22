@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `desc()` gives a useful error message if you give it a non-vector (#6028).
+
 * `slice_sample()` returns a data frame or group with the same number of rows as 
   the input when `replace = FALSE` and `n` is larger than the number of rows or 
   `prop` is larger than 1. This reverts a change made in 1.0.8, returning to the 
