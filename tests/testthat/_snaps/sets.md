@@ -43,3 +43,11 @@
       x Cols in `y` but not `x`: `data2`.
       x Cols in `x` but not `y`: `data`.
 
+# setequal checks y is a data frame
+
+    Code
+      setequal(mtcars, 1)
+    Condition
+      Error in `setequal()`:
+      ! `y` must be a data frame.
+

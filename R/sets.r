@@ -70,7 +70,7 @@ intersect.data.frame <- function(x, y, ...) {
 
   cast <- vec_cast_common(x = x, y = y)
   out <- vec_unique(vec_slice(cast$x, vec_in(cast$x, cast$y)))
-  reconstruct_set(out, x)
+  dplyr_reconstruct(out, x)
 }
 
 #' @export
@@ -79,15 +79,16 @@ union.data.frame <- function(x, y, ...) {
   check_compatible(x, y)
 
   out <- vec_unique(vec_rbind(x, y))
-  reconstruct_set(out, x)
+  dplyr_reconstruct(out, x)
 }
 
 #' @export
 union_all.data.frame <- function(x, y, ...) {
   check_dots_empty()
+  check_compatible(x, y)
 
   out <- vec_rbind(x, y)
-  reconstruct_set(out, x)
+  dplyr_reconstruct(out, x)
 }
 
 #' @export
@@ -97,14 +98,14 @@ setdiff.data.frame <- function(x, y, ...) {
 
   cast <- vec_cast_common(x = x, y = y)
   out <- vec_unique(vec_slice(cast$x, !vec_in(cast$x, cast$y)))
-  reconstruct_set(out, x)
+  dplyr_reconstruct(out, x)
 }
 
 #' @export
 setequal.data.frame <- function(x, y, ...) {
   check_dots_empty()
   if (!is.data.frame(y)) {
-    abort("`y` must be a data frame. ", call = error_call)
+    abort("`y` must be a data frame.")
   }
   if (!is_compatible_data_frame(x, y)) {
     return(FALSE)
@@ -112,14 +113,6 @@ setequal.data.frame <- function(x, y, ...) {
 
   cast <- vec_cast_common(x = x, y = y)
   all(vec_in(cast$x, cast$y)) && all(vec_in(cast$y, cast$x))
-}
-
-reconstruct_set <- function(out, x) {
-  if (is_grouped_df(x)) {
-    out <- grouped_df(out, group_vars(x), group_by_drop_default(x))
-  }
-
-  out
 }
 
 
@@ -201,7 +194,7 @@ is_compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = TR
 
 check_compatible <- function(x, y, ignore_col_order = TRUE, convert = TRUE, error_call = caller_env()) {
   if (!is.data.frame(y)) {
-    abort("`y` must be a data frame. ", call = error_call)
+    abort("`y` must be a data frame.", call = error_call)
   }
   compat <- is_compatible_data_frame(x, y, ignore_col_order = ignore_col_order, convert = convert)
   if (is.character(compat)) {

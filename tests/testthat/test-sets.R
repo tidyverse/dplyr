@@ -80,45 +80,6 @@ test_that("set operations remove duplicates", {
   expect_equal(union(df1, df2), tibble(x = 1:6, g = rep(1:3, each = 2)), ignore_attr = TRUE)
 })
 
-
-# setequal ----------------------------------------------------------------
-
-test_that("set equality", {
-  df1 <- tibble(x = 1:4, g = rep(1:2, each = 2)) %>% group_by(g)
-  df2 <- tibble(x = 3:6, g = rep(2:3, each = 2))
-
-  expect_true(setequal(df1, df1))
-  expect_true(setequal(df2, df2))
-  expect_false(setequal(df1, df2))
-  expect_false(setequal(df2, df1))
-})
-
-test_that("setequal ignores column and row order", {
-  df1 <- tibble(x = 1:2, y = 3:4)
-  df2 <- df1[2:1, 2:1]
-
-  expect_true(setequal(df1, df2))
-  expect_true(setequal(df1, df2))
-})
-
-test_that("setequal equality ignores duplicated rows", {
-  df1 <- tibble(x = 1)
-  df2 <- df1[c(1, 1, 1), ]
-
-  expect_true(setequal(df1, df2))
-  expect_true(setequal(df2, df1))
-})
-
-test_that("setequal uses coercion rules", {
-  df1 <- tibble(x = 1)
-  df2 <- tibble(x = 1L)
-
-  expect_true(setequal(df1, df2))
-  expect_true(setequal(df2, df1))
-})
-
-# Errors ------------------------------------------------------------------
-
 test_that("set operations enforce empty ... (#5891)", {
   a <- tibble(var = 1:3)
   b <- tibble(var = 2:4)
@@ -160,4 +121,44 @@ test_that("set operation give useful error message. #903", {
     ))
   })
 
+})
+
+# setequal ----------------------------------------------------------------
+
+test_that("set equality", {
+  df1 <- tibble(x = 1:4, g = rep(1:2, each = 2)) %>% group_by(g)
+  df2 <- tibble(x = 3:6, g = rep(2:3, each = 2))
+
+  expect_true(setequal(df1, df1))
+  expect_true(setequal(df2, df2))
+  expect_false(setequal(df1, df2))
+  expect_false(setequal(df2, df1))
+})
+
+test_that("setequal checks y is a data frame", {
+  expect_snapshot(setequal(mtcars, 1), error = TRUE)
+})
+
+test_that("setequal ignores column and row order", {
+  df1 <- tibble(x = 1:2, y = 3:4)
+  df2 <- df1[2:1, 2:1]
+
+  expect_true(setequal(df1, df2))
+  expect_true(setequal(df1, df2))
+})
+
+test_that("setequal equality ignores duplicated rows (#6057)", {
+  df1 <- tibble(x = 1)
+  df2 <- df1[c(1, 1, 1), ]
+
+  expect_true(setequal(df1, df2))
+  expect_true(setequal(df2, df1))
+})
+
+test_that("setequal uses coercion rules (#6114)", {
+  df1 <- tibble(x = 1)
+  df2 <- tibble(x = 1L)
+
+  expect_true(setequal(df1, df2))
+  expect_true(setequal(df2, df1))
 })
