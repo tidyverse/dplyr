@@ -4,5 +4,5 @@
       desc(mean)
     Condition
       Error in `desc()`:
-      ! `x` must be a vector
+      ! `x` must be a vector, not a function.
 

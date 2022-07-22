@@ -14,9 +14,7 @@
 #'
 #' starwars %>% arrange(desc(mass))
 desc <- function(x) {
-  if (!vctrs::vec_is(x)) {
-    abort("`x` must be a vector")
-  }
+  vec_assert(x)
 
   -xtfrm(x)
 }
