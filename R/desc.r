@@ -13,4 +13,8 @@
 #' desc(first_day)
 #'
 #' starwars %>% arrange(desc(mass))
-desc <- function(x) -xtfrm(x)
+desc <- function(x) {
+  vec_assert(x)
+
+  -xtfrm(x)
+}
