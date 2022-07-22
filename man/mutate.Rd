@@ -137,33 +137,33 @@ Methods available in currently loaded packages:
 \examples{
 # Newly created variables are available immediately
 starwars \%>\%
- select(name, mass) \%>\%
- mutate(
-  mass2 = mass * 2,
-  mass2_squared = mass2 * mass2
- )
+  select(name, mass) \%>\%
+  mutate(
+    mass2 = mass * 2,
+    mass2_squared = mass2 * mass2
+  )
 
 # As well as adding new variables, you can use mutate() to
 # remove variables and modify existing variables.
 starwars \%>\%
- select(name, height, mass, homeworld) \%>\%
- mutate(
-  mass = NULL,
-  height = height * 0.0328084 # convert to feet
- )
+  select(name, height, mass, homeworld) \%>\%
+  mutate(
+    mass = NULL,
+    height = height * 0.0328084 # convert to feet
+  )
 
 # Use across() with mutate() to apply a transformation
 # to multiple columns in a tibble.
 starwars \%>\%
- select(name, homeworld, species) \%>\%
- mutate(across(!name, as.factor))
+  select(name, homeworld, species) \%>\%
+  mutate(across(!name, as.factor))
 # see more in ?across
 
 # Window functions are useful for grouped mutates:
 starwars \%>\%
- select(name, mass, homeworld) \%>\%
- group_by(homeworld) \%>\%
- mutate(rank = min_rank(desc(mass)))
+  select(name, mass, homeworld) \%>\%
+  group_by(homeworld) \%>\%
+  mutate(rank = min_rank(desc(mass)))
 # see `vignette("window-functions")` for more details
 
 # By default, new columns are placed on the far right.

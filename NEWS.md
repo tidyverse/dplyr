@@ -5,6 +5,13 @@
   
 * The `rows_*()` family of functions are no longer experimental.
 
+* `desc()` gives a useful error message if you give it a non-vector (#6028).
+
+* `slice_sample()` returns a data frame or group with the same number of rows as 
+  the input when `replace = FALSE` and `n` is larger than the number of rows or 
+  `prop` is larger than 1. This reverts a change made in 1.0.8, returning to the 
+  behavior of 1.0.7 (#6185)
+
 * `slice()` helpers again produce output equivalent to `slice(.data, 0)` when
   the `n` or `prop` argument is 0, fixing a bug introduced in the previous
   version (@eutwt, #6184).
