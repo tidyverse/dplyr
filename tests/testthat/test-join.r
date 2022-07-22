@@ -234,6 +234,21 @@ test_that("filtering joins compute common columns", {
   expect_snapshot(out <- semi_join(df1, df2))
 })
 
+test_that("error if passed additional arguments", {
+  df1 <- data.frame(a = 1:3)
+  df2 <- data.frame(a = 1)
+
+  expect_snapshot(error = TRUE, {
+    inner_join(df1, df2, on = "a")
+    left_join(df1, df2, on = "a")
+    right_join(df1, df2, on = "a")
+    full_join(df1, df2, on = "a")
+    nest_join(df1, df2, on = "a")
+    anti_join(df1, df2, on = "a")
+    semi_join(df1, df2, on = "a")
+  })
+})
+
 # nest_join ---------------------------------------------------------------
 
 test_that("nest_join returns list of tibbles (#3570)",{

@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `*_join()` now error if you supply them with additional arguments that
+  aren't used (#6228).
+
 * `distinct()` returns columns ordered the way you request, not the same
   as the input data (#6156).
 
