@@ -12,52 +12,6 @@
       <error/rlang_error>
       Error in `slice_sample()`:
       ! `prop` must be positive.
-    Code
-      (expect_error(df %>% slice_sample(n = 4, replace = FALSE)))
-    Output
-      <error/rlang_error>
-      Error in `slice_sample()`:
-      ! Problem while computing indices.
-      Caused by error:
-      ! Can't sample without replacement using a size that is larger than the number of rows in the data.
-      i 4 rows were requested in the sample.
-      i 1 rows are present in the data.
-      i Set `replace = TRUE` to sample with replacement.
-    Code
-      (expect_error(gdf %>% slice_sample(n = 4, replace = FALSE)))
-    Output
-      <error/rlang_error>
-      Error in `slice_sample()`:
-      ! Problem while computing indices.
-      i The error occurred in group 1: a = 1.
-      Caused by error:
-      ! Can't sample without replacement using a size that is larger than the number of rows in the data.
-      i 4 rows were requested in the sample.
-      i 1 rows are present in the data.
-      i Set `replace = TRUE` to sample with replacement.
-    Code
-      (expect_error(df %>% slice_sample(prop = 4, replace = FALSE)))
-    Output
-      <error/rlang_error>
-      Error in `slice_sample()`:
-      ! Problem while computing indices.
-      Caused by error:
-      ! Can't sample without replacement using a size that is larger than the number of rows in the data.
-      i 4 rows were requested in the sample.
-      i 1 rows are present in the data.
-      i Set `replace = TRUE` to sample with replacement.
-    Code
-      (expect_error(gdf %>% slice_sample(prop = 4, replace = FALSE)))
-    Output
-      <error/rlang_error>
-      Error in `slice_sample()`:
-      ! Problem while computing indices.
-      i The error occurred in group 1: a = 1.
-      Caused by error:
-      ! Can't sample without replacement using a size that is larger than the number of rows in the data.
-      i 4 rows were requested in the sample.
-      i 1 rows are present in the data.
-      i Set `replace = TRUE` to sample with replacement.
 
 # slice() gives meaningfull errors
 

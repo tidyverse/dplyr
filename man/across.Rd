@@ -78,44 +78,36 @@ set.seed(1)
 # Outside: 1 normal variate
 n <- rnorm(1)
 gdf \%>\% mutate(across(v1:v2, ~ .x + n))
-}\if{html}{\out{</div>}}
+#> # A tibble: 4 x 3
+#> # Groups:   g [3]
+#>       g    v1    v2
+#>   <dbl> <dbl> <dbl>
+#> 1     1  9.37  19.4
+#> 2     1 10.4   20.4
+#> 3     2 11.4   21.4
+#> 4     3 12.4   22.4
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 4 × 3
-## # Groups:   g [3]
-##       g    v1    v2
-##   <dbl> <dbl> <dbl>
-## 1     1  9.37  19.4
-## 2     1 10.4   20.4
-## 3     2 11.4   21.4
-## 4     3 12.4   22.4
-}\if{html}{\out{</div>}}
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{# Inside a verb: 3 normal variates (ngroup)
+# Inside a verb: 3 normal variates (ngroup)
 gdf \%>\% mutate(n = rnorm(1), across(v1:v2, ~ .x + n))
-}\if{html}{\out{</div>}}
+#> # A tibble: 4 x 4
+#> # Groups:   g [3]
+#>       g    v1    v2      n
+#>   <dbl> <dbl> <dbl>  <dbl>
+#> 1     1  10.2  20.2  0.184
+#> 2     1  11.2  21.2  0.184
+#> 3     2  11.2  21.2 -0.836
+#> 4     3  14.6  24.6  1.60
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 4 × 4
-## # Groups:   g [3]
-##       g    v1    v2      n
-##   <dbl> <dbl> <dbl>  <dbl>
-## 1     1  10.2  20.2  0.184
-## 2     1  11.2  21.2  0.184
-## 3     2  11.2  21.2 -0.836
-## 4     3  14.6  24.6  1.60
-}\if{html}{\out{</div>}}
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{# Inside `across()`: 6 normal variates (ncol * ngroup)
+# Inside `across()`: 6 normal variates (ncol * ngroup)
 gdf \%>\% mutate(across(v1:v2, ~ .x + rnorm(1)))
-}\if{html}{\out{</div>}}
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 4 × 3
-## # Groups:   g [3]
-##       g    v1    v2
-##   <dbl> <dbl> <dbl>
-## 1     1  10.3  20.7
-## 2     1  11.3  21.7
-## 3     2  11.2  22.6
-## 4     3  13.5  22.7
+#> # A tibble: 4 x 3
+#> # Groups:   g [3]
+#>       g    v1    v2
+#>   <dbl> <dbl> <dbl>
+#> 1     1  10.3  20.7
+#> 2     1  11.3  21.7
+#> 3     2  11.2  22.6
+#> 4     3  13.5  22.7
 }\if{html}{\out{</div>}}
 }
 
