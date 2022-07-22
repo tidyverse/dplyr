@@ -40,14 +40,15 @@ makes it too easy to ignore important differences.
 \examples{
 scramble <- function(x) x[sample(nrow(x)), sample(ncol(x))]
 
-# By default, ordering of rows and columns ignored
+# `all_equal()` ignored row and column ordering by default,
+# but we now feel that that makes it too easy to make mistakes
 mtcars2 <- scramble(mtcars)
 all_equal(mtcars, mtcars2)
 
 # Instead, be explicit about the row and column ordering
 all.equal(
   mtcars,
-  mtcars[rownames(mtcars), names(mtcars)]
+  mtcars2[rownames(mtcars), names(mtcars)]
 )
 }
 \keyword{internal}
