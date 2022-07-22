@@ -1,64 +1,91 @@
-#' Windowed rank functions.
+#' Integer ranking functions
 #'
-#' Six variations on ranking functions, mimicking the ranking functions
-#' described in SQL2003. They are currently implemented using the built in
-#' `rank` function, and are provided mainly as a convenience when
-#' converting between R and SQL. All ranking functions map smallest inputs
-#' to smallest outputs. Use [desc()] to reverse the direction.
+#' @description
+#' Three ranking functions inspired by SQL2003. They differ primarily in how
+#' they handle ties:
 #'
-#' * `row_number()`: equivalent to `rank(ties.method = "first")`
+#' * `row_number()` gives every input a unique rank, so that `c(10, 20, 20, 30)`
+#'   would get ranks `c(1, 2, 3, 4)`. It's equivalent to
+#'   `rank(ties.method = "first")`.
 #'
-#' * `min_rank()`: equivalent to `rank(ties.method = "min")`
+#' * `min_rank()` gives every tie the same (smallest) value so that
+#'   `c(10, 20, 20, 30)` gets ranks `c(1, 2, 2, 4)`. It's the way ranking usually
+#'   works in spots and is equivalent to `rank(ties.method = "min")`.
 #'
-#' * `dense_rank()`: like `min_rank()`, but with no gaps between
-#'   ranks
+#' * `dense_rank()` works like `min_rank()`, but doesn't leave any no gaps,
+#'   so that `c(10, 20, 20, 30)` getes ranks `c(1, 2, 2, 3)`.
 #'
-#' * `percent_rank()`: a number between 0 and 1 computed by
-#'   rescaling `min_rank` to `[0, 1]`
+#' @param x a vector of values to rank.
 #'
-#' * `cume_dist()`: a cumulative distribution function. Proportion
-#'   of all values less than or equal to the current rank.
+#'   By default, the smallest values will get the smallest ranks.
+#'   Use [desc()] to reverse the direction so the largest values get the smallest
+#'   ranks.
 #'
-#' * `ntile()`: a rough rank, which breaks the input vector into
-#'   `n` buckets. The size of the buckets may differ by up to one,
-#'   larger buckets have lower rank.
-#'
-#' @name ranking
-#' @param x a vector of values to rank. Missing values are left as is.
-#'   If you want to treat them as the smallest or largest values, replace
-#'   with Inf or -Inf before ranking.
+#'   Missing values will be given rank `NA`. Use `coalesce(x, Inf)` or
+#'   `coalesce(x, -Inf)` if you want to treat them as the largest or smallest
+#'   values respectively.
+#' @return An integer vector.
+#' @family ranking functions
 #' @examples
 #' x <- c(5, 1, 3, 2, 2, NA)
 #' row_number(x)
 #' min_rank(x)
 #' dense_rank(x)
-#' percent_rank(x)
-#' cume_dist(x)
 #'
-#' ntile(x, 2)
-#' ntile(1:8, 3)
+#' # Ranking functions can be used in filter() to select top/bottom rows
+#' df <- data.frame(
+#'   id = c(1, 1, 1, 2, 2, 2, 3, 3, 3),
+#'   x = c(1, 2, 3, 1, 2, 2, 1, 1, 1),
+#'   y = 1:9
+#' )
+#' # Always gives exactly 1 row
+#' df %>% group_by(id) %>% filter(row_number(x) <= 1)
+#' # May give more than one row if ties
+#' df %>% group_by(id) %>% filter(min_rank(x) <= 1)
+#' # See slice_min() and slice_max() for another way to tackle the same problem
 #'
-#' # row_number can be used with single table verbs without specifying x
-#' # (for data frames and databases that support windowing)
-#' mutate(mtcars, row_number() == 1L)
-#' mtcars %>% filter(between(row_number(), 1, 10))
-NULL
-
+#' # Inside of mutate(), filter(), and friends, you can use row_number()
+#' # without an argument to refer to the "current" row number.
+#' df <- data.frame(id = c(1, 1, 2, 2, 2), x = 1:5)
+#'
+#' df %>% group_by(id) %>% mutate(id = row_number())
+#' df %>% group_by(id) %>% filter(row_number() <= 2)
 #' @export
-#' @rdname ranking
 row_number <- function(x) {
-  if (missing(x)){
+  if (missing(x)) {
     seq_len(n())
   } else {
     rank(x, ties.method = "first", na.last = "keep")
   }
 }
 
-# Definition from
-# https://techcommunity.microsoft.com/t5/sql-server/ranking-functions-rank-dense-rank-and-ntile/ba-p/383384
+#' @export
+#' @rdname row_number
+min_rank <- function(x) rank(x, ties.method = "min", na.last = "keep")
+
+#' @export
+#' @rdname row_number
+dense_rank <- function(x) {
+  match(x, sort(unique(x)))
+}
+
+#' Bucket a numeric vector into `n` groups
+#'
+#' `ntile()` is a sort of very rough rank, which breaks the input vector into
+#' `n` buckets. If `length(x)` is not an integer multiple of `n`, the size of
+#' the buckets will differ by up to one, with larger buckets coming first.
+#'
+#' @inheritParams row_number
 #' @param n number of groups to split up into.
 #' @export
-#' @rdname ranking
+#' @family ranking functions
+#' @examples
+#' x <- c(5, 1, 3, 2, 2, NA)
+#' ntile(x, 2)
+#' ntile(x, 4)
+#'
+#' # If the bucket sizes are uneven, the larger buckets n come first
+#' ntile(1:8, 3)
 ntile <- function(x = row_number(), n) {
   # Avoid recomputation in default case:
   # row_number(row_number(x)) == row_number(x)
@@ -69,6 +96,8 @@ ntile <- function(x = row_number(), n) {
 
   n <- as.integer(floor(n))
 
+  # Definition from
+  # https://techcommunity.microsoft.com/t5/sql-server/ranking-functions-rank-dense-rank-and-ntile/ba-p/383384
   if (len == 0L) {
     rep(NA_integer_, length(x))
   } else {
@@ -89,24 +118,39 @@ ntile <- function(x = row_number(), n) {
   }
 }
 
+#' Proportional ranking functions
+#'
+#' @description
+#' These two ranking functions implement two slightly different ways to
+#' compute a percentile. For each `x_i` in `x`:
+#'
+#' * `cume_dist(x)` counts the total number of values greater than
+#'   or equal to `x_i`, and divides it by the number of observations.
+#'
+#' * `percent_rank(x)` counts the total number of values greater than
+#'   `x_i`, and divides it by the number of observations minus 1.
+#'
+#' @inheritParams row_number
+#' @returns A numeric vector containing a proportion.
+#' @family ranking functions
 #' @export
-#' @rdname ranking
-min_rank <- function(x) rank(x, ties.method = "min", na.last = "keep")
-
-#' @export
-#' @rdname ranking
-dense_rank <- function(x) {
-  match(x, sort(unique(x)))
-}
-
-#' @export
-#' @rdname ranking
+#' @examples
+#' x <- c(5, 1, 3, 2, 2)
+#'
+#' cume_dist(x)
+#' percent_rank(x)
+#'
+#' # you can understand what's going on by computing it by hand
+#' sapply(x, function(xi) sum(x <= xi))
+#' sapply(x, function(xi) sum(x < xi)  / (length(x) - 1))
+#' # the real computations are a little more complex in order to
+#' # correctly deal with missing values
 percent_rank <- function(x) {
   (min_rank(x) - 1) / (sum(!is.na(x)) - 1)
 }
 
 #' @export
-#' @rdname ranking
+#' @rdname percent_rank
 cume_dist <- function(x) {
   rank(x, ties.method = "max", na.last = "keep") / sum(!is.na(x))
 }

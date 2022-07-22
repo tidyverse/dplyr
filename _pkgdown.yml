@@ -69,21 +69,25 @@ reference:
     Unlike other dplyr functions, these functions work on individual vectors,
     not data frames.
   contents:
+  - across
   - between
+  - c_across
   - case_when
   - coalesce
   - cumany
   - desc
   - if_else
   - lead
-  - order_by
   - "n"
   - n_distinct
   - na_if
   - near
   - nth
-  - ranking
+  - ntile
+  - order_by
+  - percent_rank
   - recode
+  - row_number
 
 - title: Build in datasets
   contents:
