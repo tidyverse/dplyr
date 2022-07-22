@@ -124,10 +124,10 @@ ntile <- function(x = row_number(), n) {
 #' These two ranking functions implement two slightly different ways to
 #' compute a percentile. For each `x_i` in `x`:
 #'
-#' * `cume_dist(x)` counts the total number of values greater than
+#' * `cume_dist(x)` counts the total number of values less than
 #'   or equal to `x_i`, and divides it by the number of observations.
 #'
-#' * `percent_rank(x)` counts the total number of values greater than
+#' * `percent_rank(x)` counts the total number of values less than
 #'   `x_i`, and divides it by the number of observations minus 1.
 #'
 #' @inheritParams row_number

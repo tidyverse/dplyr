@@ -22,7 +22,7 @@ Possible values are:
 \itemize{
 \item A function, e.g. \code{mean}.
 \item A purrr-style lambda, e.g. \code{~ mean(.x, na.rm = TRUE)}
-\item A named list of functions/lambdas, e.g.
+\item A named list of functions or lambdas, e.g.
 \verb{list(mean = mean, n_miss = ~ sum(is.na(.x))}. Each function is applied
 to each column, and the output is named by combining the function name
 and the column name using the glue specification in \code{.name}.
