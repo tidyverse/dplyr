@@ -166,7 +166,7 @@ do_percentile_rank <- function(u, w) {
     ok <- !is.na(u) & !is.na(w)
     o <- vctrs::vec_order(u[ok])
     p <- w[ok][o]
-    res <- (cumsum(p) - p * 0.5)[vctrs::vec_match(u[ok][o], u[ok])] / sum(w[ok])
+    res <- (cumsum(p) - p * 0.5)[vctrs::vec_match(u[ok], u[ok][o])] / sum(w[ok])
   }
 
   out <- vctrs::vec_init(NA_real_, length(ok))
