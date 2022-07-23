@@ -125,15 +125,15 @@ cume_dist <- function(x) {
 #'   derived for instances in which a value if `x` is not present.
 percentile_rank <- function(x, weights = NULL) {
   if (!rlang::is_null(weights)) {
-    return(percentile_rank_w(x, weights))
+    return(do_percentile_rank(x, weights))
   }
 
   tab <- vctrs::vec_count(x, "location")
-  res <- with(tab, percentile_rank_w(key, count))
+  res <- with(tab, do_percentile_rank(key, count))
   res[vctrs::vec_match(x, tab$key)]
 }
 
-percentile_rank_w <- function(u, w) {
+do_percentile_rank <- function(u, w) {
   if (vctrs::vec_duplicate_any(u)) {
     # TODO improve error message
     rlang::abort("Duplicates found in x")
