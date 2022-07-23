@@ -110,3 +110,66 @@ percent_rank <- function(x) {
 cume_dist <- function(x) {
   rank(x, ties.method = "max", na.last = "keep") / sum(!is.na(x))
 }
+
+#' @export
+#' @rdname ranking
+#' @examples
+#' percentile_rank(0:9)
+#' x <- c(1L, 2L, 1L, 7L, 5L, NA_integer_, 7L, 10L)
+#' percentile_rank(x)
+#'
+#' # with weights (example from Wikipedia)
+#' percentile_rank(7:1, c(1L, 0L, 2L, 2L, 3L, 1L, 1L))
+#' @param weights Optional weights for each value.  When used, can guarantee
+#'   that the full set of `x` is included, e.g., a percentile rank will be
+#'   derived for instances in which a value if `x` is not present.
+percentile_rank <- function(x, weights = NULL) {
+  if (!rlang::is_null(weights)) {
+    return(percentile_rank_w(x, weights))
+  }
+
+  tab <- vctrs::vec_count(x, "location")
+  res <- with(tab, percentile_rank_w(key, count))
+  res[vctrs::vec_match(x, tab$key)]
+}
+
+percentile_rank_w <- function(u, w) {
+  if (vctrs::vec_duplicate_any(u)) {
+    # TODO improve error message
+    rlang::abort("Duplicates found in x")
+  }
+
+  if (!rlang::is_integer(w)) {
+    # TODO improve error message
+    rlang::abort("Weights must be interger-like")
+  }
+
+  # vec_recycle_common() not needed because length(w) <= length(u), never
+  # length(w) > length(u)
+  if (length(w) == 1L) {
+    if (is.na(w)) {
+      # If weight is NA return NA?  Maybe through an warning?
+      return(rep.int(NA_real_, length(n)))
+    }
+
+    # no ordering necessary
+    ok <- !is.na(u)
+    n <- sum(ok)
+    p <- vctrs::vec_repeat(1.0 / n, n)
+    res <- cumsum(p) - p * 0.5
+  } else {
+    if (length(w) != length(u)) {
+      # TODO improve error message
+      abort("length(w) must be 1L or equal to length(x)")
+    }
+
+    ok <- stats::complete.cases(u, w)
+    o <- vctrs::vec_order(u[ok]) # get order of u
+    p <- w[ok][o] / sum(w[ok])       # sum of ordered weights
+    res <- (cumsum(p) - p * 0.5)[vctrs::vec_match(u[ok][o], u[ok])]
+  }
+
+  out <- vctrs::vec_init(NA_real_, length(ok))
+  out[ok] <- res
+  out
+}
