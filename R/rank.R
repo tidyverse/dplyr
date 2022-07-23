@@ -163,7 +163,7 @@ do_percentile_rank <- function(u, w) {
       abort("length(w) must be 1L or equal to length(x)")
     }
 
-    ok <- is.na(u) & !is.na
+    ok <- !is.na(u) & !is.na(w)
     o <- vctrs::vec_order(u[ok])
     p <- w[ok][o]
     res <- (cumsum(p) - p * 0.5)[vctrs::vec_match(u[ok][o], u[ok])] / sum(w[ok])
