@@ -8,6 +8,7 @@
 \alias{dense_rank}
 \alias{percent_rank}
 \alias{cume_dist}
+\alias{percentile_rank}
 \title{Windowed rank functions.}
 \usage{
 row_number(x)
@@ -21,6 +22,8 @@ dense_rank(x)
 percent_rank(x)
 
 cume_dist(x)
+
+percentile_rank(x, weights = NULL)
 }
 \arguments{
 \item{x}{a vector of values to rank. Missing values are left as is.
@@ -28,6 +31,10 @@ If you want to treat them as the smallest or largest values, replace
 with Inf or -Inf before ranking.}
 
 \item{n}{number of groups to split up into.}
+
+\item{weights}{Optional weights for each value.  When used, can guarantee
+that the full set of \code{x} is included, e.g., a percentile rank will be
+derived for instances in which a value if \code{x} is not present.}
 }
 \description{
 Six variations on ranking functions, mimicking the ranking functions
@@ -66,4 +73,10 @@ ntile(1:8, 3)
 # (for data frames and databases that support windowing)
 mutate(mtcars, row_number() == 1L)
 mtcars \%>\% filter(between(row_number(), 1, 10))
+percentile_rank(0:9)
+x <- c(1L, 2L, 1L, 7L, 5L, NA_integer_, 7L, 10L)
+percentile_rank(x)
+
+# with weights (example from Wikipedia)
+percentile_rank(7:1, c(1L, 0L, 2L, 2L, 3L, 1L, 1L))
 }
