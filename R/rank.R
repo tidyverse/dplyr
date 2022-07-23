@@ -155,8 +155,8 @@ percentile_rank_w <- function(u, w) {
     # no ordering necessary
     ok <- !is.na(u)
     n <- sum(ok)
-    p <- vctrs::vec_repeat(1.0 / n, n)
-    res <- cumsum(p) - p * 0.5
+    p <- vctrs::vec_repeat(1L, n)
+    res <- (cumsum(p) - 0.5) / n
   } else {
     if (length(w) != length(u)) {
       # TODO improve error message
@@ -164,9 +164,9 @@ percentile_rank_w <- function(u, w) {
     }
 
     ok <- stats::complete.cases(u, w)
-    o <- vctrs::vec_order(u[ok]) # get order of u
-    p <- w[ok][o] / sum(w[ok])       # sum of ordered weights
-    res <- (cumsum(p) - p * 0.5)[vctrs::vec_match(u[ok][o], u[ok])]
+    o <- vctrs::vec_order(u[ok])
+    p <- w[ok][o]
+    res <- (cumsum(p) - p * 0.5)[vctrs::vec_match(u[ok][o], u[ok])] / sum(w[ok])
   }
 
   out <- vctrs::vec_init(NA_real_, length(ok))
