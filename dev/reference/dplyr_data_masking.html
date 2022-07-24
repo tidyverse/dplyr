@@ -125,7 +125,10 @@ pronoun, e.g. <code>summarise(df, mean = mean(.data[[var]]))</code>.</p>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  mtcars <span class="sc">%&gt;%</span> <span class="fu">count</span>(.data[[var]]) <span class="sc">%&gt;%</span> <span class="fu">print</span>()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(<span class="fu">names</span>(mtcars), <span class="cf">function</span>(var) mtcars <span class="sc">%&gt;%</span> <span class="fu">count</span>(.data[[var]]))</span></code></pre><p></p></div></li>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(<span class="fu">names</span>(mtcars), <span class="cf">function</span>(var) mtcars <span class="sc">%&gt;%</span> <span class="fu">count</span>(.data[[var]]))</span></code></pre><p></p></div>
+<p>(Note that the contents of <code>[[</code>, e.g. <code>var</code> above, is never evaluated
+in the data environment so you don't need to worry about a data-variable
+called <code>var</code> causing problems.)</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="dot-dot-dot-">Dot-dot-dot (...)<a class="anchor" aria-label="anchor" href="#dot-dot-dot-"></a></h2>
