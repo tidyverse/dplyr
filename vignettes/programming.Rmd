@@ -135,7 +135,7 @@ Many data masking functions also use dynamic dots, which gives you another usefu
     tibble("{name}" := 2)
     ```
     
-*   If you the name should be derived from a data-variable in an 
+*   If the name should be derived from a data-variable in an 
     argument, you can use embracing syntax:
     
     ```{r}
@@ -283,7 +283,7 @@ my_summarise3 <- function(data, mean_var, sd_var) {
 }
 ```
 
-If you want to use the names of variables in the output, you can use embrace the variable name on the left-hand side of `:=`:
+If you want to use the name of a variable in the output, you can embrace the variable name on the left-hand side of `:=` with `{{`:
 
 ```{r}
 my_summarise4 <- function(data, expr) {
