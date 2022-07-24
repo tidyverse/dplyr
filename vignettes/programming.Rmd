@@ -368,10 +368,10 @@ df %>%
 
 ### Allowing the user to control column names
 
-If you want to give the user the ability to control the generated names, add an additional argument that uses `rlang::caller_arg()` to get the name of the argument to the function:
+If you want to give the user the ability to control the generated names, add an additional argument that uses `englue()` to get the name of the argument to the function:
 
 ```{r}
-quantile_df <- function(x, probs = c(0.25, 0.5, 0.75), prefix = rlang::caller_arg(x)) {
+quantile_df <- function(x, probs = c(0.25, 0.5, 0.75), prefix = englue("{{x}}")) {
   tibble(
     "{prefix}_val" := quantile(x, probs),
     "{prefix}_quant" := probs
@@ -385,7 +385,7 @@ quantile_df(x)
 quantile_df(1:5, prefix = "foo")
 ```
 
-Note that I've switched from embracing (`{{}}`) to glue-style interpolation (`{}`) since prefix is now a regular string.
+`englue()` is the tool that powers embracing in variable names, so here we're just using it explicitly so that the user can override if needed. Also note that inside the tibble I've switched from embracing (`{{}}`) to glue-style interpolation (`{}`) since `prefix` is now a regular string.
 
 ### Transforming user-supplied variables
 
