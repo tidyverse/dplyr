@@ -123,6 +123,31 @@ The main challenge of programming with functions that use data masking arises wh
 
 [^promise]: In R, arguments are lazily evaluated which means that until you attempt to use, they don't hold a value, just a __promise__ that describes how to compute the value. You can learn more at <https://adv-r.hadley.nz/functions.html#lazy-evaluation>
 
+### Name injection
+
+Many data masking functions also use dynamic dots, which gives you another useful feature: generating names programmatically by using `:=` instead of `=`. There are two basics forms, as illustrated below with `tibble()`:
+
+*   If you have the name in an env-variable, you can use glue syntax to interpolate 
+    in:
+
+    ```{r}
+    name <- "susan"
+    tibble("{name}" := 2)
+    ```
+    
+*   If the name should be derived from a data-variable in an 
+    argument, you can use embracing syntax:
+    
+    ```{r}
+    my_df <- function(x) {
+      tibble("{{x}}_2" := x * 2)
+    }
+    x <- 10
+    my_df(x)
+    ```
+    
+Learn more in `` ?rlang::`dyn-dots` ``.
+
 ## Tidy selection
 
 Data masking makes it easy to compute on values within a dataset. Tidy selection is a complementary tool that makes it easy to work with the columns of a dataset.
@@ -258,7 +283,7 @@ my_summarise3 <- function(data, mean_var, sd_var) {
 }
 ```
 
-If you want to use the names of variables in the output, you can use glue syntax in conjunction with `:=`:
+If you want to use the name of a variable in the output, you can embrace the variable name on the left-hand side of `:=` with `{{`:
 
 ```{r}
 my_summarise4 <- function(data, expr) {
@@ -294,6 +319,74 @@ starwars %>% my_summarise(sex, gender)
   
 When you use `...` in this way, make sure that any other arguments start with `.` to reduce the chances of argument clashes; see <https://design.tidyverse.org/dots-prefix.html> for more details.
   
+### Creating multiple columns
+
+You can use variable interpolation with `tibble()` to create columns based on the names of an input:
+
+```{r}
+quantile_df <- function(x, probs = c(0.25, 0.5, 0.75)) {
+  tibble(
+    "{{x}}_val" := quantile(x, probs),
+    "{{x}}_quant" := probs
+  )
+}
+
+x <- 1:5
+quantile_df(x)
+```
+
+This sort of function is useful inside `summarise()` and `mutate()` which allow you to add multiple columns by returning a data frame:
+
+```{r}
+df <- tibble(
+  grp = rep(1:3, each = 10),
+  x = runif(30),
+  y = rnorm(30)
+)
+
+df %>%
+  group_by(grp) %>%
+  summarise(quantile_df(x))
+```
+
+Unfortunately it doesn't quite yet work with `across()` because (for complicated reasons) it generates so-called packed columns that are themselves data frames: 
+
+```{r}
+df %>%
+  group_by(grp) %>%
+  summarise(across(x:y, quantile_df))
+```
+
+You'll need an additional unpack to get what you want:
+
+```{r}
+df %>%
+  group_by(grp) %>%
+  summarise(across(x:y, quantile_df)) %>%
+  tidyr::unpack(x:y)
+```
+
+### Allowing the user to control column names
+
+If you want to give the user the ability to control the generated names, add an additional argument that uses `englue()` to get the name of the argument to the function:
+
+```{r}
+quantile_df <- function(x, probs = c(0.25, 0.5, 0.75), prefix = rlang::englue("{{x}}")) {
+  tibble(
+    "{prefix}_val" := quantile(x, probs),
+    "{prefix}_quant" := probs
+  )
+}
+
+# Defaults to use the variable name
+quantile_df(x)
+
+# But you can override if needed
+quantile_df(1:5, prefix = "foo")
+```
+
+`englue()` is the tool that powers embracing in variable names, so here we're just using it explicitly so that the user can override if needed. Also note that inside the tibble I've switched from embracing (`{{}}`) to glue-style interpolation (`{}`) since `prefix` is now a regular string.
+
 ### Transforming user-supplied variables
 
 If you want the user to provide a set of data-variables that are then transformed, use `across()`:
@@ -345,6 +438,8 @@ mtcars %>%
   names() %>% 
   purrr::map(~ count(mtcars, .data[[.x]]))
 ```
+
+(Note that the `x` in `.data[[x]]` is always treated as an env-variable; it will never come from the data.)
 
 ### Use a variable from an Shiny input
 
