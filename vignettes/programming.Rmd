@@ -371,7 +371,7 @@ df %>%
 If you want to give the user the ability to control the generated names, add an additional argument that uses `englue()` to get the name of the argument to the function:
 
 ```{r}
-quantile_df <- function(x, probs = c(0.25, 0.5, 0.75), prefix = englue("{{x}}")) {
+quantile_df <- function(x, probs = c(0.25, 0.5, 0.75), prefix = rlang::englue("{{x}}")) {
   tibble(
     "{prefix}_val" := quantile(x, probs),
     "{prefix}_quant" := probs
