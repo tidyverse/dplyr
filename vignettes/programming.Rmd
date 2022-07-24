@@ -439,6 +439,8 @@ mtcars %>%
   purrr::map(~ count(mtcars, .data[[.x]]))
 ```
 
+(Note that the `x` in `.data[[x]]` is always treated as an env-variable; it will never come from the data.)
+
 ### Use a variable from an Shiny input
 
 Many Shiny input controls return character vectors, so you can use the same approach as above: `.data[[input$var]]`.
