@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `df |> arrange(mydesc::desc(x))` works correctly when the mydesc re-exports
+   `dplyr::desc()` (#6231).
+
 * `union_all()`, like `union()`, now requires that data frames be compatible:
   i.e. they have the same columns, and the columns have compatible types.
 

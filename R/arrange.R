@@ -116,14 +116,15 @@ arrange_rows <- function(data,
     return(out)
   }
 
+  # Strip out calls to desc() replacing with direction argument
+  is_desc_call <- function(x) {
+    quo_is_call(x, "desc", ns = c("", "dplyr"))
+  }
   directions <- map_chr(dots, function(quosure) {
-    if(quo_is_call(quosure, "desc")) "desc" else "asc"
+    if (is_desc_call(quosure)) "desc" else "asc"
   })
-
-  na_values <- if_else(directions == "desc", "smallest", "largest")
-
   quosures <- map(dots, function(quosure) {
-    if (quo_is_call(quosure, "desc", ns = c("", "dplyr"))) {
+    if (is_desc_call(quosure)) {
       expr <- quo_get_expr(quosure)
       if (!has_length(expr, 2L)) {
         abort("`desc()` must be called with exactly one argument.", call = error_call)
@@ -133,6 +134,7 @@ arrange_rows <- function(data,
     }
     quosure
   })
+
   # give the quosures arbitrary names so that
   # data has the right number of columns below after transmute()
   names(quosures) <- paste0("^^--arrange_quosure_", seq_along(quosures))
@@ -171,6 +173,8 @@ arrange_rows <- function(data,
     abort(bullets, call = error_call, parent = parent)
 
   })
+
+  na_values <- if_else(directions == "desc", "smallest", "largest")
 
   vec_order_radix(
     x = data,
