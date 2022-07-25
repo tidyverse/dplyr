@@ -31,8 +31,14 @@
 #'
 #'   Within these functions you can use [cur_column()] and [cur_group()]
 #'   to access the current column and grouping keys respectively.
-#' @param ... Additional arguments for the function calls in `.fns`. Using these
-#'   `...` is strongly discouraged because of issues of timing of evaluation.
+#' @param ... `r lifecycle::badge("deprecated")`
+#'
+#'   Additional arguments for the function calls in `.fns` are no longer
+#'   accepted in `...` because it's not clear when they should be evaluated:
+#'   once per `across()` or once per group? Instead supply additional arguments
+#'   directly in `funs` by using a lambda. For example, instead of
+#'   `across(everything(), mean, na.rm = TRUE)` write
+#'   `across(everything(), ~ mean(.x, na.rm = TRUE))`.
 #' @param .names A glue specification that describes how to name the output
 #'   columns. This can use `{.col}` to stand for the selected column name, and
 #'   `{.fn}` to stand for the name of the function being applied. The default
@@ -136,6 +142,14 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
     .caller_env = caller_env(),
     inline = FALSE
   )
+
+  if (!missing(...)) {
+    lifecycle::deprecate_warn(
+      when = "1.1.0",
+      what = "across(...)",
+      details = "Please provide additional arguments to individual functions"
+    )
+  }
 
   vars <- setup$vars
   if (length(vars) == 0L) {
