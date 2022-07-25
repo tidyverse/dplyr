@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* The lazyeval functions (i.e. all functions ending in `_`) are now defunct 
+  (#5573).
+
 * `df |> arrange(mydesc::desc(x))` works correctly when the mydesc re-exports
    `dplyr::desc()` (#6231).
 

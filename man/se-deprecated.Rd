@@ -106,7 +106,7 @@ our naming conventions.}
 include/exclude.}
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}
 
 dplyr used to offer twin versions of each verb suffixed with an
 underscore. These versions had standard evaluation (SE) semantics:

@@ -1,3 +1,11 @@
+# .dots is hard deprecated
+
+    Code
+      group_by(df, .dots = "x")
+    Condition
+      Error:
+      ! The `.dots` argument of `group_by()` was deprecated in dplyr 1.0.0 and is now defunct.
+
 # select(group_by(.)) implicitely adds grouping variables (#170)
 
     Code
