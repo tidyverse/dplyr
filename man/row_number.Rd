@@ -36,7 +36,7 @@ would get ranks \code{c(1, 2, 3, 4)}. It's equivalent to
 \item \code{min_rank()} gives every tie the same (smallest) value so that
 \code{c(10, 20, 20, 30)} gets ranks \code{c(1, 2, 2, 4)}. It's the way ranking usually
 works in spots and is equivalent to \code{rank(ties.method = "min")}.
-\item \code{dense_rank()} works like \code{min_rank()}, but doesn't leave any no gaps,
+\item \code{dense_rank()} works like \code{min_rank()}, but doesn't leave any gaps,
 so that \code{c(10, 20, 20, 30)} getes ranks \code{c(1, 2, 2, 3)}.
 }
 }

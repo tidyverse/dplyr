@@ -12,7 +12,7 @@
 #'   `c(10, 20, 20, 30)` gets ranks `c(1, 2, 2, 4)`. It's the way ranking usually
 #'   works in spots and is equivalent to `rank(ties.method = "min")`.
 #'
-#' * `dense_rank()` works like `min_rank()`, but doesn't leave any no gaps,
+#' * `dense_rank()` works like `min_rank()`, but doesn't leave any gaps,
 #'   so that `c(10, 20, 20, 30)` getes ranks `c(1, 2, 2, 3)`.
 #'
 #' @param x a vector of values to rank.
