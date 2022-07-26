@@ -58,6 +58,10 @@
 #'    lapply(names(mtcars), function(var) mtcars %>% count(.data[[var]]))
 #'    ```
 #'
+#'    (Note that the contents of `[[`, e.g. `var` above, is never evaluated
+#'    in the data environment so you don't need to worry about a data-variable
+#'    called `var` causing problems.)
+#'
 #' # Dot-dot-dot (...)
 #'
 #' When this modifier is applied to `...`, there is one other useful technique
