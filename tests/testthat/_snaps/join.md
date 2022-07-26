@@ -60,6 +60,72 @@
     Message
       Joining, by = "x"
 
+# error if passed additional arguments
+
+    Code
+      inner_join(df1, df2, on = "a")
+    Message
+      Joining, by = "a"
+    Condition
+      Error:
+      ! Arguments in `...` must be used.
+      x Problematic argument:
+      * on = "a"
+    Code
+      left_join(df1, df2, on = "a")
+    Message
+      Joining, by = "a"
+    Condition
+      Error:
+      ! Arguments in `...` must be used.
+      x Problematic argument:
+      * on = "a"
+    Code
+      right_join(df1, df2, on = "a")
+    Message
+      Joining, by = "a"
+    Condition
+      Error:
+      ! Arguments in `...` must be used.
+      x Problematic argument:
+      * on = "a"
+    Code
+      full_join(df1, df2, on = "a")
+    Message
+      Joining, by = "a"
+    Condition
+      Error:
+      ! Arguments in `...` must be used.
+      x Problematic argument:
+      * on = "a"
+    Code
+      nest_join(df1, df2, on = "a")
+    Message
+      Joining, by = "a"
+    Condition
+      Error:
+      ! Arguments in `...` must be used.
+      x Problematic argument:
+      * on = "a"
+    Code
+      anti_join(df1, df2, on = "a")
+    Message
+      Joining, by = "a"
+    Condition
+      Error:
+      ! Arguments in `...` must be used.
+      x Problematic argument:
+      * on = "a"
+    Code
+      semi_join(df1, df2, on = "a")
+    Message
+      Joining, by = "a"
+    Condition
+      Error:
+      ! Arguments in `...` must be used.
+      x Problematic argument:
+      * on = "a"
+
 # nest_join computes common columns
 
     Code

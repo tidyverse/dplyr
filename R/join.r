@@ -193,6 +193,7 @@ inner_join <- function(x,
                        suffix = c(".x", ".y"),
                        ...,
                        keep = NULL) {
+  check_dots_used()
   UseMethod("inner_join")
 }
 
@@ -231,6 +232,7 @@ left_join <- function(x,
                       suffix = c(".x", ".y"),
                       ...,
                       keep = NULL) {
+  check_dots_used()
   UseMethod("left_join")
 }
 
@@ -269,6 +271,7 @@ right_join <- function(x,
                        suffix = c(".x", ".y"),
                        ...,
                        keep = NULL) {
+  check_dots_used()
   UseMethod("right_join")
 }
 
@@ -307,6 +310,7 @@ full_join <- function(x,
                       suffix = c(".x", ".y"),
                       ...,
                       keep = NULL) {
+  check_dots_used()
   UseMethod("full_join")
 }
 
@@ -380,6 +384,7 @@ NULL
 #' @export
 #' @rdname filter-joins
 semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+  check_dots_used()
   UseMethod("semi_join")
 }
 
@@ -393,6 +398,7 @@ semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches 
 #' @export
 #' @rdname filter-joins
 anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+  check_dots_used()
   UseMethod("anti_join")
 }
 
@@ -443,6 +449,7 @@ nest_join <- function(x,
                       keep = NULL,
                       name = NULL,
                       ...) {
+  check_dots_used()
   UseMethod("nest_join")
 }
 

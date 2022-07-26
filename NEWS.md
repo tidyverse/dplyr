@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `*_join()` now error if you supply them with additional arguments that
+  aren't used (#6228).
+
 * `df |> arrange(mydesc::desc(x))` works correctly when the mydesc re-exports
    `dplyr::desc()` (#6231).
 
