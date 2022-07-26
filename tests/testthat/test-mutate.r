@@ -199,13 +199,17 @@ test_that("mutate works on zero-row grouped data frame (#596)", {
 })
 
 test_that("mutate works on zero-row rowwise data frame (#4224)", {
-  dat <- data.frame(a = numeric(0))
-  res <- dat %>% rowwise() %>% mutate(a2 = a * 2)
-  expect_type(res$a2, "double")
-  expect_s3_class(res, "rowwise_df")
-  expect_equal(res$a2, numeric(0))
-})
+  rf <- rowwise(tibble(x = numeric(0)))
+  out <- mutate(rf, x2 = x)
+  expect_s3_class(out, "rowwise_df")
+  expect_identical(out$x2, double())
 
+  # preserving classes of list-cols where possible
+  rf <- rowwise(tibble(x = list(), y = vctrs::list_of(.ptype = character())))
+  out <- mutate(rf, x2 = identity(x), y2 = identity(y))
+  expect_equal(out$x2, list())
+  expect_equal(out$y2, character())
+})
 
 test_that("mutate works on empty data frames (#1142)", {
   df <- data.frame()

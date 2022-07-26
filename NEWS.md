@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* Rowwise-`mutate()` behaves a little better with 0-row inputs (#6303).
+
 * `*_join()` now error if you supply them with additional arguments that
   aren't used (#6228).
 
