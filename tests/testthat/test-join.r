@@ -261,6 +261,15 @@ test_that("nest_join returns list of tibbles (#3570)",{
   expect_s3_class(out$df2[[1]], "tbl_df")
 })
 
+test_that("nest_join respects types of y",{
+  df1 <- tibble(x = c(1, 2), y = c(2, 3))
+  df2 <- rowwise(tibble(x = c(1, 1), z = c(2, 3)))
+  out <- nest_join(df1, df2, by = "x", multiple = "all")
+
+  expect_s3_class(out$df2[[1]], "rowwise_df")
+})
+
+
 test_that("nest_join computes common columns", {
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- tibble(x = c(1, 3), z = c(2, 3))
@@ -319,7 +328,7 @@ test_that("joins preserve groups", {
 
   # See comment in nest_join
   i <- count_regroups(out <- nest_join(gf1, gf2, by = "a", multiple = "all"))
-  expect_equal(i, 1L)
+  expect_equal(i, 4L)
   expect_equal(group_vars(out), "a")
 })
 

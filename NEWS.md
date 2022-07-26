@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `nest_join()` now preserves the type of `y` (#6295).
+
 * `*_join()` now error if you supply them with additional arguments that
   aren't used (#6228).
 
