@@ -336,6 +336,7 @@ mutate_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
                 dplyr_error_data = list(result_size = sizes[group], expected_size = 1)
               )
             }
+            result <- unlist(result, recursive = FALSE)
           }
         } else if (!quo_is_symbolic(quo) && !is.null(quo_get_expr(quo))) {
           # constant, we still need both `result` and `chunks`

@@ -230,6 +230,16 @@ test_that("rowwise mutate gives expected results (#1381)", {
   expect_equal(res$y, c(NA, 2, 3))
 })
 
+test_that("rowwise mutate un-lists existing length-1 list-columns", {
+  df <- rowwise(tibble(x = as.list(1:3)))
+  out <- mutate(df, y = x)
+  expect_equal(out$y, 1:3)
+
+  df <- rowwise(tibble(x = list(1, 2:3)))
+  expect_snapshot(mutate(df, y = x), error = TRUE)
+})
+
+
 test_that("grouped mutate does not drop grouping attributes (#1020)", {
   d <- data.frame(subject = c("Jack", "Jill"), id = c(2, 1)) %>% group_by(subject)
   a1 <- names(attributes(d))
