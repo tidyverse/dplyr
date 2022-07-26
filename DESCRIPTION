@@ -63,8 +63,8 @@ Suggests:
     tidyr, 
     withr
 Remotes:
-    r-lib/tidyselect,
-    r-lib/vctrs
+    url::https://github.com/r-lib/tidyselect/archive/main.tar.gz,
+    url::https://github.com/r-lib/vctrs/archive/main.tar.gz
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
