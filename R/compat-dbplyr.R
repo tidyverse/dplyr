@@ -56,20 +56,3 @@ wrap_dbplyr_obj <- function(obj_name) {
 }
 utils::globalVariables("!<-")
 
-#' @inherit dbplyr::sql
-#' @export
-sql <- function(...) {
-  check_dbplyr()
-  dbplyr::sql(...)
-}
-
-#' @inherit dbplyr::ident
-#' @export
-#' @examples
-#' # Identifiers are escaped with "
-#' @examplesIf requireNamespace("dbplyr", quietly = TRUE)
-#' ident("x")
-ident <- function(...) {
-  check_dbplyr()
-  dbplyr::ident(...)
-}
