@@ -75,11 +75,11 @@
       left_join(df1, df2, on = "a")
     Message
       Joining, by = "a"
-    Output
-        a
-      1 1
-      2 2
-      3 3
+    Condition
+      Error:
+      ! Arguments in `...` must be used.
+      x Problematic argument:
+      * on = "a"
     Code
       right_join(df1, df2, on = "a")
     Message

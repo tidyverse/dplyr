@@ -232,7 +232,7 @@ left_join <- function(x,
                       suffix = c(".x", ".y"),
                       ...,
                       keep = NULL) {
-  check_dots_used
+  check_dots_used()
   UseMethod("left_join")
 }
 
@@ -271,6 +271,7 @@ right_join <- function(x,
                        suffix = c(".x", ".y"),
                        ...,
                        keep = NULL) {
+  check_dots_used()
   UseMethod("right_join")
 }
 
@@ -286,7 +287,6 @@ right_join.data.frame <- function(x,
                                   na_matches = c("na", "never"),
                                   multiple = NULL,
                                   unmatched = "drop") {
-  check_dots_used()
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
