@@ -57,8 +57,6 @@ Suggests:
     nycflights13,
     purrr,
     rmarkdown,
-    RMySQL,
-    RPostgreSQL,
     RSQLite,
     stringi (>= 1.7.6),
     testthat (>= 3.1.1),

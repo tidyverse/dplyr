@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `src_postgres()`, `src_mysql()`, and `src_sqlite()` are now defunct. Please
+  use dbplyr instead (#4663).
+
 * `df |> arrange(mydesc::desc(x))` works correctly when the mydesc re-exports
    `dplyr::desc()` (#6231).
 

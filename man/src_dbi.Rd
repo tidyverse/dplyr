@@ -56,23 +56,10 @@ as described in \code{\link[RMySQL:MySQLDriver-class]{RMySQL::MySQL()}}.}
 An S3 object with class \code{src_dbi}, \code{src_sql}, \code{src}.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}
 
-These functions have been deprecated; instead please use \code{\link[=tbl]{tbl()}}
+These functions are defunct; instead loading dbplyr and calling \code{\link[=tbl]{tbl()}}
 directly on an \code{DBIConnection}. See \url{https://dbplyr.tidyverse.org/} for
 more details.
-}
-\examples{
-\dontshow{if (requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-copy_to(con, mtcars)
-
-# To retrieve a single table from a source, use `tbl()`
-mtcars <- con \%>\% tbl("mtcars")
-mtcars
-
-# You can also use pass raw SQL if you want a more sophisticated query
-con \%>\% tbl(sql("SELECT * FROM mtcars WHERE cyl == 8"))
-\dontshow{\}) # examplesIf}
 }
 \keyword{internal}

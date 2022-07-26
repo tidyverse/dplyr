@@ -1,8 +1,7 @@
-test_that("src_sqlite() gives meaningful error messages", {
-  skip_if_not_installed("dbplyr")
-  withr::local_options(lifecycle_verbosity = "quiet")
-
-  expect_snapshot({
-    (expect_error(src_sqlite(":memory:")))
+test_that("database srcs are defunct", {
+  expect_snapshot(error = TRUE, {
+    src_postgres()
+    src_mysql()
+    src_sqlite()
   })
 })

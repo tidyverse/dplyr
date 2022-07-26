@@ -1,9 +1,9 @@
 #' Source for database backends
 #'
 #' @description
-#' `r lifecycle::badge("deprecated")`
+#' `r lifecycle::badge("defunct")`
 #'
-#' These functions have been deprecated; instead please use [tbl()]
+#' These functions are defunct; instead loading dbplyr and calling [tbl()]
 #' directly on an `DBIConnection`. See <https://dbplyr.tidyverse.org/> for
 #' more details.
 #'
@@ -21,16 +21,6 @@
 #'   compatibility with the generic, but otherwise ignored.
 #' @return An S3 object with class `src_dbi`, `src_sql`, `src`.
 #' @keywords internal
-#' @examplesIf requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)
-#' con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-#' copy_to(con, mtcars)
-#'
-#' # To retrieve a single table from a source, use `tbl()`
-#' mtcars <- con %>% tbl("mtcars")
-#' mtcars
-#'
-#' # You can also use pass raw SQL if you want a more sophisticated query
-#' con %>% tbl(sql("SELECT * FROM mtcars WHERE cyl == 8"))
 #' @name src_dbi
 NULL
 
@@ -38,51 +28,20 @@ NULL
 #' @export
 src_mysql <- function(dbname, host = NULL, port = 0L, username = "root",
                       password = "", ...) {
-  check_dbplyr()
-  check_installed("RMySQL", "to connect to MySQL/MariaDB.")
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     "1.0.0", "dplyr::src_mysql()",
-    details = "Please use `tbl()` directly with a database connection"
+    details = "Please load dbplyr and use `tbl()` directly with a database connection"
   )
-
-  con <- DBI::dbConnect(
-    RMySQL::MySQL(),
-    dbname = dbname,
-    host = host,
-    port = port,
-    username = username,
-    password = password,
-    ...
-  )
-  dbplyr::src_dbi(con, auto_disconnect = TRUE)
 }
 
 #' @rdname src_dbi
 #' @export
 src_postgres <- function(dbname = NULL, host = NULL, port = NULL,
                          user = NULL, password = NULL, ...) {
-  check_dbplyr()
-  check_installed("RPostgreSQL", "to connect to PostgreSQL.")
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     "1.0.0", "dplyr::src_postgres()",
-    details = "Please use `tbl()` directly with a database connection"
+    details = "Please load dbplyr and use `tbl()` directly with a database connection"
   )
-
-  in_travis <- identical(Sys.getenv("TRAVIS"), "true")
-
-  user <- user %||% if (in_travis) "postgres" else ""
-
-  con <- DBI::dbConnect(
-    RPostgreSQL::PostgreSQL(),
-    host = host %||% "",
-    dbname = dbname %||% "",
-    user = user,
-    password = password %||% "",
-    port = port %||% "",
-    ...
-  )
-
-  dbplyr::src_dbi(con, auto_disconnect = TRUE)
 }
 
 #' @rdname src_dbi
@@ -94,19 +53,8 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL,
 #'   `path` does not exist and connect to the existing database if
 #'   `path` does exist.
 src_sqlite <- function(path, create = FALSE) {
-  check_dbplyr()
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     "1.0.0", "dplyr::src_sqlite()",
-    details = "Please use `tbl()` directly with a database connection"
+    details = "Please load dbplyr and use `tbl()` directly with a database connection"
   )
-
-  if (!create && !file.exists(path)) {
-    msg <- glue("`path` must already exist, unless `create` = TRUE.")
-    abort(msg)
-  }
-
-  con <- DBI::dbConnect(RSQLite::SQLite(), path)
-  RSQLite::initExtension(con)
-
-  dbplyr::src_dbi(con, auto_disconnect = TRUE)
 }
