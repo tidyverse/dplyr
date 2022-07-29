@@ -94,6 +94,14 @@ test_that("arrange works with two columns when the first has a data frame proxy 
   expect_identical(out$id2, c(1, 2, 3))
 })
 
+test_that("arrange ignores NULLs (#6193)", {
+  df <- tibble(x = 1:2)
+  y <- NULL
+  out <- arrange(df, y, desc(x))
+
+  expect_equal(out$x, 2:1)
+})
+
 # locale --------------------------------------------------------------
 
 test_that("arrange defaults to the C locale", {
