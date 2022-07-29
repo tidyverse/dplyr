@@ -137,7 +137,8 @@ arrange_rows <- function(data,
 
   # give the quosures arbitrary names so that
   # data has the right number of columns below after transmute()
-  names(quosures) <- paste0("^^--arrange_quosure_", seq_along(quosures))
+  quo_names <- paste0("^^--arrange_quosure_", seq_along(quosures))
+  names(quosures) <- quo_names
 
   # TODO: not quite that because when the quosure is some expression
   #       it should be evaluated by groups.
@@ -174,6 +175,7 @@ arrange_rows <- function(data,
 
   })
 
+  directions <- directions[quo_names %in% names(data)]
   na_values <- if_else(directions == "desc", "smallest", "largest")
 
   vec_order_radix(
