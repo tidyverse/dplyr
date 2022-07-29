@@ -1,4 +1,4 @@
-# rowwise mutate un-lists existing list-columns
+# rowwise mutate un-lists existing size-1 list-columns (#6302)
 
     Code
       mutate(df, y = x)
