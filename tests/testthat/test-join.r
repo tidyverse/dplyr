@@ -222,6 +222,14 @@ test_that("`unmatched` is validated", {
   })
 })
 
+test_that("`keep` is validated", {
+  df <- tibble(x = 1)
+
+  expect_snapshot(error = TRUE, {
+    left_join(df, df, by = "x", keep = 1)
+  })
+})
+
 test_that("mutating joins compute common columns", {
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- tibble(x = c(1, 3), z = c(2, 3))
