@@ -145,11 +145,11 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   names <- setup$names
 
   mask <- peek_mask()
-  data <- mask$current_cols(vars)
 
   if (is.null(fns)) {
+    cols <- mask$current_cols(vars, restore_rowwise = TRUE)
     nrow <- length(mask$current_rows())
-    data <- new_data_frame(data, n = nrow, class = c("tbl_df", "tbl"))
+    data <- new_data_frame(cols, n = nrow, class = c("tbl_df", "tbl"))
 
     if (is.null(names)) {
       return(data)
@@ -157,6 +157,8 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
       return(set_names(data, names))
     }
   }
+
+  data <- mask$current_cols(vars)
 
   n_cols <- length(data)
   n_fns <- length(fns)

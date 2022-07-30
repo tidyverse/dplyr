@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `across()` used without functions inside an rowwise-data frame no longer
+  generates an invalid data frame (#6264).
+
 * `arrange()` now correctly ignores `NULL` inputs (#6193).
 
 * `*_join()` now error if you supply them with additional arguments that

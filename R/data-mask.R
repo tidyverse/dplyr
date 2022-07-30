@@ -72,8 +72,14 @@ DataMask <- R6Class("DataMask",
     },
 
     pick = function(vars) {
-      cols <- self$current_cols(vars)
-      if (inherits(private$data, "rowwise_df")) {
+      cols <- self$current_cols(vars, restore_rowwise = TRUE)
+      nrow <- length(self$current_rows())
+      new_tibble(cols, nrow = nrow)
+    },
+
+    current_cols = function(vars, restore_rowwise = FALSE) {
+      cols <- env_get_list(parent.env(private$mask), vars)
+      if (restore_rowwise && inherits(private$data, "rowwise_df")) {
         cols <- map2(cols, names(cols), function(col, name) {
           if (vec_is_list(private$current_data[[name]])) {
             col <- list(col)
@@ -81,12 +87,7 @@ DataMask <- R6Class("DataMask",
           col
         })
       }
-      nrow <- length(self$current_rows())
-      new_tibble(cols, nrow = nrow)
-    },
-
-    current_cols = function(vars) {
-      env_get_list(parent.env(private$mask), vars)
+      cols
     },
 
     current_rows = function() {
