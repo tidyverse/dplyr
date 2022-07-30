@@ -267,11 +267,11 @@ test_that("nest_join computes common columns", {
   expect_snapshot(out <- nest_join(df1, df2))
 })
 
-test_that("nest_join handles multiple matches in x (#3642)", {
+test_that("nest_join handles multiple matches in x by default (#3642)", {
   df1 <- tibble(x = c(1, 1))
   df2 <- tibble(x = 1, y = 1:2)
 
-  out <- nest_join(df1, df2, by = "x", multiple = "all")
+  out <- nest_join(df1, df2, by = "x")
   expect_equal(out$df2[[1]], out$df2[[2]])
 })
 

@@ -411,25 +411,28 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches 
 
 #' Nest join
 #'
-#' `nest_join()` returns all rows and columns in `x` with a new nested-df column
-#' that contains all matches from `y`. When there is no match, the list column
-#' is a 0-row tibble.
+#' A nest join leaves `x` almost unchanged, except that it adds a new
+#' list-column, each element containing the the rows from `y` that match the
+#' corresponding row in `x`.
 #'
-#' In some sense, a `nest_join()` is the most fundamental join since you can
-#' recreate the other joins from it:
+#' # Relationship to other joins
 #'
-#' * `inner_join()` is a `nest_join()` plus [tidyr::unnest()]
-#' * `left_join()` `nest_join()` plus `unnest(.drop = FALSE)`.
-#' * `semi_join()` is a `nest_join()` plus a `filter()` where you check
+#' You can recreate many other joins from the result of a nesting join:
+#'
+#' * [inner_join()] is a `nest_join()` plus [tidyr::unnest()]
+#' * [left_join()] is a `nest_join()` plus `tidyr::unnest(.drop = FALSE)`.
+#' * [semi_join()] is a `nest_join()` plus a `filter()` where you check
 #'   that every element of data has at least one row,
-#' * `anti_join()` is a `nest_join()` plus a `filter()` where you check every
+#' * [anti_join()] is a `nest_join()` plus a `filter()` where you check every
 #'   element has zero rows.
 #'
-#' @param x,y A pair of data frames, data frame extensions (e.g. a tibble), or
-#'   lazy data frames (e.g. from dbplyr or dtplyr). See *Methods*, below, for
-#'   more details.
-#' @param name The name of the list column nesting joins create.
-#'   If `NULL` the name of `y` is used.
+#' @param name The name of the list-column created by the join. If `NULL`,
+#'   the default, the name of `y` is used.
+#' @param keep Should the new list-column contain join keys? The default
+#'   will preserve the join keys for non-equi-joins.
+#' @return
+#' A modified copy of `x` that contains an new column called `name`. The
+#' column contains a list of objects the same type as `y`.
 #' @section Methods:
 #' This function is a **generic**, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
@@ -441,7 +444,12 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches 
 #' @family joins
 #' @export
 #' @examples
-#' band_members %>% nest_join(band_instruments)
+#' df1 <- tibble(x = 1:3)
+#' df2 <- tibble(x = c(2, 3, 3), y = c("a", "b", "c"))
+#'
+#' out <- nest_join(df1, df2)
+#' out
+#' out$df2
 nest_join <- function(x,
                       y,
                       by = NULL,
@@ -463,7 +471,7 @@ nest_join.data.frame <- function(x,
                                  name = NULL,
                                  ...,
                                  na_matches = c("na", "never"),
-                                 multiple = NULL,
+                                 multiple = "all",
                                  unmatched = "drop") {
   na_matches <- check_na_matches(na_matches)
   unmatched <- check_unmatched(unmatched)
