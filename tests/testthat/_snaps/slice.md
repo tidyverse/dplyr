@@ -76,40 +76,46 @@
 # slice_*() checks that `n=` is explicitly named
 
     Code
-      (expect_error(slice_head(df, 5)))
-    Output
-      <error/rlang_error>
+      slice_head(df, 5)
+    Condition
       Error in `slice_head()`:
       ! `n` must be explicitly named.
       i Did you mean `slice_head(n = 5)`?
     Code
-      (expect_error(slice_tail(df, 5)))
-    Output
-      <error/rlang_error>
+      slice_tail(df, 5)
+    Condition
       Error in `slice_tail()`:
       ! `n` must be explicitly named.
       i Did you mean `slice_tail(n = 5)`?
     Code
-      (expect_error(slice_min(df, x, 5)))
-    Output
-      <error/rlang_error>
+      slice_min(df, x, 5)
+    Condition
       Error in `slice_min()`:
       ! `n` must be explicitly named.
       i Did you mean `slice_min(n = 5)`?
     Code
-      (expect_error(slice_max(df, x, 5)))
-    Output
-      <error/rlang_error>
+      slice_max(df, x, 5)
+    Condition
       Error in `slice_max()`:
       ! `n` must be explicitly named.
       i Did you mean `slice_max(n = 5)`?
     Code
-      (expect_error(slice_sample(df, 5)))
-    Output
-      <error/rlang_error>
+      slice_sample(df, 5)
+    Condition
       Error in `slice_sample()`:
       ! `n` must be explicitly named.
       i Did you mean `slice_sample(n = 5)`?
+
+---
+
+    Code
+      slice_head(df, n = 5, 10)
+    Condition
+      Error in `slice_head()`:
+      ! `...` must be empty.
+      x Problematic argument:
+      * ..1 = 10
+      i Did you forget to name an argument?
 
 # slice_*() checks that for empty `...
 

@@ -362,23 +362,20 @@ test_that("slice() gives meaningfull errors", {
 
 test_that("slice_*() checks that `n=` is explicitly named", {
   df <- data.frame(x = 1:10)
-  expect_snapshot({
-    (expect_error(
-      slice_head(df, 5)
-    ))
-    (expect_error(
-      slice_tail(df, 5)
-    ))
-    (expect_error(
-      slice_min(df, x, 5)
-    ))
-    (expect_error(
-      slice_max(df, x, 5)
-    ))
-    (expect_error(
-      slice_sample(df, 5)
-    ))
+  expect_snapshot(error = TRUE, {
+    slice_head(df, 5)
+    slice_tail(df, 5)
+    slice_min(df, x, 5)
+    slice_max(df, x, 5)
+    slice_sample(df, 5)
   })
+
+  # And errors on extra args
+  expect_snapshot(error = TRUE, {
+    slice_head(df, n = 5, 10)
+  })
+
+
 })
 
 test_that("slice_*() not confusing `n` (#6089)", {
