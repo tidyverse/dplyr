@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `slice_*()` generics now perform argument validation. This should make 
+  methods more consistent and simpler to implement (#6361).
+
 * `arrange()` now correctly ignores `NULL` inputs (#6193).
 
 * `*_join()` now error if you supply them with additional arguments that
