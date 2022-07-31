@@ -2,20 +2,42 @@
 % Please edit documentation in R/n_distinct.R
 \name{n_distinct}
 \alias{n_distinct}
-\title{Efficiently count the number of unique values in a set of vectors}
+\title{Count unique combinations}
 \usage{
 n_distinct(..., na.rm = FALSE)
 }
 \arguments{
-\item{\dots}{vectors of values}
+\item{...}{Unnamed vectors. If multiple vectors, supplied they should have
+the same length. \code{n_distinct()} does technically respect the recycling
+rules, but since a vector of length 1 won't increase the number of
+distinct combinations, this is most of theoretical interest.}
 
-\item{na.rm}{if \code{TRUE} missing values don't count}
+\item{na.rm}{If \code{TRUE}, exclude missing values from the count.}
+}
+\value{
+A single number..
 }
 \description{
-This is a faster and more concise equivalent of \code{length(unique(x))}
+\code{n_distinct()} counts the number of unique/distinct combinations in a set
+of one or more vectors. It's a faster and more concise equivalent to
+\code{nrow(unique(data.frame(...)))}.
 }
 \examples{
-x <- sample(1:10, 1e5, rep = TRUE)
-length(unique(x))
+n_distinct()
+
+x <- c(1, 1, 2, 2, 2)
 n_distinct(x)
+
+y <- c(3, 3, NA, 3, 3)
+n_distinct(y)
+n_distinct(y, na.rm = TRUE)
+
+# Pairs (1, 3), (2, 3), and (2, NA) are distinct
+n_distinct(x, y)
+
+# (2, NA) is dropped, leaving 2 distinct combinations
+n_distinct(x, y, na.rm = TRUE)
+
+# Also works with data frames
+n_distinct(data.frame(x, y))
 }
