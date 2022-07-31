@@ -16,7 +16,7 @@ nest_join(x, y, by = NULL, copy = FALSE, keep = NULL, name = NULL, ...)
   name = NULL,
   ...,
   na_matches = c("na", "never"),
-  multiple = NULL,
+  multiple = "all",
   unmatched = "drop"
 )
 }
@@ -110,8 +110,8 @@ A modified copy of \code{x} that contains an new column called \code{name}. The
 column contains a list of objects the same type as \code{y}.
 }
 \description{
-\code{nest_join()} adds a new list-column to \code{x}. Each element of the list-column
-is a data frame containing all the rows from \code{y} that match the
+A nest join leaves \code{x} almost unchanged, except that it adds a new
+list-column, each element containing the the rows from \code{y} that match the
 corresponding row in \code{x}.
 }
 \section{Relationship to other joins}{
@@ -137,7 +137,12 @@ The following methods are currently available in loaded packages:
 }
 
 \examples{
-band_members \%>\% nest_join(band_instruments)
+df1 <- tibble(x = 1:3)
+df2 <- tibble(x = c(2, 3, 3), y = c("a", "b", "c"))
+
+out <- nest_join(df1, df2)
+out
+out$df2
 }
 \seealso{
 Other joins: 
