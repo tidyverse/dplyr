@@ -37,7 +37,7 @@ methods_generic <- function(x) {
     "methods", "parallel", "splines", "stats", "stats4", "tcltk",
     "tools", "utils"
   )
-  info <- info[!info$package %in% base_packages]
+  info <- info[!info$package %in% base_packages, ]
 
   info[c("generic", "class", "package", "topic", "visible", "source", "isS4")]
 }
