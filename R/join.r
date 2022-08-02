@@ -536,9 +536,7 @@ join_mutate <- function(x,
   check_dots_empty0(...)
 
   na_matches <- check_na_matches(na_matches, error_call = error_call)
-  if (!is_true(keep) && !is_false(keep) && !is.null(keep)) {
-    abort("`keep` must be `TRUE`, `FALSE`, or `NULL`", call = error_call)
-  }
+  check_keep(keep, error_call = error_call)
   unmatched <- check_unmatched(unmatched, error_call = error_call)
 
   x_names <- tbl_vars(x)
@@ -719,3 +717,8 @@ check_unmatched <- function(unmatched, ..., error_call = caller_env()) {
     error_call = error_call
   )
 }
+
+check_keep <- function(keep, error_call = caller_env()) {
+  if (!is_bool(keep) && !is.null(keep)) {
+    abort("`keep` must be `TRUE`, `FALSE`, or `NULL`.", call = error_call)
+  }

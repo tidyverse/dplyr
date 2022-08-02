@@ -52,7 +52,7 @@
       left_join(df, df, by = "x", keep = 1)
     Condition
       Error in `left_join()`:
-      ! `keep` must be `TRUE`, `FALSE`, or `NULL`
+      ! `keep` must be `TRUE`, `FALSE`, or `NULL`.
 
 # mutating joins compute common columns
 
