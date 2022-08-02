@@ -3,7 +3,7 @@
     Code
       join_mutate(df, df, by = 1, type = "left")
     Condition
-      Error in `as_join_by()`:
+      Error:
       ! `by` must be a (named) character vector, list, `join_by()` result, or NULL, not a double vector.
     Code
       join_mutate(df, df, by = "x", type = "left", suffix = 1)
@@ -31,7 +31,7 @@
     Code
       join_filter(df, df, by = 1, type = "semi")
     Condition
-      Error in `as_join_by()`:
+      Error:
       ! `by` must be a (named) character vector, list, `join_by()` result, or NULL, not a double vector.
     Code
       join_filter(df, df, by = "x", type = "semi", na_matches = "foo")
@@ -131,7 +131,7 @@
     Code
       nest_join(df1, df2, by = 1)
     Condition
-      Error in `as_join_by()`:
+      Error in `nest_join()`:
       ! `by` must be a (named) character vector, list, `join_by()` result, or NULL, not a double vector.
     Code
       nest_join(df1, df2, keep = 1)

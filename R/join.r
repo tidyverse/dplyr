@@ -553,7 +553,7 @@ join_mutate <- function(x,
   if (is_null(by)) {
     by <- join_by_common(x_names, y_names, error_call = error_call)
   } else {
-    by <- as_join_by(by)
+    by <- as_join_by(by, error_call = error_call)
   }
 
   vars <- join_cols(
@@ -647,7 +647,7 @@ join_filter <- function(x,
   if (is_null(by)) {
     by <- join_by_common(x_names, y_names, error_call = error_call)
   } else {
-    by <- as_join_by(by)
+    by <- as_join_by(by, error_call = error_call)
   }
 
   vars <- join_cols(x_names, y_names, by = by, error_call = error_call)
