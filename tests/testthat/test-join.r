@@ -191,42 +191,26 @@ test_that("joins don't match NA when na_matches = 'never' (#2033)", {
   )
 })
 
-test_that("`na_matches` is validated", {
+test_that("join_mutate() validates arguments", {
   df <- tibble(x = 1)
 
   # Mutating joins
   expect_snapshot(error = TRUE, {
-    join_mutate(df, df, by = "x", type = "left", na_matches = 1)
-  })
-  expect_snapshot(error = TRUE, {
+    join_mutate(df, df, by = 1, type = "left")
+    join_mutate(df, df, by = "x", type = "left", suffix = 1)
     join_mutate(df, df, by = "x", type = "left", na_matches = "foo")
+    join_mutate(df, df, by = "x", type = "left", unmatched = "foo")
+    join_mutate(df, df, by = "x", type = "left", keep = 1)
   })
+})
+
+test_that("join_filter() validates arguments", {
+  df <- tibble(x = 1)
 
   # Filtering joins
   expect_snapshot(error = TRUE, {
-    join_filter(df, df, by = "x", type = "semi", na_matches = 1)
-  })
-  expect_snapshot(error = TRUE, {
+    join_filter(df, df, by = 1, type = "semi")
     join_filter(df, df, by = "x", type = "semi", na_matches = "foo")
-  })
-})
-
-test_that("`unmatched` is validated", {
-  df <- tibble(x = 1)
-
-  expect_snapshot(error = TRUE, {
-    join_mutate(df, df, by = "x", type = "left", unmatched = 1)
-  })
-  expect_snapshot(error = TRUE, {
-    join_mutate(df, df, by = "x", type = "left", unmatched = "foo")
-  })
-})
-
-test_that("`keep` is validated", {
-  df <- tibble(x = 1)
-
-  expect_snapshot(error = TRUE, {
-    left_join(df, df, by = "x", keep = 1)
   })
 })
 
