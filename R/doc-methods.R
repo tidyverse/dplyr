@@ -31,7 +31,7 @@ methods_generic <- function(x) {
   # Don't link to self
   info$topic[info$topic == x] <- NA
 
-  # Remove spurious matches in base packages like slice.list or slice.index
+  # Remove spurious matches in base packages like select.list or slice.index
   base_packages <- c(
     "base", "compiler", "datasets", "graphics", "grDevices", "grid",
     "methods", "parallel", "splines", "stats", "stats4", "tcltk",

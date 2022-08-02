@@ -13,9 +13,9 @@
 #'   works in spots and is equivalent to `rank(ties.method = "min")`.
 #'
 #' * `dense_rank()` works like `min_rank()`, but doesn't leave any gaps,
-#'   so that `c(10, 20, 20, 30)` getes ranks `c(1, 2, 2, 3)`.
+#'   so that `c(10, 20, 20, 30)` gets ranks `c(1, 2, 2, 3)`.
 #'
-#' @param x a vector of values to rank.
+#' @param x A vector to rank
 #'
 #'   By default, the smallest values will get the smallest ranks.
 #'   Use [desc()] to reverse the direction so the largest values get the smallest
@@ -32,15 +32,15 @@
 #' min_rank(x)
 #' dense_rank(x)
 #'
-#' # Ranking functions can be used in filter() to select top/bottom rows
+#' # Ranking functions can be used in `filter()` to select top/bottom rows
 #' df <- data.frame(
 #'   id = c(1, 1, 1, 2, 2, 2, 3, 3, 3),
 #'   x = c(1, 2, 3, 1, 2, 2, 1, 1, 1),
 #'   y = 1:9
 #' )
-#' # Always gives exactly 1 row
+#' # Always gives exactly 1 row per group
 #' df %>% group_by(id) %>% filter(row_number(x) <= 1)
-#' # May give more than one row if ties
+#' # May give more than 1 row if ties
 #' df %>% group_by(id) %>% filter(min_rank(x) <= 1)
 #' # See slice_min() and slice_max() for another way to tackle the same problem
 #'
@@ -76,7 +76,7 @@ dense_rank <- function(x) {
 #' the buckets will differ by up to one, with larger buckets coming first.
 #'
 #' @inheritParams row_number
-#' @param n number of groups to split up into.
+#' @param n Number of groups to bucket into
 #' @export
 #' @family ranking functions
 #' @examples
@@ -84,7 +84,7 @@ dense_rank <- function(x) {
 #' ntile(x, 2)
 #' ntile(x, 4)
 #'
-#' # If the bucket sizes are uneven, the larger buckets n come first
+#' # If the bucket sizes are uneven, the larger buckets come first
 #' ntile(1:8, 3)
 ntile <- function(x = row_number(), n) {
   # Avoid recomputation in default case:
@@ -140,10 +140,10 @@ ntile <- function(x = row_number(), n) {
 #' cume_dist(x)
 #' percent_rank(x)
 #'
-#' # you can understand what's going on by computing it by hand
-#' sapply(x, function(xi) sum(x <= xi))
+#' # You can understand what's going on by computing it by hand
+#' sapply(x, function(xi) sum(x <= xi) / length(x))
 #' sapply(x, function(xi) sum(x < xi)  / (length(x) - 1))
-#' # the real computations are a little more complex in order to
+#' # The real computations are a little more complex in order to
 #' # correctly deal with missing values
 percent_rank <- function(x) {
   (min_rank(x) - 1) / (sum(!is.na(x)) - 1)

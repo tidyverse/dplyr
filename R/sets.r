@@ -1,7 +1,7 @@
 #' Set operations
 #'
 #' @description
-#' Perform set operations using the rows of a data frame or tibble.
+#' Perform set operations using the rows of a data frame.
 #' `intersect()`, `union()`, `setdiff()`, and `setequal()` override the base
 #' functions of the same name in order to make them generic. The existing
 #' behaviour for vectors is preserved by providing default methods that call
@@ -26,7 +26,7 @@
 #' union_all(first, second)
 #' setequal(mtcars, mtcars[32:1, ])
 #'
-#' # Note these functions also remove pre-existing duplicates in x or y:
+#' # Note the following 3 functions also remove pre-existing duplicates in `x` or `y`:
 #' a <- data.frame(x = c(1:3, 3, 3))
 #' b <- data.frame(x = c(3:5, 5))
 #'

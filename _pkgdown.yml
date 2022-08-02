@@ -59,7 +59,7 @@ reference:
 - subtitle: Multiple columns
   desc: >
     Pair these functions with `mutate()`, `summarise()`, `filter()`, and
-    `group_by()` to operate on multiple columns simultaneously
+    `group_by()` to operate on multiple columns simultaneously.
   contents:
   - across
   - c_across
@@ -89,7 +89,7 @@ reference:
   - recode
   - row_number
 
-- title: Build in datasets
+- title: Built in datasets
   contents:
   - band_members
   - starwars
