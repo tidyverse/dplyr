@@ -262,16 +262,19 @@
     <loc>https://dplyr.tidyverse.org/dev/reference/nth.html</loc>
   </url>
   <url>
+    <loc>https://dplyr.tidyverse.org/dev/reference/ntile.html</loc>
+  </url>
+  <url>
     <loc>https://dplyr.tidyverse.org/dev/reference/order_by.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/dev/reference/percent_rank.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/dev/reference/progress_estimated.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/dev/reference/pull.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/dev/reference/ranking.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/dev/reference/recode.html</loc>
@@ -284,6 +287,9 @@
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/dev/reference/rename.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/dev/reference/row_number.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/dev/reference/rows.html</loc>

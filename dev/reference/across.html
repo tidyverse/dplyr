@@ -129,10 +129,12 @@ Because <code>across()</code> is used within functions like <code><a href="summa
 <dd><p>Functions to apply to each of the selected columns.
 Possible values are:</p><ul><li><p>A function, e.g. <code>mean</code>.</p></li>
 <li><p>A purrr-style lambda, e.g. <code>~ mean(.x, na.rm = TRUE)</code></p></li>
-<li><p>A list of functions/lambdas, e.g.
-<code>list(mean = mean, n_miss = ~ sum(is.na(.x))</code></p></li>
-<li><p><code>NULL</code>: the default value, returns the selected columns in a data
-frame without applying a transformation. This is useful for when you want to
+<li><p>A named list of functions or lambdas, e.g.
+<code>list(mean = mean, n_miss = ~ sum(is.na(.x))</code>. Each function is applied
+to each column, and the output is named by combining the function name
+and the column name using the glue specification in <code>.names</code>.</p></li>
+<li><p><code>NULL</code>: the default, returns the selected columns in a data frame
+without applying a transformation. This is useful for when you want to
 use a function that takes a data frame.</p></li>
 </ul><p>Within these functions you can use <code><a href="context.html">cur_column()</a></code> and <code><a href="context.html">cur_group()</a></code>
 to access the current column and grouping keys respectively.</p></dd>

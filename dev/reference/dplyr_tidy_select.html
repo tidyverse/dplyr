@@ -108,17 +108,18 @@ sets of variables.</p></li>
 </ul><p>In addition, you can use <strong>selection helpers</strong>. Some helpers select specific
 columns:</p><ul><li><p><code><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything()</a></code>: Matches all variables.</p></li>
 <li><p><code><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">last_col()</a></code>: Select last variable, possibly with an offset.</p></li>
-</ul><p>These helpers select variables by matching patterns in their names:</p><ul><li><p><code><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with()</a></code>: Starts with a prefix.</p></li>
+<li><p><code><a href="group_cols.html">group_cols()</a></code>: Select all grouping columns.</p></li>
+</ul><p>Other helpers select variables by matching patterns in their names:</p><ul><li><p><code><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with()</a></code>: Starts with a prefix.</p></li>
 <li><p><code><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">ends_with()</a></code>: Ends with a suffix.</p></li>
 <li><p><code><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">contains()</a></code>: Contains a literal string.</p></li>
 <li><p><code><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">matches()</a></code>: Matches a regular expression.</p></li>
 <li><p><code><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">num_range()</a></code>: Matches a numerical range like x01, x02, x03.</p></li>
-</ul><p>These helpers select variables from a character vector:</p><ul><li><p><code><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of()</a></code>: Matches variable names in a character vector. All
+</ul><p>Or from variables stored in a character vector:</p><ul><li><p><code><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of()</a></code>: Matches variable names in a character vector. All
 names must be present, otherwise an out-of-bounds error is
 thrown.</p></li>
 <li><p><code><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">any_of()</a></code>: Same as <code><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of()</a></code>, except that no error is thrown
 for names that don't exist.</p></li>
-</ul><p>This helper selects variables with a function:</p><ul><li><p><code><a href="https://tidyselect.r-lib.org/reference/where.html" class="external-link">where()</a></code>: Applies a function to all variables and selects those
+</ul><p>Or using a predicate function:</p><ul><li><p><code><a href="https://tidyselect.r-lib.org/reference/where.html" class="external-link">where()</a></code>: Applies a function to all variables and selects those
 for which the function returns <code>TRUE</code>.</p></li>
 </ul></div>
     <div class="section level2">

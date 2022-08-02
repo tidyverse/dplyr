@@ -463,12 +463,12 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Darth Vader    Tatooine    136         50.6 </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
-<p>Or with window functions like <code><a href="../reference/ranking.html">min_rank()</a></code>:</p>
+<p>Or with window functions like <code><a href="../reference/row_number.html">min_rank()</a></code>:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Overall rank</span></span>
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">homeworld</span>, <span class="va">height</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu"><a href="../reference/ranking.html">min_rank</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu"><a href="../reference/row_number.html">min_rank</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 4</span></span></span>
 <span><span class="co">#&gt;   name           homeworld height  rank</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
@@ -483,7 +483,7 @@
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">homeworld</span>, <span class="va">height</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu"><a href="../reference/ranking.html">min_rank</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu"><a href="../reference/row_number.html">min_rank</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 4</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   homeworld [49]</span></span></span>
 <span><span class="co">#&gt;   name           homeworld height  rank</span></span>

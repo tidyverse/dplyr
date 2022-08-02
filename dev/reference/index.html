@@ -73,9 +73,15 @@
     </div>
 
     <div class="section level2">
-      <h2 id="one-table-verbs">One table verbs<a class="anchor" aria-label="anchor" href="#one-table-verbs"></a></h2>
+      <h2 id="data-frame-verbs">Data frame verbs<a class="anchor" aria-label="anchor" href="#data-frame-verbs"></a></h2>
       
       
+
+      
+    </div><div class="section level2">
+      
+      <h3 id="rows">Rows<a class="anchor" aria-label="anchor" href="#rows"></a></h3>
+      <p class="section-desc"></p><p>Verbs that principally operate on rows.</p>
 
       
     </div><div id="" class="section level2">
@@ -87,23 +93,34 @@
           
           <code><a href="arrange.html">arrange()</a></code> 
         </dt>
-        <dd>Arrange rows by column values</dd>
-      </dl><dl><dt>
-          
-          <code><a href="count.html">count()</a></code> <code><a href="count.html">tally()</a></code> <code><a href="count.html">add_count()</a></code> <code><a href="count.html">add_tally()</a></code> 
-        </dt>
-        <dd>Count observations by group</dd>
+        <dd>Order rows using column values</dd>
       </dl><dl><dt>
           
           <code><a href="distinct.html">distinct()</a></code> 
         </dt>
-        <dd>Subset distinct/unique rows</dd>
+        <dd>Keep distinct/unique rows</dd>
       </dl><dl><dt>
           
           <code><a href="filter.html">filter()</a></code> 
         </dt>
-        <dd>Subset rows using column values</dd>
+        <dd>Keep rows that match a condition</dd>
       </dl><dl><dt>
+          
+          <code><a href="slice.html">slice()</a></code> <code><a href="slice.html">slice_head()</a></code> <code><a href="slice.html">slice_tail()</a></code> <code><a href="slice.html">slice_min()</a></code> <code><a href="slice.html">slice_max()</a></code> <code><a href="slice.html">slice_sample()</a></code> 
+        </dt>
+        <dd>Subset rows using their positions</dd>
+      </dl></div><div class="section level2">
+      
+      <h3 id="columns">Columns<a class="anchor" aria-label="anchor" href="#columns"></a></h3>
+      <p class="section-desc"></p><p>Verbs that principally operate on columns.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
           <code><a href="glimpse.html">glimpse</a></code> 
         </dt>
@@ -132,7 +149,33 @@
           
           <code><a href="select.html">select()</a></code> 
         </dt>
-        <dd>Subset columns using their names and types</dd>
+        <dd>Keep or drop columns using their names and types</dd>
+      </dl></div><div class="section level2">
+      
+      <h3 id="groups">Groups<a class="anchor" aria-label="anchor" href="#groups"></a></h3>
+      <p class="section-desc"></p><p>Verbs that principally operate on groups of rows.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="count.html">count()</a></code> <code><a href="count.html">tally()</a></code> <code><a href="count.html">add_count()</a></code> <code><a href="count.html">add_tally()</a></code> 
+        </dt>
+        <dd>Count the observations in each group</dd>
+      </dl><dl><dt>
+          
+          <code><a href="group_by.html">group_by()</a></code> <code><a href="group_by.html">ungroup()</a></code> 
+        </dt>
+        <dd>Group by one or more variables</dd>
+      </dl><dl><dt>
+          
+          <code><a href="rowwise.html">rowwise()</a></code> 
+        </dt>
+        <dd>Group input by rows</dd>
       </dl><dl><dt>
           
           <code><a href="summarise.html">summarise()</a></code> <code><a href="summarise.html">summarize()</a></code> 
@@ -140,13 +183,13 @@
         <dd>Summarise each group to fewer rows</dd>
       </dl><dl><dt>
           
-          <code><a href="slice.html">slice()</a></code> <code><a href="slice.html">slice_head()</a></code> <code><a href="slice.html">slice_tail()</a></code> <code><a href="slice.html">slice_min()</a></code> <code><a href="slice.html">slice_max()</a></code> <code><a href="slice.html">slice_sample()</a></code> 
+          <code><a href="context.html">n()</a></code> <code><a href="context.html">cur_data()</a></code> <code><a href="context.html">cur_data_all()</a></code> <code><a href="context.html">cur_group()</a></code> <code><a href="context.html">cur_group_id()</a></code> <code><a href="context.html">cur_group_rows()</a></code> <code><a href="context.html">cur_column()</a></code> 
         </dt>
-        <dd>Subset rows using their positions</dd>
+        <dd>Information about "current" group or variable</dd>
       </dl></div><div class="section level2">
-      <h2 id="two-table-verbs">Two table verbs<a class="anchor" aria-label="anchor" href="#two-table-verbs"></a></h2>
       
-      
+      <h3 id="data-frames">Data frames<a class="anchor" aria-label="anchor" href="#data-frames"></a></h3>
+      <p class="section-desc"></p><p>Verbs that principally operate on pairs of data frames.</p>
 
       
     </div><div id="" class="section level2">
@@ -161,12 +204,7 @@
         <dd>Efficiently bind multiple data frames by row and column</dd>
       </dl><dl><dt>
           
-          <code><a href="reexports.html">reexports</a></code> <code><a href="reexports.html">%&gt;%</a></code> <code><a href="reexports.html">type_sum</a></code> <code><a href="reexports.html">data_frame</a></code> <code><a href="reexports.html">as_data_frame</a></code> <code><a href="reexports.html">lst</a></code> <code><a href="reexports.html">add_row</a></code> <code><a href="reexports.html">tribble</a></code> <code><a href="reexports.html">tibble</a></code> <code><a href="reexports.html">as_tibble</a></code> <code><a href="reexports.html">view</a></code> <code><a href="reexports.html">contains</a></code> <code><a href="reexports.html">select_helpers</a></code> <code><a href="reexports.html">ends_with</a></code> <code><a href="reexports.html">everything</a></code> <code><a href="reexports.html">matches</a></code> <code><a href="reexports.html">num_range</a></code> <code><a href="reexports.html">one_of</a></code> <code><a href="reexports.html">starts_with</a></code> <code><a href="reexports.html">last_col</a></code> <code><a href="reexports.html">any_of</a></code> <code><a href="reexports.html">all_of</a></code> <code><a href="reexports.html">intersect</a></code> <code><a href="reexports.html">union</a></code> <code><a href="reexports.html">setdiff</a></code> <code><a href="reexports.html">setequal</a></code> 
-        </dt>
-        <dd>Objects exported from other packages</dd>
-      </dl><dl><dt>
-          
-          <code><a href="setops.html">union_all()</a></code> 
+          <code><a href="setops.html">intersect()</a></code> <code><a href="setops.html">union()</a></code> <code><a href="setops.html">union_all()</a></code> <code><a href="setops.html">setdiff()</a></code> <code><a href="setops.html">setequal()</a></code> 
         </dt>
         <dd>Set operations</dd>
       </dl><dl><dt>
@@ -189,36 +227,15 @@
           <code><a href="join_by.html">join_by()</a></code> 
         </dt>
         <dd>Join specifications</dd>
-      </dl></div><div class="section level2">
-      <h2 id="grouping">Grouping<a class="anchor" aria-label="anchor" href="#grouping"></a></h2>
-      
-      
-
-      
-    </div><div id="" class="section level2">
-      
-      
-      
-
-      <dl><dt>
-          
-          <code><a href="group_by.html">group_by()</a></code> <code><a href="group_by.html">ungroup()</a></code> 
-        </dt>
-        <dd>Group by one or more variables</dd>
       </dl><dl><dt>
           
-          <code><a href="group_cols.html">group_cols()</a></code> 
+          <code><a href="rows.html">rows_insert()</a></code> <code><a href="rows.html">rows_append()</a></code> <code><a href="rows.html">rows_update()</a></code> <code><a href="rows.html">rows_patch()</a></code> <code><a href="rows.html">rows_upsert()</a></code> <code><a href="rows.html">rows_delete()</a></code> 
         </dt>
-        <dd>Select grouping variables</dd>
-      </dl><dl><dt>
-          
-          <code><a href="rowwise.html">rowwise()</a></code> 
-        </dt>
-        <dd>Group input by rows</dd>
+        <dd>Manipulate individual rows</dd>
       </dl></div><div class="section level2">
-      <h2 id="vector-functions">Vector functions<a class="anchor" aria-label="anchor" href="#vector-functions"></a></h2>
       
-      
+      <h3 id="multiple-columns">Multiple columns<a class="anchor" aria-label="anchor" href="#multiple-columns"></a></h3>
+      <p class="section-desc"></p><p>Pair these functions with <code><a href="../reference/mutate.html">mutate()</a></code>, <code><a href="../reference/summarise.html">summarise()</a></code>, <code><a href="../reference/filter.html">filter()</a></code>, and <code><a href="../reference/group_by.html">group_by()</a></code> to operate on multiple columns simultaneously.</p>
 
       
     </div><div id="" class="section level2">
@@ -236,7 +253,18 @@
           <code><a href="c_across.html">c_across()</a></code> 
         </dt>
         <dd>Combine values from multiple columns</dd>
-      </dl><dl><dt>
+      </dl></div><div class="section level2">
+      <h2 id="vector-functions">Vector functions<a class="anchor" aria-label="anchor" href="#vector-functions"></a></h2>
+      
+      <p class="section-desc"></p><p>Unlike other dplyr functions, these functions work on individual vectors, not data frames.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
           <code><a href="between.html">between()</a></code> 
         </dt>
@@ -273,16 +301,6 @@
         <dd>Compute lagged or leading values</dd>
       </dl><dl><dt>
           
-          <code><a href="order_by.html">order_by()</a></code> 
-        </dt>
-        <dd>A helper function for ordering window function output</dd>
-      </dl><dl><dt>
-          
-          <code><a href="context.html">n()</a></code> <code><a href="context.html">cur_data()</a></code> <code><a href="context.html">cur_data_all()</a></code> <code><a href="context.html">cur_group()</a></code> <code><a href="context.html">cur_group_id()</a></code> <code><a href="context.html">cur_group_rows()</a></code> <code><a href="context.html">cur_column()</a></code> 
-        </dt>
-        <dd>Context dependent expressions</dd>
-      </dl><dl><dt>
-          
           <code><a href="n_distinct.html">n_distinct()</a></code> 
         </dt>
         <dd>Efficiently count the number of unique values in a set of vectors</dd>
@@ -303,16 +321,31 @@
         <dd>Extract the first, last, or nth value from a vector</dd>
       </dl><dl><dt>
           
-          <code><a href="ranking.html">row_number()</a></code> <code><a href="ranking.html">ntile()</a></code> <code><a href="ranking.html">min_rank()</a></code> <code><a href="ranking.html">dense_rank()</a></code> <code><a href="ranking.html">percent_rank()</a></code> <code><a href="ranking.html">cume_dist()</a></code> 
+          <code><a href="ntile.html">ntile()</a></code> 
         </dt>
-        <dd>Windowed rank functions.</dd>
+        <dd>Bucket a numeric vector into <code>n</code> groups</dd>
+      </dl><dl><dt>
+          
+          <code><a href="order_by.html">order_by()</a></code> 
+        </dt>
+        <dd>A helper function for ordering window function output</dd>
+      </dl><dl><dt>
+          
+          <code><a href="percent_rank.html">percent_rank()</a></code> <code><a href="percent_rank.html">cume_dist()</a></code> 
+        </dt>
+        <dd>Proportional ranking functions</dd>
       </dl><dl><dt>
           
           <code><a href="recode.html">recode()</a></code> <code><a href="recode.html">recode_factor()</a></code> 
         </dt>
         <dd>Recode values</dd>
+      </dl><dl><dt>
+          
+          <code><a href="row_number.html">row_number()</a></code> <code><a href="row_number.html">min_rank()</a></code> <code><a href="row_number.html">dense_rank()</a></code> 
+        </dt>
+        <dd>Integer ranking functions</dd>
       </dl></div><div class="section level2">
-      <h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a></h2>
+      <h2 id="built-in-datasets">Built in datasets<a class="anchor" aria-label="anchor" href="#built-in-datasets"></a></h2>
       
       
 
@@ -338,9 +371,9 @@
         </dt>
         <dd>Storm tracks data</dd>
       </dl></div><div class="section level2">
-      <h2 id="remote-tables">Remote tables<a class="anchor" aria-label="anchor" href="#remote-tables"></a></h2>
+      <h2 id="grouping-helpers">Grouping helpers<a class="anchor" aria-label="anchor" href="#grouping-helpers"></a></h2>
       
-      
+      <p class="section-desc"></p><p>This (mostly) experimental family of functions are used to manipulate groups in various ways.</p>
 
       
     </div><div id="" class="section level2">
@@ -350,51 +383,10 @@
 
       <dl><dt>
           
-          <code><a href="auto_copy.html">auto_copy()</a></code> 
+          <code><a href="group_cols.html">group_cols()</a></code> 
         </dt>
-        <dd>Copy tables to same source, if necessary</dd>
+        <dd>Select grouping variables</dd>
       </dl><dl><dt>
-          
-          <code><a href="compute.html">compute()</a></code> <code><a href="compute.html">collect()</a></code> <code><a href="compute.html">collapse()</a></code> 
-        </dt>
-        <dd>Force computation of a database query</dd>
-      </dl><dl><dt>
-          
-          <code><a href="copy_to.html">copy_to()</a></code> 
-        </dt>
-        <dd>Copy a local data frame to a remote src</dd>
-      </dl><dl><dt>
-          
-          <code><a href="ident.html">ident()</a></code> 
-        </dt>
-        <dd>Flag a character vector as SQL identifiers</dd>
-      </dl><dl><dt>
-          
-          <code><a href="explain.html">explain()</a></code> <code><a href="explain.html">show_query()</a></code> 
-        </dt>
-        <dd>Explain details of a tbl</dd>
-      </dl><dl><dt>
-          
-          <code><a href="tbl.html">tbl()</a></code> <code><a href="tbl.html">is.tbl()</a></code> 
-        </dt>
-        <dd>Create a table from a data source</dd>
-      </dl><dl><dt>
-          
-          <code><a href="sql.html">sql()</a></code> 
-        </dt>
-        <dd>SQL escaping.</dd>
-      </dl></div><div class="section level2">
-      <h2 id="experimental">Experimental<a class="anchor" aria-label="anchor" href="#experimental"></a></h2>
-      
-      <p class="section-desc"></p><p>Experimental functions are a testing ground for new approaches that we believe to be worthy of greater exposure. There is no guarantee that these functions will stay around in the future, so please reach out if you find them useful.</p>
-
-      
-    </div><div id="" class="section level2">
-      
-      
-      
-
-      <dl><dt>
           
           <code><a href="group_map.html">group_map()</a></code> <code><a href="group_map.html">group_modify()</a></code> <code><a href="group_map.html">group_walk()</a></code> 
         </dt>
@@ -414,11 +406,6 @@
           <code><a href="with_groups.html">with_groups()</a></code> 
         </dt>
         <dd>Perform an operation with temporary groups</dd>
-      </dl><dl><dt>
-          
-          <code><a href="rows.html">rows_insert()</a></code> <code><a href="rows.html">rows_append()</a></code> <code><a href="rows.html">rows_update()</a></code> <code><a href="rows.html">rows_patch()</a></code> <code><a href="rows.html">rows_upsert()</a></code> <code><a href="rows.html">rows_delete()</a></code> 
-        </dt>
-        <dd>Manipulate individual rows</dd>
       </dl></div><div class="section level2">
       <h2 id="questioning">Questioning<a class="anchor" aria-label="anchor" href="#questioning"></a></h2>
       
@@ -471,6 +458,52 @@
           <code><a href="vars.html">vars()</a></code> 
         </dt>
         <dd>Select variables</dd>
+      </dl></div><div class="section level2">
+      <h2 id="remote-tables">Remote tables<a class="anchor" aria-label="anchor" href="#remote-tables"></a></h2>
+      
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="auto_copy.html">auto_copy()</a></code> 
+        </dt>
+        <dd>Copy tables to same source, if necessary</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute.html">compute()</a></code> <code><a href="compute.html">collect()</a></code> <code><a href="compute.html">collapse()</a></code> 
+        </dt>
+        <dd>Force computation of a database query</dd>
+      </dl><dl><dt>
+          
+          <code><a href="copy_to.html">copy_to()</a></code> 
+        </dt>
+        <dd>Copy a local data frame to a remote src</dd>
+      </dl><dl><dt>
+          
+          <code><a href="ident.html">ident()</a></code> 
+        </dt>
+        <dd>Flag a character vector as SQL identifiers</dd>
+      </dl><dl><dt>
+          
+          <code><a href="explain.html">explain()</a></code> <code><a href="explain.html">show_query()</a></code> 
+        </dt>
+        <dd>Explain details of a tbl</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tbl.html">tbl()</a></code> <code><a href="tbl.html">is.tbl()</a></code> 
+        </dt>
+        <dd>Create a table from a data source</dd>
+      </dl><dl><dt>
+          
+          <code><a href="sql.html">sql()</a></code> 
+        </dt>
+        <dd>SQL escaping.</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
