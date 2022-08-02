@@ -43,6 +43,7 @@ reference:
   - group_by
   - rowwise
   - summarise
+  - 'n'
 
 - subtitle: Data frames
   desc: >
@@ -69,16 +70,13 @@ reference:
     Unlike other dplyr functions, these functions work on individual vectors,
     not data frames.
   contents:
-  - across
   - between
-  - c_across
   - case_when
   - coalesce
   - cumany
   - desc
   - if_else
   - lead
-  - "n"
   - n_distinct
   - na_if
   - near
