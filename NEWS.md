@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* A rowwise `mutate()` now automatically unlists list-columns containing 
+  length 1 vectors (#6302).
+
 * `arrange()` now correctly ignores `NULL` inputs (#6193).
 
 * `*_join()` now error if you supply them with additional arguments that
