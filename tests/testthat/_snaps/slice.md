@@ -222,12 +222,12 @@
 # slice_sample() handles n= and prop=
 
     Code
-      slice_sample(df, n = -1)
+      slice_sample(gf, n = -1)
     Condition
       Error in `slice_sample()`:
       ! `n` must be positive.
     Code
-      slice_sample(df, prop = -1)
+      slice_sample(gf, prop = -1)
     Condition
       Error in `slice_sample()`:
       ! `prop` must be positive.

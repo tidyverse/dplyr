@@ -15,9 +15,9 @@ slice_head(.data, ..., n, prop)
 
 slice_tail(.data, ..., n, prop)
 
-slice_min(.data, order_by, ..., n, prop, with_ties = TRUE)
+slice_min(.data, order_by, ..., n, prop, with_ties = TRUE, na_rm = FALSE)
 
-slice_max(.data, order_by, ..., n, prop, with_ties = TRUE)
+slice_max(.data, order_by, ..., n, prop, with_ties = TRUE, na_rm = FALSE)
 
 slice_sample(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 }
@@ -56,6 +56,11 @@ absolute value of \code{prop*nrow(.data)} is rounded down.}
 \item{with_ties}{Should ties be kept together? The default, \code{TRUE},
 may return more rows than you request. Use \code{FALSE} to ignore ties,
 and return the first \code{n} rows.}
+
+\item{na_rm}{Should missing values be removed from the result? If \code{FALSE},
+\code{NA} values are sorted to the end (like in \code{\link[=arrange]{arrange()}}), so they will
+only be included if there are insufficient non-missing values to reach
+\code{n}/\code{prop}.}
 
 \item{weight_by}{Sampling weights. This must evaluate to a vector of
 non-negative numbers the same length as the input. Weights are

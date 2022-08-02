@@ -1,5 +1,10 @@
 # dplyr (development version)
 
+* `slice_min()` and `slice_max()` now consistently include missing values in
+  the result if necessary (i.e. there aren't enough non-missing values to 
+  reach the `n` or `prop` you have selected). If you don't want missing values
+  to be included at all, set `na_rm = TRUE` (#6177).
+
 * Rowwise-`mutate()` behaves a little better with 0-row inputs (#6303).
 
 * A rowwise `mutate()` now automatically unlists list-columns containing 

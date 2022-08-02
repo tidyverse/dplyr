@@ -134,7 +134,7 @@ test_that("get_slice_size() rounds non-integers", {
 test_that("functions silently truncate results", {
   # only test positive n because get_slice_size() converts all others
 
-  df <- data.frame(x = 1:5)
+  df <- tibble(x = 1:5)
   expect_equal(nrow(slice_head(df, n = 6)), 5)
   expect_equal(nrow(slice_tail(df, n = 6)), 5)
   expect_equal(nrow(slice_min(df, x, n = 6)), 5)
@@ -143,6 +143,7 @@ test_that("functions silently truncate results", {
 })
 
 test_that("slice helpers with n = 0 return no rows", {
+  df <- tibble(x = 1:5)
   expect_equal(nrow(slice_head(df, n = 0)), 0)
   expect_equal(nrow(slice_tail(df, n = 0)), 0)
   expect_equal(nrow(slice_min(df, x, n = 0)), 0)
@@ -204,34 +205,54 @@ test_that("slice_helpers do call slice() and benefit from dispatch (#6084)", {
   expect_warning(sample_frac(nf, .5), "noisy")
 })
 
-
 # slice_min/slice_max -----------------------------------------------------
 
 test_that("min and max return ties by default", {
-  df <- data.frame(x = c(1, 1, 1, 2, 2))
-  expect_equal(df %>% slice_min(x) %>% nrow(), 3)
-  expect_equal(df %>% slice_max(x) %>% nrow(), 2)
+  df <- tibble(id = 1:5, x = c(1, 1, 1, 2, 2))
+  expect_equal(slice_min(df, x)$id, c(1, 2, 3))
+  expect_equal(slice_max(df, x)$id, c(4, 5))
 
-  expect_equal(df %>% slice_min(x, with_ties = FALSE) %>% nrow(), 1)
-  expect_equal(df %>% slice_max(x, with_ties = FALSE) %>% nrow(), 1)
+  expect_equal(slice_min(df, x, with_ties = FALSE)$id, 1)
+  expect_equal(slice_max(df, x, with_ties = FALSE)$id, 4)
 })
 
 test_that("min and max reorder results", {
   df <- data.frame(id = 1:4, x = c(2, 3, 1, 2))
 
-  expect_equal(df %>% slice_min(x, n = 2) %>% pull(id), c(3, 1, 4))
-  expect_equal(df %>% slice_min(x, n = 2, with_ties = FALSE) %>% pull(id), c(3, 1))
-  expect_equal(df %>% slice_max(x, n = 2) %>% pull(id), c(2, 1, 4))
-  expect_equal(df %>% slice_max(x, n = 2, with_ties = FALSE) %>% pull(id), c(2, 1))
+  expect_equal(slice_min(df, x, n = 2)$id, c(3, 1, 4))
+  expect_equal(slice_max(df, x, n = 2)$id, c(2, 1, 4))
+
+  expect_equal(slice_min(df, x, n = 2, with_ties = FALSE)$id, c(3, 1))
+  expect_equal(slice_max(df, x, n = 2, with_ties = FALSE)$id, c(2, 1))
 })
 
-test_that("min and max ignore NA's (#4826)", {
-  df <- data.frame(id = 1:4, x = c(2, NA, 1, 2), y = c(NA, NA, NA, NA))
+test_that("min and max include NAs when appropriate", {
+  df <- tibble(id = 1:3, x = c(1, NA, NA))
 
-  expect_equal(df %>% slice_min(x, n = 2) %>% pull(id), c(3, 1, 4))
-  expect_equal(df %>% slice_min(y, n = 2) %>% nrow(), 0)
-  expect_equal(df %>% slice_max(x, n = 2) %>% pull(id), c(1, 4))
-  expect_equal(df %>% slice_max(y, n = 2) %>% nrow(), 0)
+  expect_equal(slice_min(df, x, n = 1)$id, 1)
+  expect_equal(slice_max(df, x, n = 1)$id, 1)
+
+  expect_equal(slice_min(df, x, n = 2)$id, c(1, 2, 3))
+  expect_equal(slice_min(df, x, n = 2, with_ties = FALSE)$id, c(1, 2))
+})
+
+test_that("min and max ignore NA's when requested (#4826)", {
+  df <- tibble(id = 1:4, x = c(2, NA, 1, 2))
+  expect_equal(slice_min(df, x, n = 2, na_rm = TRUE)$id, c(3, 1, 4))
+  expect_equal(slice_max(df, x, n = 2, na_rm = TRUE)$id, c(1, 4))
+
+  df <- tibble(id = 1:4, x = NA)
+  expect_equal(slice_min(df, x, n = 2, na_rm = TRUE)$id, integer())
+  expect_equal(slice_max(df, x, n = 2, na_rm = TRUE)$id, integer())
+
+  # Check with list & data frame to confirm use full vctrs support
+  df <- tibble(id = 1:4, x = list(NULL, 1, NULL, NULL))
+  expect_equal(slice_min(df, x, n = 2, na_rm = TRUE)$id, 2)
+  expect_equal(slice_max(df, x, n = 2, na_rm = TRUE)$id, 2)
+
+  df <- tibble(id = 1:4, x = tibble(a = c(NA, 1, NA, NA), b = c(NA, 1, NA, NA)))
+  expect_equal(slice_min(df, x, n = 2, na_rm = TRUE)$id, 2)
+  expect_equal(slice_max(df, x, n = 2, na_rm = TRUE)$id, 2)
 })
 
 test_that("slice_min/max() check size of `order_by=` (#5922)", {
@@ -279,8 +300,8 @@ test_that("slice_sample() handles n= and prop=", {
 
   # Unlike other helpers, can't supply negative values
   expect_snapshot(error = TRUE, {
-    slice_sample(df, n = -1)
-    slice_sample(df, prop = -1)
+    slice_sample(gf, n = -1)
+    slice_sample(gf, prop = -1)
   })
 })
 
