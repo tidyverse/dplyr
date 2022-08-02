@@ -175,18 +175,32 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
 #' @param with_ties Should ties be kept together? The default, `TRUE`,
 #'   may return more rows than you request. Use `FALSE` to ignore ties,
 #'   and return the first `n` rows.
-slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
+#' @param na.rm Should rows where the `order_by` variable has a missing value be
+#' removed from the output?
+slice_min <- function(.data,
+                      order_by,
+                      ...,
+                      n,
+                      prop,
+                      with_ties = TRUE,
+                      na.rm = FALSE) {
   UseMethod("slice_min")
 }
 
 #' @export
-slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
+slice_min.data.frame <- function(.data,
+                                 order_by,
+                                 ...,
+                                 n,
+                                 prop,
+                                 with_ties = TRUE,
+                                 na.rm = FALSE) {
   check_required(order_by)
 
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)
   if (with_ties) {
-    idx <- function(x, n) head(order(x), smaller_ranks(x, size(n)))
+    idx <- function(x, n) head(order(x), smaller_ranks(x, size(n), na.rm))
   } else {
     idx <- function(x, n) head(order(x), size(n))
   }
@@ -204,19 +218,31 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
 
 #' @export
 #' @rdname slice
-slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
+slice_max <- function(.data,
+                      order_by,
+                      ...,
+                      n,
+                      prop,
+                      with_ties = TRUE,
+                      na.rm = FALSE) {
   UseMethod("slice_max")
 }
 
 #' @export
-slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
+slice_max.data.frame <- function(.data,
+                                 order_by,
+                                 ...,
+                                 n,
+                                 prop,
+                                 with_ties = TRUE,
+                                 na.rm = FALSE) {
   check_required(order_by)
 
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)
   if (with_ties) {
     idx <- function(x, n) head(
-        order(x, decreasing = TRUE), smaller_ranks(desc(x), size(n))
+        order(x, decreasing = TRUE), smaller_ranks(desc(x), size(n), na.rm)
     )
   } else {
     idx <- function(x, n) head(order(x, decreasing = TRUE), size(n))
@@ -462,7 +488,14 @@ sample_int <- function(n, size, replace = FALSE, wt = NULL, call = caller_env())
   }
 }
 
-smaller_ranks <- function(x, y) {
-  sum(min_rank(x) <= y, na.rm = TRUE)
+smaller_ranks <- function(x, y, na.rm) {
+  if (na.rm) {
+    return(sum(min_rank(x) <= y, na.rm = TRUE))
+  }
+
+  ranks <- rank(x, ties.method = 'min')
+  x_is_na <- is.na(x)
+  ranks[x_is_na] <- ranks[which.max(x_is_na)]
+  sum(ranks <= y)
 }
 

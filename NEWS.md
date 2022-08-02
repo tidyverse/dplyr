@@ -1,5 +1,10 @@
 # dplyr (development version)
 
+* The default output of `slice_min()` and `slice_max()` no longer excludes
+  rows where the `order_by` variable has a missing value. A new argument `na.rm` 
+  is added, defaulting to `FALSE` and allowing rows with a missing value to be 
+  excluded by setting `na.rm = TRUE` (#6177).
+
 * `arrange()` now correctly ignores `NULL` inputs (#6193).
 
 * `*_join()` now error if you supply them with additional arguments that
