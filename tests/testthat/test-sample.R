@@ -17,6 +17,20 @@ test_that("sample respects weight", {
   expect_equal(sample_frac(df, 0.5, weight = y)$x, 2)
 })
 
+test_that("slice does not evaluate the expression in empty groups (#1438)", {
+  res <- mtcars %>%
+    group_by(cyl) %>%
+    filter(cyl==6) %>%
+    slice(1:2)
+  expect_equal(nrow(res), 2L)
+
+  expect_error(
+    res <- mtcars %>% group_by(cyl) %>% filter(cyl==6) %>% sample_n(size=3),
+    NA
+  )
+  expect_equal(nrow(res), 3L)
+})
+
 # Grouped ----------------------------------------------------------------------
 
 test_that("sampling grouped tbl samples each group", {
