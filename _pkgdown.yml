@@ -13,41 +13,63 @@ home:
     href: http://r4ds.had.co.nz/transform.html
 
 reference:
-- title: One table verbs
+- title: Data frame verbs
+
+- subtitle: Rows
+  desc: >
+    Verbs that principally operate on rows.
   contents:
   - arrange
-  - count
   - distinct
   - filter
+  - slice
+
+- subtitle: Columns
+  desc: >
+    Verbs that principally operate on columns.
+  contents:
   - glimpse
   - mutate
   - pull
   - relocate
   - rename
   - select
-  - summarise
-  - slice
 
-- title: Two table verbs
+- subtitle: Groups
+  desc: >
+    Verbs that principally operate on groups of rows.
+  contents:
+  - count
+  - group_by
+  - rowwise
+  - summarise
+  - 'n'
+
+- subtitle: Data frames
+  desc: >
+    Verbs that principally operate on pairs of data frames.
   contents:
   - bind
-  - intersect
   - setops
   - left_join
   - nest_join
   - semi_join
   - join_by
+  - rows
 
-- title: Grouping
-  contents:
-  - group_by
-  - group_cols
-  - rowwise
-
-- title: Vector functions
+- subtitle: Multiple columns
+  desc: >
+    Pair these functions with `mutate()`, `summarise()`, `filter()`, and
+    `group_by()` to operate on multiple columns simultaneously.
   contents:
   - across
   - c_across
+
+- title: Vector functions
+  desc: >
+    Unlike other dplyr functions, these functions work on individual vectors,
+    not data frames.
+  contents:
   - between
   - case_when
   - coalesce
@@ -55,44 +77,33 @@ reference:
   - desc
   - if_else
   - lead
-  - order_by
-  - "n"
   - n_distinct
   - na_if
   - near
   - nth
-  - ranking
+  - ntile
+  - order_by
+  - percent_rank
   - recode
+  - row_number
 
-- title: Data
+- title: Built in datasets
   contents:
   - band_members
   - starwars
   - storms
 
-- title: Remote tables
-  contents:
-  - auto_copy
-  - compute
-  - copy_to
-  - ident
-  - explain
-  - tbl
-  - sql
-
-- title: Experimental
+- title: Grouping helpers
   desc: >
-    Experimental functions are a testing ground for new approaches that we
-    believe to be worthy of greater exposure. There is no guarantee that these
-    functions will stay around in the future, so please reach out if you find
-    them useful.
+    This (mostly) experimental family of functions are used to manipulate
+    groups in various ways.
   contents:
+  - group_cols
   - group_map
   - group_modify
   - group_trim
   - group_split
   - with_groups
-  - rows
 
 - title: Questioning
   desc: >
@@ -114,6 +125,16 @@ reference:
   - ends_with("_at")
   - all_vars
   - vars
+
+- title: Remote tables
+  contents:
+  - auto_copy
+  - compute
+  - copy_to
+  - ident
+  - explain
+  - tbl
+  - sql
 
 articles:
 - title: Get started

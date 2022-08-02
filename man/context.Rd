@@ -9,7 +9,7 @@
 \alias{cur_group_id}
 \alias{cur_group_rows}
 \alias{cur_column}
-\title{Context dependent expressions}
+\title{Information about "current" group or variable}
 \usage{
 n()
 

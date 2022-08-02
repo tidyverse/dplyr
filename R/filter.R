@@ -1,4 +1,4 @@
-#' Subset rows using column values
+#' Keep rows that match a condition
 #'
 #' The `filter()` function is used to subset a data frame,
 #' retaining all rows that satisfy your conditions.

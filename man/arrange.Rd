@@ -3,7 +3,7 @@
 \name{arrange}
 \alias{arrange}
 \alias{arrange.data.frame}
-\title{Arrange rows by column values}
+\title{Order rows using column values}
 \usage{
 arrange(.data, ..., .by_group = FALSE)
 

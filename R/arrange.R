@@ -1,4 +1,4 @@
-#' Arrange rows by column values
+#' Order rows using column values
 #'
 #' @description
 #' `arrange()` orders the rows of a data frame by the values of selected
