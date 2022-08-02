@@ -26,14 +26,25 @@ setequal(x, y, ...)
 }
 \description{
 Perform set operations using the rows of a data frame.
-\code{intersect()}, \code{union()}, \code{setdiff()}, and \code{setequal()} override the base
-functions of the same name in order to make them generic. The existing
-behaviour for vectors is preserved by providing default methods that call
-the base functions.
+\itemize{
+\item \code{intersect(x, y)} finds all rows in both \code{x} and \code{y}.
+\item \code{union(x, y)} finds all rows in either \code{x} or \code{y}, excluding duplicates.
+\item \code{union_all(x, y)} finds all rows in either \code{x} or \code{y}, including duplicates.
+\item \code{setdiff(x, y)} finds all rows in \code{x} that aren't in \code{y}.
+\item \code{setequal(x, y)} returns \code{TRUE} if \code{x} and \code{y} contain the same rows
+(ignoring order).
+}
 
 Note that \code{intersect()}, \code{union()} and \code{setdiff()} remove duplicates
 in \code{x} and \code{y}.
 }
+\section{Base functions}{
+\code{intersect()}, \code{union()}, \code{setdiff()}, and \code{setequal()} override the base
+functions of the same name in order to make them generic. The existing
+behaviour for vectors is preserved by providing default methods that call
+the base functions.
+}
+
 \examples{
 mtcars$model <- rownames(mtcars)
 first <- mtcars[1:20, ]

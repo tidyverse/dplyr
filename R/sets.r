@@ -2,13 +2,22 @@
 #'
 #' @description
 #' Perform set operations using the rows of a data frame.
+#'
+#' * `intersect(x, y)` finds all rows in both `x` and `y`.
+#' * `union(x, y)` finds all rows in either `x` or `y`, excluding duplicates.
+#' * `union_all(x, y)` finds all rows in either `x` or `y`, including duplicates.
+#' * `setdiff(x, y)` finds all rows in `x` that aren't in `y`.
+#' * `setequal(x, y)` returns `TRUE` if `x` and `y` contain the same rows
+#'   (ignoring order).
+#'
+#' Note that `intersect()`, `union()` and `setdiff()` remove duplicates
+#' in `x` and `y`.
+#'
+#' # Base functions
 #' `intersect()`, `union()`, `setdiff()`, and `setequal()` override the base
 #' functions of the same name in order to make them generic. The existing
 #' behaviour for vectors is preserved by providing default methods that call
 #' the base functions.
-#'
-#' Note that `intersect()`, `union()` and `setdiff()` remove duplicates
-#' in `x` and `y`.
 #'
 #' @param x,y Pair of data frames.
 #' @inheritParams rlang::args_dots_empty

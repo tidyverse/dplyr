@@ -32,6 +32,9 @@ or equal to \code{x_i}, and divides it by the number of observations.
 \item \code{percent_rank(x)} counts the total number of values less than
 \code{x_i}, and divides it by the number of observations minus 1.
 }
+
+In both cases, missing values are ignored when counting the number
+of observations.
 }
 \examples{
 x <- c(5, 1, 3, 2, 2)

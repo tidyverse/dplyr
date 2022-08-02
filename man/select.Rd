@@ -31,8 +31,7 @@ order. Columns will be renamed if \code{new_name = old_name} form is used.
 Select (and optionally rename) variables in a data frame, using a concise
 mini-language that makes it easy to refer to variables based on their name
 (e.g. \code{a:f} selects all columns from \code{a} on the left to \code{f} on the
-right). You can also use predicate functions like \link{is.numeric} to select
-variables based on their properties.
+right) or type (e.g. \code{where(is.numeric)} selects all numeric columns).
 \subsection{Overview of selection features}{
 
 Tidyverse selections implement a dialect of R where operators make

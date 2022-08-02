@@ -23,6 +23,10 @@ values respectively.}
 \code{ntile()} is a sort of very rough rank, which breaks the input vector into
 \code{n} buckets. If \code{length(x)} is not an integer multiple of \code{n}, the size of
 the buckets will differ by up to one, with larger buckets coming first.
+
+Unlike other ranking functions, \code{ntile()} ignores ties: it will create
+evenly sized buckets even if the same value of \code{x} ends up in different
+buckets.
 }
 \examples{
 x <- c(5, 1, 3, 2, 2, NA)
@@ -31,6 +35,9 @@ ntile(x, 4)
 
 # If the bucket sizes are uneven, the larger buckets come first
 ntile(1:8, 3)
+
+# Ties are ignored
+ntile(rep(1, 8), 3)
 }
 \seealso{
 Other ranking functions: 

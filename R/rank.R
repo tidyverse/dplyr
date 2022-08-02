@@ -9,8 +9,9 @@
 #'   `rank(ties.method = "first")`.
 #'
 #' * `min_rank()` gives every tie the same (smallest) value so that
-#'   `c(10, 20, 20, 30)` gets ranks `c(1, 2, 2, 4)`. It's the way ranking usually
-#'   works in spots and is equivalent to `rank(ties.method = "min")`.
+#'   `c(10, 20, 20, 30)` gets ranks `c(1, 2, 2, 4)`. It's the way that ranks
+#'   are usually computed in sports and is equivalent to
+#'   `rank(ties.method = "min")`.
 #'
 #' * `dense_rank()` works like `min_rank()`, but doesn't leave any gaps,
 #'   so that `c(10, 20, 20, 30)` gets ranks `c(1, 2, 2, 3)`.
@@ -34,22 +35,22 @@
 #'
 #' # Ranking functions can be used in `filter()` to select top/bottom rows
 #' df <- data.frame(
-#'   id = c(1, 1, 1, 2, 2, 2, 3, 3, 3),
-#'   x = c(1, 2, 3, 1, 2, 2, 1, 1, 1),
-#'   y = 1:9
+#'   grp = c(1, 1, 1, 2, 2, 2, 3, 3, 3),
+#'   x = c(3, 2, 1, 1, 2, 2, 1, 1, 1),
+#'   id = 1:9
 #' )
 #' # Always gives exactly 1 row per group
-#' df %>% group_by(id) %>% filter(row_number(x) <= 1)
+#' df %>% group_by(grp) %>% filter(row_number(x) == 1)
 #' # May give more than 1 row if ties
-#' df %>% group_by(id) %>% filter(min_rank(x) <= 1)
+#' df %>% group_by(grp) %>% filter(min_rank(x) == 1)
 #' # See slice_min() and slice_max() for another way to tackle the same problem
 #'
-#' # Inside of mutate(), filter(), and friends, you can use row_number()
-#' # without an argument to refer to the "current" row number.
-#' df <- data.frame(id = c(1, 1, 2, 2, 2), x = 1:5)
+#' # You can use row_number() without an argument to refer to the "current"
+#' # row number.
+#' df %>% group_by(grp) %>% filter(row_number() == 1)
 #'
-#' df %>% group_by(id) %>% mutate(id = row_number())
-#' df %>% group_by(id) %>% filter(row_number() <= 2)
+#' # It's easiest to see what this does with mutate():
+#' df %>% group_by(grp) %>% mutate(grp_id = row_number())
 #' @export
 row_number <- function(x) {
   if (missing(x)) {
@@ -71,9 +72,14 @@ dense_rank <- function(x) {
 
 #' Bucket a numeric vector into `n` groups
 #'
+#' @description
 #' `ntile()` is a sort of very rough rank, which breaks the input vector into
 #' `n` buckets. If `length(x)` is not an integer multiple of `n`, the size of
 #' the buckets will differ by up to one, with larger buckets coming first.
+#'
+#' Unlike other ranking functions, `ntile()` ignores ties: it will create
+#' evenly sized buckets even if the same value of `x` ends up in different
+#' buckets.
 #'
 #' @inheritParams row_number
 #' @param n Number of groups to bucket into
@@ -86,6 +92,9 @@ dense_rank <- function(x) {
 #'
 #' # If the bucket sizes are uneven, the larger buckets come first
 #' ntile(1:8, 3)
+#'
+#' # Ties are ignored
+#' ntile(rep(1, 8), 3)
 ntile <- function(x = row_number(), n) {
   # Avoid recomputation in default case:
   # row_number(row_number(x)) == row_number(x)
@@ -129,6 +138,9 @@ ntile <- function(x = row_number(), n) {
 #'
 #' * `percent_rank(x)` counts the total number of values less than
 #'   `x_i`, and divides it by the number of observations minus 1.
+#'
+#' In both cases, missing values are ignored when counting the number
+#' of observations.
 #'
 #' @inheritParams row_number
 #' @returns A numeric vector containing a proportion.

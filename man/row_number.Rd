@@ -34,8 +34,9 @@ they handle ties:
 would get ranks \code{c(1, 2, 3, 4)}. It's equivalent to
 \code{rank(ties.method = "first")}.
 \item \code{min_rank()} gives every tie the same (smallest) value so that
-\code{c(10, 20, 20, 30)} gets ranks \code{c(1, 2, 2, 4)}. It's the way ranking usually
-works in spots and is equivalent to \code{rank(ties.method = "min")}.
+\code{c(10, 20, 20, 30)} gets ranks \code{c(1, 2, 2, 4)}. It's the way that ranks
+are usually computed in sports and is equivalent to
+\code{rank(ties.method = "min")}.
 \item \code{dense_rank()} works like \code{min_rank()}, but doesn't leave any gaps,
 so that \code{c(10, 20, 20, 30)} gets ranks \code{c(1, 2, 2, 3)}.
 }
@@ -48,22 +49,22 @@ dense_rank(x)
 
 # Ranking functions can be used in `filter()` to select top/bottom rows
 df <- data.frame(
-  id = c(1, 1, 1, 2, 2, 2, 3, 3, 3),
-  x = c(1, 2, 3, 1, 2, 2, 1, 1, 1),
-  y = 1:9
+  grp = c(1, 1, 1, 2, 2, 2, 3, 3, 3),
+  x = c(3, 2, 1, 1, 2, 2, 1, 1, 1),
+  id = 1:9
 )
 # Always gives exactly 1 row per group
-df \%>\% group_by(id) \%>\% filter(row_number(x) <= 1)
+df \%>\% group_by(grp) \%>\% filter(row_number(x) == 1)
 # May give more than 1 row if ties
-df \%>\% group_by(id) \%>\% filter(min_rank(x) <= 1)
+df \%>\% group_by(grp) \%>\% filter(min_rank(x) == 1)
 # See slice_min() and slice_max() for another way to tackle the same problem
 
-# Inside of mutate(), filter(), and friends, you can use row_number()
-# without an argument to refer to the "current" row number.
-df <- data.frame(id = c(1, 1, 2, 2, 2), x = 1:5)
+# You can use row_number() without an argument to refer to the "current"
+# row number.
+df \%>\% group_by(grp) \%>\% filter(row_number() == 1)
 
-df \%>\% group_by(id) \%>\% mutate(id = row_number())
-df \%>\% group_by(id) \%>\% filter(row_number() <= 2)
+# It's easiest to see what this does with mutate():
+df \%>\% group_by(grp) \%>\% mutate(grp_id = row_number())
 }
 \seealso{
 Other ranking functions: 
