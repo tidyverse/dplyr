@@ -728,6 +728,8 @@ check_unmatched <- function(unmatched, ..., error_call = caller_env()) {
 
 check_keep <- function(keep, error_call = caller_env()) {
   if (!is_bool(keep) && !is.null(keep)) {
-    abort("`keep` must be `TRUE`, `FALSE`, or `NULL`.", call = error_call)
+    abort(
+      glue("`keep` must be `TRUE`, `FALSE`, or `NULL`, not {friendly_type_of(keep)}."),
+      call = error_call)
   }
 }
