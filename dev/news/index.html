@@ -75,7 +75,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
-<ul><li><p>A rowwise <code><a href="../reference/mutate.html">mutate()</a></code> now automatically unlists list-columns containing length 1 vectors (<a href="https://github.com/tidyverse/dplyr/issues/6302" class="external-link">#6302</a>).</p></li>
+<ul><li><p>Rowwise-<code><a href="../reference/mutate.html">mutate()</a></code> behaves a little better with 0-row inputs (<a href="https://github.com/tidyverse/dplyr/issues/6303" class="external-link">#6303</a>).</p></li>
+<li><p>A rowwise <code><a href="../reference/mutate.html">mutate()</a></code> now automatically unlists list-columns containing length 1 vectors (<a href="https://github.com/tidyverse/dplyr/issues/6302" class="external-link">#6302</a>).</p></li>
 <li><p><code><a href="../reference/arrange.html">arrange()</a></code> now correctly ignores <code>NULL</code> inputs (<a href="https://github.com/tidyverse/dplyr/issues/6193" class="external-link">#6193</a>).</p></li>
 <li><p><code>*_join()</code> now error if you supply them with additional arguments that aren’t used (<a href="https://github.com/tidyverse/dplyr/issues/6228" class="external-link">#6228</a>).</p></li>
 <li><p><code>df |&gt; arrange(mydesc::desc(x))</code> works correctly when the mydesc re-exports <code><a href="../reference/desc.html">dplyr::desc()</a></code> (<a href="https://github.com/tidyverse/dplyr/issues/6231" class="external-link">#6231</a>).</p></li>
