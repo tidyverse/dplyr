@@ -337,7 +337,11 @@ mutate_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
               )
             }
             result_ptype <- attr(result, "ptype", exact = TRUE)
-            result <- vec_unchop(result, ptype = result_ptype)
+            if (length(result) == 0 && is.null(result_ptype)) {
+              result <- logical()
+            } else {
+              result <- vec_unchop(result, ptype = result_ptype)
+            }
           }
         } else if (!quo_is_symbolic(quo) && !is.null(quo_get_expr(quo))) {
           # constant, we still need both `result` and `chunks`
