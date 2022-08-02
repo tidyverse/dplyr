@@ -312,8 +312,10 @@ test_that("min and max ignore NA's with na.rm = TRUE (#4826, #6177)", {
 
   expect_equal(df %>% slice_min(x, n = 2, na.rm = TRUE) %>% pull(id), c(3, 1, 4))
   expect_equal(df %>% slice_min(y, n = 2, na.rm = TRUE) %>% nrow(), 0)
+  expect_equal(df %>% slice_min(y, n = 2, with_ties = FALSE, na.rm = TRUE) %>% nrow(), 0)
   expect_equal(df %>% slice_max(x, n = 2, na.rm = TRUE) %>% pull(id), c(1, 4))
   expect_equal(df %>% slice_max(y, n = 2, na.rm = TRUE) %>% nrow(), 0)
+  expect_equal(df %>% slice_max(y, n = 2, with_ties = FALSE, na.rm = TRUE) %>% nrow(), 0)
 })
 
 test_that("min and max show NAs when na.rm = FALSE (#6177)", {
@@ -321,12 +323,10 @@ test_that("min and max show NAs when na.rm = FALSE (#6177)", {
 
   expect_equal(df %>% slice_min(x, n = 2) %>% pull(id), c(3, 1, 4))
   expect_equal(df %>% slice_min(x, n = 4) %>% pull(id), c(3, 1, 4, 2, 5))
-  expect_equal(df %>% slice_min(x, n = 4, with_ties = FALSE) %>% pull(id),
-               c(3, 1, 4, 2))
+  expect_equal(df %>% slice_min(x, n = 4, with_ties = FALSE) %>% pull(id), c(3, 1, 4, 2))
   expect_equal(df %>% slice_max(x, n = 2) %>% pull(id), c(1, 4))
   expect_equal(df %>% slice_max(x, n = 4) %>% pull(id), c(1, 4, 3, 2, 5))
-  expect_equal(df %>% slice_max(x, n = 4, with_ties = FALSE) %>% pull(id),
-               c(1, 4, 3, 2))
+  expect_equal(df %>% slice_max(x, n = 4, with_ties = FALSE) %>% pull(id), c(1, 4, 3, 2))
 })
 
 test_that("arguments to sample are passed along", {
