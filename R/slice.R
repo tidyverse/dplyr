@@ -199,19 +199,15 @@ slice_min.data.frame <- function(.data,
 
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)
-  if (with_ties) {
-    idx <- function(x, n) head(order(x), smaller_ranks(x, size(n), na.rm))
-  } else {
-    idx <- function(x, n) head(order(x), size(n))
-  }
+  idx <- slice_min_idx(size = size, with_ties = with_ties, na.rm = na.rm)
 
   dplyr_local_error_call()
   slice(.data, local({
     order_by <- {{ order_by }}
     n <- dplyr::n()
 
-    x <- fix_call(vec_assert(order_by, size = n, arg = "order_by"), NULL)
-    idx(x, n)
+    order_by <- fix_call(vec_assert(order_by, size = n, arg = "order_by"), NULL)
+    idx(order_by, n)
   }))
 
 }
@@ -240,20 +236,14 @@ slice_max.data.frame <- function(.data,
 
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)
-  if (with_ties) {
-    idx <- function(x, n) head(
-        order(x, decreasing = TRUE), smaller_ranks(desc(x), size(n), na.rm)
-    )
-  } else {
-    idx <- function(x, n) head(order(x, decreasing = TRUE), size(n))
-  }
+  idx <- slice_min_idx(size = size, with_ties = with_ties, na.rm = na.rm)
 
   dplyr_local_error_call()
   slice(.data, local({
     order_by <- {{ order_by }}
     n <- dplyr::n()
     order_by <- fix_call(vec_assert(order_by, size = n, arg = "order_by"), NULL)
-    idx(order_by, n)
+    idx(desc(order_by), n)
   }))
 }
 
@@ -473,6 +463,19 @@ get_slice_size <- function(n, prop, allow_negative = TRUE, error_call = caller_e
     } else {
       abort("`prop` must be positive.", call = error_call)
     }
+  }
+}
+
+slice_min_idx <- function(size, with_ties, na.rm) {
+  function(order_by, n) {
+    if (with_ties) {
+      n_rows <- smaller_ranks(order_by, size(n), na.rm)
+    } else if (na.rm) {
+      n_rows <- min(sum(!is.na(order_by)), size(n))
+    } else {
+      n_rows <- size(n)
+    }
+    head(order(order_by), n_rows)
   }
 }
 
