@@ -465,10 +465,18 @@ nest_join.data.frame <- function(x,
                                  na_matches = c("na", "never"),
                                  multiple = NULL,
                                  unmatched = "drop") {
+
+  check_keep(keep)
   na_matches <- check_na_matches(na_matches)
   unmatched <- check_unmatched(unmatched)
 
-  name_var <- name %||% as_label(enexpr(y))
+  if (is.null(name)) {
+    name_var <- as_label(enexpr(y))
+  } else if (is_string(name)) {
+    name_var <- name
+  } else {
+    abort("`name` must be a string.")
+  }
 
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
@@ -722,3 +730,4 @@ check_keep <- function(keep, error_call = caller_env()) {
   if (!is_bool(keep) && !is.null(keep)) {
     abort("`keep` must be `TRUE`, `FALSE`, or `NULL`.", call = error_call)
   }
+}

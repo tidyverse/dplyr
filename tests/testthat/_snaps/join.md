@@ -141,3 +141,38 @@
     Message
       Joining, by = "x"
 
+# validates inputs
+
+    Code
+      nest_join(df1, df2, by = 1)
+    Condition
+      Error in `as_join_by()`:
+      ! `by` must be a (named) character vector, list, `join_by()` result, or NULL, not a double vector.
+    Code
+      nest_join(df1, df2, keep = 1)
+    Condition
+      Error in `nest_join()`:
+      ! `keep` must be `TRUE`, `FALSE`, or `NULL`.
+    Code
+      nest_join(df1, df2, name = 1)
+    Condition
+      Error in `nest_join()`:
+      ! `name` must be a string.
+    Code
+      nest_join(df1, df2, na_matches = 1)
+    Condition
+      Error in `nest_join()`:
+      ! `na_matches` must be a string or character vector.
+    Code
+      nest_join(df1, df2, multiple = 1)
+    Message
+      Joining, by = "x"
+    Condition
+      Error in `vctrs::vec_locate_matches()`:
+      ! `multiple` must be a string.
+    Code
+      nest_join(df1, df2, unmatched = 1)
+    Condition
+      Error in `nest_join()`:
+      ! `unmatched` must be a string or character vector.
+
