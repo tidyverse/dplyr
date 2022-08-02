@@ -25,6 +25,7 @@ void dplyr_lazy_vec_chop_grouped(SEXP chops_env, SEXP rows, SEXP data, bool roww
         if (ptype != R_NilValue) {
           SET_VECTOR_ELT(column, 0, ptype);
         } else {
+          // i.e. `vec_ptype_finalise(unspecified())` (#6369)
           SET_VECTOR_ELT(column, 0, Rf_allocVector(LGLSXP, 1));
         }
         SET_PRCODE(prom, column);
