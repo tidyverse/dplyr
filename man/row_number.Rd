@@ -13,7 +13,7 @@ min_rank(x)
 dense_rank(x)
 }
 \arguments{
-\item{x}{a vector of values to rank.
+\item{x}{A vector to rank
 
 By default, the smallest values will get the smallest ranks.
 Use \code{\link[=desc]{desc()}} to reverse the direction so the largest values get the smallest
@@ -37,7 +37,7 @@ would get ranks \code{c(1, 2, 3, 4)}. It's equivalent to
 \code{c(10, 20, 20, 30)} gets ranks \code{c(1, 2, 2, 4)}. It's the way ranking usually
 works in spots and is equivalent to \code{rank(ties.method = "min")}.
 \item \code{dense_rank()} works like \code{min_rank()}, but doesn't leave any gaps,
-so that \code{c(10, 20, 20, 30)} getes ranks \code{c(1, 2, 2, 3)}.
+so that \code{c(10, 20, 20, 30)} gets ranks \code{c(1, 2, 2, 3)}.
 }
 }
 \examples{
@@ -46,15 +46,15 @@ row_number(x)
 min_rank(x)
 dense_rank(x)
 
-# Ranking functions can be used in filter() to select top/bottom rows
+# Ranking functions can be used in `filter()` to select top/bottom rows
 df <- data.frame(
   id = c(1, 1, 1, 2, 2, 2, 3, 3, 3),
   x = c(1, 2, 3, 1, 2, 2, 1, 1, 1),
   y = 1:9
 )
-# Always gives exactly 1 row
+# Always gives exactly 1 row per group
 df \%>\% group_by(id) \%>\% filter(row_number(x) <= 1)
-# May give more than one row if ties
+# May give more than 1 row if ties
 df \%>\% group_by(id) \%>\% filter(min_rank(x) <= 1)
 # See slice_min() and slice_max() for another way to tackle the same problem
 

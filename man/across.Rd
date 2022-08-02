@@ -25,7 +25,7 @@ Possible values are:
 \item A named list of functions or lambdas, e.g.
 \verb{list(mean = mean, n_miss = ~ sum(is.na(.x))}. Each function is applied
 to each column, and the output is named by combining the function name
-and the column name using the glue specification in \code{.name}.
+and the column name using the glue specification in \code{.names}.
 \item \code{NULL}: the default, returns the selected columns in a data frame
 without applying a transformation. This is useful for when you want to
 use a function that takes a data frame.

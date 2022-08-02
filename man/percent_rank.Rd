@@ -10,7 +10,7 @@ percent_rank(x)
 cume_dist(x)
 }
 \arguments{
-\item{x}{a vector of values to rank.
+\item{x}{A vector to rank
 
 By default, the smallest values will get the smallest ranks.
 Use \code{\link[=desc]{desc()}} to reverse the direction so the largest values get the smallest
@@ -39,10 +39,10 @@ x <- c(5, 1, 3, 2, 2)
 cume_dist(x)
 percent_rank(x)
 
-# you can understand what's going on by computing it by hand
-sapply(x, function(xi) sum(x <= xi))
+# You can understand what's going on by computing it by hand
+sapply(x, function(xi) sum(x <= xi) / length(x))
 sapply(x, function(xi) sum(x < xi)  / (length(x) - 1))
-# the real computations are a little more complex in order to
+# The real computations are a little more complex in order to
 # correctly deal with missing values
 }
 \seealso{

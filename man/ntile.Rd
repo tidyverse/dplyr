@@ -7,7 +7,7 @@
 ntile(x = row_number(), n)
 }
 \arguments{
-\item{x}{a vector of values to rank.
+\item{x}{A vector to rank
 
 By default, the smallest values will get the smallest ranks.
 Use \code{\link[=desc]{desc()}} to reverse the direction so the largest values get the smallest
@@ -17,7 +17,7 @@ Missing values will be given rank \code{NA}. Use \code{coalesce(x, Inf)} or
 \code{coalesce(x, -Inf)} if you want to treat them as the largest or smallest
 values respectively.}
 
-\item{n}{number of groups to split up into.}
+\item{n}{Number of groups to bucket into}
 }
 \description{
 \code{ntile()} is a sort of very rough rank, which breaks the input vector into
@@ -29,7 +29,7 @@ x <- c(5, 1, 3, 2, 2, NA)
 ntile(x, 2)
 ntile(x, 4)
 
-# If the bucket sizes are uneven, the larger buckets n come first
+# If the bucket sizes are uneven, the larger buckets come first
 ntile(1:8, 3)
 }
 \seealso{

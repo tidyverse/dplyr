@@ -32,7 +32,7 @@ Otherwise, \code{distinct()} first calls \code{mutate()} to create new columns.
 }
 }
 \description{
-Select only unique/distinct rows from a data frame. This is similar
+Keep only unique/distinct rows from a data frame. This is similar
 to \code{\link[=unique.data.frame]{unique.data.frame()}} but considerably faster.
 }
 \section{Methods}{
