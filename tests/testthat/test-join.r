@@ -191,34 +191,26 @@ test_that("joins don't match NA when na_matches = 'never' (#2033)", {
   )
 })
 
-test_that("`na_matches` is validated", {
+test_that("join_mutate() validates arguments", {
   df <- tibble(x = 1)
 
   # Mutating joins
   expect_snapshot(error = TRUE, {
-    join_mutate(df, df, by = "x", type = "left", na_matches = 1)
-  })
-  expect_snapshot(error = TRUE, {
+    join_mutate(df, df, by = 1, type = "left")
+    join_mutate(df, df, by = "x", type = "left", suffix = 1)
     join_mutate(df, df, by = "x", type = "left", na_matches = "foo")
-  })
-
-  # Filtering joins
-  expect_snapshot(error = TRUE, {
-    join_filter(df, df, by = "x", type = "semi", na_matches = 1)
-  })
-  expect_snapshot(error = TRUE, {
-    join_filter(df, df, by = "x", type = "semi", na_matches = "foo")
+    join_mutate(df, df, by = "x", type = "left", unmatched = "foo")
+    join_mutate(df, df, by = "x", type = "left", keep = 1)
   })
 })
 
-test_that("`unmatched` is validated", {
+test_that("join_filter() validates arguments", {
   df <- tibble(x = 1)
 
+  # Filtering joins
   expect_snapshot(error = TRUE, {
-    join_mutate(df, df, by = "x", type = "left", unmatched = 1)
-  })
-  expect_snapshot(error = TRUE, {
-    join_mutate(df, df, by = "x", type = "left", unmatched = "foo")
+    join_filter(df, df, by = 1, type = "semi")
+    join_filter(df, df, by = "x", type = "semi", na_matches = "foo")
   })
 })
 
@@ -293,6 +285,21 @@ test_that("y keys kept by default for non-equi conditions", {
   out <- nest_join(df1, df2, by = join_by(x >= x))
   expect_named(out, c("x", "y", "df2"))
   expect_named(out$df2[[1]], c("x", "z"))
+})
+
+test_that("validates inputs", {
+  df1 <- tibble(x = c(1, 2), y = c(2, 3))
+  df2 <- tibble(x = c(1, 3), z = c(2, 3))
+
+  expect_snapshot(error = TRUE, {
+    nest_join(df1, df2, by = 1)
+    nest_join(df1, df2, keep = 1)
+    nest_join(df1, df2, name = 1)
+    nest_join(df1, df2, na_matches = 1)
+    nest_join(df1, df2, multiple = 1)
+    nest_join(df1, df2, unmatched = 1)
+  })
+
 })
 
 # output type ---------------------------------------------------------------

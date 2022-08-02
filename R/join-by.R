@@ -284,26 +284,26 @@ flat_map_chr <- function(x, fn) {
 # ------------------------------------------------------------------------------
 
 # Internal generic
-as_join_by <- function(x) {
+as_join_by <- function(x, error_call = caller_env()) {
   UseMethod("as_join_by")
 }
 
 #' @export
-as_join_by.default <- function(x) {
+as_join_by.default <- function(x, error_call = caller_env()) {
   message <- glue(paste0(
     "`by` must be a (named) character vector, list, `join_by()` result, ",
     "or NULL, not {friendly_type_of(x)}."
   ))
-  abort(message)
+  abort(message, call = error_call)
 }
 
 #' @export
-as_join_by.dplyr_join_by <- function(x) {
+as_join_by.dplyr_join_by <- function(x, error_call = caller_env()) {
   x
 }
 
 #' @export
-as_join_by.character <- function(x) {
+as_join_by.character <- function(x, error_call = caller_env()) {
   x_names <- names(x) %||% x
   y_names <- unname(x)
 
@@ -314,7 +314,7 @@ as_join_by.character <- function(x) {
 }
 
 #' @export
-as_join_by.list <- function(x) {
+as_join_by.list <- function(x, error_call = caller_env()) {
   # TODO: check lengths
   x_names <- x[["x"]]
   y_names <- x[["y"]]
