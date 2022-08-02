@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* Rowwise-`mutate()` behaves a little better with 0-row inputs (#6303).
+
 * A rowwise `mutate()` now automatically unlists list-columns containing 
   length 1 vectors (#6302).
 

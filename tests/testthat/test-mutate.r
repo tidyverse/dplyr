@@ -198,14 +198,27 @@ test_that("mutate works on zero-row grouped data frame (#596)", {
   expect_equal(group_data(res)$b, factor(character(0)))
 })
 
-test_that("mutate works on zero-row rowwise data frame (#4224)", {
-  dat <- data.frame(a = numeric(0))
-  res <- dat %>% rowwise() %>% mutate(a2 = a * 2)
-  expect_type(res$a2, "double")
-  expect_s3_class(res, "rowwise_df")
-  expect_equal(res$a2, numeric(0))
-})
+test_that("mutate preserves class of zero-row rowwise (#4224, #6303)", {
+  # Each case needs to test both x and identity(x) because these flow
+  # through two slightly different pathways.
 
+  rf <- rowwise(tibble(x = character(0)))
+  out <- mutate(rf, x2 = identity(x), x3 = x)
+  expect_equal(out$x2, character())
+  expect_equal(out$x3, character())
+
+  # including list-of classes of list-cols where possible
+  rf <- rowwise(tibble(x = list_of(.ptype = character())))
+  out <- mutate(rf, x2 = identity(x), x3 = x)
+  expect_equal(out$x2, character())
+  expect_equal(out$x3, character())
+
+  # an empty list is turns into a logical (aka unspecified)
+  rf <- rowwise(tibble(x = list()))
+  out <- mutate(rf, x2 = identity(x), x3 = x)
+  expect_equal(out$x2, logical())
+  expect_equal(out$x3, logical())
+})
 
 test_that("mutate works on empty data frames (#1142)", {
   df <- data.frame()
