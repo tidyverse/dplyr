@@ -1,3 +1,14 @@
+# rowwise mutate un-lists existing size-1 list-columns (#6302)
+
+    Code
+      mutate(df, y = x)
+    Condition
+      Error in `mutate()`:
+      ! Problem while computing `y = x`.
+      x `y` must be size 1, not 2.
+      i Did you mean: `y = list(x)` ?
+      i The error occurred in row 2.
+
 # mutate() give meaningful errors
 
     Code
