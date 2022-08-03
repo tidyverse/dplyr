@@ -46,7 +46,7 @@ grouped data frames only.}
 \item{.locale}{The locale to sort character vectors in.
 \itemize{
 \item Defaults to \code{\link[=dplyr_locale]{dplyr_locale()}}, which uses the \code{"C"} locale unless this is
-explicitly overriden. See the help page for \code{\link[=dplyr_locale]{dplyr_locale()}} for the
+explicitly overridden. See the help page for \code{\link[=dplyr_locale]{dplyr_locale()}} for the
 exact details.
 \item If a single string from \code{\link[stringi:stri_locale_list]{stringi::stri_locale_list()}} is supplied, then
 this will be used as the locale to sort with. For example, \code{"en"} will

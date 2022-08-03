@@ -25,7 +25,7 @@ Most dplyr verbs use **tidy evaluation** in some way. Tidy evaluation is a speci
 * `arrange()`, `count()`, `filter()`, `group_by()`, `mutate()`, and 
   `summarise()` use **data masking** so that you can use data variables as if 
   they were variables in the environment (i.e. you write `my_variable` not
-  `df$myvariable`). 
+  `df$my_variable`). 
 
 * `across()`, `relocate()`, `rename()`, `select()`, and `pull()` use 
   **tidy selection** so you can easily choose variables based on their position, 

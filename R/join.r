@@ -193,6 +193,7 @@ inner_join <- function(x,
                        suffix = c(".x", ".y"),
                        ...,
                        keep = NULL) {
+  check_dots_used()
   UseMethod("inner_join")
 }
 
@@ -231,6 +232,7 @@ left_join <- function(x,
                       suffix = c(".x", ".y"),
                       ...,
                       keep = NULL) {
+  check_dots_used()
   UseMethod("left_join")
 }
 
@@ -269,6 +271,7 @@ right_join <- function(x,
                        suffix = c(".x", ".y"),
                        ...,
                        keep = NULL) {
+  check_dots_used()
   UseMethod("right_join")
 }
 
@@ -307,6 +310,7 @@ full_join <- function(x,
                       suffix = c(".x", ".y"),
                       ...,
                       keep = NULL) {
+  check_dots_used()
   UseMethod("full_join")
 }
 
@@ -380,6 +384,7 @@ NULL
 #' @export
 #' @rdname filter-joins
 semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+  check_dots_used()
   UseMethod("semi_join")
 }
 
@@ -393,6 +398,7 @@ semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches 
 #' @export
 #' @rdname filter-joins
 anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+  check_dots_used()
   UseMethod("anti_join")
 }
 
@@ -443,6 +449,7 @@ nest_join <- function(x,
                       keep = NULL,
                       name = NULL,
                       ...) {
+  check_dots_used()
   UseMethod("nest_join")
 }
 
@@ -458,10 +465,18 @@ nest_join.data.frame <- function(x,
                                  na_matches = c("na", "never"),
                                  multiple = NULL,
                                  unmatched = "drop") {
+
+  check_keep(keep)
   na_matches <- check_na_matches(na_matches)
   unmatched <- check_unmatched(unmatched)
 
-  name_var <- name %||% as_label(enexpr(y))
+  if (is.null(name)) {
+    name_var <- as_label(enexpr(y))
+  } else if (is_string(name)) {
+    name_var <- name
+  } else {
+    abort("`name` must be a string.")
+  }
 
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
@@ -529,6 +544,7 @@ join_mutate <- function(x,
   check_dots_empty0(...)
 
   na_matches <- check_na_matches(na_matches, error_call = error_call)
+  check_keep(keep, error_call = error_call)
   unmatched <- check_unmatched(unmatched, error_call = error_call)
 
   x_names <- tbl_vars(x)
@@ -537,7 +553,7 @@ join_mutate <- function(x,
   if (is_null(by)) {
     by <- join_by_common(x_names, y_names, error_call = error_call)
   } else {
-    by <- as_join_by(by)
+    by <- as_join_by(by, error_call = error_call)
   }
 
   vars <- join_cols(
@@ -631,7 +647,7 @@ join_filter <- function(x,
   if (is_null(by)) {
     by <- join_by_common(x_names, y_names, error_call = error_call)
   } else {
-    by <- as_join_by(by)
+    by <- as_join_by(by, error_call = error_call)
   }
 
   vars <- join_cols(x_names, y_names, by = by, error_call = error_call)
@@ -708,4 +724,12 @@ check_unmatched <- function(unmatched, ..., error_call = caller_env()) {
     arg_nm = "unmatched",
     error_call = error_call
   )
+}
+
+check_keep <- function(keep, error_call = caller_env()) {
+  if (!is_bool(keep) && !is.null(keep)) {
+    abort(
+      glue("`keep` must be `TRUE`, `FALSE`, or `NULL`, not {friendly_type_of(keep)}."),
+      call = error_call)
+  }
 }

@@ -23,11 +23,13 @@
 #'
 #'   - A function, e.g. `mean`.
 #'   - A purrr-style lambda, e.g. `~ mean(.x, na.rm = TRUE)`
-#'   - A list of functions/lambdas, e.g.
-#'     `list(mean = mean, n_miss = ~ sum(is.na(.x))`
-#'   - `NULL`: the default value, returns the selected columns in a data
-#'   frame without applying a transformation. This is useful for when you want to
-#'   use a function that takes a data frame.
+#'   - A named list of functions or lambdas, e.g.
+#'     `list(mean = mean, n_miss = ~ sum(is.na(.x))`. Each function is applied
+#'     to each column, and the output is named by combining the function name
+#'     and the column name using the glue specification in `.names`.
+#'   - `NULL`: the default, returns the selected columns in a data frame
+#'     without applying a transformation. This is useful for when you want to
+#'     use a function that takes a data frame.
 #'
 #'   Within these functions you can use [cur_column()] and [cur_group()]
 #'   to access the current column and grouping keys respectively.
