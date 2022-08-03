@@ -1,4 +1,4 @@
-#' Arrange rows by column values
+#' Order rows using column values
 #'
 #' @description
 #' `arrange()` orders the rows of a data frame by the values of selected
@@ -41,7 +41,7 @@
 #' @param .locale The locale to sort character vectors in.
 #'
 #'   - Defaults to [dplyr_locale()], which uses the `"C"` locale unless this is
-#'     explicitly overriden. See the help page for [dplyr_locale()] for the
+#'     explicitly overridden. See the help page for [dplyr_locale()] for the
 #'     exact details.
 #'
 #'   - If a single string from [stringi::stri_locale_list()] is supplied, then
@@ -137,7 +137,8 @@ arrange_rows <- function(data,
 
   # give the quosures arbitrary names so that
   # data has the right number of columns below after transmute()
-  names(quosures) <- paste0("^^--arrange_quosure_", seq_along(quosures))
+  quo_names <- paste0("^^--arrange_quosure_", seq_along(quosures))
+  names(quosures) <- quo_names
 
   # TODO: not quite that because when the quosure is some expression
   #       it should be evaluated by groups.
@@ -174,6 +175,7 @@ arrange_rows <- function(data,
 
   })
 
+  directions <- directions[quo_names %in% names(data)]
   na_values <- if_else(directions == "desc", "smallest", "largest")
 
   vec_order_radix(

@@ -2,22 +2,49 @@
 % Please edit documentation in R/sets.r
 \name{setops}
 \alias{setops}
+\alias{intersect}
+\alias{union}
 \alias{union_all}
+\alias{setdiff}
+\alias{setequal}
 \title{Set operations}
 \usage{
+intersect(x, y, ...)
+
+union(x, y, ...)
+
 union_all(x, y, ...)
+
+setdiff(x, y, ...)
+
+setequal(x, y, ...)
 }
 \arguments{
-\item{x, y}{objects to perform set function on (ignoring order)}
+\item{x, y}{Pair of data frames.}
 
 \item{...}{These dots are for future extensions and must be empty.}
 }
 \description{
-These functions override the set functions provided in base to make them
-generic so that efficient versions for data frames and other tables can be
-provided. The default methods call the base versions. Beware that
-\code{intersect()}, \code{union()} and \code{setdiff()} remove duplicates.
+Perform set operations using the rows of a data frame.
+\itemize{
+\item \code{intersect(x, y)} finds all rows in both \code{x} and \code{y}.
+\item \code{union(x, y)} finds all rows in either \code{x} or \code{y}, excluding duplicates.
+\item \code{union_all(x, y)} finds all rows in either \code{x} or \code{y}, including duplicates.
+\item \code{setdiff(x, y)} finds all rows in \code{x} that aren't in \code{y}.
+\item \code{setequal(x, y)} returns \code{TRUE} if \code{x} and \code{y} contain the same rows
+(ignoring order).
 }
+
+Note that \code{intersect()}, \code{union()} and \code{setdiff()} remove duplicates
+in \code{x} and \code{y}.
+}
+\section{Base functions}{
+\code{intersect()}, \code{union()}, \code{setdiff()}, and \code{setequal()} override the base
+functions of the same name in order to make them generic. The existing
+behaviour for vectors is preserved by providing default methods that call
+the base functions.
+}
+
 \examples{
 mtcars$model <- rownames(mtcars)
 first <- mtcars[1:20, ]
@@ -31,19 +58,11 @@ setdiff(second, first)
 union_all(first, second)
 setequal(mtcars, mtcars[32:1, ])
 
-# Handling of duplicates:
-a <- data.frame(column = c(1:10, 10))
-b <- data.frame(column = c(1:5, 5))
+# Note the following 3 functions also remove pre-existing duplicates in `x` or `y`:
+a <- data.frame(x = c(1:3, 3, 3))
+b <- data.frame(x = c(3:5, 5))
 
-# intersection is 1 to 5, duplicates removed (5)
 intersect(a, b)
-
-# union is 1 to 10, duplicates removed (5 and 10)
 union(a, b)
-
-# set difference, duplicates removed (10)
 setdiff(a, b)
-
-# union all does not remove duplicates
-union_all(a, b)
 }

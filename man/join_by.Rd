@@ -22,7 +22,7 @@ you'll need to precompute and store it in a separate column.
 
 Column names should be specified as quoted or unquoted names. By default,
 the name on the left-hand side of a join condition refers to the left-hand
-table, unless overriden by explicitly prefixing the column name with either
+table, unless overridden by explicitly prefixing the column name with either
 \verb{x$} or \verb{y$}.
 
 If a single column name is provided without any join conditions, it is
