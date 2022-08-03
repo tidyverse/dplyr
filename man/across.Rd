@@ -37,9 +37,9 @@ to access the current column and grouping keys respectively.}
 Additional arguments for the function calls in \code{.fns} are no longer
 accepted in \code{...} because it's not clear when they should be evaluated:
 once per \code{across()} or once per group? Instead supply additional arguments
-directly in \code{funs} by using a lambda. For example, instead of
-\code{across(everything(), mean, na.rm = TRUE)} write
-\code{across(everything(), ~ mean(.x, na.rm = TRUE))}.}
+directly in \code{.fns} by using a lambda. For example, instead of
+\code{across(a:b, mean, na.rm = TRUE)} write
+\code{across(a:b, ~ mean(.x, na.rm = TRUE))}.}
 
 \item{.names}{A glue specification that describes how to name the output
 columns. This can use \code{{.col}} to stand for the selected column name, and
