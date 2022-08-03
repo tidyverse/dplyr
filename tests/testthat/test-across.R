@@ -64,27 +64,6 @@ test_that("across() result locations are aligned with column names (#4967)", {
   expect_identical(x, expect)
 })
 
-test_that("across() passes ... to functions", {
-  df <- tibble(x = c(1, NA))
-  expect_equal(
-    summarise(df, across(everything(), mean, na.rm = TRUE)),
-    tibble(x = 1)
-  )
-  expect_equal(
-    summarise(df, across(everything(), list(mean = mean, median = median), na.rm = TRUE)),
-    tibble(x_mean = 1, x_median = 1)
-  )
-})
-
-test_that("across() passes unnamed arguments following .fns as ... (#4965)", {
-  df <- tibble(x = 1)
-  expect_equal(mutate(df, across(x, `+`, 1)), tibble(x = 2))
-})
-
-test_that("across() avoids simple argument name collisions with ... (#4965)", {
-  df <- tibble(x = c(1, 2))
-  expect_equal(summarize(df, across(x, tail, n = 1)), tibble(x = 2))
-})
 
 test_that("across() works sequentially (#4907)", {
   df <- tibble(a = 1)
@@ -521,38 +500,6 @@ test_that("across() can omit dots", {
   expect_equal(res$y[[1]]$foo, 2)
 })
 
-test_that("across() evaluates ... with promise semantics (#5813)", {
-  df <- tibble(x = tibble(foo = 1), y = tibble(foo = 2))
-
-  res <- mutate(df, across(
-    everything(),
-    mutate,
-    foo = foo + 1
-  ))
-  expect_equal(res$x$foo, 2)
-  expect_equal(res$y$foo, 3)
-
-  # Dots are evaluated only once
-  new_counter <- function() {
-    n <- 0L
-    function() {
-      n <<- n + 1L
-      n
-    }
-  }
-  counter <- new_counter()
-  list_second <- function(...) {
-    list(..2)
-  }
-  res <- mutate(df, across(
-    everything(),
-    list_second,
-    counter()
-  ))
-  expect_equal(res$x[[1]], 1)
-  expect_equal(res$y[[1]], 1)
-})
-
 test_that("group variables are in scope (#5832)", {
   f <- function(x, z) x + z
   gdf <- data.frame(x = 1:2, y = 3:4, g = 1:2) %>% group_by(g)
@@ -564,30 +511,9 @@ test_that("group variables are in scope (#5832)", {
   )
 
   expect_equal(
-    gdf %>% summarise(across(x, f, z = y)),
+    gdf %>% summarise(across(x, ~ f(.x, z = y))),
     exp
   )
-
-  expect_equal(
-    gdf %>% summarise((across(x, ~ f(.x, z = y)))),
-    exp
-  )
-
-  expect_equal(
-    gdf %>% summarise((across(x, f, z = y))),
-    exp
-  )
-})
-
-test_that("arguments in dots are evaluated once per group", {
-  set.seed(0)
-  out <- data.frame(g = 1:3, var = NA) %>%
-    group_by(g) %>%
-    mutate(across(var, function(x, y) y, rnorm(1))) %>%
-    pull(var)
-
-  set.seed(0)
-  expect_equal(out, rnorm(3))
 })
 
 test_that("can pass quosure through `across()`", {
@@ -904,4 +830,108 @@ test_that("selects and combines columns", {
   df <- data.frame(x = 1:2, y = 3:4)
   out <- df %>% summarise(z = list(c_across(x:y)))
   expect_equal(out$z, list(1:4))
+})
+
+# dots --------------------------------------------------------------------
+
+test_that("across(...) is deprecated", {
+
+  df <- tibble(x = c(1, NA))
+  expect_snapshot(summarise(df, across(everything(), mean, na.rm = TRUE)))
+
+})
+
+test_that("across() passes ... to functions", {
+  options(lifecycle_verbosity = "quiet")
+
+  df <- tibble(x = c(1, NA))
+  expect_equal(
+    summarise(df, across(everything(), mean, na.rm = TRUE)),
+    tibble(x = 1)
+  )
+  expect_equal(
+    summarise(df, across(everything(), list(mean = mean, median = median), na.rm = TRUE)),
+    tibble(x_mean = 1, x_median = 1)
+  )
+})
+
+test_that("across() passes unnamed arguments following .fns as ... (#4965)", {
+  options(lifecycle_verbosity = "quiet")
+
+  df <- tibble(x = 1)
+  expect_equal(mutate(df, across(x, `+`, 1)), tibble(x = 2))
+})
+
+test_that("across() avoids simple argument name collisions with ... (#4965)", {
+  options(lifecycle_verbosity = "quiet")
+
+  df <- tibble(x = c(1, 2))
+  expect_equal(summarize(df, across(x, tail, n = 1)), tibble(x = 2))
+})
+
+
+test_that("across() evaluates ... with promise semantics (#5813)", {
+  options(lifecycle_verbosity = "quiet")
+
+  df <- tibble(x = tibble(foo = 1), y = tibble(foo = 2))
+
+  res <- mutate(df, across(
+    everything(),
+    mutate,
+    foo = foo + 1
+  ))
+  expect_equal(res$x$foo, 2)
+  expect_equal(res$y$foo, 3)
+
+  # Dots are evaluated only once
+  new_counter <- function() {
+    n <- 0L
+    function() {
+      n <<- n + 1L
+      n
+    }
+  }
+  counter <- new_counter()
+  list_second <- function(...) {
+    list(..2)
+  }
+  res <- mutate(df, across(
+    everything(),
+    list_second,
+    counter()
+  ))
+  expect_equal(res$x[[1]], 1)
+  expect_equal(res$y[[1]], 1)
+})
+
+
+test_that("arguments in dots are evaluated once per group", {
+  options(lifecycle_verbosity = "quiet")
+
+  set.seed(0)
+  out <- data.frame(g = 1:3, var = NA) %>%
+    group_by(g) %>%
+    mutate(across(var, function(x, y) y, rnorm(1))) %>%
+    pull(var)
+
+  set.seed(0)
+  expect_equal(out, rnorm(3))
+})
+
+test_that("group variables are in scope when passed in dots (#5832)", {
+  options(lifecycle_verbosity = "quiet")
+
+  f <- function(x, z) x + z
+  gdf <- data.frame(x = 1:2, y = 3:4, g = 1:2) %>% group_by(g)
+  exp <- gdf %>% summarise(x = f(x, z = y))
+
+  expect_equal(
+    gdf %>% summarise(across(x, f, z = y)),
+    exp
+  )
+
+  expect_equal(
+    gdf %>% summarise((across(x, f, z = y))),
+    exp
+  )
 })
