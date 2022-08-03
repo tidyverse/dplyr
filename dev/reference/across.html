@@ -141,8 +141,13 @@ to access the current column and grouping keys respectively.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>Additional arguments for the function calls in <code>.fns</code>. Using these
-<code>...</code> is strongly discouraged because of issues of timing of evaluation.</p></dd>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a></p>
+<p>Additional arguments for the function calls in <code>.fns</code> are no longer
+accepted in <code>...</code> because it's not clear when they should be evaluated:
+once per <code>across()</code> or once per group? Instead supply additional arguments
+directly in <code>.fns</code> by using a lambda. For example, instead of
+<code>across(a:b, mean, na.rm = TRUE)</code> write
+<code>across(a:b, ~ mean(.x, na.rm = TRUE))</code>.</p></dd>
 
 
 <dt>.names</dt>
