@@ -36,9 +36,9 @@
 #'   Additional arguments for the function calls in `.fns` are no longer
 #'   accepted in `...` because it's not clear when they should be evaluated:
 #'   once per `across()` or once per group? Instead supply additional arguments
-#'   directly in `funs` by using a lambda. For example, instead of
-#'   `across(everything(), mean, na.rm = TRUE)` write
-#'   `across(everything(), ~ mean(.x, na.rm = TRUE))`.
+#'   directly in `.fns` by using a lambda. For example, instead of
+#'   `across(a:b, mean, na.rm = TRUE)` write
+#'   `across(a:b, ~ mean(.x, na.rm = TRUE))`.
 #' @param .names A glue specification that describes how to name the output
 #'   columns. This can use `{.col}` to stand for the selected column name, and
 #'   `{.fn}` to stand for the name of the function being applied. The default

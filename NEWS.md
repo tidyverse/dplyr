@@ -1,8 +1,8 @@
 # dplyr (development version)
 
-* `across(...)` is now deprecated because it's ambiugous when they should be 
-   evaluated. Now instead of (e.g.) `across(everything(), mean, na.rm = TRUE)`
-   you should write `across(everything(), ~ mean(.x, na.rm = TRUE))` (#6073).
+* Passing `...` to `across()` is now deprecated because the evaluation timing of
+  `...` is ambiguous. Now instead of (e.g.) `across(a:b, mean, na.rm = TRUE)`
+  you should write `across(a:b, ~ mean(.x, na.rm = TRUE))` (#6073).
 
 * `df |> arrange(mydesc::desc(x))` works correctly when the mydesc re-exports
    `dplyr::desc()` (#6231).
