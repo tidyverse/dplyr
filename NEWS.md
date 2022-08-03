@@ -1,8 +1,6 @@
 # dplyr (development version)
 
-* Passing `...` to `across()` is now deprecated because the evaluation timing of
-  `...` is ambiguous. Now instead of (e.g.) `across(a:b, mean, na.rm = TRUE)`
-  you should write `across(a:b, ~ mean(.x, na.rm = TRUE))` (#6073).
+* New `symdiff()` function computes the symmetric difference (#4811).
 
 * Rowwise-`mutate()` behaves a little better with 0-row inputs (#6303).
 
