@@ -336,10 +336,11 @@ test_that("joins preserve groups", {
   expect_equal(i, 0L)
   expect_equal(group_vars(out), "a")
 
-  # See comment in nest_join
+  # once for x + once for each row for y
   i <- count_regroups(out <- nest_join(gf1, gf2, by = "a", multiple = "all"))
   expect_equal(i, 4L)
   expect_equal(group_vars(out), "a")
+  expect_equal(group_vars(out$gf2[[1]]), "b")
 })
 
 test_that("group column names reflect renamed duplicate columns (#2330)", {
