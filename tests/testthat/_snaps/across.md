@@ -194,7 +194,13 @@
     Condition
       Warning:
       The `...` argument of `across()` is deprecated as of dplyr 1.1.0.
-      Please provide additional arguments to individual functions
+      Supply arguments directly to `.fns` through a lambda instead.
+      
+        # Previously
+        across(a:b, mean, na.rm = TRUE)
+      
+        # Now
+        across(a:b, ~mean(.x, na.rm = TRUE))
     Output
       # A tibble: 1 x 1
             x
