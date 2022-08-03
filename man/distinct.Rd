@@ -2,7 +2,7 @@
 % Please edit documentation in R/distinct.R
 \name{distinct}
 \alias{distinct}
-\title{Subset distinct/unique rows}
+\title{Keep distinct/unique rows}
 \usage{
 distinct(.data, ..., .keep_all = FALSE)
 }
@@ -32,7 +32,7 @@ Otherwise, \code{distinct()} first calls \code{mutate()} to create new columns.
 }
 }
 \description{
-Select only unique/distinct rows from a data frame. This is similar
+Keep only unique/distinct rows from a data frame. This is similar
 to \code{\link[=unique.data.frame]{unique.data.frame()}} but considerably faster.
 }
 \section{Methods}{

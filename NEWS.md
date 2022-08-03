@@ -1,5 +1,14 @@
 # dplyr (development version)
 
+* Passing `...` to `across()` is now deprecated because the evaluation timing of
+  `...` is ambiguous. Now instead of (e.g.) `across(a:b, mean, na.rm = TRUE)`
+  you should write `across(a:b, ~ mean(.x, na.rm = TRUE))` (#6073).
+
+* Rowwise-`mutate()` behaves a little better with 0-row inputs (#6303).
+
+* A rowwise `mutate()` now automatically unlists list-columns containing 
+  length 1 vectors (#6302).
+
 * `arrange()` now correctly ignores `NULL` inputs (#6193).
 
 * `*_join()` now error if you supply them with additional arguments that
@@ -2039,7 +2048,7 @@ There were two other tweaks to the exported API, but these are less likely to af
   called `n` (#1633). Weighted `count()`/`tally()` ignore `NA`s (#1145).
 
 * The progress bar in `do()` is now updated at most 20 times per second,
-  avoiding unneccessary redraws (#1734, @mkuhn)
+  avoiding unnecessary redraws (#1734, @mkuhn)
 
 * `distinct()` doesn't crash when given a 0-column data frame (#1437).
 
@@ -2697,7 +2706,7 @@ This is a minor release containing fixes for a number of crashes and issues iden
 
 ## Piping
 
-dplyr now imports `%>%` from magrittr (#330). I recommend that you use this instead of `%.%` because it is easier to type (since you can hold down the shift key) and is more flexible. With you `%>%`, you can control which argument on the RHS recieves the LHS by using the pronoun `.`. This makes `%>%` more useful with base R functions because they don't always take the data frame as the first argument. For example you could pipe `mtcars` to `xtabs()` with:
+dplyr now imports `%>%` from magrittr (#330). I recommend that you use this instead of `%.%` because it is easier to type (since you can hold down the shift key) and is more flexible. With you `%>%`, you can control which argument on the RHS receives the LHS by using the pronoun `.`. This makes `%>%` more useful with base R functions because they don't always take the data frame as the first argument. For example you could pipe `mtcars` to `xtabs()` with:
 
     mtcars %>% xtabs( ~ cyl + vs, data = .)
 

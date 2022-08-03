@@ -1,6 +1,6 @@
-#' Subset distinct/unique rows
+#' Keep distinct/unique rows
 #'
-#' Select only unique/distinct rows from a data frame. This is similar
+#' Keep only unique/distinct rows from a data frame. This is similar
 #' to [unique.data.frame()] but considerably faster.
 #'
 #' @inheritParams arrange

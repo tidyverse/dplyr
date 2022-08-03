@@ -187,3 +187,23 @@
       i The first argument `.cols` selects a set of columns.
       i The second argument `.fns` operates on each selected columns.
 
+# across(...) is deprecated
+
+    Code
+      summarise(df, across(everything(), mean, na.rm = TRUE))
+    Condition
+      Warning:
+      The `...` argument of `across()` is deprecated as of dplyr 1.1.0.
+      Supply arguments directly to `.fns` through a lambda instead.
+      
+        # Previously
+        across(a:b, mean, na.rm = TRUE)
+      
+        # Now
+        across(a:b, ~mean(.x, na.rm = TRUE))
+    Output
+      # A tibble: 1 x 1
+            x
+        <dbl>
+      1     1
+
