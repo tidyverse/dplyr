@@ -8,9 +8,9 @@ n_distinct(..., na.rm = FALSE)
 }
 \arguments{
 \item{...}{Unnamed vectors. If multiple vectors, supplied they should have
-the same length. \code{n_distinct()} does technically respect the recycling
-rules, but since a vector of length 1 won't increase the number of
-distinct combinations, this is most of theoretical interest.}
+the same length. This function does technically respect the recycling
+rules, but since a constant vector won't affect the unique values,
+this is mostly of theoretical interest.}
 
 \item{na.rm}{If \code{TRUE}, exclude missing values from the count.}
 }

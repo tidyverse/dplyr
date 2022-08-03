@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* New `consecutive_id()` for creating groups based on contiguous runs of the
+  same values, like `data.table::rleid()` (#1534).
+
 * Passing `...` to `across()` is now deprecated because the evaluation timing of
   `...` is ambiguous. Now instead of (e.g.) `across(a:b, mean, na.rm = TRUE)`
   you should write `across(a:b, ~ mean(.x, na.rm = TRUE))` (#6073).
