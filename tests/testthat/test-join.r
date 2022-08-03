@@ -261,7 +261,7 @@ test_that("nest_join returns list of tibbles (#3570)",{
   expect_s3_class(out$df2[[1]], "tbl_df")
 })
 
-test_that("nest_join respects types of y",{
+test_that("nest_join respects types of y (#6295)",{
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- rowwise(tibble(x = c(1, 1), z = c(2, 3)))
   out <- nest_join(df1, df2, by = "x", multiple = "all")
@@ -269,6 +269,16 @@ test_that("nest_join respects types of y",{
   expect_s3_class(out$df2[[1]], "rowwise_df")
 })
 
+test_that("nest_join preserves data frame attributes on `x` and `y` (#6295)", {
+  df1 <- data.frame(x = c(1, 2), y = c(3, 4))
+  attr(df1, "foo") <- 1
+  df2 <- data.frame(x = c(1, 2), z = c(3, 4))
+  attr(df2, "foo") <- 2
+
+  out <- nest_join(df1, df2, by = "x")
+  expect_identical(attr(out, "foo"), 1)
+  expect_identical(attr(out$df2[[1]], "foo"), 2)
+})
 
 test_that("nest_join computes common columns", {
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
