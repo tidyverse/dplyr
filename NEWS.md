@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `slice_min()` and `slice_max()` can `order_by` multiple variabes if you
+  supply them as a data.frame or tibble (#6176).
+
 * `slice_min()` and `slice_max()` now consistently include missing values in
   the result if necessary (i.e. there aren't enough non-missing values to 
   reach the `n` or `prop` you have selected). If you don't want missing values

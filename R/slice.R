@@ -81,9 +81,12 @@
 #' mtcars %>% slice_max(mpg, n = 5)
 #'
 #' # slice_min() and slice_max() may return more rows than requested
-#' # in the presence of ties. Use with_ties = FALSE to suppress
+#' # in the presence of ties.
 #' mtcars %>% slice_min(cyl, n = 1)
+#' # Use with_ties = FALSE to return exactly n matches
 #' mtcars %>% slice_min(cyl, n = 1, with_ties = FALSE)
+#' # Or use additional variables to break the tie:
+#' mtcars %>% slice_min(tibble(cyl, mpg), n = 1)
 #'
 #' # slice_sample() allows you to random select with or without replacement
 #' mtcars %>% slice_sample(n = 5)
@@ -172,6 +175,8 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
 #' @export
 #' @rdname slice
 #' @param order_by Variable or function of variables to order by.
+#'   To order by multiple variables, wrap them in a data frame or
+#'   tibble.
 #' @param with_ties Should ties be kept together? The default, `TRUE`,
 #'   may return more rows than you request. Use `FALSE` to ignore ties,
 #'   and return the first `n` rows.
