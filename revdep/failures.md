@@ -1,115 +1,3 @@
-# alakazam
-
-<details>
-
-* Version: 1.2.0
-* GitHub: NA
-* Source code: https://github.com/cran/alakazam
-* Date/Publication: 2021-11-01 16:10:16 UTC
-* Number of recursive dependencies: 113
-
-Run `cloud_details(, "alakazam")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-
-
-
-
-
-
-```
-### CRAN
-
-```
-* using log directory ‘/tmp/workdir/alakazam/old/alakazam.Rcheck’
-* using R version 4.1.1 (2021-08-10)
-* using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using option ‘--no-manual’
-* checking for file ‘alakazam/DESCRIPTION’ ... OK
-* checking extension type ... Package
-* this is package ‘alakazam’ version ‘1.2.0’
-* package encoding: UTF-8
-* checking package namespace information ... OK
-...
-  ‘AminoAcids-Vignette.Rmd’ using ‘UTF-8’... OK
-  ‘Diversity-Vignette.Rmd’ using ‘UTF-8’... OK
-  ‘Fastq-Vignette.Rmd’ using ‘UTF-8’... OK
-  ‘Files-Vignette.Rmd’ using ‘UTF-8’... OK
-  ‘GeneUsage-Vignette.Rmd’ using ‘UTF-8’... OK
-  ‘Lineage-Vignette.Rmd’ using ‘UTF-8’... OK
-  ‘Topology-Vignette.Rmd’ using ‘UTF-8’... OK
-* checking re-building of vignette outputs ... OK
-* DONE
-Status: OK
-
-
-
-
-
-```
-# amt
-
-<details>
-
-* Version: 0.1.7
-* GitHub: https://github.com/jmsigner/amt
-* Source code: https://github.com/cran/amt
-* Date/Publication: 2022-02-23 14:50:02 UTC
-* Number of recursive dependencies: 152
-
-Run `cloud_details(, "amt")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-
-
-
-
-
-
-```
-### CRAN
-
-```
-* using log directory ‘/tmp/workdir/amt/old/amt.Rcheck’
-* using R version 4.1.1 (2021-08-10)
-* using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using option ‘--no-manual’
-* checking for file ‘amt/DESCRIPTION’ ... OK
-* checking extension type ... Package
-* this is package ‘amt’ version ‘0.1.7’
-* package encoding: UTF-8
-* checking package namespace information ... OK
-...
-* checking package vignettes in ‘inst/doc’ ... OK
-* checking running R code from vignettes ... NONE
-  ‘p1_getting_started.Rmd’ using ‘UTF-8’... OK
-  ‘p2_hr.Rmd’ using ‘UTF-8’... OK
-  ‘p3_rsf.Rmd’ using ‘UTF-8’... OK
-  ‘p4_SSF.Rmd’ using ‘UTF-8’... OK
-  ‘p5_other_packages.Rmd’ using ‘UTF-8’... OK
-* checking re-building of vignette outputs ... OK
-* DONE
-Status: 1 NOTE
-
-
-
-
-
-```
 # avidaR
 
 <details>
@@ -170,17 +58,17 @@ ERROR: lazy loading failed for package ‘avidaR’
 
 
 ```
-# BiodiversityR
+# CausalImpact
 
 <details>
 
-* Version: 2.14-2.1
+* Version: 1.2.7
 * GitHub: NA
-* Source code: https://github.com/cran/BiodiversityR
-* Date/Publication: 2022-07-04 11:29:22 UTC
-* Number of recursive dependencies: 298
+* Source code: https://github.com/cran/CausalImpact
+* Date/Publication: 2021-06-07 06:40:02 UTC
+* Number of recursive dependencies: 73
 
-Run `cloud_details(, "BiodiversityR")` for more info
+Run `cloud_details(, "CausalImpact")` for more info
 
 </details>
 
@@ -189,7 +77,21 @@ Run `cloud_details(, "BiodiversityR")` for more info
 ### Devel
 
 ```
+* using log directory ‘/tmp/workdir/CausalImpact/new/CausalImpact.Rcheck’
+* using R version 4.1.1 (2021-08-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using option ‘--no-manual’
+* checking for file ‘CausalImpact/DESCRIPTION’ ... OK
+* this is package ‘CausalImpact’ version ‘1.2.7’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available: 'bsts', 'Boom'
 
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
 
 
 
@@ -199,27 +101,21 @@ Run `cloud_details(, "BiodiversityR")` for more info
 ### CRAN
 
 ```
-* using log directory ‘/tmp/workdir/BiodiversityR/old/BiodiversityR.Rcheck’
+* using log directory ‘/tmp/workdir/CausalImpact/old/CausalImpact.Rcheck’
 * using R version 4.1.1 (2021-08-10)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * using option ‘--no-manual’
-* checking for file ‘BiodiversityR/DESCRIPTION’ ... OK
-* checking extension type ... Package
-* this is package ‘BiodiversityR’ version ‘2.14-2.1’
+* checking for file ‘CausalImpact/DESCRIPTION’ ... OK
+* this is package ‘CausalImpact’ version ‘1.2.7’
 * checking package namespace information ... OK
-* checking package dependencies ... OK
-...
-* checking for code/documentation mismatches ... OK
-* checking Rd \usage sections ... OK
-* checking Rd contents ... OK
-* checking for unstated dependencies in examples ... OK
-* checking contents of ‘data’ directory ... OK
-* checking data for non-ASCII characters ... OK
-* checking data for ASCII and uncompressed saves ... OK
-* checking examples ... OK
+* checking package dependencies ... ERROR
+Packages required but not available: 'bsts', 'Boom'
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
 * DONE
-Status: 1 NOTE
+Status: 1 ERROR
 
 
 
@@ -292,174 +188,6 @@ ERROR: lazy loading failed for package ‘ckanr’
 
 
 ```
-# collidr
-
-<details>
-
-* Version: 0.1.3
-* GitHub: https://github.com/collidrpackage/collidr
-* Source code: https://github.com/cran/collidr
-* Date/Publication: 2020-10-03 06:00:13 UTC
-* Number of recursive dependencies: 20
-
-Run `cloud_details(, "collidr")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-
-
-
-
-
-
-```
-### CRAN
-
-```
-* using log directory ‘/tmp/workdir/collidr/old/collidr.Rcheck’
-* using R version 4.1.1 (2021-08-10)
-* using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using option ‘--no-manual’
-* checking for file ‘collidr/DESCRIPTION’ ... OK
-* checking extension type ... Package
-* this is package ‘collidr’ version ‘0.1.3’
-* package encoding: UTF-8
-* checking package namespace information ... OK
-...
-* checking Rd contents ... OK
-* checking for unstated dependencies in examples ... OK
-* checking contents of ‘data’ directory ... OK
-* checking data for non-ASCII characters ... NOTE
-  Note: found 4186 marked UTF-8 strings
-* checking LazyData ... OK
-* checking data for ASCII and uncompressed saves ... OK
-* checking examples ... OK
-* DONE
-Status: 1 NOTE
-
-
-
-
-
-```
-# dataprep
-
-<details>
-
-* Version: 0.1.5
-* GitHub: NA
-* Source code: https://github.com/cran/dataprep
-* Date/Publication: 2022-01-15 13:32:42 UTC
-* Number of recursive dependencies: 63
-
-Run `cloud_details(, "dataprep")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-
-
-
-
-
-
-```
-### CRAN
-
-```
-* using log directory ‘/tmp/workdir/dataprep/old/dataprep.Rcheck’
-* using R version 4.1.1 (2021-08-10)
-* using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using option ‘--no-manual’
-* checking for file ‘dataprep/DESCRIPTION’ ... OK
-* checking extension type ... Package
-* this is package ‘dataprep’ version ‘0.1.5’
-* package encoding: UTF-8
-* checking package namespace information ... OK
-...
-* checking installed files from ‘inst/doc’ ... OK
-* checking files in ‘vignettes’ ... OK
-* checking examples ... OK
-* checking for unstated dependencies in vignettes ... OK
-* checking package vignettes in ‘inst/doc’ ... OK
-* checking running R code from vignettes ... NONE
-  ‘vignettes.Rmd’ using ‘UTF-8’... OK
-* checking re-building of vignette outputs ... OK
-* DONE
-Status: OK
-
-
-
-
-
-```
-# dnapath
-
-<details>
-
-* Version: 0.7.4
-* GitHub: NA
-* Source code: https://github.com/cran/dnapath
-* Date/Publication: 2022-05-09 09:00:05 UTC
-* Number of recursive dependencies: 147
-
-Run `cloud_details(, "dnapath")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-
-
-
-
-
-
-```
-### CRAN
-
-```
-* using log directory ‘/tmp/workdir/dnapath/old/dnapath.Rcheck’
-* using R version 4.1.1 (2021-08-10)
-* using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using option ‘--no-manual’
-* checking for file ‘dnapath/DESCRIPTION’ ... OK
-* checking extension type ... Package
-* this is package ‘dnapath’ version ‘0.7.4’
-* package encoding: UTF-8
-* checking package namespace information ... OK
-...
-* checking tests ... OK
-  Running ‘testthat.R’
-* checking for unstated dependencies in vignettes ... OK
-* checking package vignettes in ‘inst/doc’ ... OK
-* checking running R code from vignettes ... NONE
-  ‘introduction_to_dnapath.Rmd’ using ‘UTF-8’... OK
-  ‘package_data.Rmd’ using ‘UTF-8’... OK
-* checking re-building of vignette outputs ... OK
-* DONE
-Status: OK
-
-
-
-
-
-```
 # elbird
 
 <details>
@@ -519,62 +247,6 @@ make sure git and cmake work in system.
 -------------------------------------------------------------------------
 ERROR: configuration failed for package ‘elbird’
 * removing ‘/tmp/workdir/elbird/old/elbird.Rcheck/elbird’
-
-
-```
-# FedData
-
-<details>
-
-* Version: 2.5.7
-* GitHub: https://github.com/ropensci/FedData
-* Source code: https://github.com/cran/FedData
-* Date/Publication: 2019-04-22 13:40:03 UTC
-* Number of recursive dependencies: 163
-
-Run `cloud_details(, "FedData")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-
-
-
-
-
-
-```
-### CRAN
-
-```
-* using log directory ‘/tmp/workdir/FedData/old/FedData.Rcheck’
-* using R version 4.1.1 (2021-08-10)
-* using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using option ‘--no-manual’
-* checking for file ‘FedData/DESCRIPTION’ ... OK
-* checking extension type ... Package
-* this is package ‘FedData’ version ‘2.5.7’
-* package encoding: UTF-8
-* checking package namespace information ... OK
-...
-* checking data for non-ASCII characters ... OK
-* checking LazyData ... OK
-* checking data for ASCII and uncompressed saves ... OK
-* checking R/sysdata.rda ... OK
-* checking examples ... OK
-* checking for unstated dependencies in ‘tests’ ... OK
-* checking tests ... OK
-  Running ‘testthat.R’
-* DONE
-Status: OK
-
-
-
 
 
 ```
@@ -654,17 +326,84 @@ Status: 1 ERROR, 2 NOTEs
 
 
 ```
-# gMOIP
+# groupr
 
 <details>
 
-* Version: 1.4.7
-* GitHub: https://github.com/relund/gMOIP
-* Source code: https://github.com/cran/gMOIP
-* Date/Publication: 2021-08-23 14:20:02 UTC
-* Number of recursive dependencies: 142
+* Version: 0.1.0
+* GitHub: https://github.com/ngriffiths21/groupr
+* Source code: https://github.com/cran/groupr
+* Date/Publication: 2020-10-14 12:30:06 UTC
+* Number of recursive dependencies: 63
 
-Run `cloud_details(, "gMOIP")` for more info
+Run `cloud_details(, "groupr")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘groupr’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/groupr/new/groupr.Rcheck/00install.out’ for details.
+    ```
+
+## Newly fixed
+
+*   checking LazyData ... NOTE
+    ```
+      'LazyData' is specified without a 'data' directory
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘groupr’ ...
+** package ‘groupr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: object ‘tbl_sum’ is not exported by 'namespace:dplyr'
+Execution halted
+ERROR: lazy loading failed for package ‘groupr’
+* removing ‘/tmp/workdir/groupr/new/groupr.Rcheck/groupr’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘groupr’ ...
+** package ‘groupr’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (groupr)
+
+
+```
+# loon.ggplot
+
+<details>
+
+* Version: 1.3.1
+* GitHub: https://github.com/great-northern-diver/loon.ggplot
+* Source code: https://github.com/cran/loon.ggplot
+* Date/Publication: 2022-02-07 21:50:06 UTC
+* Number of recursive dependencies: 104
+
+Run `cloud_details(, "loon.ggplot")` for more info
 
 </details>
 
@@ -673,54 +412,270 @@ Run `cloud_details(, "gMOIP")` for more info
 ### Devel
 
 ```
-
-
-
-
-
-
-```
-### CRAN
-
-```
-* using log directory ‘/tmp/workdir/gMOIP/old/gMOIP.Rcheck’
+* using log directory ‘/tmp/workdir/loon.ggplot/new/loon.ggplot.Rcheck’
 * using R version 4.1.1 (2021-08-10)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * using option ‘--no-manual’
-* checking for file ‘gMOIP/DESCRIPTION’ ... OK
+* checking for file ‘loon.ggplot/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘gMOIP’ version ‘1.4.7’
+* this is package ‘loon.ggplot’ version ‘1.3.1’
 * package encoding: UTF-8
 * checking package namespace information ... OK
-...
-* checking running R code from vignettes ... NONE
-  ‘bi-objective_2x.Rmd’ using ‘UTF-8’... OK
-  ‘bi-objective_3x_ex1.Rmd’ using ‘UTF-8’... OK
-  ‘intro.Rmd’ using ‘UTF-8’... OK
-  ‘polytope_2d.Rmd’ using ‘UTF-8’... OK
-  ‘polytope_3d_ex1.Rmd’ using ‘UTF-8’... OK
-  ‘tri-objective.Rmd’ using ‘UTF-8’... OK
-* checking re-building of vignette outputs ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘loon’
+
+Package suggested but not available for checking: ‘zenplots’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
 * DONE
-Status: OK
+Status: 1 ERROR
 
 
 
 
 
 ```
-# GWPR.light
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/loon.ggplot/old/loon.ggplot.Rcheck’
+* using R version 4.1.1 (2021-08-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using option ‘--no-manual’
+* checking for file ‘loon.ggplot/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘loon.ggplot’ version ‘1.3.1’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘loon’
+
+Package suggested but not available for checking: ‘zenplots’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+```
+# loon.shiny
 
 <details>
 
-* Version: 0.2.1
-* GitHub: https://github.com/MichaelChaoLi-cpu/GWPR.light
-* Source code: https://github.com/cran/GWPR.light
-* Date/Publication: 2022-06-21 11:00:13 UTC
-* Number of recursive dependencies: 131
+* Version: 1.0.2
+* GitHub: NA
+* Source code: https://github.com/cran/loon.shiny
+* Date/Publication: 2022-02-07 04:50:02 UTC
+* Number of recursive dependencies: 132
 
-Run `cloud_details(, "GWPR.light")` for more info
+Run `cloud_details(, "loon.shiny")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/loon.shiny/new/loon.shiny.Rcheck’
+* using R version 4.1.1 (2021-08-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using option ‘--no-manual’
+* checking for file ‘loon.shiny/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘loon.shiny’ version ‘1.0.2’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available: 'loon', 'loon.ggplot'
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/loon.shiny/old/loon.shiny.Rcheck’
+* using R version 4.1.1 (2021-08-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using option ‘--no-manual’
+* checking for file ‘loon.shiny/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘loon.shiny’ version ‘1.0.2’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available: 'loon', 'loon.ggplot'
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+```
+# MarketMatching
+
+<details>
+
+* Version: 1.2.0
+* GitHub: NA
+* Source code: https://github.com/cran/MarketMatching
+* Date/Publication: 2021-01-08 20:10:02 UTC
+* Number of recursive dependencies: 72
+
+Run `cloud_details(, "MarketMatching")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/MarketMatching/new/MarketMatching.Rcheck’
+* using R version 4.1.1 (2021-08-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using option ‘--no-manual’
+* checking for file ‘MarketMatching/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘MarketMatching’ version ‘1.2.0’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available: 'CausalImpact', 'bsts', 'Boom'
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/MarketMatching/old/MarketMatching.Rcheck’
+* using R version 4.1.1 (2021-08-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using option ‘--no-manual’
+* checking for file ‘MarketMatching/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘MarketMatching’ version ‘1.2.0’
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available: 'CausalImpact', 'bsts', 'Boom'
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+```
+# nlmixr2plot
+
+<details>
+
+* Version: 2.0.6
+* GitHub: https://github.com/nlmixr2/nlmixr2plot
+* Source code: https://github.com/cran/nlmixr2plot
+* Date/Publication: 2022-05-23 07:50:02 UTC
+* Number of recursive dependencies: 155
+
+Run `cloud_details(, "nlmixr2plot")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/nlmixr2plot/new/nlmixr2plot.Rcheck’
+* using R version 4.1.1 (2021-08-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using option ‘--no-manual’
+* checking for file ‘nlmixr2plot/DESCRIPTION’ ... OK
+* this is package ‘nlmixr2plot’ version ‘2.0.6’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available: 'nlmixr2est', 'nlmixr2extra'
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/nlmixr2plot/old/nlmixr2plot.Rcheck’
+* using R version 4.1.1 (2021-08-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using option ‘--no-manual’
+* checking for file ‘nlmixr2plot/DESCRIPTION’ ... OK
+* this is package ‘nlmixr2plot’ version ‘2.0.6’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available: 'nlmixr2est', 'nlmixr2extra'
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+```
+# PPforest
+
+<details>
+
+* Version: 0.1.2
+* GitHub: https://github.com/natydasilva/PPforest
+* Source code: https://github.com/cran/PPforest
+* Date/Publication: 2021-10-14 14:40:05 UTC
+* Number of recursive dependencies: 86
+
+Run `cloud_details(, "PPforest")` for more info
 
 </details>
 
@@ -739,16 +694,16 @@ Run `cloud_details(, "GWPR.light")` for more info
 ### CRAN
 
 ```
-* using log directory ‘/tmp/workdir/GWPR.light/old/GWPR.light.Rcheck’
+* using log directory ‘/tmp/workdir/PPforest/old/PPforest.Rcheck’
 * using R version 4.1.1 (2021-08-10)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * using option ‘--no-manual’
-* checking for file ‘GWPR.light/DESCRIPTION’ ... OK
+* checking for file ‘PPforest/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘GWPR.light’ version ‘0.2.1’
-* package encoding: UTF-8
+* this is package ‘PPforest’ version ‘0.1.2’
 * checking package namespace information ... OK
+* checking package dependencies ... OK
 ...
 * checking installed files from ‘inst/doc’ ... OK
 * checking files in ‘vignettes’ ... OK
@@ -756,27 +711,228 @@ Run `cloud_details(, "GWPR.light")` for more info
 * checking for unstated dependencies in vignettes ... OK
 * checking package vignettes in ‘inst/doc’ ... OK
 * checking running R code from vignettes ... NONE
-  ‘introduction_of_GWPR.Rmd’ using ‘UTF-8’... OK
+  ‘PPforest-vignette.Rmd’ using ‘UTF-8’... OK
 * checking re-building of vignette outputs ... OK
 * DONE
-Status: OK
+Status: 1 NOTE
 
 
 
 
 
 ```
-# PosteriorBootstrap
+# rabhit
 
 <details>
 
-* Version: 0.1.1
-* GitHub: https://github.com/alan-turing-institute/PosteriorBootstrap
-* Source code: https://github.com/cran/PosteriorBootstrap
-* Date/Publication: 2021-05-14 13:02:12 UTC
-* Number of recursive dependencies: 103
+* Version: 0.2.1
+* GitHub: NA
+* Source code: https://github.com/cran/rabhit
+* Date/Publication: 2022-02-16 14:10:02 UTC
+* Number of recursive dependencies: 133
 
-Run `cloud_details(, "PosteriorBootstrap")` for more info
+Run `cloud_details(, "rabhit")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘rabhit’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/rabhit/new/rabhit.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘rabhit’ ...
+** package ‘rabhit’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: object ‘data_frame_’ is not exported by 'namespace:dplyr'
+Execution halted
+ERROR: lazy loading failed for package ‘rabhit’
+* removing ‘/tmp/workdir/rabhit/new/rabhit.Rcheck/rabhit’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘rabhit’ ...
+** package ‘rabhit’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (rabhit)
+
+
+```
+# sejmRP
+
+<details>
+
+* Version: 1.3.4
+* GitHub: https://github.com/mi2-warsaw/sejmRP
+* Source code: https://github.com/cran/sejmRP
+* Date/Publication: 2017-03-28 17:29:47 UTC
+* Number of recursive dependencies: 121
+
+Run `cloud_details(, "sejmRP")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘sejmRP’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/sejmRP/new/sejmRP.Rcheck/00install.out’ for details.
+    ```
+
+## Newly fixed
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘cluster’ ‘factoextra’ ‘tidyr’
+      All declared Imports should be used.
+    ```
+
+*   checking LazyData ... NOTE
+    ```
+      'LazyData' is specified without a 'data' directory
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘sejmRP’ ...
+** package ‘sejmRP’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** byte-compile and prepare package for lazy loading
+Error: object ‘sql’ is not exported by 'namespace:dplyr'
+Execution halted
+ERROR: lazy loading failed for package ‘sejmRP’
+* removing ‘/tmp/workdir/sejmRP/new/sejmRP.Rcheck/sejmRP’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘sejmRP’ ...
+** package ‘sejmRP’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (sejmRP)
+
+
+```
+# taxizedb
+
+<details>
+
+* Version: 0.3.0
+* GitHub: https://github.com/ropensci/taxizedb
+* Source code: https://github.com/cran/taxizedb
+* Date/Publication: 2021-01-15 06:00:06 UTC
+* Number of recursive dependencies: 144
+
+Run `cloud_details(, "taxizedb")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘taxizedb’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/tmp/workdir/taxizedb/new/taxizedb.Rcheck/00install.out’ for details.
+    ```
+
+## Newly fixed
+
+*   checking LazyData ... NOTE
+    ```
+      'LazyData' is specified without a 'data' directory
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘taxizedb’ ...
+** package ‘taxizedb’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: object ‘sql’ is not exported by 'namespace:dplyr'
+Execution halted
+ERROR: lazy loading failed for package ‘taxizedb’
+* removing ‘/tmp/workdir/taxizedb/new/taxizedb.Rcheck/taxizedb’
+
+
+```
+### CRAN
+
+```
+* installing *source* package ‘taxizedb’ ...
+** package ‘taxizedb’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (taxizedb)
+
+
+```
+# vivid
+
+<details>
+
+* Version: 0.2.3
+* GitHub: NA
+* Source code: https://github.com/cran/vivid
+* Date/Publication: 2021-11-20 01:30:02 UTC
+* Number of recursive dependencies: 201
+
+Run `cloud_details(, "vivid")` for more info
 
 </details>
 
@@ -785,63 +941,27 @@ Run `cloud_details(, "PosteriorBootstrap")` for more info
 ### Devel
 
 ```
-
-
-
-
-
-
-```
-### CRAN
-
-```
-* using log directory ‘/tmp/workdir/PosteriorBootstrap/old/PosteriorBootstrap.Rcheck’
+* using log directory ‘/tmp/workdir/vivid/new/vivid.Rcheck’
 * using R version 4.1.1 (2021-08-10)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * using option ‘--no-manual’
-* checking for file ‘PosteriorBootstrap/DESCRIPTION’ ... OK
-* this is package ‘PosteriorBootstrap’ version ‘0.1.1’
+* checking for file ‘vivid/DESCRIPTION’ ... OK
+* this is package ‘vivid’ version ‘0.2.3’
 * package encoding: UTF-8
 * checking package namespace information ... OK
-* checking package dependencies ... OK
+* checking package dependencies ... NOTE
 ...
-* checking for unstated dependencies in ‘tests’ ... OK
 * checking tests ... OK
   Running ‘testthat.R’
 * checking for unstated dependencies in vignettes ... OK
 * checking package vignettes in ‘inst/doc’ ... OK
 * checking running R code from vignettes ... NONE
-  ‘PosteriorBootstrap.Rmd’ using ‘UTF-8’... OK
+  ‘vivid.Rmd’ using ‘UTF-8’... OK
+  ‘vividQStart.Rmd’ using ‘UTF-8’... OK
 * checking re-building of vignette outputs ... OK
 * DONE
-Status: 1 NOTE
-
-
-
-
-
-```
-# RVA
-
-<details>
-
-* Version: 0.0.5
-* GitHub: https://github.com/THERMOSTATS/RVA
-* Source code: https://github.com/cran/RVA
-* Date/Publication: 2021-11-01 21:40:02 UTC
-* Number of recursive dependencies: 208
-
-Run `cloud_details(, "RVA")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-
+Status: 2 NOTEs
 
 
 
@@ -851,44 +971,44 @@ Run `cloud_details(, "RVA")` for more info
 ### CRAN
 
 ```
-* using log directory ‘/tmp/workdir/RVA/old/RVA.Rcheck’
+* using log directory ‘/tmp/workdir/vivid/old/vivid.Rcheck’
 * using R version 4.1.1 (2021-08-10)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * using option ‘--no-manual’
-* checking for file ‘RVA/DESCRIPTION’ ... OK
-* this is package ‘RVA’ version ‘0.0.5’
+* checking for file ‘vivid/DESCRIPTION’ ... OK
+* this is package ‘vivid’ version ‘0.2.3’
 * package encoding: UTF-8
 * checking package namespace information ... OK
-* checking package dependencies ... OK
+* checking package dependencies ... NOTE
 ...
-* checking installed files from ‘inst/doc’ ... OK
-* checking files in ‘vignettes’ ... OK
-* checking examples ... OK
+* checking tests ... OK
+  Running ‘testthat.R’
 * checking for unstated dependencies in vignettes ... OK
 * checking package vignettes in ‘inst/doc’ ... OK
 * checking running R code from vignettes ... NONE
-  ‘RVA.Rmd’ using ‘UTF-8’... OK
+  ‘vivid.Rmd’ using ‘UTF-8’... OK
+  ‘vividQStart.Rmd’ using ‘UTF-8’... OK
 * checking re-building of vignette outputs ... OK
 * DONE
-Status: 1 NOTE
+Status: 2 NOTEs
 
 
 
 
 
 ```
-# UKgrid
+# xpose.nlmixr
 
 <details>
 
-* Version: 0.1.3
-* GitHub: https://github.com/RamiKrispin/UKgrid
-* Source code: https://github.com/cran/UKgrid
-* Date/Publication: 2020-07-05 18:40:29 UTC
-* Number of recursive dependencies: 154
+* Version: 0.3.0
+* GitHub: NA
+* Source code: https://github.com/cran/xpose.nlmixr
+* Date/Publication: 2022-06-06 18:40:02 UTC
+* Number of recursive dependencies: 91
 
-Run `cloud_details(, "UKgrid")` for more info
+Run `cloud_details(, "xpose.nlmixr")` for more info
 
 </details>
 
@@ -897,27 +1017,23 @@ Run `cloud_details(, "UKgrid")` for more info
 ### Devel
 
 ```
-* using log directory ‘/tmp/workdir/UKgrid/new/UKgrid.Rcheck’
+* using log directory ‘/tmp/workdir/xpose.nlmixr/new/xpose.nlmixr.Rcheck’
 * using R version 4.1.1 (2021-08-10)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * using option ‘--no-manual’
-* checking for file ‘UKgrid/DESCRIPTION’ ... OK
+* checking for file ‘xpose.nlmixr/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘UKgrid’ version ‘0.1.3’
+* this is package ‘xpose.nlmixr’ version ‘0.3.0’
 * package encoding: UTF-8
 * checking package namespace information ... OK
-...
-* checking Rd \usage sections ... OK
-* checking Rd contents ... OK
-* checking for unstated dependencies in examples ... OK
-* checking contents of ‘data’ directory ... OK
-* checking data for non-ASCII characters ... OK
-* checking LazyData ... OK
-* checking data for ASCII and uncompressed saves ... OK
-* checking examples ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘nlmixr’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
 * DONE
-Status: OK
+Status: 1 ERROR
 
 
 
@@ -927,27 +1043,95 @@ Status: OK
 ### CRAN
 
 ```
-* using log directory ‘/tmp/workdir/UKgrid/old/UKgrid.Rcheck’
+* using log directory ‘/tmp/workdir/xpose.nlmixr/old/xpose.nlmixr.Rcheck’
 * using R version 4.1.1 (2021-08-10)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
 * using option ‘--no-manual’
-* checking for file ‘UKgrid/DESCRIPTION’ ... OK
+* checking for file ‘xpose.nlmixr/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘UKgrid’ version ‘0.1.3’
+* this is package ‘xpose.nlmixr’ version ‘0.3.0’
 * package encoding: UTF-8
 * checking package namespace information ... OK
-...
-* checking Rd \usage sections ... OK
-* checking Rd contents ... OK
-* checking for unstated dependencies in examples ... OK
-* checking contents of ‘data’ directory ... OK
-* checking data for non-ASCII characters ... OK
-* checking LazyData ... OK
-* checking data for ASCII and uncompressed saves ... OK
-* checking examples ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘nlmixr’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
 * DONE
-Status: OK
+Status: 1 ERROR
+
+
+
+
+
+```
+# xpose.nlmixr2
+
+<details>
+
+* Version: 0.4.0
+* GitHub: NA
+* Source code: https://github.com/cran/xpose.nlmixr2
+* Date/Publication: 2022-06-08 09:10:02 UTC
+* Number of recursive dependencies: 148
+
+Run `cloud_details(, "xpose.nlmixr2")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+* using log directory ‘/tmp/workdir/xpose.nlmixr2/new/xpose.nlmixr2.Rcheck’
+* using R version 4.1.1 (2021-08-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using option ‘--no-manual’
+* checking for file ‘xpose.nlmixr2/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘xpose.nlmixr2’ version ‘0.4.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘nlmixr2est’
+
+Package suggested but not available for checking: ‘nlmixr2’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/xpose.nlmixr2/old/xpose.nlmixr2.Rcheck’
+* using R version 4.1.1 (2021-08-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using option ‘--no-manual’
+* checking for file ‘xpose.nlmixr2/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘xpose.nlmixr2’ version ‘0.4.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Package required but not available: ‘nlmixr2est’
+
+Package suggested but not available for checking: ‘nlmixr2’
+
+See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+manual.
+* DONE
+Status: 1 ERROR
 
 
 
