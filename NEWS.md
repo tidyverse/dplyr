@@ -1,7 +1,7 @@
 # dplyr (development version)
 
 * `sql()` and `ident()` are no longer exported from dplyr; get them directly
-  from dbplyr instead.
+  from dbplyr instead (#4663).
 
 * `src_postgres()`, `src_mysql()`, and `src_sqlite()` are now defunct. Please
   use dbplyr instead (#4663).

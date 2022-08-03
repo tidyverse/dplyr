@@ -3,7 +3,7 @@
 #' @description
 #' `r lifecycle::badge("defunct")`
 #'
-#' These functions are defunct; instead loading dbplyr and calling [tbl()]
+#' These functions are defunct; instead load dbplyr and call [tbl()]
 #' directly on an `DBIConnection`. See <https://dbplyr.tidyverse.org/> for
 #' more details.
 #'
