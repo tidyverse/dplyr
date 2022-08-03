@@ -32,17 +32,11 @@ src_sqlite(path, create = FALSE)
 
 \item{host, port}{Host name and port number of database}
 
-\item{...}{for the src, other arguments passed on to the underlying
+\item{...}{For the src, other arguments passed on to the underlying
 database connector, \code{\link[DBI:dbConnect]{DBI::dbConnect()}}. For the tbl, included for
 compatibility with the generic, but otherwise ignored.}
 
-\item{user, username, password}{User name and password.
-
-Generally, you should avoid saving username and password in your
-scripts as it is easy to accidentally expose valuable credentials.
-Instead, retrieve them from environment variables, or use database
-specific credential scores. For example, with MySQL you can set up \code{my.cnf}
-as described in \code{\link[RMySQL:MySQLDriver-class]{RMySQL::MySQL()}}.}
+\item{user, username, password}{User name and password.}
 
 \item{path}{Path to SQLite database. You can use the special path
 ":memory:" to create a temporary in memory database.}
@@ -58,7 +52,7 @@ An S3 object with class \code{src_dbi}, \code{src_sql}, \code{src}.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}
 
-These functions are defunct; instead loading dbplyr and calling \code{\link[=tbl]{tbl()}}
+These functions are defunct; instead load dbplyr and call \code{\link[=tbl]{tbl()}}
 directly on an \code{DBIConnection}. See \url{https://dbplyr.tidyverse.org/} for
 more details.
 }

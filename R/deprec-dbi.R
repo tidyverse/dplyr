@@ -10,13 +10,7 @@
 #' @param dbname Database name
 #' @param host,port Host name and port number of database
 #' @param user,username,password User name and password.
-#'
-#'   Generally, you should avoid saving username and password in your
-#'   scripts as it is easy to accidentally expose valuable credentials.
-#'   Instead, retrieve them from environment variables, or use database
-#'   specific credential scores. For example, with MySQL you can set up `my.cnf`
-#'   as described in [RMySQL::MySQL()].
-#' @param ... for the src, other arguments passed on to the underlying
+#' @param ... For the src, other arguments passed on to the underlying
 #'   database connector, [DBI::dbConnect()]. For the tbl, included for
 #'   compatibility with the generic, but otherwise ignored.
 #' @return An S3 object with class `src_dbi`, `src_sql`, `src`.
