@@ -40,8 +40,10 @@
       <error/rlang_error>
       Error in `slice()`:
       ! Problem while computing indices.
-      Caused by error in `num_as_location()`:
-      ! `i` must be a numeric vector.
+      Caused by error:
+      ! Must subset elements with a valid subscript vector.
+      x Subscript `"a"` has the wrong type `character`.
+      i It must be numeric.
     Code
       (expect_error(slice(gdf, "a")))
     Output
@@ -49,8 +51,10 @@
       Error in `slice()`:
       ! Problem while computing indices.
       i The error occurred in group 1: x = 1.
-      Caused by error in `num_as_location()`:
-      ! `i` must be a numeric vector.
+      Caused by error:
+      ! Must subset elements with a valid subscript vector.
+      x Subscript `"a"` has the wrong type `character`.
+      i It must be numeric.
     Code
       (expect_error(slice(df, c(1, -1))))
     Output
@@ -399,16 +403,20 @@
       <error/rlang_error>
       Error in `slice()`:
       ! Problem while computing indices.
-      Caused by error in `num_as_location()`:
-      ! `i` must be a numeric vector.
+      Caused by error:
+      ! Must subset elements with a valid subscript vector.
+      x Subscript `TRUE` has the wrong type `logical`.
+      i It must be numeric.
     Code
       (expect_error(slice(df, FALSE)))
     Output
       <error/rlang_error>
       Error in `slice()`:
       ! Problem while computing indices.
-      Caused by error in `num_as_location()`:
-      ! `i` must be a numeric vector.
+      Caused by error:
+      ! Must subset elements with a valid subscript vector.
+      x Subscript `FALSE` has the wrong type `logical`.
+      i It must be numeric.
     Code
       (expect_error(slice(mtcars, 1, 1, "")))
     Output

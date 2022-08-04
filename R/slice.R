@@ -333,8 +333,16 @@ slice_combine <- function(chunks, dots, mask, error_call = caller_env()) {
     for (group in seq_along(rows)) {
       current_rows <- rows[[group]]
 
+      i <- vec_as_subscript(
+        chunks[[group]],
+        logical = "error",
+        character = "error",
+        arg = as_label(dots[[group]]),
+        call = NULL
+      )
+
       loc <- num_as_location(
-        i = chunks[[group]],
+        i = i,
         n = length(current_rows),
         zero = "remove",
         oob = "extend",
