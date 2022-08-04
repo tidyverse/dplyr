@@ -22,8 +22,8 @@
       Error in `slice()`:
       ! Problem while computing indices.
       Caused by error:
-      ! Can't convert <integer[,2]> to <integer>.
-      Cannot decrease dimensions.
+      ! Must subset elements with a valid subscript vector.
+      x Subscript `matrix(c(1, 2), ncol = 2)` must be a simple vector, not a matrix.
     Code
       (expect_error(slice(gdf, matrix(c(1, 2), ncol = 2))))
     Output
@@ -32,17 +32,16 @@
       ! Problem while computing indices.
       i The error occurred in group 1: x = 1.
       Caused by error:
-      ! Can't convert <integer[,2]> to <integer>.
-      Cannot decrease dimensions.
+      ! Must subset elements with a valid subscript vector.
+      x Subscript `matrix(c(1, 2), ncol = 2)` must be a simple vector, not a matrix.
     Code
       (expect_error(slice(df, "a")))
     Output
       <error/rlang_error>
       Error in `slice()`:
       ! Problem while computing indices.
-      Caused by error:
-      ! Invalid result of type <character>.
-      i Indices must be positive or negative integers.
+      Caused by error in `num_as_location()`:
+      ! `i` must be a numeric vector.
     Code
       (expect_error(slice(gdf, "a")))
     Output
@@ -50,9 +49,8 @@
       Error in `slice()`:
       ! Problem while computing indices.
       i The error occurred in group 1: x = 1.
-      Caused by error:
-      ! Invalid result of type <character>.
-      i Indices must be positive or negative integers.
+      Caused by error in `num_as_location()`:
+      ! `i` must be a numeric vector.
     Code
       (expect_error(slice(df, c(1, -1))))
     Output
@@ -60,8 +58,9 @@
       Error in `slice()`:
       ! Problem while computing indices.
       Caused by error:
-      ! Indices must be all positive or all negative.
-      i Got 1 positives, 1 negatives.
+      ! Must subset elements with a valid subscript vector.
+      x Negative and positive locations can't be mixed.
+      i Subscript `c(1, -1)` has a positive value at location 1.
     Code
       (expect_error(slice(gdf, c(1, -1))))
     Output
@@ -70,8 +69,9 @@
       ! Problem while computing indices.
       i The error occurred in group 1: x = 1.
       Caused by error:
-      ! Indices must be all positive or all negative.
-      i Got 1 positives, 1 negatives.
+      ! Must subset elements with a valid subscript vector.
+      x Negative and positive locations can't be mixed.
+      i Subscript `c(1, -1)` has a positive value at location 1.
 
 # slice_*() checks that `n=` is explicitly named
 
@@ -399,18 +399,16 @@
       <error/rlang_error>
       Error in `slice()`:
       ! Problem while computing indices.
-      Caused by error:
-      ! Invalid result of type <logical>.
-      i Indices must be positive or negative integers.
+      Caused by error in `num_as_location()`:
+      ! `i` must be a numeric vector.
     Code
       (expect_error(slice(df, FALSE)))
     Output
       <error/rlang_error>
       Error in `slice()`:
       ! Problem while computing indices.
-      Caused by error:
-      ! Invalid result of type <logical>.
-      i Indices must be positive or negative integers.
+      Caused by error in `num_as_location()`:
+      ! `i` must be a numeric vector.
     Code
       (expect_error(slice(mtcars, 1, 1, "")))
     Output
@@ -435,8 +433,9 @@
       Error in `slice()`:
       ! Problem while computing indices.
       Caused by error:
-      ! Indices must be all positive or all negative.
-      i Got 1 positives, 1 negatives.
+      ! Must subset elements with a valid subscript vector.
+      x Negative and positive locations can't be mixed.
+      i Subscript `c(-1, 2)` has a positive value at location 2.
     Code
       (expect_error(mtcars %>% slice(c(2:3, -1))))
     Output
@@ -444,8 +443,9 @@
       Error in `slice()`:
       ! Problem while computing indices.
       Caused by error:
-      ! Indices must be all positive or all negative.
-      i Got 2 positives, 1 negatives.
+      ! Must subset elements with a valid subscript vector.
+      x Negative and positive locations can't be mixed.
+      i Subscript `c(2:3, -1)` has 2 positive values at locations 1 and 2.
     Code
       (expect_error(slice_head(data.frame(), n = 1, prop = 1)))
     Output
