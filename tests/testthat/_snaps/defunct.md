@@ -27,4 +27,28 @@
       
         # Using lambdas
         list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
+    Code
+      select_vars()
+    Condition
+      Error:
+      ! `select_vars()` was deprecated in dplyr 0.8.4 and is now defunct.
+      Please use `tidyselect::vars_select()` instead.
+    Code
+      rename_vars()
+    Condition
+      Error:
+      ! `rename_vars()` was deprecated in dplyr 0.8.4 and is now defunct.
+      Please use `tidyselect::vars_rename()` instead.
+    Code
+      select_var()
+    Condition
+      Error:
+      ! `select_var()` was deprecated in dplyr 0.8.4 and is now defunct.
+      Please use `tidyselect::vars_pull()` instead.
+    Code
+      current_vars()
+    Condition
+      Error:
+      ! `current_vars()` was deprecated in dplyr 0.8.4 and is now defunct.
+      Please use `tidyselect::peek_vars()` instead.
 

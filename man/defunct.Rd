@@ -5,6 +5,10 @@
 \alias{id}
 \alias{failwith}
 \alias{funs}
+\alias{select_vars}
+\alias{rename_vars}
+\alias{select_var}
+\alias{current_vars}
 \title{Defunct functions}
 \usage{
 # Deprecated in 0.5.0 -------------------------------------
@@ -18,6 +22,14 @@ failwith(default = NULL, f, quiet = FALSE)
 # Deprecated in 0.8.* -------------------------------------
 
 funs(..., .args = list())
+
+select_vars(vars = chr(), ..., include = chr(), exclude = chr())
+
+rename_vars(vars = chr(), ..., strict = TRUE)
+
+select_var(vars, var = -1)
+
+current_vars(...)
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}
