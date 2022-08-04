@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `funs()`, deprecated in 0.8.0, is now defunct (#6387).
+
 * Passing `...` to `across()` is now deprecated because the evaluation timing of
   `...` is ambiguous. Now instead of (e.g.) `across(a:b, mean, na.rm = TRUE)`
   you should write `across(a:b, ~ mean(.x, na.rm = TRUE))` (#6073).

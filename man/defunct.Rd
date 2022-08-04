@@ -4,16 +4,25 @@
 \alias{defunct}
 \alias{id}
 \alias{failwith}
+\alias{funs}
 \title{Defunct functions}
 \usage{
+# Deprecated in 0.5.0 -------------------------------------
+
 id(.variables, drop = FALSE)
 
+# Deprecated in 0.7.0 -------------------------------------
+
 failwith(default = NULL, f, quiet = FALSE)
+
+# Deprecated in 0.8.* -------------------------------------
+
+funs(..., .args = list())
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
-}
-\details{
-Executing these functions will tell you which function replaces them.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}
+
+These function were all deprecated for at least two years and are now
+defunct. Executing them to tell you which function to use instead.
 }
 \keyword{internal}
