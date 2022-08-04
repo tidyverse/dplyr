@@ -9,6 +9,11 @@
 \alias{rename_vars}
 \alias{select_var}
 \alias{current_vars}
+\alias{bench_tbls}
+\alias{compare_tbls}
+\alias{compare_tbls2}
+\alias{eval_tbls}
+\alias{eval_tbls2}
 \title{Defunct functions}
 \usage{
 # Deprecated in 0.5.0 -------------------------------------
@@ -30,6 +35,16 @@ rename_vars(vars = chr(), ..., strict = TRUE)
 select_var(vars, var = -1)
 
 current_vars(...)
+
+bench_tbls(tbls, op, ..., times = 10)
+
+compare_tbls(tbls, op, ref = NULL, compare = equal_data_frame, ...)
+
+compare_tbls2(tbls_x, tbls_y, op, ref = NULL, compare = equal_data_frame, ...)
+
+eval_tbls(tbls, op)
+
+eval_tbls2(tbls_x, tbls_y, op)
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}

@@ -51,4 +51,29 @@
       Error:
       ! `current_vars()` was deprecated in dplyr 0.8.4 and is now defunct.
       Please use `tidyselect::peek_vars()` instead.
+    Code
+      bench_tbl()
+    Condition
+      Error in `bench_tbl()`:
+      ! could not find function "bench_tbl"
+    Code
+      compare_tbls()
+    Condition
+      Error:
+      ! `compare_tbls()` was deprecated in dplyr 1.0.0 and is now defunct.
+    Code
+      compare_tbls2()
+    Condition
+      Error:
+      ! `compare_tbls2()` was deprecated in dplyr 1.0.0 and is now defunct.
+    Code
+      eval_tbls()
+    Condition
+      Error:
+      ! `eval_tbls()` was deprecated in dplyr 1.0.0 and is now defunct.
+    Code
+      eval_tbls2()
+    Condition
+      Error:
+      ! `eval_tbls2()` was deprecated in dplyr 1.0.0 and is now defunct.
 

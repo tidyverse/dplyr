@@ -72,3 +72,32 @@ current_vars <- function(...) {
   lifecycle::deprecate_stop("0.8.4", "current_vars()", "tidyselect::peek_vars()")
 }
 
+#' @export
+#' @rdname defunct
+bench_tbls <- function(tbls, op, ..., times = 10) {
+  lifecycle::deprecate_stop("1.0.0", "bench_tbls()")
+}
+
+#' @export
+#' @rdname defunct
+compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) {
+  lifecycle::deprecate_stop("1.0.0", "compare_tbls()")
+}
+
+#' @export
+#' @rdname defunct
+compare_tbls2 <- function(tbls_x, tbls_y, op, ref = NULL, compare = equal_data_frame, ...) {
+  lifecycle::deprecate_stop("1.0.0", "compare_tbls2()")
+}
+
+#' @export
+#' @rdname defunct
+eval_tbls <- function(tbls, op) {
+  lifecycle::deprecate_stop("1.0.0", "eval_tbls()")
+}
+
+#' @export
+#' @rdname defunct
+eval_tbls2 <- function(tbls_x, tbls_y, op) {
+  lifecycle::deprecate_stop("1.0.0", "eval_tbls2()")
+}
