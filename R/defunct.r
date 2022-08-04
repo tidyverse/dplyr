@@ -72,6 +72,10 @@ current_vars <- function(...) {
   lifecycle::deprecate_stop("0.8.4", "current_vars()", "tidyselect::peek_vars()")
 }
 
+#' @usage # Deprecated in 1.0.0 -------------------------------------
+#' @name defunct
+NULL
+
 #' @export
 #' @rdname defunct
 bench_tbls <- function(tbls, op, ..., times = 10) {
@@ -100,4 +104,16 @@ eval_tbls <- function(tbls, op) {
 #' @rdname defunct
 eval_tbls2 <- function(tbls_x, tbls_y, op) {
   lifecycle::deprecate_stop("1.0.0", "eval_tbls2()")
+}
+
+#' @export
+#' @rdname defunct
+location <- function(df) {
+  lifecycle::deprecate_stop("1.0.0", "location()", "lobst::ref()")
+}
+
+#' @export
+#' @rdname defunct
+changes <- function(x, y) {
+  lifecycle::deprecate_stop("1.0.0", "changes()", "lobstr::ref()")
 }

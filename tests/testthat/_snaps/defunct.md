@@ -76,4 +76,16 @@
     Condition
       Error:
       ! `eval_tbls2()` was deprecated in dplyr 1.0.0 and is now defunct.
+    Code
+      location()
+    Condition
+      Error:
+      ! `location()` was deprecated in dplyr 1.0.0 and is now defunct.
+      Please use `lobst::ref()` instead.
+    Code
+      changes()
+    Condition
+      Error:
+      ! `changes()` was deprecated in dplyr 1.0.0 and is now defunct.
+      Please use `lobstr::ref()` instead.
 

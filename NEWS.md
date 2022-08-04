@@ -8,6 +8,8 @@
 * `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()`, and
   `eval_tbl()`, deprecated in 1.0.0, are now defunct (#6387).
 
+* `location()` and `changes()`, deprecated in 1.0.0, are now defunct (#6387).
+
 * Passing `...` to `across()` is now deprecated because the evaluation timing of
   `...` is ambiguous. Now instead of (e.g.) `across(a:b, mean, na.rm = TRUE)`
   you should write `across(a:b, ~ mean(.x, na.rm = TRUE))` (#6073).

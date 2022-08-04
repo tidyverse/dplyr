@@ -16,5 +16,8 @@ test_that("generate informative errors", {
     compare_tbls2()
     eval_tbls()
     eval_tbls2()
+
+    location()
+    changes()
   })
 })
