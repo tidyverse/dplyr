@@ -66,3 +66,11 @@ node_walk_replace <- function(node, old, new) {
     node <- node_cdr(node)
   }
 }
+
+# Stop tests from failing due to new attribute
+# TODO: make this only affect tests
+compare_proxy.data.frame <- function(x, path = "x") {
+  attr(x, "pillar_focus") <- NULL
+  list(object = x, path = path)
+}
+on_load(s3_register("waldo::compare_proxy", "data.frame"))
