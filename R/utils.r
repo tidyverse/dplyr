@@ -1,7 +1,3 @@
-dots <- function(...) {
-  eval_bare(substitute(alist(...)))
-}
-
 deparse_trunc <- function(x, width = getOption("width")) {
   text <- deparse(x, width.cutoff = width)
   if (length(text) == 1 && nchar(text) < width) return(text)
