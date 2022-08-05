@@ -41,9 +41,9 @@ computational backends accessible and efficient. Below is a list of
 alternative backends:
 
 -   [arrow](https://arrow.apache.org/docs/r) for larger-than-memory
-    datasets with two backend engine options (default engine is
-    [Acero](https://arrow.apache.org/docs/cpp/streaming_execution.html),
-    the Arrow C++ engine, or [DuckDB](https://duckdb.org/))
+    datasets, including on remote cloud storage like AWS S3, using the
+    Apache Arrow C++ engine,
+    [Acero](https://arrow.apache.org/docs/cpp/streaming_execution.html).
 
 -   [dtplyr](https://dtplyr.tidyverse.org/) for large, in-memory
     datasets. Translates your dplyr code to high performance
