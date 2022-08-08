@@ -75,7 +75,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
-<ul><li><p>Passing <code>...</code> to <code><a href="../reference/across.html">across()</a></code> is now deprecated because the evaluation timing of <code>...</code> is ambiguous. Now instead of (e.g.) <code>across(a:b, mean, na.rm = TRUE)</code> you should write <code>across(a:b, ~ mean(.x, na.rm = TRUE))</code> (<a href="https://github.com/tidyverse/dplyr/issues/6073" class="external-link">#6073</a>).</p></li>
+<ul><li><p><code><a href="../reference/nest_join.html">nest_join()</a></code> now preserves the type of <code>y</code> (<a href="https://github.com/tidyverse/dplyr/issues/6295" class="external-link">#6295</a>).</p></li>
+<li><p>Passing <code>...</code> to <code><a href="../reference/across.html">across()</a></code> is now deprecated because the evaluation timing of <code>...</code> is ambiguous. Now instead of (e.g.) <code>across(a:b, mean, na.rm = TRUE)</code> you should write <code>across(a:b, ~ mean(.x, na.rm = TRUE))</code> (<a href="https://github.com/tidyverse/dplyr/issues/6073" class="external-link">#6073</a>).</p></li>
 <li><p>Rowwise-<code><a href="../reference/mutate.html">mutate()</a></code> behaves a little better with 0-row inputs (<a href="https://github.com/tidyverse/dplyr/issues/6303" class="external-link">#6303</a>).</p></li>
 <li><p>A rowwise <code><a href="../reference/mutate.html">mutate()</a></code> now automatically unlists list-columns containing length 1 vectors (<a href="https://github.com/tidyverse/dplyr/issues/6302" class="external-link">#6302</a>).</p></li>
 <li><p><code><a href="../reference/arrange.html">arrange()</a></code> now correctly ignores <code>NULL</code> inputs (<a href="https://github.com/tidyverse/dplyr/issues/6193" class="external-link">#6193</a>).</p></li>
