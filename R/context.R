@@ -1,4 +1,4 @@
-#' Context dependent expressions
+#' Information about "current" group or variable
 #'
 #' @description
 #' These functions return information about the "current" group or "current"

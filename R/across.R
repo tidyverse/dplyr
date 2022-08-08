@@ -23,16 +23,24 @@
 #'
 #'   - A function, e.g. `mean`.
 #'   - A purrr-style lambda, e.g. `~ mean(.x, na.rm = TRUE)`
-#'   - A list of functions/lambdas, e.g.
-#'     `list(mean = mean, n_miss = ~ sum(is.na(.x))`
-#'   - `NULL`: the default value, returns the selected columns in a data
-#'   frame without applying a transformation. This is useful for when you want to
-#'   use a function that takes a data frame.
+#'   - A named list of functions or lambdas, e.g.
+#'     `list(mean = mean, n_miss = ~ sum(is.na(.x))`. Each function is applied
+#'     to each column, and the output is named by combining the function name
+#'     and the column name using the glue specification in `.names`.
+#'   - `NULL`: the default, returns the selected columns in a data frame
+#'     without applying a transformation. This is useful for when you want to
+#'     use a function that takes a data frame.
 #'
 #'   Within these functions you can use [cur_column()] and [cur_group()]
 #'   to access the current column and grouping keys respectively.
-#' @param ... Additional arguments for the function calls in `.fns`. Using these
-#'   `...` is strongly discouraged because of issues of timing of evaluation.
+#' @param ... `r lifecycle::badge("deprecated")`
+#'
+#'   Additional arguments for the function calls in `.fns` are no longer
+#'   accepted in `...` because it's not clear when they should be evaluated:
+#'   once per `across()` or once per group? Instead supply additional arguments
+#'   directly in `.fns` by using a lambda. For example, instead of
+#'   `across(a:b, mean, na.rm = TRUE)` write
+#'   `across(a:b, ~ mean(.x, na.rm = TRUE))`.
 #' @param .names A glue specification that describes how to name the output
 #'   columns. This can use `{.col}` to stand for the selected column name, and
 #'   `{.fn}` to stand for the name of the function being applied. The default
@@ -136,6 +144,23 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
     .caller_env = caller_env(),
     inline = FALSE
   )
+
+  if (!missing(...)) {
+    details <- paste_line(
+      "Supply arguments directly to `.fns` through a lambda instead.",
+      "",
+      "  # Previously",
+      "  across(a:b, mean, na.rm = TRUE)",
+      "",
+      "  # Now",
+      "  across(a:b, ~mean(.x, na.rm = TRUE))"
+    )
+    lifecycle::deprecate_warn(
+      when = "1.1.0",
+      what = "across(...)",
+      details = details
+    )
+  }
 
   vars <- setup$vars
   if (length(vars) == 0L) {

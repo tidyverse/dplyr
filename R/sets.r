@@ -1,11 +1,25 @@
 #' Set operations
 #'
-#' These functions override the set functions provided in base to make them
-#' generic so that efficient versions for data frames and other tables can be
-#' provided. The default methods call the base versions. Beware that
-#' `intersect()`, `union()` and `setdiff()` remove duplicates.
+#' @description
+#' Perform set operations using the rows of a data frame.
 #'
-#' @param x,y objects to perform set function on (ignoring order)
+#' * `intersect(x, y)` finds all rows in both `x` and `y`.
+#' * `union(x, y)` finds all rows in either `x` or `y`, excluding duplicates.
+#' * `union_all(x, y)` finds all rows in either `x` or `y`, including duplicates.
+#' * `setdiff(x, y)` finds all rows in `x` that aren't in `y`.
+#' * `setequal(x, y)` returns `TRUE` if `x` and `y` contain the same rows
+#'   (ignoring order).
+#'
+#' Note that `intersect()`, `union()` and `setdiff()` remove duplicates
+#' in `x` and `y`.
+#'
+#' # Base functions
+#' `intersect()`, `union()`, `setdiff()`, and `setequal()` override the base
+#' functions of the same name in order to make them generic. The existing
+#' behaviour for vectors is preserved by providing default methods that call
+#' the base functions.
+#'
+#' @param x,y Pair of data frames.
 #' @inheritParams rlang::args_dots_empty
 #' @name setops
 #' @examples
@@ -21,21 +35,27 @@
 #' union_all(first, second)
 #' setequal(mtcars, mtcars[32:1, ])
 #'
-#' # Handling of duplicates:
-#' a <- data.frame(column = c(1:10, 10))
-#' b <- data.frame(column = c(1:5, 5))
+#' # Note the following 3 functions also remove pre-existing duplicates in `x` or `y`:
+#' a <- data.frame(x = c(1:3, 3, 3))
+#' b <- data.frame(x = c(3:5, 5))
 #'
-#' # intersection is 1 to 5, duplicates removed (5)
 #' intersect(a, b)
-#'
-#' # union is 1 to 10, duplicates removed (5 and 10)
 #' union(a, b)
-#'
-#' # set difference, duplicates removed (10)
 #' setdiff(a, b)
-#'
-#' # union all does not remove duplicates
-#' union_all(a, b)
+NULL
+
+#' @name setops
+#' @aliases intersect
+#' @usage intersect(x, y, ...)
+#' @importFrom generics intersect
+#' @export intersect
+NULL
+
+#' @name setops
+#' @aliases union
+#' @usage union(x, y, ...)
+#' @importFrom generics union
+#' @export union
 NULL
 
 #' @rdname setops
@@ -47,21 +67,20 @@ union_all.default <- function (x, y, ...) {
   vec_c(x, y)
 }
 
-#' @importFrom generics intersect
-#' @export
-generics::intersect
 
-#' @importFrom generics union
-#' @export
-generics::union
-
+#' @name setops
+#' @aliases setdiff
+#' @usage setdiff(x, y, ...)
 #' @importFrom generics setdiff
-#' @export
-generics::setdiff
+#' @export setdiff
+NULL
 
+#' @name setops
+#' @aliases setequal
+#' @usage setequal(x, y, ...)
 #' @importFrom generics setequal
-#' @export
-generics::setequal
+#' @export setequal
+NULL
 
 #' @export
 intersect.data.frame <- function(x, y, ...) {
