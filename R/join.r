@@ -471,7 +471,7 @@ nest_join.data.frame <- function(x,
                                  name = NULL,
                                  ...,
                                  na_matches = c("na", "never"),
-                                 multiple = "all",
+                                 multiple = NULL,
                                  unmatched = "drop") {
   na_matches <- check_na_matches(na_matches)
   unmatched <- check_unmatched(unmatched)

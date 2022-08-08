@@ -16,7 +16,7 @@ nest_join(x, y, by = NULL, copy = FALSE, keep = NULL, name = NULL, ...)
   name = NULL,
   ...,
   na_matches = c("na", "never"),
-  multiple = "all",
+  multiple = NULL,
   unmatched = "drop"
 )
 }
