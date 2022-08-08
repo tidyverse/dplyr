@@ -397,7 +397,7 @@ check_slice_dots <- function(..., n, prop, error_call = caller_env()) {
     dots <- enquos(...)
 
     if (length(dots) == 1L && names2(dots)[1] == "") {
-      slice_call <- caller_call()[[1]]
+      slice_call <- frame_call(frame = error_call)[[1]]
       bullets <- c(
         "`n` must be explicitly named.",
         i = glue("Did you mean `{slice_call}(n = {as_label(dots[[1]])})`?")
