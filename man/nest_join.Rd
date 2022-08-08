@@ -106,22 +106,22 @@ checked for unmatched keys, because all keys from \code{x} are always retained,
 even if they don't have a match.}
 }
 \value{
-A modified copy of \code{x} that contains an new column called \code{name}. The
+A modified copy of \code{x} that contains a new column called \code{name}. The
 column contains a list of objects the same type as \code{y}.
 }
 \description{
 A nest join leaves \code{x} almost unchanged, except that it adds a new
-list-column, each element containing the the rows from \code{y} that match the
+list-column, where each element contains the rows from \code{y} that match the
 corresponding row in \code{x}.
 }
 \section{Relationship to other joins}{
-You can recreate many other joins from the result of a nesting join:
+You can recreate many other joins from the result of a nest join:
 \itemize{
-\item \code{\link[=inner_join]{inner_join()}} is a \code{nest_join()} plus \code{\link[tidyr:nest]{tidyr::unnest()}}
-\item \code{\link[=left_join]{left_join()}} is a \code{nest_join()} plus \code{tidyr::unnest(.drop = FALSE)}.
+\item \code{\link[=inner_join]{inner_join()}} is a \code{nest_join()} plus \code{\link[tidyr:unnest]{tidyr::unnest()}}.
+\item \code{\link[=left_join]{left_join()}} is a \code{nest_join()} plus \code{tidyr::unnest(keep_empty = TRUE)}.
 \item \code{\link[=semi_join]{semi_join()}} is a \code{nest_join()} plus a \code{filter()} where you check
-that every element of data has at least one row,
-\item \code{\link[=anti_join]{anti_join()}} is a \code{nest_join()} plus a \code{filter()} where you check every
+that every element of data has at least one row.
+\item \code{\link[=anti_join]{anti_join()}} is a \code{nest_join()} plus a \code{filter()} where you check that every
 element has zero rows.
 }
 }
