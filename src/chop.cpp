@@ -17,11 +17,26 @@ void dplyr_lazy_vec_chop_grouped(SEXP chops_env, SEXP rows, SEXP data, bool roww
     SEXP prom = PROTECT(Rf_allocSExp(PROMSXP));
     SET_PRENV(prom, R_EmptyEnv);
     SEXP column = p_data[i];
-    if (rowwise && vctrs::vec_is_list(column) && Rf_length(column) > 0) {
-      SET_PRCODE(prom, column);
+
+    if (rowwise && vctrs::vec_is_list(column)) {
+      if (Rf_length(column) == 0) {
+        SEXP ptype = PROTECT(Rf_getAttrib(column, Rf_install("ptype")));
+        column = PROTECT(Rf_allocVector(VECSXP, 1));
+        if (ptype != R_NilValue) {
+          SET_VECTOR_ELT(column, 0, ptype);
+        } else {
+          // i.e. `vec_ptype_finalise(unspecified())` (#6369)
+          SET_VECTOR_ELT(column, 0, Rf_allocVector(LGLSXP, 1));
+        }
+        SET_PRCODE(prom, column);
+        UNPROTECT(2);
+      } else {
+        SET_PRCODE(prom, column);
+      }
     } else {
       SET_PRCODE(prom, Rf_lang3(dplyr::functions::vec_chop, column, rows));
     }
+
     SET_PRVALUE(prom, R_UnboundValue);
 
     Rf_defineVar(rlang::str_as_symbol(p_names[i]), prom, chops_env);

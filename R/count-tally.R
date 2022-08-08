@@ -1,4 +1,4 @@
-#' Count observations by group
+#' Count the observations in each group
 #'
 #' @description
 #' `count()` lets you quickly count the unique values of one or more variables:
@@ -24,7 +24,8 @@
 #' @param name The name of the new column in the output.
 #'
 #'   If omitted, it will default to `n`. If there's already a column called `n`,
-#'   it will error, and require you to specify the name.
+#'   it will use `nn`. If there's a column called `n` and `nn`, it'll use
+#'   `nnn`, and so on, adding `n`s until it gets a new name.
 #' @param .drop For `count()`: if `FALSE` will include counts for empty groups
 #'   (i.e. for levels of factors that don't exist in the data). Deprecated in
 #'   `add_count()` since it didn't actually affect the output.

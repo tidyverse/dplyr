@@ -22,18 +22,26 @@ Possible values are:
 \itemize{
 \item A function, e.g. \code{mean}.
 \item A purrr-style lambda, e.g. \code{~ mean(.x, na.rm = TRUE)}
-\item A list of functions/lambdas, e.g.
-\verb{list(mean = mean, n_miss = ~ sum(is.na(.x))}
-\item \code{NULL}: the default value, returns the selected columns in a data
-frame without applying a transformation. This is useful for when you want to
+\item A named list of functions or lambdas, e.g.
+\verb{list(mean = mean, n_miss = ~ sum(is.na(.x))}. Each function is applied
+to each column, and the output is named by combining the function name
+and the column name using the glue specification in \code{.names}.
+\item \code{NULL}: the default, returns the selected columns in a data frame
+without applying a transformation. This is useful for when you want to
 use a function that takes a data frame.
 }
 
 Within these functions you can use \code{\link[=cur_column]{cur_column()}} and \code{\link[=cur_group]{cur_group()}}
 to access the current column and grouping keys respectively.}
 
-\item{...}{Additional arguments for the function calls in \code{.fns}. Using these
-\code{...} is strongly discouraged because of issues of timing of evaluation.}
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+Additional arguments for the function calls in \code{.fns} are no longer
+accepted in \code{...} because it's not clear when they should be evaluated:
+once per \code{across()} or once per group? Instead supply additional arguments
+directly in \code{.fns} by using a lambda. For example, instead of
+\code{across(a:b, mean, na.rm = TRUE)} write
+\code{across(a:b, ~ mean(.x, na.rm = TRUE))}.}
 
 \item{.names}{A glue specification that describes how to name the output
 columns. This can use \code{{.col}} to stand for the selected column name, and

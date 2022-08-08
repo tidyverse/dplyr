@@ -480,10 +480,18 @@ nest_join.data.frame <- function(x,
                                  na_matches = c("na", "never"),
                                  multiple = NULL,
                                  unmatched = "drop") {
+
+  check_keep(keep)
   na_matches <- check_na_matches(na_matches)
   unmatched <- check_unmatched(unmatched)
 
-  name_var <- name %||% as_label(enexpr(y))
+  if (is.null(name)) {
+    name_var <- as_label(enexpr(y))
+  } else if (is_string(name)) {
+    name_var <- name
+  } else {
+    abort("`name` must be a string.")
+  }
 
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
@@ -524,12 +532,12 @@ nest_join.data.frame <- function(x,
   out <- set_names(x_in[vars$x$out], names(vars$x$out))
 
   # Modify all columns in one step so that we only need to re-group once
-  # Currently, this regroups too often, because it looks like we're always
-  # changing the key vars because of the cast
   new_cols <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
 
   y_out <- set_names(y_in[vars$y$out], names(vars$y$out))
-  new_cols[[name_var]] <- map(y_loc, vec_slice, x = y_out)
+  y_out <- map(y_loc, vec_slice, x = y_out)
+  y_out <- map(y_out, dplyr_reconstruct, template = y)
+  new_cols[[name_var]] <- y_out
 
   out <- dplyr_col_modify(out, new_cols)
   dplyr_reconstruct(out, x)
@@ -551,6 +559,7 @@ join_mutate <- function(x,
   check_dots_empty0(...)
 
   na_matches <- check_na_matches(na_matches, error_call = error_call)
+  check_keep(keep, error_call = error_call)
   unmatched <- check_unmatched(unmatched, error_call = error_call)
 
   x_names <- tbl_vars(x)
@@ -559,7 +568,7 @@ join_mutate <- function(x,
   if (is_null(by)) {
     by <- join_by_common(x_names, y_names, error_call = error_call)
   } else {
-    by <- as_join_by(by)
+    by <- as_join_by(by, error_call = error_call)
   }
 
   vars <- join_cols(
@@ -653,7 +662,7 @@ join_filter <- function(x,
   if (is_null(by)) {
     by <- join_by_common(x_names, y_names, error_call = error_call)
   } else {
-    by <- as_join_by(by)
+    by <- as_join_by(by, error_call = error_call)
   }
 
   vars <- join_cols(x_names, y_names, by = by, error_call = error_call)
@@ -730,4 +739,12 @@ check_unmatched <- function(unmatched, ..., error_call = caller_env()) {
     arg_nm = "unmatched",
     error_call = error_call
   )
+}
+
+check_keep <- function(keep, error_call = caller_env()) {
+  if (!is_bool(keep) && !is.null(keep)) {
+    abort(
+      glue("`keep` must be `TRUE`, `FALSE`, or `NULL`, not {friendly_type_of(keep)}."),
+      call = error_call)
+  }
 }
