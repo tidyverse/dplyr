@@ -517,12 +517,12 @@ nest_join.data.frame <- function(x,
   out <- set_names(x_in[vars$x$out], names(vars$x$out))
 
   # Modify all columns in one step so that we only need to re-group once
-  # Currently, this regroups too often, because it looks like we're always
-  # changing the key vars because of the cast
   new_cols <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
 
   y_out <- set_names(y_in[vars$y$out], names(vars$y$out))
-  new_cols[[name_var]] <- map(y_loc, vec_slice, x = y_out)
+  y_out <- map(y_loc, vec_slice, x = y_out)
+  y_out <- map(y_out, dplyr_reconstruct, template = y)
+  new_cols[[name_var]] <- y_out
 
   out <- dplyr_col_modify(out, new_cols)
   dplyr_reconstruct(out, x)
