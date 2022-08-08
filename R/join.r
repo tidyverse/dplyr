@@ -36,13 +36,15 @@
 #' explicitly setting `multiple = "all"`.
 #'
 #' @return
-#' An object of the same type as `x`. The order of the rows and columns of `x`
-#' is preserved as much as possible. The output has the following properties:
+#' An object of the same type as `x` (including the same groups). The order of
+#' the rows and columns of `x` is preserved as much as possible. The output has
+#' the following properties:
 #'
-#' * For `inner_join()`, a subset of `x` rows.
-#'   For `left_join()`, all `x` rows.
-#'   For `right_join()`, a subset of `x` rows, followed by unmatched `y` rows.
-#'   For `full_join()`, all `x` rows, followed by unmatched `y` rows.
+#' * The rows are affect by the join type.
+#'    * `inner_join()` returns matched `x` rows.
+#'    * `left_join()` returns all `x` rows.
+#'    * `right_join()`  returns matched of `x` rows, followed by unmatched `y` rows.
+#'    * `full_join()`  returns all `x` rows, followed by unmatched `y` rows.
 #' * Output columns include all columns from `x` and all non-key columns from
 #'   `y`. If `keep = TRUE`, the key columns from `y` are included as well.
 #' * If non-key columns in `x` and `y` have the same name, `suffix`es are added
@@ -50,7 +52,6 @@
 #'   the same name, `suffix`es are added to disambiguate these as well.
 #' * If `keep = FALSE`, output columns included in `by` are coerced to their
 #'   common type between `x` and `y`.
-#' * Groups are taken from `x`.
 #' @section Methods:
 #' These functions are **generic**s, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
@@ -431,8 +432,14 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches 
 #' @param keep Should the new list-column contain join keys? The default
 #'   will preserve the join keys for non-equi-joins.
 #' @return
-#' A modified copy of `x` that contains a new column called `name`. The
-#' column contains a list of objects the same type as `y`.
+#' The output:
+#' * Is same type as `x` (including having the same groups).
+#' * Has exactly the same number of rows as `x`.
+#' * Contains all the columns of `x` in the same order with the same values.
+#'   They are only modified (slightly) if `keep = FALSE`, when columns listed
+#'   in `by` will be coerced to their common type across `x` and `y`.
+#' * Gains one new column called `{name}` on the far right, a list column
+#'   containing data frames the same type as `y`.
 #' @section Methods:
 #' This function is a **generic**, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of

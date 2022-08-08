@@ -106,8 +106,16 @@ checked for unmatched keys, because all keys from \code{x} are always retained,
 even if they don't have a match.}
 }
 \value{
-A modified copy of \code{x} that contains a new column called \code{name}. The
-column contains a list of objects the same type as \code{y}.
+The output:
+\itemize{
+\item Is same type as \code{x} (including having the same groups).
+\item Has exactly the same number of rows as \code{x}.
+\item Contains all the columns of \code{x} in the same order with the same values.
+They are only modified (slightly) if \code{keep = FALSE}, when columns listed
+in \code{by} will be coerced to their common type across \code{x} and \code{y}.
+\item Gains one new column called \code{{name}} on the far right, a list column
+containing data frames the same type as \code{y}.
+}
 }
 \description{
 A nest join leaves \code{x} almost unchanged, except that it adds a new
