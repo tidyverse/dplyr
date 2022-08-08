@@ -180,6 +180,7 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
 slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
   check_required(order_by)
   check_slice_dots(..., n = n, prop = prop)
+  check_bool(with_ties)
 
   UseMethod("slice_min")
 }
@@ -209,6 +210,7 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
 slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
   check_required(order_by)
   check_slice_dots(..., n = n, prop = prop)
+  check_bool(with_ties)
 
   UseMethod("slice_max")
 }
@@ -242,9 +244,7 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
 #'   automatically standardised to sum to 1.
 slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
   check_slice_dots(..., n = n, prop = prop)
-  if (!is_bool(replace)) {
-    abort("`replace` must be a single `TRUE` or `FALSE`.")
-  }
+  check_bool(replace)
 
   UseMethod("slice_sample")
 }
@@ -427,6 +427,12 @@ check_slice_n_prop <- function(n, prop, error_call = caller_env()) {
     list(type = "prop", prop = prop)
   } else {
     abort("Must supply `n` or `prop`, but not both.", call = error_call)
+  }
+}
+
+check_bool <- function(x, arg = caller_arg(x), call = caller_env()) {
+  if (!is_bool(x)) {
+    abort(glue::glue("`{arg}` must be a single `TRUE` or `FALSE`."), call = call)
   }
 }
 
