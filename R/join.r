@@ -412,18 +412,18 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches 
 #' Nest join
 #'
 #' A nest join leaves `x` almost unchanged, except that it adds a new
-#' list-column, each element containing the the rows from `y` that match the
+#' list-column, where each element contains the rows from `y` that match the
 #' corresponding row in `x`.
 #'
 #' # Relationship to other joins
 #'
-#' You can recreate many other joins from the result of a nesting join:
+#' You can recreate many other joins from the result of a nest join:
 #'
-#' * [inner_join()] is a `nest_join()` plus [tidyr::unnest()]
-#' * [left_join()] is a `nest_join()` plus `tidyr::unnest(.drop = FALSE)`.
+#' * [inner_join()] is a `nest_join()` plus [tidyr::unnest()].
+#' * [left_join()] is a `nest_join()` plus `tidyr::unnest(keep_empty = TRUE)`.
 #' * [semi_join()] is a `nest_join()` plus a `filter()` where you check
-#'   that every element of data has at least one row,
-#' * [anti_join()] is a `nest_join()` plus a `filter()` where you check every
+#'   that every element of data has at least one row.
+#' * [anti_join()] is a `nest_join()` plus a `filter()` where you check that every
 #'   element has zero rows.
 #'
 #' @param name The name of the list-column created by the join. If `NULL`,
@@ -431,7 +431,7 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches 
 #' @param keep Should the new list-column contain join keys? The default
 #'   will preserve the join keys for non-equi-joins.
 #' @return
-#' A modified copy of `x` that contains an new column called `name`. The
+#' A modified copy of `x` that contains a new column called `name`. The
 #' column contains a list of objects the same type as `y`.
 #' @section Methods:
 #' This function is a **generic**, which means that packages can provide
