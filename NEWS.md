@@ -2,6 +2,14 @@
 
 * New `symdiff()` function computes the symmetric difference (#4811).
 
+* `slice_min()` and `slice_max()` can `order_by` multiple variables if you
+  supply them as a data.frame or tibble (#6176).
+
+* `slice_min()` and `slice_max()` now consistently include missing values in
+  the result if necessary (i.e. there aren't enough non-missing values to 
+  reach the `n` or `prop` you have selected). If you don't want missing values
+  to be included at all, set `na_rm = TRUE` (#6177).
+
 * `relocate()` now works correctly with empty data frames and when `.before` or
   `.after` result in empty selections (#6167).
 

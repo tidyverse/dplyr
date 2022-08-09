@@ -15,9 +15,9 @@ slice_head(.data, ..., n, prop)
 
 slice_tail(.data, ..., n, prop)
 
-slice_min(.data, order_by, ..., n, prop, with_ties = TRUE)
+slice_min(.data, order_by, ..., n, prop, with_ties = TRUE, na_rm = FALSE)
 
-slice_max(.data, order_by, ..., n, prop, with_ties = TRUE)
+slice_max(.data, order_by, ..., n, prop, with_ties = TRUE, na_rm = FALSE)
 
 slice_sample(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 }
@@ -33,7 +33,7 @@ Provide either positive values to keep, or negative values to drop.
 The values provided must be either all positive or all negative.
 Indices beyond the number of rows in the input are silently ignored.
 
-For \code{slice_helpers()}, these arguments are passed on to methods.}
+For \verb{slice_*()}, these arguments are passed on to methods.}
 
 \item{.preserve}{Relevant when the \code{.data} input is grouped.
 If \code{.preserve = FALSE} (the default), the grouping structure
@@ -51,11 +51,18 @@ the result will be silently truncated to the group size. If the
 \code{prop}ortion of a group size does not yield an integer number of rows, the
 absolute value of \code{prop*nrow(.data)} is rounded down.}
 
-\item{order_by}{Variable or function of variables to order by.}
+\item{order_by}{Variable or function of variables to order by.
+To order by multiple variables, wrap them in a data frame or
+tibble.}
 
 \item{with_ties}{Should ties be kept together? The default, \code{TRUE},
 may return more rows than you request. Use \code{FALSE} to ignore ties,
 and return the first \code{n} rows.}
+
+\item{na_rm}{Should missing values in \code{order_by} be removed from the result?
+If \code{FALSE}, \code{NA} values are sorted to the end (like in \code{\link[=arrange]{arrange()}}), so
+they will only be included if there are insufficient non-missing values to
+reach \code{n}/\code{prop}.}
 
 \item{weight_by}{Sampling weights. This must evaluate to a vector of
 non-negative numbers the same length as the input. Weights are
@@ -128,9 +135,12 @@ mtcars \%>\% slice_min(mpg, n = 5)
 mtcars \%>\% slice_max(mpg, n = 5)
 
 # slice_min() and slice_max() may return more rows than requested
-# in the presence of ties. Use with_ties = FALSE to suppress
+# in the presence of ties.
 mtcars \%>\% slice_min(cyl, n = 1)
+# Use with_ties = FALSE to return exactly n matches
 mtcars \%>\% slice_min(cyl, n = 1, with_ties = FALSE)
+# Or use additional variables to break the tie:
+mtcars \%>\% slice_min(tibble(cyl, mpg), n = 1)
 
 # slice_sample() allows you to random select with or without replacement
 mtcars \%>\% slice_sample(n = 5)
