@@ -3,8 +3,8 @@ test_that("works with simple vectors", {
 })
 
 test_that("handles data frames", {
-  df <- tibble(x = c(1, 1, 1), y = c(1, 2, 1))
-  expect_equal(consecutive_id(df), c(1, 2, 3))
+  df <- tibble(x = c(1, 1, 1, 1), y = c(1, 2, 2, 1))
+  expect_equal(consecutive_id(df), c(1, 2, 2, 3))
 })
 
 test_that("follows recycling rules", {

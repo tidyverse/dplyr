@@ -4,12 +4,12 @@
 #' of one or more vectors. It's a faster and more concise equivalent to
 #' `nrow(unique(data.frame(...)))`.
 #'
-#' @param ... Unnamed vectors. If multiple vectors, supplied they should have
-#'   the same length. This function does technically respect the recycling
+#' @param ... Unnamed vectors. If multiple vectors are supplied, then they should
+#'   have the same length. This function does technically respect the recycling
 #'   rules, but since a constant vector won't affect the unique values,
 #'   this is mostly of theoretical interest.
 #' @param na.rm If `TRUE`, exclude missing values from the count.
-#' @returns A single number..
+#' @returns A single number.
 #' @export
 #' @examples
 #' n_distinct()

@@ -2,7 +2,7 @@
 #'
 #' `consecutive_id()` generates a unique identifier that increments every time
 #' a variable (or combination of variables) changes. Inspired by
-#' `data.table::rle()`.
+#' `data.table::rleid()`.
 #'
 #' @inheritParams n_distinct
 #' @export
