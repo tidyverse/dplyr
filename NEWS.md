@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `across()` used without functions inside a rowwise-data frame no longer
+   generates an invalid data frame (#6264).
+
 * New `consecutive_id()` for creating groups based on contiguous runs of the
   same values, like `data.table::rleid()` (#1534).
 
