@@ -33,7 +33,7 @@ Provide either positive values to keep, or negative values to drop.
 The values provided must be either all positive or all negative.
 Indices beyond the number of rows in the input are silently ignored.
 
-For \code{slice_helpers()}, these arguments are passed on to methods.}
+For \verb{slice_*()}, these arguments are passed on to methods.}
 
 \item{.preserve}{Relevant when the \code{.data} input is grouped.
 If \code{.preserve = FALSE} (the default), the grouping structure

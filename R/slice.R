@@ -29,7 +29,7 @@
 #'   The values provided must be either all positive or all negative.
 #'   Indices beyond the number of rows in the input are silently ignored.
 #'
-#'   For `slice_helpers()`, these arguments are passed on to methods.
+#'   For `slice_*()`, these arguments are passed on to methods.
 #'
 #' @param n,prop Provide either `n`, the number of rows, or `prop`, the
 #'   proportion of rows to select. If neither are supplied, `n = 1` will be
