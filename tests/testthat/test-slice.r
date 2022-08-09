@@ -268,6 +268,19 @@ test_that("slice_min/max() check size of `order_by=` (#5922)", {
   })
 })
 
+test_that("slice_min/max() validate simple arguments", {
+  expect_snapshot(error = TRUE, {
+    slice_min(data.frame(x = 1:10))
+    slice_max(data.frame(x = 1:10))
+
+    slice_min(data.frame(x = 1:10), x, with_ties = 1)
+    slice_max(data.frame(x = 1:10), x, with_ties = 1)
+
+    slice_min(data.frame(x = 1:10), x, na_rm = 1)
+    slice_max(data.frame(x = 1:10), x, na_rm = 1)
+  })
+})
+
 # slice_sample ------------------------------------------------------------
 
 test_that("slice_sample() respects weight_by and replaces", {
