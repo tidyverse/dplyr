@@ -494,6 +494,7 @@ slice_rank_idx <- function(
     keep[vec_equal_na(order_by)] <- FALSE
   }
 
-  which(keep)[order(ranks[keep])]
+  which <- which(keep)
+  which[order(ranks[which])]
 }
 
