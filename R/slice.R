@@ -196,12 +196,13 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
   dplyr_local_error_call()
 
   slice(.data, local({
+    n <- dplyr::n()
     order_by <- {{ order_by }}
-    vec_assert(order_by, size = dplyr::n())
+    vec_assert(order_by, size = n)
 
     slice_rank_idx(
       order_by,
-      size(dplyr::n()),
+      size(n),
       direction = "asc",
       with_ties = with_ties,
       na_rm = na_rm
@@ -223,12 +224,14 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
 
   dplyr_local_error_call()
   slice(.data, local({
+    n <- dplyr::n()
     order_by <- {{ order_by }}
-    vec_assert(order_by, size = dplyr::n())
+
+    vec_assert(order_by, size = n)
 
     slice_rank_idx(
       order_by,
-      size(dplyr::n()),
+      size(n),
       direction = "desc",
       with_ties = with_ties,
       na_rm = na_rm
