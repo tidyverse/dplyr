@@ -16,7 +16,6 @@ nest_join(x, y, by = NULL, copy = FALSE, keep = NULL, name = NULL, ...)
   name = NULL,
   ...,
   na_matches = c("na", "never"),
-  multiple = NULL,
   unmatched = "drop"
 )
 }
@@ -71,26 +70,6 @@ the default, the name of \code{y} is used.}
 never match them together or to any other values. This is similar to joins
 for database sources and to \code{base::merge(incomparables = NA)}.
 }}
-
-\item{multiple}{Handling of rows in \code{x} with multiple matches in \code{y}.
-For each row of \code{x}:
-\itemize{
-\item \code{"all"} returns every match detected in \code{y}. This is the same behavior
-as SQL.
-\item \code{"any"} returns one match detected in \code{y}, with no guarantees on which
-match will be returned. It is often faster than \code{"first"} and \code{"last"}
-if you just need to detect if there is at least one match.
-\item \code{"first"} returns the first match detected in \code{y}.
-\item \code{"last"} returns the last match detected in \code{y}.
-\item \code{"warning"} throws a warning if multiple matches are detected, and
-then falls back to \code{"all"}.
-\item \code{"error"} throws an error if multiple matches are detected.
-}
-
-The default value of \code{NULL} is equivalent to \code{"warning"} for equi joins and
-rolling joins, where multiple matches are usually surprising. If any
-non-equi join conditions are present or if you are doing a cross join, then
-it is equivalent to \code{"all"}, since multiple matches are usually expected.}
 
 \item{unmatched}{How should unmatched keys that would result in dropped rows
 be handled?
