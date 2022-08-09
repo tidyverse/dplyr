@@ -109,7 +109,7 @@ eval_relocate <- function(expr,
   }
 
   if (has_before) {
-    # TODO: Use `allow_rename = FALSE`. https://github.com/r-lib/tidyselect/issues/225
+    # TODO: Use `allow_rename = FALSE`. https://github.com/r-lib/tidyselect/issues/221
     where <- tidyselect::eval_select(before, data, env = env, error_call = error_call)
     where <- unname(where)
 
@@ -120,7 +120,7 @@ eval_relocate <- function(expr,
       where <- min(where)
     }
   } else if (has_after) {
-    # TODO: Use `allow_rename = FALSE`. https://github.com/r-lib/tidyselect/issues/225
+    # TODO: Use `allow_rename = FALSE`. https://github.com/r-lib/tidyselect/issues/221
     where <- tidyselect::eval_select(after, data, env = env, error_call = error_call)
     where <- unname(where)
 
