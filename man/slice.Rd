@@ -59,10 +59,10 @@ tibble.}
 may return more rows than you request. Use \code{FALSE} to ignore ties,
 and return the first \code{n} rows.}
 
-\item{na_rm}{Should missing values be removed from the result? If \code{FALSE},
-\code{NA} values are sorted to the end (like in \code{\link[=arrange]{arrange()}}), so they will
-only be included if there are insufficient non-missing values to reach
-\code{n}/\code{prop}.}
+\item{na_rm}{Should missing values in \code{order_by} be removed from the result?
+If \code{FALSE}, \code{NA} values are sorted to the end (like in \code{\link[=arrange]{arrange()}}), so
+they will only be included if there are insufficient non-missing values to
+reach \code{n}/\code{prop}.}
 
 \item{weight_by}{Sampling weights. This must evaluate to a vector of
 non-negative numbers the same length as the input. Weights are

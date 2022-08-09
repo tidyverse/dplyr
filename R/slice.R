@@ -180,10 +180,10 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
 #' @param with_ties Should ties be kept together? The default, `TRUE`,
 #'   may return more rows than you request. Use `FALSE` to ignore ties,
 #'   and return the first `n` rows.
-#' @param na_rm Should missing values in `order_by` be removed from the result? If `FALSE`,
-#'   `NA` values are sorted to the end (like in [arrange()]), so they will
-#'   only be included if there are insufficient non-missing values to reach
-#'   `n`/`prop`.
+#' @param na_rm Should missing values in `order_by` be removed from the result?
+#'   If `FALSE`, `NA` values are sorted to the end (like in [arrange()]), so
+#'   they will only be included if there are insufficient non-missing values to
+#'   reach `n`/`prop`.
 slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE, na_rm = FALSE) {
   UseMethod("slice_min")
 }
