@@ -8,6 +8,23 @@
   reach the `n` or `prop` you have selected). If you don't want missing values
   to be included at all, set `na_rm = TRUE` (#6177).
 
+* `relocate()` now works correctly with empty data frames and when `.before` or
+  `.after` result in empty selections (#6167).
+
+* `relocate()` no longer drops attributes of bare data frames (#6341).
+
+* `across()` used without functions inside a rowwise-data frame no longer
+   generates an invalid data frame (#6264).
+
+* New `consecutive_id()` for creating groups based on contiguous runs of the
+  same values, like `data.table::rleid()` (#1534).
+
+* `nest_join()` now preserves the type of `y` (#6295).
+
+* Passing `...` to `across()` is now deprecated because the evaluation timing of
+  `...` is ambiguous. Now instead of (e.g.) `across(a:b, mean, na.rm = TRUE)`
+  you should write `across(a:b, ~ mean(.x, na.rm = TRUE))` (#6073).
+
 * Rowwise-`mutate()` behaves a little better with 0-row inputs (#6303).
 
 * A rowwise `mutate()` now automatically unlists list-columns containing 

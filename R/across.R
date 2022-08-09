@@ -33,8 +33,14 @@
 #'
 #'   Within these functions you can use [cur_column()] and [cur_group()]
 #'   to access the current column and grouping keys respectively.
-#' @param ... Additional arguments for the function calls in `.fns`. Using these
-#'   `...` is strongly discouraged because of issues of timing of evaluation.
+#' @param ... `r lifecycle::badge("deprecated")`
+#'
+#'   Additional arguments for the function calls in `.fns` are no longer
+#'   accepted in `...` because it's not clear when they should be evaluated:
+#'   once per `across()` or once per group? Instead supply additional arguments
+#'   directly in `.fns` by using a lambda. For example, instead of
+#'   `across(a:b, mean, na.rm = TRUE)` write
+#'   `across(a:b, ~ mean(.x, na.rm = TRUE))`.
 #' @param .names A glue specification that describes how to name the output
 #'   columns. This can use `{.col}` to stand for the selected column name, and
 #'   `{.fn}` to stand for the name of the function being applied. The default
@@ -139,6 +145,23 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
     inline = FALSE
   )
 
+  if (!missing(...)) {
+    details <- paste_line(
+      "Supply arguments directly to `.fns` through a lambda instead.",
+      "",
+      "  # Previously",
+      "  across(a:b, mean, na.rm = TRUE)",
+      "",
+      "  # Now",
+      "  across(a:b, ~mean(.x, na.rm = TRUE))"
+    )
+    lifecycle::deprecate_warn(
+      when = "1.1.0",
+      what = "across(...)",
+      details = details
+    )
+  }
+
   vars <- setup$vars
   if (length(vars) == 0L) {
     return(new_tibble(list(), nrow = 1L))
@@ -147,11 +170,9 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   names <- setup$names
 
   mask <- peek_mask()
-  data <- mask$current_cols(vars)
 
   if (is.null(fns)) {
-    nrow <- length(mask$current_rows())
-    data <- new_data_frame(data, n = nrow, class = c("tbl_df", "tbl"))
+    data <- mask$pick(vars)
 
     if (is.null(names)) {
       return(data)
@@ -159,6 +180,8 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
       return(set_names(data, names))
     }
   }
+
+  data <- mask$current_cols(vars)
 
   n_cols <- length(data)
   n_fns <- length(fns)
