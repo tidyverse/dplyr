@@ -1,6 +1,6 @@
 # dplyr (development version)
 
-* `slice_min()` and `slice_max()` can `order_by` multiple variabes if you
+* `slice_min()` and `slice_max()` can `order_by` multiple variables if you
   supply them as a data.frame or tibble (#6176).
 
 * `slice_min()` and `slice_max()` now consistently include missing values in
