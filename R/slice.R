@@ -491,7 +491,7 @@ slice_rank_idx <- function(
 
   keep <- ranks <= size
   if (na_rm) {
-    keep[vec_equal_na(order_by)] <- FALSE
+    keep[!vec_detect_complete(order_by)] <- FALSE
   }
 
   which <- which(keep)

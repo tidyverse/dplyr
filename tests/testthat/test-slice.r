@@ -249,6 +249,11 @@ test_that("min and max ignore NA's when requested (#4826)", {
   df <- tibble(id = 1:4, x = list(NULL, 1, NULL, NULL))
   expect_equal(slice_min(df, x, n = 2, na_rm = TRUE)$id, 2)
   expect_equal(slice_max(df, x, n = 2, na_rm = TRUE)$id, 2)
+
+  # Drop when any element is missing
+  df <- tibble(id = 1:3, a = c(1, 2, NA), b = c(2, NA, NA))
+  expect_equal(slice_min(df, tibble(a, b), n = 3, na_rm = TRUE)$id, 1)
+  expect_equal(slice_max(df, tibble(a, b), n = 3, na_rm = TRUE)$id, 1)
 })
 
 test_that("slice_min/max() can order by multiple variables (#6176)", {
