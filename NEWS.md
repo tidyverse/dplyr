@@ -1,5 +1,10 @@
 # dplyr (development version)
 
+* `relocate()` now works correctly with empty data frames and when `.before` or
+  `.after` result in empty selections (#6167).
+
+* `relocate()` no longer drops attributes of bare data frames (#6341).
+
 * `across()` used without functions inside a rowwise-data frame no longer
    generates an invalid data frame (#6264).
 
