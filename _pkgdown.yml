@@ -73,6 +73,7 @@ reference:
   - between
   - case_when
   - coalesce
+  - consecutive_id
   - cumany
   - desc
   - if_else

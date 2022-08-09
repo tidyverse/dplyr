@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* New `consecutive_id()` for creating groups based on contiguous runs of the
+  same values, like `data.table::rleid()` (#1534).
+
 * `nest_join()` now preserves the type of `y` (#6295).
 
 * Passing `...` to `across()` is now deprecated because the evaluation timing of
