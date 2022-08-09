@@ -10,6 +10,10 @@ consecutive_id(...)
 \item{...}{Unnamed vectors. If multiple vectors are supplied, then they should
 have the same length.}
 }
+\value{
+A numeric vector the same length as the longest
+element of \code{...}.
+}
 \description{
 \code{consecutive_id()} generates a unique identifier that increments every time
 a variable (or combination of variables) changes. Inspired by

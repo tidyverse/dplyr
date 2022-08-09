@@ -5,6 +5,8 @@
 #' `data.table::rleid()`.
 #'
 #' @inheritParams n_distinct
+#' @returns A numeric vector the same length as the longest
+#'   element of `...`.
 #' @export
 #' @examples
 #' consecutive_id(c(TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, NA, NA))
