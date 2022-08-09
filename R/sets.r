@@ -7,12 +7,12 @@
 #' * `union(x, y)` finds all rows in either `x` or `y`, excluding duplicates.
 #' * `union_all(x, y)` finds all rows in either `x` or `y`, including duplicates.
 #' * `setdiff(x, y)` finds all rows in `x` that aren't in `y`.
-#' * `symdiff(x, y)` computes the symetric difference, i.e. all rows in
+#' * `symdiff(x, y)` computes the symmetric difference, i.e. all rows in
 #'    `x` that aren't in `y` and all rows in `y` that aren't in `x`.
 #' * `setequal(x, y)` returns `TRUE` if `x` and `y` contain the same rows
 #'   (ignoring order).
 #'
-#' Note that `intersect()`, `union()`, `setdiff()` and `symdiff()` remove
+#' Note that `intersect()`, `union()`, `setdiff()`, and `symdiff()` remove
 #' duplicates in `x` and `y`.
 #'
 #' # Base functions
