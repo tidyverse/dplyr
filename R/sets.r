@@ -7,11 +7,13 @@
 #' * `union(x, y)` finds all rows in either `x` or `y`, excluding duplicates.
 #' * `union_all(x, y)` finds all rows in either `x` or `y`, including duplicates.
 #' * `setdiff(x, y)` finds all rows in `x` that aren't in `y`.
+#' * `symdiff(x, y)` computes the symmetric difference, i.e. all rows in
+#'    `x` that aren't in `y` and all rows in `y` that aren't in `x`.
 #' * `setequal(x, y)` returns `TRUE` if `x` and `y` contain the same rows
 #'   (ignoring order).
 #'
-#' Note that `intersect()`, `union()` and `setdiff()` remove duplicates
-#' in `x` and `y`.
+#' Note that `intersect()`, `union()`, `setdiff()`, and `symdiff()` remove
+#' duplicates in `x` and `y`.
 #'
 #' # Base functions
 #' `intersect()`, `union()`, `setdiff()`, and `setequal()` override the base
@@ -19,29 +21,33 @@
 #' behaviour for vectors is preserved by providing default methods that call
 #' the base functions.
 #'
-#' @param x,y Pair of data frames.
+#' @param x,y Pair of compatible data frames. A pair of data frames is
+#'   compatible if they have the same column names (possibly in different
+#'   orders) and compatible types.
 #' @inheritParams rlang::args_dots_empty
 #' @name setops
 #' @examples
-#' mtcars$model <- rownames(mtcars)
-#' first <- mtcars[1:20, ]
-#' second <- mtcars[10:32, ]
+#' df1 <- tibble(x = 1:3)
+#' df2 <- tibble(x = 3:5)
 #'
-#' intersect(first, second)
-#' union(first, second)
-#' setdiff(first, second)
-#' setdiff(second, first)
+#' intersect(df1, df2)
+#' union(df1, df2)
+#' union_all(df1, df2)
+#' setdiff(df1, df2)
+#' setdiff(df2, df1)
+#' symdiff(df1, df2)
 #'
-#' union_all(first, second)
-#' setequal(mtcars, mtcars[32:1, ])
+#' setequal(df1, df2)
+#' setequal(df1, df1[3:1, ])
 #'
-#' # Note the following 3 functions also remove pre-existing duplicates in `x` or `y`:
-#' a <- data.frame(x = c(1:3, 3, 3))
-#' b <- data.frame(x = c(3:5, 5))
+#' # Note that the following functions remove pre-existing duplicates:
+#' df1 <- tibble(x = c(1:3, 3, 3))
+#' df2 <- tibble(x = c(3:5, 5))
 #'
-#' intersect(a, b)
-#' union(a, b)
-#' setdiff(a, b)
+#' intersect(df1, df2)
+#' union(df1, df2)
+#' setdiff(df1, df2)
+#' symdiff(df1, df2)
 NULL
 
 #' @name setops
@@ -81,6 +87,17 @@ NULL
 #' @importFrom generics setequal
 #' @export setequal
 NULL
+
+#' @rdname setops
+#' @export
+symdiff <- function(x, y, ...) {
+  UseMethod("symdiff")
+}
+#' @export
+symdiff.default <- function (x, y, ...) {
+  check_dots_empty()
+  setdiff(union(x, y), intersect(x, y))
+}
 
 #' @export
 intersect.data.frame <- function(x, y, ...) {
@@ -134,6 +151,18 @@ setequal.data.frame <- function(x, y, ...) {
   all(vec_in(cast$x, cast$y)) && all(vec_in(cast$y, cast$x))
 }
 
+#' @export
+symdiff.data.frame <- function(x, y, ...) {
+  check_dots_empty()
+  check_compatible(x, y)
+
+  cast <- vec_cast_common(x = x, y = y)
+  only_x <- vec_slice(cast$x, !vec_in(cast$x, cast$y))
+  only_y <- vec_slice(cast$y, !vec_in(cast$y, cast$x))
+
+  out <- vec_unique(vec_rbind(only_x, only_y))
+  dplyr_reconstruct(out, x)
+}
 
 # Helpers -----------------------------------------------------------------
 
