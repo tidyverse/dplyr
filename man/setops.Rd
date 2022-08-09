@@ -36,13 +36,13 @@ Perform set operations using the rows of a data frame.
 \item \code{union(x, y)} finds all rows in either \code{x} or \code{y}, excluding duplicates.
 \item \code{union_all(x, y)} finds all rows in either \code{x} or \code{y}, including duplicates.
 \item \code{setdiff(x, y)} finds all rows in \code{x} that aren't in \code{y}.
-\item \code{symdiff(x, y)} computes the symetric difference, i.e. all rows in
+\item \code{symdiff(x, y)} computes the symmetric difference, i.e. all rows in
 \code{x} that aren't in \code{y} and all rows in \code{y} that aren't in \code{x}.
 \item \code{setequal(x, y)} returns \code{TRUE} if \code{x} and \code{y} contain the same rows
 (ignoring order).
 }
 
-Note that \code{intersect()}, \code{union()}, \code{setdiff()} and \code{symdiff()} remove
+Note that \code{intersect()}, \code{union()}, \code{setdiff()}, and \code{symdiff()} remove
 duplicates in \code{x} and \code{y}.
 }
 \section{Base functions}{
