@@ -3,6 +3,8 @@
 * `slice_*()` generics now perform argument validation. This should make 
   methods more consistent and simpler to implement (#6361).
 
+* New `symdiff()` function computes the symmetric difference (#4811).
+
 * `slice_min()` and `slice_max()` can `order_by` multiple variables if you
   supply them as a data.frame or tibble (#6176).
 

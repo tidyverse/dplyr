@@ -7,6 +7,7 @@
 \alias{union_all}
 \alias{setdiff}
 \alias{setequal}
+\alias{symdiff}
 \title{Set operations}
 \usage{
 intersect(x, y, ...)
@@ -18,9 +19,13 @@ union_all(x, y, ...)
 setdiff(x, y, ...)
 
 setequal(x, y, ...)
+
+symdiff(x, y, ...)
 }
 \arguments{
-\item{x, y}{Pair of data frames.}
+\item{x, y}{Pair of compatible data frames. A pair of data frames is
+compatible if they have the same column names (possibly in different
+orders) and compatible types.}
 
 \item{...}{These dots are for future extensions and must be empty.}
 }
@@ -31,12 +36,14 @@ Perform set operations using the rows of a data frame.
 \item \code{union(x, y)} finds all rows in either \code{x} or \code{y}, excluding duplicates.
 \item \code{union_all(x, y)} finds all rows in either \code{x} or \code{y}, including duplicates.
 \item \code{setdiff(x, y)} finds all rows in \code{x} that aren't in \code{y}.
+\item \code{symdiff(x, y)} computes the symmetric difference, i.e. all rows in
+\code{x} that aren't in \code{y} and all rows in \code{y} that aren't in \code{x}.
 \item \code{setequal(x, y)} returns \code{TRUE} if \code{x} and \code{y} contain the same rows
 (ignoring order).
 }
 
-Note that \code{intersect()}, \code{union()} and \code{setdiff()} remove duplicates
-in \code{x} and \code{y}.
+Note that \code{intersect()}, \code{union()}, \code{setdiff()}, and \code{symdiff()} remove
+duplicates in \code{x} and \code{y}.
 }
 \section{Base functions}{
 \code{intersect()}, \code{union()}, \code{setdiff()}, and \code{setequal()} override the base
@@ -46,23 +53,25 @@ the base functions.
 }
 
 \examples{
-mtcars$model <- rownames(mtcars)
-first <- mtcars[1:20, ]
-second <- mtcars[10:32, ]
+df1 <- tibble(x = 1:3)
+df2 <- tibble(x = 3:5)
 
-intersect(first, second)
-union(first, second)
-setdiff(first, second)
-setdiff(second, first)
+intersect(df1, df2)
+union(df1, df2)
+union_all(df1, df2)
+setdiff(df1, df2)
+setdiff(df2, df1)
+symdiff(df1, df2)
 
-union_all(first, second)
-setequal(mtcars, mtcars[32:1, ])
+setequal(df1, df2)
+setequal(df1, df1[3:1, ])
 
-# Note the following 3 functions also remove pre-existing duplicates in `x` or `y`:
-a <- data.frame(x = c(1:3, 3, 3))
-b <- data.frame(x = c(3:5, 5))
+# Note that the following functions remove pre-existing duplicates:
+df1 <- tibble(x = c(1:3, 3, 3))
+df2 <- tibble(x = c(3:5, 5))
 
-intersect(a, b)
-union(a, b)
-setdiff(a, b)
+intersect(df1, df2)
+union(df1, df2)
+setdiff(df1, df2)
+symdiff(df1, df2)
 }

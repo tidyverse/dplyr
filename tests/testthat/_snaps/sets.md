@@ -28,6 +28,13 @@
       ! `...` must be empty.
       x Problematic argument:
       * z = 3
+    Code
+      symdiff(df1, df2, z = 3)
+    Condition
+      Error in `symdiff()`:
+      ! `...` must be empty.
+      x Problematic argument:
+      * z = 3
 
 # incompatible data frames error (#903)
 
@@ -53,6 +60,12 @@
       setdiff(df1, df2)
     Condition
       Error in `setdiff()`:
+      ! `x` and `y` are not compatible.
+      x Different number of columns: 1 vs 2.
+    Code
+      symdiff(df1, df2)
+    Condition
+      Error in `symdiff()`:
       ! `x` and `y` are not compatible.
       x Different number of columns: 1 vs 2.
 
