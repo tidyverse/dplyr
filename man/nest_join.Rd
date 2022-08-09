@@ -55,19 +55,11 @@ and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
 same src as \code{x}.  This allows you to join tables across srcs, but
 it is a potentially expensive operation so you must opt into it.}
 
-\item{keep}{Should the join keys from both \code{x} and \code{y} be preserved in the
-output?
-\itemize{
-\item If \code{NULL}, the default, joins on equality retain only the keys from \code{x},
-while joins on inequality retain the keys from both inputs.
-\item If \code{TRUE}, keys from both inputs are retained.
-\item If \code{FALSE}, only keys from \code{x} are retained. For right and full joins,
-the data in key columns corresponding to rows that only exist in \code{y} are
-merged into the key columns from \code{x}.
-}}
+\item{keep}{Should the new list-column contain join keys? The default
+will preserve the join keys for non-equi-joins.}
 
-\item{name}{The name of the list column nesting joins create.
-If \code{NULL} the name of \code{y} is used.}
+\item{name}{The name of the list-column created by the join. If \code{NULL},
+the default, the name of \code{y} is used.}
 
 \item{...}{Other parameters passed onto methods.}
 
@@ -113,23 +105,35 @@ potentially drop rows. For example, in \code{left_join()} only \code{y} is
 checked for unmatched keys, because all keys from \code{x} are always retained,
 even if they don't have a match.}
 }
-\description{
-\code{nest_join()} returns all rows and columns in \code{x} with a new nested-df column
-that contains all matches from \code{y}. When there is no match, the list column
-is a 0-row tibble.
-}
-\details{
-In some sense, a \code{nest_join()} is the most fundamental join since you can
-recreate the other joins from it:
+\value{
+The output:
 \itemize{
-\item \code{inner_join()} is a \code{nest_join()} plus \code{\link[tidyr:nest]{tidyr::unnest()}}
-\item \code{left_join()} \code{nest_join()} plus \code{unnest(.drop = FALSE)}.
-\item \code{semi_join()} is a \code{nest_join()} plus a \code{filter()} where you check
-that every element of data has at least one row,
-\item \code{anti_join()} is a \code{nest_join()} plus a \code{filter()} where you check every
+\item Is same type as \code{x} (including having the same groups).
+\item Has exactly the same number of rows as \code{x}.
+\item Contains all the columns of \code{x} in the same order with the same values.
+They are only modified (slightly) if \code{keep = FALSE}, when columns listed
+in \code{by} will be coerced to their common type across \code{x} and \code{y}.
+\item Gains one new column called \code{{name}} on the far right, a list column
+containing data frames the same type as \code{y}.
+}
+}
+\description{
+A nest join leaves \code{x} almost unchanged, except that it adds a new
+list-column, where each element contains the rows from \code{y} that match the
+corresponding row in \code{x}.
+}
+\section{Relationship to other joins}{
+You can recreate many other joins from the result of a nest join:
+\itemize{
+\item \code{\link[=inner_join]{inner_join()}} is a \code{nest_join()} plus \code{\link[tidyr:unnest]{tidyr::unnest()}}.
+\item \code{\link[=left_join]{left_join()}} is a \code{nest_join()} plus \code{tidyr::unnest(keep_empty = TRUE)}.
+\item \code{\link[=semi_join]{semi_join()}} is a \code{nest_join()} plus a \code{filter()} where you check
+that every element of data has at least one row.
+\item \code{\link[=anti_join]{anti_join()}} is a \code{nest_join()} plus a \code{filter()} where you check that every
 element has zero rows.
 }
 }
+
 \section{Methods}{
 
 This function is a \strong{generic}, which means that packages can provide
@@ -141,7 +145,12 @@ The following methods are currently available in loaded packages:
 }
 
 \examples{
-band_members \%>\% nest_join(band_instruments)
+df1 <- tibble(x = 1:3)
+df2 <- tibble(x = c(2, 3, 3), y = c("a", "b", "c"))
+
+out <- nest_join(df1, df2)
+out
+out$df2
 }
 \seealso{
 Other joins: 

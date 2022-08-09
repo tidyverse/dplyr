@@ -823,6 +823,20 @@ test_that("expand_if_across() expands lambdas", {
   )
 })
 
+test_that("rowwise() preserves list-cols iff no `.fns` (#5951, #6264)", {
+  rf <- rowwise(tibble(x = list(1:2, 3:5)))
+
+  # Need to unchop so works like mutate(rf, x = length(x))
+  out <- mutate(rf, across(everything(), length))
+  expect_equal(out$x, c(2, 3))
+
+  # Need to preserve to create valid data frame
+  out <- mutate(rf, across = list(across(everything())))
+  expect_equal(out$across, list(
+    tibble(x = list(1:2)),
+    tibble(x = list(3:5))
+  ))
+})
 
 # c_across ----------------------------------------------------------------
 

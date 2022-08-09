@@ -200,13 +200,17 @@ checked for unmatched keys, because all keys from \code{x} are always retained,
 even if they don't have a match.}
 }
 \value{
-An object of the same type as \code{x}. The order of the rows and columns of \code{x}
-is preserved as much as possible. The output has the following properties:
+An object of the same type as \code{x} (including the same groups). The order of
+the rows and columns of \code{x} is preserved as much as possible. The output has
+the following properties:
 \itemize{
-\item For \code{inner_join()}, a subset of \code{x} rows.
-For \code{left_join()}, all \code{x} rows.
-For \code{right_join()}, a subset of \code{x} rows, followed by unmatched \code{y} rows.
-For \code{full_join()}, all \code{x} rows, followed by unmatched \code{y} rows.
+\item The rows are affect by the join type.
+\itemize{
+\item \code{inner_join()} returns matched \code{x} rows.
+\item \code{left_join()} returns all \code{x} rows.
+\item \code{right_join()}  returns matched of \code{x} rows, followed by unmatched \code{y} rows.
+\item \code{full_join()}  returns all \code{x} rows, followed by unmatched \code{y} rows.
+}
 \item Output columns include all columns from \code{x} and all non-key columns from
 \code{y}. If \code{keep = TRUE}, the key columns from \code{y} are included as well.
 \item If non-key columns in \code{x} and \code{y} have the same name, \code{suffix}es are added
@@ -214,7 +218,6 @@ to disambiguate. If \code{keep = TRUE} and key columns in \code{x} and \code{y} 
 the same name, \code{suffix}es are added to disambiguate these as well.
 \item If \code{keep = FALSE}, output columns included in \code{by} are coerced to their
 common type between \code{x} and \code{y}.
-\item Groups are taken from \code{x}.
 }
 }
 \description{
