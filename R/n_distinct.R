@@ -6,7 +6,9 @@
 #'
 #' @param ... Unnamed vectors. If multiple vectors are supplied, then they should
 #'   have the same length.
-#' @param na.rm If `TRUE`, exclude missing values from the count.
+#' @param na.rm If `TRUE`, exclude missing observations from the count.
+#'   If there are multiple vectors in `...`, an observation will
+#'   be excluded if _any_ of the values are missing.
 #' @returns A single number.
 #' @export
 #' @examples
@@ -32,8 +34,9 @@ n_distinct <- function(..., na.rm = FALSE) {
   data <- vctrs::data_frame(..., .name_repair = "minimal")
 
   if (isTRUE(na.rm)) {
-    drop <- reduce(map(data, vec_equal_na), `|`)
-    data <- vec_slice(data, !drop)
+    # Drop observation if *any* missing
+    complete <- vec_detect_complete(data)
+    data <- vec_slice(data, complete)
   }
 
   vec_unique_count(data)

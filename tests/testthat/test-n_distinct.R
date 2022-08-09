@@ -21,6 +21,9 @@ test_that("n_distinct() can drop missing values", {
 
   expect_equal(n_distinct(c(NA, 0), c(0, NA), na.rm = TRUE), 0)
   expect_equal(n_distinct(c(NA, 0), c(0, 0), na.rm = TRUE), 1)
+
+  # check tibbles unpacked correctly
+  expect_equal(n_distinct(1, tibble(x = 2, y = NA), na.rm = TRUE), 0)
 })
 
 test_that("n_distinct() follows recycling rules", {

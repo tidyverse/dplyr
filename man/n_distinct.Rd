@@ -10,7 +10,9 @@ n_distinct(..., na.rm = FALSE)
 \item{...}{Unnamed vectors. If multiple vectors are supplied, then they should
 have the same length.}
 
-\item{na.rm}{If \code{TRUE}, exclude missing values from the count.}
+\item{na.rm}{If \code{TRUE}, exclude missing observations from the count.
+If there are multiple vectors in \code{...}, an observation will
+be excluded if \emph{any} of the values are missing.}
 }
 \value{
 A single number.
