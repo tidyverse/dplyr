@@ -180,7 +180,7 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
 #' @param with_ties Should ties be kept together? The default, `TRUE`,
 #'   may return more rows than you request. Use `FALSE` to ignore ties,
 #'   and return the first `n` rows.
-#' @param na_rm Should missing values be removed from the result? If `FALSE`,
+#' @param na_rm Should missing values in `order_by` be removed from the result? If `FALSE`,
 #'   `NA` values are sorted to the end (like in [arrange()]), so they will
 #'   only be included if there are insufficient non-missing values to reach
 #'   `n`/`prop`.
@@ -487,8 +487,8 @@ slice_rank_idx <- function(
   )
 
   keep <- ranks <= size
-  if (isTRUE(na_rm)) {
-    keep[vctrs::vec_equal_na(order_by)] <- FALSE
+  if (na_rm) {
+    keep[vec_equal_na(order_by)] <- FALSE
   }
 
   which(keep)[order(ranks[keep])]
