@@ -29,7 +29,7 @@
 #'   The values provided must be either all positive or all negative.
 #'   Indices beyond the number of rows in the input are silently ignored.
 #'
-#'   For `slice_helpers()`, these arguments are passed on to methods.
+#'   For `slice_*()`, these arguments are passed on to methods.
 #'
 #' @param n,prop Provide either `n`, the number of rows, or `prop`, the
 #'   proportion of rows to select. If neither are supplied, `n = 1` will be
@@ -81,9 +81,12 @@
 #' mtcars %>% slice_max(mpg, n = 5)
 #'
 #' # slice_min() and slice_max() may return more rows than requested
-#' # in the presence of ties. Use with_ties = FALSE to suppress
+#' # in the presence of ties.
 #' mtcars %>% slice_min(cyl, n = 1)
+#' # Use with_ties = FALSE to return exactly n matches
 #' mtcars %>% slice_min(cyl, n = 1, with_ties = FALSE)
+#' # Or use additional variables to break the tie:
+#' mtcars %>% slice_min(tibble(cyl, mpg), n = 1)
 #'
 #' # slice_sample() allows you to random select with or without replacement
 #' mtcars %>% slice_sample(n = 5)
@@ -172,62 +175,67 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
 #' @export
 #' @rdname slice
 #' @param order_by Variable or function of variables to order by.
+#'   To order by multiple variables, wrap them in a data frame or
+#'   tibble.
 #' @param with_ties Should ties be kept together? The default, `TRUE`,
 #'   may return more rows than you request. Use `FALSE` to ignore ties,
 #'   and return the first `n` rows.
-slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
+#' @param na_rm Should missing values in `order_by` be removed from the result?
+#'   If `FALSE`, `NA` values are sorted to the end (like in [arrange()]), so
+#'   they will only be included if there are insufficient non-missing values to
+#'   reach `n`/`prop`.
+slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE, na_rm = FALSE) {
   UseMethod("slice_min")
 }
 
 #' @export
-slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
+slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE, na_rm = FALSE) {
   check_required(order_by)
-
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)
-  if (with_ties) {
-    idx <- function(x, n) head(order(x), smaller_ranks(x, size(n)))
-  } else {
-    idx <- function(x, n) head(order(x), size(n))
-  }
-
   dplyr_local_error_call()
+
   slice(.data, local({
-    order_by <- {{ order_by }}
     n <- dplyr::n()
+    order_by <- {{ order_by }}
+    vec_assert(order_by, size = n)
 
-    x <- fix_call(vec_assert(order_by, size = n, arg = "order_by"), NULL)
-    idx(x, n)
+    slice_rank_idx(
+      order_by,
+      size(n),
+      direction = "asc",
+      with_ties = with_ties,
+      na_rm = na_rm
+    )
   }))
-
 }
 
 #' @export
 #' @rdname slice
-slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
+slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE, na_rm = FALSE) {
   UseMethod("slice_max")
 }
 
 #' @export
-slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE) {
+slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE, na_rm = FALSE) {
   check_required(order_by)
-
   check_slice_dots(..., n = n, prop = prop)
   size <- get_slice_size(n = n, prop = prop)
-  if (with_ties) {
-    idx <- function(x, n) head(
-        order(x, decreasing = TRUE), smaller_ranks(desc(x), size(n))
-    )
-  } else {
-    idx <- function(x, n) head(order(x, decreasing = TRUE), size(n))
-  }
 
   dplyr_local_error_call()
   slice(.data, local({
-    order_by <- {{ order_by }}
     n <- dplyr::n()
-    order_by <- fix_call(vec_assert(order_by, size = n, arg = "order_by"), NULL)
-    idx(order_by, n)
+    order_by <- {{ order_by }}
+
+    vec_assert(order_by, size = n)
+
+    slice_rank_idx(
+      order_by,
+      size(n),
+      direction = "desc",
+      with_ties = with_ties,
+      na_rm = na_rm
+    )
   }))
 }
 
@@ -462,7 +470,31 @@ sample_int <- function(n, size, replace = FALSE, wt = NULL, call = caller_env())
   }
 }
 
-smaller_ranks <- function(x, y) {
-  sum(min_rank(x) <= y, na.rm = TRUE)
+slice_rank_idx <- function(
+    order_by,
+    size,
+    with_ties = TRUE,
+    direction = c("asc", "desc"),
+    na_rm = FALSE,
+    call = caller_env()
+) {
+  direction <- arg_match(direction, error_call = call)
+  # puts missing values at the end
+  na_value <- if (direction == "asc") "largest" else "smallest"
+  ties <- if (with_ties) "min" else "sequential"
+
+  ranks <- vctrs:::vec_rank(order_by,
+    ties = ties,
+    direction = direction,
+    na_value = na_value
+  )
+
+  keep <- ranks <= size
+  if (na_rm) {
+    keep[!vec_detect_complete(order_by)] <- FALSE
+  }
+
+  which <- which(keep)
+  which[order(ranks[which])]
 }
 
