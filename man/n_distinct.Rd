@@ -7,15 +7,15 @@
 n_distinct(..., na.rm = FALSE)
 }
 \arguments{
-\item{...}{Unnamed vectors. If multiple vectors, supplied they should have
-the same length. This function does technically respect the recycling
+\item{...}{Unnamed vectors. If multiple vectors are supplied, then they should
+have the same length. This function does technically respect the recycling
 rules, but since a constant vector won't affect the unique values,
 this is mostly of theoretical interest.}
 
 \item{na.rm}{If \code{TRUE}, exclude missing values from the count.}
 }
 \value{
-A single number..
+A single number.
 }
 \description{
 \code{n_distinct()} counts the number of unique/distinct combinations in a set

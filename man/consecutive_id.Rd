@@ -7,15 +7,15 @@
 consecutive_id(...)
 }
 \arguments{
-\item{...}{Unnamed vectors. If multiple vectors, supplied they should have
-the same length. This function does technically respect the recycling
+\item{...}{Unnamed vectors. If multiple vectors are supplied, then they should
+have the same length. This function does technically respect the recycling
 rules, but since a constant vector won't affect the unique values,
 this is mostly of theoretical interest.}
 }
 \description{
 \code{consecutive_id()} generates a unique identifier that increments every time
 a variable (or combination of variables) changes. Inspired by
-\code{data.table::rle()}.
+\code{data.table::rleid()}.
 }
 \examples{
 consecutive_id(c(TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, NA, NA))
