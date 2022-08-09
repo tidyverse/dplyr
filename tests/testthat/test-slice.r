@@ -228,22 +228,21 @@ test_that("min and max reorder results", {
 
 test_that("min and max include NAs when appropriate", {
   df <- tibble(id = 1:3, x = c(1, NA, NA))
-
   expect_equal(slice_min(df, x, n = 1)$id, 1)
   expect_equal(slice_max(df, x, n = 1)$id, 1)
 
   expect_equal(slice_min(df, x, n = 2)$id, c(1, 2, 3))
   expect_equal(slice_min(df, x, n = 2, with_ties = FALSE)$id, c(1, 2))
+
+  df <- tibble(id = 1:4, x = NA)
+  expect_equal(slice_min(df, x, n = 2, na_rm = TRUE)$id, integer())
+  expect_equal(slice_max(df, x, n = 2, na_rm = TRUE)$id, integer())
 })
 
 test_that("min and max ignore NA's when requested (#4826)", {
   df <- tibble(id = 1:4, x = c(2, NA, 1, 2))
   expect_equal(slice_min(df, x, n = 2, na_rm = TRUE)$id, c(3, 1, 4))
   expect_equal(slice_max(df, x, n = 2, na_rm = TRUE)$id, c(1, 4))
-
-  df <- tibble(id = 1:4, x = NA)
-  expect_equal(slice_min(df, x, n = 2, na_rm = TRUE)$id, integer())
-  expect_equal(slice_max(df, x, n = 2, na_rm = TRUE)$id, integer())
 
   # Check with list to confirm use full vctrs support
   df <- tibble(id = 1:4, x = list(NULL, 1, NULL, NULL))
@@ -266,6 +265,19 @@ test_that("slice_min/max() check size of `order_by=` (#5922)", {
   expect_snapshot(error = TRUE, {
     slice_min(data.frame(x = 1:10), 1:6)
     slice_max(data.frame(x = 1:10), 1:6)
+  })
+})
+
+test_that("slice_min/max() validate simple arguments", {
+  expect_snapshot(error = TRUE, {
+    slice_min(data.frame(x = 1:10))
+    slice_max(data.frame(x = 1:10))
+
+    slice_min(data.frame(x = 1:10), x, with_ties = 1)
+    slice_max(data.frame(x = 1:10), x, with_ties = 1)
+
+    slice_min(data.frame(x = 1:10), x, na_rm = 1)
+    slice_max(data.frame(x = 1:10), x, na_rm = 1)
   })
 })
 

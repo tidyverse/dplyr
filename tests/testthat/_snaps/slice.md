@@ -196,6 +196,39 @@
       Caused by error:
       ! `order_by` must have size 10, not size 6.
 
+# slice_min/max() validate simple arguments
+
+    Code
+      slice_min(data.frame(x = 1:10))
+    Condition
+      Error in `slice_min()`:
+      ! `order_by` is absent but must be supplied.
+    Code
+      slice_max(data.frame(x = 1:10))
+    Condition
+      Error in `slice_max()`:
+      ! `order_by` is absent but must be supplied.
+    Code
+      slice_min(data.frame(x = 1:10), x, with_ties = 1)
+    Condition
+      Error in `slice_min()`:
+      ! `with_ties` must be a single `TRUE` or `FALSE`.
+    Code
+      slice_max(data.frame(x = 1:10), x, with_ties = 1)
+    Condition
+      Error in `slice_max()`:
+      ! `with_ties` must be a single `TRUE` or `FALSE`.
+    Code
+      slice_min(data.frame(x = 1:10), x, na_rm = 1)
+    Condition
+      Error in `slice_min()`:
+      ! `na_rm` must be a single `TRUE` or `FALSE`.
+    Code
+      slice_max(data.frame(x = 1:10), x, na_rm = 1)
+    Condition
+      Error in `slice_max()`:
+      ! `na_rm` must be a single `TRUE` or `FALSE`.
+
 # slice_sample() checks size of `weight_by=` (#5922)
 
     Code
