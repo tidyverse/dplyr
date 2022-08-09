@@ -387,13 +387,13 @@ even if they don't have a match.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>An object of the same type as <code>x</code>. The order of the rows and columns of <code>x</code></p>
-
-
-<p>is preserved as much as possible. The output has the following properties:</p><ul><li><p>For <code>inner_join()</code>, a subset of <code>x</code> rows.
-For <code>left_join()</code>, all <code>x</code> rows.
-For <code>right_join()</code>, a subset of <code>x</code> rows, followed by unmatched <code>y</code> rows.
-For <code>full_join()</code>, all <code>x</code> rows, followed by unmatched <code>y</code> rows.</p></li>
+<p>An object of the same type as <code>x</code> (including the same groups). The order of
+the rows and columns of <code>x</code> is preserved as much as possible. The output has
+the following properties:</p><ul><li><p>The rows are affect by the join type.</p><ul><li><p><code>inner_join()</code> returns matched <code>x</code> rows.</p></li>
+<li><p><code>left_join()</code> returns all <code>x</code> rows.</p></li>
+<li><p><code>right_join()</code>  returns matched of <code>x</code> rows, followed by unmatched <code>y</code> rows.</p></li>
+<li><p><code>full_join()</code>  returns all <code>x</code> rows, followed by unmatched <code>y</code> rows.</p></li>
+</ul></li>
 <li><p>Output columns include all columns from <code>x</code> and all non-key columns from
 <code>y</code>. If <code>keep = TRUE</code>, the key columns from <code>y</code> are included as well.</p></li>
 <li><p>If non-key columns in <code>x</code> and <code>y</code> have the same name, <code>suffix</code>es are added
@@ -401,7 +401,6 @@ to disambiguate. If <code>keep = TRUE</code> and key columns in <code>x</code> a
 the same name, <code>suffix</code>es are added to disambiguate these as well.</p></li>
 <li><p>If <code>keep = FALSE</code>, output columns included in <code>by</code> are coerced to their
 common type between <code>x</code> and <code>y</code>.</p></li>
-<li><p>Groups are taken from <code>x</code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a></h2>
