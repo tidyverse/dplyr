@@ -40,6 +40,11 @@ In addition to data frames/tibbles, dplyr makes working with other
 computational backends accessible and efficient. Below is a list of
 alternative backends:
 
+-   [arrow](https://arrow.apache.org/docs/r) for larger-than-memory
+    datasets, including on remote cloud storage like AWS S3, using the
+    Apache Arrow C++ engine,
+    [Acero](https://arrow.apache.org/docs/cpp/streaming_execution.html).
+
 -   [dtplyr](https://dtplyr.tidyverse.org/) for large, in-memory
     datasets. Translates your dplyr code to high performance
     [data.table](https://rdatatable.gitlab.io/data.table/) code.
@@ -47,9 +52,8 @@ alternative backends:
 -   [dbplyr](https://dbplyr.tidyverse.org/) for data stored in a
     relational database. Translates your dplyr code to SQL.
 
--   [duckdb](https://duckdb.org/docs/api/r) or
-    [arrow](https://arrow.apache.org/docs/r/) for large datasets that
-    are still small enough to fit on your computer.
+-   [duckdb](https://duckdb.org/docs/api/r) for large datasets that are
+    still small enough to fit on your computer.
 
 -   [sparklyr](https://spark.rstudio.com) for very large datasets stored
     in [Apache Spark](https://spark.apache.org).
