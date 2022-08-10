@@ -41,7 +41,7 @@
 #' @param .locale The locale to sort character vectors in.
 #'
 #'   - If `NULL`, the default, then the `"C"` locale will be used unless this is
-#'     explicitly overriden. See the [locale][dplyr-locale] help page for the
+#'     explicitly overridden. See the [locale][dplyr-locale] help page for the
 #'     exact details of how to override the default.
 #'
 #'   - If a single string from [stringi::stri_locale_list()] is supplied, then
