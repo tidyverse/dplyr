@@ -4,12 +4,14 @@
 \alias{dplyr-locale}
 \title{Locale used by \code{arrange()}}
 \description{
-This page document details about the locale used by \code{\link[=arrange]{arrange()}} when ordering
-character vectors.
+This page documents details about the locale used by \code{\link[=arrange]{arrange()}} when
+ordering character vectors.
 \subsection{Default locale}{
 
 The default locale used by \code{arrange()} is the C locale. This is used when
-\code{.locale = NULL}. You can also request this explicitly with \code{.locale = "C"}.
+\code{.locale = NULL} unless the \code{dplyr.legacy_locale} global option is set to
+\code{TRUE}. You can also force the C locale to be used unconditionally with
+\code{.locale = "C"}.
 
 The C locale is not exactly the same as English locales, such as \code{"en"}. The
 main difference is that the C locale groups the English alphabet by \emph{case},
@@ -19,22 +21,6 @@ C locale, with all uppercase letters coming before lowercase letters, but
 will sort as \code{c("a", "b", "B", "c", "C")} in an English locale. This often
 makes little practical difference during data analysis, because both return
 identical results when case is consistent between observations.
-}
-
-\subsection{Global override}{
-
-To override the above default behavior, you can set the global option,
-\code{dplyr.locale}, to a stringi locale identifier from
-\code{\link[stringi:stri_locale_list]{stringi::stri_locale_list()}} to globally alter the default locale. This
-requires stringi >=1.5.3.
-
-We generally recommend that you set the \code{.locale} argument of \code{\link[=arrange]{arrange()}}
-explicitly rather than overriding the global locale, if possible.
-
-Another alternative is to only change the global locale within a limited
-scope through the use of \code{\link[rlang:local_options]{rlang::local_options()}} or \code{\link[rlang:local_options]{rlang::with_options()}}.
-This can be useful when a package that you don't control calls \code{arrange()}
-internally.
 }
 
 \subsection{Reproducibility}{
@@ -57,8 +43,7 @@ is better to update existing code to explicitly use \code{.locale} instead. Note
 that setting \code{dplyr.legacy_locale} will also force calls to \code{\link[=group_by]{group_by()}} to
 use the system locale when internally ordering the groups.
 
-Using either \code{.locale} or \code{dplyr.locale} will override any usage of
-\code{dplyr.legacy_locale}.
+Setting \code{.locale} will override any usage of \code{dplyr.legacy_locale}.
 }
 }
 \examples{
@@ -73,16 +58,6 @@ arrange(df, x)
 # The American English locale groups the alphabet by letter.
 # Explicitly override `.locale` with `"en"` for this ordering.
 arrange(df, x, .locale = "en")
-
-# Or temporarily override the `dplyr.locale` global option, which is useful
-# if `arrange()` is called from a function you don't control
-col_sorter <- function(df) {
-  arrange(df, x)
-}
-
-rlang::with_options(dplyr.locale = "en", {
-  col_sorter(df)
-})
 
 # This Danish letter is expected to sort after `z`
 df <- tibble(x = c("o", "p", "\u00F8", "z"))

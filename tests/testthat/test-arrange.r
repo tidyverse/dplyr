@@ -140,18 +140,6 @@ test_that("non-English locales can be used", {
   expect_identical(res$x, x[c(1, 3, 4, 2)])
 })
 
-test_that("arrange respects the `dplyr.locale` global option", {
-  skip_if_not_installed("stringi", "1.5.3")
-
-  local_options(dplyr.locale = "da")
-
-  x <- c("o", "\u00F8", "p", "z")
-  df <- tibble(x = x)
-
-  res <- arrange(df, x)
-  expect_identical(res$x, x[c(1, 3, 4, 2)])
-})
-
 test_that("arrange errors if stringi is not installed and a locale identifier is used", {
   expect_snapshot(error = TRUE, {
     locale_to_chr_proxy_collate("fr", has_stringi = FALSE)
@@ -304,23 +292,6 @@ test_that("legacy - usage of `.locale` overrides `dplyr.legacy_locale`", {
   expect_identical(res$x, x)
 
   res <- arrange(df, x, .locale = "da")
-  expect_identical(res$x, x[c(1, 3, 4, 2)])
-})
-
-test_that("legacy - usage of `dplyr.locale` overrides `dplyr.legacy_locale`", {
-  skip_if_not(has_collate_locale("en_US"), message = "Can't use 'en_US' locale")
-  skip_if_not_installed("stringi", "1.5.3")
-
-  local_options(dplyr.locale = "da")
-  local_options(dplyr.legacy_locale = TRUE)
-  withr::local_collate("en_US")
-
-  # Danish `o` with `/` through it sorts after `z` in Danish locale.
-  # American English locale puts `o` with `/` through it right after `o`.
-  x <- c("o", "\u00F8", "p", "z")
-  df <- tibble(x = x)
-
-  res <- arrange(df, x)
   expect_identical(res$x, x[c(1, 3, 4, 2)])
 })
 

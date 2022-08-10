@@ -1,19 +1,3 @@
-# `dplyr_locale()` respects `dplyr.locale`
-
-    Code
-      dplyr_locale()
-    Condition
-      Error:
-      ! If set, the global option `dplyr.locale` must be a string.
-
----
-
-    Code
-      arrange(data.frame())
-    Condition
-      Error in `arrange()`:
-      ! If set, the global option `dplyr.locale` must be a string.
-
 # `dplyr_legacy_locale()` respects `dplyr.legacy_locale`
 
     Code

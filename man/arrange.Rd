@@ -95,7 +95,7 @@ tidy_eval_arrange <- function(.data, var) {
 }
 tidy_eval_arrange(mtcars, mpg)
 
-# use across() access select()-style semantics
+# use across() to access select()-style semantics
 iris \%>\% arrange(across(starts_with("Sepal")))
 iris \%>\% arrange(across(starts_with("Sepal"), desc))
 }

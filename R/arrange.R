@@ -75,7 +75,7 @@
 #' }
 #' tidy_eval_arrange(mtcars, mpg)
 #'
-#' # use across() access select()-style semantics
+#' # use across() to access select()-style semantics
 #' iris %>% arrange(across(starts_with("Sepal")))
 #' iris %>% arrange(across(starts_with("Sepal"), desc))
 arrange <- function(.data, ..., .by_group = FALSE) {
@@ -106,28 +106,6 @@ arrange_rows <- function(data,
                          error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
 
-  locale <- locale %||% dplyr_locale(error_call = error_call)
-  user_specified_locale <- !is.null(locale)
-  locale <- locale %||% dplyr_locale_default()
-
-  # If either `.locale` or `dplyr.locale` are set,
-  # then they override any usage of `dplyr.legacy_locale`
-  if (user_specified_locale) {
-    use_legacy_locale <- FALSE
-  } else {
-    use_legacy_locale <- dplyr_legacy_locale()
-  }
-
-  chr_proxy_collate <- locale_to_chr_proxy_collate(
-    locale = locale,
-    error_call = error_call
-  )
-
-  if (length(dots) == 0L) {
-    out <- seq_len(nrow(data))
-    return(out)
-  }
-
   # Strip out calls to desc() replacing with direction argument
   is_desc_call <- function(x) {
     quo_is_call(x, "desc", ns = c("", "dplyr"))
@@ -149,7 +127,7 @@ arrange_rows <- function(data,
 
   # give the quosures arbitrary names so that
   # data has the right number of columns below after transmute()
-  quo_names <- paste0("^^--arrange_quosure_", seq_along(quosures))
+  quo_names <- vec_paste0("^^--arrange_quosure_", seq_along(quosures))
   names(quosures) <- quo_names
 
   # TODO: not quite that because when the quosure is some expression
@@ -189,17 +167,20 @@ arrange_rows <- function(data,
 
   directions <- directions[quo_names %in% names(data)]
 
-  if (use_legacy_locale) {
+  if (is.null(locale) && dplyr_legacy_locale()) {
     # Temporary legacy support for respecting the system locale.
+    # Only applied when `.locale` is `NULL` and `dplyr.legacy_locale` is set.
     # Matches legacy `group_by()` ordering.
-    out <- dplyr_order_legacy(
-      x = data,
-      direction = directions
-    )
+    out <- dplyr_order_legacy(data = data, direction = directions)
     return(out)
   }
 
   na_values <- if_else(directions == "desc", "smallest", "largest")
+
+  chr_proxy_collate <- locale_to_chr_proxy_collate(
+    locale = locale,
+    error_call = error_call
+  )
 
   vec_order_radix(
     x = data,
@@ -215,7 +196,7 @@ locale_to_chr_proxy_collate <- function(locale,
                                         error_call = caller_env()) {
   check_dots_empty0(...)
 
-  if (identical(locale, "C")) {
+  if (is.null(locale) || is_string(locale, string = "C")) {
     return(NULL)
   }
 
@@ -233,7 +214,7 @@ locale_to_chr_proxy_collate <- function(locale,
     return(sort_key_generator(locale))
   }
 
-  abort("`.locale` must be a string.", call = error_call)
+  abort("`.locale` must be a string or `NULL`.", call = error_call)
 }
 
 sort_key_generator <- function(locale) {
@@ -244,9 +225,15 @@ sort_key_generator <- function(locale) {
 
 # ------------------------------------------------------------------------------
 
-dplyr_order_legacy <- function(x, direction) {
-  proxies <- map2(x, direction, dplyr_proxy_order_legacy)
+dplyr_order_legacy <- function(data, direction) {
+  if (ncol(data) == 0L) {
+    # Work around `order(!!!list())` returning `NULL`
+    return(seq_len(nrow(data)))
+  }
+
+  proxies <- map2(data, direction, dplyr_proxy_order_legacy)
   proxies <- unname(proxies)
+
   inject(order(!!!proxies, decreasing = FALSE, na.last = TRUE))
 }
 
