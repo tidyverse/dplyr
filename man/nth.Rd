@@ -6,11 +6,11 @@
 \alias{last}
 \title{Extract the first, last, or nth value from a vector}
 \usage{
-nth(x, n, order_by = NULL, default = NULL)
+nth(x, n, order_by = NULL, default = NULL, na_rm = FALSE)
 
-first(x, order_by = NULL, default = NULL)
+first(x, order_by = NULL, default = NULL, na_rm = FALSE)
 
-last(x, order_by = NULL, default = NULL)
+last(x, order_by = NULL, default = NULL, na_rm = FALSE)
 }
 \arguments{
 \item{x}{A vector}
@@ -31,6 +31,9 @@ If supplied, this must be a single value, which will be cast to the type of
 
 When \code{x} is a list , \code{default} is allowed to be any value. There are no
 type or size restrictions in this case.}
+
+\item{na_rm}{Should missing values in \code{x} be removed before extracting the
+value?}
 }
 \value{
 If \code{x} is a list, a single element from that list. Otherwise, a vector the
@@ -81,6 +84,13 @@ first(integer(), default = 0L)
 # `order_by` provides optional ordering
 last(x)
 last(x, order_by = y)
+
+# `na_rm` removes missing values before extracting the value
+z <- c(NA, NA, 1, 3, NA, 5, NA)
+first(z)
+first(z, na_rm = TRUE)
+last(z, na_rm = TRUE)
+nth(z, 3, na_rm = TRUE)
 
 # For data frames, these select entire rows
 df <- tibble(a = 1:5, b = 6:10)
