@@ -149,13 +149,6 @@
       Error in `nest_join()`:
       ! `na_matches` must be a string or character vector.
     Code
-      nest_join(df1, df2, multiple = 1)
-    Message
-      Joining, by = "x"
-    Condition
-      Error in `vctrs::vec_locate_matches()`:
-      ! `multiple` must be a string.
-    Code
       nest_join(df1, df2, unmatched = 1)
     Condition
       Error in `nest_join()`:

@@ -478,7 +478,6 @@ nest_join.data.frame <- function(x,
                                  name = NULL,
                                  ...,
                                  na_matches = c("na", "never"),
-                                 multiple = NULL,
                                  unmatched = "drop") {
 
   check_keep(keep)
@@ -514,6 +513,12 @@ nest_join.data.frame <- function(x,
   condition <- by$condition
   filter <- by$filter
   cross <- by$cross
+
+  # We always want to retain all of the matches. We never experience a Cartesian
+  # explosion because `nrow(x) == nrow(out)` is an invariant of `nest_join()`,
+  # and the whole point of `nest_join()` is to nest all of the matches for that
+  # row of `x` (#6392).
+  multiple <- "all"
 
   rows <- join_rows(
     x_key = x_key,
