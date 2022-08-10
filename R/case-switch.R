@@ -1,7 +1,7 @@
-case_match <- function(.x,
-                       ...,
-                       .default = NULL,
-                       .ptype = NULL) {
+case_switch <- function(.x,
+                        ...,
+                        .default = NULL,
+                        .ptype = NULL) {
   args <- list2(...)
 
   default_env <- caller_env()
@@ -18,7 +18,7 @@ case_match <- function(.x,
   haystacks <- args$lhs
   values <- args$rhs
 
-  vec_case_match(
+  vec_case_switch(
     needles = .x,
     haystacks = haystacks,
     values = values,
