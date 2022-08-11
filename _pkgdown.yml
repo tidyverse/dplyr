@@ -73,6 +73,7 @@ reference:
   contents:
   - between
   - case_when
+  - case_match
   - coalesce
   - consecutive_id
   - cumany
