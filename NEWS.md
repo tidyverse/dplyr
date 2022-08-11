@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `nth()`, `first()`, and `last()` have gained an `na_rm` argument since they
+  are summary functions (#6242, with contributions from @tnederlof).
+
 * `slice_*()` generics now perform argument validation. This should make 
   methods more consistent and simpler to implement (#6361).
 
