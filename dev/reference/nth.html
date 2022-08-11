@@ -89,11 +89,11 @@ the ordering.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">nth</span><span class="op">(</span><span class="va">x</span>, <span class="va">n</span>, order_by <span class="op">=</span> <span class="cn">NULL</span>, default <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">nth</span><span class="op">(</span><span class="va">x</span>, <span class="va">n</span>, order_by <span class="op">=</span> <span class="cn">NULL</span>, default <span class="op">=</span> <span class="cn">NULL</span>, na_rm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">first</span><span class="op">(</span><span class="va">x</span>, order_by <span class="op">=</span> <span class="cn">NULL</span>, default <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="fu">first</span><span class="op">(</span><span class="va">x</span>, order_by <span class="op">=</span> <span class="cn">NULL</span>, default <span class="op">=</span> <span class="cn">NULL</span>, na_rm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">last</span><span class="op">(</span><span class="va">x</span>, order_by <span class="op">=</span> <span class="cn">NULL</span>, default <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">last</span><span class="op">(</span><span class="va">x</span>, order_by <span class="op">=</span> <span class="cn">NULL</span>, default <span class="op">=</span> <span class="cn">NULL</span>, na_rm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -120,6 +120,11 @@ order.</p></dd>
 <code>x</code>.</p>
 <p>When <code>x</code> is a list , <code>default</code> is allowed to be any value. There are no
 type or size restrictions in this case.</p></dd>
+
+
+<dt>na_rm</dt>
+<dd><p>Should missing values in <code>x</code> be removed before extracting the
+value?</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -187,6 +192,17 @@ treats data frames as a vector of rows, rather than a vector of columns.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10</span>
 <span class="r-in"><span><span class="fu">last</span><span class="op">(</span><span class="va">x</span>, order_by <span class="op">=</span> <span class="va">y</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># `na_rm` removes missing values before extracting the value</span></span></span>
+<span class="r-in"><span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="cn">NA</span>, <span class="fl">5</span>, <span class="cn">NA</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">first</span><span class="op">(</span><span class="va">z</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
+<span class="r-in"><span><span class="fu">first</span><span class="op">(</span><span class="va">z</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-in"><span><span class="fu">last</span><span class="op">(</span><span class="va">z</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5</span>
+<span class="r-in"><span><span class="fu">nth</span><span class="op">(</span><span class="va">z</span>, <span class="fl">3</span>, na_rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># For data frames, these select entire rows</span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, b <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span></span>
