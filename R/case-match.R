@@ -5,7 +5,7 @@
 #' that matches using values rather than logical expressions. If no cases match,
 #' a missing value is returned unless a `.default` is supplied.
 #'
-#' @param .x A vector to switch on.
+#' @param .x A vector to match against.
 #'
 #' @param ... <[`dynamic-dots`][rlang::dyn-dots]> A sequence of two-sided
 #'   formulas. The left hand side (LHS) determines which values match this case.
@@ -44,9 +44,9 @@
 #' @examples
 #' x <- c("a", "b", "a", "d", "b", NA, "c", "e")
 #'
-#' # `case_switch()` acts like a vectorized `switch()`.
+#' # `case_match()` acts like a vectorized `switch()`.
 #' # Unmatched values "fall through" as a missing value.
-#' case_switch(
+#' case_match(
 #'   x,
 #'   "a" ~ 1,
 #'   "b" ~ 2,
@@ -56,7 +56,7 @@
 #'
 #' # Missing values can be matched exactly, and `.default` can be used to
 #' # control the value used for unmatched values of `.x`
-#' case_switch(
+#' case_match(
 #'   x,
 #'   "a" ~ 1,
 #'   "b" ~ 2,
@@ -68,7 +68,7 @@
 #'
 #' # Input values can be grouped into the same expression to map them to the
 #' # same output value
-#' case_switch(
+#' case_match(
 #'   x,
 #'   c("a", "b") ~ "low",
 #'   c("c", "d", "e") ~ "high"
@@ -76,19 +76,19 @@
 #'
 #' # `.default` is allowed to be vectorized, and you can supply a `.ptype` to
 #' # force a particular output type. Combining these features together allows
-#' # you to create a type stable "replace switch" helper.
-#' replace_switch <- function(.x, ...) {
-#'   case_switch(.x, ..., .default = .x, .ptype = .x)
+#' # you to create a type stable "replace match" helper.
+#' replace_match <- function(.x, ...) {
+#'   case_match(.x, ..., .default = .x, .ptype = .x)
 #' }
 #'
-#' replace_switch(x, NA ~ "foo")
+#' replace_match(x, NA ~ "foo")
 #'
 #' starwars %>%
 #'   mutate(
-#'     # Recode missings, but leave everything else alone
-#'     hair_color = replace_switch(hair_color, NA ~ "unknown"),
-#'     # Recode some, but not all, of the species
-#'     species = replace_switch(
+#'     # Replace missings, but leave everything else alone
+#'     hair_color = replace_match(hair_color, NA ~ "unknown"),
+#'     # Replace some, but not all, of the species
+#'     species = replace_match(
 #'       species,
 #'       "Human" ~ "Humanoid",
 #'       "Droid" ~ "Robot",
@@ -96,10 +96,10 @@
 #'     ),
 #'     .keep = "used"
 #'   )
-case_switch <- function(.x,
-                        ...,
-                        .default = NULL,
-                        .ptype = NULL) {
+case_match <- function(.x,
+                       ...,
+                       .default = NULL,
+                       .ptype = NULL) {
   args <- list2(...)
 
   default_env <- caller_env()
@@ -116,7 +116,7 @@ case_switch <- function(.x,
   haystacks <- args$lhs
   values <- args$rhs
 
-  vec_case_switch(
+  vec_case_match(
     needles = .x,
     haystacks = haystacks,
     values = values,

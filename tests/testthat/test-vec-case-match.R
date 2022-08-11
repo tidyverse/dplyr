@@ -1,5 +1,5 @@
 test_that("works like a vectorized switch", {
-  out <- vec_case_switch(
+  out <- vec_case_match(
     needles = c(1, 4, 2, 1),
     haystacks = list(1, 2, 4),
     values = list("a", "b", "d")
@@ -9,7 +9,7 @@ test_that("works like a vectorized switch", {
 })
 
 test_that("the first match in `haystacks` is always used", {
-  out <- vec_case_switch(
+  out <- vec_case_match(
     needles = c(1, 4, 2, 1),
     haystacks = list(1, 2, 1, 4, 2),
     values = list("a", "b", "c", "d", "e")
@@ -19,7 +19,7 @@ test_that("the first match in `haystacks` is always used", {
 })
 
 test_that("`haystacks` can contain multiple values", {
-  out <- vec_case_switch(
+  out <- vec_case_match(
     needles = c(1, 4, 2, 1),
     haystacks = list(c(1, 2), c(4, 5)),
     values = list("a", "b")
@@ -29,7 +29,7 @@ test_that("`haystacks` can contain multiple values", {
 })
 
 test_that("`values` can be vectorized on the size of `needles`", {
-  out <- vec_case_switch(
+  out <- vec_case_match(
     needles = c(1, 4, 2, 1),
     haystacks = list(c(1, 2), c(4, 5)),
     values = list(1:4, 5:8)
@@ -39,7 +39,7 @@ test_that("`values` can be vectorized on the size of `needles`", {
 })
 
 test_that("unmatched value falls through to `default`", {
-  out <- vec_case_switch(
+  out <- vec_case_match(
     needles = c(1, 4, 2, 1, 5),
     haystacks = list(1, 2),
     values = list("a", "b")
@@ -47,7 +47,7 @@ test_that("unmatched value falls through to `default`", {
 
   expect_identical(out, c("a", NA, "b", "a", NA))
 
-  out <- vec_case_switch(
+  out <- vec_case_match(
     needles = c(1, 4, 2, 1, 5),
     haystacks = list(1, 2),
     values = list("a", "b"),
@@ -58,7 +58,7 @@ test_that("unmatched value falls through to `default`", {
 })
 
 test_that("`default` can be vectorized on the size of `needles`", {
-  out <- vec_case_switch(
+  out <- vec_case_match(
     needles = c(1, 4, 2, 1, 5),
     haystacks = list(1, 2),
     values = list("a", "b"),
@@ -69,7 +69,7 @@ test_that("`default` can be vectorized on the size of `needles`", {
 })
 
 test_that("unmatched missing values get `default`", {
-  out <- vec_case_switch(
+  out <- vec_case_match(
     needles = c(1, 4, 2, NA, NA),
     haystacks = list(1, 2),
     values = list("a", "b")
@@ -77,7 +77,7 @@ test_that("unmatched missing values get `default`", {
 
   expect_identical(out, c("a", NA, "b", NA, NA))
 
-  out <- vec_case_switch(
+  out <- vec_case_match(
     needles = c(1, 4, 2, NA, NA),
     haystacks = list(1, 2),
     values = list("a", "b"),
@@ -88,7 +88,7 @@ test_that("unmatched missing values get `default`", {
 })
 
 test_that("can exactly match on missing values", {
-  out <- vec_case_switch(
+  out <- vec_case_match(
     needles = c(NA, NaN, NA),
     haystacks = list(NA, NaN),
     values = list("na", "nan")
@@ -99,31 +99,31 @@ test_that("can exactly match on missing values", {
 
 test_that("`haystacks` must be castable to `needles`", {
   expect_snapshot(error = TRUE, {
-    vec_case_switch(1L, haystacks = list(1.5), values = list(2))
+    vec_case_match(1L, haystacks = list(1.5), values = list(2))
   })
 })
 
 test_that("`ptype` overrides `values` common type", {
   expect_identical(
-    vec_case_switch(1:2, haystacks = list(1), values = list(0), ptype = integer()),
+    vec_case_match(1:2, haystacks = list(1), values = list(0), ptype = integer()),
     c(0L, NA)
   )
 
   expect_snapshot(error = TRUE, {
-    vec_case_switch(1:2, haystacks = list(1), values = list(1.5), ptype = integer())
+    vec_case_match(1:2, haystacks = list(1), values = list(1.5), ptype = integer())
   })
 })
 
 test_that("`default` is considered in the common type computation", {
   expect_identical(
-    vec_case_switch(1, haystacks = list(1), values = list(2L), default = 1.5),
+    vec_case_match(1, haystacks = list(1), values = list(2L), default = 1.5),
     2
   )
 })
 
 test_that("`default` respects `ptype`", {
   expect_identical(
-    vec_case_switch(
+    vec_case_match(
       needles = 1,
       haystacks = list(1),
       values = list(2L),
@@ -134,7 +134,7 @@ test_that("`default` respects `ptype`", {
   )
 
   expect_snapshot(error = TRUE, {
-    vec_case_switch(
+    vec_case_match(
       needles = 1,
       haystacks = list(1),
       values = list(2L),
@@ -146,43 +146,43 @@ test_that("`default` respects `ptype`", {
 
 test_that("`NULL` values in `haystacks` and `values` are not dropped", {
   expect_snapshot(error = TRUE, {
-    vec_case_switch(1:2, list(1, NULL, 2), list("a", NULL, "b"))
+    vec_case_match(1:2, list(1, NULL, 2), list("a", NULL, "b"))
   })
 })
 
 test_that("size of `needles` is maintained", {
   expect_snapshot(error = TRUE, {
-    vec_case_switch(1, haystacks = list(1), values = list(1:2))
+    vec_case_match(1, haystacks = list(1), values = list(1:2))
   })
 })
 
 test_that("requires at least one condition", {
   expect_snapshot(error = TRUE, {
-    vec_case_switch(1, haystacks = list(), values = list())
+    vec_case_match(1, haystacks = list(), values = list())
   })
 })
 
 test_that("input must be a vector", {
   expect_snapshot(error = TRUE, {
-    vec_case_switch(environment(), haystacks = list(environment()), values = list(1))
+    vec_case_match(environment(), haystacks = list(environment()), values = list(1))
   })
 })
 
 test_that("`haystacks` must be a list", {
   expect_snapshot(error = TRUE, {
-    vec_case_switch(1, haystacks = 1, values = list(2))
+    vec_case_match(1, haystacks = 1, values = list(2))
   })
 })
 
 test_that("`values` must be a list", {
   expect_snapshot(error = TRUE, {
-    vec_case_switch(1, haystacks = list(1), values = 2)
+    vec_case_match(1, haystacks = list(1), values = 2)
   })
 })
 
 test_that("`needles_arg` is respected", {
   expect_snapshot(error = TRUE, {
-    vec_case_switch(
+    vec_case_match(
       needles = environment(),
       haystacks = list(environment()),
       values = list(1),
@@ -191,7 +191,7 @@ test_that("`needles_arg` is respected", {
   })
 
   expect_snapshot(error = TRUE, {
-    vec_case_switch(
+    vec_case_match(
       needles = environment(),
       haystacks = list(environment()),
       values = list(1),
@@ -202,7 +202,7 @@ test_that("`needles_arg` is respected", {
 
 test_that("`haystacks_arg` is respected", {
   expect_snapshot(error = TRUE, {
-    vec_case_switch(
+    vec_case_match(
       needles = 1,
       haystacks = 1,
       values = list(1),
@@ -210,7 +210,7 @@ test_that("`haystacks_arg` is respected", {
     )
   })
   expect_snapshot(error = TRUE, {
-    vec_case_switch(
+    vec_case_match(
       needles = 1,
       haystacks = 1,
       values = list(1),
@@ -219,7 +219,7 @@ test_that("`haystacks_arg` is respected", {
   })
 
   expect_snapshot(error = TRUE, {
-    vec_case_switch(
+    vec_case_match(
       needles = 1,
       haystacks = list(a = "x"),
       values = list(1),
@@ -227,7 +227,7 @@ test_that("`haystacks_arg` is respected", {
     )
   })
   expect_snapshot(error = TRUE, {
-    vec_case_switch(
+    vec_case_match(
       needles = 1,
       haystacks = list("x"),
       values = list(1),
@@ -238,7 +238,7 @@ test_that("`haystacks_arg` is respected", {
 
 test_that("`values_arg` is respected", {
   expect_snapshot(error = TRUE, {
-    vec_case_switch(
+    vec_case_match(
       needles = 1,
       haystacks = list(1, 2),
       values = list("x", b = 1),
@@ -247,7 +247,7 @@ test_that("`values_arg` is respected", {
   })
 
   expect_snapshot(error = TRUE, {
-    vec_case_switch(
+    vec_case_match(
       needles = 1,
       haystacks = list(1, 2),
       values = list("x", b = 1),
@@ -258,7 +258,7 @@ test_that("`values_arg` is respected", {
 
 test_that("`default_arg` is respected", {
   expect_snapshot(error = TRUE, {
-    vec_case_switch(
+    vec_case_match(
       needles = 1,
       haystacks = list(1),
       values = list(2L),
@@ -269,7 +269,7 @@ test_that("`default_arg` is respected", {
   })
 
   expect_snapshot(error = TRUE, {
-    vec_case_switch(
+    vec_case_match(
       needles = 1,
       haystacks = list(1),
       values = list(2L),

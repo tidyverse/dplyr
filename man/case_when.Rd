@@ -153,5 +153,5 @@ starwars \%>\%
   pull(type)
 }
 \seealso{
-\code{\link[=case_switch]{case_switch()}}
+\code{\link[=case_match]{case_match()}}
 }

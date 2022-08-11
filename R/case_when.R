@@ -47,7 +47,7 @@
 #'   inputs in `...` and the same type as the common type of the RHS inputs
 #'   in `...`.
 #'
-#' @seealso [case_switch()]
+#' @seealso [case_match()]
 #'
 #' @export
 #' @examples
