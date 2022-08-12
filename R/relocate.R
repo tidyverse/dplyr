@@ -61,7 +61,10 @@ relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
     after_arg = ".after"
   )
 
-  dplyr_col_select(.data, loc, names = names(loc))
+  out <- dplyr_col_select(.data, loc)
+  out <- set_names(out, names(loc))
+
+  out
 }
 
 eval_relocate <- function(expr,

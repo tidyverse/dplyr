@@ -212,7 +212,7 @@ dplyr_reconstruct.rowwise_df <- function(data, template) {
   rowwise_df(data, group_vars)
 }
 
-dplyr_col_select <- function(.data, loc, names = NULL, error_call = caller_env()) {
+dplyr_col_select <- function(.data, loc, error_call = caller_env()) {
   loc <- vec_as_location(loc, n = ncol(.data), names = names(.data))
 
   out <- .data[loc]
@@ -242,10 +242,6 @@ dplyr_col_select <- function(.data, loc, names = NULL, error_call = caller_env()
   # We require `[` methods to keep extra attributes for all data frame subclasses.
   if (identical(class(.data), "data.frame") || identical(class(.data), c("data.table", "data.frame"))) {
     out <- dplyr_reconstruct(out, .data)
-  }
-
-  if (!is.null(names)) {
-    names(out) <- names
   }
 
   out

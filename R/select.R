@@ -71,7 +71,10 @@ select.data.frame <- function(.data, ...) {
   )
   loc <- ensure_group_vars(loc, .data, notify = TRUE)
 
-  dplyr_col_select(.data, loc, names(loc))
+  out <- dplyr_col_select(.data, loc)
+  out <- set_names(out, names(loc))
+
+  out
 }
 
 
