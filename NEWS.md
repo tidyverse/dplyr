@@ -158,11 +158,28 @@
   group columns, which are now internally ordered in the C locale rather than
   the system locale and may result in differently ordered results when you
   follow up a `group_by()` with functions that use the group data, such as
-  `summarise()` or `group_split()` (#4406, #6297).
-  
-  See the Ordering section of `?group_by()` for more information. For a full
-  explanation of this change, refer to this
-  [tidyup](https://github.com/tidyverse/tidyups/blob/main/006-dplyr-group-by-ordering.md).
+  `summarise()` or `group_split()` (#4406, #6297). See the Ordering section of 
+  `?group_by()` for more information. 
+
+* `arrange()` now uses a faster algorithm for sorting character vectors, which
+  is heavily inspired by data.table's `forder()`. Additionally, the default
+  locale for sorting character vectors is now the C locale, which is a breaking
+  change from the previous behavior that utilized the system locale. The new
+  `.locale` argument can be used to adjust this to, say, the American English
+  locale, which is an optional feature that requires the stringi package. This
+  change improves reproducibility across R sessions and operating systems
+
+* `arrange()` and `group_by()` now both default to using the C locale when
+  ordering or grouping character vectors. This brings _substantial_ performance
+  improvements and we believe it should affect little existing code. If it 
+  does affect your code, you can use `options(dplyr.legacy_locale = TRUE)` to
+  quickly revert to the previous behaviour, if you want a longer-term fix
+  use the `.locale` argument to `arrange()`. For a full explanation of this 
+  change, please read the 
+  [associated tidyup](https://github.com/tidyverse/tidyups/blob/main/006-dplyr-group-by-ordering.md).
+
+* To return the previous behaviour of `group_by()` or `arrange()` you can set
+  `option(dplyr.legacy_locale = TRUE)`. 
 
 * `if_else()` has been rewritten to utilize vctrs. This comes with most of the
   same benefits as the `case_when()` rewrite. In particular, `if_else()` now
@@ -203,17 +220,6 @@
 
   * The error thrown when types or lengths were incorrect has been improved
     (#6261, #6206).
-
-* `arrange()` now uses a faster algorithm for sorting character vectors, which
-  is heavily inspired by data.table's `forder()`. Additionally, the default
-  locale for sorting character vectors is now the C locale, which is a breaking
-  change from the previous behavior that utilized the system locale. The new
-  `.locale` argument can be used to adjust this to, say, the American English
-  locale, which is an optional feature that requires the stringi package. This
-  change improves reproducibility across R sessions and operating systems. For a
-  fuller explanation, refer to this
-  [tidyup](https://github.com/tidyverse/tidyups/blob/main/003-dplyr-radix-ordering.md)
-  which outlines and justifies this change (#4962).
 
 * `tbl_sum()` is no longer reexported from tibble (#6284).
 
