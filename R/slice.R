@@ -317,7 +317,7 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
         logical = "error",
         character = "error",
         arg = as_label(dots[[i]]),
-        call = NULL
+        call = NULL # error always chained to select()
       )
     }
 
@@ -355,7 +355,7 @@ slice_combine <- function(chunks, dots, mask, error_call = caller_env()) {
         zero = "remove",
         oob = "remove",
         arg = as_label(dots[[group]]),
-        call = NULL,
+        call = NULL # error always chained to select()
       )
       grp_loc <- current_rows[loc]
       grp_loc <- grp_loc[!is.na(grp_loc)]
