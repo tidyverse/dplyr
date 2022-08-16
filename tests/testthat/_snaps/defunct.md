@@ -52,10 +52,10 @@
       ! `current_vars()` was deprecated in dplyr 0.8.4 and is now defunct.
       Please use `tidyselect::peek_vars()` instead.
     Code
-      bench_tbl()
+      bench_tbls()
     Condition
-      Error in `bench_tbl()`:
-      ! could not find function "bench_tbl"
+      Error:
+      ! `bench_tbls()` was deprecated in dplyr 1.0.0 and is now defunct.
     Code
       compare_tbls()
     Condition
@@ -81,7 +81,7 @@
     Condition
       Error:
       ! `location()` was deprecated in dplyr 1.0.0 and is now defunct.
-      Please use `lobst::ref()` instead.
+      Please use `lobstr::ref()` instead.
     Code
       changes()
     Condition

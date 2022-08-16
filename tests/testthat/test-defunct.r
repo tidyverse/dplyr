@@ -11,7 +11,7 @@ test_that("generate informative errors", {
     select_var()
     current_vars()
 
-    bench_tbl()
+    bench_tbls()
     compare_tbls()
     compare_tbls2()
     eval_tbls()
