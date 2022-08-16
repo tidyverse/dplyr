@@ -234,7 +234,7 @@ dplyr_order_legacy <- function(data, direction) {
   proxies <- map2(data, direction, dplyr_proxy_order_legacy)
   proxies <- unname(proxies)
 
-  inject(order(!!!proxies, decreasing = FALSE, na.last = TRUE))
+  inject(order(!!!proxies))
 }
 
 dplyr_proxy_order_legacy <- function(x, direction) {
