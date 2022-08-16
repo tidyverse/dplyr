@@ -1,13 +1,11 @@
-#' Subset columns using their names and types
+#' Keep or drop columns using their names and types
 #'
 #' @description
 #'
 #' Select (and optionally rename) variables in a data frame, using a concise
 #' mini-language that makes it easy to refer to variables based on their name
 #' (e.g. `a:f` selects all columns from `a` on the left to `f` on the
-#' right). You can also use predicate functions like [is.numeric] to select
-#' variables based on their properties.
-#'
+#' right) or type (e.g. `where(is.numeric)` selects all numeric columns).
 #'
 #' ## Overview of selection features
 #'
@@ -73,7 +71,10 @@ select.data.frame <- function(.data, ...) {
   )
   loc <- ensure_group_vars(loc, .data, notify = TRUE)
 
-  dplyr_col_select(.data, loc, names(loc))
+  out <- dplyr_col_select(.data, loc)
+  out <- set_names(out, names(loc))
+
+  out
 }
 
 

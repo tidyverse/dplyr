@@ -1,41 +1,67 @@
 #' Set operations
 #'
-#' These functions override the set functions provided in base to make them
-#' generic so that efficient versions for data frames and other tables can be
-#' provided. The default methods call the base versions. Beware that
-#' `intersect()`, `union()` and `setdiff()` remove duplicates.
+#' @description
+#' Perform set operations using the rows of a data frame.
 #'
-#' @param x,y objects to perform set function on (ignoring order)
+#' * `intersect(x, y)` finds all rows in both `x` and `y`.
+#' * `union(x, y)` finds all rows in either `x` or `y`, excluding duplicates.
+#' * `union_all(x, y)` finds all rows in either `x` or `y`, including duplicates.
+#' * `setdiff(x, y)` finds all rows in `x` that aren't in `y`.
+#' * `symdiff(x, y)` computes the symmetric difference, i.e. all rows in
+#'    `x` that aren't in `y` and all rows in `y` that aren't in `x`.
+#' * `setequal(x, y)` returns `TRUE` if `x` and `y` contain the same rows
+#'   (ignoring order).
+#'
+#' Note that `intersect()`, `union()`, `setdiff()`, and `symdiff()` remove
+#' duplicates in `x` and `y`.
+#'
+#' # Base functions
+#' `intersect()`, `union()`, `setdiff()`, and `setequal()` override the base
+#' functions of the same name in order to make them generic. The existing
+#' behaviour for vectors is preserved by providing default methods that call
+#' the base functions.
+#'
+#' @param x,y Pair of compatible data frames. A pair of data frames is
+#'   compatible if they have the same column names (possibly in different
+#'   orders) and compatible types.
 #' @inheritParams rlang::args_dots_empty
 #' @name setops
 #' @examples
-#' mtcars$model <- rownames(mtcars)
-#' first <- mtcars[1:20, ]
-#' second <- mtcars[10:32, ]
+#' df1 <- tibble(x = 1:3)
+#' df2 <- tibble(x = 3:5)
 #'
-#' intersect(first, second)
-#' union(first, second)
-#' setdiff(first, second)
-#' setdiff(second, first)
+#' intersect(df1, df2)
+#' union(df1, df2)
+#' union_all(df1, df2)
+#' setdiff(df1, df2)
+#' setdiff(df2, df1)
+#' symdiff(df1, df2)
 #'
-#' union_all(first, second)
-#' setequal(mtcars, mtcars[32:1, ])
+#' setequal(df1, df2)
+#' setequal(df1, df1[3:1, ])
 #'
-#' # Handling of duplicates:
-#' a <- data.frame(column = c(1:10, 10))
-#' b <- data.frame(column = c(1:5, 5))
+#' # Note that the following functions remove pre-existing duplicates:
+#' df1 <- tibble(x = c(1:3, 3, 3))
+#' df2 <- tibble(x = c(3:5, 5))
 #'
-#' # intersection is 1 to 5, duplicates removed (5)
-#' intersect(a, b)
-#'
-#' # union is 1 to 10, duplicates removed (5 and 10)
-#' union(a, b)
-#'
-#' # set difference, duplicates removed (10)
-#' setdiff(a, b)
-#'
-#' # union all does not remove duplicates
-#' union_all(a, b)
+#' intersect(df1, df2)
+#' union(df1, df2)
+#' setdiff(df1, df2)
+#' symdiff(df1, df2)
+NULL
+
+#' @name setops
+#' @aliases intersect
+#' @usage intersect(x, y, ...)
+#' @importFrom generics intersect
+#' @export intersect
+NULL
+
+#' @name setops
+#' @aliases union
+#' @usage union(x, y, ...)
+#' @importFrom generics union
+#' @export union
 NULL
 
 #' @rdname setops
@@ -47,84 +73,109 @@ union_all.default <- function (x, y, ...) {
   vec_c(x, y)
 }
 
-#' @importFrom generics intersect
-#' @export
-generics::intersect
 
-#' @importFrom generics union
-#' @export
-generics::union
-
+#' @name setops
+#' @aliases setdiff
+#' @usage setdiff(x, y, ...)
 #' @importFrom generics setdiff
-#' @export
-generics::setdiff
+#' @export setdiff
+NULL
 
+#' @name setops
+#' @aliases setequal
+#' @usage setequal(x, y, ...)
 #' @importFrom generics setequal
+#' @export setequal
+NULL
+
+#' @rdname setops
 #' @export
-generics::setequal
+symdiff <- function(x, y, ...) {
+  UseMethod("symdiff")
+}
+#' @export
+symdiff.default <- function (x, y, ...) {
+  check_dots_empty()
+  setdiff(union(x, y), intersect(x, y))
+}
 
 #' @export
 intersect.data.frame <- function(x, y, ...) {
   check_dots_empty()
   check_compatible(x, y)
+
   cast <- vec_cast_common(x = x, y = y)
-  new_x <- cast[[1L]]
-  new_y <- cast[[2L]]
-  out <- vec_unique(vec_slice(new_x, vec_in(new_x, new_y)))
-  reconstruct_set(out, x)
+  out <- vec_unique(vec_slice(cast$x, vec_in(cast$x, cast$y)))
+  dplyr_reconstruct(out, x)
 }
 
 #' @export
 union.data.frame <- function(x, y, ...) {
   check_dots_empty()
   check_compatible(x, y)
-  cast <- vec_cast_common(x, y)
-  out <- vec_unique(vec_rbind(!!!cast))
-  reconstruct_set(out, x)
+
+  out <- vec_unique(vec_rbind(x, y))
+  dplyr_reconstruct(out, x)
 }
 
 #' @export
 union_all.data.frame <- function(x, y, ...) {
   check_dots_empty()
-  out <- bind_rows(x, y)
-  reconstruct_set(out, x)
+  check_compatible(x, y)
+
+  out <- vec_rbind(x, y)
+  dplyr_reconstruct(out, x)
 }
 
 #' @export
 setdiff.data.frame <- function(x, y, ...) {
   check_dots_empty()
   check_compatible(x, y)
-  cast <- vec_cast_common(x, y)
-  new_x <- cast[[1L]]
-  new_y <- cast[[2L]]
-  out <- vec_unique(vec_slice(new_x, !vec_in(new_x, new_y)))
-  reconstruct_set(out, x)
+
+  cast <- vec_cast_common(x = x, y = y)
+  out <- vec_unique(vec_slice(cast$x, !vec_in(cast$x, cast$y)))
+  dplyr_reconstruct(out, x)
 }
 
 #' @export
 setequal.data.frame <- function(x, y, ...) {
   check_dots_empty()
-  isTRUE(equal_data_frame(x, y))
-}
-
-reconstruct_set <- function(out, x) {
-  if (is_grouped_df(x)) {
-    out <- grouped_df(out, group_vars(x), group_by_drop_default(x))
+  if (!is.data.frame(y)) {
+    abort("`y` must be a data frame.")
+  }
+  if (!isTRUE(is_compatible(x, y))) {
+    return(FALSE)
   }
 
-  out
+  cast <- vec_cast_common(x = x, y = y)
+  all(vec_in(cast$x, cast$y)) && all(vec_in(cast$y, cast$x))
 }
 
+#' @export
+symdiff.data.frame <- function(x, y, ...) {
+  check_dots_empty()
+  check_compatible(x, y)
+
+  cast <- vec_cast_common(x = x, y = y)
+  only_x <- vec_slice(cast$x, !vec_in(cast$x, cast$y))
+  only_y <- vec_slice(cast$y, !vec_in(cast$y, cast$x))
+
+  out <- vec_unique(vec_rbind(only_x, only_y))
+  dplyr_reconstruct(out, x)
+}
 
 # Helpers -----------------------------------------------------------------
 
-is_compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = TRUE) {
+is_compatible <- function(x, y, ignore_col_order = TRUE, convert = TRUE) {
+  if (!is.data.frame(y)) {
+    return("`y` must be a data frame.")
+  }
+
   nc <- ncol(x)
   if (nc != ncol(y)) {
     return(
       c(x = glue("Different number of columns: {nc} vs {ncol(y)}."))
     )
-
   }
 
   names_x <- names(x)
@@ -193,15 +244,10 @@ is_compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = TR
 }
 
 check_compatible <- function(x, y, ignore_col_order = TRUE, convert = TRUE, error_call = caller_env()) {
-  if (!is.data.frame(y)) {
-    abort("`y` must be a data frame. ", call = error_call)
+  compat <- is_compatible(x, y, ignore_col_order = ignore_col_order, convert = convert)
+  if (isTRUE(compat)) {
+    return()
   }
-  compat <- is_compatible_data_frame(x, y, ignore_col_order = ignore_col_order, convert = convert)
-  if (is.character(compat)) {
-    bullets <- c(
-      "`x` and `y` are not compatible.",
-      compat
-    )
-    abort(bullets, call = error_call)
-  }
+
+  abort(c("`x` and `y` are not compatible.", compat), call = error_call)
 }

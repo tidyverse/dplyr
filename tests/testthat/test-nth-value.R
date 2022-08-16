@@ -99,6 +99,51 @@ test_that("can use a data frame as `order_by`", {
   expect_identical(nth(x, 2, order_by = order_by), 1L)
 })
 
+test_that("`na_rm` can be used to drop missings before selecting the value (#6242)", {
+  x <- c(NA, 4, 10, NA, 5, NA)
+
+  expect_identical(nth(x, 1, na_rm = TRUE), 4)
+  expect_identical(nth(x, -1, na_rm = TRUE), 5)
+  expect_identical(nth(x, 3, na_rm = TRUE), 5)
+})
+
+test_that("`na_rm` removes `NULL` list elements", {
+  x <- list(1:3, NULL, 4, integer(), NULL, NULL)
+
+  expect_identical(nth(x, 2, na_rm = TRUE), 4)
+  expect_identical(nth(x, -1, na_rm = TRUE), integer())
+})
+
+test_that("`na_rm` can generate OOB selections, resulting in `default`", {
+  # Removes some values
+  x <- c(NA, FALSE, NA)
+  expect_identical(nth(x, 2, default = TRUE, na_rm = TRUE), TRUE)
+
+  # Removes everything
+  x <- c(NA, NA, NA)
+  expect_identical(nth(x, 1, default = TRUE, na_rm = TRUE), TRUE)
+  expect_identical(nth(x, -2, default = TRUE, na_rm = TRUE), TRUE)
+})
+
+test_that("`na_rm` slices `order_by` as well", {
+  x <- c(NA, 4, 10, NA, 5, NA)
+  o <- c(2, 1, 3, 1, 1, 0)
+
+  expect_identical(nth(x, 1, order_by = o, na_rm = TRUE), 4)
+  expect_identical(nth(x, -1, order_by = o, na_rm = TRUE), 10)
+  expect_identical(nth(x, 2, order_by = o, na_rm = TRUE), 5)
+  expect_identical(nth(x, 3, order_by = o, na_rm = TRUE), 10)
+})
+
+test_that("`na_rm` is validated", {
+  expect_snapshot(error = TRUE, {
+    nth(1, 1, na_rm = 1)
+  })
+  expect_snapshot(error = TRUE, {
+    nth(1, 1, na_rm = c(TRUE, FALSE))
+  })
+})
+
 test_that("`default` must be size 1 (when not used with lists)", {
   expect_snapshot(error = TRUE, {
     nth(1L, n = 2L, default = 1:2)
@@ -169,6 +214,11 @@ test_that("`first()` returns list elements", {
   expect_identical(first(list(2:3, 4:5)), 2:3)
 })
 
+test_that("`first()` respects `na_rm`", {
+  x <- c(NA, NA, 2, 3)
+  expect_identical(first(x, na_rm = TRUE), 2)
+})
+
 # ------------------------------------------------------------------------------
 # last()
 
@@ -178,4 +228,9 @@ test_that("`last()` selects the last value", {
 
 test_that("`last()` returns list elements", {
   expect_identical(last(list(2:3, 4:5)), 4:5)
+})
+
+test_that("`last()` respects `na_rm`", {
+  x <- c(2, 3, NA, NA)
+  expect_identical(last(x, na_rm = TRUE), 3)
 })

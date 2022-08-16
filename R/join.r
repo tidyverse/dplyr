@@ -36,13 +36,15 @@
 #' explicitly setting `multiple = "all"`.
 #'
 #' @return
-#' An object of the same type as `x`. The order of the rows and columns of `x`
-#' is preserved as much as possible. The output has the following properties:
+#' An object of the same type as `x` (including the same groups). The order of
+#' the rows and columns of `x` is preserved as much as possible. The output has
+#' the following properties:
 #'
-#' * For `inner_join()`, a subset of `x` rows.
-#'   For `left_join()`, all `x` rows.
-#'   For `right_join()`, a subset of `x` rows, followed by unmatched `y` rows.
-#'   For `full_join()`, all `x` rows, followed by unmatched `y` rows.
+#' * The rows are affect by the join type.
+#'    * `inner_join()` returns matched `x` rows.
+#'    * `left_join()` returns all `x` rows.
+#'    * `right_join()`  returns matched of `x` rows, followed by unmatched `y` rows.
+#'    * `full_join()`  returns all `x` rows, followed by unmatched `y` rows.
 #' * Output columns include all columns from `x` and all non-key columns from
 #'   `y`. If `keep = TRUE`, the key columns from `y` are included as well.
 #' * If non-key columns in `x` and `y` have the same name, `suffix`es are added
@@ -50,7 +52,6 @@
 #'   the same name, `suffix`es are added to disambiguate these as well.
 #' * If `keep = FALSE`, output columns included in `by` are coerced to their
 #'   common type between `x` and `y`.
-#' * Groups are taken from `x`.
 #' @section Methods:
 #' These functions are **generic**s, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
@@ -193,6 +194,7 @@ inner_join <- function(x,
                        suffix = c(".x", ".y"),
                        ...,
                        keep = NULL) {
+  check_dots_used()
   UseMethod("inner_join")
 }
 
@@ -231,6 +233,7 @@ left_join <- function(x,
                       suffix = c(".x", ".y"),
                       ...,
                       keep = NULL) {
+  check_dots_used()
   UseMethod("left_join")
 }
 
@@ -269,6 +272,7 @@ right_join <- function(x,
                        suffix = c(".x", ".y"),
                        ...,
                        keep = NULL) {
+  check_dots_used()
   UseMethod("right_join")
 }
 
@@ -307,6 +311,7 @@ full_join <- function(x,
                       suffix = c(".x", ".y"),
                       ...,
                       keep = NULL) {
+  check_dots_used()
   UseMethod("full_join")
 }
 
@@ -380,6 +385,7 @@ NULL
 #' @export
 #' @rdname filter-joins
 semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+  check_dots_used()
   UseMethod("semi_join")
 }
 
@@ -393,6 +399,7 @@ semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches 
 #' @export
 #' @rdname filter-joins
 anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+  check_dots_used()
   UseMethod("anti_join")
 }
 
@@ -405,25 +412,34 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches 
 
 #' Nest join
 #'
-#' `nest_join()` returns all rows and columns in `x` with a new nested-df column
-#' that contains all matches from `y`. When there is no match, the list column
-#' is a 0-row tibble.
+#' A nest join leaves `x` almost unchanged, except that it adds a new
+#' list-column, where each element contains the rows from `y` that match the
+#' corresponding row in `x`.
 #'
-#' In some sense, a `nest_join()` is the most fundamental join since you can
-#' recreate the other joins from it:
+#' # Relationship to other joins
 #'
-#' * `inner_join()` is a `nest_join()` plus [tidyr::unnest()]
-#' * `left_join()` `nest_join()` plus `unnest(.drop = FALSE)`.
-#' * `semi_join()` is a `nest_join()` plus a `filter()` where you check
-#'   that every element of data has at least one row,
-#' * `anti_join()` is a `nest_join()` plus a `filter()` where you check every
+#' You can recreate many other joins from the result of a nest join:
+#'
+#' * [inner_join()] is a `nest_join()` plus [tidyr::unnest()].
+#' * [left_join()] is a `nest_join()` plus `tidyr::unnest(keep_empty = TRUE)`.
+#' * [semi_join()] is a `nest_join()` plus a `filter()` where you check
+#'   that every element of data has at least one row.
+#' * [anti_join()] is a `nest_join()` plus a `filter()` where you check that every
 #'   element has zero rows.
 #'
-#' @param x,y A pair of data frames, data frame extensions (e.g. a tibble), or
-#'   lazy data frames (e.g. from dbplyr or dtplyr). See *Methods*, below, for
-#'   more details.
-#' @param name The name of the list column nesting joins create.
-#'   If `NULL` the name of `y` is used.
+#' @param name The name of the list-column created by the join. If `NULL`,
+#'   the default, the name of `y` is used.
+#' @param keep Should the new list-column contain join keys? The default
+#'   will preserve the join keys for non-equi-joins.
+#' @return
+#' The output:
+#' * Is same type as `x` (including having the same groups).
+#' * Has exactly the same number of rows as `x`.
+#' * Contains all the columns of `x` in the same order with the same values.
+#'   They are only modified (slightly) if `keep = FALSE`, when columns listed
+#'   in `by` will be coerced to their common type across `x` and `y`.
+#' * Gains one new column called `{name}` on the far right, a list column
+#'   containing data frames the same type as `y`.
 #' @section Methods:
 #' This function is a **generic**, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
@@ -435,7 +451,12 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches 
 #' @family joins
 #' @export
 #' @examples
-#' band_members %>% nest_join(band_instruments)
+#' df1 <- tibble(x = 1:3)
+#' df2 <- tibble(x = c(2, 3, 3), y = c("a", "b", "c"))
+#'
+#' out <- nest_join(df1, df2)
+#' out
+#' out$df2
 nest_join <- function(x,
                       y,
                       by = NULL,
@@ -443,6 +464,7 @@ nest_join <- function(x,
                       keep = NULL,
                       name = NULL,
                       ...) {
+  check_dots_used()
   UseMethod("nest_join")
 }
 
@@ -456,12 +478,19 @@ nest_join.data.frame <- function(x,
                                  name = NULL,
                                  ...,
                                  na_matches = c("na", "never"),
-                                 multiple = NULL,
                                  unmatched = "drop") {
+
+  check_keep(keep)
   na_matches <- check_na_matches(na_matches)
   unmatched <- check_unmatched(unmatched)
 
-  name_var <- name %||% as_label(enexpr(y))
+  if (is.null(name)) {
+    name_var <- as_label(enexpr(y))
+  } else if (is_string(name)) {
+    name_var <- name
+  } else {
+    abort("`name` must be a string.")
+  }
 
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
@@ -485,6 +514,12 @@ nest_join.data.frame <- function(x,
   filter <- by$filter
   cross <- by$cross
 
+  # We always want to retain all of the matches. We never experience a Cartesian
+  # explosion because `nrow(x) == nrow(out)` is an invariant of `nest_join()`,
+  # and the whole point of `nest_join()` is to nest all of the matches for that
+  # row of `x` (#6392).
+  multiple <- "all"
+
   rows <- join_rows(
     x_key = x_key,
     y_key = y_key,
@@ -502,12 +537,12 @@ nest_join.data.frame <- function(x,
   out <- set_names(x_in[vars$x$out], names(vars$x$out))
 
   # Modify all columns in one step so that we only need to re-group once
-  # Currently, this regroups too often, because it looks like we're always
-  # changing the key vars because of the cast
   new_cols <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
 
   y_out <- set_names(y_in[vars$y$out], names(vars$y$out))
-  new_cols[[name_var]] <- map(y_loc, vec_slice, x = y_out)
+  y_out <- map(y_loc, vec_slice, x = y_out)
+  y_out <- map(y_out, dplyr_reconstruct, template = y)
+  new_cols[[name_var]] <- y_out
 
   out <- dplyr_col_modify(out, new_cols)
   dplyr_reconstruct(out, x)
@@ -529,6 +564,7 @@ join_mutate <- function(x,
   check_dots_empty0(...)
 
   na_matches <- check_na_matches(na_matches, error_call = error_call)
+  check_keep(keep, error_call = error_call)
   unmatched <- check_unmatched(unmatched, error_call = error_call)
 
   x_names <- tbl_vars(x)
@@ -537,7 +573,7 @@ join_mutate <- function(x,
   if (is_null(by)) {
     by <- join_by_common(x_names, y_names, error_call = error_call)
   } else {
-    by <- as_join_by(by)
+    by <- as_join_by(by, error_call = error_call)
   }
 
   vars <- join_cols(
@@ -631,7 +667,7 @@ join_filter <- function(x,
   if (is_null(by)) {
     by <- join_by_common(x_names, y_names, error_call = error_call)
   } else {
-    by <- as_join_by(by)
+    by <- as_join_by(by, error_call = error_call)
   }
 
   vars <- join_cols(x_names, y_names, by = by, error_call = error_call)
@@ -708,4 +744,12 @@ check_unmatched <- function(unmatched, ..., error_call = caller_env()) {
     arg_nm = "unmatched",
     error_call = error_call
   )
+}
+
+check_keep <- function(keep, error_call = caller_env()) {
+  if (!is_bool(keep) && !is.null(keep)) {
+    abort(
+      glue("`keep` must be `TRUE`, `FALSE`, or `NULL`, not {friendly_type_of(keep)}."),
+      call = error_call)
+  }
 }
