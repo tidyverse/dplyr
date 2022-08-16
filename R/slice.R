@@ -345,7 +345,7 @@ slice_combine <- function(chunks, dots, mask, error_call = caller_env()) {
         i = i,
         n = length(current_rows),
         zero = "remove",
-        oob = "extend",
+        oob = "remove",
         arg = as_label(dots[[group]]),
         call = NULL,
       )
