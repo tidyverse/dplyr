@@ -7,84 +7,39 @@
 group_split(.tbl, ..., .keep = TRUE)
 }
 \arguments{
-\item{.tbl}{A tbl}
+\item{.tbl}{A tbl.}
 
-\item{...}{Grouping specification, forwarded to \code{\link[=group_by]{group_by()}}}
+\item{...}{If \code{.tbl} is an ungrouped data frame, a grouping specification,
+forwarded to \code{\link[=group_by]{group_by()}}.}
 
-\item{.keep}{Should the grouping columns be kept}
+\item{.keep}{Should the grouping columns be kept?}
 }
 \value{
-\itemize{
-\item \code{\link[=group_split]{group_split()}} returns a list of tibbles. Each tibble contains the rows of \code{.tbl} for the associated group and
-all the columns, including the grouping variables.
-\item \code{\link[=group_keys]{group_keys()}} returns a tibble with one row per group, and one column per grouping variable
-}
+A list of tibbles. Each tibble contains the rows of \code{.tbl} for the
+associated group and all the columns, including the grouping variables.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-\code{\link[=group_split]{group_split()}} works like \code{\link[base:split]{base::split()}} but
+
+\code{\link[=group_split]{group_split()}} works like \code{\link[base:split]{base::split()}} but:
 \itemize{
-\item it uses the grouping structure from \code{\link[=group_by]{group_by()}} and therefore is subject to the data mask
-\item it does not name the elements of the list based on the grouping as this typically
-loses information and is confusing.
+\item It uses the grouping structure from \code{\link[=group_by]{group_by()}} and therefore is subject
+to the data mask
+\item It does not name the elements of the list based on the grouping as this
+only works well for a single character grouping variable. Instead,
+use \code{\link[=group_keys]{group_keys()}} to access a data frame that defines the groups.
 }
 
-\code{\link[=group_keys]{group_keys()}} explains the grouping structure, by returning a data frame that has one row
-per group and one column per grouping variable.
+\code{group_split()} is primarily designed to work with grouped data frames.
+You can pass \code{...} to group and split an ungrouped data frame, but this
+is generally not very useful as you want have easy access to the group
+metadata.
 }
-\section{Grouped data frames}{
-
-
-The primary use case for \code{\link[=group_split]{group_split()}} is with already grouped data frames,
-typically a result of \code{\link[=group_by]{group_by()}}. In this case \code{\link[=group_split]{group_split()}} only uses
-the first argument, the grouped tibble, and warns when \code{...} is used.
-
-Because some of these groups may be empty, it is best paired with \code{\link[=group_keys]{group_keys()}}
-which identifies the representatives of each grouping variable for the group.
-}
-
-\section{Ungrouped data frames}{
-
-
-When used on ungrouped data frames, \code{\link[=group_split]{group_split()}} and \code{\link[=group_keys]{group_keys()}} forwards the \code{...} to
-\code{\link[=group_by]{group_by()}} before the split, therefore the \code{...} are subject to the data mask.
-
-Using these functions on an ungrouped data frame only makes sense if you need only one or the
-other, because otherwise the grouping algorithm is performed each time.
-}
-
-\section{Rowwise data frames}{
-
-
-\code{\link[=group_split]{group_split()}} returns a list of one-row tibbles is returned, and the \code{...} are ignored and warned against
-}
-
 \examples{
-# ----- use case 1 : on an already grouped tibble
-ir <- iris \%>\%
-  group_by(Species)
+ir <- iris \%>\% group_by(Species)
 
 group_split(ir)
 group_keys(ir)
-
-# this can be useful if the grouped data has been altered before the split
-ir <- iris \%>\%
-  group_by(Species) \%>\%
-  filter(Sepal.Length > mean(Sepal.Length))
-
-group_split(ir)
-group_keys(ir)
-
-# ----- use case 2: using a group_by() grouping specification
-
-# both group_split() and group_keys() have to perform the grouping
-# so it only makes sense to do this if you only need one or the other
-iris \%>\%
-  group_split(Species)
-
-iris \%>\%
-  group_by(Species) \%>\%
-  group_keys()
 }
 \seealso{
 Other grouping functions: 
