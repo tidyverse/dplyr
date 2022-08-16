@@ -312,7 +312,13 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
 
     for (i in seq_len(n)) {
       index <<- i
-      out[[i]] <- ...elt2(i)
+      out[[i]] <- vec_as_subscript(
+        ...elt2(i),
+        logical = "error",
+        character = "error",
+        arg = as_label(dots[[i]]),
+        call = NULL
+      )
     }
 
     index <<- 0L
@@ -343,16 +349,8 @@ slice_combine <- function(chunks, dots, mask, error_call = caller_env()) {
     for (group in seq_along(rows)) {
       current_rows <- rows[[group]]
 
-      i <- vec_as_subscript(
-        chunks[[group]],
-        logical = "error",
-        character = "error",
-        arg = as_label(dots[[group]]),
-        call = NULL
-      )
-
       loc <- num_as_location(
-        i = i,
+        i = chunks[[group]],
         n = length(current_rows),
         zero = "remove",
         oob = "remove",

@@ -16,7 +16,7 @@
       slice(tibble(), "a")
     Condition
       Error in `slice()`:
-      ! Problem while computing indices.
+      ! Problem while evaluating `..1 = "a"`.
       Caused by error:
       ! Must subset elements with a valid subscript vector.
       x Subscript `"a"` has the wrong type `character`.
