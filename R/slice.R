@@ -41,7 +41,7 @@
 #'   If `n` is greater than the number of rows in the group (or `prop > 1`),
 #'   the result will be silently truncated to the group size. If the
 #'   `prop`ortion of a group size does not yield an integer number of rows, the
-#'   absolute value of `prop*nrow(.data)` is rounded down.
+#'   absolute value of `prop * nrow(.data)` is rounded down.
 #' @return
 #' An object of the same type as `.data`. The output has the following
 #' properties:
@@ -263,7 +263,7 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 
 #' @export
 slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
-  size <- get_slice_size(n = n, prop = prop, allow_negative = FALSE)
+  size <- get_slice_size(n = n, prop = prop)
 
   dplyr_local_error_call()
   slice(.data, local({
@@ -444,24 +444,20 @@ check_bool <- function(x, arg = caller_arg(x), call = caller_env()) {
   }
 }
 
-get_slice_size <- function(n, prop, allow_negative = TRUE, error_call = caller_env()) {
+get_slice_size <- function(n, prop, error_call = caller_env()) {
   slice_input <- check_slice_n_prop(n, prop, error_call = error_call)
 
   if (slice_input$type == "n") {
     if (slice_input$n >= 0) {
       function(n) floor(slice_input$n)
-    } else if (allow_negative) {
-      function(n) ceiling(n + slice_input$n)
     } else {
-      abort("`n` must be positive.", call = error_call)
+      function(n) ceiling(n + slice_input$n)
     }
   } else if (slice_input$type == "prop") {
     if (slice_input$prop >= 0) {
       function(n) floor(slice_input$prop * n)
-    } else if (allow_negative) {
-      function(n) ceiling(n + slice_input$prop * n)
     } else {
-      abort("`prop` must be positive.", call = error_call)
+      function(n) ceiling(n + slice_input$prop * n)
     }
   }
 }

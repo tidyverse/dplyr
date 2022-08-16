@@ -312,16 +312,16 @@ test_that("`slice_sample()` validates `replace`", {
   })
 })
 
-test_that("slice_sample() handles n= and prop=", {
+test_that("slice_sample() handles positive n= and prop=", {
   gf <- group_by(tibble(a = 1, b = 1), a)
   expect_equal(slice_sample(gf, n = 3, replace = TRUE), gf[c(1, 1, 1), ])
   expect_equal(slice_sample(gf, prop = 3, replace = TRUE), gf[c(1, 1, 1), ])
+})
 
-  # Unlike other helpers, can't supply negative values
-  expect_snapshot(error = TRUE, {
-    slice_sample(gf, n = -1)
-    slice_sample(gf, prop = -1)
-  })
+test_that("slice_sample() handles negative n= and prop= (#6402)", {
+  df <- tibble(a = 1:2)
+  expect_equal(nrow(slice_sample(df, n = -1)), 1)
+  expect_equal(nrow(slice_sample(df, prop = 0.5)), 1)
 })
 
 # slice_head/slice_tail ---------------------------------------------------

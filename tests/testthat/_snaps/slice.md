@@ -252,16 +252,3 @@
       Error in `slice_sample()`:
       ! `replace` must be a single `TRUE` or `FALSE`.
 
-# slice_sample() handles n= and prop=
-
-    Code
-      slice_sample(gf, n = -1)
-    Condition
-      Error in `slice_sample()`:
-      ! `n` must be positive.
-    Code
-      slice_sample(gf, prop = -1)
-    Condition
-      Error in `slice_sample()`:
-      ! `prop` must be positive.
-
