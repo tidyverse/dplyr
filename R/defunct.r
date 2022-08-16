@@ -3,8 +3,9 @@
 #' @description
 #' `r lifecycle::badge("defunct")`
 #'
-#' These function were all deprecated for at least two years and are now
-#' defunct. Executing them to tell you which function to use instead.
+#' These functions were deprecated for at least two years before being
+#' made defunct. If there's a known replacement, calling the function
+#' will tell you about it.
 #'
 #' @keywords internal
 #' @name defunct
