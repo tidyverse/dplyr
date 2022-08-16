@@ -311,12 +311,16 @@
 <code class="sourceCode R"><span><span class="va">by_sex_gender</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
-<span><span class="co">#&gt;   gender        n</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> feminine     17</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> masculine    66</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> <span style="color: #BB0000;">NA</span>            4</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   sex [5]</span></span></span>
+<span><span class="co">#&gt;   sex            gender        n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> female         feminine     16</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> hermaphroditic masculine     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> male           masculine    60</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> none           feminine      1</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
