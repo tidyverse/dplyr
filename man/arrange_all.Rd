@@ -32,9 +32,9 @@ grouped data frames only.}
 
 \item{.locale}{The locale to sort character vectors in.
 \itemize{
-\item If \code{NULL}, the default, then the \code{"C"} locale will be used unless this is
-explicitly overridden. See the \link[=dplyr-locale]{locale} help page for the
-exact details of how to override the default.
+\item If \code{NULL}, the default, uses the \code{"C"} locale unless the
+\code{dplyr.legacy_locale} global option escape hatch is active. See the
+\link{dplyr-locale} help page for more details.
 \item If a single string from \code{\link[stringi:stri_locale_list]{stringi::stri_locale_list()}} is supplied, then
 this will be used as the locale to sort with. For example, \code{"en"} will
 sort with the American English locale. This requires the stringi package.

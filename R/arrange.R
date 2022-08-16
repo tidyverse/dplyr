@@ -40,9 +40,9 @@
 #'   grouped data frames only.
 #' @param .locale The locale to sort character vectors in.
 #'
-#'   - If `NULL`, the default, then the `"C"` locale will be used unless this is
-#'     explicitly overridden. See the [locale][dplyr-locale] help page for the
-#'     exact details of how to override the default.
+#'   - If `NULL`, the default, uses the `"C"` locale unless the
+#'     `dplyr.legacy_locale` global option escape hatch is active. See the
+#'     [dplyr-locale] help page for more details.
 #'
 #'   - If a single string from [stringi::stri_locale_list()] is supplied, then
 #'     this will be used as the locale to sort with. For example, `"en"` will
