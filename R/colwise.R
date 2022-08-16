@@ -162,7 +162,7 @@ tbl_at_vars <- function(tbl, vars, .include_group_vars = FALSE, error_call = cal
   } else if (is_integerish(vars)) {
     tibble_vars[vars]
   } else if (is_quosures(vars) || is_character(vars)) {
-    out <- fix_call(tidyselect::vars_select(tibble_vars, !!!vars), call = error_call)
+    out <- tidyselect::vars_select(tibble_vars, !!!vars)
     if (!any(have_name(vars))) {
       names(out) <- NULL
     }

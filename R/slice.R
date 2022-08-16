@@ -271,7 +271,7 @@ slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, repla
 
     n <- dplyr::n()
     if (!is.null(weight_by)) {
-      weight_by <- fix_call(vec_assert(weight_by, size = n, arg = "weight_by"), NULL)
+      weight_by <- vec_assert(weight_by, size = n, arg = "weight_by")
     }
     sample_int(n, size(n), replace = replace, wt = weight_by)
   }))
@@ -316,11 +316,7 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
     }
 
     index <<- 0L
-
-    fix_call(
-      vec_c(!!!out),
-      call = NULL
-    )
+    vec_c(!!!out)
   }
 
   withCallingHandlers(
@@ -354,7 +350,7 @@ slice_combine <- function(chunks, mask, error_call = caller_env()) {
         if (is.matrix(res) && ncol(res) == 1) {
           res <- as.vector(res)
         }
-        res <- fix_call(vec_cast(res, integer(), x_arg = ""), NULL)
+        res <- vec_cast(res, integer(), x_arg = "", call = NULL)
       } else {
         bullets <- c(
           glue("Invalid result of type <{vec_ptype_full(res)}>."),

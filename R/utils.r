@@ -99,14 +99,6 @@ node_walk_replace <- function(node, old, new) {
   }
 }
 
-# temporary workaround until vctrs better reports error call
-fix_call <- function(expr, call = caller_env()) {
-  withCallingHandlers(expr, error = function(cnd) {
-    cnd$call <- call
-    cnd_signal(cnd)
-  })
-}
-
 # Backports for R 3.5.0 utils
 ...length2 <- function(frame = caller_env()) {
   length(env_get(frame, "..."))

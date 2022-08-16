@@ -137,6 +137,7 @@
       select(mtcars, 1 + "")
     Condition
       Error in `foo()`:
+      ! Problem while evaluating `1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code

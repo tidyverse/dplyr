@@ -33,6 +33,6 @@ combine <- function(...) {
   if (length(args) == 0) {
     logical()
   } else {
-    fix_call(vec_c(!!!args))
+    vec_c(!!!args)
   }
 }
