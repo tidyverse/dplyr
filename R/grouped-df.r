@@ -300,6 +300,7 @@ dplyr_locate_sorted_groups <- function(x) {
 
   if (dplyr_legacy_locale()) {
     # Temporary legacy support for respecting the system locale
+    # Matches legacy `arrange()` ordering.
     out <- vec_slice(out, vec_order_base(out$key))
   }
 

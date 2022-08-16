@@ -76,7 +76,7 @@ test_that("arrange handles complex columns", {
 test_that("arrange handles S4 classes (#1105)", {
   TestS4 <- suppressWarnings(setClass("TestS4", contains = "integer"))
   setMethod('[', 'TestS4', function(x, i, ...){ TestS4(unclass(x)[i, ...])  })
-  on.exit(removeClass("TestS4"))
+  on.exit(removeClass("TestS4"), add = TRUE)
 
   df <- tibble(x = 1:3, y = TestS4(3:1))
   expect_equal(arrange(df, y), df[3:1, ])
@@ -137,18 +137,6 @@ test_that("non-English locales can be used", {
   expect_identical(res$x, x)
 
   res <- arrange(df, x, .locale = "da")
-  expect_identical(res$x, x[c(1, 3, 4, 2)])
-})
-
-test_that("arrange respects the `dplyr.locale` global option", {
-  skip_if_not_installed("stringi", "1.5.3")
-
-  local_options(dplyr.locale = "da")
-
-  x <- c("o", "\u00F8", "p", "z")
-  df <- tibble(x = x)
-
-  res <- arrange(df, x)
   expect_identical(res$x, x[c(1, 3, 4, 2)])
 })
 
@@ -277,3 +265,179 @@ test_that("desc() inside arrange() checks the number of arguments (#5921)", {
   })
 })
 
+# legacy --------------------------------------------------------------
+
+test_that("legacy - using the global option `dplyr.legacy_locale` forces the system locale", {
+  skip_if_not(has_collate_locale("en_US"), message = "Can't use 'en_US' locale")
+
+  local_options(dplyr.legacy_locale = TRUE)
+  withr::local_collate("en_US")
+
+  df <- tibble(x = c("a", "A", "Z", "b"))
+
+  expect_identical(arrange(df, x)$x, c("a", "A", "b", "Z"))
+})
+
+test_that("legacy - usage of `.locale` overrides `dplyr.legacy_locale`", {
+  skip_if_not_installed("stringi", "1.5.3")
+
+  local_options(dplyr.legacy_locale = TRUE)
+
+  # Danish `o` with `/` through it sorts after `z` in Danish locale
+  x <- c("o", "\u00F8", "p", "z")
+  df <- tibble(x = x)
+
+  # American English locale puts it right after `o`
+  res <- arrange(df, x, .locale = "en")
+  expect_identical(res$x, x)
+
+  res <- arrange(df, x, .locale = "da")
+  expect_identical(res$x, x[c(1, 3, 4, 2)])
+})
+
+test_that("legacy - empty arrange() returns input", {
+  local_options(dplyr.legacy_locale = TRUE)
+
+  df <- tibble(x = 1:10, y = 1:10)
+  gf <- group_by(df, x)
+
+  expect_identical(arrange(df), df)
+  expect_identical(arrange(gf), gf)
+
+  expect_identical(arrange(df, !!!list()), df)
+  expect_identical(arrange(gf, !!!list()), gf)
+})
+
+test_that("legacy - can sort empty data frame", {
+  local_options(dplyr.legacy_locale = TRUE)
+
+  df <- tibble(a = numeric(0))
+  expect_equal(arrange(df, a), df)
+})
+
+test_that("legacy - local arrange sorts missing values to end", {
+  local_options(dplyr.legacy_locale = TRUE)
+
+  df <- data.frame(x = c(2, 1, NA))
+
+  expect_equal(df %>% arrange(x) %>% pull(), c(1, 2, NA))
+  expect_equal(df %>% arrange(desc(x)) %>% pull(), c(2, 1, NA))
+})
+
+test_that("legacy - arrange handles list columns (#282)", {
+  local_options(dplyr.legacy_locale = TRUE)
+
+  # no intrinsic ordering
+  df <- tibble(x = 1:3, y = list(3, 2, 1))
+  expect_equal(arrange(df, y), df)
+
+  df <- tibble(x = 1:3, y = list(sum, mean, sd))
+  expect_equal(arrange(df, y), df)
+})
+
+test_that("legacy - arrange handles raw columns (#1803)", {
+  local_options(dplyr.legacy_locale = TRUE)
+
+  df <- tibble(x = 1:3, y = as.raw(3:1))
+  expect_equal(arrange(df, y), df[3:1, ])
+})
+
+test_that("legacy - arrange handles matrix columns", {
+  local_options(dplyr.legacy_locale = TRUE)
+
+  df <- tibble(x = 1:3, y = matrix(6:1, ncol = 2))
+  expect_equal(arrange(df, y), df[3:1, ])
+})
+
+test_that("legacy - arrange handles data.frame columns (#3153)", {
+  local_options(dplyr.legacy_locale = TRUE)
+
+  df <- tibble(x = 1:3, y = data.frame(z = 3:1))
+  expect_equal(arrange(df, y), tibble(x = 3:1, y = data.frame(z = 1:3)))
+})
+
+test_that("legacy - arrange handles complex columns", {
+  local_options(dplyr.legacy_locale = TRUE)
+
+  df <- tibble(x = 1:3, y = 3:1 + 2i)
+  expect_equal(arrange(df, y), df[3:1, ])
+})
+
+test_that("legacy - arrange handles S4 classes (#1105)", {
+  local_options(dplyr.legacy_locale = TRUE)
+
+  TestS4 <- suppressWarnings(setClass("TestS4", contains = "integer"))
+  setMethod('[', 'TestS4', function(x, i, ...){ TestS4(unclass(x)[i, ...])  })
+  on.exit(removeClass("TestS4"), add = TRUE)
+
+  df <- tibble(x = 1:3, y = TestS4(3:1))
+  expect_equal(arrange(df, y), df[3:1, ])
+})
+
+test_that("legacy - arrange works with two columns when the first has a data frame proxy (#6268)", {
+  local_options(dplyr.legacy_locale = TRUE)
+
+  # `id1` has a data frame proxy for `vec_proxy_order()`
+  df <- tibble(
+    id1 = new_rcrd(list(x = 1, y = 1)),
+    id2 = c(1, 3, 2)
+  )
+
+  out <- arrange(df, id1, id2)
+
+  expect_identical(out$id2, c(1, 2, 3))
+})
+
+test_that("legacy - arrange() supports across() (#4679)", {
+  local_options(dplyr.legacy_locale = TRUE)
+
+  df <- tibble(x = c(1, 3, 2, 1), y = c(4, 3, 2, 1))
+
+  expect_identical(
+    df %>% arrange(across()),
+    df %>% arrange(x, y)
+  )
+  expect_identical(
+    df %>% arrange(across(.fns = desc)),
+    df %>% arrange(desc(x), desc(y))
+  )
+  expect_identical(
+    df %>% arrange(across(x)),
+    df %>% arrange(x)
+  )
+  expect_identical(
+    df %>% arrange(across(y)),
+    df %>% arrange(y)
+  )
+})
+
+test_that("legacy - arrange sorts missings in df-cols correctly", {
+  local_options(dplyr.legacy_locale = TRUE)
+
+  col <- tibble(a = c(1, 1, 1), b = c(3, NA, 1))
+  df <- tibble(x = col)
+
+  expect_identical(arrange(df, x), df[c(3, 1, 2),])
+  expect_identical(arrange(df, desc(x)), df[c(1, 3, 2),])
+})
+
+test_that("legacy - arrange with duplicates in a df-col uses a stable sort", {
+  local_options(dplyr.legacy_locale = TRUE)
+
+  col <- tibble(a = c(1, 1, 1, 1, 1), b = c(3, NA, 2, 3, NA))
+  df <- tibble(x = col, y = 1:5)
+
+  expect_identical(arrange(df, x)$y, c(3L, 1L, 4L, 2L, 5L))
+  expect_identical(arrange(df, desc(x))$y, c(1L, 4L, 3L, 2L, 5L))
+})
+
+test_that("legacy - arrange with doubly nested df-col doesn't infloop", {
+  local_options(dplyr.legacy_locale = TRUE)
+
+  one <- tibble(a = c(1, 1, 1, 1, 1), b = c(1, 1, 2, 2, 2))
+  two <- tibble(a = c(1, 1, 1, 1, 1), b = c(2, 1, 1, 2, 2))
+  col <- tibble(one = one, two = two)
+  df <- tibble(x = col, y = c(1, 1, 1, 1, 0))
+
+  expect_identical(arrange(df, x, y), df[c(2, 1, 3, 5, 4),])
+})

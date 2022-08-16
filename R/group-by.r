@@ -57,12 +57,15 @@
 #' This is often useful as a preliminary step before generating content intended
 #' for humans, such as an HTML table.
 #'
+#' ## Legacy behavior
+#'
 #' Prior to dplyr 1.1.0, character vector grouping columns were ordered in the
 #' system locale. If you need to temporarily revert to this behavior, you can
 #' set the global option `dplyr.legacy_locale` to `TRUE`, but this should be
 #' used sparingly and you should expect this option to be removed in a future
 #' version of dplyr. It is better to update existing code to explicitly call
-#' `arrange()` instead.
+#' `arrange(.locale = )` instead. Note that setting `dplyr.legacy_locale` will
+#' also force calls to [arrange()] to use the system locale.
 #'
 #' @export
 #' @examples
