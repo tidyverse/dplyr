@@ -190,14 +190,14 @@ group_by_prepare <- function(.data,
                              error_call = caller_env()) {
 
   if (!missing(add)) {
-    lifecycle::deprecate_warn("1.0.0", "group_by(add = )", "group_by(.add = )")
+    lifecycle::deprecate_warn("1.0.0", "group_by(add = )", "group_by(.add = )", always = TRUE)
     .add <- add
   }
 
   new_groups <- enquos(..., .ignore_empty = "all")
   if (!missing(.dots)) {
     # Used by dbplyr 1.4.2 so can't aggressively deprecate
-    lifecycle::deprecate_warn("1.0.0", "group_by(.dots = )")
+    lifecycle::deprecate_warn("1.0.0", "group_by(.dots = )", always = TRUE)
     new_groups <- c(new_groups, compat_lazy_dots(.dots, env = caller_env))
   }
 

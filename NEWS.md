@@ -10,6 +10,10 @@
 
 * `location()` and `changes()`, deprecated in 1.0.0, are now defunct (#6387).
 
+* All other functions deprecated in 1.0.0 and earlier now warn every time you 
+  use them (#6387). They are likely to be made defunct in the next major 
+  version (but not before mid 2024).
+
 * `nth()`, `first()`, and `last()` have gained an `na_rm` argument since they
   are summary functions (#6242, with contributions from @tnederlof).
 

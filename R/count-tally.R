@@ -112,7 +112,7 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = depr
 #' @export
 add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
   if (!missing(.drop)) {
-    lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )")
+    lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )", always = TRUE)
   }
 
   if (!missing(...)) {
@@ -127,7 +127,7 @@ add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .dro
 #' @export
 add_count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
   if (!missing(.drop)) {
-    lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )")
+    lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )", always = TRUE)
   }
 
   if (!missing(...)) {
