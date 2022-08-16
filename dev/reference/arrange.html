@@ -98,7 +98,7 @@ once per data frame, not once per group.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">arrange</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .by_group <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for data.frame</span></span>
-<span><span class="fu">arrange</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .by_group <span class="op">=</span> <span class="cn">FALSE</span>, .locale <span class="op">=</span> <span class="fu"><a href="dplyr_locale.html">dplyr_locale</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">arrange</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .by_group <span class="op">=</span> <span class="cn">FALSE</span>, .locale <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -120,9 +120,9 @@ grouped data frames only.</p></dd>
 
 
 <dt>.locale</dt>
-<dd><p>The locale to sort character vectors in.</p><ul><li><p>Defaults to <code><a href="dplyr_locale.html">dplyr_locale()</a></code>, which uses the <code>"C"</code> locale unless this is
-explicitly overridden. See the help page for <code><a href="dplyr_locale.html">dplyr_locale()</a></code> for the
-exact details.</p></li>
+<dd><p>The locale to sort character vectors in.</p><ul><li><p>If <code>NULL</code>, the default, uses the <code>"C"</code> locale unless the
+<code>dplyr.legacy_locale</code> global option escape hatch is active. See the
+<a href="dplyr-locale.html">dplyr-locale</a> help page for more details.</p></li>
 <li><p>If a single string from <code><a href="https://rdrr.io/pkg/stringi/man/stri_locale_list.html" class="external-link">stringi::stri_locale_list()</a></code> is supplied, then
 this will be used as the locale to sort with. For example, <code>"en"</code> will
 sort with the American English locale. This requires the stringi package.</p></li>
@@ -131,8 +131,8 @@ C locale. This does not require stringi and is often much faster than
 supplying a locale identifier.</p></li>
 </ul><p>The C locale is not the same as English locales, such as <code>"en"</code>,
 particularly when it comes to data containing a mix of upper and lower case
-letters. This is explained in more detail in the help page of
-<code><a href="dplyr_locale.html">dplyr_locale()</a></code> under the <code>Default locale</code> section.</p></dd>
+letters. This is explained in more detail on the <a href="dplyr-locale.html">locale</a>
+help page under the <code>Default locale</code> section.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -329,7 +329,7 @@ dplyr (<code>data.frame</code>)
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># use across() access select()-style semantics</span></span></span>
+<span class="r-in"><span><span class="co"># use across() to access select()-style semantics</span></span></span>
 <span class="r-in"><span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">arrange</span><span class="op">(</span><span class="fu"><a href="across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Sepal"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Sepal.Length Sepal.Width Petal.Length Petal.Width    Species</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            4.3         3.0          1.1         0.1     setosa</span>
