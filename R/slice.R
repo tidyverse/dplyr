@@ -139,16 +139,10 @@ slice_head <- function(.data, ..., n, prop) {
 #' @export
 slice_head.data.frame <- function(.data, ..., n, prop) {
   size <- get_slice_size(n = n, prop = prop)
-  idx <- function(n) {
-    to <- size(n)
-    if (to > n) {
-      to <- n
-    }
-    seq2(1, to)
-  }
 
-  dplyr_local_error_call()
-  slice(.data, idx(dplyr::n()))
+  group_idx <- group_rows(.data)
+  slice_idx <- unlist(lapply(group_idx, function(x) head(x, size(length(x)))))
+  dplyr_row_slice(.data, slice_idx)
 }
 
 #' @export
@@ -162,16 +156,10 @@ slice_tail <- function(.data, ..., n, prop) {
 #' @export
 slice_tail.data.frame <- function(.data, ..., n, prop) {
   size <- get_slice_size(n = n, prop = prop)
-  idx <- function(n) {
-    from <- n - size(n) + 1
-    if (from < 1L) {
-      from <- 1L
-    }
-    seq2(from, n)
-  }
 
-  dplyr_local_error_call()
-  slice(.data, idx(dplyr::n()))
+  group_idx <- group_rows(.data)
+  slice_idx <- unlist(lapply(group_idx, function(x) tail(x, size(length(x)))))
+  dplyr_row_slice(.data, slice_idx)
 }
 
 #' @export

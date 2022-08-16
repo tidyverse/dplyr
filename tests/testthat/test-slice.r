@@ -186,7 +186,7 @@ test_that("slice_*() checks that `n=` is explicitly named and ... is empty", {
 
 test_that("slice_helpers do call slice() and benefit from dispatch (#6084)", {
   local_methods(
-    slice.noisy = function(.data, ..., .preserve = FALSE) {
+    dplyr_row_slice.noisy = function(.data, ..., .preserve = FALSE) {
       warning("noisy")
       NextMethod()
     }
