@@ -101,10 +101,7 @@ do.grouped_df <- function(.data, ...) {
 
   out <- replicate(m, vector("list", n), simplify = FALSE)
   names(out) <- names(args)
-  p <- rlang::with_options(
-    lifecycle_verbosity = "quiet",
-    progress_estimated(n * m, min_time = 2)
-  )
+  p <- Progress$new(n * m, min_time = 2)
 
   for (`_i` in seq_len(n)) {
     for (j in seq_len(m)) {
