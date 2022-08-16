@@ -3,385 +3,155 @@ test_that("empty slice returns input", {
   expect_equal(slice(df), df)
 })
 
-test_that("slice handles numeric input (#226)", {
-  g <- mtcars %>% arrange(cyl) %>% group_by(cyl)
-  res <- g %>% slice(1)
-  expect_equal(nrow(res), 3)
-  expect_equal(res, g %>% filter(row_number() == 1L))
-
-  expect_equal(
-    mtcars %>% slice(1),
-    mtcars %>% filter(row_number() == 1L)
-  )
+test_that("slicing data.frame yields data.frame", {
+  df <- data.frame(x = 1:3)
+  expect_equal(slice(df, 1), data.frame(x = 1L))
 })
 
-test_that("slice silently ignores out of range values (#226)", {
-  expect_equal(slice(mtcars, c(2, 100)), slice(mtcars, 2))
+test_that("slice keeps positive indices, ignoring out of range (#226)", {
+  gf <- group_by(tibble(g = c(1, 2, 2, 3, 3, 3), id = 1:6), g)
 
-  g <- group_by(mtcars, cyl)
-  expect_equal(slice(g, c(2, 100)), slice(g, 2))
+  out <- slice(gf, 1)
+  expect_equal(out$id, c(1, 2, 4))
+
+  out <- slice(gf, 2)
+  expect_equal(out$id, c(3, 5))
 })
 
-test_that("slice works with negative indices", {
-  res <- slice(mtcars, -(1:2))
-  exp <- tail(mtcars, -2)
-  expect_equal(res, exp, ignore_attr = TRUE)
+test_that("slice drops negative indices, ignoring out of range (#3073)", {
+  gf <- group_by(tibble(g = c(1, 2, 2, 3, 3, 3), id = 1:6), g)
+
+  out <- slice(gf, -1)
+  expect_equal(out$id, c(3, 5, 6))
+
+  out <- slice(gf, -(1:2))
+  expect_equal(out$id, 6)
 })
 
-test_that("slice works with grouped data", {
-  g <- mtcars %>% arrange(cyl) %>% group_by(cyl)
-
-  res <- slice(g, 1:2)
-  exp <- filter(g, row_number() < 3)
-  expect_equal(res, exp)
-
-  res <- slice(g, -(1:2))
-  exp <- filter(g, row_number() >= 3)
-  expect_equal(res, exp)
-
-  g <- group_by(data.frame(x = c(1, 1, 2, 2, 2)), x)
-  expect_equal(group_keys(slice(g, 3, .preserve = TRUE))$x, c(1, 2))
-  expect_equal(group_keys(slice(g, 3, .preserve = FALSE))$x, 2)
+test_that("slice errors if positive and negative indices mixed", {
+  expect_snapshot(error = TRUE, {
+    slice(tibble(), 1, -1)
+  })
 })
 
-test_that("slice gives correct rows (#649)", {
-  a <- tibble(value = paste0("row", 1:10))
-  expect_equal(slice(a, 1:3)$value, paste0("row", 1:3))
-  expect_equal(slice(a, c(4, 6, 9))$value, paste0("row", c(4, 6, 9)))
+test_that("slice ignores 0 and NA (#3313, #1235)", {
+  gf <- group_by(tibble(g = c(1, 2, 2, 3, 3, 3), id = 1:6), g)
 
-  a <- tibble(
-    value = paste0("row", 1:10),
-    group = rep(1:2, each = 5)
-  ) %>%
-    group_by(group)
+  out <- slice(gf, 0)
+  expect_equal(out$id, integer())
+  out <- slice(gf, 0, 1)
+  expect_equal(out$id, c(1, 2, 4))
 
-  expect_equal(slice(a, 1:3)$value, paste0("row", c(1:3, 6:8)))
-  expect_equal(slice(a, c(2, 4))$value, paste0("row", c(2, 4, 7, 9)))
+  out <- slice(gf, NA)
+  expect_equal(out$id, integer())
+  out <- slice(gf, NA, -1)
+  expect_equal(out$id, c(3, 5, 6))
 })
 
-test_that("slice handles NA (#1235)", {
+test_that("can slice with one-column matrix", {
+  gf <- group_by(tibble(g = c(1, 2, 2, 3, 3, 3), id = 1:6), g)
+
+  out <- slice(gf, matrix(1))
+  expect_equal(out$id, c(1, 2, 4))
+})
+
+test_that("slice errors if index is not numeric", {
+  expect_snapshot(error = TRUE, {
+    slice(tibble(), "a")
+  })
+})
+
+test_that("slice preserves groups iff requested", {
+  gf <- group_by(tibble(g = c(1, 2, 2, 3, 3, 3), id = 1:6), g)
+
+  out <- slice(gf, 2, 3)
+  expect_equal(group_keys(out), tibble(g = c(2, 3)))
+  expect_equal(group_rows(out), list_of(1, c(2, 3)))
+
+  out <- slice(gf, 2, 3, .preserve = TRUE)
+  expect_equal(group_keys(out), tibble(g = c(1, 2, 3)))
+  expect_equal(group_rows(out), list_of(integer(), 1, c(2, 3)))
+})
+
+test_that("slice handles zero-row and zero-column inputs (#1219, #2490)", {
+  df <- tibble(x = numeric())
+  expect_equal(slice(df, 1), df)
+
+  df <- tibble(.rows = 10)
+  expect_equal(slice(df, 1), tibble(.rows = 1))
+})
+
+test_that("user errors are correctly labelled", {
   df <- tibble(x = 1:3)
-  expect_equal(nrow(slice(df, NA_integer_)), 0L)
-  expect_equal(nrow(slice(df, c(1L, NA_integer_))), 1L)
-  expect_equal(nrow(slice(df, c(-1L, NA_integer_))), 2L)
-
-  df <- tibble(x = 1:4, g = rep(1:2, 2)) %>% group_by(g)
-  expect_equal(nrow(slice(df, c(1, NA))), 2)
-  expect_equal(nrow(slice(df, c(-1, NA))), 2)
-})
-
-test_that("slice handles logical NA (#3970)", {
-  df <- tibble(x = 1:3)
-  expect_equal(nrow(slice(df, NA)), 0L)
-})
-
-test_that("slice handles empty data frames (#1219)", {
-  df <- data.frame(x = numeric())
-  res <- df %>% slice(1:3)
-  expect_equal(nrow(res), 0L)
-  expect_equal(names(res), "x")
-})
-
-test_that("slice works fine if n > nrow(df) (#1269)", {
-  by_slice <- mtcars %>% arrange(cyl) %>%  group_by(cyl)
-  slice_res <- by_slice  %>% slice(8)
-  filter_res <- by_slice %>% group_by(cyl) %>% filter(row_number() == 8)
-  expect_equal(slice_res, filter_res)
-})
-
-test_that("slice strips grouped indices (#1405)", {
-  res <- mtcars %>% group_by(cyl) %>% slice(1) %>% mutate(mpgplus = mpg + 1)
-  expect_equal(nrow(res), 3L)
-  expect_equal(group_rows(res), list_of(1L, 2L, 3L))
-})
-
-test_that("slice works with zero-column data frames (#2490)", {
-  expect_equal(
-    tibble(a = 1:3) %>% select(-a) %>% slice(1) %>% nrow(),
-    1L
-  )
-})
-
-test_that("slice correctly computes positive indices from negative indices (#3073)", {
-  x <- tibble(y = 1:10)
-  expect_identical(slice(x, -10:-30), tibble(y = 1:9))
-})
-
-test_that("slice handles raw matrices", {
-  df <- tibble(a = 1:4, b = matrix(as.raw(1:8), ncol = 2))
-  expect_identical(
-    slice(df, 1:2)$b,
-    matrix(as.raw(c(1, 2, 5, 6)), ncol = 2)
-  )
-})
-
-test_that("slice on ungrouped data.frame (not tibble) does not enforce tibble", {
-  expect_equal(class(slice(mtcars, 2)), "data.frame")
-  expect_equal(class(slice(mtcars, -2)), "data.frame")
-  expect_equal(class(slice(mtcars, NA)), "data.frame")
-})
-
-test_that("slice skips 0 (#3313)", {
-  d <- tibble(x = 1:5, y = LETTERS[1:5], g = 1)
-  expect_identical(slice(d, 0), slice(d, integer(0)))
-  expect_identical(slice(d, c(0, 1)), slice(d, 1))
-  expect_identical(slice(d, c(0, 1, 2)), slice(d, c(1, 2)))
-
-  expect_identical(slice(d, c(-1, 0)), slice(d, -1))
-  expect_identical(slice(d, c(0, -1)), slice(d, -1))
-
-  d <- group_by(d, g)
-  expect_identical(slice(d, 0), slice(d, integer(0)))
-  expect_identical(slice(d, c(0, 1)), slice(d, 1))
-  expect_identical(slice(d, c(0, 1, 2)), slice(d, c(1, 2)))
-
-  expect_identical(slice(d, c(-1, 0)), slice(d, -1))
-  expect_identical(slice(d, c(0, -1)), slice(d, -1))
-})
-
-test_that("slice accepts ... (#3804)", {
-  expect_equal(slice(mtcars, 1, 2), slice(mtcars, 1:2))
-  expect_equal(slice(mtcars, 1, n()), slice(mtcars, c(1, nrow(mtcars))))
-
-  g <- mtcars %>% group_by(cyl)
-  expect_equal(slice(g, 1, n()), slice(g, c(1, n())))
-})
-
-test_that("slice does not evaluate the expression in empty groups (#1438)", {
-  res <- mtcars %>%
-    group_by(cyl) %>%
-    filter(cyl==6) %>%
-    slice(1:2)
-  expect_equal(nrow(res), 2L)
-
-  expect_error(
-    res <- mtcars %>% group_by(cyl) %>% filter(cyl==6) %>% sample_n(size=3),
-    NA
-  )
-  expect_equal(nrow(res), 3L)
-})
-
-test_that("slice() handles matrix and data frame columns (#3630)", {
-  df <- tibble(
-    x = 1:2,
-    y = matrix(1:4, ncol = 2),
-    z = data.frame(A = 1:2, B = 3:4)
-  )
-  expect_equal(slice(df, 1), df[1, ])
-  expect_equal(slice(df, 1), df[1, ])
-  expect_equal(slice(df, 1), df[1, ])
-
-  gdf <- group_by(df, x)
-  expect_equal(slice(gdf, 1), gdf)
-  expect_equal(slice(gdf, 1), gdf)
-  expect_equal(slice(gdf, 1), gdf)
-
-  gdf <- group_by(df, y)
-  expect_equal(slice(gdf, 1), gdf)
-  expect_equal(slice(gdf, 1), gdf)
-  expect_equal(slice(gdf, 1), gdf)
-
-  gdf <- group_by(df, z)
-  expect_equal(slice(gdf, 1), gdf)
-  expect_equal(slice(gdf, 1), gdf)
-  expect_equal(slice(gdf, 1), gdf)
+  expect_snapshot(error = TRUE, {
+    slice(df, 1 + "")
+    slice(group_by(df, x), 1 + "")
+  })
 })
 
 # Slice variants ----------------------------------------------------------
 
-test_that("slice_sample() handles n= and prop=", {
-  df <- data.frame(a = 1, b = 1)
-  gdf <- group_by(df, a)
+test_that("slice_helpers() call get_slice_size()", {
+  df <- tibble(x = 1)
 
-  expect_equal(
-    df %>% slice_sample(n = 4, replace = TRUE),
-    df %>% slice(rep(1, 4))
-  )
-
-  expect_equal(
-    df %>% slice_sample(prop = 4, replace = TRUE),
-    df %>% slice(rep(1, 4))
-  )
-
-  expect_snapshot({
-    (expect_error(
-      df %>% slice_sample(n = -1)
-    ))
-    (expect_error(
-      df %>% slice_sample(prop = -1)
-    ))
+  expect_snapshot(error = TRUE, {
+    slice_head(df, n = "a")
+    slice_tail(df, n = "a")
+    slice_min(df, x, n = "a")
+    slice_max(df, x, n = "a")
+    slice_sample(df, n= "a")
   })
+})
+
+test_that("get_slice_size() validates its inputs", {
+  expect_snapshot(error = TRUE, {
+    get_slice_size(n = 1, prop = 1)
+    get_slice_size(n = foo)
+    get_slice_size(prop = foo)
+    get_slice_size(n = "a")
+    get_slice_size(prop = "a")
+  })
+})
+
+test_that("get_slice_size() converts proportions to numbers", {
+  expect_equal(get_slice_size(prop = 0.5)(10), 5)
+  expect_equal(get_slice_size(prop = -0.1)(10), 9)
+  expect_equal(get_slice_size(prop = 1.1)(10), 11)
+})
+
+test_that("get_slice_size() converts negative to positive", {
+  expect_equal(get_slice_size(n = -1)(10), 9)
+  expect_equal(get_slice_size(prop = -0.5)(10), 5)
+})
+
+test_that("get_slice_size() rounds non-integers", {
+  expect_equal(get_slice_size(n = 1.6)(10), 1)
+  expect_equal(get_slice_size(prop = 0.16)(10), 1)
+  expect_equal(get_slice_size(n = -1.6)(10), 9)
+  expect_equal(get_slice_size(prop = -0.16)(10), 9)
 })
 
 test_that("functions silently truncate results", {
-  df <- data.frame(x = 1:5)
+  # only test positive n because get_slice_size() converts all others
 
-  # positive n
-  expect_equal(df %>% slice_sample(n = 6) %>% nrow(), 5)
-  expect_equal(df %>% slice_head(n = 6) %>% nrow(), 5)
-  expect_equal(df %>% slice_tail(n = 6) %>% nrow(), 5)
-  expect_equal(df %>% slice_min(x, n = 6) %>% nrow(), 5)
-  expect_equal(df %>% slice_max(x, n = 6) %>% nrow(), 5)
-
-  # positive prop
-  expect_equal(df %>% slice_sample(prop = 2) %>% nrow(), 5)
-  expect_equal(df %>% slice_head(prop = 2) %>% nrow(), 5)
-  expect_equal(df %>% slice_tail(prop = 2) %>% nrow(), 5)
-  expect_equal(df %>% slice_min(x, prop = 2) %>% nrow(), 5)
-  expect_equal(df %>% slice_max(x, prop = 2) %>% nrow(), 5)
-
-  # negative n
-  expect_equal(df %>% slice_head(n = -6) %>% nrow(), 0)
-  expect_equal(df %>% slice_tail(n = -6) %>% nrow(), 0)
-  expect_equal(df %>% slice_min(x, n = -6) %>% nrow(), 0)
-  expect_equal(df %>% slice_max(x, n = -6) %>% nrow(), 0)
-
-  # negative prop
-  expect_equal(df %>% slice_head(prop = -2) %>% nrow(), 0)
-  expect_equal(df %>% slice_tail(prop = -2) %>% nrow(), 0)
-  expect_equal(df %>% slice_min(x, prop = -2) %>% nrow(), 0)
-  expect_equal(df %>% slice_max(x, prop = -2) %>% nrow(), 0)
+  df <- tibble(x = 1:5)
+  expect_equal(nrow(slice_head(df, n = 6)), 5)
+  expect_equal(nrow(slice_tail(df, n = 6)), 5)
+  expect_equal(nrow(slice_min(df, x, n = 6)), 5)
+  expect_equal(nrow(slice_max(df, x, n = 6)), 5)
+  expect_equal(nrow(slice_sample(df, n = 6)), 5)
 })
 
-test_that("proportion computed correctly", {
-  df <- data.frame(x = 1:10)
-
-  expect_equal(df %>% slice_head(prop = 0.11) %>% nrow(), 1)
-  expect_equal(df %>% slice_tail(prop = 0.11) %>% nrow(), 1)
-  expect_equal(df %>% slice_sample(prop = 0.11) %>% nrow(), 1)
-  expect_equal(df %>% slice_min(x, prop = 0.11) %>% nrow(), 1)
-  expect_equal(df %>% slice_max(x, prop = 0.11) %>% nrow(), 1)
-  expect_equal(df %>% slice_min(x, prop = 0.11, with_ties = FALSE) %>% nrow(), 1)
-  expect_equal(df %>% slice_max(x, prop = 0.11, with_ties = FALSE) %>% nrow(), 1)
+test_that("slice helpers with n = 0 return no rows", {
+  df <- tibble(x = 1:5)
+  expect_equal(nrow(slice_head(df, n = 0)), 0)
+  expect_equal(nrow(slice_tail(df, n = 0)), 0)
+  expect_equal(nrow(slice_min(df, x, n = 0)), 0)
+  expect_equal(nrow(slice_max(df, x, n = 0)), 0)
+  expect_equal(nrow(slice_sample(df, n = 0)), 0)
 })
 
-test_that("slice helpers with n = 0 and prop = 0 behave as slice(0)", {
-  # when not grouped
-  df <- data.frame(x = 1:5)
-  slice0 <- slice(df, 0)
-
-  expect_identical(df %>% slice_head(n = 0), slice0)
-  expect_identical(df %>% slice_tail(n = 0), slice0)
-  expect_identical(df %>% slice_min(x, n = 0), slice0)
-  expect_identical(df %>% slice_max(x, n = 0), slice0)
-  expect_identical(df %>% slice_sample(n = 0), slice0)
-
-  expect_identical(df %>% slice_head(prop = 0), slice0)
-  expect_identical(df %>% slice_tail(prop = 0), slice0)
-  expect_identical(df %>% slice_min(x, prop = 0), slice0)
-  expect_identical(df %>% slice_max(x, prop = 0), slice0)
-  expect_identical(df %>% slice_sample(prop = 0), slice0)
-
-  # when grouped
-  df <- data.frame(x = 1:5) %>% group_by(x)
-  slice0 <- slice(df, 0)
-
-  expect_identical(df %>% slice_head(n = 0), slice0)
-  expect_identical(df %>% slice_tail(n = 0), slice0)
-  expect_identical(df %>% slice_min(x, n = 0), slice0)
-  expect_identical(df %>% slice_max(x, n = 0), slice0)
-  expect_identical(df %>% slice_sample(n = 0), slice0)
-
-  expect_identical(df %>% slice_head(prop = 0), slice0)
-  expect_identical(df %>% slice_tail(prop = 0), slice0)
-  expect_identical(df %>% slice_min(x, prop = 0), slice0)
-  expect_identical(df %>% slice_max(x, prop = 0), slice0)
-  expect_identical(df %>% slice_sample(prop = 0), slice0)
-})
-
-test_that("min and max return ties by default", {
-  df <- data.frame(x = c(1, 1, 1, 2, 2))
-  expect_equal(df %>% slice_min(x) %>% nrow(), 3)
-  expect_equal(df %>% slice_max(x) %>% nrow(), 2)
-
-  expect_equal(df %>% slice_min(x, with_ties = FALSE) %>% nrow(), 1)
-  expect_equal(df %>% slice_max(x, with_ties = FALSE) %>% nrow(), 1)
-})
-
-test_that("min and max reorder results", {
-  df <- data.frame(id = 1:4, x = c(2, 3, 1, 2))
-
-  expect_equal(df %>% slice_min(x, n = 2) %>% pull(id), c(3, 1, 4))
-  expect_equal(df %>% slice_min(x, n = 2, with_ties = FALSE) %>% pull(id), c(3, 1))
-  expect_equal(df %>% slice_max(x, n = 2) %>% pull(id), c(2, 1, 4))
-  expect_equal(df %>% slice_max(x, n = 2, with_ties = FALSE) %>% pull(id), c(2, 1))
-})
-
-test_that("min and max ignore NA's (#4826)", {
-  df <- data.frame(id = 1:4, x = c(2, NA, 1, 2), y = c(NA, NA, NA, NA))
-
-  expect_equal(df %>% slice_min(x, n = 2) %>% pull(id), c(3, 1, 4))
-  expect_equal(df %>% slice_min(y, n = 2) %>% nrow(), 0)
-  expect_equal(df %>% slice_max(x, n = 2) %>% pull(id), c(1, 4))
-  expect_equal(df %>% slice_max(y, n = 2) %>% nrow(), 0)
-})
-
-test_that("arguments to sample are passed along", {
-  df <- data.frame(x = 1:100, wt = c(1, rep(0, 99)))
-
-  expect_equal(df %>% slice_sample(n = 1, weight_by = wt) %>% pull(x), 1)
-  expect_equal(df %>% slice_sample(n = 2, weight_by = wt, replace = TRUE) %>% pull(x), c(1, 1))
-})
-
-test_that("slice() handles matrices", {
-  df <- data.frame(x = 1)
-  expect_identical(
-    slice(df, 1),
-    slice(df, matrix(1))
-  )
-})
-
-test_that("slice() gives meaningfull errors", {
-  df <- data.frame(x = 1:2)
-  gdf <- group_by(df, x)
-
-  expect_snapshot({
-    (expect_error(
-      slice(df, matrix(c(1, 2), ncol = 2))
-    ))
-    (expect_error(
-      slice(gdf, matrix(c(1, 2), ncol = 2))
-    ))
-
-    (expect_error(
-      slice(df, "a")
-    ))
-    (expect_error(
-      slice(gdf, "a")
-    ))
-
-    (expect_error(
-      slice(df, c(1, -1))
-    ))
-    (expect_error(
-      slice(gdf, c(1, -1))
-    ))
-  })
-
-})
-
-test_that("slice_*() checks that `n=` is explicitly named", {
-  df <- data.frame(x = 1:10)
-  expect_snapshot({
-    (expect_error(
-      slice_head(df, 5)
-    ))
-    (expect_error(
-      slice_tail(df, 5)
-    ))
-    (expect_error(
-      slice_min(df, x, 5)
-    ))
-    (expect_error(
-      slice_max(df, x, 5)
-    ))
-    (expect_error(
-      slice_sample(df, 5)
-    ))
-  })
-})
-
-test_that("slice_*() not confusing `n` (#6089)", {
+test_that("slice_*() doesn't look for `n` in data (#6089)", {
   df <- data.frame(x = 1:10, n = 10:1, g = rep(1:2, each = 5))
   expect_error(slice_max(df, order_by = n), NA)
   expect_error(slice_min(df, order_by = n), NA)
@@ -393,184 +163,25 @@ test_that("slice_*() not confusing `n` (#6089)", {
   expect_error(slice_sample(df, weight_by = n, n = 1L), NA)
 })
 
-test_that("slice_*() checks that for empty `...", {
+test_that("slice_*() checks that `n=` is explicitly named and ... is empty", {
+  # i.e. that every function calls check_slice_dots()
+
   df <- data.frame(x = 1:10)
-  expect_snapshot({
-    (expect_error(
-      slice_head(df, 5, 2)
-    ))
-    (expect_error(
-      slice_tail(df, 5, 2)
-    ))
-    (expect_error(
-      slice_min(df, x, 5, 2)
-    ))
-    (expect_error(
-      slice_max(df, x, 5, 2)
-    ))
-    (expect_error(
-      slice_sample(df, 5, 2)
-    ))
+  expect_snapshot(error = TRUE, {
+    slice_head(df, 5)
+    slice_tail(df, 5)
+    slice_min(df, x, 5)
+    slice_max(df, x, 5)
+    slice_sample(df, 5)
   })
 
-  expect_snapshot({
-    (expect_error(
-      slice_head(df, n = 5, 2)
-    ))
-    (expect_error(
-      slice_tail(df, n = 5, 2)
-    ))
-    (expect_error(
-      slice_min(df, x, n = 5, 2)
-    ))
-    (expect_error(
-      slice_max(df, x, n = 5, 2)
-    ))
-    (expect_error(
-      slice_sample(df, n = 5, 2)
-    ))
+  expect_snapshot(error = TRUE, {
+    slice_head(df, 5, 2)
+    slice_tail(df, 5, 2)
+    slice_min(df, x, 5, 2)
+    slice_max(df, x, 5, 2)
+    slice_sample(df, 5, 2)
   })
-
-  expect_snapshot({
-    (expect_error(
-      slice_head(df, prop = .5, 2)
-    ))
-    (expect_error(
-      slice_tail(df, prop = .5, 2)
-    ))
-    (expect_error(
-      slice_min(df, x, prop = .5, 2)
-    ))
-    (expect_error(
-      slice_max(df, x, prop = .5, 2)
-    ))
-    (expect_error(
-      slice_sample(df, prop = .5, 2)
-    ))
-  })
-})
-
-
-test_that("slice_*() checks for constant n= and prop=", {
-  df <- data.frame(x = 1:10)
-
-  expect_snapshot({
-    (expect_error(
-      slice_head(df, n = n())
-    ))
-    (expect_error(
-      slice_head(df, prop = n())
-    ))
-
-    (expect_error(
-      slice_tail(df, n = n())
-    ))
-    (expect_error(
-      slice_tail(df, prop = n())
-    ))
-
-    (expect_error(
-      slice_min(df, x, n = n())
-    ))
-    (expect_error(
-      slice_min(df, x, prop = n())
-    ))
-
-    (expect_error(
-      slice_max(df, x, n = n())
-    ))
-    (expect_error(
-      slice_max(df, x, prop = n())
-    ))
-
-    (expect_error(
-      slice_sample(df, n = n())
-    ))
-    (expect_error(
-      slice_sample(df, prop = n())
-    ))
-  })
-
-})
-
-test_that("slice_min/max() check size of `order_by=` (#5922)", {
-  expect_snapshot({
-    (expect_error(
-      slice_min(data.frame(x = 1:10), 1:6)
-    ))
-    (expect_error(
-      slice_max(data.frame(x = 1:10), 1:6)
-    ))
-  })
-})
-
-test_that("slice_sample() check size of `weight_by=` (#5922)", {
-  expect_snapshot({
-    (expect_error(
-      slice_sample(data.frame(x = 1:10), n = 2, weight_by = 1:6)
-    ))
-  })
-})
-
-test_that("slice_sample() does not error on zero rows (#5729)", {
-  df <- tibble(dummy = character(), weight = numeric(0))
-  res <- expect_error(slice_sample(df, prop=0.5, weight_by = weight), NA)
-  expect_equal(nrow(res), 0L)
-})
-
-test_that("slice_head/slice_tail correctly slice ungrouped df when n < 0", {
-  df <- data.frame(x = 1:10)
-
-  expect_equal(
-    slice_head(df, n = -2),
-    slice_head(df, n = nrow(df) - 2)
-  )
-  expect_equal(
-    slice_tail(df, n = -2),
-    slice_tail(df, n = nrow(df) - 2)
-  )
-})
-
-test_that("slice_head,tail() handle n,prop = Inf", {
-  df <- data.frame(x = 1)
-  expect_identical(slice_head(df, n = Inf), df)
-  expect_identical(slice_tail(df, n = Inf), df)
-  expect_identical(slice_head(df, prop = Inf), df)
-  expect_identical(slice_tail(df, prop = Inf), df)
-
-  expect_identical(slice_head(df, n = -Inf), data.frame(x = numeric()))
-  expect_identical(slice_tail(df, n = -Inf), data.frame(x = numeric()))
-  expect_identical(slice_head(df, prop = -Inf), data.frame(x = numeric()))
-  expect_identical(slice_tail(df, prop = -Inf), data.frame(x = numeric()))
-})
-
-test_that("slice_head/slice_tail correctly slice grouped df when n < 0", {
-  df <- data.frame(x = 1:10, g = c(rep(1, 8), rep(2, 2))) %>% group_by(g)
-
-  expect_equal(
-    slice_head(df, n = -3),
-    slice(df, rlang::seq2(1L, n() - 3))
-  )
-  expect_equal(
-    n_groups(slice_head(df, n = -3)),
-    1L
-  )
-  expect_equal(
-    slice_tail(df, n = -3),
-    slice(df, rlang::seq2(3 + 1, n()))
-  )
-  expect_equal(
-    n_groups(slice_tail(df, n = -3)),
-    1L
-  )
-
-})
-
-test_that("Non-integer number of rows computed correctly", {
-  expect_equal(get_slice_size(n = 1.6)(10), 1)
-  expect_equal(get_slice_size(prop = 0.16)(10), 1)
-  expect_equal(get_slice_size(n = -1.6)(10), 9)
-  expect_equal(get_slice_size(prop = -0.16)(10), 9)
 })
 
 test_that("slice_helpers do call slice() and benefit from dispatch (#6084)", {
@@ -581,57 +192,169 @@ test_that("slice_helpers do call slice() and benefit from dispatch (#6084)", {
     }
   )
 
-  noisy <- function(x) {
-    class(x) <- c("noisy", class(x))
-    x
-  }
+  nf <- tibble(x = 1:10, g = rep(1:2, each = 5)) %>% group_by(g)
+  class(nf) <- c("noisy", class(nf))
 
-  df <- tibble(x = 1:10, g = rep(1:2, each = 5)) %>% group_by(g)
-
-  expect_warning(slice(noisy(df), 1:2), "noisy")
-  expect_warning(slice_sample(noisy(df), n = 2), "noisy")
-  expect_warning(slice_head(noisy(df), n = 2), "noisy")
-  expect_warning(slice_tail(noisy(df), n = 2), "noisy")
-  expect_warning(slice_min(noisy(df), x, n = 2), "noisy")
-  expect_warning(slice_max(noisy(df), x, n = 2), "noisy")
-  expect_warning(sample_n(noisy(df), 2), "noisy")
-  expect_warning(sample_frac(noisy(df), .5), "noisy")
+  expect_warning(slice(nf, 1:2), "noisy")
+  expect_warning(slice_sample(nf, n = 2), "noisy")
+  expect_warning(slice_head(nf, n = 2), "noisy")
+  expect_warning(slice_tail(nf, n = 2), "noisy")
+  expect_warning(slice_min(nf, x, n = 2), "noisy")
+  expect_warning(slice_max(nf, x, n = 2), "noisy")
+  expect_warning(sample_n(nf, 2), "noisy")
+  expect_warning(sample_frac(nf, .5), "noisy")
 })
 
-# Errors ------------------------------------------------------------------
+# slice_min/slice_max -----------------------------------------------------
 
-test_that("rename errors with invalid grouped data frame (#640)", {
-  expect_snapshot({
-    df <- tibble(x = 1:3)
+test_that("min and max return ties by default", {
+  df <- tibble(id = 1:5, x = c(1, 1, 1, 2, 2))
+  expect_equal(slice_min(df, x)$id, c(1, 2, 3))
+  expect_equal(slice_max(df, x)$id, c(4, 5))
 
-    # User errors are labelled
-    (expect_error(slice(mtcars, 1, 1 + "")))
-    (expect_error(group_by(mtcars, cyl) %>% slice(1, 1 + "")))
+  expect_equal(slice_min(df, x, with_ties = FALSE)$id, 1)
+  expect_equal(slice_max(df, x, with_ties = FALSE)$id, 4)
+})
 
-    # Incompatible type
-    (expect_error(slice(df, TRUE)))
-    (expect_error(slice(df, FALSE)))
-    (expect_error(slice(mtcars, 1, 1, "")))
-    (expect_error(group_by(mtcars, cyl) %>% slice(1, 1, "")))
+test_that("min and max reorder results", {
+  df <- data.frame(id = 1:4, x = c(2, 3, 1, 2))
 
-    # Mix of positive and negative integers
-    (expect_error(mtcars %>% slice(c(-1, 2))))
-    (expect_error(mtcars %>% slice(c(2:3, -1))))
+  expect_equal(slice_min(df, x, n = 2)$id, c(3, 1, 4))
+  expect_equal(slice_max(df, x, n = 2)$id, c(2, 1, 4))
 
-    # n and prop are carefully validated
-    (expect_error(slice_head(data.frame(), n = 1, prop = 1)))
-    (expect_error(slice_tail(data.frame(), n = "a")))
-    (expect_error(slide_head(data.frame(), prop = "a")))
-    (expect_error(slice_head(data.frame(), n = n())))
-    (expect_error(slice_head(data.frame(), prop = n())))
-    (expect_error(slice_head(data.frame(), n = NA)))
-    (expect_error(slice_head(data.frame(), prop = NA)))
+  expect_equal(slice_min(df, x, n = 2, with_ties = FALSE)$id, c(3, 1))
+  expect_equal(slice_max(df, x, n = 2, with_ties = FALSE)$id, c(2, 1))
+})
+
+test_that("min and max include NAs when appropriate", {
+  df <- tibble(id = 1:3, x = c(1, NA, NA))
+  expect_equal(slice_min(df, x, n = 1)$id, 1)
+  expect_equal(slice_max(df, x, n = 1)$id, 1)
+
+  expect_equal(slice_min(df, x, n = 2)$id, c(1, 2, 3))
+  expect_equal(slice_min(df, x, n = 2, with_ties = FALSE)$id, c(1, 2))
+
+  df <- tibble(id = 1:4, x = NA)
+  expect_equal(slice_min(df, x, n = 2, na_rm = TRUE)$id, integer())
+  expect_equal(slice_max(df, x, n = 2, na_rm = TRUE)$id, integer())
+})
+
+test_that("min and max ignore NA's when requested (#4826)", {
+  df <- tibble(id = 1:4, x = c(2, NA, 1, 2))
+  expect_equal(slice_min(df, x, n = 2, na_rm = TRUE)$id, c(3, 1, 4))
+  expect_equal(slice_max(df, x, n = 2, na_rm = TRUE)$id, c(1, 4))
+
+  # Check with list to confirm use full vctrs support
+  df <- tibble(id = 1:4, x = list(NULL, 1, NULL, NULL))
+  expect_equal(slice_min(df, x, n = 2, na_rm = TRUE)$id, 2)
+  expect_equal(slice_max(df, x, n = 2, na_rm = TRUE)$id, 2)
+
+  # Drop when any element is missing
+  df <- tibble(id = 1:3, a = c(1, 2, NA), b = c(2, NA, NA))
+  expect_equal(slice_min(df, tibble(a, b), n = 3, na_rm = TRUE)$id, 1)
+  expect_equal(slice_max(df, tibble(a, b), n = 3, na_rm = TRUE)$id, 1)
+})
+
+test_that("slice_min/max() can order by multiple variables (#6176)", {
+  df <- tibble(id = 1:4, x = 1, y = c(1, 4, 2, 3))
+  expect_equal(slice_min(df, tibble(x, y), n = 1)$id, 1)
+  expect_equal(slice_max(df, tibble(x, y), n = 1)$id, 2)
+})
+
+test_that("slice_min/max() check size of `order_by=` (#5922)", {
+  expect_snapshot(error = TRUE, {
+    slice_min(data.frame(x = 1:10), 1:6)
+    slice_max(data.frame(x = 1:10), 1:6)
   })
+})
+
+test_that("slice_min/max() validate simple arguments", {
+  expect_snapshot(error = TRUE, {
+    slice_min(data.frame(x = 1:10))
+    slice_max(data.frame(x = 1:10))
+
+    slice_min(data.frame(x = 1:10), x, with_ties = 1)
+    slice_max(data.frame(x = 1:10), x, with_ties = 1)
+
+    slice_min(data.frame(x = 1:10), x, na_rm = 1)
+    slice_max(data.frame(x = 1:10), x, na_rm = 1)
+  })
+})
+
+# slice_sample ------------------------------------------------------------
+
+test_that("slice_sample() respects weight_by and replaces", {
+  df <- tibble(x = 1:100, wt = c(1, rep(0, 99)))
+
+  out <- slice_sample(df, n = 1, weight_by = wt)
+  expect_equal(out$x, 1)
+
+  out <- slice_sample(df, n = 2, weight_by = wt, replace = TRUE)
+  expect_equal(out$x, c(1, 1))
+})
+
+test_that("slice_sample() checks size of `weight_by=` (#5922)", {
+  df <- tibble(x = 1:10)
+  expect_snapshot(slice_sample(df, n = 2, weight_by = 1:6), error = TRUE)
+})
+
+test_that("slice_sample() works with zero-row data frame (#5729)", {
+  df <- tibble(x = character(), w = numeric())
+  out <- slice_sample(df, prop = 0.5, weight_by = w)
+  expect_equal(out, df)
 })
 
 test_that("`slice_sample()` validates `replace`", {
-  expect_snapshot({
-    (expect_error(slice_sample(data.frame(), replace = 1)))
-    (expect_error(slice_sample(data.frame(), replace = NA)))
+  df <- tibble()
+  expect_snapshot(error = TRUE, {
+    slice_sample(df, replace = 1)
+    slice_sample(df, replace = NA)
   })
+})
+
+test_that("slice_sample() handles n= and prop=", {
+  gf <- group_by(tibble(a = 1, b = 1), a)
+  expect_equal(slice_sample(gf, n = 3, replace = TRUE), gf[c(1, 1, 1), ])
+  expect_equal(slice_sample(gf, prop = 3, replace = TRUE), gf[c(1, 1, 1), ])
+
+  # Unlike other helpers, can't supply negative values
+  expect_snapshot(error = TRUE, {
+    slice_sample(gf, n = -1)
+    slice_sample(gf, prop = -1)
+  })
+})
+
+# slice_head/slice_tail ---------------------------------------------------
+
+test_that("slice_head/slice_tail keep positive values", {
+  gf <- group_by(tibble(g = c(1, 2, 2, 3, 3, 3), id = 1:6), g)
+
+  expect_equal(slice_head(gf, n = 1)$id, c(1, 2, 4))
+  expect_equal(slice_head(gf, n = 2)$id, c(1, 2, 3, 4, 5))
+
+  expect_equal(slice_tail(gf, n = 1)$id, c(1, 3, 6))
+  expect_equal(slice_tail(gf, n = 2)$id, c(1, 2, 3, 5, 6))
+})
+
+test_that("slice_head/slice_tail drop from opposite end when n/prop negative", {
+  gf <- group_by(tibble(g = c(1, 2, 2, 3, 3, 3), id = 1:6), g)
+
+  expect_equal(slice_head(gf, n = -1)$id, c(2, 4, 5))
+  expect_equal(slice_head(gf, n = -2)$id, 4)
+
+  expect_equal(slice_tail(gf, n = -1)$id, c(3, 5, 6))
+  expect_equal(slice_tail(gf, n = -2)$id, 6)
+})
+
+test_that("slice_head/slice_tail handle infinite n/prop", {
+  df <- tibble(x = 1)
+  expect_identical(slice_head(df, n = Inf), df)
+  expect_identical(slice_tail(df, n = Inf), df)
+  expect_identical(slice_head(df, n = -Inf), df[0, ])
+  expect_identical(slice_tail(df, n = -Inf), df[0, ])
+
+  expect_identical(slice_head(df, prop = Inf), df)
+  expect_identical(slice_tail(df, prop = Inf), df)
+  expect_identical(slice_head(df, prop = -Inf), df[0, ])
+  expect_identical(slice_tail(df, prop = -Inf), df[0, ])
 })

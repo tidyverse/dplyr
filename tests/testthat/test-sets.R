@@ -6,6 +6,7 @@ test_that("x used as basis of output (#3839)", {
   expect_equal(union(df1, df2), tibble(x = 1:4, y = 1))
   expect_equal(union_all(df1, df2), tibble(x = c(1:4, 4, 2), y = 1))
   expect_equal(setdiff(df1, df2), tibble(x = c(1, 3), y = 1))
+  expect_equal(symdiff(df1, df2), tibble(x = c(1, 3), y = 1))
 })
 
 test_that("set operations (apart from union_all) remove duplicates", {
@@ -16,7 +17,9 @@ test_that("set operations (apart from union_all) remove duplicates", {
   expect_equal(union(df1, df2), tibble(x = c(1, 2)))
   expect_equal(union_all(df1, df2), tibble(x = c(1, 1, 2, 2)))
   expect_equal(setdiff(df1, df2), tibble(x = 1))
+  expect_equal(symdiff(df1, df2), tibble(x = 1))
 })
+
 test_that("standard coercion rules are used (#799)", {
   df1 <- tibble(x = 1:2, y = c(1, 1))
   df2 <- tibble(x = 1:2, y = 1:2)
@@ -25,6 +28,7 @@ test_that("standard coercion rules are used (#799)", {
   expect_equal(nrow(union(df1, df2)), 3)
   expect_equal(nrow(union_all(df1, df2)), 4)
   expect_equal(nrow(setdiff(df1, df2)), 1)
+  expect_equal(nrow(symdiff(df1, df2)), 2)
 })
 
 test_that("grouping metadata is reconstructed (#3587)", {
@@ -35,6 +39,7 @@ test_that("grouping metadata is reconstructed (#3587)", {
   expect_equal(group_vars(union(df1, df2)), "g")
   expect_equal(group_vars(union_all(df1, df2)), "g")
   expect_equal(group_vars(setdiff(df1, df2)), "g")
+  expect_equal(group_vars(symdiff(df1, df2)), "g")
 })
 
 test_that("also work with vectors", {
@@ -42,6 +47,9 @@ test_that("also work with vectors", {
   expect_equal(union(1:3, 3:4), 1:4)
   expect_equal(union_all(1:3, 3:4), c(1:3, 3:4))
   expect_equal(setdiff(1:3, 3:4), 1:2)
+  expect_equal(symdiff(1:3, 3:4), c(1, 2, 4))
+  # removes duplicates
+  expect_equal(symdiff(c(1, 1, 2), c(2, 2, 3)), c(1, 3))
 })
 
 test_that("extra arguments in ... error (#5891)", {
@@ -53,6 +61,7 @@ test_that("extra arguments in ... error (#5891)", {
     union(df1, df2, z = 3)
     union_all(df1, df2, z = 3)
     setdiff(df1, df2, z = 3)
+    symdiff(df1, df2, z = 3)
   })
 })
 
@@ -65,6 +74,7 @@ test_that("incompatible data frames error (#903)", {
     union(df1, df2)
     union_all(df1, df2)
     setdiff(df1, df2)
+    symdiff(df1, df2)
   })
 })
 
@@ -118,3 +128,4 @@ test_that("setequal checks y is a data frame", {
 test_that("setequal checks for extra arguments", {
   expect_snapshot(setequal(mtcars, mtcars, z = 2), error = TRUE)
 })
+

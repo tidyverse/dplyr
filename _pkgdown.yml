@@ -49,7 +49,8 @@ reference:
   desc: >
     Verbs that principally operate on pairs of data frames.
   contents:
-  - bind
+  - bind_cols
+  - bind_rows
   - setops
   - left_join
   - nest_join
@@ -73,6 +74,7 @@ reference:
   - between
   - case_when
   - coalesce
+  - consecutive_id
   - cumany
   - desc
   - if_else

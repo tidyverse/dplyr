@@ -246,11 +246,30 @@ test_that("error if passed additional arguments", {
 test_that("nest_join returns list of tibbles (#3570)",{
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- tibble(x = c(1, 1), z = c(2, 3))
-  out <- nest_join(df1, df2, by = "x", multiple = "all")
+  out <- nest_join(df1, df2, by = "x")
 
   expect_named(out, c("x", "y", "df2"))
   expect_type(out$df2, "list")
   expect_s3_class(out$df2[[1]], "tbl_df")
+})
+
+test_that("nest_join respects types of y (#6295)",{
+  df1 <- tibble(x = c(1, 2), y = c(2, 3))
+  df2 <- rowwise(tibble(x = c(1, 1), z = c(2, 3)))
+  out <- nest_join(df1, df2, by = "x")
+
+  expect_s3_class(out$df2[[1]], "rowwise_df")
+})
+
+test_that("nest_join preserves data frame attributes on `x` and `y` (#6295)", {
+  df1 <- data.frame(x = c(1, 2), y = c(3, 4))
+  attr(df1, "foo") <- 1
+  df2 <- data.frame(x = c(1, 2), z = c(3, 4))
+  attr(df2, "foo") <- 2
+
+  out <- nest_join(df1, df2, by = "x")
+  expect_identical(attr(out, "foo"), 1)
+  expect_identical(attr(out$df2[[1]], "foo"), 2)
 })
 
 test_that("nest_join computes common columns", {
@@ -263,8 +282,16 @@ test_that("nest_join handles multiple matches in x (#3642)", {
   df1 <- tibble(x = c(1, 1))
   df2 <- tibble(x = 1, y = 1:2)
 
-  out <- nest_join(df1, df2, by = "x", multiple = "all")
+  out <- nest_join(df1, df2, by = "x")
   expect_equal(out$df2[[1]], out$df2[[2]])
+})
+
+test_that("nest_join forces `multiple = 'all'` internally (#6392)", {
+  df1 <- tibble(x = 1)
+  df2 <- tibble(x = 1, y = 1:2)
+
+  expect_no_warning(out <- nest_join(df1, df2, by = "x"))
+  expect_identical(nrow(out$df2[[1]]), 2L)
 })
 
 test_that("y keys dropped by default for equi conditions", {
@@ -296,7 +323,6 @@ test_that("validates inputs", {
     nest_join(df1, df2, keep = 1)
     nest_join(df1, df2, name = 1)
     nest_join(df1, df2, na_matches = 1)
-    nest_join(df1, df2, multiple = 1)
     nest_join(df1, df2, unmatched = 1)
   })
 
@@ -324,10 +350,11 @@ test_that("joins preserve groups", {
   expect_equal(i, 0L)
   expect_equal(group_vars(out), "a")
 
-  # See comment in nest_join
-  i <- count_regroups(out <- nest_join(gf1, gf2, by = "a", multiple = "all"))
-  expect_equal(i, 1L)
+  # once for x + once for each row for y
+  i <- count_regroups(out <- nest_join(gf1, gf2, by = "a"))
+  expect_equal(i, 4L)
   expect_equal(group_vars(out), "a")
+  expect_equal(group_vars(out$gf2[[1]]), "b")
 })
 
 test_that("group column names reflect renamed duplicate columns (#2330)", {
