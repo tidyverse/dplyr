@@ -48,9 +48,9 @@ each group contains.
 \item \code{group_indices()} returns an integer vector the same length as \code{.data}
 that gives the group that each row belongs to.
 \item \code{group_vars()} gives names of grouping variables as character vector.
-\item \code{groups()} gives the names of the grouping variables  as a list of symbols.
-\item \code{group_size()} gives the size of each group, and \code{n_groups()} gives the
-total number of groups.
+\item \code{groups()} gives the names of the grouping variables as a list of symbols.
+\item \code{group_size()} gives the size of each group.
+\item \code{n_groups()} gives the total number of groups.
 }
 
 See \link{context} for equivalent functions that return values for the \emph{current}

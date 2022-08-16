@@ -19,10 +19,11 @@
 #'
 #' * `group_vars()` gives names of grouping variables as character vector.
 #'
-#' * `groups()` gives the names of the grouping variables  as a list of symbols.
+#' * `groups()` gives the names of the grouping variables as a list of symbols.
 #'
-#' * `group_size()` gives the size of each group, and `n_groups()` gives the
-#'   total number of groups.
+#' * `group_size()` gives the size of each group.
+#'
+#' * `n_groups()` gives the total number of groups.
 #'
 #' See [context] for equivalent functions that return values for the _current_
 #' group.
