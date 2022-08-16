@@ -164,11 +164,12 @@
 * `arrange()` and `group_by()` now both default to using the C locale when
   ordering or grouping character vectors rather than the system locale. This
   brings _substantial_ performance improvements, increases reproducibility
-  across R sessions, and we believe it should affect little existing code. If it
-  does affect your code, you can use `options(dplyr.legacy_locale = TRUE)` to
-  quickly revert to the previous behavior. In general, we instead recommend that
-  you use the new `.locale` argument of `arrange()` when the locale matters. For
-  a full explanation of this change, please read the associated
+  across R sessions, makes dplyr more consistent with data.table, and we believe
+  it should affect little existing code. If it does affect your code, you can
+  use `options(dplyr.legacy_locale = TRUE)` to quickly revert to the previous
+  behavior. In general, we instead recommend that you use the new `.locale`
+  argument of `arrange()` when the locale matters. For a full explanation of
+  this change, please read the associated
   [grouping](https://github.com/tidyverse/tidyups/blob/main/006-dplyr-group-by-ordering.md)
   and [ordering](https://github.com/tidyverse/tidyups/blob/main/003-dplyr-radix-ordering.md)
   tidyups.
