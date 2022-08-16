@@ -101,15 +101,14 @@ bind_rows <- function(..., .id = NULL) {
 #' data frames. `bind_cols()` binds the rows in order in which they appear
 #' so it is easy to create meaningless results without realising it.
 #'
-#' @inheritParams bind_rows
 #' @param ... Data frames to combine. Each argument can either be a data frame,
 #'   a list that could be a data frame, or a list of data frames.
 #'   Inputs are [recycled][vctrs::vector_recycling_rules] to the same length,
 #'   then matched by position.
-#' @inherit bind_rows return
 #' @param .name_repair One of `"unique"`, `"universal"`, or
 #'   `"check_unique"`. See [vctrs::vec_as_names()] for the meaning of these
 #'   options.
+#' @returns A data frame the same type as the first element of `...`.
 #' @export
 #' @examples
 #' df1 <- tibble(x = 1:3)
