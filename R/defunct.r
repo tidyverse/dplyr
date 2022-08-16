@@ -109,7 +109,7 @@ eval_tbls2 <- function(tbls_x, tbls_y, op) {
 #' @export
 #' @rdname defunct
 location <- function(df) {
-  lifecycle::deprecate_stop("1.0.0", "location()", "lobst::ref()")
+  lifecycle::deprecate_stop("1.0.0", "location()", "lobstr::ref()")
 }
 
 #' @export
