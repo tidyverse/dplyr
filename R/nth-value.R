@@ -27,6 +27,8 @@
 #'
 #'   When `x` is a list , `default` is allowed to be any value. There are no
 #'   type or size restrictions in this case.
+#' @param na_rm Should missing values in `x` be removed before extracting the
+#'   value?
 #'
 #' @return
 #' If `x` is a list, a single element from that list. Otherwise, a vector the
@@ -67,11 +69,18 @@
 #' last(x)
 #' last(x, order_by = y)
 #'
+#' # `na_rm` removes missing values before extracting the value
+#' z <- c(NA, NA, 1, 3, NA, 5, NA)
+#' first(z)
+#' first(z, na_rm = TRUE)
+#' last(z, na_rm = TRUE)
+#' nth(z, 3, na_rm = TRUE)
+#'
 #' # For data frames, these select entire rows
 #' df <- tibble(a = 1:5, b = 6:10)
 #' first(df)
 #' nth(df, 4)
-nth <- function(x, n, order_by = NULL, default = NULL) {
+nth <- function(x, n, order_by = NULL, default = NULL, na_rm = FALSE) {
   size <- vec_size(x)
 
   vec_assert(n, size = 1L, arg = "n")
@@ -82,6 +91,19 @@ nth <- function(x, n, order_by = NULL, default = NULL) {
   }
 
   default <- check_nth_default(default, x = x)
+
+  check_bool(na_rm)
+
+  if (na_rm) {
+    not_missing <- !vec_equal_na(x)
+
+    x <- vec_slice(x, not_missing)
+    size <- vec_size(x)
+
+    if (!is.null(order_by)) {
+      order_by <- vec_slice(order_by, not_missing)
+    }
+  }
 
   if (n < 0L) {
     # Negative values index from RHS
@@ -102,14 +124,14 @@ nth <- function(x, n, order_by = NULL, default = NULL) {
 
 #' @export
 #' @rdname nth
-first <- function(x, order_by = NULL, default = NULL) {
-  nth(x, 1L, order_by = order_by, default = default)
+first <- function(x, order_by = NULL, default = NULL, na_rm = FALSE) {
+  nth(x, 1L, order_by = order_by, default = default, na_rm = na_rm)
 }
 
 #' @export
 #' @rdname nth
-last <- function(x, order_by = NULL, default = NULL) {
-  nth(x, -1L, order_by = order_by, default = default)
+last <- function(x, order_by = NULL, default = NULL, na_rm = FALSE) {
+  nth(x, -1L, order_by = order_by, default = default, na_rm = na_rm)
 }
 
 check_nth_default <- function(default, x, ..., error_call = caller_env()) {

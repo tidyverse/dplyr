@@ -35,20 +35,22 @@ tibble).}
 instead.}
 }
 \description{
+This collection of functions accesses data about grouped data frames in
+various ways:
 \itemize{
 \item \code{group_data()} returns a data frame that defines the grouping structure.
 The columns give the values of the grouping variables. The last column,
 always called \code{.rows}, is a list of integer vectors that gives the
-location of the rows in each group. You can retrieve just the grouping
-data with \code{group_keys()}, and just the locations with \code{group_rows()}.
+location of the rows in each group.
+\item \code{group_keys()} returns a data frame describing the groups.
+\item \code{group_rows()} returns a list of integer vectors giving the rows that
+each group contains.
 \item \code{group_indices()} returns an integer vector the same length as \code{.data}
-that gives the group that each row belongs to (cf. \code{group_rows()} which
-returns the rows which each group contains). \code{group_indices()} with no
-argument is deprecated, superseded by \code{\link[=cur_group_id]{cur_group_id()}}.
-\item \code{group_vars()} gives names of grouping variables as character vector;
-\code{groups()} gives the names as a list of symbols.
-\item \code{group_size()} gives the size of each group, and \code{n_groups()} gives the
-total number of groups.
+that gives the group that each row belongs to.
+\item \code{group_vars()} gives names of grouping variables as character vector.
+\item \code{groups()} gives the names of the grouping variables as a list of symbols.
+\item \code{group_size()} gives the size of each group.
+\item \code{n_groups()} gives the total number of groups.
 }
 
 See \link{context} for equivalent functions that return values for the \emph{current}

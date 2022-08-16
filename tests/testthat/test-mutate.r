@@ -412,6 +412,17 @@ test_that("can use .before and .after to control column position", {
   expect_named(mutate(df, x = 1, .after = y), c("x", "y"))
 })
 
+test_that("attributes of bare data frames are retained when `.before` and `.after` are used (#6341)", {
+  # We require `[` methods to be in charge of keeping extra attributes for all
+  # data frame subclasses (except for data.tables)
+  df <- vctrs::data_frame(x = 1, y = 2)
+  attr(df, "foo") <- "bar"
+
+  out <- mutate(df, z = 3, .before = x)
+
+  expect_identical(attr(out, "foo"), "bar")
+})
+
 test_that(".keep and .before/.after interact correctly", {
   df <- tibble(x = 1, y = 1, z = 1, a = 1, b = 2, c = 3) %>%
     group_by(a, b)
@@ -549,14 +560,6 @@ test_that("mutate() supports empty list columns in rowwise data frames (#5804", 
 
 test_that("mutate() propagates caller env", {
   expect_caller_env(mutate(mtcars, sig_caller_env()))
-})
-
-test_that("rowwise() + mutate(across()) correctly handles list columns (#5951)", {
-  tib <- tibble(a=list(1:2,3:4),c=list(NULL,NULL)) %>% rowwise()
-  expect_identical(
-    mutate(tib, sum = across(everything(),sum)),
-    mutate(tib, sum = across(where(is.list),sum))
-  )
 })
 
 test_that("mutate() fails on named empty arguments (#5925)", {
