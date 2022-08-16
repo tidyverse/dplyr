@@ -85,9 +85,6 @@
     <loc>https://dplyr.tidyverse.org/dev/reference/band_members.html</loc>
   </url>
   <url>
-    <loc>https://dplyr.tidyverse.org/dev/reference/bench_compare.html</loc>
-  </url>
-  <url>
     <loc>https://dplyr.tidyverse.org/dev/reference/between.html</loc>
   </url>
   <url>
@@ -178,9 +175,6 @@
     <loc>https://dplyr.tidyverse.org/dev/reference/filter_all.html</loc>
   </url>
   <url>
-    <loc>https://dplyr.tidyverse.org/dev/reference/funs.html</loc>
-  </url>
-  <url>
     <loc>https://dplyr.tidyverse.org/dev/reference/glimpse.html</loc>
   </url>
   <url>
@@ -230,9 +224,6 @@
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/dev/reference/lead-lag.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/dev/reference/location.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/dev/reference/make_tbl.html</loc>
@@ -320,9 +311,6 @@
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/dev/reference/select_all.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/dev/reference/select_vars.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/dev/reference/setops.html</loc>
