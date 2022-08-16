@@ -12,7 +12,7 @@
       (expect_error(mutate_at(tibble(), "test", ~1)))
     Output
       <error/vctrs_error_subscript_oob>
-      Error in `mutate_at()`:
+      Error in `tbl_at_vars()`:
       ! Can't subset columns that don't exist.
       x Column `test` doesn't exist.
     Code
@@ -21,7 +21,7 @@
       (expect_error(summarise_at(tbl, vars(gr1), mean)))
     Output
       <error/vctrs_error_subscript_oob>
-      Error in `summarise_at()`:
+      Error in `tbl_at_vars()`:
       ! Can't subset columns that don't exist.
       x Column `gr1` doesn't exist.
     Code

@@ -322,9 +322,10 @@ across_setup <- function(cols,
   }
   across_cols <- mask$across_cols()
 
-  vars <- fix_call(
-    tidyselect::eval_select(cols, data = across_cols),
-    call = call(across_if_fn)
+  vars <- tidyselect::eval_select(
+    cols,
+    data = across_cols,
+    error_call = call(across_if_fn)
   )
   names_vars <- names(vars)
   vars <- names(across_cols)[vars]
@@ -332,8 +333,9 @@ across_setup <- function(cols,
   if (is.null(fns)) {
     if (!is.null(names)) {
       glue_mask <- across_glue_mask(.caller_env, .col = names_vars, .fn = "1")
-      names <- fix_call(
-        vec_as_names(glue(names, .envir = glue_mask), repair = "check_unique"),
+      names <- vec_as_names(
+        glue(names, .envir = glue_mask),
+        repair = "check_unique",
         call = call(across_if_fn)
       )
     } else {
@@ -372,8 +374,9 @@ across_setup <- function(cols,
     .col = rep(names_vars, each = length(fns)),
     .fn  = rep(names_fns , length(vars))
   )
-  names <- fix_call(
-    vec_as_names(glue(names, .envir = glue_mask), repair = "check_unique"),
+  names <- vec_as_names(
+    glue(names, .envir = glue_mask),
+    repair = "check_unique",
     call = call(across_if_fn)
   )
 

@@ -271,7 +271,7 @@ slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, repla
 
     n <- dplyr::n()
     if (!is.null(weight_by)) {
-      weight_by <- fix_call(vec_assert(weight_by, size = n, arg = "weight_by"), NULL)
+      weight_by <- vec_assert(weight_by, size = n, arg = "weight_by")
     }
     sample_int(n, size(n), replace = replace, wt = weight_by)
   }))
@@ -316,11 +316,7 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
     }
 
     index <<- 0L
-
-    fix_call(
-      vec_c(!!!out),
-      call = NULL
-    )
+    vec_c(!!!out)
   }
 
   withCallingHandlers(
