@@ -32,7 +32,7 @@ Depends:
 Imports: 
     generics,
     glue (>= 1.3.2),
-    lifecycle (>= 1.0.1),
+    lifecycle (>= 1.0.1.9000),
     magrittr (>= 1.5),
     methods,
     R6,
@@ -40,7 +40,7 @@ Imports:
     tibble (>= 2.1.3),
     tidyselect (>= 1.1.2.9000),
     utils,
-    vctrs (>= 0.4.1.9000), 
+    vctrs (>= 0.4.1.9000),
     pillar (>= 1.5.1)
 Suggests: 
     bench,
@@ -64,9 +64,10 @@ Suggests:
     testthat (>= 3.1.1),
     tidyr, 
     withr
-Remotes:
+Remotes: 
     r-lib/tidyselect,
-    r-lib/vctrs
+    r-lib/vctrs,
+    r-lib/lifecycle
 VignetteBuilder: 
     knitr
 Encoding: UTF-8

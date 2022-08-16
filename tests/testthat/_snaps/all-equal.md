@@ -7,6 +7,7 @@
       `all_equal()` was deprecated in dplyr 1.1.0.
       Please use `all.equal()` instead.
       And manually order the rows/cols as needed
+      Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
     Output
       [1] TRUE
 

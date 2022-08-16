@@ -91,7 +91,8 @@ group_keys.data.frame <- function(.tbl, ...) {
   if (dots_n(...) > 0) {
     lifecycle::deprecate_warn(
       "1.0.0", "group_keys(... = )",
-      details = "Please `group_by()` first"
+      details = "Please `group_by()` first",
+      always = TRUE
     )
     .tbl <- group_by(.tbl, ...)
   }
@@ -108,7 +109,7 @@ group_rows <- function(.data) {
 #' @rdname group_data
 group_indices <- function(.data, ...) {
   if (nargs() == 0) {
-    lifecycle::deprecate_warn("1.0.0", "group_indices()", "cur_group_id()")
+    lifecycle::deprecate_warn("1.0.0", "group_indices()", "cur_group_id()", always = TRUE)
     return(cur_group_id())
   }
 
@@ -119,7 +120,8 @@ group_indices.data.frame <- function(.data, ...) {
   if (dots_n(...) > 0) {
     lifecycle::deprecate_warn(
       "1.0.0", "group_indices(... = )",
-      details = "Please `group_by()` first"
+      details = "Please `group_by()` first",
+      always = TRUE
     )
     .data <- group_by(.data, ...)
   }
