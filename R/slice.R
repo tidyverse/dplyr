@@ -141,8 +141,8 @@ slice_head.data.frame <- function(.data, ..., n, prop) {
   size <- get_slice_size(n = n, prop = prop)
 
   group_idx <- group_rows(.data)
-  slice_idx <- unlist(lapply(group_idx, function(x) head(x, size(length(x)))))
-  dplyr_row_slice(.data, slice_idx)
+  slice_idx <- lapply(group_idx, function(x) head(x, size(length(x))))
+  dplyr_row_slice(.data, unlist(slice_idx))
 }
 
 #' @export
@@ -158,8 +158,8 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
   size <- get_slice_size(n = n, prop = prop)
 
   group_idx <- group_rows(.data)
-  slice_idx <- unlist(lapply(group_idx, function(x) tail(x, size(length(x)))))
-  dplyr_row_slice(.data, slice_idx)
+  slice_idx <- lapply(group_idx, function(x) tail(x, size(length(x))))
+  dplyr_row_slice(.data, unlist(slice_idx))
 }
 
 #' @export
@@ -253,16 +253,20 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
   size <- get_slice_size(n = n, prop = prop, allow_negative = FALSE)
 
-  dplyr_local_error_call()
-  slice(.data, local({
-    weight_by <- {{ weight_by }}
+  if (!missing(weight_by)) {
+    weight_by <- transmute(.data, ..weight_by = {{ weight_by }})[[1]]
+  }
 
-    n <- dplyr::n()
-    if (!is.null(weight_by)) {
-      weight_by <- vec_assert(weight_by, size = n, arg = "weight_by")
-    }
-    sample_int(n, size(n), replace = replace, wt = weight_by)
-  }))
+  group_idx <- group_rows(.data)
+  slice_idx <- vector("list", length(group_idx))
+  for (i in seq_along(group_idx)) {
+    idx <- group_idx[[i]]
+    n <- size(length(idx))
+
+    slice_idx[[i]] <- sample_int(idx, n, replace = replace, wt = weight_by[idx])
+  }
+
+  dplyr_row_slice(.data, unlist(slice_idx))
 }
 
 # helpers -----------------------------------------------------------------
@@ -454,15 +458,15 @@ get_slice_size <- function(n, prop, allow_negative = TRUE, error_call = caller_e
   }
 }
 
-sample_int <- function(n, size, replace = FALSE, wt = NULL, call = caller_env()) {
-  if (!replace && n < size) {
-    size <- n
+sample_int <- function(x, size, replace = FALSE, wt = NULL, call = caller_env()) {
+  if (!replace && length(x) < size) {
+    size <- length(x)
   }
 
   if (size == 0L) {
-    integer(0)
+    x[integer(0)]
   } else {
-    sample.int(n, size, prob = wt, replace = replace)
+    x[sample.int(length(x), size, prob = wt, replace = replace)]
   }
 }
 
