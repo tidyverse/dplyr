@@ -147,10 +147,8 @@ storms <- storms %>%
 # drop storms without at least one record that is a tropical depression or higher
 storms <- storms %>%
   group_by(year, name) %>%
-  mutate(is_depression_or_higher = any(status %in% c("hurricane", "tropical storm", "tropical depression"))) %>%
-  ungroup() %>%
-  filter(is_depression_or_higher) %>%
-  select(-is_depression_or_higher)
+  filter(any(status %in% c("hurricane", "tropical storm", "tropical depression"))) %>%
+  ungroup()
 
 # drop all rows that are not at least a depression
 # might want to use this filter if the file size is an issue
