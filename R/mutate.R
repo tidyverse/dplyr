@@ -511,7 +511,7 @@ mutate_bullets.default <- function(cnd, ...) {
   error_name <- peek_error_context()$error_name
   result <- cnd$dplyr_error_data$result
   c(
-    x = glue("`{error_name}` must be a vector, not {friendly_type_of(result)}."),
+    x = glue("`{error_name}` must be a vector, not {obj_type_friendly(result)}."),
     i = cnd_bullet_rowwise_unlist(),
     i = cnd_bullet_cur_group_label()
   )

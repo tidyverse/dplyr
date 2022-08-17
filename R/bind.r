@@ -57,7 +57,7 @@ bind_rows <- function(..., .id = NULL) {
 
   if (!is_null(.id)) {
     if (!is_string(.id)) {
-      msg <- glue("`.id` must be a scalar string, not {friendly_type_of(.id)} of length {length(.id)}.")
+      msg <- glue("`.id` must be a scalar string, not {obj_type_friendly(.id)} of length {length(.id)}.")
       abort(msg)
     }
     if (!is_named(dots)) {
