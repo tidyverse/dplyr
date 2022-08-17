@@ -90,18 +90,29 @@ test_that("mutate() handles symbol expressions", {
   expect_identical(df$x, res$y)
 })
 
-test_that("mutate() supports constants (#6056)", {
+test_that("mutate() supports constants (#6056, #6305)", {
   df <- data.frame(x = 1:10, g = rep(1:2, each = 5))
   y <- 1:10
-  z <- 1:2
+  z <- 1:5
 
-  expect_error(df %>% mutate(y = !!y), NA)
-  expect_error(df %>% group_by(g) %>% mutate(y = !!y), NA)
-  expect_error(df %>% rowwise() %>% mutate(y = !!y), NA)
+  expect_identical(df %>% mutate(y = !!y) %>% pull(y), y)
+  expect_identical(df %>% group_by(g) %>% mutate(y = !!y) %>% pull(y), y)
+  expect_identical(df %>% rowwise() %>% mutate(y = !!y) %>% pull(y), y)
 
-  expect_error(df %>% mutate(z = !!z))
-  expect_error(df %>% group_by(g) %>% mutate(z = !!z))
-  expect_error(df %>% rowwise() %>% mutate(z = !!z))
+  expect_snapshot({
+    (expect_error(df %>% mutate(z = !!z)))
+    (expect_error(df %>% group_by(g) %>% mutate(z = !!z)))
+    (expect_error(df %>% rowwise() %>% mutate(z = !!z)))
+  })
+
+  # `.env$` is used for per group evaluation
+  expect_identical(df %>% mutate(y = .env$y) %>% pull(y), y)
+  expect_identical(df %>% group_by(g) %>% mutate(z = .env$z) %>% pull(z), c(z, z))
+
+  expect_snapshot({
+    (expect_error(df %>% group_by(g) %>% mutate(y = .env$y)))
+    (expect_error(df %>% rowwise() %>% mutate(y = .env$y)))
+  })
 })
 
 # column types ------------------------------------------------------------
