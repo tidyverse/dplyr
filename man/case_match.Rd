@@ -15,7 +15,8 @@ The right hand side (RHS) provides the replacement value.
 
 The LHS inputs must evaluate to vectors with the same type as \code{.x}. There
 are no restrictions on the size of the LHS inputs, meaning that you can
-map multiple values in \code{.x} to the same RHS value.
+map multiple values in \code{.x} to the same RHS value. If a value in \code{.x} is
+matched to multiple LHS inputs, the first match is used.
 
 The RHS inputs will be coerced to their common type. Each RHS input will be
 \link[vctrs:vector_recycling_rules]{recycled} to the size of \code{.x}.
@@ -42,9 +43,10 @@ the RHS inputs in \code{...}.
 }
 \description{
 This function is a variant of \code{\link[=case_when]{case_when()}} that vectorises the idea behind
-\code{\link[=switch]{switch()}}. It is an R equivalent of the SQL "simple" \verb{CASE WHEN} statement
-that matches using values rather than logical expressions. If no cases match,
-a missing value is returned unless a \code{.default} is supplied.
+\code{\link[=switch]{switch()}}. Use this to repeatedly recode one or more values in \code{.x} to a new
+value. It is an R equivalent of the SQL "simple" \verb{CASE WHEN} statement that
+matches using values rather than logical expressions. If no cases match, a
+missing value is returned unless a \code{.default} is supplied.
 }
 \examples{
 x <- c("a", "b", "a", "d", "b", NA, "c", "e")
@@ -79,25 +81,32 @@ case_match(
   c("c", "d", "e") ~ "high"
 )
 
-# `.default` is allowed to be vectorized, and you can supply a `.ptype` to
-# force a particular output type. Combining these features together allows
-# you to create a type stable "replace match" helper.
-replace_match <- function(.x, ...) {
-  case_match(.x, ..., .default = .x, .ptype = .x)
-}
+# `case_match()` isn't limited to character input,
+# you can match against any vector type
+y <- c(1, 2, 1, 3, 1, NA, 2, 4)
 
-replace_match(x, NA ~ "foo")
+case_match(
+  y,
+  c(1, 3) ~ "odd",
+  c(2, 4) ~ "even",
+  .default = "missing"
+)
+
+# Setting `.default` to the original vector is a useful way to replace
+# selected values, leaving everything else as is
+case_match(y, NA ~ 0, .default = y)
 
 starwars \%>\%
   mutate(
     # Replace missings, but leave everything else alone
-    hair_color = replace_match(hair_color, NA ~ "unknown"),
+    hair_color = case_match(hair_color, NA ~ "unknown", .default = hair_color),
     # Replace some, but not all, of the species
-    species = replace_match(
+    species = case_match(
       species,
       "Human" ~ "Humanoid",
       "Droid" ~ "Robot",
-      c("Wookiee", "Ewok") ~ "Hairy"
+      c("Wookiee", "Ewok") ~ "Hairy",
+      .default = species
     ),
     .keep = "used"
   )
