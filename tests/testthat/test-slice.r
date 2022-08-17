@@ -321,7 +321,11 @@ test_that("slice_sample() handles positive n= and prop=", {
 test_that("slice_sample() handles negative n= and prop= (#6402)", {
   df <- tibble(a = 1:2)
   expect_equal(nrow(slice_sample(df, n = -1)), 1)
-  expect_equal(nrow(slice_sample(df, prop = 0.5)), 1)
+  expect_equal(nrow(slice_sample(df, prop = -0.5)), 1)
+
+  # even if larger than n
+  expect_equal(nrow(slice_sample(df, n = -3)), 0)
+  expect_equal(nrow(slice_sample(df, prop = -2)), 0)
 })
 
 # slice_head/slice_tail ---------------------------------------------------
