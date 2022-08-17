@@ -2,7 +2,7 @@
 % Please edit documentation in R/filter.R
 \name{filter}
 \alias{filter}
-\title{Subset rows using column values}
+\title{Keep rows that match a condition}
 \usage{
 filter(.data, ..., .preserve = FALSE)
 }

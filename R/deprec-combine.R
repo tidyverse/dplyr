@@ -22,7 +22,7 @@
 #' # ->
 #' vctrs::vec_c(!!!list(f1, f2))
 combine <- function(...) {
-  lifecycle::deprecate_warn("1.0.0", "combine()", "vctrs::vec_c()")
+  lifecycle::deprecate_warn("1.0.0", "combine()", "vctrs::vec_c()", always = TRUE)
 
   args <- list2(...)
   if (length(args) == 1 && is.list(args[[1]])) {
@@ -33,6 +33,6 @@ combine <- function(...) {
   if (length(args) == 0) {
     logical()
   } else {
-    fix_call(vec_c(!!!args))
+    vec_c(!!!args)
   }
 }

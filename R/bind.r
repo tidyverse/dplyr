@@ -1,90 +1,31 @@
-#' Efficiently bind multiple data frames by row and column
+#' Bind multiple data frames by row
 #'
-#' This is an efficient implementation of the common pattern of
-#' `do.call(rbind, dfs)` or `do.call(cbind, dfs)` for binding many
-#' data frames into one.
+#' Bind any number of data frames by row, making a longer result. This is
+#' similar to `do.call(rbind, dfs)`, but the output will contain all columns
+#' that appear in any of the inputs.
 #'
-#' The output of `bind_rows()` will contain a column if that column
-#' appears in any of the inputs.
-#'
-#' @param ... Data frames to combine.
-#'
-#'   Each argument can either be a data frame, a list that could be a data
-#'   frame, or a list of data frames.
-#'
-#'   When row-binding, columns are matched by name, and any missing
-#'   columns will be filled with NA.
-#'
-#'   When column-binding, rows are matched by position, so all data
-#'   frames must have the same number of rows. To match by value, not
-#'   position, see [mutate-joins].
-#'
-#' @param .id The name of an optional identifier column.
-#'
-#'   If a string is supplied, the output will contain a column with that name
-#'   filled with identifiers that link each row to its original data frame. The
-#'   labels are taken from the named arguments to `bind_rows()`. When a list of
-#'   data frames is supplied, the labels are taken from the names of the list.
-#'   If no names are found, then a numeric sequence is used instead.
-#'
-#'   If `NULL`, the default, then no identifier column will be created.
-#'
-#' @param .name_repair One of `"unique"`, `"universal"`, or
-#'   `"check_unique"`. See [vctrs::vec_as_names()] for the meaning of these
-#'   options.
-#' @return `bind_rows()` and `bind_cols()` return the same type as
-#'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
+#' @param ... Data frames to combine. Each argument can either be a data frame,
+#'   a list that could be a data frame, or a list of data frames. Columns are
+#'   matched by name, and any missing columns will be filled with `NA`.
+#' @param .id The name of an optional identifier column. Provide a string to
+#'   create an output column that identifies each input. The column will use
+#'   names if available, otherwise it will use positions.
+#' @returns A data frame the same type as the first element of `...`.
+#' @export
 #' @examples
-#' one <- starwars[1:4, ]
-#' two <- starwars[9:12, ]
+#' df1 <- tibble(x = 1:2, y = letters[1:2])
+#' df2 <- tibble(x = 4:5, z = 1:2)
 #'
-#' # You can supply data frames as arguments:
-#' bind_rows(one, two)
+#' # You can supply individual data frames as arguments:
+#' bind_rows(df1, df2)
 #'
-#' # The contents of lists are spliced automatically:
-#' bind_rows(list(one, two))
-#' bind_rows(split(starwars, starwars$homeworld))
-#' bind_rows(list(one, two), list(two, one))
-#'
-#'
-#' # In addition to data frames, you can supply vectors. In the rows
-#' # direction, the vectors represent rows and should have inner
-#' # names:
-#' bind_rows(
-#'   c(a = 1, b = 2),
-#'   c(a = 3, b = 4)
-#' )
-#'
-#' # You can mix vectors and data frames:
-#' bind_rows(
-#'   c(a = 1, b = 2),
-#'   tibble(a = 3:4, b = 5:6),
-#'   c(a = 7, b = 8)
-#' )
-#'
+#' # Or a list of data frames:
+#' bind_rows(list(df1, df2))
 #'
 #' # When you supply a column name with the `.id` argument, a new
 #' # column is created to link each row to its original data frame
-#' bind_rows(list(one, two), .id = "id")
-#' bind_rows(list(a = one, b = two), .id = "id")
-#' bind_rows("group 1" = one, "group 2" = two, .id = "groups")
-#'
-#' # Columns don't need to match when row-binding
-#' bind_rows(tibble(x = 1:3), tibble(y = 1:4))
-#'
-#' # Row sizes must be compatible when column-binding
-#' try(bind_cols(tibble(x = 1:3), tibble(y = 1:2)))
-#'
-#' # Even with 0 columns
-#' try(bind_cols(tibble(x = 1:3), tibble()))
-#'
-#' bind_cols(one, two)
-#' bind_cols(list(one, two))
-#' @name bind
-NULL
-
-#' @export
-#' @rdname bind
+#' bind_rows(list(df1, df2), .id = "id")
+#' bind_rows(list(a = df1, b = df2), .id = "id")
 bind_rows <- function(..., .id = NULL) {
   dots <- list2(...)
 
@@ -139,7 +80,7 @@ bind_rows <- function(..., .id = NULL) {
   if (is.null(.id)) {
     names(dots) <- NULL
   }
-  out <- fix_call(vec_rbind(!!!dots, .names_to = .id))
+  out <- vec_rbind(!!!dots, .names_to = .id, .call = current_env())
   if (length(dots)) {
     if (is.data.frame(first)) {
       out <- dplyr_reconstruct(out, first)
@@ -150,8 +91,32 @@ bind_rows <- function(..., .id = NULL) {
   out
 }
 
+#' Bind multiple data frames by column
+#'
+#' @description
+#' Bind any number of data frames by column, making a wider result.
+#' This is similar to `do.call(cbind, dfs)`.
+#'
+#' Where possible prefer using a [join][left_join] to combine multiple
+#' data frames. `bind_cols()` binds the rows in order in which they appear
+#' so it is easy to create meaningless results without realising it.
+#'
+#' @param ... Data frames to combine. Each argument can either be a data frame,
+#'   a list that could be a data frame, or a list of data frames.
+#'   Inputs are [recycled][vctrs::vector_recycling_rules] to the same length,
+#'   then matched by position.
+#' @param .name_repair One of `"unique"`, `"universal"`, or
+#'   `"check_unique"`. See [vctrs::vec_as_names()] for the meaning of these
+#'   options.
+#' @returns A data frame the same type as the first element of `...`.
 #' @export
-#' @rdname bind
+#' @examples
+#' df1 <- tibble(x = 1:3)
+#' df2 <- tibble(y = 3:1)
+#' bind_cols(df1, df2)
+#'
+#' # Row sizes must be compatible when column-binding
+#' try(bind_cols(tibble(x = 1:3), tibble(y = 1:2)))
 bind_cols <- function(..., .name_repair = c("unique", "universal", "check_unique", "minimal")) {
   dots <- list2(...)
 
@@ -161,7 +126,7 @@ bind_cols <- function(..., .name_repair = c("unique", "universal", "check_unique
   # Strip names off of data frame components so that vec_cbind() unpacks them
   names2(dots)[map_lgl(dots, is.data.frame)] <- ""
 
-  out <- fix_call(vec_cbind(!!!dots, .name_repair = .name_repair))
+  out <- vec_cbind(!!!dots, .name_repair = .name_repair, .call = current_env())
   if (!any(map_lgl(dots, is.data.frame))) {
     out <- as_tibble(out)
   }

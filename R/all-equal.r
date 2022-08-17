@@ -1,9 +1,11 @@
 #' Flexible equality comparison for data frames
 #'
 #' @description
+#' `r lifecycle::badge("deprecated")`
+#'
 #' `all_equal()` allows you to compare data frames, optionally ignoring
-#' row and column names. It is questioning as of dplyr 1.0.0, because it
-#' seems to solve a problem that no longer seems that important.
+#' row and column names. It is deprecated as of dplyr 1.1.0, because it
+#' makes it too easy to ignore important differences.
 #'
 #' @param target,current Two data frames to compare.
 #' @param ignore_col_order Should order of columns be ignored?
@@ -19,21 +21,25 @@
 #' @examples
 #' scramble <- function(x) x[sample(nrow(x)), sample(ncol(x))]
 #'
-#' # By default, ordering of rows and columns ignored
-#' all_equal(mtcars, scramble(mtcars))
+#' # `all_equal()` ignored row and column ordering by default,
+#' # but we now feel that that makes it too easy to make mistakes
+#' mtcars2 <- scramble(mtcars)
+#' all_equal(mtcars, mtcars2)
 #'
-#' # But those can be overriden if desired
-#' all_equal(mtcars, scramble(mtcars), ignore_col_order = FALSE)
-#' all_equal(mtcars, scramble(mtcars), ignore_row_order = FALSE)
-#'
-#' # By default all_equal is sensitive to variable differences
-#' df1 <- data.frame(x = "a", stringsAsFactors = FALSE)
-#' df2 <- data.frame(x = factor("a"))
-#' all_equal(df1, df2)
-#' # But you can request dplyr convert similar types
-#' all_equal(df1, df2, convert = TRUE)
+#' # Instead, be explicit about the row and column ordering
+#' all.equal(
+#'   mtcars,
+#'   mtcars2[rownames(mtcars), names(mtcars)]
+#' )
 all_equal <- function(target, current, ignore_col_order = TRUE,
                       ignore_row_order = TRUE, convert = FALSE, ...) {
+
+  lifecycle::deprecate_warn("1.1.0",
+    "all_equal()",
+    "all.equal()",
+    details = "And manually order the rows/cols as needed"
+  )
+
   equal_data_frame(target, current,
     ignore_col_order = ignore_col_order,
     ignore_row_order = ignore_row_order,
@@ -42,9 +48,9 @@ all_equal <- function(target, current, ignore_col_order = TRUE,
 }
 
 equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = TRUE, convert = FALSE) {
-  compat <- is_compatible_data_frame(x, y, ignore_col_order = ignore_col_order, convert = convert)
+  compat <- is_compatible(x, y, ignore_col_order = ignore_col_order, convert = convert)
   if (!isTRUE(compat)) {
-    # revert the bulleting from is_compatible_data_frame()
+    # revert the bulleting from is_compatible()
     return(glue_collapse(compat, sep = "\n"))
   }
 

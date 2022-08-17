@@ -1,4 +1,4 @@
-#' Count observations by group
+#' Count the observations in each group
 #'
 #' @description
 #' `count()` lets you quickly count the unique values of one or more variables:
@@ -24,7 +24,8 @@
 #' @param name The name of the new column in the output.
 #'
 #'   If omitted, it will default to `n`. If there's already a column called `n`,
-#'   it will error, and require you to specify the name.
+#'   it will use `nn`. If there's a column called `n` and `nn`, it'll use
+#'   `nnn`, and so on, adding `n`s until it gets a new name.
 #' @param .drop For `count()`: if `FALSE` will include counts for empty groups
 #'   (i.e. for levels of factors that don't exist in the data). Deprecated in
 #'   `add_count()` since it didn't actually affect the output.
@@ -76,13 +77,10 @@ count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
   out <- tally(out, wt = !!enquo(wt), sort = sort, name = name)
 
   # Ensure grouping is transient
-  if (is.data.frame(x)) {
-    out <- dplyr_reconstruct(out, x)
-  }
+  out <- dplyr_reconstruct(out, x)
+
   out
 }
-
-count.tbl_sql <- count.data.frame
 
 #' @export
 #' @rdname count
@@ -105,8 +103,6 @@ tally.data.frame <- function(x, wt = NULL, sort = FALSE, name = NULL) {
   }
 }
 
-tally.tbl_sql <- tally.data.frame
-
 #' @export
 #' @rdname count
 add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
@@ -116,7 +112,7 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = depr
 #' @export
 add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
   if (!missing(.drop)) {
-    lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )")
+    lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )", always = TRUE)
   }
 
   if (!missing(...)) {
@@ -131,7 +127,7 @@ add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .dro
 #' @export
 add_count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
   if (!missing(.drop)) {
-    lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )")
+    lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )", always = TRUE)
   }
 
   if (!missing(...)) {

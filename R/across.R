@@ -23,16 +23,24 @@
 #'
 #'   - A function, e.g. `mean`.
 #'   - A purrr-style lambda, e.g. `~ mean(.x, na.rm = TRUE)`
-#'   - A list of functions/lambdas, e.g.
-#'     `list(mean = mean, n_miss = ~ sum(is.na(.x))`
-#'   - `NULL`: the default value, returns the selected columns in a data
-#'   frame without applying a transformation. This is useful for when you want to
-#'   use a function that takes a data frame.
+#'   - A named list of functions or lambdas, e.g.
+#'     `list(mean = mean, n_miss = ~ sum(is.na(.x))`. Each function is applied
+#'     to each column, and the output is named by combining the function name
+#'     and the column name using the glue specification in `.names`.
+#'   - `NULL`: the default, returns the selected columns in a data frame
+#'     without applying a transformation. This is useful for when you want to
+#'     use a function that takes a data frame.
 #'
 #'   Within these functions you can use [cur_column()] and [cur_group()]
 #'   to access the current column and grouping keys respectively.
-#' @param ... Additional arguments for the function calls in `.fns`. Using these
-#'   `...` is strongly discouraged because of issues of timing of evaluation.
+#' @param ... `r lifecycle::badge("deprecated")`
+#'
+#'   Additional arguments for the function calls in `.fns` are no longer
+#'   accepted in `...` because it's not clear when they should be evaluated:
+#'   once per `across()` or once per group? Instead supply additional arguments
+#'   directly in `.fns` by using a lambda. For example, instead of
+#'   `across(a:b, mean, na.rm = TRUE)` write
+#'   `across(a:b, ~ mean(.x, na.rm = TRUE))`.
 #' @param .names A glue specification that describes how to name the output
 #'   columns. This can use `{.col}` to stand for the selected column name, and
 #'   `{.fn}` to stand for the name of the function being applied. The default
@@ -129,13 +137,33 @@
 #' @export
 #' @seealso [c_across()] for a function that returns a vector
 across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
+  mask <- peek_mask()
+
   setup <- across_setup(
     {{ .cols }},
     fns = .fns,
     names = .names,
     .caller_env = caller_env(),
+    mask = mask,
     inline = FALSE
   )
+
+  if (!missing(...)) {
+    details <- paste_line(
+      "Supply arguments directly to `.fns` through a lambda instead.",
+      "",
+      "  # Previously",
+      "  across(a:b, mean, na.rm = TRUE)",
+      "",
+      "  # Now",
+      "  across(a:b, ~mean(.x, na.rm = TRUE))"
+    )
+    lifecycle::deprecate_warn(
+      when = "1.1.0",
+      what = "across(...)",
+      details = details
+    )
+  }
 
   vars <- setup$vars
   if (length(vars) == 0L) {
@@ -144,12 +172,8 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
   fns <- setup$fns
   names <- setup$names
 
-  mask <- peek_mask()
-  data <- mask$current_cols(vars)
-
   if (is.null(fns)) {
-    nrow <- length(mask$current_rows())
-    data <- new_data_frame(data, n = nrow, class = c("tbl_df", "tbl"))
+    data <- mask$pick(vars)
 
     if (is.null(names)) {
       return(data)
@@ -157,6 +181,8 @@ across <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
       return(set_names(data, names))
     }
   }
+
+  data <- mask$current_cols(vars)
 
   n_cols <- length(data)
   n_fns <- length(fns)
@@ -253,9 +279,10 @@ if_across <- function(op, df) {
 #'  )
 c_across <- function(cols = everything()) {
   cols <- enquo(cols)
-  vars <- c_across_setup(!!cols)
 
-  mask <- peek_mask("c_across")
+  mask <- peek_mask()
+  vars <- c_across_setup(!!cols, mask = mask)
+
 
   cols <- mask$current_cols(vars)
   vec_c(!!!cols, .name_spec = zap())
@@ -274,7 +301,7 @@ across_setup <- function(cols,
                          fns,
                          names,
                          .caller_env,
-                         mask = peek_mask("across"),
+                         mask,
                          inline = FALSE) {
   cols <- enquo(cols)
 
@@ -297,9 +324,10 @@ across_setup <- function(cols,
   }
   across_cols <- mask$across_cols()
 
-  vars <- fix_call(
-    tidyselect::eval_select(cols, data = across_cols),
-    call = call(across_if_fn)
+  vars <- tidyselect::eval_select(
+    cols,
+    data = across_cols,
+    error_call = call(across_if_fn)
   )
   names_vars <- names(vars)
   vars <- names(across_cols)[vars]
@@ -307,8 +335,9 @@ across_setup <- function(cols,
   if (is.null(fns)) {
     if (!is.null(names)) {
       glue_mask <- across_glue_mask(.caller_env, .col = names_vars, .fn = "1")
-      names <- fix_call(
-        vec_as_names(glue(names, .envir = glue_mask), repair = "check_unique"),
+      names <- vec_as_names(
+        glue(names, .envir = glue_mask),
+        repair = "check_unique",
         call = call(across_if_fn)
       )
     } else {
@@ -347,8 +376,9 @@ across_setup <- function(cols,
     .col = rep(names_vars, each = length(fns)),
     .fn  = rep(names_fns , length(vars))
   )
-  names <- fix_call(
-    vec_as_names(glue(names, .envir = glue_mask), repair = "check_unique"),
+  names <- vec_as_names(
+    glue(names, .envir = glue_mask),
+    repair = "check_unique",
     call = call(across_if_fn)
   )
 
@@ -371,9 +401,7 @@ data_mask_top <- function(env, recursive = FALSE, inherit = FALSE) {
   env
 }
 
-c_across_setup <- function(cols) {
-  mask <- peek_mask("c_across")
-
+c_across_setup <- function(cols, mask) {
   cols <- enquo(cols)
   across_cols <- mask$across_cols()
 
@@ -520,6 +548,7 @@ expand_across <- function(quo) {
     fns = eval_tidy(expr$.fns, mask, env = env),
     names = eval_tidy(expr$.names, mask, env = env),
     .caller_env = dplyr_mask$get_caller_env(),
+    mask = dplyr_mask,
     inline = TRUE
   )
 

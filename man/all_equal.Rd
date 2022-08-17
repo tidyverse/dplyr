@@ -31,25 +31,24 @@ the reasons why they're not equal. Use \code{\link[=isTRUE]{isTRUE()}} if using 
 result in an \code{if} expression.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 \code{all_equal()} allows you to compare data frames, optionally ignoring
-row and column names. It is questioning as of dplyr 1.0.0, because it
-seems to solve a problem that no longer seems that important.
+row and column names. It is deprecated as of dplyr 1.1.0, because it
+makes it too easy to ignore important differences.
 }
 \examples{
 scramble <- function(x) x[sample(nrow(x)), sample(ncol(x))]
 
-# By default, ordering of rows and columns ignored
-all_equal(mtcars, scramble(mtcars))
+# `all_equal()` ignored row and column ordering by default,
+# but we now feel that that makes it too easy to make mistakes
+mtcars2 <- scramble(mtcars)
+all_equal(mtcars, mtcars2)
 
-# But those can be overriden if desired
-all_equal(mtcars, scramble(mtcars), ignore_col_order = FALSE)
-all_equal(mtcars, scramble(mtcars), ignore_row_order = FALSE)
-
-# By default all_equal is sensitive to variable differences
-df1 <- data.frame(x = "a", stringsAsFactors = FALSE)
-df2 <- data.frame(x = factor("a"))
-all_equal(df1, df2)
-# But you can request dplyr convert similar types
-all_equal(df1, df2, convert = TRUE)
+# Instead, be explicit about the row and column ordering
+all.equal(
+  mtcars,
+  mtcars2[rownames(mtcars), names(mtcars)]
+)
 }
 \keyword{internal}

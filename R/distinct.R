@@ -1,6 +1,6 @@
-#' Subset distinct/unique rows
+#' Keep distinct/unique rows
 #'
-#' Select only unique/distinct rows from a data frame. This is similar
+#' Keep only unique/distinct rows from a data frame. This is similar
 #' to [unique.data.frame()] but considerably faster.
 #'
 #' @inheritParams arrange
@@ -106,16 +106,18 @@ distinct_prepare <- function(.data,
     abort(bullets, call = error_call)
   }
 
-  # Always include grouping variables preserving input order
-  out_vars <- intersect(names(.data), c(distinct_vars, group_vars))
+  # Only keep unique vars
+  distinct_vars <- unique(distinct_vars)
+  # Missing grouping variables are added to the front
+  new_vars <- c(setdiff(group_vars, distinct_vars), distinct_vars)
 
   if (.keep_all) {
     keep <- seq_along(.data)
   } else {
-    keep <- out_vars
+    keep <- new_vars
   }
 
-  list(data = .data, vars = out_vars, keep = keep)
+  list(data = .data, vars = new_vars, keep = keep)
 }
 
 #' @export
@@ -128,40 +130,11 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
     caller_env = caller_env()
   )
 
-  # out <- as_tibble(prep$data)
   out <- prep$data
-  loc <- vec_unique_loc(as_tibble(out)[prep$vars])
 
-  dplyr_row_slice(out[prep$keep], loc)
-}
+  cols <- dplyr_col_select(out, prep$vars)
+  loc <- vec_unique_loc(cols)
 
-
-#' Efficiently count the number of unique values in a set of vectors
-#'
-#' This is a faster and more concise equivalent of `length(unique(x))`
-#'
-#' @param \dots vectors of values
-#' @param na.rm if `TRUE` missing values don't count
-#' @examples
-#' x <- sample(1:10, 1e5, rep = TRUE)
-#' length(unique(x))
-#' n_distinct(x)
-#' @export
-n_distinct <- function(..., na.rm = FALSE) {
-  args <- list2(...)
-
-  size <- vec_size_common(!!!args)
-
-  data <- vec_recycle_common(!!!args, .size = size)
-
-  nms <- vec_rep("", length(data))
-  data <- set_names(data, nms)
-
-  data <- new_data_frame(data, n = size)
-
-  if (isTRUE(na.rm)){
-    data <- vec_slice(data, !reduce(map(data, vec_equal_na), `|`))
-  }
-
-  vec_unique_count(data)
+  out <- dplyr_col_select(out, prep$keep)
+  dplyr_row_slice(out, loc)
 }

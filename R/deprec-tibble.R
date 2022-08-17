@@ -7,7 +7,7 @@
 #' @keywords internal
 #' @param data,x Object to coerce
 tbl_df <- function(data) {
-  lifecycle::deprecate_warn("1.0.0", "tbl_df()", "tibble::as_tibble()")
+  lifecycle::deprecate_warn("1.0.0", "tbl_df()", "tibble::as_tibble()", always = TRUE)
   # Works in tibble < 1.5.0 too, because .name_repair will be
   # swallowed by the ellipsis
   as_tibble(data, .name_repair = "check_unique")
@@ -16,7 +16,7 @@ tbl_df <- function(data) {
 #' @export
 #' @rdname tbl_df
 as.tbl <- function(x, ...) {
-  lifecycle::deprecate_warn("1.0.0", "as.tbl()", "tibble::as_tibble()")
+  lifecycle::deprecate_warn("1.0.0", "as.tbl()", "tibble::as_tibble()", always = TRUE)
   UseMethod("as.tbl")
 }
 
@@ -39,7 +39,7 @@ as.tbl.data.frame <- function(x, ...) {
 #' @keywords internal
 #' @export
 add_rownames <- function(df, var = "rowname") {
-  lifecycle::deprecate_warn("1.0.0", "add_rownames()", "tibble::rownames_to_column()")
+  lifecycle::deprecate_warn("1.0.0", "add_rownames()", "tibble::rownames_to_column()", always = TRUE)
 
   stopifnot(is.data.frame(df))
 

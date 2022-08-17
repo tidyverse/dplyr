@@ -13,7 +13,8 @@
 #' properties:
 #'
 #' * Rows are not affected.
-#' * The same columns appear in the output, but (usually) in a different place.
+#' * The same columns appear in the output, but (usually) in a different place
+#'   and possibly renamed.
 #' * Data frame attributes are preserved.
 #' * Groups are not affected.
 #' @section Methods:
@@ -51,41 +52,106 @@ relocate <- function(.data, ..., .before = NULL, .after = NULL) {
 
 #' @export
 relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
-  to_move <- tidyselect::eval_select(expr(c(...)), .data)
+  loc <- eval_relocate(
+    expr = expr(c(...)),
+    data = .data,
+    before = enquo(.before),
+    after = enquo(.after),
+    before_arg = ".before",
+    after_arg = ".after"
+  )
 
-  .before <- enquo(.before)
-  .after <- enquo(.after)
-  has_before <- !quo_is_null(.before)
-  has_after <- !quo_is_null(.after)
+  out <- dplyr_col_select(.data, loc)
+  out <- set_names(out, names(loc))
+
+  out
+}
+
+eval_relocate <- function(expr,
+                          data,
+                          ...,
+                          before = NULL,
+                          after = NULL,
+                          before_arg = "before",
+                          after_arg = "after",
+                          env = caller_env(),
+                          error_call = caller_env()) {
+  # `eval_relocate()` returns a named integer vector of size `ncol(data)`
+  # describing how to rearrange `data`. Each location in the range
+  # `seq2(1L, ncol(data))` is represented once. The names are the new names to
+  # assign to those columns. They are typically the same as the original names,
+  # but `expr` does allow for renaming.
+
+  check_dots_empty0(...)
+
+  sel <- tidyselect::eval_select(
+    expr = expr,
+    data = data,
+    env = env,
+    error_call = error_call
+  )
+
+  # Enforce the invariant that relocating can't change the number of columns by
+  # retaining only the last instance of a column that is renamed multiple times
+  # TODO: https://github.com/r-lib/vctrs/issues/1442
+  # `sel <- vec_unique(sel, which = "last")`
+  loc_last <- which(!duplicated(sel, fromLast = TRUE))
+  sel <- vec_slice(sel, loc_last)
+
+  n <- length(data)
+
+  before <- as_quosure(before, env = env)
+  after <- as_quosure(after, env = env)
+
+  has_before <- !quo_is_null(before)
+  has_after <- !quo_is_null(after)
 
   if (has_before && has_after) {
-    abort("Must supply only one of `.before` and `.after`.")
-  } else if (has_before) {
-    where <- min(unname(tidyselect::eval_select(.before, .data)))
-    if (!where %in% to_move) {
-      to_move <- c(to_move, where)
+    message <- glue("Can't supply both `{before_arg}` and `{after_arg}`.")
+    abort(message, call = error_call)
+  }
+
+  if (has_before) {
+    # TODO: Use `allow_rename = FALSE`. https://github.com/r-lib/tidyselect/issues/221
+    where <- tidyselect::eval_select(before, data, env = env, error_call = error_call)
+    where <- unname(where)
+
+    if (length(where) == 0L) {
+      # Empty `before` selection pushes `sel` to the front
+      where <- 1L
+    } else {
+      where <- min(where)
     }
   } else if (has_after) {
-    where <- max(unname(tidyselect::eval_select(.after, .data)))
-    if (!where %in% to_move) {
-      to_move <- c(where, to_move)
+    # TODO: Use `allow_rename = FALSE`. https://github.com/r-lib/tidyselect/issues/221
+    where <- tidyselect::eval_select(after, data, env = env, error_call = error_call)
+    where <- unname(where)
+
+    if (length(where) == 0L) {
+      # Empty `after` selection pushes `sel` to the back
+      where <- n
+    } else {
+      where <- max(where)
     }
+
+    where <- where + 1L
   } else {
+    # Defaults to `before = everything()` if neither `before` nor `after` are supplied
     where <- 1L
-    if (!where %in% to_move) {
-      to_move <- c(to_move, where)
-    }
   }
 
-  lhs <- setdiff(seq2(1, where - 1), to_move)
-  rhs <- setdiff(seq2(where + 1, ncol(.data)), to_move)
+  lhs <- seq2(1L, where - 1L)
+  rhs <- seq2(where, n)
 
-  pos <- vec_unique(c(lhs, to_move, rhs))
-  out <- .data[pos]
-  new_names <- names(pos)
+  lhs <- setdiff(lhs, sel)
+  rhs <- setdiff(rhs, sel)
 
-  if (!is.null(new_names)) {
-    names(out)[new_names != ""] <- new_names[new_names != ""]
-  }
-  out
+  names <- names(data)
+
+  names(lhs) <- names[lhs]
+  names(rhs) <- names[rhs]
+
+  sel <- vec_c(lhs, sel, rhs)
+
+  sel
 }

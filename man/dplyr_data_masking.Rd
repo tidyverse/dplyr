@@ -56,6 +56,10 @@ pronoun, e.g. \code{summarise(df, mean = mean(.data[[var]]))}.
 
 lapply(names(mtcars), function(var) mtcars \%>\% count(.data[[var]]))
 }\if{html}{\out{</div>}}
+
+(Note that the contents of \code{[[}, e.g. \code{var} above, is never evaluated
+in the data environment so you don't need to worry about a data-variable
+called \code{var} causing problems.)
 }
 }
 

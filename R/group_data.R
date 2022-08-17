@@ -1,22 +1,29 @@
 #' Grouping metadata
 #'
 #' @description
+#' This collection of functions accesses data about grouped data frames in
+#' various ways:
+#'
 #' * `group_data()` returns a data frame that defines the grouping structure.
 #'   The columns give the values of the grouping variables. The last column,
 #'   always called `.rows`, is a list of integer vectors that gives the
-#'   location of the rows in each group. You can retrieve just the grouping
-#'   data with `group_keys()`, and just the locations with `group_rows()`.
+#'   location of the rows in each group.
+#'
+#' * `group_keys()` returns a data frame describing the groups.
+#'
+#' * `group_rows()` returns a list of integer vectors giving the rows that
+#'   each group contains.
 #'
 #' * `group_indices()` returns an integer vector the same length as `.data`
-#'   that gives the group that each row belongs to (cf. `group_rows()` which
-#'   returns the rows which each group contains). `group_indices()` with no
-#'   argument is deprecated, superseded by [cur_group_id()].
+#'   that gives the group that each row belongs to.
 #'
-#' * `group_vars()` gives names of grouping variables as character vector;
-#'   `groups()` gives the names as a list of symbols.
+#' * `group_vars()` gives names of grouping variables as character vector.
 #'
-#' * `group_size()` gives the size of each group, and `n_groups()` gives the
-#'   total number of groups.
+#' * `groups()` gives the names of the grouping variables as a list of symbols.
+#'
+#' * `group_size()` gives the size of each group.
+#'
+#' * `n_groups()` gives the total number of groups.
 #'
 #' See [context] for equivalent functions that return values for the _current_
 #' group.
@@ -84,7 +91,8 @@ group_keys.data.frame <- function(.tbl, ...) {
   if (dots_n(...) > 0) {
     lifecycle::deprecate_warn(
       "1.0.0", "group_keys(... = )",
-      details = "Please `group_by()` first"
+      details = "Please `group_by()` first",
+      always = TRUE
     )
     .tbl <- group_by(.tbl, ...)
   }
@@ -101,7 +109,7 @@ group_rows <- function(.data) {
 #' @rdname group_data
 group_indices <- function(.data, ...) {
   if (nargs() == 0) {
-    lifecycle::deprecate_warn("1.0.0", "group_indices()", "cur_group_id()")
+    lifecycle::deprecate_warn("1.0.0", "group_indices()", "cur_group_id()", always = TRUE)
     return(cur_group_id())
   }
 
@@ -112,7 +120,8 @@ group_indices.data.frame <- function(.data, ...) {
   if (dots_n(...) > 0) {
     lifecycle::deprecate_warn(
       "1.0.0", "group_indices(... = )",
-      details = "Please `group_by()` first"
+      details = "Please `group_by()` first",
+      always = TRUE
     )
     .data <- group_by(.data, ...)
   }

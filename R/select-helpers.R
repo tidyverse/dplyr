@@ -33,7 +33,8 @@ group_cols_legacy <- function(vars = NULL) {
   if (!is.null(vars)) {
     lifecycle::deprecate_warn(
       "1.0.0", "group_cols(vars = )",
-      details = "Use `data` with entire dataframe instead"
+      details = "Use `data` with entire dataframe instead",
+      always = TRUE
     )
   }
 

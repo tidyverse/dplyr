@@ -119,8 +119,6 @@ updated.
 If \code{in_place = TRUE}, the result will be returned invisibly.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 These functions provide a framework for modifying rows in a table using a
 second table of data. The two tables are matched \code{by} a set of key variables
 whose values typically uniquely identify each row. The functions are inspired

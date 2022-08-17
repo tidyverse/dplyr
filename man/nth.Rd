@@ -4,41 +4,52 @@
 \alias{nth}
 \alias{first}
 \alias{last}
-\title{Extract the first, last or nth value from a vector}
+\title{Extract the first, last, or nth value from a vector}
 \usage{
-nth(x, n, order_by = NULL, default = default_missing(x))
+nth(x, n, order_by = NULL, default = NULL, na_rm = FALSE)
 
-first(x, order_by = NULL, default = default_missing(x))
+first(x, order_by = NULL, default = NULL, na_rm = FALSE)
 
-last(x, order_by = NULL, default = default_missing(x))
+last(x, order_by = NULL, default = NULL, na_rm = FALSE)
 }
 \arguments{
 \item{x}{A vector}
 
 \item{n}{For \code{nth()}, a single integer specifying the position.
 Negative integers index from the end (i.e. \code{-1L} will return the
-last value in the vector).
+last value in the vector).}
 
-If a double is supplied, it will be silently truncated.}
+\item{order_by}{An optional vector the same size as \code{x} used to determine the
+order.}
 
-\item{order_by}{An optional vector used to determine the order}
+\item{default}{A default value to use if the position does not exist in \code{x}.
 
-\item{default}{A default value to use if the position does not exist in
-the input. This is guessed by default for base vectors, where a
-missing value of the appropriate type is returned, and for lists, where
-a \code{NULL} is return.
+If \code{NULL}, the default, a missing value is used.
 
-For more complicated objects, you'll need to supply this value.
-Make sure it is the same type as \code{x}.}
+If supplied, this must be a single value, which will be cast to the type of
+\code{x}.
+
+When \code{x} is a list , \code{default} is allowed to be any value. There are no
+type or size restrictions in this case.}
+
+\item{na_rm}{Should missing values in \code{x} be removed before extracting the
+value?}
 }
 \value{
-A single value. \code{[[} is used to do the subsetting.
+If \code{x} is a list, a single element from that list. Otherwise, a vector the
+same type as \code{x} with size 1.
 }
 \description{
-These are straightforward wrappers around \code{\link{[[}}. The main
-advantage is that you can provide an optional secondary vector that defines
-the ordering, and provide a default value to use when the input is shorter
-than expected.
+These are useful helpers for extracting a single value from a vector. They
+are guaranteed to return a meaningful value, even when the input is shorter
+than expected. You can also provide an optional secondary vector that defines
+the ordering.
+}
+\details{
+For most vector types, \code{first(x)}, \code{last(x)}, and \code{nth(x, n)} work like
+\code{x[[1]]}, \verb{x[[length(x)]}, and \code{x[[n]]}, respectively. The primary exception
+is data frames, where they instead retrieve rows, i.e. \code{x[1, ]}, \code{x[nrow(x), ]}, and \code{x[n, ]}. This is consistent with the tidyverse/vctrs principle which
+treats data frames as a vector of rows, rather than a vector of columns.
 }
 \examples{
 x <- 1:10
@@ -50,12 +61,39 @@ last(y)
 nth(x, 1)
 nth(x, 5)
 nth(x, -2)
+
+# `first()` and `last()` are often useful in `summarise()`
+df <- tibble(x = x, y = y)
+df \%>\%
+  summarise(
+    across(x:y, first, .names = "{col}_first"),
+    y_last = last(y)
+  )
+
+# Selecting a position that is out of bounds returns a default value
 nth(x, 11)
+nth(x, 0)
 
-last(x)
-# Second argument provides optional ordering
-last(x, y)
-
-# These functions always return a single value
+# This out of bounds behavior also applies to empty vectors
 first(integer())
+
+# You can customize the default value with `default`
+nth(x, 11, default = -1L)
+first(integer(), default = 0L)
+
+# `order_by` provides optional ordering
+last(x)
+last(x, order_by = y)
+
+# `na_rm` removes missing values before extracting the value
+z <- c(NA, NA, 1, 3, NA, 5, NA)
+first(z)
+first(z, na_rm = TRUE)
+last(z, na_rm = TRUE)
+nth(z, 3, na_rm = TRUE)
+
+# For data frames, these select entire rows
+df <- tibble(a = 1:5, b = 6:10)
+first(df)
+nth(df, 4)
 }

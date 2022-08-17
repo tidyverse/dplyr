@@ -35,8 +35,7 @@ if ungrouped).
 \item A data frame or tibble, to create multiple columns in the output.
 }}
 
-\item{.keep}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-Control which columns from \code{.data} are retained in the output. Grouping
+\item{.keep}{Control which columns from \code{.data} are retained in the output. Grouping
 columns and columns created by \code{...} are always kept.
 \itemize{
 \item \code{"all"} retains all columns from \code{.data}. This is the default.
@@ -50,8 +49,7 @@ the columns used to generate them.
 variables and columns created by \code{...} are kept.
 }}
 
-\item{.before, .after}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, control where new columns
+\item{.before, .after}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, control where new columns
 should appear (the default is to add to the right hand side). See
 \code{\link[=relocate]{relocate()}} for more details.}
 }
@@ -139,44 +137,42 @@ Methods available in currently loaded packages:
 \examples{
 # Newly created variables are available immediately
 starwars \%>\%
- select(name, mass) \%>\%
- mutate(
-  mass2 = mass * 2,
-  mass2_squared = mass2 * mass2
- )
+  select(name, mass) \%>\%
+  mutate(
+    mass2 = mass * 2,
+    mass2_squared = mass2 * mass2
+  )
 
 # As well as adding new variables, you can use mutate() to
 # remove variables and modify existing variables.
 starwars \%>\%
- select(name, height, mass, homeworld) \%>\%
- mutate(
-  mass = NULL,
-  height = height * 0.0328084 # convert to feet
- )
+  select(name, height, mass, homeworld) \%>\%
+  mutate(
+    mass = NULL,
+    height = height * 0.0328084 # convert to feet
+  )
 
 # Use across() with mutate() to apply a transformation
 # to multiple columns in a tibble.
 starwars \%>\%
- select(name, homeworld, species) \%>\%
- mutate(across(!name, as.factor))
+  select(name, homeworld, species) \%>\%
+  mutate(across(!name, as.factor))
 # see more in ?across
 
 # Window functions are useful for grouped mutates:
 starwars \%>\%
- select(name, mass, homeworld) \%>\%
- group_by(homeworld) \%>\%
- mutate(rank = min_rank(desc(mass)))
+  select(name, mass, homeworld) \%>\%
+  group_by(homeworld) \%>\%
+  mutate(rank = min_rank(desc(mass)))
 # see `vignette("window-functions")` for more details
 
 # By default, new columns are placed on the far right.
-# Experimental: you can override with `.before` or `.after`
 df <- tibble(x = 1, y = 2)
 df \%>\% mutate(z = x + y)
 df \%>\% mutate(z = x + y, .before = 1)
 df \%>\% mutate(z = x + y, .after = x)
 
 # By default, mutate() keeps all columns from the input data.
-# Experimental: You can override with `.keep`
 df <- tibble(x = 1, y = 2, a = "a", b = "b")
 df \%>\% mutate(z = x + y, .keep = "all") # the default
 df \%>\% mutate(z = x + y, .keep = "used")

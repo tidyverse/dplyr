@@ -70,13 +70,13 @@
     Output
       <error/rlang_error>
       Error in `across()`:
-      ! Must be used inside dplyr verbs.
+      ! Must only be used inside data-masking verbs like `mutate()`, `filter()`, and `group_by()`.
     Code
       (expect_error(c_across()))
     Output
       <error/rlang_error>
       Error in `c_across()`:
-      ! Must be used inside dplyr verbs.
+      ! Must only be used inside data-masking verbs like `mutate()`, `filter()`, and `group_by()`.
     Code
       error_fn <- (function(.) {
         if (all(. > 10)) {
@@ -186,4 +186,25 @@
       i You most likely meant: `if_all(everything(), ~.x > 5)`.
       i The first argument `.cols` selects a set of columns.
       i The second argument `.fns` operates on each selected columns.
+
+# across(...) is deprecated
+
+    Code
+      summarise(df, across(everything(), mean, na.rm = TRUE))
+    Condition
+      Warning:
+      The `...` argument of `across()` is deprecated as of dplyr 1.1.0.
+      Supply arguments directly to `.fns` through a lambda instead.
+      
+        # Previously
+        across(a:b, mean, na.rm = TRUE)
+      
+        # Now
+        across(a:b, ~mean(.x, na.rm = TRUE))
+      Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+    Output
+      # A tibble: 1 x 1
+            x
+        <dbl>
+      1     1
 

@@ -5,7 +5,7 @@
 \alias{tally}
 \alias{add_count}
 \alias{add_tally}
-\title{Count observations by group}
+\title{Count the observations in each group}
 \usage{
 count(x, ..., wt = NULL, sort = FALSE, name = NULL)
 
@@ -33,7 +33,8 @@ Can be \code{NULL} or a variable:
 \item{name}{The name of the new column in the output.
 
 If omitted, it will default to \code{n}. If there's already a column called \code{n},
-it will error, and require you to specify the name.}
+it will use \code{nn}. If there's a column called \code{n} and \code{nn}, it'll use
+\code{nnn}, and so on, adding \code{n}s until it gets a new name.}
 
 \item{.drop}{For \code{count()}: if \code{FALSE} will include counts for empty groups
 (i.e. for levels of factors that don't exist in the data). Deprecated in

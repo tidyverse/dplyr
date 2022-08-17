@@ -102,9 +102,15 @@ test_that("distinct handles 0 columns edge case (#2954)", {
   expect_equal(nrow(distinct(tibble())), 0L)
 })
 
-test_that("distinct preserves order of the input variables (#3195)",{
+test_that("distinct respects order of the specified variables (#3195, #6156)",{
   d <- data.frame(x = 1:2, y = 3:4)
-  expect_equal(names(distinct(d, y, x)), c("x", "y"))
+  expect_named(distinct(d, y, x), c("y", "x"))
+})
+
+test_that("distinct adds grouping variables to front if missing",{
+  d <- data.frame(x = 1:2, y = 3:4)
+  expect_named(distinct(group_by(d, y), x), c("y", "x"))
+  expect_named(distinct(group_by(d, y), x, y), c("x", "y"))
 })
 
 test_that("distinct() understands both NA variants (#4516)", {
@@ -156,11 +162,20 @@ test_that("distinct() propagates caller env", {
   expect_caller_env(distinct(mtcars, sig_caller_env()))
 })
 
+test_that("distinct() preserves attributes on bare data frames (#6318)", {
+  df <- vctrs::data_frame(x = c(1, 1))
+  attr(df, "foo") <- "bar"
+
+  out <- distinct(df, x)
+  expect_identical(attr(out, "foo"), "bar")
+
+  out <- distinct(df, y = x + 1L)
+  expect_identical(attr(out, "foo"), "bar")
+})
 
 # Errors ------------------------------------------------------------------
 
-
-test_that("distinct gives a warning when selecting an unknown column (#3140)", {
+test_that("distinct errors when selecting an unknown column (#3140)", {
   expect_snapshot({
     df <- tibble(g = c(1, 2), x = c(1, 2))
 

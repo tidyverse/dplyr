@@ -1,3 +1,58 @@
+# mutate() supports constants (#6056, #6305)
+
+    Code
+      (expect_error(df %>% mutate(z = !!z)))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`:
+      ! Problem while computing `z = <int>`.
+      Inlined constant `z` must be size 10 or 1, not 5.
+    Code
+      (expect_error(df %>% group_by(g) %>% mutate(z = !!z)))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`:
+      ! Problem while computing `z = <int>`.
+      Inlined constant `z` must be size 10 or 1, not 5.
+    Code
+      (expect_error(df %>% rowwise() %>% mutate(z = !!z)))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`:
+      ! Problem while computing `z = <int>`.
+      Inlined constant `z` must be size 10 or 1, not 5.
+
+---
+
+    Code
+      (expect_error(df %>% group_by(g) %>% mutate(y = .env$y)))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`:
+      ! Problem while computing `y = .env$y`.
+      x `y` must be size 5 or 1, not 10.
+      i The error occurred in group 1: g = 1.
+    Code
+      (expect_error(df %>% rowwise() %>% mutate(y = .env$y)))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`:
+      ! Problem while computing `y = .env$y`.
+      x `y` must be size 1, not 10.
+      i Did you mean: `y = list(.env$y)` ?
+      i The error occurred in row 1.
+
+# rowwise mutate un-lists existing size-1 list-columns (#6302)
+
+    Code
+      mutate(df, y = x)
+    Condition
+      Error in `mutate()`:
+      ! Problem while computing `y = x`.
+      x `y` must be size 1, not 2.
+      i Did you mean: `y = list(x)` ?
+      i The error occurred in row 2.
+
 # mutate() give meaningful errors
 
     Code
@@ -7,7 +62,7 @@
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       ! Problem while computing `a = sum(y)`.
-      Caused by error in `mask$eval_all_mutate()`:
+      Caused by error:
       ! object 'y' not found
     Code
       (expect_error(tbl %>% group_by(x) %>% mutate(y = NULL, a = sum(y))))
@@ -16,7 +71,7 @@
       Error in `mutate()`:
       ! Problem while computing `a = sum(y)`.
       i The error occurred in group 1: x = 1.
-      Caused by error in `mask$eval_all_mutate()`:
+      Caused by error:
       ! object 'y' not found
     Code
       (expect_error(tibble(x = 1) %>% mutate(y = mean)))
@@ -153,6 +208,6 @@
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       ! Problem while computing `..1 = stop("{")`.
-      Caused by error in `mask$eval_all_mutate()`:
+      Caused by error:
       ! {
 

@@ -15,7 +15,7 @@
       Error in `arrange()`:
       ! Problem with the implicit `transmute()` step.
       x Problem while computing `..1 = y`.
-      Caused by error in `mask$eval_all_mutate()`:
+      Caused by error:
       ! object 'y' not found
     Code
       (expect_error(tibble(x = 1) %>% arrange(rep(x, 2))))
@@ -40,7 +40,7 @@
       arrange(df, .locale = 1)
     Condition
       Error in `arrange()`:
-      ! `.locale` must be a string.
+      ! `.locale` must be a string or `NULL`.
 
 ---
 

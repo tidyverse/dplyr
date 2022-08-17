@@ -1,6 +1,146 @@
 # dplyr (development version)
 
 * `storms` has been updated to include 2021 data, data prior to 1975, and some missing storms that were omitted due to an error (#6320).
+* `progress_estimate()` is deprecated for all uses (#6387).
+
+* `funs()`, deprecated in 0.8.0, is now defunct (#6387).
+
+* `select_vars()`, `rename_vars()`, `select_var()` and `current_var()`, 
+  deprecated in 0.8.4, are now defunct (#6387).
+
+* `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()`, and
+  `eval_tbl()`, deprecated in 1.0.0, are now defunct (#6387).
+
+* `location()` and `changes()`, deprecated in 1.0.0, are now defunct (#6387).
+
+* All other functions deprecated in 1.0.0 and earlier now warn every time you 
+  use them (#6387). They are likely to be made defunct in the next major 
+  version (but not before mid 2024).
+
+* `nth()`, `first()`, and `last()` have gained an `na_rm` argument since they
+  are summary functions (#6242, with contributions from @tnederlof).
+
+* `slice_*()` generics now perform argument validation. This should make 
+  methods more consistent and simpler to implement (#6361).
+
+* New `symdiff()` function computes the symmetric difference (#4811).
+
+* `slice_min()` and `slice_max()` can `order_by` multiple variables if you
+  supply them as a data.frame or tibble (#6176).
+
+* `slice_min()` and `slice_max()` now consistently include missing values in
+  the result if necessary (i.e. there aren't enough non-missing values to 
+  reach the `n` or `prop` you have selected). If you don't want missing values
+  to be included at all, set `na_rm = TRUE` (#6177).
+
+* `relocate()` now works correctly with empty data frames and when `.before` or
+  `.after` result in empty selections (#6167).
+
+* `relocate()` no longer drops attributes of bare data frames (#6341).
+
+* `across()` used without functions inside a rowwise-data frame no longer
+   generates an invalid data frame (#6264).
+
+* New `consecutive_id()` for creating groups based on contiguous runs of the
+  same values, like `data.table::rleid()` (#1534).
+
+* `nest_join()` now preserves the type of `y` (#6295).
+
+* Passing `...` to `across()` is now deprecated because the evaluation timing of
+  `...` is ambiguous. Now instead of (e.g.) `across(a:b, mean, na.rm = TRUE)`
+  you should write `across(a:b, ~ mean(.x, na.rm = TRUE))` (#6073).
+
+* Rowwise-`mutate()` behaves a little better with 0-row inputs (#6303).
+
+* A rowwise `mutate()` now automatically unlists list-columns containing 
+  length 1 vectors (#6302).
+
+* `arrange()` now correctly ignores `NULL` inputs (#6193).
+
+* `*_join()` now error if you supply them with additional arguments that
+  aren't used (#6228).
+
+* `df |> arrange(mydesc::desc(x))` works correctly when the mydesc re-exports
+   `dplyr::desc()` (#6231).
+
+* `union_all()`, like `union()`, now requires that data frames be compatible:
+  i.e. they have the same columns, and the columns have compatible types.
+
+* `setequal()` ignores differences between freely coercible types (e.g. integer 
+  and double) (#6114) and ignores duplicated rows (#6057).
+
+* `all_equal()` is formally deprecated. We've advised against it for
+  some time, and we explicitly recommend you use `all.equal()`,
+  manually reordering the rows and columns (#6324).
+
+* `distinct()` returns columns ordered the way you request, not the same
+  as the input data (#6156).
+
+* The `.keep`, `.before`, and `.after` arguments to `mutate()` 
+  are no longer experimental.
+  
+* The `rows_*()` family of functions are no longer experimental.
+
+* `desc()` gives a useful error message if you give it a non-vector (#6028).
+
+* `slice_sample()` returns a data frame or group with the same number of rows as 
+  the input when `replace = FALSE` and `n` is larger than the number of rows or 
+  `prop` is larger than 1. This reverts a change made in 1.0.8, returning to the 
+  behavior of 1.0.7 (#6185)
+
+* `slice()` helpers again produce output equivalent to `slice(.data, 0)` when
+  the `n` or `prop` argument is 0, fixing a bug introduced in the previous
+  version (@eutwt, #6184).
+
+* Fixed an issue with latest rlang that caused internal tools (such as
+  `mask$eval_all_summarise()`) to be mentioned in error messages (#6308).
+
+* `distinct()` now retains attributes of bare data frames (#6318).
+
+* dplyr no longer provides `count()` and `tally()` methods for `tbl_sql`.
+  These methods have been accidentally overriding the `tbl_lazy` methods that
+  dbplyr provides, which has resulted in issues with the grouping structure of
+  the output (#6338, tidyverse/dbplyr#940).
+
+* `relocate()` now retains the last name change when a single column is renamed
+  multiple times while it is being moved. This better matches the behavior of
+  `rename()` (#6209, with help from @eutwt).
+
+* `na_if()` has been rewritten to utilize vctrs. This comes with the following
+  improvements (#6329):
+
+  * It now casts `y` to the type of `x` before comparing them, which makes it
+    clearer that this function is type and size stable on `x`. In particular,
+    this means that you can no longer do `na_if(<tibble>, 0)`, which previously
+    accidentally allowed you to replace any instance of `0` across every column
+    of the tibble with `NA`. `na_if()` was never intended to work this way, and
+    this is considered off-label usage.
+    
+  * You can now replace `NaN` values in `x` with `NA` through `na_if(x, NaN)`.
+
+* `first()`, `last()`, and `nth()` have been rewritten to use vctrs. This comes
+  with the following improvements (#6331):
+  
+  * When used on a data frame, these functions now return a single row rather
+    than a single column. This is more consistent with the vctrs principle that
+    a data frame is generally treated as a vector of rows.
+    
+  * The `default` is no longer "guessed", and will always automatically be set
+    to a missing value appropriate for the type of `x`.
+    
+  * Fractional values of `n` are no longer truncated to integers, and will now
+    cause an error. For example, `nth(x, n = 2)` is fine, but
+    `nth(x, n = 2.5)` is now an error.
+
+* `lag()` and `lead()` now cast `default` to the type of `x`, rather than taking
+  the common type. This ensures that these functions are type stable on `x`
+  (#6330).
+
+* `with_order()` now checks that the size of `order_by` is the same size as `x`.
+
+* `with_order()` now works correctly when data frames are used as the `order_by`
+  value (#6334).
+
 * `coalesce()` now more fully embraces the principles of vctrs (#6265).
 
   * `.ptype` and `.size` arguments have been added to allow you to explicitly
@@ -15,15 +155,25 @@
 
 * `group_by()` now uses a new algorithm for computing groups. It is often faster
   than the previous approach (especially when there are many groups), and in
-  most cases there should be no changes. The exception is with character vector
-  group columns, which are now internally ordered in the C locale rather than
-  the system locale and may result in differently ordered results when you
-  follow up a `group_by()` with functions that use the group data, such as
-  `summarise()` or `group_split()` (#4406, #6297).
-  
-  See the Ordering section of `?group_by()` for more information. For a full
-  explanation of this change, refer to this
-  [tidyup](https://github.com/tidyverse/tidyups/blob/main/006-dplyr-group-by-ordering.md).
+  most cases there should be no changes. The one exception is with character
+  vectors, see the C locale news bullet below for more details (#4406, #6297).
+
+* `arrange()` now uses a faster algorithm for sorting character vectors, which
+  is heavily inspired by data.table's `forder()`. See the C locale news bullet
+  below for more details (#4962).
+
+* `arrange()` and `group_by()` now both default to using the C locale when
+  ordering or grouping character vectors rather than the system locale. This
+  brings _substantial_ performance improvements, increases reproducibility
+  across R sessions, makes dplyr more consistent with data.table, and we believe
+  it should affect little existing code. If it does affect your code, you can
+  use `options(dplyr.legacy_locale = TRUE)` to quickly revert to the previous
+  behavior. In general, we instead recommend that you use the new `.locale`
+  argument of `arrange()` when the locale matters. For a full explanation of
+  this change, please read the associated
+  [grouping](https://github.com/tidyverse/tidyups/blob/main/006-dplyr-group-by-ordering.md)
+  and [ordering](https://github.com/tidyverse/tidyups/blob/main/003-dplyr-radix-ordering.md)
+  tidyups.
 
 * `if_else()` has been rewritten to utilize vctrs. This comes with most of the
   same benefits as the `case_when()` rewrite. In particular, `if_else()` now
@@ -64,17 +214,6 @@
 
   * The error thrown when types or lengths were incorrect has been improved
     (#6261, #6206).
-
-* `arrange()` now uses a faster algorithm for sorting character vectors, which
-  is heavily inspired by data.table's `forder()`. Additionally, the default
-  locale for sorting character vectors is now the C locale, which is a breaking
-  change from the previous behavior that utilized the system locale. The new
-  `.locale` argument can be used to adjust this to, say, the American English
-  locale, which is an optional feature that requires the stringi package. This
-  change improves reproducibility across R sessions and operating systems. For a
-  fuller explanation, refer to this
-  [tidyup](https://github.com/tidyverse/tidyups/blob/main/003-dplyr-radix-ordering.md)
-  which outlines and justifies this change (#4962).
 
 * `tbl_sum()` is no longer reexported from tibble (#6284).
 
@@ -1954,7 +2093,7 @@ There were two other tweaks to the exported API, but these are less likely to af
   called `n` (#1633). Weighted `count()`/`tally()` ignore `NA`s (#1145).
 
 * The progress bar in `do()` is now updated at most 20 times per second,
-  avoiding unneccessary redraws (#1734, @mkuhn)
+  avoiding unnecessary redraws (#1734, @mkuhn)
 
 * `distinct()` doesn't crash when given a 0-column data frame (#1437).
 
@@ -2612,7 +2751,7 @@ This is a minor release containing fixes for a number of crashes and issues iden
 
 ## Piping
 
-dplyr now imports `%>%` from magrittr (#330). I recommend that you use this instead of `%.%` because it is easier to type (since you can hold down the shift key) and is more flexible. With you `%>%`, you can control which argument on the RHS recieves the LHS by using the pronoun `.`. This makes `%>%` more useful with base R functions because they don't always take the data frame as the first argument. For example you could pipe `mtcars` to `xtabs()` with:
+dplyr now imports `%>%` from magrittr (#330). I recommend that you use this instead of `%.%` because it is easier to type (since you can hold down the shift key) and is more flexible. With you `%>%`, you can control which argument on the RHS receives the LHS by using the pronoun `.`. This makes `%>%` more useful with base R functions because they don't always take the data frame as the first argument. For example you could pipe `mtcars` to `xtabs()` with:
 
     mtcars %>% xtabs( ~ cyl + vs, data = .)
 

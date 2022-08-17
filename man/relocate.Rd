@@ -22,7 +22,8 @@ An object of the same type as \code{.data}. The output has the following
 properties:
 \itemize{
 \item Rows are not affected.
-\item The same columns appear in the output, but (usually) in a different place.
+\item The same columns appear in the output, but (usually) in a different place
+and possibly renamed.
 \item Data frame attributes are preserved.
 \item Groups are not affected.
 }

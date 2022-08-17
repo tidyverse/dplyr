@@ -1,7 +1,3 @@
-dots <- function(...) {
-  eval_bare(substitute(alist(...)))
-}
-
 deparse_trunc <- function(x, width = getOption("width")) {
   text <- deparse(x, width.cutoff = width)
   if (length(text) == 1 && nchar(text) < width) return(text)
@@ -97,25 +93,6 @@ node_walk_replace <- function(node, old, new) {
     )
     node <- node_cdr(node)
   }
-}
-
-# temporary workaround until vctrs better reports error call
-fix_call <- function(expr, call = caller_env()) {
-  withCallingHandlers(expr, error = function(cnd) {
-    cnd$call <- call
-    cnd_signal(cnd)
-  })
-}
-
-# tidyselect creates chained errors
-tidyselect_fix_call <- function(expr, call = caller_env()) {
-  withCallingHandlers(
-    expr,
-    error = function(cnd) {
-      cnd$call <- call
-      cnd$parent <- NULL
-      cnd_signal(cnd)
-    })
 }
 
 # Backports for R 3.5.0 utils

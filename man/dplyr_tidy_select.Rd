@@ -29,9 +29,10 @@ columns:
 \itemize{
 \item \code{\link[tidyselect:everything]{everything()}}: Matches all variables.
 \item \code{\link[tidyselect:everything]{last_col()}}: Select last variable, possibly with an offset.
+\item \code{\link[=group_cols]{group_cols()}}: Select all grouping columns.
 }
 
-These helpers select variables by matching patterns in their names:
+Other helpers select variables by matching patterns in their names:
 \itemize{
 \item \code{\link[tidyselect:starts_with]{starts_with()}}: Starts with a prefix.
 \item \code{\link[tidyselect:starts_with]{ends_with()}}: Ends with a suffix.
@@ -40,7 +41,7 @@ These helpers select variables by matching patterns in their names:
 \item \code{\link[tidyselect:starts_with]{num_range()}}: Matches a numerical range like x01, x02, x03.
 }
 
-These helpers select variables from a character vector:
+Or from variables stored in a character vector:
 \itemize{
 \item \code{\link[tidyselect:all_of]{all_of()}}: Matches variable names in a character vector. All
 names must be present, otherwise an out-of-bounds error is
@@ -49,7 +50,7 @@ thrown.
 for names that don't exist.
 }
 
-This helper selects variables with a function:
+Or using a predicate function:
 \itemize{
 \item \code{\link[tidyselect:where]{where()}}: Applies a function to all variables and selects those
 for which the function returns \code{TRUE}.

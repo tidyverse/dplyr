@@ -191,34 +191,26 @@ test_that("joins don't match NA when na_matches = 'never' (#2033)", {
   )
 })
 
-test_that("`na_matches` is validated", {
+test_that("join_mutate() validates arguments", {
   df <- tibble(x = 1)
 
   # Mutating joins
   expect_snapshot(error = TRUE, {
-    join_mutate(df, df, by = "x", type = "left", na_matches = 1)
-  })
-  expect_snapshot(error = TRUE, {
+    join_mutate(df, df, by = 1, type = "left")
+    join_mutate(df, df, by = "x", type = "left", suffix = 1)
     join_mutate(df, df, by = "x", type = "left", na_matches = "foo")
-  })
-
-  # Filtering joins
-  expect_snapshot(error = TRUE, {
-    join_filter(df, df, by = "x", type = "semi", na_matches = 1)
-  })
-  expect_snapshot(error = TRUE, {
-    join_filter(df, df, by = "x", type = "semi", na_matches = "foo")
+    join_mutate(df, df, by = "x", type = "left", unmatched = "foo")
+    join_mutate(df, df, by = "x", type = "left", keep = 1)
   })
 })
 
-test_that("`unmatched` is validated", {
+test_that("join_filter() validates arguments", {
   df <- tibble(x = 1)
 
+  # Filtering joins
   expect_snapshot(error = TRUE, {
-    join_mutate(df, df, by = "x", type = "left", unmatched = 1)
-  })
-  expect_snapshot(error = TRUE, {
-    join_mutate(df, df, by = "x", type = "left", unmatched = "foo")
+    join_filter(df, df, by = 1, type = "semi")
+    join_filter(df, df, by = "x", type = "semi", na_matches = "foo")
   })
 })
 
@@ -234,16 +226,50 @@ test_that("filtering joins compute common columns", {
   expect_snapshot(out <- semi_join(df1, df2))
 })
 
+test_that("error if passed additional arguments", {
+  df1 <- data.frame(a = 1:3)
+  df2 <- data.frame(a = 1)
+
+  expect_snapshot(error = TRUE, {
+    inner_join(df1, df2, on = "a")
+    left_join(df1, df2, on = "a")
+    right_join(df1, df2, on = "a")
+    full_join(df1, df2, on = "a")
+    nest_join(df1, df2, on = "a")
+    anti_join(df1, df2, on = "a")
+    semi_join(df1, df2, on = "a")
+  })
+})
+
 # nest_join ---------------------------------------------------------------
 
 test_that("nest_join returns list of tibbles (#3570)",{
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- tibble(x = c(1, 1), z = c(2, 3))
-  out <- nest_join(df1, df2, by = "x", multiple = "all")
+  out <- nest_join(df1, df2, by = "x")
 
   expect_named(out, c("x", "y", "df2"))
   expect_type(out$df2, "list")
   expect_s3_class(out$df2[[1]], "tbl_df")
+})
+
+test_that("nest_join respects types of y (#6295)",{
+  df1 <- tibble(x = c(1, 2), y = c(2, 3))
+  df2 <- rowwise(tibble(x = c(1, 1), z = c(2, 3)))
+  out <- nest_join(df1, df2, by = "x")
+
+  expect_s3_class(out$df2[[1]], "rowwise_df")
+})
+
+test_that("nest_join preserves data frame attributes on `x` and `y` (#6295)", {
+  df1 <- data.frame(x = c(1, 2), y = c(3, 4))
+  attr(df1, "foo") <- 1
+  df2 <- data.frame(x = c(1, 2), z = c(3, 4))
+  attr(df2, "foo") <- 2
+
+  out <- nest_join(df1, df2, by = "x")
+  expect_identical(attr(out, "foo"), 1)
+  expect_identical(attr(out$df2[[1]], "foo"), 2)
 })
 
 test_that("nest_join computes common columns", {
@@ -256,8 +282,16 @@ test_that("nest_join handles multiple matches in x (#3642)", {
   df1 <- tibble(x = c(1, 1))
   df2 <- tibble(x = 1, y = 1:2)
 
-  out <- nest_join(df1, df2, by = "x", multiple = "all")
+  out <- nest_join(df1, df2, by = "x")
   expect_equal(out$df2[[1]], out$df2[[2]])
+})
+
+test_that("nest_join forces `multiple = 'all'` internally (#6392)", {
+  df1 <- tibble(x = 1)
+  df2 <- tibble(x = 1, y = 1:2)
+
+  expect_no_warning(out <- nest_join(df1, df2, by = "x"))
+  expect_identical(nrow(out$df2[[1]]), 2L)
 })
 
 test_that("y keys dropped by default for equi conditions", {
@@ -278,6 +312,20 @@ test_that("y keys kept by default for non-equi conditions", {
   out <- nest_join(df1, df2, by = join_by(x >= x))
   expect_named(out, c("x", "y", "df2"))
   expect_named(out$df2[[1]], c("x", "z"))
+})
+
+test_that("validates inputs", {
+  df1 <- tibble(x = c(1, 2), y = c(2, 3))
+  df2 <- tibble(x = c(1, 3), z = c(2, 3))
+
+  expect_snapshot(error = TRUE, {
+    nest_join(df1, df2, by = 1)
+    nest_join(df1, df2, keep = 1)
+    nest_join(df1, df2, name = 1)
+    nest_join(df1, df2, na_matches = 1)
+    nest_join(df1, df2, unmatched = 1)
+  })
+
 })
 
 # output type ---------------------------------------------------------------
@@ -302,10 +350,11 @@ test_that("joins preserve groups", {
   expect_equal(i, 0L)
   expect_equal(group_vars(out), "a")
 
-  # See comment in nest_join
-  i <- count_regroups(out <- nest_join(gf1, gf2, by = "a", multiple = "all"))
-  expect_equal(i, 1L)
+  # once for x + once for each row for y
+  i <- count_regroups(out <- nest_join(gf1, gf2, by = "a"))
+  expect_equal(i, 4L)
   expect_equal(group_vars(out), "a")
+  expect_equal(group_vars(out$gf2[[1]]), "b")
 })
 
 test_that("group column names reflect renamed duplicate columns (#2330)", {
