@@ -1,6 +1,6 @@
 # dplyr (development version)
 
-* `storms` has been updated to include 2021 data, data prior to 1975, and some missing storms that were omitted due to an error.
+* `storms` has been updated to include 2021 data, data prior to 1975, and some missing storms that were omitted due to an error (#6320).
 * `coalesce()` now more fully embraces the principles of vctrs (#6265).
 
   * `.ptype` and `.size` arguments have been added to allow you to explicitly
