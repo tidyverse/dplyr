@@ -1,3 +1,17 @@
+test_that("LHS can match multiple values", {
+  expect_equal(case_match(1, 1:2 ~ "x"), "x")
+})
+
+test_that("LHS can match special values", {
+  expect_equal(case_match(NA, NA ~ "x"), "x")
+  expect_equal(case_match(NaN, NaN ~ "x"), "x")
+})
+
+test_that("RHS is recycled to match x", {
+  x <- 1:3
+  expect_equal(case_match(x, c(1, 3) ~ x * 2), c(2, NA, 6))
+})
+
 test_that("`NULL` values in `...` are dropped", {
   expect_identical(
     case_match(1:2, 1 ~ "a", NULL, 2 ~ "b", NULL),
