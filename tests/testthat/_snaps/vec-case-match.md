@@ -106,7 +106,7 @@
       vec_case_match(needles = 1, haystacks = 1, values = list(1), haystacks_arg = "")
     Condition
       Error in `vec_case_match()`:
-      ! `` must be a list, not a number.
+      ! Input must be a list, not a number.
 
 ---
 
