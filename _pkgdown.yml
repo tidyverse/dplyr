@@ -72,8 +72,8 @@ reference:
     not data frames.
   contents:
   - between
-  - case_when
   - case_match
+  - case_when
   - coalesce
   - consecutive_id
   - cumany
