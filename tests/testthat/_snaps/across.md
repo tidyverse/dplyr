@@ -70,13 +70,13 @@
     Output
       <error/rlang_error>
       Error in `across()`:
-      ! Must be used inside dplyr verbs.
+      ! Must only be used inside data-masking verbs like `mutate()`, `filter()`, and `group_by()`.
     Code
       (expect_error(c_across()))
     Output
       <error/rlang_error>
       Error in `c_across()`:
-      ! Must be used inside dplyr verbs.
+      ! Must only be used inside data-masking verbs like `mutate()`, `filter()`, and `group_by()`.
     Code
       error_fn <- (function(.) {
         if (all(. > 10)) {
