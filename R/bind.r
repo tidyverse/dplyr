@@ -56,10 +56,8 @@ bind_rows <- function(..., .id = NULL) {
   }
 
   if (!is_null(.id)) {
-    if (!is_string(.id)) {
-      msg <- glue("`.id` must be a scalar string, not {obj_type_friendly(.id)} of length {length(.id)}.")
-      abort(msg)
-    }
+    check_string(.id)
+
     if (!is_named(dots)) {
       names(dots) <- seq_along(dots)
     }
