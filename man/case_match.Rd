@@ -2,7 +2,7 @@
 % Please edit documentation in R/case-match.R
 \name{case_match}
 \alias{case_match}
-\title{A general vectorised switch}
+\title{A general vectorised \code{switch()}}
 \usage{
 case_match(.x, ..., .default = NULL, .ptype = NULL)
 }
@@ -10,43 +10,40 @@ case_match(.x, ..., .default = NULL, .ptype = NULL)
 \item{.x}{A vector to match against.}
 
 \item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> A sequence of two-sided
-formulas. The left hand side (LHS) determines which values match this case.
-The right hand side (RHS) provides the replacement value.
+formulas, \code{old_values ~ new_value}. The right hand side (RHS) determines
+the output value for all values of \code{.x} that match the left hand side
+(LHS).
 
-The LHS inputs must evaluate to vectors with the same type as \code{.x}. There
-are no restrictions on the size of the LHS inputs, meaning that you can
-map multiple values in \code{.x} to the same RHS value. If a value in \code{.x} is
-matched to multiple LHS inputs, the first match is used.
+The LHS must evaluate to the same type of vector as \code{.x}. It can be any
+length, allowing you to match multiple \code{.x} values to the same RHS value.
+If LHS a value is repeated in the LHS, i.e a value in \code{.x} matches to
+multiple cases, the first match is used.
 
 The RHS inputs will be coerced to their common type. Each RHS input will be
-\link[vctrs:vector_recycling_rules]{recycled} to the size of \code{.x}.
-
-\code{NULL} inputs are ignored.}
+\link[vctrs:vector_recycling_rules]{recycled} to the size of \code{.x}.}
 
 \item{.default}{The value used when values in \code{.x} aren't matched by any of
-the LHS inputs.
+the LHS inputs. If \code{NULL}, the default, a missing value will be used.
 
 \code{.default} is \link[vctrs:vector_recycling_rules]{recycled} to the size of
-\code{.x}.
-
-\code{.default} participates in the computation of the common type with the RHS
-inputs.
-
-If \code{NULL}, the default, a missing value will be used.}
+\code{.x}.}
 
 \item{.ptype}{An optional prototype declaring the desired output type. If
-supplied, this overrides the common type of the RHS inputs.}
+not supplied, the output type will be taken from the common type of
+all RHS inputs and \code{.default}.}
 }
 \value{
 A vector with the same size as \code{.x} and the same type as the common type of
-the RHS inputs in \code{...}.
+the RHS inputs in \code{...} (if not overridden by \code{.ptype}).
 }
 \description{
-This function is a variant of \code{\link[=case_when]{case_when()}} that vectorises the idea behind
-\code{\link[=switch]{switch()}}. Use this to repeatedly recode one or more values in \code{.x} to a new
-value. It is an R equivalent of the SQL "simple" \verb{CASE WHEN} statement that
-matches using values rather than logical expressions. If no cases match, a
-missing value is returned unless a \code{.default} is supplied.
+Transform a vector using a formula based interface that recodes
+one or more old values to a new value: \code{old_values ~ new_value}.
+
+\code{case_match()} is variant of \code{\link[=case_when]{case_when()}} that vectorises the
+idea behind \code{\link[=switch]{switch()}}, rather than \code{\link[=if_else]{if_else()}}. It's the R equivalent of
+the SQL "simple" \verb{CASE WHEN} statement that matches using values rather
+than logical expressions.
 }
 \examples{
 x <- c("a", "b", "a", "d", "b", NA, "c", "e")
@@ -81,8 +78,7 @@ case_match(
   c("c", "d", "e") ~ "high"
 )
 
-# `case_match()` isn't limited to character input,
-# you can match against any vector type
+# `case_match()` isn't limited to character input:
 y <- c(1, 2, 1, 3, 1, NA, 2, 4)
 
 case_match(

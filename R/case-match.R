@@ -1,44 +1,42 @@
-#' A general vectorised switch
+#' A general vectorised `switch()`
 #'
-#' This function is a variant of [case_when()] that vectorises the idea behind
-#' [switch()]. Use this to repeatedly recode one or more values in `.x` to a new
-#' value. It is an R equivalent of the SQL "simple" `CASE WHEN` statement that
-#' matches using values rather than logical expressions. If no cases match, a
-#' missing value is returned unless a `.default` is supplied.
+#' @description
+#' Transform a vector using a formula based interface that recodes
+#' one or more old values to a new value: `old_values ~ new_value`.
+#'
+#' `case_match()` is variant of [case_when()] that vectorises the
+#' idea behind [switch()], rather than [if_else()]. It's the R equivalent of
+#' the SQL "simple" `CASE WHEN` statement that matches using values rather
+#' than logical expressions.
 #'
 #' @param .x A vector to match against.
 #'
 #' @param ... <[`dynamic-dots`][rlang::dyn-dots]> A sequence of two-sided
-#'   formulas. The left hand side (LHS) determines which values match this case.
-#'   The right hand side (RHS) provides the replacement value.
+#'   formulas, `old_values ~ new_value`. The right hand side (RHS) determines
+#'   the output value for all values of `.x` that match the left hand side
+#'   (LHS).
 #'
-#'   The LHS inputs must evaluate to vectors with the same type as `.x`. There
-#'   are no restrictions on the size of the LHS inputs, meaning that you can
-#'   map multiple values in `.x` to the same RHS value. If a value in `.x` is
-#'   matched to multiple LHS inputs, the first match is used.
+#'   The LHS must evaluate to the same type of vector as `.x`. It can be any
+#'   length, allowing you to match multiple `.x` values to the same RHS value.
+#'   If LHS a value is repeated in the LHS, i.e a value in `.x` matches to
+#'   multiple cases, the first match is used.
 #'
 #'   The RHS inputs will be coerced to their common type. Each RHS input will be
 #'   [recycled][vctrs::vector_recycling_rules] to the size of `.x`.
 #'
-#'   `NULL` inputs are ignored.
-#'
 #' @param .default The value used when values in `.x` aren't matched by any of
-#'   the LHS inputs.
+#'   the LHS inputs. If `NULL`, the default, a missing value will be used.
 #'
 #'   `.default` is [recycled][vctrs::vector_recycling_rules] to the size of
 #'   `.x`.
 #'
-#'   `.default` participates in the computation of the common type with the RHS
-#'   inputs.
-#'
-#'   If `NULL`, the default, a missing value will be used.
-#'
 #' @param .ptype An optional prototype declaring the desired output type. If
-#'   supplied, this overrides the common type of the RHS inputs.
+#'   not supplied, the output type will be taken from the common type of
+#'   all RHS inputs and `.default`.
 #'
 #' @return
 #' A vector with the same size as `.x` and the same type as the common type of
-#' the RHS inputs in `...`.
+#' the RHS inputs in `...` (if not overridden by `.ptype`).
 #'
 #' @seealso [case_when()]
 #'
@@ -76,8 +74,7 @@
 #'   c("c", "d", "e") ~ "high"
 #' )
 #'
-#' # `case_match()` isn't limited to character input,
-#' # you can match against any vector type
+#' # `case_match()` isn't limited to character input:
 #' y <- c(1, 2, 1, 3, 1, NA, 2, 4)
 #'
 #' case_match(
