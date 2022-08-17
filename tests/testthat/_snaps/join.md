@@ -142,7 +142,7 @@
       nest_join(df1, df2, name = 1)
     Condition
       Error in `nest_join()`:
-      ! `name` must be a string.
+      ! `name` must be a single string, not a number.
     Code
       nest_join(df1, df2, na_matches = 1)
     Condition

@@ -485,11 +485,9 @@ nest_join.data.frame <- function(x,
   unmatched <- check_unmatched(unmatched)
 
   if (is.null(name)) {
-    name_var <- as_label(enexpr(y))
-  } else if (is_string(name)) {
-    name_var <- name
+    name <- as_label(enexpr(y))
   } else {
-    abort("`name` must be a string.")
+    check_string(name)
   }
 
   x_names <- tbl_vars(x)
@@ -542,7 +540,7 @@ nest_join.data.frame <- function(x,
   y_out <- set_names(y_in[vars$y$out], names(vars$y$out))
   y_out <- map(y_loc, vec_slice, x = y_out)
   y_out <- map(y_out, dplyr_reconstruct, template = y)
-  new_cols[[name_var]] <- y_out
+  new_cols[[name]] <- y_out
 
   out <- dplyr_col_modify(out, new_cols)
   dplyr_reconstruct(out, x)
