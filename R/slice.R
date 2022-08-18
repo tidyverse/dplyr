@@ -140,11 +140,7 @@ slice_head <- function(.data, ..., n, prop) {
 slice_head.data.frame <- function(.data, ..., n, prop) {
   size <- get_slice_size(n = n, prop = prop)
   idx <- function(n) {
-    to <- size(n)
-    if (to > n) {
-      to <- n
-    }
-    seq2(1, to)
+    seq2(1, size(n))
   }
 
   dplyr_local_error_call()
@@ -163,11 +159,7 @@ slice_tail <- function(.data, ..., n, prop) {
 slice_tail.data.frame <- function(.data, ..., n, prop) {
   size <- get_slice_size(n = n, prop = prop)
   idx <- function(n) {
-    from <- n - size(n) + 1
-    if (from < 1L) {
-      from <- 1L
-    }
-    seq2(from, n)
+    seq2(n - size(n) + 1, n)
   }
 
   dplyr_local_error_call()
@@ -263,7 +255,7 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 
 #' @export
 slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
-  size <- get_slice_size(n = n, prop = prop)
+  size <- get_slice_size(n = n, prop = prop, allow_outsize = TRUE)
 
   dplyr_local_error_call()
   slice(.data, local({
@@ -444,21 +436,32 @@ check_bool <- function(x, arg = caller_arg(x), call = caller_env()) {
   }
 }
 
-get_slice_size <- function(n, prop, error_call = caller_env()) {
+# Always returns an integer between 0 and the group size
+get_slice_size <- function(n, prop, allow_outsize = FALSE, error_call = caller_env()) {
   slice_input <- check_slice_n_prop(n, prop, error_call = error_call)
 
   if (slice_input$type == "n") {
     if (slice_input$n >= 0) {
-      function(n) floor(slice_input$n)
+      function(n) clamp(0, floor(slice_input$n), if (allow_outsize) Inf else n)
     } else {
-      function(n) ceiling(n + slice_input$n)
+      function(n) clamp(0, ceiling(n + slice_input$n), n)
     }
   } else if (slice_input$type == "prop") {
     if (slice_input$prop >= 0) {
-      function(n) floor(slice_input$prop * n)
+      function(n) clamp(0, floor(slice_input$prop * n), if (allow_outsize) Inf else n)
     } else {
-      function(n) ceiling(n + slice_input$prop * n)
+      function(n) clamp(0, ceiling(n + slice_input$prop * n), n)
     }
+  }
+}
+
+clamp <- function(min, x, max) {
+  if (x < min) {
+    min
+  } else if (x > max) {
+    max
+  } else {
+    x
   }
 }
 

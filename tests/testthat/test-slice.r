@@ -113,15 +113,26 @@ test_that("get_slice_size() validates its inputs", {
   })
 })
 
-test_that("get_slice_size() converts proportions to numbers", {
-  expect_equal(get_slice_size(prop = 0.5)(10), 5)
-  expect_equal(get_slice_size(prop = -0.1)(10), 9)
-  expect_equal(get_slice_size(prop = 1.1)(10), 11)
+test_that("get_slice_size() standardises prop", {
+  expect_equal(get_slice_size(prop = 0)(10), 0)
+
+  expect_equal(get_slice_size(prop = 0.4)(10), 4)
+  expect_equal(get_slice_size(prop = 2)(10), 10)
+  expect_equal(get_slice_size(prop = 2, allow_outsize = TRUE)(10), 20)
+
+  expect_equal(get_slice_size(prop = -0.4)(10), 6)
+  expect_equal(get_slice_size(prop = -2)(10), 0)
 })
 
-test_that("get_slice_size() converts negative to positive", {
-  expect_equal(get_slice_size(n = -1)(10), 9)
-  expect_equal(get_slice_size(prop = -0.5)(10), 5)
+test_that("get_slice_size() standardises n", {
+  expect_equal(get_slice_size(n = 0)(10), 0)
+
+  expect_equal(get_slice_size(n = 4)(10), 4)
+  expect_equal(get_slice_size(n = 20)(10), 10)
+  expect_equal(get_slice_size(n = 20, allow_outsize = TRUE)(10), 20)
+
+  expect_equal(get_slice_size(n = -4)(10), 6)
+  expect_equal(get_slice_size(n = -20)(10), 0)
 })
 
 test_that("get_slice_size() rounds non-integers", {
