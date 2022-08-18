@@ -9,18 +9,6 @@ paste_line <- function(...) {
   paste(chr(...), collapse = "\n")
 }
 
-# Until fixed upstream. `vec_data()` should not return lists from data
-# frames.
-dplyr_vec_data <- function(x) {
-  out <- vec_data(x)
-
-  if (is.data.frame(x)) {
-    new_data_frame(out, n = nrow(x))
-  } else {
-    out
-  }
-}
-
 # Until vctrs::new_data_frame() forwards row names automatically
 dplyr_new_data_frame <- function(x = data.frame(),
                                  n = NULL,
