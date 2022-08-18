@@ -245,7 +245,7 @@ validate_and_split_formula <- function(x,
     if (is_formula(x)) {
       type <- "a two-sided formula"
     } else {
-      type <- glue("a two-sided formula, not {friendly_type_of(x)}")
+      type <- glue("a two-sided formula, not {obj_type_friendly(x)}")
     }
 
     message <- glue("Case {i} ({arg}) must be {type}.")

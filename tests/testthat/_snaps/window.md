@@ -5,5 +5,5 @@
     Output
       <error/rlang_error>
       Error in `order_by()`:
-      ! `call` must be a function call, not an integer vector.
+      ! `call` must be a function call, not an integer.
 

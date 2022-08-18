@@ -135,7 +135,7 @@ standardise_join_suffix <- function(x,
 
   if (!is.character(x) || length(x) != 2) {
     bullets <- glue(
-      "`suffix` must be a character vector of length 2, not {friendly_type_of(x)} of length {length(x)}."
+      "`suffix` must be a character vector of length 2, not {obj_type_friendly(x)} of length {length(x)}."
     )
     abort(bullets, call = error_call)
   }

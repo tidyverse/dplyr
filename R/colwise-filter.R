@@ -98,7 +98,7 @@ apply_filter_syms <- function(pred, syms, tbl, error_call = caller_env()) {
     pred <- as_function(pred)
     pred <- map(syms, function(sym) call2(pred, sym))
   } else {
-    msg <- glue("`.vars_predicate` must be a function or a call to `all_vars()` or `any_vars()`, not {friendly_type_of(pred)}.")
+    msg <- glue("`.vars_predicate` must be a function or a call to `all_vars()` or `any_vars()`, not {obj_type_friendly(pred)}.")
     abort(msg, call = error_call)
   }
 
