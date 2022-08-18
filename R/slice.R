@@ -41,7 +41,7 @@
 #'   If `n` is greater than the number of rows in the group (or `prop > 1`),
 #'   the result will be silently truncated to the group size. If the
 #'   `prop`ortion of a group size does not yield an integer number of rows, the
-#'   absolute value of `prop * nrow(.data)` is rounded down.
+#'   absolute value of `prop*nrow(.data)` is rounded down.
 #' @return
 #' An object of the same type as `.data`. The output has the following
 #' properties:
