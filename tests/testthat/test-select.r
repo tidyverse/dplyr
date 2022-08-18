@@ -108,7 +108,8 @@ test_that("arguments to select() don't match vars_select() arguments", {
   expect_identical(select(group_by(df, a), include = a), group_by(tibble(include = 1), include))
 })
 
-test_that("can select() with .data pronoun (#2715)", {
+test_that("can select() with deprecated `.data` pronoun (#2715)", {
+  withr::local_options(lifecycle_verbosity = "quiet")
   expect_identical(select(mtcars, .data$cyl), select(mtcars, cyl))
 })
 
