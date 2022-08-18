@@ -255,6 +255,16 @@ test_that("min and max ignore NA's when requested (#4826)", {
   expect_equal(slice_max(df, tibble(a, b), n = 3, na_rm = TRUE)$id, 1)
 })
 
+test_that("slice_min/max() count from back with negative n/prop", {
+  df <- tibble(id = 1:4, x = c(2, 3, 1, 4))
+  expect_equal(slice_min(df, x, n = -1), slice_min(df, x, n = 3))
+  expect_equal(slice_max(df, x, n = -1), slice_max(df, x, n = 3))
+
+  # and can be larger that group size
+  expect_equal(slice_min(df, x, n = -10), df[0, ])
+  expect_equal(slice_max(df, x, n = -10), df[0, ])
+})
+
 test_that("slice_min/max() can order by multiple variables (#6176)", {
   df <- tibble(id = 1:4, x = 1, y = c(1, 4, 2, 3))
   expect_equal(slice_min(df, tibble(x, y), n = 1)$id, 1)
@@ -334,6 +344,16 @@ test_that("slice_head/slice_tail keep positive values", {
 
   expect_equal(slice_tail(gf, n = 1)$id, c(1, 3, 6))
   expect_equal(slice_tail(gf, n = 2)$id, c(1, 2, 3, 5, 6))
+})
+
+test_that("slice_head/tail() count from back with negative n/prop", {
+  df <- tibble(id = 1:4, x = c(2, 3, 1, 4))
+  expect_equal(slice_head(df, n = -1), slice_head(df, n = 3))
+  expect_equal(slice_tail(df, n = -1), slice_tail(df, n = 3))
+
+  # and can be larger that group size
+  expect_equal(slice_head(df, n = -10), df[0, ])
+  expect_equal(slice_tail(df, n = -10), df[0, ])
 })
 
 test_that("slice_head/slice_tail drop from opposite end when n/prop negative", {

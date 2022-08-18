@@ -43,13 +43,14 @@ is recalculated based on the resulting data, otherwise the grouping is kept as i
 proportion of rows to select. If neither are supplied, \code{n = 1} will be
 used.
 
-If a negative value of \code{n} or \code{prop} is provided, the specified number or
-proportion of rows will be removed.
+A negative value of \code{n} or \code{prop} will count backwards from the group
+size. For example, \code{n = -2} with a group of 5 rows will select 5 - 2 = 3
+rows; \code{prop = -0.25} with 8 rows will select 8 * (1 - 0.25) = 6 rows.
 
 If \code{n} is greater than the number of rows in the group (or \code{prop > 1}),
-the result will be silently truncated to the group size. If the
-\code{prop}ortion of a group size does not yield an integer number of rows, the
-absolute value of \code{prop*nrow(.data)} is rounded down.}
+the result will be silently truncated to the group size; \code{n < 0} or
+\code{prop < 0 } then the result will contain zero rows. If \code{prop * group_size}
+is not an integer, it is rounded towards zero.}
 
 \item{order_by}{Variable or function of variables to order by.
 To order by multiple variables, wrap them in a data frame or
