@@ -18,7 +18,7 @@
 #'
 #'   The LHS must evaluate to the same type of vector as `.x`. It can be any
 #'   length, allowing you to match multiple `.x` values to the same RHS value.
-#'   If LHS a value is repeated in the LHS, i.e a value in `.x` matches to
+#'   If a value is repeated in the LHS, i.e a value in `.x` matches to
 #'   multiple cases, the first match is used.
 #'
 #'   The RHS inputs will be coerced to their common type. Each RHS input will be
@@ -36,7 +36,7 @@
 #'
 #' @return
 #' A vector with the same size as `.x` and the same type as the common type of
-#' the RHS inputs in `...` (if not overridden by `.ptype`).
+#' the RHS inputs in `...` and `.default` (if not overridden by `.ptype`).
 #'
 #' @seealso [case_when()]
 #'
