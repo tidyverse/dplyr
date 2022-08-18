@@ -285,3 +285,15 @@ test_that("If n = length(x), returns all missing", {
   expect_equal(lead(1:2, 2), miss)
   expect_equal(lag(1:2, 2), miss)
 })
+
+
+test_that("lead/lag inside mutate handles expressions as value for default (#1411) ", {
+  df <- tibble(x = 1:3)
+  res <- mutate(df, leadn = lead(x, default = x[1]), lagn = lag(x, default = x[1]))
+  expect_equal(res$leadn, lead(df$x, default = df$x[1]))
+  expect_equal(res$lagn, lag(df$x, default = df$x[1]))
+
+  res <- mutate(df, leadn = lead(x, default = c(1)), lagn = lag(x, default = c(1)))
+  expect_equal(res$leadn, lead(df$x, default = 1))
+  expect_equal(res$lagn, lag(df$x, default = 1))
+})
