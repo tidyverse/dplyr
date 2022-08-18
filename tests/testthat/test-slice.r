@@ -135,11 +135,14 @@ test_that("get_slice_size() standardises n", {
   expect_equal(get_slice_size(n = -20)(10), 0)
 })
 
-test_that("get_slice_size() rounds non-integers", {
-  expect_equal(get_slice_size(n = 1.6)(10), 1)
+test_that("get_slice_size() rounds prop in the right direction", {
   expect_equal(get_slice_size(prop = 0.16)(10), 1)
-  expect_equal(get_slice_size(n = -1.6)(10), 9)
   expect_equal(get_slice_size(prop = -0.16)(10), 9)
+})
+
+test_that("n must be an integer", {
+  df <- tibble(x = 1:5)
+  expect_snapshot(slice_head(df, n = 1.1), error = TRUE)
 })
 
 test_that("functions silently truncate results", {

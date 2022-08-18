@@ -1,5 +1,9 @@
 # dplyr (development version)
 
+* `slice_sample()` now accepts negative `n` and `prop` values (#6402).
+
+* `slice_*()` now requires `n` to be an integer.
+
 * `storms` has been updated to include 2021 data and some missing storms that 
    were omitted due to an error (@steveharoz, #6320).
 

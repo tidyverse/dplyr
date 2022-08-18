@@ -415,14 +415,20 @@ check_slice_n_prop <- function(n, prop, error_call = caller_env()) {
     list(type = "n", n = 1L)
   } else if (!missing(n) && missing(prop)) {
     n <- check_constant(n, "n", error_call = error_call)
-    if (!is.numeric(n) || length(n) != 1 || is.na(n)) {
-      abort("`n` must be a single number.", call = error_call)
+    if (!is_integerish(n, n = 1) || is.na(n)) {
+      abort(
+        glue("`n` must be a round number, not {obj_type_friendly(n)}."),
+        call = error_call
+      )
     }
     list(type = "n", n = n)
   } else if (!missing(prop) && missing(n)) {
     prop <- check_constant(prop, "prop", error_call = error_call)
     if (!is.numeric(prop) || length(prop) != 1 || is.na(prop)) {
-      abort("`prop` must be a single number.", call = error_call)
+      abort(
+        glue("`prop` must be a number, not {obj_type_friendly(prop)}."),
+        call = error_call
+      )
     }
     list(type = "prop", prop = prop)
   } else {

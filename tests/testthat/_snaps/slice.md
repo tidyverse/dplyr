@@ -44,27 +44,27 @@
       slice_head(df, n = "a")
     Condition
       Error in `slice_head()`:
-      ! `n` must be a single number.
+      ! `n` must be a round number, not a string.
     Code
       slice_tail(df, n = "a")
     Condition
       Error in `slice_tail()`:
-      ! `n` must be a single number.
+      ! `n` must be a round number, not a string.
     Code
       slice_min(df, x, n = "a")
     Condition
       Error in `slice_min()`:
-      ! `n` must be a single number.
+      ! `n` must be a round number, not a string.
     Code
       slice_max(df, x, n = "a")
     Condition
       Error in `slice_max()`:
-      ! `n` must be a single number.
+      ! `n` must be a round number, not a string.
     Code
       slice_sample(df, n = "a")
     Condition
       Error in `slice_sample()`:
-      ! `n` must be a single number.
+      ! `n` must be a round number, not a string.
 
 # get_slice_size() validates its inputs
 
@@ -91,12 +91,20 @@
       get_slice_size(n = "a")
     Condition
       Error:
-      ! `n` must be a single number.
+      ! `n` must be a round number, not a string.
     Code
       get_slice_size(prop = "a")
     Condition
       Error:
-      ! `prop` must be a single number.
+      ! `prop` must be a number, not a string.
+
+# n must be an integer
+
+    Code
+      slice_head(df, n = 1.1)
+    Condition
+      Error in `slice_head()`:
+      ! `n` must be a round number, not a number.
 
 # slice_*() checks that `n=` is explicitly named and ... is empty
 
