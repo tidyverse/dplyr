@@ -224,3 +224,64 @@ test_that("`order_by` must be the same size as `x`", {
     shift(1:5, order_by = 1:4)
   })
 })
+
+
+
+test_that("lead and lag simple hybrid version gives correct results (#133)", {
+  res <- group_by(mtcars, cyl) %>%
+    mutate(disp_lag_2 = lag(disp, 2), disp_lead_2 = lead(disp, 2)) %>%
+    summarise(
+      lag1 = all(is.na(head(disp_lag_2, 2))),
+      lag2 = all(!is.na(tail(disp_lag_2, -2))),
+
+      lead1 = all(is.na(tail(disp_lead_2, 2))),
+      lead2 = all(!is.na(head(disp_lead_2, -2)))
+    )
+
+  expect_true(all(res$lag1))
+  expect_true(all(res$lag2))
+
+  expect_true(all(res$lead1))
+  expect_true(all(res$lead2))
+})
+
+
+test_that("lag and lead work on factors inside mutate (#955)", {
+  test_factor <- factor(rep(c("A", "B", "C"), each = 3))
+  exp_lag  <- test_factor != lag(test_factor)
+  exp_lead <- test_factor != lead(test_factor)
+
+  test_df <- tibble(test = test_factor)
+  res <- test_df %>% mutate(
+    is_diff_lag  = (test != lag(test)),
+    is_diff_lead = (test != lead(test))
+  )
+  expect_equal(exp_lag, res$is_diff_lag)
+  expect_equal(exp_lead, res$is_diff_lead)
+})
+
+test_that("lag handles default argument in mutate (#915)", {
+  blah <- data.frame(x1 = c(5, 10, 20, 27, 35, 58, 5, 6), y = 8:1)
+  blah <- mutate(blah,
+    x2 = x1 - lag(x1, n = 1, default = 0),
+    x3 = x1 - lead(x1, n = 1, default = 0),
+    x4 = lag(x1, n = 1L, order_by = y),
+    x5 = lead(x1, n = 1L, order_by = y)
+  )
+  expect_equal(blah$x2, blah$x1 - lag(blah$x1, n = 1, default = 0))
+  expect_equal(blah$x3, blah$x1 - lead(blah$x1, n = 1, default = 0))
+  expect_equal(blah$x4, lag(blah$x1, n = 1L, order_by = blah$y))
+  expect_equal(blah$x5, lead(blah$x1, n = 1L, order_by = blah$y))
+})
+
+test_that("If n = 0, lead and lag return x", {
+  expect_equal(lead(1:2, 0), 1:2)
+  expect_equal(lag(1:2, 0), 1:2)
+})
+
+test_that("If n = length(x), returns all missing", {
+  miss <- rep(NA_integer_, 2)
+
+  expect_equal(lead(1:2, 2), miss)
+  expect_equal(lag(1:2, 2), miss)
+})

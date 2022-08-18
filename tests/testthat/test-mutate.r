@@ -139,6 +139,18 @@ test_that("mutate preserves names (#1689, #2675)", {
   expect_named(out2$b, letters[1:3])
 })
 
+test_that("mutate handles matrix columns", {
+  df <- data.frame(a = rep(1:3, each = 2), b = 1:6)
+
+  df_regular <- mutate(df, b = scale(b))
+  df_grouped <- mutate(group_by(df, a), b = scale(b))
+  df_rowwise <- mutate(rowwise(df), b = scale(b))
+
+  expect_equal(dim(df_regular$b), c(6, 1))
+  expect_equal(dim(df_grouped$b), c(6, 1))
+  expect_equal(dim(df_rowwise$b), c(6, 1))
+})
+
 test_that("mutate handles data frame columns", {
   df <- data.frame("a" = c(1, 2, 3), "b" = c(2, 3, 4), "base_col" = c(3, 4, 5))
   res <- mutate(df, new_col = data.frame(x = 1:3))
