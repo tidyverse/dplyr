@@ -465,7 +465,7 @@ clamp <- function(min, x, max) {
   }
 }
 
-sample_int <- function(n, size, replace = FALSE, wt = NULL, call = caller_env()) {
+sample_int <- function(n, size, replace = FALSE, wt = NULL) {
   if (size == 0L) {
     integer(0)
   } else {
