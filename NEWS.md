@@ -1,5 +1,9 @@
 # dplyr (development version)
 
+* `slice_sample()` now accepts negative `n` and `prop` values (#6402).
+
+* `slice_*()` now requires `n` to be an integer.
+
 * New `case_match()` function that is a "vectorised switch" variant of
   `case_when()` that matches on values rather than logical expressions. It is
   like a SQL "simple" `CASE WHEN` statement, whereas `case_when()` is like a SQL

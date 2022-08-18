@@ -140,11 +140,7 @@ slice_head <- function(.data, ..., n, prop) {
 slice_head.data.frame <- function(.data, ..., n, prop) {
   size <- get_slice_size(n = n, prop = prop)
   idx <- function(n) {
-    to <- size(n)
-    if (to > n) {
-      to <- n
-    }
-    seq2(1, to)
+    seq2(1, size(n))
   }
 
   dplyr_local_error_call()
@@ -163,11 +159,7 @@ slice_tail <- function(.data, ..., n, prop) {
 slice_tail.data.frame <- function(.data, ..., n, prop) {
   size <- get_slice_size(n = n, prop = prop)
   idx <- function(n) {
-    from <- n - size(n) + 1
-    if (from < 1L) {
-      from <- 1L
-    }
-    seq2(from, n)
+    seq2(n - size(n) + 1, n)
   }
 
   dplyr_local_error_call()
@@ -263,7 +255,7 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 
 #' @export
 slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
-  size <- get_slice_size(n = n, prop = prop, allow_negative = FALSE)
+  size <- get_slice_size(n = n, prop = prop, allow_outsize = replace)
 
   dplyr_local_error_call()
   slice(.data, local({
@@ -423,14 +415,20 @@ check_slice_n_prop <- function(n, prop, error_call = caller_env()) {
     list(type = "n", n = 1L)
   } else if (!missing(n) && missing(prop)) {
     n <- check_constant(n, "n", error_call = error_call)
-    if (!is.numeric(n) || length(n) != 1 || is.na(n)) {
-      abort("`n` must be a single number.", call = error_call)
+    if (!is_integerish(n, n = 1) || is.na(n)) {
+      abort(
+        glue("`n` must be a round number, not {obj_type_friendly(n)}."),
+        call = error_call
+      )
     }
     list(type = "n", n = n)
   } else if (!missing(prop) && missing(n)) {
     prop <- check_constant(prop, "prop", error_call = error_call)
     if (!is.numeric(prop) || length(prop) != 1 || is.na(prop)) {
-      abort("`prop` must be a single number.", call = error_call)
+      abort(
+        glue("`prop` must be a number, not {obj_type_friendly(prop)}."),
+        call = error_call
+      )
     }
     list(type = "prop", prop = prop)
   } else {
@@ -438,33 +436,36 @@ check_slice_n_prop <- function(n, prop, error_call = caller_env()) {
   }
 }
 
-get_slice_size <- function(n, prop, allow_negative = TRUE, error_call = caller_env()) {
+# Always returns an integer between 0 and the group size
+get_slice_size <- function(n, prop, allow_outsize = FALSE, error_call = caller_env()) {
   slice_input <- check_slice_n_prop(n, prop, error_call = error_call)
 
   if (slice_input$type == "n") {
     if (slice_input$n >= 0) {
-      function(n) floor(slice_input$n)
-    } else if (allow_negative) {
-      function(n) ceiling(n + slice_input$n)
+      function(n) clamp(0, floor(slice_input$n), if (allow_outsize) Inf else n)
     } else {
-      abort("`n` must be positive.", call = error_call)
+      function(n) clamp(0, ceiling(n + slice_input$n), n)
     }
   } else if (slice_input$type == "prop") {
     if (slice_input$prop >= 0) {
-      function(n) floor(slice_input$prop * n)
-    } else if (allow_negative) {
-      function(n) ceiling(n + slice_input$prop * n)
+      function(n) clamp(0, floor(slice_input$prop * n), if (allow_outsize) Inf else n)
     } else {
-      abort("`prop` must be positive.", call = error_call)
+      function(n) clamp(0, ceiling(n + slice_input$prop * n), n)
     }
   }
 }
 
-sample_int <- function(n, size, replace = FALSE, wt = NULL, call = caller_env()) {
-  if (!replace && n < size) {
-    size <- n
+clamp <- function(min, x, max) {
+  if (x < min) {
+    min
+  } else if (x > max) {
+    max
+  } else {
+    x
   }
+}
 
+sample_int <- function(n, size, replace = FALSE, wt = NULL) {
   if (size == 0L) {
     integer(0)
   } else {
