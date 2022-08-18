@@ -1,5 +1,18 @@
-# `lead()` / `lag()` catch negative `n`
+# `lag()` gives informative error for <ts> objects
 
+    Code
+      lag(ts(1:10))
+    Condition
+      Error in `lag()`:
+      ! `x` must be a vector, not a <ts>, do you want `stats::lag()`?
+
+# `lead()` / `lag()` validate `n`
+
+    Code
+      lead(1:5, n = 1:2)
+    Condition
+      Error in `lead()`:
+      ! `n` must be a round number, not an integer vector.
     Code
       lead(1:5, -1)
     Condition
@@ -9,58 +22,15 @@
 ---
 
     Code
+      lag(1:5, n = 1:2)
+    Condition
+      Error in `lag()`:
+      ! `n` must be a round number, not an integer vector.
+    Code
       lag(1:5, -1)
     Condition
       Error in `lag()`:
       ! `n` must be positive.
-
-# `lead()` / `lag()` check `n` properties before checking if positive
-
-    Code
-      lead(1:5, n = 1:2)
-    Condition
-      Error in `lead()`:
-      ! `n` must have size 1, not size 2.
-
----
-
-    Code
-      lag(1:5, n = 1:2)
-    Condition
-      Error in `lag()`:
-      ! `n` must have size 1, not size 2.
-
----
-
-    Code
-      lead(1:5, n = "x")
-    Condition
-      Error in `lead()`:
-      ! Can't convert `n` <character> to <integer>.
-
----
-
-    Code
-      lag(1:5, n = "x")
-    Condition
-      Error in `lag()`:
-      ! Can't convert `n` <character> to <integer>.
-
----
-
-    Code
-      lead(1:5, n = NA_integer_)
-    Condition
-      Error in `lead()`:
-      ! `n` can't be missing.
-
----
-
-    Code
-      lag(1:5, n = NA_integer_)
-    Condition
-      Error in `lag()`:
-      ! `n` can't be missing.
 
 # `lead()` / `lag()` check for empty dots
 
@@ -81,14 +51,6 @@
       ! `...` must be empty.
       x Problematic argument:
       * deault = 1
-
-# `lag()` errors on <ts> objects
-
-    Code
-      lag(ts(1:10))
-    Condition
-      Error in `lag()`:
-      ! `x` must be a vector, not a <ts>, do you want `stats::lag()`?
 
 # `lead()` / `lag()` require that `x` is a vector
 
@@ -136,24 +98,8 @@
     Code
       shift(1, n = 1:2)
     Condition
-      Error:
-      ! `n` must have size 1, not size 2.
-
----
-
-    Code
-      shift(1, n = "x")
-    Condition
-      Error:
-      ! Can't convert `n` <character> to <integer>.
-
----
-
-    Code
-      shift(1, n = NA_integer_)
-    Condition
-      Error:
-      ! `n` can't be missing.
+      Error in `shift()`:
+      ! `n` must be a round number, not an integer vector.
 
 # `order_by` must be the same size as `x`
 
