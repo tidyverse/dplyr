@@ -37,8 +37,10 @@ A vector with the same size as \code{.x} and the same type as the common type of
 the RHS inputs in \code{...} and \code{.default} (if not overridden by \code{.ptype}).
 }
 \description{
-Transform a vector using a formula based interface that recodes
-one or more old values to a new value: \code{old_values ~ new_value}.
+Create a new vector based on the values of an existing vector, matching one
+or more old values to a new value using a formula based syntax:
+\code{old_values ~ new_value}. Unmatched values become \code{NA} unless \code{.default} is
+supplied.
 
 \code{case_match()} is variant of \code{\link[=case_when]{case_when()}} that vectorises the
 idea behind \code{\link[=switch]{switch()}}, rather than \code{\link[=if_else]{if_else()}}. It's the R equivalent of

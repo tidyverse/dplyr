@@ -1,8 +1,10 @@
 #' A general vectorised `switch()`
 #'
 #' @description
-#' Transform a vector using a formula based interface that recodes
-#' one or more old values to a new value: `old_values ~ new_value`.
+#' Create a new vector based on the values of an existing vector, matching one
+#' or more old values to a new value using a formula based syntax:
+#' `old_values ~ new_value`. Unmatched values become `NA` unless `.default` is
+#' supplied.
 #'
 #' `case_match()` is variant of [case_when()] that vectorises the
 #' idea behind [switch()], rather than [if_else()]. It's the R equivalent of
