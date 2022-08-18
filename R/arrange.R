@@ -40,9 +40,9 @@
 #'   grouped data frames only.
 #' @param .locale The locale to sort character vectors in.
 #'
-#'   - Defaults to [dplyr_locale()], which uses the `"C"` locale unless this is
-#'     explicitly overridden. See the help page for [dplyr_locale()] for the
-#'     exact details.
+#'   - If `NULL`, the default, uses the `"C"` locale unless the
+#'     `dplyr.legacy_locale` global option escape hatch is active. See the
+#'     [dplyr-locale] help page for more details.
 #'
 #'   - If a single string from [stringi::stri_locale_list()] is supplied, then
 #'     this will be used as the locale to sort with. For example, `"en"` will
@@ -54,8 +54,8 @@
 #'
 #'   The C locale is not the same as English locales, such as `"en"`,
 #'   particularly when it comes to data containing a mix of upper and lower case
-#'   letters. This is explained in more detail in the help page of
-#'   [dplyr_locale()] under the `Default locale` section.
+#'   letters. This is explained in more detail on the [locale][dplyr-locale]
+#'   help page under the `Default locale` section.
 #' @family single table verbs
 #' @examples
 #' arrange(mtcars, cyl, disp)
@@ -75,7 +75,7 @@
 #' }
 #' tidy_eval_arrange(mtcars, mpg)
 #'
-#' # use across() access select()-style semantics
+#' # use across() to access select()-style semantics
 #' iris %>% arrange(across(starts_with("Sepal")))
 #' iris %>% arrange(across(starts_with("Sepal"), desc))
 arrange <- function(.data, ..., .by_group = FALSE) {
@@ -87,7 +87,7 @@ arrange <- function(.data, ..., .by_group = FALSE) {
 arrange.data.frame <- function(.data,
                                ...,
                                .by_group = FALSE,
-                               .locale = dplyr_locale()) {
+                               .locale = NULL) {
   dots <- enquos(...)
 
   if (.by_group) {
@@ -105,16 +105,6 @@ arrange_rows <- function(data,
                          locale,
                          error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
-
-  chr_proxy_collate <- locale_to_chr_proxy_collate(
-    locale = locale,
-    error_call = error_call
-  )
-
-  if (length(dots) == 0L) {
-    out <- seq_len(nrow(data))
-    return(out)
-  }
 
   # Strip out calls to desc() replacing with direction argument
   is_desc_call <- function(x) {
@@ -137,7 +127,7 @@ arrange_rows <- function(data,
 
   # give the quosures arbitrary names so that
   # data has the right number of columns below after transmute()
-  quo_names <- paste0("^^--arrange_quosure_", seq_along(quosures))
+  quo_names <- vec_paste0("^^--arrange_quosure_", seq_along(quosures))
   names(quosures) <- quo_names
 
   # TODO: not quite that because when the quosure is some expression
@@ -176,7 +166,21 @@ arrange_rows <- function(data,
   })
 
   directions <- directions[quo_names %in% names(data)]
+
+  if (is.null(locale) && dplyr_legacy_locale()) {
+    # Temporary legacy support for respecting the system locale.
+    # Only applied when `.locale` is `NULL` and `dplyr.legacy_locale` is set.
+    # Matches legacy `group_by()` ordering.
+    out <- dplyr_order_legacy(data = data, direction = directions)
+    return(out)
+  }
+
   na_values <- if_else(directions == "desc", "smallest", "largest")
+
+  chr_proxy_collate <- locale_to_chr_proxy_collate(
+    locale = locale,
+    error_call = error_call
+  )
 
   vec_order_radix(
     x = data,
@@ -192,7 +196,7 @@ locale_to_chr_proxy_collate <- function(locale,
                                         error_call = caller_env()) {
   check_dots_empty0(...)
 
-  if (identical(locale, "C")) {
+  if (is.null(locale) || is_string(locale, string = "C")) {
     return(NULL)
   }
 
@@ -210,11 +214,60 @@ locale_to_chr_proxy_collate <- function(locale,
     return(sort_key_generator(locale))
   }
 
-  abort("`.locale` must be a string.", call = error_call)
+  abort("`.locale` must be a string or `NULL`.", call = error_call)
 }
 
 sort_key_generator <- function(locale) {
   function(x) {
     stringi::stri_sort_key(x, locale = locale)
   }
+}
+
+# ------------------------------------------------------------------------------
+
+dplyr_order_legacy <- function(data, direction) {
+  if (ncol(data) == 0L) {
+    # Work around `order(!!!list())` returning `NULL`
+    return(seq_len(nrow(data)))
+  }
+
+  proxies <- map2(data, direction, dplyr_proxy_order_legacy)
+  proxies <- unname(proxies)
+
+  inject(order(!!!proxies))
+}
+
+dplyr_proxy_order_legacy <- function(x, direction) {
+  # `order()` doesn't have a vectorized `decreasing` argument for most values of
+  # `method` ("radix" is an exception). So we need to apply this by column ahead
+  # of time. We have to apply `vec_proxy_order()` by column too, rather than on
+  # the original data frame, because it flattens df-cols and we can lose track
+  # of where to apply `direction`.
+  x <- vec_proxy_order(x)
+
+  if (is.data.frame(x)) {
+    if (any(map_lgl(x, is.data.frame))) {
+      abort(
+        "All data frame columns should have been flattened by now.",
+        .internal = TRUE
+      )
+    }
+
+    # Special handling for data frame proxies (either from df-cols or from
+    # vector classes with df proxies, like rcrds), which `order()` can't handle.
+    # We have to replace the df proxy with a single vector that orders the same
+    # way, so we use a dense rank that utilizes the system locale.
+    unique <- vec_unique(x)
+    order <- dplyr_order_legacy(unique, direction)
+    sorted_unique <- vec_slice(unique, order)
+    out <- vec_match(x, sorted_unique)
+
+    return(out)
+  }
+
+  if (direction == "desc") {
+    x <- desc(x)
+  }
+
+  x
 }

@@ -27,7 +27,7 @@
     Output
       <error/rlang_error>
       Error in `bind_rows()`:
-      ! `.id` must be a scalar string, not a double vector of length 1.
+      ! `.id` must be a single string, not a number.
     Code
       ll <- list(1:5, env(a = 1))
       (expect_error(bind_rows(ll)))

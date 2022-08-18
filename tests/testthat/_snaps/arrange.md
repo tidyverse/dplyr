@@ -40,7 +40,7 @@
       arrange(df, .locale = 1)
     Condition
       Error in `arrange()`:
-      ! `.locale` must be a string.
+      ! `.locale` must be a string or `NULL`.
 
 ---
 

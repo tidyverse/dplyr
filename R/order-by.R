@@ -37,7 +37,7 @@ order_by <- function(order_by, call) {
       )
       abort(bullets)
     } else {
-      type <- friendly_type_of(expr)
+      type <- obj_type_friendly(expr)
       msg <- glue("`call` must be a function call, not { type }.")
       abort(msg)
     }

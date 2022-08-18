@@ -292,7 +292,7 @@ as_join_by <- function(x, error_call = caller_env()) {
 as_join_by.default <- function(x, error_call = caller_env()) {
   message <- glue(paste0(
     "`by` must be a (named) character vector, list, `join_by()` result, ",
-    "or NULL, not {friendly_type_of(x)}."
+    "or NULL, not {obj_type_friendly(x)}."
   ))
   abort(message, call = error_call)
 }

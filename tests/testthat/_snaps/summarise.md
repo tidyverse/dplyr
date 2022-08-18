@@ -62,7 +62,7 @@
       <error/rlang_error>
       Error in `summarise()`:
       ! Problem while computing `a = lm(y ~ x)`.
-      x `a` must be a vector, not a `lm` object.
+      x `a` must be a vector, not a <lm> object.
       i Did you mean: `a = list(lm(y ~ x))` ?
       i The error occurred in row 1.
     Code

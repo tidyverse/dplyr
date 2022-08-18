@@ -57,13 +57,13 @@
     Output
       <error/rlang_error>
       Error in `case_when()`:
-      ! Case 1 (`paste(50)`) must be a two-sided formula, not a character vector.
+      ! Case 1 (`paste(50)`) must be a two-sided formula, not a string.
     Code
       (expect_error(case_when(y ~ x, paste(50))))
     Output
       <error/rlang_error>
       Error in `case_when()`:
-      ! Case 2 (`paste(50)`) must be a two-sided formula, not a character vector.
+      ! Case 2 (`paste(50)`) must be a two-sided formula, not a string.
     Code
       (expect_error(case_when()))
     Output

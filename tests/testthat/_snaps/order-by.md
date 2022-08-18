@@ -5,7 +5,7 @@
     Output
       <error/rlang_error>
       Error in `order_by()`:
-      ! `call` must be a function call, not a double vector.
+      ! `call` must be a function call, not a number.
     Code
       (expect_error(order_by(mtcars, cyl)))
     Output

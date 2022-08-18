@@ -1,13 +1,16 @@
 #' Storm tracks data
 #'
-#' This data is a subset of the NOAA Atlantic hurricane database best track
-#' data, \url{https://www.nhc.noaa.gov/data/#hurdat}. The data includes the
-#' positions and attributes of storms from 1975-2020, measured every six hours
-#' during the lifetime of a storm.
+#' This dataset is the NOAA Atlantic hurricane database best track data,
+#' <https://www.nhc.noaa.gov/data/#hurdat>. The data includes the positions and
+#' attributes of storms from `r min(storms$year)`-`r max(storms$year)`. Storms
+#' from 1979 onward are measured every six hours during the lifetime of the
+#' storm. Storms in earlier years have some missing data.
 #'
-#' @seealso The script to create the storms data set: \url{https://github.com/tidyverse/dplyr/blob/main/data-raw/storms.R}
+#' @seealso The script to create the storms data set:
+#'   <https://github.com/tidyverse/dplyr/blob/main/data-raw/storms.R>
 #'
-#' @format A tibble with 11,859 observations and 13 variables:
+#' @format A tibble with `r format(nrow(storms), big.mark = ",")` observations
+#'   and `r ncol(storms)` variables:
 #' \describe{
 #' \item{name}{Storm Name}
 #' \item{year,month,day}{Date of report}
@@ -15,22 +18,35 @@
 #' \item{lat,long}{Location of storm center}
 #' \item{status}{Storm classification (Tropical Depression, Tropical Storm,
 #'   or Hurricane)}
-#' \item{category}{Saffir-Simpson storm category (estimated from wind speed.
-#' -1 = Tropical Depression, 0 = Tropical Storm)}
+#' \item{category}{Saffir-Simpson hurricane category calculated from wind speed.
+#'   \itemize{
+#'     \item `NA`: Not a hurricane
+#'     \item 1: 64+ knots
+#'     \item 2: 83+ knots
+#'     \item 3: 96+ knots
+#'     \item 4: 113+ knots
+#'     \item 5: 137+ knots
+#'   }
+#' }
 #' \item{wind}{storm's maximum sustained wind speed (in knots)}
 #' \item{pressure}{Air pressure at the storm's center (in millibars)}
-#' \item{tropicalstorm_force_diameter}{Diameter (in nautical miles) of the area experiencing tropical storm strength winds (34 knots or above)}
-#' \item{hurricane_force_diameter}{Diameter (in nautical miles) of the area experiencing hurricane strength winds (64 knots or above)}
+#' \item{tropicalstorm_force_diameter}{Diameter (in nautical miles) of the
+#'   area experiencing tropical storm strength winds (34 knots or above).
+#'   Only available starting in 2004.}
+#' \item{hurricane_force_diameter}{Diameter (in nautical miles) of the area
+#'   experiencing hurricane strength winds (64 knots or above). Only available
+#'   starting in 2004.}
 #' }
 #' @examples
+#' storms
 #'
-#' # show a plot of the storm paths
+#' # Show a few recent storm paths
 #' if (requireNamespace("ggplot2", quietly = TRUE)) {
 #'   library(ggplot2)
-#'   ggplot(storms) +
-#'     aes(x=long, y=lat, color=paste(year, name)) +
-#'     geom_path() +
-#'     guides(color='none') +
+#'   storms %>%
+#'     filter(year >= 2000) %>%
+#'     ggplot(aes(long, lat, color = paste(year, name))) +
+#'     geom_path(show.legend = FALSE) +
 #'     facet_wrap(~year)
 #' }
 #'

@@ -168,7 +168,7 @@ tbl_at_vars <- function(tbl, vars, .include_group_vars = FALSE, error_call = cal
     }
     out
   } else {
-    msg <- glue("`.vars` must be a character/numeric vector or a `vars()` object, not {friendly_type_of(vars)}.")
+    msg <- glue("`.vars` must be a character/numeric vector or a `vars()` object, not {obj_type_friendly(vars)}.")
     abort(msg, call = error_call)
   }
 }

@@ -51,7 +51,7 @@ check_type <- function(x, template, header, error_call = caller_env()) {
     return()
   }
 
-  msg <- glue("{header} must be {friendly_type_of(template)}, not {friendly_type_of(x)}.")
+  msg <- glue("{header} must be {obj_type_friendly(template)}, not {obj_type_friendly(x)}.")
   abort(msg, call = error_call)
 }
 

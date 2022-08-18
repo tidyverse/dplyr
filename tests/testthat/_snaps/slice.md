@@ -212,22 +212,22 @@
       slice_min(data.frame(x = 1:10), x, with_ties = 1)
     Condition
       Error in `slice_min()`:
-      ! `with_ties` must be a single `TRUE` or `FALSE`.
+      ! `with_ties` must be `TRUE` or `FALSE`, not a number.
     Code
       slice_max(data.frame(x = 1:10), x, with_ties = 1)
     Condition
       Error in `slice_max()`:
-      ! `with_ties` must be a single `TRUE` or `FALSE`.
+      ! `with_ties` must be `TRUE` or `FALSE`, not a number.
     Code
       slice_min(data.frame(x = 1:10), x, na_rm = 1)
     Condition
       Error in `slice_min()`:
-      ! `na_rm` must be a single `TRUE` or `FALSE`.
+      ! `na_rm` must be `TRUE` or `FALSE`, not a number.
     Code
       slice_max(data.frame(x = 1:10), x, na_rm = 1)
     Condition
       Error in `slice_max()`:
-      ! `na_rm` must be a single `TRUE` or `FALSE`.
+      ! `na_rm` must be `TRUE` or `FALSE`, not a number.
 
 # slice_sample() checks size of `weight_by=` (#5922)
 
@@ -245,10 +245,10 @@
       slice_sample(df, replace = 1)
     Condition
       Error in `slice_sample()`:
-      ! `replace` must be a single `TRUE` or `FALSE`.
+      ! `replace` must be `TRUE` or `FALSE`, not a number.
     Code
       slice_sample(df, replace = NA)
     Condition
       Error in `slice_sample()`:
-      ! `replace` must be a single `TRUE` or `FALSE`.
+      ! `replace` must be `TRUE` or `FALSE`, not `NA`.
 

@@ -430,12 +430,6 @@ check_slice_n_prop <- function(n, prop, error_call = caller_env()) {
   }
 }
 
-check_bool <- function(x, arg = caller_arg(x), call = caller_env()) {
-  if (!is_bool(x)) {
-    abort(glue::glue("`{arg}` must be a single `TRUE` or `FALSE`."), call = call)
-  }
-}
-
 # Always returns an integer between 0 and the group size
 get_slice_size <- function(n, prop, allow_outsize = FALSE, error_call = caller_env()) {
   slice_input <- check_slice_n_prop(n, prop, error_call = error_call)
