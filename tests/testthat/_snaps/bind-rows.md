@@ -47,5 +47,5 @@
     Output
       <error/rlang_error>
       Error in `bind_rows()`:
-      ! Argument 1 must have names.
+      ! Argument 1 must be a data frame or a named atomic vector.
 

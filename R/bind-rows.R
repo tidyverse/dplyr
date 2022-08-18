@@ -36,6 +36,12 @@ bind_rows <- function(..., .id = NULL) {
   }
   dots <- flatten_if(dots, is_flattenable)
   dots <- discard(dots, is.null)
+  if (length(dots) == 0) {
+    return(tibble())
+  }
+
+  # Used to restore type
+  first <- dots[[1L]]
 
   if (is_named(dots) && !all(map_lgl(dots, dataframe_ish))) {
     # This is hit by map_dfr() so we can't easily deprecate
@@ -44,14 +50,12 @@ bind_rows <- function(..., .id = NULL) {
 
   for (i in seq_along(dots)) {
     .x <- dots[[i]]
-    if (!is.data.frame(.x) && !vec_is(.x)) {
-      msg <- glue("Argument {i} must be a data frame or a named atomic vector.")
-      abort(msg)
+    if (!dataframe_ish(.x)) {
+      abort(glue("Argument {i} must be a data frame or a named atomic vector."))
     }
 
-    if (is.null(names(.x))) {
-      msg <- glue("Argument {i} must have names.")
-      abort(msg)
+    if (vec_is_list(.x)) {
+      dots[[i]] <- vctrs::data_frame(!!!.x, .name_repair = "minimal")
     }
   }
 
@@ -61,30 +65,18 @@ bind_rows <- function(..., .id = NULL) {
     if (!is_named(dots)) {
       names(dots) <- seq_along(dots)
     }
-  }
-
-  if (!length(dots)) {
-    return(tibble())
-  }
-
-  first <- dots[[1L]]
-  dots <- map(dots, function(.x) {
-    if (vec_is_list(.x)) {
-      .x <- vctrs::data_frame(!!!.x, .name_repair = "minimal")
-    }
-    .x
-  })
-
-  if (is.null(.id)) {
+  } else {
+    # Needed to avoid some vctrs error I don't understand
     names(dots) <- NULL
   }
+
   out <- vec_rbind(!!!dots, .names_to = .id, .call = current_env())
-  if (length(dots)) {
-    if (is.data.frame(first)) {
-      out <- dplyr_reconstruct(out, first)
-    } else {
-      out <- as_tibble(out)
-    }
+
+  # Override vctrs coercion rules and instead derive class from first input
+  if (is.data.frame(first)) {
+    out <- dplyr_reconstruct(out, first)
+  } else {
+    out <- as_tibble(out)
   }
   out
 }
