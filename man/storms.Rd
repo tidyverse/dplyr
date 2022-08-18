@@ -39,10 +39,9 @@ storms
 \description{
 This dataset is the NOAA Atlantic hurricane database best track data,
 \url{https://www.nhc.noaa.gov/data/#hurdat}. The data includes the positions and
-attributes of storms from 1852-2021. Storms from 1979 onward are measured
+attributes of storms from 1975-2021. Storms from 1979 onward are measured
 every six hours during the lifetime of the storm. Storms in earlier years
-have lots of missing data, with very early storms often having only one data
-point.
+have some missing data.
 }
 \examples{
 storms
