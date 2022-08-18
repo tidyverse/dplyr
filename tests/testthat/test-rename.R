@@ -1,4 +1,5 @@
-test_that("rename() handles data pronoun", {
+test_that("rename() handles deprecated `.data` pronoun", {
+  withr::local_options(lifecycle_verbosity = "quiet")
   expect_identical(rename(tibble(x = 1), y = .data$x), tibble(y = 1))
 })
 
