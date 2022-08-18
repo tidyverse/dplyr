@@ -109,8 +109,7 @@ storms <- storms %>%
     HUradius1 = extent_64_NE + extent_64_SW,
     HUradius2 = extent_64_NW + extent_64_SE,
     hurricane_force_diameter = pmax(HUradius1, HUradius2)
-  ) %>%
-  select(name, year, month, day, hour, lat, long, status, wind, pressure, tropicalstorm_force_diameter, hurricane_force_diameter)
+  )
 
 # drop rows with missing pressure record
 storms <- storms %>%
@@ -161,6 +160,13 @@ storms <- storms %>%
 # drop a bad data point (add more if found)
 storms <- storms %>%
   filter( !((year == 1969) & (name == "Debbie") & (long < -350)) )
+
+# simplify
+storms <- storms %>%
+  # drop historical data for simplicity and backwards compatibility
+  filter(year >= 1975) %>%
+  # drop some columns
+  select(name, year, month, day, hour, lat, long, status, category, wind, pressure, tropicalstorm_force_diameter, hurricane_force_diameter)
 
 # output for the package
 usethis::use_data(storms, overwrite = TRUE)
