@@ -260,7 +260,7 @@ test_that("slice_min/max() count from back with negative n/prop", {
   expect_equal(slice_min(df, x, n = -1), slice_min(df, x, n = 3))
   expect_equal(slice_max(df, x, n = -1), slice_max(df, x, n = 3))
 
-  # and can be larger that group size
+  # and can be larger than group size
   expect_equal(slice_min(df, x, n = -10), df[0, ])
   expect_equal(slice_max(df, x, n = -10), df[0, ])
 })
@@ -351,7 +351,7 @@ test_that("slice_head/tail() count from back with negative n/prop", {
   expect_equal(slice_head(df, n = -1), slice_head(df, n = 3))
   expect_equal(slice_tail(df, n = -1), slice_tail(df, n = 3))
 
-  # and can be larger that group size
+  # and can be larger than group size
   expect_equal(slice_head(df, n = -10), df[0, ])
   expect_equal(slice_tail(df, n = -10), df[0, ])
 })
