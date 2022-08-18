@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `storms` has been updated to include 2021 data and some missing storms that 
+   were omitted due to an error (@steveharoz, #6320).
+
 * `progress_estimate()` is deprecated for all uses (#6387).
 
 * `funs()`, deprecated in 0.8.0, is now defunct (#6387).
