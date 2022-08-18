@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `transmute()` is superseded in favour of `mutate(keep = "none")`
+
 * New `case_match()` function that is a "vectorised switch" variant of
   `case_when()` that matches on values rather than logical expressions. It is
   like a SQL "simple" `CASE WHEN` statement, whereas `case_when()` is like a SQL

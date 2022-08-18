@@ -3,7 +3,6 @@
 \name{mutate}
 \alias{mutate}
 \alias{mutate.data.frame}
-\alias{transmute}
 \title{Create, modify, and delete columns}
 \usage{
 mutate(.data, ...)
@@ -15,8 +14,6 @@ mutate(.data, ...)
   .before = NULL,
   .after = NULL
 )
-
-transmute(.data, ...)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
@@ -57,20 +54,11 @@ should appear (the default is to add to the right hand side). See
 An object of the same type as \code{.data}. The output has the following
 properties:
 \itemize{
-\item For \code{mutate()}:
-\itemize{
 \item Columns from \code{.data} will be preserved according to the \code{.keep} argument.
 \item Existing columns that are modified by \code{...} will always be returned in
 their original location.
 \item New columns created through \code{...} will be placed according to the
 \code{.before} and \code{.after} arguments.
-}
-\item For \code{transmute()}:
-\itemize{
-\item Columns created or modified through \code{...} will be returned in the order
-specified by \code{...}.
-\item Unmodified grouping columns will be placed at the front.
-}
 \item The number of rows is not affected.
 \item Columns given the value \code{NULL} will be removed.
 \item Groups will be recomputed if a grouping variable is mutated.
@@ -123,15 +111,12 @@ latter normalises by the averages within species levels.
 
 \section{Methods}{
 
-These function are \strong{generic}s, which means that packages can provide
+This function is a \strong{generic}, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
 individual methods for extra arguments and differences in behaviour.
 
 Methods available in currently loaded packages:
-\itemize{
-\item \code{mutate()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("mutate")}.
-\item \code{transmute()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("transmute")}.
-}
+\Sexpr[stage=render,results=rd]{dplyr:::methods_rd("mutate")}.
 }
 
 \examples{
