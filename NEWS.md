@@ -1,5 +1,10 @@
 # dplyr (development version)
 
+* New `case_match()` function that is a "vectorised switch" variant of
+  `case_when()` that matches on values rather than logical expressions. It is
+  like a SQL "simple" `CASE WHEN` statement, whereas `case_when()` is like a SQL
+  "searched" `CASE WHEN` statement (#6328).
+
 * `storms` has been updated to include 2021 data and some missing storms that 
    were omitted due to an error (@steveharoz, #6320).
 
