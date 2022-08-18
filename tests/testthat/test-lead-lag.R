@@ -16,50 +16,7 @@ test_that("If n = length(x), returns all missing", {
   expect_equal(lag(x, length(x)), rep(NA_integer_, length(x)))
 })
 
-test_that("`lead()` / `lag()` catch negative `n`", {
-  expect_snapshot(error = TRUE, {
-    lead(1:5, -1)
-  })
-  expect_snapshot(error = TRUE, {
-    lag(1:5, -1)
-  })
-})
-
-test_that("`lead()` / `lag()` check `n` properties before checking if positive", {
-  # To prove that the `check_shift_n()` in `lag()` and `lead()` is required
-
-  expect_snapshot(error = TRUE, {
-    lead(1:5, n = 1:2)
-  })
-  expect_snapshot(error = TRUE, {
-    lag(1:5, n = 1:2)
-  })
-
-  expect_snapshot(error = TRUE, {
-    lead(1:5, n = "x")
-  })
-  expect_snapshot(error = TRUE, {
-    lag(1:5, n = "x")
-  })
-
-  expect_snapshot(error = TRUE, {
-    lead(1:5, n = NA_integer_)
-  })
-  expect_snapshot(error = TRUE, {
-    lag(1:5, n = NA_integer_)
-  })
-})
-
-test_that("`lead()` / `lag()` check for empty dots", {
-  expect_snapshot(error = TRUE, {
-    lead(1:5, deault = 1)
-  })
-  expect_snapshot(error = TRUE, {
-    lag(1:5, deault = 1)
-  })
-})
-
-test_that("`lag()` errors on <ts> objects", {
+test_that("`lag()` gives informative error for <ts> objects", {
   expect_snapshot(error = TRUE, {
     lag(ts(1:10))
   })
@@ -90,6 +47,26 @@ test_that("lead and lag preserves dates and times", {
 
   expect_s3_class(lead(y), "POSIXct")
   expect_s3_class(lag(y), "POSIXct")
+})
+
+test_that("`lead()` / `lag()` validate `n`", {
+  expect_snapshot(error = TRUE, {
+    lead(1:5, n = 1:2)
+    lead(1:5, -1)
+  })
+  expect_snapshot(error = TRUE, {
+    lag(1:5, n = 1:2)
+    lag(1:5, -1)
+  })
+})
+
+test_that("`lead()` / `lag()` check for empty dots", {
+  expect_snapshot(error = TRUE, {
+    lead(1:5, deault = 1)
+  })
+  expect_snapshot(error = TRUE, {
+    lag(1:5, deault = 1)
+  })
 })
 
 test_that("`lead()` / `lag()` require that `x` is a vector", {
@@ -183,12 +160,6 @@ test_that("`default` must be size 1 (#5641)", {
 test_that("`n` is validated", {
   expect_snapshot(error = TRUE, {
     shift(1, n = 1:2)
-  })
-  expect_snapshot(error = TRUE, {
-    shift(1, n = "x")
-  })
-  expect_snapshot(error = TRUE, {
-    shift(1, n = NA_integer_)
   })
 })
 
