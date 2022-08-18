@@ -14,13 +14,13 @@
 #' @param .x A vector to match against.
 #'
 #' @param ... <[`dynamic-dots`][rlang::dyn-dots]> A sequence of two-sided
-#'   formulas, `old_values ~ new_value`. The right hand side (RHS) determines
+#'   formulas: `old_values ~ new_value`. The right hand side (RHS) determines
 #'   the output value for all values of `.x` that match the left hand side
 #'   (LHS).
 #'
 #'   The LHS must evaluate to the same type of vector as `.x`. It can be any
-#'   length, allowing you to match multiple `.x` values to the same RHS value.
-#'   If a value is repeated in the LHS, i.e a value in `.x` matches to
+#'   length, allowing you to map multiple `.x` values to the same RHS value.
+#'   If a value is repeated in the LHS, i.e. a value in `.x` matches to
 #'   multiple cases, the first match is used.
 #'
 #'   The RHS inputs will be coerced to their common type. Each RHS input will be
@@ -38,7 +38,7 @@
 #'
 #' @return
 #' A vector with the same size as `.x` and the same type as the common type of
-#' the RHS inputs in `...` and `.default` (if not overridden by `.ptype`).
+#' the RHS inputs and `.default` (if not overridden by `.ptype`).
 #'
 #' @seealso [case_when()]
 #'

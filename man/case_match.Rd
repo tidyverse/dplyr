@@ -10,13 +10,13 @@ case_match(.x, ..., .default = NULL, .ptype = NULL)
 \item{.x}{A vector to match against.}
 
 \item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> A sequence of two-sided
-formulas, \code{old_values ~ new_value}. The right hand side (RHS) determines
+formulas: \code{old_values ~ new_value}. The right hand side (RHS) determines
 the output value for all values of \code{.x} that match the left hand side
 (LHS).
 
 The LHS must evaluate to the same type of vector as \code{.x}. It can be any
-length, allowing you to match multiple \code{.x} values to the same RHS value.
-If a value is repeated in the LHS, i.e a value in \code{.x} matches to
+length, allowing you to map multiple \code{.x} values to the same RHS value.
+If a value is repeated in the LHS, i.e. a value in \code{.x} matches to
 multiple cases, the first match is used.
 
 The RHS inputs will be coerced to their common type. Each RHS input will be
@@ -34,7 +34,7 @@ all RHS inputs and \code{.default}.}
 }
 \value{
 A vector with the same size as \code{.x} and the same type as the common type of
-the RHS inputs in \code{...} and \code{.default} (if not overridden by \code{.ptype}).
+the RHS inputs and \code{.default} (if not overridden by \code{.ptype}).
 }
 \description{
 Create a new vector based on the values of an existing vector, matching one
