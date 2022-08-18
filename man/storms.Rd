@@ -5,7 +5,8 @@
 \alias{storms}
 \title{Storm tracks data}
 \format{
-A tibble with 22,184 observations and 13 variables:
+A tibble with 19,066 observations
+and 13 variables:
 \describe{
 \item{name}{Storm Name}
 \item{year,month,day}{Date of report}
@@ -39,9 +40,9 @@ storms
 \description{
 This dataset is the NOAA Atlantic hurricane database best track data,
 \url{https://www.nhc.noaa.gov/data/#hurdat}. The data includes the positions and
-attributes of storms from 1975-2021. Storms from 1979 onward are measured
-every six hours during the lifetime of the storm. Storms in earlier years
-have some missing data.
+attributes of storms from 1975-2021. Storms
+from 1979 onward are measured every six hours during the lifetime of the
+storm. Storms in earlier years have some missing data.
 }
 \examples{
 storms

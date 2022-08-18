@@ -2,14 +2,15 @@
 #'
 #' This dataset is the NOAA Atlantic hurricane database best track data,
 #' <https://www.nhc.noaa.gov/data/#hurdat>. The data includes the positions and
-#' attributes of storms from 1975-2021. Storms from 1979 onward are measured
-#' every six hours during the lifetime of the storm. Storms in earlier years
-#' have some missing data.
+#' attributes of storms from `r min(storms$year)`-`r max(storms$year)`. Storms
+#' from 1979 onward are measured every six hours during the lifetime of the
+#' storm. Storms in earlier years have some missing data.
 #'
 #' @seealso The script to create the storms data set:
 #'   <https://github.com/tidyverse/dplyr/blob/main/data-raw/storms.R>
 #'
-#' @format A tibble with 22,184 observations and 13 variables:
+#' @format A tibble with `r format(nrow(storms), big.mark = ",")` observations
+#'   and `r ncol(storms)` variables:
 #' \describe{
 #' \item{name}{Storm Name}
 #' \item{year,month,day}{Date of report}
