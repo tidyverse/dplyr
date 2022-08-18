@@ -234,10 +234,9 @@
     Code
       slice_sample(df, n = 2, weight_by = 1:6)
     Condition
-      Error in `slice_sample()`:
-      ! Problem while computing indices.
-      Caused by error:
-      ! `weight_by` must have size 10, not size 6.
+      Error in `transmute()`:
+      ! Problem while computing `..weight_by = 1:6`.
+      x `..weight_by` must be size 10 or 1, not 6.
 
 # `slice_sample()` validates `replace`
 
