@@ -45,3 +45,12 @@ test_that("`.default` is part of common type computation", {
 test_that("passes through `.ptype` correctly", {
   expect_identical(case_match(1, 1 ~ 1, .ptype = integer()), 1L)
 })
+
+test_that("`NULL` formula element throws meaningful error", {
+  expect_snapshot(error = TRUE, {
+    case_match(1, 1 ~ NULL)
+  })
+  expect_snapshot(error = TRUE, {
+    case_match(1, NULL ~ 1)
+  })
+})

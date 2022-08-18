@@ -22,3 +22,19 @@
       Error in `case_match()`:
       ! Can't combine `1L` <integer> and `.default` <character>.
 
+# `NULL` formula element throws meaningful error
+
+    Code
+      case_match(1, 1 ~ NULL)
+    Condition
+      Error in `case_match()`:
+      ! `NULL` must be a vector, not NULL.
+
+---
+
+    Code
+      case_match(1, NULL ~ 1)
+    Condition
+      Error in `case_match()`:
+      ! `NULL` must be a vector, not NULL.
+

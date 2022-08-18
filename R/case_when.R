@@ -207,8 +207,16 @@ case_formula_evaluate <- function(args,
 
   for (i in seq_len(n_args)) {
     pair <- quos_pairs[[i]]
-    lhs[[i]] <- eval_tidy(pair$lhs, env = default_env)
-    rhs[[i]] <- eval_tidy(pair$rhs, env = default_env)
+
+    lhs_elt <- eval_tidy(pair$lhs, env = default_env)
+    rhs_elt <- eval_tidy(pair$rhs, env = default_env)
+
+    if (!is.null(lhs_elt)) {
+      lhs[[i]] <- lhs_elt
+    }
+    if (!is.null(rhs_elt)) {
+      rhs[[i]] <- rhs_elt
+    }
   }
 
   # Add the expressions as names for `lhs` and `rhs` for nice errors.

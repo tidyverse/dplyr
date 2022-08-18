@@ -13,6 +13,7 @@ vec_case_match <- function(needles,
 
   vec_assert(needles, arg = needles_arg, call = call)
   vec_check_list(haystacks, arg = haystacks_arg, call = call)
+  list_check_all_vectors(haystacks, arg = haystacks_arg, call = call)
 
   haystacks <- vec_cast_common(
     !!!haystacks,

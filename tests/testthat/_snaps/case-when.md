@@ -30,6 +30,22 @@
       Error in `case_when()`:
       ! Can't combine `1` <double> and `"x"` <character>.
 
+# `NULL` formula element throws meaningful error
+
+    Code
+      case_when(1 ~ NULL)
+    Condition
+      Error in `case_when()`:
+      ! `NULL` must be a vector, not NULL.
+
+---
+
+    Code
+      case_when(NULL ~ 1)
+    Condition
+      Error in `case_when()`:
+      ! `NULL` must be a vector, not NULL.
+
 # case_when() give meaningful errors
 
     Code

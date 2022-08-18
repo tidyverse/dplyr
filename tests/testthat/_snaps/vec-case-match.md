@@ -32,6 +32,22 @@
       vec_case_match(1:2, list(1, NULL, 2), list("a", NULL, "b"))
     Condition
       Error in `vec_case_match()`:
+      ! `haystacks[[2]]` must be a vector, not NULL.
+
+---
+
+    Code
+      vec_case_match(1:2, list(1, NULL, 2), list("a", "a", "b"))
+    Condition
+      Error in `vec_case_match()`:
+      ! `haystacks[[2]]` must be a vector, not NULL.
+
+---
+
+    Code
+      vec_case_match(1:2, list(1, 1, 2), list("a", NULL, "b"))
+    Condition
+      Error in `vec_case_match()`:
       ! `values[[2]]` must be a vector, not NULL.
 
 # size of `needles` is maintained

@@ -148,6 +148,12 @@ test_that("`NULL` values in `haystacks` and `values` are not dropped", {
   expect_snapshot(error = TRUE, {
     vec_case_match(1:2, list(1, NULL, 2), list("a", NULL, "b"))
   })
+  expect_snapshot(error = TRUE, {
+    vec_case_match(1:2, list(1, NULL, 2), list("a", "a", "b"))
+  })
+  expect_snapshot(error = TRUE, {
+    vec_case_match(1:2, list(1, 1, 2), list("a", NULL, "b"))
+  })
 })
 
 test_that("size of `needles` is maintained", {
