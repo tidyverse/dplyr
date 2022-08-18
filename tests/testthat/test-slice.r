@@ -304,6 +304,12 @@ test_that("slice_sample() respects weight_by and replaces", {
   expect_equal(out$x, c(1, 1))
 })
 
+test_that("slice_sample() can increase rows iff replace = TRUE", {
+  df <- tibble(x = 1:10)
+  expect_equal(nrow(slice_sample(df, n = 20, replace = FALSE)), 10)
+  expect_equal(nrow(slice_sample(df, n = 20, replace = TRUE)), 20)
+})
+
 test_that("slice_sample() checks size of `weight_by=` (#5922)", {
   df <- tibble(x = 1:10)
   expect_snapshot(slice_sample(df, n = 2, weight_by = 1:6), error = TRUE)
