@@ -104,6 +104,7 @@ shift <- function(x,
 
   vec_assert(x, arg = "x", call = error_call)
   check_number(n)
+  n <- vec_cast(n, integer(), call = error_call)
 
   if (!is.null(default)) {
     vec_assert(default, size = 1L, arg = "default", call = error_call)
