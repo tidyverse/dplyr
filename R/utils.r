@@ -1,21 +1,5 @@
-deparse_trunc <- function(x, width = getOption("width")) {
-  text <- deparse(x, width.cutoff = width)
-  if (length(text) == 1 && nchar(text) < width) return(text)
-
-  paste0(substr(text[1], 1, width - 3), "...")
-}
 
 commas <- function(...) paste0(..., collapse = ", ")
-
-is_1d <- function(x) {
-  # dimension check is for matrices and data.frames
-  (is_atomic(x) || is.list(x)) && length(dim(x)) <= 1
-}
-
-unstructure <- function(x) {
-  attributes(x) <- NULL
-  x
-}
 
 compact_null <- function(x) {
   Filter(function(elt) !is.null(elt), x)
@@ -23,18 +7,6 @@ compact_null <- function(x) {
 
 paste_line <- function(...) {
   paste(chr(...), collapse = "\n")
-}
-
-# Until fixed upstream. `vec_data()` should not return lists from data
-# frames.
-dplyr_vec_data <- function(x) {
-  out <- vec_data(x)
-
-  if (is.data.frame(x)) {
-    new_data_frame(out, n = nrow(x))
-  } else {
-    out
-  }
 }
 
 # Until vctrs::new_data_frame() forwards row names automatically
@@ -93,12 +65,4 @@ node_walk_replace <- function(node, old, new) {
     )
     node <- node_cdr(node)
   }
-}
-
-# Backports for R 3.5.0 utils
-...length2 <- function(frame = caller_env()) {
-  length(env_get(frame, "..."))
-}
-...elt2 <- function(i, frame = caller_env()) {
-  eval_bare(sym(paste0("..", i)), frame)
 }

@@ -122,3 +122,10 @@ print.fun_list <- function(x, ..., width = getOption("width")) {
   cat("\n")
   invisible(x)
 }
+
+deparse_trunc <- function(x, width = getOption("width")) {
+  text <- deparse(x, width.cutoff = width)
+  if (length(text) == 1 && nchar(text) < width) return(text)
+
+  paste0(substr(text[1], 1, width - 3), "...")
+}
