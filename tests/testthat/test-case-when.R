@@ -253,6 +253,15 @@ test_that("`NULL` formula element throws meaningful error", {
   })
 })
 
+test_that("throws chained errors when formula evaluation fails", {
+  expect_snapshot(error = TRUE, {
+    case_when(1 ~ 2, 3 ~ stop("oh no!"))
+  })
+  expect_snapshot(error = TRUE, {
+    case_when(1 ~ 2, stop("oh no!") ~ 4)
+  })
+})
+
 test_that("case_when() give meaningful errors", {
   expect_snapshot({
     (expect_error(

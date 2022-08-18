@@ -208,8 +208,18 @@ case_formula_evaluate <- function(args,
   for (i in seq_len(n_args)) {
     pair <- quos_pairs[[i]]
 
-    lhs_elt <- eval_tidy(pair$lhs, env = default_env)
-    rhs_elt <- eval_tidy(pair$rhs, env = default_env)
+    lhs_elt <- with_case_errors(
+      eval_tidy(pair$lhs, env = default_env),
+      side = "left",
+      i = i,
+      error_call = error_call
+    )
+    rhs_elt <- with_case_errors(
+      eval_tidy(pair$rhs, env = default_env),
+      side = "right",
+      i = i,
+      error_call = error_call
+    )
 
     if (!is.null(lhs_elt)) {
       lhs[[i]] <- lhs_elt
@@ -266,5 +276,15 @@ validate_and_split_formula <- function(x,
   list(
     lhs = new_quosure(f_lhs(x), env),
     rhs = new_quosure(f_rhs(x), env)
+  )
+}
+
+with_case_errors <- function(expr, side, i, error_call) {
+  try_fetch(
+    expr,
+    error = function(cnd) {
+      message <- glue("Failed to evaluate the {side}-hand side of formula {i}.")
+      abort(message, parent = cnd, call = error_call)
+    }
   )
 }

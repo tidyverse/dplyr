@@ -38,3 +38,23 @@
       Error in `case_match()`:
       ! `NULL` must be a vector, not NULL.
 
+# throws chained errors when formula evaluation fails
+
+    Code
+      case_match(1, 1 ~ 2, 3 ~ stop("oh no!"))
+    Condition
+      Error in `case_match()`:
+      ! Failed to evaluate the right-hand side of formula 2.
+      Caused by error:
+      ! oh no!
+
+---
+
+    Code
+      case_match(1, 1 ~ 2, stop("oh no!") ~ 4)
+    Condition
+      Error in `case_match()`:
+      ! Failed to evaluate the left-hand side of formula 2.
+      Caused by error:
+      ! oh no!
+
