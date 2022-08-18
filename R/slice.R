@@ -255,7 +255,7 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 
 #' @export
 slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
-  size <- get_slice_size(n = n, prop = prop, allow_outsize = TRUE)
+  size <- get_slice_size(n = n, prop = prop, allow_outsize = replace)
 
   dplyr_local_error_call()
   slice(.data, local({
@@ -466,10 +466,6 @@ clamp <- function(min, x, max) {
 }
 
 sample_int <- function(n, size, replace = FALSE, wt = NULL, call = caller_env()) {
-  if (!replace && n < size) {
-    size <- n
-  }
-
   if (size == 0L) {
     integer(0)
   } else {
