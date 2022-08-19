@@ -16,12 +16,15 @@ DataMask <- R6Class("DataMask",
         abort("Can't transform a data frame with duplicate names.", call = error_call)
       }
       names(data) <- names_bindings
-      private$data <- data
+      private$size <- nrow(data)
       private$caller <- caller
       private$current_data <- unclass(data)
 
       private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows)
       private$mask <- .Call(dplyr_data_masks_setup, private$chops, data, rows)
+
+      private$grouped_df <- is_grouped_df(data)
+      private$rowwise_df <- is_rowwise_df(data)
 
       private$keys <- group_keys(data)
       private$group_vars <- group_vars(data)
@@ -29,7 +32,7 @@ DataMask <- R6Class("DataMask",
     },
 
     add_one = function(name, chunks, result) {
-      if (inherits(private$data, "rowwise_df")){
+      if (self$is_rowwise_df()){
         is_scalar_list <- function(.x) {
           vec_is_list(.x) && length(.x) == 1L
         }
@@ -67,13 +70,13 @@ DataMask <- R6Class("DataMask",
     },
 
     eval_all_filter = function(quos, env_filter) {
-      eval <- function() .Call(`dplyr_mask_eval_all_filter`, quos, private, nrow(private$data), env_filter)
+      eval <- function() .Call(`dplyr_mask_eval_all_filter`, quos, private, private$size, env_filter)
       eval()
     },
 
     pick = function(vars) {
       cols <- self$current_cols(vars)
-      if (inherits(private$data, "rowwise_df")) {
+      if (self$is_rowwise_df()) {
         cols <- map2(cols, names(cols), function(col, name) {
           if (vec_is_list(private$current_data[[name]])) {
             col <- list(col)
@@ -111,10 +114,6 @@ DataMask <- R6Class("DataMask",
 
     set_current_group = function(group) {
       parent.env(private$chops)$.current_group[] <- group
-    },
-
-    full_data = function() {
-      private$data
     },
 
     get_used = function() {
@@ -155,6 +154,22 @@ DataMask <- R6Class("DataMask",
       })
     },
 
+    is_grouped_df = function() {
+      private$grouped_df
+    },
+
+    is_rowwise_df = function() {
+      private$rowwise_df
+    },
+
+    get_keys = function() {
+      private$keys
+    },
+
+    get_size = function() {
+      private$size
+    },
+
     get_env_bindings = function() {
       parent.env(private$mask)
     },
@@ -170,9 +185,6 @@ DataMask <- R6Class("DataMask",
   ),
 
   private = list(
-    # the input data
-    data = NULL,
-
     # environment that contains lazy vec_chop()s for each input column
     # and list of result chunks as they get added.
     #
@@ -197,6 +209,13 @@ DataMask <- R6Class("DataMask",
 
     # data frame of keys, one row per group
     keys = NULL,
+
+    # number of rows in `data`
+    size = NULL,
+
+    # Type of data frame
+    grouped_df = NULL,
+    rowwise_df = NULL,
 
     # caller environment of the verb (summarise(), ...)
     caller = NULL,
