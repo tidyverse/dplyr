@@ -1,7 +1,7 @@
 # dplyr (development version)
 
-* Evaluation errors in `group_by()` and `distinct()` have been
-  simplified (#6139).
+* Error messages in `group_by()`, `distinct()`, `tally()`, and `count()` are now
+  more relevant (#6139).
 
 * `slice_sample()` now accepts negative `n` and `prop` values (#6402).
 
