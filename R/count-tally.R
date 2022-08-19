@@ -167,6 +167,8 @@ add_count_impl <- function(x,
 add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
   name <- check_name(name, tbl_vars(x))
 
+  dplyr_local_error_call()
+
   n <- tally_n(x, {{ wt }})
   out <- mutate(x, !!name := !!n)
 

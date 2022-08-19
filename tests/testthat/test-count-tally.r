@@ -161,6 +161,7 @@ test_that(".drop is deprecated",  {
 test_that("add_count() owns errors (#6139)", {
   expect_snapshot({
     (expect_error(add_count(mtcars, new = 1 + "")))
+    (expect_error(add_count(mtcars, wt = 1 + "")))
   })
 })
 
@@ -187,4 +188,10 @@ test_that("add_tally can be given a weighting variable", {
 test_that("can override output column", {
   df <- data.frame(g = c(1, 1, 2, 2, 2), x = c(3, 2, 5, 5, 5))
   expect_named(add_tally(df, name = "xxx"), c("g", "x", "xxx"))
+})
+
+test_that("add_tally() owns errors (#6139)", {
+  expect_snapshot({
+    (expect_error(add_tally(mtcars, wt = 1 + "")))
+  })
 })
