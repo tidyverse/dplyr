@@ -90,8 +90,9 @@ tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 
 #' @export
 tally.data.frame <- function(x, wt = NULL, sort = FALSE, name = NULL) {
-  n <- tally_n(x, {{ wt }})
   name <- check_name(name, group_vars(x))
+
+  n <- tally_n(x, {{ wt }})
 
   local_options(dplyr.summarise.inform = FALSE)
   out <- summarise(x, !!name := !!n)
@@ -142,8 +143,9 @@ add_count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .
 #' @rdname count
 #' @export
 add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
-  n <- tally_n(x, {{ wt }})
   name <- check_name(name, tbl_vars(x))
+
+  n <- tally_n(x, {{ wt }})
   out <- mutate(x, !!name := !!n)
 
   if (sort) {
