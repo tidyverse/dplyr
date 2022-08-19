@@ -2,10 +2,10 @@
 #'
 #' @export
 #' @keywords internal
-common_by <- function(by = NULL, x, y) UseMethod("common_by", by)
+common_by <- function(by = NULL, x, y, ...) UseMethod("common_by", by)
 
 #' @export
-common_by.character <- function(by, x, y) {
+common_by.character <- function(by, x, y, ...) {
   by <- common_by_from_vector(by)
   common_by.list(by, x, y)
 }
@@ -22,7 +22,7 @@ common_by_from_vector <- function(by) {
 }
 
 #' @export
-common_by.list <- function(by, x, y) {
+common_by.list <- function(by, x, y, ...) {
   x_vars <- tbl_vars(x)
   if (!all(by$x %in% x_vars)) {
     msg <- glue("`by` can't contain join column {missing} which is missing from LHS.",
@@ -43,7 +43,7 @@ common_by.list <- function(by, x, y) {
 }
 
 #' @export
-common_by.NULL <- function(by, x, y) {
+common_by.NULL <- function(by, x, y, ...) {
   by <- intersect(tbl_vars(x), tbl_vars(y))
   by <- by[!is.na(by)]
   if (length(by) == 0) {
@@ -69,7 +69,7 @@ auto_by_msg <- function(by) {
 }
 
 #' @export
-common_by.default <- function(by, x, y) {
+common_by.default <- function(by, x, y, ...) {
   msg <- glue("`by` must be a (named) character vector, list, or NULL for natural joins (not recommended in production code), not {obj_type_friendly(by)}.")
   abort(msg)
 }
