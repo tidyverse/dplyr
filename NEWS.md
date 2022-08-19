@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `cur_group()` now works correctly with zero row grouped data frames (#6304).
+
 * Error messages in `group_by()`, `distinct()`, `tally()`, and `count()` are now
   more relevant (#6139).
 

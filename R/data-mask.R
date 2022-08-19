@@ -97,7 +97,16 @@ DataMask <- R6Class("DataMask",
     },
 
     current_key = function() {
-      vec_slice(private$keys, self$get_current_group())
+      keys <- private$keys
+
+      if (vec_size(keys) == 0L) {
+        # Specially handle case of zero groups, like in `$initialize()`.
+        # We always evaluate at least 1 group, so the slice call would attempt
+        # to do `vec_slice(<0-row-df>, 1L)`, which is an error.
+        keys
+      } else {
+        vec_slice(keys, self$get_current_group())
+      }
     },
 
     current_vars = function() {
