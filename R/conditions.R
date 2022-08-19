@@ -43,8 +43,7 @@ cnd_bullet_cur_group_label <- function(what = "error") {
 }
 
 cnd_bullet_rowwise_unlist <- function() {
-  data <- peek_mask()$full_data()
-  if (inherits(data, "rowwise_df")) {
+  if (peek_mask()$is_rowwise_df()) {
     glue_data(peek_error_context(), "Did you mean: `{error_name} = list({error_expression})` ?")
   }
 }
@@ -108,7 +107,7 @@ cnd_bullet_header <- function(what) {
 
 cnd_bullet_combine_details <- function(x, arg) {
   group <- as.integer(sub("^..", "", arg))
-  keys <- group_keys(peek_mask()$full_data())[group, ]
+  keys <- peek_mask()$get_keys()[group, ]
   details <- group_labels_details(keys)
   glue("Result type for group {group} ({details}): <{vec_ptype_full(x)}>.")
 }
