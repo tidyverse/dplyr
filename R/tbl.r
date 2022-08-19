@@ -32,7 +32,7 @@ make_tbl <- function(subclass, ...) {
 #' @export
 is.tbl <- function(x) inherits(x, "tbl")
 
-tbl_vars_dispatch <- function(x) {
+tbl_vars_dispatch <- function(x, ...) {
   UseMethod("tbl_vars")
 }
 
@@ -56,7 +56,7 @@ new_sel_vars <- function(vars, group_vars) {
 #' @seealso [group_vars()] for a function that returns grouping
 #'   variables.
 #' @keywords internal
-tbl_vars <- function(x) {
+tbl_vars <- function(x, ...) {
   return(new_sel_vars(tbl_vars_dispatch(x), group_vars(x)))
 
   # For roxygen and static analysis
@@ -64,7 +64,7 @@ tbl_vars <- function(x) {
 }
 
 #' @export
-tbl_vars.data.frame <- function(x) {
+tbl_vars.data.frame <- function(x, ...) {
   names(x)
 }
 
