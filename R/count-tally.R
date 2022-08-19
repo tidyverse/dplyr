@@ -84,12 +84,12 @@ count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
 
 #' @export
 #' @rdname count
-tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
+tally <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
   UseMethod("tally")
 }
 
 #' @export
-tally.data.frame <- function(x, wt = NULL, sort = FALSE, name = NULL) {
+tally.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
   n <- tally_n(x, {{ wt }})
   name <- check_name(name, group_vars(x))
 
