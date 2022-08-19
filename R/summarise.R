@@ -57,6 +57,17 @@
 #'   In addition, a message informs you of that choice, unless the result is ungrouped,
 #'   the option "dplyr.summarise.inform" is set to `FALSE`,
 #'   or when `summarise()` is called from a function in a package.
+#' @param .multi `r lifecycle::badge("experimental")` Support multiple resulting rows per group
+#'
+#'   As of dplyr 1.0.0, if one summary function returns a vector of size != 1,
+#'   multiple rows are created for each group.
+#'   This feature is currently supported only for data frames.
+#'   While useful occasionally, it may lead to accidental duplication or loss of output rows.
+#'   Specifying `.multi = "fail"` leads to an error if any summary function
+#'   has returned a vector of size != 1.
+#'   With `.multi = "require"`, an error is raised if the size of all summaries is 1.
+#'   The default, `.multi = "allow"`, means no checking and is kept for compatibility
+#'   with earlier versions of dplyr.
 #'
 #' @family single table verbs
 #' @return
@@ -116,7 +127,7 @@
 #' var <- "mass"
 #' summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
 #' # Learn more in ?dplyr_data_masking
-summarise <- function(.data, ..., .groups = NULL) {
+summarise <- function(.data, ..., .groups = NULL, .multi = c("allow", "fail", "require")) {
   UseMethod("summarise")
 }
 #' @rdname summarise
@@ -124,8 +135,9 @@ summarise <- function(.data, ..., .groups = NULL) {
 summarize <- summarise
 
 #' @export
-summarise.data.frame <- function(.data, ..., .groups = NULL) {
-  cols <- summarise_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+summarise.data.frame <- function(.data, ..., .groups = NULL, .multi = c("allow", "fail", "require")) {
+  .multi <- arg_match(.multi)
+  cols <- summarise_cols(.data, dplyr_quosures(...), caller_env = caller_env(), multi = .multi)
   out <- summarise_build(.data, cols)
   if (identical(.groups, "rowwise")) {
     out <- rowwise_df(out, character())
@@ -134,8 +146,9 @@ summarise.data.frame <- function(.data, ..., .groups = NULL) {
 }
 
 #' @export
-summarise.grouped_df <- function(.data, ..., .groups = NULL) {
-  cols <- summarise_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+summarise.grouped_df <- function(.data, ..., .groups = NULL, .multi = c("allow", "fail", "require")) {
+  .multi <- arg_match(.multi)
+  cols <- summarise_cols(.data, dplyr_quosures(...), caller_env = caller_env(), multi = .multi)
   out <- summarise_build(.data, cols)
   verbose <- summarise_verbose(.groups, caller_env())
 
@@ -177,8 +190,9 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
 }
 
 #' @export
-summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
-  cols <- summarise_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+summarise.rowwise_df <- function(.data, ..., .groups = NULL, .multi = c("allow", "fail", "require")) {
+  .multi <- arg_match(.multi)
+  cols <- summarise_cols(.data, dplyr_quosures(...), caller_env = caller_env(), multi = .multi)
   out <- summarise_build(.data, cols)
   verbose <- summarise_verbose(.groups, caller_env())
 
@@ -202,7 +216,7 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
   out
 }
 
-summarise_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
+summarise_cols <- function(.data, dots, caller_env, multi, error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
 
   mask <- DataMask$new(.data, caller_env, "summarise", error_call = error_call)
@@ -305,7 +319,16 @@ summarise_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
 
   })
 
-  list(new = cols, size = sizes, all_one = identical(sizes, 1L))
+  all_one <- identical(sizes, 1L)
+
+  # FIXME: Use `sizes` for rich location information
+  if (all_one && multi == "require") {
+    abort('All summary functions returned a vector of size one, use `.multi = "fail"` or `.multi = "allow"`.', call = error_call)
+  } else if (!all_one && multi == "fail") {
+    abort('A summary function returned a vector of size != 1, use `.multi = "require"` or `.multi = "allow"`.', call = error_call)
+  }
+
+  list(new = cols, size = sizes, all_one = all_one)
 }
 
 summarise_eval_one <- function(quo, mask) {

@@ -5,9 +5,9 @@
 \alias{summarize}
 \title{Summarise each group to fewer rows}
 \usage{
-summarise(.data, ..., .groups = NULL)
+summarise(.data, ..., .groups = NULL, .multi = c("allow", "fail", "require"))
 
-summarize(.data, ..., .groups = NULL)
+summarize(.data, ..., .groups = NULL, .multi = c("allow", "fail", "require"))
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
@@ -43,6 +43,18 @@ based on the number of rows of the results:
 In addition, a message informs you of that choice, unless the result is ungrouped,
 the option "dplyr.summarise.inform" is set to \code{FALSE},
 or when \code{summarise()} is called from a function in a package.}
+
+\item{.multi}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} Support multiple resulting rows per group
+
+As of dplyr 1.0.0, if one summary function returns a vector of size != 1,
+multiple rows are created for each group.
+This feature is currently supported only for data frames.
+While useful occasionally, it may lead to accidental duplication or loss of output rows.
+Specifying \code{.multi = "fail"} leads to an error if any summary function
+has returned a vector of size != 1.
+With \code{.multi = "require"}, an error is raised if the size of all summaries is 1.
+The default, \code{.multi = "allow"}, means no checking and is kept for compatibility
+with earlier versions of dplyr.}
 }
 \value{
 An object \emph{usually} of the same type as \code{.data}.
