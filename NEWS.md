@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* Evaluation errors in `group_by()` and `distinct()` have been
+  simplified (#6139).
+
 * `slice_sample()` now accepts negative `n` and `prop` values (#6402).
 
 * `slice_*()` now requires `n` to be an integer.
