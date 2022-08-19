@@ -151,9 +151,9 @@ groups.data.frame <- function(x, ...) {
 
 #' @export
 #' @rdname group_data
-group_size <- function(x) UseMethod("group_size")
+group_size <- function(x, ...) UseMethod("group_size")
 #' @export
-group_size.data.frame <- function(x) {
+group_size.data.frame <- function(x, ...) {
   lengths(group_rows(x))
 }
 
