@@ -128,12 +128,12 @@ dplyr_row_slice.rowwise_df <- function(data, i, ..., preserve = FALSE) {
 #' @rdname dplyr_extending
 #' @param cols A named list used modify columns. A `NULL` value should remove
 #'   an existing column.
-dplyr_col_modify <- function(data, cols) {
+dplyr_col_modify <- function(data, cols, ...) {
   UseMethod("dplyr_col_modify")
 }
 
 #' @export
-dplyr_col_modify.data.frame <- function(data, cols) {
+dplyr_col_modify.data.frame <- function(data, cols, ...) {
   # Must be implemented from first principles to avoiding edge cases in
   # [.data.frame and [.tibble (2.1.3 and earlier).
 
@@ -159,7 +159,7 @@ dplyr_col_modify.data.frame <- function(data, cols) {
 }
 
 #' @export
-dplyr_col_modify.grouped_df <- function(data, cols) {
+dplyr_col_modify.grouped_df <- function(data, cols, ...) {
   out <- dplyr_col_modify(as_tibble(data), cols)
 
   if (any(names(cols) %in% group_vars(data))) {
@@ -171,7 +171,7 @@ dplyr_col_modify.grouped_df <- function(data, cols) {
 }
 
 #' @export
-dplyr_col_modify.rowwise_df <- function(data, cols) {
+dplyr_col_modify.rowwise_df <- function(data, cols, ...) {
   out <- dplyr_col_modify(as_tibble(data), cols)
   rowwise_df(out, group_vars(data))
 }
