@@ -108,6 +108,12 @@ test_that("wt = n() is deprecated", {
   expect_warning(count(df, wt = n()), "`wt = n()`", fixed = TRUE)
 })
 
+test_that("count() owns errors (#6139)", {
+  expect_snapshot({
+    (expect_error(count(mtcars, new = 1 + "")))
+  })
+})
+
 # tally -------------------------------------------------------------------
 
 test_that("tally can sort output", {
@@ -143,6 +149,12 @@ test_that(".drop is deprecated",  {
 
   df <- tibble(f = factor("b", levels = c("a", "b", "c")))
   expect_warning(out <- add_count(df, f, .drop = FALSE), "deprecated")
+})
+
+test_that("add_count() owns errors (#6139)", {
+  expect_snapshot({
+    (expect_error(add_count(mtcars, new = 1 + "")))
+  })
 })
 
 # add_tally ---------------------------------------------------------------

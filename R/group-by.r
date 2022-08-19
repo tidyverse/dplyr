@@ -137,7 +137,13 @@ group_by <- function(.data, ..., .add = FALSE, .drop = group_by_drop_default(.da
 
 #' @export
 group_by.data.frame <- function(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data)) {
-  groups <- group_by_prepare(.data, ..., .add = .add, caller_env = caller_env())
+  groups <- group_by_prepare(
+    .data,
+    ...,
+    .add = .add,
+    caller_env = caller_env(),
+    error_call = current_env()
+  )
   grouped_df(groups$data, groups$group_names, .drop)
 }
 
@@ -191,6 +197,7 @@ group_by_prepare <- function(.data,
                              .dots = deprecated(),
                              add = deprecated(),
                              error_call = caller_env()) {
+  error_call <- dplyr_error_call(error_call)
 
   if (!missing(add)) {
     lifecycle::deprecate_warn("1.0.0", "group_by(add = )", "group_by(.add = )", always = TRUE)

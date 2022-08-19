@@ -68,6 +68,8 @@ count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
 
 #' @export
 count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+  dplyr_local_error_call()
+
   if (!missing(...)) {
     out <- group_by(x, ..., .add = TRUE, .drop = .drop)
   } else {
@@ -116,6 +118,8 @@ add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .dro
     lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )", always = TRUE)
   }
 
+  dplyr_local_error_call()
+
   if (!missing(...)) {
     out <- group_by(x, ..., .add = TRUE)
   } else {
@@ -130,6 +134,8 @@ add_count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .
   if (!missing(.drop)) {
     lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )", always = TRUE)
   }
+
+  dplyr_local_error_call()
 
   if (!missing(...)) {
     out <- group_by(x, ..., .add = TRUE)

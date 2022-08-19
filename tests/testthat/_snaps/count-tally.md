@@ -40,3 +40,25 @@
       3 3  1
       4 4  1
 
+# count() owns error messages (#6139)
+
+    Code
+      (expect_error(count(mtcars, new = 1 + "")))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `count()`:
+      ! Problem while computing `new = 1 + ""`.
+      Caused by error in `1 + ""`:
+      ! non-numeric argument to binary operator
+
+# add_count() owns error messages (#6139)
+
+    Code
+      (expect_error(add_count(mtcars, new = 1 + "")))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `add_count()`:
+      ! Problem while computing `new = 1 + ""`.
+      Caused by error in `1 + ""`:
+      ! non-numeric argument to binary operator
+
