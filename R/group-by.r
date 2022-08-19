@@ -310,17 +310,17 @@ quo_is_variable_reference <- function(quo) {
 #'
 #' @keywords internal
 #' @export
-group_by_drop_default <- function(.tbl) {
+group_by_drop_default <- function(.tbl, ...) {
   UseMethod("group_by_drop_default")
 }
 
 #' @export
-group_by_drop_default.default <- function(.tbl) {
+group_by_drop_default.default <- function(.tbl, ...) {
   TRUE
 }
 
 #' @export
-group_by_drop_default.grouped_df <- function(.tbl) {
+group_by_drop_default.grouped_df <- function(.tbl, ...) {
   tryCatch({
     !identical(attr(group_data(.tbl), ".drop"), FALSE)
   }, error = function(e){
