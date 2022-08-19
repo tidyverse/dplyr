@@ -134,6 +134,12 @@ test_that("tally() drops last group (#5199) ", {
   expect_equal(group_vars(res), "x")
 })
 
+test_that("tally() owns errors (#6139)", {
+  expect_snapshot({
+    (expect_error(tally(mtcars, wt = 1 + "")))
+  })
+})
+
 # add_count ---------------------------------------------------------------
 
 test_that("ouput preserves grouping", {

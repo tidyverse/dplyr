@@ -40,7 +40,7 @@
       3 3  1
       4 4  1
 
-# count() owns error messages (#6139)
+# count() owns errors (#6139)
 
     Code
       (expect_error(count(mtcars, new = 1 + "")))
@@ -51,7 +51,18 @@
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
 
-# add_count() owns error messages (#6139)
+# tally() owns errors (#6139)
+
+    Code
+      (expect_error(tally(mtcars, wt = 1 + "")))
+    Output
+      <error/rlang_error>
+      Error in `tally()`:
+      ! Problem while computing `n = sum(1 + "", na.rm = TRUE)`.
+      Caused by error in `1 + ""`:
+      ! non-numeric argument to binary operator
+
+# add_count() owns errors (#6139)
 
     Code
       (expect_error(add_count(mtcars, new = 1 + "")))
