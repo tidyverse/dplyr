@@ -174,7 +174,10 @@ tally_n <- function(x, wt) {
   }
 }
 
-check_name <- function(name, vars) {
+check_name <- function(name,
+                       vars,
+                       arg = caller_arg(name),
+                       call = caller_env()) {
   if (is.null(name)) {
     name <- n_name(vars)
 
@@ -184,8 +187,8 @@ check_name <- function(name, vars) {
         i = "Use `name = \"new_name\"` to pick a new name."
       ))
     }
-  } else if (!is.character(name) || length(name) != 1) {
-    abort("`name` must be a single string.")
+  } else {
+    check_string(name, arg = arg, call = call)
   }
 
   name

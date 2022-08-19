@@ -1,3 +1,19 @@
+# name must be string
+
+    Code
+      count(df, x, name = 1)
+    Condition
+      Error in `tally()`:
+      ! `name` must be a single string, not a number.
+
+---
+
+    Code
+      count(df, x, name = letters)
+    Condition
+      Error in `tally()`:
+      ! `name` must be a single string, not a character vector.
+
 # can only explicitly chain together multiple tallies
 
     Code
