@@ -45,28 +45,28 @@
 #' group_data(gf)
 #' group_indices(gf)
 #' @export
-group_data <- function(.data) {
+group_data <- function(.data, ...) {
   UseMethod("group_data")
 }
 
 #' @export
-group_data.data.frame <- function(.data) {
+group_data.data.frame <- function(.data, ...) {
   rows <- new_list_of(list(seq_len(nrow(.data))), ptype = integer())
   new_data_frame(list(.rows = rows), n = 1L)
 }
 
 #' @export
-group_data.tbl_df <- function(.data) {
+group_data.tbl_df <- function(.data, ...) {
   as_tibble(NextMethod())
 }
 
 #' @export
-group_data.rowwise_df <- function(.data) {
+group_data.rowwise_df <- function(.data, ...) {
   attr(.data, "groups")
 }
 
 #' @export
-group_data.grouped_df <- function(.data) {
+group_data.grouped_df <- function(.data, ...) {
   error_call <- current_env()
   withCallingHandlers(
     validate_grouped_df(.data),
