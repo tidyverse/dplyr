@@ -50,6 +50,14 @@
       ! Problem while computing `new = 1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
+    Code
+      (expect_error(count(mtcars, wt = 1 + "")))
+    Output
+      <error/rlang_error>
+      Error in `count()`:
+      ! Problem while computing `n = sum(1 + "", na.rm = TRUE)`.
+      Caused by error in `1 + ""`:
+      ! non-numeric argument to binary operator
 
 # tally() owns errors (#6139)
 

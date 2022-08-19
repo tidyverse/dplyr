@@ -111,6 +111,7 @@ test_that("wt = n() is deprecated", {
 test_that("count() owns errors (#6139)", {
   expect_snapshot({
     (expect_error(count(mtcars, new = 1 + "")))
+    (expect_error(count(mtcars, wt = 1 + "")))
   })
 })
 
