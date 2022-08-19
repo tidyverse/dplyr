@@ -22,8 +22,8 @@ test_that("informs if n column already present, unless overridden", {
 
 test_that("name must be string", {
   df <- tibble(x = c(1, 2))
-  expect_error(count(df, x, name = 1), "string")
-  expect_error(count(df, x, name = letters), "string")
+  expect_snapshot(error = TRUE, count(df, x, name = 1))
+  expect_snapshot(error = TRUE, count(df, x, name = letters))
 })
 
 test_that("output includes empty levels with .drop = FALSE", {

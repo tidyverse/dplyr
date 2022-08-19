@@ -90,8 +90,9 @@ tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 
 #' @export
 tally.data.frame <- function(x, wt = NULL, sort = FALSE, name = NULL) {
-  n <- tally_n(x, {{ wt }})
   name <- check_name(name, group_vars(x))
+
+  n <- tally_n(x, {{ wt }})
 
   local_options(dplyr.summarise.inform = FALSE)
   out <- summarise(x, !!name := !!n)
@@ -142,8 +143,9 @@ add_count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .
 #' @rdname count
 #' @export
 add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
-  n <- tally_n(x, {{ wt }})
   name <- check_name(name, tbl_vars(x))
+
+  n <- tally_n(x, {{ wt }})
   out <- mutate(x, !!name := !!n)
 
   if (sort) {
@@ -174,7 +176,10 @@ tally_n <- function(x, wt) {
   }
 }
 
-check_name <- function(name, vars) {
+check_name <- function(name,
+                       vars,
+                       arg = caller_arg(name),
+                       call = caller_env()) {
   if (is.null(name)) {
     name <- n_name(vars)
 
@@ -184,8 +189,8 @@ check_name <- function(name, vars) {
         i = "Use `name = \"new_name\"` to pick a new name."
       ))
     }
-  } else if (!is.character(name) || length(name) != 1) {
-    abort("`name` must be a single string.")
+  } else {
+    check_string(name, arg = arg, call = call)
   }
 
   name
