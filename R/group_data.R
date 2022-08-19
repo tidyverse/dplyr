@@ -141,11 +141,11 @@ group_vars.data.frame <- function(x, ...) {
 
 #' @export
 #' @rdname group_data
-groups <- function(x) {
+groups <- function(x, ...) {
   UseMethod("groups")
 }
 #' @export
-groups.data.frame <- function(x) {
+groups.data.frame <- function(x, ...) {
   syms(group_vars(x))
 }
 
