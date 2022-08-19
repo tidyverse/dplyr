@@ -18,18 +18,18 @@
 #'   group_by(Species) %>%
 #'   filter(Species == "setosa", .preserve = TRUE) %>%
 #'   group_trim()
-group_trim <- function(.tbl, .drop = group_by_drop_default(.tbl)) {
+group_trim <- function(.tbl, ..., .drop = group_by_drop_default(.tbl)) {
   lifecycle::signal_stage("experimental", "group_trim()")
   UseMethod("group_trim")
 }
 
 #' @export
-group_trim.data.frame <- function(.tbl, .drop = group_by_drop_default(.tbl)) {
+group_trim.data.frame <- function(.tbl, ..., .drop = group_by_drop_default(.tbl)) {
   .tbl
 }
 
 #' @export
-group_trim.grouped_df <- function(.tbl, .drop = group_by_drop_default(.tbl)) {
+group_trim.grouped_df <- function(.tbl, ..., .drop = group_by_drop_default(.tbl)) {
   vars <- group_vars(.tbl)
   ungrouped <- ungroup(.tbl)
 
