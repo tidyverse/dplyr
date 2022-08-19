@@ -16,12 +16,16 @@ dplyr_error_call <- function(call) {
   if (is_missing(call)) {
     call <- caller_env()
   }
-  if (is_environment(call)) {
+
+  while (is_environment(call)) {
     caller <- eval_bare(quote(base::parent.frame()), call)
     caller_call <- caller[[".__dplyr_error_call__."]]
-    if (!is_null(caller_call)) {
-      call <- caller_call
+
+    if (is_null(caller_call)) {
+      break
     }
+
+    call <- caller_call
   }
 
   call
