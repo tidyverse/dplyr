@@ -249,12 +249,12 @@ tbl_if_syms <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE, error_
 #'
 #' @export
 #' @keywords internal
-tbl_ptype <- function(.data) {
+tbl_ptype <- function(.data, ...) {
   UseMethod("tbl_ptype")
 }
 
 #' @export
-tbl_ptype.default <- function(.data) {
+tbl_ptype.default <- function(.data, ...) {
   if (inherits(.data, "tbl_lazy")) {
     # TODO: remove once moved to dplyr
     inform("Applying predicate on the first 100 rows")
