@@ -25,8 +25,7 @@
       arrange(mtcars, invisible(999 + ""))
     Condition
       Error in `arrange()`:
-      ! Problem with the implicit `transmute()` step.
-      x Problem while computing `..1`.
+      ! Problem while computing `..1`.
       Caused by error in `999 + ""`:
       ! non-numeric argument to binary operator
     Code
@@ -68,8 +67,7 @@
       arrange(mtcars, var = invisible(999 + ""))
     Condition
       Error in `arrange()`:
-      ! Problem with the implicit `transmute()` step.
-      x Problem while computing `..1`.
+      ! Problem while computing `..1`.
       Caused by error in `999 + ""`:
       ! non-numeric argument to binary operator
     Code
@@ -129,8 +127,7 @@
       arrange(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-      ! Problem with the implicit `transmute()` step.
-      x Problem while computing `..1 = 1 + ""`.
+      ! Problem while computing `..1 = 1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code

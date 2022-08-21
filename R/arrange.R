@@ -104,7 +104,7 @@ arrange_rows <- function(data,
                          dots,
                          locale,
                          error_call = caller_env()) {
-  error_call <- dplyr_error_call(error_call)
+  dplyr_local_error_call(error_call)
 
   # Strip out calls to desc() replacing with direction argument
   is_desc_call <- function(x) {
@@ -125,47 +125,11 @@ arrange_rows <- function(data,
     quosure
   })
 
-  # give the quosures arbitrary names so that
-  # data has the right number of columns below after transmute()
-  quo_names <- vec_paste0("^^--arrange_quosure_", seq_along(quosures))
-  names(quosures) <- quo_names
-
-  # TODO: not quite that because when the quosure is some expression
-  #       it should be evaluated by groups.
-  #       for now this abuses transmute so that we get just one
-  #       column per quosure
-  #
-  #       revisit when we have something like mutate_one() to
-  #       evaluate one quosure in the data mask
-  data <- withCallingHandlers({
-    transmute(new_data_frame(data), !!!quosures)
-  }, error = function(cnd) {
-
-    if (inherits(cnd, "dplyr:::mutate_error")) {
-      # reverse the name mangling
-      bullets <- gsub("^^--arrange_quosure_", "..", cnd$bullets, fixed = TRUE)
-      # only name bullets that aren't already named
-      names <- names2(bullets)
-      names[names == ""] <- "x"
-      bullets <- set_names(bullets, names)
-
-      # skip the parent as this has reworked the bullets
-      # and this would be confusing to have them
-      parent <- cnd$parent
-    } else {
-      parent <- cnd
-      bullets <- c()
-    }
-
-    bullets <- c(
-      "Problem with the implicit `transmute()` step. ",
-      bullets
-    )
-    abort(bullets, call = error_call, parent = parent)
-
-  })
-
-  directions <- directions[quo_names %in% names(data)]
+  if (length(quosures) > 0) {
+    names(quosures) <- paste0("..", seq_along(quosures))
+  }
+  data <- transmute(new_data_frame(data), !!!quosures)
+  directions <- directions[names(quosures) %in% names(data)]
 
   if (is.null(locale) && dplyr_legacy_locale()) {
     # Temporary legacy support for respecting the system locale.
