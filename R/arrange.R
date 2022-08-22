@@ -125,9 +125,7 @@ arrange_rows <- function(data,
     quosure
   })
 
-  if (length(quosures) > 0) {
-    names(quosures) <- paste0("..", seq_along(quosures))
-  }
+  names(quosures) <- vec_paste0("..", seq_along(quosures))
   data <- transmute(new_data_frame(data), !!!quosures)
   directions <- directions[names(quosures) %in% names(data)]
 
