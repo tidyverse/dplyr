@@ -198,3 +198,31 @@
     Output
       `c(1, 2, 3, 4, 5)` and 2 more
 
+# errors during dots collection are not enriched (#6178)
+
+    Code
+      mutate(mtcars, !!foobarbaz())
+    Condition
+      Error in `foobarbaz()`:
+      ! could not find function "foobarbaz"
+    Code
+      transmute(mtcars, !!foobarbaz())
+    Condition
+      Error in `foobarbaz()`:
+      ! could not find function "foobarbaz"
+    Code
+      select(mtcars, !!foobarbaz())
+    Condition
+      Error in `foobarbaz()`:
+      ! could not find function "foobarbaz"
+    Code
+      arrange(mtcars, !!foobarbaz())
+    Condition
+      Error in `foobarbaz()`:
+      ! could not find function "foobarbaz"
+    Code
+      filter(mtcars, !!foobarbaz())
+    Condition
+      Error in `foobarbaz()`:
+      ! could not find function "foobarbaz"
+
