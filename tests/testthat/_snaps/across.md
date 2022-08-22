@@ -201,7 +201,6 @@
       
         # Now
         across(a:b, ~mean(.x, na.rm = TRUE))
-      Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
     Output
       # A tibble: 1 x 1
             x
