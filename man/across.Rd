@@ -13,7 +13,7 @@ if_any(.cols = everything(), .fns = NULL, ..., .names = NULL)
 if_all(.cols = everything(), .fns = NULL, ..., .names = NULL)
 }
 \arguments{
-\item{.cols, cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.
+\item{.cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.
 Because \code{across()} is used within functions like \code{summarise()} and
 \code{mutate()}, you can't select or compute upon grouping variables.}
 

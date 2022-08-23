@@ -15,7 +15,7 @@
 #' `across()` supersedes the family of "scoped variants" like
 #' `summarise_at()`, `summarise_if()`, and `summarise_all()`.
 #'
-#' @param .cols,cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
+#' @param .cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
 #'   Because `across()` is used within functions like `summarise()` and
 #'   `mutate()`, you can't select or compute upon grouping variables.
 #' @param .fns Functions to apply to each of the selected columns.
