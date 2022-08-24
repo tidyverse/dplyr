@@ -1,5 +1,9 @@
 # dplyr (development version)
 
+* `across()` has gained a new experimental `.unpack` argument to optionally
+  unpack (as in, `tidyr::unpack()`) data frames returned by functions in `.fns`
+  (#6360).
+
 * `cur_group()` now works correctly with zero row grouped data frames (#6304).
 
 * Error messages in `group_by()`, `distinct()`, `tally()`, and `count()` are now
