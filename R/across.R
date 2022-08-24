@@ -600,6 +600,10 @@ expand_across <- function(quo) {
   mask <- dplyr_mask$get_rlang_mask()
 
   if (".unpack" %in% names(expr)) {
+    # We're expanding expressions but we do need some actual values ahead of
+    # time. We evaluate those in the mask to simulate masked evaluation of an
+    # `across()` call within a verb like `mutate()`. `.names` and `.fns` are
+    # also evaluated this way below.
     unpack <- eval_tidy(expr$.unpack, mask, env = env)
   } else {
     unpack <- FALSE
