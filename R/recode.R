@@ -1,23 +1,23 @@
 #' Recode values
 #'
 #' @description
-#' This is a vectorised version of [switch()]: you can replace
-#' numeric values based on their position or their name, and character or factor
-#' values only by their name. This is an S3 generic: dplyr provides methods for
-#' numeric, character, and factors. For logical vectors, use [if_else()]. For
-#' more complicated criteria, use [case_when()].
+#' `r lifecycle::badge("superseded")`
 #'
-#' You can use `recode()` directly with factors; it will preserve the existing
-#' order of levels while changing the values. Alternatively, you can
-#' use `recode_factor()`, which will change the order of levels to match
-#' the order of replacements. See the [forcats](https://forcats.tidyverse.org/)
-#' package for more tools for working with factors and their levels.
+#' `recode()` is superseded in favor of [case_match()], which handles the most
+#' important cases of `recode()` with a more elegant interface.
+#' `recode_factor()` is also superseded, however, its direct replacement is not
+#' currently available but will eventually live in
+#' [forcats](https://forcats.tidyverse.org/). For creating new variables based
+#' on logical vectors, use [if_else()]. For even more complicated criteria, use
+#' [case_when()].
 #'
-#' `recode()` is questioning because the arguments are in the wrong order.
-#' We have `new <- old`, `mutate(df, new = old)`, and `rename(df, new = old)`
-#' but `recode(x, old = new)`. We don't yet know how to fix this problem, but
-#' it's likely to involve creating a new function then retiring or deprecating
-#' `recode()`.
+#' `recode()` is a vectorised version of [switch()]: you can replace numeric
+#' values based on their position or their name, and character or factor values
+#' only by their name. This is an S3 generic: dplyr provides methods for
+#' numeric, character, and factors. You can use `recode()` directly with
+#' factors; it will preserve the existing order of levels while changing the
+#' values. Alternatively, you can use `recode_factor()`, which will change the
+#' order of levels to match the order of replacements.
 #'
 #' @param .x A vector to modify
 #' @param ... <[`dynamic-dots`][rlang::dyn-dots]> Replacements. For character and factor `.x`, these should be named
@@ -54,66 +54,61 @@
 #'   [tidyr::replace_na()] to replace `NA` with a value.
 #' @export
 #' @examples
-#' # For character values, recode values with named arguments only. Unmatched
-#' # values are unchanged.
 #' char_vec <- sample(c("a", "b", "c"), 10, replace = TRUE)
-#' recode(char_vec, a = "Apple")
+#'
+#' # `recode()` is superseded by `case_match()`
 #' recode(char_vec, a = "Apple", b = "Banana")
+#' case_match(char_vec, "a" ~ "Apple", "b" ~ "Banana", .default = char_vec)
 #'
-#' # Use .default as replacement for unmatched values. Note that NA and
-#' # replacement values need to be of the same type. For more information, see
-#' # https://adv-r.hadley.nz/vectors-chap.html#missing-values
+#' # With `case_match()`, you don't need typed missings like `NA_character_`
 #' recode(char_vec, a = "Apple", b = "Banana", .default = NA_character_)
+#' case_match(char_vec, "a" ~ "Apple", "b" ~ "Banana", .default = NA)
 #'
-#' # Throws an error as NA is logical, not character.
+#' # Throws an error as `NA` is logical, not character.
 #' try(recode(char_vec, a = "Apple", b = "Banana", .default = NA))
 #'
-#' # Use a named character vector for unquote splicing with !!!
-#' level_key <- c(a = "apple", b = "banana", c = "carrot")
-#' recode(char_vec, !!!level_key)
-#'
-#' # For numeric values, named arguments can also be used
+#' # `case_match()` is easier to use with numeric vectors, because you don't
+#' # need to turn the numeric values into names
 #' num_vec <- c(1:4, NA)
 #' recode(num_vec, `2` = 20L, `4` = 40L)
+#' case_match(num_vec, 2 ~ 20, 4 ~ 40, .default = num_vec)
 #'
-#' # Or if you don't name the arguments, recode() matches by position.
-#' # (Only works for numeric vector)
+#' # `case_match()` doesn't have the ability to match by position like
+#' # `recode()` does with numeric vectors
 #' recode(num_vec, "a", "b", "c", "d")
-#' # .x (position given) looks in (...), then grabs (... value at position)
-#' # so if nothing at position (here 5), it uses .default or NA.
 #' recode(c(1,5,3), "a", "b", "c", "d", .default = "nothing")
 #'
-#' # Note that if the replacements are not compatible with .x,
-#' # unmatched values are replaced by NA and a warning is issued.
+#' # For `case_match()`, incompatible types are an error rather than a warning
 #' recode(num_vec, `2` = "b", `4` = "d")
-#' # use .default to change the replacement value
-#' recode(num_vec, "a", "b", "c", .default = "other")
-#' # use .missing to replace missing values in .x
-#' recode(num_vec, "a", "b", "c", .default = "other", .missing = "missing")
+#' try(case_match(num_vec, 2 ~ "b", 4 ~ "d", .default = num_vec))
 #'
-#' # For factor values, use only named replacements
-#' # and supply default with levels()
+#' # The factor method of `recode()` can generally be replaced with
+#' # `forcats::fct_recode()`
 #' factor_vec <- factor(c("a", "b", "c"))
-#' recode(factor_vec, a = "Apple", .default = levels(factor_vec))
+#' recode(factor_vec, a = "Apple")
 #'
-#' # Use recode_factor() to create factors with levels ordered as they
-#' # appear in the recode call. The levels in .default and .missing
-#' # come last.
-#' recode_factor(num_vec, `1` = "z", `2` = "y", `3` = "x")
-#' recode_factor(num_vec, `1` = "z", `2` = "y", `3` = "x",
-#'               .default = "D")
-#' recode_factor(num_vec, `1` = "z", `2` = "y", `3` = "x",
-#'               .default = "D", .missing = "M")
-#'
-#' # When the input vector is a compatible vector (character vector or
-#' # factor), it is reused as default.
-#' recode_factor(letters[1:3], b = "z", c = "y")
-#' recode_factor(factor(letters[1:3]), b = "z", c = "y")
-#'
-#' # Use a named character vector to recode factors with unquote splicing.
-#' level_key <- c(a = "apple", b = "banana", c = "carrot")
-#' recode_factor(char_vec, !!!level_key)
+#' # `recode_factor()` does not currently have a direct replacement, but we
+#' # plan to add one to forcats. In the meantime, you can use the `.ptype`
+#' # argument to `case_match()`.
+#' recode_factor(
+#'   num_vec,
+#'   `1` = "z",
+#'   `2` = "y",
+#'   `3` = "x",
+#'   .default = "D",
+#'   .missing = "M"
+#' )
+#' case_match(
+#'   num_vec,
+#'   1 ~ "z",
+#'   2 ~ "y",
+#'   3 ~ "x",
+#'   NA ~ "M",
+#'   .default = "D",
+#'   .ptype = factor(levels = c("z", "y", "x", "D", "M"))
+#' )
 recode <- function(.x, ..., .default = NULL, .missing = NULL) {
+  lifecycle::signal_stage("superseded", "recode()", "case_match()")
   UseMethod("recode")
 }
 
@@ -268,6 +263,7 @@ recode_default.factor <- function(x, default, out) {
 #' @export
 recode_factor <- function(.x, ..., .default = NULL, .missing = NULL,
                           .ordered = FALSE) {
+  lifecycle::signal_stage("superseded", "recode_factor()", I("`case_match(.ptype = factor(levels = ))`"))
   values <- list2(...)
   recoded <- recode(.x, !!!values, .default = .default, .missing = .missing)
 
