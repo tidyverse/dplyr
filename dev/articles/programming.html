@@ -359,7 +359,6 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Bespin         79   175 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Bestine IV    110   180 </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 45 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">my_summarise</span><span class="op">(</span><span class="va">sex</span>, <span class="va">gender</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `summarise()` has grouped output by 'sex'. You can override using the</span></span>
 <span><span class="co">#&gt; `.groups` argument.</span></span>
@@ -371,8 +370,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> hermaphroditic masculine <span style="text-decoration: underline;">1</span>358     175 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> male           masculine   81.0   179.</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> none           feminine   <span style="color: #BB0000;">NaN</span>      96 </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span></code></pre></div>
 <p>When you use <code>...</code> in this way, make sure that any other arguments start with <code>.</code> to reduce the chances of argument clashes; see <a href="https://design.tidyverse.org/dots-prefix.html" class="external-link uri">https://design.tidyverse.org/dots-prefix.html</a> for more details.</p>
 </div>
 <div class="section level3">
@@ -416,8 +414,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1 0.361    0.5 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1 0.674    0.75</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     2 0.315    0.25</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows</span></span></span></code></pre></div>
 <p>Unfortunately it doesn’t quite yet work with <code><a href="../reference/across.html">across()</a></code> because (for complicated reasons) it generates so-called packed columns that are themselves data frames:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -433,8 +430,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1   0.361     0.5    0.174     0.5 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1   0.674     0.75   0.524     0.75</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     2   0.315     0.25  -<span style="color: #BB0000;">0.690</span>     0.25</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows</span></span></span></code></pre></div>
 <p>You’ll need an additional unpack to get what you want:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -451,8 +447,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1 0.361    0.5   0.174    0.5 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1 0.674    0.75  0.524    0.75</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     2 0.315    0.25 -<span style="color: #BB0000;">0.690</span>    0.25</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="allowing-the-user-to-control-column-names">Allowing the user to control column names<a class="anchor" aria-label="anchor" href="#allowing-the-user-to-control-column-names"></a>
@@ -504,8 +499,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Besalisk   102    198</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cerean      82    198</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Chagrian   <span style="color: #BB0000;">NaN</span>    196</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 34 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 34 more rows</span></span></span></code></pre></div>
 <p>You can use this same idea for multiple sets of input data-variables:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_summarise</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">group_var</span>, <span class="va">summarise_var</span><span class="op">)</span> <span class="op">{</span></span>

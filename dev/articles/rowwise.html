@@ -197,8 +197,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2    11    21    31    41</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    12    22    32    42</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4    13    23    33    43</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span></code></pre></div>
 <p>Let’s say we want compute the sum of <code>w</code>, <code>x</code>, <code>y</code>, and <code>z</code> for each row. We start by making a row-wise data frame:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rf</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span></code></pre></div>
@@ -214,7 +213,6 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    12    22    32    42   108</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4    13    23    33    43   112</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="va">rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">w</span>, <span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `summarise()` has grouped output by 'id'. You can override using the</span></span>
 <span><span class="co">#&gt; `.groups` argument.</span></span>
@@ -226,8 +224,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2   104</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3   108</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4   112</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span></code></pre></div>
 <p>Of course, if you have a lot of variables, it’s going to be tedious to type in every variable name. Instead, you can use <code><a href="../reference/c_across.html">c_across()</a></code> which uses tidy selection syntax so you can to succinctly select many variables:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="../reference/c_across.html">c_across</a></span><span class="op">(</span><span class="va">w</span><span class="op">:</span><span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -240,7 +237,6 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    12    22    32    42   108</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4    13    23    33    43   112</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="va">rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="../reference/c_across.html">c_across</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Rowwise:  id</span></span></span>
@@ -250,8 +246,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2    11    21    31    41   104</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    12    22    32    42   108</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4    13    23    33    43   112</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span></code></pre></div>
 <p>You could combine this with column-wise operations (see <code><a href="../articles/colwise.html">vignette("colwise")</a></code> for more details) to compute the proportion of the total for each column:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -265,8 +260,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2 0.106 0.202 0.298 0.394   104</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3 0.111 0.204 0.296 0.389   108</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4 0.116 0.205 0.295 0.384   112</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span></code></pre></div>
 <div class="section level3">
 <h3 id="row-wise-summary-functions">Row-wise summary functions<a class="anchor" aria-label="anchor" href="#row-wise-summary-functions"></a>
 </h3>
@@ -281,7 +275,6 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    12    22    32    42   111</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4    13    23    33    43   116</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
 <span><span class="co">#&gt;      id     w     x     y     z  mean</span></span>
@@ -290,8 +283,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2    11    21    31    41  21.2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    12    22    32    42  22.2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4    13    23    33    43  23.2</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span></code></pre></div>
 <p><strong>NB</strong>: I use <code>df</code> (not <code>rf</code>) and <code><a href="../reference/across.html">across()</a></code> (not <code><a href="../reference/c_across.html">c_across()</a></code>) here because <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans()</a></code> and <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums()</a></code> take a multi-row data frame as input.</p>
 </div>
 </div>
@@ -489,8 +481,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     6     0.465     0.357  1.17    4.34  0.091<span style="text-decoration: underline;">8</span>     1  -<span style="color: #BB0000;">9.83</span>  25.7  25.5</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     8     0.423     0.375  2.02    8.80  0.011<span style="text-decoration: underline;">8</span>     1 -<span style="color: #BB0000;">28.7</span>   63.3  65.2</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   and abbreviated variable names ¹​adj.r.squared, ²​statistic</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   and abbreviated variable names ¹​adj.r.squared, ²​statistic</span></span></span></code></pre></div>
 <p>Or easily access the parameters of each model:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mods</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span></span>
@@ -504,8 +495,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     4 wt             -<span style="color: #BB0000;">5.65</span>      1.85     -<span style="color: #BB0000;">3.05</span> 0.013<span style="text-decoration: underline;">7</span>    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     6 (Intercept)    28.4       4.18      6.79 0.001<span style="text-decoration: underline;">05</span>   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     6 wt             -<span style="color: #BB0000;">2.78</span>      1.33     -<span style="color: #BB0000;">2.08</span> 0.091<span style="text-decoration: underline;">8</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -564,8 +554,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     0     1 <span style="color: #949494;">&lt;dbl [10]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1     1 <span style="color: #949494;">&lt;dbl [10]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    -<span style="color: #BB0000;">1</span>    10 <span style="color: #949494;">&lt;dbl [10]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="varying-functions">Varying functions<a class="anchor" aria-label="anchor" href="#varying-functions"></a>
