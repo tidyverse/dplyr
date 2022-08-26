@@ -108,6 +108,7 @@
 #'   .ptype = factor(levels = c("z", "y", "x", "D", "M"))
 #' )
 recode <- function(.x, ..., .default = NULL, .missing = NULL) {
+  # Superseded in dplyr 1.1.0
   lifecycle::signal_stage("superseded", "recode()", "case_match()")
   UseMethod("recode")
 }
@@ -263,6 +264,7 @@ recode_default.factor <- function(x, default, out) {
 #' @export
 recode_factor <- function(.x, ..., .default = NULL, .missing = NULL,
                           .ordered = FALSE) {
+  # Superseded in dplyr 1.1.0
   lifecycle::signal_stage("superseded", "recode_factor()", I("`case_match(.ptype = factor(levels = ))`"))
   values <- list2(...)
   recoded <- recode(.x, !!!values, .default = .default, .missing = .missing)
