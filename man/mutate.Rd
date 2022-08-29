@@ -66,10 +66,9 @@ their original location.
 }
 }
 \description{
-\code{mutate()} adds new variables and preserves existing ones;
-\code{transmute()} adds new variables and drops existing ones.
-New variables overwrite existing variables of the same name.
-Variables can be removed by setting their value to \code{NULL}.
+\code{mutate()} creates new columns that are functions of existing variables.
+It can also modify (if the name is the same as an existing
+column) and delete columns (by setting their value to \code{NULL}).
 }
 \section{Useful mutate functions}{
 
@@ -162,7 +161,7 @@ df <- tibble(x = 1, y = 2, a = "a", b = "b")
 df \%>\% mutate(z = x + y, .keep = "all") # the default
 df \%>\% mutate(z = x + y, .keep = "used")
 df \%>\% mutate(z = x + y, .keep = "unused")
-df \%>\% mutate(z = x + y, .keep = "none") # same as transmute()
+df \%>\% mutate(z = x + y, .keep = "none")
 
 # Grouping ----------------------------------------
 # The mutate operation may yield different results on grouped

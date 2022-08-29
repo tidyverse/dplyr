@@ -203,7 +203,7 @@ by_species %>%
 Note that second example is sorted by `species` (from the `group_by()` statement) and
 then by `mass` (within species).
 
-### `mutate()` and `transmute()`
+### `mutate()`
 
 In simple cases with vectorised functions, grouped and ungrouped `mutate()` give the same results. They differ when used with summary functions:
 

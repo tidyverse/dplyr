@@ -3,10 +3,9 @@
 #' @description
 #' `r lifecycle::badge("superseded")`
 #'
-#' `transmute()` is like `mutate(.keep = "none")`; adds new variables and drops
-#' existing ones. New variables overwrite existing variables of the same name.
-#' Variables can be removed by setting their value to `NULL`. It's supersed
-#' because you can perform the same job with `mutate()`.
+#' `transmute()` creates a new data frame containing only the specified
+#' computations. It's superseded because you can perform the same job
+#' with `mutate(.keep = "none")`; it
 #'
 #' @inheritParams mutate
 #' @section Methods:
@@ -20,7 +19,7 @@
 #' properties:
 #'
 #' * Columns created or modified through `...` will be returned in the order
-#'     specified by `...`.
+#'   specified by `...`.
 #' * Unmodified grouping columns will be placed at the front.
 #' * The number of rows is not affected.
 #' * Columns given the value `NULL` will be removed.
@@ -29,6 +28,7 @@
 #' @keywords internal
 #' @export
 transmute <- function(.data, ...) {
+  # dplyr 1.1.10
   lifecycle::signal_stage("superseded", "transmute()", I("mutate(.keep = 'none')"))
 
   UseMethod("transmute")

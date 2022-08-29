@@ -37,14 +37,11 @@ specified by \code{...}.
 }
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#questioning}{\figure{lifecycle-questioning.svg}{options: alt='[Questioning]'}}}{\strong{[Questioning]}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
-\code{transmute()} is like \code{mutate(.keep = "none")}; adds new variables and drops
-existing ones. New variables overwrite existing variables of the same name.
-Variables can be removed by setting their value to \code{NULL}.
-
-\code{transmute()} is questioning because you can perform the same job with
-\code{mutate()}.
+\code{transmute()} creates a new data frame containing only the specified
+computations. It's superseded because you can perform the same job
+with \code{mutate(.keep = "none")}; it
 }
 \section{Methods}{
 
