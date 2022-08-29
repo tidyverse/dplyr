@@ -55,3 +55,13 @@ test_that("`err_locs()` works as expected", {
     err_locs(1:7)
   })
 })
+
+test_that("errors during dots collection are not enriched (#6178)", {
+  expect_snapshot(error = TRUE, {
+    mutate(mtcars, !!foobarbaz())
+    transmute(mtcars, !!foobarbaz())
+    select(mtcars, !!foobarbaz())
+    arrange(mtcars, !!foobarbaz())
+    filter(mtcars, !!foobarbaz())
+  })
+})

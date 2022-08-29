@@ -41,10 +41,8 @@
     Code
       (expect_error(df %>% group_by(z = a + 1)))
     Output
-      <error/rlang_error>
+      <error/dplyr:::mutate_error>
       Error in `group_by()`:
-      ! Problem adding computed columns.
-      Caused by error in `mutate()`:
       ! Problem while computing `z = a + 1`.
       Caused by error:
       ! object 'a' not found

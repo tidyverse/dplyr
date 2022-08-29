@@ -13,6 +13,17 @@ test_that("cur_group() works", {
 
 })
 
+test_that("cur_group() works with empty grouped data frame (#6304)", {
+  df <- tibble(x = integer())
+  gdf <- group_by(df, x)
+
+  out <- mutate(df, y = cur_group())
+  expect_identical(out$y, tibble())
+
+  out <- mutate(gdf, y = cur_group())
+  expect_identical(out$y, tibble(x = integer()))
+})
+
 test_that("cur_group_idx() gives unique id", {
   df <- tibble(x = c("b", "a", "b"))
   gf <- group_by(df, x)

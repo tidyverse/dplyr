@@ -1,3 +1,19 @@
+# `recode()` signals that it is superseded
+
+    Code
+      catch_cnd(recode("a", a = "A"))
+    Output
+      <lifecycle_stage: recode() is superseded
+      Please use `case_match()` instead.>
+
+# `recode_factor()` signals that it is superseded
+
+    Code
+      catch_cnd(recode_factor("a", a = "A"))
+    Output
+      <lifecycle_stage: recode_factor() is superseded
+      Please use `case_match(.ptype = factor(levels = ))` instead.>
+
 # recode() gives meaningful error messages
 
     Code

@@ -1,3 +1,46 @@
+# across(.unpack =) errors if the unpacked data frame has non-unique names
+
+    Code
+      mutate(df, across(x:y, fn, .unpack = "{outer}"))
+    Condition
+      Error in `mutate()`:
+      ! Problem while computing `..1 = across(x:y, fn, .unpack = "{outer}")`.
+      Caused by error in `across()`:
+      ! Names must be unique.
+      x These names are duplicated:
+        * "x" at locations 1 and 2.
+        * "y" at locations 3 and 4.
+
+# `.unpack` is validated
+
+    Code
+      summarise(df, across(x, mean, .unpack = 1))
+    Condition
+      Error in `summarise()`:
+      ! Problem while computing `..1 = across(x, mean, .unpack = 1)`.
+      Caused by error in `across()`:
+      ! `.unpack` must be `TRUE`, `FALSE`, or a single string, not a number.
+
+---
+
+    Code
+      summarise(df, across(x, mean, .unpack = c("x", "y")))
+    Condition
+      Error in `summarise()`:
+      ! Problem while computing `..1 = across(x, mean, .unpack = c("x", "y"))`.
+      Caused by error in `across()`:
+      ! `.unpack` must be `TRUE`, `FALSE`, or a single string, not a character vector.
+
+---
+
+    Code
+      summarise(df, across(x, mean, .unpack = NA))
+    Condition
+      Error in `summarise()`:
+      ! Problem while computing `..1 = across(x, mean, .unpack = NA)`.
+      Caused by error in `across()`:
+      ! `.unpack` must be `TRUE`, `FALSE`, or a single string, not `NA`.
+
 # across() gives meaningful messages
 
     Code
@@ -201,7 +244,6 @@
       
         # Now
         across(a:b, ~mean(.x, na.rm = TRUE))
-      Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
     Output
       # A tibble: 1 x 1
             x

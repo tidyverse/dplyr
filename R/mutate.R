@@ -273,6 +273,9 @@ check_transmute_args <- function(..., .keep, .before, .after, error_call = calle
 }
 
 mutate_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
+  # Collect dots before setting up error handlers (#6178)
+  force(dots)
+
   error_call <- dplyr_error_call(error_call)
 
   mask <- DataMask$new(.data, caller_env, "mutate", error_call = error_call)
