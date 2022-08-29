@@ -1,55 +1,22 @@
-# ------------------------------------------------------------------------------
-# lead() / lag()
-
 test_that("`lead()` / `lag()` get the direction right", {
   expect_identical(lead(1:5), c(2:5, NA))
   expect_identical(lag(1:5), c(NA, 1:4))
 })
 
-test_that("`lead()` / `lag()` catch negative `n`", {
-  expect_snapshot(error = TRUE, {
-    lead(1:5, -1)
-  })
-  expect_snapshot(error = TRUE, {
-    lag(1:5, -1)
-  })
+test_that("If n = 0, lead and lag return x", {
+  x <- c(10L, 8L, 1L, 3L, 6L, 9L, 4L, 2L, 5L, 7L)
+  expect_equal(lead(x, 0), x)
+  expect_equal(lag(x, 0), x)
 })
 
-test_that("`lead()` / `lag()` check `n` properties before checking if positive", {
-  # To prove that the `check_shift_n()` in `lag()` and `lead()` is required
+test_that("If n = length(x), returns all missing", {
+  x <- c(10L, 8L, 1L, 3L, 6L, 9L, 4L, 2L, 5L, 7L)
 
-  expect_snapshot(error = TRUE, {
-    lead(1:5, n = 1:2)
-  })
-  expect_snapshot(error = TRUE, {
-    lag(1:5, n = 1:2)
-  })
-
-  expect_snapshot(error = TRUE, {
-    lead(1:5, n = "x")
-  })
-  expect_snapshot(error = TRUE, {
-    lag(1:5, n = "x")
-  })
-
-  expect_snapshot(error = TRUE, {
-    lead(1:5, n = NA_integer_)
-  })
-  expect_snapshot(error = TRUE, {
-    lag(1:5, n = NA_integer_)
-  })
+  expect_equal(lead(x, length(x)), rep(NA_integer_, length(x)))
+  expect_equal(lag(x, length(x)), rep(NA_integer_, length(x)))
 })
 
-test_that("`lead()` / `lag()` check for empty dots", {
-  expect_snapshot(error = TRUE, {
-    lead(1:5, deault = 1)
-  })
-  expect_snapshot(error = TRUE, {
-    lag(1:5, deault = 1)
-  })
-})
-
-test_that("`lag()` errors on <ts> objects", {
+test_that("`lag()` gives informative error for <ts> objects", {
   expect_snapshot(error = TRUE, {
     lag(ts(1:10))
   })
@@ -82,41 +49,24 @@ test_that("lead and lag preserves dates and times", {
   expect_s3_class(lag(y), "POSIXct")
 })
 
-test_that("#925 is fixed", {
-  data <- tibble(
-    name = c("Rob", "Pete", "Rob", "John", "Rob", "Pete", "John", "Pete", "John", "Pete", "Rob", "Rob"),
-    time = c(3, 2, 5, 3, 2, 3, 2, 4, 1, 1, 4, 1)
-  )
-  res <- data %>% group_by(name) %>% mutate(lag_time = lag(time))
-  expect_equal(
-    res$lag_time[res$name == "Rob"],
-    c(NA, head(data$time[data$name == "Rob"], -1))
-  )
-  expect_equal(
-    res$lag_time[res$name == "Pete"],
-    c(NA, head(data$time[data$name == "Pete"], -1))
-  )
-  expect_equal(
-    res$lag_time[res$name == "John"],
-    c(NA, head(data$time[data$name == "John"], -1))
-  )
+test_that("`lead()` / `lag()` validate `n`", {
+  expect_snapshot(error = TRUE, {
+    lead(1:5, n = 1:2)
+    lead(1:5, -1)
+  })
+  expect_snapshot(error = TRUE, {
+    lag(1:5, n = 1:2)
+    lag(1:5, -1)
+  })
 })
 
-test_that("#937 is fixed", {
-  df <- tibble(
-    name = rep(c("Al", "Jen"), 3),
-    score = rep(c(100, 80, 60), 2)
-  )
-
-  res <- df %>% group_by(name) %>% mutate(next.score = lead(score))
-  expect_equal(
-    res$next.score[res$name == "Al"],
-    c(tail(df$score[df$name == "Al"], -1), NA)
-  )
-  expect_equal(
-    res$next.score[res$name == "Jen"],
-    c(tail(df$score[df$name == "Jen"], -1), NA)
-  )
+test_that("`lead()` / `lag()` check for empty dots", {
+  expect_snapshot(error = TRUE, {
+    lead(1:5, deault = 1)
+  })
+  expect_snapshot(error = TRUE, {
+    lag(1:5, deault = 1)
+  })
 })
 
 test_that("`lead()` / `lag()` require that `x` is a vector", {
@@ -210,12 +160,6 @@ test_that("`default` must be size 1 (#5641)", {
 test_that("`n` is validated", {
   expect_snapshot(error = TRUE, {
     shift(1, n = 1:2)
-  })
-  expect_snapshot(error = TRUE, {
-    shift(1, n = "x")
-  })
-  expect_snapshot(error = TRUE, {
-    shift(1, n = NA_integer_)
   })
 })
 

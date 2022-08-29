@@ -1,3 +1,5 @@
+# between -------------------------------------------------------------------
+
 test_that("returns NA if any argument is NA", {
   na <- NA_real_
   expect_equal(between(1, 1, na), NA)
@@ -64,4 +66,48 @@ test_that("recycles `left` and `right` to the size of `x`", {
   expect_snapshot(error = TRUE, {
     between(1:3, 1L, 1:2)
   })
+})
+
+
+# cum* --------------------------------------------------------------------
+
+test_that("cum(sum,min,max) return expected results for simple cases", {
+  expect_equal(cummean(numeric()), numeric())
+  x <- c(5, 10, 2, 4)
+  expect_equal(cummean(x), cumsum(x) / seq_along(x))
+
+  expect_equal(cumany(logical()), logical())
+
+  expect_equal(cumany(FALSE), FALSE)
+  expect_equal(cumany(TRUE), TRUE)
+
+  expect_equal(cumany(c(FALSE, FALSE)), c(FALSE, FALSE))
+  expect_equal(cumany(c(TRUE, FALSE)), c(TRUE, TRUE))
+  expect_equal(cumany(c(FALSE, TRUE)), c(FALSE, TRUE))
+  expect_equal(cumany(c(TRUE, TRUE)), c(TRUE, TRUE))
+
+  expect_equal(cumall(logical()), logical())
+
+  expect_equal(cumall(FALSE), FALSE)
+  expect_equal(cumall(TRUE), TRUE)
+
+  expect_equal(cumall(c(FALSE, FALSE)), c(FALSE, FALSE))
+  expect_equal(cumall(c(TRUE, FALSE)), c(TRUE, FALSE))
+  expect_equal(cumall(c(FALSE, TRUE)), c(FALSE, FALSE))
+  expect_equal(cumall(c(TRUE, TRUE)), c(TRUE, TRUE))
+})
+
+test_that("cumany/cumall propagate NAs (#408, #3749, #4132)", {
+  expect_equal(cumall(c(NA, NA)), c(NA, NA))
+  expect_equal(cumall(c(NA, TRUE)), c(NA, NA))
+  expect_equal(cumall(c(NA, FALSE)), c(NA, FALSE))
+
+  expect_equal(cumany(c(NA, NA)), c(NA, NA))
+  expect_equal(cumany(c(NA, TRUE)), c(NA, TRUE))
+  expect_equal(cumany(c(NA, FALSE)), c(NA, NA))
+})
+
+test_that("cummean is not confused by FP error (#1387)", {
+  a <- rep(99, 9)
+  expect_true(all(cummean(a) == a))
 })

@@ -2,6 +2,24 @@
 
 * `transmute()` is superseded in favour of `mutate(keep = "none")`
 
+* `recode()` is superseded in favor of `case_match()`. `recode_factor()` is
+  superseded as well, but we don't have a direct replacement for it yet. We plan
+  to add one to forcats, but in the meantime you can often use a pattern of
+  `case_match(.ptype = factor(levels = ))` instead (#6433).
+
+* `across()` has gained a new experimental `.unpack` argument to optionally
+  unpack (as in, `tidyr::unpack()`) data frames returned by functions in `.fns`
+  (#6360).
+
+* `cur_group()` now works correctly with zero row grouped data frames (#6304).
+
+* Error messages in `group_by()`, `distinct()`, `tally()`, and `count()` are now
+  more relevant (#6139).
+
+* `slice_sample()` now accepts negative `n` and `prop` values (#6402).
+
+* `slice_*()` now requires `n` to be an integer.
+
 * New `case_match()` function that is a "vectorised switch" variant of
   `case_when()` that matches on values rather than logical expressions. It is
   like a SQL "simple" `CASE WHEN` statement, whereas `case_when()` is like a SQL

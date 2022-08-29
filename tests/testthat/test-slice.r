@@ -113,22 +113,36 @@ test_that("get_slice_size() validates its inputs", {
   })
 })
 
-test_that("get_slice_size() converts proportions to numbers", {
-  expect_equal(get_slice_size(prop = 0.5)(10), 5)
-  expect_equal(get_slice_size(prop = -0.1)(10), 9)
-  expect_equal(get_slice_size(prop = 1.1)(10), 11)
+test_that("get_slice_size() standardises prop", {
+  expect_equal(get_slice_size(prop = 0)(10), 0)
+
+  expect_equal(get_slice_size(prop = 0.4)(10), 4)
+  expect_equal(get_slice_size(prop = 2)(10), 10)
+  expect_equal(get_slice_size(prop = 2, allow_outsize = TRUE)(10), 20)
+
+  expect_equal(get_slice_size(prop = -0.4)(10), 6)
+  expect_equal(get_slice_size(prop = -2)(10), 0)
 })
 
-test_that("get_slice_size() converts negative to positive", {
-  expect_equal(get_slice_size(n = -1)(10), 9)
-  expect_equal(get_slice_size(prop = -0.5)(10), 5)
+test_that("get_slice_size() standardises n", {
+  expect_equal(get_slice_size(n = 0)(10), 0)
+
+  expect_equal(get_slice_size(n = 4)(10), 4)
+  expect_equal(get_slice_size(n = 20)(10), 10)
+  expect_equal(get_slice_size(n = 20, allow_outsize = TRUE)(10), 20)
+
+  expect_equal(get_slice_size(n = -4)(10), 6)
+  expect_equal(get_slice_size(n = -20)(10), 0)
 })
 
-test_that("get_slice_size() rounds non-integers", {
-  expect_equal(get_slice_size(n = 1.6)(10), 1)
+test_that("get_slice_size() rounds prop in the right direction", {
   expect_equal(get_slice_size(prop = 0.16)(10), 1)
-  expect_equal(get_slice_size(n = -1.6)(10), 9)
   expect_equal(get_slice_size(prop = -0.16)(10), 9)
+})
+
+test_that("n must be an integer", {
+  df <- tibble(x = 1:5)
+  expect_snapshot(slice_head(df, n = 1.1), error = TRUE)
 })
 
 test_that("functions silently truncate results", {
@@ -255,6 +269,16 @@ test_that("min and max ignore NA's when requested (#4826)", {
   expect_equal(slice_max(df, tibble(a, b), n = 3, na_rm = TRUE)$id, 1)
 })
 
+test_that("slice_min/max() count from back with negative n/prop", {
+  df <- tibble(id = 1:4, x = c(2, 3, 1, 4))
+  expect_equal(slice_min(df, x, n = -1), slice_min(df, x, n = 3))
+  expect_equal(slice_max(df, x, n = -1), slice_max(df, x, n = 3))
+
+  # and can be larger than group size
+  expect_equal(slice_min(df, x, n = -10), df[0, ])
+  expect_equal(slice_max(df, x, n = -10), df[0, ])
+})
+
 test_that("slice_min/max() can order by multiple variables (#6176)", {
   df <- tibble(id = 1:4, x = 1, y = c(1, 4, 2, 3))
   expect_equal(slice_min(df, tibble(x, y), n = 1)$id, 1)
@@ -293,6 +317,12 @@ test_that("slice_sample() respects weight_by and replaces", {
   expect_equal(out$x, c(1, 1))
 })
 
+test_that("slice_sample() can increase rows iff replace = TRUE", {
+  df <- tibble(x = 1:10)
+  expect_equal(nrow(slice_sample(df, n = 20, replace = FALSE)), 10)
+  expect_equal(nrow(slice_sample(df, n = 20, replace = TRUE)), 20)
+})
+
 test_that("slice_sample() checks size of `weight_by=` (#5922)", {
   df <- tibble(x = 1:10)
   expect_snapshot(slice_sample(df, n = 2, weight_by = 1:6), error = TRUE)
@@ -312,16 +342,20 @@ test_that("`slice_sample()` validates `replace`", {
   })
 })
 
-test_that("slice_sample() handles n= and prop=", {
+test_that("slice_sample() handles positive n= and prop=", {
   gf <- group_by(tibble(a = 1, b = 1), a)
   expect_equal(slice_sample(gf, n = 3, replace = TRUE), gf[c(1, 1, 1), ])
   expect_equal(slice_sample(gf, prop = 3, replace = TRUE), gf[c(1, 1, 1), ])
+})
 
-  # Unlike other helpers, can't supply negative values
-  expect_snapshot(error = TRUE, {
-    slice_sample(gf, n = -1)
-    slice_sample(gf, prop = -1)
-  })
+test_that("slice_sample() handles negative n= and prop= (#6402)", {
+  df <- tibble(a = 1:2)
+  expect_equal(nrow(slice_sample(df, n = -1)), 1)
+  expect_equal(nrow(slice_sample(df, prop = -0.5)), 1)
+
+  # even if larger than n
+  expect_equal(nrow(slice_sample(df, n = -3)), 0)
+  expect_equal(nrow(slice_sample(df, prop = -2)), 0)
 })
 
 # slice_head/slice_tail ---------------------------------------------------
@@ -334,6 +368,16 @@ test_that("slice_head/slice_tail keep positive values", {
 
   expect_equal(slice_tail(gf, n = 1)$id, c(1, 3, 6))
   expect_equal(slice_tail(gf, n = 2)$id, c(1, 2, 3, 5, 6))
+})
+
+test_that("slice_head/tail() count from back with negative n/prop", {
+  df <- tibble(id = 1:4, x = c(2, 3, 1, 4))
+  expect_equal(slice_head(df, n = -1), slice_head(df, n = 3))
+  expect_equal(slice_tail(df, n = -1), slice_tail(df, n = 3))
+
+  # and can be larger than group size
+  expect_equal(slice_head(df, n = -10), df[0, ])
+  expect_equal(slice_tail(df, n = -10), df[0, ])
 })
 
 test_that("slice_head/slice_tail drop from opposite end when n/prop negative", {

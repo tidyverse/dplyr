@@ -344,7 +344,7 @@ summarise_build <- function(.data, cols) {
   dplyr_col_modify(out, cols$new)
 }
 
-summarise_bullets <- function(cnd, ..) {
+summarise_bullets <- function(cnd, ...) {
   UseMethod("summarise_bullets")
 }
 

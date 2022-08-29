@@ -61,8 +61,7 @@ lag <- function(x, n = 1L, default = NULL, order_by = NULL, ...) {
   }
   check_dots_empty0(...)
 
-  n <- check_shift_n(n)
-
+  check_number(n)
   if (n < 0L) {
     abort("`n` must be positive.")
   }
@@ -75,15 +74,12 @@ lag <- function(x, n = 1L, default = NULL, order_by = NULL, ...) {
 lead <- function(x, n = 1L, default = NULL, order_by = NULL, ...) {
   check_dots_empty0(...)
 
-  n <- check_shift_n(n)
-
+  check_number(n)
   if (n < 0L) {
     abort("`n` must be positive.")
   }
 
-  n <- n * -1L
-
-  shift(x, n = n, default = default, order_by = order_by)
+  shift(x, n = -n, default = default, order_by = order_by)
 }
 
 shift <- function(x,
@@ -107,8 +103,8 @@ shift <- function(x,
   }
 
   vec_assert(x, arg = "x", call = error_call)
-
-  n <- check_shift_n(n, error_call = error_call)
+  check_number(n)
+  n <- vec_cast(n, integer(), call = error_call)
 
   if (!is.null(default)) {
     vec_assert(default, size = 1L, arg = "default", call = error_call)
@@ -164,17 +160,4 @@ shift_c <- function(x, n, size, lag, default) {
     x <- vec_slice(x, loc)
     vec_c(x, default, .ptype = x)
   }
-}
-
-check_shift_n <- function(n, ..., error_call = caller_env()) {
-  check_dots_empty0(...)
-
-  vec_assert(n, size = 1L, arg = "n", call = error_call)
-  n <- vec_cast(n, integer(), x_arg = "n", call = error_call)
-
-  if (is.na(n)) {
-    abort("`n` can't be missing.", call = error_call)
-  }
-
-  n
 }

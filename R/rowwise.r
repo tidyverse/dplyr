@@ -88,6 +88,10 @@ rowwise_df <- function(data, group_vars) {
   new_rowwise_df(data, group_data)
 }
 
+is_rowwise_df <- function(x) {
+  inherits(x, "rowwise_df")
+}
+
 #' @rdname new_grouped_df
 #' @export
 new_rowwise_df <- function(data, group_data = NULL, ..., class = character()) {
@@ -99,7 +103,7 @@ new_rowwise_df <- function(data, group_data = NULL, ..., class = character()) {
       abort(msg)
     }
 
-    group_data <- new_tibble(dplyr_vec_data(group_data), nrow = nrow) # strip attributes
+    group_data <- new_tibble(vec_data(group_data), nrow = nrow) # strip attributes
   } else {
     group_data <- new_tibble(list(), nrow = nrow)
   }
@@ -139,7 +143,7 @@ tbl_sum.rowwise_df <- function(x, ...) {
 
 #' @export
 as_tibble.rowwise_df <- function(x, ...) {
-  new_tibble(dplyr_vec_data(x), nrow = nrow(x))
+  new_tibble(vec_data(x), nrow = nrow(x))
 }
 
 #' @export
