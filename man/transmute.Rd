@@ -41,7 +41,7 @@ specified by \code{...}.
 
 \code{transmute()} creates a new data frame containing only the specified
 computations. It's superseded because you can perform the same job
-with \code{mutate(.keep = "none")}; it
+with \code{mutate(.keep = "none")}.
 }
 \section{Methods}{
 

@@ -5,7 +5,7 @@
 #'
 #' `transmute()` creates a new data frame containing only the specified
 #' computations. It's superseded because you can perform the same job
-#' with `mutate(.keep = "none")`; it
+#' with `mutate(.keep = "none")`.
 #'
 #' @inheritParams mutate
 #' @section Methods:
