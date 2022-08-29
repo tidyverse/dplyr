@@ -28,7 +28,7 @@
 #' @keywords internal
 #' @export
 transmute <- function(.data, ...) {
-  # dplyr 1.1.10
+  # dplyr 1.1.0
   lifecycle::signal_stage("superseded", "transmute()", I("mutate(.keep = 'none')"))
 
   UseMethod("transmute")
