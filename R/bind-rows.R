@@ -36,12 +36,13 @@ bind_rows <- function(..., .id = NULL) {
   }
   dots <- flatten_if(dots, is_flattenable)
   dots <- discard(dots, is.null)
-  if (length(dots) == 0) {
-    return(tibble())
-  }
 
   # Used to restore type
-  first <- dots[[1L]]
+  if (length(dots) == 0) {
+    first <- NULL
+  } else {
+    first <- dots[[1L]]
+  }
 
   if (is_named(dots) && !all(map_lgl(dots, dataframe_ish))) {
     # This is hit by map_dfr() so we can't easily deprecate
@@ -66,7 +67,7 @@ bind_rows <- function(..., .id = NULL) {
       names(dots) <- seq_along(dots)
     }
   } else {
-    # Needed to avoid some vctrs error I don't understand
+    # Don't let `vec_rbind(.id = NULL)` promote input names to row names
     names(dots) <- NULL
   }
 

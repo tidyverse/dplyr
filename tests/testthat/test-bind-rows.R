@@ -168,6 +168,9 @@ test_that("bind_rows() handles missing, null, and empty elements (#5429)", {
 test_that("bind_rows(.id= NULL) does not set names (#5089)", {
   out <- bind_rows(list(a = tibble(x = 1:2)))
   expect_equal(attr(out, "row.names"), 1:2)
+
+  out <- bind_rows(x = c(a = 1))
+  expect_identical(attr(out, "row.names"), 1L)
 })
 
 # Column coercion --------------------------------------------------------------
