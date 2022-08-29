@@ -190,7 +190,7 @@ starwars %>%
   select(BMI, everything())
 ```
 
-If you only want to keep the new variables, use `keep = "none"`:
+If you only want to keep the new variables, use `.keep = "none"`:
 
 ```{r}
 starwars %>%
