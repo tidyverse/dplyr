@@ -33,7 +33,7 @@ arrange_all <- function(.tbl,
                         .funs = list(),
                         ...,
                         .by_group = FALSE,
-                        .locale = dplyr_locale()) {
+                        .locale = NULL) {
   lifecycle::signal_stage("superseded", "arrange_all()")
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "arrange_all")
   if (!length(funs)) {
@@ -48,7 +48,7 @@ arrange_at <- function(.tbl,
                        .funs = list(),
                        ...,
                        .by_group = FALSE,
-                       .locale = dplyr_locale()) {
+                       .locale = NULL) {
   lifecycle::signal_stage("superseded", "arrange_at()")
   funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "arrange_at")
   if (!length(funs)) {
@@ -63,7 +63,7 @@ arrange_if <- function(.tbl,
                        .funs = list(),
                        ...,
                        .by_group = FALSE,
-                       .locale = dplyr_locale()) {
+                       .locale = NULL) {
   lifecycle::signal_stage("superseded", "arrange_if()")
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "arrange_if")
   if (!length(funs)) {

@@ -70,6 +70,6 @@ auto_by_msg <- function(by) {
 
 #' @export
 common_by.default <- function(by, x, y) {
-  msg <- glue("`by` must be a (named) character vector, list, or NULL for natural joins (not recommended in production code), not {friendly_type_of(by)}.")
+  msg <- glue("`by` must be a (named) character vector, list, or NULL for natural joins (not recommended in production code), not {obj_type_friendly(by)}.")
   abort(msg)
 }

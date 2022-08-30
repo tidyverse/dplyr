@@ -35,13 +35,13 @@
     Output
       <error/rlang_error>
       Error in `sample_n()`:
-      ! `tbl` must be a data frame, not a list.
+      ! `tbl` must be a data frame, not an empty list.
     Code
       (expect_error(sample_frac(list())))
     Output
       <error/rlang_error>
       Error in `sample_frac()`:
-      ! `tbl` must be a data frame, not a list.
+      ! `tbl` must be a data frame, not an empty list.
     Code
       # # respects weight
       df <- data.frame(x = 1:2, y = c(0, 1))

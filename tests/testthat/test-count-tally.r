@@ -22,8 +22,8 @@ test_that("informs if n column already present, unless overridden", {
 
 test_that("name must be string", {
   df <- tibble(x = c(1, 2))
-  expect_error(count(df, x, name = 1), "string")
-  expect_error(count(df, x, name = letters), "string")
+  expect_snapshot(error = TRUE, count(df, x, name = 1))
+  expect_snapshot(error = TRUE, count(df, x, name = letters))
 })
 
 test_that("output includes empty levels with .drop = FALSE", {
@@ -108,6 +108,13 @@ test_that("wt = n() is deprecated", {
   expect_warning(count(df, wt = n()), "`wt = n()`", fixed = TRUE)
 })
 
+test_that("count() owns errors (#6139)", {
+  expect_snapshot({
+    (expect_error(count(mtcars, new = 1 + "")))
+    (expect_error(count(mtcars, wt = 1 + "")))
+  })
+})
+
 # tally -------------------------------------------------------------------
 
 test_that("tally can sort output", {
@@ -128,6 +135,12 @@ test_that("tally() drops last group (#5199) ", {
   expect_equal(group_vars(res), "x")
 })
 
+test_that("tally() owns errors (#6139)", {
+  expect_snapshot({
+    (expect_error(tally(mtcars, wt = 1 + "")))
+  })
+})
+
 # add_count ---------------------------------------------------------------
 
 test_that("ouput preserves grouping", {
@@ -143,6 +156,13 @@ test_that(".drop is deprecated",  {
 
   df <- tibble(f = factor("b", levels = c("a", "b", "c")))
   expect_warning(out <- add_count(df, f, .drop = FALSE), "deprecated")
+})
+
+test_that("add_count() owns errors (#6139)", {
+  expect_snapshot({
+    (expect_error(add_count(mtcars, new = 1 + "")))
+    (expect_error(add_count(mtcars, wt = 1 + "")))
+  })
 })
 
 # add_tally ---------------------------------------------------------------
@@ -168,4 +188,10 @@ test_that("add_tally can be given a weighting variable", {
 test_that("can override output column", {
   df <- data.frame(g = c(1, 1, 2, 2, 2), x = c(3, 2, 5, 5, 5))
   expect_named(add_tally(df, name = "xxx"), c("g", "x", "xxx"))
+})
+
+test_that("add_tally() owns errors (#6139)", {
+  expect_snapshot({
+    (expect_error(add_tally(mtcars, wt = 1 + "")))
+  })
 })

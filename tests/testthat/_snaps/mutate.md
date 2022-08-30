@@ -1,3 +1,47 @@
+# mutate() supports constants (#6056, #6305)
+
+    Code
+      (expect_error(df %>% mutate(z = !!z)))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`:
+      ! Problem while computing `z = <int>`.
+      Inlined constant `z` must be size 10 or 1, not 5.
+    Code
+      (expect_error(df %>% group_by(g) %>% mutate(z = !!z)))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`:
+      ! Problem while computing `z = <int>`.
+      Inlined constant `z` must be size 10 or 1, not 5.
+    Code
+      (expect_error(df %>% rowwise() %>% mutate(z = !!z)))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`:
+      ! Problem while computing `z = <int>`.
+      Inlined constant `z` must be size 10 or 1, not 5.
+
+---
+
+    Code
+      (expect_error(df %>% group_by(g) %>% mutate(y = .env$y)))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`:
+      ! Problem while computing `y = .env$y`.
+      x `y` must be size 5 or 1, not 10.
+      i The error occurred in group 1: g = 1.
+    Code
+      (expect_error(df %>% rowwise() %>% mutate(y = .env$y)))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`:
+      ! Problem while computing `y = .env$y`.
+      x `y` must be size 1, not 10.
+      i Did you mean: `y = list(.env$y)` ?
+      i The error occurred in row 1.
+
 # rowwise mutate un-lists existing size-1 list-columns (#6302)
 
     Code

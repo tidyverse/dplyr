@@ -50,13 +50,13 @@ NULL
 #' @rdname context
 #' @export
 n <- function() {
-  length(peek_mask("n")$current_rows())
+  length(peek_mask()$current_rows())
 }
 
 #' @rdname context
 #' @export
 cur_data <- function() {
-  mask <- peek_mask("cur_data")
+  mask <- peek_mask()
   vars <- mask$current_non_group_vars()
   mask$pick(vars)
 }
@@ -64,7 +64,7 @@ cur_data <- function() {
 #' @rdname context
 #' @export
 cur_data_all <- function() {
-  mask <- peek_mask("cur_data_all")
+  mask <- peek_mask()
   vars <- mask$current_vars()
   mask$pick(vars)
 }
@@ -72,7 +72,7 @@ cur_data_all <- function() {
 #' @rdname context
 #' @export
 cur_group <- function() {
-  peek_mask("cur_group()")$current_key()
+  peek_mask()$current_key()
 }
 
 #' @rdname context
@@ -81,13 +81,13 @@ cur_group_id <- function() {
   # [] to get a copy because the current group is dealt with internally
   # if we don't get a copy, code like this won't give correct result:
   # summarise(id = cur_group_id())
-  peek_mask("cur_group_id")$get_current_group()[]
+  peek_mask()$get_current_group()[]
 }
 
 #' @rdname context
 #' @export
 cur_group_rows <- function() {
-  peek_mask("cur_group_rows")$current_rows()
+  peek_mask()$current_rows()
 }
 
 group_labels_details <- function(keys) {
@@ -97,11 +97,10 @@ group_labels_details <- function(keys) {
 }
 
 cur_group_label <- function() {
-  mask <- peek_mask("cur_group_label")
-  data <- mask$full_data()
-  if(is_grouped_df(data) && nrow(data) > 0) {
+  mask <- peek_mask()
+  if(mask$is_grouped_df() && mask$get_size() > 0) {
     glue("group {id}: {label}", id = cur_group_id(), label = group_labels_details(cur_group()))
-  } else if (inherits(data, "rowwise_df") && nrow(data) > 0) {
+  } else if (mask$is_rowwise_df() && mask$get_size() > 0) {
     paste0("row ", cur_group_id())
   } else {
     ""
@@ -125,9 +124,9 @@ context_poke <- function(name, value) {
 context_peek_bare <- function(name) {
   context_env[[name]]
 }
-context_peek <- function(name, fun, location = "dplyr verbs") {
+context_peek <- function(name, location, call = caller_env()) {
   context_peek_bare(name) %||%
-    abort(glue("Must be used inside {location}."), call = call(fun))
+    abort(glue("Must only be used inside {location}."), call = call)
 }
 context_local <- function(name, value, frame = caller_env()) {
   old <- context_poke(name, value)
@@ -135,15 +134,15 @@ context_local <- function(name, value, frame = caller_env()) {
   eval_bare(expr, frame)
 }
 
-peek_column <- function() {
-  context_peek("column", "cur_column", "`across()`")
+peek_column <- function(call = caller_env()) {
+  context_peek("column", "`across()`", call)
 }
 local_column <- function(x, frame = caller_env()) {
   context_local("column", x, frame = frame)
 }
 
-peek_mask <- function(fun = "peek_mask") {
-  context_peek("mask", fun)
+peek_mask <- function(call = caller_env()) {
+  context_peek("mask", "data-masking verbs like `mutate()`, `filter()`, and `group_by()`", call)
 }
 local_mask <- function(x, frame = caller_env()) {
   context_local("mask", x, frame = frame)

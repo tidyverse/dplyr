@@ -202,12 +202,12 @@ tbl_sum.grouped_df <- function(x, ...) {
 #' @export
 as.data.frame.grouped_df <- function(x, row.names = NULL,
                                      optional = FALSE, ...) {
-  new_data_frame(dplyr_vec_data(x), n = nrow(x))
+  new_data_frame(vec_data(x), n = nrow(x))
 }
 
 #' @export
 as_tibble.grouped_df <- function(x, ...) {
-  new_tibble(dplyr_vec_data(x), nrow = nrow(x))
+  new_tibble(vec_data(x), nrow = nrow(x))
 }
 
 #' @export
@@ -300,6 +300,7 @@ dplyr_locate_sorted_groups <- function(x) {
 
   if (dplyr_legacy_locale()) {
     # Temporary legacy support for respecting the system locale
+    # Matches legacy `arrange()` ordering.
     out <- vec_slice(out, vec_order_base(out$key))
   }
 

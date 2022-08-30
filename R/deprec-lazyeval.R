@@ -27,7 +27,8 @@ NULL
 
 lazy_deprec <- function(fun, hint = TRUE) {
   lifecycle::deprecate_warn("0.7.0", paste0(fun, "_()"), paste0(fun, "()"),
-    details = if (hint) "See vignette('programming') for more help"
+    details = if (hint) "See vignette('programming') for more help",
+    always = TRUE
   )
 }
 
@@ -268,7 +269,7 @@ rename_.grouped_df <- function(.data, ..., .dots = list()) {
 #' @export
 #' @rdname se-deprecated
 rename_vars_ <- function(vars, args) {
-  lifecycle::deprecate_warn("0.7.0", "rename_vars_()", "tidyselect::vars_rename()")
+  lifecycle::deprecate_warn("0.7.0", "rename_vars_()", "tidyselect::vars_rename()", always = TRUE)
   args <- compat_lazy_dots(args, caller_env())
   tidyselect::vars_rename(vars, !!!args)
 }
@@ -296,7 +297,7 @@ select_.grouped_df <- function(.data, ..., .dots = list()) {
 #'   include/exclude.
 #' @export
 select_vars_ <- function(vars, args, include = chr(), exclude = chr()) {
-  lifecycle::deprecate_warn("0.7.0", "select_vars_()", "tidyselect::vars_select()")
+  lifecycle::deprecate_warn("0.7.0", "select_vars_()", "tidyselect::vars_select()", always = TRUE)
   args <- compat_lazy_dots(args, caller_env())
   tidyselect::vars_select(vars, !!!args, .include = include, .exclude = exclude)
 }
@@ -355,7 +356,7 @@ summarise_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 summarise_each_ <- function(tbl, funs, vars) {
-  lifecycle::deprecate_warn("0.7.0", "summarise_each_()", "across()")
+  lifecycle::deprecate_warn("0.7.0", "summarise_each_()", "across()", always = TRUE)
 
   if (is_empty(vars)) {
     vars <- tbl_nongroup_vars(tbl)
@@ -385,7 +386,7 @@ mutate_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 mutate_each_ <- function(tbl, funs, vars) {
-  lifecycle::deprecate_warn("0.7.0", "mutate_each_()", "across()")
+  lifecycle::deprecate_warn("0.7.0", "mutate_each_()", "across()", always = TRUE)
 
   if (is_empty(vars)) {
     vars <- tbl_nongroup_vars(tbl)

@@ -1,8 +1,8 @@
 #' A general vectorised if-else
 #'
 #' This function allows you to vectorise multiple [if_else()] statements. It is
-#' an R equivalent of the SQL `CASE WHEN` statement. If no cases match, a
-#' missing value is returned unless a `.default` is supplied.
+#' an R equivalent of the SQL "searched" `CASE WHEN` statement. If no cases
+#' match, a missing value is returned unless a `.default` is supplied.
 #'
 #' @param ... <[`dynamic-dots`][rlang::dyn-dots]> A sequence of two-sided
 #'   formulas. The left hand side (LHS) determines which values match this case.
@@ -46,6 +46,8 @@
 #' @return A vector with the same size as the common size computed from the
 #'   inputs in `...` and the same type as the common type of the RHS inputs
 #'   in `...`.
+#'
+#' @seealso [case_match()]
 #'
 #' @export
 #' @examples
@@ -153,16 +155,22 @@ case_when <- function(...,
   dots_env <- current_env()
   error_call <- current_env()
 
-  args <- case_when_formula_evaluate(
+  args <- case_formula_evaluate(
     args = args,
-    size = .size,
     default_env = default_env,
     dots_env = dots_env,
     error_call = error_call
   )
 
-  conditions <- args$conditions
-  values <- args$values
+  conditions <- args$lhs
+  values <- args$rhs
+
+  # `case_when()`'s formula interface finds the common size of ALL of its inputs.
+  # This is what allows `TRUE ~` to work.
+  .size <- vec_size_common(!!!conditions, !!!values, .size = .size, .call = error_call)
+
+  conditions <- vec_recycle_common(!!!conditions, .size = .size, .call = error_call)
+  values <- vec_recycle_common(!!!values, .size = .size, .call = error_call)
 
   vec_case_when(
     conditions = conditions,
@@ -177,17 +185,16 @@ case_when <- function(...,
   )
 }
 
-case_when_formula_evaluate <- function(args,
-                                       size,
-                                       default_env,
-                                       dots_env,
-                                       error_call) {
+case_formula_evaluate <- function(args,
+                                  default_env,
+                                  dots_env,
+                                  error_call) {
   # `case_when()`'s formula interface compacts `NULL`s
   args <- compact_null(args)
   n_args <- length(args)
 
-  conditions <- vector("list", n_args)
-  values <- vector("list", n_args)
+  lhs <- vector("list", n_args)
+  rhs <- vector("list", n_args)
 
   quos_pairs <- map2(
     .x = args,
@@ -200,30 +207,41 @@ case_when_formula_evaluate <- function(args,
 
   for (i in seq_len(n_args)) {
     pair <- quos_pairs[[i]]
-    conditions[[i]] <- eval_tidy(pair$lhs, env = default_env)
-    values[[i]] <- eval_tidy(pair$rhs, env = default_env)
+
+    lhs_elt <- with_case_errors(
+      eval_tidy(pair$lhs, env = default_env),
+      side = "left",
+      i = i,
+      error_call = error_call
+    )
+    rhs_elt <- with_case_errors(
+      eval_tidy(pair$rhs, env = default_env),
+      side = "right",
+      i = i,
+      error_call = error_call
+    )
+
+    if (!is.null(lhs_elt)) {
+      lhs[[i]] <- lhs_elt
+    }
+    if (!is.null(rhs_elt)) {
+      rhs[[i]] <- rhs_elt
+    }
   }
 
-  # Add the expressions as names for `conditions` and `values` for nice errors.
-  # These names also get passed on to `vec_case_when()`.
-  condition_names <- map(quos_pairs, function(pair) pair$lhs)
-  condition_names <- map_chr(condition_names, as_label)
-  names(conditions) <- condition_names
+  # Add the expressions as names for `lhs` and `rhs` for nice errors.
+  # These names also get passed on to the underlying vctrs backend.
+  lhs_names <- map(quos_pairs, function(pair) pair$lhs)
+  lhs_names <- map_chr(lhs_names, as_label)
+  names(lhs) <- lhs_names
 
-  value_names <- map(quos_pairs, function(pair) pair$rhs)
-  value_names <- map_chr(value_names, as_label)
-  names(values) <- value_names
-
-  # `case_when()`'s formula interface finds the common size of ALL of its inputs.
-  # This is what allows `TRUE ~` to work.
-  size <- vec_size_common(!!!conditions, !!!values, .size = size, .call = error_call)
-
-  conditions <- vec_recycle_common(!!!conditions, .size = size, .call = error_call)
-  values <- vec_recycle_common(!!!values, .size = size, .call = error_call)
+  rhs_names <- map(quos_pairs, function(pair) pair$rhs)
+  rhs_names <- map_chr(rhs_names, as_label)
+  names(rhs) <- rhs_names
 
   list(
-    conditions = conditions,
-    values = values
+    lhs = lhs,
+    rhs = rhs
   )
 }
 
@@ -245,7 +263,7 @@ validate_and_split_formula <- function(x,
     if (is_formula(x)) {
       type <- "a two-sided formula"
     } else {
-      type <- glue("a two-sided formula, not {friendly_type_of(x)}")
+      type <- glue("a two-sided formula, not {obj_type_friendly(x)}")
     }
 
     message <- glue("Case {i} ({arg}) must be {type}.")
@@ -258,5 +276,15 @@ validate_and_split_formula <- function(x,
   list(
     lhs = new_quosure(f_lhs(x), env),
     rhs = new_quosure(f_rhs(x), env)
+  )
+}
+
+with_case_errors <- function(expr, side, i, error_call) {
+  try_fetch(
+    expr,
+    error = function(cnd) {
+      message <- glue("Failed to evaluate the {side}-hand side of formula {i}.")
+      abort(message, parent = cnd, call = error_call)
+    }
   )
 }

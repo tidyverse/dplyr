@@ -71,7 +71,7 @@ sample_n <- function(tbl, size, replace = FALSE, weight = NULL, .env = NULL, ...
 #' @export
 sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
                              .env = parent.frame(), ...) {
-  msg <- glue("`tbl` must be a data frame, not {friendly_type_of(tbl)}.")
+  msg <- glue("`tbl` must be a data frame, not {obj_type_friendly(tbl)}.")
   abort(msg)
 }
 
@@ -103,7 +103,7 @@ sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NU
 #' @export
 sample_frac.default <- function(tbl, size = 1, replace = FALSE, weight = NULL,
                                 .env = parent.frame(), ...) {
-  msg <- glue("`tbl` must be a data frame, not {friendly_type_of(tbl)}.")
+  msg <- glue("`tbl` must be a data frame, not {obj_type_friendly(tbl)}.")
   abort(msg)
 }
 

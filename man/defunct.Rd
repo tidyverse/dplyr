@@ -4,16 +4,61 @@
 \alias{defunct}
 \alias{id}
 \alias{failwith}
+\alias{funs}
+\alias{select_vars}
+\alias{rename_vars}
+\alias{select_var}
+\alias{current_vars}
+\alias{bench_tbls}
+\alias{compare_tbls}
+\alias{compare_tbls2}
+\alias{eval_tbls}
+\alias{eval_tbls2}
+\alias{location}
+\alias{changes}
 \title{Defunct functions}
 \usage{
+# Deprecated in 0.5.0 -------------------------------------
+
 id(.variables, drop = FALSE)
 
+# Deprecated in 0.7.0 -------------------------------------
+
 failwith(default = NULL, f, quiet = FALSE)
+
+# Deprecated in 0.8.* -------------------------------------
+
+funs(..., .args = list())
+
+select_vars(vars = chr(), ..., include = chr(), exclude = chr())
+
+rename_vars(vars = chr(), ..., strict = TRUE)
+
+select_var(vars, var = -1)
+
+current_vars(...)
+
+# Deprecated in 1.0.0 -------------------------------------
+
+bench_tbls(tbls, op, ..., times = 10)
+
+compare_tbls(tbls, op, ref = NULL, compare = equal_data_frame, ...)
+
+compare_tbls2(tbls_x, tbls_y, op, ref = NULL, compare = equal_data_frame, ...)
+
+eval_tbls(tbls, op)
+
+eval_tbls2(tbls_x, tbls_y, op)
+
+location(df)
+
+changes(x, y)
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
-}
-\details{
-Executing these functions will tell you which function replaces them.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}
+
+These functions were deprecated for at least two years before being
+made defunct. If there's a known replacement, calling the function
+will tell you about it.
 }
 \keyword{internal}

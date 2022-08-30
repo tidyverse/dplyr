@@ -55,6 +55,100 @@ test_that("across() correctly names output columns", {
   )
 })
 
+test_that("across(.unpack =) can unpack data frame columns", {
+  fn1 <- function(x) {
+    tibble(a = x, b = x + 1)
+  }
+  fn2 <- function(x) {
+    tibble(c = -x, d = x - 1)
+  }
+
+  df <- tibble(x = 1:2, y = 3:4)
+
+  out <- mutate(df, across(x:y, list(one = fn1, two = fn2), .unpack = TRUE))
+
+  expect <- tibble(
+    x = 1:2,
+    y = 3:4,
+    x_one_a = x,
+    x_one_b = x + 1,
+    x_two_c = -x,
+    x_two_d = x - 1,
+    y_one_a = y,
+    y_one_b = y + 1,
+    y_two_c = -y,
+    y_two_d = y - 1
+  )
+
+  expect_identical(out, expect)
+})
+
+test_that("across(.unpack =) allows a glue specification for `.unpack`", {
+  fn <- function(x) {
+    tibble(a = x, b = x + 1)
+  }
+
+  df <- tibble(x = 1)
+
+  out <- mutate(df, across(x, fn, .unpack = "{outer}.{inner}"))
+
+  expect_named(out, c("x", "x.a", "x.b"))
+})
+
+test_that("across(.unpack =) skips unpacking non-df-cols", {
+  fn <- function(x) {
+    tibble(a = x, b = x + 1)
+  }
+
+  df <- tibble(x = 1)
+
+  out <- mutate(df, across(x, list(fn = fn, double = ~.x * 2), .unpack = TRUE))
+
+  expect <- tibble(x = 1, x_fn_a = 1, x_fn_b = 2, x_double = 2)
+
+  expect_identical(out, expect)
+})
+
+test_that("across(.unpack =) uses the result of `.names` as `{outer}`", {
+  fn <- function(x) {
+    tibble(a = x, b = x + 1)
+  }
+
+  df <- tibble(x = 1, y = 2)
+
+  out <- df %>% mutate(
+    across(x:y, list(f = fn), .names = "{.col}.{.fn}", .unpack = "{inner}.{outer}")
+  )
+
+  expect_named(out, c("x", "y", "a.x.f", "b.x.f", "a.y.f", "b.y.f"))
+})
+
+test_that("across(.unpack =) errors if the unpacked data frame has non-unique names", {
+  fn <- function(x) {
+    tibble(a = x, b = x)
+  }
+
+  df <- tibble(x = 1, y = 2)
+
+  expect_snapshot(error = TRUE, {
+    mutate(df, across(x:y, fn, .unpack = "{outer}"))
+  })
+})
+
+test_that("`.unpack` is validated", {
+  df <- tibble(x = 1)
+
+  expect_snapshot(error = TRUE, {
+    summarise(df, across(x, mean, .unpack = 1))
+  })
+  expect_snapshot(error = TRUE, {
+    summarise(df, across(x, mean, .unpack = c("x", "y")))
+  })
+  expect_snapshot(error = TRUE, {
+    summarise(df, across(x, mean, .unpack = NA))
+  })
+})
+
 test_that("across() result locations are aligned with column names (#4967)", {
   df <- tibble(x = 1:2, y = c("a", "b"))
   expect <- tibble(x_cls = "integer", x_type = TRUE, y_cls = "character", y_type = FALSE)
@@ -243,6 +337,26 @@ test_that("across(.names=) can use local variables in addition to {col} and {fn}
       summarise(across(everything(), mean, .names = "{prefix}_{.col}"))
   })
   expect_identical(res, data.frame(MEAN_x = 42))
+})
+
+test_that("across(.unpack=) can use local variables in addition to {outer} and {inner}", {
+  fn <- function(x) {
+    tibble(x = x, y = x + 1)
+  }
+
+  res <- local({
+    prefix <- "FN"
+    data.frame(col1 = 42, col2 = 24) %>%
+      summarise(across(everything(), fn, .unpack = "{prefix}_{outer}_{inner}"))
+  })
+
+  expect_identical(
+    res,
+    data.frame(
+      FN_col1_x = 42, FN_col1_y = 43,
+      FN_col2_x = 24, FN_col2_y = 25
+    )
+  )
 })
 
 test_that("across() uses environment from the current quosure (#5460)", {

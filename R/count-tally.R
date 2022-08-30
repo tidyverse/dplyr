@@ -68,6 +68,8 @@ count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
 
 #' @export
 count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+  dplyr_local_error_call()
+
   if (!missing(...)) {
     out <- group_by(x, ..., .add = TRUE, .drop = .drop)
   } else {
@@ -90,8 +92,11 @@ tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 
 #' @export
 tally.data.frame <- function(x, wt = NULL, sort = FALSE, name = NULL) {
-  n <- tally_n(x, {{ wt }})
   name <- check_name(name, group_vars(x))
+
+  dplyr_local_error_call()
+
+  n <- tally_n(x, {{ wt }})
 
   local_options(dplyr.summarise.inform = FALSE)
   out <- summarise(x, !!name := !!n)
@@ -111,39 +116,60 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = depr
 
 #' @export
 add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
-  if (!missing(.drop)) {
-    lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )")
-  }
-
-  if (!missing(...)) {
-    out <- group_by(x, ..., .add = TRUE)
-  } else {
-    out <- x
-  }
-  add_tally(out, wt = !!enquo(wt), sort = sort, name = name)
+  add_count_impl(
+    x,
+    ...,
+    wt = {{ wt }},
+    sort = sort,
+    name = name,
+    .drop = .drop
+  )
 }
 
 
 #' @export
 add_count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
-  if (!missing(.drop)) {
-    lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )")
+  out <- add_count_impl(
+    x,
+    ...,
+    wt = {{ wt }},
+    sort = sort,
+    name = name,
+    .drop = .drop
+  )
+  dplyr_reconstruct(out, x)
+}
+
+add_count_impl <- function(x,
+                           ...,
+                           wt = NULL,
+                           sort = FALSE,
+                           name = NULL,
+                           .drop = deprecated(),
+                           error_call = caller_env()) {
+  if (!is_missing(.drop)) {
+    lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )", always = TRUE)
   }
+
+  dplyr_local_error_call(error_call)
 
   if (!missing(...)) {
     out <- group_by(x, ..., .add = TRUE)
   } else {
     out <- x
   }
-  out <- add_tally(out, wt = !!enquo(wt), sort = sort, name = name)
-  dplyr_reconstruct(out, x)
+
+  add_tally(out, wt = {{ wt }}, sort = sort, name = name)
 }
 
 #' @rdname count
 #' @export
 add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
-  n <- tally_n(x, {{ wt }})
   name <- check_name(name, tbl_vars(x))
+
+  dplyr_local_error_call()
+
+  n <- tally_n(x, {{ wt }})
   out <- mutate(x, !!name := !!n)
 
   if (sort) {
@@ -174,7 +200,10 @@ tally_n <- function(x, wt) {
   }
 }
 
-check_name <- function(name, vars) {
+check_name <- function(name,
+                       vars,
+                       arg = caller_arg(name),
+                       call = caller_env()) {
   if (is.null(name)) {
     name <- n_name(vars)
 
@@ -184,8 +213,8 @@ check_name <- function(name, vars) {
         i = "Use `name = \"new_name\"` to pick a new name."
       ))
     }
-  } else if (!is.character(name) || length(name) != 1) {
-    abort("`name` must be a single string.")
+  } else {
+    check_string(name, arg = arg, call = call)
   }
 
   name

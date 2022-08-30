@@ -10,7 +10,7 @@
 #' @keywords internal
 #' @export
 src_local <- function(tbl, pkg = NULL, env = NULL) {
-  lifecycle::deprecate_warn("1.0.0", "src_local()")
+  lifecycle::deprecate_warn("1.0.0", "src_local()", always = TRUE)
 
   if (!xor(is.null(pkg), is.null(env))) {
     msg <- glue("Exactly one of `pkg` and `env` must be non-NULL, not {(!is.null(pkg)) + (!is.null(env))}.")

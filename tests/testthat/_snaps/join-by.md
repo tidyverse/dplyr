@@ -337,7 +337,7 @@
       as_join_by(FALSE)
     Condition
       Error:
-      ! `by` must be a (named) character vector, list, `join_by()` result, or NULL, not a logical vector.
+      ! `by` must be a (named) character vector, list, `join_by()` result, or NULL, not `FALSE`.
 
 # join_by_common() emits useful information
 

@@ -344,7 +344,7 @@ summarise_build <- function(.data, cols) {
   dplyr_col_modify(out, cols$new)
 }
 
-summarise_bullets <- function(cnd, ..) {
+summarise_bullets <- function(cnd, ...) {
   UseMethod("summarise_bullets")
 }
 
@@ -363,7 +363,7 @@ summarise_bullets.default <- function(cnd, ...) {
   result <- cnd$dplyr_error_data$result
   error_name <- peek_error_context()$error_name
   c(
-    x = glue("`{error_name}` must be a vector, not {friendly_type_of(result)}."),
+    x = glue("`{error_name}` must be a vector, not {obj_type_friendly(result)}."),
     i = cnd_bullet_rowwise_unlist(),
     i = cnd_bullet_cur_group_label()
   )

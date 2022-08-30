@@ -33,15 +33,14 @@
 #'
 #' @param n,prop Provide either `n`, the number of rows, or `prop`, the
 #'   proportion of rows to select. If neither are supplied, `n = 1` will be
-#'   used.
+#'   used. If `n` is greater than the number of rows in the group
+#'   (or `prop > 1`), the result will be silently truncated to the group size.
+#'   `prop` will be rounded towards zero to generate an integer number of
+#'   rows.
 #'
-#'   If a negative value of `n` or `prop` is provided, the specified number or
-#'   proportion of rows will be removed.
-#'
-#'   If `n` is greater than the number of rows in the group (or `prop > 1`),
-#'   the result will be silently truncated to the group size. If the
-#'   `prop`ortion of a group size does not yield an integer number of rows, the
-#'   absolute value of `prop*nrow(.data)` is rounded down.
+#'   A negative value of `n` or `prop` will be subtracted from the group
+#'   size. For example, `n = -2` with a group of 5 rows will select 5 - 2 = 3
+#'   rows; `prop = -0.25` with 8 rows will select 8 * (1 - 0.25) = 6 rows.
 #' @return
 #' An object of the same type as `.data`. The output has the following
 #' properties:
@@ -140,11 +139,7 @@ slice_head <- function(.data, ..., n, prop) {
 slice_head.data.frame <- function(.data, ..., n, prop) {
   size <- get_slice_size(n = n, prop = prop)
   idx <- function(n) {
-    to <- size(n)
-    if (to > n) {
-      to <- n
-    }
-    seq2(1, to)
+    seq2(1, size(n))
   }
 
   dplyr_local_error_call()
@@ -163,11 +158,7 @@ slice_tail <- function(.data, ..., n, prop) {
 slice_tail.data.frame <- function(.data, ..., n, prop) {
   size <- get_slice_size(n = n, prop = prop)
   idx <- function(n) {
-    from <- n - size(n) + 1
-    if (from < 1L) {
-      from <- 1L
-    }
-    seq2(from, n)
+    seq2(n - size(n) + 1, n)
   }
 
   dplyr_local_error_call()
@@ -263,7 +254,7 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 
 #' @export
 slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
-  size <- get_slice_size(n = n, prop = prop, allow_negative = FALSE)
+  size <- get_slice_size(n = n, prop = prop, allow_outsize = replace)
 
   dplyr_local_error_call()
   slice(.data, local({
@@ -408,14 +399,20 @@ check_slice_n_prop <- function(n, prop, error_call = caller_env()) {
     list(type = "n", n = 1L)
   } else if (!missing(n) && missing(prop)) {
     n <- check_constant(n, "n", error_call = error_call)
-    if (!is.numeric(n) || length(n) != 1 || is.na(n)) {
-      abort("`n` must be a single number.", call = error_call)
+    if (!is_integerish(n, n = 1) || is.na(n)) {
+      abort(
+        glue("`n` must be a round number, not {obj_type_friendly(n)}."),
+        call = error_call
+      )
     }
     list(type = "n", n = n)
   } else if (!missing(prop) && missing(n)) {
     prop <- check_constant(prop, "prop", error_call = error_call)
     if (!is.numeric(prop) || length(prop) != 1 || is.na(prop)) {
-      abort("`prop` must be a single number.", call = error_call)
+      abort(
+        glue("`prop` must be a number, not {obj_type_friendly(prop)}."),
+        call = error_call
+      )
     }
     list(type = "prop", prop = prop)
   } else {
@@ -423,39 +420,36 @@ check_slice_n_prop <- function(n, prop, error_call = caller_env()) {
   }
 }
 
-check_bool <- function(x, arg = caller_arg(x), call = caller_env()) {
-  if (!is_bool(x)) {
-    abort(glue::glue("`{arg}` must be a single `TRUE` or `FALSE`."), call = call)
-  }
-}
-
-get_slice_size <- function(n, prop, allow_negative = TRUE, error_call = caller_env()) {
+# Always returns an integer between 0 and the group size
+get_slice_size <- function(n, prop, allow_outsize = FALSE, error_call = caller_env()) {
   slice_input <- check_slice_n_prop(n, prop, error_call = error_call)
 
   if (slice_input$type == "n") {
     if (slice_input$n >= 0) {
-      function(n) floor(slice_input$n)
-    } else if (allow_negative) {
-      function(n) ceiling(n + slice_input$n)
+      function(n) clamp(0, floor(slice_input$n), if (allow_outsize) Inf else n)
     } else {
-      abort("`n` must be positive.", call = error_call)
+      function(n) clamp(0, ceiling(n + slice_input$n), n)
     }
   } else if (slice_input$type == "prop") {
     if (slice_input$prop >= 0) {
-      function(n) floor(slice_input$prop * n)
-    } else if (allow_negative) {
-      function(n) ceiling(n + slice_input$prop * n)
+      function(n) clamp(0, floor(slice_input$prop * n), if (allow_outsize) Inf else n)
     } else {
-      abort("`prop` must be positive.", call = error_call)
+      function(n) clamp(0, ceiling(n + slice_input$prop * n), n)
     }
   }
 }
 
-sample_int <- function(n, size, replace = FALSE, wt = NULL, call = caller_env()) {
-  if (!replace && n < size) {
-    size <- n
+clamp <- function(min, x, max) {
+  if (x < min) {
+    min
+  } else if (x > max) {
+    max
+  } else {
+    x
   }
+}
 
+sample_int <- function(n, size, replace = FALSE, wt = NULL) {
   if (size == 0L) {
     integer(0)
   } else {
@@ -491,3 +485,10 @@ slice_rank_idx <- function(
   which[order(ranks[which])]
 }
 
+# Backports for R 3.5.0 utils
+...length2 <- function(frame = caller_env()) {
+  length(env_get(frame, "..."))
+}
+...elt2 <- function(i, frame = caller_env()) {
+  eval_bare(sym(paste0("..", i)), frame)
+}

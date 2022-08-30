@@ -1,3 +1,46 @@
+# across(.unpack =) errors if the unpacked data frame has non-unique names
+
+    Code
+      mutate(df, across(x:y, fn, .unpack = "{outer}"))
+    Condition
+      Error in `mutate()`:
+      ! Problem while computing `..1 = across(x:y, fn, .unpack = "{outer}")`.
+      Caused by error in `across()`:
+      ! Names must be unique.
+      x These names are duplicated:
+        * "x" at locations 1 and 2.
+        * "y" at locations 3 and 4.
+
+# `.unpack` is validated
+
+    Code
+      summarise(df, across(x, mean, .unpack = 1))
+    Condition
+      Error in `summarise()`:
+      ! Problem while computing `..1 = across(x, mean, .unpack = 1)`.
+      Caused by error in `across()`:
+      ! `.unpack` must be `TRUE`, `FALSE`, or a single string, not a number.
+
+---
+
+    Code
+      summarise(df, across(x, mean, .unpack = c("x", "y")))
+    Condition
+      Error in `summarise()`:
+      ! Problem while computing `..1 = across(x, mean, .unpack = c("x", "y"))`.
+      Caused by error in `across()`:
+      ! `.unpack` must be `TRUE`, `FALSE`, or a single string, not a character vector.
+
+---
+
+    Code
+      summarise(df, across(x, mean, .unpack = NA))
+    Condition
+      Error in `summarise()`:
+      ! Problem while computing `..1 = across(x, mean, .unpack = NA)`.
+      Caused by error in `across()`:
+      ! `.unpack` must be `TRUE`, `FALSE`, or a single string, not `NA`.
+
 # across() gives meaningful messages
 
     Code
@@ -15,7 +58,7 @@
       Error in `summarise()`:
       ! Problem while computing `..1 = across(y, mean)`.
       Caused by error in `across()`:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `y` doesn't exist.
     Code
       (expect_error(tibble(x = 1) %>% summarise(res = across(where(is.numeric), 42))))
@@ -32,7 +75,7 @@
       Error in `summarise()`:
       ! Problem while computing `z = across(y, mean)`.
       Caused by error in `across()`:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `y` doesn't exist.
     Code
       (expect_error(tibble(x = 1) %>% summarise(res = sum(if_any(where(is.numeric),
@@ -70,13 +113,13 @@
     Output
       <error/rlang_error>
       Error in `across()`:
-      ! Must be used inside dplyr verbs.
+      ! Must only be used inside data-masking verbs like `mutate()`, `filter()`, and `group_by()`.
     Code
       (expect_error(c_across()))
     Output
       <error/rlang_error>
       Error in `c_across()`:
-      ! Must be used inside dplyr verbs.
+      ! Must only be used inside data-masking verbs like `mutate()`, `filter()`, and `group_by()`.
     Code
       error_fn <- (function(.) {
         if (all(. > 10)) {

@@ -1,5 +1,49 @@
 # dplyr (development version)
 
+* `transmute()` is superseded in favour of `mutate(.keep = "none")`
+
+* `recode()` is superseded in favor of `case_match()`. `recode_factor()` is
+  superseded as well, but we don't have a direct replacement for it yet. We plan
+  to add one to forcats, but in the meantime you can often use a pattern of
+  `case_match(.ptype = factor(levels = ))` instead (#6433).
+
+* `across()` has gained a new experimental `.unpack` argument to optionally
+  unpack (as in, `tidyr::unpack()`) data frames returned by functions in `.fns`
+  (#6360).
+
+* `cur_group()` now works correctly with zero row grouped data frames (#6304).
+
+* Error messages in `group_by()`, `distinct()`, `tally()`, and `count()` are now
+  more relevant (#6139).
+
+* `slice_sample()` now accepts negative `n` and `prop` values (#6402).
+
+* `slice_*()` now requires `n` to be an integer.
+
+* New `case_match()` function that is a "vectorised switch" variant of
+  `case_when()` that matches on values rather than logical expressions. It is
+  like a SQL "simple" `CASE WHEN` statement, whereas `case_when()` is like a SQL
+  "searched" `CASE WHEN` statement (#6328).
+
+* `storms` has been updated to include 2021 data and some missing storms that 
+   were omitted due to an error (@steveharoz, #6320).
+
+* `progress_estimate()` is deprecated for all uses (#6387).
+
+* `funs()`, deprecated in 0.8.0, is now defunct (#6387).
+
+* `select_vars()`, `rename_vars()`, `select_var()` and `current_var()`, 
+  deprecated in 0.8.4, are now defunct (#6387).
+
+* `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()`, and
+  `eval_tbl()`, deprecated in 1.0.0, are now defunct (#6387).
+
+* `location()` and `changes()`, deprecated in 1.0.0, are now defunct (#6387).
+
+* All other functions deprecated in 1.0.0 and earlier now warn every time you 
+  use them (#6387). They are likely to be made defunct in the next major 
+  version (but not before mid 2024).
+
 * `nth()`, `first()`, and `last()` have gained an `na_rm` argument since they
   are summary functions (#6242, with contributions from @tnederlof).
 
@@ -138,15 +182,25 @@
 
 * `group_by()` now uses a new algorithm for computing groups. It is often faster
   than the previous approach (especially when there are many groups), and in
-  most cases there should be no changes. The exception is with character vector
-  group columns, which are now internally ordered in the C locale rather than
-  the system locale and may result in differently ordered results when you
-  follow up a `group_by()` with functions that use the group data, such as
-  `summarise()` or `group_split()` (#4406, #6297).
-  
-  See the Ordering section of `?group_by()` for more information. For a full
-  explanation of this change, refer to this
-  [tidyup](https://github.com/tidyverse/tidyups/blob/main/006-dplyr-group-by-ordering.md).
+  most cases there should be no changes. The one exception is with character
+  vectors, see the C locale news bullet below for more details (#4406, #6297).
+
+* `arrange()` now uses a faster algorithm for sorting character vectors, which
+  is heavily inspired by data.table's `forder()`. See the C locale news bullet
+  below for more details (#4962).
+
+* `arrange()` and `group_by()` now both default to using the C locale when
+  ordering or grouping character vectors rather than the system locale. This
+  brings _substantial_ performance improvements, increases reproducibility
+  across R sessions, makes dplyr more consistent with data.table, and we believe
+  it should affect little existing code. If it does affect your code, you can
+  use `options(dplyr.legacy_locale = TRUE)` to quickly revert to the previous
+  behavior. In general, we instead recommend that you use the new `.locale`
+  argument of `arrange()` when the locale matters. For a full explanation of
+  this change, please read the associated
+  [grouping](https://github.com/tidyverse/tidyups/blob/main/006-dplyr-group-by-ordering.md)
+  and [ordering](https://github.com/tidyverse/tidyups/blob/main/003-dplyr-radix-ordering.md)
+  tidyups.
 
 * `if_else()` has been rewritten to utilize vctrs. This comes with most of the
   same benefits as the `case_when()` rewrite. In particular, `if_else()` now
@@ -187,17 +241,6 @@
 
   * The error thrown when types or lengths were incorrect has been improved
     (#6261, #6206).
-
-* `arrange()` now uses a faster algorithm for sorting character vectors, which
-  is heavily inspired by data.table's `forder()`. Additionally, the default
-  locale for sorting character vectors is now the C locale, which is a breaking
-  change from the previous behavior that utilized the system locale. The new
-  `.locale` argument can be used to adjust this to, say, the American English
-  locale, which is an optional feature that requires the stringi package. This
-  change improves reproducibility across R sessions and operating systems. For a
-  fuller explanation, refer to this
-  [tidyup](https://github.com/tidyverse/tidyups/blob/main/003-dplyr-radix-ordering.md)
-  which outlines and justifies this change (#4962).
 
 * `tbl_sum()` is no longer reexported from tibble (#6284).
 

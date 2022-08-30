@@ -57,12 +57,15 @@
 #' This is often useful as a preliminary step before generating content intended
 #' for humans, such as an HTML table.
 #'
+#' ## Legacy behavior
+#'
 #' Prior to dplyr 1.1.0, character vector grouping columns were ordered in the
 #' system locale. If you need to temporarily revert to this behavior, you can
 #' set the global option `dplyr.legacy_locale` to `TRUE`, but this should be
 #' used sparingly and you should expect this option to be removed in a future
 #' version of dplyr. It is better to update existing code to explicitly call
-#' `arrange()` instead.
+#' `arrange(.locale = )` instead. Note that setting `dplyr.legacy_locale` will
+#' also force calls to [arrange()] to use the system locale.
 #'
 #' @export
 #' @examples
@@ -134,7 +137,13 @@ group_by <- function(.data, ..., .add = FALSE, .drop = group_by_drop_default(.da
 
 #' @export
 group_by.data.frame <- function(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data)) {
-  groups <- group_by_prepare(.data, ..., .add = .add, caller_env = caller_env())
+  groups <- group_by_prepare(
+    .data,
+    ...,
+    .add = .add,
+    caller_env = caller_env(),
+    error_call = current_env()
+  )
   grouped_df(groups$data, groups$group_names, .drop)
 }
 
@@ -188,16 +197,17 @@ group_by_prepare <- function(.data,
                              .dots = deprecated(),
                              add = deprecated(),
                              error_call = caller_env()) {
+  error_call <- dplyr_error_call(error_call)
 
   if (!missing(add)) {
-    lifecycle::deprecate_warn("1.0.0", "group_by(add = )", "group_by(.add = )")
+    lifecycle::deprecate_warn("1.0.0", "group_by(add = )", "group_by(.add = )", always = TRUE)
     .add <- add
   }
 
   new_groups <- enquos(..., .ignore_empty = "all")
   if (!missing(.dots)) {
     # Used by dbplyr 1.4.2 so can't aggressively deprecate
-    lifecycle::deprecate_warn("1.0.0", "group_by(.dots = )")
+    lifecycle::deprecate_warn("1.0.0", "group_by(.dots = )", always = TRUE)
     new_groups <- c(new_groups, compat_lazy_dots(.dots, env = caller_env))
   }
 
@@ -240,14 +250,11 @@ add_computed_columns <- function(.data,
   if (any(needs_mutate)) {
     # TODO: use less of a hack
     if (inherits(.data, "data.frame")) {
-      cols <- withCallingHandlers(
-        mutate_cols(
-          ungroup(.data), dplyr_quosures(!!!vars), caller_env = caller_env,
-          error_call = call("mutate") # this is a pretend `mutate()`
-        ),
-        error = function(e) {
-          abort("Problem adding computed columns.", parent = e, call = error_call)
-        }
+      cols <- mutate_cols(
+        ungroup(.data),
+        dplyr_quosures(!!!vars),
+        caller_env = caller_env,
+        error_call = error_call
       )
 
       out <- dplyr_col_modify(.data, cols)

@@ -32,6 +32,7 @@ as_fun_list <- function(.funs, .env, ..., .caller, .caller_arg = "...", error_ca
         lifecycle::deprecate_warn(
           "0.8.3", what,
           details = "Please use a one-sided formula, a function, or a function name.",
+          always = TRUE,
           env = .env
         )
         .x <- new_formula(NULL, quo_squash(.x), quo_get_env(.x))
@@ -120,4 +121,11 @@ print.fun_list <- function(x, ..., width = getOption("width")) {
   cat(paste0("$ ", names, ": ", code, collapse = "\n"))
   cat("\n")
   invisible(x)
+}
+
+deparse_trunc <- function(x, width = getOption("width")) {
+  text <- deparse(x, width.cutoff = width)
+  if (length(text) == 1 && nchar(text) < width) return(text)
+
+  paste0(substr(text[1], 1, width - 3), "...")
 }

@@ -102,7 +102,7 @@
       join_cols(xy, xy, by = join_by(x), suffix = "x")
     Condition
       Error:
-      ! `suffix` must be a character vector of length 2, not a character vector of length 1.
+      ! `suffix` must be a character vector of length 2, not a string of length 1.
 
 ---
 

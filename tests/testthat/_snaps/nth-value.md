@@ -4,7 +4,7 @@
       nth(1, 1, na_rm = 1)
     Condition
       Error in `nth()`:
-      ! `na_rm` must be a single `TRUE` or `FALSE`.
+      ! `na_rm` must be `TRUE` or `FALSE`, not a number.
 
 ---
 
@@ -12,7 +12,7 @@
       nth(1, 1, na_rm = c(TRUE, FALSE))
     Condition
       Error in `nth()`:
-      ! `na_rm` must be a single `TRUE` or `FALSE`.
+      ! `na_rm` must be `TRUE` or `FALSE`, not a logical vector.
 
 # `default` must be size 1 (when not used with lists)
 

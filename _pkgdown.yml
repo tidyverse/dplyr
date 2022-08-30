@@ -72,6 +72,7 @@ reference:
     not data frames.
   contents:
   - between
+  - case_match
   - case_when
   - coalesce
   - consecutive_id
@@ -106,14 +107,6 @@ reference:
   - group_trim
   - group_split
   - with_groups
-
-- title: Questioning
-  desc: >
-    We have our doubts about questioning functions. We're not certain that
-    they're inadequate, or we don't have a good replacement in mind, but
-    these functions are at risk of removal in the future.
-  contents:
-  - all_equal
 
 - title: Superseded
   desc: >

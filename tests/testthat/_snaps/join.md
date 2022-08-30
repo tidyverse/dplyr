@@ -4,12 +4,12 @@
       join_mutate(df, df, by = 1, type = "left")
     Condition
       Error:
-      ! `by` must be a (named) character vector, list, `join_by()` result, or NULL, not a double vector.
+      ! `by` must be a (named) character vector, list, `join_by()` result, or NULL, not a number.
     Code
       join_mutate(df, df, by = "x", type = "left", suffix = 1)
     Condition
       Error:
-      ! `suffix` must be a character vector of length 2, not a double vector of length 1.
+      ! `suffix` must be a character vector of length 2, not a number of length 1.
     Code
       join_mutate(df, df, by = "x", type = "left", na_matches = "foo")
     Condition
@@ -24,7 +24,7 @@
       join_mutate(df, df, by = "x", type = "left", keep = 1)
     Condition
       Error:
-      ! `keep` must be `TRUE`, `FALSE`, or `NULL`, not a double vector.
+      ! `keep` must be `TRUE`, `FALSE`, or `NULL`, not a number.
 
 # join_filter() validates arguments
 
@@ -32,7 +32,7 @@
       join_filter(df, df, by = 1, type = "semi")
     Condition
       Error:
-      ! `by` must be a (named) character vector, list, `join_by()` result, or NULL, not a double vector.
+      ! `by` must be a (named) character vector, list, `join_by()` result, or NULL, not a number.
     Code
       join_filter(df, df, by = "x", type = "semi", na_matches = "foo")
     Condition
@@ -132,17 +132,17 @@
       nest_join(df1, df2, by = 1)
     Condition
       Error in `nest_join()`:
-      ! `by` must be a (named) character vector, list, `join_by()` result, or NULL, not a double vector.
+      ! `by` must be a (named) character vector, list, `join_by()` result, or NULL, not a number.
     Code
       nest_join(df1, df2, keep = 1)
     Condition
       Error in `nest_join()`:
-      ! `keep` must be `TRUE`, `FALSE`, or `NULL`, not a double vector.
+      ! `keep` must be `TRUE`, `FALSE`, or `NULL`, not a number.
     Code
       nest_join(df1, df2, name = 1)
     Condition
       Error in `nest_join()`:
-      ! `name` must be a string.
+      ! `name` must be a single string, not a number.
     Code
       nest_join(df1, df2, na_matches = 1)
     Condition

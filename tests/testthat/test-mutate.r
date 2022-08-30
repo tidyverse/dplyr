@@ -90,18 +90,29 @@ test_that("mutate() handles symbol expressions", {
   expect_identical(df$x, res$y)
 })
 
-test_that("mutate() supports constants (#6056)", {
+test_that("mutate() supports constants (#6056, #6305)", {
   df <- data.frame(x = 1:10, g = rep(1:2, each = 5))
   y <- 1:10
-  z <- 1:2
+  z <- 1:5
 
-  expect_error(df %>% mutate(y = !!y), NA)
-  expect_error(df %>% group_by(g) %>% mutate(y = !!y), NA)
-  expect_error(df %>% rowwise() %>% mutate(y = !!y), NA)
+  expect_identical(df %>% mutate(y = !!y) %>% pull(y), y)
+  expect_identical(df %>% group_by(g) %>% mutate(y = !!y) %>% pull(y), y)
+  expect_identical(df %>% rowwise() %>% mutate(y = !!y) %>% pull(y), y)
 
-  expect_error(df %>% mutate(z = !!z))
-  expect_error(df %>% group_by(g) %>% mutate(z = !!z))
-  expect_error(df %>% rowwise() %>% mutate(z = !!z))
+  expect_snapshot({
+    (expect_error(df %>% mutate(z = !!z)))
+    (expect_error(df %>% group_by(g) %>% mutate(z = !!z)))
+    (expect_error(df %>% rowwise() %>% mutate(z = !!z)))
+  })
+
+  # `.env$` is used for per group evaluation
+  expect_identical(df %>% mutate(y = .env$y) %>% pull(y), y)
+  expect_identical(df %>% group_by(g) %>% mutate(z = .env$z) %>% pull(z), c(z, z))
+
+  expect_snapshot({
+    (expect_error(df %>% group_by(g) %>% mutate(y = .env$y)))
+    (expect_error(df %>% rowwise() %>% mutate(y = .env$y)))
+  })
 })
 
 # column types ------------------------------------------------------------
@@ -126,6 +137,18 @@ test_that("mutate preserves names (#1689, #2675)", {
 
   expect_named(out1$b, letters[1:3])
   expect_named(out2$b, letters[1:3])
+})
+
+test_that("mutate handles matrix columns", {
+  df <- data.frame(a = rep(1:3, each = 2), b = 1:6)
+
+  df_regular <- mutate(df, b = scale(b))
+  df_grouped <- mutate(group_by(df, a), b = scale(b))
+  df_rowwise <- mutate(rowwise(df), b = scale(b))
+
+  expect_equal(dim(df_regular$b), c(6, 1))
+  expect_equal(dim(df_grouped$b), c(6, 1))
+  expect_equal(dim(df_rowwise$b), c(6, 1))
 })
 
 test_that("mutate handles data frame columns", {

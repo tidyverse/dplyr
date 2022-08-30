@@ -91,3 +91,9 @@ print.dplyr_sel_vars <- function(x, ...) {
 
   invisible(x)
 }
+
+unstructure <- function(x) {
+  attributes(x) <- NULL
+  x
+}
+
