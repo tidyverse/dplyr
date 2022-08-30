@@ -48,11 +48,13 @@ test_that("slice ignores 0 and NA (#3313, #1235)", {
   expect_equal(out$id, c(3, 5, 6))
 })
 
-test_that("can slice with one-column matrix", {
-  gf <- group_by(tibble(g = c(1, 2, 2, 3, 3, 3), id = 1:6), g)
+test_that("slicing with one-column matrix is deprecated", {
+  df <- tibble(g = c(1, 2, 2, 3, 3, 3), id = 1:6)
 
-  out <- slice(gf, matrix(1))
-  expect_equal(out$id, c(1, 2, 4))
+  expect_snapshot({
+    out <- slice(df, matrix(c(1, 3)))
+  })
+  expect_equal(out$id, c(1, 3))
 })
 
 test_that("slice errors if index is not numeric", {

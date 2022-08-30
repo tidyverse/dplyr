@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `slicing()` with a 1-column matrix is now deprecated.
+
 * `transmute()` is superseded in favour of `mutate(.keep = "none")`
 
 * `recode()` is superseded in favor of `case_match()`. `recode_factor()` is

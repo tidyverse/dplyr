@@ -10,6 +10,14 @@
       x Negative and positive locations can't be mixed.
       i Subscript `1` has a positive value at location 1.
 
+# slicing with one-column matrix is deprecated
+
+    Code
+      out <- slice(df, matrix(c(1, 3)))
+    Condition
+      Warning:
+      Slicing with a 1-column matrix was deprecated in dplyr 1.1.0.
+
 # slice errors if index is not numeric
 
     Code

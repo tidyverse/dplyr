@@ -303,8 +303,15 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
 
     for (i in seq_len(n)) {
       index <<- i
+
+      slice_idx <- ...elt2(i)
+      if (is.matrix(slice_idx) && ncol(slice_idx) == 1) {
+        lifecycle::deprecate_warn("1.1.0", I("Slicing with a 1-column matrix"))
+        slice_idx <- slice_idx[, 1]
+      }
+
       out[[i]] <- vec_as_subscript(
-        ...elt2(i),
+        slice_idx,
         logical = "error",
         character = "error",
         arg = as_label(dots[[i]]),
