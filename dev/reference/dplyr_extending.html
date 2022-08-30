@@ -165,8 +165,7 @@ methods as needed.</p></li>
 work by generating a vector of row indices, and then subsetting
 with <code>dplyr_row_slice()</code>.</p></li>
 <li><p><code><a href="mutate.html">mutate()</a></code> generates a list of new column value (using <code>NULL</code> to indicate
-when columns should be deleted), then passes that to <code>dplyr_col_modify()</code>.
-<code><a href="mutate.html">transmute()</a></code> does the same then uses 1d <code>[</code> to select the columns.</p></li>
+when columns should be deleted), then passes that to <code>dplyr_col_modify()</code>.</p></li>
 <li><p><code><a href="summarise.html">summarise()</a></code> works similarly to <code><a href="mutate.html">mutate()</a></code> but the data modified by
 <code>dplyr_col_modify()</code> comes from <code><a href="group_data.html">group_data()</a></code>.</p></li>
 <li><p><code><a href="select.html">select()</a></code> uses 1d <code>[</code> to select columns, then <code>names&lt;-</code> to rename them.

@@ -440,12 +440,13 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;, height_m &lt;dbl&gt;, and</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​hair_color, ²​skin_color, ³​eye_color,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ⁴​birth_year</span></span></span></code></pre></div>
-<p>If you only want to keep the new variables, use <code><a href="../reference/mutate.html">transmute()</a></code>:</p>
+<p>If you only want to keep the new variables, use <code>.keep = "none"</code>:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/mutate.html">transmute</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span></span>
 <span>    height_m <span class="op">=</span> <span class="va">height</span> <span class="op">/</span> <span class="fl">100</span>,</span>
-<span>    BMI <span class="op">=</span> <span class="va">mass</span> <span class="op">/</span> <span class="op">(</span><span class="va">height_m</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+<span>    BMI <span class="op">=</span> <span class="va">mass</span> <span class="op">/</span> <span class="op">(</span><span class="va">height_m</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>,</span>
+<span>    .keep <span class="op">=</span> <span class="st">"none"</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 2</span></span></span>
 <span><span class="co">#&gt;   height_m   BMI</span></span>
