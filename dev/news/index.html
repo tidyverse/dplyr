@@ -75,7 +75,7 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
-<ul><li><p><code><a href="../reference/transmute.html">transmute()</a></code> is superseded in favour of <code>mutate(keep = "none")</code></p></li>
+<ul><li><p><code><a href="../reference/transmute.html">transmute()</a></code> is superseded in favour of <code>mutate(.keep = "none")</code></p></li>
 <li><p><code><a href="../reference/recode.html">recode()</a></code> is superseded in favor of <code><a href="../reference/case_match.html">case_match()</a></code>. <code><a href="../reference/recode.html">recode_factor()</a></code> is superseded as well, but we don’t have a direct replacement for it yet. We plan to add one to forcats, but in the meantime you can often use a pattern of <code>case_match(.ptype = factor(levels = ))</code> instead (<a href="https://github.com/tidyverse/dplyr/issues/6433" class="external-link">#6433</a>).</p></li>
 <li><p><code><a href="../reference/across.html">across()</a></code> has gained a new experimental <code>.unpack</code> argument to optionally unpack (as in, <code><a href="https://tidyr.tidyverse.org/reference/pack.html" class="external-link">tidyr::unpack()</a></code>) data frames returned by functions in <code>.fns</code> (<a href="https://github.com/tidyverse/dplyr/issues/6360" class="external-link">#6360</a>).</p></li>
 <li><p><code><a href="../reference/context.html">cur_group()</a></code> now works correctly with zero row grouped data frames (<a href="https://github.com/tidyverse/dplyr/issues/6304" class="external-link">#6304</a>).</p></li>
