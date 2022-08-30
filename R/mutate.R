@@ -1,9 +1,8 @@
 #' Create, modify, and delete columns
 #'
-#' `mutate()` adds new variables and preserves existing ones;
-#' `transmute()` adds new variables and drops existing ones.
-#' New variables overwrite existing variables of the same name.
-#' Variables can be removed by setting their value to `NULL`.
+#' `mutate()` creates new columns that are functions of existing variables.
+#' It can also modify (if the name is the same as an existing
+#' column) and delete columns (by setting their value to `NULL`).
 #'
 #' @section Useful mutate functions:
 #'
@@ -62,29 +61,22 @@
 #' An object of the same type as `.data`. The output has the following
 #' properties:
 #'
-#' * For `mutate()`:
-#'   * Columns from `.data` will be preserved according to the `.keep` argument.
-#'   * Existing columns that are modified by `...` will always be returned in
-#'     their original location.
-#'   * New columns created through `...` will be placed according to the
-#'     `.before` and `.after` arguments.
-#' * For `transmute()`:
-#'   * Columns created or modified through `...` will be returned in the order
-#'     specified by `...`.
-#'   * Unmodified grouping columns will be placed at the front.
+#' * Columns from `.data` will be preserved according to the `.keep` argument.
+#' * Existing columns that are modified by `...` will always be returned in
+#'   their original location.
+#' * New columns created through `...` will be placed according to the
+#'   `.before` and `.after` arguments.
 #' * The number of rows is not affected.
 #' * Columns given the value `NULL` will be removed.
 #' * Groups will be recomputed if a grouping variable is mutated.
 #' * Data frame attributes are preserved.
 #' @section Methods:
-#' These function are **generic**s, which means that packages can provide
+#' This function is a **generic**, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
 #' individual methods for extra arguments and differences in behaviour.
 #'
 #' Methods available in currently loaded packages:
-#'
-#' * `mutate()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("mutate")}.
-#' * `transmute()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("transmute")}.
+#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("mutate")}.
 #' @examples
 #' # Newly created variables are available immediately
 #' starwars %>%
@@ -128,7 +120,7 @@
 #' df %>% mutate(z = x + y, .keep = "all") # the default
 #' df %>% mutate(z = x + y, .keep = "used")
 #' df %>% mutate(z = x + y, .keep = "unused")
-#' df %>% mutate(z = x + y, .keep = "none") # same as transmute()
+#' df %>% mutate(z = x + y, .keep = "none")
 #'
 #' # Grouping ----------------------------------------
 #' # The mutate operation may yield different results on grouped
@@ -224,53 +216,7 @@ mutate.data.frame <- function(.data,
   dplyr_col_select(out, cols_retain)
 }
 
-#' @rdname mutate
-#' @export
-transmute <- function(.data, ...) {
-  UseMethod("transmute")
-}
-
-#' @export
-transmute.data.frame <- function(.data, ...) {
-  dots <- check_transmute_args(...)
-  dots <- dplyr_quosures(!!!dots)
-
-  cols <- mutate_cols(.data, dots, caller_env = caller_env())
-
-  out <- dplyr_col_modify(.data, cols)
-
-  # Compact out `NULL` columns that got removed.
-  # These won't exist in `out`, but we don't want them to look "new".
-  # Note that `dplyr_col_modify()` makes it impossible to `NULL` a group column,
-  # which we rely on below.
-  cols <- compact_null(cols)
-
-  # Retain expression columns in order of their appearance
-  cols_expr <- names(cols)
-
-  # Retain untouched group variables up front
-  cols_group <- group_vars(.data)
-  cols_group <- setdiff(cols_group, cols_expr)
-
-  cols_retain <- c(cols_group, cols_expr)
-
-  dplyr_col_select(out, cols_retain)
-}
-
 # Helpers -----------------------------------------------------------------
-
-check_transmute_args <- function(..., .keep, .before, .after, error_call = caller_env()) {
-  if (!missing(.keep)) {
-    abort("The `.keep` argument is not supported.", call = error_call)
-  }
-  if (!missing(.before)) {
-    abort("The `.before` argument is not supported.", call = error_call)
-  }
-  if (!missing(.after)) {
-    abort("The `.after` argument is not supported.", call = error_call)
-  }
-  enquos(...)
-}
 
 mutate_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
   # Collect dots before setting up error handlers (#6178)

@@ -190,13 +190,14 @@ starwars %>%
   select(BMI, everything())
 ```
 
-If you only want to keep the new variables, use `transmute()`:
+If you only want to keep the new variables, use `.keep = "none"`:
 
 ```{r}
 starwars %>%
-  transmute(
+  mutate(
     height_m = height / 100,
-    BMI = mass / (height_m^2)
+    BMI = mass / (height_m^2),
+    .keep = "none"
   )
 ```
 

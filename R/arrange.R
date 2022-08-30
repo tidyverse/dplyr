@@ -126,7 +126,7 @@ arrange_rows <- function(data,
   })
 
   names(quosures) <- vec_paste0("..", seq_along(quosures))
-  data <- transmute(new_data_frame(data), !!!quosures)
+  data <- mutate(new_data_frame(data), !!!quosures, .keep = "none")
   directions <- directions[names(quosures) %in% names(data)]
 
   if (is.null(locale) && dplyr_legacy_locale()) {

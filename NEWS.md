@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `transmute()` is superseded in favour of `mutate(keep = "none")`
+
 * `recode()` is superseded in favor of `case_match()`. `recode_factor()` is
   superseded as well, but we don't have a direct replacement for it yet. We plan
   to add one to forcats, but in the meantime you can often use a pattern of
