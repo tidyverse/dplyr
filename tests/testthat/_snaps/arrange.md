@@ -15,7 +15,7 @@
       Error in `arrange()`:
       ! Problem with the implicit `transmute()` step.
       x Problem while computing `..1 = y`.
-      Caused by error:
+      Caused by error in `mask$eval_all_mutate()`:
       ! object 'y' not found
     Code
       (expect_error(tibble(x = 1) %>% arrange(rep(x, 2))))

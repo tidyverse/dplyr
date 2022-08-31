@@ -7,7 +7,7 @@
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       ! Problem while computing `a = sum(y)`.
-      Caused by error:
+      Caused by error in `mask$eval_all_mutate()`:
       ! object 'y' not found
     Code
       (expect_error(tbl %>% group_by(x) %>% mutate(y = NULL, a = sum(y))))
@@ -16,7 +16,7 @@
       Error in `mutate()`:
       ! Problem while computing `a = sum(y)`.
       i The error occurred in group 1: x = 1.
-      Caused by error:
+      Caused by error in `mask$eval_all_mutate()`:
       ! object 'y' not found
     Code
       (expect_error(tibble(x = 1) %>% mutate(y = mean)))
@@ -153,6 +153,6 @@
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       ! Problem while computing `..1 = stop("{")`.
-      Caused by error:
+      Caused by error in `mask$eval_all_mutate()`:
       ! {
 
