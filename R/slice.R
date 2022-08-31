@@ -485,7 +485,8 @@ slice_rank_idx <- function(
   na_value <- if (direction == "asc") "largest" else "smallest"
   ties <- if (with_ties) "min" else "sequential"
 
-  ranks <- vctrs:::vec_rank(order_by,
+  ranks <- vec_rank(
+    x = order_by,
     ties = ties,
     direction = direction,
     na_value = na_value
