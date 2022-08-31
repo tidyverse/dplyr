@@ -102,12 +102,12 @@ buckets.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
 <dd><p>A vector to rank</p>
-<p>By default, the smallest values will get the smallest ranks.
-Use <code><a href="desc.html">desc()</a></code> to reverse the direction so the largest values get the smallest
-ranks.</p>
+<p>By default, the smallest values will get the smallest ranks. Use <code><a href="desc.html">desc()</a></code>
+to reverse the direction so the largest values get the smallest ranks.</p>
 <p>Missing values will be given rank <code>NA</code>. Use <code>coalesce(x, Inf)</code> or
 <code>coalesce(x, -Inf)</code> if you want to treat them as the largest or smallest
-values respectively.</p></dd>
+values respectively.</p>
+<p>To rank by multiple columns at once, supply a data frame.</p></dd>
 
 
 <dt>n</dt>
