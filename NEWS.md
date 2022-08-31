@@ -1,5 +1,12 @@
 # dplyr (development version)
 
+* `row_number()`, `min_rank()`, `dense_rank()`, `ntile()`, `cume_dist()`, and
+  `percent_rank()` are now powered by vctrs, meaning that they are faster and
+  work for more types. You can now also rank by multiple columns at once by
+  supplying a data frame to these functions (#6428).
+  
+* `ntile()` now requires `n` to be a single positive integer.
+
 * `transmute()` is superseded in favour of `mutate(.keep = "none")`
 
 * `recode()` is superseded in favor of `case_match()`. `recode_factor()` is
