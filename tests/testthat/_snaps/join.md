@@ -60,7 +60,7 @@
     Message
       Joining, by = "a"
     Condition
-      Error:
+      Error in `inner_join()`:
       ! Arguments in `...` must be used.
       x Problematic argument:
       * on = "a"
@@ -69,7 +69,7 @@
     Message
       Joining, by = "a"
     Condition
-      Error:
+      Error in `left_join()`:
       ! Arguments in `...` must be used.
       x Problematic argument:
       * on = "a"
@@ -78,7 +78,7 @@
     Message
       Joining, by = "a"
     Condition
-      Error:
+      Error in `right_join()`:
       ! Arguments in `...` must be used.
       x Problematic argument:
       * on = "a"
@@ -87,7 +87,7 @@
     Message
       Joining, by = "a"
     Condition
-      Error:
+      Error in `full_join()`:
       ! Arguments in `...` must be used.
       x Problematic argument:
       * on = "a"
@@ -96,7 +96,7 @@
     Message
       Joining, by = "a"
     Condition
-      Error:
+      Error in `nest_join()`:
       ! Arguments in `...` must be used.
       x Problematic argument:
       * on = "a"
@@ -105,7 +105,7 @@
     Message
       Joining, by = "a"
     Condition
-      Error:
+      Error in `anti_join()`:
       ! Arguments in `...` must be used.
       x Problematic argument:
       * on = "a"
@@ -114,7 +114,7 @@
     Message
       Joining, by = "a"
     Condition
-      Error:
+      Error in `semi_join()`:
       ! Arguments in `...` must be used.
       x Problematic argument:
       * on = "a"
