@@ -15,13 +15,14 @@ dense_rank(x)
 \arguments{
 \item{x}{A vector to rank
 
-By default, the smallest values will get the smallest ranks.
-Use \code{\link[=desc]{desc()}} to reverse the direction so the largest values get the smallest
-ranks.
+By default, the smallest values will get the smallest ranks. Use \code{\link[=desc]{desc()}}
+to reverse the direction so the largest values get the smallest ranks.
 
 Missing values will be given rank \code{NA}. Use \code{coalesce(x, Inf)} or
 \code{coalesce(x, -Inf)} if you want to treat them as the largest or smallest
-values respectively.}
+values respectively.
+
+To rank by multiple columns at once, supply a data frame.}
 }
 \value{
 An integer vector.
@@ -51,12 +52,15 @@ dense_rank(x)
 df <- data.frame(
   grp = c(1, 1, 1, 2, 2, 2, 3, 3, 3),
   x = c(3, 2, 1, 1, 2, 2, 1, 1, 1),
+  y = c(1, 3, 2, 3, 2, 2, 4, 1, 2),
   id = 1:9
 )
 # Always gives exactly 1 row per group
 df \%>\% group_by(grp) \%>\% filter(row_number(x) == 1)
 # May give more than 1 row if ties
 df \%>\% group_by(grp) \%>\% filter(min_rank(x) == 1)
+# Rank by multiple columns (to break ties) by supplying a tibble
+df \%>\% group_by(grp) \%>\% filter(min_rank(tibble(x, y)) == 1)
 # See slice_min() and slice_max() for another way to tackle the same problem
 
 # You can use row_number() without an argument to refer to the "current"
