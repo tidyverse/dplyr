@@ -109,7 +109,11 @@ ntile <- function(x = row_number(), n) {
   }
   len <- vec_size(x) - sum(vec_equal_na(x))
 
-  n <- as.integer(floor(n))
+  check_number(n)
+  n <- vec_cast(n, integer())
+  if (n <= 0L) {
+    abort("`n` must be positive.")
+  }
 
   # Definition from
   # https://techcommunity.microsoft.com/t5/sql-server/ranking-functions-rank-dense-rank-and-ntile/ba-p/383384

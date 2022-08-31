@@ -97,3 +97,18 @@ test_that("ntile() works with one argument (#3418)", {
   expect_equal(mutate(gf, out = ntile(n = 2))$out, c(1, 2, 1, 1, 2))
 })
 
+test_that("ntile() validates `n`", {
+  expect_snapshot(error = TRUE, {
+    ntile(1, n = 1.5)
+  })
+  expect_snapshot(error = TRUE, {
+    ntile(1, n = c(1, 2))
+  })
+  expect_snapshot(error = TRUE, {
+    ntile(1, n = NA_real_)
+  })
+  expect_snapshot(error = TRUE, {
+    ntile(1, n = 0)
+  })
+})
+
