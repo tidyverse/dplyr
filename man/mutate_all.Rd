@@ -71,12 +71,16 @@ selection is \strong{implicit} (\code{all} and \code{if} selections) or
 \itemize{
 \item Grouping variables covered by explicit selections in
 \code{mutate_at()} and \code{transmute_at()} are always an error. Add
-\code{-group_cols()} to the \code{\link[=vars]{vars()}} selection to avoid this:\preformatted{data \%>\% mutate_at(vars(-group_cols(), ...), myoperation)
-}
+\code{-group_cols()} to the \code{\link[=vars]{vars()}} selection to avoid this:
 
-Or remove \code{group_vars()} from the character vector of column names:\preformatted{nms <- setdiff(nms, group_vars(data))
+\if{html}{\out{<div class="sourceCode">}}\preformatted{data \%>\% mutate_at(vars(-group_cols(), ...), myoperation)
+}\if{html}{\out{</div>}}
+
+Or remove \code{group_vars()} from the character vector of column names:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nms <- setdiff(nms, group_vars(data))
 data \%>\% mutate_at(vars, myoperation)
-}
+}\if{html}{\out{</div>}}
 \item Grouping variables covered by implicit selections are ignored by
 \code{mutate_all()}, \code{transmute_all()}, \code{mutate_if()}, and
 \code{transmute_if()}.

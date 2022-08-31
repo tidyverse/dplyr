@@ -48,16 +48,20 @@ grouped data particularly elegant. See \code{vignette("rowwise")} for more
 details.
 }
 \details{
-Note that \code{df \%>\% nest_by(x, y)} is roughly equivalent to\preformatted{df \%>\%
+Note that \code{df \%>\% nest_by(x, y)} is roughly equivalent to
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{df \%>\%
   group_by(x, y) \%>\%
   summarise(data = list(cur_data())) \%>\%
   rowwise()
-}
+}\if{html}{\out{</div>}}
 
 If you want to unnest a nested data frame, you can either use
-\code{tidyr::unnest()} or take advantage of \code{summarise()}s multi-row behaviour:\preformatted{nested \%>\%
+\code{tidyr::unnest()} or take advantage of \code{summarise()}s multi-row behaviour:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nested \%>\%
   summarise(data)
-}
+}\if{html}{\out{</div>}}
 }
 \section{Methods}{
 

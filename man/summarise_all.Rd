@@ -73,13 +73,17 @@ selection is \strong{implicit} (\code{all} and \code{if} selections) or
 \itemize{
 \item Grouping variables covered by explicit selections in
 \code{summarise_at()} are always an error. Add \code{-group_cols()} to the
-\code{\link[=vars]{vars()}} selection to avoid this:\preformatted{data \%>\%
-  summarise_at(vars(-group_cols(), ...), myoperation)
-}
+\code{\link[=vars]{vars()}} selection to avoid this:
 
-Or remove \code{group_vars()} from the character vector of column names:\preformatted{nms <- setdiff(nms, group_vars(data))
+\if{html}{\out{<div class="sourceCode">}}\preformatted{data \%>\%
+  summarise_at(vars(-group_cols(), ...), myoperation)
+}\if{html}{\out{</div>}}
+
+Or remove \code{group_vars()} from the character vector of column names:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nms <- setdiff(nms, group_vars(data))
 data \%>\% summarise_at(nms, myoperation)
-}
+}\if{html}{\out{</div>}}
 \item Grouping variables covered by implicit selections are silently
 ignored by \code{summarise_all()} and \code{summarise_if()}.
 }

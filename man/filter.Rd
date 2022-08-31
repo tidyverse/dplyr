@@ -63,11 +63,15 @@ expressions used to filter the data:
 Because filtering expressions are computed within groups, they may
 yield different results on grouped tibbles. This will be the case
 as soon as an aggregating, lagging, or ranking function is
-involved. Compare this ungrouped filtering:\preformatted{starwars \%>\% filter(mass > mean(mass, na.rm = TRUE))
-}
+involved. Compare this ungrouped filtering:
 
-With the grouped equivalent:\preformatted{starwars \%>\% group_by(gender) \%>\% filter(mass > mean(mass, na.rm = TRUE))
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{starwars \%>\% filter(mass > mean(mass, na.rm = TRUE))
+}\if{html}{\out{</div>}}
+
+With the grouped equivalent:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{starwars \%>\% group_by(gender) \%>\% filter(mass > mean(mass, na.rm = TRUE))
+}\if{html}{\out{</div>}}
 
 In the ungrouped version, \code{filter()} compares the value of \code{mass} in each row to
 the global average (taken over the whole data set), keeping only the rows with
