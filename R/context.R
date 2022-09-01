@@ -102,10 +102,7 @@ cur_group_label <- function(type = mask_type(),
   switch(
     type,
     ungrouped = "",
-    grouped = glue(
-      "group {id}: {label}",
-      label = group_labels_details(group)
-    ),
+    grouped = glue("group {id}: {label}", label = group_labels_details(group)),
     rowwise = glue("row {id}"),
     stop_mask_type(type)
   )
@@ -115,13 +112,8 @@ cur_group_data <- function(mask_type) {
   switch(
     mask_type,
     ungrouped = list(),
-    grouped = list(
-      id = cur_group_id(),
-      group = cur_group()
-    ),
-    rowwise = list(
-      id = cur_group_id()
-    ),
+    grouped = list(id = cur_group_id(), group = cur_group()),
+    rowwise = list(id = cur_group_id()),
     stop_mask_type(mask_type)
   )
 }
