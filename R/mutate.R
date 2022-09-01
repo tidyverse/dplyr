@@ -268,7 +268,7 @@ mutate_cols <- function(.data, dots, error_call = caller_env()) {
       )
 
       warnings <<- c(warnings, list(new))
-      tryInvokeRestart("muffleWarning")
+      maybe_restart("muffleWarning")
     }
   )
 

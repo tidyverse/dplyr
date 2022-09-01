@@ -66,10 +66,3 @@ node_walk_replace <- function(node, old, new) {
     node <- node_cdr(node)
   }
 }
-
-# Compat for R < 4.0.0
-tryInvokeRestart <- function(r, ...) {
-  if (!is_null(findRestart(r))) {
-    invokeRestart(r, ...)
-  }
-}
