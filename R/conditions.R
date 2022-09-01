@@ -213,10 +213,8 @@ dplyr_last_warnings <- function(n = 20) {
   )
 }
 
-on_load({
-  the$last_warnings <- list()
-  the$last_cmd_frame <- ""
-})
+the$last_warnings <- list()
+the$last_cmd_frame <- ""
 
 # Flushes warnings if a new top-level command is detected
 push_dplyr_warnings <- function(warnings) {

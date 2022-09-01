@@ -1,4 +1,2 @@
-on_load({
-  # Singletons
-  the <- new_environment()
-})
+# Singletons
+the <- new_environment()
