@@ -96,15 +96,52 @@ group_labels_details <- function(keys) {
   }), ", ")
 }
 
-cur_group_label <- function() {
-  mask <- peek_mask()
-  if(mask$is_grouped_df() && mask$get_size() > 0) {
-    glue("group {id}: {label}", id = cur_group_id(), label = group_labels_details(cur_group()))
-  } else if (mask$is_rowwise_df() && mask$get_size() > 0) {
-    paste0("row ", cur_group_id())
-  } else {
-    ""
-  }
+cur_group_label <- function(type = mask_type(),
+                            id = cur_group_id(),
+                            group = cur_group()) {
+  switch(
+    type,
+    ungrouped = "",
+    grouped = glue(
+      "group {id}: {label}",
+      label = group_labels_details(group)
+    ),
+    rowwise = glue("row {id}"),
+    stop_mask_type(type)
+  )
+}
+
+cur_group_data <- function(mask_type) {
+  switch(
+    mask_type,
+    ungrouped = list(),
+    grouped = list(
+      id = cur_group_id(),
+      group = cur_group()
+    ),
+    rowwise = list(
+      id = cur_group_id()
+    ),
+    stop_mask_type(mask_type)
+  )
+}
+
+stop_mask_type <- function(type) {
+  cli::cli_abort(
+    "Unexpected mask type {.val {type}}.",
+    .internal = TRUE
+  )
+}
+
+cnd_data <- function(cnd, ctxt, mask_type, call) {
+  list(
+    cnd = cnd,
+    name = ctxt$error_name,
+    expr = ctxt$error_expression,
+    type = mask_type,
+    group_data = cur_group_data(mask_type),
+    call = call
+  )
 }
 
 #' @rdname context
@@ -132,6 +169,7 @@ context_local <- function(name, value, frame = caller_env()) {
   old <- context_poke(name, value)
   expr <- expr(on.exit(context_poke(!!name, !!old), add = TRUE))
   eval_bare(expr, frame)
+  value
 }
 
 peek_column <- function(call = caller_env()) {

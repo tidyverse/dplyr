@@ -1,5 +1,12 @@
 # dplyr (development version)
 
+* Warnings emitted inside `mutate()` and variants are now collected and stashed
+  away. Run the new `dplyr_last_warnings()` function to see the warnings emitted
+  within dplyr verbs during the last top-level command.
+
+  This fixes performance issues when throusands of warnings are emitted with
+  rowwise and grouped data frames (#6236).
+
 * `group_by_prepare()` loses the `caller_env` argument. It was rarely used
   and it is no longer needed (#6444).
 

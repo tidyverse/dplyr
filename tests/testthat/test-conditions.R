@@ -65,3 +65,72 @@ test_that("errors during dots collection are not enriched (#6178)", {
     filter(mtcars, !!foobarbaz())
   })
 })
+
+test_that("warnings are collected for `dplyr_last_warnings()`", {
+  df <- tibble(id = 1:2)
+  f <- function() {
+    warning("msg")
+    1
+  }
+
+  reset_dplyr_warnings()
+  expect_snapshot({
+    "Ungrouped"
+    df |>
+      mutate(x = f()) |>
+      invisible()
+    dplyr_last_warnings()
+  })
+
+  reset_dplyr_warnings()
+  expect_snapshot({
+    "Grouped"
+    df |>
+      group_by(id) |>
+      mutate(x = f()) |>
+      invisible()
+    dplyr_last_warnings()
+  })
+
+  reset_dplyr_warnings()
+  expect_snapshot({
+    "Rowwise"
+    df |>
+      rowwise() |>
+      mutate(x = f()) |>
+      invisible()
+    dplyr_last_warnings()
+  })
+
+  reset_dplyr_warnings()
+  expect_snapshot({
+    "Multiple type of warnings within multiple verbs"
+    df |>
+      group_by(g = f():n()) |>
+      rowwise() |>
+      mutate(x = f()) |>
+      group_by(id) |>
+      mutate(x = f()) |>
+      invisible()
+    dplyr_last_warnings()
+  })
+
+  reset_dplyr_warnings()
+  expect_snapshot({
+    "Truncated (1 more)"
+    df |>
+      rowwise() |>
+      mutate(x = f())
+    dplyr_last_warnings(n = 1)
+  })
+
+  reset_dplyr_warnings()
+  expect_snapshot({
+    "Truncated (several more)"
+    df <- tibble(id = 1:5)
+    df |>
+      rowwise() |>
+      mutate(x = f())
+    dplyr_last_warnings(n = 1)
+  })
+})

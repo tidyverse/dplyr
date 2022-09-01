@@ -30,6 +30,7 @@ BugReports: https://github.com/tidyverse/dplyr/issues
 Depends: 
     R (>= 3.4.0)
 Imports: 
+    cli (>= 3.3.0),
     generics,
     glue (>= 1.3.2),
     lifecycle (>= 1.0.2),

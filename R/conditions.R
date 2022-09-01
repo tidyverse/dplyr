@@ -77,12 +77,7 @@ quo_as_label <- function(quo)  {
 }
 
 local_error_context <- function(dots, .index, mask, frame = caller_env()) {
-  expr <- dots[[.index]]
-  if (quo_is_call(expr, "invisible")) {
-    expr <- ""
-  } else {
-    expr <- quo_as_label(dots[[.index]])
-  }
+  expr <- dots_expr(dots, .index)
 
   error_context <- env(
     error_name = arg_name(dots, .index),
@@ -93,6 +88,26 @@ local_error_context <- function(dots, .index, mask, frame = caller_env()) {
 }
 peek_error_context <- function() {
   context_peek("dplyr_error_context", "peek_error_context", "dplyr error handling")
+}
+
+dots_expr <- function(dots, i) {
+ expr <- dots[[i]]
+  if (quo_is_call(expr, "invisible")) {
+    ""
+  } else {
+    quo_as_label(dots[[i]])
+  }
+}
+
+mask_type <- function(mask = peek_mask()) {
+  if (mask$get_size() > 0) {
+    if (mask$is_grouped_df()) {
+      return("grouped")
+    } else if (mask$is_rowwise_df()) {
+      return("rowwise")
+    }
+  }
+  "ungrouped"
 }
 
 cnd_bullet_header <- function(what) {
@@ -163,4 +178,100 @@ skip_internal_condition <- function(cnd) {
   } else {
     cnd
   }
+}
+
+
+# Warnings -------------------------------------------------------------
+
+#' Show warnings from the last command
+#'
+#' Warnings that occur inside a dplyr verb like `mutate()` are caught
+#' and stashed away instead of being emitted to the console. This
+#' prevents rowwise and grouped data frames from flooding the console
+#' with warnings. To see the original warnings, use
+#' `dplyr_last_warnings()`.
+#'
+#' @param n Passed to [head()] so that only the first `n` warnings are
+#'   displayed.
+#' @export
+dplyr_last_warnings <- function(n = 20) {
+  if (!identical(n, Inf)) {
+    check_number(n)
+    stopifnot(n >= 0)
+  }
+
+  warnings <- the$last_warnings
+  remaining <- max(length(warnings) - n, 0L)
+
+  warnings <- head(warnings, n = n)
+  warnings <- map(warnings, new_dplyr_warning)
+
+  structure(
+    warnings,
+    class = c("dplyr_last_warnings", "list"),
+    remaining = remaining
+  )
+}
+
+on_load({
+  the$last_warnings <- list()
+  the$last_cmd_frame <- ""
+})
+
+# Flushes warnings if a new top-level command is detected
+push_dplyr_warnings <- function(warnings) {
+  last <- the$last_cmd_frame
+  current <- obj_address(sys.frame(1))
+
+  if (!identical(last, current)) {
+    reset_dplyr_warnings()
+    the$last_cmd_frame <- current
+  }
+
+  the$last_warnings <- c(the$last_warnings, warnings)
+}
+
+# Also used in tests
+reset_dplyr_warnings <- function() {
+  the$last_warnings <- list()
+}
+
+new_dplyr_warning <- function(data) {
+  label <- cur_group_label(
+    data$type,
+    data$group_data$id,
+    data$group_data$group
+  )
+  if (nzchar(label)) {
+    label <- glue(" in {label}")
+  }
+
+  msg <- glue::glue("Problem{label} while computing `{data$name} = {data$expr}`.")
+
+  warning_cnd(
+    message = msg,
+    parent = data$cnd,
+    call = data$call
+  )
+}
+
+#' @export
+print.dplyr_last_warnings <- function(x, ...) {
+  print(unstructure(x), ...)
+
+  remaining <- attr(x, "remaining")
+  if (remaining) {
+    cli::cli_bullets(c(
+      "... with {remaining} more warning{?s}.",
+      "i" = "Use {.code dplyr_last_warnings(n = ...)} to show more."
+    ))
+  }
+}
+
+# rlang should export this routine
+error_call <- function(call) {
+  tryCatch(
+    abort("", call = call),
+    error = conditionCall
+  )
 }

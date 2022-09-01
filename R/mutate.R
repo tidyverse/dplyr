@@ -223,20 +223,26 @@ mutate_cols <- function(.data, dots, error_call = caller_env()) {
   force(dots)
 
   error_call <- dplyr_error_call(error_call)
+  delayedAssign("error_call_forced", error_call(error_call))
 
   mask <- DataMask$new(.data, "mutate", error_call = error_call)
+  mask_type <- mask_type(mask)
   old_current_column <- context_peek_bare("column")
+  error_ctxt <- NULL
 
   on.exit(context_poke("column", old_current_column), add = TRUE)
   on.exit(mask$forget(), add = TRUE)
 
   new_columns <- set_names(list(), character())
+  warnings <- list()
 
   withCallingHandlers(
-    for (i in seq_along(dots)) {
+    for (i in seq_along(dots)) local({
+      error_ctxt <<- local_error_context(dots = dots, .index = i, mask = mask)
       context_poke("column", old_current_column)
-      new_columns <- mutate_col(dots[[i]], .data, mask, new_columns)
-    },
+
+      new_columns <<- mutate_col(dots[[i]], .data, mask, new_columns)
+    }),
     error = function(e) {
       local_error_context(dots = dots, .index = i, mask = mask)
 
@@ -254,25 +260,19 @@ mutate_cols <- function(.data, dots, error_call = caller_env()) {
       )
     },
     warning = function(w) {
-      # Check if there is an upstack calling handler that would muffle
-      # the warning. This avoids doing the expensive work below for a
-      # silenced warning (#5675).
-      if (check_muffled_warning(w)) {
-        maybe_restart("muffleWarning")
-      }
+      new <- cnd_data(
+        cnd = w,
+        error_ctxt,
+        mask_type = mask_type,
+        call = error_call_forced
+      )
 
-      local_error_context(dots = dots, .index = i, mask = mask)
-
-      warn(c(
-        cnd_bullet_header("computing"),
-        i = cnd_header(w),
-        i = cnd_bullet_cur_group_label(what = "warning")
-      ))
-
-      # Cancel `w`
-      maybe_restart("muffleWarning")
+      warnings <<- c(warnings, list(new))
+      tryInvokeRestart("muffleWarning")
     }
   )
+
+  signal_warnings(warnings, error_call)
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
   new_columns[is_zap] <- rep(list(NULL), sum(is_zap))
@@ -429,6 +429,21 @@ mutate_col <- function(dot, data, mask, new_columns) {
   }
 
   new_columns
+}
+
+signal_warnings <- function(warnings, error_call) {
+  n <- length(warnings)
+  if (!n) {
+    return()
+  }
+
+  push_dplyr_warnings(warnings)
+
+  call <- format_error_call(error_call)
+  cli::cli_warn(c(
+    "There {cli::qty(n)} {?was/were} {n} warning{?s} in {call}.",
+    i = "Run `dplyr::dplyr_last_warnings()` to see them."
+  ))
 }
 
 mutate_bullets <- function(cnd, ...) {
