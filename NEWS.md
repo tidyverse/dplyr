@@ -330,6 +330,10 @@
 
 * `nest_join()` has gained the `na_matches` argument that all other joins have.
 
+# dplyr 1.0.10
+
+Hot patch release to resolve R CMD check failures.
+
 # dplyr 1.0.9
 
 * New `rows_append()` which works like `rows_insert()` but ignores keys and
