@@ -58,9 +58,10 @@
     Code
       invisible(mutate(df, y = max(x)))
     Condition
-      Warning:
-      There was 1 warning in `mutate()`.
-      i Run `dplyr::dplyr_last_warnings()` to see them.
+      Warning in `mutate()`:
+      Problem while computing `y = max(x)`.
+      Caused by warning in `max()`:
+      ! no non-missing arguments to max; returning -Inf
     Code
       dplyr_last_warnings()
     Output

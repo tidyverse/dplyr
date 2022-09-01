@@ -242,10 +242,20 @@ signal_warnings <- function(warnings, error_call) {
 
   push_dplyr_warnings(warnings)
 
+  first <- new_dplyr_warning(warnings[[1]])
+
+  if (n == 1) {
+    first$call <- first$call[1]
+    cnd_signal(first)
+    return()
+  }
+
   call <- format_error_call(error_call)
   cli::cli_warn(c(
     "There {cli::qty(n)} {?was/were} {n} warning{?s} in {call}.",
-    i = "Run `dplyr::dplyr_last_warnings()` to see them."
+    "The first warning was:",
+    cnd_message_lines(first$parent),
+    i = "Run `dplyr::dplyr_last_warnings()` to see the {n - 1} remaining warning{?s}."
   ))
 }
 
@@ -286,5 +296,13 @@ error_call <- function(call) {
   tryCatch(
     abort("", call = call),
     error = conditionCall
+  )
+}
+
+cnd_message_lines <- function(cnd, ...) {
+  c(
+    "!" = cnd_header(cnd, ...),
+    cnd_body(cnd, ...),
+    cnd_footer(cnd, ...)
   )
 }

@@ -232,9 +232,10 @@
       # Ungrouped
       invisible(mutate(df, x = f()))
     Condition
-      Warning:
-      There was 1 warning in `mutate()`.
-      i Run `dplyr::dplyr_last_warnings()` to see them.
+      Warning in `mutate()`:
+      Problem while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
     Code
       dplyr_last_warnings()
     Output
@@ -254,7 +255,9 @@
     Condition
       Warning:
       There were 2 warnings in `mutate()`.
-      i Run `dplyr::dplyr_last_warnings()` to see them.
+      The first warning was:
+      ! msg
+      i Run `dplyr::dplyr_last_warnings()` to see the 1 remaining warning.
     Code
       dplyr_last_warnings()
     Output
@@ -281,7 +284,9 @@
     Condition
       Warning:
       There were 2 warnings in `mutate()`.
-      i Run `dplyr::dplyr_last_warnings()` to see them.
+      The first warning was:
+      ! msg
+      i Run `dplyr::dplyr_last_warnings()` to see the 1 remaining warning.
     Code
       dplyr_last_warnings()
     Output
@@ -307,15 +312,20 @@
       invisible(mutate(group_by(mutate(rowwise(group_by(df, g = f():n())), x = f()),
       id), x = f()))
     Condition
-      Warning:
-      There was 1 warning in `group_by()`.
-      i Run `dplyr::dplyr_last_warnings()` to see them.
-      Warning:
-      There were 2 warnings in `mutate()`.
-      i Run `dplyr::dplyr_last_warnings()` to see them.
+      Warning in `group_by()`:
+      Problem while computing `g = f():n()`.
+      Caused by warning in `f()`:
+      ! msg
       Warning:
       There were 2 warnings in `mutate()`.
-      i Run `dplyr::dplyr_last_warnings()` to see them.
+      The first warning was:
+      ! msg
+      i Run `dplyr::dplyr_last_warnings()` to see the 1 remaining warning.
+      Warning:
+      There were 2 warnings in `mutate()`.
+      The first warning was:
+      ! msg
+      i Run `dplyr::dplyr_last_warnings()` to see the 1 remaining warning.
     Code
       dplyr_last_warnings()
     Output
@@ -363,7 +373,9 @@
     Condition
       Warning:
       There were 2 warnings in `mutate()`.
-      i Run `dplyr::dplyr_last_warnings()` to see them.
+      The first warning was:
+      ! msg
+      i Run `dplyr::dplyr_last_warnings()` to see the 1 remaining warning.
     Output
       # A tibble: 2 x 2
       # Rowwise: 
@@ -394,7 +406,9 @@
     Condition
       Warning:
       There were 5 warnings in `mutate()`.
-      i Run `dplyr::dplyr_last_warnings()` to see them.
+      The first warning was:
+      ! msg
+      i Run `dplyr::dplyr_last_warnings()` to see the 4 remaining warnings.
     Output
       # A tibble: 5 x 2
       # Rowwise: 
