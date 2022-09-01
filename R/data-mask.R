@@ -1,6 +1,6 @@
 DataMask <- R6Class("DataMask",
   public = list(
-    initialize = function(data, caller, verb, error_call) {
+    initialize = function(data, verb, error_call) {
       rows <- group_rows(data)
       if (length(rows) == 0) {
         # Specially handle case of zero groups
@@ -17,7 +17,6 @@ DataMask <- R6Class("DataMask",
       }
       names(data) <- names_bindings
       private$size <- nrow(data)
-      private$caller <- caller
       private$current_data <- unclass(data)
 
       private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows)
@@ -185,10 +184,6 @@ DataMask <- R6Class("DataMask",
 
     get_rlang_mask = function() {
       private$mask
-    },
-
-    get_caller_env = function() {
-      private$caller
     }
 
   ),
@@ -225,9 +220,6 @@ DataMask <- R6Class("DataMask",
     # Type of data frame
     grouped_df = NULL,
     rowwise_df = NULL,
-
-    # caller environment of the verb (summarise(), ...)
-    caller = NULL,
 
     verb = character()
   )

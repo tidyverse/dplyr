@@ -628,7 +628,7 @@ expand_across <- function(quo) {
     !!cols,
     fns = eval_tidy(expr$.fns, mask, env = env),
     names = eval_tidy(expr$.names, mask, env = env),
-    .caller_env = dplyr_mask$get_caller_env(),
+    .caller_env = env,
     mask = dplyr_mask,
     inline = TRUE
   )

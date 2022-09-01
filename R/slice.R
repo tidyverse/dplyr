@@ -277,7 +277,7 @@ slice_rows <- function(.data, ..., caller_env, error_call = caller_env()) {
   if (is_empty(dots)) {
     return(TRUE)
   }
-  mask <- DataMask$new(.data, caller_env, "slice", error_call = error_call)
+  mask <- DataMask$new(.data, "slice", error_call = error_call)
   on.exit(mask$forget(), add = TRUE)
 
   chunks <- slice_eval(mask, dots, error_call = error_call)

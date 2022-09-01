@@ -205,7 +205,7 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
 summarise_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
 
-  mask <- DataMask$new(.data, caller_env, "summarise", error_call = error_call)
+  mask <- DataMask$new(.data, "summarise", error_call = error_call)
   old_current_column <- context_peek_bare("column")
 
   on.exit(context_poke("column", old_current_column), add = TRUE)
