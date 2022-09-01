@@ -234,6 +234,21 @@ reset_dplyr_warnings <- function() {
   the$last_warnings <- list()
 }
 
+signal_warnings <- function(warnings, error_call) {
+  n <- length(warnings)
+  if (!n) {
+    return()
+  }
+
+  push_dplyr_warnings(warnings)
+
+  call <- format_error_call(error_call)
+  cli::cli_warn(c(
+    "There {cli::qty(n)} {?was/were} {n} warning{?s} in {call}.",
+    i = "Run `dplyr::dplyr_last_warnings()` to see them."
+  ))
+}
+
 new_dplyr_warning <- function(data) {
   label <- cur_group_label(
     data$type,
