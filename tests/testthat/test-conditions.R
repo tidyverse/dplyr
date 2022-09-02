@@ -66,7 +66,7 @@ test_that("errors during dots collection are not enriched (#6178)", {
   })
 })
 
-test_that("warnings are collected for `dplyr_last_warnings()`", {
+test_that("warnings are collected for `last_dplyr_warnings()`", {
   local_options(
     rlang_trace_format_srcrefs = FALSE
   )
@@ -83,7 +83,7 @@ test_that("warnings are collected for `dplyr_last_warnings()`", {
     df |>
       mutate(x = f()) |>
       invisible()
-    dplyr_last_warnings()
+    last_dplyr_warnings()
   })
 
   reset_dplyr_warnings()
@@ -93,7 +93,7 @@ test_that("warnings are collected for `dplyr_last_warnings()`", {
       group_by(id) |>
       mutate(x = f()) |>
       invisible()
-    dplyr_last_warnings()
+    last_dplyr_warnings()
   })
 
   reset_dplyr_warnings()
@@ -103,7 +103,7 @@ test_that("warnings are collected for `dplyr_last_warnings()`", {
       rowwise() |>
       mutate(x = f()) |>
       invisible()
-    dplyr_last_warnings()
+    last_dplyr_warnings()
   })
 
   reset_dplyr_warnings()
@@ -116,7 +116,7 @@ test_that("warnings are collected for `dplyr_last_warnings()`", {
       group_by(id) |>
       mutate(x = f()) |>
       invisible()
-    dplyr_last_warnings()
+    last_dplyr_warnings()
   })
 
   reset_dplyr_warnings()
@@ -125,7 +125,7 @@ test_that("warnings are collected for `dplyr_last_warnings()`", {
     df |>
       rowwise() |>
       mutate(x = f())
-    dplyr_last_warnings(n = 1)
+    last_dplyr_warnings(n = 1)
   })
 
   reset_dplyr_warnings()
@@ -135,7 +135,7 @@ test_that("warnings are collected for `dplyr_last_warnings()`", {
     df |>
       rowwise() |>
       mutate(x = f())
-    dplyr_last_warnings(n = 1)
+    last_dplyr_warnings(n = 1)
   })
 })
 
@@ -167,6 +167,6 @@ test_that("complex backtraces with base and rlang warnings", {
 
   expect_snapshot({
     foo()
-    dplyr_last_warnings()
+    last_dplyr_warnings()
   })
 })

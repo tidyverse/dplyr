@@ -1,7 +1,7 @@
 # dplyr (development version)
 
 * Warnings emitted inside `mutate()` and variants are now collected and stashed
-  away. Run the new `dplyr_last_warnings()` function to see the warnings emitted
+  away. Run the new `last_dplyr_warnings()` function to see the warnings emitted
   within dplyr verbs during the last top-level command.
 
   This fixes performance issues when throusands of warnings are emitted with

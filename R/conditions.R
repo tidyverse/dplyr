@@ -189,12 +189,12 @@ skip_internal_condition <- function(cnd) {
 #' and stashed away instead of being emitted to the console. This
 #' prevents rowwise and grouped data frames from flooding the console
 #' with warnings. To see the original warnings, use
-#' `dplyr_last_warnings()`.
+#' `last_dplyr_warnings()`.
 #'
 #' @param n Passed to [head()] so that only the first `n` warnings are
 #'   displayed.
 #' @export
-dplyr_last_warnings <- function(n = 5) {
+last_dplyr_warnings <- function(n = 5) {
   if (!identical(n, Inf)) {
     check_number(n)
     stopifnot(n >= 0)
@@ -208,7 +208,7 @@ dplyr_last_warnings <- function(n = 5) {
 
   structure(
     warnings,
-    class = c("dplyr_last_warnings", "list"),
+    class = c("last_dplyr_warnings", "list"),
     remaining = remaining
   )
 }
@@ -249,7 +249,7 @@ signal_warnings <- function(warnings, error_call) {
     "There {cli::qty(n)} {?was/were} {n} warning{?s} in a {call} step.",
     if (n > 1) "The first warning was:",
     cnd_message_lines(first),
-    i = if (n > 1) "Run `dplyr::dplyr_last_warnings()` to see the {n - 1} remaining warning{?s}."
+    i = if (n > 1) "Run `dplyr::last_dplyr_warnings()` to see the {n - 1} remaining warning{?s}."
   ))
 }
 
@@ -274,7 +274,7 @@ new_dplyr_warning <- function(data) {
 }
 
 #' @export
-print.dplyr_last_warnings <- function(x, ...) {
+print.last_dplyr_warnings <- function(x, ...) {
   # Opt into experimental grayed out tree
   local_options(
     "rlang:::trace_display_tree" = TRUE
@@ -285,7 +285,7 @@ print.dplyr_last_warnings <- function(x, ...) {
   if (remaining) {
     cli::cli_bullets(c(
       "... with {remaining} more warning{?s}.",
-      "i" = "Use {.code dplyr_last_warnings(n = ...)} to show more."
+      "i" = "Use {.code last_dplyr_warnings(n = ...)} to show more."
     ))
   }
 }

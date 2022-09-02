@@ -226,7 +226,7 @@
       Error in `foobarbaz()`:
       ! could not find function "foobarbaz"
 
-# warnings are collected for `dplyr_last_warnings()`
+# warnings are collected for `last_dplyr_warnings()`
 
     Code
       # Ungrouped
@@ -236,7 +236,7 @@
       There was 1 warning in a `mutate()` step.
       ! msg
     Code
-      dplyr_last_warnings()
+      last_dplyr_warnings()
     Output
       [[1]]
       <warning/rlang_warning>
@@ -269,9 +269,9 @@
       There were 2 warnings in a `mutate()` step.
       The first warning was:
       ! msg
-      i Run `dplyr::dplyr_last_warnings()` to see the 1 remaining warning.
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
     Code
-      dplyr_last_warnings()
+      last_dplyr_warnings()
     Output
       [[1]]
       <warning/rlang_warning>
@@ -324,9 +324,9 @@
       There were 2 warnings in a `mutate()` step.
       The first warning was:
       ! msg
-      i Run `dplyr::dplyr_last_warnings()` to see the 1 remaining warning.
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
     Code
-      dplyr_last_warnings()
+      last_dplyr_warnings()
     Output
       [[1]]
       <warning/rlang_warning>
@@ -383,14 +383,14 @@
       There were 2 warnings in a `mutate()` step.
       The first warning was:
       ! msg
-      i Run `dplyr::dplyr_last_warnings()` to see the 1 remaining warning.
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
       ! msg
-      i Run `dplyr::dplyr_last_warnings()` to see the 1 remaining warning.
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
     Code
-      dplyr_last_warnings()
+      last_dplyr_warnings()
     Output
       [[1]]
       <warning/rlang_warning>
@@ -513,7 +513,7 @@
       There were 2 warnings in a `mutate()` step.
       The first warning was:
       ! msg
-      i Run `dplyr::dplyr_last_warnings()` to see the 1 remaining warning.
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
     Output
       # A tibble: 2 x 2
       # Rowwise: 
@@ -522,7 +522,7 @@
       1     1     1
       2     2     1
     Code
-      dplyr_last_warnings(n = 1)
+      last_dplyr_warnings(n = 1)
     Output
       [[1]]
       <warning/rlang_warning>
@@ -546,7 +546,7 @@
       
     Message
       ... with 1 more warning.
-      i Use `dplyr_last_warnings(n = ...)` to show more.
+      i Use `last_dplyr_warnings(n = ...)` to show more.
 
 ---
 
@@ -559,7 +559,7 @@
       There were 5 warnings in a `mutate()` step.
       The first warning was:
       ! msg
-      i Run `dplyr::dplyr_last_warnings()` to see the 4 remaining warnings.
+      i Run `dplyr::last_dplyr_warnings()` to see the 4 remaining warnings.
     Output
       # A tibble: 5 x 2
       # Rowwise: 
@@ -571,7 +571,7 @@
       4     4     1
       5     5     1
     Code
-      dplyr_last_warnings(n = 1)
+      last_dplyr_warnings(n = 1)
     Output
       [[1]]
       <warning/rlang_warning>
@@ -595,7 +595,7 @@
       
     Message
       ... with 4 more warnings.
-      i Use `dplyr_last_warnings(n = ...)` to show more.
+      i Use `last_dplyr_warnings(n = ...)` to show more.
 
 # complex backtraces with base and rlang warnings
 
@@ -609,7 +609,7 @@
       There were 3 warnings in a `mutate()` step.
       The first warning was:
       ! foo
-      i Run `dplyr::dplyr_last_warnings()` to see the 2 remaining warnings.
+      i Run `dplyr::last_dplyr_warnings()` to see the 2 remaining warnings.
     Output
       # A tibble: 3 x 2
       # Groups:   x [1]
@@ -619,7 +619,7 @@
       2     2     1
       3     3     1
     Code
-      dplyr_last_warnings()
+      last_dplyr_warnings()
     Output
       [[1]]
       <warning/rlang_warning>
