@@ -4,7 +4,7 @@
 \alias{dplyr_last_warnings}
 \title{Show warnings from the last command}
 \usage{
-dplyr_last_warnings(n = 20)
+dplyr_last_warnings(n = 5)
 }
 \arguments{
 \item{n}{Passed to \code{\link[=head]{head()}} so that only the first \code{n} warnings are

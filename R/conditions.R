@@ -194,7 +194,7 @@ skip_internal_condition <- function(cnd) {
 #' @param n Passed to [head()] so that only the first `n` warnings are
 #'   displayed.
 #' @export
-dplyr_last_warnings <- function(n = 20) {
+dplyr_last_warnings <- function(n = 5) {
   if (!identical(n, Inf)) {
     check_number(n)
     stopifnot(n >= 0)
