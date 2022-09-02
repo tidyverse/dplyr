@@ -268,13 +268,18 @@ new_dplyr_warning <- function(data) {
   warning_cnd(
     message = msg,
     parent = data$cnd,
-    call = data$call
+    call = data$call,
+    trace = data$cnd$trace
   )
 }
 
 #' @export
 print.dplyr_last_warnings <- function(x, ...) {
-  print(unstructure(x), ...)
+  # Opt into experimental grayed out tree
+  local_options(
+    "rlang:::trace_display_tree" = TRUE
+  )
+  print(unstructure(x), ..., simplify = "none")
 
   remaining <- attr(x, "remaining")
   if (remaining) {

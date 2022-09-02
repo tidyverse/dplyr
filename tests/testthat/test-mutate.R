@@ -525,11 +525,8 @@ test_that("mutate() deals with 0 groups (#5534)", {
     data.frame(x = numeric(), y = numeric()) %>% group_by(x)
   )
 
-  reset_dplyr_warnings()
-
   expect_snapshot({
-    invisible(mutate(df, y = max(x)))
-    dplyr_last_warnings()
+    mutate(df, y = max(x))
   })
 })
 

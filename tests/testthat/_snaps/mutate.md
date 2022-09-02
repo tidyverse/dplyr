@@ -56,21 +56,15 @@
 # mutate() deals with 0 groups (#5534)
 
     Code
-      invisible(mutate(df, y = max(x)))
+      mutate(df, y = max(x))
     Condition
       Warning:
       There was 1 warning in a `mutate()` step.
       ! no non-missing arguments to max; returning -Inf
-    Code
-      dplyr_last_warnings()
     Output
-      [[1]]
-      <warning/rlang_warning>
-      Warning in `mutate()`:
-      Problem while computing `y = max(x)`.
-      Caused by warning in `max()`:
-      ! no non-missing arguments to max; returning -Inf
-      
+      # A tibble: 0 x 2
+      # Groups:   x [0]
+      # ... with 2 variables: x <dbl>, y <dbl>
 
 # mutate() give meaningful errors
 

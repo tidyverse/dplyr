@@ -67,6 +67,10 @@ test_that("errors during dots collection are not enriched (#6178)", {
 })
 
 test_that("warnings are collected for `dplyr_last_warnings()`", {
+  local_options(
+    rlang_trace_format_srcrefs = FALSE
+  )
+
   df <- tibble(id = 1:2)
   f <- function() {
     warning("msg")
@@ -132,5 +136,37 @@ test_that("warnings are collected for `dplyr_last_warnings()`", {
       rowwise() |>
       mutate(x = f())
     dplyr_last_warnings(n = 1)
+  })
+})
+
+test_that("complex backtraces with base and rlang warnings", {
+  local_options(
+    rlang_trace_format_srcrefs = FALSE
+  )
+  reset_dplyr_warnings()
+
+  df <- tibble(id = 1:3)
+
+  f <- function(...) g(...)
+  g <- function(...) h(...)
+  h <- function(x, base = TRUE) {
+    if (base) {
+      warning("foo")
+    } else {
+      warn("foo")
+    }
+    x
+  }
+
+  foo <- function() bar()
+  bar <- function() {
+    df |>
+      group_by(x = f(1):n()) |>
+      mutate(x = f(1, base = FALSE))
+  }
+
+  expect_snapshot({
+    foo()
+    dplyr_last_warnings()
   })
 })
