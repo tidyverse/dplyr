@@ -232,9 +232,8 @@
       # Ungrouped
       invisible(mutate(df, x = f()))
     Condition
-      Warning in `mutate()`:
-      Problem while computing `x = f()`.
-      Caused by warning in `f()`:
+      Warning:
+      There was 1 warning in a `mutate()` step.
       ! msg
     Code
       dplyr_last_warnings()
@@ -254,7 +253,7 @@
       invisible(mutate(group_by(df, id), x = f()))
     Condition
       Warning:
-      There were 2 warnings in `mutate()`.
+      There were 2 warnings in a `mutate()` step.
       The first warning was:
       ! msg
       i Run `dplyr::dplyr_last_warnings()` to see the 1 remaining warning.
@@ -283,7 +282,7 @@
       invisible(mutate(rowwise(df), x = f()))
     Condition
       Warning:
-      There were 2 warnings in `mutate()`.
+      There were 2 warnings in a `mutate()` step.
       The first warning was:
       ! msg
       i Run `dplyr::dplyr_last_warnings()` to see the 1 remaining warning.
@@ -312,17 +311,16 @@
       invisible(mutate(group_by(mutate(rowwise(group_by(df, g = f():n())), x = f()),
       id), x = f()))
     Condition
-      Warning in `group_by()`:
-      Problem while computing `g = f():n()`.
-      Caused by warning in `f()`:
+      Warning:
+      There was 1 warning in a `group_by()` step.
       ! msg
       Warning:
-      There were 2 warnings in `mutate()`.
+      There were 2 warnings in a `mutate()` step.
       The first warning was:
       ! msg
       i Run `dplyr::dplyr_last_warnings()` to see the 1 remaining warning.
       Warning:
-      There were 2 warnings in `mutate()`.
+      There were 2 warnings in a `mutate()` step.
       The first warning was:
       ! msg
       i Run `dplyr::dplyr_last_warnings()` to see the 1 remaining warning.
@@ -372,7 +370,7 @@
       mutate(rowwise(df), x = f())
     Condition
       Warning:
-      There were 2 warnings in `mutate()`.
+      There were 2 warnings in a `mutate()` step.
       The first warning was:
       ! msg
       i Run `dplyr::dplyr_last_warnings()` to see the 1 remaining warning.
@@ -405,7 +403,7 @@
       mutate(rowwise(df), x = f())
     Condition
       Warning:
-      There were 5 warnings in `mutate()`.
+      There were 5 warnings in a `mutate()` step.
       The first warning was:
       ! msg
       i Run `dplyr::dplyr_last_warnings()` to see the 4 remaining warnings.

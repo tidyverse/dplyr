@@ -242,20 +242,14 @@ signal_warnings <- function(warnings, error_call) {
 
   push_dplyr_warnings(warnings)
 
-  first <- new_dplyr_warning(warnings[[1]])
-
-  if (n == 1) {
-    first$call <- first$call[1]
-    cnd_signal(first)
-    return()
-  }
-
+  first <- warnings[[1]][["cnd"]]
   call <- format_error_call(error_call)
+
   cli::cli_warn(c(
-    "There {cli::qty(n)} {?was/were} {n} warning{?s} in {call}.",
-    "The first warning was:",
-    cnd_message_lines(first$parent),
-    i = "Run `dplyr::dplyr_last_warnings()` to see the {n - 1} remaining warning{?s}."
+    "There {cli::qty(n)} {?was/were} {n} warning{?s} in a {call} step.",
+    if (n > 1) "The first warning was:",
+    cnd_message_lines(first),
+    i = if (n > 1) "Run `dplyr::dplyr_last_warnings()` to see the {n - 1} remaining warning{?s}."
   ))
 }
 
