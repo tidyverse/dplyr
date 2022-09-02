@@ -261,7 +261,7 @@ mutate_cols <- function(.data, dots, error_call = caller_env()) {
     },
     warning = function(w) {
       # Don't entrace more than 5 warnings because this is very costly
-      if (is_null(w$trace) && length(warnings) <= 5) {
+      if (is_null(w$trace) && length(warnings) < 5) {
         # The frame skipping assumes a regular `base::warning()` stack.
         # Also works with warnings emitted from C with `Rf_warning()`.
         w$trace <- trace_back(bottom = sys.frame(-5))

@@ -170,3 +170,27 @@ test_that("complex backtraces with base and rlang warnings", {
     last_dplyr_warnings()
   })
 })
+
+test_that("`last_dplyr_warnings()` only records 5 backtraces", {
+  reset_dplyr_warnings()
+
+  f <- function() {
+    warning("msg")
+    1
+  }
+  df <- tibble(id = 1:10)
+
+  expect_warning(
+    df |>
+      group_by(id) |>
+      mutate(x = f())
+  )
+
+  warnings <- last_dplyr_warnings(Inf)
+
+  traces <- map(warnings, `[[`, "trace")
+  expect_equal(
+    sum(map_lgl(traces, is_null)),
+    5
+  )
+})
