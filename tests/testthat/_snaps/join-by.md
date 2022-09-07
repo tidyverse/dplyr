@@ -349,6 +349,13 @@
 ---
 
     Code
+      by <- join_by_common(c("_x", "foo bar"), c("_x", "foo bar"))
+    Message
+      Joining with `by = join_by(`_x`, `foo bar`)`
+
+---
+
+    Code
       join_by_common(c("x", "y"), c("w", "z"))
     Condition
       Error:
