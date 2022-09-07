@@ -352,18 +352,14 @@ join_by_common <- function(x_names,
   if (length(by) == 0) {
     message <- c(
       "`by` must be supplied when `x` and `y` have no common variables.",
-      i = "Use `by = character()` to perform a cross-join."
+      i = "Use `by = join_by()` to perform a cross-join."
     )
     abort(message, call = error_call)
   }
 
-  by_quoted <- encodeString(by, quote = '"')
-  if (length(by_quoted) == 1L) {
-    by_code <- by_quoted
-  } else {
-    by_code <- paste0("c(", paste(by_quoted, collapse = ", "), ")")
-  }
-  inform(paste0("Joining, by = ", by_code))
+  by_names <- tick_if_needed(by)
+  by_names <- glue_collapse(by_names, sep = ", ")
+  inform(glue("Joining with `by = join_by({by_names})`"))
 
   finalise_equi_join_by(by, by)
 }
