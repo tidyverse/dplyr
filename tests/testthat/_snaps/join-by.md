@@ -344,7 +344,7 @@
     Code
       by <- join_by_common(c("x", "y"), c("x", "y"))
     Message
-      Joining, by = join_by(x, y)
+      Joining with `by = join_by(x, y)`
 
 ---
 

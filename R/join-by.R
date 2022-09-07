@@ -357,9 +357,9 @@ join_by_common <- function(x_names,
     abort(message, call = error_call)
   }
 
-  by_quoted <- tick_if_needed(by)
-  by_code <- paste0("join_by(", paste(by_quoted, collapse = ", "), ")")
-  inform(paste0("Joining, by = ", by_code))
+  by_names <- tick_if_needed(by)
+  by_names <- glue_collapse(by_names, sep = ", ")
+  inform(glue("Joining with `by = join_by({by_names})`"))
 
   finalise_equi_join_by(by, by)
 }
