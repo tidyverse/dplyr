@@ -41,7 +41,7 @@ Imports:
     tidyselect (>= 1.1.2.9000),
     utils,
     vctrs (>= 0.4.1.9000),
-    pillar (>= 1.5.1)
+    pillar (>= 1.8.1)
 Suggests: 
     bench,
     broom,
