@@ -235,7 +235,7 @@ mutate_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
   withCallingHandlers(
     for (i in seq_along(dots)) {
       context_poke("column", old_current_column)
-      new_columns <- mutate_col(i, .data, dots, mask, new_columns)
+      new_columns <- mutate_col(dots[[i]], .data, mask, new_columns)
     },
     error = function(e) {
       local_error_context(dots = dots, .index = i, mask = mask)
@@ -284,12 +284,12 @@ mutate_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
   new_columns
 }
 
-mutate_col <- function(i, data, dots, mask, new_columns) {
+mutate_col <- function(dot, data, mask, new_columns) {
   rows <- mask$get_rows()
 
   # get results from all the quosures that are expanded from ..i
   # then ingest them after
-  quosures <- expand_across(dots[[i]])
+  quosures <- expand_across(dot)
   quosures_results <- vector(mode = "list", length = length(quosures))
 
   # First pass
