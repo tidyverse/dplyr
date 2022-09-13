@@ -111,11 +111,11 @@ filter <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 filter.data.frame <- function(.data, ..., .preserve = FALSE) {
-  loc <- filter_rows(.data, ..., caller_env = caller_env())
+  loc <- filter_rows(.data, ...)
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
-filter_rows <- function(.data, ..., caller_env, error_call = caller_env()) {
+filter_rows <- function(.data, ..., error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
 
   dots <- dplyr_quosures(...)

@@ -18,7 +18,6 @@ distinct_prepare(
 group_by_prepare(
   .data,
   ...,
-  caller_env = caller_env(2),
   .add = FALSE,
   .dots = deprecated(),
   add = deprecated(),

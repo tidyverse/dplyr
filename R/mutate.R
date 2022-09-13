@@ -172,7 +172,7 @@ mutate.data.frame <- function(.data,
                               .after = NULL) {
   keep <- arg_match(.keep)
 
-  cols <- mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+  cols <- mutate_cols(.data, dplyr_quosures(...))
   used <- attr(cols, "used")
 
   out <- dplyr_col_modify(.data, cols)
@@ -218,7 +218,7 @@ mutate.data.frame <- function(.data,
 
 # Helpers -----------------------------------------------------------------
 
-mutate_cols <- function(.data, dots, caller_env, error_call = caller_env()) {
+mutate_cols <- function(.data, dots, error_call = caller_env()) {
   # Collect dots before setting up error handlers (#6178)
   force(dots)
 

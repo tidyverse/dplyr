@@ -123,7 +123,7 @@ slice <- function(.data, ..., .preserve = FALSE) {
 
 #' @export
 slice.data.frame <- function(.data, ..., .preserve = FALSE) {
-  loc <- slice_rows(.data, ..., caller_env = caller_env(), error_call = current_env())
+  loc <- slice_rows(.data, ..., error_call = current_env())
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
@@ -270,7 +270,7 @@ slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, repla
 
 # helpers -----------------------------------------------------------------
 
-slice_rows <- function(.data, ..., caller_env, error_call = caller_env()) {
+slice_rows <- function(.data, ..., error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
 
   dots <- enquos(...)
