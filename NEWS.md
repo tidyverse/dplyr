@@ -301,10 +301,10 @@
       `join_by(sale_date >= commercial_date)` to find every commercial that
       aired before a particular sale.
       
-    * Rolling joins: For "rolling" the preceding value forward or the following
-      value backwards when there isn't an exact match, specified by using one of
-      the rolling helpers: `preceding()` or `following()`. For example,
-      `join_by(preceding(sale_date, commercial_date))` to find only the most
+    * Rolling joins: For "rolling" the closest match forward or backwards when
+      there isn't an exact match, specified by using the rolling helper,
+      `closest()`. For example,
+      `join_by(closest(sale_date >= commercial_date))` to find only the most
       recent commercial that aired before a particular sale.
       
     * Overlap joins: For detecting overlaps between sets of columns, specified
