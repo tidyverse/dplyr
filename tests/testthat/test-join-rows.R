@@ -152,6 +152,10 @@ test_that("join_rows() gives meaningful error/warning message on multiple matche
 
   cnd <- catch_cnd(join_rows(1, c(1, 1), multiple = "warning"), classes = "warning")
   expect_snapshot(cat(conditionMessage(cnd)))
+
+  df1 <- data.frame(x = 1)
+  df2 <- data.frame(x = c(1, 1))
+  expect_snapshot(. <- left_join(df1, df2, by = "x"))
 })
 
 test_that("join_rows() gives meaningful error message on unmatched rows", {
