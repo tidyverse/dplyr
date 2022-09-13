@@ -315,12 +315,12 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
         logical = "error",
         character = "error",
         arg = as_label(dots[[i]]),
-        call = NULL # error always chained to select()
+        call = NULL # error always chained to slice()
       )
     }
 
     index <<- 0L
-    vec_c(!!!out)
+    vec_c(!!!out, .ptype = integer())
   }
 
   withCallingHandlers(
@@ -354,7 +354,7 @@ slice_combine <- function(chunks, dots, mask, error_call = caller_env()) {
         oob = "remove",
         missing = "remove",
         arg = as_label(dots[[group]]),
-        call = NULL # error always chained to select()
+        call = NULL # error always chained to slice()
       )
       grp_loc <- current_rows[loc]
       grp_loc <- grp_loc[!is.na(grp_loc)]
