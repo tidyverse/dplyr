@@ -352,6 +352,7 @@ slice_combine <- function(chunks, dots, mask, error_call = caller_env()) {
         n = length(current_rows),
         zero = "remove",
         oob = "remove",
+        missing = "remove",
         arg = as_label(dots[[group]]),
         call = NULL # error always chained to select()
       )
