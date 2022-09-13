@@ -1,5 +1,9 @@
 # dplyr (development version)
 
+* `nth()`, `first()`, `last()`, and `with_order()` now sort character `order_by`
+  vectors in the C locale. Using character vectors for `order_by` is rare, so we
+  expect this to have little practical impact (#6451).
+
 * `slice()`ing with a 1-column matrix is now deprecated.
 
 * `row_number()`, `min_rank()`, `dense_rank()`, `ntile()`, `cume_dist()`, and
