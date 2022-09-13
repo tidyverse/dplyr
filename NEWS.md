@@ -1,6 +1,6 @@
 # dplyr (development version)
 
-* `slicing()` with a 1-column matrix is now deprecated.
+* `slice()`ing with a 1-column matrix is now deprecated.
 
 * `row_number()`, `min_rank()`, `dense_rank()`, `ntile()`, `cume_dist()`, and
   `percent_rank()` are now powered by vctrs, meaning that they are faster and
