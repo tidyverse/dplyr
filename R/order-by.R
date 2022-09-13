@@ -63,11 +63,11 @@ order_by <- function(order_by, call) {
 with_order <- function(order_by, fun, x, ...) {
   vec_assert(order_by, size = vec_size(x), arg = "order_by")
 
-  o <- vec_order_base(order_by)
+  o <- vec_order_radix(order_by)
   x <- vec_slice(x, o)
 
   out <- fun(x, ...)
 
-  o <- vec_order_base(o)
+  o <- vec_order_radix(o)
   vec_slice(out, o)
 }

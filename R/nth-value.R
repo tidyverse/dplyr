@@ -115,7 +115,7 @@ nth <- function(x, n, order_by = NULL, default = NULL, na_rm = FALSE) {
   }
 
   if (!is.null(order_by)) {
-    order <- vec_order_base(order_by)
+    order <- vec_order_radix(order_by)
     n <- order[[n]]
   }
 

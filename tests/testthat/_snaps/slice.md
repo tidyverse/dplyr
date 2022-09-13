@@ -6,8 +6,17 @@
       Error in `slice()`:
       ! Problem while computing indices.
       Caused by error:
-      ! Indices must be all positive or all negative.
-      i Got 1 positives, 1 negatives.
+      ! Must subset elements with a valid subscript vector.
+      x Negative and positive locations can't be mixed.
+      i Subscript `1` has a positive value at location 1.
+
+# slicing with one-column matrix is deprecated
+
+    Code
+      out <- slice(df, matrix(c(1, 3)))
+    Condition
+      Warning:
+      Slicing with a 1-column matrix was deprecated in dplyr 1.1.0.
 
 # slice errors if index is not numeric
 
@@ -15,10 +24,11 @@
       slice(tibble(), "a")
     Condition
       Error in `slice()`:
-      ! Problem while computing indices.
+      ! Problem while evaluating `..1 = "a"`.
       Caused by error:
-      ! Invalid result of type <character>.
-      i Indices must be positive or negative integers.
+      ! Must subset elements with a valid subscript vector.
+      x Subscript `"a"` has the wrong type `character`.
+      i It must be numeric.
 
 # user errors are correctly labelled
 
