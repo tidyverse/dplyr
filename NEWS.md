@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `group_by_prepare()` loses the `caller_env` argument. It was rarely used
+  and it is no longer needed (#6444).
+
 * `row_number()`, `min_rank()`, `dense_rank()`, `ntile()`, `cume_dist()`, and
   `percent_rank()` are now powered by vctrs, meaning that they are faster and
   work for more types. You can now also rank by multiple columns at once by
