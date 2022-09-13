@@ -88,10 +88,7 @@ distinct_prepare <- function(.data,
   }
 
   # If any calls, use mutate to add new columns, then distinct on those
-  computed_columns <- add_computed_columns(.data, vars,
-    caller_env = caller_env,
-    error_call = error_call
-  )
+  computed_columns <- add_computed_columns(.data, vars, error_call = error_call)
   .data <- computed_columns$data
   distinct_vars <- computed_columns$added_names
 

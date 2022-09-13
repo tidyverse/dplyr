@@ -89,10 +89,15 @@ test_that("across(.unpack =) allows a glue specification for `.unpack`", {
   }
 
   df <- tibble(x = 1)
-
   out <- mutate(df, across(x, fn, .unpack = "{outer}.{inner}"))
-
   expect_named(out, c("x", "x.a", "x.b"))
+
+  # Can use variables from caller env
+  out <- local({
+    name <- "name"
+    mutate(df, across(x, fn, .unpack = "{name}.{inner}"))
+  })
+  expect_named(out, c("x", "name.a", "name.b"))
 })
 
 test_that("across(.unpack =) skips unpacking non-df-cols", {
@@ -908,7 +913,7 @@ test_that("expand_across() expands lambdas", {
     index = 1
   )
 
-  DataMask$new(mtcars, current_env(), "mutate", call("caller"))
+  DataMask$new(mtcars, "mutate", call("caller"))
 
   expect_equal(
     map(expand_across(quo), quo_get_expr),
@@ -929,7 +934,7 @@ test_that("expand_if_across() expands lambdas", {
     index = 1
   )
 
-  DataMask$new(mtcars, current_env(), "mutate", call("caller"))
+  DataMask$new(mtcars, "mutate", call("caller"))
 
   expect_equal(
     map(expand_if_across(quo), quo_squash),

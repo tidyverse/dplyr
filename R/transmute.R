@@ -39,7 +39,7 @@ transmute.data.frame <- function(.data, ...) {
   dots <- check_transmute_args(...)
   dots <- dplyr_quosures(!!!dots)
 
-  cols <- mutate_cols(.data, dots, caller_env = caller_env())
+  cols <- mutate_cols(.data, dots)
 
   out <- dplyr_col_modify(.data, cols)
 
