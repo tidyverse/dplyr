@@ -10,13 +10,12 @@
 
   .Call(dplyr_init_library, ns_dplyr, ns_env("vctrs"), ns_env("rlang"))
 
-  # TODO: For `arrange()`, `group_by()`, and `with_order()` until vctrs changes
-  # `vec_order()` to the new ordering algorithm and officially exports
-  # `vec_order_base()`, at which point we should use `vec_order()` and
-  # `vec_order_base()` directly and remove this.
+  # TODO: For `arrange()`, `group_by()`, `with_order()`, and `nth()` until vctrs
+  # changes `vec_order()` to the new ordering algorithm, at which point we
+  # should switch from `vec_order_radix()` to `vec_order()` so vctrs can remove
+  # it.
   env_bind(
     .env = ns_dplyr,
-    vec_order_base = import_vctrs("vec_order_base"),
     vec_order_radix = import_vctrs("vec_order_radix")
   )
 

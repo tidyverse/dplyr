@@ -187,7 +187,7 @@ sort_key_generator <- function(locale) {
 
 # ------------------------------------------------------------------------------
 
-dplyr_order_legacy <- function(data, direction) {
+dplyr_order_legacy <- function(data, direction = "asc") {
   if (ncol(data) == 0L) {
     # Work around `order(!!!list())` returning `NULL`
     return(seq_len(nrow(data)))
@@ -225,6 +225,14 @@ dplyr_proxy_order_legacy <- function(x, direction) {
     out <- vec_match(x, sorted_unique)
 
     return(out)
+  }
+
+  if (!is_character(x) && !is_logical(x) && !is_integer(x) && !is_double(x) && !is_complex(x)) {
+    abort("Invalid type returned by `vec_proxy_order()`.", .internal = TRUE)
+  }
+
+  if (is.object(x)) {
+    x <- unstructure(x)
   }
 
   if (direction == "desc") {

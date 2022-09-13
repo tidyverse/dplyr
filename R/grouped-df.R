@@ -299,9 +299,9 @@ dplyr_locate_sorted_groups <- function(x) {
   out$loc <- new_list_of(out$loc, ptype = integer())
 
   if (dplyr_legacy_locale()) {
-    # Temporary legacy support for respecting the system locale
+    # Temporary legacy support for respecting the system locale.
     # Matches legacy `arrange()` ordering.
-    out <- vec_slice(out, vec_order_base(out$key))
+    out <- vec_slice(out, dplyr_order_legacy(out$key))
   }
 
   out
