@@ -44,77 +44,77 @@
     Code
       out <- left_join(df1, df2)
     Message
-      Joining, by = "x"
+      Joining with `by = join_by(x)`
 
 # filtering joins compute common columns
 
     Code
       out <- semi_join(df1, df2)
     Message
-      Joining, by = "x"
+      Joining with `by = join_by(x)`
 
 # error if passed additional arguments
 
     Code
       inner_join(df1, df2, on = "a")
     Message
-      Joining, by = "a"
+      Joining with `by = join_by(a)`
     Condition
-      Error:
+      Error in `inner_join()`:
       ! Arguments in `...` must be used.
       x Problematic argument:
       * on = "a"
     Code
       left_join(df1, df2, on = "a")
     Message
-      Joining, by = "a"
+      Joining with `by = join_by(a)`
     Condition
-      Error:
+      Error in `left_join()`:
       ! Arguments in `...` must be used.
       x Problematic argument:
       * on = "a"
     Code
       right_join(df1, df2, on = "a")
     Message
-      Joining, by = "a"
+      Joining with `by = join_by(a)`
     Condition
-      Error:
+      Error in `right_join()`:
       ! Arguments in `...` must be used.
       x Problematic argument:
       * on = "a"
     Code
       full_join(df1, df2, on = "a")
     Message
-      Joining, by = "a"
+      Joining with `by = join_by(a)`
     Condition
-      Error:
+      Error in `full_join()`:
       ! Arguments in `...` must be used.
       x Problematic argument:
       * on = "a"
     Code
       nest_join(df1, df2, on = "a")
     Message
-      Joining, by = "a"
+      Joining with `by = join_by(a)`
     Condition
-      Error:
+      Error in `nest_join()`:
       ! Arguments in `...` must be used.
       x Problematic argument:
       * on = "a"
     Code
       anti_join(df1, df2, on = "a")
     Message
-      Joining, by = "a"
+      Joining with `by = join_by(a)`
     Condition
-      Error:
+      Error in `anti_join()`:
       ! Arguments in `...` must be used.
       x Problematic argument:
       * on = "a"
     Code
       semi_join(df1, df2, on = "a")
     Message
-      Joining, by = "a"
+      Joining with `by = join_by(a)`
     Condition
-      Error:
+      Error in `semi_join()`:
       ! Arguments in `...` must be used.
       x Problematic argument:
       * on = "a"
@@ -124,7 +124,7 @@
     Code
       out <- nest_join(df1, df2)
     Message
-      Joining, by = "x"
+      Joining with `by = join_by(x)`
 
 # validates inputs
 

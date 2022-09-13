@@ -344,7 +344,14 @@
     Code
       by <- join_by_common(c("x", "y"), c("x", "y"))
     Message
-      Joining, by = c("x", "y")
+      Joining with `by = join_by(x, y)`
+
+---
+
+    Code
+      by <- join_by_common(c("_x", "foo bar"), c("_x", "foo bar"))
+    Message
+      Joining with `by = join_by(`_x`, `foo bar`)`
 
 ---
 
@@ -353,5 +360,5 @@
     Condition
       Error:
       ! `by` must be supplied when `x` and `y` have no common variables.
-      i Use `by = character()` to perform a cross-join.
+      i Use `by = join_by()` to perform a cross-join.
 

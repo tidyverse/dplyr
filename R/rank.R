@@ -18,13 +18,14 @@
 #'
 #' @param x A vector to rank
 #'
-#'   By default, the smallest values will get the smallest ranks.
-#'   Use [desc()] to reverse the direction so the largest values get the smallest
-#'   ranks.
+#'   By default, the smallest values will get the smallest ranks. Use [desc()]
+#'   to reverse the direction so the largest values get the smallest ranks.
 #'
 #'   Missing values will be given rank `NA`. Use `coalesce(x, Inf)` or
 #'   `coalesce(x, -Inf)` if you want to treat them as the largest or smallest
 #'   values respectively.
+#'
+#'   To rank by multiple columns at once, supply a data frame.
 #' @return An integer vector.
 #' @family ranking functions
 #' @examples
@@ -37,12 +38,15 @@
 #' df <- data.frame(
 #'   grp = c(1, 1, 1, 2, 2, 2, 3, 3, 3),
 #'   x = c(3, 2, 1, 1, 2, 2, 1, 1, 1),
+#'   y = c(1, 3, 2, 3, 2, 2, 4, 1, 2),
 #'   id = 1:9
 #' )
 #' # Always gives exactly 1 row per group
 #' df %>% group_by(grp) %>% filter(row_number(x) == 1)
 #' # May give more than 1 row if ties
 #' df %>% group_by(grp) %>% filter(min_rank(x) == 1)
+#' # Rank by multiple columns (to break ties) by supplying a tibble
+#' df %>% group_by(grp) %>% filter(min_rank(tibble(x, y)) == 1)
 #' # See slice_min() and slice_max() for another way to tackle the same problem
 #'
 #' # You can use row_number() without an argument to refer to the "current"
@@ -56,18 +60,20 @@ row_number <- function(x) {
   if (missing(x)) {
     seq_len(n())
   } else {
-    rank(x, ties.method = "first", na.last = "keep")
+    vec_rank(x, ties = "sequential", incomplete = "na")
   }
 }
 
 #' @export
 #' @rdname row_number
-min_rank <- function(x) rank(x, ties.method = "min", na.last = "keep")
+min_rank <- function(x) {
+  vec_rank(x, ties = "min", incomplete = "na")
+}
 
 #' @export
 #' @rdname row_number
 dense_rank <- function(x) {
-  match(x, sort(unique(x)))
+  vec_rank(x, ties = "dense", incomplete = "na")
 }
 
 #' Bucket a numeric vector into `n` groups
@@ -101,14 +107,18 @@ ntile <- function(x = row_number(), n) {
   if (!missing(x)) {
     x <- row_number(x)
   }
-  len <- length(x) - sum(is.na(x))
+  len <- vec_size(x) - sum(vec_equal_na(x))
 
-  n <- as.integer(floor(n))
+  check_number(n)
+  n <- vec_cast(n, integer())
+  if (n <= 0L) {
+    abort("`n` must be positive.")
+  }
 
   # Definition from
   # https://techcommunity.microsoft.com/t5/sql-server/ranking-functions-rank-dense-rank-and-ntile/ba-p/383384
   if (len == 0L) {
-    rep(NA_integer_, length(x))
+    rep(NA_integer_, vec_size(x))
   } else {
     n_larger <- as.integer(len %% n)
     n_smaller <- as.integer(n - n_larger)
@@ -158,11 +168,11 @@ ntile <- function(x = row_number(), n) {
 #' # The real computations are a little more complex in order to
 #' # correctly deal with missing values
 percent_rank <- function(x) {
-  (min_rank(x) - 1) / (sum(!is.na(x)) - 1)
+  (min_rank(x) - 1) / (sum(vec_detect_complete(x)) - 1)
 }
 
 #' @export
 #' @rdname percent_rank
 cume_dist <- function(x) {
-  rank(x, ties.method = "max", na.last = "keep") / sum(!is.na(x))
+  vec_rank(x, ties = "max", incomplete = "na") / sum(vec_detect_complete(x))
 }
