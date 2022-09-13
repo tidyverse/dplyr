@@ -281,7 +281,7 @@ slice_rows <- function(.data, ..., caller_env, error_call = caller_env()) {
   on.exit(mask$forget(), add = TRUE)
 
   chunks <- slice_eval(mask, dots, error_call = error_call)
-  slice_indices <- slice_combine(chunks, mask = mask, error_call = error_call)
+  slice_indices <- slice_combine(chunks, dots, mask = mask, error_call = error_call)
 
   vec_c(!!!slice_indices, .ptype = integer())
 }
@@ -303,11 +303,24 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
 
     for (i in seq_len(n)) {
       index <<- i
-      out[[i]] <- ...elt2(i)
+
+      slice_idx <- ...elt2(i)
+      if (is.matrix(slice_idx) && ncol(slice_idx) == 1) {
+        lifecycle::deprecate_warn("1.1.0", I("Slicing with a 1-column matrix"))
+        slice_idx <- slice_idx[, 1]
+      }
+
+      out[[i]] <- vec_as_subscript(
+        slice_idx,
+        logical = "error",
+        character = "error",
+        arg = as_label(dots[[i]]),
+        call = NULL # error always chained to slice()
+      )
     }
 
     index <<- 0L
-    vec_c(!!!out)
+    vec_c(!!!out, .ptype = integer())
   }
 
   withCallingHandlers(
@@ -326,56 +339,36 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
   )
 }
 
-slice_combine <- function(chunks, mask, error_call = caller_env()) {
+slice_combine <- function(chunks, dots, mask, error_call = caller_env()) {
   rows <- mask$get_rows()
   slice_indices <- new_list(length(rows))
 
   withCallingHandlers(
     for (group in seq_along(rows)) {
       current_rows <- rows[[group]]
-      res <- chunks[[group]]
 
-      if (is.logical(res) && all(is.na(res))) {
-        res <- integer()
-      } else if (is.numeric(res)) {
-        if (is.matrix(res) && ncol(res) == 1) {
-          res <- as.vector(res)
-        }
-        res <- vec_cast(res, integer(), x_arg = "", call = NULL)
-      } else {
-        bullets <- c(
-          glue("Invalid result of type <{vec_ptype_full(res)}>."),
-          i = "Indices must be positive or negative integers."
-        )
-        abort(bullets, call = NULL)
-      }
+      loc <- num_as_location(
+        i = chunks[[group]],
+        n = length(current_rows),
+        zero = "remove",
+        oob = "remove",
+        missing = "remove",
+        arg = as_label(dots[[group]]),
+        call = NULL # error always chained to slice()
+      )
+      grp_loc <- current_rows[loc]
+      grp_loc <- grp_loc[!is.na(grp_loc)]
 
-      if (length(res) == 0L) {
-        # nothing to do
-      } else if (all(res >= 0, na.rm = TRUE)) {
-        res <- res[!is.na(res) & res <= length(current_rows) & res > 0]
-      } else if (all(res <= 0, na.rm = TRUE)) {
-        res <- setdiff(seq_along(current_rows), -res)
-      } else {
-        mask$set_current_group(group)
-        n_positive <- sum(res >= 0, na.rm = TRUE)
-        n_negative <- sum(res <= 0, na.rm = TRUE)
-        bullets <- c(
-          "Indices must be all positive or all negative.",
-          i = glue("Got {n_positive} positives, {n_negative} negatives.")
-        )
-        abort(bullets, call = NULL)
-      }
-
-      slice_indices[[group]] <- current_rows[res]
+      slice_indices[[group]] <- grp_loc
     }, error = function(cnd) {
-    mask$set_current_group(group)
-    bullets <- c(
-      "Problem while computing indices.",
-      i = cnd_bullet_cur_group_label()
-    )
-    abort(bullets, call = error_call, parent = cnd)
-  })
+      mask$set_current_group(group)
+      bullets <- c(
+        "Problem while computing indices.",
+        i = cnd_bullet_cur_group_label()
+      )
+      abort(bullets, call = error_call, parent = cnd)
+    }
+  )
 
   slice_indices
 }
