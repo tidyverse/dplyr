@@ -249,6 +249,9 @@ test_that("join_by_common() emits useful information", {
   # Common by message
   expect_snapshot(by <- join_by_common(c("x", "y"), c("x", "y")))
 
+  # Works with names that need backticks
+  expect_snapshot(by <- join_by_common(c("_x", "foo bar"), c("_x", "foo bar")))
+
   # No common variables error
   expect_snapshot(error = TRUE, join_by_common(c("x", "y"), c("w", "z")))
 })

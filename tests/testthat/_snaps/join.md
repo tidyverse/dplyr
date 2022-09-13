@@ -44,21 +44,21 @@
     Code
       out <- left_join(df1, df2)
     Message
-      Joining, by = "x"
+      Joining with `by = join_by(x)`
 
 # filtering joins compute common columns
 
     Code
       out <- semi_join(df1, df2)
     Message
-      Joining, by = "x"
+      Joining with `by = join_by(x)`
 
 # error if passed additional arguments
 
     Code
       inner_join(df1, df2, on = "a")
     Message
-      Joining, by = "a"
+      Joining with `by = join_by(a)`
     Condition
       Error in `inner_join()`:
       ! Arguments in `...` must be used.
@@ -67,7 +67,7 @@
     Code
       left_join(df1, df2, on = "a")
     Message
-      Joining, by = "a"
+      Joining with `by = join_by(a)`
     Condition
       Error in `left_join()`:
       ! Arguments in `...` must be used.
@@ -76,7 +76,7 @@
     Code
       right_join(df1, df2, on = "a")
     Message
-      Joining, by = "a"
+      Joining with `by = join_by(a)`
     Condition
       Error in `right_join()`:
       ! Arguments in `...` must be used.
@@ -85,7 +85,7 @@
     Code
       full_join(df1, df2, on = "a")
     Message
-      Joining, by = "a"
+      Joining with `by = join_by(a)`
     Condition
       Error in `full_join()`:
       ! Arguments in `...` must be used.
@@ -94,7 +94,7 @@
     Code
       nest_join(df1, df2, on = "a")
     Message
-      Joining, by = "a"
+      Joining with `by = join_by(a)`
     Condition
       Error in `nest_join()`:
       ! Arguments in `...` must be used.
@@ -103,7 +103,7 @@
     Code
       anti_join(df1, df2, on = "a")
     Message
-      Joining, by = "a"
+      Joining with `by = join_by(a)`
     Condition
       Error in `anti_join()`:
       ! Arguments in `...` must be used.
@@ -112,7 +112,7 @@
     Code
       semi_join(df1, df2, on = "a")
     Message
-      Joining, by = "a"
+      Joining with `by = join_by(a)`
     Condition
       Error in `semi_join()`:
       ! Arguments in `...` must be used.
@@ -124,7 +124,7 @@
     Code
       out <- nest_join(df1, df2)
     Message
-      Joining, by = "x"
+      Joining with `by = join_by(x)`
 
 # validates inputs
 

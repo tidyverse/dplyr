@@ -188,7 +188,7 @@ vec_case_when <- function(conditions,
     locs <- locs[seq_processed]
   }
 
-  vec_unchop(
+  list_unchop(
     x = values,
     indices = locs,
     ptype = ptype
