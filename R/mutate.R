@@ -340,7 +340,7 @@ mutate_col <- function(dot, data, mask, new_columns) {
           # i.e. `vec_ptype_finalise(unspecified())` (#6369)
           result <- logical()
         } else {
-          result <- vec_unchop(result, ptype = result_ptype)
+          result <- list_unchop(result, ptype = result_ptype)
         }
       }
     } else if (!quo_is_symbolic(quo) && !is.null(quo_get_expr(quo))) {
@@ -384,7 +384,7 @@ mutate_col <- function(dot, data, mask, new_columns) {
         result <- chunks[[1]]
       } else {
         chunks <- dplyr_vec_cast_common(chunks, quo_data$name_auto)
-        result <- vec_unchop(chunks, rows)
+        result <- list_unchop(chunks, rows)
       }
     }
 

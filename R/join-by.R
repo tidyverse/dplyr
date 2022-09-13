@@ -278,7 +278,7 @@ new_join_by <- function(exprs, condition, filter, cross, x, y) {
 }
 
 flat_map_chr <- function(x, fn) {
-  vec_unchop(map(x, fn), ptype = character())
+  list_unchop(map(x, fn), ptype = character())
 }
 
 # ------------------------------------------------------------------------------
