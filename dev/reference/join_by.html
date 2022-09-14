@@ -94,7 +94,7 @@ using a small domain specific language. The result can be supplied as the
     <dl><dt>...</dt>
 <dd><p>Expressions specifying the join.</p>
 <p>Each expression should consist of either a join condition or a join helper:</p><ul><li><p>Join conditions: <code>==</code>, <code>&gt;=</code>, <code>&gt;</code>, <code>&lt;=</code>, or <code>&lt;</code>.</p></li>
-<li><p>Rolling helpers: <code>preceding()</code> or <code>following()</code>.</p></li>
+<li><p>Rolling helper: <code>closest()</code>.</p></li>
 <li><p>Overlap helpers: <code><a href="between.html">between()</a></code>, <code><a href="https://rdrr.io/r/base/with.html" class="external-link">within()</a></code>, or <code>overlaps()</code>.</p></li>
 </ul><p>Other expressions are not supported. If you need to perform a join on
 a computed variable, e.g. <code>join_by(sales_date - 40 &gt;= promo_date)</code>,
@@ -110,7 +110,7 @@ i.e. <code>x</code> is interpreted as <code>x == x</code>.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="join-types">Join types<a class="anchor" aria-label="anchor" href="#join-types"></a></h2>
-    <p><code>join_by()</code> supports four types of join, as described below:</p><ul><li><p>Equi joins</p></li>
+    <p><code>join_by()</code> supports four types of joins, as described below:</p><ul><li><p>Equi joins</p></li>
 <li><p>Non-equi joins</p></li>
 <li><p>Rolling joins</p></li>
 <li><p>Overlap joins</p></li>
@@ -141,35 +141,18 @@ join specifications!</p>
 <h3 id="rolling-joins">Rolling joins<a class="anchor" aria-label="anchor" href="#rolling-joins"></a></h3>
 
 
-<p>Rolling joins are a variant of a non-equi join that limit the results
-returned from the non-equi join condition. They are useful for "rolling"
-the preceding value forward or the following value backwards when there
-isn't an exact match. There are two helpers that <code>join_by()</code> recognizes
-to assist with constructing rolling joins.</p><ul><li><p><code>preceding(x, y, ..., inclusive = TRUE)</code></p>
-<p>For each value in <code>x</code>, this finds the value in <code>y</code> that is directly
-preceding it. If <code>inclusive = TRUE</code>, an exact match is allowed to count as
-the preceding value.</p>
-<p>Technically, this finds all matches using the binary condition <code>x &gt;= y</code>,
-then filters those matches to only include the one corresponding to the
-maximum value of <code>y</code> (i.e. the preceding match). If <code>inclusive = FALSE</code>,
-<code>&gt;=</code> is replaced with <code>&gt;</code>.</p>
-<p>Dots are for future extensions and must be empty.</p></li>
-<li><p><code>following(x, y, ..., inclusive = TRUE)</code></p>
-<p>For each value in <code>x</code>, this finds the value in <code>y</code> that is directly
-following it. If <code>inclusive = TRUE</code>, an exact match is allowed to count as
-the following value.</p>
-<p>Technically, this finds all matches using the binary condition <code>x &lt;= y</code>,
-then filters those matches to only include the one corresponding to the
-minimum value of <code>y</code> (i.e. the following match). If <code>inclusive = FALSE</code>,
-<code>&lt;=</code> is replaced with <code>&lt;</code>.</p>
-<p>Dots are for future extensions and must be empty.</p></li>
-</ul><p>Unlike other join helpers, the <code>x</code> argument must reference the left-hand
-table (<code>x</code>) and the <code>y</code> argument must reference the right-hand table (<code>y</code>).
-Attempting something like <code>preceding(y$a, x$b)</code> is not defined and will
-result in an error.</p>
-<p>Rolling joins can't be constructed directly from binary conditions, but are
-approximately equivalent to applying the binary condition mentioned above
-followed by a <code><a href="filter.html">filter()</a></code> for only the maximum or minimum <code>y</code> value.</p>
+<p>Rolling joins are a variant of non-equi joins that limit the results returned
+from a non-equi join condition. They are useful for "rolling" the closest
+match forward/backwards when there isn't an exact match. To construct a
+rolling join, wrap an inequality with <code>closest()</code>.</p><ul><li><p><code>closest(expr)</code></p>
+<p><code>expr</code> must be a binary inequality involving one of: <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>,
+or <code>&lt;=</code>.</p>
+<p>For example, <code>closest(x &gt;= y)</code> is interpreted as: For each value in <code>x</code>,
+find the closest value in <code>y</code> that is less than or equal to that <code>x</code> value.</p></li>
+</ul><p><code>closest()</code> will always use the left-hand table (<code>x</code>) as the primary table,
+and the right-hand table (<code>y</code>) as the one to find the closest match in,
+regardless of how the binary condition is specified. For example,
+<code>closest(y$a &gt;= x$b)</code> will always be interpreted as <code>closest(x$b &lt;= y$a)</code>.</p>
 </div>
 
 <div class="section">
@@ -260,9 +243,8 @@ come from.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>     2 2019-01-01 <span style="color: #BB0000;">NA</span>        </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># For each `sale_date` within a particular `id`,</span></span></span>
-<span class="r-in"><span><span class="co"># find only the preceding `promo_date` that occurred directly</span></span></span>
-<span class="r-in"><span><span class="co"># before that sale</span></span></span>
-<span class="r-in"><span><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">id</span>, <span class="fu">preceding</span><span class="op">(</span><span class="va">sale_date</span>, <span class="va">promo_date</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># find only the closest `promo_date` that occurred before that sale</span></span></span>
+<span class="r-in"><span><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">id</span>, <span class="fu">closest</span><span class="op">(</span><span class="va">sale_date</span> <span class="op">&gt;=</span> <span class="va">promo_date</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">sales</span>, <span class="va">promos</span>, <span class="va">by</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id sale_date  promo_date</span>
@@ -273,10 +255,10 @@ come from.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     2 2019-01-04 2019-01-02</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     2 2019-01-01 <span style="color: #BB0000;">NA</span>        </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># If you want to disallow exact matching in rolling joins,</span></span></span>
-<span class="r-in"><span><span class="co"># set `inclusive = FALSE`. Note that the promo on `2019-01-05` is no longer</span></span></span>
-<span class="r-in"><span><span class="co"># considered the preceding match for the sale on the same date.</span></span></span>
-<span class="r-in"><span><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">id</span>, <span class="fu">preceding</span><span class="op">(</span><span class="va">sale_date</span>, <span class="va">promo_date</span>, inclusive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># If you want to disallow exact matching in rolling joins, use `&gt;` rather</span></span></span>
+<span class="r-in"><span><span class="co"># than `&gt;=`. Note that the promo on `2019-01-05` is no longer considered the</span></span></span>
+<span class="r-in"><span><span class="co"># closest match for the sale on the same date.</span></span></span>
+<span class="r-in"><span><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">id</span>, <span class="fu">closest</span><span class="op">(</span><span class="va">sale_date</span> <span class="op">&gt;</span> <span class="va">promo_date</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">sales</span>, <span class="va">promos</span>, <span class="va">by</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id sale_date  promo_date</span>
@@ -291,7 +273,7 @@ come from.</p>
 <span class="r-in"><span><span class="co"># day before the sale was made. We'll use a full join to see that id 2's</span></span></span>
 <span class="r-in"><span><span class="co"># promo on `2019-01-02` is no longer matched to the sale on `2019-01-04`.</span></span></span>
 <span class="r-in"><span><span class="va">sales</span> <span class="op">&lt;-</span> <span class="fu"><a href="mutate.html">mutate</a></span><span class="op">(</span><span class="va">sales</span>, sale_date_lower <span class="op">=</span> <span class="va">sale_date</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">id</span>, <span class="fu">preceding</span><span class="op">(</span><span class="va">sale_date</span>, <span class="va">promo_date</span><span class="op">)</span>, <span class="va">sale_date_lower</span> <span class="op">&lt;=</span> <span class="va">promo_date</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">id</span>, <span class="fu">closest</span><span class="op">(</span><span class="va">sale_date</span> <span class="op">&gt;=</span> <span class="va">promo_date</span><span class="op">)</span>, <span class="va">sale_date_lower</span> <span class="op">&lt;=</span> <span class="va">promo_date</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">sales</span>, <span class="va">promos</span>, <span class="va">by</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      id sale_date  sale_date_lower promo_date</span>
