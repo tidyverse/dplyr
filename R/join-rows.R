@@ -89,7 +89,7 @@ dplyr_locate_matches <- function(needles,
       rethrow_error_join_matches_multiple(cnd, error_call)
     },
     vctrs_warning_matches_multiple = function(cnd) {
-      rethrow_warning_join_matches_multiple(cnd)
+      rethrow_warning_join_matches_multiple(cnd, error_call)
     }
   )
 }
@@ -150,7 +150,7 @@ rethrow_error_join_matches_multiple <- function(cnd, call) {
 
   stop_join(
     message = c(
-      glue("Each row in `x` can match at most 1 row in `y`."),
+      glue("Each row in `x` must match at most 1 row in `y`."),
       i = glue("Row {i} of `x` matches multiple rows.")
     ),
     class = "dplyr_error_join_matches_multiple",
@@ -158,19 +158,20 @@ rethrow_error_join_matches_multiple <- function(cnd, call) {
   )
 }
 
-rethrow_warning_join_matches_multiple <- function(cnd) {
+rethrow_warning_join_matches_multiple <- function(cnd, call) {
   i <- cnd$i
 
   warn_join(
     message = c(
-      glue("Each row in `x` should match at most 1 row in `y`."),
+      glue("Each row in `x` is expected to match at most 1 row in `y`."),
       i = glue("Row {i} of `x` matches multiple rows."),
       i = paste0(
-        "If multiple matches are expected, specify `multiple = \"all\"` in ",
-        "the join call to silence this warning."
+        "If multiple matches are expected, set `multiple = \"all\"` ",
+        "to silence this warning."
       )
     ),
-    class = "dplyr_warning_join_matches_multiple"
+    class = "dplyr_warning_join_matches_multiple",
+    call = call
   )
 
   # Cancel `cnd`

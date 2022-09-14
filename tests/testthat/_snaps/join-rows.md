@@ -4,9 +4,9 @@
       out <- join_rows(c(1, 1), c(1, 1), condition = "==")
     Condition
       Warning:
-      Each row in `x` should match at most 1 row in `y`.
+      Each row in `x` is expected to match at most 1 row in `y`.
       i Row 1 of `x` matches multiple rows.
-      i If multiple matches are expected, specify `multiple = "all"` in the join call to silence this warning.
+      i If multiple matches are expected, set `multiple = "all"` to silence this warning.
 
 ---
 
@@ -14,9 +14,9 @@
       out <- join_rows(c(1, 1), c(1, 1), condition = ">=", filter = "max")
     Condition
       Warning:
-      Each row in `x` should match at most 1 row in `y`.
+      Each row in `x` is expected to match at most 1 row in `y`.
       i Row 1 of `x` matches multiple rows.
-      i If multiple matches are expected, specify `multiple = "all"` in the join call to silence this warning.
+      i If multiple matches are expected, set `multiple = "all"` to silence this warning.
 
 # join_rows() gives meaningful error message on incompatible types
 
@@ -35,7 +35,7 @@
       join_rows(1, c(1, 1), multiple = "error")
     Condition
       Error:
-      ! Each row in `x` can match at most 1 row in `y`.
+      ! Each row in `x` must match at most 1 row in `y`.
       i Row 1 of `x` matches multiple rows.
 
 ---
@@ -43,9 +43,19 @@
     Code
       cat(conditionMessage(cnd))
     Output
-      Each row in `x` should match at most 1 row in `y`.
+      Each row in `x` is expected to match at most 1 row in `y`.
       i Row 1 of `x` matches multiple rows.
-      i If multiple matches are expected, specify `multiple = "all"` in the join call to silence this warning.
+      i If multiple matches are expected, set `multiple = "all"` to silence this warning.
+
+---
+
+    Code
+      . <- left_join(df1, df2, by = "x")
+    Condition
+      Warning in `left_join()`:
+      Each row in `x` is expected to match at most 1 row in `y`.
+      i Row 1 of `x` matches multiple rows.
+      i If multiple matches are expected, set `multiple = "all"` to silence this warning.
 
 # join_rows() gives meaningful error message on unmatched rows
 
