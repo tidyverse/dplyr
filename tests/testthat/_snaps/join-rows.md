@@ -35,7 +35,7 @@
       join_rows(1, c(1, 1), multiple = "error")
     Condition
       Error:
-      ! Each row in `x` can match at most 1 row in `y`.
+      ! Each row in `x` must match at most 1 row in `y`.
       i Row 1 of `x` matches multiple rows.
 
 ---

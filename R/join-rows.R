@@ -150,7 +150,7 @@ rethrow_error_join_matches_multiple <- function(cnd, call) {
 
   stop_join(
     message = c(
-      glue("Each row in `x` can match at most 1 row in `y`."),
+      glue("Each row in `x` must match at most 1 row in `y`."),
       i = glue("Row {i} of `x` matches multiple rows.")
     ),
     class = "dplyr_error_join_matches_multiple",
