@@ -45,12 +45,12 @@
 ---
 
     Code
-      join_by(a == a, preceding(b, c), following(d, e, inclusive = FALSE))
+      join_by(a == a, closest(b >= c), closest(d < e))
     Output
       Join By:
       - a == a
-      - preceding(b, c)
-      - following(d, e, inclusive = FALSE)
+      - closest(b >= c)
+      - closest(d < e)
 
 # has informative error messages
 
@@ -76,7 +76,7 @@
       join_by(foo(x > y))
     Condition
       Error in `join_by()`:
-      ! Join by expressions must use one of: `==`, `>=`, `>`, `<=`, `<`, `preceding()`, `following()`, `between()`, `overlaps()`, or `within()`.
+      ! Join by expressions must use one of: `==`, `>=`, `>`, `<=`, `<`, `closest()`, `between()`, `overlaps()`, or `within()`.
       i Expression 1 is `foo(x > y)`.
 
 ---
@@ -85,7 +85,7 @@
       join_by(x == y, x^y)
     Condition
       Error in `join_by()`:
-      ! Join by expressions must use one of: `==`, `>=`, `>`, `<=`, `<`, `preceding()`, `following()`, `between()`, `overlaps()`, or `within()`.
+      ! Join by expressions must use one of: `==`, `>=`, `>`, `<=`, `<`, `closest()`, `between()`, `overlaps()`, or `within()`.
       i Expression 2 is `x^y`.
 
 ---
@@ -199,6 +199,15 @@
 ---
 
     Code
+      join_by(closest(x$a >= x$b))
+    Condition
+      Error in `join_by()`:
+      ! The left and right-hand sides of a binary expression must reference different tables.
+      i Expression 1 contains `x$a >= x$b`.
+
+---
+
+    Code
       join_by(between(a, x$a, y$b))
     Condition
       Error in `join_by()`:
@@ -262,29 +271,11 @@
 ---
 
     Code
-      join_by(preceding(x))
+      join_by(closest())
     Condition
       Error:
-      ! Expressions using `preceding()` can't contain missing arguments.
-      x Argument `y` is missing.
-
----
-
-    Code
-      join_by(preceding(y = x))
-    Condition
-      Error:
-      ! Expressions using `preceding()` can't contain missing arguments.
-      x Argument `x` is missing.
-
----
-
-    Code
-      join_by(following(x))
-    Condition
-      Error:
-      ! Expressions using `following()` can't contain missing arguments.
-      x Argument `y` is missing.
+      ! Expressions using `closest()` can't contain missing arguments.
+      x Argument `expr` is missing.
 
 ---
 
@@ -298,38 +289,46 @@
 ---
 
     Code
-      join_by(preceding(x, y, TRUE))
+      join_by(closest(a >= b, 1))
     Condition
-      Error:
-      ! `...` must be empty.
-      i Non-empty dots were detected inside `preceding()`.
+      Error in `closest()`:
+      ! unused argument (1)
 
 ---
 
     Code
-      join_by(following(x, y, TRUE))
-    Condition
-      Error:
-      ! `...` must be empty.
-      i Non-empty dots were detected inside `following()`.
-
----
-
-    Code
-      join_by(preceding(y$a, b))
+      join_by(closest(a == b))
     Condition
       Error in `join_by()`:
-      ! The first argument to `preceding()` must reference the `x` table.
-      i Expression 1 contains `preceding(y$a, b)`.
+      ! The expression used in `closest()` can't use `==`.
+      i Expression 1 is `closest(a == b)`.
 
 ---
 
     Code
-      join_by(preceding(a, x$b))
+      join_by(closest(x))
     Condition
       Error in `join_by()`:
-      ! The second argument to `preceding()` must reference the `y` table.
-      i Expression 1 contains `preceding(a, x$b)`.
+      ! The first argument of `closest()` must be an expression.
+      i Expression 1 is `closest(x)`.
+
+---
+
+    Code
+      join_by(closest(1))
+    Condition
+      Error in `join_by()`:
+      ! The first argument of `closest()` must be an expression.
+      i Expression 1 is `closest(1)`.
+
+---
+
+    Code
+      join_by(closest(x + y))
+    Condition
+      Error in `join_by()`:
+      ! The expression used in `closest()` must use one of: `>=`, `>`, `<=`, or `<`.
+      i Expression 1 is `closest(x + y)`.
 
 # as_join_by() emits useful errors
 

@@ -5,7 +5,7 @@
 #' `by` argument to any of the join functions (such as [left_join()]).
 #'
 #' # Join types
-#' `join_by()` supports four types of join, as described below:
+#' `join_by()` supports four types of joins, as described below:
 #'
 #' * Equi joins
 #' * Non-equi joins
@@ -32,46 +32,23 @@
 #'
 #' ## Rolling joins
 #'
-#' Rolling joins are a variant of a non-equi join that limit the results
-#' returned from the non-equi join condition. They are useful for "rolling"
-#' the preceding value forward or the following value backwards when there
-#' isn't an exact match. There are two helpers that `join_by()` recognizes
-#' to assist with constructing rolling joins.
+#' Rolling joins are a variant of non-equi joins that limit the results returned
+#' from a non-equi join condition. They are useful for "rolling" the closest
+#' match forward/backwards when there isn't an exact match. To construct a
+#' rolling join, wrap an inequality with `closest()`.
 #'
-#' - `preceding(x, y, ..., inclusive = TRUE)`
+#' - `closest(expr)`
 #'
-#'   For each value in `x`, this finds the value in `y` that is directly
-#'   preceding it. If `inclusive = TRUE`, an exact match is allowed to count as
-#'   the preceding value.
+#'   `expr` must be a binary inequality involving one of: `>`, `>=`, `<`,
+#'   or `<=`.
 #'
-#'   Technically, this finds all matches using the binary condition `x >= y`,
-#'   then filters those matches to only include the one corresponding to the
-#'   maximum value of `y` (i.e. the preceding match). If `inclusive = FALSE`,
-#'   `>=` is replaced with `>`.
+#'   For example, `closest(x >= y)` is interpreted as: For each value in `x`,
+#'   find the closest value in `y` that is less than or equal to that `x` value.
 #'
-#'   Dots are for future extensions and must be empty.
-#'
-#' - `following(x, y, ..., inclusive = TRUE)`
-#'
-#'   For each value in `x`, this finds the value in `y` that is directly
-#'   following it. If `inclusive = TRUE`, an exact match is allowed to count as
-#'   the following value.
-#'
-#'   Technically, this finds all matches using the binary condition `x <= y`,
-#'   then filters those matches to only include the one corresponding to the
-#'   minimum value of `y` (i.e. the following match). If `inclusive = FALSE`,
-#'   `<=` is replaced with `<`.
-#'
-#'   Dots are for future extensions and must be empty.
-#'
-#' Unlike other join helpers, the `x` argument must reference the left-hand
-#' table (`x`) and the `y` argument must reference the right-hand table (`y`).
-#' Attempting something like `preceding(y$a, x$b)` is not defined and will
-#' result in an error.
-#'
-#' Rolling joins can't be constructed directly from binary conditions, but are
-#' approximately equivalent to applying the binary condition mentioned above
-#' followed by a `filter()` for only the maximum or minimum `y` value.
+#' `closest()` will always use the left-hand table (`x`) as the primary table,
+#' and the right-hand table (`y`) as the one to find the closest match in,
+#' regardless of how the binary condition is specified. For example,
+#' `closest(y$a >= x$b)` will always be interpreted as `closest(x$b <= y$a)`.
 #'
 #' ## Overlap joins
 #'
@@ -116,7 +93,7 @@
 #'   Each expression should consist of either a join condition or a join helper:
 #'
 #'   - Join conditions: `==`, `>=`, `>`, `<=`, or `<`.
-#'   - Rolling helpers: `preceding()` or `following()`.
+#'   - Rolling helper: `closest()`.
 #'   - Overlap helpers: `between()`, `within()`, or `overlaps()`.
 #'
 #'   Other expressions are not supported. If you need to perform a join on
@@ -156,22 +133,21 @@
 #' left_join(sales, promos, by)
 #'
 #' # For each `sale_date` within a particular `id`,
-#' # find only the preceding `promo_date` that occurred directly
-#' # before that sale
-#' by <- join_by(id, preceding(sale_date, promo_date))
+#' # find only the closest `promo_date` that occurred before that sale
+#' by <- join_by(id, closest(sale_date >= promo_date))
 #' left_join(sales, promos, by)
 #'
-#' # If you want to disallow exact matching in rolling joins,
-#' # set `inclusive = FALSE`. Note that the promo on `2019-01-05` is no longer
-#' # considered the preceding match for the sale on the same date.
-#' by <- join_by(id, preceding(sale_date, promo_date, inclusive = FALSE))
+#' # If you want to disallow exact matching in rolling joins, use `>` rather
+#' # than `>=`. Note that the promo on `2019-01-05` is no longer considered the
+#' # closest match for the sale on the same date.
+#' by <- join_by(id, closest(sale_date > promo_date))
 #' left_join(sales, promos, by)
 #'
 #' # Same as before, but also require that the promo had to occur at most 1
 #' # day before the sale was made. We'll use a full join to see that id 2's
 #' # promo on `2019-01-02` is no longer matched to the sale on `2019-01-04`.
 #' sales <- mutate(sales, sale_date_lower = sale_date - 1)
-#' by <- join_by(id, preceding(sale_date, promo_date), sale_date_lower <= promo_date)
+#' by <- join_by(id, closest(sale_date >= promo_date), sale_date_lower <= promo_date)
 #' full_join(sales, promos, by)
 #'
 #' # ---------------------------------------------------------------------------
@@ -409,8 +385,7 @@ parse_join_by_expr <- function(expr, i, error_call) {
     "overlaps" =,
     "within" = parse_join_by_containment(expr, i, error_call),
 
-    "preceding" =,
-    "following" = parse_join_by_rolling(expr, i, error_call),
+    "closest" = parse_join_by_closest(expr, i, error_call),
 
     "$" = stop_invalid_dollar_sign(expr, i, error_call),
 
@@ -428,7 +403,7 @@ stop_invalid_dollar_sign <- function(expr, i, call) {
 }
 
 stop_invalid_top_expression <- function(expr, i, call) {
-  options <- c("==", ">=", ">", "<=", "<", "preceding()", "following()", "between()", "overlaps()", "within()")
+  options <- c("==", ">=", ">", "<=", "<", "closest()", "between()", "overlaps()", "within()")
   options <- glue::backtick(options)
   options <- glue_collapse(options, sep = ", ", last = ", or ")
 
@@ -601,108 +576,84 @@ binding_join_by_less_than_or_equal <- function(x, y) {
   binding_join_by_binary("<=", caller_env(), !!enexpr(x), !!enexpr(y))
 }
 
-parse_join_by_rolling <- function(expr, i, error_call) {
-  args <- eval_join_by_rolling(expr, error_call)
+parse_join_by_closest <- function(expr, i, error_call) {
+  args <- eval_join_by_closest(expr, error_call)
 
-  rolling <- args$rolling
-  inclusive <- args$inclusive
+  expr_binary <- args$expr
+
+  if (!is_call(expr_binary)) {
+    message <- c(
+      "The first argument of `closest()` must be an expression.",
+      i = glue("Expression {i} is {err_expr(expr)}.")
+    )
+    abort(message, call = error_call)
+  }
+
+  op <- as_string(expr_binary[[1]])
+
+  out <- switch(
+    op,
+
+    ">=" =,
+    ">" =,
+    "<=" =,
+    "<" = parse_join_by_binary(expr_binary, i, error_call),
+
+    "==" = stop_join_by_closest_equal_expression(expr, i, error_call),
+
+    stop_join_by_closest_invalid_expression(expr, i, error_call)
+  )
 
   filter <- switch(
-    rolling,
-    preceding = "max",
-    following = "min",
-    abort("Unknown `rolling` value.", .internal = TRUE)
+    out$condition,
+    ">=" = "max",
+    ">" = "max",
+    "<=" = "min",
+    "<" = "min",
+    abort("Unexpected `closest()` `condition`.", .internal = TRUE)
   )
 
-  condition <- switch(
-    rolling,
-    preceding = if (inclusive) ">=" else ">",
-    following = if (inclusive) "<=" else "<",
-    abort("Unknown `rolling` value.", .internal = TRUE)
-  )
+  out$filter <- filter
 
-  lhs <- args$lhs
-  rhs <- args$rhs
-
-  lhs <- parse_join_by_name(lhs, i, default_side = "x", error_call = error_call)
-  rhs <- parse_join_by_name(rhs, i, default_side = "y", error_call = error_call)
-
-  # It doesn't make sense to allow `preceding(y$a, x$b)`, as that can't
-  # translate to anything meaningful / intuitive.
-  if (lhs$side == "y") {
-    rolling <- glue::backtick(glue("{rolling}()"))
-
-    message <- c(
-      glue("The first argument to {rolling} must reference the `x` table."),
-      i = glue("Expression {i} contains {err_expr(expr)}.")
-    )
-    abort(message, call = error_call)
-  }
-
-  if (rhs$side == "x") {
-    rolling <- glue::backtick(glue("{rolling}()"))
-
-    message <- c(
-      glue("The second argument to {rolling} must reference the `y` table."),
-      i = glue("Expression {i} contains {err_expr(expr)}.")
-    )
-    abort(message, call = error_call)
-  }
-
-  x <- lhs$name
-  y <- rhs$name
-
-  list(
-    x = x,
-    y = y,
-    condition = condition,
-    filter = filter
-  )
+  out
 }
-eval_join_by_rolling <- function(expr, error_call) {
+eval_join_by_closest <- function(expr, error_call) {
   env <- new_environment()
   local_error_call(error_call, frame = env)
 
-  env_bind(
-    env,
-    preceding = binding_join_by_preceding,
-    following = binding_join_by_following
-  )
+  env_poke(env, "closest", binding_join_by_closest)
 
   eval_tidy(expr, env = env)
 }
-binding_join_by_rolling <- function(rolling, error_call, x, y, ..., inclusive) {
-  if (dots_n(...) > 0L) {
-    rolling <- glue::backtick(glue("{rolling}()"))
-    message <- c(
-      "`...` must be empty.",
-      i = glue("Non-empty dots were detected inside {rolling}.")
-    )
-    abort(message, call = error_call)
-  }
+binding_join_by_closest <- function(expr) {
+  error_call <- caller_env()
 
-  x <- enexpr(x)
-  y <- enexpr(y)
+  expr <- enexpr(expr)
 
-  check_missing_arg(x, "x", rolling, error_call)
-  check_missing_arg(y, "y", rolling, error_call)
+  check_missing_arg(expr, "expr", "closest", error_call)
 
-  if (!is_bool(inclusive)) {
-    rolling <- glue::backtick(glue("{rolling}()"))
-    message <- c(
-      "`inclusive` must be a single `TRUE` or `FALSE`.",
-      i = glue("An invalid `inclusive` value was detected inside {rolling}.")
-    )
-    abort(message, call = error_call)
-  }
-
-  list(rolling = rolling, lhs = x, rhs = y, inclusive = inclusive)
+  list(expr = expr)
 }
-binding_join_by_preceding <- function(x, y, ..., inclusive = TRUE) {
-  binding_join_by_rolling("preceding", caller_env(), !!enexpr(x), !!enexpr(y), ..., inclusive = inclusive)
+stop_join_by_closest_equal_expression <- function(expr, i, error_call) {
+  # `closest(x == y)` doesn't make any sense,
+  # even if vctrs can technically handle it.
+  message <- c(
+    "The expression used in `closest()` can't use `==`.",
+    i = glue("Expression {i} is {err_expr(expr)}.")
+  )
+  abort(message, call = error_call)
 }
-binding_join_by_following <- function(x, y, ..., inclusive = TRUE) {
-  binding_join_by_rolling("following", caller_env(), !!enexpr(x), !!enexpr(y), ..., inclusive = inclusive)
+stop_join_by_closest_invalid_expression <- function(expr, i, error_call) {
+  options <- c(">=", ">", "<=", "<")
+  options <- glue::backtick(options)
+  options <- glue_collapse(options, sep = ", ", last = ", or ")
+
+  message <- c(
+    glue("The expression used in `closest()` must use one of: {options}."),
+    i = glue("Expression {i} is {err_expr(expr)}.")
+  )
+
+  abort(message, call = error_call)
 }
 
 parse_join_by_between <- function(expr, i, error_call) {

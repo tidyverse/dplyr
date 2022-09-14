@@ -12,7 +12,7 @@ join_by(...)
 Each expression should consist of either a join condition or a join helper:
 \itemize{
 \item Join conditions: \code{==}, \code{>=}, \code{>}, \code{<=}, or \code{<}.
-\item Rolling helpers: \code{preceding()} or \code{following()}.
+\item Rolling helper: \code{closest()}.
 \item Overlap helpers: \code{between()}, \code{within()}, or \code{overlaps()}.
 }
 
@@ -35,7 +35,7 @@ using a small domain specific language. The result can be supplied as the
 \code{by} argument to any of the join functions (such as \code{\link[=left_join]{left_join()}}).
 }
 \section{Join types}{
-\code{join_by()} supports four types of join, as described below:
+\code{join_by()} supports four types of joins, as described below:
 \itemize{
 \item Equi joins
 \item Non-equi joins
@@ -64,46 +64,24 @@ join specifications!
 
 \subsection{Rolling joins}{
 
-Rolling joins are a variant of a non-equi join that limit the results
-returned from the non-equi join condition. They are useful for "rolling"
-the preceding value forward or the following value backwards when there
-isn't an exact match. There are two helpers that \code{join_by()} recognizes
-to assist with constructing rolling joins.
+Rolling joins are a variant of non-equi joins that limit the results returned
+from a non-equi join condition. They are useful for "rolling" the closest
+match forward/backwards when there isn't an exact match. To construct a
+rolling join, wrap an inequality with \code{closest()}.
 \itemize{
-\item \code{preceding(x, y, ..., inclusive = TRUE)}
+\item \code{closest(expr)}
 
-For each value in \code{x}, this finds the value in \code{y} that is directly
-preceding it. If \code{inclusive = TRUE}, an exact match is allowed to count as
-the preceding value.
+\code{expr} must be a binary inequality involving one of: \code{>}, \code{>=}, \code{<},
+or \code{<=}.
 
-Technically, this finds all matches using the binary condition \code{x >= y},
-then filters those matches to only include the one corresponding to the
-maximum value of \code{y} (i.e. the preceding match). If \code{inclusive = FALSE},
-\code{>=} is replaced with \code{>}.
-
-Dots are for future extensions and must be empty.
-\item \code{following(x, y, ..., inclusive = TRUE)}
-
-For each value in \code{x}, this finds the value in \code{y} that is directly
-following it. If \code{inclusive = TRUE}, an exact match is allowed to count as
-the following value.
-
-Technically, this finds all matches using the binary condition \code{x <= y},
-then filters those matches to only include the one corresponding to the
-minimum value of \code{y} (i.e. the following match). If \code{inclusive = FALSE},
-\code{<=} is replaced with \code{<}.
-
-Dots are for future extensions and must be empty.
+For example, \code{closest(x >= y)} is interpreted as: For each value in \code{x},
+find the closest value in \code{y} that is less than or equal to that \code{x} value.
 }
 
-Unlike other join helpers, the \code{x} argument must reference the left-hand
-table (\code{x}) and the \code{y} argument must reference the right-hand table (\code{y}).
-Attempting something like \code{preceding(y$a, x$b)} is not defined and will
-result in an error.
-
-Rolling joins can't be constructed directly from binary conditions, but are
-approximately equivalent to applying the binary condition mentioned above
-followed by a \code{filter()} for only the maximum or minimum \code{y} value.
+\code{closest()} will always use the left-hand table (\code{x}) as the primary table,
+and the right-hand table (\code{y}) as the one to find the closest match in,
+regardless of how the binary condition is specified. For example,
+\code{closest(y$a >= x$b)} will always be interpreted as \code{closest(x$b <= y$a)}.
 }
 
 \subsection{Overlap joins}{
@@ -166,22 +144,21 @@ by <- join_by(id, sale_date >= promo_date)
 left_join(sales, promos, by)
 
 # For each `sale_date` within a particular `id`,
-# find only the preceding `promo_date` that occurred directly
-# before that sale
-by <- join_by(id, preceding(sale_date, promo_date))
+# find only the closest `promo_date` that occurred before that sale
+by <- join_by(id, closest(sale_date >= promo_date))
 left_join(sales, promos, by)
 
-# If you want to disallow exact matching in rolling joins,
-# set `inclusive = FALSE`. Note that the promo on `2019-01-05` is no longer
-# considered the preceding match for the sale on the same date.
-by <- join_by(id, preceding(sale_date, promo_date, inclusive = FALSE))
+# If you want to disallow exact matching in rolling joins, use `>` rather
+# than `>=`. Note that the promo on `2019-01-05` is no longer considered the
+# closest match for the sale on the same date.
+by <- join_by(id, closest(sale_date > promo_date))
 left_join(sales, promos, by)
 
 # Same as before, but also require that the promo had to occur at most 1
 # day before the sale was made. We'll use a full join to see that id 2's
 # promo on `2019-01-02` is no longer matched to the sale on `2019-01-04`.
 sales <- mutate(sales, sale_date_lower = sale_date - 1)
-by <- join_by(id, preceding(sale_date, promo_date), sale_date_lower <= promo_date)
+by <- join_by(id, closest(sale_date >= promo_date), sale_date_lower <= promo_date)
 full_join(sales, promos, by)
 
 # ---------------------------------------------------------------------------
