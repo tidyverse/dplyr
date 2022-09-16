@@ -41,7 +41,7 @@
     Output
       <error/vctrs_error_subscript_oob>
       Error in `select()`:
-      ! Can't select columns past the end.
+      ! Can't subset columns past the end.
       i Location 2 doesn't exist.
       i There is only 1 column.
     Code
@@ -60,7 +60,7 @@
     Output
       <error/vctrs_error_subscript_oob>
       Error in `select()`:
-      ! Can't select columns past the end.
+      ! Can't subset columns past the end.
       i Location 2 doesn't exist.
       i There is only 1 column.
     Code

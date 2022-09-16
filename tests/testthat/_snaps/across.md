@@ -58,7 +58,7 @@
       Error in `summarise()`:
       ! Problem while computing `..1 = across(y, mean)`.
       Caused by error in `across()`:
-      ! Can't select columns that don't exist.
+      ! Can't subset columns that don't exist.
       x Column `y` doesn't exist.
     Code
       (expect_error(tibble(x = 1) %>% summarise(res = across(where(is.numeric), 42))))
@@ -75,7 +75,7 @@
       Error in `summarise()`:
       ! Problem while computing `z = across(y, mean)`.
       Caused by error in `across()`:
-      ! Can't select columns that don't exist.
+      ! Can't subset columns that don't exist.
       x Column `y` doesn't exist.
     Code
       (expect_error(tibble(x = 1) %>% summarise(res = sum(if_any(where(is.numeric),
