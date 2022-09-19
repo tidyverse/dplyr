@@ -44,6 +44,7 @@ struct symbols {
   static SEXP current_data;
   static SEXP dot_drop;
   static SEXP dplyr_internal_error;
+  static SEXP dplyr_internal_signal;
   static SEXP dot_indices;
   static SEXP chops;
   static SEXP mask;

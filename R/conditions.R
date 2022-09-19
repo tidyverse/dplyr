@@ -153,6 +153,9 @@ err_locs <- function(x) {
 dplyr_internal_error <- function(class = NULL, data = list()) {
   abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
 }
+dplyr_internal_signal <- function(class) {
+  signal(message = "Internal dplyr signal", class = c(class, "dplyr:::internal_signal"))
+}
 
 skip_internal_condition <- function(cnd) {
   if (inherits(cnd, "dplyr:::internal_error")) {

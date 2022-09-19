@@ -21,6 +21,20 @@ void stop_filter_incompatible_type(R_xlen_t i, SEXP quos, SEXP column_name, SEXP
   DPLYR_ERROR_THROW("dplyr:::filter_incompatible_type");
 }
 
+void signal_filter_across() {
+  SEXP cls = PROTECT(Rf_mkString("dplyr:::signal_filter_across"));
+  SEXP call = PROTECT(Rf_lang2(dplyr::symbols::dplyr_internal_signal, cls));
+  Rf_eval(call, dplyr::envs::ns_dplyr);
+  UNPROTECT(2);
+}
+
+void signal_filter_data_frame() {
+  SEXP cls = PROTECT(Rf_mkString("dplyr:::signal_filter_data_frame"));
+  SEXP call = PROTECT(Rf_lang2(dplyr::symbols::dplyr_internal_signal, cls));
+  Rf_eval(call, dplyr::envs::ns_dplyr);
+  UNPROTECT(2);
+}
+
 }
 
 bool all_lgl_columns(SEXP data) {
@@ -118,9 +132,9 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t n, SEXP env_fil
         SEXP expr = rlang::quo_get_expr(VECTOR_ELT(quos, i));
         bool across = TYPEOF(expr) == LANGSXP && CAR(expr) == dplyr::symbols::across;
         if (across) {
-          Rf_warningcall(R_NilValue, "Using `across()` in `filter()` is deprecated, use `if_any()` or `if_all()`.");
+          dplyr::signal_filter_across();
         } else {
-          Rf_warningcall(R_NilValue, "data frame results in `filter()` are deprecated, use `if_any()` or `if_all()`.");
+          dplyr::signal_filter_data_frame();
         }
       }
 
