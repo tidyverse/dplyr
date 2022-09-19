@@ -129,3 +129,32 @@ test_that("emits useful messages", {
   expect_snapshot(error = TRUE, join_cols(xy, xy, by = join_by(x), suffix = "x"))
   expect_snapshot(error = TRUE, join_cols(xy, xy, by = join_by(x), suffix = c("", NA)))
 })
+
+# ------------------------------------------------------------------------------
+# join_cast_common()
+
+test_that("takes common type", {
+  x <- tibble(a = 1, b = 2L)
+  y <- tibble(a = 1L, b = 3)
+
+  vars <- join_cols(names(x), names(y), by = join_by(a, b))
+
+  out <- join_cast_common(x, y, vars)
+
+  expect_identical(out$x, tibble(a = 1, b = 2))
+  expect_identical(out$y, tibble(a = 1, b = 3))
+})
+
+test_that("references original column in `y` when there are type errors (#6465)", {
+  x <- tibble(a = 1)
+  y <- tibble(b = "1")
+
+  x_key <- x
+  y_key <- set_names(y, names(x))
+
+  vars <- join_cols(names(x), names(y), by = join_by(a == b))
+
+  expect_snapshot({
+    (expect_error(join_cast_common(x_key, y_key, vars)))
+  })
+})

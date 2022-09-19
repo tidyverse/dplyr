@@ -74,7 +74,7 @@ dplyr_locate_matches <- function(needles,
       nan_distinct = TRUE
     ),
     vctrs_error_incompatible_type = function(cnd) {
-      rethrow_error_join_incompatible_type(cnd, error_call)
+      abort("`join_cast_common()` should have handled this.", .internal = TRUE)
     },
     vctrs_error_matches_nothing = function(cnd) {
       rethrow_error_join_matches_nothing(cnd, error_call)
@@ -91,24 +91,6 @@ dplyr_locate_matches <- function(needles,
     vctrs_warning_matches_multiple = function(cnd) {
       rethrow_warning_join_matches_multiple(cnd, error_call)
     }
-  )
-}
-
-rethrow_error_join_incompatible_type <- function(cnd, call) {
-  x_name <- cnd$x_arg
-  y_name <- cnd$y_arg
-
-  x_type <- vec_ptype_full(cnd$x)
-  y_type <- vec_ptype_full(cnd$y)
-
-  stop_join(
-    message = c(
-      glue("Can't join `{x_name}` with `{y_name}` because of incompatible types."),
-      i = glue("`{x_name}` is of type <{x_type}>."),
-      i = glue("`{y_name}` is of type <{y_type}>.")
-    ),
-    class = "dplyr_error_join_incompatible_type",
-    call = call
   )
 }
 

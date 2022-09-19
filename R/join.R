@@ -508,6 +508,10 @@ nest_join.data.frame <- function(x,
   x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
   y_key <- set_names(y_in[vars$y$key], names(vars$x$key))
 
+  args <- join_cast_common(x_key, y_key, vars)
+  x_key <- args$x
+  y_key <- args$y
+
   condition <- by$condition
   filter <- by$filter
   cross <- by$cross
@@ -535,7 +539,7 @@ nest_join.data.frame <- function(x,
   out <- set_names(x_in[vars$x$out], names(vars$x$out))
 
   # Modify all columns in one step so that we only need to re-group once
-  new_cols <- vec_cast(out[names(x_key)], vec_ptype2(x_key, y_key))
+  new_cols <- vec_cast(out[names(x_key)], x_key)
 
   y_out <- set_names(y_in[vars$y$out], names(vars$y$out))
   y_out <- map(y_loc, vec_slice, x = y_out)
@@ -589,6 +593,10 @@ join_mutate <- function(x,
   x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
   y_key <- set_names(y_in[vars$y$key], names(vars$x$key))
 
+  args <- join_cast_common(x_key, y_key, vars, error_call = error_call)
+  x_key <- args$x
+  y_key <- args$y
+
   condition <- by$condition
   filter <- by$filter
   cross <- by$cross
@@ -622,26 +630,22 @@ join_mutate <- function(x,
       merge <- by$x
     }
 
+    # Keys have already been cast to the common type
     x_merge <- x_key[merge]
-    y_merge <- y_key[merge]
 
-    key_type <- vec_ptype_common(x_merge, y_merge, .call = error_call)
-
-    out[names(x_merge)] <- vec_cast(
-      x = out[names(x_merge)],
-      to = key_type,
+    out[merge] <- vec_cast(
+      x = out[merge],
+      to = x_merge,
       call = error_call
     )
 
     if ((type == "right" || type == "full") && anyNA(x_slicer)) {
+      y_merge <- y_key[merge]
+
       new_rows <- which(is.na(x_slicer))
       y_replacer <- y_slicer[new_rows]
 
-      out[new_rows, names(y_merge)] <- vec_cast(
-        x = vec_slice(y_merge, y_replacer),
-        to = key_type,
-        call = error_call
-      )
+      out[new_rows, merge] <- vec_slice(y_merge, y_replacer)
     }
   }
 
@@ -675,6 +679,10 @@ join_filter <- function(x,
 
   x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
   y_key <- set_names(y_in[vars$y$key], names(vars$x$key))
+
+  args <- join_cast_common(x_key, y_key, vars, error_call = error_call)
+  x_key <- args$x
+  y_key <- args$y
 
   condition <- by$condition
   filter <- by$filter

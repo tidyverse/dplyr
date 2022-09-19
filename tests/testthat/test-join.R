@@ -226,6 +226,24 @@ test_that("filtering joins compute common columns", {
   expect_snapshot(out <- semi_join(df1, df2))
 })
 
+test_that("mutating joins reference original column in `y` when there are type errors (#6465)", {
+  x <- tibble(a = 1)
+  y <- tibble(b = "1")
+
+  expect_snapshot({
+    (expect_error(left_join(x, y, by = join_by(a == b))))
+  })
+})
+
+test_that("filtering joins reference original column in `y` when there are type errors (#6465)", {
+  x <- tibble(a = 1)
+  y <- tibble(b = "1")
+
+  expect_snapshot({
+    (expect_error(semi_join(x, y, by = join_by(a == b))))
+  })
+})
+
 test_that("error if passed additional arguments", {
   df1 <- data.frame(a = 1:3)
   df2 <- data.frame(a = 1)
@@ -276,6 +294,15 @@ test_that("nest_join computes common columns", {
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- tibble(x = c(1, 3), z = c(2, 3))
   expect_snapshot(out <- nest_join(df1, df2))
+})
+
+test_that("nest_join references original column in `y` when there are type errors (#6465)", {
+  x <- tibble(a = 1)
+  y <- tibble(b = "1")
+
+  expect_snapshot({
+    (expect_error(nest_join(x, y, by = join_by(a == b))))
+  })
 })
 
 test_that("nest_join handles multiple matches in x (#3642)", {
