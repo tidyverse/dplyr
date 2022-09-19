@@ -274,24 +274,31 @@
 <div class="section level3">
 <h3 id="eliminating-r-cmd-check-notes">Eliminating <code>R CMD check</code> <code>NOTE</code>s<a class="anchor" aria-label="anchor" href="#eliminating-r-cmd-check-notes"></a>
 </h3>
-<p>If you’re writing a package and you have a function that uses data-variables:</p>
+<p>If you’re writing a package and you have a function that uses data masking or tidy selection:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_summary_function</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>    <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">grp</span>, <span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">grp</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>You’ll get an <code>R CMD CHECK</code> <code>NOTE</code>:</p>
+<p>You’ll get an <code>NOTE</code> because <code>R CMD check</code> doesn’t know that dplyr functions use tidy evaluation:</p>
 <pre><code>N  checking R code for possible problems
-   my_summary_function: no visible binding for global variable ‘x’, ‘grp’, ‘y’
+   my_summary_function: no visible binding for global variable ‘grp’, ‘x’, ‘y’
    Undefined global functions or variables:
-     x grp y</code></pre>
-<p>You can eliminate this by using <code>.data$var</code> and importing <code>.data</code> from its source in the <a href="https://rlang.r-lib.org/" class="external-link">rlang</a> package (the underlying package that implements tidy evaluation):</p>
+     grp x y</code></pre>
+<p>To eliminate this note:</p>
+<ul>
+<li>For data masking, import <code>.data</code> from <a href="https://rlang.r-lib.org/" class="external-link">rlang</a> and then use <code>.data$var</code> instead of <code>var</code>.</li>
+<li>For tidy selection, use <code>"var"</code> instead of <code>var</code>.</li>
+</ul>
+<p>That yields:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' @importFrom rlang .data</span></span>
 <span><span class="va">my_summary_function</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>    <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="st">"grp"</span>, <span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">x</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">grp</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">y</span><span class="op">)</span>, n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
