@@ -16,7 +16,7 @@ join_cols <- function(x_names,
   suffix <- standardise_join_suffix(suffix, error_call = error_call)
 
   x_by <- set_names(match(by$x, x_names), by$x)
-  y_by <- set_names(match(by$y, y_names), by$x)
+  y_by <- set_names(match(by$y, y_names), by$y)
 
   x_loc <- seq_along(x_names)
   names(x_loc) <- x_names

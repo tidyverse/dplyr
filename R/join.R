@@ -506,7 +506,7 @@ nest_join.data.frame <- function(x,
   y_in <- as_tibble(y, .name_repair = "minimal")
 
   x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
-  y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
+  y_key <- set_names(y_in[vars$y$key], names(vars$x$key))
 
   condition <- by$condition
   filter <- by$filter
@@ -587,7 +587,7 @@ join_mutate <- function(x,
   y_in <- as_tibble(y, .name_repair = "minimal")
 
   x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
-  y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
+  y_key <- set_names(y_in[vars$y$key], names(vars$x$key))
 
   condition <- by$condition
   filter <- by$filter
@@ -674,7 +674,7 @@ join_filter <- function(x,
   y_in <- as_tibble(y, .name_repair = "minimal")
 
   x_key <- set_names(x_in[vars$x$key], names(vars$x$key))
-  y_key <- set_names(y_in[vars$y$key], names(vars$y$key))
+  y_key <- set_names(y_in[vars$y$key], names(vars$x$key))
 
   condition <- by$condition
   filter <- by$filter

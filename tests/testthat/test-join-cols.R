@@ -9,17 +9,17 @@ test_that("key vars are found", {
 
   vars <- join_cols(c("x", "y"), c("a", "x", "z"), by = join_by(y == z))
   expect_equal(vars$x$key, c(y = 2L))
-  expect_equal(vars$y$key, c(y = 3L))
+  expect_equal(vars$y$key, c(z = 3L))
 
   vars <- join_cols(c("x", "y"), c("a", "x", "z"), by = join_by(y >= z))
   expect_equal(vars$x$key, c(y = 2L))
-  expect_equal(vars$y$key, c(y = 3L))
+  expect_equal(vars$y$key, c(z = 3L))
 })
 
 test_that("y key matches order and names of x key", {
   vars <- join_cols(c("x", "y", "z"), c("c", "b", "a"), by = join_by(x == a, y == b))
   expect_equal(vars$x$key, c(x = 1L, y = 2L))
-  expect_equal(vars$y$key, c(x = 3L, y = 2L))
+  expect_equal(vars$y$key, c(a = 3L, b = 2L))
 })
 
 test_that("duplicate column names are given suffixes", {
@@ -90,7 +90,7 @@ test_that("can duplicate key between non-equi conditions", {
   expect_identical(vars$x$key, c(x = 1L, x = 1L))
   expect_identical(vars$x$out, c(x = 1L))
 
-  expect_identical(vars$y$key, c(x = 1L, x = 2L))
+  expect_identical(vars$y$key, c(xl = 1L, xu = 2L))
   expect_identical(vars$y$out, c(xl = 1L, xu = 2L))
 
   expect_identical(
