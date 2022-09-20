@@ -67,6 +67,8 @@ test_that("errors during dots collection are not enriched (#6178)", {
 })
 
 test_that("warnings are collected for `last_dplyr_warnings()`", {
+  skip_if_not_installed("base", "3.6.0")
+
   local_options(
     rlang_trace_format_srcrefs = FALSE
   )
@@ -140,6 +142,7 @@ test_that("warnings are collected for `last_dplyr_warnings()`", {
 })
 
 test_that("complex backtraces with base and rlang warnings", {
+  skip_if_not_installed("base", "3.6.0")
   local_options(
     rlang_trace_format_srcrefs = FALSE
   )
