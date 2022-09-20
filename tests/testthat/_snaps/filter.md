@@ -1,3 +1,23 @@
+# filter() disallows matrices with >1 column
+
+    Code
+      (expect_error(filter(df, matrix(TRUE, nrow = 3, ncol = 2))))
+    Output
+      <error/rlang_error>
+      Error in `filter()`:
+      ! Problem while computing `..1 = matrix(TRUE, nrow = 3, ncol = 2)`.
+      x Input `..1` must be a logical vector, not a logical[,2].
+
+# filter() disallows arrays with >2 dimensions
+
+    Code
+      (expect_error(filter(df, array(TRUE, dim = c(3, 1, 1)))))
+    Output
+      <error/rlang_error>
+      Error in `filter()`:
+      ! Problem while computing `..1 = array(TRUE, dim = c(3, 1, 1))`.
+      x Input `..1` must be a logical vector, not a logical[,1,1].
+
 # filter() gives useful error messages
 
     Code
@@ -80,6 +100,10 @@
     Code
       (expect_error(iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3,
       1:n()))))
+    Condition
+      Warning:
+      Returning data frames from `filter()` expressions was deprecated in dplyr 1.0.8.
+      Please use `if_any()` or `if_all()` instead.
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -88,6 +112,10 @@
       i The error occurred in group 1: Species = setosa.
     Code
       (expect_error(iris %>% filter(data.frame(Sepal.Length > 3, 1:n()))))
+    Condition
+      Warning:
+      Returning data frames from `filter()` expressions was deprecated in dplyr 1.0.8.
+      Please use `if_any()` or `if_all()` instead.
     Output
       <error/rlang_error>
       Error in `filter()`:
