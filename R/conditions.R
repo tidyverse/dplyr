@@ -250,7 +250,7 @@ signal_warnings <- function(warnings, error_call) {
     "There {cli::qty(n)} {?was/were} {n} warning{?s} in a {call} step.",
     if (n > 1) "The first warning was:",
     cnd_message_lines(first),
-    i = if (n > 1) "Run `dplyr::last_dplyr_warnings()` to see the {n - 1} remaining warning{?s}."
+    i = if (n > 1) "Run {.run dplyr::last_dplyr_warnings()} to see the {n - 1} remaining warning{?s}."
   ))
 }
 
@@ -286,7 +286,7 @@ print.last_dplyr_warnings <- function(x, ...) {
   if (remaining) {
     cli::cli_bullets(c(
       "... with {remaining} more warning{?s}.",
-      "i" = "Use {.code last_dplyr_warnings(n = ...)} to show more."
+      "i" = "Use e.g. {.run dplyr::last_dplyr_warnings(n = 20)} to show more."
     ))
   }
 }
