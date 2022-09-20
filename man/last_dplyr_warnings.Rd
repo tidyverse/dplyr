@@ -17,3 +17,4 @@ prevents rowwise and grouped data frames from flooding the console
 with warnings. To see the original warnings, use
 \code{last_dplyr_warnings()}.
 }
+\keyword{internal}

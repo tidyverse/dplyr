@@ -192,6 +192,7 @@ skip_internal_condition <- function(cnd) {
 #'
 #' @param n Passed to [head()] so that only the first `n` warnings are
 #'   displayed.
+#' @keywords internal
 #' @export
 last_dplyr_warnings <- function(n = 5) {
   if (!identical(n, Inf)) {
