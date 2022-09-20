@@ -244,15 +244,28 @@ signal_warnings <- function(warnings, error_call) {
 
   push_dplyr_warnings(warnings)
 
-  first <- warnings[[1]][["cnd"]]
+  first <- new_dplyr_warning(warnings[[1]])
   call <- format_error_call(error_call)
 
-  cli::cli_warn(c(
-    "There {cli::qty(n)} {?was/were} {n} warning{?s} in a {call} step.",
-    if (n > 1) "The first warning was:",
-    cnd_message_lines(first),
-    i = if (n > 1) "Run {.run dplyr::last_dplyr_warnings()} to see the {n - 1} remaining warning{?s}."
-  ))
+  msg <- paste_line(
+    cli::format_warning(c(
+      "There {cli::qty(n)} {?was/were} {n} warning{?s} in a {call} step.",
+      if (n > 1) "The first warning was:"
+    )),
+    paste(cli::col_yellow("!"), cnd_message(first))
+  )
+
+  # https://github.com/r-lib/cli/issues/525
+  if (n > 1) {
+    msg <- paste_line(
+      msg,
+      cli::format_warning(c(
+        i = if (n > 1) "Run {.run dplyr::last_dplyr_warnings()} to see the {n - 1} remaining warning{?s}."
+      ))
+    )
+  }
+
+  warn(msg, use_cli_format = FALSE)
 }
 
 new_dplyr_warning <- function(data) {

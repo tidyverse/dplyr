@@ -60,6 +60,8 @@
     Condition
       Warning:
       There was 1 warning in a `mutate()` step.
+      ! Problem while computing `y = max(x)`.
+      Caused by warning in `max()`:
       ! no non-missing arguments to max; returning -Inf
     Output
       # A tibble: 0 x 2

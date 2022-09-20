@@ -234,6 +234,8 @@
     Condition
       Warning:
       There was 1 warning in a `mutate()` step.
+      ! Problem while computing `x = f()`.
+      Caused by warning in `f()`:
       ! msg
     Code
       last_dplyr_warnings()
@@ -268,6 +270,8 @@
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
+      ! Problem in group 1: id = 1 while computing `x = f()`.
+      Caused by warning in `f()`:
       ! msg
       i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
     Code
@@ -323,6 +327,8 @@
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
+      ! Problem in row 1 while computing `x = f()`.
+      Caused by warning in `f()`:
       ! msg
       i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
     Code
@@ -378,15 +384,21 @@
     Condition
       Warning:
       There was 1 warning in a `group_by()` step.
+      ! Problem while computing `g = f():n()`.
+      Caused by warning in `f()`:
       ! msg
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
+      ! Problem in row 1 while computing `x = f()`.
+      Caused by warning in `f()`:
       ! msg
       i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
+      ! Problem in group 1: id = 1 while computing `x = f()`.
+      Caused by warning in `f()`:
       ! msg
       i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
     Code
@@ -512,6 +524,8 @@
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
+      ! Problem in row 1 while computing `x = f()`.
+      Caused by warning in `f()`:
       ! msg
       i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
     Output
@@ -546,7 +560,7 @@
       
     Message
       ... with 1 more warning.
-      i Use `last_dplyr_warnings(n = ...)` to show more.
+      i Run `dplyr::last_dplyr_warnings(n = 2)` to show more.
 
 ---
 
@@ -558,6 +572,8 @@
       Warning:
       There were 5 warnings in a `mutate()` step.
       The first warning was:
+      ! Problem in row 1 while computing `x = f()`.
+      Caused by warning in `f()`:
       ! msg
       i Run `dplyr::last_dplyr_warnings()` to see the 4 remaining warnings.
     Output
@@ -595,7 +611,7 @@
       
     Message
       ... with 4 more warnings.
-      i Use `last_dplyr_warnings(n = ...)` to show more.
+      i Run `dplyr::last_dplyr_warnings(n = 2)` to show more.
 
 # complex backtraces with base and rlang warnings
 
@@ -604,10 +620,14 @@
     Condition
       Warning:
       There was 1 warning in a `group_by()` step.
+      ! Problem while computing `x = f(1):n()`.
+      Caused by warning in `h()`:
       ! foo
       Warning:
       There were 3 warnings in a `mutate()` step.
       The first warning was:
+      ! Problem in group 1: x = 1 while computing `x = f(1, base = FALSE)`.
+      Caused by warning:
       ! foo
       i Run `dplyr::last_dplyr_warnings()` to see the 2 remaining warnings.
     Output
