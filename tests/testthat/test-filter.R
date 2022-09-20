@@ -112,7 +112,7 @@ test_that("$ does not end call traversing. #502", {
   # Do some aggregation
   trial_outcomes <- d %>%
     group_by(Subject, TrialNo) %>%
-    summarise(MeanOutcome = mean(Outcome))
+    summarise(MeanOutcome = mean(Outcome), .groups = "drop")
 
   left <- filter(trial_outcomes, MeanOutcome < analysis_opts$min_outcome)
   right <- filter(trial_outcomes, analysis_opts$min_outcome > MeanOutcome)
