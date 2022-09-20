@@ -96,7 +96,6 @@ inline bool vec_is_list(SEXP x) {
 }
 
 SEXP dplyr_expand_groups(SEXP old_groups, SEXP positions, SEXP s_nr);
-SEXP dplyr_filter_update_rows(SEXP s_n_rows, SEXP group_indices, SEXP keep, SEXP new_rows_sizes);
 SEXP dplyr_cumall(SEXP x);
 SEXP dplyr_cumany(SEXP x);
 SEXP dplyr_cummean(SEXP x);
@@ -109,8 +108,6 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_
 SEXP dplyr_summarise_recycle_chunks(SEXP chunks, SEXP rows, SEXP ptypes, SEXP results);
 SEXP dplyr_group_indices(SEXP data, SEXP rows);
 SEXP dplyr_group_keys(SEXP group_data);
-SEXP dplyr_reduce_lgl_or(SEXP, SEXP);
-SEXP dplyr_reduce_lgl_and(SEXP, SEXP);
 
 SEXP dplyr_mask_remove(SEXP env_private, SEXP s_name);
 SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP ptype, SEXP chunks);

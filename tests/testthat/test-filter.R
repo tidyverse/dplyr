@@ -376,11 +376,32 @@ test_that("filter() allows named constants that resolve to logical vectors (#461
   )
 })
 
+test_that("filter() allows 1 dimension arrays", {
+  df <- tibble(x = array(c(TRUE, FALSE, TRUE)))
+  expect_identical(filter(df, x), df[c(1, 3),])
+})
+
 test_that("filter() allowing matrices with 1 column", {
   out <- expect_warning(
     filter(data.frame(x = 1:2), matrix(c(TRUE, FALSE), nrow = 2)), NA
   )
   expect_identical(out, data.frame(x = 1L))
+})
+
+test_that("filter() disallows matrices with >1 column", {
+  df <- tibble(x = 1:3)
+
+  expect_snapshot({
+    (expect_error(filter(df, matrix(TRUE, nrow = 3, ncol = 2))))
+  })
+})
+
+test_that("filter() disallows arrays with >2 dimensions", {
+  df <- tibble(x = 1:3)
+
+  expect_snapshot({
+    (expect_error(filter(df, array(TRUE, dim = c(3, 1, 1)))))
+  })
 })
 
 test_that("filter() gives useful error messages", {
