@@ -49,6 +49,7 @@ SEXP symbols::caller = Rf_install("caller");
 SEXP symbols::current_data = Rf_install("current_data");
 SEXP symbols::dot_drop = Rf_install(".drop");
 SEXP symbols::dplyr_internal_error = Rf_install("dplyr_internal_error");
+SEXP symbols::dplyr_internal_signal = Rf_install("dplyr_internal_signal");
 SEXP symbols::dot_indices = Rf_install(".indices");
 SEXP symbols::chops = Rf_install("chops");
 SEXP symbols::mask = Rf_install("mask");

@@ -154,7 +154,8 @@
       data.frame(x = 1, y = 1) %>% filter(across(everything(), ~ .x > 0))
     Condition
       Warning:
-      Using `across()` in `filter()` is deprecated, use `if_any()` or `if_all()`.
+      Using `across()` in `filter()` was deprecated in dplyr 1.0.8.
+      Please use `if_any()` or `if_all()` instead.
     Output
         x y
       1 1 1
@@ -162,7 +163,8 @@
       data.frame(x = 1, y = 1) %>% filter(data.frame(x > 0, y > 0))
     Condition
       Warning:
-      data frame results in `filter()` are deprecated, use `if_any()` or `if_all()`.
+      Returning data frames from `filter()` expressions was deprecated in dplyr 1.0.8.
+      Please use `if_any()` or `if_all()` instead.
     Output
         x y
       1 1 1

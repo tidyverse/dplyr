@@ -171,18 +171,25 @@ filter_expand <- function(dots, mask, error_call = caller_env()) {
 filter_eval <- function(dots, mask, error_call = caller_env()) {
   env_filter <- env()
 
-  withCallingHandlers({
-    mask$eval_all_filter(dots, env_filter)
-  }, error = function(e) {
-    local_error_context(dots = dots, .index = env_filter$current_expression, mask = mask)
+  withCallingHandlers(
+    expr = mask$eval_all_filter(dots, env_filter),
+    error = function(e) {
+      local_error_context(dots = dots, .index = env_filter$current_expression, mask = mask)
 
-    bullets <- c(
-      cnd_bullet_header("computing"),
-      filter_bullets(e)
-    )
-    abort(bullets, call = error_call, parent = skip_internal_condition(e))
+      bullets <- c(
+        cnd_bullet_header("computing"),
+        filter_bullets(e)
+      )
+      abort(bullets, call = error_call, parent = skip_internal_condition(e))
 
-  })
+    },
+    `dplyr:::signal_filter_across` = function(e) {
+      warn_filter_across(call = error_call)
+    },
+    `dplyr:::signal_filter_data_frame` = function(e) {
+      warn_filter_data_frame(call = error_call)
+    }
+  )
 }
 
 filter_bullets <- function(cnd, ...) {
@@ -222,3 +229,22 @@ filter_bullets.default <- function(cnd, ...) {
   )
 }
 
+warn_filter_across <- function(call) {
+  lifecycle::deprecate_warn(
+    when = "1.0.8",
+    what = I("Using `across()` in `filter()`"),
+    with = I("`if_any()` or `if_all()`"),
+    always = TRUE,
+    env = call
+  )
+}
+
+warn_filter_data_frame <- function(call) {
+  lifecycle::deprecate_warn(
+    when = "1.0.8",
+    what = I("Returning data frames from `filter()` expressions"),
+    with = I("`if_any()` or `if_all()`"),
+    always = TRUE,
+    env = call
+  )
+}
