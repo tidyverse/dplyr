@@ -200,7 +200,7 @@ last_dplyr_warnings <- function(n = 5) {
   }
 
   warnings <- the$last_warnings
-  remaining <- max(length(warnings) - n, 0L)
+  n_remaining <- max(length(warnings) - n, 0L)
 
   warnings <- head(warnings, n = n)
   warnings <- map(warnings, new_dplyr_warning)
@@ -208,7 +208,8 @@ last_dplyr_warnings <- function(n = 5) {
   structure(
     warnings,
     class = c("last_dplyr_warnings", "list"),
-    remaining = remaining
+    n_shown = n,
+    n_remaining = n_remaining
   )
 }
 
@@ -282,11 +283,12 @@ print.last_dplyr_warnings <- function(x, ...) {
   )
   print(unstructure(x), ..., simplify = "none")
 
-  remaining <- attr(x, "remaining")
-  if (remaining) {
+  n_remaining <- attr(x, "n_remaining")
+  if (n_remaining) {
+    n_more <- attr(x, "n_shown") * 2
     cli::cli_bullets(c(
-      "... with {remaining} more warning{?s}.",
-      "i" = "Use e.g. {.run dplyr::last_dplyr_warnings(n = 20)} to show more."
+      "... with {n_remaining} more warning{?s}.",
+      "i" = "Run {.run dplyr::last_dplyr_warnings(n = {n_more})} to show more."
     ))
   }
 }
