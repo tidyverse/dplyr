@@ -249,7 +249,7 @@
            x
         1. +-dplyr::mutate(df, x = f())
         2. +-dplyr:::mutate.data.frame(df, x = f())
-        3. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+        3. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...))
         4. |   +-base::withCallingHandlers(...)
         5. |   \-(function() {...
         6. |     \-dplyr:::mutate_col(dots[[i]], .data, mask, new_columns)
@@ -284,7 +284,7 @@
            x
         1. +-dplyr::mutate(group_by(df, id), x = f())
         2. +-dplyr:::mutate.data.frame(group_by(df, id), x = f())
-        3. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+        3. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...))
         4. |   +-base::withCallingHandlers(...)
         5. |   \-(function() {...
         6. |     \-dplyr:::mutate_col(dots[[i]], .data, mask, new_columns)
@@ -304,7 +304,7 @@
            x
         1. +-dplyr::mutate(group_by(df, id), x = f())
         2. +-dplyr:::mutate.data.frame(group_by(df, id), x = f())
-        3. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+        3. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...))
         4. |   +-base::withCallingHandlers(...)
         5. |   \-(function() {...
         6. |     \-dplyr:::mutate_col(dots[[i]], .data, mask, new_columns)
@@ -339,7 +339,7 @@
            x
         1. +-dplyr::mutate(rowwise(df), x = f())
         2. +-dplyr:::mutate.data.frame(rowwise(df), x = f())
-        3. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+        3. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...))
         4. |   +-base::withCallingHandlers(...)
         5. |   \-(function() {...
         6. |     \-dplyr:::mutate_col(dots[[i]], .data, mask, new_columns)
@@ -359,7 +359,7 @@
            x
         1. +-dplyr::mutate(rowwise(df), x = f())
         2. +-dplyr:::mutate.data.frame(rowwise(df), x = f())
-        3. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+        3. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...))
         4. |   +-base::withCallingHandlers(...)
         5. |   \-(function() {...
         6. |     \-dplyr:::mutate_col(dots[[i]], .data, mask, new_columns)
@@ -407,8 +407,8 @@
         4. +-dplyr::rowwise(group_by(df, g = f():n()))
         5. +-dplyr::group_by(df, g = f():n())
         6. +-dplyr:::group_by.data.frame(df, g = f():n())
-        7. | \-dplyr::group_by_prepare(...)
-        8. |   \-dplyr:::add_computed_columns(...)
+        7. | \-dplyr::group_by_prepare(.data, ..., .add = .add, error_call = current_env())
+        8. |   \-dplyr:::add_computed_columns(.data, new_groups, error_call = error_call)
         9. |     \-dplyr:::mutate_cols(...)
        10. |       +-base::withCallingHandlers(...)
        11. |       \-(function() {...
@@ -431,7 +431,7 @@
         2. +-dplyr::group_by(...)
         3. +-dplyr::mutate(rowwise(group_by(df, g = f():n())), x = f())
         4. +-dplyr:::mutate.data.frame(...)
-        5. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+        5. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...))
         6. |   +-base::withCallingHandlers(...)
         7. |   \-(function() {...
         8. |     \-dplyr:::mutate_col(dots[[i]], .data, mask, new_columns)
@@ -453,7 +453,7 @@
         2. +-dplyr::group_by(...)
         3. +-dplyr::mutate(rowwise(group_by(df, g = f():n())), x = f())
         4. +-dplyr:::mutate.data.frame(...)
-        5. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+        5. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...))
         6. |   +-base::withCallingHandlers(...)
         7. |   \-(function() {...
         8. |     \-dplyr:::mutate_col(dots[[i]], .data, mask, new_columns)
@@ -473,7 +473,7 @@
            x
         1. +-dplyr::mutate(...)
         2. +-dplyr:::mutate.data.frame(...)
-        3. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+        3. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...))
         4. |   +-base::withCallingHandlers(...)
         5. |   \-(function() {...
         6. |     \-dplyr:::mutate_col(dots[[i]], .data, mask, new_columns)
@@ -493,7 +493,7 @@
            x
         1. +-dplyr::mutate(...)
         2. +-dplyr:::mutate.data.frame(...)
-        3. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+        3. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...))
         4. |   +-base::withCallingHandlers(...)
         5. |   \-(function() {...
         6. |     \-dplyr:::mutate_col(dots[[i]], .data, mask, new_columns)
@@ -535,7 +535,7 @@
            x
         1. +-dplyr::mutate(rowwise(df), x = f())
         2. +-dplyr:::mutate.data.frame(rowwise(df), x = f())
-        3. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+        3. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...))
         4. |   +-base::withCallingHandlers(...)
         5. |   \-(function() {...
         6. |     \-dplyr:::mutate_col(dots[[i]], .data, mask, new_columns)
@@ -584,7 +584,7 @@
            x
         1. +-dplyr::mutate(rowwise(df), x = f())
         2. +-dplyr:::mutate.data.frame(rowwise(df), x = f())
-        3. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+        3. | \-dplyr:::mutate_cols(.data, dplyr_quosures(...))
         4. |   +-base::withCallingHandlers(...)
         5. |   \-(function() {...
         6. |     \-dplyr:::mutate_col(dots[[i]], .data, mask, new_columns)
@@ -635,8 +635,8 @@
         3. |   +-dplyr::mutate(group_by(df, x = f(1):n()), x = f(1, base = FALSE))
         4. |   +-dplyr::group_by(df, x = f(1):n())
         5. |   \-dplyr:::group_by.data.frame(df, x = f(1):n())
-        6. |     \-dplyr::group_by_prepare(...)
-        7. |       \-dplyr:::add_computed_columns(...)
+        6. |     \-dplyr::group_by_prepare(.data, ..., .add = .add, error_call = current_env())
+        7. |       \-dplyr:::add_computed_columns(.data, new_groups, error_call = error_call)
         8. |         \-dplyr:::mutate_cols(...)
         9. |           +-base::withCallingHandlers(...)
        10. |           \-(function() {...
@@ -661,7 +661,7 @@
         2. | \-dplyr (local) bar()
         3. |   +-dplyr::mutate(group_by(df, x = f(1):n()), x = f(1, base = FALSE))
         4. |   \-dplyr:::mutate.data.frame(...)
-        5. |     \-dplyr:::mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+        5. |     \-dplyr:::mutate_cols(.data, dplyr_quosures(...))
         6. |       +-base::withCallingHandlers(...)
         7. |       \-(function() {...
         8. |         \-dplyr:::mutate_col(dots[[i]], .data, mask, new_columns)
@@ -685,7 +685,7 @@
         2. | \-dplyr (local) bar()
         3. |   +-dplyr::mutate(group_by(df, x = f(1):n()), x = f(1, base = FALSE))
         4. |   \-dplyr:::mutate.data.frame(...)
-        5. |     \-dplyr:::mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+        5. |     \-dplyr:::mutate_cols(.data, dplyr_quosures(...))
         6. |       +-base::withCallingHandlers(...)
         7. |       \-(function() {...
         8. |         \-dplyr:::mutate_col(dots[[i]], .data, mask, new_columns)
@@ -709,7 +709,7 @@
         2. | \-dplyr (local) bar()
         3. |   +-dplyr::mutate(group_by(df, x = f(1):n()), x = f(1, base = FALSE))
         4. |   \-dplyr:::mutate.data.frame(...)
-        5. |     \-dplyr:::mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+        5. |     \-dplyr:::mutate_cols(.data, dplyr_quosures(...))
         6. |       +-base::withCallingHandlers(...)
         7. |       \-(function() {...
         8. |         \-dplyr:::mutate_col(dots[[i]], .data, mask, new_columns)
