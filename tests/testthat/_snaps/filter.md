@@ -1,3 +1,21 @@
+# filter() allows matrices with 1 column with a deprecation warning (#6091)
+
+    Code
+      out <- filter(df, matrix(c(TRUE, FALSE), nrow = 2))
+    Condition
+      Warning:
+      Using one column matrices in `filter()` was deprecated in dplyr 1.1.0.
+      Please use one dimensional logical vectors instead.
+
+---
+
+    Code
+      out <- filter(gdf, matrix(c(TRUE, FALSE), nrow = 2))
+    Condition
+      Warning:
+      Using one column matrices in `filter()` was deprecated in dplyr 1.1.0.
+      Please use one dimensional logical vectors instead.
+
 # filter() disallows matrices with >1 column
 
     Code
