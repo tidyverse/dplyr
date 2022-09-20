@@ -223,6 +223,11 @@ mutate_cols <- function(.data, dots, error_call = caller_env()) {
   force(dots)
 
   error_call <- dplyr_error_call(error_call)
+
+  # `error_call()` does some non-trivial work, e.g. climbing frame
+  # environments to find generic calls. We avoid evaluating it
+  # repeatedly in the loop by assigning it here (lazily as we only
+  # need it for the error path).
   delayedAssign("error_call_forced", error_call(error_call))
 
   mask <- DataMask$new(.data, "mutate", error_call = error_call)
