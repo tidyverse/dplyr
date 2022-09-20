@@ -77,7 +77,7 @@ quo_as_label <- function(quo)  {
 }
 
 local_error_context <- function(dots, .index, mask, frame = caller_env()) {
-  expr <- dots_expr(dots, .index)
+  expr <- dot_as_label(dots[[.index]])
 
   error_context <- env(
     error_name = arg_name(dots, .index),
@@ -90,12 +90,11 @@ peek_error_context <- function() {
   context_peek("dplyr_error_context", "peek_error_context", "dplyr error handling")
 }
 
-dots_expr <- function(dots, i) {
- expr <- dots[[i]]
+dot_as_label <- function(expr) {
   if (quo_is_call(expr, "invisible")) {
     ""
   } else {
-    quo_as_label(dots[[i]])
+    quo_as_label(expr)
   }
 }
 
