@@ -112,7 +112,7 @@ test_that("$ does not end call traversing. #502", {
   # Do some aggregation
   trial_outcomes <- d %>%
     group_by(Subject, TrialNo) %>%
-    summarise(MeanOutcome = mean(Outcome))
+    summarise(MeanOutcome = mean(Outcome), .groups = "drop")
 
   left <- filter(trial_outcomes, MeanOutcome < analysis_opts$min_outcome)
   right <- filter(trial_outcomes, analysis_opts$min_outcome > MeanOutcome)
@@ -381,11 +381,20 @@ test_that("filter() allows 1 dimension arrays", {
   expect_identical(filter(df, x), df[c(1, 3),])
 })
 
-test_that("filter() allowing matrices with 1 column", {
-  out <- expect_warning(
-    filter(data.frame(x = 1:2), matrix(c(TRUE, FALSE), nrow = 2)), NA
-  )
-  expect_identical(out, data.frame(x = 1L))
+test_that("filter() allows matrices with 1 column with a deprecation warning (#6091)", {
+  df <- tibble(x = 1:2)
+  expect_snapshot({
+    out <- filter(df, matrix(c(TRUE, FALSE), nrow = 2))
+  })
+  expect_identical(out, tibble(x = 1L))
+
+  # Only warns once when grouped
+  df <- tibble(x = c(1, 1, 2, 2))
+  gdf <- group_by(df, x)
+  expect_snapshot({
+    out <- filter(gdf, matrix(c(TRUE, FALSE), nrow = 2))
+  })
+  expect_identical(out, group_by(tibble(x = c(1, 2)), x))
 })
 
 test_that("filter() disallows matrices with >1 column", {

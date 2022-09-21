@@ -34,6 +34,10 @@ void signal_filter(const char* cls) {
   UNPROTECT(2);
 }
 static
+void signal_filter_one_column_matrix() {
+  signal_filter("dplyr:::signal_filter_one_column_matrix");
+}
+static
 void signal_filter_across() {
   signal_filter("dplyr:::signal_filter_across");
 }
@@ -91,8 +95,7 @@ bool filter_is_valid_lgl(SEXP x, bool first) {
     // 1 column matrix. We allow these with a warning that this will be
     // deprecated in the future.
     if (first) {
-      // TODO: Warn on 1 column matrices
-      // dplyr::signal_filter_one_column_matrix();
+      dplyr::signal_filter_one_column_matrix();
     }
     UNPROTECT(1);
     return true;

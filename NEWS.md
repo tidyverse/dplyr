@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* Using 1 column matrices in `filter()` is now deprecated (#6091).
+
 * Warnings emitted inside `mutate()` and variants are now collected and stashed
   away. Run the new `last_dplyr_warnings()` function to see the warnings emitted
   within dplyr verbs during the last top-level command.

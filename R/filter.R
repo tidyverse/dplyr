@@ -183,6 +183,9 @@ filter_eval <- function(dots, mask, error_call = caller_env()) {
       abort(bullets, call = error_call, parent = skip_internal_condition(e))
 
     },
+    `dplyr:::signal_filter_one_column_matrix` = function(e) {
+      warn_filter_one_column_matrix(call = error_call)
+    },
     `dplyr:::signal_filter_across` = function(e) {
       warn_filter_across(call = error_call)
     },
@@ -226,6 +229,15 @@ filter_bullets.default <- function(cnd, ...) {
   c(
     x = glue("Input `..{index}` must be of size {or_1(expected_size)}, not size {size}."),
     i = cnd_bullet_cur_group_label()
+  )
+}
+
+warn_filter_one_column_matrix <- function(call) {
+  lifecycle::deprecate_warn(
+    when = "1.1.0",
+    what = I("Using one column matrices in `filter()`"),
+    with = I("one dimensional logical vectors"),
+    env = call
   )
 }
 
