@@ -171,25 +171,21 @@ filter_expand <- function(dots, mask, error_call = caller_env()) {
 filter_eval <- function(dots, mask, error_call = caller_env()) {
   env_filter <- env()
 
+  # For error handlers
+  env_bind_active(
+    current_env(),
+    "i" = function() env_filter$current_expression
+  )
+
   withCallingHandlers(
     expr = mask$eval_all_filter(dots, env_filter),
-    error = function(cnd) {
-      local_error_context(dots = dots, .index = env_filter$current_expression, mask = mask)
-
-      if (inherits(cnd, "dplyr:::internal_error")) {
-        # We recreate this error with a custom message here after
-        # setting `local_error_context()`
-        parent <- error_cnd(message = filter_bullets(cnd))
-      } else {
-        parent <- cnd
-      }
-
-      msg <- c(
-        cnd_bullet_header("computing"),
-        i = cnd_bullet_cur_group_label()
-      )
-      abort(msg, call = error_call, parent = parent)
-    },
+    error = dplyr_error_handler(
+      dots = dots,
+      mask = mask,
+      action = "computing",
+      bullets = filter_bullets,
+      error_call = error_call
+    ),
     `dplyr:::signal_filter_one_column_matrix` = function(e) {
       warn_filter_one_column_matrix(call = error_call)
     },

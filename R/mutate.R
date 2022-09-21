@@ -248,27 +248,14 @@ mutate_cols <- function(.data, dots, error_call = caller_env()) {
 
       new_columns <<- mutate_col(dots[[i]], .data, mask, new_columns)
     }),
-    error = function(cnd) {
-      local_error_context(dots = dots, .index = i, mask = mask)
-
-      message <- c(
-        cnd_bullet_header("computing"),
-        "i" = if (needs_group_context(cnd)) cnd_bullet_cur_group_label()
-      )
-
-      if (inherits(cnd, "dplyr:::internal_error")) {
-        parent <- error_cnd(message = mutate_bullets(cnd))
-      } else {
-        parent <- cnd
-      }
-
-      abort(
-        message,
-        class = "dplyr:::mutate_error",
-        parent = parent,
-        call = error_call
-      )
-    },
+    error = dplyr_error_handler(
+      dots = dots,
+      mask = mask,
+      action = "computing",
+      bullets = mutate_bullets,
+      error_call = error_call,
+      error_class = "dplyr:::mutate_error"
+    ),
     warning = function(w) {
       # Don't entrace more than 5 warnings because this is very costly
       if (is_null(w$trace) && length(warnings) < 5) {

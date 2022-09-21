@@ -285,31 +285,21 @@ summarise_cols <- function(.data, dots, error_call = caller_env()) {
 
   },
   error = function(cnd) {
-    what <- "computing"
-    index <- i
     if (inherits(cnd, "dplyr:::summarise_incompatible_size")) {
-      index <- cnd$dplyr_error_data$index
-      what <- "recycling"
-    }
-
-    local_error_context(dots = dots, .index = index, mask = mask)
-
-    if (inherits(cnd, "dplyr:::internal_error")) {
-      parent <- error_cnd(message = summarise_bullets(cnd))
+      action <- "recycling"
+      i <- cnd$dplyr_error_data$index
     } else {
-      parent <- cnd
+      action <- "computing"
+      i <- i
     }
-
-    message <- c(
-      cnd_bullet_header(what),
-      "i" = if (needs_group_context(cnd)) cnd_bullet_cur_group_label()
+    handler <- dplyr_error_handler(
+      dots = dots,
+      mask = mask,
+      action = action,
+      bullets = summarise_bullets,
+      error_call = error_call
     )
-
-    abort(
-      message,
-      call = error_call,
-      parent = parent
-    )
+    handler(cnd)
   })
 
   list(new = cols, size = sizes, all_one = identical(sizes, 1L))
@@ -383,7 +373,8 @@ summarise_bullets.default <- function(cnd, ...) {
   error_context <- peek_error_context()
   error_name    <- error_context$error_name
 
-  # so that cnd_bullet_cur_group_label() correctly reports the faulty group
+  # FIXME: So that cnd_bullet_cur_group_label() correctly reports the
+  # faulty group
   peek_mask()$set_current_group(group)
 
   c(
