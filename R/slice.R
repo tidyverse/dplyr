@@ -326,11 +326,16 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
   withCallingHandlers(
     mask$eval_all(quo(impl(!!!dots))),
     error = function(cnd) {
+      if (inherits(cnd, "vctrs_error_subscript")) {
+        action <- "process"
+      } else {
+        action <- "compute"
+      }
       if (index && is_slice_call(error_call)) {
         local_error_context(dots = dots, .index = index, mask = mask)
-        header <- cnd_bullet_header("evaluate")
+        header <- cnd_bullet_header(action)
       } else {
-        header <- "Can't compute indices."
+        header <- glue("Can't {action} indices.")
       }
 
       bullets <- c(header, i = cnd_bullet_cur_group_label())
