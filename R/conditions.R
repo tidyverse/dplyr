@@ -124,10 +124,10 @@ cnd_bullet_header <- function(what) {
 }
 
 cnd_bullet_combine_details <- function(x, arg) {
-  group <- as.integer(sub("^..", "", arg))
-  keys <- peek_mask()$get_keys()[group, ]
-  details <- group_labels_details(keys)
-  glue("Result type for group {group} ({details}): <{vec_ptype_full(x)}>.")
+  id <- as.integer(sub("^..", "", arg))
+  group <- peek_mask()$get_keys()[id, ]
+  details <- cur_group_label(id = group, group = group)
+  glue("Result of type <{vec_ptype_full(x)}> for {details}.")
 }
 
 err_vars <- function(x) {

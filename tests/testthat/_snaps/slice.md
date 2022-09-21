@@ -44,7 +44,7 @@
     Condition
       Error in `slice()`:
       ! Problem while evaluating `..1 = 1 + ""`.
-      i The error occurred in group 1: x = 1.
+      i The error occurred in group 1: `x = 1`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
 

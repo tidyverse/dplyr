@@ -43,3 +43,14 @@
       Error in `cur_group_rows()`:
       ! Must only be used inside data-masking verbs like `mutate()`, `filter()`, and `group_by()`.
 
+# group labels are correctly formatted
+
+    Code
+      group_labels_details(c(a = 1))
+    Output
+      [1] "`a = 1`"
+    Code
+      group_labels_details(c(a = 1, b = 2))
+    Output
+      [1] "`a = 1`, `b = 2`"
+

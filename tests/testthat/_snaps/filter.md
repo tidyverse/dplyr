@@ -45,7 +45,7 @@
       Error in `filter()`:
       ! Problem while computing `..1 = 1:n()`.
       x Input `..1` must be a logical vector, not a integer.
-      i The error occurred in group 1: Species = setosa.
+      i The error occurred in group 1: `Species = setosa`.
     Code
       (expect_error(iris %>% filter(1:n())))
     Output
@@ -68,7 +68,7 @@
       Error in `filter()`:
       ! Problem while computing `..1 = c(TRUE, FALSE)`.
       x Input `..1` must be of size 50 or 1, not size 2.
-      i The error occurred in group 1: Species = setosa.
+      i The error occurred in group 1: `Species = setosa`.
     Code
       (expect_error(iris %>% rowwise(Species) %>% filter(c(TRUE, FALSE))))
     Output
@@ -92,7 +92,7 @@
       Error in `filter()`:
       ! Problem while computing `..1 = data.frame(c(TRUE, FALSE))`.
       x Input `..1` must be of size 50 or 1, not size 2.
-      i The error occurred in group 1: Species = setosa.
+      i The error occurred in group 1: `Species = setosa`.
     Code
       (expect_error(iris %>% rowwise() %>% filter(data.frame(c(TRUE, FALSE)))))
     Output
@@ -127,7 +127,7 @@
       Error in `filter()`:
       ! Problem while computing `..1 = data.frame(Sepal.Length > 3, 1:n())`.
       x Input `..1$X1.n..` must be a logical vector, not a integer.
-      i The error occurred in group 1: Species = setosa.
+      i The error occurred in group 1: `Species = setosa`.
     Code
       (expect_error(iris %>% filter(data.frame(Sepal.Length > 3, 1:n()))))
     Condition
@@ -153,7 +153,7 @@
       <error/rlang_error>
       Error in `filter()`:
       ! Problem while computing `..1 = _x`.
-      i The error occurred in group 1: cyl = 4.
+      i The error occurred in group 1: `cyl = 4`.
       Caused by error:
       ! object '_x' not found
     Code

@@ -66,3 +66,7 @@ node_walk_replace <- function(node, old, new) {
     node <- node_cdr(node)
   }
 }
+
+cli_collapse <- function(x, last = " and ") {
+  cli::cli_vec(x, style = list("vec-last" = last))
+}

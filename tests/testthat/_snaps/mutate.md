@@ -31,7 +31,7 @@
       Error in `mutate()`:
       ! Problem while computing `y = .env$y`.
       x `y` must be size 5 or 1, not 10.
-      i The error occurred in group 1: g = 1.
+      i The error occurred in group 1: `g = 1`.
     Code
       (expect_error(df %>% rowwise() %>% mutate(y = .env$y)))
     Output
@@ -85,7 +85,7 @@
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       ! Problem while computing `a = sum(y)`.
-      i The error occurred in group 1: x = 1.
+      i The error occurred in group 1: `x = 1`.
       Caused by error:
       ! object 'y' not found
     Code
@@ -110,7 +110,7 @@
       Error in `mutate()`:
       ! Problem while computing `out = env(a = 1)`.
       x `out` must be a vector, not an environment.
-      i The error occurred in group 1: g = 1.
+      i The error occurred in group 1: `g = 1`.
     Code
       (expect_error(df %>% rowwise() %>% mutate(out = rnorm)))
     Output
@@ -129,8 +129,8 @@
       ! Problem while computing `val = ifelse(x < 3, "foo", 2)`.
       Caused by error:
       ! `val` must return compatible vectors across groups.
-      i Result type for group 1 (x = 1): <character>.
-      i Result type for group 3 (x = 3): <double>.
+      i Result of type <character> for group 1: `x = 1`.
+      i Result of type <double> for group 3: `x = 3`.
     Code
       (expect_error(tibble(a = 1:3, b = 4:6) %>% group_by(a) %>% mutate(if (a ==
       1) NULL else "foo")))
@@ -155,7 +155,7 @@
       Error in `mutate()`:
       ! Problem while computing `int = 1:5`.
       x `int` must be size 2 or 1, not 5.
-      i The error occurred in group 1: x = 2.
+      i The error occurred in group 1: `x = 2`.
     Code
       (expect_error(data.frame(x = c(2, 3, 3)) %>% group_by(x) %>% mutate(int = 1:5)))
     Output
@@ -163,7 +163,7 @@
       Error in `mutate()`:
       ! Problem while computing `int = 1:5`.
       x `int` must be size 1, not 5.
-      i The error occurred in group 1: x = 2.
+      i The error occurred in group 1: `x = 2`.
     Code
       (expect_error(data.frame(x = c(2, 2, 3, 3)) %>% rowwise() %>% mutate(int = 1:5))
       )
@@ -204,7 +204,7 @@
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       ! Problem while computing `c = .data$b`.
-      i The error occurred in group 1: a = 1.
+      i The error occurred in group 1: `a = 1`.
       Caused by error in `.data$b`:
       ! Column `b` not found in `.data`.
     Code
