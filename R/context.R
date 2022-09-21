@@ -103,11 +103,7 @@ cur_group_label <- function(type = mask_type(),
   switch(
     type,
     ungrouped = "",
-    grouped = if (nrow(group)) {
-      glue("group {id}: {label}", label = group_labels_details(group))
-    } else {
-      ""
-    },
+    grouped = glue("group {id}: {label}", label = group_labels_details(group)),
     rowwise = glue("row {id}"),
     stop_mask_type(type)
   )
