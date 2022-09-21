@@ -284,25 +284,22 @@ summarise_cols <- function(.data, dots, error_call = caller_env()) {
     }
 
   },
-  error = function(e) {
-    what <- "computing"
-    index <- i
-    if (inherits(e, "dplyr:::summarise_incompatible_size")) {
-      index <- e$dplyr_error_data$index
-      what <- "recycling"
+  error = function(cnd) {
+    if (inherits(cnd, "dplyr:::summarise_incompatible_size")) {
+      action <- "recycling"
+      i <- cnd$dplyr_error_data$index
+    } else {
+      action <- "computing"
+      i <- i
     }
-
-    local_error_context(dots = dots, .index = index, mask = mask)
-
-    bullets <- c(
-      cnd_bullet_header(what),
-      summarise_bullets(e)
+    handler <- dplyr_error_handler(
+      dots = dots,
+      mask = mask,
+      action = action,
+      bullets = summarise_bullets,
+      error_call = error_call
     )
-
-    abort(bullets, call = error_call,
-      parent = skip_internal_condition(e)
-    )
-
+    handler(cnd)
   })
 
   list(new = cols, size = sizes, all_one = identical(sizes, 1L))
@@ -349,23 +346,12 @@ summarise_bullets <- function(cnd, ...) {
 }
 
 #' @export
-summarise_bullets.default <- function(cnd, ...) {
-  c(i = cnd_bullet_cur_group_label())
-}
-
-#' @export
-`summarise_bullets.dplyr:::error_incompatible_combine` <- function(cnd, ...) {
-  c()
-}
-
-#' @export
 `summarise_bullets.dplyr:::summarise_unsupported_type` <- function(cnd, ...) {
   result <- cnd$dplyr_error_data$result
   error_name <- peek_error_context()$error_name
   c(
-    x = glue("`{error_name}` must be a vector, not {obj_type_friendly(result)}."),
-    i = cnd_bullet_rowwise_unlist(),
-    i = cnd_bullet_cur_group_label()
+    glue("`{error_name}` must be a vector, not {obj_type_friendly(result)}."),
+    i = cnd_bullet_rowwise_unlist()
   )
 }
 
@@ -378,13 +364,13 @@ summarise_bullets.default <- function(cnd, ...) {
   error_context <- peek_error_context()
   error_name    <- error_context$error_name
 
-  # so that cnd_bullet_cur_group_label() correctly reports the faulty group
+  # FIXME: So that cnd_bullet_cur_group_label() correctly reports the
+  # faulty group
   peek_mask()$set_current_group(group)
 
   c(
-    x = glue("`{error_name}` must be size {or_1(expected_size)}, not {size}."),
-    i = glue("An earlier column had size {expected_size}."),
-    i = cnd_bullet_cur_group_label()
+    glue("`{error_name}` must be size {or_1(expected_size)}, not {size}."),
+    i = glue("An earlier column had size {expected_size}.")
   )
 }
 
@@ -392,7 +378,7 @@ summarise_bullets.default <- function(cnd, ...) {
 `summarise_bullets.dplyr:::summarise_mixed_null` <- function(cnd, ...) {
   error_name    <- peek_error_context()$error_name
   c(
-    x = glue("`{error_name}` must return compatible vectors across groups."),
+    glue("`{error_name}` must return compatible vectors across groups."),
     x = "Can't combine NULL and non NULL results."
   )
 }

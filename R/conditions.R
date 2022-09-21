@@ -42,7 +42,7 @@ arg_name <- function(quos, index) {
 cnd_bullet_cur_group_label <- function(what = "error") {
   label <- cur_group_label()
   if (label != "") {
-    glue("The {what} occurred in {label}.")
+    glue("In {label}.")
   }
 }
 
@@ -59,6 +59,16 @@ or_1 <- function(x) {
     glue("{x} or 1")
   }
 }
+
+needs_group_context <- function(cnd) {
+  !inherits_any(cnd, c(
+    "dplyr:::error_incompatible_combine",
+    "dplyr:::mutate_mixed_null",
+    "dplyr:::mutate_constant_recycle_error",
+    "dplyr:::summarise_mixed_null"
+  ))
+}
+
 
 # Common ------------------------------------------------------------------
 
@@ -176,6 +186,46 @@ skip_internal_condition <- function(cnd) {
     cnd$parent
   } else {
     cnd
+  }
+}
+
+dplyr_error_handler <- function(dots,
+                                mask,
+                                action,
+                                bullets,
+                                error_call,
+                                error_class = NULL,
+                                i_sym = "i",
+                                frame = caller_env()) {
+  force(frame)
+
+  function(cnd) {
+    local_error_context(
+      dots = dots,
+      .index = frame[[i_sym]],
+      mask = mask
+    )
+
+    if (inherits(cnd, "dplyr:::internal_error")) {
+      parent <- error_cnd(message = bullets(cnd))
+    } else {
+      parent <- cnd
+    }
+
+    # FIXME: Must be after calling `bullets()` because the
+    # `dplyr:::summarise_incompatible_size` method sets the correct
+    # group by side effect
+    message <- c(
+      cnd_bullet_header(action),
+      "i" = if (needs_group_context(cnd)) cnd_bullet_cur_group_label()
+    )
+
+    abort(
+      message,
+      class = error_class,
+      parent = parent,
+      call = error_call
+    )
   }
 }
 

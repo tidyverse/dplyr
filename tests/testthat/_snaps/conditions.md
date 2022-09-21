@@ -113,7 +113,7 @@
     Condition
       Error in `foo()`:
       ! Problem while computing `..1 = 1 + ""`.
-      i The error occurred in group 1: `cyl = 4`.
+      i In group 1: `cyl = 4`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
@@ -159,7 +159,8 @@
     Condition
       Error in `my_verb()`:
       ! Problem while computing `.result = cyl * c(am, vs)`.
-      x `.result` must be size 32 or 1, not 64.
+      Caused by error:
+      ! `.result` must be size 32 or 1, not 64.
 
 # `err_locs()` works as expected
 

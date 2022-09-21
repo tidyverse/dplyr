@@ -248,22 +248,14 @@ mutate_cols <- function(.data, dots, error_call = caller_env()) {
 
       new_columns <<- mutate_col(dots[[i]], .data, mask, new_columns)
     }),
-    error = function(e) {
-      local_error_context(dots = dots, .index = i, mask = mask)
-
-      bullets <- c(
-        cnd_bullet_header("computing"),
-        mutate_bullets(e)
-      )
-
-      abort(
-        bullets,
-        class = "dplyr:::mutate_error",
-        parent = skip_internal_condition(e),
-        bullets = bullets,
-        call = error_call
-      )
-    },
+    error = dplyr_error_handler(
+      dots = dots,
+      mask = mask,
+      action = "computing",
+      bullets = mutate_bullets,
+      error_call = error_call,
+      error_class = "dplyr:::mutate_error"
+    ),
     warning = function(w) {
       # Don't entrace more than 5 warnings because this is very costly
       if (is_null(w$trace) && length(warnings) < 5) {
@@ -443,10 +435,7 @@ mutate_col <- function(dot, data, mask, new_columns) {
 mutate_bullets <- function(cnd, ...) {
   UseMethod("mutate_bullets")
 }
-#' @export
-mutate_bullets.default <- function(cnd, ...) {
-  c(i = cnd_bullet_cur_group_label())
-}
+
 #' @export
 `mutate_bullets.dplyr:::mutate_incompatible_size` <- function(cnd, ...) {
   error_context <- peek_error_context()
@@ -455,16 +444,15 @@ mutate_bullets.default <- function(cnd, ...) {
   result_size <- cnd$dplyr_error_data$result_size
   expected_size <- cnd$dplyr_error_data$expected_size
   c(
-    x = glue("`{error_name}` must be size {or_1(expected_size)}, not {result_size}."),
-    i = cnd_bullet_rowwise_unlist(),
-    i = cnd_bullet_cur_group_label()
+    glue("`{error_name}` must be size {or_1(expected_size)}, not {result_size}."),
+    i = cnd_bullet_rowwise_unlist()
   )
 }
 #' @export
 `mutate_bullets.dplyr:::mutate_mixed_null` <- function(cnd, ...) {
   error_name <- peek_error_context()$error_name
   c(
-    x = glue("`{error_name}` must return compatible vectors across groups."),
+    glue("`{error_name}` must return compatible vectors across groups."),
     x = "Can't combine NULL and non NULL results.",
     i = cnd_bullet_rowwise_unlist()
   )
@@ -474,9 +462,8 @@ mutate_bullets.default <- function(cnd, ...) {
   error_name <- peek_error_context()$error_name
   result <- cnd$dplyr_error_data$result
   c(
-    x = glue("`{error_name}` must be a vector, not {obj_type_friendly(result)}."),
-    i = cnd_bullet_rowwise_unlist(),
-    i = cnd_bullet_cur_group_label()
+    glue("`{error_name}` must be a vector, not {obj_type_friendly(result)}."),
+    i = cnd_bullet_rowwise_unlist()
   )
 }
 #' @export
