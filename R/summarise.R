@@ -344,10 +344,6 @@ summarise_build <- function(.data, cols) {
 summarise_bullets <- function(cnd, ...) {
   UseMethod("summarise_bullets")
 }
-#' @export
-summarise_bullets.default <- function(cnd, ...) {
-  chr()
-}
 
 #' @export
 `summarise_bullets.dplyr:::error_incompatible_combine` <- function(cnd, ...) {

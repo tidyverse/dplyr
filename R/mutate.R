@@ -435,10 +435,6 @@ mutate_col <- function(dot, data, mask, new_columns) {
 mutate_bullets <- function(cnd, ...) {
   UseMethod("mutate_bullets")
 }
-#' @export
-mutate_bullets.default <- function(cnd, ...) {
-  chr()
-}
 
 #' @export
 `mutate_bullets.dplyr:::mutate_incompatible_size` <- function(cnd, ...) {
