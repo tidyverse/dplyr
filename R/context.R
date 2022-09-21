@@ -91,9 +91,6 @@ cur_group_rows <- function() {
 }
 
 group_labels_details <- function(keys) {
-  if (!length(keys)) {
-    return(NULL)
-  }
   keys <- map_chr(keys, pillar::format_glimpse)
   labels <- paste0(names(keys), " = ", keys)
   cli::format_inline("{.code {labels}}")

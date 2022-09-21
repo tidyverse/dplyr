@@ -74,8 +74,8 @@
       ! Problem while computing `a = a[[1]]`.
       Caused by error:
       ! `a` must return compatible vectors across groups.
-      i Result type for group 1 (`id = 1`): <double>.
-      i Result type for group 2 (`id = 2`): <character>.
+      i Result of type <double> for group 1: `id = 1`.
+      i Result of type <character> for group 2: `id = 2`.
     Code
       (expect_error(tibble(id = 1:2, a = list(1, "2")) %>% rowwise() %>% summarise(a = a[[
         1]])))
