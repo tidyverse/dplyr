@@ -346,11 +346,6 @@ summarise_bullets <- function(cnd, ...) {
 }
 
 #' @export
-`summarise_bullets.dplyr:::error_incompatible_combine` <- function(cnd, ...) {
-  c()
-}
-
-#' @export
 `summarise_bullets.dplyr:::summarise_unsupported_type` <- function(cnd, ...) {
   result <- cnd$dplyr_error_data$result
   error_name <- peek_error_context()$error_name
