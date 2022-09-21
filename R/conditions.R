@@ -253,18 +253,11 @@ signal_warnings <- function(warnings, error_call) {
       "There {cli::qty(n)} {?was/were} {n} warning{?s} in a {call} step.",
       if (n > 1) "The first warning was:"
     )),
-    paste(cli::col_yellow("!"), cnd_message(first))
+    paste(cli::col_yellow("!"), cnd_message(first)),
+    if (n > 1) cli::format_warning(c(
+      i = "Run {.run dplyr::last_dplyr_warnings()} to see the {n - 1} remaining warning{?s}."
+    ))
   )
-
-  # https://github.com/r-lib/cli/issues/525
-  if (n > 1) {
-    msg <- paste_line(
-      msg,
-      cli::format_warning(c(
-        i = if (n > 1) "Run {.run dplyr::last_dplyr_warnings()} to see the {n - 1} remaining warning{?s}."
-      ))
-    )
-  }
 
   warn(msg, use_cli_format = FALSE)
 }
