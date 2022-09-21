@@ -113,3 +113,10 @@ test_that("give useful error messages when not applicable", {
   })
 
 })
+
+test_that("group labels are correctly formatted", {
+  expect_snapshot({
+    group_labels_details(c("a" = 1))
+    group_labels_details(c("a" = 1, "b" = 2))
+  })
+})
