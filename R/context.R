@@ -92,7 +92,8 @@ cur_group_rows <- function() {
 
 group_labels_details <- function(keys) {
   glue_collapse(map2_chr(keys, names(keys), function(x, name) {
-    glue("{name} = {value}", value = pillar::format_glimpse(x))
+    value <- pillar::format_glimpse(x)
+    cli::format_inline("{.code {name} = {value}}")
   }), ", ")
 }
 

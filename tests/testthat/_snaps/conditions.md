@@ -113,7 +113,7 @@
     Condition
       Error in `foo()`:
       ! Problem while computing `..1 = 1 + ""`.
-      i The error occurred in group 1: cyl = 4.
+      i The error occurred in group 1: `cyl = 4`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
@@ -263,7 +263,7 @@
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
-      ! Problem in group 1: id = 1 while computing `x = f()`.
+      ! Problem in group 1: `id = 1` while computing `x = f()`.
       Caused by warning in `f()`:
       ! msg
       i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
@@ -273,7 +273,7 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in group 1: id = 1 while computing `x = f()`.
+      Problem in group 1: `id = 1` while computing `x = f()`.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -286,7 +286,7 @@
       [[2]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in group 2: id = 2 while computing `x = f()`.
+      Problem in group 2: `id = 2` while computing `x = f()`.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -362,7 +362,7 @@
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
-      ! Problem in group 1: id = 1 while computing `x = f()`.
+      ! Problem in group 1: `id = 1` while computing `x = f()`.
       Caused by warning in `f()`:
       ! msg
       i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
@@ -419,7 +419,7 @@
       [[4]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in group 1: id = 1 while computing `x = f()`.
+      Problem in group 1: `id = 1` while computing `x = f()`.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -432,7 +432,7 @@
       [[5]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in group 2: id = 2 while computing `x = f()`.
+      Problem in group 2: `id = 2` while computing `x = f()`.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -540,7 +540,7 @@
       Warning:
       There were 3 warnings in a `mutate()` step.
       The first warning was:
-      ! Problem in group 1: x = 1 while computing `x = f(1, base = FALSE)`.
+      ! Problem in group 1: `x = 1` while computing `x = f(1, base = FALSE)`.
       Caused by warning:
       ! foo
       i Run `dplyr::last_dplyr_warnings()` to see the 2 remaining warnings.
@@ -574,7 +574,7 @@
       [[2]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in group 1: x = 1 while computing `x = f(1, base = FALSE)`.
+      Problem in group 1: `x = 1` while computing `x = f(1, base = FALSE)`.
       Caused by warning:
       ! foo
       ---
@@ -589,7 +589,7 @@
       [[3]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in group 2: x = 2 while computing `x = f(1, base = FALSE)`.
+      Problem in group 2: `x = 2` while computing `x = f(1, base = FALSE)`.
       Caused by warning:
       ! foo
       ---
@@ -604,7 +604,7 @@
       [[4]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in group 3: x = 3 while computing `x = f(1, base = FALSE)`.
+      Problem in group 3: `x = 3` while computing `x = f(1, base = FALSE)`.
       Caused by warning:
       ! foo
       ---
