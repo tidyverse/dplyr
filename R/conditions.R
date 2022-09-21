@@ -298,12 +298,18 @@ signal_warnings <- function(warnings, error_call) {
   first <- new_dplyr_warning(warnings[[1]])
   call <- format_error_call(error_call)
 
+  if (nzchar(names2(cnd_header(first))[[1]])) {
+    prefix <- NULL
+  } else {
+    prefix <- paste0(cli::col_yellow("!"), " ")
+  }
+
   msg <- paste_line(
     cli::format_warning(c(
       "There {cli::qty(n)} {?was/were} {n} warning{?s} in a {call} step.",
       if (n > 1) "The first warning was:"
     )),
-    paste(cli::col_yellow("!"), cnd_message(first)),
+    paste0(prefix, cnd_message(first)),
     if (n > 1) cli::format_warning(c(
       i = "Run {.run dplyr::last_dplyr_warnings()} to see the {n - 1} remaining warning{?s}."
     ))

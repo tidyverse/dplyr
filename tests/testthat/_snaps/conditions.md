@@ -235,7 +235,7 @@
     Condition
       Warning:
       There was 1 warning in a `mutate()` step.
-      ! i In `x = f()`.
+      i In `x = f()`.
       Caused by warning in `f()`:
       ! msg
     Code
@@ -264,7 +264,7 @@
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
-      ! i In `x = f()`.
+      i In `x = f()`.
       i In group 1: `id = 1`.
       Caused by warning in `f()`:
       ! msg
@@ -310,7 +310,7 @@
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
-      ! i In `x = f()`.
+      i In `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -356,13 +356,13 @@
     Condition
       Warning:
       There was 1 warning in a `group_by()` step.
-      ! i In `g = f():n()`.
+      i In `g = f():n()`.
       Caused by warning in `f()`:
       ! msg
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
-      ! i In `x = f()`.
+      i In `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -370,7 +370,7 @@
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
-      ! i In `x = f()`.
+      i In `x = f()`.
       i In group 1: `id = 1`.
       Caused by warning in `f()`:
       ! msg
@@ -465,7 +465,7 @@
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
-      ! i In `x = f()`.
+      i In `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -508,7 +508,7 @@
       Warning:
       There were 5 warnings in a `mutate()` step.
       The first warning was:
-      ! i In `x = f()`.
+      i In `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -551,13 +551,13 @@
     Condition
       Warning:
       There was 1 warning in a `group_by()` step.
-      ! i In `x = f(1):n()`.
+      i In `x = f(1):n()`.
       Caused by warning in `h()`:
       ! foo
       Warning:
       There were 3 warnings in a `mutate()` step.
       The first warning was:
-      ! i In `x = f(1, base = FALSE)`.
+      i In `x = f(1, base = FALSE)`.
       i In group 1: `x = 1`.
       Caused by warning:
       ! foo
