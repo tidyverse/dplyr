@@ -286,18 +286,18 @@ summarise_cols <- function(.data, dots, error_call = caller_env()) {
   },
   error = function(cnd) {
     if (inherits(cnd, "dplyr:::summarise_incompatible_size")) {
-      action <- "recycling"
+      action <- "recycle"
       i <- cnd$dplyr_error_data$index
     } else {
-      action <- "computing"
+      action <- "compute"
       i <- i
     }
     handler <- dplyr_error_handler(
       dots = dots,
       mask = mask,
-      action = action,
       bullets = summarise_bullets,
-      error_call = error_call
+      error_call = error_call,
+      action = action
     )
     handler(cnd)
   })
@@ -314,7 +314,7 @@ summarise_eval_one <- function(quo, mask) {
     chunks_k <- withCallingHandlers(
       mask$eval_all_summarise(quo),
       error = function(cnd) {
-        msg <- glue("Problem while computing column `{quo_data$name_auto}`.")
+        msg <- glue("Can't compute column `{quo_data$name_auto}`.")
         abort(msg, call = call("across"), parent = cnd)
       }
     )

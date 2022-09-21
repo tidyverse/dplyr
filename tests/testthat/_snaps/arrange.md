@@ -11,7 +11,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `arrange()`:
-      ! Problem while computing `..1 = y`.
+      ! Can't compute `..1 = y`.
       Caused by error:
       ! object 'y' not found
     Code
@@ -19,7 +19,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `arrange()`:
-      ! Problem while computing `..1 = rep(x, 2)`.
+      ! Can't compute `..1 = rep(x, 2)`.
       Caused by error:
       ! `..1` must be size 1, not 2.
 

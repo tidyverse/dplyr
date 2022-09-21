@@ -130,7 +130,7 @@ cnd_bullet_header <- function(what) {
     sep <- ""
   }
 
-  glue("Problem while {what} `{error_name}{sep}{error_expression}`.")
+  glue("Can't {what} `{error_name}{sep}{error_expression}`.")
 }
 
 cnd_bullet_combine_details <- function(x, arg) {
@@ -191,9 +191,9 @@ skip_internal_condition <- function(cnd) {
 
 dplyr_error_handler <- function(dots,
                                 mask,
-                                action,
                                 bullets,
                                 error_call,
+                                action = "compute",
                                 error_class = NULL,
                                 i_sym = "i",
                                 frame = caller_env()) {
@@ -318,11 +318,11 @@ new_dplyr_warning <- function(data) {
     data$group_data$id,
     data$group_data$group
   )
-  if (nzchar(label)) {
-    label <- glue(" in {label}")
-  }
 
-  msg <- glue::glue("Problem{label} while computing `{data$name} = {data$expr}`.")
+  msg <- c(
+    "i" = glue::glue("In `{data$name} = {data$expr}`."),
+    "i" = if (nzchar(label)) glue("In {label}.")
+  )
 
   warning_cnd(
     message = msg,
