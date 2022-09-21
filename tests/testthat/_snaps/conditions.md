@@ -226,3 +226,394 @@
       Error in `foobarbaz()`:
       ! could not find function "foobarbaz"
 
+# warnings are collected for `last_dplyr_warnings()`
+
+    Code
+      # Ungrouped
+      df %>% mutate(x = f()) %>% invisible()
+    Condition
+      Warning:
+      There was 1 warning in a `mutate()` step.
+      ! Problem while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
+    Code
+      last_dplyr_warnings()
+    Output
+      [[1]]
+      <warning/rlang_warning>
+      Warning in `mutate()`:
+      Problem while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
+      ---
+      Backtrace:
+          x
+       1. +-df %>% mutate(x = f()) %>% invisible()
+       2. +-dplyr::mutate(., x = f())
+       3. \-dplyr:::mutate.data.frame(., x = f())
+      
+
+---
+
+    Code
+      # Grouped
+      df %>% group_by(id) %>% mutate(x = f()) %>% invisible()
+    Condition
+      Warning:
+      There were 2 warnings in a `mutate()` step.
+      The first warning was:
+      ! Problem in group 1: id = 1 while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
+    Code
+      last_dplyr_warnings()
+    Output
+      [[1]]
+      <warning/rlang_warning>
+      Warning in `mutate()`:
+      Problem in group 1: id = 1 while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
+      ---
+      Backtrace:
+          x
+       1. +-df %>% group_by(id) %>% mutate(x = f()) %>% invisible()
+       2. +-dplyr::mutate(., x = f())
+       3. \-dplyr:::mutate.data.frame(., x = f())
+      
+      [[2]]
+      <warning/rlang_warning>
+      Warning in `mutate()`:
+      Problem in group 2: id = 2 while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
+      ---
+      Backtrace:
+          x
+       1. +-df %>% group_by(id) %>% mutate(x = f()) %>% invisible()
+       2. +-dplyr::mutate(., x = f())
+       3. \-dplyr:::mutate.data.frame(., x = f())
+      
+
+---
+
+    Code
+      # Rowwise
+      df %>% rowwise() %>% mutate(x = f()) %>% invisible()
+    Condition
+      Warning:
+      There were 2 warnings in a `mutate()` step.
+      The first warning was:
+      ! Problem in row 1 while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
+    Code
+      last_dplyr_warnings()
+    Output
+      [[1]]
+      <warning/rlang_warning>
+      Warning in `mutate()`:
+      Problem in row 1 while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
+      ---
+      Backtrace:
+          x
+       1. +-df %>% rowwise() %>% mutate(x = f()) %>% invisible()
+       2. +-dplyr::mutate(., x = f())
+       3. \-dplyr:::mutate.data.frame(., x = f())
+      
+      [[2]]
+      <warning/rlang_warning>
+      Warning in `mutate()`:
+      Problem in row 2 while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
+      ---
+      Backtrace:
+          x
+       1. +-df %>% rowwise() %>% mutate(x = f()) %>% invisible()
+       2. +-dplyr::mutate(., x = f())
+       3. \-dplyr:::mutate.data.frame(., x = f())
+      
+
+---
+
+    Code
+      # Multiple type of warnings within multiple verbs
+      df %>% group_by(g = f():n()) %>% rowwise() %>% mutate(x = f()) %>% group_by(id) %>%
+        mutate(x = f()) %>% invisible()
+    Condition
+      Warning:
+      There was 1 warning in a `group_by()` step.
+      ! Problem while computing `g = f():n()`.
+      Caused by warning in `f()`:
+      ! msg
+      Warning:
+      There were 2 warnings in a `mutate()` step.
+      The first warning was:
+      ! Problem in row 1 while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
+      Warning:
+      There were 2 warnings in a `mutate()` step.
+      The first warning was:
+      ! Problem in group 1: id = 1 while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
+    Code
+      last_dplyr_warnings()
+    Output
+      [[1]]
+      <warning/rlang_warning>
+      Warning in `group_by()`:
+      Problem while computing `g = f():n()`.
+      Caused by warning in `f()`:
+      ! msg
+      ---
+      Backtrace:
+          x
+       1. +-... %>% invisible()
+       2. +-dplyr::mutate(., x = f())
+       3. +-dplyr::group_by(., id)
+       4. +-dplyr::mutate(., x = f())
+       5. +-dplyr::rowwise(.)
+       6. +-dplyr::group_by(., g = f():n())
+       7. \-dplyr:::group_by.data.frame(., g = f():n())
+      
+      [[2]]
+      <warning/rlang_warning>
+      Warning in `mutate()`:
+      Problem in row 1 while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
+      ---
+      Backtrace:
+          x
+       1. +-... %>% invisible()
+       2. +-dplyr::mutate(., x = f())
+       3. +-dplyr::group_by(., id)
+       4. +-dplyr::mutate(., x = f())
+       5. \-dplyr:::mutate.data.frame(., x = f())
+      
+      [[3]]
+      <warning/rlang_warning>
+      Warning in `mutate()`:
+      Problem in row 2 while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
+      ---
+      Backtrace:
+          x
+       1. +-... %>% invisible()
+       2. +-dplyr::mutate(., x = f())
+       3. +-dplyr::group_by(., id)
+       4. +-dplyr::mutate(., x = f())
+       5. \-dplyr:::mutate.data.frame(., x = f())
+      
+      [[4]]
+      <warning/rlang_warning>
+      Warning in `mutate()`:
+      Problem in group 1: id = 1 while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
+      ---
+      Backtrace:
+          x
+       1. +-... %>% invisible()
+       2. +-dplyr::mutate(., x = f())
+       3. \-dplyr:::mutate.data.frame(., x = f())
+      
+      [[5]]
+      <warning/rlang_warning>
+      Warning in `mutate()`:
+      Problem in group 2: id = 2 while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
+      ---
+      Backtrace:
+          x
+       1. +-... %>% invisible()
+       2. +-dplyr::mutate(., x = f())
+       3. \-dplyr:::mutate.data.frame(., x = f())
+      
+
+---
+
+    Code
+      # Truncated (1 more)
+      df %>% rowwise() %>% mutate(x = f())
+    Condition
+      Warning:
+      There were 2 warnings in a `mutate()` step.
+      The first warning was:
+      ! Problem in row 1 while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
+    Output
+      # A tibble: 2 x 2
+      # Rowwise: 
+           id     x
+        <int> <dbl>
+      1     1     1
+      2     2     1
+    Code
+      last_dplyr_warnings(n = 1)
+    Output
+      [[1]]
+      <warning/rlang_warning>
+      Warning in `mutate()`:
+      Problem in row 1 while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
+      ---
+      Backtrace:
+          x
+       1. +-df %>% rowwise() %>% mutate(x = f())
+       2. +-dplyr::mutate(., x = f())
+       3. \-dplyr:::mutate.data.frame(., x = f())
+      
+    Message
+      ... with 1 more warning.
+      i Run `dplyr::last_dplyr_warnings(n = 2)` to show more.
+
+---
+
+    Code
+      # Truncated (several more)
+      df <- tibble(id = 1:5)
+      df %>% rowwise() %>% mutate(x = f())
+    Condition
+      Warning:
+      There were 5 warnings in a `mutate()` step.
+      The first warning was:
+      ! Problem in row 1 while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
+      i Run `dplyr::last_dplyr_warnings()` to see the 4 remaining warnings.
+    Output
+      # A tibble: 5 x 2
+      # Rowwise: 
+           id     x
+        <int> <dbl>
+      1     1     1
+      2     2     1
+      3     3     1
+      4     4     1
+      5     5     1
+    Code
+      last_dplyr_warnings(n = 1)
+    Output
+      [[1]]
+      <warning/rlang_warning>
+      Warning in `mutate()`:
+      Problem in row 1 while computing `x = f()`.
+      Caused by warning in `f()`:
+      ! msg
+      ---
+      Backtrace:
+          x
+       1. +-df %>% rowwise() %>% mutate(x = f())
+       2. +-dplyr::mutate(., x = f())
+       3. \-dplyr:::mutate.data.frame(., x = f())
+      
+    Message
+      ... with 4 more warnings.
+      i Run `dplyr::last_dplyr_warnings(n = 2)` to show more.
+
+# complex backtraces with base and rlang warnings
+
+    Code
+      foo()
+    Condition
+      Warning:
+      There was 1 warning in a `group_by()` step.
+      ! Problem while computing `x = f(1):n()`.
+      Caused by warning in `h()`:
+      ! foo
+      Warning:
+      There were 3 warnings in a `mutate()` step.
+      The first warning was:
+      ! Problem in group 1: x = 1 while computing `x = f(1, base = FALSE)`.
+      Caused by warning:
+      ! foo
+      i Run `dplyr::last_dplyr_warnings()` to see the 2 remaining warnings.
+    Output
+      # A tibble: 3 x 2
+      # Groups:   x [1]
+           id     x
+        <int> <dbl>
+      1     1     1
+      2     2     1
+      3     3     1
+    Code
+      last_dplyr_warnings()
+    Output
+      [[1]]
+      <warning/rlang_warning>
+      Warning in `group_by()`:
+      Problem while computing `x = f(1):n()`.
+      Caused by warning in `h()`:
+      ! foo
+      ---
+      Backtrace:
+          x
+       1. +-dplyr (local) foo()
+       2. | \-dplyr (local) bar()
+       3. |   \-df %>% group_by(x = f(1):n()) %>% mutate(x = f(1, base = FALSE))
+       4. +-dplyr::mutate(., x = f(1, base = FALSE))
+       5. +-dplyr::group_by(., x = f(1):n())
+       6. \-dplyr:::group_by.data.frame(., x = f(1):n())
+      
+      [[2]]
+      <warning/rlang_warning>
+      Warning in `mutate()`:
+      Problem in group 1: x = 1 while computing `x = f(1, base = FALSE)`.
+      Caused by warning:
+      ! foo
+      ---
+      Backtrace:
+          x
+       1. +-dplyr (local) foo()
+       2. | \-dplyr (local) bar()
+       3. |   \-df %>% group_by(x = f(1):n()) %>% mutate(x = f(1, base = FALSE))
+       4. +-dplyr::mutate(., x = f(1, base = FALSE))
+       5. \-dplyr:::mutate.data.frame(., x = f(1, base = FALSE))
+      
+      [[3]]
+      <warning/rlang_warning>
+      Warning in `mutate()`:
+      Problem in group 2: x = 2 while computing `x = f(1, base = FALSE)`.
+      Caused by warning:
+      ! foo
+      ---
+      Backtrace:
+          x
+       1. +-dplyr (local) foo()
+       2. | \-dplyr (local) bar()
+       3. |   \-df %>% group_by(x = f(1):n()) %>% mutate(x = f(1, base = FALSE))
+       4. +-dplyr::mutate(., x = f(1, base = FALSE))
+       5. \-dplyr:::mutate.data.frame(., x = f(1, base = FALSE))
+      
+      [[4]]
+      <warning/rlang_warning>
+      Warning in `mutate()`:
+      Problem in group 3: x = 3 while computing `x = f(1, base = FALSE)`.
+      Caused by warning:
+      ! foo
+      ---
+      Backtrace:
+          x
+       1. +-dplyr (local) foo()
+       2. | \-dplyr (local) bar()
+       3. |   \-df %>% group_by(x = f(1):n()) %>% mutate(x = f(1, base = FALSE))
+       4. +-dplyr::mutate(., x = f(1, base = FALSE))
+       5. \-dplyr:::mutate.data.frame(., x = f(1, base = FALSE))
+      
+

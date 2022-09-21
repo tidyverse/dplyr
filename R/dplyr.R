@@ -18,3 +18,6 @@
 # reexport the deprecated `tibble::data_frame()` function
 
 on_load(local_use_cli())
+
+# Singletons
+the <- new_environment()

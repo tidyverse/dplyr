@@ -77,12 +77,7 @@ quo_as_label <- function(quo)  {
 }
 
 local_error_context <- function(dots, .index, mask, frame = caller_env()) {
-  expr <- dots[[.index]]
-  if (quo_is_call(expr, "invisible")) {
-    expr <- ""
-  } else {
-    expr <- quo_as_label(dots[[.index]])
-  }
+  expr <- dot_as_label(dots[[.index]])
 
   error_context <- env(
     error_name = arg_name(dots, .index),
@@ -93,6 +88,25 @@ local_error_context <- function(dots, .index, mask, frame = caller_env()) {
 }
 peek_error_context <- function() {
   context_peek("dplyr_error_context", "peek_error_context", "dplyr error handling")
+}
+
+dot_as_label <- function(expr) {
+  if (quo_is_call(expr, "invisible")) {
+    ""
+  } else {
+    quo_as_label(expr)
+  }
+}
+
+mask_type <- function(mask = peek_mask()) {
+  if (mask$get_size() > 0) {
+    if (mask$is_grouped_df()) {
+      return("grouped")
+    } else if (mask$is_rowwise_df()) {
+      return("rowwise")
+    }
+  }
+  "ungrouped"
 }
 
 cnd_bullet_header <- function(what) {
@@ -163,4 +177,148 @@ skip_internal_condition <- function(cnd) {
   } else {
     cnd
   }
+}
+
+
+# Warnings -------------------------------------------------------------
+
+#' Show warnings from the last command
+#'
+#' Warnings that occur inside a dplyr verb like `mutate()` are caught
+#' and stashed away instead of being emitted to the console. This
+#' prevents rowwise and grouped data frames from flooding the console
+#' with warnings. To see the original warnings, use
+#' `last_dplyr_warnings()`.
+#'
+#' @param n Passed to [head()] so that only the first `n` warnings are
+#'   displayed.
+#' @keywords internal
+#' @export
+last_dplyr_warnings <- function(n = 5) {
+  if (!identical(n, Inf)) {
+    check_number(n)
+    stopifnot(n >= 0)
+  }
+
+  warnings <- the$last_warnings
+  n_remaining <- max(length(warnings) - n, 0L)
+
+  warnings <- head(warnings, n = n)
+  warnings <- map(warnings, new_dplyr_warning)
+
+  structure(
+    warnings,
+    class = c("last_dplyr_warnings", "list"),
+    n_shown = n,
+    n_remaining = n_remaining
+  )
+}
+
+on_load({
+  the$last_warnings <- list()
+  the$last_cmd_frame <- ""
+})
+
+# Flushes warnings if a new top-level command is detected
+push_dplyr_warnings <- function(warnings) {
+  last <- the$last_cmd_frame
+  current <- obj_address(sys.frame(1))
+
+  if (!identical(last, current)) {
+    reset_dplyr_warnings()
+    the$last_cmd_frame <- current
+  }
+
+  the$last_warnings <- c(the$last_warnings, warnings)
+}
+
+# Also used in tests
+reset_dplyr_warnings <- function() {
+  the$last_warnings <- list()
+}
+
+signal_warnings <- function(warnings, error_call) {
+  n <- length(warnings)
+  if (!n) {
+    return()
+  }
+
+  push_dplyr_warnings(warnings)
+
+  first <- new_dplyr_warning(warnings[[1]])
+  call <- format_error_call(error_call)
+
+  msg <- paste_line(
+    cli::format_warning(c(
+      "There {cli::qty(n)} {?was/were} {n} warning{?s} in a {call} step.",
+      if (n > 1) "The first warning was:"
+    )),
+    paste(cli::col_yellow("!"), cnd_message(first))
+  )
+
+  # https://github.com/r-lib/cli/issues/525
+  if (n > 1) {
+    msg <- paste_line(
+      msg,
+      cli::format_warning(c(
+        i = if (n > 1) "Run {.run dplyr::last_dplyr_warnings()} to see the {n - 1} remaining warning{?s}."
+      ))
+    )
+  }
+
+  warn(msg, use_cli_format = FALSE)
+}
+
+new_dplyr_warning <- function(data) {
+  label <- cur_group_label(
+    data$type,
+    data$group_data$id,
+    data$group_data$group
+  )
+  if (nzchar(label)) {
+    label <- glue(" in {label}")
+  }
+
+  msg <- glue::glue("Problem{label} while computing `{data$name} = {data$expr}`.")
+
+  warning_cnd(
+    message = msg,
+    parent = data$cnd,
+    call = data$call,
+    trace = data$cnd$trace
+  )
+}
+
+#' @export
+print.last_dplyr_warnings <- function(x, ...) {
+  # Opt into experimental grayed out tree
+  local_options(
+    "rlang:::trace_display_tree" = TRUE
+  )
+  print(unstructure(x), ..., simplify = "none")
+
+  n_remaining <- attr(x, "n_remaining")
+  if (n_remaining) {
+    n_more <- attr(x, "n_shown") * 2
+    cli::cli_bullets(c(
+      "... with {n_remaining} more warning{?s}.",
+      "i" = "Run {.run dplyr::last_dplyr_warnings(n = {n_more})} to show more."
+    ))
+  }
+}
+
+# rlang should export this routine
+error_call <- function(call) {
+  tryCatch(
+    abort("", call = call),
+    error = conditionCall
+  )
+}
+
+cnd_message_lines <- function(cnd, ...) {
+  c(
+    "!" = cnd_header(cnd, ...),
+    cnd_body(cnd, ...),
+    cnd_footer(cnd, ...)
+  )
 }

@@ -525,10 +525,9 @@ test_that("mutate() deals with 0 groups (#5534)", {
     data.frame(x = numeric(), y = numeric()) %>% group_by(x)
   )
 
-  expect_warning(
-    mutate(df, y = max(x)),
-    "Inf"
-  )
+  expect_snapshot({
+    mutate(df, y = max(x))
+  })
 })
 
 test_that("mutate(=NULL) preserves correct all_vars", {
@@ -554,24 +553,6 @@ test_that("mutate() casts data frame results to common type (#5646)", {
   res <- df %>%
     mutate(if (g == 1) data.frame(y = 1) else data.frame(y = 1, z = 2))
   expect_equal(res$z, c(NA, 2))
-})
-
-test_that("can suppress or catch warnings from the outside (#5675)", {
-  # Check that basic warning handling still works
-  expect_no_warning(
-    suppressWarnings(mutate(tibble(), warning("foo")))
-  )
-
-  f <- function() warn("foo", "dplyr:::foo")
-  x <- tryCatch(warning = identity, mutate(mtcars, f()))
-  msg <- conditionMessage(x)
-  expect_match(msg, "foo")
-
-  # Check that caught warnings are instrumented. Requires
-  # <https://github.com/wch/r-source/commit/688eaebf>.
-  if (can_return_from_exit) {
-    expect_match(msg, "Problem while")
-  }
 })
 
 test_that("mutate() supports empty list columns in rowwise data frames (#5804", {

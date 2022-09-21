@@ -53,6 +53,21 @@
       i Did you mean: `y = list(x)` ?
       i The error occurred in row 2.
 
+# mutate() deals with 0 groups (#5534)
+
+    Code
+      mutate(df, y = max(x))
+    Condition
+      Warning:
+      There was 1 warning in a `mutate()` step.
+      ! Problem while computing `y = max(x)`.
+      Caused by warning in `max()`:
+      ! no non-missing arguments to max; returning -Inf
+    Output
+      # A tibble: 0 x 2
+      # Groups:   x [0]
+      # ... with 2 variables: x <dbl>, y <dbl>
+
 # mutate() give meaningful errors
 
     Code
