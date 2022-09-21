@@ -328,7 +328,7 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
     error = function(cnd) {
       if (index && is_slice_call(error_call)) {
         local_error_context(dots = dots, .index = index, mask = mask)
-        header <- cnd_bullet_header("evaluating")
+        header <- cnd_bullet_header("evaluate")
       } else {
         header <- "Problem while computing indices."
       }

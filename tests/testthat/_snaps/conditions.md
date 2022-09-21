@@ -39,7 +39,7 @@
       slice(mtcars, invisible(999 + ""))
     Condition
       Error in `slice()`:
-      ! Can't evaluating `..1`.
+      ! Can't evaluate `..1`.
       Caused by error in `999 + ""`:
       ! non-numeric argument to binary operator
     Code
@@ -81,7 +81,7 @@
       slice(mtcars, var = invisible(999 + ""))
     Condition
       Error in `slice()`:
-      ! Can't evaluating `var`.
+      ! Can't evaluate `var`.
       Caused by error in `999 + ""`:
       ! non-numeric argument to binary operator
 
@@ -141,7 +141,7 @@
       slice(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-      ! Can't evaluating `..1 = 1 + ""`.
+      ! Can't evaluate `..1 = 1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
 
