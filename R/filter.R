@@ -161,7 +161,7 @@ filter_expand <- function(dots, mask, error_call = caller_env()) {
     imap(unname(dots), filter_expand_one),
     error = function(cnd) {
       local_error_context(dots = dots, .index = env_filter$current_expression, mask = mask)
-      abort(cnd_bullet_header("expanding"), call = error_call, parent = cnd)
+      abort(cnd_bullet_header("expand"), call = error_call, parent = cnd)
     }
   )
 
@@ -182,7 +182,6 @@ filter_eval <- function(dots, mask, error_call = caller_env()) {
     error = dplyr_error_handler(
       dots = dots,
       mask = mask,
-      action = "computing",
       bullets = filter_bullets,
       error_call = error_call
     ),

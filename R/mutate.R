@@ -251,7 +251,6 @@ mutate_cols <- function(.data, dots, error_call = caller_env()) {
     error = dplyr_error_handler(
       dots = dots,
       mask = mask,
-      action = "computing",
       bullets = mutate_bullets,
       error_call = error_call,
       error_class = "dplyr:::mutate_error"

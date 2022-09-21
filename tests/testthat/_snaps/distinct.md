@@ -28,7 +28,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `distinct()`:
-      ! Problem while computing `y = a + 1`.
+      ! Can't compute `y = a + 1`.
       Caused by error:
       ! object 'a' not found
 

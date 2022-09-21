@@ -286,18 +286,18 @@ summarise_cols <- function(.data, dots, error_call = caller_env()) {
   },
   error = function(cnd) {
     if (inherits(cnd, "dplyr:::summarise_incompatible_size")) {
-      action <- "recycling"
+      action <- "recycle"
       i <- cnd$dplyr_error_data$index
     } else {
-      action <- "computing"
+      action <- "compute"
       i <- i
     }
     handler <- dplyr_error_handler(
       dots = dots,
       mask = mask,
-      action = action,
       bullets = summarise_bullets,
-      error_call = error_call
+      error_call = error_call,
+      action = action
     )
     handler(cnd)
   })

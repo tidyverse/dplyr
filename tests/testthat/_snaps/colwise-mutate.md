@@ -29,7 +29,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `mpg = .Primitive("length")(mpg, 0, 0)`.
+      ! Can't compute `mpg = .Primitive("length")(mpg, 0, 0)`.
       Caused by error:
       ! 3 arguments passed to 'length' which requires 1
     Code
@@ -37,7 +37,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `mpg = (function (x, ...) ...`.
+      ! Can't compute `mpg = (function (x, ...) ...`.
       Caused by error in `mean.default()`:
       ! formal argument "na.rm" matched by multiple actual arguments
 

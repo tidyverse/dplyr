@@ -44,7 +44,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      ! Problem while computing `a = rlang::env(a = 1)`.
+      ! Can't compute `a = rlang::env(a = 1)`.
       Caused by error:
       ! `a` must be a vector, not an environment.
     Code
@@ -53,7 +53,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      ! Problem while computing `a = rlang::env(a = 1)`.
+      ! Can't compute `a = rlang::env(a = 1)`.
       i In group 1: `x = 1`, `y = 1`.
       Caused by error:
       ! `a` must be a vector, not an environment.
@@ -63,7 +63,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      ! Problem while computing `a = lm(y ~ x)`.
+      ! Can't compute `a = lm(y ~ x)`.
       i In row 1.
       Caused by error:
       ! `a` must be a vector, not a <lm> object.
@@ -74,7 +74,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      ! Problem while computing `a = a[[1]]`.
+      ! Can't compute `a = a[[1]]`.
       Caused by error:
       ! `a` must return compatible vectors across groups.
       i Result of type <double> for group 1: `id = 1`.
@@ -85,7 +85,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      ! Problem while computing `a = a[[1]]`.
+      ! Can't compute `a = a[[1]]`.
       Caused by error:
       ! `a` must return compatible vectors across groups.
     Code
@@ -93,7 +93,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      ! Problem while recycling `y = 1:2`.
+      ! Can't recycle `y = 1:2`.
       Caused by error:
       ! `y` must be size 3 or 1, not 2.
       i An earlier column had size 3.
@@ -102,7 +102,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      ! Problem while recycling `y = 1:2`.
+      ! Can't recycle `y = 1:2`.
       i In group 1: `z = 1`.
       Caused by error:
       ! `y` must be size 3 or 1, not 2.
@@ -113,7 +113,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      ! Problem while recycling `y = 1:2`.
+      ! Can't recycle `y = 1:2`.
       i In group 2: `z = 3`.
       Caused by error:
       ! `y` must be size 3 or 1, not 2.
@@ -124,7 +124,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      ! Problem while computing `x = if (g == 1) 42`.
+      ! Can't compute `x = if (g == 1) 42`.
       Caused by error:
       ! `x` must return compatible vectors across groups.
       x Can't combine NULL and non NULL results.
@@ -133,7 +133,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      ! Problem while computing `a = mean(not_there)`.
+      ! Can't compute `a = mean(not_there)`.
       Caused by error in `mean()`:
       ! object 'not_there' not found
     Code
@@ -141,7 +141,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      ! Problem while computing `a = mean(not_there)`.
+      ! Can't compute `a = mean(not_there)`.
       i In group 1: `cyl = 4`.
       Caused by error in `mean()`:
       ! object 'not_there' not found
@@ -150,7 +150,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      ! Problem while computing `c = .data$b`.
+      ! Can't compute `c = .data$b`.
       Caused by error in `.data$b`:
       ! Column `b` not found in `.data`.
     Code
@@ -158,7 +158,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      ! Problem while computing `c = .data$b`.
+      ! Can't compute `c = .data$b`.
       i In group 1: `a = 1`.
       Caused by error in `.data$b`:
       ! Column `b` not found in `.data`.
@@ -173,7 +173,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      ! Problem while computing `..1 = stop("{")`.
+      ! Can't compute `..1 = stop("{")`.
       Caused by error:
       ! {
     Code
@@ -182,7 +182,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      ! Problem while computing `a = stop("!")`.
+      ! Can't compute `a = stop("!")`.
       i In group 1: `b = "{value:1, unit:a}"`.
       Caused by error:
       ! !

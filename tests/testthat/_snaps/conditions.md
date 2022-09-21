@@ -4,28 +4,28 @@
       mutate(mtcars, invisible(999 + ""))
     Condition
       Error in `mutate()`:
-      ! Problem while computing `..1`.
+      ! Can't compute `..1`.
       Caused by error in `999 + ""`:
       ! non-numeric argument to binary operator
     Code
       summarise(mtcars, invisible(999 + ""))
     Condition
       Error in `summarise()`:
-      ! Problem while computing `..1`.
+      ! Can't compute `..1`.
       Caused by error in `999 + ""`:
       ! non-numeric argument to binary operator
     Code
       filter(mtcars, invisible(999 + ""))
     Condition
       Error in `filter()`:
-      ! Problem while computing `..1`.
+      ! Can't compute `..1`.
       Caused by error in `999 + ""`:
       ! non-numeric argument to binary operator
     Code
       arrange(mtcars, invisible(999 + ""))
     Condition
       Error in `arrange()`:
-      ! Problem while computing `..1`.
+      ! Can't compute `..1`.
       Caused by error in `999 + ""`:
       ! non-numeric argument to binary operator
     Code
@@ -39,21 +39,21 @@
       slice(mtcars, invisible(999 + ""))
     Condition
       Error in `slice()`:
-      ! Problem while evaluating `..1`.
+      ! Can't evaluating `..1`.
       Caused by error in `999 + ""`:
       ! non-numeric argument to binary operator
     Code
       mutate(mtcars, var = invisible(999 + ""))
     Condition
       Error in `mutate()`:
-      ! Problem while computing `var`.
+      ! Can't compute `var`.
       Caused by error in `999 + ""`:
       ! non-numeric argument to binary operator
     Code
       summarise(mtcars, var = invisible(999 + ""))
     Condition
       Error in `summarise()`:
-      ! Problem while computing `var`.
+      ! Can't compute `var`.
       Caused by error in `999 + ""`:
       ! non-numeric argument to binary operator
     Code
@@ -67,7 +67,7 @@
       arrange(mtcars, var = invisible(999 + ""))
     Condition
       Error in `arrange()`:
-      ! Problem while computing `..1`.
+      ! Can't compute `..1`.
       Caused by error in `999 + ""`:
       ! non-numeric argument to binary operator
     Code
@@ -81,7 +81,7 @@
       slice(mtcars, var = invisible(999 + ""))
     Condition
       Error in `slice()`:
-      ! Problem while evaluating `var`.
+      ! Can't evaluating `var`.
       Caused by error in `999 + ""`:
       ! non-numeric argument to binary operator
 
@@ -91,28 +91,28 @@
       mutate(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-      ! Problem while computing `..1 = 1 + ""`.
+      ! Can't compute `..1 = 1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
       transmute(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-      ! Problem while computing `..1 = 1 + ""`.
+      ! Can't compute `..1 = 1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
       summarise(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-      ! Problem while computing `..1 = 1 + ""`.
+      ! Can't compute `..1 = 1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
       summarise(group_by(mtcars, cyl), 1 + "")
     Condition
       Error in `foo()`:
-      ! Problem while computing `..1 = 1 + ""`.
+      ! Can't compute `..1 = 1 + ""`.
       i In group 1: `cyl = 4`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
@@ -120,14 +120,14 @@
       filter(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-      ! Problem while computing `..1 = 1 + ""`.
+      ! Can't compute `..1 = 1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
       arrange(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-      ! Problem while computing `..1 = 1 + ""`.
+      ! Can't compute `..1 = 1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
@@ -141,7 +141,7 @@
       slice(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-      ! Problem while evaluating `..1 = 1 + ""`.
+      ! Can't evaluating `..1 = 1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
 
@@ -151,14 +151,14 @@
       my_verb(mtcars, 1 + "", am)
     Condition
       Error in `my_verb()`:
-      ! Problem while computing `.result = (1 + "") * am`.
+      ! Can't compute `.result = (1 + "") * am`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
       my_verb(mtcars, cyl, c(am, vs))
     Condition
       Error in `my_verb()`:
-      ! Problem while computing `.result = cyl * c(am, vs)`.
+      ! Can't compute `.result = cyl * c(am, vs)`.
       Caused by error:
       ! `.result` must be size 32 or 1, not 64.
 
