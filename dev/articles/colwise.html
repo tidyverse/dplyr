@@ -466,8 +466,7 @@
 <span><span class="co"># -&gt;</span></span>
 <span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: There was 1 warning in a `mutate()` step.</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Problem while computing `..1 = across(where(is.numeric), mean, na.rm =</span></span>
-<span><span class="co">#&gt; TRUE)`.</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> <span style="color: #00BBBB;">ℹ</span> In `..1 = across(where(is.numeric), mean, na.rm = TRUE)`.</span></span>
 <span><span class="co">#&gt; Caused by warning:</span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> The `...` argument of `across()` is deprecated as of dplyr 1.1.0.</span></span>
 <span><span class="co">#&gt; Supply arguments directly to `.fns` through a lambda instead.</span></span>
