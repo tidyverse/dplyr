@@ -22,7 +22,6 @@
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       ! Problem while computing `z = <int>`.
-      i In row 0.
       Caused by error:
       ! Inlined constant `z` must be size 10 or 1, not 5.
 
@@ -138,7 +137,6 @@
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       ! Problem while computing `val = ifelse(x < 3, "foo", 2)`.
-      i In group 5: `x = 5`.
       Caused by error:
       ! `val` must return compatible vectors across groups.
       i Result of type <character> for group 1: `x = 1`.
@@ -150,7 +148,6 @@
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       ! Problem while computing `..1 = if (a == 1) NULL else "foo"`.
-      i In group 1: `a = 1`.
       Caused by error:
       ! `..1` must return compatible vectors across groups.
       x Can't combine NULL and non NULL results.

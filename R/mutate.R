@@ -253,7 +253,7 @@ mutate_cols <- function(.data, dots, error_call = caller_env()) {
 
       message <- c(
         cnd_bullet_header("computing"),
-        "i" = cnd_bullet_cur_group_label()
+        "i" = if (needs_group_context(cnd)) cnd_bullet_cur_group_label()
       )
 
       if (inherits(cnd, "dplyr:::internal_error")) {
