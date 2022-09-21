@@ -91,10 +91,12 @@ cur_group_rows <- function() {
 }
 
 group_labels_details <- function(keys) {
-  glue_collapse(map2_chr(keys, names(keys), function(x, name) {
-    value <- pillar::format_glimpse(x)
-    cli::format_inline("{.code {name} = {value}}")
-  }), ", ")
+  if (!length(keys)) {
+    return(NULL)
+  }
+  keys <- map_chr(keys, pillar::format_glimpse)
+  labels <- paste0(names(keys), " = ", keys)
+  cli::format_inline("{.code {labels}}")
 }
 
 cur_group_label <- function(type = mask_type(),

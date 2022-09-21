@@ -54,7 +54,7 @@
       Error in `summarise()`:
       ! Problem while computing `a = rlang::env(a = 1)`.
       x `a` must be a vector, not an environment.
-      i The error occurred in group 1: `x = 1`, `y = 1`.
+      i The error occurred in group 1: `x = 1` and `y = 1`.
     Code
       (expect_error(tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>% rowwise() %>%
         summarise(a = lm(y ~ x))))
