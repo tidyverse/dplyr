@@ -64,7 +64,8 @@ needs_group_context <- function(cnd) {
   !inherits_any(cnd, c(
     "dplyr:::error_incompatible_combine",
     "dplyr:::mutate_mixed_null",
-    "dplyr:::mutate_constant_recycle_error"
+    "dplyr:::mutate_constant_recycle_error",
+    "dplyr:::summarise_mixed_null"
   ))
 }
 
