@@ -320,7 +320,7 @@ new_dplyr_warning <- function(data) {
   )
 
   msg <- c(
-    glue::glue("Can't compute `{data$name} = {data$expr}`."),
+    "i" = glue::glue("In `{data$name} = {data$expr}`."),
     "i" = if (nzchar(label)) glue("In {label}.")
   )
 

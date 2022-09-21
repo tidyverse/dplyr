@@ -235,7 +235,7 @@
     Condition
       Warning:
       There was 1 warning in a `mutate()` step.
-      ! Can't compute `x = f()`.
+      ! i In `x = f()`.
       Caused by warning in `f()`:
       ! msg
     Code
@@ -244,7 +244,7 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Can't compute `x = f()`.
+      i In `x = f()`.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -264,7 +264,7 @@
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
-      ! Can't compute `x = f()`.
+      ! i In `x = f()`.
       i In group 1: `id = 1`.
       Caused by warning in `f()`:
       ! msg
@@ -275,7 +275,7 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Can't compute `x = f()`.
+      i In `x = f()`.
       i In group 1: `id = 1`.
       Caused by warning in `f()`:
       ! msg
@@ -289,7 +289,7 @@
       [[2]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Can't compute `x = f()`.
+      i In `x = f()`.
       i In group 2: `id = 2`.
       Caused by warning in `f()`:
       ! msg
@@ -310,7 +310,7 @@
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
-      ! Can't compute `x = f()`.
+      ! i In `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -321,7 +321,7 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Can't compute `x = f()`.
+      i In `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -335,7 +335,7 @@
       [[2]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Can't compute `x = f()`.
+      i In `x = f()`.
       i In row 2.
       Caused by warning in `f()`:
       ! msg
@@ -356,13 +356,13 @@
     Condition
       Warning:
       There was 1 warning in a `group_by()` step.
-      ! Can't compute `g = f():n()`.
+      ! i In `g = f():n()`.
       Caused by warning in `f()`:
       ! msg
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
-      ! Can't compute `x = f()`.
+      ! i In `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -370,7 +370,7 @@
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
-      ! Can't compute `x = f()`.
+      ! i In `x = f()`.
       i In group 1: `id = 1`.
       Caused by warning in `f()`:
       ! msg
@@ -381,7 +381,7 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `group_by()`:
-      Can't compute `g = f():n()`.
+      i In `g = f():n()`.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -398,7 +398,7 @@
       [[2]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Can't compute `x = f()`.
+      i In `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -414,7 +414,7 @@
       [[3]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Can't compute `x = f()`.
+      i In `x = f()`.
       i In row 2.
       Caused by warning in `f()`:
       ! msg
@@ -430,7 +430,7 @@
       [[4]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Can't compute `x = f()`.
+      i In `x = f()`.
       i In group 1: `id = 1`.
       Caused by warning in `f()`:
       ! msg
@@ -444,7 +444,7 @@
       [[5]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Can't compute `x = f()`.
+      i In `x = f()`.
       i In group 2: `id = 2`.
       Caused by warning in `f()`:
       ! msg
@@ -465,7 +465,7 @@
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
-      ! Can't compute `x = f()`.
+      ! i In `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -483,7 +483,7 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Can't compute `x = f()`.
+      i In `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -508,7 +508,7 @@
       Warning:
       There were 5 warnings in a `mutate()` step.
       The first warning was:
-      ! Can't compute `x = f()`.
+      ! i In `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -529,7 +529,7 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Can't compute `x = f()`.
+      i In `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -551,13 +551,13 @@
     Condition
       Warning:
       There was 1 warning in a `group_by()` step.
-      ! Can't compute `x = f(1):n()`.
+      ! i In `x = f(1):n()`.
       Caused by warning in `h()`:
       ! foo
       Warning:
       There were 3 warnings in a `mutate()` step.
       The first warning was:
-      ! Can't compute `x = f(1, base = FALSE)`.
+      ! i In `x = f(1, base = FALSE)`.
       i In group 1: `x = 1`.
       Caused by warning:
       ! foo
@@ -576,7 +576,7 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `group_by()`:
-      Can't compute `x = f(1):n()`.
+      i In `x = f(1):n()`.
       Caused by warning in `h()`:
       ! foo
       ---
@@ -592,7 +592,7 @@
       [[2]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Can't compute `x = f(1, base = FALSE)`.
+      i In `x = f(1, base = FALSE)`.
       i In group 1: `x = 1`.
       Caused by warning:
       ! foo
@@ -608,7 +608,7 @@
       [[3]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Can't compute `x = f(1, base = FALSE)`.
+      i In `x = f(1, base = FALSE)`.
       i In group 2: `x = 2`.
       Caused by warning:
       ! foo
@@ -624,7 +624,7 @@
       [[4]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Can't compute `x = f(1, base = FALSE)`.
+      i In `x = f(1, base = FALSE)`.
       i In group 3: `x = 3`.
       Caused by warning:
       ! foo

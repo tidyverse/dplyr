@@ -66,7 +66,7 @@
     Condition
       Warning:
       There was 1 warning in a `mutate()` step.
-      ! Can't compute `y = max(x)`.
+      ! i In `y = max(x)`.
       Caused by warning in `max()`:
       ! no non-missing arguments to max; returning -Inf
     Output
