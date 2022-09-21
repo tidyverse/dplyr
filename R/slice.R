@@ -330,7 +330,7 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
         local_error_context(dots = dots, .index = index, mask = mask)
         header <- cnd_bullet_header("evaluate")
       } else {
-        header <- "Problem while computing indices."
+        header <- "Can't compute indices."
       }
 
       bullets <- c(header, i = cnd_bullet_cur_group_label())
@@ -363,7 +363,7 @@ slice_combine <- function(chunks, dots, mask, error_call = caller_env()) {
     }, error = function(cnd) {
       mask$set_current_group(group)
       bullets <- c(
-        "Problem while computing indices.",
+        "Can't compute indices.",
         i = cnd_bullet_cur_group_label()
       )
       abort(bullets, call = error_call, parent = cnd)

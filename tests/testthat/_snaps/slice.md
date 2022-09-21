@@ -4,7 +4,7 @@
       slice(tibble(), 1, -1)
     Condition
       Error in `slice()`:
-      ! Problem while computing indices.
+      ! Can't compute indices.
       Caused by error:
       ! Must subset elements with a valid subscript vector.
       x Negative and positive locations can't be mixed.
@@ -203,14 +203,14 @@
       slice_min(data.frame(x = 1:10), 1:6)
     Condition
       Error in `slice_min()`:
-      ! Problem while computing indices.
+      ! Can't compute indices.
       Caused by error:
       ! `order_by` must have size 10, not size 6.
     Code
       slice_max(data.frame(x = 1:10), 1:6)
     Condition
       Error in `slice_max()`:
-      ! Problem while computing indices.
+      ! Can't compute indices.
       Caused by error:
       ! `order_by` must have size 10, not size 6.
 
@@ -253,7 +253,7 @@
       slice_sample(df, n = 2, weight_by = 1:6)
     Condition
       Error in `slice_sample()`:
-      ! Problem while computing indices.
+      ! Can't compute indices.
       Caused by error:
       ! `weight_by` must have size 10, not size 6.
 

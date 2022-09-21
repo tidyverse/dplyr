@@ -7,7 +7,7 @@
     Output
       <error/rlang_error>
       Error in `sample_n()`:
-      ! Problem while computing indices.
+      ! Can't compute indices.
       i In group 1: `g = 1`.
       Caused by error in `sample.int()`:
       ! too few positive probabilities
@@ -16,7 +16,7 @@
     Output
       <error/rlang_error>
       Error in `sample_frac()`:
-      ! Problem while computing indices.
+      ! Can't compute indices.
       i In group 1: `g = 1`.
       Caused by error in `sample.int()`:
       ! too few positive probabilities
@@ -25,7 +25,7 @@
     Output
       <error/rlang_error>
       Error in `sample_n()`:
-      ! Problem while computing indices.
+      ! Can't compute indices.
       i In group 2: `cyl = 6`.
       Caused by error:
       ! `size` must be less than or equal to 7 (size of data).
@@ -49,7 +49,7 @@
     Output
       <error/rlang_error>
       Error in `sample_n()`:
-      ! Problem while computing indices.
+      ! Can't compute indices.
       Caused by error in `sample.int()`:
       ! too few positive probabilities
     Code
@@ -57,7 +57,7 @@
     Output
       <error/rlang_error>
       Error in `sample_frac()`:
-      ! Problem while computing indices.
+      ! Can't compute indices.
       Caused by error:
       ! `size` of sampled fraction must be less or equal to one.
       i set `replace = TRUE` to use sampling with replacement.
@@ -66,7 +66,7 @@
     Output
       <error/rlang_error>
       Error in `sample_frac()`:
-      ! Problem while computing indices.
+      ! Can't compute indices.
       i In group 1: `y = 0`.
       Caused by error:
       ! `size` of sampled fraction must be less or equal to one.
@@ -76,7 +76,7 @@
     Output
       <error/rlang_error>
       Error in `sample_frac()`:
-      ! Problem while computing indices.
+      ! Can't compute indices.
       Caused by error in `sample.int()`:
       ! too few positive probabilities
 

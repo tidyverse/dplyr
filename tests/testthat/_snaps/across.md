@@ -135,7 +135,7 @@
       Error in `summarise()`:
       ! Can't compute `..1 = across(everything(), error_fn)`.
       Caused by error in `across()`:
-      ! Problem while computing column `y`.
+      ! Can't compute column `y`.
       Caused by error in `error_fn()`:
       ! too small
     Code
@@ -146,7 +146,7 @@
       Error in `mutate()`:
       ! Can't compute `..1 = across(everything(), error_fn)`.
       Caused by error in `across()`:
-      ! Problem while computing column `y`.
+      ! Can't compute column `y`.
       Caused by error in `error_fn()`:
       ! too small
     Code
@@ -157,7 +157,7 @@
       Error in `summarise()`:
       ! Can't compute `..1 = force(across(everything(), error_fn))`.
       Caused by error in `across()`:
-      ! Problem while computing column `y`.
+      ! Can't compute column `y`.
       Caused by error in `error_fn()`:
       ! too small
     Code
@@ -168,7 +168,7 @@
       Error in `mutate()`:
       ! Can't compute `..1 = force(across(everything(), error_fn))`.
       Caused by error in `across()`:
-      ! Problem while computing column `y`.
+      ! Can't compute column `y`.
       Caused by error in `error_fn()`:
       ! too small
     Code
