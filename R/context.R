@@ -92,7 +92,7 @@ cur_group_rows <- function() {
 
 group_labels_details <- function(keys) {
   keys <- map_chr(keys, pillar::format_glimpse)
-  labels <- paste0(names(keys), " = ", keys)
+  labels <- vec_paste0(names(keys), " = ", keys)
   cli::format_inline("{.code {labels}}")
 }
 
