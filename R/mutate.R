@@ -248,19 +248,24 @@ mutate_cols <- function(.data, dots, error_call = caller_env()) {
 
       new_columns <<- mutate_col(dots[[i]], .data, mask, new_columns)
     }),
-    error = function(e) {
+    error = function(cnd) {
       local_error_context(dots = dots, .index = i, mask = mask)
 
-      bullets <- c(
+      message <- c(
         cnd_bullet_header("computing"),
-        mutate_bullets(e)
+        "i" = cnd_bullet_cur_group_label()
       )
 
+      if (inherits(cnd, "dplyr:::internal_error")) {
+        parent <- error_cnd(message = mutate_bullets(cnd))
+      } else {
+        parent <- cnd
+      }
+
       abort(
-        bullets,
+        message,
         class = "dplyr:::mutate_error",
-        parent = skip_internal_condition(e),
-        bullets = bullets,
+        parent = parent,
         call = error_call
       )
     },
@@ -445,8 +450,9 @@ mutate_bullets <- function(cnd, ...) {
 }
 #' @export
 mutate_bullets.default <- function(cnd, ...) {
-  c(i = cnd_bullet_cur_group_label())
+  chr()
 }
+
 #' @export
 `mutate_bullets.dplyr:::mutate_incompatible_size` <- function(cnd, ...) {
   error_context <- peek_error_context()
@@ -455,16 +461,15 @@ mutate_bullets.default <- function(cnd, ...) {
   result_size <- cnd$dplyr_error_data$result_size
   expected_size <- cnd$dplyr_error_data$expected_size
   c(
-    x = glue("`{error_name}` must be size {or_1(expected_size)}, not {result_size}."),
-    i = cnd_bullet_rowwise_unlist(),
-    i = cnd_bullet_cur_group_label()
+    glue("`{error_name}` must be size {or_1(expected_size)}, not {result_size}."),
+    i = cnd_bullet_rowwise_unlist()
   )
 }
 #' @export
 `mutate_bullets.dplyr:::mutate_mixed_null` <- function(cnd, ...) {
   error_name <- peek_error_context()$error_name
   c(
-    x = glue("`{error_name}` must return compatible vectors across groups."),
+    glue("`{error_name}` must return compatible vectors across groups."),
     x = "Can't combine NULL and non NULL results.",
     i = cnd_bullet_rowwise_unlist()
   )
@@ -474,9 +479,8 @@ mutate_bullets.default <- function(cnd, ...) {
   error_name <- peek_error_context()$error_name
   result <- cnd$dplyr_error_data$result
   c(
-    x = glue("`{error_name}` must be a vector, not {obj_type_friendly(result)}."),
-    i = cnd_bullet_rowwise_unlist(),
-    i = cnd_bullet_cur_group_label()
+    glue("`{error_name}` must be a vector, not {obj_type_friendly(result)}."),
+    i = cnd_bullet_rowwise_unlist()
   )
 }
 #' @export

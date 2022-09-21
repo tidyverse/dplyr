@@ -159,7 +159,8 @@
     Condition
       Error in `my_verb()`:
       ! Problem while computing `.result = cyl * c(am, vs)`.
-      x `.result` must be size 32 or 1, not 64.
+      Caused by error:
+      ! `.result` must be size 32 or 1, not 64.
 
 # `err_locs()` works as expected
 
