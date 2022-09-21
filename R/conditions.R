@@ -318,11 +318,11 @@ new_dplyr_warning <- function(data) {
     data$group_data$id,
     data$group_data$group
   )
-  if (nzchar(label)) {
-    label <- glue(" in {label}")
-  }
 
-  msg <- glue::glue("Problem{label} while computing `{data$name} = {data$expr}`.")
+  msg <- c(
+    glue::glue("Can't compute `{data$name} = {data$expr}`."),
+    "i" = if (nzchar(label)) glue("In {label}.")
+  )
 
   warning_cnd(
     message = msg,

@@ -235,7 +235,7 @@
     Condition
       Warning:
       There was 1 warning in a `mutate()` step.
-      ! Problem while computing `x = f()`.
+      ! Can't compute `x = f()`.
       Caused by warning in `f()`:
       ! msg
     Code
@@ -244,7 +244,7 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem while computing `x = f()`.
+      Can't compute `x = f()`.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -264,7 +264,8 @@
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
-      ! Problem in group 1: `id = 1` while computing `x = f()`.
+      ! Can't compute `x = f()`.
+      i In group 1: `id = 1`.
       Caused by warning in `f()`:
       ! msg
       i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
@@ -274,7 +275,8 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in group 1: `id = 1` while computing `x = f()`.
+      Can't compute `x = f()`.
+      i In group 1: `id = 1`.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -287,7 +289,8 @@
       [[2]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in group 2: `id = 2` while computing `x = f()`.
+      Can't compute `x = f()`.
+      i In group 2: `id = 2`.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -307,7 +310,8 @@
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
-      ! Problem in row 1 while computing `x = f()`.
+      ! Can't compute `x = f()`.
+      i In row 1.
       Caused by warning in `f()`:
       ! msg
       i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
@@ -317,7 +321,8 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in row 1 while computing `x = f()`.
+      Can't compute `x = f()`.
+      i In row 1.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -330,7 +335,8 @@
       [[2]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in row 2 while computing `x = f()`.
+      Can't compute `x = f()`.
+      i In row 2.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -350,20 +356,22 @@
     Condition
       Warning:
       There was 1 warning in a `group_by()` step.
-      ! Problem while computing `g = f():n()`.
+      ! Can't compute `g = f():n()`.
       Caused by warning in `f()`:
       ! msg
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
-      ! Problem in row 1 while computing `x = f()`.
+      ! Can't compute `x = f()`.
+      i In row 1.
       Caused by warning in `f()`:
       ! msg
       i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
-      ! Problem in group 1: `id = 1` while computing `x = f()`.
+      ! Can't compute `x = f()`.
+      i In group 1: `id = 1`.
       Caused by warning in `f()`:
       ! msg
       i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
@@ -373,7 +381,7 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `group_by()`:
-      Problem while computing `g = f():n()`.
+      Can't compute `g = f():n()`.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -390,7 +398,8 @@
       [[2]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in row 1 while computing `x = f()`.
+      Can't compute `x = f()`.
+      i In row 1.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -405,7 +414,8 @@
       [[3]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in row 2 while computing `x = f()`.
+      Can't compute `x = f()`.
+      i In row 2.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -420,7 +430,8 @@
       [[4]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in group 1: `id = 1` while computing `x = f()`.
+      Can't compute `x = f()`.
+      i In group 1: `id = 1`.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -433,7 +444,8 @@
       [[5]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in group 2: `id = 2` while computing `x = f()`.
+      Can't compute `x = f()`.
+      i In group 2: `id = 2`.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -453,7 +465,8 @@
       Warning:
       There were 2 warnings in a `mutate()` step.
       The first warning was:
-      ! Problem in row 1 while computing `x = f()`.
+      ! Can't compute `x = f()`.
+      i In row 1.
       Caused by warning in `f()`:
       ! msg
       i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
@@ -470,7 +483,8 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in row 1 while computing `x = f()`.
+      Can't compute `x = f()`.
+      i In row 1.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -494,7 +508,8 @@
       Warning:
       There were 5 warnings in a `mutate()` step.
       The first warning was:
-      ! Problem in row 1 while computing `x = f()`.
+      ! Can't compute `x = f()`.
+      i In row 1.
       Caused by warning in `f()`:
       ! msg
       i Run `dplyr::last_dplyr_warnings()` to see the 4 remaining warnings.
@@ -514,7 +529,8 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in row 1 while computing `x = f()`.
+      Can't compute `x = f()`.
+      i In row 1.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -535,13 +551,14 @@
     Condition
       Warning:
       There was 1 warning in a `group_by()` step.
-      ! Problem while computing `x = f(1):n()`.
+      ! Can't compute `x = f(1):n()`.
       Caused by warning in `h()`:
       ! foo
       Warning:
       There were 3 warnings in a `mutate()` step.
       The first warning was:
-      ! Problem in group 1: `x = 1` while computing `x = f(1, base = FALSE)`.
+      ! Can't compute `x = f(1, base = FALSE)`.
+      i In group 1: `x = 1`.
       Caused by warning:
       ! foo
       i Run `dplyr::last_dplyr_warnings()` to see the 2 remaining warnings.
@@ -559,7 +576,7 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `group_by()`:
-      Problem while computing `x = f(1):n()`.
+      Can't compute `x = f(1):n()`.
       Caused by warning in `h()`:
       ! foo
       ---
@@ -575,7 +592,8 @@
       [[2]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in group 1: `x = 1` while computing `x = f(1, base = FALSE)`.
+      Can't compute `x = f(1, base = FALSE)`.
+      i In group 1: `x = 1`.
       Caused by warning:
       ! foo
       ---
@@ -590,7 +608,8 @@
       [[3]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in group 2: `x = 2` while computing `x = f(1, base = FALSE)`.
+      Can't compute `x = f(1, base = FALSE)`.
+      i In group 2: `x = 2`.
       Caused by warning:
       ! foo
       ---
@@ -605,7 +624,8 @@
       [[4]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      Problem in group 3: `x = 3` while computing `x = f(1, base = FALSE)`.
+      Can't compute `x = f(1, base = FALSE)`.
+      i In group 3: `x = 3`.
       Caused by warning:
       ! foo
       ---
