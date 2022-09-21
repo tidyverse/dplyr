@@ -31,7 +31,7 @@
       Error in `mutate()`:
       ! Problem while computing `y = .env$y`.
       x `y` must be size 5 or 1, not 10.
-      i The error occurred in group 1: `g = 1`.
+      i In group 1: `g = 1`.
     Code
       (expect_error(df %>% rowwise() %>% mutate(y = .env$y)))
     Output
@@ -40,7 +40,7 @@
       ! Problem while computing `y = .env$y`.
       x `y` must be size 1, not 10.
       i Did you mean: `y = list(.env$y)` ?
-      i The error occurred in row 1.
+      i In row 1.
 
 # rowwise mutate un-lists existing size-1 list-columns (#6302)
 
@@ -51,7 +51,7 @@
       ! Problem while computing `y = x`.
       x `y` must be size 1, not 2.
       i Did you mean: `y = list(x)` ?
-      i The error occurred in row 2.
+      i In row 2.
 
 # mutate() deals with 0 groups (#5534)
 
@@ -85,7 +85,7 @@
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       ! Problem while computing `a = sum(y)`.
-      i The error occurred in group 1: `x = 1`.
+      i In group 1: `x = 1`.
       Caused by error:
       ! object 'y' not found
     Code
@@ -110,7 +110,7 @@
       Error in `mutate()`:
       ! Problem while computing `out = env(a = 1)`.
       x `out` must be a vector, not an environment.
-      i The error occurred in group 1: `g = 1`.
+      i In group 1: `g = 1`.
     Code
       (expect_error(df %>% rowwise() %>% mutate(out = rnorm)))
     Output
@@ -119,7 +119,7 @@
       ! Problem while computing `out = rnorm`.
       x `out` must be a vector, not a function.
       i Did you mean: `out = list(rnorm)` ?
-      i The error occurred in row 1.
+      i In row 1.
     Code
       (expect_error(data.frame(x = rep(1:5, each = 3)) %>% group_by(x) %>% mutate(
         val = ifelse(x < 3, "foo", 2))))
@@ -155,7 +155,7 @@
       Error in `mutate()`:
       ! Problem while computing `int = 1:5`.
       x `int` must be size 2 or 1, not 5.
-      i The error occurred in group 1: `x = 2`.
+      i In group 1: `x = 2`.
     Code
       (expect_error(data.frame(x = c(2, 3, 3)) %>% group_by(x) %>% mutate(int = 1:5)))
     Output
@@ -163,7 +163,7 @@
       Error in `mutate()`:
       ! Problem while computing `int = 1:5`.
       x `int` must be size 1, not 5.
-      i The error occurred in group 1: `x = 2`.
+      i In group 1: `x = 2`.
     Code
       (expect_error(data.frame(x = c(2, 2, 3, 3)) %>% rowwise() %>% mutate(int = 1:5))
       )
@@ -173,7 +173,7 @@
       ! Problem while computing `int = 1:5`.
       x `int` must be size 1, not 5.
       i Did you mean: `int = list(1:5)` ?
-      i The error occurred in row 1.
+      i In row 1.
     Code
       (expect_error(tibble(y = list(1:3, "a")) %>% rowwise() %>% mutate(y2 = y)))
     Output
@@ -182,7 +182,7 @@
       ! Problem while computing `y2 = y`.
       x `y2` must be size 1, not 3.
       i Did you mean: `y2 = list(y)` ?
-      i The error occurred in row 1.
+      i In row 1.
     Code
       (expect_error(data.frame(x = 1:10) %>% mutate(y = 11:20, y = 1:2)))
     Output
@@ -204,7 +204,7 @@
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       ! Problem while computing `c = .data$b`.
-      i The error occurred in group 1: `a = 1`.
+      i In group 1: `a = 1`.
       Caused by error in `.data$b`:
       ! Column `b` not found in `.data`.
     Code

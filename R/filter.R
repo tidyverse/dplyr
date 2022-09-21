@@ -173,15 +173,22 @@ filter_eval <- function(dots, mask, error_call = caller_env()) {
 
   withCallingHandlers(
     expr = mask$eval_all_filter(dots, env_filter),
-    error = function(e) {
+    error = function(cnd) {
       local_error_context(dots = dots, .index = env_filter$current_expression, mask = mask)
 
-      bullets <- c(
-        cnd_bullet_header("computing"),
-        filter_bullets(e)
-      )
-      abort(bullets, call = error_call, parent = skip_internal_condition(e))
+      if (inherits(cnd, "dplyr:::internal_error")) {
+        # We recreate this error with a custom message here after
+        # setting `local_error_context()`
+        parent <- error_cnd(message = filter_bullets(cnd))
+      } else {
+        parent <- cnd
+      }
 
+      msg <- c(
+        cnd_bullet_header("computing"),
+        i = cnd_bullet_cur_group_label()
+      )
+      abort(msg, call = error_call, parent = parent)
     },
     `dplyr:::signal_filter_one_column_matrix` = function(e) {
       warn_filter_one_column_matrix(call = error_call)
@@ -198,38 +205,28 @@ filter_eval <- function(dots, mask, error_call = caller_env()) {
 filter_bullets <- function(cnd, ...) {
   UseMethod("filter_bullets")
 }
-#' @export
-filter_bullets.default <- function(cnd, ...) {
-  c(i = cnd_bullet_cur_group_label())
-}
 
 #' @export
 `filter_bullets.dplyr:::filter_incompatible_type` <- function(cnd, ...) {
   column_name <- cnd$dplyr_error_data$column_name
-  index       <- cnd$dplyr_error_data$index
-  result      <- cnd$dplyr_error_data$result
+  index <- cnd$dplyr_error_data$index
+  result <- cnd$dplyr_error_data$result
 
-  input_name <- if (is.null(column_name)) {
-    glue("..{index}")
-  }  else {
-    glue("..{index}${column_name}")
+  if (is.null(column_name)) {
+    input_name <- glue("..{index}")
+  } else {
+    input_name <- glue("..{index}${column_name}")
   }
-  c(
-    x = glue("Input `{input_name}` must be a logical vector, not a {vec_ptype_full(result)}."),
-    i = cnd_bullet_cur_group_label()
-  )
+  glue("`{input_name}` must be a logical vector, not {obj_type_friendly(result)}.")
 }
 
 #' @export
 `filter_bullets.dplyr:::filter_incompatible_size` <- function(cnd, ...) {
-  index         <- cnd$dplyr_error_data$index
+  index <- cnd$dplyr_error_data$index
   expected_size <- cnd$dplyr_error_data$expected_size
-  size          <- cnd$dplyr_error_data$size
+  size <- cnd$dplyr_error_data$size
 
-  c(
-    x = glue("Input `..{index}` must be of size {or_1(expected_size)}, not size {size}."),
-    i = cnd_bullet_cur_group_label()
-  )
+  glue("`..{index}` must be of size {or_1(expected_size)}, not size {size}.")
 }
 
 warn_filter_one_column_matrix <- function(call) {

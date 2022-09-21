@@ -42,7 +42,7 @@ arg_name <- function(quos, index) {
 cnd_bullet_cur_group_label <- function(what = "error") {
   label <- cur_group_label()
   if (label != "") {
-    glue("The {what} occurred in {label}.")
+    glue("In {label}.")
   }
 }
 
