@@ -73,7 +73,7 @@ needs_group_context <- function(cnd) {
 # Common ------------------------------------------------------------------
 
 is_data_pronoun <- function(x) {
-  is_call(x, c("[[", "$")) && identical(node_cadr(x), sym(".data"))
+  is_call(x, c("[[", "$")) && identical(x[[2]], sym(".data"))
 }
 
 # Because as_label() strips off .data$<> and .data[[<>]]

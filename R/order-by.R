@@ -43,9 +43,8 @@ order_by <- function(order_by, call) {
     }
   }
 
-  fn <- set_expr(quo, node_car(expr))
-  args <- node_cdr(expr)
-  args <- map(args, new_quosure, quo_get_env(quo))
+  fn <- set_expr(quo, expr[[1]])
+  args <- map(expr[-1], new_quosure, quo_get_env(quo))
 
   expr <- expr(with_order(!!order_by, !!fn, !!!args))
   eval_tidy(expr)

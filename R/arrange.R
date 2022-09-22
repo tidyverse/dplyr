@@ -120,7 +120,7 @@ arrange_rows <- function(data,
         abort("`desc()` must be called with exactly one argument.", call = error_call)
       }
 
-      quosure <- new_quosure(node_cadr(expr), quo_get_env(quosure))
+      quosure <- new_quosure(expr[[2]], quo_get_env(quosure))
     }
     quosure
   })
