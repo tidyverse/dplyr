@@ -97,7 +97,7 @@ local_error_context <- function(dots, i, mask, frame = caller_env()) {
   context_local("dplyr_error_context", error_context, frame = frame)
 }
 peek_error_context <- function() {
-  context_peek("dplyr_error_context", "peek_error_context", "dplyr error handling")
+  context_peek("dplyr_error_context", "dplyr error handling")
 }
 
 dot_as_label <- function(expr) {
