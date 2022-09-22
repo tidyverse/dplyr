@@ -227,23 +227,19 @@ mutate_cols <- function(.data, dots, error_call = caller_env()) {
   mask <- DataMask$new(.data, "mutate", error_call = error_call)
   old_current_column <- context_peek_bare("column")
 
-  warnings_state <- env(
-    error_ctxt = NULL,
-    warnings = list()
-  )
-
   on.exit(context_poke("column", old_current_column), add = TRUE)
   on.exit(mask$forget(), add = TRUE)
 
   new_columns <- set_names(list(), character())
+  warnings_state <- env(warnings = list())
 
   withCallingHandlers(
-    for (i in seq_along(dots)) local({
-      warnings_state$error_ctxt <- local_error_context(dots = dots, .index = i, mask = mask)
+    for (i in seq_along(dots)) {
+      local_error_context(dots, .index = i, mask = mask)
       context_poke("column", old_current_column)
 
-      new_columns <<- mutate_col(dots[[i]], .data, mask, new_columns)
-    }),
+      new_columns <- mutate_col(dots[[i]], .data, mask, new_columns)
+    },
     error = dplyr_error_handler(
       dots = dots,
       mask = mask,

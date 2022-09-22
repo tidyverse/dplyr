@@ -286,7 +286,7 @@ dplyr_warning_handler <- function(state, mask, error_call) {
 
     new <- cnd_data(
       cnd = cnd,
-      state$error_ctxt,
+      ctxt = peek_error_context(),
       mask_type = mask_type,
       call = error_call_forced
     )
