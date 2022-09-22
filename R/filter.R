@@ -160,7 +160,7 @@ filter_expand <- function(dots, mask, error_call = caller_env()) {
   dots <- withCallingHandlers(
     imap(unname(dots), filter_expand_one),
     error = function(cnd) {
-      local_error_context(dots = dots, .index = env_filter$current_expression, mask = mask)
+      local_error_context(dots, i = env_filter$current_expression, mask = mask)
       abort(cnd_bullet_header("expand"), call = error_call, parent = cnd)
     }
   )

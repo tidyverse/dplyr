@@ -332,7 +332,7 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
         action <- "compute"
       }
       if (index && is_slice_call(error_call)) {
-        local_error_context(dots = dots, .index = index, mask = mask)
+        local_error_context(dots, index, mask = mask)
         header <- cnd_bullet_header(action)
       } else {
         header <- glue("Can't {action} indices.")

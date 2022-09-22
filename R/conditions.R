@@ -86,11 +86,11 @@ quo_as_label <- function(quo)  {
   }
 }
 
-local_error_context <- function(dots, .index, mask, frame = caller_env()) {
-  expr <- dot_as_label(dots[[.index]])
+local_error_context <- function(dots, i, mask, frame = caller_env()) {
+  expr <- dot_as_label(dots[[i]])
 
   error_context <- env(
-    error_name = arg_name(dots, .index),
+    error_name = arg_name(dots, i),
     error_expression = expr,
     mask = mask
   )
@@ -200,11 +200,7 @@ dplyr_error_handler <- function(dots,
   force(frame)
 
   function(cnd) {
-    local_error_context(
-      dots = dots,
-      .index = frame[[i_sym]],
-      mask = mask
-    )
+    local_error_context(dots, i = frame[[i_sym]], mask = mask)
 
     if (inherits(cnd, "dplyr:::internal_error")) {
       parent <- error_cnd(message = bullets(cnd))

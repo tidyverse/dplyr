@@ -235,7 +235,7 @@ mutate_cols <- function(.data, dots, error_call = caller_env()) {
 
   withCallingHandlers(
     for (i in seq_along(dots)) {
-      local_error_context(dots, .index = i, mask = mask)
+      local_error_context(dots, i, mask = mask)
       context_poke("column", old_current_column)
 
       new_columns <- mutate_col(dots[[i]], .data, mask, new_columns)
