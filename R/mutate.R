@@ -224,26 +224,22 @@ mutate_cols <- function(.data, dots, error_call = caller_env()) {
 
   error_call <- dplyr_error_call(error_call)
 
-  # `error_call()` does some non-trivial work, e.g. climbing frame
-  # environments to find generic calls. We avoid evaluating it
-  # repeatedly in the loop by assigning it here (lazily as we only
-  # need it for the error path).
-  delayedAssign("error_call_forced", error_call(error_call))
-
   mask <- DataMask$new(.data, "mutate", error_call = error_call)
-  mask_type <- mask_type(mask)
   old_current_column <- context_peek_bare("column")
-  error_ctxt <- NULL
+
+  warnings_state <- env(
+    error_ctxt = NULL,
+    warnings = list()
+  )
 
   on.exit(context_poke("column", old_current_column), add = TRUE)
   on.exit(mask$forget(), add = TRUE)
 
   new_columns <- set_names(list(), character())
-  warnings <- list()
 
   withCallingHandlers(
     for (i in seq_along(dots)) local({
-      error_ctxt <<- local_error_context(dots = dots, .index = i, mask = mask)
+      warnings_state$error_ctxt <- local_error_context(dots = dots, .index = i, mask = mask)
       context_poke("column", old_current_column)
 
       new_columns <<- mutate_col(dots[[i]], .data, mask, new_columns)
@@ -255,24 +251,14 @@ mutate_cols <- function(.data, dots, error_call = caller_env()) {
       error_call = error_call,
       error_class = "dplyr:::mutate_error"
     ),
-    warning = function(w) {
-      # Don't entrace more than 5 warnings because this is very costly
-      if (is_null(w$trace) && length(warnings) < 5) {
-        w$trace <- trace_back(bottom = error_call)
-      }
-      new <- cnd_data(
-        cnd = w,
-        error_ctxt,
-        mask_type = mask_type,
-        call = error_call_forced
-      )
-
-      warnings <<- c(warnings, list(new))
-      maybe_restart("muffleWarning")
-    }
+    warning = dplyr_warning_handler(
+      state = warnings_state,
+      mask = mask,
+      error_call = error_call
+    )
   )
 
-  signal_warnings(warnings, error_call)
+  signal_warnings(warnings_state, error_call)
 
   is_zap <- map_lgl(new_columns, inherits, "rlang_zap")
   new_columns[is_zap] <- rep(list(NULL), sum(is_zap))

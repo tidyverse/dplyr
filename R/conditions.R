@@ -269,6 +269,33 @@ on_load({
   the$last_cmd_frame <- ""
 })
 
+dplyr_warning_handler <- function(state, mask, error_call) {
+  mask_type <- mask_type(mask)
+
+  # `error_call()` does some non-trivial work, e.g. climbing frame
+  # environments to find generic calls. We avoid evaluating it
+  # repeatedly in the loop by assigning it here (lazily as we only
+  # need it for the error path).
+  delayedAssign("error_call_forced", error_call(error_call))
+
+  function(cnd) {
+    # Don't entrace more than 5 warnings because this is very costly
+    if (is_null(cnd$trace) && length(state$warnings) < 5) {
+      cnd$trace <- trace_back(bottom = error_call)
+    }
+
+    new <- cnd_data(
+      cnd = cnd,
+      state$error_ctxt,
+      mask_type = mask_type,
+      call = error_call_forced
+    )
+
+    state$warnings <- c(state$warnings, list(new))
+    maybe_restart("muffleWarning")
+  }
+}
+
 # Flushes warnings if a new top-level command is detected
 push_dplyr_warnings <- function(warnings) {
   last <- the$last_cmd_frame
@@ -287,7 +314,9 @@ reset_dplyr_warnings <- function() {
   the$last_warnings <- list()
 }
 
-signal_warnings <- function(warnings, error_call) {
+signal_warnings <- function(state, error_call) {
+  warnings <- state$warnings
+
   n <- length(warnings)
   if (!n) {
     return()
