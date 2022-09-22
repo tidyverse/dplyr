@@ -65,7 +65,7 @@
       mutate(df, y = max(x))
     Condition
       Warning:
-      There was 1 warning in a `mutate()` step.
+      There was 1 warning in `mutate()`.
       i In `y = max(x)`.
       Caused by warning in `max()`:
       ! no non-missing arguments to max; returning -Inf

@@ -331,7 +331,7 @@ signal_warnings <- function(state, error_call) {
 
   msg <- paste_line(
     cli::format_warning(c(
-      "There {cli::qty(n)} {?was/were} {n} warning{?s} in a {call} step.",
+      "There {cli::qty(n)} {?was/were} {n} warning{?s} in {call}.",
       if (n > 1) "The first warning was:"
     )),
     paste0(prefix, cnd_message(first)),

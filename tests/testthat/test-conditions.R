@@ -211,13 +211,15 @@ test_that("can collect warnings in main verbs", {
       mtcars %>%
         rowwise() %>%
         filter(f()) %>%
+        arrange(f()) %>%
         mutate(a = f()) %>%
         summarise(b = f())
     )
 
     warnings <- last_dplyr_warnings(Inf)
     warnings[[1]]  # filter()
-    warnings[[33]] # mutate()
-    warnings[[65]] # summarise()
+    warnings[[33]] # arrange()
+    warnings[[65]] # mutate()
+    warnings[[97]] # summarise()
   })
 })

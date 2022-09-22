@@ -1,7 +1,7 @@
 # dplyr (development version)
 
 * Warnings are now enriched with contextualised information in `summarise()` and
-  `filter()` just like they have been in `mutate()`.
+  `filter()` just like they have been in `mutate()` and `arrange()`.
 
 * Using 1 column matrices in `filter()` is now deprecated (#6091).
 
