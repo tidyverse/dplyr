@@ -643,8 +643,17 @@
 # can collect warnings in main verbs
 
     Code
-      invisible(mtcars %>% rowwise() %>% mutate(a = f()) %>% summarise(b = f()))
+      invisible(mtcars %>% rowwise() %>% filter(f()) %>% mutate(a = f()) %>%
+        summarise(b = f()))
     Condition
+      Warning:
+      There were 32 warnings in a `filter()` step.
+      The first warning was:
+      i In `..1 = f()`.
+      i In row 1.
+      Caused by warning in `f()`:
+      ! foo
+      i Run `dplyr::last_dplyr_warnings()` to see the 31 remaining warnings.
       Warning:
       There were 32 warnings in a `mutate()` step.
       The first warning was:
@@ -666,13 +675,22 @@
       warnings[[1]]
     Output
       <warning/rlang_warning>
+      Warning in `filter()`:
+      i In `..1 = f()`.
+      i In row 1.
+      Caused by warning in `f()`:
+      ! foo
+    Code
+      warnings[[33]]
+    Output
+      <warning/rlang_warning>
       Warning in `mutate()`:
       i In `a = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! foo
     Code
-      warnings[[33]]
+      warnings[[65]]
     Output
       <warning/rlang_warning>
       Warning in `summarise()`:

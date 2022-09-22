@@ -203,19 +203,21 @@ test_that("can collect warnings in main verbs", {
 
   f <- function() {
     warning("foo")
-    NA
+    TRUE
   }
 
   expect_snapshot({
     invisible(
       mtcars %>%
         rowwise() %>%
+        filter(f()) %>%
         mutate(a = f()) %>%
         summarise(b = f())
     )
 
     warnings <- last_dplyr_warnings(Inf)
-    warnings[[1]]
-    warnings[[33]]
+    warnings[[1]]  # filter()
+    warnings[[33]] # mutate()
+    warnings[[65]] # summarise()
   })
 })

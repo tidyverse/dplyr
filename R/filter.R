@@ -170,21 +170,32 @@ filter_expand <- function(dots, mask, error_call = caller_env()) {
 
 filter_eval <- function(dots, mask, error_call = caller_env()) {
   env_filter <- env()
+  warnings_state <- env(warnings = list())
 
-  # For error handlers
+  # For condition handlers
   env_bind_active(
     current_env(),
     "i" = function() env_filter$current_expression
   )
 
-  withCallingHandlers(
-    expr = mask$eval_all_filter(dots, env_filter),
+  warning_handler <- dplyr_warning_handler(
+    state = warnings_state,
+    mask = mask,
+    error_call = error_call
+  )
+
+  out <- withCallingHandlers(
+    mask$eval_all_filter(dots, env_filter),
     error = dplyr_error_handler(
       dots = dots,
       mask = mask,
       bullets = filter_bullets,
       error_call = error_call
     ),
+    warning = function(cnd) {
+      local_error_context(dots, i, mask)
+      warning_handler(cnd)
+    },
     `dplyr:::signal_filter_one_column_matrix` = function(e) {
       warn_filter_one_column_matrix(call = error_call)
     },
@@ -195,6 +206,9 @@ filter_eval <- function(dots, mask, error_call = caller_env()) {
       warn_filter_data_frame(call = error_call)
     }
   )
+
+  signal_warnings(warnings_state, error_call)
+  out
 }
 
 filter_bullets <- function(cnd, ...) {
