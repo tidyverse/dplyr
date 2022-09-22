@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* Warnings are now enriched with contextualised information in `summarise()`
+  just like they have been in `mutate()`.
+
 * Using 1 column matrices in `filter()` is now deprecated (#6091).
 
 * Warnings emitted inside `mutate()` and variants are now collected and stashed

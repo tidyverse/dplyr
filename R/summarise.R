@@ -208,6 +208,8 @@ summarise_cols <- function(.data, dots, error_call = caller_env()) {
   mask <- DataMask$new(.data, "summarise", error_call = error_call)
   old_current_column <- context_peek_bare("column")
 
+  warnings_state <- env(warnings = list())
+
   on.exit(context_poke("column", old_current_column), add = TRUE)
   on.exit(mask$forget(), add = TRUE)
 
@@ -224,6 +226,7 @@ summarise_cols <- function(.data, dots, error_call = caller_env()) {
 
   withCallingHandlers({
     for (i in seq_along(dots)) {
+      local_error_context(dots, i, mask = mask)
       context_poke("column", old_current_column)
 
       # - expand
@@ -300,7 +303,14 @@ summarise_cols <- function(.data, dots, error_call = caller_env()) {
       action = action
     )
     handler(cnd)
-  })
+  },
+  warning = dplyr_warning_handler(
+    state = warnings_state,
+    mask = mask,
+    error_call = error_call
+  ))
+
+  signal_warnings(warnings_state, error_call)
 
   list(new = cols, size = sizes, all_one = identical(sizes, 1L))
 }

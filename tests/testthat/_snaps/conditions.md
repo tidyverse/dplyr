@@ -640,3 +640,44 @@
        5. \-dplyr:::mutate.data.frame(., x = f(1, base = FALSE))
       
 
+# can collect warnings in main verbs
+
+    Code
+      invisible(mtcars %>% rowwise() %>% mutate(a = f()) %>% summarise(b = f()))
+    Condition
+      Warning:
+      There were 32 warnings in a `mutate()` step.
+      The first warning was:
+      i In `a = f()`.
+      i In row 1.
+      Caused by warning in `f()`:
+      ! foo
+      i Run `dplyr::last_dplyr_warnings()` to see the 31 remaining warnings.
+      Warning:
+      There were 32 warnings in a `summarise()` step.
+      The first warning was:
+      i In `b = f()`.
+      i In row 1.
+      Caused by warning in `f()`:
+      ! foo
+      i Run `dplyr::last_dplyr_warnings()` to see the 31 remaining warnings.
+    Code
+      warnings <- last_dplyr_warnings(Inf)
+      warnings[[1]]
+    Output
+      <warning/rlang_warning>
+      Warning in `mutate()`:
+      i In `a = f()`.
+      i In row 1.
+      Caused by warning in `f()`:
+      ! foo
+    Code
+      warnings[[33]]
+    Output
+      <warning/rlang_warning>
+      Warning in `summarise()`:
+      i In `b = f()`.
+      i In row 1.
+      Caused by warning in `f()`:
+      ! foo
+
