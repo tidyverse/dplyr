@@ -1,20 +1,26 @@
-# casts `left` and `right` to the type of `x`
+# takes the common type between all inputs (#6478)
 
     Code
-      between(1L, 1.5, 2L)
+      between("1", 2, 3)
     Condition
       Error in `between()`:
-      ! Can't convert from `left` <double> to <integer> due to loss of precision.
-      * Locations: 1
+      ! Can't combine `x` <character> and `left` <double>.
 
 ---
 
     Code
-      between(1L, 1L, 2.5)
+      between(1, "2", 3)
     Condition
       Error in `between()`:
-      ! Can't convert from `right` <double> to <integer> due to loss of precision.
-      * Locations: 1
+      ! Can't combine `x` <double> and `left` <character>.
+
+---
+
+    Code
+      between(1, 2, "3")
+    Condition
+      Error in `between()`:
+      ! Can't combine `x` <double> and `right` <character>.
 
 # recycles `left` and `right` to the size of `x`
 
