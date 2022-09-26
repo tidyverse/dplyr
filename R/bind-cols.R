@@ -34,7 +34,7 @@ bind_cols <- function(..., .name_repair = c("unique", "universal", "check_unique
   # Strip names off of data frame components so that vec_cbind() unpacks them
   names2(dots)[map_lgl(dots, is.data.frame)] <- ""
 
-  out <- vec_cbind(!!!dots, .name_repair = .name_repair, .call = current_env())
+  out <- vec_cbind(!!!dots, .name_repair = .name_repair, .error_call = current_env())
   if (!any(map_lgl(dots, is.data.frame))) {
     out <- as_tibble(out)
   }

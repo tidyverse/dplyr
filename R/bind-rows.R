@@ -71,7 +71,7 @@ bind_rows <- function(..., .id = NULL) {
     names(dots) <- NULL
   }
 
-  out <- vec_rbind(!!!dots, .names_to = .id, .call = current_env())
+  out <- vec_rbind(!!!dots, .names_to = .id, .error_call = current_env())
 
   # Override vctrs coercion rules and instead derive class from first input
   if (is.data.frame(first)) {

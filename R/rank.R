@@ -107,7 +107,7 @@ ntile <- function(x = row_number(), n) {
   if (!missing(x)) {
     x <- row_number(x)
   }
-  len <- vec_size(x) - sum(vec_equal_na(x))
+  len <- vec_size(x) - sum(vec_detect_missing(x))
 
   check_number(n)
   n <- vec_cast(n, integer())
