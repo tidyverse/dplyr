@@ -18,16 +18,16 @@
       i Row 1 of `x` matches multiple rows.
       i If multiple matches are expected, set `multiple = "all"` to silence this warning.
 
-# join_rows() gives meaningful error message on incompatible types
+# join_rows() expects incompatible type errors to have been handled by join_cast_common()
 
     Code
       (expect_error(join_rows(data.frame(x = 1), data.frame(x = factor("a")))))
     Output
-      <error/dplyr_error_join_incompatible_type>
+      <error/rlang_error>
       Error:
-      ! Can't join `x$x` with `y$x` because of incompatible types.
-      i `x$x` is of type <double>.
-      i `y$x` is of type <factor<4d52a>>.
+      ! `join_cast_common()` should have handled this.
+      i This is an internal error that was detected in the dplyr package.
+        Please report it at <https://github.com/tidyverse/dplyr/issues> with a reprex (<https://https://tidyverse.org/help/>) and the full backtrace.
 
 # join_rows() gives meaningful error/warning message on multiple matches
 

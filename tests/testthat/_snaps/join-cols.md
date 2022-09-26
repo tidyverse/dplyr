@@ -112,3 +112,14 @@
       Error:
       ! `suffix` can't be NA.
 
+# references original column in `y` when there are type errors (#6465)
+
+    Code
+      (expect_error(join_cast_common(x_key, y_key, vars)))
+    Output
+      <error/dplyr_error_join_incompatible_type>
+      Error:
+      ! Can't join `x$a` with `y$b` due to incompatible types.
+      i `x$a` is a <double>.
+      i `y$b` is a <character>.
+

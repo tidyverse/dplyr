@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* Joins now reference the correct column in `y` when a type error is thrown
+  while joining on two columns with different names (#6465).
+
 * Warnings are now enriched with contextualised information in `summarise()` and
   `filter()` just like they have been in `mutate()` and `arrange()`.
 

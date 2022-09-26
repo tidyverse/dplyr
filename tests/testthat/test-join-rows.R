@@ -139,7 +139,7 @@ test_that("join_rows() doesn't error on unmatched rows if they won't be dropped"
   expect_identical(out$y, c(1L, NA, 2L))
 })
 
-test_that("join_rows() gives meaningful error message on incompatible types", {
+test_that("join_rows() expects incompatible type errors to have been handled by join_cast_common()", {
   expect_snapshot({
     (expect_error(
       join_rows(data.frame(x = 1), data.frame(x = factor("a")))

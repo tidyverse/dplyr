@@ -16,7 +16,7 @@ join_cols <- function(x_names,
   suffix <- standardise_join_suffix(suffix, error_call = error_call)
 
   x_by <- set_names(match(by$x, x_names), by$x)
-  y_by <- set_names(match(by$y, y_names), by$x)
+  y_by <- set_names(match(by$y, y_names), by$y)
 
   x_loc <- seq_along(x_names)
   names(x_loc) <- x_names
@@ -163,4 +163,43 @@ add_suffixes <- function(x, y, suffix) {
     out[[i]] <- nm
   }
   out
+}
+
+join_cast_common <- function(x, y, vars, error_call = caller_env()) {
+  # Explicit `x/y_arg = ""` to avoid auto naming in `cnd$x_arg`
+  ptype <- try_fetch(
+    vec_ptype2(x, y, x_arg = "", y_arg = "", call = error_call),
+    vctrs_error_incompatible_type = function(cnd) {
+      rethrow_error_join_incompatible_type(cnd, vars, error_call)
+    }
+  )
+
+  vec_cast_common(x = x, y = y, .to = ptype, .call = error_call)
+}
+
+rethrow_error_join_incompatible_type <- function(cnd, vars, call) {
+  x_name <- cnd$x_arg
+  y_name <- cnd$y_arg
+
+  # Remap `y_name` to actual name from `y`. Useful for `join_by(a == b)`
+  # where the name from `x` is used when determining the common type and will
+  # be in the error `cnd`, but we need to tell the user about the name in `y`.
+  loc <- match(y_name, names(vars$x$key))
+  y_name <- names(vars$y$key)[[loc]]
+
+  x_name <- paste0("x$", x_name)
+  y_name <- paste0("y$", y_name)
+
+  x_type <- vec_ptype_full(cnd$x)
+  y_type <- vec_ptype_full(cnd$y)
+
+  stop_join(
+    message = c(
+      glue("Can't join `{x_name}` with `{y_name}` due to incompatible types."),
+      i = glue("`{x_name}` is a <{x_type}>."),
+      i = glue("`{y_name}` is a <{y_type}>.")
+    ),
+    class = "dplyr_error_join_incompatible_type",
+    call = call
+  )
 }
