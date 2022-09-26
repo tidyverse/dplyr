@@ -24,7 +24,7 @@
       slice(tibble(), "a")
     Condition
       Error in `slice()`:
-      ! Can't process `..1 = "a"`.
+      i In `..1 = "a"`.
       Caused by error:
       ! Must subset elements with a valid subscript vector.
       x Subscript `"a"` has the wrong type `character`.
@@ -36,14 +36,14 @@
       slice(df, 1 + "")
     Condition
       Error in `slice()`:
-      ! Can't compute `..1 = 1 + ""`.
+      i In `..1 = 1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
       slice(group_by(df, x), 1 + "")
     Condition
       Error in `slice()`:
-      ! Can't compute `..1 = 1 + ""`.
+      i In `..1 = 1 + ""`.
       i In group 1: `x = 1`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator

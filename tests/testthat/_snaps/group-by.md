@@ -43,7 +43,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `group_by()`:
-      ! Can't compute `z = a + 1`.
+      i In `z = a + 1`.
       Caused by error:
       ! object 'a' not found
 

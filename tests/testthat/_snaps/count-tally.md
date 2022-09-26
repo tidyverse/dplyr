@@ -47,7 +47,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `count()`:
-      ! Can't compute `new = 1 + ""`.
+      i In `new = 1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
@@ -55,7 +55,7 @@
     Output
       <error/rlang_error>
       Error in `count()`:
-      ! Can't compute `n = sum(1 + "", na.rm = TRUE)`.
+      i In `n = sum(1 + "", na.rm = TRUE)`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
 
@@ -66,7 +66,7 @@
     Output
       <error/rlang_error>
       Error in `tally()`:
-      ! Can't compute `n = sum(1 + "", na.rm = TRUE)`.
+      i In `n = sum(1 + "", na.rm = TRUE)`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
 
@@ -77,7 +77,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `add_count()`:
-      ! Can't compute `new = 1 + ""`.
+      i In `new = 1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
@@ -85,7 +85,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `add_count()`:
-      ! Can't compute `n = sum(1 + "", na.rm = TRUE)`.
+      i In `n = sum(1 + "", na.rm = TRUE)`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
 
@@ -96,7 +96,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `add_tally()`:
-      ! Can't compute `n = sum(1 + "", na.rm = TRUE)`.
+      i In `n = sum(1 + "", na.rm = TRUE)`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
 
