@@ -95,7 +95,7 @@ nth <- function(x, n, order_by = NULL, default = NULL, na_rm = FALSE) {
   check_bool(na_rm)
 
   if (na_rm) {
-    not_missing <- !vec_equal_na(x)
+    not_missing <- !vec_detect_missing(x)
 
     x <- vec_slice(x, not_missing)
     size <- vec_size(x)
