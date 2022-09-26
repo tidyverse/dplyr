@@ -197,3 +197,29 @@ test_that("`last_dplyr_warnings()` only records 5 backtraces", {
     5
   )
 })
+
+test_that("can collect warnings in main verbs", {
+  reset_dplyr_warnings()
+
+  f <- function() {
+    warning("foo")
+    TRUE
+  }
+
+  expect_snapshot({
+    invisible(
+      mtcars %>%
+        rowwise() %>%
+        filter(f()) %>%
+        arrange(f()) %>%
+        mutate(a = f()) %>%
+        summarise(b = f())
+    )
+
+    warnings <- last_dplyr_warnings(Inf)
+    warnings[[1]]  # filter()
+    warnings[[33]] # arrange()
+    warnings[[65]] # mutate()
+    warnings[[97]] # summarise()
+  })
+})

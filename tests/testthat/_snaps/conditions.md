@@ -236,7 +236,7 @@
       df %>% mutate(x = f()) %>% invisible()
     Condition
       Warning:
-      There was 1 warning in a `mutate()` step.
+      There was 1 warning in `mutate()`.
       i In `x = f()`.
       Caused by warning in `f()`:
       ! msg
@@ -264,7 +264,7 @@
       df %>% group_by(id) %>% mutate(x = f()) %>% invisible()
     Condition
       Warning:
-      There were 2 warnings in a `mutate()` step.
+      There were 2 warnings in `mutate()`.
       The first warning was:
       i In `x = f()`.
       i In group 1: `id = 1`.
@@ -310,7 +310,7 @@
       df %>% rowwise() %>% mutate(x = f()) %>% invisible()
     Condition
       Warning:
-      There were 2 warnings in a `mutate()` step.
+      There were 2 warnings in `mutate()`.
       The first warning was:
       i In `x = f()`.
       i In row 1.
@@ -357,12 +357,12 @@
         mutate(x = f()) %>% invisible()
     Condition
       Warning:
-      There was 1 warning in a `group_by()` step.
+      There was 1 warning in `group_by()`.
       i In `g = f():n()`.
       Caused by warning in `f()`:
       ! msg
       Warning:
-      There were 2 warnings in a `mutate()` step.
+      There were 2 warnings in `mutate()`.
       The first warning was:
       i In `x = f()`.
       i In row 1.
@@ -370,7 +370,7 @@
       ! msg
       i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
       Warning:
-      There were 2 warnings in a `mutate()` step.
+      There were 2 warnings in `mutate()`.
       The first warning was:
       i In `x = f()`.
       i In group 1: `id = 1`.
@@ -465,7 +465,7 @@
       df %>% rowwise() %>% mutate(x = f())
     Condition
       Warning:
-      There were 2 warnings in a `mutate()` step.
+      There were 2 warnings in `mutate()`.
       The first warning was:
       i In `x = f()`.
       i In row 1.
@@ -508,7 +508,7 @@
       df %>% rowwise() %>% mutate(x = f())
     Condition
       Warning:
-      There were 5 warnings in a `mutate()` step.
+      There were 5 warnings in `mutate()`.
       The first warning was:
       i In `x = f()`.
       i In row 1.
@@ -552,12 +552,12 @@
       foo()
     Condition
       Warning:
-      There was 1 warning in a `group_by()` step.
+      There was 1 warning in `group_by()`.
       i In `x = f(1):n()`.
       Caused by warning in `h()`:
       ! foo
       Warning:
-      There were 3 warnings in a `mutate()` step.
+      There were 3 warnings in `mutate()`.
       The first warning was:
       i In `x = f(1, base = FALSE)`.
       i In group 1: `x = 1`.
@@ -639,4 +639,76 @@
        4. +-dplyr::mutate(., x = f(1, base = FALSE))
        5. \-dplyr:::mutate.data.frame(., x = f(1, base = FALSE))
       
+
+# can collect warnings in main verbs
+
+    Code
+      invisible(mtcars %>% rowwise() %>% filter(f()) %>% arrange(f()) %>% mutate(a = f()) %>%
+        summarise(b = f()))
+    Condition
+      Warning:
+      There were 32 warnings in `filter()`.
+      The first warning was:
+      i In `..1 = f()`.
+      i In row 1.
+      Caused by warning in `f()`:
+      ! foo
+      i Run `dplyr::last_dplyr_warnings()` to see the 31 remaining warnings.
+      Warning:
+      There was 1 warning in `arrange()`.
+      i In `..1 = f()`.
+      Caused by warning in `f()`:
+      ! foo
+      Warning:
+      There were 32 warnings in `mutate()`.
+      The first warning was:
+      i In `a = f()`.
+      i In row 1.
+      Caused by warning in `f()`:
+      ! foo
+      i Run `dplyr::last_dplyr_warnings()` to see the 31 remaining warnings.
+      Warning:
+      There were 32 warnings in `summarise()`.
+      The first warning was:
+      i In `b = f()`.
+      i In row 1.
+      Caused by warning in `f()`:
+      ! foo
+      i Run `dplyr::last_dplyr_warnings()` to see the 31 remaining warnings.
+    Code
+      warnings <- last_dplyr_warnings(Inf)
+      warnings[[1]]
+    Output
+      <warning/rlang_warning>
+      Warning in `filter()`:
+      i In `..1 = f()`.
+      i In row 1.
+      Caused by warning in `f()`:
+      ! foo
+    Code
+      warnings[[33]]
+    Output
+      <warning/rlang_warning>
+      Warning in `arrange()`:
+      i In `..1 = f()`.
+      Caused by warning in `f()`:
+      ! foo
+    Code
+      warnings[[65]]
+    Output
+      <warning/rlang_warning>
+      Warning in `mutate()`:
+      i In `a = f()`.
+      i In row 32.
+      Caused by warning in `f()`:
+      ! foo
+    Code
+      warnings[[97]]
+    Output
+      <warning/rlang_warning>
+      Warning in `summarise()`:
+      i In `b = f()`.
+      i In row 32.
+      Caused by warning in `f()`:
+      ! foo
 

@@ -86,18 +86,37 @@ quo_as_label <- function(quo)  {
   }
 }
 
-local_error_context <- function(dots, .index, mask, frame = caller_env()) {
-  expr <- dot_as_label(dots[[.index]])
-
-  error_context <- env(
-    error_name = arg_name(dots, .index),
-    error_expression = expr,
-    mask = mask
-  )
-  context_local("dplyr_error_context", error_context, frame = frame)
+local_error_context <- function(dots, i, mask, frame = caller_env()) {
+  ctxt <- new_error_context(dots, i, mask = mask)
+  context_local("dplyr_error_context", ctxt, frame = frame)
 }
 peek_error_context <- function() {
-  context_peek("dplyr_error_context", "peek_error_context", "dplyr error handling")
+  context_peek("dplyr_error_context", "dplyr error handling")
+}
+
+new_error_context <- function(dots, i, mask) {
+  if (!length(dots) || i == 0L) {
+    env(
+      error_name = "",
+      error_expression = NULL,
+      mask = mask
+    )
+  } else {
+    expr <- dot_as_label(dots[[i]])
+
+    env(
+      error_name = arg_name(dots, i),
+      error_expression = expr,
+      mask = mask
+    )
+  }
+}
+
+# Doesn't restore values. To be called within a
+# `local_error_context()` in charge of restoring.
+poke_error_context <- function(dots, i, mask) {
+  ctxt <- new_error_context(dots, i, mask = mask)
+  context_poke("dplyr_error_context", ctxt)
 }
 
 dot_as_label <- function(expr) {
@@ -200,11 +219,7 @@ dplyr_error_handler <- function(dots,
   force(frame)
 
   function(cnd) {
-    local_error_context(
-      dots = dots,
-      .index = frame[[i_sym]],
-      mask = mask
-    )
+    local_error_context(dots, i = frame[[i_sym]], mask = mask)
 
     if (inherits(cnd, "dplyr:::internal_error")) {
       parent <- error_cnd(message = bullets(cnd))
@@ -269,6 +284,33 @@ on_load({
   the$last_cmd_frame <- ""
 })
 
+dplyr_warning_handler <- function(state, mask, error_call) {
+  mask_type <- mask_type(mask)
+
+  # `error_call()` does some non-trivial work, e.g. climbing frame
+  # environments to find generic calls. We avoid evaluating it
+  # repeatedly in the loop by assigning it here (lazily as we only
+  # need it for the error path).
+  delayedAssign("error_call_forced", error_call(error_call))
+
+  function(cnd) {
+    # Don't entrace more than 5 warnings because this is very costly
+    if (is_null(cnd$trace) && length(state$warnings) < 5) {
+      cnd$trace <- trace_back(bottom = error_call)
+    }
+
+    new <- cnd_data(
+      cnd = cnd,
+      ctxt = peek_error_context(),
+      mask_type = mask_type,
+      call = error_call_forced
+    )
+
+    state$warnings <- c(state$warnings, list(new))
+    maybe_restart("muffleWarning")
+  }
+}
+
 # Flushes warnings if a new top-level command is detected
 push_dplyr_warnings <- function(warnings) {
   last <- the$last_cmd_frame
@@ -287,7 +329,9 @@ reset_dplyr_warnings <- function() {
   the$last_warnings <- list()
 }
 
-signal_warnings <- function(warnings, error_call) {
+signal_warnings <- function(state, error_call) {
+  warnings <- state$warnings
+
   n <- length(warnings)
   if (!n) {
     return()
@@ -306,7 +350,7 @@ signal_warnings <- function(warnings, error_call) {
 
   msg <- paste_line(
     cli::format_warning(c(
-      "There {cli::qty(n)} {?was/were} {n} warning{?s} in a {call} step.",
+      "There {cli::qty(n)} {?was/were} {n} warning{?s} in {call}.",
       if (n > 1) "The first warning was:"
     )),
     paste0(prefix, cnd_message(first)),
