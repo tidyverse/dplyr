@@ -152,7 +152,7 @@ cnd_bullet_header <- function(what) {
   if (is_string(what, "recycle")) {
     glue("Can't {what} `{error_name}{sep}{error_expression}`.")
   } else {
-    c("i" = glue("In `{error_name}{sep}{error_expression}`."))
+    c("i" = glue("In argument `{error_name}{sep}{error_expression}`."))
   }
 }
 

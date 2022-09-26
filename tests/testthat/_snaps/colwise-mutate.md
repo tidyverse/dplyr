@@ -29,7 +29,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `mpg = .Primitive("length")(mpg, 0, 0)`.
+      i In argument `mpg = .Primitive("length")(mpg, 0, 0)`.
       Caused by error:
       ! 3 arguments passed to 'length' which requires 1
     Code
@@ -37,7 +37,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `mpg = (function (x, ...) ...`.
+      i In argument `mpg = (function (x, ...) ...`.
       Caused by error in `mean.default()`:
       ! formal argument "na.rm" matched by multiple actual arguments
 

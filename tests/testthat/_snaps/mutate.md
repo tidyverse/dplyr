@@ -5,7 +5,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `z = <int>`.
+      i In argument `z = <int>`.
       Caused by error:
       ! Inlined constant `z` must be size 10 or 1, not 5.
     Code
@@ -13,7 +13,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `z = <int>`.
+      i In argument `z = <int>`.
       Caused by error:
       ! Inlined constant `z` must be size 10 or 1, not 5.
     Code
@@ -21,7 +21,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `z = <int>`.
+      i In argument `z = <int>`.
       Caused by error:
       ! Inlined constant `z` must be size 10 or 1, not 5.
 
@@ -32,7 +32,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `y = .env$y`.
+      i In argument `y = .env$y`.
       i In group 1: `g = 1`.
       Caused by error:
       ! `y` must be size 5 or 1, not 10.
@@ -41,7 +41,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `y = .env$y`.
+      i In argument `y = .env$y`.
       i In row 1.
       Caused by error:
       ! `y` must be size 1, not 10.
@@ -53,7 +53,7 @@
       mutate(df, y = x)
     Condition
       Error in `mutate()`:
-      i In `y = x`.
+      i In argument `y = x`.
       i In row 2.
       Caused by error:
       ! `y` must be size 1, not 2.
@@ -82,7 +82,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `a = sum(y)`.
+      i In argument `a = sum(y)`.
       Caused by error:
       ! object 'y' not found
     Code
@@ -90,7 +90,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `a = sum(y)`.
+      i In argument `a = sum(y)`.
       i In group 1: `x = 1`.
       Caused by error:
       ! object 'y' not found
@@ -99,7 +99,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `y = mean`.
+      i In argument `y = mean`.
       Caused by error:
       ! `y` must be a vector, not a function.
     Code
@@ -108,7 +108,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `out = env(a = 1)`.
+      i In argument `out = env(a = 1)`.
       Caused by error:
       ! `out` must be a vector, not an environment.
     Code
@@ -116,7 +116,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `out = env(a = 1)`.
+      i In argument `out = env(a = 1)`.
       i In group 1: `g = 1`.
       Caused by error:
       ! `out` must be a vector, not an environment.
@@ -125,7 +125,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `out = rnorm`.
+      i In argument `out = rnorm`.
       i In row 1.
       Caused by error:
       ! `out` must be a vector, not a function.
@@ -136,7 +136,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `val = ifelse(x < 3, "foo", 2)`.
+      i In argument `val = ifelse(x < 3, "foo", 2)`.
       Caused by error:
       ! `val` must return compatible vectors across groups.
       i Result of type <character> for group 1: `x = 1`.
@@ -147,7 +147,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `..1 = if (a == 1) NULL else "foo"`.
+      i In argument `..1 = if (a == 1) NULL else "foo"`.
       Caused by error:
       ! `..1` must return compatible vectors across groups.
       x Can't combine NULL and non NULL results.
@@ -156,7 +156,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `int = 1:5`.
+      i In argument `int = 1:5`.
       Caused by error:
       ! `int` must be size 4 or 1, not 5.
     Code
@@ -165,7 +165,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `int = 1:5`.
+      i In argument `int = 1:5`.
       i In group 1: `x = 2`.
       Caused by error:
       ! `int` must be size 2 or 1, not 5.
@@ -174,7 +174,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `int = 1:5`.
+      i In argument `int = 1:5`.
       i In group 1: `x = 2`.
       Caused by error:
       ! `int` must be size 1, not 5.
@@ -184,7 +184,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `int = 1:5`.
+      i In argument `int = 1:5`.
       i In row 1.
       Caused by error:
       ! `int` must be size 1, not 5.
@@ -194,7 +194,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `y2 = y`.
+      i In argument `y2 = y`.
       i In row 1.
       Caused by error:
       ! `y2` must be size 1, not 3.
@@ -204,7 +204,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `y = 1:2`.
+      i In argument `y = 1:2`.
       Caused by error:
       ! `y` must be size 10 or 1, not 2.
     Code
@@ -212,7 +212,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `c = .data$b`.
+      i In argument `c = .data$b`.
       Caused by error in `.data$b`:
       ! Column `b` not found in `.data`.
     Code
@@ -220,7 +220,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `c = .data$b`.
+      i In argument `c = .data$b`.
       i In group 1: `a = 1`.
       Caused by error in `.data$b`:
       ! Column `b` not found in `.data`.
@@ -239,7 +239,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In `..1 = stop("{")`.
+      i In argument `..1 = stop("{")`.
       Caused by error:
       ! {
 
