@@ -292,10 +292,11 @@ test_that("colwise mutate handle named chr vectors", {
 })
 
 test_that("colwise verbs soft deprecate quosures (#4330)", {
-  expect_warning(mutate_at(mtcars, vars(mpg), quo(mean(.))), "quosure")
-  expect_warning(summarise_at(mtcars, vars(mpg), quo(mean(.))), "quosure")
+  expect_snapshot({
+    (expect_warning(mutate_at(mtcars, vars(mpg), quo(mean(.)))))
+    (expect_warning(summarise_at(mtcars, vars(mpg), quo(mean(.)))))
+  })
 })
-
 
 test_that("rlang lambda inherit from the data mask (#3843)", {
   res <- iris %>%

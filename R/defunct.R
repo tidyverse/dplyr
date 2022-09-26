@@ -38,17 +38,17 @@ NULL
 #' @export
 #' @rdname defunct
 funs <- function(..., .args = list()) {
-  lifecycle::deprecate_stop("0.8.0", "funs()", details = paste_line(
-    "Please use a list of either functions or lambdas: ",
+  lifecycle::deprecate_stop("0.8.0", "funs()", details = c(
+    "Please use a list of either functions or lambdas:",
     "",
-    "  # Simple named list: ",
-    "  list(mean = mean, median = median)",
+    " " = "# Simple named list:",
+    " " = "list(mean = mean, median = median)",
     "",
-    "  # Auto named with `tibble::lst()`: ",
-    "  tibble::lst(mean, median)",
+    " " = "# Auto named with `tibble::lst()`:",
+    " " = "tibble::lst(mean, median)",
     "",
-    "  # Using lambdas",
-    "  list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))"
+    " " = "# Using lambdas",
+    " " = "list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))"
   ))
 }
 
