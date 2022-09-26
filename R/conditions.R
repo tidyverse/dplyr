@@ -87,17 +87,36 @@ quo_as_label <- function(quo)  {
 }
 
 local_error_context <- function(dots, i, mask, frame = caller_env()) {
-  expr <- dot_as_label(dots[[i]])
-
-  error_context <- env(
-    error_name = arg_name(dots, i),
-    error_expression = expr,
-    mask = mask
-  )
-  context_local("dplyr_error_context", error_context, frame = frame)
+  ctxt <- new_error_context(dots, i, mask = mask)
+  context_local("dplyr_error_context", ctxt, frame = frame)
 }
 peek_error_context <- function() {
   context_peek("dplyr_error_context", "dplyr error handling")
+}
+
+new_error_context <- function(dots, i, mask) {
+  if (!length(dots) || i == 0L) {
+    env(
+      error_name = "",
+      error_expression = NULL,
+      mask = mask
+    )
+  } else {
+    expr <- dot_as_label(dots[[i]])
+
+    env(
+      error_name = arg_name(dots, i),
+      error_expression = expr,
+      mask = mask
+    )
+  }
+}
+
+# Doesn't restore values. To be called within a
+# `local_error_context()` in charge of restoring.
+poke_error_context <- function(dots, i, mask) {
+  ctxt <- new_error_context(dots, i, mask = mask)
+  context_poke("dplyr_error_context", ctxt)
 }
 
 dot_as_label <- function(expr) {

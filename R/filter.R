@@ -157,10 +157,12 @@ filter_expand <- function(dots, mask, error_call = caller_env()) {
     expand_if_across(dot)
   }
 
+  local_error_context(dots, i = 0L, mask = mask)
+
   dots <- withCallingHandlers(
     imap(unname(dots), filter_expand_one),
     error = function(cnd) {
-      local_error_context(dots, i = env_filter$current_expression, mask = mask)
+      poke_error_context(dots, env_filter$current_expression, mask = mask)
       abort(cnd_bullet_header("expand"), call = error_call, parent = cnd)
     }
   )

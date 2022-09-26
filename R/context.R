@@ -160,8 +160,13 @@ context_peek <- function(name, location, call = caller_env()) {
 }
 context_local <- function(name, value, frame = caller_env()) {
   old <- context_poke(name, value)
+
+  # FIXME: Pass `after = TRUE` once we depend on R 3.5. Currently this
+  # doesn't restore in the correct order (FIFO) when context-local
+  # functions are called multiple times within the same frame.
   expr <- expr(on.exit(context_poke(!!name, !!old), add = TRUE))
   eval_bare(expr, frame)
+
   value
 }
 
