@@ -237,7 +237,7 @@
     Condition
       Warning:
       There was 1 warning in `summarise()`.
-      i In `..1 = across(everything(), mean, na.rm = TRUE)`.
+      i In argument `..1 = across(everything(), mean, na.rm = TRUE)`.
       Caused by warning:
       ! The `...` argument of `across()` is deprecated as of dplyr 1.1.0.
       Supply arguments directly to `.fns` through a lambda instead.

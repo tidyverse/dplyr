@@ -370,7 +370,7 @@ new_dplyr_warning <- function(data) {
   )
 
   msg <- c(
-    "i" = glue::glue("In `{data$name} = {data$expr}`."),
+    "i" = glue::glue("In argument `{data$name} = {data$expr}`."),
     "i" = if (nzchar(label)) glue("In {label}.")
   )
 
