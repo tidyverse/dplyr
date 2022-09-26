@@ -175,6 +175,7 @@ filter_eval <- function(dots, mask, error_call = caller_env()) {
   warnings_state <- env(warnings = list())
 
   # For condition handlers
+  i <- NULL
   env_bind_active(
     current_env(),
     "i" = function() env_filter$current_expression
