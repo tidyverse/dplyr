@@ -265,17 +265,17 @@
 <span><span class="co">#&gt;       x</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    10</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more rows</span></span></span>
 <span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/distinct.html">distinct</a></span><span class="op">(</span><span class="va">x</span>, .keep_all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># whole data frame</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 2</span></span></span>
 <span><span class="co">#&gt;       x     y</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     8     8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     5     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     7     5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     2     5</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    10     1</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more rows</span></span></span></code></pre></div>
 <p>There are two equivalents in base R, depending on whether you want the whole data frame, or just selected variables:</p>
@@ -285,17 +285,17 @@
 <span><span class="co">#&gt;       x</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    10</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more rows</span></span></span>
 <span><span class="va">df</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">duplicated</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">x</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span> <span class="co"># whole data frame</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 2</span></span></span>
 <span><span class="co">#&gt;       x     y</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     8     8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     5     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     7     5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     2     5</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    10     1</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more rows</span></span></span></code></pre></div>
 </div>
@@ -410,21 +410,21 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 100 × 4</span></span></span>
 <span><span class="co">#&gt;       x     y     z    z2</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     4     5    25</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     8     8    16   256</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     8     4    12   144</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     5     2     7    49</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     2     3     9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     7     5    12   144</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     2     5     7    49</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    10     1    11   121</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 96 more rows</span></span></span></code></pre></div>
 <p>The closest base equivalent is <code><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform()</a></code>, but note that it cannot use freshly created variables:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform</a></span><span class="op">(</span><span class="va">df</span>, z <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span>, z2 <span class="op">=</span> <span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    x y  z  z2</span></span>
-<span><span class="co">#&gt; 1  1 4  5  25</span></span>
-<span><span class="co">#&gt; 2  8 8 16 256</span></span>
-<span><span class="co">#&gt; 3  8 4 12 144</span></span>
-<span><span class="co">#&gt; 4  5 2  7  49</span></span>
-<span><span class="co">#&gt; 5 10 1 11 121</span></span>
-<span><span class="co">#&gt; 6  6 3  9  81</span></span></code></pre></div>
+<span><span class="co">#&gt;    x  y  z  z2</span></span>
+<span><span class="co">#&gt; 1  1  2  3   9</span></span>
+<span><span class="co">#&gt; 2  7  5 12 144</span></span>
+<span><span class="co">#&gt; 3  2  5  7  49</span></span>
+<span><span class="co">#&gt; 4 10  1 11 121</span></span>
+<span><span class="co">#&gt; 5  9  9 18 324</span></span>
+<span><span class="co">#&gt; 6  5 10 15 225</span></span></code></pre></div>
 <p>Alternatively, you can use <code>$&lt;-</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span><span class="op">$</span><span class="va">cyl2</span> <span class="op">&lt;-</span> <span class="va">mtcars</span><span class="op">$</span><span class="va">cyl</span> <span class="op">*</span> <span class="fl">2</span></span>
