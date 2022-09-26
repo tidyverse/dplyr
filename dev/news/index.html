@@ -75,7 +75,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
-<ul><li><p>Warnings are now enriched with contextualised information in <code><a href="../reference/summarise.html">summarise()</a></code> and <code><a href="../reference/filter.html">filter()</a></code> just like they have been in <code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/arrange.html">arrange()</a></code>.</p></li>
+<ul><li><p>Joins now reference the correct column in <code>y</code> when a type error is thrown while joining on two columns with different names (<a href="https://github.com/tidyverse/dplyr/issues/6465" class="external-link">#6465</a>).</p></li>
+<li><p>Warnings are now enriched with contextualised information in <code><a href="../reference/summarise.html">summarise()</a></code> and <code><a href="../reference/filter.html">filter()</a></code> just like they have been in <code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/arrange.html">arrange()</a></code>.</p></li>
 <li><p>Using 1 column matrices in <code><a href="../reference/filter.html">filter()</a></code> is now deprecated (<a href="https://github.com/tidyverse/dplyr/issues/6091" class="external-link">#6091</a>).</p></li>
 <li>
 <p>Warnings emitted inside <code><a href="../reference/mutate.html">mutate()</a></code> and variants are now collected and stashed away. Run the new <code><a href="../reference/last_dplyr_warnings.html">last_dplyr_warnings()</a></code> function to see the warnings emitted within dplyr verbs during the last top-level command.</p>
