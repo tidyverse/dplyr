@@ -10,6 +10,10 @@
 #' @param x A vector
 #' @param left,right Boundary values. Both `left` and `right` are recycled to
 #'   the size of `x`.
+#'
+#' @returns
+#' A logical vector the same size as `x`.
+#'
 #' @export
 #' @examples
 #' between(1:12, 7, 9)

@@ -12,6 +12,9 @@ between(x, left, right)
 \item{left, right}{Boundary values. Both \code{left} and \code{right} are recycled to
 the size of \code{x}.}
 }
+\value{
+A logical vector the same size as \code{x}.
+}
 \description{
 This is a shortcut for \code{x >= left & x <= right}, implemented for local
 vectors and translated to the appropriate SQL for remote tables.
