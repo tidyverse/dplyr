@@ -50,12 +50,18 @@ test_that("works with rcrds", {
   expect_identical(between(x, left, right), c(TRUE, FALSE, TRUE))
 })
 
-test_that("casts `left` and `right` to the type of `x`", {
+test_that("takes the common type between all inputs (#6478)", {
+  expect_identical(between(1L, 1.5, 2L), FALSE)
+  expect_identical(between(1L, 0.5, 2.5), TRUE)
+
   expect_snapshot(error = TRUE, {
-    between(1L, 1.5, 2L)
+    between("1", 2, 3)
   })
   expect_snapshot(error = TRUE, {
-    between(1L, 1L, 2.5)
+    between(1, "2", 3)
+  })
+  expect_snapshot(error = TRUE, {
+    between(1, 2, "3")
   })
 })
 

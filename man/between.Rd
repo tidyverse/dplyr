@@ -10,11 +10,18 @@ between(x, left, right)
 \item{x}{A vector}
 
 \item{left, right}{Boundary values. Both \code{left} and \code{right} are recycled to
-the size of \code{x} and are cast to the type of \code{x}.}
+the size of \code{x}.}
+}
+\value{
+A logical vector the same size as \code{x}.
 }
 \description{
 This is a shortcut for \code{x >= left & x <= right}, implemented for local
 vectors and translated to the appropriate SQL for remote tables.
+}
+\details{
+\code{x}, \code{left}, and \code{right} are all cast to their common type before the
+comparison is made.
 }
 \examples{
 between(1:12, 7, 9)

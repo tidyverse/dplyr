@@ -3,9 +3,17 @@
 #' This is a shortcut for `x >= left & x <= right`, implemented for local
 #' vectors and translated to the appropriate SQL for remote tables.
 #'
+#' @details
+#' `x`, `left`, and `right` are all cast to their common type before the
+#' comparison is made.
+#'
 #' @param x A vector
 #' @param left,right Boundary values. Both `left` and `right` are recycled to
-#'   the size of `x` and are cast to the type of `x`.
+#'   the size of `x`.
+#'
+#' @returns
+#' A logical vector the same size as `x`.
+#'
 #' @export
 #' @examples
 #' between(1:12, 7, 9)
@@ -16,11 +24,17 @@
 #' # On a tibble using `filter()`
 #' filter(starwars, between(height, 100, 150))
 between <- function(x, left, right) {
-  args <- list(left = left, right = right)
-  args <- vec_cast_common(!!!args, .to = x)
+  args <- list(x = x, left = left, right = right)
+
+  # Common type of all inputs
+  args <- vec_cast_common(!!!args)
+  x <- args$x
+  args$x <- NULL
+
+  # But recycle to size of `x`
   args <- vec_recycle_common(!!!args, .size = vec_size(x))
-  left <- args[[1L]]
-  right <- args[[2L]]
+  left <- args$left
+  right <- args$right
 
   left <- vec_compare(x, left)
   left <- left >= 0L
