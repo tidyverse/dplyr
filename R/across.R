@@ -208,14 +208,14 @@ across <- function(.cols = everything(),
   )
 
   if (!missing(...)) {
-    details <- paste_line(
+    details <- c(
       "Supply arguments directly to `.fns` through a lambda instead.",
       "",
-      "  # Previously",
-      "  across(a:b, mean, na.rm = TRUE)",
+      " " = "# Previously",
+      " " = "across(a:b, mean, na.rm = TRUE)",
       "",
-      "  # Now",
-      "  across(a:b, ~mean(.x, na.rm = TRUE))"
+      " " = "# Now",
+      " " = "across(a:b, ~mean(.x, na.rm = TRUE))"
     )
     lifecycle::deprecate_warn(
       when = "1.1.0",

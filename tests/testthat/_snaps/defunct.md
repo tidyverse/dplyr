@@ -17,12 +17,12 @@
     Condition
       Error:
       ! `funs()` was deprecated in dplyr 0.8.0 and is now defunct.
-      Please use a list of either functions or lambdas: 
+      Please use a list of either functions or lambdas:
       
-        # Simple named list: 
+        # Simple named list:
         list(mean = mean, median = median)
       
-        # Auto named with `tibble::lst()`: 
+        # Auto named with `tibble::lst()`:
         tibble::lst(mean, median)
       
         # Using lambdas
