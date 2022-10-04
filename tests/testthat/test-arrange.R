@@ -214,6 +214,20 @@ test_that("arrange() supports across() (#4679)", {
   )
 })
 
+test_that("arrange() works with across() cols that return multiple columns (#6490)", {
+  df <- tibble(
+    a = c(1, 1, 1),
+    b = c(2, 2, 2),
+    c = c(4, 4, 3),
+    d = c(5, 2, 7)
+  )
+
+  expect_identical(
+    arrange(df, across(c(a, b)), across(c(c, d))),
+    df[c(3, 2, 1),]
+  )
+})
+
 test_that("arrange() with empty dots still calls dplyr_row_slice()", {
   tbl <- new_tibble(list(x = 1), nrow = 1L)
   foo <- structure(tbl, class = c("foo_df", class(tbl)))
@@ -408,6 +422,22 @@ test_that("legacy - arrange() supports across() (#4679)", {
   expect_identical(
     df %>% arrange(across(y)),
     df %>% arrange(y)
+  )
+})
+
+test_that("legacy - arrange() works with across() cols that return multiple columns (#6490)", {
+  local_options(dplyr.legacy_locale = TRUE)
+
+  df <- tibble(
+    a = c(1, 1, 1),
+    b = c(2, 2, 2),
+    c = c(4, 4, 3),
+    d = c(5, 2, 7)
+  )
+
+  expect_identical(
+    arrange(df, across(c(a, b)), across(c(c, d))),
+    df[c(3, 2, 1),]
   )
 })
 
