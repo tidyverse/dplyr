@@ -5,7 +5,7 @@
     Condition
       Warning:
       Using one column matrices in `filter()` was deprecated in dplyr 1.1.0.
-      Please use one dimensional logical vectors instead.
+      i Please use one dimensional logical vectors instead.
 
 ---
 
@@ -14,7 +14,7 @@
     Condition
       Warning:
       Using one column matrices in `filter()` was deprecated in dplyr 1.1.0.
-      Please use one dimensional logical vectors instead.
+      i Please use one dimensional logical vectors instead.
 
 # filter() disallows matrices with >1 column
 
@@ -133,7 +133,7 @@
     Condition
       Warning:
       Returning data frames from `filter()` expressions was deprecated in dplyr 1.0.8.
-      Please use `if_any()` or `if_all()` instead.
+      i Please use `if_any()` or `if_all()` instead.
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -146,7 +146,7 @@
     Condition
       Warning:
       Returning data frames from `filter()` expressions was deprecated in dplyr 1.0.8.
-      Please use `if_any()` or `if_all()` instead.
+      i Please use `if_any()` or `if_all()` instead.
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -215,7 +215,7 @@
     Condition
       Warning:
       Using `across()` in `filter()` was deprecated in dplyr 1.0.8.
-      Please use `if_any()` or `if_all()` instead.
+      i Please use `if_any()` or `if_all()` instead.
     Output
         x y
       1 1 1
@@ -224,7 +224,7 @@
     Condition
       Warning:
       Returning data frames from `filter()` expressions was deprecated in dplyr 1.0.8.
-      Please use `if_any()` or `if_all()` instead.
+      i Please use `if_any()` or `if_all()` instead.
     Output
         x y
       1 1 1

@@ -5,8 +5,8 @@
     Condition
       Warning:
       `all_equal()` was deprecated in dplyr 1.1.0.
-      Please use `all.equal()` instead.
-      And manually order the rows/cols as needed
+      i Please use `all.equal()` instead.
+      i And manually order the rows/cols as needed
     Output
       [1] TRUE
 

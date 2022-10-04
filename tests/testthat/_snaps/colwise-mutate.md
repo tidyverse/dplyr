@@ -6,7 +6,7 @@
       `mutate_if()` ignored the following grouping variables:
       * Column `Species`
 
-# colwise verbs soft deprecate quosures (#4330)
+# colwise verbs deprecate quosures (#4330)
 
     Code
       (expect_warning(mutate_at(mtcars, vars(mpg), quo(mean(.)))))
@@ -14,14 +14,14 @@
       <warning/lifecycle_warning_deprecated>
       Warning:
       The `...` argument of `mutate_at()` can't contain quosures as of dplyr 0.8.3.
-      Please use a one-sided formula, a function, or a function name.
+      i Please use a one-sided formula, a function, or a function name.
     Code
       (expect_warning(summarise_at(mtcars, vars(mpg), quo(mean(.)))))
     Output
       <warning/lifecycle_warning_deprecated>
       Warning:
       The `...` argument of `summarise_at()` can't contain quosures as of dplyr 0.8.3.
-      Please use a one-sided formula, a function, or a function name.
+      i Please use a one-sided formula, a function, or a function name.
 
 # colwise mutate gives meaningful error messages
 
