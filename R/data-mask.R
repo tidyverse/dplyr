@@ -138,8 +138,14 @@ DataMask <- R6Class("DataMask",
       private$rows
     },
 
-    across_cols = function() {
-      private$current_data[self$current_non_group_vars()]
+    get_current_data = function(groups = TRUE) {
+      out <- private$current_data
+
+      if (!groups) {
+        out <- out[self$current_non_group_vars()]
+      }
+
+      out
     },
 
     forget = function() {

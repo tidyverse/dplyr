@@ -387,15 +387,15 @@ across_setup <- function(cols,
     )
     abort(bullets, call = call(across_if_fn))
   }
-  across_cols <- mask$across_cols()
+  data <- mask$get_current_data(groups = FALSE)
 
   vars <- tidyselect::eval_select(
     cols,
-    data = across_cols,
+    data = data,
     error_call = call(across_if_fn)
   )
   names_vars <- names(vars)
-  vars <- names(across_cols)[vars]
+  vars <- names(data)[vars]
 
   if (is.null(fns)) {
     if (!is.null(names)) {
@@ -468,9 +468,9 @@ data_mask_top <- function(env, recursive = FALSE, inherit = FALSE) {
 
 c_across_setup <- function(cols, mask) {
   cols <- enquo(cols)
-  across_cols <- mask$across_cols()
+  data <- mask$get_current_data(groups = FALSE)
 
-  vars <- tidyselect::eval_select(expr(!!cols), across_cols)
+  vars <- tidyselect::eval_select(expr(!!cols), data)
   value <- names(vars)
 
   value
