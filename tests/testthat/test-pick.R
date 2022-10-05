@@ -101,6 +101,30 @@ test_that("`pick()` can be used inside `group_by()` wrappers", {
   )
 })
 
+test_that("uses the current view of the data when called sequentially", {
+  df <- tibble(x = 1)
+  expect <- tibble(x = tibble(x = tibble(x = 1)))
+  expect_identical(mutate(df, x = pick(x), x = pick(x)), expect)
+})
+
+test_that("can call different `pick()` expressions in different groups", {
+  df <- tibble(g = c(1, 2), x = 1:2, y = 3:4)
+  gdf <- group_by(df, g)
+
+  out <- mutate(gdf, z = if (g == 1) pick(x) else pick(y))
+  expect_identical(out$z, tibble(x = c(1L, NA), y = c(NA, 4L)))
+})
+
+test_that("can call `pick()` from a user defined function", {
+  df <- tibble(a = 1, b = 2, c = 3)
+
+  my_pick <- function() pick(a, c)
+
+  out <- mutate(df, d = my_pick())
+
+  expect_identical(out$d, df[c("a", "c")])
+})
+
 test_that("errors correctly outside mutate context", {
   expect_snapshot(error = TRUE, {
     pick()
