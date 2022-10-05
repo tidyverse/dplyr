@@ -1,5 +1,9 @@
 # dplyr (development version)
 
+* New `pick()` function which is intended as a replacement for
+  `across(.fns = NULL)`. We feel that `pick()` is a much more evocative name
+  when you are just trying to select a subset of columns from your data (#6204).
+
 * `arrange()` now works correctly when `across()` calls are used as the 2nd
   (or more) ordering expression (#6495).
 
