@@ -372,7 +372,7 @@ across_setup <- function(cols,
 
   # `across()` is evaluated in a data mask so we need to remove the
   # mask layer from the quosure environment (#5460)
-  cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = FALSE, inherit = FALSE))
+  cols <- quo_set_env_to_data_mask_top(cols)
 
   across_if_fn <- context_peek_bare("across_if_fn") %||% "across"
 
@@ -464,6 +464,11 @@ data_mask_top <- function(env, recursive = FALSE, inherit = FALSE) {
   }
 
   env
+}
+quo_set_env_to_data_mask_top <- function(quo) {
+  env <- quo_get_env(quo)
+  env <- data_mask_top(env, recursive = FALSE, inherit = FALSE)
+  quo_set_env(quo, env)
 }
 
 c_across_setup <- function(cols, mask) {
