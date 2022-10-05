@@ -43,6 +43,11 @@ dplyr_new_list <- function(x) {
   x
 }
 
+dplyr_new_tibble <- function(x, size) {
+  # ~9x faster than `tibble::new_tibble()` for internal usage
+  new_data_frame(x = x, n = size, class = c("tbl_df", "tbl"))
+}
+
 maybe_restart <- function(restart) {
   if (!is_null(findRestart(restart))) {
     invokeRestart(restart)

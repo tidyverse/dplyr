@@ -226,7 +226,7 @@ across <- function(.cols = everything(),
 
   vars <- setup$vars
   if (length(vars) == 0L) {
-    return(new_tibble(list(), nrow = 1L))
+    return(dplyr_new_tibble(list(), size = 1L))
   }
   fns <- setup$fns
   names <- setup$names
@@ -281,7 +281,7 @@ across <- function(.cols = everything(),
   size <- vec_size_common(!!!out)
   out <- vec_recycle_common(!!!out, .size = size)
   names(out) <- names
-  out <- new_data_frame(out, n = size, class = c("tbl_df", "tbl"))
+  out <- dplyr_new_tibble(out, size = size)
 
   if (.unpack) {
     out <- df_unpack(out, unpack_spec, caller_env)
@@ -773,7 +773,7 @@ df_unpack <- function(x, spec, caller_env, error_call = caller_env()) {
   names(out) <- names
 
   out <- df_list(!!!out, .size = size, .name_repair = "minimal")
-  out <- new_data_frame(out, n = size, class = c("tbl_df", "tbl"))
+  out <- dplyr_new_tibble(out, size = size)
 
   vec_as_names(names(out), repair = "check_unique", call = error_call)
 

@@ -83,8 +83,8 @@ DataMask <- R6Class("DataMask",
           col
         })
       }
-      nrow <- length(self$current_rows())
-      new_tibble(cols, nrow = nrow)
+      size <- length(self$current_rows())
+      dplyr_new_tibble(cols, size = size)
     },
 
     current_cols = function(vars) {
