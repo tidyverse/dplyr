@@ -65,6 +65,7 @@ reference:
   contents:
   - across
   - c_across
+  - pick
 
 - title: Vector functions
   desc: >
