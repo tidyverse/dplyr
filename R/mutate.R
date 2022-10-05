@@ -368,7 +368,7 @@ mutate_col <- function(dot, data, mask, new_columns) {
         result <- chunks[[1]]
       } else {
         chunks <- dplyr_vec_cast_common(chunks, quo_data$name_auto)
-        result <- list_unchop(chunks, rows)
+        result <- list_unchop(chunks, indices = rows)
       }
     }
 
