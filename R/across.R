@@ -232,7 +232,7 @@ across <- function(.cols = everything(),
   names <- setup$names
 
   if (is.null(fns)) {
-    data <- mask$pick(vars)
+    data <- mask$pick_current(vars)
 
     if (is.null(names)) {
       return(data)

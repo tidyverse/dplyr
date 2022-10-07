@@ -74,8 +74,11 @@ DataMask <- R6Class("DataMask",
       eval()
     },
 
-    pick = function(vars) {
+    pick_current = function(vars) {
+      # Only used for deprecated `cur_data()`, `cur_data_all()`, and
+      # `across(.fns = NULL)`. We should remove this when we defunct those.
       cols <- self$current_cols(vars)
+
       if (self$is_rowwise_df()) {
         cols <- map2(cols, names(cols), function(col, name) {
           if (vec_is_list(private$current_data[[name]])) {
@@ -84,6 +87,7 @@ DataMask <- R6Class("DataMask",
           col
         })
       }
+
       size <- length(self$current_rows())
       dplyr_new_tibble(cols, size = size)
     },

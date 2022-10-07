@@ -58,7 +58,7 @@ n <- function() {
 cur_data <- function() {
   mask <- peek_mask()
   vars <- mask$current_non_group_vars()
-  mask$pick(vars)
+  mask$pick_current(vars)
 }
 
 #' @rdname context
@@ -66,7 +66,7 @@ cur_data <- function() {
 cur_data_all <- function() {
   mask <- peek_mask()
   vars <- mask$current_vars()
-  mask$pick(vars)
+  mask$pick_current(vars)
 }
 
 #' @rdname context
