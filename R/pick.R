@@ -10,6 +10,20 @@
 #' each column individually. To apply a function across multiple columns, see
 #' [across()].
 #'
+#' @details
+#' For `pick()`, the tidyselection provided through `...` is only evaluated once
+#' on the _original_ data frame, and the selection is then reused for all
+#' groups. This allows `pick()` to enforce two important invariants:
+#'
+#' - The columns selected by `pick()` are the same across all groups.
+#'
+#' - The number of rows returned by `pick()` is always equal to the number of
+#'   rows in the current group.
+#'
+#' For `rowwise()` data frames, list-columns are returned as they appear in the
+#' original data frame. This ensures that they can be `pick()`-ed alongside
+#' other columns.
+#'
 #' @param ... <[`tidy-select`][dplyr_tidy_select]>
 #'
 #'   Columns to pick. Because `pick()` is used within functions like
@@ -52,27 +66,65 @@
 pick <- function(...) {
   mask <- peek_mask()
 
-  # `...` are evaluated on the current state of "full" unchopped columns,
-  # not just on the current group chop, to ensure that per-group tidyselect
-  # results are consistent
-  data <- mask$get_current_data(groups = FALSE)
+  # We're using `quos()` instead of `enquos()` here for speed because we aren't
+  # defusing named arguments. Only the ellipsis is converted to quosures, there
+  # are no further arguments.
+  quos <- quos(
+    ...,
+    .named = NULL,
+    .ignore_empty = "all",
+    .unquote_names = FALSE
+  )
 
-  if (dots_n(...) == 0L) {
-    abort("`...` can't be empty.")
+  key <- map(quos, quo_get_expr)
+  key <- hash(key)
+
+  chops <- mask$tidyselect_cache_get(key)
+
+  if (is.null(chops)) {
+    if (length(quos) == 0L) {
+      abort("`...` can't be empty.")
+    }
+
+    # `pick()` is evaluated in a data mask so we need to remove the
+    # mask layer from the quosure environments (same as `across()`) (#5460)
+    quos <- map(quos, quo_set_env_to_data_mask_top)
+    expr <- expr(c(!!!quos))
+
+    # `pick()` is evaluated on the original data frame, i.e. before any
+    # mutations are made. This ensures the cache is valid across expressions.
+    size <- mask$get_size()
+    data <- mask$get_original_data()
+    data <- dplyr_new_tibble(data, size = size)
+
+    # Remove grouping variables from the original data, which are never allowed
+    # to be selected as variables to `pick()`. This includes variables
+    # specified in `rowwise(.data, ...)`.
+    names <- mask$get_group_vars()
+    if (length(names) > 0L) {
+      data <- data[setdiff(names(data), names)]
+    }
+
+    sel <- tidyselect::eval_select(
+      expr = expr,
+      data = data,
+      allow_rename = FALSE
+    )
+
+    data <- data[sel]
+
+    if (mask$is_grouped_df() || mask$is_rowwise_df()) {
+      # Only chop if we have to
+      locs <- mask$get_rows()
+      chops <- vec_chop(data, indices = locs)
+    } else {
+      chops <- list(data)
+    }
+
+    mask$tidyselect_cache_push(key, chops)
   }
 
-  # `pick()` is evaluated in a data mask so we need to remove the
-  # mask layer from the quosure environments (same as `across()`) (#5460)
-  quos <- enquos(..., .named = NULL)
-  quos <- map(quos, quo_set_env_to_data_mask_top)
-  expr <- expr(c(!!!quos))
+  group <- mask$get_current_group()
 
-  sel <- tidyselect::eval_select(
-    expr = expr,
-    data = data,
-    allow_rename = FALSE
-  )
-  sel <- names(sel)
-
-  mask$pick(sel)
+  chops[[group]]
 }

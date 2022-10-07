@@ -25,6 +25,20 @@ you compute on the data frame returned by \code{pick()} as a whole, rather than 
 each column individually. To apply a function across multiple columns, see
 \code{\link[=across]{across()}}.
 }
+\details{
+For \code{pick()}, the tidyselection provided through \code{...} is only evaluated once
+on the \emph{original} data frame, and the selection is then reused for all
+groups. This allows \code{pick()} to enforce two important invariants:
+\itemize{
+\item The columns selected by \code{pick()} are the same across all groups.
+\item The number of rows returned by \code{pick()} is always equal to the number of
+rows in the current group.
+}
+
+For \code{rowwise()} data frames, list-columns are returned as they appear in the
+original data frame. This ensures that they can be \code{pick()}-ed alongside
+other columns.
+}
 \examples{
 df <- tibble(
   x = c(3, 2, 2, 2, 1),

@@ -17,7 +17,8 @@ DataMask <- R6Class("DataMask",
       }
       names(data) <- names_bindings
       private$size <- nrow(data)
-      private$current_data <- unclass(data)
+      private$original_data <- dplyr_new_list(data)
+      private$current_data <- private$original_data
 
       private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows)
       private$mask <- .Call(dplyr_data_masks_setup, private$chops, data, rows)
@@ -138,6 +139,14 @@ DataMask <- R6Class("DataMask",
       private$rows
     },
 
+    get_group_vars = function() {
+      private$group_vars
+    },
+
+    get_original_data = function() {
+      private$original_data
+    },
+
     get_current_data = function(groups = TRUE) {
       out <- private$current_data
 
@@ -176,6 +185,14 @@ DataMask <- R6Class("DataMask",
       private$rowwise_df
     },
 
+    tidyselect_cache_get = function(key) {
+      private$tidyselect_cache[[key]]
+    },
+
+    tidyselect_cache_push = function(key, value) {
+      private$tidyselect_cache[[key]] <- value
+    },
+
     get_keys = function() {
       private$keys
     },
@@ -208,8 +225,11 @@ DataMask <- R6Class("DataMask",
     # in the parent environment of `mask`
     mask = NULL,
 
+    # Original data frame, stored as an unclassed list for accessor performance
+    original_data = NULL,
+
     # ptypes of all the variables
-    current_data = list(),
+    current_data = NULL,
 
     # names of the grouping variables
     group_vars = character(),
@@ -226,6 +246,9 @@ DataMask <- R6Class("DataMask",
     # Type of data frame
     grouped_df = NULL,
     rowwise_df = NULL,
+
+    # Cache used by `pick()` for up front tidyselection
+    tidyselect_cache = list(),
 
     verb = character()
   )

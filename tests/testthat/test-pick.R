@@ -44,6 +44,14 @@ test_that("selectors won't select grouping columns", {
   expect_named(out$y, "x")
 })
 
+test_that("selectors won't select rowwise 'grouping' columns", {
+  df <- tibble(g = 1, x = 2)
+  rdf <- rowwise(df, g)
+
+  out <- mutate(rdf, y = pick(everything()))
+  expect_named(out$y, "x")
+})
+
 test_that("can't explicitly select grouping columns (#5460)", {
   # Related to removing the mask layer from the quosure environments
   df <- tibble(g = 1, x = 2)
@@ -75,9 +83,8 @@ test_that("works with empty selections", {
   expect_identical(out$y, new_tibble(x = list(), nrow = 3))
 })
 
-test_that("`...` are evaluated on the full column, not the current group chop", {
-  # To try and ensure tidyselection is consistent across groups, in case
-  # we can ever optimize to do 1 selection up front and use it on all groups
+test_that("`...` are evaluated once on the full column, not on the current group chop", {
+  # To ensure tidyselection is consistent across groups
   df <- tibble(g = c(1, 1, 2, 2), x = c(0, 0, 1, 1))
   gdf <- group_by(df, g)
 
@@ -93,7 +100,7 @@ test_that("`pick()` can be used inside `group_by()` wrappers", {
     group_by(data, pick({{ groups }}))
   }
 
-  df <- tibble(a = 1:3, b = 2:4, c= 3:5)
+  df <- tibble(a = 1:3, b = 2:4, c = 3:5)
 
   expect_identical(
     tidyselect_group_by(df, c(a, c)),
@@ -101,10 +108,26 @@ test_that("`pick()` can be used inside `group_by()` wrappers", {
   )
 })
 
-test_that("uses the current view of the data when called sequentially", {
+test_that("the tidyselection and column extraction are evaluated on the original data", {
+  df <- tibble(g = c(1, 2, 2), x = 1:3)
+  gdf <- group_by(df, g)
+
+  expect <- tibble(g = c(1, 2, 2), y = tibble(x = 1:3))
+  expect_identical(
+    mutate(df, x = NULL, y = pick(x)),
+    expect
+  )
+  expect_identical(
+    mutate(gdf, x = NULL, y = pick(x)),
+    group_by(expect, g)
+  )
+
   df <- tibble(x = 1)
-  expect <- tibble(x = tibble(x = tibble(x = 1)))
-  expect_identical(mutate(df, x = pick(x), x = pick(x)), expect)
+
+  expect_identical(
+    mutate(df, x = pick(x), x = pick(x), y = pick(x)),
+    tibble(x = tibble(x = 1), y = tibble(x = 1))
+  )
 })
 
 test_that("can call different `pick()` expressions in different groups", {
@@ -123,6 +146,17 @@ test_that("can call `pick()` from a user defined function", {
   out <- mutate(df, d = my_pick())
 
   expect_identical(out$d, df[c("a", "c")])
+})
+
+test_that("`group_cols()` technically works, but never returns any columns", {
+  df <- tibble(g = 1, x = 1, y = 2)
+  gdf <- group_by(df, g)
+
+  out <- mutate(gdf, z = pick(group_cols()))
+  expect_identical(out$z, df[character()])
+
+  out <- mutate(gdf, z = pick(-group_cols()))
+  expect_identical(out$z, df[c("x", "y")])
 })
 
 test_that("errors correctly outside mutate context", {
