@@ -140,12 +140,73 @@ test_that("can call different `pick()` expressions in different groups", {
 
 test_that("can call `pick()` from a user defined function", {
   df <- tibble(a = 1, b = 2, c = 3)
+  gdf <- group_by(df, a)
 
+  # Hardcoded variables in expression
   my_pick <- function() pick(a, c)
-
   out <- mutate(df, d = my_pick())
-
   expect_identical(out$d, df[c("a", "c")])
+
+  # Hardcoded `all_of()` using a local variable
+  my_pick <- function() {
+    x <- c("a", "c")
+    pick(all_of(x))
+  }
+  out <- mutate(df, d = my_pick())
+  expect_identical(out$d, df[c("a", "c")])
+
+  expect_snapshot(error = TRUE, {
+    mutate(gdf, d = my_pick())
+  })
+
+  # Dynamic `all_of()` using user supplied variable
+  my_pick <- function(x) {
+    pick(all_of(x))
+  }
+  y <- c("a", "c")
+  out <- mutate(df, d = my_pick(y))
+  expect_identical(out$d, df[c("a", "c")])
+
+  expect_snapshot(error = TRUE, {
+    mutate(gdf, d = my_pick(y))
+  })
+})
+
+test_that("identical calls to `all_of()` with different environments can return different results", {
+  skip("Until we can figure this case out")
+
+  df <- tibble(a = 1, b = 2, c = 3)
+
+  my_pick1 <- function(x) {
+    pick(all_of(x))
+  }
+  my_pick2 <- function(x) {
+    pick(all_of(x))
+  }
+
+  out <- mutate(df, x = my_pick1("a"), y = my_pick1("b"))
+  expect_identical(out$x, df["a"])
+  expect_identical(out$y, df["b"])
+
+  out <- mutate(df, x = my_pick1("a"), y = my_pick2("b"))
+  expect_identical(out$x, df["a"])
+  expect_identical(out$y, df["b"])
+})
+
+test_that("evaluates `pick()` outside the data mask", {
+  # `pick()` is evaluated once on the original data frame in an environment
+  # that is outside the `...` of the dplyr verb. This is intentional to avoid
+  # theoretical per-group differences in what `pick()` should return.
+  df <- tibble(x = 1, y = 2, z = 3)
+
+  a <- "z"
+
+  out <- mutate(df, foo = {
+    a <- "x"
+    pick(all_of(a))
+  })
+
+  expect_identical(out$foo, df["z"])
 })
 
 test_that("`group_cols()` technically works, but never returns any columns", {

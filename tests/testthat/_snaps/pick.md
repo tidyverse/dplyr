@@ -22,6 +22,34 @@
       Caused by error in `as_indices_impl()`:
       ! object 'y' not found
 
+# can call `pick()` from a user defined function
+
+    Code
+      mutate(gdf, d = my_pick())
+    Condition
+      Error in `mutate()`:
+      i In argument: `d = my_pick()`.
+      i In group 1: `a = 1`.
+      Caused by error in `pick()`:
+      ! Problem while evaluating `all_of(x)`.
+      Caused by error in `all_of()`:
+      ! Can't subset elements that don't exist.
+      x Element `a` doesn't exist.
+
+---
+
+    Code
+      mutate(gdf, d = my_pick(y))
+    Condition
+      Error in `mutate()`:
+      i In argument: `d = my_pick(y)`.
+      i In group 1: `a = 1`.
+      Caused by error in `pick()`:
+      ! Problem while evaluating `all_of(x)`.
+      Caused by error in `all_of()`:
+      ! Can't subset elements that don't exist.
+      x Element `a` doesn't exist.
+
 # errors correctly outside mutate context
 
     Code
