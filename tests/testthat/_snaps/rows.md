@@ -101,7 +101,7 @@
     Code
       (expect_error(rows_update(x, y, "key")))
     Output
-      <error/vctrs_error_incompatible_type>
+      <error/vctrs_error_ptype2>
       Error in `rows_update()`:
       ! Can't combine `x$key` <integer> and `y$key` <character>.
 
@@ -156,7 +156,7 @@
     Code
       (expect_error(rows_patch(x, y, "key")))
     Output
-      <error/vctrs_error_incompatible_type>
+      <error/vctrs_error_ptype2>
       Error in `rows_patch()`:
       ! Can't combine `x$key` <integer> and `y$key` <character>.
 
@@ -185,7 +185,7 @@
     Code
       (expect_error(rows_upsert(x, y, "key")))
     Output
-      <error/vctrs_error_incompatible_type>
+      <error/vctrs_error_ptype2>
       Error in `rows_upsert()`:
       ! Can't combine `x$key` <integer> and `y$key` <character>.
 
@@ -240,7 +240,7 @@
     Code
       (expect_error(rows_delete(x, y, "key")))
     Output
-      <error/vctrs_error_incompatible_type>
+      <error/vctrs_error_ptype2>
       Error in `rows_delete()`:
       ! Can't combine `x$key` <integer> and `y$key` <character>.
 

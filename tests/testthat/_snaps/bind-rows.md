@@ -38,7 +38,7 @@
       df2 <- tibble(a = 1L)
       (expect_error(bind_rows(df1, df2)))
     Output
-      <error/vctrs_error_incompatible_type>
+      <error/vctrs_error_ptype2>
       Error in `bind_rows()`:
       ! Can't combine `..1$a` <factor<4d52a>> and `..2$a` <integer>.
     Code
