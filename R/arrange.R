@@ -106,28 +106,64 @@ arrange_rows <- function(data,
                          error_call = caller_env()) {
   dplyr_local_error_call(error_call)
 
+  size <- nrow(data)
+
+  # `arrange()` implementation always uses bare data frames
+  data <- new_data_frame(data, n = size)
+
   # Strip out calls to desc() replacing with direction argument
   is_desc_call <- function(x) {
     quo_is_call(x, "desc", ns = c("", "dplyr"))
   }
-  directions <- map_chr(dots, function(quosure) {
-    if (is_desc_call(quosure)) "desc" else "asc"
+  directions <- map_chr(dots, function(dot) {
+    if (is_desc_call(dot)) "desc" else "asc"
   })
-  quosures <- map(dots, function(quosure) {
-    if (is_desc_call(quosure)) {
-      expr <- quo_get_expr(quosure)
+  dots <- map(dots, function(dot) {
+    if (is_desc_call(dot)) {
+      expr <- quo_get_expr(dot)
       if (!has_length(expr, 2L)) {
         abort("`desc()` must be called with exactly one argument.", call = error_call)
       }
 
-      quosure <- new_quosure(expr[[2]], quo_get_env(quosure))
+      dot <- new_quosure(expr[[2]], quo_get_env(dot))
     }
-    quosure
+    dot
   })
 
-  names(quosures) <- vec_paste0("..", seq_along(quosures))
-  data <- mutate(new_data_frame(data), !!!quosures, .keep = "none")
-  directions <- directions[names(quosures) %in% names(data)]
+  n_dots <- length(dots)
+  seq_dots <- seq_len(n_dots)
+
+  cols <- vector("list", length = n_dots)
+  names(cols) <- as.character(seq_dots)
+
+  for (i in seq_dots) {
+    name <- vec_paste0("..", i)
+    dot <- dots[[i]]
+
+    # Evaluate each `dot` on the original data separately, rather than
+    # evaluating all at once. We want to avoid the "sequential evaluation"
+    # feature of `mutate()` where the 2nd expression can access results of the
+    # 1st (#6495).
+    elt <- mutate(data, "{name}" := !!dot, .keep = "none")
+    elt <- elt[[name]]
+
+    if (is.null(elt)) {
+      # In this case, `dot` evaluated to `NULL` for "column removal" so
+      # `elt[[name]]` won't exist, but we don't want to shorten `cols`.
+      next
+    }
+
+    cols[[i]] <- elt
+  }
+
+  if (vec_any_missing(cols)) {
+    # Drop `NULL`s that could result from `dot` evaluating to `NULL` above
+    not_missing <- !vec_detect_missing(cols)
+    cols <- vec_slice(cols, not_missing)
+    directions <- vec_slice(directions, not_missing)
+  }
+
+  data <- new_data_frame(cols, n = size)
 
   if (is.null(locale) && dplyr_legacy_locale()) {
     # Temporary legacy support for respecting the system locale.
