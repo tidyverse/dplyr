@@ -76,7 +76,7 @@ pick <- function(...) {
     .unquote_names = FALSE
   )
 
-  key <- map(quos, quo_get_expr)
+  key <- lapply(quos, quo_get_expr)
   key <- hash(key)
 
   chops <- mask$tidyselect_cache_get(key)
