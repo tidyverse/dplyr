@@ -23,7 +23,7 @@ Imports:
     cli (>= 3.4.0),
     generics,
     glue (>= 1.3.2),
-    lifecycle (>= 1.0.3,
+    lifecycle (>= 1.0.3),
     magrittr (>= 1.5),
     methods,
     pillar (>= 1.5.1),
