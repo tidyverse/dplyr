@@ -149,6 +149,22 @@ test_that("when keep = TRUE, inner_join() preserves both sets of keys (#5581)", 
   expect_equal(out$a.y, c(3))
 })
 
+test_that("can use `keep = FALSE` with non-equi conditions that don't have duplicate keys (#6499)", {
+  df1 <- tibble(xl = c(1, 3), xu = c(4, 7))
+  df2 <- tibble(yl = c(2, 5, 8), yu = c(6, 8, 9))
+
+  out <- left_join(df1, df2, join_by(overlaps(xl, xu, yl, yu)), keep = FALSE)
+  expect_identical(out, tibble(xl = c(1, 3, 3), xu = c(4, 7, 7)))
+
+  # The key merging is a bit strange here, due to the fact that the underlying
+  # binary conditions are: `xl <= yu, xu >= yl`. It results in an `xl/xu` column
+  # that no longer has the `xl <= xu` invariant anymore.
+  # TODO: Consider making `keep = FALSE` an error when non-equi keys are
+  # present (#6499).
+  out <- full_join(df1, df2, join_by(overlaps(xl, xu, yl, yu)), keep = FALSE)
+  expect_identical(out, tibble(xl = c(1, 3, 3, 9), xu = c(4, 7, 7, 8)))
+})
+
 test_that("joins matches NAs by default (#892, #2033)", {
   df1 <- tibble(x = c(NA_character_, 1))
   df2 <- tibble(x = c(NA_character_, 2))
