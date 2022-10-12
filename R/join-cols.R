@@ -10,8 +10,8 @@ join_cols <- function(x_names,
   check_duplicate_vars(x_names, "x", error_call = error_call)
   check_duplicate_vars(y_names, "y", error_call = error_call)
 
-  check_join_vars(by$x, x_names, by$condition, keep, error_call = error_call)
-  check_join_vars(by$y, y_names, by$condition, keep, error_call = error_call)
+  check_join_vars(by$x, x_names, by$condition, keep, "x", error_call = error_call)
+  check_join_vars(by$y, y_names, by$condition, keep, "y", error_call = error_call)
 
   suffix <- standardise_join_suffix(suffix, error_call = error_call)
 
@@ -66,18 +66,20 @@ check_join_vars <- function(vars,
                             names,
                             condition,
                             keep,
+                            input,
                             ...,
                             error_call = caller_env()) {
   check_dots_empty0(...)
 
   if (!is.character(vars)) {
-    abort("Join columns must be character vectors.", call = error_call)
+    message <- glue("Join columns in `{input}` must be character vectors.")
+    abort(message, call = error_call)
   }
 
   na <- is.na(vars)
   if (any(na)) {
     bullets <- c(
-      "Join columns must be not NA.",
+      glue("Join columns in `{input}` can't be `NA`."),
       x = glue("Problem at position {err_vars(na)}.")
     )
     abort(bullets, call = error_call)
@@ -94,7 +96,7 @@ check_join_vars <- function(vars,
     vars <- unique(vars[dup])
 
     bullets <- c(
-      "Join columns must be unique.",
+      glue("Join columns in `{input}` must be unique."),
       x = glue("Problem with {err_vars(vars)}.")
     )
 
@@ -104,7 +106,7 @@ check_join_vars <- function(vars,
   missing <- setdiff(vars, names)
   if (length(missing) > 0) {
     bullets <- c(
-      "Join columns must be present in data.",
+      glue("Join columns in `{input}` must be present in the data."),
       x = glue("Problem with {err_vars(missing)}.")
     )
     abort(bullets, call = error_call)
@@ -141,7 +143,7 @@ standardise_join_suffix <- function(x,
   }
 
   if (any(is.na(x))) {
-    msg <- glue("`suffix` can't be NA.")
+    msg <- glue("`suffix` can't be `NA`.")
     abort(msg, call = error_call)
   }
 
