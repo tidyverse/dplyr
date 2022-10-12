@@ -103,6 +103,16 @@ test_that("can duplicate key between non-equi conditions", {
   expect_snapshot(error = TRUE, join_cols(c("xl", "xu"), "x", by = join_by(xl < x, xu > x), keep = FALSE))
 })
 
+test_that("can use `keep = FALSE` with non-equi conditions that don't have duplicate keys (#6499)", {
+  vars <- join_cols(c("xl", "xu"), c("yl", "yu"), by = join_by(xl > yl, xu < yu), keep = FALSE)
+
+  expect_identical(vars$x$key, c(xl = 1L, xu = 2L))
+  expect_identical(vars$x$out, c(xl = 1L, xu = 2L))
+
+  expect_identical(vars$y$key, c(yl = 1L, yu = 2L))
+  expect_identical(vars$y$out, set_names(integer()))
+})
+
 test_that("can't duplicate key between equi condition and non-equi condition", {
   expect_snapshot(error = TRUE, join_cols("x", c("xl", "xu"), by = join_by(x > xl, x == xu)))
   expect_snapshot(error = TRUE, join_cols(c("xl", "xu"), "x", by = join_by(xl < x, xu == x)))
