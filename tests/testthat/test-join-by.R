@@ -152,11 +152,61 @@ test_that("between / overlaps / within / closest can use named arguments", {
   expect_identical(by$y, "b")
 })
 
-test_that("can join_by() nothing for a cross join", {
+test_that("can `join_by()` nothing for a cross join", {
   by <- join_by()
   expect_identical(by$x, character())
   expect_identical(by$y, character())
   expect_identical(by$cross, TRUE)
+})
+
+test_that("can pass `...` on to wrapped `join_by()`", {
+  fn <- function(...) {
+    join_by(...)
+  }
+  fn2 <- function(x) {
+    fn({{x}} == y)
+  }
+
+  expect_identical(fn(x == y, a <= b), join_by(x == y, a <= b))
+  expect_identical(fn2(a), join_by(a == y))
+})
+
+test_that("can wrap `join_by()` and use embracing to inject columns (#6469)", {
+  fn <- function(x) {
+    join_by({{x}} == y)
+  }
+  expect_identical(fn("foo"), join_by("foo" == y))
+
+  # Expression substitution, not quosure evaluation
+  a <- "foo"
+  expect_identical(fn(a), join_by(a == y))
+
+  # But you can inline with `!!`
+  expect_identical(fn(!!a), join_by("foo" == y))
+
+  fn <- function(x, top) {
+    join_by(between({{x}}, lower, {{top}}))
+  }
+  expect_identical(fn(x, y), join_by(between(x, lower, y)))
+})
+
+test_that("can wrap `join_by()` and use embracing to inject expressions", {
+  fn <- function(expr) {
+    join_by({{expr}}, a <= b)
+  }
+  expect_identical(fn(a == b), join_by(a == b, a <= b))
+})
+
+test_that("nicely catches missing arguments when wrapped", {
+  fn <- function(x, y) {
+    join_by({{x}}, {{y}})
+  }
+  expect_snapshot(error = TRUE, fn(a))
+
+  fn <- function(x, y) {
+    join_by({{x}} == {{y}})
+  }
+  expect_snapshot(error = TRUE, fn(a))
 })
 
 test_that("has an informative print method", {

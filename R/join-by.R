@@ -189,7 +189,12 @@
 #' by <- join_by(chromosome, overlaps(x$start, x$end, y$start, y$end))
 #' full_join(segments, reference, by)
 join_by <- function(...) {
-  exprs <- enexprs(..., .named = NULL)
+  # `join_by()` captures pure expressions, but we want to allow `{{ }}`. Since
+  # embracing doesn't work with `enexprs()`, the second best option is to use
+  # `enquos()` and immediately squash all quosures to recursively extract the
+  # expressions.
+  exprs <- enquos(..., .named = NULL)
+  exprs <- map(exprs, quo_squash)
 
   if (!is_null(names(exprs))) {
     abort(c(
@@ -353,6 +358,14 @@ parse_join_by_expr <- function(expr, i, error_call) {
     message <- c(
       "Join by expressions can't be empty.",
       x = glue("Expression {i} is empty.")
+    )
+    abort(message, call = error_call)
+  }
+
+  if (is_missing(expr)) {
+    message <- c(
+      "Join by expressions can't be missing.",
+      x = glue("Expression {i} is missing.")
     )
     abort(message, call = error_call)
   }

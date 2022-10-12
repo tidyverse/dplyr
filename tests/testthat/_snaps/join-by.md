@@ -1,3 +1,21 @@
+# nicely catches missing arguments when wrapped
+
+    Code
+      fn(a)
+    Condition
+      Error in `join_by()`:
+      ! Join by expressions can't be missing.
+      x Expression 2 is missing.
+
+---
+
+    Code
+      fn(a)
+    Condition
+      Error:
+      ! Expressions using `==` can't contain missing arguments.
+      x Argument `y` is missing.
+
 # has an informative print method
 
     Code
