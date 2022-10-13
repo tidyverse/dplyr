@@ -189,10 +189,10 @@
 #' by <- join_by(chromosome, overlaps(x$start, x$end, y$start, y$end))
 #' full_join(segments, reference, by)
 join_by <- function(...) {
-  # `join_by()` captures pure expressions, but we want to allow `{{ }}`. Since
-  # embracing doesn't work with `enexprs()`, the second best option is to use
-  # `enquos()` and immediately squash all quosures to recursively extract the
-  # expressions.
+  # `join_by()` works off pure expressions with no evaluation in the user's
+  # environment, but we want to allow `{{ }}` to make it easier to program with.
+  # The best way to do this is to capture quosures with `enquos()`, and then
+  # immediately squash them recursively into expressions with `quo_squash()`.
   exprs <- enquos(..., .named = NULL)
   exprs <- map(exprs, quo_squash)
 
