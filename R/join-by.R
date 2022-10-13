@@ -354,18 +354,18 @@ join_by_common <- function(x_names,
 # these functions don't have an `error_call` argument.
 
 parse_join_by_expr <- function(expr, i, error_call) {
-  if (length(expr) == 0L) {
-    message <- c(
-      "Join by expressions can't be empty.",
-      x = glue("Expression {i} is empty.")
-    )
-    abort(message, call = error_call)
-  }
-
   if (is_missing(expr)) {
     message <- c(
       "Join by expressions can't be missing.",
       x = glue("Expression {i} is missing.")
+    )
+    abort(message, call = error_call)
+  }
+
+  if (length(expr) == 0L) {
+    message <- c(
+      "Join by expressions can't be empty.",
+      x = glue("Expression {i} is empty.")
     )
     abort(message, call = error_call)
   }
