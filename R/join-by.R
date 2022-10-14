@@ -189,7 +189,12 @@
 #' by <- join_by(chromosome, overlaps(x$start, x$end, y$start, y$end))
 #' full_join(segments, reference, by)
 join_by <- function(...) {
-  exprs <- enexprs(..., .named = NULL)
+  # `join_by()` works off pure expressions with no evaluation in the user's
+  # environment, but we want to allow `{{ }}` to make it easier to program with.
+  # The best way to do this is to capture quosures with `enquos()`, and then
+  # immediately squash them recursively into expressions with `quo_squash()`.
+  exprs <- enquos(..., .named = NULL)
+  exprs <- map(exprs, quo_squash)
 
   if (!is_null(names(exprs))) {
     abort(c(
@@ -349,6 +354,14 @@ join_by_common <- function(x_names,
 # these functions don't have an `error_call` argument.
 
 parse_join_by_expr <- function(expr, i, error_call) {
+  if (is_missing(expr)) {
+    message <- c(
+      "Join by expressions can't be missing.",
+      x = glue("Expression {i} is missing.")
+    )
+    abort(message, call = error_call)
+  }
+
   if (length(expr) == 0L) {
     message <- c(
       "Join by expressions can't be empty.",
