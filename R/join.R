@@ -102,10 +102,11 @@
 #'   output?
 #'   - If `NULL`, the default, joins on equality retain only the keys from `x`,
 #'     while joins on inequality retain the keys from both inputs.
-#'   - If `TRUE`, keys from both inputs are retained.
+#'   - If `TRUE`, all keys from both inputs are retained.
 #'   - If `FALSE`, only keys from `x` are retained. For right and full joins,
 #'     the data in key columns corresponding to rows that only exist in `y` are
-#'     merged into the key columns from `x`.
+#'     merged into the key columns from `x`. Can't be used when joining on
+#'     inequality conditions.
 #' @param ... Other parameters passed onto methods.
 #' @param na_matches Should two `NA` or two `NaN` values match?
 #'   - `"na"`, the default, treats two `NA` or two `NaN` values as equal, like
@@ -627,6 +628,7 @@ join_mutate <- function(x,
     if (is_null(keep)) {
       merge <- by$x[by$condition == "=="]
     } else if (is_false(keep)) {
+      # Won't ever contain non-equi conditions
       merge <- by$x
     }
 

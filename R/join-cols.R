@@ -7,11 +7,18 @@ join_cols <- function(x_names,
                       error_call = caller_env()) {
   check_dots_empty0(...)
 
+  if (is_false(keep) && any(by$condition != "==")) {
+    abort(
+      "Can't set `keep = FALSE` when using an inequality, rolling, or overlap join.",
+      call = error_call
+    )
+  }
+
   check_duplicate_vars(x_names, "x", error_call = error_call)
   check_duplicate_vars(y_names, "y", error_call = error_call)
 
-  check_join_vars(by$x, x_names, by$condition, keep, "x", error_call = error_call)
-  check_join_vars(by$y, y_names, by$condition, keep, "y", error_call = error_call)
+  check_join_vars(by$x, x_names, by$condition, "x", error_call = error_call)
+  check_join_vars(by$y, y_names, by$condition, "y", error_call = error_call)
 
   suffix <- standardise_join_suffix(suffix, error_call = error_call)
 
@@ -65,7 +72,6 @@ join_cols <- function(x_names,
 check_join_vars <- function(vars,
                             names,
                             condition,
-                            keep,
                             input,
                             ...,
                             error_call = caller_env()) {
@@ -85,11 +91,12 @@ check_join_vars <- function(vars,
     abort(bullets, call = error_call)
   }
 
-  if (!is_false(keep)) {
-    # Non-equi columns are allowed to be duplicated when `keep = TRUE/NULL`
-    non_equi <- condition != "=="
-    vars <- c(vars[!non_equi], unique(vars[non_equi]))
-  }
+  # Columns are allowed to appear in more than one non-equi condition
+  # (but not in a mix of non-equi and equi conditions).
+  # When non-equi conditions are present, `keep` can't be `FALSE` so we don't
+  # have to worry about merging into the same key column multiple times (#6499).
+  non_equi <- condition != "=="
+  vars <- c(vars[!non_equi], unique(vars[non_equi]))
 
   dup <- duplicated(vars)
   if (any(dup)) {

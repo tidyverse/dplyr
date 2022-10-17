@@ -1,3 +1,19 @@
+# can't use `keep = FALSE` with non-equi conditions (#6499)
+
+    Code
+      left_join(df1, df2, join_by(overlaps(xl, xu, yl, yu)), keep = FALSE)
+    Condition
+      Error in `left_join()`:
+      ! Can't set `keep = FALSE` when using an inequality, rolling, or overlap join.
+
+---
+
+    Code
+      full_join(df1, df2, join_by(overlaps(xl, xu, yl, yu)), keep = FALSE)
+    Condition
+      Error in `full_join()`:
+      ! Can't set `keep = FALSE` when using an inequality, rolling, or overlap join.
+
 # join_mutate() validates arguments
 
     Code

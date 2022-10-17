@@ -151,10 +151,11 @@ output?
 \itemize{
 \item If \code{NULL}, the default, joins on equality retain only the keys from \code{x},
 while joins on inequality retain the keys from both inputs.
-\item If \code{TRUE}, keys from both inputs are retained.
+\item If \code{TRUE}, all keys from both inputs are retained.
 \item If \code{FALSE}, only keys from \code{x} are retained. For right and full joins,
 the data in key columns corresponding to rows that only exist in \code{y} are
-merged into the key columns from \code{x}.
+merged into the key columns from \code{x}. Can't be used when joining on
+inequality conditions.
 }}
 
 \item{na_matches}{Should two \code{NA} or two \code{NaN} values match?

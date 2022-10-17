@@ -1,20 +1,35 @@
-# can duplicate key between non-equi conditions
+# can't mix non-equi conditions with `keep = FALSE` (#6499)
 
     Code
-      join_cols("x", c("xl", "xu"), by = join_by(x > xl, x < xu), keep = FALSE)
+      join_cols(c("x", "y"), c("x", "z"), by = join_by(x, y > z), keep = FALSE)
     Condition
       Error:
-      ! Join columns in `x` must be unique.
-      x Problem with `x`.
+      ! Can't set `keep = FALSE` when using an inequality, rolling, or overlap join.
 
 ---
 
     Code
-      join_cols(c("xl", "xu"), "x", by = join_by(xl < x, xu > x), keep = FALSE)
+      join_cols(c("xl", "xu"), c("yl", "yu"), by = join_by(xl >= yl, xu < yu), keep = FALSE)
     Condition
       Error:
-      ! Join columns in `y` must be unique.
-      x Problem with `x`.
+      ! Can't set `keep = FALSE` when using an inequality, rolling, or overlap join.
+
+---
+
+    Code
+      join_cols("x", c("yl", "yu"), by = join_by(between(x, yl, yu)), keep = FALSE)
+    Condition
+      Error:
+      ! Can't set `keep = FALSE` when using an inequality, rolling, or overlap join.
+
+---
+
+    Code
+      join_cols(c("xl", "xu"), c("yl", "yu"), by = join_by(overlaps(xl, xu, yl, yu)),
+      keep = FALSE)
+    Condition
+      Error:
+      ! Can't set `keep = FALSE` when using an inequality, rolling, or overlap join.
 
 # can't duplicate key between equi condition and non-equi condition
 
