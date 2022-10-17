@@ -9,7 +9,7 @@ join_cols <- function(x_names,
 
   if (is_false(keep) && any(by$condition != "==")) {
     abort(
-      "Can't set `keep = FALSE` when using a non-equi, rolling, or overlap join.",
+      "Can't set `keep = FALSE` when using an inequality, rolling, or overlap join.",
       call = error_call
     )
   }

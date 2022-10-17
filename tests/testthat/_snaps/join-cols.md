@@ -4,7 +4,7 @@
       join_cols(c("x", "y"), c("x", "z"), by = join_by(x, y > z), keep = FALSE)
     Condition
       Error:
-      ! Can't set `keep = FALSE` when using a non-equi, rolling, or overlap join.
+      ! Can't set `keep = FALSE` when using an inequality, rolling, or overlap join.
 
 ---
 
@@ -12,7 +12,7 @@
       join_cols(c("xl", "xu"), c("yl", "yu"), by = join_by(xl >= yl, xu < yu), keep = FALSE)
     Condition
       Error:
-      ! Can't set `keep = FALSE` when using a non-equi, rolling, or overlap join.
+      ! Can't set `keep = FALSE` when using an inequality, rolling, or overlap join.
 
 ---
 
@@ -20,7 +20,7 @@
       join_cols("x", c("yl", "yu"), by = join_by(between(x, yl, yu)), keep = FALSE)
     Condition
       Error:
-      ! Can't set `keep = FALSE` when using a non-equi, rolling, or overlap join.
+      ! Can't set `keep = FALSE` when using an inequality, rolling, or overlap join.
 
 ---
 
@@ -29,7 +29,7 @@
       keep = FALSE)
     Condition
       Error:
-      ! Can't set `keep = FALSE` when using a non-equi, rolling, or overlap join.
+      ! Can't set `keep = FALSE` when using an inequality, rolling, or overlap join.
 
 # can't duplicate key between equi condition and non-equi condition
 
