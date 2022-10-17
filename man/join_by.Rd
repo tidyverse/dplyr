@@ -92,22 +92,41 @@ two columns from the right-hand table. There are three helpers that
 \code{join_by()} recognizes to assist with constructing overlap joins, all of
 which can be constructed from simpler binary expressions.
 \itemize{
-\item \code{between(x, y_lower, y_upper)}
+\item \code{between(x, y_lower, y_upper, ..., bounds = "[]")}
 
 For each value in \code{x}, this finds everywhere that value falls between
-\verb{[y_lower, y_upper]}. Equivalent to \verb{x >= y_lower, x <= y_upper}.
+\verb{[y_lower, y_upper]}. Equivalent to \verb{x >= y_lower, x <= y_upper} by
+default.
+
+\code{bounds} can be one of \code{"[]"}, \code{"[)"}, \code{"(]"}, or
+\code{"()"} to alter the inclusiveness of the lower and upper bounds. This
+changes whether \code{>=} or \code{>} and \code{<=} or \code{<} are used to build the binary
+conditions shown above.
+
+Dots are for future extensions and must be empty.
 \item \code{within(x_lower, x_upper, y_lower, y_upper)}
 
 For each range in \verb{[x_lower, x_upper]}, this finds everywhere that range
 falls completely within \verb{[y_lower, y_upper]}. Equivalent to \verb{x_lower >= y_lower, x_upper <= y_upper}.
-\item \code{overlaps(x_lower, x_upper, y_lower, y_upper)}
+
+The binary conditions used to build \code{within()} are the same regardless of
+the inclusiveness of the supplied ranges.
+\item \code{overlaps(x_lower, x_upper, y_lower, y_upper, ..., bounds = "[]")}
 
 For each range in \verb{[x_lower, x_upper]}, this finds everywhere that range
-overlaps \verb{[y_lower, y_upper]} in any capacity. Equivalent to \verb{x_lower <= y_upper, x_upper >= y_lower}.
+overlaps \verb{[y_lower, y_upper]} in any capacity. Equivalent to \verb{x_lower <= y_upper, x_upper >= y_lower} by default.
+
+\code{bounds} can be one of \code{"[]"}, \code{"[)"}, \code{"(]"}, or
+\code{"()"} to alter the inclusiveness of the lower and upper bounds.
+\code{"[]"} uses \code{<=} and \code{>=}, but the 3 other options use \code{<} and \code{>}
+and generate the exact same binary conditions.
+
+Dots are for future extensions and must be empty.
 }
 
-These conditions assume that the ranges are well-formed, i.e.
-\code{x_lower <= x_upper}.
+These conditions assume that the ranges are well-formed and non-empty, i.e.
+\code{x_lower <= x_upper} when bounds are treated as \code{"[]"}, and
+\code{x_lower < x_upper} otherwise.
 }
 }
 
@@ -174,7 +193,7 @@ segments
 reference <- tibble(
   reference_id = 1:4,
   chromosome = c("chr1", "chr1", "chr2", "chr2"),
-  start = c(100, 200, 300, 400),
+  start = c(100, 200, 300, 415),
   end = c(150, 250, 399, 450)
 )
 reference
@@ -198,5 +217,11 @@ inner_join(segments, reference, by)
 
 # Find every time a segment overlaps a reference in any way.
 by <- join_by(chromosome, overlaps(x$start, x$end, y$start, y$end))
+full_join(segments, reference, by)
+
+# It is common to have right-open ranges with bounds like `[)`, which would
+# mean an end value of `415` would no longer overlap a start value of `415`.
+# Setting `bounds` allows you to compute overlaps with those kinds of ranges.
+by <- join_by(chromosome, overlaps(x$start, x$end, y$start, y$end, bounds = "[)"))
 full_join(segments, reference, by)
 }

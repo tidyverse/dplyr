@@ -207,6 +207,48 @@ test_that("joins don't match NA when na_matches = 'never' (#2033)", {
   )
 })
 
+test_that("joins using `between(bounds =)` work as expected (#6488)", {
+  df1 <- tibble(x = 1:5)
+  df2 <- tibble(lower = 2, upper = 4)
+
+  out <- full_join(df1, df2, by = join_by(between(x, lower, upper, bounds = "[]")))
+  expect_identical(out$lower, c(NA, 2, 2, 2, NA))
+  expect_identical(out$upper, c(NA, 4, 4, 4, NA))
+
+  out <- full_join(df1, df2, by = join_by(between(x, lower, upper, bounds = "[)")))
+  expect_identical(out$lower, c(NA, 2, 2, NA, NA))
+  expect_identical(out$upper, c(NA, 4, 4, NA, NA))
+
+  out <- full_join(df1, df2, by = join_by(between(x, lower, upper, bounds = "(]")))
+  expect_identical(out$lower, c(NA, NA, 2, 2, NA))
+  expect_identical(out$upper, c(NA, NA, 4, 4, NA))
+
+  out <- full_join(df1, df2, by = join_by(between(x, lower, upper, bounds = "()")))
+  expect_identical(out$lower, c(NA, NA, 2, NA, NA))
+  expect_identical(out$upper, c(NA, NA, 4, NA, NA))
+})
+
+test_that("joins using `overlaps(bounds =)` work as expected (#6488)", {
+  df1 <- tibble(x_lower = c(1, 1, 3, 4), x_upper = c(2, 3, 4, 5))
+  df2 <- tibble(y_lower = 2, y_upper = 4)
+
+  expect_closed <- vec_cbind(df1, vec_c(df2, df2, df2, df2))
+
+  out <- full_join(df1, df2, by = join_by(overlaps(x_lower, x_upper, y_lower, y_upper, bounds = "[]")))
+  expect_identical(out, expect_closed)
+
+  # `[)`, `(]`, and `()` all generate the same binary conditions but are useful
+  # for consistency with `between(bounds =)`
+  expect_open <- vec_cbind(df1, vec_c(NA, df2, df2, NA))
+
+  out <- full_join(df1, df2, by = join_by(overlaps(x_lower, x_upper, y_lower, y_upper, bounds = "[)")))
+  expect_identical(out, expect_open)
+  out <- full_join(df1, df2, by = join_by(overlaps(x_lower, x_upper, y_lower, y_upper, bounds = "(]")))
+  expect_identical(out, expect_open)
+  out <- full_join(df1, df2, by = join_by(overlaps(x_lower, x_upper, y_lower, y_upper, bounds = "()")))
+  expect_identical(out, expect_open)
+})
+
 test_that("join_mutate() validates arguments", {
   df <- tibble(x = 1)
 

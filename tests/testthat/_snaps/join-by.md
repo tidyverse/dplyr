@@ -202,7 +202,7 @@
       join_by(within(x$a, x$b, x$a, x$b))
     Condition
       Error in `join_by()`:
-      ! Expressions containing `overlaps()` or `within()` can't all reference the same table.
+      ! Expressions containing `within()` can't all reference the same table.
       i Expression 1 is `within(x$a, x$b, x$a, x$b)`.
 
 ---
@@ -211,7 +211,7 @@
       join_by(overlaps(a, b, x$a, x$b))
     Condition
       Error in `join_by()`:
-      ! Expressions containing `overlaps()` or `within()` can't all reference the same table.
+      ! Expressions containing `overlaps()` can't all reference the same table.
       i Expression 1 is `overlaps(a, b, x$a, x$b)`.
 
 ---
@@ -238,7 +238,7 @@
       join_by(within(x$a, y$b, y$a, y$b))
     Condition
       Error in `join_by()`:
-      ! Expressions containing `overlaps()` or `within()` must reference the same table for the left-hand side lower and upper bounds.
+      ! Expressions containing `within()` must reference the same table for the left-hand side lower and upper bounds.
       i Expression 1 is `within(x$a, y$b, y$a, y$b)`.
 
 ---
@@ -247,7 +247,7 @@
       join_by(overlaps(x$a, x$b, y$a, x$b))
     Condition
       Error in `join_by()`:
-      ! Expressions containing `overlaps()` or `within()` must reference the same table for the right-hand side lower and upper bounds.
+      ! Expressions containing `overlaps()` must reference the same table for the right-hand side lower and upper bounds.
       i Expression 1 is `overlaps(x$a, x$b, y$a, x$b)`.
 
 ---
@@ -347,6 +347,56 @@
       Error in `join_by()`:
       ! The expression used in `closest()` must use one of: `>=`, `>`, `<=`, or `<`.
       i Expression 1 is `closest(x + y)`.
+
+---
+
+    Code
+      join_by(between(x, lower, upper, bounds = 1))
+    Condition
+      Error:
+      ! `bounds` must be a string or character vector.
+
+---
+
+    Code
+      join_by(between(x, lower, upper, bounds = "a"))
+    Condition
+      Error:
+      ! `bounds` must be one of "[]", "[)", "(]", or "()", not "a".
+
+---
+
+    Code
+      join_by(overlaps(x, y, lower, upper, bounds = 1))
+    Condition
+      Error:
+      ! `bounds` must be a string or character vector.
+
+---
+
+    Code
+      join_by(overlaps(x, y, lower, upper, bounds = "a"))
+    Condition
+      Error:
+      ! `bounds` must be one of "[]", "[)", "(]", or "()", not "a".
+
+---
+
+    Code
+      join_by(between(x, lower, upper, foo = 1))
+    Condition
+      Error:
+      ! `...` must be empty.
+      i Non-empty dots were detected inside `between()`.
+
+---
+
+    Code
+      join_by(overlaps(x, y, lower, upper, foo = 1))
+    Condition
+      Error:
+      ! `...` must be empty.
+      i Non-empty dots were detected inside `overlaps()`.
 
 # as_join_by() emits useful errors
 

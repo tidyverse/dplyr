@@ -92,25 +92,31 @@ test_that("between conditions expand correctly", {
   by <- join_by(between(a, b, c))
   expect_identical(by$x, c("a", "a"))
   expect_identical(by$y, c("b", "c"))
-  expect_identical(by$condition, c(">=", "<="))
 
   by <- join_by(between(y$a, x$b, x$c))
   expect_identical(by$x, c("b", "c"))
   expect_identical(by$y, c("a", "a"))
+
+  by <- join_by(between(a, b, c, bounds = "[]"))
+  expect_identical(by$condition, c(">=", "<="))
+  by <- join_by(between(a, b, c, bounds = "[)"))
+  expect_identical(by$condition, c(">=", "<"))
+  by <- join_by(between(a, b, c, bounds = "(]"))
+  expect_identical(by$condition, c(">", "<="))
+  by <- join_by(between(a, b, c, bounds = "()"))
+  expect_identical(by$condition, c(">", "<"))
+
+  by <- join_by(between(y$a, x$b, x$c, bounds = "[]"))
   expect_identical(by$condition, c("<=", ">="))
+  by <- join_by(between(y$a, x$b, x$c, bounds = "[)"))
+  expect_identical(by$condition, c("<=", ">"))
+  by <- join_by(between(y$a, x$b, x$c, bounds = "(]"))
+  expect_identical(by$condition, c("<", ">="))
+  by <- join_by(between(y$a, x$b, x$c, bounds = "()"))
+  expect_identical(by$condition, c("<", ">"))
 })
 
-test_that("overlaps / within conditions expand correctly", {
-  by <- join_by(overlaps(a, b, c, d))
-  expect_identical(by$x, c("a", "b"))
-  expect_identical(by$y, c("d", "c"))
-  expect_identical(by$condition, c("<=", ">="))
-
-  by <- join_by(overlaps(y$a, y$b, x$b, x$c))
-  expect_identical(by$x, c("c", "b"))
-  expect_identical(by$y, c("a", "b"))
-  expect_identical(by$condition, c(">=", "<="))
-
+test_that("within conditions expand correctly", {
   by <- join_by(within(a, b, c, d))
   expect_identical(by$x, c("a", "b"))
   expect_identical(by$y, c("c", "d"))
@@ -120,6 +126,34 @@ test_that("overlaps / within conditions expand correctly", {
   expect_identical(by$x, c("b", "c"))
   expect_identical(by$y, c("a", "b"))
   expect_identical(by$condition, c("<=", ">="))
+})
+
+test_that("overlaps conditions expand correctly", {
+  by <- join_by(overlaps(a, b, c, d))
+  expect_identical(by$x, c("a", "b"))
+  expect_identical(by$y, c("d", "c"))
+
+  by <- join_by(overlaps(y$a, y$b, x$b, x$c))
+  expect_identical(by$x, c("c", "b"))
+  expect_identical(by$y, c("a", "b"))
+
+  by <- join_by(overlaps(a, b, c, d, bounds = "[]"))
+  expect_identical(by$condition, c("<=", ">="))
+  by <- join_by(overlaps(a, b, c, d, bounds = "[)"))
+  expect_identical(by$condition, c("<", ">"))
+  by <- join_by(overlaps(a, b, c, d, bounds = "(]"))
+  expect_identical(by$condition, c("<", ">"))
+  by <- join_by(overlaps(a, b, c, d, bounds = "()"))
+  expect_identical(by$condition, c("<", ">"))
+
+  by <- join_by(overlaps(y$a, y$b, x$b, x$c, bounds = "[]"))
+  expect_identical(by$condition, c(">=", "<="))
+  by <- join_by(overlaps(y$a, y$b, x$b, x$c, bounds = "[)"))
+  expect_identical(by$condition, c(">", "<"))
+  by <- join_by(overlaps(y$a, y$b, x$b, x$c, bounds = "(]"))
+  expect_identical(by$condition, c(">", "<"))
+  by <- join_by(overlaps(y$a, y$b, x$b, x$c, bounds = "()"))
+  expect_identical(by$condition, c(">", "<"))
 })
 
 test_that("between / overlaps / within / closest can use named arguments", {
@@ -283,6 +317,16 @@ test_that("has informative error messages", {
 
   # Invalid expression in `closest()`
   expect_snapshot(error = TRUE, join_by(closest(x + y)))
+
+  # Invalid `bounds` in `between()` and `overlaps()`
+  expect_snapshot(error = TRUE, join_by(between(x, lower, upper, bounds = 1)))
+  expect_snapshot(error = TRUE, join_by(between(x, lower, upper, bounds = "a")))
+  expect_snapshot(error = TRUE, join_by(overlaps(x, y, lower, upper, bounds = 1)))
+  expect_snapshot(error = TRUE, join_by(overlaps(x, y, lower, upper, bounds = "a")))
+
+  # Non-empty dots in `between()` and `overlaps()`
+  expect_snapshot(error = TRUE, join_by(between(x, lower, upper, foo = 1)))
+  expect_snapshot(error = TRUE, join_by(overlaps(x, y, lower, upper, foo = 1)))
 })
 
 # ------------------------------------------------------------------------------
