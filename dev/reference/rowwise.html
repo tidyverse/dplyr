@@ -140,50 +140,50 @@ with nested data.</p></div>
 <span class="r-in"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">rowwise</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="mutate.html">mutate</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Rowwise: </span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        x      y     z     m</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 0.516  0.083<span style="text-decoration: underline;">8</span> 0.411 0.337</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 0.017<span style="text-decoration: underline;">4</span> 0.476  0.896 0.463</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 0.333  0.551  0.423 0.436</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 0.625  0.675  0.694 0.665</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 0.951  0.710  0.498 0.720</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 0.760  0.078<span style="text-decoration: underline;">7</span> 0.945 0.594</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       x      y     z     m</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 0.977 0.916  0.376 0.757</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 0.138 0.889  0.430 0.486</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 0.494 0.218  0.771 0.495</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 0.975 0.198  0.833 0.669</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 0.578 0.071<span style="text-decoration: underline;">2</span> 0.654 0.435</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 0.485 0.450  0.686 0.540</span>
 <span class="r-in"><span><span class="co"># use c_across() to more easily select many variables</span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">rowwise</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="mutate.html">mutate</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="c_across.html">c_across</a></span><span class="op">(</span><span class="va">x</span><span class="op">:</span><span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Rowwise: </span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        x      y     z     m</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 0.516  0.083<span style="text-decoration: underline;">8</span> 0.411 0.337</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 0.017<span style="text-decoration: underline;">4</span> 0.476  0.896 0.463</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 0.333  0.551  0.423 0.436</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 0.625  0.675  0.694 0.665</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 0.951  0.710  0.498 0.720</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 0.760  0.078<span style="text-decoration: underline;">7</span> 0.945 0.594</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       x      y     z     m</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 0.977 0.916  0.376 0.757</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 0.138 0.889  0.430 0.486</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 0.494 0.218  0.771 0.495</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 0.975 0.198  0.833 0.669</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 0.578 0.071<span style="text-decoration: underline;">2</span> 0.654 0.435</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 0.485 0.450  0.686 0.540</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Compute the minimum of x and y in each row</span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">rowwise</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="mutate.html">mutate</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Rowwise: </span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        x      y     z      m</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 0.516  0.083<span style="text-decoration: underline;">8</span> 0.411 0.083<span style="text-decoration: underline;">8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 0.017<span style="text-decoration: underline;">4</span> 0.476  0.896 0.017<span style="text-decoration: underline;">4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 0.333  0.551  0.423 0.333 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 0.625  0.675  0.694 0.625 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 0.951  0.710  0.498 0.498 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 0.760  0.078<span style="text-decoration: underline;">7</span> 0.945 0.078<span style="text-decoration: underline;">7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       x      y     z      m</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 0.977 0.916  0.376 0.376 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 0.138 0.889  0.430 0.138 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 0.494 0.218  0.771 0.218 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 0.975 0.198  0.833 0.198 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 0.578 0.071<span style="text-decoration: underline;">2</span> 0.654 0.071<span style="text-decoration: underline;">2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 0.485 0.450  0.686 0.450 </span>
 <span class="r-in"><span><span class="co"># In this case you can use an existing vectorised function:</span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="mutate.html">mutate</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmin</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        x      y     z      m</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 0.516  0.083<span style="text-decoration: underline;">8</span> 0.411 0.083<span style="text-decoration: underline;">8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 0.017<span style="text-decoration: underline;">4</span> 0.476  0.896 0.017<span style="text-decoration: underline;">4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 0.333  0.551  0.423 0.333 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 0.625  0.675  0.694 0.625 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 0.951  0.710  0.498 0.498 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 0.760  0.078<span style="text-decoration: underline;">7</span> 0.945 0.078<span style="text-decoration: underline;">7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       x      y     z      m</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 0.977 0.916  0.376 0.376 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 0.138 0.889  0.430 0.138 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 0.494 0.218  0.771 0.218 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 0.975 0.198  0.833 0.198 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 0.578 0.071<span style="text-decoration: underline;">2</span> 0.654 0.071<span style="text-decoration: underline;">2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 0.485 0.450  0.686 0.450 </span>
 <span class="r-in"><span><span class="co"># Where these functions exist they'll be much faster than rowwise</span></span></span>
 <span class="r-in"><span><span class="co"># so be on the lookout for them.</span></span></span>
 <span class="r-in"><span></span></span>
@@ -202,14 +202,14 @@ with nested data.</p></div>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `.groups` argument.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   sim [3]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     sim       z</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1  0.820 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     2 -<span style="color: #BB0000;">0.398</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     2 -<span style="color: #BB0000;">0.098</span><span style="color: #BB0000; text-decoration: underline;">4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     3 -<span style="color: #BB0000;">0.335</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     3 -<span style="color: #BB0000;">2.42</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>     3 -<span style="color: #BB0000;">1.83</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     sim      z</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1  0.239</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     2  6.66 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     2  2.99 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     3 -<span style="color: #BB0000;">3.05</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     3 -<span style="color: #BB0000;">1.51</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>     3 -<span style="color: #BB0000;">0.712</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># If you want one row per simulation, put the results in a list()</span></span></span>
 <span class="r-in"><span><span class="va">params</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
