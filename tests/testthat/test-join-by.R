@@ -137,14 +137,22 @@ test_that("overlaps conditions expand correctly", {
   expect_identical(by$x, c("c", "b"))
   expect_identical(by$y, c("a", "b"))
 
-  by <- join_by(overlaps(a, b, c, d, closed = TRUE))
+  by <- join_by(overlaps(a, b, c, d, bounds = "[]"))
   expect_identical(by$condition, c("<=", ">="))
-  by <- join_by(overlaps(a, b, c, d, closed = FALSE))
+  by <- join_by(overlaps(a, b, c, d, bounds = "[)"))
+  expect_identical(by$condition, c("<", ">"))
+  by <- join_by(overlaps(a, b, c, d, bounds = "(]"))
+  expect_identical(by$condition, c("<", ">"))
+  by <- join_by(overlaps(a, b, c, d, bounds = "()"))
   expect_identical(by$condition, c("<", ">"))
 
-  by <- join_by(overlaps(y$a, y$b, x$b, x$c, closed = TRUE))
+  by <- join_by(overlaps(y$a, y$b, x$b, x$c, bounds = "[]"))
   expect_identical(by$condition, c(">=", "<="))
-  by <- join_by(overlaps(y$a, y$b, x$b, x$c, closed = FALSE))
+  by <- join_by(overlaps(y$a, y$b, x$b, x$c, bounds = "[)"))
+  expect_identical(by$condition, c(">", "<"))
+  by <- join_by(overlaps(y$a, y$b, x$b, x$c, bounds = "(]"))
+  expect_identical(by$condition, c(">", "<"))
+  by <- join_by(overlaps(y$a, y$b, x$b, x$c, bounds = "()"))
   expect_identical(by$condition, c(">", "<"))
 })
 
@@ -310,13 +318,11 @@ test_that("has informative error messages", {
   # Invalid expression in `closest()`
   expect_snapshot(error = TRUE, join_by(closest(x + y)))
 
-  # Invalid `bounds` in `between()`
+  # Invalid `bounds` in `between()` and `overlaps()`
   expect_snapshot(error = TRUE, join_by(between(x, lower, upper, bounds = 1)))
   expect_snapshot(error = TRUE, join_by(between(x, lower, upper, bounds = "a")))
-
-  # Invalid `closed` in `overlaps()`
-  expect_snapshot(error = TRUE, join_by(overlaps(x, y, lower, upper, closed = 1)))
-  expect_snapshot(error = TRUE, join_by(overlaps(x, y, lower, upper, closed = NA)))
+  expect_snapshot(error = TRUE, join_by(overlaps(x, y, lower, upper, bounds = 1)))
+  expect_snapshot(error = TRUE, join_by(overlaps(x, y, lower, upper, bounds = "a")))
 
   # Non-empty dots in `between()` and `overlaps()`
   expect_snapshot(error = TRUE, join_by(between(x, lower, upper, foo = 1)))

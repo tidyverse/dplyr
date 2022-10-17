@@ -111,14 +111,15 @@ falls completely within \verb{[y_lower, y_upper]}. Equivalent to \verb{x_lower >
 
 The binary conditions used to build \code{within()} are the same regardless of
 the inclusiveness of the supplied ranges.
-\item \code{overlaps(x_lower, x_upper, y_lower, y_upper, ..., closed = TRUE)}
+\item \code{overlaps(x_lower, x_upper, y_lower, y_upper, ..., bounds = "[]")}
 
 For each range in \verb{[x_lower, x_upper]}, this finds everywhere that range
 overlaps \verb{[y_lower, y_upper]} in any capacity. Equivalent to \verb{x_lower <= y_upper, x_upper >= y_lower} by default.
 
-\code{closed} controls whether or not the ranges are treated as fully closed
-intervals, like \code{"[]"}. If \code{FALSE}, the binary conditions \verb{x_lower < y_upper, x_upper > y_lower} are used, which work for \code{"[)"},
-\code{"(]"}, and \code{"()"}.
+\code{bounds} can be one of \code{"[]"}, \code{"[)"}, \code{"(]"}, or
+\code{"()"} to alter the inclusiveness of the lower and upper bounds.
+\code{"[]"} uses \code{<=} and \code{>=}, but the 3 other options use \code{<} and \code{>}
+and generate the exact same binary conditions.
 
 Dots are for future extensions and must be empty.
 }
@@ -220,8 +221,7 @@ full_join(segments, reference, by)
 
 # It is common to have right-open ranges with bounds like `[)`, which would
 # mean an end value of `415` would no longer overlap a start value of `415`.
-# Setting `closed = FALSE` allows you to compute overlaps with those kinds
-# of ranges.
-by <- join_by(chromosome, overlaps(x$start, x$end, y$start, y$end, closed = FALSE))
+# Setting `bounds` allows you to compute overlaps with those kinds of ranges.
+by <- join_by(chromosome, overlaps(x$start, x$end, y$start, y$end, bounds = "[)"))
 full_join(segments, reference, by)
 }

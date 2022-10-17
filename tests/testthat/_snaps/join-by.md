@@ -367,18 +367,18 @@
 ---
 
     Code
-      join_by(overlaps(x, y, lower, upper, closed = 1))
+      join_by(overlaps(x, y, lower, upper, bounds = 1))
     Condition
       Error:
-      ! `closed` must be `TRUE` or `FALSE`, not a number.
+      ! `bounds` must be a string or character vector.
 
 ---
 
     Code
-      join_by(overlaps(x, y, lower, upper, closed = NA))
+      join_by(overlaps(x, y, lower, upper, bounds = "a"))
     Condition
       Error:
-      ! `closed` must be `TRUE` or `FALSE`, not `NA`.
+      ! `bounds` must be one of "[]", "[)", "(]", or "()", not "a".
 
 ---
 

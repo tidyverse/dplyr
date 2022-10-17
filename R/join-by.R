@@ -80,16 +80,16 @@
 #'   The binary conditions used to build `within()` are the same regardless of
 #'   the inclusiveness of the supplied ranges.
 #'
-#' - `overlaps(x_lower, x_upper, y_lower, y_upper, ..., closed = TRUE)`
+#' - `overlaps(x_lower, x_upper, y_lower, y_upper, ..., bounds = "[]")`
 #'
 #'   For each range in `[x_lower, x_upper]`, this finds everywhere that range
 #'   overlaps `[y_lower, y_upper]` in any capacity. Equivalent to `x_lower <=
 #'   y_upper, x_upper >= y_lower` by default.
 #'
-#'   `closed` controls whether or not the ranges are treated as fully closed
-#'   intervals, like \code{"[]"}. If `FALSE`, the binary conditions `x_lower <
-#'   y_upper, x_upper > y_lower` are used, which work for \code{"[)"},
-#'   \code{"(]"}, and \code{"()"}.
+#'   `bounds` can be one of \code{"[]"}, \code{"[)"}, \code{"(]"}, or
+#'   \code{"()"} to alter the inclusiveness of the lower and upper bounds.
+#'   \code{"[]"} uses `<=` and `>=`, but the 3 other options use `<` and `>`
+#'   and generate the exact same binary conditions.
 #'
 #'   Dots are for future extensions and must be empty.
 #'
@@ -210,9 +210,8 @@
 #'
 #' # It is common to have right-open ranges with bounds like `[)`, which would
 #' # mean an end value of `415` would no longer overlap a start value of `415`.
-#' # Setting `closed = FALSE` allows you to compute overlaps with those kinds
-#' # of ranges.
-#' by <- join_by(chromosome, overlaps(x$start, x$end, y$start, y$end, closed = FALSE))
+#' # Setting `bounds` allows you to compute overlaps with those kinds of ranges.
+#' by <- join_by(chromosome, overlaps(x$start, x$end, y$start, y$end, bounds = "[)"))
 #' full_join(segments, reference, by)
 join_by <- function(...) {
   # `join_by()` works off pure expressions with no evaluation in the user's
@@ -771,12 +770,7 @@ binding_join_by_between <- function(x, y_lower, y_upper, ..., bounds = "[]") {
   check_missing_arg(y_lower, "y_lower", "between", error_call)
   check_missing_arg(y_upper, "y_upper", "between", error_call)
 
-  bounds <- arg_match0(
-    bounds,
-    values = c("[]", "[)", "(]", "()"),
-    arg_nm = "bounds",
-    error_call = error_call
-  )
+  bounds <- check_bounds(bounds, call = error_call)
 
   list(lhs = x, rhs_lower = y_lower, rhs_upper = y_upper, bounds = bounds)
 }
@@ -878,7 +872,7 @@ parse_join_by_overlaps <- function(expr, i, error_call) {
   rhs_lower <- parse_join_by_name(args$rhs_lower, i, "y", error_call)
   rhs_upper <- parse_join_by_name(args$rhs_upper, i, "y", error_call)
 
-  closed <- args$closed
+  bounds <- args$bounds
 
   if (lhs_lower$side != lhs_upper$side) {
     message <- c(
@@ -909,6 +903,20 @@ parse_join_by_overlaps <- function(expr, i, error_call) {
     )
     abort(message, call = error_call)
   }
+
+  # 3 of the `bounds` have the exact same behavior, but the argument name is
+  # consistent with `between(bounds =)` and easier to remember and interpret
+  # than exposing `closed` directly (#6504).
+  # - `[]` uses `<=` and `>=`
+  # - All other conditions use `<` and `>` due to the presence of a `(` or `)`
+  closed <- switch(
+    bounds,
+    "[]" = TRUE,
+    "[)" = FALSE,
+    "(]" = FALSE,
+    "()" = FALSE,
+    abort("Unknown `bounds`.", .internal = TRUE)
+  )
 
   if (lhs_lower$side == "x") {
     x <- c(lhs_lower$name, lhs_upper$name)
@@ -952,7 +960,7 @@ binding_join_by_overlaps <- function(x_lower,
                                      y_lower,
                                      y_upper,
                                      ...,
-                                     closed = TRUE) {
+                                     bounds = "[]") {
   error_call <- caller_env()
 
   check_join_by_dots_empty(..., fn = "overlaps", call = error_call)
@@ -967,14 +975,23 @@ binding_join_by_overlaps <- function(x_lower,
   check_missing_arg(y_lower, "y_lower", "overlaps", error_call)
   check_missing_arg(y_upper, "y_upper", "overlaps", error_call)
 
-  check_bool(closed, call = error_call)
+  bounds <- check_bounds(bounds, call = error_call)
 
   list(
     lhs_lower = x_lower,
     lhs_upper = x_upper,
     rhs_lower = y_lower,
     rhs_upper = y_upper,
-    closed = closed
+    bounds = bounds
+  )
+}
+
+check_bounds <- function(bounds, call) {
+  arg_match0(
+    bounds,
+    values = c("[]", "[)", "(]", "()"),
+    arg_nm = "bounds",
+    error_call = call
   )
 }
 
