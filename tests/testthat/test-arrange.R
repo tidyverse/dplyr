@@ -97,8 +97,11 @@ test_that("arrange works with two columns when the first has a data frame proxy 
 test_that("arrange ignores NULLs (#6193)", {
   df <- tibble(x = 1:2)
   y <- NULL
-  out <- arrange(df, y, desc(x))
 
+  out <- arrange(df, y, desc(x))
+  expect_equal(out$x, 2:1)
+
+  out <- arrange(df, y, desc(x), y)
   expect_equal(out$x, 2:1)
 })
 
@@ -226,6 +229,16 @@ test_that("arrange() works with across() cols that return multiple columns (#649
     arrange(df, across(c(a, b)), across(c(c, d))),
     df[c(3, 2, 1),]
   )
+})
+
+test_that("arrange() evaluates each across() call on the original data (#6495)", {
+  df <- tibble(x = 2:1)
+
+  out <- arrange(df, TRUE, across(everything()))
+  expect_identical(out, df[c(2, 1),])
+
+  out <- arrange(df, NULL, across(everything()))
+  expect_identical(out, df[c(2, 1),])
 })
 
 test_that("arrange() with empty dots still calls dplyr_row_slice()", {
