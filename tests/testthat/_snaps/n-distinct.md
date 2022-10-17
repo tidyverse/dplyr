@@ -10,6 +10,6 @@
     Code
       n_distinct(mean)
     Condition
-      Error in `vctrs::data_frame()`:
+      Error in `n_distinct()`:
       ! `..1` must be a vector, not a function.
 

@@ -31,7 +31,14 @@
 #' n_distinct(data.frame(x, y))
 n_distinct <- function(..., na.rm = FALSE) {
   check_dots_unnamed()
-  data <- vctrs::data_frame(..., .name_repair = "minimal")
+
+  data <- df_list(
+    ...,
+    .unpack = FALSE,
+    .name_repair = "minimal",
+    .error_call = current_env()
+  )
+  data <- new_data_frame(data)
 
   if (isTRUE(na.rm)) {
     # Drop observation if *any* missing
