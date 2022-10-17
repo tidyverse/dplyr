@@ -163,17 +163,31 @@ regardless of how the binary condition is specified. For example,
 or two columns from the left-hand table <em>overlapping</em> a range computed from
 two columns from the right-hand table. There are three helpers that
 <code>join_by()</code> recognizes to assist with constructing overlap joins, all of
-which can be constructed from simpler binary expressions.</p><ul><li><p><code>between(x, y_lower, y_upper)</code></p>
+which can be constructed from simpler binary expressions.</p><ul><li><p><code>between(x, y_lower, y_upper, ..., bounds = "[]")</code></p>
 <p>For each value in <code>x</code>, this finds everywhere that value falls between
-<code>[y_lower, y_upper]</code>. Equivalent to <code>x &gt;= y_lower, x &lt;= y_upper</code>.</p></li>
+<code>[y_lower, y_upper]</code>. Equivalent to <code>x &gt;= y_lower, x &lt;= y_upper</code> by
+default.</p>
+<p><code>bounds</code> can be one of <code>"[]"</code>, <code>"[)"</code>, <code>"(]"</code>, or
+<code>"()"</code> to alter the inclusiveness of the lower and upper bounds. This
+changes whether <code>&gt;=</code> or <code>&gt;</code> and <code>&lt;=</code> or <code>&lt;</code> are used to build the binary
+conditions shown above.</p>
+<p>Dots are for future extensions and must be empty.</p></li>
 <li><p><code>within(x_lower, x_upper, y_lower, y_upper)</code></p>
 <p>For each range in <code>[x_lower, x_upper]</code>, this finds everywhere that range
-falls completely within <code>[y_lower, y_upper]</code>. Equivalent to <code>x_lower &gt;= y_lower, x_upper &lt;= y_upper</code>.</p></li>
-<li><p><code>overlaps(x_lower, x_upper, y_lower, y_upper)</code></p>
+falls completely within <code>[y_lower, y_upper]</code>. Equivalent to <code>x_lower &gt;= y_lower, x_upper &lt;= y_upper</code>.</p>
+<p>The binary conditions used to build <code><a href="https://rdrr.io/r/base/with.html" class="external-link">within()</a></code> are the same regardless of
+the inclusiveness of the supplied ranges.</p></li>
+<li><p><code>overlaps(x_lower, x_upper, y_lower, y_upper, ..., bounds = "[]")</code></p>
 <p>For each range in <code>[x_lower, x_upper]</code>, this finds everywhere that range
-overlaps <code>[y_lower, y_upper]</code> in any capacity. Equivalent to <code>x_lower &lt;= y_upper, x_upper &gt;= y_lower</code>.</p></li>
-</ul><p>These conditions assume that the ranges are well-formed, i.e.
-<code>x_lower &lt;= x_upper</code>.</p>
+overlaps <code>[y_lower, y_upper]</code> in any capacity. Equivalent to <code>x_lower &lt;= y_upper, x_upper &gt;= y_lower</code> by default.</p>
+<p><code>bounds</code> can be one of <code>"[]"</code>, <code>"[)"</code>, <code>"(]"</code>, or
+<code>"()"</code> to alter the inclusiveness of the lower and upper bounds.
+<code>"[]"</code> uses <code>&lt;=</code> and <code>&gt;=</code>, but the 3 other options use <code>&lt;</code> and <code>&gt;</code>
+and generate the exact same binary conditions.</p>
+<p>Dots are for future extensions and must be empty.</p></li>
+</ul><p>These conditions assume that the ranges are well-formed and non-empty, i.e.
+<code>x_lower &lt;= x_upper</code> when bounds are treated as <code>"[]"</code>, and
+<code>x_lower &lt; x_upper</code> otherwise.</p>
 </div>
 
     </div>
@@ -305,7 +319,7 @@ come from.</p>
 <span class="r-in"><span><span class="va">reference</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  reference_id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,</span></span>
 <span class="r-in"><span>  chromosome <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"chr1"</span>, <span class="st">"chr1"</span>, <span class="st">"chr2"</span>, <span class="st">"chr2"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">300</span>, <span class="fl">400</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">300</span>, <span class="fl">415</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">150</span>, <span class="fl">250</span>, <span class="fl">399</span>, <span class="fl">450</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">reference</span></span></span>
@@ -315,7 +329,7 @@ come from.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>            1 chr1         100   150</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>            2 chr1         200   250</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>            3 chr2         300   399</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>            4 chr2         400   450</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>            4 chr2         415   450</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Find every time a segment `start` falls between the reference</span></span></span>
 <span class="r-in"><span><span class="co"># `[start, end]` range.</span></span></span>
@@ -328,7 +342,7 @@ come from.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>          2 chr2           210   240           <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>          3 chr2           380   415            3     300   399</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>          4 chr1           230   280            2     200   250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>         <span style="color: #BB0000;">NA</span> chr2            <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>            4     400   450</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>         <span style="color: #BB0000;">NA</span> chr2            <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>            4     415   450</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># If you wanted the reference columns first, supply `reference` as `x`</span></span></span>
 <span class="r-in"><span><span class="co"># and `segments` as `y`, then explicitly refer to their columns using `x$`</span></span></span>
@@ -341,7 +355,7 @@ come from.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>            1 chr1           100   150          1     140   150</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>            2 chr1           200   250          4     230   280</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>            3 chr2           300   399          3     380   415</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>            4 chr2           400   450         <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>            4 chr2           415   450         <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>           <span style="color: #BB0000;">NA</span> chr2            <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>          2     210   240</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Find every time a segment falls completely within a reference.</span></span></span>
@@ -363,8 +377,22 @@ come from.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>          1 chr1           140   150            1     100   150</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>          2 chr2           210   240           <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>          3 chr2           380   415            3     300   399</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>          3 chr2           380   415            4     400   450</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>          3 chr2           380   415            4     415   450</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>          4 chr1           230   280            2     200   250</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># It is common to have right-open ranges with bounds like `[)`, which would</span></span></span>
+<span class="r-in"><span><span class="co"># mean an end value of `415` would no longer overlap a start value of `415`.</span></span></span>
+<span class="r-in"><span><span class="co"># Setting `bounds` allows you to compute overlaps with those kinds of ranges.</span></span></span>
+<span class="r-in"><span><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">chromosome</span>, <span class="fu">overlaps</span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">start</span>, <span class="va">x</span><span class="op">$</span><span class="va">end</span>, <span class="va">y</span><span class="op">$</span><span class="va">start</span>, <span class="va">y</span><span class="op">$</span><span class="va">end</span>, bounds <span class="op">=</span> <span class="st">"[)"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">segments</span>, <span class="va">reference</span>, <span class="va">by</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   segment_id chromosome start.x end.x reference_id start.y end.y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>          1 chr1           140   150            1     100   150</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>          2 chr2           210   240           <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>          3 chr2           380   415            3     300   399</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>          4 chr1           230   280            2     200   250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>         <span style="color: #BB0000;">NA</span> chr2            <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>            4     415   450</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
