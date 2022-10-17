@@ -17,7 +17,14 @@
 #' df %>% group_by(id = consecutive_id(x, y), x, y) %>% summarise(n = n())
 consecutive_id <- function(...) {
   check_dots_unnamed()
-  data <- vctrs::data_frame(..., .name_repair = "minimal")
+
+  data <- df_list(
+    ...,
+    .unpack = FALSE,
+    .name_repair = "minimal",
+    .error_call = current_env()
+  )
+  data <- new_data_frame(data)
 
   out <- vec_identify_runs(data)
   attr(out, "n") <- NULL

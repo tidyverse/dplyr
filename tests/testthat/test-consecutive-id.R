@@ -10,6 +10,10 @@ test_that("handles data frames", {
 test_that("follows recycling rules", {
   expect_equal(consecutive_id(double(), 1), integer())
   expect_equal(consecutive_id(1:2, 1), 1:2)
+
+  expect_snapshot(error = TRUE, {
+    consecutive_id(1:3, 1:4)
+  })
 })
 
 test_that("generates useful errors", {
