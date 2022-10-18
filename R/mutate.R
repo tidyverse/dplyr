@@ -273,6 +273,7 @@ mutate_col <- function(dot, data, mask, new_columns) {
 
   # get results from all the quosures that are expanded from ..i
   # then ingest them after
+  dot <- expand_pick(dot, mask)
   quosures <- expand_across(dot)
   quosures_results <- vector(mode = "list", length = length(quosures))
 

@@ -231,8 +231,11 @@ summarise_cols <- function(.data, dots, error_call = caller_env()) {
       poke_error_context(dots, i, mask = mask)
       context_poke("column", old_current_column)
 
+      dot <- dots[[i]]
+
       # - expand
-      quosures <- expand_across(dots[[i]])
+      dot <- expand_pick(dot, mask)
+      quosures <- expand_across(dot)
 
       # - compute
       quosures_results <- map(quosures, summarise_eval_one, mask = mask)

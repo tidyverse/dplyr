@@ -11,18 +11,10 @@
 #' [across()].
 #'
 #' @details
-#' For `pick()`, the tidyselection provided through `...` is only evaluated once
-#' on the _original_ data frame, and the selection is then reused for all
-#' groups. This allows `pick()` to enforce two important invariants:
-#'
-#' - The columns selected by `pick()` are the same across all groups.
-#'
-#' - The number of rows returned by `pick()` is always equal to the number of
-#'   rows in the current group.
-#'
-#' For `rowwise()` data frames, list-columns are returned as they appear in the
-#' original data frame. This ensures that they can be `pick()`-ed alongside
-#' other columns.
+#' `pick()` can be thought of as being replaceable with the equivalent call to
+#' `tibble()`. For example, `pick(a, c)` could be replaced with
+#' `tibble(a = a, c = c)`, and `pick(everything())` on a data frame with cols
+#' `a`, `b`, and `c` could be replaced with `tibble(a = a, b = b, c = c)`.
 #'
 #' @param ... <[`tidy-select`][dplyr_tidy_select]>
 #'
@@ -64,67 +56,135 @@
 #'
 #' my_group_by(df, c(x, z))
 pick <- function(...) {
+  # This is the evaluation fallback for `pick()`, which runs:
+  # - When users call `pick()` outside of a mutate-like context.
+  # - When users wrap `pick()` into their own helper functions, preventing
+  #   `pick()` expansion from occurring.
+
   mask <- peek_mask()
 
-  # We're using `quos()` instead of `enquos()` here for speed because we aren't
-  # defusing named arguments. Only the ellipsis is converted to quosures, there
-  # are no further arguments.
-  quos <- quos(
-    ...,
-    .named = NULL,
-    .ignore_empty = "all",
-    .unquote_names = FALSE
+  # Evaluates `pick()` on current columns.
+  # Mimicking expansion as much as possible, which should match the idea of
+  # replacing the `pick()` call directly with `tibble()`, like:
+  # pick(a, b, starts_with("foo")) -> tibble(a = a, b = b, foo1 = foo1)
+  non_group_vars <- mask$current_non_group_vars()
+  data <- mask$current_cols(non_group_vars)
+
+  # `pick()` is evaluated in a data mask so we need to remove the
+  # mask layer from the quosure environments (same as `across()`) (#5460)
+  quos <- enquos(..., .named = NULL)
+  quos <- map(quos, quo_set_env_to_data_mask_top)
+  expr <- expr(c(!!!quos))
+
+  sel <- tidyselect::eval_select(
+    expr = expr,
+    data = data,
+    allow_rename = FALSE
   )
 
-  key <- lapply(quos, quo_get_expr)
-  key <- hash(key)
+  data <- data[sel]
+  data <- dplyr_pick_tibble(!!!data)
 
-  chops <- mask$tidyselect_cache_get(key)
+  data
+}
 
-  if (is.null(chops)) {
-    if (length(quos) == 0L) {
-      abort("`...` can't be empty.")
-    }
+# ------------------------------------------------------------------------------
 
-    # `pick()` is evaluated in a data mask so we need to remove the
-    # mask layer from the quosure environments (same as `across()`) (#5460)
-    quos <- map(quos, quo_set_env_to_data_mask_top)
-    expr <- expr(c(!!!quos))
+expand_pick <- function(quo, mask) {
+  error_call <- call("pick")
 
-    # `pick()` is evaluated on the original data frame, i.e. before any
-    # mutations are made. This ensures the cache is valid across expressions.
-    size <- mask$get_size()
-    data <- mask$get_original_data()
-    data <- dplyr_new_tibble(data, size = size)
+  env <- quo_get_env(quo)
+  expr <- quo_get_expr(quo)
 
-    # Remove grouping variables from the original data, which are never allowed
-    # to be selected as variables to `pick()`. This includes variables
-    # specified in `rowwise(.data, ...)`.
-    names <- mask$get_group_vars()
-    if (length(names) > 0L) {
-      data <- data[setdiff(names(data), names)]
-    }
-
-    sel <- tidyselect::eval_select(
-      expr = expr,
-      data = data,
-      allow_rename = FALSE
-    )
-
-    data <- data[sel]
-
-    if (mask$is_grouped_df() || mask$is_rowwise_df()) {
-      # Only chop if we have to
-      locs <- mask$get_rows()
-      chops <- vec_chop(data, indices = locs)
-    } else {
-      chops <- list(data)
-    }
-
-    mask$tidyselect_cache_push(key, chops)
+  if (!is_missing(expr) && !is_quosure(expr) && is_call(expr)) {
+    expr <- expand_pick_impl(expr, env, mask, error_call)
   }
 
-  group <- mask$get_current_group()
+  out <- new_quosure(expr, env = env)
+  out <- new_dplyr_quosure(out, !!!attr(quo, "dplyr:::data"))
 
-  chops[[group]]
+  out
+}
+
+expand_pick_impl <- function(expr, env, mask, error_call = caller_env()) {
+  if (is_call(expr, name = "pick", ns = c("", "dplyr"))) {
+    expr <- as_pick_selection(expr, error_call)
+    out <- eval_pick(expr, env, mask, error_call)
+    out <- as_pick_expansion(out)
+    return(out)
+  }
+
+  index <- seq2(2L, length(expr))
+
+  for (i in index) {
+    elt <- expr[[i]]
+
+    if (!is_missing(elt) && !is_quosure(elt) && is_call(elt)) {
+      expr[[i]] <- expand_pick_impl(elt, env, mask, error_call = error_call)
+    }
+  }
+
+  expr
+}
+
+eval_pick <- function(expr, env, mask, error_call = caller_env()) {
+  # Evaluates `pick()` on the full version of the "current" columns.
+  # Remove grouping variables, which are never allowed to be selected as
+  # variables to `pick()`. This includes variables specified in
+  # `rowwise(.data, ...)`.
+  data <- mask$get_current_data(groups = FALSE)
+
+  out <- with_pick_tidyselect_errors(tidyselect::eval_select(
+    expr = expr,
+    env = env,
+    data = data,
+    error_call = error_call,
+    allow_rename = FALSE
+  ))
+
+  names(out)
+}
+
+with_pick_tidyselect_errors <- function(expr) {
+  try_fetch(
+    expr,
+    error = function(cnd) {
+      # Subclassed so we can skip computing group context info for them
+      class(cnd) <- c("dplyr:::error_pick_tidyselect", class(cnd))
+      cnd_signal(cnd)
+    }
+  )
+}
+
+as_pick_selection <- function(expr, error_call) {
+  # Drop `pick()`, get the arguments
+  expr <- expr[-1]
+
+  # Turn arguments into list of expressions
+  expr <- as.list(expr)
+
+  # Inline into `c()` call for tidy-selection
+  expr <- expr(c(!!!expr))
+
+  expr
+}
+
+as_pick_expansion <- function(names) {
+  out <- set_names(syms(names), names)
+  expr(asNamespace("dplyr")$dplyr_pick_tibble(!!!out))
+}
+
+dplyr_pick_tibble <- function(...) {
+  error_call <- call("pick")
+
+  out <- list2(...)
+
+  # Allow recycling between selected columns, in case it is called from
+  # a `summarise()` call that modified columns in an earlier expression like
+  # `summarise(df, x = 1, y = pick(x, z))`. This also exactly mimics expansion
+  # into `y = tibble(x, z)`.
+  size <- vec_size_common(!!!out, .call = error_call)
+  out <- vec_recycle_common(!!!out, .size = size, .call = error_call)
+
+  dplyr_new_tibble(out, size = size)
 }

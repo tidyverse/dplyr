@@ -154,6 +154,7 @@ filter_expand <- function(dots, mask, error_call = caller_env()) {
   env_filter <-  env()
   filter_expand_one <- function(dot, index) {
     env_filter$current_expression <- index
+    dot <- expand_pick(dot, mask)
     expand_if_across(dot)
   }
 
