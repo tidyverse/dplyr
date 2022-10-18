@@ -14,8 +14,8 @@ if_all(.cols = everything(), .fns = NULL, ..., .names = NULL)
 }
 \arguments{
 \item{.cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.
-Because \code{across()} is used within functions like \code{summarise()} and
-\code{mutate()}, you can't select or compute upon grouping variables.}
+You can't select grouping columns because they are already automatically
+handled by the verb (i.e. \code{\link[=summarise]{summarise()}} or \code{\link[=mutate]{mutate()}}).}
 
 \item{.fns}{Functions to apply to each of the selected columns.
 Possible values are:

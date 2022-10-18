@@ -2,24 +2,27 @@
 #'
 #' @description
 #' `pick()` provides a way to easily select a subset of columns from your data
-#' using `select()` semantics while inside a "data-masking" function like
-#' `mutate()` or `summarise()`.
+#' using [select()] semantics while inside a
+#' ["data-masking"][dplyr_data_masking] function like [mutate()] or
+#' [summarise()]. `pick()` returns a data frame containing the selected columns
+#' for further manipulation.
 #'
-#' `pick()`'s main purpose is as a tool for easy column selection. Typically,
-#' you compute on the data frame returned by `pick()` as a whole, rather than on
-#' each column individually. To apply a function across multiple columns, see
-#' [across()].
+#' `pick()` is complementary to [across()]:
+#' - With `pick()`, you typically apply a function to the full data frame.
+#' - With `across()`, you typically apply a function to each column.
 #'
 #' @details
-#' `pick()` can be thought of as being replaceable with the equivalent call to
-#' `tibble()`. For example, `pick(a, c)` could be replaced with
+#' Theoretically, `pick()` is intended to be replaceable with an equivalent call
+#' to `tibble()`. For example, `pick(a, c)` could be replaced with
 #' `tibble(a = a, c = c)`, and `pick(everything())` on a data frame with cols
 #' `a`, `b`, and `c` could be replaced with `tibble(a = a, b = b, c = c)`.
 #'
 #' @param ... <[`tidy-select`][dplyr_tidy_select]>
 #'
-#'   Columns to pick. Because `pick()` is used within functions like
-#'   `mutate()` and `summarise()`, you can't pick grouping variables.
+#'   Columns to pick.
+#'
+#'   You can't pick grouping columns because they are already automatically
+#'   handled by the verb (i.e. [summarise()] or [mutate()]).
 #'
 #' @return
 #' A tibble containing the selected columns.
@@ -30,21 +33,18 @@
 #' df <- tibble(
 #'   x = c(3, 2, 2, 2, 1),
 #'   y = c(0, 2, 1, 1, 4),
-#'   z = c("a", "a", "a", "b", "a")
+#'   z1 = c("a", "a", "a", "b", "a"),
+#'   z2 = c("c", "d", "d", "a", "c")
 #' )
 #' df
 #'
 #' # `pick()` provides a way to select a subset of your columns using
 #' # tidyselect. It returns a data frame.
-#' df %>% mutate(cols = pick(y, z))
+#' df %>% mutate(cols = pick(x, y))
 #'
 #' # This is useful for functions that take data frames as inputs.
 #' # For example, you can compute a joint rank between `x` and `y`.
 #' df %>% mutate(rank = dense_rank(pick(x, y)))
-#'
-#' # Or compute a consecutive id column based off `x` and `z` that increments
-#' # any time a value changes in either column
-#' df %>% mutate(id = consecutive_id(pick(x, z))) %>% select(id, x, z)
 #'
 #' # `pick()` is also useful as a way to augment "data-masking" functions with
 #' # `select()` (i.e. tidyselect) semantics. For example, you can use `pick()`
@@ -54,7 +54,10 @@
 #'   group_by(data, pick({{ cols }}))
 #' }
 #'
-#' my_group_by(df, c(x, z))
+#' df %>% my_group_by(c(x, starts_with("z")))
+#'
+#' # Or you can use it to dynamically select columns to `count()` by
+#' df %>% count(pick(starts_with("z")))
 pick <- function(...) {
   # This is the evaluation fallback for `pick()`, which runs:
   # - When users call `pick()` outside of a mutate-like context.

@@ -9,25 +9,30 @@ pick(...)
 \arguments{
 \item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}>
 
-Columns to pick. Because \code{pick()} is used within functions like
-\code{mutate()} and \code{summarise()}, you can't pick grouping variables.}
+Columns to pick.
+
+You can't pick grouping columns because they are already automatically
+handled by the verb (i.e. \code{\link[=summarise]{summarise()}} or \code{\link[=mutate]{mutate()}}).}
 }
 \value{
 A tibble containing the selected columns.
 }
 \description{
 \code{pick()} provides a way to easily select a subset of columns from your data
-using \code{select()} semantics while inside a "data-masking" function like
-\code{mutate()} or \code{summarise()}.
+using \code{\link[=select]{select()}} semantics while inside a
+\link[=dplyr_data_masking]{"data-masking"} function like \code{\link[=mutate]{mutate()}} or
+\code{\link[=summarise]{summarise()}}. \code{pick()} returns a data frame containing the selected columns
+for further manipulation.
 
-\code{pick()}'s main purpose is as a tool for easy column selection. Typically,
-you compute on the data frame returned by \code{pick()} as a whole, rather than on
-each column individually. To apply a function across multiple columns, see
-\code{\link[=across]{across()}}.
+\code{pick()} is complementary to \code{\link[=across]{across()}}:
+\itemize{
+\item With \code{pick()}, you typically apply a function to the full data frame.
+\item With \code{across()}, you typically apply a function to each column.
+}
 }
 \details{
-\code{pick()} can be thought of as being replaceable with the equivalent call to
-\code{tibble()}. For example, \code{pick(a, c)} could be replaced with
+Theoretically, \code{pick()} is intended to be replaceable with an equivalent call
+to \code{tibble()}. For example, \code{pick(a, c)} could be replaced with
 \code{tibble(a = a, c = c)}, and \code{pick(everything())} on a data frame with cols
 \code{a}, \code{b}, and \code{c} could be replaced with \code{tibble(a = a, b = b, c = c)}.
 }
@@ -35,21 +40,18 @@ each column individually. To apply a function across multiple columns, see
 df <- tibble(
   x = c(3, 2, 2, 2, 1),
   y = c(0, 2, 1, 1, 4),
-  z = c("a", "a", "a", "b", "a")
+  z1 = c("a", "a", "a", "b", "a"),
+  z2 = c("c", "d", "d", "a", "c")
 )
 df
 
 # `pick()` provides a way to select a subset of your columns using
 # tidyselect. It returns a data frame.
-df \%>\% mutate(cols = pick(y, z))
+df \%>\% mutate(cols = pick(x, y))
 
 # This is useful for functions that take data frames as inputs.
 # For example, you can compute a joint rank between `x` and `y`.
 df \%>\% mutate(rank = dense_rank(pick(x, y)))
-
-# Or compute a consecutive id column based off `x` and `z` that increments
-# any time a value changes in either column
-df \%>\% mutate(id = consecutive_id(pick(x, z))) \%>\% select(id, x, z)
 
 # `pick()` is also useful as a way to augment "data-masking" functions with
 # `select()` (i.e. tidyselect) semantics. For example, you can use `pick()`
@@ -59,7 +61,10 @@ my_group_by <- function(data, cols) {
   group_by(data, pick({{ cols }}))
 }
 
-my_group_by(df, c(x, z))
+df \%>\% my_group_by(c(x, starts_with("z")))
+
+# Or you can use it to dynamically select columns to `count()` by
+df \%>\% count(pick(starts_with("z")))
 }
 \seealso{
 \code{\link[=across]{across()}}

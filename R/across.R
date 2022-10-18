@@ -16,8 +16,8 @@
 #' `summarise_at()`, `summarise_if()`, and `summarise_all()`.
 #'
 #' @param .cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
-#'   Because `across()` is used within functions like `summarise()` and
-#'   `mutate()`, you can't select or compute upon grouping variables.
+#'   You can't select grouping columns because they are already automatically
+#'   handled by the verb (i.e. [summarise()] or [mutate()]).
 #' @param .fns Functions to apply to each of the selected columns.
 #'   Possible values are:
 #'

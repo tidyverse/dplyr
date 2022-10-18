@@ -59,8 +59,8 @@ df <- data.frame(
 df \%>\% group_by(grp) \%>\% filter(row_number(x) == 1)
 # May give more than 1 row if ties
 df \%>\% group_by(grp) \%>\% filter(min_rank(x) == 1)
-# Rank by multiple columns (to break ties) by supplying a tibble
-df \%>\% group_by(grp) \%>\% filter(min_rank(tibble(x, y)) == 1)
+# Rank by multiple columns (to break ties) by selecting them with `pick()`
+df \%>\% group_by(grp) \%>\% filter(min_rank(pick(x, y)) == 1)
 # See slice_min() and slice_max() for another way to tackle the same problem
 
 # You can use row_number() without an argument to refer to the "current"
