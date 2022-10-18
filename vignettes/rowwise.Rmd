@@ -38,7 +38,7 @@ library(dplyr, warn.conflicts = FALSE)
 nest_by <- function(df, ...) {
   df %>%
     group_by(...) %>% 
-    summarise(data = list(across())) %>% 
+    summarise(data = list(pick(everything()))) %>% 
     rowwise(...)
 }
 # mtcars %>% nest_by(cyl)
@@ -121,16 +121,16 @@ rf %>%
 The `rowwise()` approach will work for any summary function. But if you need greater speed, it's worth looking for a built-in row-wise variant of your summary function. These are more efficient because they operate on the data frame as whole; they don't split it into rows, compute the summary, and then join the results back together again.
 
 ```{r}
-df %>% mutate(total = rowSums(across(where(is.numeric))))
-df %>% mutate(mean = rowMeans(across(where(is.numeric))))
+df %>% mutate(total = rowSums(pick(where(is.numeric))))
+df %>% mutate(mean = rowMeans(pick(where(is.numeric))))
 ```
 
-**NB**: I use `df` (not `rf`) and `across()` (not `c_across()`) here because `rowMeans()` and `rowSums()` take a multi-row data frame as input.
+**NB**: I use `df` (not `rf`) and `pick()` (not `c_across()`) here because `rowMeans()` and `rowSums()` take a multi-row data frame as input.
 
 ```{r, eval = FALSE, include = FALSE}
 bench::mark(
-  df %>% mutate(m = rowSums(across(x:z))),
-  df %>% mutate(m = apply(across(x:z), 1, sum)),
+  df %>% mutate(m = rowSums(pick(x:z))),
+  df %>% mutate(m = apply(pick(x:z), 1, sum)),
   df %>% rowwise() %>% mutate(m = sum(pick(x:z))),
   check = FALSE
 )

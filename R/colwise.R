@@ -4,7 +4,8 @@
 #' `r lifecycle::badge("superseded")`
 #'
 #' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
-#' [across()] in an existing verb. See `vignette("colwise")` for details.
+#' [pick()] or [across()] in an existing verb. See `vignette("colwise")` for
+#' details.
 #'
 #' The variants suffixed with `_if`, `_at` or `_all` apply an
 #' expression (sometimes several) to all variables within a specified

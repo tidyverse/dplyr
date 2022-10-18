@@ -4,7 +4,8 @@
 #' `r lifecycle::badge("superseded")`
 #'
 #' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
-#' [across()] in an existing verb. See `vignette("colwise")` for details.
+#' [pick()] or [across()] in an existing verb. See `vignette("colwise")` for
+#' details.
 #'
 #' The [scoped] variants of [summarise()] make it easy to apply the same
 #' transformation to multiple variables.
@@ -152,7 +153,8 @@ summarize_at <- summarise_at
 #' `r lifecycle::badge("superseded")`
 #'
 #' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
-#' [across()] in an existing verb. See `vignette("colwise")` for details.
+#' [pick()] or [across()] in an existing verb. See `vignette("colwise")` for
+#' details.
 #'
 #' The [scoped] variants of [mutate()] and [transmute()] make it easy to apply
 #' the same transformation to multiple variables. There are three variants:

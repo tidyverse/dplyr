@@ -137,7 +137,7 @@ test_that("distinct() handles auto splicing", {
 
   expect_equal(
     iris %>% distinct(Species),
-    iris %>% distinct(across(Species))
+    iris %>% distinct(pick(Species))
   )
 
   expect_equal(

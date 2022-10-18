@@ -204,17 +204,6 @@ iris \%>\%
   mutate(across(starts_with("Sepal"), multilag, .unpack = TRUE)) \%>\%
   select(Species, starts_with("Sepal"))
 
-# across() returns a data frame, which can be used as input of another function
-df <- data.frame(
-  x1  = c(1, 2, NA),
-  x2  = c(4, NA, 6),
-  y   = c("a", "b", "c")
-)
-df \%>\%
-  mutate(x_complete = complete.cases(across(starts_with("x"))))
-df \%>\%
-  filter(complete.cases(across(starts_with("x"))))
-
 # if_any() and if_all() ----------------------------------------------------
 iris \%>\%
   filter(if_any(ends_with("Width"), ~ . > 4))
