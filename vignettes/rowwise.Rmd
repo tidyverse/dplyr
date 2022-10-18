@@ -361,13 +361,13 @@ We've questioned the need for `do()` for quite some time, because it never felt 
       do(head(., 1))
     ```
   
-    This has been superseded `cur_data()` plus the more permissive `summarise()` 
+    This has been superseded by `pick()` plus the more permissive `summarise()` 
     which can now create multiple columns and multiple rows.
   
     ```{r}
     mtcars %>% 
       group_by(cyl) %>% 
-      summarise(head(cur_data(), 1))
+      summarise(head(pick(everything()), 1))
     ```
 
 *   With arguments: it worked like `mutate()` but automatically wrapped every
@@ -380,14 +380,14 @@ We've questioned the need for `do()` for quite some time, because it never felt 
     ```
 
     I now believe that behaviour is both too magical and not very useful, and 
-    it can be replaced by `summarise()` and `cur_data()` . 
+    it can be replaced by `summarise()` and `pick()`. 
   
     ```{r}
     mtcars %>% 
       group_by(cyl) %>% 
-      summarise(nrows = nrow(cur_data()))
+      summarise(nrows = nrow(pick(everything())))
     ```
 
     If needed (unlike here), you can wrap the results in a list yourself.
 
-The addition of `cur_data()`/`across()` and the increased scope of `summarise()` means that `do()` is no longer needed, so it is now superseded.
+The addition of `pick()`/`across()` and the increased scope of `summarise()` means that `do()` is no longer needed, so it is now superseded.
