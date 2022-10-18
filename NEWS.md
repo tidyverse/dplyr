@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `cur_data()` and `cur_data_all()` are now soft-deprecated in favor of
+  `pick()` (#6204).
+
 * New `pick()` function which is intended as a replacement for
   `across(.fns = NULL)`, `cur_data()`, and `cur_data_all()`. We feel that
   `pick()` is a much more evocative name when you are just trying to select a
