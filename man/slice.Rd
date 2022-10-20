@@ -50,9 +50,9 @@ A negative value of \code{n} or \code{prop} will be subtracted from the group
 size. For example, \code{n = -2} with a group of 5 rows will select 5 - 2 = 3
 rows; \code{prop = -0.25} with 8 rows will select 8 * (1 - 0.25) = 6 rows.}
 
-\item{order_by}{Variable or function of variables to order by.
-To order by multiple variables, wrap them in a data frame or
-tibble.}
+\item{order_by}{<\code{\link[=dplyr_data_masking]{data-masking}}> Variable or function
+of variables to order by. To order by multiple variables, wrap them in a
+data frame or tibble.}
 
 \item{with_ties}{Should ties be kept together? The default, \code{TRUE},
 may return more rows than you request. Use \code{FALSE} to ignore ties,
@@ -63,9 +63,9 @@ If \code{FALSE}, \code{NA} values are sorted to the end (like in \code{\link[=ar
 they will only be included if there are insufficient non-missing values to
 reach \code{n}/\code{prop}.}
 
-\item{weight_by}{Sampling weights. This must evaluate to a vector of
-non-negative numbers the same length as the input. Weights are
-automatically standardised to sum to 1.}
+\item{weight_by}{<\code{\link[=dplyr_data_masking]{data-masking}}> Sampling weights.
+This must evaluate to a vector of non-negative numbers the same length as
+the input. Weights are automatically standardised to sum to 1.}
 
 \item{replace}{Should sampling be performed with (\code{TRUE}) or without
 (\code{FALSE}, the default) replacement.}

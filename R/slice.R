@@ -167,9 +167,9 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
 
 #' @export
 #' @rdname slice
-#' @param order_by Variable or function of variables to order by.
-#'   To order by multiple variables, wrap them in a data frame or
-#'   tibble.
+#' @param order_by <[`data-masking`][dplyr_data_masking]> Variable or function
+#'   of variables to order by. To order by multiple variables, wrap them in a
+#'   data frame or tibble.
 #' @param with_ties Should ties be kept together? The default, `TRUE`,
 #'   may return more rows than you request. Use `FALSE` to ignore ties,
 #'   and return the first `n` rows.
@@ -242,9 +242,9 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
 #' @rdname slice
 #' @param replace Should sampling be performed with (`TRUE`) or without
 #'   (`FALSE`, the default) replacement.
-#' @param weight_by Sampling weights. This must evaluate to a vector of
-#'   non-negative numbers the same length as the input. Weights are
-#'   automatically standardised to sum to 1.
+#' @param weight_by <[`data-masking`][dplyr_data_masking]> Sampling weights.
+#'   This must evaluate to a vector of non-negative numbers the same length as
+#'   the input. Weights are automatically standardised to sum to 1.
 slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
   check_slice_dots(..., n = n, prop = prop)
   check_bool(replace)
