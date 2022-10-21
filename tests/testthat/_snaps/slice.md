@@ -6,7 +6,7 @@
       Error in `slice()`:
       ! Can't compute indices.
       Caused by error:
-      ! Must subset elements with a valid subscript vector.
+      ! Can't subset elements with `1`.
       x Negative and positive locations can't be mixed.
       i Subscript `1` has a positive value at location 1.
 
@@ -26,7 +26,7 @@
       Error in `slice()`:
       i In argument: `..1 = "a"`.
       Caused by error:
-      ! Must subset elements with a valid subscript vector.
+      ! Can't subset elements with `"a"`.
       x `"a"` must be numeric, not the string "a".
 
 # user errors are correctly labelled
