@@ -27,8 +27,7 @@
       i In argument: `..1 = "a"`.
       Caused by error:
       ! Must subset elements with a valid subscript vector.
-      x Subscript `"a"` has the wrong type `character`.
-      i It must be numeric.
+      x `"a"` must be numeric, not the string "a".
 
 # user errors are correctly labelled
 
