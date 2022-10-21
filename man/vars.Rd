@@ -12,7 +12,7 @@ vars(...)
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
-\code{vars()} is superseded because it was needed for the scoped verbs (i.e.
+\code{vars()} is superseded because it is only needed for the scoped verbs (i.e.
 \code{\link[=mutate_at]{mutate_at()}}, \code{\link[=summarise_at]{summarise_at()}}, and friends), which have been been
 superseded in favour of \code{\link[=across]{across()}}. See \code{vignette("colwise")} for details.
 

@@ -88,7 +88,7 @@ NULL
 #' @description
 #' `r lifecycle::badge("superseded")`
 #'
-#' `vars()` is superseded because it was needed for the scoped verbs (i.e.
+#' `vars()` is superseded because it is only needed for the scoped verbs (i.e.
 #' [mutate_at()], [summarise_at()], and friends), which have been been
 #' superseded in favour of [across()]. See `vignette("colwise")` for details.
 #'
