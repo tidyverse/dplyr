@@ -7,21 +7,19 @@
 vars(...)
 }
 \arguments{
-\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Variables to include/exclude
-in mutate/summarise. You can use same specifications as in \code{\link[=select]{select()}}.
-If missing, defaults to all non-grouping variables.}
+\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Variables to operate on.}
 }
 \description{
-\code{vars()} was only needed for the scoped verbs, which have been superseded
-by the use of \code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for
-details.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
-This helper is intended to provide equivalent semantics to
-\code{\link[=select]{select()}}. It is used for instance in scoped summarising and
-mutating verbs (\code{\link[=mutate_at]{mutate_at()}} and \code{\link[=summarise_at]{summarise_at()}}).
+\code{vars()} is superseded because it is only needed for the scoped verbs (i.e.
+\code{\link[=mutate_at]{mutate_at()}}, \code{\link[=summarise_at]{summarise_at()}}, and friends), which have been been
+superseded in favour of \code{\link[=across]{across()}}. See \code{vignette("colwise")} for details.
 
-Note that verbs accepting a \code{vars()} specification also accept a
-numeric vector of positions or a character vector of column names.
+This helper is intended to provide tidy-select semantics for scoped verbs
+like \code{mutate_at()} and \code{summarise_at()}. Note that anywhere you can supply
+\code{vars()} specification, you can also supply a numeric vector of column
+positions or a character vector of column names.
 }
 \seealso{
 \code{\link[=all_vars]{all_vars()}} and \code{\link[=any_vars]{any_vars()}} for other quoting

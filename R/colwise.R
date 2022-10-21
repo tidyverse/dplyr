@@ -86,20 +86,18 @@ NULL
 #' Select variables
 #'
 #' @description
-#' `vars()` was only needed for the scoped verbs, which have been superseded
-#' by the use of [across()] in an existing verb. See `vignette("colwise")` for
-#' details.
+#' `r lifecycle::badge("superseded")`
 #'
-#' This helper is intended to provide equivalent semantics to
-#' [select()]. It is used for instance in scoped summarising and
-#' mutating verbs ([mutate_at()] and [summarise_at()]).
+#' `vars()` is superseded because it is only needed for the scoped verbs (i.e.
+#' [mutate_at()], [summarise_at()], and friends), which have been been
+#' superseded in favour of [across()]. See `vignette("colwise")` for details.
 #'
-#' Note that verbs accepting a `vars()` specification also accept a
-#' numeric vector of positions or a character vector of column names.
+#' This helper is intended to provide tidy-select semantics for scoped verbs
+#' like `mutate_at()` and `summarise_at()`. Note that anywhere you can supply
+#' `vars()` specification, you can also supply a numeric vector of column
+#' positions or a character vector of column names.
 #'
-#' @param ... <[`tidy-select`][dplyr_tidy_select]> Variables to include/exclude
-#'   in mutate/summarise. You can use same specifications as in [select()].
-#'   If missing, defaults to all non-grouping variables.
+#' @param ... <[`tidy-select`][dplyr_tidy_select]> Variables to operate on.
 #' @seealso [all_vars()] and [any_vars()] for other quoting
 #'   functions that you can use with scoped verbs.
 #' @export
