@@ -268,7 +268,7 @@
       vec_case_when(list(TRUE), list(NULL))
     Condition
       Error in `vec_case_when()`:
-      ! `values[[1]]` must be a vector, not NULL.
+      ! `values[[1]]` must be a vector, not `NULL`.
 
 ---
 
@@ -276,7 +276,7 @@
       vec_case_when(list(TRUE), list(x = NULL))
     Condition
       Error in `vec_case_when()`:
-      ! `values$x` must be a vector, not NULL.
+      ! `values$x` must be a vector, not `NULL`.
 
 ---
 
@@ -284,7 +284,7 @@
       vec_case_when(list(TRUE), list(NULL), values_arg = "foo")
     Condition
       Error in `vec_case_when()`:
-      ! `foo[[1]]` must be a vector, not NULL.
+      ! `foo[[1]]` must be a vector, not `NULL`.
 
 ---
 
@@ -292,7 +292,7 @@
       vec_case_when(list(TRUE), list(x = NULL), values_arg = "foo")
     Condition
       Error in `vec_case_when()`:
-      ! `foo$x` must be a vector, not NULL.
+      ! `foo$x` must be a vector, not `NULL`.
 
 ---
 
@@ -300,7 +300,7 @@
       vec_case_when(list(TRUE), list(NULL), values_arg = "")
     Condition
       Error in `vec_case_when()`:
-      ! `..1` must be a vector, not NULL.
+      ! `..1` must be a vector, not `NULL`.
 
 ---
 
@@ -308,5 +308,5 @@
       vec_case_when(list(TRUE), list(x = NULL), values_arg = "")
     Condition
       Error in `vec_case_when()`:
-      ! `x` must be a vector, not NULL.
+      ! `x` must be a vector, not `NULL`.
 
