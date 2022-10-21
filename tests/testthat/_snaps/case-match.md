@@ -28,7 +28,7 @@
       case_match(1, 1 ~ NULL)
     Condition
       Error in `case_match()`:
-      ! `NULL` must be a vector, not NULL.
+      ! `NULL` must be a vector, not `NULL`.
 
 ---
 
@@ -36,7 +36,7 @@
       case_match(1, NULL ~ 1)
     Condition
       Error in `case_match()`:
-      ! `NULL` must be a vector, not NULL.
+      ! `NULL` must be a vector, not `NULL`.
 
 # throws chained errors when formula evaluation fails
 
