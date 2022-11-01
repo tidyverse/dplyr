@@ -53,10 +53,11 @@ df \%>\% mutate(cols = pick(x, y))
 # For example, you can compute a joint rank between `x` and `y`.
 df \%>\% mutate(rank = dense_rank(pick(x, y)))
 
-# `pick()` is also useful as a way to augment "data-masking" functions with
-# `select()` (i.e. tidyselect) semantics. For example, you can use `pick()`
-# to create a wrapper around `group_by()` that takes a tidyselection of
-# columns to group on.
+# `pick()` is also useful as a bridge between data-masking functions (like
+# `mutate()` or `group_by()`) and functions with tidy-select behavior (like
+# `select()`). For example, you can use `pick()` to create a wrapper around
+# `group_by()` that takes a tidy-selection of columns to group on. For more
+# bridge patterns, see https://rlang.r-lib.org/reference/topic-data-mask-programming.html#bridge-patterns.
 my_group_by <- function(data, cols) {
   group_by(data, pick({{ cols }}))
 }
