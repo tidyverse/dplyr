@@ -57,7 +57,8 @@ df \%>\% mutate(rank = dense_rank(pick(x, y)))
 # `mutate()` or `group_by()`) and functions with tidy-select behavior (like
 # `select()`). For example, you can use `pick()` to create a wrapper around
 # `group_by()` that takes a tidy-selection of columns to group on. For more
-# bridge patterns, see https://rlang.r-lib.org/reference/topic-data-mask-programming.html#bridge-patterns.
+# bridge patterns, see
+# https://rlang.r-lib.org/reference/topic-data-mask-programming.html#bridge-patterns.
 my_group_by <- function(data, cols) {
   group_by(data, pick({{ cols }}))
 }
