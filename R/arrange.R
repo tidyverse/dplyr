@@ -75,7 +75,7 @@
 #' }
 #' tidy_eval_arrange(mtcars, mpg)
 #'
-#' # Use `across()` or `pick()` to access select()-style semantics
+#' # Use `across()` or `pick()` to select columns with tidy-select
 #' iris %>% arrange(pick(starts_with("Sepal")))
 #' iris %>% arrange(across(starts_with("Sepal"), desc))
 arrange <- function(.data, ..., .by_group = FALSE) {

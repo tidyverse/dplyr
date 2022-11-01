@@ -64,7 +64,7 @@ distinct(df, y, .keep_all = TRUE)
 # You can also use distinct on computed variables
 distinct(df, diff = abs(x - y))
 
-# Use `pick()` to access select()-style semantics
+# Use `pick()` to select columns with tidy-select
 distinct(starwars, pick(contains("color")))
 
 # Grouping -------------------------------------------------
