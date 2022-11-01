@@ -392,7 +392,7 @@ Also note that inside the tibble I've switched from embracing (`{{}}`) to glue-s
 
 ### Transforming user-supplied variables
 
-If you want the user to provide a set of data-variables that are then transformed, use `across()`:
+If you want the user to provide a set of data-variables that are then transformed, use `across()` and `pick()`:
 
 ```{r}
 my_summarise <- function(data, summary_vars) {
