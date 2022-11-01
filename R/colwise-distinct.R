@@ -32,7 +32,7 @@
 #'
 #' distinct_at(df, vars(x,y))
 #' # ->
-#' distinct(df, pick(c(x, y)))
+#' distinct(df, pick(x, y))
 #'
 #' distinct_if(df, is.numeric)
 #' # ->

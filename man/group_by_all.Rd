@@ -88,7 +88,7 @@ iris \%>\% group_by(pick(where(is.factor)))
 # Group by variables selected by name:
 group_by_at(mtcars, vars(vs, am))
 # ->
-mtcars \%>\% group_by(pick(c(vs, am)))
+mtcars \%>\% group_by(pick(vs, am))
 
 # Like group_by(), the scoped variants have optional mutate
 # semantics. This provide a shortcut for group_by() + mutate():

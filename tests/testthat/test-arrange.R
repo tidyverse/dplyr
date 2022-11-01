@@ -231,7 +231,7 @@ test_that("arrange() works with across() and pick() cols that return multiple co
     df[c(3, 2, 1),]
   )
   expect_identical(
-    arrange(df, pick(c(a, b)), pick(c(c, d))),
+    arrange(df, pick(a, b), pick(c, d)),
     df[c(3, 2, 1),]
   )
 })
@@ -458,7 +458,7 @@ test_that("legacy - arrange() works with across() and pick() cols that return mu
     df[c(3, 2, 1),]
   )
   expect_identical(
-    arrange(df, pick(c(a, b)), pick(c(c, d))),
+    arrange(df, pick(a, b), pick(c, d)),
     df[c(3, 2, 1),]
   )
 })

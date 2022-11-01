@@ -157,10 +157,10 @@ test_that("the tidyselection and column extraction are evaluated on the current 
   })
 
   # Can select newly created columns
-  out <- mutate(gdf, y = x + 1L, z = pick(c(x, y)))
+  out <- mutate(gdf, y = x + 1L, z = pick(x, y))
   expect_identical(out[c("x", "y")], out$z)
 
-  out <- mutate(gdf, y = x + 1L, z = pick_wrapper(c(x, y)))
+  out <- mutate(gdf, y = x + 1L, z = pick_wrapper(x, y))
   expect_identical(out[c("x", "y")], out$z)
 
 
