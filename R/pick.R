@@ -5,7 +5,7 @@
 #' using [select()] semantics while inside a
 #' ["data-masking"][dplyr_data_masking] function like [mutate()] or
 #' [summarise()]. `pick()` returns a data frame containing the selected columns
-#' for further manipulation.
+#' for the current group.
 #'
 #' `pick()` is complementary to [across()]:
 #' - With `pick()`, you typically apply a function to the full data frame.
@@ -25,7 +25,7 @@
 #'   handled by the verb (i.e. [summarise()] or [mutate()]).
 #'
 #' @return
-#' A tibble containing the selected columns.
+#' A tibble containing the selected columns for the current group.
 #'
 #' @seealso [across()]
 #' @export
