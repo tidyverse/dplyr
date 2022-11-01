@@ -13,12 +13,12 @@ cur_data_all()
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-These functions were deprecated in dplyr 1.1.0 in favor of \code{\link[=pick]{pick()}}.
+These functions were deprecated in dplyr 1.1.0.
 \itemize{
-\item \code{cur_data()} gives the current data for the current group (excluding
-grouping variables).
-\item \code{cur_data_all()} gives the current data for the current group (including
-grouping variables).
+\item \code{cur_data()} is deprecated in favor of \code{\link[=pick]{pick()}}.
+\item \code{cur_data_all()} is deprecated but does not have a direct replacement as
+selecting the grouping variables is not well-defined and is unlikely to
+ever be useful.
 }
 }
 \keyword{internal}

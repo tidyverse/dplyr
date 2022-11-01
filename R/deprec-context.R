@@ -3,12 +3,12 @@
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #'
-#' These functions were deprecated in dplyr 1.1.0 in favor of [pick()].
+#' These functions were deprecated in dplyr 1.1.0.
 #'
-#' * `cur_data()` gives the current data for the current group (excluding
-#'   grouping variables).
-#' * `cur_data_all()` gives the current data for the current group (including
-#'   grouping variables).
+#' * `cur_data()` is deprecated in favor of [pick()].
+#' * `cur_data_all()` is deprecated but does not have a direct replacement as
+#'   selecting the grouping variables is not well-defined and is unlikely to
+#'   ever be useful.
 #'
 #' @keywords internal
 #' @name deprec-context
