@@ -495,3 +495,19 @@ test_that("`pick()` can be used inside `group_by()` wrappers", {
     group_by(df, a, c)
   )
 })
+
+# ------------------------------------------------------------------------------
+# expand_pick()
+
+test_that("`pick()` doesn't expand across anonymous function boundaries", {
+  df <- tibble(x = 1, y = 2)
+  mask <- DataMask$new(df, verb = "mutate", error_call = current_env())
+
+  # With inline `function() { }` calls (this also handles native R anonymous functions)
+  quo <- dplyr_quosures(z = function() pick(y, x))$z
+  expect_identical(expand_pick(quo, mask), quo)
+
+  # With `~` anonymous functions
+  quos <- dplyr_quosures(z = ~ pick(y, x))$z
+  expect_identical(expand_pick(quo, mask), quo)
+})

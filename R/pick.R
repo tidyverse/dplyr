@@ -118,6 +118,11 @@ expand_pick_impl <- function(expr, env, mask, error_call = caller_env()) {
     return(out)
   }
 
+  if (is_call(expr, name = c("~", "function"))) {
+    # Never expand across anonymous function boundaries
+    return(expr)
+  }
+
   index <- seq2(2L, length(expr))
 
   for (i in index) {
