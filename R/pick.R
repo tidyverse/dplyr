@@ -24,7 +24,7 @@
 #'   You can't pick grouping columns because they are already automatically
 #'   handled by the verb (i.e. [summarise()] or [mutate()]).
 #'
-#' @return
+#' @returns
 #' A tibble containing the selected columns for the current group.
 #'
 #' @seealso [across()]
