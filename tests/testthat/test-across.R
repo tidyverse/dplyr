@@ -968,6 +968,40 @@ test_that("selects and combines columns", {
   expect_equal(out$z, list(1:4))
 })
 
+# cols/fns deprecation ----------------------------------------------------
+
+test_that("across() with no arguments applies old `.cols = everything()` and `.fns = NULL` defaults", {
+  df <- tibble(x = 1, y = 2)
+
+  # Expansion path
+  out <- mutate(df, z = across())
+  expect_identical(out$z, df)
+
+  # Evaluation path
+  out <- mutate(df, z = (across()))
+  expect_identical(out$z, df)
+})
+
+test_that("if_any() and if_all() with no arguments applies old `.cols = everything()` and `.fns = NULL` defaults", {
+  df <- tibble(x = c(TRUE, FALSE, TRUE), y = c(FALSE, FALSE, TRUE))
+
+  # Expansion path
+  expect_identical(filter(df, if_any()), df[c(1, 3),])
+  expect_identical(filter(df, if_all()), df[3,])
+
+  # Evaluation path
+  expect_identical(filter(df, (if_any())), df[c(1, 3),])
+  expect_identical(filter(df, (if_all())), df[3,])
+})
+
+test_that("c_across() with no arguments applies old `cols = everything()` default", {
+  df <- tibble(x = c(1, 3), y = c(2, 4))
+  df <- rowwise(df)
+
+  out <- mutate(df, z = sum(c_across()))
+  expect_identical(out$z, c(3, 7))
+})
+
 # dots --------------------------------------------------------------------
 
 test_that("across(...) is deprecated", {
