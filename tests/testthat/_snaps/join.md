@@ -55,6 +55,16 @@
       Error:
       ! `na_matches` must be one of "na" or "never", not "foo".
 
+# mutating joins trigger multiple match warning
+
+    Code
+      out <- left_join(df1, df2, join_by(x))
+    Condition
+      Warning in `left_join()`:
+      Each row in `x` is expected to match at most 1 row in `y`.
+      i Row 1 of `x` matches multiple rows.
+      i If multiple matches are expected, set `multiple = "all"` to silence this warning.
+
 # mutating joins compute common columns
 
     Code
