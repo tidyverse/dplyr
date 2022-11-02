@@ -12,6 +12,9 @@
 #' the predicate is `TRUE` for *any* of the selected columns, `if_all()`
 #' is `TRUE` when the predicate is `TRUE` for *all* selected columns.
 #'
+#' If you just need to select columns without applying a transformation to each
+#' of them, then you probably want to use [pick()] instead.
+#'
 #' `across()` supersedes the family of "scoped variants" like
 #' `summarise_at()`, `summarise_if()`, and `summarise_all()`.
 #'
@@ -27,9 +30,6 @@
 #'     `list(mean = mean, n_miss = ~ sum(is.na(.x))`. Each function is applied
 #'     to each column, and the output is named by combining the function name
 #'     and the column name using the glue specification in `.names`.
-#'   - `NULL`: the default, returns the selected columns in a data frame
-#'     without applying a transformation. This is useful for when you want to
-#'     use a function that takes a data frame.
 #'
 #'   Within these functions you can use [cur_column()] and [cur_group()]
 #'   to access the current column and grouping keys respectively.
@@ -168,13 +168,26 @@
 #'
 #' @export
 #' @seealso [c_across()] for a function that returns a vector
-across <- function(.cols = everything(),
-                   .fns = NULL,
+across <- function(.cols,
+                   .fns,
                    ...,
                    .names = NULL,
                    .unpack = FALSE) {
   mask <- peek_mask()
   caller_env <- caller_env()
+
+  .cols <- enquo(.cols)
+
+  if (quo_is_missing(.cols)) {
+    # Silent restoration to old defaults of `.cols` for now.
+    # TODO: Escalate this to formal deprecation.
+    .cols <- quo_set_expr(.cols, expr(everything()))
+  }
+  if (is_missing(.fns)) {
+    # Silent restoration to old defaults of `.fns` for now.
+    # TODO: Escalate this to formal deprecation.
+    .fns <- NULL
+  }
 
   if (!is_bool(.unpack) && !is_string(.unpack)) {
     stop_input_type(.unpack, "`TRUE`, `FALSE`, or a single string")
@@ -188,7 +201,7 @@ across <- function(.cols = everything(),
   }
 
   setup <- across_setup(
-    {{ .cols }},
+    cols = !!.cols,
     fns = .fns,
     names = .names,
     .caller_env = caller_env,
@@ -221,6 +234,7 @@ across <- function(.cols = everything(),
   names <- setup$names
 
   if (is.null(fns)) {
+    # TODO: Deprecate and remove the `.fns = NULL` path in favor of `pick()`
     data <- mask$pick_current(vars)
 
     if (is.null(names)) {
@@ -281,13 +295,13 @@ across <- function(.cols = everything(),
 
 #' @rdname across
 #' @export
-if_any <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
+if_any <- function(.cols, .fns, ..., .names = NULL) {
   context_local("across_if_fn", "if_any")
   if_across(`|`, across({{ .cols }}, .fns, ..., .names = .names))
 }
 #' @rdname across
 #' @export
-if_all <- function(.cols = everything(), .fns = NULL, ..., .names = NULL) {
+if_all <- function(.cols, .fns, ..., .names = NULL) {
   context_local("across_if_fn", "if_all")
   if_across(`&`, across({{ .cols }}, .fns, ..., .names = .names))
 }
@@ -330,9 +344,15 @@ if_across <- function(op, df) {
 #'   mutate(
 #'     sum = sum(c_across(w:z)),
 #'     sd = sd(c_across(w:z))
-#'  )
-c_across <- function(cols = everything()) {
+#'   )
+c_across <- function(cols) {
   cols <- enquo(cols)
+
+  if (quo_is_missing(cols)) {
+    # Silent restoration to old default of `cols` for now.
+    # TODO: Escalate this to formal deprecation.
+    cols <- quo_set_expr(cols, expr(everything()))
+  }
 
   mask <- peek_mask()
   vars <- c_across_setup(!!cols, mask = mask)
@@ -387,6 +407,7 @@ across_setup <- function(cols,
   vars <- names(data)[vars]
 
   if (is.null(fns)) {
+    # TODO: Eventually deprecate and remove the `.fns = NULL` path in favor of `pick()`
     if (!is.null(names)) {
       glue_mask <- across_glue_mask(.caller_env, .col = names_vars, .fn = "1")
       names <- vec_as_names(
@@ -411,7 +432,7 @@ across_setup <- function(cols,
   }
 
   if (!is.list(fns)) {
-    msg <- c("`.fns` must be NULL, a function, a formula, or a list of functions/formulas.")
+    msg <- c("`.fns` must be a function, a formula, or a list of functions/formulas.")
     abort(msg, call = call(across_if_fn))
   }
 
@@ -614,13 +635,23 @@ expand_across <- function(quo) {
   if (".cols" %in% names(expr)) {
     cols <- expr$.cols
   } else {
-    cols <- quote(everything())
+    # In the missing case, silently restore the old default of `everything()`.
+    # TODO: Escalate this to formal deprecation.
+    cols <- expr(everything())
   }
   cols <- as_quosure(cols, env)
 
+  if (".fns" %in% names(expr)) {
+    fns <- eval_tidy(expr$.fns, mask, env = env)
+  } else {
+    # In the missing case, silently restore the old default of `NULL`.
+    # TODO: Escalate this to formal deprecation.
+    fns <- NULL
+  }
+
   setup <- across_setup(
     !!cols,
-    fns = eval_tidy(expr$.fns, mask, env = env),
+    fns = fns,
     names = eval_tidy(expr$.names, mask, env = env),
     .caller_env = env,
     mask = dplyr_mask,
@@ -639,6 +670,7 @@ expand_across <- function(quo) {
 
   # No functions, so just return a list of symbols
   if (is.null(fns)) {
+    # TODO: Deprecate and remove the `.fns = NULL` path in favor of `pick()`
     expressions <- pmap(list(vars, names, seq_along(vars)), function(var, name, k) {
       quo <- new_quosure(sym(var), empty_env())
       quo <- new_dplyr_quosure(

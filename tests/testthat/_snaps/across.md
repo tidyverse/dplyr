@@ -50,7 +50,7 @@
       Error in `summarise()`:
       i In argument: `..1 = across(where(is.numeric), 42)`.
       Caused by error in `across()`:
-      ! `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
+      ! `.fns` must be a function, a formula, or a list of functions/formulas.
     Code
       (expect_error(tibble(x = 1) %>% summarise(across(y, mean))))
     Output
@@ -67,7 +67,7 @@
       Error in `summarise()`:
       i In argument: `res = across(where(is.numeric), 42)`.
       Caused by error in `across()`:
-      ! `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
+      ! `.fns` must be a function, a formula, or a list of functions/formulas.
     Code
       (expect_error(tibble(x = 1) %>% summarise(z = across(y, mean))))
     Output
@@ -85,7 +85,7 @@
       Error in `summarise()`:
       i In argument: `res = sum(if_any(where(is.numeric), 42))`.
       Caused by error in `if_any()`:
-      ! `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
+      ! `.fns` must be a function, a formula, or a list of functions/formulas.
     Code
       (expect_error(tibble(x = 1) %>% summarise(res = sum(if_all(~ mean(.x))))))
     Output

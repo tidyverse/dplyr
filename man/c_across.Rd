@@ -4,7 +4,7 @@
 \alias{c_across}
 \title{Combine values from multiple columns}
 \usage{
-c_across(cols = everything())
+c_across(cols)
 }
 \arguments{
 \item{cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.
@@ -27,7 +27,7 @@ df \%>\%
   mutate(
     sum = sum(c_across(w:z)),
     sd = sd(c_across(w:z))
- )
+  )
 }
 \seealso{
 \code{\link[=across]{across()}} for a function that returns a tibble.
