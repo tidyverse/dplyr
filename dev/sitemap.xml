@@ -136,6 +136,9 @@
     <loc>https://dplyr.tidyverse.org/dev/reference/defunct.html</loc>
   </url>
   <url>
+    <loc>https://dplyr.tidyverse.org/dev/reference/deprec-context.html</loc>
+  </url>
+  <url>
     <loc>https://dplyr.tidyverse.org/dev/reference/desc.html</loc>
   </url>
   <url>
@@ -272,6 +275,9 @@
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/dev/reference/percent_rank.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/dev/reference/pick.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/dev/reference/progress_estimated.html</loc>

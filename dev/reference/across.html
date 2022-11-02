@@ -121,8 +121,8 @@ is <code>TRUE</code> when the predicate is <code>TRUE</code> for <em>all</em> se
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>.cols</dt>
 <dd><p>&lt;<code><a href="dplyr_tidy_select.html">tidy-select</a></code>&gt; Columns to transform.
-Because <code>across()</code> is used within functions like <code><a href="summarise.html">summarise()</a></code> and
-<code><a href="mutate.html">mutate()</a></code>, you can't select or compute upon grouping variables.</p></dd>
+You can't select grouping columns because they are already automatically
+handled by the verb (i.e. <code><a href="summarise.html">summarise()</a></code> or <code><a href="mutate.html">mutate()</a></code>).</p></dd>
 
 
 <dt>.fns</dt>
@@ -431,23 +431,6 @@ about when it should happen and place your code in consequence.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 140 more rows, and abbreviated variable names ¹​Sepal.Length,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​Sepal.Width, ³​Sepal.Length_1, ⁴​Sepal.Length_2, ⁵​Sepal.Length_3,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁶​Sepal.Width_1, ⁷​Sepal.Width_2, ⁸​Sepal.Width_3</span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># across() returns a data frame, which can be used as input of another function</span></span></span>
-<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  x1  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="cn">NA</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  x2  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="cn">NA</span>, <span class="fl">6</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  y   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="mutate.html">mutate</a></span><span class="op">(</span>x_complete <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html" class="external-link">complete.cases</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   x1 x2 y x_complete</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1  4 a       TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2 NA b      FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 NA  6 c      FALSE</span>
-<span class="r-in"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html" class="external-link">complete.cases</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   x1 x2 y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1  4 a</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># if_any() and if_all() ----------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>

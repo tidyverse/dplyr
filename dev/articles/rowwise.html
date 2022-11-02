@@ -115,23 +115,31 @@
 
     
     
-<p>dplyr, and R in general, are particularly well suited to performing operations over columns, and performing operations over rows is much harder. In this vignette, you’ll learn dplyr’s approach centred around the row-wise data frame created by <code><a href="../reference/rowwise.html">rowwise()</a></code>.</p>
-<p>There are three common use cases that we discuss in this vignette:</p>
+<p>dplyr, and R in general, are particularly well suited to performing
+operations over columns, and performing operations over rows is much
+harder. In this vignette, you’ll learn dplyr’s approach centred around
+the row-wise data frame created by <code><a href="../reference/rowwise.html">rowwise()</a></code>.</p>
+<p>There are three common use cases that we discuss in this
+vignette:</p>
 <ul>
 <li>Row-wise aggregates (e.g. compute the mean of x, y, z).</li>
 <li>Calling a function multiple times with varying arguments.</li>
 <li>Working with list-columns.</li>
 </ul>
-<p>These types of problems are often easily solved with a for loop, but it’s nice to have a solution that fits naturally into a pipeline.</p>
+<p>These types of problems are often easily solved with a for loop, but
+it’s nice to have a solution that fits naturally into a pipeline.</p>
 <blockquote>
-<p>Of course, someone has to write loops. It doesn’t have to be you. — Jenny Bryan</p>
+<p>Of course, someone has to write loops. It doesn’t have to be you. —
+Jenny Bryan</p>
 </blockquote>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="creating">Creating<a class="anchor" aria-label="anchor" href="#creating"></a>
 </h2>
-<p>Row-wise operations require a special type of grouping where each group consists of a single row. You create this with <code><a href="../reference/rowwise.html">rowwise()</a></code>:</p>
+<p>Row-wise operations require a special type of grouping where each
+group consists of a single row. You create this with
+<code><a href="../reference/rowwise.html">rowwise()</a></code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">4</span>, z <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span>
 <span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -141,7 +149,10 @@
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     3     5</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2     4     6</span></span></code></pre></div>
-<p>Like <code><a href="../reference/group_by.html">group_by()</a></code>, <code><a href="../reference/rowwise.html">rowwise()</a></code> doesn’t really do anything itself; it just changes how the other verbs work. For example, compare the results of <code><a href="../reference/mutate.html">mutate()</a></code> in the following code:</p>
+<p>Like <code><a href="../reference/group_by.html">group_by()</a></code>, <code><a href="../reference/rowwise.html">rowwise()</a></code> doesn’t really
+do anything itself; it just changes how the other verbs work. For
+example, compare the results of <code><a href="../reference/mutate.html">mutate()</a></code> in the following
+code:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span></span>
@@ -156,8 +167,14 @@
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     3     5     3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2     4     6     4</span></span></code></pre></div>
-<p>If you use <code><a href="../reference/mutate.html">mutate()</a></code> with a regular data frame, it computes the mean of <code>x</code>, <code>y</code>, and <code>z</code> across all rows. If you apply it to a row-wise data frame, it computes the mean for each row.</p>
-<p>You can optionally supply “identifier” variables in your call to <code><a href="../reference/rowwise.html">rowwise()</a></code>. These variables are preserved when you call <code><a href="../reference/summarise.html">summarise()</a></code>, so they behave somewhat similarly to the grouping variables passed to <code><a href="../reference/group_by.html">group_by()</a></code>:</p>
+<p>If you use <code><a href="../reference/mutate.html">mutate()</a></code> with a regular data frame, it
+computes the mean of <code>x</code>, <code>y</code>, and <code>z</code>
+across all rows. If you apply it to a row-wise data frame, it computes
+the mean for each row.</p>
+<p>You can optionally supply “identifier” variables in your call to
+<code><a href="../reference/rowwise.html">rowwise()</a></code>. These variables are preserved when you call
+<code><a href="../reference/summarise.html">summarise()</a></code>, so they behave somewhat similarly to the
+grouping variables passed to <code><a href="../reference/group_by.html">group_by()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Mara"</span>, <span class="st">"Hadley"</span><span class="op">)</span>, x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">4</span>, z <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span>
 <span></span>
@@ -181,12 +198,18 @@
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Mara       3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Hadley     4</span></span></code></pre></div>
-<p><code><a href="../reference/rowwise.html">rowwise()</a></code> is just a special form of grouping, so if you want to remove it from a data frame, just call <code><a href="../reference/group_by.html">ungroup()</a></code>.</p>
+<p><code><a href="../reference/rowwise.html">rowwise()</a></code> is just a special form of grouping, so if you
+want to remove it from a data frame, just call
+<code><a href="../reference/group_by.html">ungroup()</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="per-row-summary-statistics">Per row summary statistics<a class="anchor" aria-label="anchor" href="#per-row-summary-statistics"></a>
 </h2>
-<p><code><a href="../reference/summarise.html">dplyr::summarise()</a></code> makes it really easy to summarise values across rows within one column. When combined with <code><a href="../reference/rowwise.html">rowwise()</a></code> it also makes it easy to summarise values across columns within one row. To see how, we’ll start by making a little dataset:</p>
+<p><code><a href="../reference/summarise.html">dplyr::summarise()</a></code> makes it really easy to summarise
+values across rows within one column. When combined with
+<code><a href="../reference/rowwise.html">rowwise()</a></code> it also makes it easy to summarise values across
+columns within one row. To see how, we’ll start by making a little
+dataset:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, w <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">15</span>, x <span class="op">=</span> <span class="fl">20</span><span class="op">:</span><span class="fl">25</span>, y <span class="op">=</span> <span class="fl">30</span><span class="op">:</span><span class="fl">35</span>, z <span class="op">=</span> <span class="fl">40</span><span class="op">:</span><span class="fl">45</span><span class="op">)</span></span>
 <span><span class="va">df</span></span>
@@ -198,10 +221,13 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    12    22    32    42</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4    13    23    33    43</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span></code></pre></div>
-<p>Let’s say we want compute the sum of <code>w</code>, <code>x</code>, <code>y</code>, and <code>z</code> for each row. We start by making a row-wise data frame:</p>
+<p>Let’s say we want compute the sum of <code>w</code>, <code>x</code>,
+<code>y</code>, and <code>z</code> for each row. We start by making a
+row-wise data frame:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rf</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span></code></pre></div>
-<p>We can then use <code><a href="../reference/mutate.html">mutate()</a></code> to add a new column to each row, or <code><a href="../reference/summarise.html">summarise()</a></code> to return just that one summary:</p>
+<p>We can then use <code><a href="../reference/mutate.html">mutate()</a></code> to add a new column to each
+row, or <code><a href="../reference/summarise.html">summarise()</a></code> to return just that one summary:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">w</span>, <span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
@@ -225,7 +251,10 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3   108</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4   112</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span></code></pre></div>
-<p>Of course, if you have a lot of variables, it’s going to be tedious to type in every variable name. Instead, you can use <code><a href="../reference/c_across.html">c_across()</a></code> which uses tidy selection syntax so you can to succinctly select many variables:</p>
+<p>Of course, if you have a lot of variables, it’s going to be tedious
+to type in every variable name. Instead, you can use
+<code><a href="../reference/c_across.html">c_across()</a></code> which uses tidy selection syntax so you can to
+succinctly select many variables:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="../reference/c_across.html">c_across</a></span><span class="op">(</span><span class="va">w</span><span class="op">:</span><span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
@@ -247,7 +276,9 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    12    22    32    42   108</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4    13    23    33    43   112</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span></code></pre></div>
-<p>You could combine this with column-wise operations (see <code><a href="../articles/colwise.html">vignette("colwise")</a></code> for more details) to compute the proportion of the total for each column:</p>
+<p>You could combine this with column-wise operations (see
+<code><a href="../articles/colwise.html">vignette("colwise")</a></code> for more details) to compute the
+proportion of the total for each column:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="../reference/c_across.html">c_across</a></span><span class="op">(</span><span class="va">w</span><span class="op">:</span><span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -264,9 +295,14 @@
 <div class="section level3">
 <h3 id="row-wise-summary-functions">Row-wise summary functions<a class="anchor" aria-label="anchor" href="#row-wise-summary-functions"></a>
 </h3>
-<p>The <code><a href="../reference/rowwise.html">rowwise()</a></code> approach will work for any summary function. But if you need greater speed, it’s worth looking for a built-in row-wise variant of your summary function. These are more efficient because they operate on the data frame as whole; they don’t split it into rows, compute the summary, and then join the results back together again.</p>
+<p>The <code><a href="../reference/rowwise.html">rowwise()</a></code> approach will work for any summary
+function. But if you need greater speed, it’s worth looking for a
+built-in row-wise variant of your summary function. These are more
+efficient because they operate on the data frame as whole; they don’t
+split it into rows, compute the summary, and then join the results back
+together again.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="fu"><a href="../reference/pick.html">pick</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
 <span><span class="co">#&gt;      id     w     x     y     z total</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -275,7 +311,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    12    22    32    42   111</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4    13    23    33    43   116</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span>
-<span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="../reference/pick.html">pick</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
 <span><span class="co">#&gt;      id     w     x     y     z  mean</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -284,17 +320,23 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    12    22    32    42  22.2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4    13    23    33    43  23.2</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span></code></pre></div>
-<p><strong>NB</strong>: I use <code>df</code> (not <code>rf</code>) and <code><a href="../reference/across.html">across()</a></code> (not <code><a href="../reference/c_across.html">c_across()</a></code>) here because <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans()</a></code> and <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums()</a></code> take a multi-row data frame as input.</p>
+<p><strong>NB</strong>: I use <code>df</code> (not <code>rf</code>) and
+<code><a href="../reference/pick.html">pick()</a></code> (not <code><a href="../reference/c_across.html">c_across()</a></code>) here because
+<code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans()</a></code> and <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums()</a></code> take a multi-row data
+frame as input.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="list-columns">List-columns<a class="anchor" aria-label="anchor" href="#list-columns"></a>
 </h2>
-<p><code><a href="../reference/rowwise.html">rowwise()</a></code> operations are a natural pairing when you have list-columns. They allow you to avoid explicit loops and/or functions from the <code><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply()</a></code> or <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> families.</p>
+<p><code><a href="../reference/rowwise.html">rowwise()</a></code> operations are a natural pairing when you have
+list-columns. They allow you to avoid explicit loops and/or functions
+from the <code><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply()</a></code> or <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> families.</p>
 <div class="section level3">
 <h3 id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
 </h3>
-<p>Imagine you have this data frame, and you want to count the lengths of each element:</p>
+<p>Imagine you have this data frame, and you want to count the lengths
+of each element:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span>
@@ -308,7 +350,9 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;dbl [1]&gt;</span>     3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;int [2]&gt;</span>     3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;int [3]&gt;</span>     3</span></span></code></pre></div>
-<p>But that returns the length of the column, not the length of the individual values. If you’re an R documentation aficionado, you might know there’s already a base R function just for this purpose:</p>
+<p>But that returns the length of the column, not the length of the
+individual values. If you’re an R documentation aficionado, you might
+know there’s already a base R function just for this purpose:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>l <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
@@ -317,7 +361,10 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;dbl [1]&gt;</span>     1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;int [2]&gt;</span>     2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;int [3]&gt;</span>     3</span></span></code></pre></div>
-<p>Or if you’re an experienced R programmer, you might know how to apply a function to each element of a list using <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply()</a></code>, <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">vapply()</a></code>, or one of the purrr <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map()</a></code> functions:</p>
+<p>Or if you’re an experienced R programmer, you might know how to apply
+a function to each element of a list using <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply()</a></code>,
+<code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">vapply()</a></code>, or one of the purrr <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map()</a></code>
+functions:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>l <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">length</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
@@ -333,7 +380,11 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;dbl [1]&gt;</span>     1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;int [2]&gt;</span>     2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;int [3]&gt;</span>     3</span></span></code></pre></div>
-<p>But wouldn’t it be nice if you could just write <code>length(x)</code> and dplyr would figure out that you wanted to compute the length of the element inside of <code>x</code>? Since you’re here, you might already be guessing at the answer: this is just another application of the row-wise pattern.</p>
+<p>But wouldn’t it be nice if you could just write
+<code>length(x)</code> and dplyr would figure out that you wanted to
+compute the length of the element inside of <code>x</code>? Since you’re
+here, you might already be guessing at the answer: this is just another
+application of the row-wise pattern.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -349,13 +400,19 @@
 <div class="section level3">
 <h3 id="subsetting">Subsetting<a class="anchor" aria-label="anchor" href="#subsetting"></a>
 </h3>
-<p>Before we continue on, I wanted to briefly mention the magic that makes this work. This isn’t something you’ll generally need to think about (it’ll just work), but it’s useful to know about when something goes wrong.</p>
-<p>There’s an important difference between a grouped data frame where each group happens to have one row, and a row-wise data frame where every group always has one row. Take these two data frames:</p>
+<p>Before we continue on, I wanted to briefly mention the magic that
+makes this work. This isn’t something you’ll generally need to think
+about (it’ll just work), but it’s useful to know about when something
+goes wrong.</p>
+<p>There’s an important difference between a grouped data frame where
+each group happens to have one row, and a row-wise data frame where
+every group always has one row. Take these two data frames:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>g <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="st">"a"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">gf</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span></span>
 <span><span class="va">rf</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span></span></code></pre></div>
-<p>If we compute some properties of <code>y</code>, you’ll notice the results look different:</p>
+<p>If we compute some properties of <code>y</code>, you’ll notice the
+results look different:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/typeof.html" class="external-link">typeof</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span></span>
@@ -371,7 +428,11 @@
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 <span style="color: #949494;">&lt;int [3]&gt;</span> integer        3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2 <span style="color: #949494;">&lt;chr [1]&gt;</span> character      1</span></span></code></pre></div>
-<p>They key difference is that when <code><a href="../reference/mutate.html">mutate()</a></code> slices up the columns to pass to <code>length(y)</code> the grouped mutate uses <code>[</code> and the row-wise mutate uses <code>[[</code>. The following code gives a flavour of the differences if you used a for loop:</p>
+<p>They key difference is that when <code><a href="../reference/mutate.html">mutate()</a></code> slices up the
+columns to pass to <code>length(y)</code> the grouped mutate uses
+<code>[</code> and the row-wise mutate uses <code>[[</code>. The
+following code gives a flavour of the differences if you used a for
+loop:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># grouped</span></span>
 <span><span class="va">out1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
@@ -388,7 +449,10 @@
 <span><span class="op">}</span></span>
 <span><span class="va">out2</span></span>
 <span><span class="co">#&gt; [1] 3 1</span></span></code></pre></div>
-<p>Note that this magic only applies when you’re referring to existing columns, not when you’re creating new rows. This is potentially confusing, but we’re fairly confident it’s the least worst solution, particularly given the hint in the error message.</p>
+<p>Note that this magic only applies when you’re referring to existing
+columns, not when you’re creating new rows. This is potentially
+confusing, but we’re fairly confident it’s the least worst solution,
+particularly given the hint in the error message.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>y2 <span class="op">=</span> <span class="va">y</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
@@ -415,7 +479,9 @@
 <div class="section level3">
 <h3 id="modelling">Modelling<a class="anchor" aria-label="anchor" href="#modelling"></a>
 </h3>
-<p><code><a href="../reference/rowwise.html">rowwise()</a></code> data frames allow you to solve a variety of modelling problems in what I think is a particularly elegant way. We’ll start by creating a nested data frame:</p>
+<p><code><a href="../reference/rowwise.html">rowwise()</a></code> data frames allow you to solve a variety of
+modelling problems in what I think is a particularly elegant way. We’ll
+start by creating a nested data frame:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_cyl</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/nest_by.html">nest_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span></span>
 <span><span class="va">by_cyl</span></span>
@@ -426,8 +492,14 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     4 <span style="color: #949494;">&lt;tibble [11 × 10]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     6 <span style="color: #949494;">&lt;tibble [7 × 10]&gt;</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     8 <span style="color: #949494;">&lt;tibble [14 × 10]&gt;</span></span></span></code></pre></div>
-<p>This is a little different to the usual <code><a href="../reference/group_by.html">group_by()</a></code> output: we have visibly changed the structure of the data. Now we have three rows (one for each group), and we have a list-col, <code>data</code>, that stores the data for that group. Also note that the output is <code><a href="../reference/rowwise.html">rowwise()</a></code>; this is important because it’s going to make working with that list of data frames much easier.</p>
-<p>Once we have one data frame per row, it’s straightforward to make one model per row:</p>
+<p>This is a little different to the usual <code><a href="../reference/group_by.html">group_by()</a></code>
+output: we have visibly changed the structure of the data. Now we have
+three rows (one for each group), and we have a list-col,
+<code>data</code>, that stores the data for that group. Also note that
+the output is <code><a href="../reference/rowwise.html">rowwise()</a></code>; this is important because it’s
+going to make working with that list of data frames much easier.</p>
+<p>Once we have one data frame per row, it’s straightforward to make one
+model per row:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mods</span> <span class="op">&lt;-</span> <span class="va">by_cyl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>mod <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">wt</span>, data <span class="op">=</span> <span class="va">data</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">mods</span></span>
@@ -502,11 +574,20 @@
 <div class="section level2">
 <h2 id="repeated-function-calls">Repeated function calls<a class="anchor" aria-label="anchor" href="#repeated-function-calls"></a>
 </h2>
-<p><code><a href="../reference/rowwise.html">rowwise()</a></code> doesn’t just work with functions that return a length-1 vector (aka summary functions); it can work with any function if the result is a list. This means that <code><a href="../reference/rowwise.html">rowwise()</a></code> and <code><a href="../reference/mutate.html">mutate()</a></code> provide an elegant way to call a function many times with varying arguments, storing the outputs alongside the inputs.</p>
+<p><code><a href="../reference/rowwise.html">rowwise()</a></code> doesn’t just work with functions that return a
+length-1 vector (aka summary functions); it can work with any function
+if the result is a list. This means that <code><a href="../reference/rowwise.html">rowwise()</a></code> and
+<code><a href="../reference/mutate.html">mutate()</a></code> provide an elegant way to call a function many
+times with varying arguments, storing the outputs alongside the
+inputs.</p>
 <div class="section level3">
 <h3 id="simulations">Simulations<a class="anchor" aria-label="anchor" href="#simulations"></a>
 </h3>
-<p>I think this is a particularly elegant way to perform simulations, because it lets you store simulated values along with the parameters that generated them. For example, imagine you have the following data frame that describes the properties of 3 samples from the uniform distribution:</p>
+<p>I think this is a particularly elegant way to perform simulations,
+because it lets you store simulated values along with the parameters
+that generated them. For example, imagine you have the following data
+frame that describes the properties of 3 samples from the uniform
+distribution:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span> <span class="va">n</span>, <span class="op">~</span> <span class="va">min</span>, <span class="op">~</span> <span class="va">max</span>,</span>
@@ -514,7 +595,8 @@
 <span>    <span class="fl">2</span>,    <span class="fl">10</span>,   <span class="fl">100</span>,</span>
 <span>    <span class="fl">3</span>,   <span class="fl">100</span>,  <span class="fl">1000</span>,</span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>You can supply these parameters to <code><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif()</a></code> by using <code><a href="../reference/rowwise.html">rowwise()</a></code> and <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
+<p>You can supply these parameters to <code><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif()</a></code> by using
+<code><a href="../reference/rowwise.html">rowwise()</a></code> and <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -526,7 +608,11 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     0     1 <span style="color: #949494;">&lt;dbl [1]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2    10   100 <span style="color: #949494;">&lt;dbl [2]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3   100  <span style="text-decoration: underline;">1</span>000 <span style="color: #949494;">&lt;dbl [3]&gt;</span></span></span></code></pre></div>
-<p>Note the use of <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> here - <code><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif()</a></code> returns multiple values and a <code><a href="../reference/mutate.html">mutate()</a></code> expression has to return something of length 1. <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> means that we’ll get a list column where each row is a list containing multiple values. If you forget to use <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>, dplyr will give you a hint:</p>
+<p>Note the use of <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> here - <code><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif()</a></code>
+returns multiple values and a <code><a href="../reference/mutate.html">mutate()</a></code> expression has to
+return something of length 1. <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> means that we’ll get a
+list column where each row is a list containing multiple values. If you
+forget to use <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>, dplyr will give you a hint:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -541,7 +627,10 @@
 <div class="section level3">
 <h3 id="multiple-combinations">Multiple combinations<a class="anchor" aria-label="anchor" href="#multiple-combinations"></a>
 </h3>
-<p>What if you want to call a function for every combination of inputs? You can use <code><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid()</a></code> (or <code><a href="https://tidyr.tidyverse.org/reference/expand_grid.html" class="external-link">tidyr::expand_grid()</a></code>) to generate the data frame and then repeat the same pattern as above:</p>
+<p>What if you want to call a function for every combination of inputs?
+You can use <code><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid()</a></code> (or
+<code><a href="https://tidyr.tidyverse.org/reference/expand_grid.html" class="external-link">tidyr::expand_grid()</a></code>) to generate the data frame and then
+repeat the same pattern as above:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -561,7 +650,11 @@
 <div class="section level3">
 <h3 id="varying-functions">Varying functions<a class="anchor" aria-label="anchor" href="#varying-functions"></a>
 </h3>
-<p>In more complicated problems, you might also want to vary the function being called. This tends to be a bit more of an awkward fit with this approach because the columns in the input tibble will be less regular. But it’s still possible, and it’s a natural place to use <code><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call()</a></code>:</p>
+<p>In more complicated problems, you might also want to vary the
+function being called. This tends to be a bit more of an awkward fit
+with this approach because the columns in the input tibble will be less
+regular. But it’s still possible, and it’s a natural place to use
+<code><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call()</a></code>:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
 <span>   <span class="op">~</span><span class="va">rng</span>,     <span class="op">~</span><span class="va">params</span>,</span>
@@ -589,18 +682,37 @@
 <h3 id="rowwise">
 <code>rowwise()</code><a class="anchor" aria-label="anchor" href="#rowwise"></a>
 </h3>
-<p><code><a href="../reference/rowwise.html">rowwise()</a></code> was also questioning for quite some time, partly because I didn’t appreciate how many people needed the native ability to compute summaries across multiple variables for each row. As an alternative, we recommended performing row-wise operations with the purrr <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map()</a></code> functions. However, this was challenging because you needed to pick a map function based on the number of arguments that were varying and the type of result, which required quite some knowledge of purrr functions.</p>
-<p>I was also resistant to <code><a href="../reference/rowwise.html">rowwise()</a></code> because I felt like automatically switching between <code>[</code> to <code>[[</code> was too magical in the same way that automatically <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>-ing results made <code><a href="../reference/do.html">do()</a></code> too magical. I’ve now persuaded myself that the row-wise magic is good magic partly because most people find the distinction between <code>[</code> and <code>[[</code> mystifying and <code><a href="../reference/rowwise.html">rowwise()</a></code> means that you don’t need to think about it.</p>
-<p>Since <code><a href="../reference/rowwise.html">rowwise()</a></code> clearly is useful it is not longer questioning, and we expect it to be around for the long term.</p>
+<p><code><a href="../reference/rowwise.html">rowwise()</a></code> was also questioning for quite some time,
+partly because I didn’t appreciate how many people needed the native
+ability to compute summaries across multiple variables for each row. As
+an alternative, we recommended performing row-wise operations with the
+purrr <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map()</a></code> functions. However, this was challenging
+because you needed to pick a map function based on the number of
+arguments that were varying and the type of result, which required quite
+some knowledge of purrr functions.</p>
+<p>I was also resistant to <code><a href="../reference/rowwise.html">rowwise()</a></code> because I felt like
+automatically switching between <code>[</code> to <code>[[</code> was
+too magical in the same way that automatically <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>-ing
+results made <code><a href="../reference/do.html">do()</a></code> too magical. I’ve now persuaded myself
+that the row-wise magic is good magic partly because most people find
+the distinction between <code>[</code> and <code>[[</code> mystifying
+and <code><a href="../reference/rowwise.html">rowwise()</a></code> means that you don’t need to think about
+it.</p>
+<p>Since <code><a href="../reference/rowwise.html">rowwise()</a></code> clearly is useful it is not longer
+questioning, and we expect it to be around for the long term.</p>
 </div>
 <div class="section level3">
 <h3 id="do">
 <code>do()</code><a class="anchor" aria-label="anchor" href="#do"></a>
 </h3>
-<p>We’ve questioned the need for <code><a href="../reference/do.html">do()</a></code> for quite some time, because it never felt very similar to the other dplyr verbs. It had two main modes of operation:</p>
+<p>We’ve questioned the need for <code><a href="../reference/do.html">do()</a></code> for quite some time,
+because it never felt very similar to the other dplyr verbs. It had two
+main modes of operation:</p>
 <ul>
 <li>
-<p>Without argument names: you could call functions that input and output data frames using <code>.</code> to refer to the “current” group. For example, the following code gets the first row of each group:</p>
+<p>Without argument names: you could call functions that input and
+output data frames using <code>.</code> to refer to the “current” group.
+For example, the following code gets the first row of each group:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -612,11 +724,13 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  21       6   160   110  3.9   2.62  16.5     0     1     4     4</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  18.7     8   360   175  3.15  3.44  17.0     0     0     3     2</span></span></code></pre></div>
-<p>This has been superseded <code><a href="../reference/context.html">cur_data()</a></code> plus the more permissive <code><a href="../reference/summarise.html">summarise()</a></code> which can now create multiple columns and multiple rows.</p>
+<p>This has been superseded by <code><a href="../reference/pick.html">pick()</a></code> plus the more
+permissive <code><a href="../reference/summarise.html">summarise()</a></code> which can now create multiple
+columns and multiple rows.</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/context.html">cur_data</a></span><span class="op">(</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/pick.html">pick</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 11</span></span></span>
 <span><span class="co">#&gt;     cyl   mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -625,7 +739,8 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     8  18.7   360   175  3.15  3.44  17.0     0     0     3     2</span></span></code></pre></div>
 </li>
 <li>
-<p>With arguments: it worked like <code><a href="../reference/mutate.html">mutate()</a></code> but automatically wrapped every element in a list:</p>
+<p>With arguments: it worked like <code><a href="../reference/mutate.html">mutate()</a></code> but
+automatically wrapped every element in a list:</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -637,21 +752,26 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     4 <span style="color: #949494;">&lt;int [1]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     6 <span style="color: #949494;">&lt;int [1]&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     8 <span style="color: #949494;">&lt;int [1]&gt;</span></span></span></code></pre></div>
-<p>I now believe that behaviour is both too magical and not very useful, and it can be replaced by <code><a href="../reference/summarise.html">summarise()</a></code> and <code><a href="../reference/context.html">cur_data()</a></code> .</p>
+<p>I now believe that behaviour is both too magical and not very useful,
+and it can be replaced by <code><a href="../reference/summarise.html">summarise()</a></code> and
+<code><a href="../reference/pick.html">pick()</a></code>.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>nrows <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/context.html">cur_data</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>nrows <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu"><a href="../reference/pick.html">pick</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
 <span><span class="co">#&gt;     cyl nrows</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     4    11</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     6     7</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     8    14</span></span></code></pre></div>
-<p>If needed (unlike here), you can wrap the results in a list yourself.</p>
+<p>If needed (unlike here), you can wrap the results in a list
+yourself.</p>
 </li>
 </ul>
-<p>The addition of <code><a href="../reference/context.html">cur_data()</a></code>/<code><a href="../reference/across.html">across()</a></code> and the increased scope of <code><a href="../reference/summarise.html">summarise()</a></code> means that <code><a href="../reference/do.html">do()</a></code> is no longer needed, so it is now superseded.</p>
+<p>The addition of <code><a href="../reference/pick.html">pick()</a></code>/<code><a href="../reference/across.html">across()</a></code> and the
+increased scope of <code><a href="../reference/summarise.html">summarise()</a></code> means that <code><a href="../reference/do.html">do()</a></code>
+is no longer needed, so it is now superseded.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

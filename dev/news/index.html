@@ -75,7 +75,9 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
-<ul><li><p><code><a href="../reference/arrange.html">arrange()</a></code> now works correctly when <code><a href="../reference/across.html">across()</a></code> calls are used as the 2nd (or more) ordering expression (<a href="https://github.com/tidyverse/dplyr/issues/6495" class="external-link">#6495</a>).</p></li>
+<ul><li><p><code><a href="../reference/deprec-context.html">cur_data()</a></code> and <code><a href="../reference/deprec-context.html">cur_data_all()</a></code> are now soft-deprecated in favor of <code><a href="../reference/pick.html">pick()</a></code> (<a href="https://github.com/tidyverse/dplyr/issues/6204" class="external-link">#6204</a>).</p></li>
+<li><p>New <code><a href="../reference/pick.html">pick()</a></code> to access a subset of columns from the current group. <code><a href="../reference/pick.html">pick()</a></code> is intended as a replacement for <code>across(.fns = NULL)</code>, <code><a href="../reference/deprec-context.html">cur_data()</a></code>, and <code><a href="../reference/deprec-context.html">cur_data_all()</a></code>. We feel that <code><a href="../reference/pick.html">pick()</a></code> is a much more evocative name when you are just trying to select a subset of columns from your data (<a href="https://github.com/tidyverse/dplyr/issues/6204" class="external-link">#6204</a>).</p></li>
+<li><p><code><a href="../reference/arrange.html">arrange()</a></code> now works correctly when <code><a href="../reference/across.html">across()</a></code> calls are used as the 2nd (or more) ordering expression (<a href="https://github.com/tidyverse/dplyr/issues/6495" class="external-link">#6495</a>).</p></li>
 <li><p>Joins now reference the correct column in <code>y</code> when a type error is thrown while joining on two columns with different names (<a href="https://github.com/tidyverse/dplyr/issues/6465" class="external-link">#6465</a>).</p></li>
 <li><p>Warnings are now enriched with contextualised information in <code><a href="../reference/summarise.html">summarise()</a></code> and <code><a href="../reference/filter.html">filter()</a></code> just like they have been in <code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/arrange.html">arrange()</a></code>.</p></li>
 <li><p>Using 1 column matrices in <code><a href="../reference/filter.html">filter()</a></code> is now deprecated (<a href="https://github.com/tidyverse/dplyr/issues/6091" class="external-link">#6091</a>).</p></li>
@@ -217,7 +219,7 @@
 <li><p><code><a href="../reference/filter.html">filter()</a></code> forbids matrix results (<a href="https://github.com/tidyverse/dplyr/issues/5973" class="external-link">#5973</a>) and warns about data frame results, especially data frames created from <code><a href="../reference/across.html">across()</a></code> with a hint to use <code><a href="../reference/across.html">if_any()</a></code> or <code><a href="../reference/across.html">if_all()</a></code>.</p></li>
 <li><p><code><a href="../reference/slice.html">slice()</a></code> helpers (<code><a href="../reference/slice.html">slice_head()</a></code>, <code><a href="../reference/slice.html">slice_tail()</a></code>, <code><a href="../reference/slice.html">slice_min()</a></code>, <code><a href="../reference/slice.html">slice_max()</a></code>) now accept negative values for <code>n</code> and <code>prop</code> (<a href="https://github.com/tidyverse/dplyr/issues/5961" class="external-link">#5961</a>).</p></li>
 <li><p><code><a href="../reference/slice.html">slice()</a></code> now indicates which group produces an error (<a href="https://github.com/tidyverse/dplyr/issues/5931" class="external-link">#5931</a>).</p></li>
-<li><p><code><a href="../reference/context.html">cur_data()</a></code> and <code><a href="../reference/context.html">cur_data_all()</a></code> don’t simplify list columns in rowwise data frames (<a href="https://github.com/tidyverse/dplyr/issues/5901" class="external-link">#5901</a>).</p></li>
+<li><p><code><a href="../reference/deprec-context.html">cur_data()</a></code> and <code><a href="../reference/deprec-context.html">cur_data_all()</a></code> don’t simplify list columns in rowwise data frames (<a href="https://github.com/tidyverse/dplyr/issues/5901" class="external-link">#5901</a>).</p></li>
 <li><p>dplyr now uses <code><a href="https://rlang.r-lib.org/reference/is_installed.html" class="external-link">rlang::check_installed()</a></code> to prompt you whether to install required packages that are missing.</p></li>
 <li><p><code>storms</code> data updated to 2020 (<a href="https://github.com/steveharoz" class="external-link">@steveharoz</a>, <a href="https://github.com/tidyverse/dplyr/issues/5899" class="external-link">#5899</a>).</p></li>
 <li><p><code><a href="../reference/coalesce.html">coalesce()</a></code> accepts 1-D arrays (<a href="https://github.com/tidyverse/dplyr/issues/5557" class="external-link">#5557</a>).</p></li>
@@ -287,7 +289,7 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.1" id="dplyr-101">dplyr 1.0.1<a class="anchor" aria-label="anchor" href="#dplyr-101"></a></h2><p class="text-muted">CRAN release: 2020-07-31</p>
-<ul><li><p>New function <code><a href="../reference/context.html">cur_data_all()</a></code> similar to <code><a href="../reference/context.html">cur_data()</a></code> but includes the grouping variables (<a href="https://github.com/tidyverse/dplyr/issues/5342" class="external-link">#5342</a>).</p></li>
+<ul><li><p>New function <code><a href="../reference/deprec-context.html">cur_data_all()</a></code> similar to <code><a href="../reference/deprec-context.html">cur_data()</a></code> but includes the grouping variables (<a href="https://github.com/tidyverse/dplyr/issues/5342" class="external-link">#5342</a>).</p></li>
 <li>
 <p><code><a href="../reference/count.html">count()</a></code> and <code><a href="../reference/count.html">tally()</a></code> no longer automatically weights by column <code>n</code> if present (<a href="https://github.com/tidyverse/dplyr/issues/5298" class="external-link">#5298</a>). dplyr 1.0.0 introduced this behaviour because of Hadley’s faulty memory. Historically <code><a href="../reference/count.html">tally()</a></code> automatically weighted and <code><a href="../reference/count.html">count()</a></code> did not, but this behaviour was accidentally changed in 0.8.2 (<a href="https://github.com/tidyverse/dplyr/issues/4408" class="external-link">#4408</a>) so that neither automatically weighted by <code>n</code>. Since 0.8.2 is almost a year old, and the automatically weighting behaviour was a little confusing anyway, we’ve removed it from both <code><a href="../reference/count.html">count()</a></code> and <code><a href="../reference/count.html">tally()</a></code>.</p>
 <p>Use of <code>wt = n()</code> is now deprecated; now just omit the <code>wt</code> argument.</p>
@@ -330,7 +332,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-1-0-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-0-0"></a></h3>
-<ul><li><p>The <code>cur_</code> functions (<code><a href="../reference/context.html">cur_data()</a></code>, <code><a href="../reference/context.html">cur_group()</a></code>, <code><a href="../reference/context.html">cur_group_id()</a></code>, <code><a href="../reference/context.html">cur_group_rows()</a></code>) provide a full set of options to you access information about the “current” group in dplyr verbs. They are inspired by data.table’s <code>.SD</code>, <code>.GRP</code>, <code>.BY</code>, and <code>.I</code>.</p></li>
+<ul><li><p>The <code>cur_</code> functions (<code><a href="../reference/deprec-context.html">cur_data()</a></code>, <code><a href="../reference/context.html">cur_group()</a></code>, <code><a href="../reference/context.html">cur_group_id()</a></code>, <code><a href="../reference/context.html">cur_group_rows()</a></code>) provide a full set of options to you access information about the “current” group in dplyr verbs. They are inspired by data.table’s <code>.SD</code>, <code>.GRP</code>, <code>.BY</code>, and <code>.I</code>.</p></li>
 <li><p>The <code>rows_</code> functions (<code><a href="../reference/rows.html">rows_insert()</a></code>, <code><a href="../reference/rows.html">rows_update()</a></code>, <code><a href="../reference/rows.html">rows_upsert()</a></code>, <code><a href="../reference/rows.html">rows_patch()</a></code>, <code><a href="../reference/rows.html">rows_delete()</a></code>) provide a new API to insert and delete rows from a second data frame or table. Support for updating mutable backends is planned (<a href="https://github.com/tidyverse/dplyr/issues/4654" class="external-link">#4654</a>).</p></li>
 <li><p><code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/summarise.html">summarise()</a></code> create multiple columns from a single expression if you return a data frame (<a href="https://github.com/tidyverse/dplyr/issues/2326" class="external-link">#2326</a>).</p></li>
 <li><p><code><a href="../reference/select.html">select()</a></code> and <code><a href="../reference/rename.html">rename()</a></code> use the latest version of the tidyselect interface. Practically, this means that you can now combine selections using Boolean logic (i.e. <code>!</code>, <code>&amp;</code> and <code>|</code>), and use predicate functions with <code>where()</code> (e.g. <code>where(is.character)</code>) to select variables by type (<a href="https://github.com/tidyverse/dplyr/issues/4680" class="external-link">#4680</a>). It also makes it possible to use <code><a href="../reference/select.html">select()</a></code> and <code><a href="../reference/rename.html">rename()</a></code> to repair data frames with duplicated names (<a href="https://github.com/tidyverse/dplyr/issues/4615" class="external-link">#4615</a>) and prevents you from accidentally introducing duplicate names (<a href="https://github.com/tidyverse/dplyr/issues/4643" class="external-link">#4643</a>). This also means that dplyr now re-exports <code><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">any_of()</a></code> and <code><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of()</a></code> (<a href="https://github.com/tidyverse/dplyr/issues/5036" class="external-link">#5036</a>).</p></li>
@@ -382,7 +384,8 @@
 </ul></div>
 <div class="section level3">
 <h3 id="lifecycle-changes-1-0-0">Lifecycle changes<a class="anchor" aria-label="anchor" href="#lifecycle-changes-1-0-0"></a></h3>
-<ul><li>All deprecations now use the <a href="https://lifecycle.r-lib.org" class="external-link">lifecycle</a>, that means by default you’ll only see a deprecation warning once per session, and you can control with <code>options(lifecycle_verbosity = x)</code> where <code>x</code> is one of NULL, “quiet”, “warning”, and “error”.</li></ul><div class="section level4">
+<ul><li>All deprecations now use the <a href="https://lifecycle.r-lib.org" class="external-link">lifecycle</a>, that means by default you’ll only see a deprecation warning once per session, and you can control with <code>options(lifecycle_verbosity = x)</code> where <code>x</code> is one of NULL, “quiet”, “warning”, and “error”.</li>
+</ul><div class="section level4">
 <h4 id="removed-1-0-0">Removed<a class="anchor" aria-label="anchor" href="#removed-1-0-0"></a></h4>
 <ul><li><p><code><a href="../reference/defunct.html">id()</a></code>, deprecated in dplyr 0.5.0, is now defunct.</p></li>
 <li><p><code><a href="../reference/defunct.html">failwith()</a></code>, deprecated in dplyr 0.7.0, is now defunct.</p></li>
@@ -422,11 +425,13 @@
 <div class="section level4">
 <h4 id="questioning-1-0-0">Questioning<a class="anchor" aria-label="anchor" href="#questioning-1-0-0"></a></h4>
 <ul><li>
-<code><a href="../reference/all_equal.html">all_equal()</a></code> is questioning; it solves a problem that no longer seems important.</li></ul></div>
+<code><a href="../reference/all_equal.html">all_equal()</a></code> is questioning; it solves a problem that no longer seems important.</li>
+</ul></div>
 <div class="section level4">
 <h4 id="stable-1-0-0">Stable<a class="anchor" aria-label="anchor" href="#stable-1-0-0"></a></h4>
 <ul><li>
-<code><a href="../reference/rowwise.html">rowwise()</a></code> is no longer questioning.</li></ul></div>
+<code><a href="../reference/rowwise.html">rowwise()</a></code> is no longer questioning.</li>
+</ul></div>
 </div>
 <div class="section level3">
 <h3 id="documentation-improvements-1-0-0">Documentation improvements<a class="anchor" aria-label="anchor" href="#documentation-improvements-1-0-0"></a></h3>
@@ -462,19 +467,23 @@
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.8.5" id="dplyr-085-2020-03-07">dplyr 0.8.5 (2020-03-07)<a class="anchor" aria-label="anchor" href="#dplyr-085-2020-03-07"></a></h2><p class="text-muted">CRAN release: 2020-03-07</p>
-<ul><li>Maintenance release for compatibility with R-devel.</li></ul></div>
+<ul><li>Maintenance release for compatibility with R-devel.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.8.4" id="dplyr-084-2020-01-30">dplyr 0.8.4 (2020-01-30)<a class="anchor" aria-label="anchor" href="#dplyr-084-2020-01-30"></a></h2><p class="text-muted">CRAN release: 2020-01-31</p>
-<ul><li>Adapt tests to changes in dependent packages.</li></ul></div>
+<ul><li>Adapt tests to changes in dependent packages.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.8.3" id="dplyr-083-2019-07-04">dplyr 0.8.3 (2019-07-04)<a class="anchor" aria-label="anchor" href="#dplyr-083-2019-07-04"></a></h2><p class="text-muted">CRAN release: 2019-07-04</p>
-<ul><li>Fixed performance regression introduced in version 0.8.2 (<a href="https://github.com/tidyverse/dplyr/issues/4458" class="external-link">#4458</a>).</li></ul></div>
+<ul><li>Fixed performance regression introduced in version 0.8.2 (<a href="https://github.com/tidyverse/dplyr/issues/4458" class="external-link">#4458</a>).</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.8.2" id="dplyr-082-2019-06-28">dplyr 0.8.2 (2019-06-28)<a class="anchor" aria-label="anchor" href="#dplyr-082-2019-06-28"></a></h2><p class="text-muted">CRAN release: 2019-06-29</p>
 <div class="section level3">
 <h3 id="new-functions-0-8-2">New functions<a class="anchor" aria-label="anchor" href="#new-functions-0-8-2"></a></h3>
 <ul><li>
-<code>top_frac(data, proportion)</code> is a shorthand for <code>top_n(data, proportion * n())</code> (<a href="https://github.com/tidyverse/dplyr/issues/4017" class="external-link">#4017</a>).</li></ul></div>
+<code>top_frac(data, proportion)</code> is a shorthand for <code>top_n(data, proportion * n())</code> (<a href="https://github.com/tidyverse/dplyr/issues/4017" class="external-link">#4017</a>).</li>
+</ul></div>
 <div class="section level3">
 <h3 id="colwise-changes-0-8-2">colwise changes<a class="anchor" aria-label="anchor" href="#colwise-changes-0-8-2"></a></h3>
 <ul><li><p>Using quosures in colwise verbs is deprecated (<a href="https://github.com/tidyverse/dplyr/issues/4330" class="external-link">#4330</a>).</p></li>
@@ -507,7 +516,8 @@
 <h3 id="breaking-changes-0-8-1">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-8-1"></a></h3>
 <ul><li>
 <code><a href="../reference/group_map.html">group_modify()</a></code> is the new name of the function previously known as <code><a href="../reference/group_map.html">group_map()</a></code>
-</li></ul></div>
+</li>
+</ul></div>
 <div class="section level3">
 <h3 id="new-functions-0-8-1">New functions<a class="anchor" aria-label="anchor" href="#new-functions-0-8-1"></a></h3>
 <ul><li><p><code><a href="../reference/group_map.html">group_map()</a></code> now only calls the function on each group and return a list.</p></li>
@@ -532,7 +542,8 @@
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.8.0.1" id="dplyr-0801-2019-02-15">dplyr 0.8.0.1 (2019-02-15)<a class="anchor" aria-label="anchor" href="#dplyr-0801-2019-02-15"></a></h2><p class="text-muted">CRAN release: 2019-02-15</p>
-<ul><li>Fixed integer C/C++ division, forced released by CRAN (<a href="https://github.com/tidyverse/dplyr/issues/4185" class="external-link">#4185</a>).</li></ul></div>
+<ul><li>Fixed integer C/C++ division, forced released by CRAN (<a href="https://github.com/tidyverse/dplyr/issues/4185" class="external-link">#4185</a>).</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.8.0" id="dplyr-080-2019-02-14">dplyr 0.8.0 (2019-02-14)<a class="anchor" aria-label="anchor" href="#dplyr-080-2019-02-14"></a></h2><p class="text-muted">CRAN release: 2019-02-14</p>
 <div class="section level3">
@@ -717,7 +728,8 @@
 </ul><div class="section level4">
 <h4 id="deprecated-and-defunct-functions-0-8-0">Deprecated and defunct functions<a class="anchor" aria-label="anchor" href="#deprecated-and-defunct-functions-0-8-0"></a></h4>
 <ul><li>
-<code><a href="../reference/summarise_each.html">mutate_each()</a></code> and <code><a href="../reference/summarise_each.html">summarise_each()</a></code> are deprecated.</li></ul></div>
+<code><a href="../reference/summarise_each.html">mutate_each()</a></code> and <code><a href="../reference/summarise_each.html">summarise_each()</a></code> are deprecated.</li>
+</ul></div>
 </div>
 </div>
     <div class="section level2">
@@ -775,7 +787,8 @@
 </ul></div>
 <div class="section level3">
 <h3 id="documentation-0-7-5">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-7-5"></a></h3>
-<ul><li>Improved documentation for <code><a href="../reference/defunct.html">funs()</a></code> (<a href="https://github.com/tidyverse/dplyr/issues/3094" class="external-link">#3094</a>) and set operations (e.g. <code><a href="../reference/setops.html">union()</a></code>) (<a href="https://github.com/tidyverse/dplyr/issues/3238" class="external-link">#3238</a>, <a href="https://github.com/edublancas" class="external-link">@edublancas</a>).</li></ul></div>
+<ul><li>Improved documentation for <code><a href="../reference/defunct.html">funs()</a></code> (<a href="https://github.com/tidyverse/dplyr/issues/3094" class="external-link">#3094</a>) and set operations (e.g. <code><a href="../reference/setops.html">union()</a></code>) (<a href="https://github.com/tidyverse/dplyr/issues/3238" class="external-link">#3238</a>, <a href="https://github.com/edublancas" class="external-link">@edublancas</a>).</li>
+</ul></div>
 <div class="section level3">
 <h3 id="error-messages-0-7-5">Error messages<a class="anchor" aria-label="anchor" href="#error-messages-0-7-5"></a></h3>
 <ul><li><p>Better error message if dbplyr is not installed when accessing database backends (<a href="https://github.com/tidyverse/dplyr/issues/3225" class="external-link">#3225</a>).</p></li>
@@ -790,7 +803,8 @@
 <div class="section level3">
 <h3 id="performance-0-7-5">Performance<a class="anchor" aria-label="anchor" href="#performance-0-7-5"></a></h3>
 <ul><li>
-<code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> on grouped data frame are now faster especially for those with large number of groups (<a href="https://github.com/tidyverse/dplyr/issues/3193" class="external-link">#3193</a>, <a href="https://github.com/saurfang" class="external-link">@saurfang</a>).</li></ul></div>
+<code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> on grouped data frame are now faster especially for those with large number of groups (<a href="https://github.com/tidyverse/dplyr/issues/3193" class="external-link">#3193</a>, <a href="https://github.com/saurfang" class="external-link">@saurfang</a>).</li>
+</ul></div>
 <div class="section level3">
 <h3 id="internal-0-7-5">Internal<a class="anchor" aria-label="anchor" href="#internal-0-7-5"></a></h3>
 <ul><li><p>Compute variable names for joins in R (<a href="https://github.com/tidyverse/dplyr/issues/3430" class="external-link">#3430</a>).</p></li>
@@ -820,7 +834,8 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7.2" id="dplyr-072">dplyr 0.7.2<a class="anchor" aria-label="anchor" href="#dplyr-072"></a></h2><p class="text-muted">CRAN release: 2017-07-20</p>
-<ul><li>Move build-time vs. run-time checks out of <code>.onLoad()</code> and into <code>dr_dplyr()</code>.</li></ul></div>
+<ul><li>Move build-time vs. run-time checks out of <code>.onLoad()</code> and into <code>dr_dplyr()</code>.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7.1" id="dplyr-071">dplyr 0.7.1<a class="anchor" aria-label="anchor" href="#dplyr-071"></a></h2><p class="text-muted">CRAN release: 2017-06-22</p>
 <ul><li><p>Use new versions of bindrcpp and glue to avoid protection problems. Avoid wrapping arguments to internal error functions (<a href="https://github.com/tidyverse/dplyr/issues/2877" class="external-link">#2877</a>). Fix two protection mistakes found by rchk (<a href="https://github.com/tidyverse/dplyr/issues/2868" class="external-link">#2868</a>).</p></li>
@@ -1223,7 +1238,8 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.1" id="dplyr-041">dplyr 0.4.1<a class="anchor" aria-label="anchor" href="#dplyr-041"></a></h2><p class="text-muted">CRAN release: 2015-01-14</p>
-<ul><li>Don’t assume that RPostgreSQL is available.</li></ul></div>
+<ul><li>Don’t assume that RPostgreSQL is available.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.0" id="dplyr-040">dplyr 0.4.0<a class="anchor" aria-label="anchor" href="#dplyr-040"></a></h2><p class="text-muted">CRAN release: 2015-01-08</p>
 <div class="section level3">
@@ -1288,7 +1304,8 @@
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0.1" id="dplyr-0301">dplyr 0.3.0.1<a class="anchor" aria-label="anchor" href="#dplyr-0301"></a></h2><p class="text-muted">CRAN release: 2014-10-08</p>
-<ul><li>Fixed problem with test script on Windows.</li></ul></div>
+<ul><li>Fixed problem with test script on Windows.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3" id="dplyr-03">dplyr 0.3<a class="anchor" aria-label="anchor" href="#dplyr-03"></a></h2><p class="text-muted">CRAN release: 2014-10-04</p>
 <div class="section level3">
@@ -1385,7 +1402,8 @@
 <div class="section level4">
 <h4 id="cubes-0-3">Cubes<a class="anchor" aria-label="anchor" href="#cubes-0-3"></a></h4>
 <ul><li>
-<code>summarise.tbl_cube()</code> works with single grouping variable (<a href="https://github.com/tidyverse/dplyr/issues/480" class="external-link">#480</a>).</li></ul></div>
+<code>summarise.tbl_cube()</code> works with single grouping variable (<a href="https://github.com/tidyverse/dplyr/issues/480" class="external-link">#480</a>).</li>
+</ul></div>
 </div>
 </div>
     <div class="section level2">

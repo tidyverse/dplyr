@@ -115,11 +115,16 @@
 
     
     
-<p>dplyr verbs are particularly powerful when you apply them to grouped data frames (<code>grouped_df</code> objects). This vignette shows you:</p>
+<p>dplyr verbs are particularly powerful when you apply them to grouped
+data frames (<code>grouped_df</code> objects). This vignette shows
+you:</p>
 <ul>
-<li><p>How to group, inspect, and ungroup with <code><a href="../reference/group_by.html">group_by()</a></code> and friends.</p></li>
-<li><p>How individual dplyr verbs changes their behaviour when applied to grouped data frame.</p></li>
-<li><p>How to access data about the “current” group from within a verb.</p></li>
+<li><p>How to group, inspect, and ungroup with <code><a href="../reference/group_by.html">group_by()</a></code>
+and friends.</p></li>
+<li><p>How individual dplyr verbs changes their behaviour when applied
+to grouped data frame.</p></li>
+<li><p>How to access data about the “current” group from within a
+verb.</p></li>
 </ul>
 <p>We’ll start by loading dplyr:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -128,7 +133,8 @@
 <h2 id="group_by">
 <code>group_by()</code><a class="anchor" aria-label="anchor" href="#group_by"></a>
 </h2>
-<p>The most important grouping verb is <code><a href="../reference/group_by.html">group_by()</a></code>: it takes a data frame and one or more variables to group by:</p>
+<p>The most important grouping verb is <code><a href="../reference/group_by.html">group_by()</a></code>: it takes
+a data frame and one or more variables to group by:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span></span>
 <span><span class="va">by_sex_gender</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">sex</span>, <span class="va">gender</span><span class="op">)</span></span></code></pre></div>
@@ -158,7 +164,9 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span></span></code></pre></div>
-<p>Or use <code><a href="../reference/count.html">tally()</a></code> to count the number of rows in each group. The <code>sort</code> argument is useful if you want to see the largest groups up front.</p>
+<p>Or use <code><a href="../reference/count.html">tally()</a></code> to count the number of rows in each
+group. The <code>sort</code> argument is useful if you want to see the
+largest groups up front.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 38 × 2</span></span></span>
@@ -180,7 +188,10 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> none   masculine     5</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>            4</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span></code></pre></div>
-<p>As well as grouping by existing variables, you can group by any function of existing variables. This is equivalent to performing a <code><a href="../reference/mutate.html">mutate()</a></code> <strong>before</strong> the <code><a href="../reference/group_by.html">group_by()</a></code>:</p>
+<p>As well as grouping by existing variables, you can group by any
+function of existing variables. This is equivalent to performing a
+<code><a href="../reference/mutate.html">mutate()</a></code> <strong>before</strong> the
+<code><a href="../reference/group_by.html">group_by()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bmi_breaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">18.5</span>, <span class="fl">25</span>, <span class="fl">30</span>, <span class="cn">Inf</span><span class="op">)</span></span>
 <span></span>
@@ -199,7 +210,9 @@
 <div class="section level2">
 <h2 id="group-metadata">Group metadata<a class="anchor" aria-label="anchor" href="#group-metadata"></a>
 </h2>
-<p>You can see underlying group data with <code><a href="../reference/group_data.html">group_keys()</a></code>. It has one row for each group and one column for each grouping variable:</p>
+<p>You can see underlying group data with <code><a href="../reference/group_data.html">group_keys()</a></code>. It
+has one row for each group and one column for each grouping
+variable:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_data.html">group_keys</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 38 × 1</span></span></span>
@@ -220,14 +233,16 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> male           masculine</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> none           feminine </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span></code></pre></div>
-<p>You can see which group each row belongs to with <code><a href="../reference/group_data.html">group_indices()</a></code>:</p>
+<p>You can see which group each row belongs to with
+<code><a href="../reference/group_data.html">group_indices()</a></code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_data.html">group_indices</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] 11  6  6 11 11 11 11  6 11 11 11 11 34 11 24 12 11 11 36 11 11  6 31</span></span>
 <span><span class="co">#&gt; [24] 11 11 18 11 11  8 26 11 21 11 10 10 10 38 30  7 38 11 37 32 32 33 35</span></span>
 <span><span class="co">#&gt; [47] 29 11  3 20 37 27 13 23 16  4 11 11 11  9 17 17 11 11 11 11  5  2 15</span></span>
 <span><span class="co">#&gt; [70] 15 11  1  6 25 19 28 14 34 11 38 22 11 11 11  6 38 11</span></span></code></pre></div>
-<p>And which rows each group contains with <code><a href="../reference/group_data.html">group_rows()</a></code>:</p>
+<p>And which rows each group contains with
+<code><a href="../reference/group_data.html">group_rows()</a></code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_data.html">group_rows</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;list_of&lt;integer&gt;[6]&gt;</span></span>
@@ -248,7 +263,8 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[6]]</span></span>
 <span><span class="co">#&gt; [1]  2  3  8 22 73 85</span></span></code></pre></div>
-<p>Use <code><a href="../reference/group_data.html">group_vars()</a></code> if you just want the names of the grouping variables:</p>
+<p>Use <code><a href="../reference/group_data.html">group_vars()</a></code> if you just want the names of the
+grouping variables:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "species"</span></span>
@@ -257,7 +273,10 @@
 <div class="section level3">
 <h3 id="changing-and-adding-to-grouping-variables">Changing and adding to grouping variables<a class="anchor" aria-label="anchor" href="#changing-and-adding-to-grouping-variables"></a>
 </h3>
-<p>If you apply <code><a href="../reference/group_by.html">group_by()</a></code> to an already grouped dataset, will overwrite the existing grouping variables. For example, the following code groups by <code>homeworld</code> instead of <code>species</code>:</p>
+<p>If you apply <code><a href="../reference/group_by.html">group_by()</a></code> to an already grouped dataset,
+will overwrite the existing grouping variables. For example, the
+following code groups by <code>homeworld</code> instead of
+<code>species</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -270,7 +289,10 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Bespin          1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Bestine IV      1</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 45 more rows</span></span></span></code></pre></div>
-<p>To <strong>augment</strong> the grouping, using <code>.add = TRUE</code><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Note that the argument changed from &lt;code&gt;add = TRUE&lt;/code&gt; to &lt;code&gt;.add = TRUE&lt;/code&gt; in dplyr 1.0.0.&lt;/p&gt;"><sup>1</sup></a>. For example, the following code groups by species and homeworld:</p>
+<p>To <strong>augment</strong> the grouping, using
+<code>.add = TRUE</code><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Note that the argument changed from
+&lt;code&gt;add = TRUE&lt;/code&gt; to &lt;code&gt;.add = TRUE&lt;/code&gt; in dplyr 1.0.0.&lt;/p&gt;"><sup>1</sup></a>. For example, the following code groups by
+species and homeworld:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span>, .add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -297,7 +319,8 @@
 <span><span class="co">#&gt;       n</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    87</span></span></code></pre></div>
-<p>You can also choose to selectively ungroup by listing the variables you want to remove:</p>
+<p>You can also choose to selectively ungroup by listing the variables
+you want to remove:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_sex_gender</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -316,12 +339,15 @@
 <div class="section level2">
 <h2 id="verbs">Verbs<a class="anchor" aria-label="anchor" href="#verbs"></a>
 </h2>
-<p>The following sections describe how grouping affects the main dplyr verbs.</p>
+<p>The following sections describe how grouping affects the main dplyr
+verbs.</p>
 <div class="section level3">
 <h3 id="summarise">
 <code>summarise()</code><a class="anchor" aria-label="anchor" href="#summarise"></a>
 </h3>
-<p><code><a href="../reference/summarise.html">summarise()</a></code> computes a summary for each group. This means that it starts from <code><a href="../reference/group_data.html">group_keys()</a></code>, adding summary variables to the right hand side:</p>
+<p><code><a href="../reference/summarise.html">summarise()</a></code> computes a summary for each group. This
+means that it starts from <code><a href="../reference/group_data.html">group_keys()</a></code>, adding summary
+variables to the right hand side:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span></span>
@@ -336,7 +362,11 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cerean       1    198</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Chagrian     1    196</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 34 more rows</span></span></span></code></pre></div>
-<p>The <code>.groups=</code> argument controls the grouping structure of the output. The historical behaviour of removing the right hand side grouping variable corresponds to <code>.groups = "drop_last"</code> without a message or <code>.groups = NULL</code> with a message (the default).</p>
+<p>The <code>.groups=</code> argument controls the grouping structure of
+the output. The historical behaviour of removing the right hand side
+grouping variable corresponds to <code>.groups = "drop_last"</code>
+without a message or <code>.groups = NULL</code> with a message (the
+default).</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_sex_gender</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -349,7 +379,9 @@
 <span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop_last"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "sex"</span></span></code></pre></div>
-<p>Since version 1.0.0 the groups may also be kept (<code>.groups = "keep"</code>) or dropped (<code>.groups = "drop"</code>).</p>
+<p>Since version 1.0.0 the groups may also be kept
+(<code>.groups = "keep"</code>) or dropped
+(<code>.groups = "drop"</code>).</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_sex_gender</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"keep"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -360,13 +392,19 @@
 <span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; character(0)</span></span></code></pre></div>
-<p>When the output no longer have grouping variables, it becomes ungrouped (i.e. a regular tibble).</p>
+<p>When the output no longer have grouping variables, it becomes
+ungrouped (i.e. a regular tibble).</p>
 </div>
 <div class="section level3">
 <h3 id="select-rename-and-relocate">
-<code>select()</code>, <code>rename()</code>, and <code>relocate()</code><a class="anchor" aria-label="anchor" href="#select-rename-and-relocate"></a>
+<code>select()</code>, <code>rename()</code>, and
+<code>relocate()</code><a class="anchor" aria-label="anchor" href="#select-rename-and-relocate"></a>
 </h3>
-<p><code><a href="../reference/rename.html">rename()</a></code> and <code><a href="../reference/relocate.html">relocate()</a></code> behave identically with grouped and ungrouped data because they only affect the name or position of existing columns. Grouped <code><a href="../reference/select.html">select()</a></code> is almost identical to ungrouped select, except that it always includes the grouping variables:</p>
+<p><code><a href="../reference/rename.html">rename()</a></code> and <code><a href="../reference/relocate.html">relocate()</a></code> behave identically
+with grouped and ungrouped data because they only affect the name or
+position of existing columns. Grouped <code><a href="../reference/select.html">select()</a></code> is almost
+identical to ungrouped select, except that it always includes the
+grouping variables:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Adding missing grouping variables: `species`</span></span>
@@ -379,13 +417,17 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Droid      32</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Human     136</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows</span></span></span></code></pre></div>
-<p>If you don’t want the grouping variables, you’ll have to first <code><a href="../reference/group_by.html">ungroup()</a></code>. (This design is possibly a mistake, but we’re stuck with it for now.)</p>
+<p>If you don’t want the grouping variables, you’ll have to first
+<code><a href="../reference/group_by.html">ungroup()</a></code>. (This design is possibly a mistake, but we’re
+stuck with it for now.)</p>
 </div>
 <div class="section level3">
 <h3 id="arrange">
 <code>arrange()</code><a class="anchor" aria-label="anchor" href="#arrange"></a>
 </h3>
-<p>Grouped <code><a href="../reference/arrange.html">arrange()</a></code> is the same as ungrouped <code><a href="../reference/arrange.html">arrange()</a></code>, unless you set <code>.by_group = TRUE</code>, in which case it will order first by the grouping variables.</p>
+<p>Grouped <code><a href="../reference/arrange.html">arrange()</a></code> is the same as ungrouped
+<code><a href="../reference/arrange.html">arrange()</a></code>, unless you set <code>.by_group = TRUE</code>, in
+which case it will order first by the grouping variables.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -416,13 +458,17 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows, 4 more variables: homeworld &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year</span></span></span></code></pre></div>
-<p>Note that second example is sorted by <code>species</code> (from the <code><a href="../reference/group_by.html">group_by()</a></code> statement) and then by <code>mass</code> (within species).</p>
+<p>Note that second example is sorted by <code>species</code> (from the
+<code><a href="../reference/group_by.html">group_by()</a></code> statement) and then by <code>mass</code> (within
+species).</p>
 </div>
 <div class="section level3">
 <h3 id="mutate">
 <code>mutate()</code><a class="anchor" aria-label="anchor" href="#mutate"></a>
 </h3>
-<p>In simple cases with vectorised functions, grouped and ungrouped <code><a href="../reference/mutate.html">mutate()</a></code> give the same results. They differ when used with summary functions:</p>
+<p>In simple cases with vectorised functions, grouped and ungrouped
+<code><a href="../reference/mutate.html">mutate()</a></code> give the same results. They differ when used with
+summary functions:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Subtract off global mean</span></span>
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -485,7 +531,11 @@
 <h3 id="filter">
 <code>filter()</code><a class="anchor" aria-label="anchor" href="#filter"></a>
 </h3>
-<p>A grouped <code><a href="../reference/filter.html">filter()</a></code> effectively does a <code><a href="../reference/mutate.html">mutate()</a></code> to generate a logical variable, and then only keeps the rows where the variable is <code>TRUE</code>. This means that grouped filters can be used with summary functions. For example, we can find the tallest character of each species:</p>
+<p>A grouped <code><a href="../reference/filter.html">filter()</a></code> effectively does a
+<code><a href="../reference/mutate.html">mutate()</a></code> to generate a logical variable, and then only
+keeps the rows where the variable is <code>TRUE</code>. This means that
+grouped filters can be used with summary functions. For example, we can
+find the tallest character of each species:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">species</span>, <span class="va">height</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -499,7 +549,9 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Yoda                  Yoda's species     66</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Bossk                 Trandoshan        190</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 31 more rows</span></span></span></code></pre></div>
-<p>You can also use <code><a href="../reference/filter.html">filter()</a></code> to remove entire groups. For example, the following code eliminates all groups that only have a single member:</p>
+<p>You can also use <code><a href="../reference/filter.html">filter()</a></code> to remove entire groups. For
+example, the following code eliminates all groups that only have a
+single member:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span> <span class="op">!=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -517,7 +569,11 @@
 <h3 id="slice-and-friends">
 <code>slice()</code> and friends<a class="anchor" aria-label="anchor" href="#slice-and-friends"></a>
 </h3>
-<p><code><a href="../reference/slice.html">slice()</a></code> and friends (<code><a href="../reference/slice.html">slice_head()</a></code>, <code><a href="../reference/slice.html">slice_tail()</a></code>, <code><a href="../reference/slice.html">slice_sample()</a></code>, <code><a href="../reference/slice.html">slice_min()</a></code> and <code><a href="../reference/slice.html">slice_max()</a></code>) select rows within a group. For example, we can select the first observation within each species:</p>
+<p><code><a href="../reference/slice.html">slice()</a></code> and friends (<code><a href="../reference/slice.html">slice_head()</a></code>,
+<code><a href="../reference/slice.html">slice_tail()</a></code>, <code><a href="../reference/slice.html">slice_sample()</a></code>,
+<code><a href="../reference/slice.html">slice_min()</a></code> and <code><a href="../reference/slice.html">slice_max()</a></code>) select rows
+within a group. For example, we can select the first observation within
+each species:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -533,7 +589,8 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 34 more rows, 4 more variables: homeworld &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year</span></span></span></code></pre></div>
-<p>Similarly, we can use <code><a href="../reference/slice.html">slice_min()</a></code> to select the smallest <code>n</code> values of a variable:</p>
+<p>Similarly, we can use <code><a href="../reference/slice.html">slice_min()</a></code> to select the smallest
+<code>n</code> values of a variable:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -549,53 +606,6 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 44 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span></span></code></pre></div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="computing-on-grouping-information">Computing on grouping information<a class="anchor" aria-label="anchor" href="#computing-on-grouping-information"></a>
-</h2>
-<p>Inside dplyr verbs, you can access various properties of the “current” group using a family of functions with the <code>cur_</code> prefix. These functions are typically needed for everyday usage of dplyr, but can be useful because they allow you to free from some of the typical constraints of dplyr verbs.</p>
-<div class="section level3">
-<h3 id="cur_data">
-<code>cur_data()</code><a class="anchor" aria-label="anchor" href="#cur_data"></a>
-</h3>
-<p><code><a href="../reference/context.html">cur_data()</a></code> returns the current group, excluding grouping variables. It’s useful to feed to functions that take a whole data frame. For example, the following code fits a linear model of <code>mass ~ height</code> to each species:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>mod <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mass</span> <span class="op">~</span> <span class="va">height</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/context.html">cur_data</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 58 × 15</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   species [9]</span></span></span>
-<span><span class="co">#&gt;   name   height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Luke …    172    77 blond   fair    blue       19   male  mascu… Tatooi…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> C-3PO     167    75 <span style="color: #BB0000;">NA</span>      gold    yellow    112   none  mascu… Tatooi…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> R2-D2      96    32 <span style="color: #BB0000;">NA</span>      white,… red        33   none  mascu… Naboo  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Darth…    202   136 none    white   yellow     41.9 male  mascu… Tatooi…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 54 more rows, 5 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, mod &lt;list&gt;, and abbreviated</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   variable names ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ⁵​homeworld</span></span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="cur_group-and-cur_group_id">
-<code>cur_group()</code> and <code>cur_group_id()</code><a class="anchor" aria-label="anchor" href="#cur_group-and-cur_group_id"></a>
-</h3>
-<p><code><a href="../reference/context.html">cur_group_id()</a></code> gives a unique numeric identifier for the current group. This is sometimes useful if you want to index into an external data structure.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">species</span>, <span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="../reference/context.html">cur_group_id</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 4</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   species [38]</span></span></span>
-<span><span class="co">#&gt;   name            species  homeworld      id</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Ratts Tyerell   Aleena   Aleen Minor     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Dexter Jettster Besalisk Ojom            2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Ki-Adi-Mundi    Cerean   Cerea           3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Mas Amedda      Chagrian Champala        4</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows</span></span></span></code></pre></div>
 </div>
 </div>
 
