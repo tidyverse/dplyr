@@ -68,6 +68,10 @@ pick <- function(...) {
 
   mask <- peek_mask()
 
+  if (dots_n(...) == 0L) {
+    stop_pick_empty()
+  }
+
   # Evaluates `pick()` on current columns.
   # Mimicking expansion as much as possible, which should match the idea of
   # replacing the `pick()` call directly with `tibble()`, like:
@@ -170,6 +174,10 @@ as_pick_selection <- function(expr, error_call) {
   # Drop `pick()`, get the arguments
   expr <- expr[-1]
 
+  if (is.null(expr)) {
+    stop_pick_empty(call = error_call)
+  }
+
   # Turn arguments into list of expressions
   expr <- as.list(expr)
 
@@ -197,4 +205,8 @@ dplyr_pick_tibble <- function(...) {
   out <- vec_recycle_common(!!!out, .size = size, .call = error_call)
 
   dplyr_new_tibble(out, size = size)
+}
+
+stop_pick_empty <- function(call = caller_env()) {
+  abort("Must supply at least one input to `pick()`.", call = call)
 }

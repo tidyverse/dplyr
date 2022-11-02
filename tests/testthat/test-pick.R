@@ -126,17 +126,21 @@ test_that("empty selections create 0 row data frames", {
   gdf <- group_by(df, g)
 
   expect_snapshot(error = TRUE, {
-    mutate(gdf, y = pick())
-  })
-  expect_snapshot(error = TRUE, {
-    mutate(gdf, y = pick_wrapper())
-  })
-
-  expect_snapshot(error = TRUE, {
     mutate(gdf, y = pick(starts_with("foo")))
   })
   expect_snapshot(error = TRUE, {
     mutate(gdf, y = pick_wrapper(starts_with("foo")))
+  })
+})
+
+test_that("must supply at least one selector to `pick()`", {
+  df <- tibble(x = c(2, 3, 4))
+
+  expect_snapshot(error = TRUE, {
+    mutate(df, y = pick())
+  })
+  expect_snapshot(error = TRUE, {
+    mutate(df, y = pick_wrapper())
   })
 })
 

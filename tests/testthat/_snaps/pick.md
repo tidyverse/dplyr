@@ -72,28 +72,6 @@
 # empty selections create 0 row data frames
 
     Code
-      mutate(gdf, y = pick())
-    Condition
-      Error in `mutate()`:
-      i In argument: `y = pick()`.
-      i In group 1: `g = 1`.
-      Caused by error:
-      ! `y` must be size 2 or 1, not 0.
-
----
-
-    Code
-      mutate(gdf, y = pick_wrapper())
-    Condition
-      Error in `mutate()`:
-      i In argument: `y = pick_wrapper()`.
-      i In group 1: `g = 1`.
-      Caused by error:
-      ! `y` must be size 2 or 1, not 0.
-
----
-
-    Code
       mutate(gdf, y = pick(starts_with("foo")))
     Condition
       Error in `mutate()`:
@@ -112,6 +90,26 @@
       i In group 1: `g = 1`.
       Caused by error:
       ! `y` must be size 2 or 1, not 0.
+
+# must supply at least one selector to `pick()`
+
+    Code
+      mutate(df, y = pick())
+    Condition
+      Error in `mutate()`:
+      i In argument: `y = pick()`.
+      Caused by error in `pick()`:
+      ! Must supply at least one input to `pick()`.
+
+---
+
+    Code
+      mutate(df, y = pick_wrapper())
+    Condition
+      Error in `mutate()`:
+      i In argument: `y = pick_wrapper()`.
+      Caused by error in `pick()`:
+      ! Must supply at least one input to `pick()`.
 
 # the tidyselection and column extraction are evaluated on the current data
 
