@@ -52,7 +52,7 @@ Suggests:
     RPostgreSQL,
     RSQLite,
     stringi (>= 1.7.6),
-    testthat (>= 3.1.1),
+    testthat (>= 3.1.5),
     tidyr,
     withr
 VignetteBuilder: 
