@@ -62,7 +62,8 @@ functions and strings representing function names.}
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
 Scoped verbs (\verb{_if}, \verb{_at}, \verb{_all}) have been superseded by the use of
-\code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for details.
+\code{\link[=pick]{pick()}} or \code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for
+details.
 
 These \link{scoped} variants of \code{\link[=arrange]{arrange()}} sort a data frame by a
 selection of variables. Like \code{\link[=arrange]{arrange()}}, you can modify the
@@ -79,7 +80,7 @@ in the sorting of the data frame.
 df <- as_tibble(mtcars)
 arrange_all(df)
 # ->
-arrange(df, across())
+arrange(df, pick(everything()))
 
 arrange_all(df, desc)
 # ->

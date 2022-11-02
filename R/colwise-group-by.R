@@ -4,7 +4,8 @@
 #' `r lifecycle::badge("superseded")`
 #'
 #' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
-#' [across()] in an existing verb. See `vignette("colwise")` for details.
+#' [pick()] or [across()] in an existing verb. See `vignette("colwise")` for
+#' details.
 #'
 #' These [scoped] variants of [group_by()] group a data frame by a
 #' selection of variables. Like [group_by()], they have optional
@@ -26,17 +27,17 @@
 #' # Group a data frame by all variables:
 #' group_by_all(mtcars)
 #' # ->
-#' mtcars %>% group_by(across())
+#' mtcars %>% group_by(pick(everything()))
 #'
 #' # Group by variables selected with a predicate:
 #' group_by_if(iris, is.factor)
 #' # ->
-#' iris %>% group_by(across(where(is.factor)))
+#' iris %>% group_by(pick(where(is.factor)))
 #'
 #' # Group by variables selected by name:
 #' group_by_at(mtcars, vars(vs, am))
 #' # ->
-#' mtcars %>% group_by(across(c(vs, am)))
+#' mtcars %>% group_by(pick(vs, am))
 #'
 #' # Like group_by(), the scoped variants have optional mutate
 #' # semantics. This provide a shortcut for group_by() + mutate():

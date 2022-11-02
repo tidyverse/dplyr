@@ -21,15 +21,15 @@ unnamed arguments.}
 felt like it belonged with the rest of dplyr. It's replaced by a combination
 of \code{\link[=summarise]{summarise()}} (which can now produce multiple rows and multiple columns),
 \code{\link[=nest_by]{nest_by()}} (which creates a \link{rowwise} tibble of nested data),
-and \code{\link[=across]{across()}} (which allows you to access the data for the "current" group).
+and \code{\link[=pick]{pick()}} (which allows you to access the data for the "current" group).
 }
 \examples{
 # do() with unnamed arguments becomes summarise()
-# . becomes across()
+# . becomes pick()
 by_cyl <- mtcars \%>\% group_by(cyl)
 by_cyl \%>\% do(head(., 2))
 # ->
-by_cyl \%>\% summarise(head(across(), 2))
+by_cyl \%>\% summarise(head(pick(everything()), 2))
 by_cyl \%>\% slice_head(n = 2)
 
 # Can refer to variables directly

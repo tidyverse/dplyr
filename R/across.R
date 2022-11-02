@@ -16,8 +16,8 @@
 #' `summarise_at()`, `summarise_if()`, and `summarise_all()`.
 #'
 #' @param .cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
-#'   Because `across()` is used within functions like `summarise()` and
-#'   `mutate()`, you can't select or compute upon grouping variables.
+#'   You can't select grouping columns because they are already automatically
+#'   handled by the verb (i.e. [summarise()] or [mutate()]).
 #' @param .fns Functions to apply to each of the selected columns.
 #'   Possible values are:
 #'
@@ -160,17 +160,6 @@
 #'   mutate(across(starts_with("Sepal"), multilag, .unpack = TRUE)) %>%
 #'   select(Species, starts_with("Sepal"))
 #'
-#' # across() returns a data frame, which can be used as input of another function
-#' df <- data.frame(
-#'   x1  = c(1, 2, NA),
-#'   x2  = c(4, NA, 6),
-#'   y   = c("a", "b", "c")
-#' )
-#' df %>%
-#'   mutate(x_complete = complete.cases(across(starts_with("x"))))
-#' df %>%
-#'   filter(complete.cases(across(starts_with("x"))))
-#'
 #' # if_any() and if_all() ----------------------------------------------------
 #' iris %>%
 #'   filter(if_any(ends_with("Width"), ~ . > 4))
@@ -226,13 +215,13 @@ across <- function(.cols = everything(),
 
   vars <- setup$vars
   if (length(vars) == 0L) {
-    return(new_tibble(list(), nrow = 1L))
+    return(dplyr_new_tibble(list(), size = 1L))
   }
   fns <- setup$fns
   names <- setup$names
 
   if (is.null(fns)) {
-    data <- mask$pick(vars)
+    data <- mask$pick_current(vars)
 
     if (is.null(names)) {
       return(data)
@@ -281,7 +270,7 @@ across <- function(.cols = everything(),
   size <- vec_size_common(!!!out)
   out <- vec_recycle_common(!!!out, .size = size)
   names(out) <- names
-  out <- new_data_frame(out, n = size, class = c("tbl_df", "tbl"))
+  out <- dplyr_new_tibble(out, size = size)
 
   if (.unpack) {
     out <- df_unpack(out, unpack_spec, caller_env)
@@ -372,7 +361,7 @@ across_setup <- function(cols,
 
   # `across()` is evaluated in a data mask so we need to remove the
   # mask layer from the quosure environment (#5460)
-  cols <- quo_set_env(cols, data_mask_top(quo_get_env(cols), recursive = FALSE, inherit = FALSE))
+  cols <- quo_set_env_to_data_mask_top(cols)
 
   across_if_fn <- context_peek_bare("across_if_fn") %||% "across"
 
@@ -387,15 +376,15 @@ across_setup <- function(cols,
     )
     abort(bullets, call = call(across_if_fn))
   }
-  across_cols <- mask$across_cols()
+  data <- mask$get_current_data(groups = FALSE)
 
   vars <- tidyselect::eval_select(
     cols,
-    data = across_cols,
+    data = data,
     error_call = call(across_if_fn)
   )
   names_vars <- names(vars)
-  vars <- names(across_cols)[vars]
+  vars <- names(data)[vars]
 
   if (is.null(fns)) {
     if (!is.null(names)) {
@@ -465,12 +454,17 @@ data_mask_top <- function(env, recursive = FALSE, inherit = FALSE) {
 
   env
 }
+quo_set_env_to_data_mask_top <- function(quo) {
+  env <- quo_get_env(quo)
+  env <- data_mask_top(env, recursive = FALSE, inherit = FALSE)
+  quo_set_env(quo, env)
+}
 
 c_across_setup <- function(cols, mask) {
   cols <- enquo(cols)
-  across_cols <- mask$across_cols()
+  data <- mask$get_current_data(groups = FALSE)
 
-  vars <- tidyselect::eval_select(expr(!!cols), across_cols)
+  vars <- tidyselect::eval_select(expr(!!cols), data)
   value <- names(vars)
 
   value
@@ -768,7 +762,7 @@ df_unpack <- function(x, spec, caller_env, error_call = caller_env()) {
   names(out) <- names
 
   out <- df_list(!!!out, .size = size, .name_repair = "minimal")
-  out <- new_data_frame(out, n = size, class = c("tbl_df", "tbl"))
+  out <- dplyr_new_tibble(out, size = size)
 
   vec_as_names(names(out), repair = "check_unique", call = error_call)
 

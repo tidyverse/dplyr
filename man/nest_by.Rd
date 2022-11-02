@@ -52,7 +52,7 @@ Note that \code{df \%>\% nest_by(x, y)} is roughly equivalent to
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{df \%>\%
   group_by(x, y) \%>\%
-  summarise(data = list(cur_data())) \%>\%
+  summarise(data = list(pick(everything()))) \%>\%
   rowwise()
 }\if{html}{\out{</div>}}
 

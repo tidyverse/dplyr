@@ -3,19 +3,13 @@
 \name{context}
 \alias{context}
 \alias{n}
-\alias{cur_data}
-\alias{cur_data_all}
 \alias{cur_group}
 \alias{cur_group_id}
 \alias{cur_group_rows}
 \alias{cur_column}
-\title{Information about "current" group or variable}
+\title{Information about the "current" group or variable}
 \usage{
 n()
-
-cur_data()
-
-cur_data_all()
 
 cur_group()
 
@@ -27,14 +21,10 @@ cur_column()
 }
 \description{
 These functions return information about the "current" group or "current"
-variable, so only work inside specific contexts like \code{summarise()} and
-\code{mutate()}
+variable, so only work inside specific contexts like \code{\link[=summarise]{summarise()}} and
+\code{\link[=mutate]{mutate()}}.
 \itemize{
 \item \code{n()} gives the current group size.
-\item \code{cur_data()} gives the current data for the current group (excluding
-grouping variables).
-\item \code{cur_data_all()} gives the current data for the current group (including
-grouping variables)
 \item \code{cur_group()} gives the group keys, a tibble with one row and one column
 for each grouping variable.
 \item \code{cur_group_id()} gives a unique numeric identifier for the current group.
@@ -44,16 +34,20 @@ for each grouping variable.
 
 See \code{\link[=group_data]{group_data()}} for equivalent functions that return values for all
 groups.
+
+See \code{\link[=pick]{pick()}} for a way to select a subset of columns using tidyselect syntax
+while inside \code{summarise()} or \code{mutate()}.
 }
 \section{data.table}{
 
 If you're familiar with data.table:
 \itemize{
-\item \code{cur_data()} <-> \code{.SD}
 \item \code{cur_group_id()} <-> \code{.GRP}
 \item \code{cur_group()} <-> \code{.BY}
 \item \code{cur_group_rows()} <-> \code{.I}
 }
+
+See \code{\link[=pick]{pick()}} for an equivalent to \code{.SD}.
 }
 
 \examples{
@@ -69,8 +63,6 @@ gf \%>\% summarise(n = n())
 gf \%>\% mutate(id = cur_group_id())
 gf \%>\% summarise(row = cur_group_rows())
 gf \%>\% summarise(data = list(cur_group()))
-gf \%>\% summarise(data = list(cur_data()))
-gf \%>\% summarise(data = list(cur_data_all()))
 
 gf \%>\% mutate(across(everything(), ~ paste(cur_column(), round(.x, 2))))
 }

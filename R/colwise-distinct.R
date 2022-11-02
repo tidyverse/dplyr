@@ -4,7 +4,8 @@
 #' `r lifecycle::badge("superseded")`
 #'
 #' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
-#' [across()] in an existing verb. See `vignette("colwise")` for details.
+#' [pick()] or [across()] in an existing verb. See `vignette("colwise")` for
+#' details.
 #'
 #' These [scoped] variants of [distinct()] extract distinct rows by a
 #' selection of variables. Like `distinct()`, you can modify the
@@ -27,15 +28,15 @@
 #'
 #' distinct_all(df)
 #' # ->
-#' distinct(df, across())
+#' distinct(df, pick(everything()))
 #'
 #' distinct_at(df, vars(x,y))
 #' # ->
-#' distinct(df, across(c(x, y)))
+#' distinct(df, pick(x, y))
 #'
 #' distinct_if(df, is.numeric)
 #' # ->
-#' distinct(df, across(where(is.numeric)))
+#' distinct(df, pick(where(is.numeric)))
 #'
 #' # You can supply a function that will be applied before extracting the distinct values
 #' # The variables of the sorted tibble keep their original values.

@@ -18,7 +18,7 @@
 #' ```
 #' df %>%
 #'   group_by(x, y) %>%
-#'   summarise(data = list(cur_data())) %>%
+#'   summarise(data = list(pick(everything()))) %>%
 #'   rowwise()
 #' ```
 #'

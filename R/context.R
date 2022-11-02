@@ -1,15 +1,11 @@
-#' Information about "current" group or variable
+#' Information about the "current" group or variable
 #'
 #' @description
 #' These functions return information about the "current" group or "current"
-#' variable, so only work inside specific contexts like `summarise()` and
-#' `mutate()`
+#' variable, so only work inside specific contexts like [summarise()] and
+#' [mutate()].
 #'
 #' * `n()` gives the current group size.
-#' * `cur_data()` gives the current data for the current group (excluding
-#'   grouping variables).
-#' * `cur_data_all()` gives the current data for the current group (including
-#'   grouping variables)
 #' * `cur_group()` gives the group keys, a tibble with one row and one column
 #'   for each grouping variable.
 #' * `cur_group_id()` gives a unique numeric identifier for the current group.
@@ -19,14 +15,19 @@
 #' See [group_data()] for equivalent functions that return values for all
 #' groups.
 #'
+#' See [pick()] for a way to select a subset of columns using tidyselect syntax
+#' while inside `summarise()` or `mutate()`.
+#'
 #' @section data.table:
 #' If you're familiar with data.table:
 #'
-#' * `cur_data()` <-> `.SD`
 #' * `cur_group_id()` <-> `.GRP`
 #' * `cur_group()` <-> `.BY`
 #' * `cur_group_rows()` <-> `.I`
 #'
+#' See [pick()] for an equivalent to `.SD`.
+#'
+#' @name context
 #' @examples
 #' df <- tibble(
 #'   g = sample(rep(letters[1:3], 1:3)),
@@ -40,33 +41,14 @@
 #' gf %>% mutate(id = cur_group_id())
 #' gf %>% summarise(row = cur_group_rows())
 #' gf %>% summarise(data = list(cur_group()))
-#' gf %>% summarise(data = list(cur_data()))
-#' gf %>% summarise(data = list(cur_data_all()))
 #'
 #' gf %>% mutate(across(everything(), ~ paste(cur_column(), round(.x, 2))))
-#' @name context
 NULL
 
 #' @rdname context
 #' @export
 n <- function() {
   length(peek_mask()$current_rows())
-}
-
-#' @rdname context
-#' @export
-cur_data <- function() {
-  mask <- peek_mask()
-  vars <- mask$current_non_group_vars()
-  mask$pick(vars)
-}
-
-#' @rdname context
-#' @export
-cur_data_all <- function() {
-  mask <- peek_mask()
-  vars <- mask$current_vars()
-  mask$pick(vars)
 }
 
 #' @rdname context

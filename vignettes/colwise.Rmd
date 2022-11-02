@@ -195,18 +195,18 @@ So far we've focused on the use of `across()` with `summarise()`, but it works w
     df %>% mutate(across(where(is.numeric), rescale01))
     ```
 
-For some verbs, like `group_by()`, `count()` and `distinct()`, you can omit the summary functions:
+For some verbs, like `group_by()`, `count()` and `distinct()`, you don't need to supply a summary function, but it can be useful to use tidy-selection to dynamically select a set of columns. In those cases, we recommend using the complement to `across()`, `pick()`, which works like `across()` but doesn't apply any functions and instead returns a data frame containing the selected columns.
 
 *   Find all distinct 
 
     ```{r}
-    starwars %>% distinct(across(contains("color")))
+    starwars %>% distinct(pick(contains("color")))
     ```
 
 *   Count all combinations of variables with a given pattern:
 
     ```{r}
-    starwars %>% count(across(contains("color")), sort = TRUE)
+    starwars %>% count(pick(contains("color")), sort = TRUE)
     ```
 
 `across()` doesn't work with `select()` or `rename()` because they already use tidy select syntax; if you want to transform column names with a function, you can use  `rename_with()`.
@@ -230,14 +230,6 @@ starwars %>%
 starwars %>% 
   filter(if_all(everything(), ~ !is.na(.x)))
 ```
-
-*   Find all rows where no variable has missing values:
-
-    ```{r}
-    starwars %>% filter(across(everything(), ~ !is.na(.x)))
-    ```
-
-
 
 ## `_if`, `_at`, `_all`
 

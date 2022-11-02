@@ -17,7 +17,7 @@ DataMask <- R6Class("DataMask",
       }
       names(data) <- names_bindings
       private$size <- nrow(data)
-      private$current_data <- unclass(data)
+      private$current_data <- dplyr_new_list(data)
 
       private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows)
       private$mask <- .Call(dplyr_data_masks_setup, private$chops, data, rows)
@@ -73,8 +73,11 @@ DataMask <- R6Class("DataMask",
       eval()
     },
 
-    pick = function(vars) {
+    pick_current = function(vars) {
+      # Only used for deprecated `cur_data()`, `cur_data_all()`, and
+      # `across(.fns = NULL)`. We should remove this when we defunct those.
       cols <- self$current_cols(vars)
+
       if (self$is_rowwise_df()) {
         cols <- map2(cols, names(cols), function(col, name) {
           if (vec_is_list(private$current_data[[name]])) {
@@ -83,8 +86,9 @@ DataMask <- R6Class("DataMask",
           col
         })
       }
-      nrow <- length(self$current_rows())
-      new_tibble(cols, nrow = nrow)
+
+      size <- length(self$current_rows())
+      dplyr_new_tibble(cols, size = size)
     },
 
     current_cols = function(vars) {
@@ -138,8 +142,14 @@ DataMask <- R6Class("DataMask",
       private$rows
     },
 
-    across_cols = function() {
-      private$current_data[self$current_non_group_vars()]
+    get_current_data = function(groups = TRUE) {
+      out <- private$current_data
+
+      if (!groups) {
+        out <- out[self$current_non_group_vars()]
+      }
+
+      out
     },
 
     forget = function() {

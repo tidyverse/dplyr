@@ -7,18 +7,6 @@
       Error in `n()`:
       ! Must only be used inside data-masking verbs like `mutate()`, `filter()`, and `group_by()`.
     Code
-      (expect_error(cur_data()))
-    Output
-      <error/rlang_error>
-      Error in `cur_data()`:
-      ! Must only be used inside data-masking verbs like `mutate()`, `filter()`, and `group_by()`.
-    Code
-      (expect_error(cur_data_all()))
-    Output
-      <error/rlang_error>
-      Error in `cur_data_all()`:
-      ! Must only be used inside data-masking verbs like `mutate()`, `filter()`, and `group_by()`.
-    Code
       (expect_error(cur_column()))
     Output
       <error/rlang_error>

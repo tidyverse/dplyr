@@ -391,13 +391,16 @@ test_that(".keep = 'unused' keeps variables explicitly mentioned", {
   expect_named(out, c("y", "x1"))
 })
 
-test_that(".keep = 'used' not affected by across()", {
+test_that(".keep = 'used' not affected by across() or pick()", {
   df <- tibble(x = 1, y = 2, z = 3, a = "a", b = "b", c = "c")
 
   # This must evaluate every column in order to figure out if should
   # be included in the set or not, but that shouldn't be counted for
   # the purposes of "used" variables
   out <- mutate(df, across(where(is.numeric), identity), .keep = "unused")
+  expect_named(out, names(df))
+
+  out <- mutate(df, pick(where(is.numeric)), .keep = "unused")
   expect_named(out, names(df))
 })
 
@@ -528,11 +531,6 @@ test_that("mutate() deals with 0 groups (#5534)", {
   expect_snapshot({
     mutate(df, y = max(x))
   })
-})
-
-test_that("mutate(=NULL) preserves correct all_vars", {
-  df <- data.frame(x = 1, y = 2) %>% mutate(x = NULL, vars = cur_data_all()) %>% pull()
-  expect_equal(df, tibble(y = 2))
 })
 
 test_that("functions are not skipped in data pronoun (#5608)", {

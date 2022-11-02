@@ -392,7 +392,7 @@ Also note that inside the tibble I've switched from embracing (`{{}}`) to glue-s
 
 ### Transforming user-supplied variables
 
-If you want the user to provide a set of data-variables that are then transformed, use `across()`:
+If you want the user to provide a set of data-variables that are then transformed, use `across()` and `pick()`:
 
 ```{r}
 my_summarise <- function(data, summary_vars) {
@@ -409,7 +409,7 @@ You can use this same idea for multiple sets of input data-variables:
 ```{r}
 my_summarise <- function(data, group_var, summarise_var) {
   data %>%
-    group_by(across({{ group_var }})) %>% 
+    group_by(pick({{ group_var }})) %>% 
     summarise(across({{ summarise_var }}, mean))
 }
 ```
@@ -419,7 +419,7 @@ Use the `.names` argument to `across()` to control the names of the output.
 ```{r}
 my_summarise <- function(data, group_var, summarise_var) {
   data %>%
-    group_by(across({{ group_var }})) %>% 
+    group_by(pick({{ group_var }})) %>% 
     summarise(across({{ summarise_var }}, mean, .names = "mean_{.col}"))
 }
 ```

@@ -377,7 +377,7 @@ test_that("across() uses environment from the current quosure (#5460)", {
   expect_error(df %>% summarise(local(across(all_of(y), mean))))
 
   expect_equal(
-    df %>% summarise(summarise(cur_data(), across(all_of(y), mean))),
+    df %>% summarise(summarise(pick(everything()), across(all_of(y), mean))),
     df %>% summarise(across(all_of(y), mean))
   )
 })

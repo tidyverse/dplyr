@@ -38,7 +38,7 @@ library(dplyr, warn.conflicts = FALSE)
 nest_by <- function(df, ...) {
   df %>%
     group_by(...) %>% 
-    summarise(data = list(across())) %>% 
+    summarise(data = list(pick(everything()))) %>% 
     rowwise(...)
 }
 # mtcars %>% nest_by(cyl)
@@ -121,16 +121,16 @@ rf %>%
 The `rowwise()` approach will work for any summary function. But if you need greater speed, it's worth looking for a built-in row-wise variant of your summary function. These are more efficient because they operate on the data frame as whole; they don't split it into rows, compute the summary, and then join the results back together again.
 
 ```{r}
-df %>% mutate(total = rowSums(across(where(is.numeric))))
-df %>% mutate(mean = rowMeans(across(where(is.numeric))))
+df %>% mutate(total = rowSums(pick(where(is.numeric))))
+df %>% mutate(mean = rowMeans(pick(where(is.numeric))))
 ```
 
-**NB**: I use `df` (not `rf`) and `across()` (not `c_across()`) here because `rowMeans()` and `rowSums()` take a multi-row data frame as input.
+**NB**: I use `df` (not `rf`) and `pick()` (not `c_across()`) here because `rowMeans()` and `rowSums()` take a multi-row data frame as input.
 
 ```{r, eval = FALSE, include = FALSE}
 bench::mark(
-  df %>% mutate(m = rowSums(across(x:z))),
-  df %>% mutate(m = apply(across(x:z), 1, sum)),
+  df %>% mutate(m = rowSums(pick(x:z))),
+  df %>% mutate(m = apply(pick(x:z), 1, sum)),
   df %>% rowwise() %>% mutate(m = sum(pick(x:z))),
   check = FALSE
 )
@@ -361,13 +361,13 @@ We've questioned the need for `do()` for quite some time, because it never felt 
       do(head(., 1))
     ```
   
-    This has been superseded `cur_data()` plus the more permissive `summarise()` 
+    This has been superseded by `pick()` plus the more permissive `summarise()` 
     which can now create multiple columns and multiple rows.
   
     ```{r}
     mtcars %>% 
       group_by(cyl) %>% 
-      summarise(head(cur_data(), 1))
+      summarise(head(pick(everything()), 1))
     ```
 
 *   With arguments: it worked like `mutate()` but automatically wrapped every
@@ -380,14 +380,14 @@ We've questioned the need for `do()` for quite some time, because it never felt 
     ```
 
     I now believe that behaviour is both too magical and not very useful, and 
-    it can be replaced by `summarise()` and `cur_data()` . 
+    it can be replaced by `summarise()` and `pick()`. 
   
     ```{r}
     mtcars %>% 
       group_by(cyl) %>% 
-      summarise(nrows = nrow(cur_data()))
+      summarise(nrows = nrow(pick(everything())))
     ```
 
     If needed (unlike here), you can wrap the results in a list yourself.
 
-The addition of `cur_data()`/`across()` and the increased scope of `summarise()` means that `do()` is no longer needed, so it is now superseded.
+The addition of `pick()`/`across()` and the increased scope of `summarise()` means that `do()` is no longer needed, so it is now superseded.

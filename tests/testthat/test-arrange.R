@@ -197,27 +197,28 @@ test_that("arrange updates the grouping structure (#605)", {
   expect_equal(group_rows(res), list_of(c(2L, 4L), c(1L, 3L)))
 })
 
-test_that("arrange() supports across() (#4679)", {
+test_that("arrange() supports across() and pick() (#4679)", {
   df <- tibble(x = c(1, 3, 2, 1), y = c(4, 3, 2, 1))
+
   expect_identical(
-    df %>% arrange(across()),
+    df %>% arrange(pick(everything())),
     df %>% arrange(x, y)
   )
   expect_identical(
-    df %>% arrange(across(.fns = desc)),
+    df %>% arrange(across(everything(), .fns = desc)),
     df %>% arrange(desc(x), desc(y))
   )
   expect_identical(
-    df %>% arrange(across(x)),
+    df %>% arrange(pick(x)),
     df %>% arrange(x)
   )
   expect_identical(
-    df %>% arrange(across(y)),
+    df %>% arrange(across(y, .fns = identity)),
     df %>% arrange(y)
   )
 })
 
-test_that("arrange() works with across() cols that return multiple columns (#6490)", {
+test_that("arrange() works with across() and pick() cols that return multiple columns (#6490)", {
   df <- tibble(
     a = c(1, 1, 1),
     b = c(2, 2, 2),
@@ -226,18 +227,22 @@ test_that("arrange() works with across() cols that return multiple columns (#649
   )
 
   expect_identical(
-    arrange(df, across(c(a, b)), across(c(c, d))),
+    arrange(df, across(c(a, b), .fns = identity), across(c(c, d), .fns = identity)),
+    df[c(3, 2, 1),]
+  )
+  expect_identical(
+    arrange(df, pick(a, b), pick(c, d)),
     df[c(3, 2, 1),]
   )
 })
 
-test_that("arrange() evaluates each across() call on the original data (#6495)", {
+test_that("arrange() evaluates each pick() call on the original data (#6495)", {
   df <- tibble(x = 2:1)
 
-  out <- arrange(df, TRUE, across(everything()))
+  out <- arrange(df, TRUE, pick(everything()))
   expect_identical(out, df[c(2, 1),])
 
-  out <- arrange(df, NULL, across(everything()))
+  out <- arrange(df, NULL, pick(everything()))
   expect_identical(out, df[c(2, 1),])
 })
 
@@ -415,30 +420,30 @@ test_that("legacy - arrange works with two columns when the first has a data fra
   expect_identical(out$id2, c(1, 2, 3))
 })
 
-test_that("legacy - arrange() supports across() (#4679)", {
+test_that("legacy - arrange() supports across() and pick() (#4679)", {
   local_options(dplyr.legacy_locale = TRUE)
 
   df <- tibble(x = c(1, 3, 2, 1), y = c(4, 3, 2, 1))
 
   expect_identical(
-    df %>% arrange(across()),
+    df %>% arrange(pick(everything())),
     df %>% arrange(x, y)
   )
   expect_identical(
-    df %>% arrange(across(.fns = desc)),
+    df %>% arrange(across(everything(), .fns = desc)),
     df %>% arrange(desc(x), desc(y))
   )
   expect_identical(
-    df %>% arrange(across(x)),
+    df %>% arrange(pick(x)),
     df %>% arrange(x)
   )
   expect_identical(
-    df %>% arrange(across(y)),
+    df %>% arrange(across(y, .fns = identity)),
     df %>% arrange(y)
   )
 })
 
-test_that("legacy - arrange() works with across() cols that return multiple columns (#6490)", {
+test_that("legacy - arrange() works with across() and pick() cols that return multiple columns (#6490)", {
   local_options(dplyr.legacy_locale = TRUE)
 
   df <- tibble(
@@ -449,7 +454,11 @@ test_that("legacy - arrange() works with across() cols that return multiple colu
   )
 
   expect_identical(
-    arrange(df, across(c(a, b)), across(c(c, d))),
+    arrange(df, across(c(a, b), .fns = identity), across(c(c, d), .fns = identity)),
+    df[c(3, 2, 1),]
+  )
+  expect_identical(
+    arrange(df, pick(a, b), pick(c, d)),
     df[c(3, 2, 1),]
   )
 })

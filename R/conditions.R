@@ -65,7 +65,8 @@ needs_group_context <- function(cnd) {
     "dplyr:::error_incompatible_combine",
     "dplyr:::mutate_mixed_null",
     "dplyr:::mutate_constant_recycle_error",
-    "dplyr:::summarise_mixed_null"
+    "dplyr:::summarise_mixed_null",
+    "dplyr:::error_pick_tidyselect"
   ))
 }
 

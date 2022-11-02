@@ -1,5 +1,13 @@
 # dplyr (development version)
 
+* `cur_data()` and `cur_data_all()` are now soft-deprecated in favor of
+  `pick()` (#6204).
+
+* New `pick()` to access a subset of columns from the current group. `pick()`
+  is intended as a replacement for `across(.fns = NULL)`, `cur_data()`, and
+  `cur_data_all()`. We feel that `pick()` is a much more evocative name when you
+  are just trying to select a subset of columns from your data (#6204).
+
 * `arrange()` now works correctly when `across()` calls are used as the 2nd
   (or more) ordering expression (#6495).
 
