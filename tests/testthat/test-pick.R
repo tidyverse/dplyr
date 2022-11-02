@@ -515,3 +515,20 @@ test_that("`pick()` doesn't expand across anonymous function boundaries", {
   quos <- dplyr_quosures(z = ~ pick(y, x))$z
   expect_identical(expand_pick(quo, mask), quo)
 })
+
+test_that("`pick()` expands embedded quosures", {
+  df <- tibble(x = 1, y = 2)
+  mask <- DataMask$new(df, verb = "mutate", error_call = current_env())
+
+  wrapper <- function(x) {
+    dplyr_quosures(z = dense_rank({{x}}))
+  }
+  quo <- wrapper(pick(x, y))$z
+
+  out <- expand_pick(quo, mask)
+
+  expect_identical(
+    quo_get_expr(quo_get_expr(out)[[2L]]),
+    expr(asNamespace("dplyr")$dplyr_pick_tibble(x = x, y = y))
+  )
+})

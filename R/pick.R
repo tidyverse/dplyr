@@ -102,20 +102,30 @@ pick <- function(...) {
 expand_pick <- function(quo, mask) {
   error_call <- call("pick")
 
-  env <- quo_get_env(quo)
-  expr <- quo_get_expr(quo)
-
-  if (!is_missing(expr) && !is_quosure(expr) && is_call(expr)) {
-    expr <- expand_pick_impl(expr, env, mask, error_call)
-  }
-
-  out <- new_quosure(expr, env = env)
+  out <- expand_pick_quo(quo, mask, error_call = error_call)
   out <- new_dplyr_quosure(out, !!!attr(quo, "dplyr:::data"))
 
   out
 }
 
-expand_pick_impl <- function(expr, env, mask, error_call = caller_env()) {
+expand_pick_quo <- function(quo, mask, error_call = caller_env()) {
+  env <- quo_get_env(quo)
+  expr <- quo_get_expr(quo)
+
+  if (is_missing(expr)) {
+    return(quo)
+  }
+
+  if (is_quosure(expr)) {
+    expr <- expand_pick_quo(expr, mask, error_call = error_call)
+  } else if (is_call(expr)) {
+    expr <- expand_pick_call(expr, env, mask, error_call = error_call)
+  }
+
+  new_quosure(expr, env = env)
+}
+
+expand_pick_call <- function(expr, env, mask, error_call = caller_env()) {
   if (is_call(expr, name = "pick", ns = c("", "dplyr"))) {
     expr <- as_pick_selection(expr, error_call)
     out <- eval_pick(expr, env, mask, error_call)
@@ -133,8 +143,14 @@ expand_pick_impl <- function(expr, env, mask, error_call = caller_env()) {
   for (i in index) {
     elt <- expr[[i]]
 
-    if (!is_missing(elt) && !is_quosure(elt) && is_call(elt)) {
-      expr[[i]] <- expand_pick_impl(elt, env, mask, error_call = error_call)
+    if (is_missing(elt)) {
+      next
+    }
+
+    if (is_quosure(elt)) {
+      expr[[i]] <- expand_pick_quo(elt, mask, error_call = error_call)
+    } else if (is_call(elt)) {
+      expr[[i]] <- expand_pick_call(elt, env, mask, error_call = error_call)
     }
   }
 
