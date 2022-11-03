@@ -179,8 +179,7 @@ across <- function(.cols,
   .cols <- enquo(.cols)
 
   if (quo_is_missing(.cols)) {
-    # Silent restoration to old defaults of `.cols` for now.
-    # TODO: Escalate this to formal deprecation.
+    across_missing_cols_deprecate_warn()
     .cols <- quo_set_expr(.cols, expr(everything()))
   }
   if (is_missing(.fns)) {
@@ -346,17 +345,15 @@ if_across <- function(op, df) {
 #'     sd = sd(c_across(w:z))
 #'   )
 c_across <- function(cols) {
+  mask <- peek_mask()
   cols <- enquo(cols)
 
   if (quo_is_missing(cols)) {
-    # Silent restoration to old default of `cols` for now.
-    # TODO: Escalate this to formal deprecation.
+    c_across_missing_cols_deprecate_warn()
     cols <- quo_set_expr(cols, expr(everything()))
   }
 
-  mask <- peek_mask()
   vars <- c_across_setup(!!cols, mask = mask)
-
 
   cols <- mask$current_cols(vars)
   vec_c(!!!cols, .name_spec = zap())
@@ -635,8 +632,7 @@ expand_across <- function(quo) {
   if (".cols" %in% names(expr)) {
     cols <- expr$.cols
   } else {
-    # In the missing case, silently restore the old default of `everything()`.
-    # TODO: Escalate this to formal deprecation.
+    across_missing_cols_deprecate_warn()
     cols <- expr(everything())
   }
   cols <- as_quosure(cols, env)
@@ -768,6 +764,45 @@ is_inlinable_formula <- function(x, mask) {
   } else {
     FALSE
   }
+}
+
+across_missing_cols_deprecate_warn <- function() {
+  across_if_fn <- context_peek_bare("across_if_fn") %||% "across"
+
+  # Passing the correct `user_env` through `expand_across()` to here is
+  # complicated, so instead we force the global environment. This means users
+  # won't ever see the "deprecated feature was likely used in the {pkg}"
+  # message, but the warning will still fire and that is more important.
+  user_env <- global_env()
+
+  cnd <- catch_cnd(classes = "lifecycle_warning_deprecated", {
+    lifecycle::deprecate_warn(
+      when = "1.1.0",
+      what = I(glue("Using `{across_if_fn}()` without supplying `.cols`")),
+      details = "Please supply `.cols` instead.",
+      user_env = user_env
+    )
+  })
+
+  if (is_null(cnd)) {
+    # Condition wasn't signaled
+    return(NULL)
+  }
+
+  # Subclassed so we can skip computing group context info when the warning
+  # is thrown from `expand_across()` outside of any group
+  class(cnd) <- c("dplyr:::warning_across_missing_cols_deprecated", class(cnd))
+
+  cnd_signal(cnd)
+}
+
+c_across_missing_cols_deprecate_warn <- function(user_env = caller_env(2)) {
+  lifecycle::deprecate_warn(
+    when = "1.1.0",
+    what = I("Using `c_across()` without supplying `cols`"),
+    details = "Please supply `cols` instead.",
+    user_env = user_env
+  )
 }
 
 df_unpack <- function(x, spec, caller_env, error_call = caller_env()) {
