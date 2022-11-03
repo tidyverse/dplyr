@@ -119,6 +119,8 @@ void add_mask_binding(SEXP name, SEXP env_bindings, SEXP env_chops);
 
 SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype);
 
+SEXP dplyr_reconstruct_data_frame(SEXP data, SEXP template_);
+
 #define DPLYR_MASK_INIT()                                                                    \
 SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));                   \
 R_xlen_t ngroups = XLENGTH(rows);                                                            \
