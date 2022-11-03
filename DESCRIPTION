@@ -47,6 +47,7 @@ Suggests:
     microbenchmark,
     nycflights13,
     purrr,
+    relational (>= 0.0.0.9000),
     rmarkdown,
     RMySQL,
     RPostgreSQL,
@@ -63,3 +64,5 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
+Remotes:  
+    duckdblabs/relational
