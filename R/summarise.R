@@ -216,9 +216,6 @@ summarise_cols <- function(.data, dots, error_call = caller_env()) {
   cols <- list()
 
   sizes <- 1L
-  chunks <- vector("list", length(dots))
-  types <- vector("list", length(dots))
-
   chunks <- list()
   results <- list()
   types <- list()
@@ -276,21 +273,19 @@ summarise_cols <- function(.data, dots, error_call = caller_env()) {
           results <- append(results, list(results_k))
           out_names <- c(out_names, name)
         }
-
       }
     }
 
-    recycle_info <- .Call(`dplyr_summarise_recycle_chunks`, chunks, mask$get_rows(), types, results)
-    chunks <- recycle_info$chunks
-    sizes <- recycle_info$sizes
-    results <- recycle_info$results
+    # Recycle horizontally across sets of chunks.
+    # Modifies `chunks` and `results` in place for efficiency!
+    sizes <- .Call(`dplyr_summarise_recycle_chunks_in_place`, chunks, results)
 
-    # materialize columns
+    # Materialize columns, regenerate any `results` that were `NULL`ed
+    # during the recycling process.
     for (i in seq_along(chunks)) {
       result <- results[[i]] %||% vec_c(!!!chunks[[i]], .ptype = types[[i]])
       cols[[ out_names[i] ]] <- result
     }
-
   },
   error = function(cnd) {
     if (inherits(cnd, "dplyr:::summarise_incompatible_size")) {
@@ -317,7 +312,7 @@ summarise_cols <- function(.data, dots, error_call = caller_env()) {
 
   signal_warnings(warnings_state, error_call)
 
-  list(new = cols, size = sizes, all_one = identical(sizes, 1L))
+  list(new = cols, sizes = sizes, all_one = all(sizes == 1L))
 }
 
 summarise_eval_one <- function(quo, mask) {
@@ -351,7 +346,7 @@ summarise_eval_one <- function(quo, mask) {
 summarise_build <- function(.data, cols) {
   out <- group_keys(.data)
   if (!cols$all_one) {
-    out <- vec_slice(out, rep(seq_len(nrow(out)), cols$size))
+    out <- vec_slice(out, rep(seq_len(nrow(out)), cols$sizes))
   }
   dplyr_col_modify(out, cols$new)
 }
