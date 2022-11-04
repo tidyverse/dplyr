@@ -362,16 +362,14 @@ test_that("can `pick()` inside `summarize()`", {
   expect_identical(out$count, expect_count)
 })
 
-test_that("recycles correctly with no inputs", {
-  skip("Until #6509 is fixed")
-
+test_that("recycles correctly with empty selection", {
   df <- tibble(x = 1:5)
 
-  out <- summarise(df, sum = sum(x), y = pick())
+  out <- summarise(df, sum = sum(x), y = pick(starts_with("foo")))
   expect_identical(out$sum, integer())
   expect_identical(out$y, new_tibble(list(), nrow = 0L))
 
-  out <- summarise(df, sum = sum(x), y = pick_wrapper())
+  out <- summarise(df, sum = sum(x), y = pick_wrapper(starts_with("foo")))
   expect_identical(out$sum, integer())
   expect_identical(out$y, new_tibble(list(), nrow = 0L))
 })
