@@ -913,7 +913,8 @@ test_that("expand_across() expands lambdas", {
     index = 1
   )
 
-  DataMask$new(mtcars, "mutate", call("caller"))
+  by <- compute_by(by = NULL, data = mtcars, error_call = call("caller"))
+  DataMask$new(mtcars, by, "mutate", call("caller"))
 
   expect_equal(
     map(expand_across(quo), quo_get_expr),
@@ -934,7 +935,8 @@ test_that("expand_if_across() expands lambdas", {
     index = 1
   )
 
-  DataMask$new(mtcars, "mutate", call("caller"))
+  by <- compute_by(by = NULL, data = mtcars, error_call = call("caller"))
+  DataMask$new(mtcars, by, "mutate", call("caller"))
 
   expect_equal(
     map(expand_if_across(quo), quo_squash),

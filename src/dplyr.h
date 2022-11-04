@@ -112,7 +112,7 @@ SEXP dplyr_group_keys(SEXP group_data);
 SEXP dplyr_mask_remove(SEXP env_private, SEXP s_name);
 SEXP dplyr_mask_add(SEXP env_private, SEXP s_name, SEXP ptype, SEXP chunks);
 
-SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows);
+SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows, SEXP ffi_grouped, SEXP ffi_rowwise);
 SEXP dplyr_data_masks_setup(SEXP chops, SEXP data, SEXP rows);
 SEXP env_resolved(SEXP env, SEXP names);
 void add_mask_binding(SEXP name, SEXP env_bindings, SEXP env_chops);

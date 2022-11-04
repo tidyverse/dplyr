@@ -47,7 +47,7 @@ cnd_bullet_cur_group_label <- function(what = "error") {
 }
 
 cnd_bullet_rowwise_unlist <- function() {
-  if (peek_mask()$is_rowwise_df()) {
+  if (peek_mask()$is_rowwise()) {
     glue_data(peek_error_context(), "Did you mean: `{error_name} = list({error_expression})` ?")
   }
 }
@@ -131,9 +131,9 @@ dot_as_label <- function(expr) {
 
 mask_type <- function(mask = peek_mask()) {
   if (mask$get_size() > 0) {
-    if (mask$is_grouped_df()) {
+    if (mask$is_grouped()) {
       return("grouped")
-    } else if (mask$is_rowwise_df()) {
+    } else if (mask$is_rowwise()) {
       return("rowwise")
     }
   }

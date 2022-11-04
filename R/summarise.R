@@ -33,6 +33,7 @@
 #'
 #' @export
 #' @inheritParams arrange
+#' @inheritParams args_by
 #' @param ... <[`data-masking`][dplyr_data_masking]> Name-value pairs of summary
 #'   functions. The name will be the name of the variable in the result.
 #'
@@ -116,7 +117,7 @@
 #' var <- "mass"
 #' summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
 #' # Learn more in ?dplyr_data_masking
-summarise <- function(.data, ..., .groups = NULL) {
+summarise <- function(.data, ..., .by = NULL, .groups = NULL) {
   UseMethod("summarise")
 }
 #' @rdname summarise
@@ -124,19 +125,39 @@ summarise <- function(.data, ..., .groups = NULL) {
 summarize <- summarise
 
 #' @export
-summarise.data.frame <- function(.data, ..., .groups = NULL) {
-  cols <- summarise_cols(.data, dplyr_quosures(...))
-  out <- summarise_build(.data, cols)
+summarise.data.frame <- function(.data, ..., .by = NULL, .groups = NULL) {
+  by <- enquo(.by)
+
+  if (!quo_is_null(by) && !is.null(.groups)) {
+    abort("Can't supply both `.by` and `.groups`.")
+  }
+
+  by <- compute_by(!!by, .data, by_arg = ".by", data_arg = ".data")
+
+  cols <- summarise_cols(.data, dplyr_quosures(...), by)
+  out <- summarise_build(by, cols)
+
+  if (!is_tibble(.data)) {
+    # The `by` group data we build from is always a tibble,
+    # so we have to manually downcast as needed
+    out <- as.data.frame(out)
+  }
+
   if (identical(.groups, "rowwise")) {
     out <- rowwise_df(out, character())
   }
+
   out
 }
 
 #' @export
-summarise.grouped_df <- function(.data, ..., .groups = NULL) {
-  cols <- summarise_cols(.data, dplyr_quosures(...))
-  out <- summarise_build(.data, cols)
+summarise.grouped_df <- function(.data, ..., .by = NULL, .groups = NULL) {
+  # TODO: Is it right to even expose `.by` here? It lets us catch errors.
+  # Will always error if `.by != NULL` b/c you can't use it with grouped/rowwise dfs.
+  by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
+
+  cols <- summarise_cols(.data, dplyr_quosures(...), by)
+  out <- summarise_build(by, cols)
   verbose <- summarise_verbose(.groups, caller_env())
 
   if (is.null(.groups)) {
@@ -147,7 +168,7 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
     }
   }
 
-  group_vars <- group_vars(.data)
+  group_vars <- by$names
   if (identical(.groups, "drop_last")) {
     n <- length(group_vars)
     if (n > 1) {
@@ -177,12 +198,16 @@ summarise.grouped_df <- function(.data, ..., .groups = NULL) {
 }
 
 #' @export
-summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
-  cols <- summarise_cols(.data, dplyr_quosures(...))
-  out <- summarise_build(.data, cols)
+summarise.rowwise_df <- function(.data, ..., .by = NULL, .groups = NULL) {
+  # TODO: Is it right to even expose `.by` here? It lets us catch errors.
+  # Will always error if `.by != NULL` b/c you can't use it with grouped/rowwise dfs.
+  by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
+
+  cols <- summarise_cols(.data, dplyr_quosures(...), by)
+  out <- summarise_build(by, cols)
   verbose <- summarise_verbose(.groups, caller_env())
 
-  group_vars <- group_vars(.data)
+  group_vars <- by$names
   if (is.null(.groups) || identical(.groups, "keep")) {
     if (verbose && length(group_vars)) {
       new_groups <- glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
@@ -202,10 +227,10 @@ summarise.rowwise_df <- function(.data, ..., .groups = NULL) {
   out
 }
 
-summarise_cols <- function(.data, dots, error_call = caller_env()) {
+summarise_cols <- function(data, dots, by, error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
 
-  mask <- DataMask$new(.data, "summarise", error_call = error_call)
+  mask <- DataMask$new(data, by, "summarise", error_call = error_call)
   old_current_column <- context_peek_bare("column")
 
   warnings_state <- env(warnings = list())
@@ -343,8 +368,8 @@ summarise_eval_one <- function(quo, mask) {
   list(chunks = chunks_k, types = types_k, results = result_k)
 }
 
-summarise_build <- function(.data, cols) {
-  out <- group_keys(.data)
+summarise_build <- function(by, cols) {
+  out <- group_keys0(by$data)
   if (!cols$all_one) {
     out <- vec_slice(out, rep(seq_len(nrow(out)), cols$sizes))
   }

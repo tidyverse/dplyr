@@ -278,7 +278,17 @@ slice_rows <- function(.data, ..., error_call = caller_env()) {
   if (is_empty(dots)) {
     return(TRUE)
   }
-  mask <- DataMask$new(.data, "slice", error_call = error_call)
+
+  # TODO: Expose `.by`
+  by <- compute_by(
+    by = NULL,
+    data = .data,
+    by_arg = ".by",
+    data_arg = ".data",
+    error_call = error_call
+  )
+
+  mask <- DataMask$new(.data, by, "slice", error_call = error_call)
   on.exit(mask$forget(), add = TRUE)
 
   chunks <- slice_eval(mask, dots, error_call = error_call)

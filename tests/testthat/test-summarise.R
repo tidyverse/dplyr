@@ -257,6 +257,50 @@ test_that("summarise() silently skips when all results are NULL (#5708)", {
   expect_error(summarise(df, x = if(g == 1) 42))
 })
 
+# .by ----------------------------------------------------------------------
+
+test_that("can group transiently using `.by`", {
+  df <- tibble(g = c(1, 1, 2, 1, 2), x = c(5, 2, 1, 2, 3))
+
+  out <- summarise(df, x = mean(x), .by = g)
+
+  expect_identical(out$g, c(1, 2))
+  expect_identical(out$x, c(3, 2))
+  expect_s3_class(out, class(df), exact = TRUE)
+})
+
+test_that("transient grouping retains bare data.frame class", {
+  df <- data.frame(g = c(1, 1, 2, 1, 2), x = c(5, 2, 1, 2, 3))
+  out <- summarise(df, x = mean(x), .by = g)
+  expect_s3_class(out, class(df), exact = TRUE)
+})
+
+test_that("can't use `.by` with `.groups`", {
+  df <- tibble(x = 1)
+
+  expect_snapshot(error = TRUE, {
+    summarise(df, .by = x, .groups = "drop")
+  })
+})
+
+test_that("catches `.by` with grouped-df", {
+  df <- tibble(x = 1)
+  gdf <- group_by(df, x)
+
+  expect_snapshot(error = TRUE, {
+    summarise(gdf, .by = x)
+  })
+})
+
+test_that("catches `.by` with rowwise-df", {
+  df <- tibble(x = 1)
+  rdf <- rowwise(df)
+
+  expect_snapshot(error = TRUE, {
+    summarise(rdf, .by = x)
+  })
+})
+
 # errors -------------------------------------------------------------------
 
 test_that("summarise() preserves the call stack on error (#5308)", {

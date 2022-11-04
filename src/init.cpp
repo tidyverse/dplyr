@@ -114,7 +114,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_mask_remove", (DL_FUNC)& dplyr_mask_remove, 2},
   {"dplyr_mask_add", (DL_FUNC)& dplyr_mask_add, 4},
 
-  {"dplyr_lazy_vec_chop_impl", (DL_FUNC)& dplyr_lazy_vec_chop, 2},
+  {"dplyr_lazy_vec_chop_impl", (DL_FUNC)& dplyr_lazy_vec_chop, 4},
   {"dplyr_data_masks_setup", (DL_FUNC)& dplyr_data_masks_setup, 3},
   {"env_resolved", (DL_FUNC)& env_resolved, 2},
 

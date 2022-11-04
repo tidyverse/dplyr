@@ -121,7 +121,16 @@ filter_rows <- function(.data, ..., error_call = caller_env()) {
   dots <- dplyr_quosures(...)
   check_filter(dots, error_call = error_call)
 
-  mask <- DataMask$new(.data, "filter", error_call = error_call)
+  # TODO: Expose `.by`
+  by <- compute_by(
+    by = NULL,
+    data = .data,
+    by_arg = ".by",
+    data_arg = ".data",
+    error_call = error_call
+  )
+
+  mask <- DataMask$new(.data, by, "filter", error_call = error_call)
   on.exit(mask$forget(), add = TRUE)
 
   dots <- filter_expand(dots, mask = mask, error_call = error_call)

@@ -5,9 +5,9 @@
 \alias{summarize}
 \title{Summarise each group to fewer rows}
 \usage{
-summarise(.data, ..., .groups = NULL)
+summarise(.data, ..., .by = NULL, .groups = NULL)
 
-summarize(.data, ..., .groups = NULL)
+summarize(.data, ..., .by = NULL, .groups = NULL)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
@@ -23,6 +23,13 @@ The value can be:
 \item A vector of length \code{n}, e.g. \code{quantile()}.
 \item A data frame, to add multiple columns from a single expression.
 }}
+
+\item{.by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, select columns to group
+by. This grouping will only be active for the duration of this verb.
+
+Can't be used when the data is already a grouped or rowwise data frame.}
 
 \item{.groups}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} Grouping structure of the result.
 \itemize{

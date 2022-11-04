@@ -59,6 +59,22 @@
       ! `y` must be size 1, not 2.
       i Did you mean: `y = list(x)` ?
 
+# catches `.by` with grouped-df
+
+    Code
+      mutate(gdf, .by = x)
+    Condition
+      Error in `mutate()`:
+      ! `.by` can't be supplied when `.data` is a grouped data frame.
+
+# catches `.by` with rowwise-df
+
+    Code
+      mutate(rdf, .by = x)
+    Condition
+      Error in `mutate()`:
+      ! `.by` can't be supplied when `.data` is a rowwise data frame.
+
 # mutate() deals with 0 groups (#5534)
 
     Code

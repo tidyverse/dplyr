@@ -97,8 +97,13 @@ group_keys.data.frame <- function(.tbl, ...) {
     .tbl <- group_by(.tbl, ...)
   }
   out <- group_data(.tbl)
-  .Call(`dplyr_group_keys`, out)
+  group_keys0(out)
 }
+group_keys0 <- function(x) {
+  # Compute keys directly from `group_data()` results
+  .Call(`dplyr_group_keys`, x)
+}
+
 #' @rdname group_data
 #' @export
 group_rows <- function(.data) {
