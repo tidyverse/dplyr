@@ -66,7 +66,8 @@ needs_group_context <- function(cnd) {
     "dplyr:::mutate_mixed_null",
     "dplyr:::mutate_constant_recycle_error",
     "dplyr:::summarise_mixed_null",
-    "dplyr:::error_pick_tidyselect"
+    "dplyr:::error_pick_tidyselect",
+    "dplyr:::warning_across_missing_cols_deprecated"
   ))
 }
 
@@ -368,11 +369,15 @@ signal_warnings <- function(state, error_call) {
 }
 
 new_dplyr_warning <- function(data) {
-  label <- cur_group_label(
-    data$type,
-    data$group_data$id,
-    data$group_data$group
-  )
+  if (data$needs_group_context) {
+    label <- cur_group_label(
+      data$type,
+      data$group_data$id,
+      data$group_data$group
+    )
+  } else {
+    label <- ""
+  }
 
   msg <- c(
     "i" = glue::glue("In argument `{data$name} = {data$expr}`."),

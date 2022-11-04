@@ -1,5 +1,19 @@
 # dplyr (development version)
 
+* `.cols` and `.fns` are now required arguments in `across()`, `c_across()`,
+  `if_any()`, and `if_all()`. In general, we now recommend that you use `pick()`
+  instead of empty calls to `across()` (i.e. with no arguments) or
+  `across(c(x, y))` (i.e. with no `.fns`) to select a subset of columns without
+  applying any transformation (#6523).
+  
+  * Relying on the previous default of `.cols = everything()` is deprecated.
+    We have skipped the soft-deprecation stage in this case, because indirect
+    usage of `across()` and friends in this way is rare.
+  
+  * Relying on the previous default of `.fns = NULL` is not yet formally
+    soft-deprecated, because there was no good alternative until now, but is
+    discouraged and will be soft-deprecated in the next minor release.
+
 * `cur_data()` and `cur_data_all()` are now soft-deprecated in favor of
   `pick()` (#6204).
 

@@ -109,12 +109,21 @@ stop_mask_type <- function(type) {
 }
 
 cnd_data <- function(cnd, ctxt, mask_type, call) {
+  needs_group_context <- needs_group_context(cnd)
+
+  if (needs_group_context) {
+    group_data <- cur_group_data(mask_type)
+  } else {
+    group_data <- NULL
+  }
+
   list(
     cnd = cnd,
     name = ctxt$error_name,
     expr = ctxt$error_expression,
     type = mask_type,
-    group_data = cur_group_data(mask_type),
+    needs_group_context = needs_group_context,
+    group_data = group_data,
     call = call
   )
 }

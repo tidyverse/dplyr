@@ -3,14 +3,14 @@
 test_that("across() works on one column data.frame", {
   df <- data.frame(x = 1)
 
-  out <- df %>% mutate(across())
+  out <- df %>% mutate(across(everything(), identity))
   expect_equal(out, df)
 })
 
 test_that("across() does not select grouping variables", {
   df <- data.frame(g = 1, x = 1)
 
-  out <- df %>% group_by(g) %>% summarise(x = across(everything())) %>% pull()
+  out <- df %>% group_by(g) %>% summarise(x = across(everything(), identity)) %>% pull()
   expect_equal(out, tibble(x = 1))
 })
 
@@ -18,11 +18,11 @@ test_that("across() correctly names output columns", {
   gf <- tibble(x = 1, y = 2, z = 3, s = "") %>% group_by(x)
 
   expect_named(
-    summarise(gf, across()),
+    summarise(gf, across(everything(), identity)),
     c("x", "y", "z", "s")
   )
   expect_named(
-    summarise(gf, across(.names = "id_{.col}")),
+    summarise(gf, across(everything(), identity, .names = "id_{.col}")),
     c("x", "id_y", "id_z", "id_s")
   )
   expect_named(
@@ -167,22 +167,22 @@ test_that("across() result locations are aligned with column names (#4967)", {
 test_that("across() works sequentially (#4907)", {
   df <- tibble(a = 1)
   expect_equal(
-    mutate(df, x = ncol(across(where(is.numeric))), y = ncol(across(where(is.numeric)))),
+    mutate(df, x = ncol(across(where(is.numeric), identity)), y = ncol(across(where(is.numeric), identity))),
     tibble(a = 1, x = 1L, y = 2L)
   )
   expect_equal(
-    mutate(df, a = "x", y = ncol(across(where(is.numeric)))),
+    mutate(df, a = "x", y = ncol(across(where(is.numeric), identity))),
     tibble(a = "x", y = 0L)
   )
   expect_equal(
-    mutate(df, x = 1, y = ncol(across(where(is.numeric)))),
+    mutate(df, x = 1, y = ncol(across(where(is.numeric), identity))),
     tibble(a = 1, x = 1, y = 2L)
   )
 })
 
 test_that("across() retains original ordering", {
   df <- tibble(a = 1, b = 2)
-  expect_named(mutate(df, a = 2, x = across())$x, c("a", "b"))
+  expect_named(mutate(df, a = 2, x = across(everything(), identity))$x, c("a", "b"))
 })
 
 test_that("across() gives meaningful messages", {
@@ -261,7 +261,7 @@ test_that("across() gives meaningful messages", {
 test_that("monitoring cache - across() can be used twice in the same expression", {
   df <- tibble(a = 1, b = 2)
   expect_equal(
-    mutate(df, x = ncol(across(where(is.numeric))) + ncol(across(a))),
+    mutate(df, x = ncol(across(where(is.numeric), identity)) + ncol(across(a, identity))),
     tibble(a = 1, b = 2, x = 3)
   )
 })
@@ -269,7 +269,7 @@ test_that("monitoring cache - across() can be used twice in the same expression"
 test_that("monitoring cache - across() can be used in separate expressions", {
   df <- tibble(a = 1, b = 2)
   expect_equal(
-    mutate(df, x = ncol(across(where(is.numeric))), y = ncol(across(a))),
+    mutate(df, x = ncol(across(where(is.numeric), identity)), y = ncol(across(a, identity))),
     tibble(a = 1, b = 2, x = 2, y = 1)
   )
 })
@@ -279,7 +279,7 @@ test_that("monitoring cache - across() usage can depend on the group id", {
   df <- group_by(df, g)
 
   switcher <- function() {
-    if_else(cur_group_id() == 1L, across(a)$a, across(b)$b)
+    if_else(cur_group_id() == 1L, across(a, identity)$a, across(b, identity)$b)
   }
 
   expect <- df
@@ -412,7 +412,7 @@ test_that("across() sees columns in the recursive case (#5498)", {
 
 test_that("across() works with empty data frames (#5523)", {
    expect_equal(
-     mutate(tibble(), across()),
+     mutate(tibble(), across(everything(), identity)),
      tibble()
    )
 })
@@ -943,6 +943,9 @@ test_that("expand_if_across() expands lambdas", {
 })
 
 test_that("rowwise() preserves list-cols iff no `.fns` (#5951, #6264)", {
+  # TODO: Deprecate this behavior in favor of `pick()`, which doesn't preserve
+  # list-cols but is well-defined as pure macro expansion.
+
   rf <- rowwise(tibble(x = list(1:2, 3:5)))
 
   # Need to unchop so works like mutate(rf, x = length(x))
@@ -963,6 +966,94 @@ test_that("selects and combines columns", {
   df <- data.frame(x = 1:2, y = 3:4)
   out <- df %>% summarise(z = list(c_across(x:y)))
   expect_equal(out$z, list(1:4))
+})
+
+# cols deprecation --------------------------------------------------------
+
+test_that("across() applies old `.cols = everything()` default with a warning", {
+  local_options(lifecycle_verbosity = "warning")
+
+  df <- tibble(g = c(1, 2), x = c(1, 2), y = c(3, 4))
+  gdf <- group_by(df, g)
+
+  # Expansion path
+  expect_snapshot(out <- mutate(df, z = across()))
+  expect_identical(out$z, df)
+  expect_snapshot(out <- mutate(gdf, z = across()))
+  expect_identical(out$z, df[c("x", "y")])
+
+  # Evaluation path
+  expect_snapshot(out <- mutate(df, z = (across())))
+  expect_identical(out$z, df)
+  expect_snapshot(out <- mutate(gdf, z = (across())))
+  expect_identical(out$z, df[c("x", "y")])
+})
+
+test_that("if_any() and if_all() apply old `.cols = everything()` default with a warning", {
+  local_options(lifecycle_verbosity = "warning")
+
+  df <- tibble(x = c(TRUE, FALSE, TRUE), y = c(FALSE, FALSE, TRUE))
+  gdf <- mutate(df, g = c(1, 1, 2), .before = 1)
+  gdf <- group_by(gdf, g)
+
+  # Expansion path
+  expect_snapshot(out <- filter(df, if_any()))
+  expect_identical(out, df[c(1, 3),])
+  expect_snapshot(out <- filter(gdf, if_any()))
+  expect_identical(out, gdf[c(1, 3),])
+
+  expect_snapshot(out <- filter(df, if_all()))
+  expect_identical(out, df[3,])
+  expect_snapshot(out <- filter(gdf, if_all()))
+  expect_identical(out, gdf[3,])
+
+  # Evaluation path
+  expect_snapshot(out <- filter(df, (if_any())))
+  expect_identical(out, df[c(1, 3),])
+  expect_snapshot(out <- filter(gdf, (if_any())))
+  expect_identical(out, gdf[c(1, 3),])
+
+  expect_snapshot(out <- filter(df, (if_all())))
+  expect_identical(out, df[3,])
+  expect_snapshot(out <- filter(gdf, (if_all())))
+  expect_identical(out, gdf[3,])
+})
+
+test_that("c_across() applies old `cols = everything()` default with a warning", {
+  local_options(lifecycle_verbosity = "warning")
+
+  df <- tibble(x = c(1, 3), y = c(2, 4))
+  df <- rowwise(df)
+
+  # Will see 2 warnings because verbosity option forces it to warn every time
+  expect_snapshot(out <- mutate(df, z = sum(c_across())))
+  expect_identical(out$z, c(3, 7))
+})
+
+# fns deprecation ---------------------------------------------------------
+
+test_that("across() applies old `.fns = NULL` default", {
+  df <- tibble(x = 1, y = 2)
+
+  # Expansion path
+  out <- mutate(df, z = across(everything()))
+  expect_identical(out$z, df)
+
+  # Evaluation path
+  out <- mutate(df, z = (across(everything())))
+  expect_identical(out$z, df)
+})
+
+test_that("if_any() and if_all() apply old `.fns = NULL` default", {
+  df <- tibble(x = c(TRUE, FALSE, TRUE), y = c(FALSE, FALSE, TRUE))
+
+  # Expansion path
+  expect_identical(filter(df, if_any(everything())), df[c(1, 3),])
+  expect_identical(filter(df, if_all(everything())), df[3,])
+
+  # Evaluation path
+  expect_identical(filter(df, (if_any(everything()))), df[c(1, 3),])
+  expect_identical(filter(df, (if_all(everything()))), df[3,])
 })
 
 # dots --------------------------------------------------------------------

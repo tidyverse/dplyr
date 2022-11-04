@@ -50,7 +50,7 @@
       Error in `summarise()`:
       i In argument: `..1 = across(where(is.numeric), 42)`.
       Caused by error in `across()`:
-      ! `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
+      ! `.fns` must be a function, a formula, or a list of functions/formulas.
     Code
       (expect_error(tibble(x = 1) %>% summarise(across(y, mean))))
     Output
@@ -67,7 +67,7 @@
       Error in `summarise()`:
       i In argument: `res = across(where(is.numeric), 42)`.
       Caused by error in `across()`:
-      ! `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
+      ! `.fns` must be a function, a formula, or a list of functions/formulas.
     Code
       (expect_error(tibble(x = 1) %>% summarise(z = across(y, mean))))
     Output
@@ -85,7 +85,7 @@
       Error in `summarise()`:
       i In argument: `res = sum(if_any(where(is.numeric), 42))`.
       Caused by error in `if_any()`:
-      ! `.fns` must be NULL, a function, a formula, or a list of functions/formulas.
+      ! `.fns` must be a function, a formula, or a list of functions/formulas.
     Code
       (expect_error(tibble(x = 1) %>% summarise(res = sum(if_all(~ mean(.x))))))
     Output
@@ -229,6 +229,161 @@
       i You most likely meant: `if_all(everything(), ~.x > 5)`.
       i The first argument `.cols` selects a set of columns.
       i The second argument `.fns` operates on each selected columns.
+
+# across() applies old `.cols = everything()` default with a warning
+
+    Code
+      out <- mutate(df, z = across())
+    Condition
+      Warning:
+      There was 1 warning in `mutate()`.
+      i In argument `z = across()`.
+      Caused by warning:
+      ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
+      i Please supply `.cols` instead.
+
+---
+
+    Code
+      out <- mutate(gdf, z = across())
+    Condition
+      Warning:
+      There were 2 warnings in `mutate()`.
+      The first warning was:
+      i In argument `z = across()`.
+      Caused by warning:
+      ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
+      i Please supply `.cols` instead.
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
+
+---
+
+    Code
+      out <- mutate(df, z = (across()))
+    Condition
+      Warning:
+      There was 1 warning in `mutate()`.
+      i In argument `z = (across())`.
+      Caused by warning:
+      ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
+      i Please supply `.cols` instead.
+
+---
+
+    Code
+      out <- mutate(gdf, z = (across()))
+    Condition
+      Warning:
+      There were 2 warnings in `mutate()`.
+      The first warning was:
+      i In argument `z = (across())`.
+      Caused by warning:
+      ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
+      i Please supply `.cols` instead.
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
+
+# if_any() and if_all() apply old `.cols = everything()` default with a warning
+
+    Code
+      out <- filter(df, if_any())
+    Condition
+      Warning:
+      Using `if_any()` without supplying `.cols` was deprecated in dplyr 1.1.0.
+      i Please supply `.cols` instead.
+
+---
+
+    Code
+      out <- filter(gdf, if_any())
+    Condition
+      Warning:
+      Using `if_any()` without supplying `.cols` was deprecated in dplyr 1.1.0.
+      i Please supply `.cols` instead.
+
+---
+
+    Code
+      out <- filter(df, if_all())
+    Condition
+      Warning:
+      Using `if_all()` without supplying `.cols` was deprecated in dplyr 1.1.0.
+      i Please supply `.cols` instead.
+
+---
+
+    Code
+      out <- filter(gdf, if_all())
+    Condition
+      Warning:
+      Using `if_all()` without supplying `.cols` was deprecated in dplyr 1.1.0.
+      i Please supply `.cols` instead.
+
+---
+
+    Code
+      out <- filter(df, (if_any()))
+    Condition
+      Warning:
+      There was 1 warning in `filter()`.
+      i In argument `..1 = (if_any())`.
+      Caused by warning:
+      ! Using `if_any()` without supplying `.cols` was deprecated in dplyr 1.1.0.
+      i Please supply `.cols` instead.
+
+---
+
+    Code
+      out <- filter(gdf, (if_any()))
+    Condition
+      Warning:
+      There were 2 warnings in `filter()`.
+      The first warning was:
+      i In argument `..1 = (if_any())`.
+      Caused by warning:
+      ! Using `if_any()` without supplying `.cols` was deprecated in dplyr 1.1.0.
+      i Please supply `.cols` instead.
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
+
+---
+
+    Code
+      out <- filter(df, (if_all()))
+    Condition
+      Warning:
+      There was 1 warning in `filter()`.
+      i In argument `..1 = (if_all())`.
+      Caused by warning:
+      ! Using `if_all()` without supplying `.cols` was deprecated in dplyr 1.1.0.
+      i Please supply `.cols` instead.
+
+---
+
+    Code
+      out <- filter(gdf, (if_all()))
+    Condition
+      Warning:
+      There were 2 warnings in `filter()`.
+      The first warning was:
+      i In argument `..1 = (if_all())`.
+      Caused by warning:
+      ! Using `if_all()` without supplying `.cols` was deprecated in dplyr 1.1.0.
+      i Please supply `.cols` instead.
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
+
+# c_across() applies old `cols = everything()` default with a warning
+
+    Code
+      out <- mutate(df, z = sum(c_across()))
+    Condition
+      Warning:
+      There were 2 warnings in `mutate()`.
+      The first warning was:
+      i In argument `z = sum(c_across())`.
+      i In row 1.
+      Caused by warning:
+      ! Using `c_across()` without supplying `cols` was deprecated in dplyr 1.1.0.
+      i Please supply `cols` instead.
+      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
 
 # across(...) is deprecated
 
