@@ -6,10 +6,9 @@
 \arguments{
 \item{.by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, select columns to group
-by. This grouping will only be active for the duration of this verb.
-
-Can't be used when the data is already a grouped or rowwise data frame.}
+<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
+temporarily group by using an inline alternative to \code{\link[=group_by]{group_by()}}. For
+details and examples, see \link[=dplyr_by]{?dplyr_by}.}
 }
 \description{
 Use \verb{@inheritParams args_by} to consistently document \code{.by}.
