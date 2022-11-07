@@ -91,6 +91,63 @@ test_that("user errors are correctly labelled", {
   })
 })
 
+test_that("can group transiently using `.by`", {
+  df <- tibble(g = c(1, 1, 2), x = c(1, 2, 3))
+
+  out <- slice(df, n(), .by = g)
+
+  expect_identical(out$g, c(1, 2))
+  expect_identical(out$x, c(2, 3))
+  expect_s3_class(out, class(df), exact = TRUE)
+})
+
+test_that("transient grouping retains bare data.frame class", {
+  df <- tibble(g = c(1, 1, 2), x = c(1, 2, 3))
+  out <- slice(df, n(), .by = g)
+  expect_s3_class(out, class(df), exact = TRUE)
+})
+
+test_that("transient grouping retains data frame attributes", {
+  # With data.frames or tibbles
+  df <- data.frame(g = c(1, 1, 2), x = c(1, 2, 3))
+  tbl <- as_tibble(df)
+
+  attr(df, "foo") <- "bar"
+  attr(tbl, "foo") <- "bar"
+
+  out <- slice(df, n(), .by = g)
+  expect_identical(attr(out, "foo"), "bar")
+
+  out <- slice(tbl, n(), .by = g)
+  expect_identical(attr(out, "foo"), "bar")
+})
+
+test_that("can't use `.by` with `.preserve`", {
+  df <- tibble(x = 1)
+
+  expect_snapshot(error = TRUE, {
+    slice(df, .by = x, .preserve = TRUE)
+  })
+})
+
+test_that("catches `.by` with grouped-df", {
+  df <- tibble(x = 1)
+  gdf <- group_by(df, x)
+
+  expect_snapshot(error = TRUE, {
+    slice(gdf, .by = x)
+  })
+})
+
+test_that("catches `.by` with rowwise-df", {
+  df <- tibble(x = 1)
+  rdf <- rowwise(df)
+
+  expect_snapshot(error = TRUE, {
+    slice(rdf, .by = x)
+  })
+})
+
 # Slice variants ----------------------------------------------------------
 
 test_that("slice_helpers() call get_slice_size()", {
@@ -221,6 +278,19 @@ test_that("slice_helpers do call slice() and benefit from dispatch (#6084)", {
   expect_warning(sample_frac(nf, .5), "noisy")
 })
 
+test_that("slice_helper `by` errors use correct error context and correct `by_arg`", {
+  df <- tibble(x = 1)
+  gdf <- group_by(df, x)
+
+  expect_snapshot(error = TRUE, {
+    slice_head(gdf, n = 1, by = x)
+    slice_tail(gdf, n = 1, by = x)
+    slice_min(gdf, order_by = x, by = x)
+    slice_max(gdf, order_by = x, by = x)
+    slice_sample(gdf, n = 1, by = x)
+  })
+})
+
 # slice_min/slice_max -----------------------------------------------------
 
 test_that("min and max return ties by default", {
@@ -285,6 +355,13 @@ test_that("slice_min/max() can order by multiple variables (#6176)", {
   df <- tibble(id = 1:4, x = 1, y = c(1, 4, 2, 3))
   expect_equal(slice_min(df, tibble(x, y), n = 1)$id, 1)
   expect_equal(slice_max(df, tibble(x, y), n = 1)$id, 2)
+})
+
+test_that("slice_min/max() work with `by`", {
+  df <- tibble(g = c(2, 2, 1, 1), x = c(1, 2, 3, 1))
+
+  expect_identical(slice_min(df, x, by = g), df[c(4, 1),])
+  expect_identical(slice_max(df, x, by = g), df[c(3, 2),])
 })
 
 test_that("slice_min/max() check size of `order_by=` (#5922)", {
@@ -360,6 +437,11 @@ test_that("slice_sample() handles negative n= and prop= (#6402)", {
   expect_equal(nrow(slice_sample(df, prop = -2)), 0)
 })
 
+test_that("slice_sample() works with `by`", {
+  df <- tibble(g = c(2, 2, 2, 1), x = c(1, 2, 3, 1))
+  expect_identical(slice_sample(df, n = 2, by = g)$g, c(1, 2, 2))
+})
+
 # slice_head/slice_tail ---------------------------------------------------
 
 test_that("slice_head/slice_tail keep positive values", {
@@ -403,4 +485,10 @@ test_that("slice_head/slice_tail handle infinite n/prop", {
   expect_identical(slice_tail(df, prop = Inf), df)
   expect_identical(slice_head(df, prop = -Inf), df[0, ])
   expect_identical(slice_tail(df, prop = -Inf), df[0, ])
+})
+
+test_that("slice_head/slice_tail work with `by`", {
+  df <- tibble(g = c(2, 2, 2, 1), x = c(1, 2, 3, 1))
+  expect_identical(slice_head(df, n = 2, by = g), df[c(4, 1, 2),])
+  expect_identical(slice_tail(df, n = 2, by = g), df[c(4, 2, 3),])
 })

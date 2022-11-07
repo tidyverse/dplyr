@@ -20,6 +20,7 @@
 #' operation, use [filter()] and [row_number()].
 #'
 #' @family single table verbs
+#' @inheritParams args_by
 #' @inheritParams arrange
 #' @inheritParams filter
 #' @param ... For `slice()`: <[`data-masking`][dplyr_data_masking]> Integer row
@@ -118,52 +119,62 @@
 #' filter(mtcars, row_number() == 1L)
 #' filter(mtcars, row_number() == n())
 #' filter(mtcars, between(row_number(), 5, n()))
-slice <- function(.data, ..., .preserve = FALSE) {
+slice <- function(.data, ..., .by = NULL, .preserve = FALSE) {
   UseMethod("slice")
 }
 
 #' @export
-slice.data.frame <- function(.data, ..., .preserve = FALSE) {
-  loc <- slice_rows(.data, ..., error_call = current_env())
+slice.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
+  by <- enquo(.by)
+
+  if (!quo_is_null(by) && !is_false(.preserve)) {
+    abort("Can't supply both `.by` and `.preserve`.")
+  }
+
+  loc <- slice_rows(.data, ..., .by = !!by)
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
 #' @export
 #' @rdname slice
-slice_head <- function(.data, ..., n, prop) {
+slice_head <- function(.data, ..., n, prop, by = NULL) {
   check_slice_dots(..., n = n, prop = prop)
 
   UseMethod("slice_head")
 }
 
 #' @export
-slice_head.data.frame <- function(.data, ..., n, prop) {
+slice_head.data.frame <- function(.data, ..., n, prop, by = NULL) {
   size <- get_slice_size(n = n, prop = prop)
   idx <- function(n) {
     seq2(1, size(n))
   }
 
   dplyr_local_error_call()
-  slice(.data, idx(dplyr::n()))
+  dplyr_local_slice_by_arg("by")
+
+  slice(.data, idx(dplyr::n()), .by = {{ by }})
 }
 
 #' @export
 #' @rdname slice
-slice_tail <- function(.data, ..., n, prop) {
+slice_tail <- function(.data, ..., n, prop, by = NULL) {
   check_slice_dots(..., n = n, prop = prop)
 
   UseMethod("slice_tail")
 }
 
 #' @export
-slice_tail.data.frame <- function(.data, ..., n, prop) {
+slice_tail.data.frame <- function(.data, ..., n, prop, by = NULL) {
   size <- get_slice_size(n = n, prop = prop)
   idx <- function(n) {
     seq2(n - size(n) + 1, n)
   }
 
   dplyr_local_error_call()
-  slice(.data, idx(dplyr::n()))
+  dplyr_local_slice_by_arg("by")
+
+  slice(.data, idx(dplyr::n()), .by = {{ by }})
 }
 
 #' @export
@@ -178,7 +189,7 @@ slice_tail.data.frame <- function(.data, ..., n, prop) {
 #'   If `FALSE`, `NA` values are sorted to the end (like in [arrange()]), so
 #'   they will only be included if there are insufficient non-missing values to
 #'   reach `n`/`prop`.
-slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE, na_rm = FALSE) {
+slice_min <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
   check_required(order_by)
   check_slice_dots(..., n = n, prop = prop)
   check_bool(with_ties)
@@ -188,28 +199,34 @@ slice_min <- function(.data, order_by, ..., n, prop, with_ties = TRUE, na_rm = F
 }
 
 #' @export
-slice_min.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE, na_rm = FALSE) {
+slice_min.data.frame <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
   size <- get_slice_size(n = n, prop = prop)
+
   dplyr_local_error_call()
+  dplyr_local_slice_by_arg("by")
 
-  slice(.data, local({
-    n <- dplyr::n()
-    order_by <- {{ order_by }}
-    vec_assert(order_by, size = n)
+  slice(
+    .data,
+    .by = {{ by }},
+    local({
+      n <- dplyr::n()
+      order_by <- {{ order_by }}
+      vec_assert(order_by, size = n)
 
-    slice_rank_idx(
-      order_by,
-      size(n),
-      direction = "asc",
-      with_ties = with_ties,
-      na_rm = na_rm
-    )
-  }))
+      slice_rank_idx(
+        order_by,
+        size(n),
+        direction = "asc",
+        with_ties = with_ties,
+        na_rm = na_rm
+      )
+    })
+  )
 }
 
 #' @export
 #' @rdname slice
-slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE, na_rm = FALSE) {
+slice_max <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
   check_required(order_by)
   check_slice_dots(..., n = n, prop = prop)
   check_bool(with_ties)
@@ -219,24 +236,30 @@ slice_max <- function(.data, order_by, ..., n, prop, with_ties = TRUE, na_rm = F
 }
 
 #' @export
-slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE, na_rm = FALSE) {
+slice_max.data.frame <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
   size <- get_slice_size(n = n, prop = prop)
 
   dplyr_local_error_call()
-  slice(.data, local({
-    n <- dplyr::n()
-    order_by <- {{ order_by }}
+  dplyr_local_slice_by_arg("by")
 
-    vec_assert(order_by, size = n)
+  slice(
+    .data,
+    .by = {{ by }},
+    local({
+      n <- dplyr::n()
+      order_by <- {{ order_by }}
 
-    slice_rank_idx(
-      order_by,
-      size(n),
-      direction = "desc",
-      with_ties = with_ties,
-      na_rm = na_rm
-    )
-  }))
+      vec_assert(order_by, size = n)
+
+      slice_rank_idx(
+        order_by,
+        size(n),
+        direction = "desc",
+        with_ties = with_ties,
+        na_rm = na_rm
+      )
+    })
+  )
 }
 
 #' @export
@@ -246,7 +269,7 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, with_ties = TRUE
 #' @param weight_by <[`data-masking`][dplyr_data_masking]> Sampling weights.
 #'   This must evaluate to a vector of non-negative numbers the same length as
 #'   the input. Weights are automatically standardised to sum to 1.
-slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
+slice_sample <- function(.data, ..., n, prop, by = NULL, weight_by = NULL, replace = FALSE) {
   check_slice_dots(..., n = n, prop = prop)
   check_bool(replace)
 
@@ -254,39 +277,44 @@ slice_sample <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
 }
 
 #' @export
-slice_sample.data.frame <- function(.data, ..., n, prop, weight_by = NULL, replace = FALSE) {
+slice_sample.data.frame <- function(.data, ..., n, prop, by = NULL, weight_by = NULL, replace = FALSE) {
   size <- get_slice_size(n = n, prop = prop, allow_outsize = replace)
 
   dplyr_local_error_call()
-  slice(.data, local({
-    weight_by <- {{ weight_by }}
+  dplyr_local_slice_by_arg("by")
 
-    n <- dplyr::n()
-    if (!is.null(weight_by)) {
-      weight_by <- vec_assert(weight_by, size = n, arg = "weight_by")
-    }
-    sample_int(n, size(n), replace = replace, wt = weight_by)
-  }))
+  slice(
+    .data,
+    .by = {{ by }},
+    local({
+      weight_by <- {{ weight_by }}
+
+      n <- dplyr::n()
+      if (!is.null(weight_by)) {
+        weight_by <- vec_assert(weight_by, size = n, arg = "weight_by")
+      }
+      sample_int(n, size(n), replace = replace, wt = weight_by)
+    })
+  )
 }
 
 # helpers -----------------------------------------------------------------
 
-slice_rows <- function(.data, ..., error_call = caller_env()) {
+slice_rows <- function(.data, ..., .by = NULL, error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
+
+  by <- compute_by(
+    by = {{ .by }},
+    data = .data,
+    by_arg = the$slice_by_arg,
+    data_arg = ".data",
+    error_call = error_call
+  )
 
   dots <- enquos(...)
   if (is_empty(dots)) {
     return(TRUE)
   }
-
-  # TODO: Expose `.by`
-  by <- compute_by(
-    by = NULL,
-    data = .data,
-    by_arg = ".by",
-    data_arg = ".data",
-    error_call = error_call
-  )
 
   mask <- DataMask$new(.data, by, "slice", error_call = error_call)
   on.exit(mask$forget(), add = TRUE)
@@ -508,6 +536,14 @@ slice_rank_idx <- function(
 
   which <- which(keep)
   which[order(ranks[which])]
+}
+
+on_load({
+  # Default used by `slice()`
+  the$slice_by_arg <- ".by"
+})
+dplyr_local_slice_by_arg <- function(by_arg, frame = caller_env()) {
+  local_bindings(slice_by_arg = by_arg, .env = the, .frame = frame)
 }
 
 # Backports for R 3.5.0 utils
