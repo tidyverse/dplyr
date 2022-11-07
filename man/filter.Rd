@@ -4,7 +4,7 @@
 \alias{filter}
 \title{Keep rows that match a condition}
 \usage{
-filter(.data, ..., .preserve = FALSE)
+filter(.data, ..., .by = NULL, .preserve = FALSE)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
@@ -15,6 +15,13 @@ more details.}
 logical value, and are defined in terms of the variables in \code{.data}.
 If multiple expressions are included, they are combined with the \code{&} operator.
 Only rows for which all conditions evaluate to \code{TRUE} are kept.}
+
+\item{.by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, select columns to group
+by. This grouping will only be active for the duration of this verb.
+
+Can't be used when the data is already a grouped or rowwise data frame.}
 
 \item{.preserve}{Relevant when the \code{.data} input is grouped.
 If \code{.preserve = FALSE} (the default), the grouping structure
