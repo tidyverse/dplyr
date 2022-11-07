@@ -421,9 +421,19 @@ summarise_bullets <- function(cnd, ...) {
 # messaging ---------------------------------------------------------------
 
 summarise_verbose <- function(.groups, .env) {
-  is.null(.groups) &&
-    is_reference(topenv(.env), global_env()) &&
-    !identical(getOption("dplyr.summarise.inform"), FALSE)
+  if (!is.null(.groups)) {
+    # User supplied `.groups`
+    return(FALSE)
+  }
+
+  inform <- getOption("dplyr.summarise.inform")
+
+  if (is_true(inform) || is_false(inform)) {
+    # User supplied global option
+    return(inform)
+  }
+
+  is_reference(topenv(.env), global_env())
 }
 
 summarise_inform <- function(..., .env = parent.frame()) {
