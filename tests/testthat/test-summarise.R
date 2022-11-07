@@ -275,6 +275,23 @@ test_that("transient grouping retains bare data.frame class", {
   expect_s3_class(out, class(df), exact = TRUE)
 })
 
+test_that("transient grouping drops data frame attributes", {
+  # Because `summarise()` theoretically creates a "new" data frame
+
+  # With data.frames or tibbles
+  df <- data.frame(g = c(1, 1, 2), x = c(1, 2, 1))
+  tbl <- as_tibble(df)
+
+  attr(df, "foo") <- "bar"
+  attr(tbl, "foo") <- "bar"
+
+  out <- summarise(df, x = mean(x), .by = g)
+  expect_null(attr(out, "foo"))
+
+  out <- summarise(tbl, x = mean(x), .by = g)
+  expect_null(attr(out, "foo"))
+})
+
 test_that("can't use `.by` with `.groups`", {
   df <- tibble(x = 1)
 

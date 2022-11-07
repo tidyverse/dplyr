@@ -407,6 +407,21 @@ test_that("transient grouping retains bare data.frame class", {
   expect_s3_class(out, class(df), exact = TRUE)
 })
 
+test_that("transient grouping retains data frame attributes (#6100)", {
+  # With data.frames or tibbles
+  df <- data.frame(g = c(1, 1, 2), x = c(1, 2, 1))
+  tbl <- as_tibble(df)
+
+  attr(df, "foo") <- "bar"
+  attr(tbl, "foo") <- "bar"
+
+  out <- mutate(df, x = mean(x), .by = g)
+  expect_identical(attr(out, "foo"), "bar")
+
+  out <- mutate(tbl, x = mean(x), .by = g)
+  expect_identical(attr(out, "foo"), "bar")
+})
+
 test_that("can `NULL` out the `.by` column", {
   df <- tibble(x = 1:3)
 
