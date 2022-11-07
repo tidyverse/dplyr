@@ -107,18 +107,18 @@
 #'   )
 #' # Learn more in ?dplyr_data_masking
 filter <- function(.data, ..., .by = NULL, .preserve = FALSE) {
-  UseMethod("filter")
-}
-
-#' @export
-filter.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
   by <- enquo(.by)
 
   if (!quo_is_null(by) && !is_false(.preserve)) {
     abort("Can't supply both `.by` and `.preserve`.")
   }
 
-  loc <- filter_rows(.data, ..., .by = !!by)
+  UseMethod("filter")
+}
+
+#' @export
+filter.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
+  loc <- filter_rows(.data, ..., .by = {{ .by }})
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 

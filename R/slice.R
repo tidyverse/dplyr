@@ -120,18 +120,18 @@
 #' filter(mtcars, row_number() == n())
 #' filter(mtcars, between(row_number(), 5, n()))
 slice <- function(.data, ..., .by = NULL, .preserve = FALSE) {
-  UseMethod("slice")
-}
-
-#' @export
-slice.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
   by <- enquo(.by)
 
   if (!quo_is_null(by) && !is_false(.preserve)) {
     abort("Can't supply both `.by` and `.preserve`.")
   }
 
-  loc <- slice_rows(.data, ..., .by = !!by)
+  UseMethod("slice")
+}
+
+#' @export
+slice.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
+  loc <- slice_rows(.data, ..., .by = {{ .by }})
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 

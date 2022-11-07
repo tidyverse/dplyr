@@ -118,6 +118,12 @@
 #' summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
 #' # Learn more in ?dplyr_data_masking
 summarise <- function(.data, ..., .by = NULL, .groups = NULL) {
+  by <- enquo(.by)
+
+  if (!quo_is_null(by) && !is.null(.groups)) {
+    abort("Can't supply both `.by` and `.groups`.")
+  }
+
   UseMethod("summarise")
 }
 #' @rdname summarise
@@ -126,13 +132,7 @@ summarize <- summarise
 
 #' @export
 summarise.data.frame <- function(.data, ..., .by = NULL, .groups = NULL) {
-  by <- enquo(.by)
-
-  if (!quo_is_null(by) && !is.null(.groups)) {
-    abort("Can't supply both `.by` and `.groups`.")
-  }
-
-  by <- compute_by(!!by, .data, by_arg = ".by", data_arg = ".data")
+  by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
 
   cols <- summarise_cols(.data, dplyr_quosures(...), by)
   out <- summarise_build(by, cols)
