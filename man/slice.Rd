@@ -118,6 +118,7 @@ Methods available in currently loaded packages:
 }
 
 \examples{
+# Similar to head(mtcars, 1):
 mtcars \%>\% slice(1L)
 # Similar to tail(mtcars, 1):
 mtcars \%>\% slice(n())
