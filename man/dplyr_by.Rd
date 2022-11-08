@@ -176,5 +176,20 @@ Compare that to the \code{group_by()} approach, which uses persistent grouping a
 #> 4     3 A          6
 #> 5     3 B         12
 }\if{html}{\out{</div>}}
+\subsection{Verbs without \code{.by} support}{
+
+If a dplyr verb doesn't support \code{.by}, then that typically means that the verb isn't inherently affected by grouping.
+For example, \code{\link[=pull]{pull()}} and \code{\link[=rename]{rename()}} don't support \code{.by}, because specifying columns to group by would not affect their implementations.
+
+That said, there are a few exceptions to this where sometimes a dplyr verb doesn't support \code{.by}, but \emph{does} have special support for grouped data frames created by \code{\link[=group_by]{group_by()}}.
+This is typically because the verbs are required to retain the grouping columns, for example:
+\itemize{
+\item \code{\link[=select]{select()}} always retains grouping columns, with a message if any aren't specified in the \code{select()} call.
+\item \code{\link[=distinct]{distinct()}} and \code{\link[=count]{count()}} place unspecified grouping columns at the front of the data frame before computing their results.
+\item \code{\link[=arrange]{arrange()}} has a \code{.by_group} argument to optionally order by grouping columns first.
+}
+
+If \code{group_by()} didn't exist, then these verbs would not have special support for grouped data frames.
+}
 }
 \keyword{internal}

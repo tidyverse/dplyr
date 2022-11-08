@@ -116,3 +116,19 @@ expenses %>%
   group_by(id, region) %>%
   slice_max(cost, n = 1)
 ```
+
+### Verbs without `.by` support
+
+If a dplyr verb doesn't support `.by`, then that typically means that the verb isn't inherently affected by grouping.
+For example, [pull()] and [rename()] don't support `.by`, because specifying columns to group by would not affect their implementations.
+
+That said, there are a few exceptions to this where sometimes a dplyr verb doesn't support `.by`, but *does* have special support for grouped data frames created by [group_by()].
+This is typically because the verbs are required to retain the grouping columns, for example:
+
+-   [select()] always retains grouping columns, with a message if any aren't specified in the `select()` call.
+
+-   [distinct()] and [count()] place unspecified grouping columns at the front of the data frame before computing their results.
+
+-   [arrange()] has a `.by_group` argument to optionally order by grouping columns first.
+
+If `group_by()` didn't exist, then these verbs would not have special support for grouped data frames.
