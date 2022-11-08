@@ -1,5 +1,43 @@
 # dplyr (development version)
 
+* `.by` is a new experimental inline alternative to `group_by()` that supports
+  _temporary_ grouping in the following key dplyr verbs: `mutate()`,
+  `summarise()`, `filter()`, and the `slice()` family (#6528).
+  
+  Rather than:
+  
+  ```
+  starwars %>%
+    group_by(species, homeworld) %>%
+    summarise(mean_height = mean(height))
+  ```
+  
+  You can now write:
+  
+  ```
+  starwars %>%
+    summarise(mean_height = mean(height), .by = c(species, homeworld))
+  ```
+  
+  The most useful reason to do this is because grouping with `.by` is
+  _temporary_ and only affects the verb it is being applied to. An ungrouped
+  data frame went into the `summarise()` call, so an ungrouped data frame will
+  come out. With `.by`, you never need to remember to `ungroup()` afterwards.
+  
+  Compare that with the `group_by()` example, where one layer of grouping would
+  be peeled off and the output of `summarise()` would be another grouped data
+  frame with a message informing you of how `summarise()` had re-grouped the
+  result. This typically requires either the usage of `.groups` to silence the
+  message or an explicit `ungroup()` afterwards.
+  
+  This exciting feature was inspired by
+  [data.table](https://CRAN.R-project.org/package=data.table), where the
+  equivalent syntax looks like:
+  
+  ```
+  starwars[, .(mean_height = mean(height)), by = .(species, homeworld)]
+  ```
+  
 * `summarise()` now correctly recycles named 0-column data frames (#6509).
 
 * `.cols` and `.fns` are now required arguments in `across()`, `c_across()`,
