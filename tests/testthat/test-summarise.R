@@ -86,7 +86,7 @@ test_that("formulas are evaluated in the right environment (#3019)", {
   expect_identical(environment(out[[1]]), out[[2]])
 })
 
-test_that("data frame results with 0 columns are ignored (#5084)", {
+test_that("unnamed data frame results with 0 columns are ignored (#5084)", {
   df1 <- tibble(x = 1:2)
   expect_equal(df1 %>% group_by(x) %>% summarise(data.frame()), df1)
   expect_equal(df1 %>% group_by(x) %>% summarise(data.frame(), y = 65), mutate(df1, y = 65))
@@ -96,6 +96,46 @@ test_that("data frame results with 0 columns are ignored (#5084)", {
   expect_equal(df2 %>% group_by(x) %>% summarise(data.frame()), df1)
   expect_equal(df2 %>% group_by(x) %>% summarise(data.frame(), z = 98), mutate(df1, z = 98))
   expect_equal(df2 %>% group_by(x) %>% summarise(z = 98, data.frame()), mutate(df1, z = 98))
+
+  # This includes unnamed data frames that have 0 columns but >0 rows.
+  # Noted when working on (#6509).
+  empty3 <- new_tibble(list(), nrow = 3L)
+  expect_equal(df1 %>% summarise(empty3), new_tibble(list(), nrow = 1L))
+  expect_equal(df1 %>% summarise(empty3, y = mean(x)), df1 %>% summarise(y = mean(x)))
+  expect_equal(df1 %>% group_by(x) %>% summarise(empty3), df1)
+  expect_equal(df1 %>% group_by(x) %>% summarise(empty3, y = x + 1), mutate(df1, y = x + 1))
+})
+
+test_that("named data frame results with 0 columns participate in recycling (#6509)", {
+  df <- tibble(x = 1:3)
+  gdf <- group_by(df, x)
+
+  empty <- tibble()
+  expect_identical(summarise(df, empty = empty), tibble(empty = empty))
+  expect_identical(summarise(df, x = sum(x), empty = empty), tibble(x = integer(), empty = empty))
+  expect_identical(summarise(df, empty = empty, x = sum(x)), tibble(empty = empty, x = integer()))
+
+  empty3 <- new_tibble(list(), nrow = 3L)
+  expect_identical(summarise(df, empty = empty3), tibble(empty = empty3))
+  expect_identical(summarise(df, x = sum(x), empty = empty3), tibble(x = c(6L, 6L, 6L), empty = empty3))
+  expect_identical(summarise(df, empty = empty3, x = sum(x)), tibble(empty = empty3, x = c(6L, 6L, 6L)))
+
+  expect_identical(
+    summarise(gdf, empty = empty, .groups = "drop"),
+    tibble(x = integer(), empty = empty)
+  )
+  expect_identical(
+    summarise(gdf, y = x + 1L, empty = empty, .groups = "drop"),
+    tibble(x = integer(), y = integer(), empty = empty)
+  )
+  expect_identical(
+    summarise(gdf, empty = empty3, .groups = "drop"),
+    tibble(x = vec_rep_each(1:3, 3), empty = vec_rep(empty3, 3))
+  )
+  expect_identical(
+    summarise(gdf, y = x + 1L, empty = empty3, .groups = "drop"),
+    tibble(x = vec_rep_each(1:3, 3), y = vec_rep_each(2:4, 3), empty = vec_rep(empty3, 3))
+  )
 })
 
 # grouping ----------------------------------------------------------------

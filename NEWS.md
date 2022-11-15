@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `summarise()` now correctly recycles named 0-column data frames (#6509).
+
 * `.cols` and `.fns` are now required arguments in `across()`, `c_across()`,
   `if_any()`, and `if_all()`. In general, we now recommend that you use `pick()`
   instead of empty calls to `across()` (i.e. with no arguments) or
