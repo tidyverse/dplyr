@@ -117,19 +117,19 @@ comparison is made.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1e2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="fu">between</span><span class="op">(</span><span class="va">x</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] -2.257899e-01  4.304117e-01 -4.251482e-01  3.859162e-01  3.346264e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] -7.410448e-01 -5.266912e-01 -3.564490e-01  6.080059e-01 -1.588610e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11]  3.121949e-01  9.428685e-01  2.603864e-01 -3.936742e-02  1.260944e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16] -2.051126e-01 -4.112385e-01 -5.331973e-01  2.554981e-01  5.728437e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21] -3.020012e-01 -7.083941e-01  2.644264e-02 -7.017940e-01 -4.347834e-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [26] -8.729935e-01  9.076457e-01 -5.062673e-01  5.335876e-01 -4.963680e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31]  2.949985e-02  1.647960e-01 -1.837123e-01  6.906262e-01 -3.091070e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [36] -6.596367e-01  1.382317e-01  2.984259e-01  7.569132e-01 -5.516109e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [41]  1.140826e-01  3.493725e-01 -6.686824e-01  9.071056e-01  2.473682e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [46]  3.767288e-01  9.349090e-02 -4.506015e-01 -3.057686e-01  5.489979e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [51]  7.779530e-01 -1.642334e-01  9.089289e-01  6.902126e-01  4.137669e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [56] -8.333933e-01 -8.258564e-01  5.492927e-01  6.348834e-01 -1.011405e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [61]  5.880539e-01 -3.062770e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  0.698215245  0.633226910 -0.582539531 -0.689124082 -0.238969813</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6]  0.215192336  0.489853636 -0.618683777  0.006112653  0.993992010</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11] -0.033820710 -0.655857509 -0.002943418 -0.002212551 -0.477503107</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16] -0.710930371  0.093867575  0.255761786  0.635517281  0.176034079</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21]  0.128957439  0.986513218 -0.649256170  0.935044751  0.580646906</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26]  0.008481180  0.330999501  0.391106933  0.704142448 -0.515668086</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31] -0.974691948 -0.974879888  0.230324724  0.725557753 -0.215215827</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36]  0.676706248  0.451392034  0.707327539  0.347625305 -0.679653674</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [41] -0.964136907 -0.484812528  0.592118659 -0.374337755  0.687746637</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [46] -0.018116897 -0.128848997  0.766577116 -0.873188744 -0.882085210</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [51]  0.761321901 -0.411344464 -0.468569129  0.146739466  0.350988942</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [56]  0.133626269  0.047691203  0.565560186 -0.276595244 -0.047477421</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [61]  0.148566760  0.735588097 -0.220049804  0.188616542</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># On a tibble using `filter()`</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="fu">between</span><span class="op">(</span><span class="va">height</span>, <span class="fl">100</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></span>
