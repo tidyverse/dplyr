@@ -292,6 +292,15 @@ test_that("transient grouping drops data frame attributes", {
   expect_null(attr(out, "foo"))
 })
 
+test_that("transient grouping orders by first appearance", {
+  df <- tibble(g = c(2, 1, 2, 0), x = c(4, 2, 8, 5))
+
+  out <- summarise(df, x = mean(x), .by = g)
+
+  expect_identical(out$g, c(2, 1, 0))
+  expect_identical(out$x, c(6, 2, 5))
+})
+
 test_that("can't use `.by` with `.groups`", {
   df <- tibble(x = 1)
 

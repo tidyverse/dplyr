@@ -4,10 +4,28 @@ test_that("computes group data when `by` is set", {
   out <- compute_by(by = x, data = df)
   expect_identical(out$type, "grouped")
   expect_identical(out$names, "x")
-  expect_identical(out$data, group_data(group_by(df, x)))
 
-  # In particular, sets `drop = TRUE`
-  expect_true(attr(out$data, ".drop"))
+  expect_identical(
+    out$data,
+    tibble(x = c(1, 2), ".rows" := list_of(c(1L, 2L, 5L), c(3L, 4L)))
+  )
+})
+
+test_that("computes `by` group data in order of appearance", {
+  df <- tibble(
+    x = c(5, 4, 5, 5),
+    y = c(2, 3, 1, 2)
+  )
+
+  out <- compute_by(by = c(x, y), data = df)
+
+  expect <- tibble(
+    x = c(5, 4, 5),
+    y = c(2, 3, 1),
+    ".rows" := list_of(c(1L, 4L), 2L, 3L)
+  )
+
+  expect_identical(out$data, expect)
 })
 
 test_that("extracts existing data when `by = NULL`", {

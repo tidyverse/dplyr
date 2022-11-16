@@ -111,10 +111,10 @@ Because \code{.by} grouping is temporary, you don't need to worry about ungroupi
 #>      id region  cost
 #>   <dbl> <chr>  <dbl>
 #> 1     1 A         22
-#> 2     1 B          9
-#> 3     2 A         13
-#> 4     3 A          6
-#> 5     3 B         12
+#> 2     2 A         13
+#> 3     3 B         12
+#> 4     1 B          9
+#> 5     3 A          6
 }\if{html}{\out{</div>}}
 
 Note that we specified multiple columns to group by using the \link[=dplyr_tidy_select]{tidy-select} syntax \code{c(id, region)}.
@@ -154,10 +154,10 @@ Or you could slice out the maximum cost per combination of id and region:
 #>      id region  cost
 #>   <dbl> <chr>  <dbl>
 #> 1     1 A         25
-#> 2     1 B          9
-#> 3     2 A         20
-#> 4     3 A          6
-#> 5     3 B         12
+#> 2     2 A         20
+#> 3     3 B         12
+#> 4     1 B          9
+#> 5     3 A          6
 }\if{html}{\out{</div>}}
 
 Again, note that the result of this \code{slice_max()} is an ungrouped data frame, which is probably what you'd expect here.
@@ -176,6 +176,63 @@ Compare that to the \code{group_by()} approach, which uses persistent grouping a
 #> 4     3 A          6
 #> 5     3 B         12
 }\if{html}{\out{</div>}}
+\subsection{Result ordering}{
+
+When used with \code{.by}, \code{summarise()} and \code{slice()} both return results where the group keys are ordered by their existing ordering in the original data rather than by their values.
+This is different from \code{group_by()}, which has always sorted the keys in ascending order.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{df <- tibble(
+  month = c("jan", "jan", "feb", "feb", "mar"),
+  temp = c(20, 25, 18, 20, 40)
+)
+
+# Uses ordering by "first appearance" in the original data
+df \%>\%
+  summarise(average_temp = mean(temp), .by = month)
+#> # A tibble: 3 x 2
+#>   month average_temp
+#>   <chr>        <dbl>
+#> 1 jan           22.5
+#> 2 feb           19  
+#> 3 mar           40
+
+# Sorts in ascending order
+df \%>\%
+  group_by(month) \%>\%
+  summarise(average_temp = mean(temp))
+#> # A tibble: 3 x 2
+#>   month average_temp
+#>   <chr>        <dbl>
+#> 1 feb           19  
+#> 2 jan           22.5
+#> 3 mar           40
+
+# Same with `slice()`
+df \%>\%
+  slice_max(temp, by = month)
+#> # A tibble: 3 x 2
+#>   month  temp
+#>   <chr> <dbl>
+#> 1 jan      25
+#> 2 feb      20
+#> 3 mar      40
+
+df \%>\%
+  group_by(month) \%>\%
+  slice_max(temp) \%>\%
+  ungroup()
+#> # A tibble: 3 x 2
+#>   month  temp
+#>   <chr> <dbl>
+#> 1 feb      20
+#> 2 jan      25
+#> 3 mar      40
+}\if{html}{\out{</div>}}
+
+If you need sorted group keys, we recommend that you explicitly use \code{\link[=arrange]{arrange()}} either before or after the call to \code{summarise()} or \code{slice()}.
+This also gives you full access to all of \code{arrange()}'s features, such as \code{desc()} and the \code{.locale} argument.
+}
+
 \subsection{Verbs without \code{.by} support}{
 
 If a dplyr verb doesn't support \code{.by}, then that typically means that the verb isn't inherently affected by grouping.

@@ -122,6 +122,15 @@ test_that("transient grouping retains data frame attributes", {
   expect_identical(attr(out, "foo"), "bar")
 })
 
+test_that("transient grouping orders by first appearance", {
+  df <- tibble(g = c(2, 1, 2, 0), x = c(4, 2, 8, 5))
+
+  out <- slice(df, which(x == max(x)), .by = g)
+
+  expect_identical(out$g, c(2, 1, 0))
+  expect_identical(out$x, c(8, 2, 5))
+})
+
 test_that("can't use `.by` with `.preserve`", {
   df <- tibble(x = 1)
 
@@ -360,8 +369,8 @@ test_that("slice_min/max() can order by multiple variables (#6176)", {
 test_that("slice_min/max() work with `by`", {
   df <- tibble(g = c(2, 2, 1, 1), x = c(1, 2, 3, 1))
 
-  expect_identical(slice_min(df, x, by = g), df[c(4, 1),])
-  expect_identical(slice_max(df, x, by = g), df[c(3, 2),])
+  expect_identical(slice_min(df, x, by = g), df[c(1, 4),])
+  expect_identical(slice_max(df, x, by = g), df[c(2, 3),])
 })
 
 test_that("slice_min/max() check size of `order_by=` (#5922)", {
@@ -439,7 +448,7 @@ test_that("slice_sample() handles negative n= and prop= (#6402)", {
 
 test_that("slice_sample() works with `by`", {
   df <- tibble(g = c(2, 2, 2, 1), x = c(1, 2, 3, 1))
-  expect_identical(slice_sample(df, n = 2, by = g)$g, c(1, 2, 2))
+  expect_identical(slice_sample(df, n = 2, by = g)$g, c(2, 2, 1))
 })
 
 # slice_head/slice_tail ---------------------------------------------------
@@ -489,6 +498,6 @@ test_that("slice_head/slice_tail handle infinite n/prop", {
 
 test_that("slice_head/slice_tail work with `by`", {
   df <- tibble(g = c(2, 2, 2, 1), x = c(1, 2, 3, 1))
-  expect_identical(slice_head(df, n = 2, by = g), df[c(4, 1, 2),])
-  expect_identical(slice_tail(df, n = 2, by = g), df[c(4, 2, 3),])
+  expect_identical(slice_head(df, n = 2, by = g), df[c(1, 2, 4),])
+  expect_identical(slice_tail(df, n = 2, by = g), df[c(2, 3, 4),])
 })

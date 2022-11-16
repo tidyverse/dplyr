@@ -58,11 +58,24 @@ compute_by <- function(by,
     } else {
       type <- "grouped"
       names <- by
-      data <- compute_groups(data, by, drop = TRUE)
+      data <- compute_by_groups(data, by, error_call = error_call)
     }
   }
 
   new_by(type = type, names = names, data = data)
+}
+
+compute_by_groups <- function(data, names, error_call = caller_env()) {
+  data <- dplyr_col_select(data, names, error_call = error_call)
+  info <- vec_group_loc(data)
+
+  size <- vec_size(info)
+
+  out <- dplyr_new_list(info$key)
+  out[[".rows"]] <- new_list_of(info$loc, ptype = integer())
+  out <- new_tibble(out, nrow = size)
+
+  out
 }
 
 check_by <- function(by,
