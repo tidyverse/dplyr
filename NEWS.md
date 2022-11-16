@@ -30,6 +30,13 @@
   result. This typically requires either the usage of `.groups` to silence the
   message or an explicit `ungroup()` afterwards.
   
+  Additionally, using `summarise()` or `slice()` with `.by` will never sort the
+  results by the group key, unlike with `group_by()`. Instead, the results are
+  returned using the existing ordering of the groups from the original data. We
+  feel this is more predictable, better maintains any ordering you might have
+  already applied with a previous call to `arrange()`, and provides a way to
+  maintain the current ordering without having to resort to factors.
+  
   This exciting feature was inspired by
   [data.table](https://CRAN.R-project.org/package=data.table), where the
   equivalent syntax looks like:
