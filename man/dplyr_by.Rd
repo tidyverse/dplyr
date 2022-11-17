@@ -123,7 +123,7 @@ To prevent surprising results, you can't use \code{.by} on an existing grouped d
   group_by(id) \%>\%
   summarise(cost = mean(cost), .by = c(id, region))
 #> Error in `summarise()`:
-#> ! `.by` can't be supplied when `.data` is a grouped data frame.
+#> ! Can't supply `.by` when `.data` is a grouped data frame.
 }\if{html}{\out{</div>}}
 
 So far we've focused on the usage of \code{.by} with \code{summarise()}, but \code{.by} works with a number of other dplyr verbs.
