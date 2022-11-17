@@ -23,8 +23,6 @@ of one or more vectors. It's a faster and more concise equivalent to
 \code{nrow(unique(data.frame(...)))}.
 }
 \examples{
-n_distinct()
-
 x <- c(1, 1, 2, 2, 2)
 n_distinct(x)
 

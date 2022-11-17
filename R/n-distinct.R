@@ -12,8 +12,6 @@
 #' @returns A single number.
 #' @export
 #' @examples
-#' n_distinct()
-#'
 #' x <- c(1, 1, 2, 2, 2)
 #' n_distinct(x)
 #'
