@@ -95,9 +95,9 @@ for each of the summary statistics that you have specified.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">summarise</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .groups <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">summarise</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .by <span class="op">=</span> <span class="cn">NULL</span>, .groups <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">summarize</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .groups <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">summarize</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .by <span class="op">=</span> <span class="cn">NULL</span>, .groups <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -115,6 +115,13 @@ functions. The name will be the name of the variable in the result.</p>
 <li><p>A vector of length <code>n</code>, e.g. <code><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile()</a></code>.</p></li>
 <li><p>A data frame, to add multiple columns from a single expression.</p></li>
 </ul></dd>
+
+
+<dt>.by</dt>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></p>
+<p>&lt;<code><a href="dplyr_tidy_select.html">tidy-select</a></code>&gt; Optionally, a selection of columns to
+temporarily group by using an inline alternative to <code><a href="group_by.html">group_by()</a></code>. For
+details and examples, see <a href="dplyr_by.html">?dplyr_by</a>.</p></dd>
 
 
 <dt>.groups</dt>

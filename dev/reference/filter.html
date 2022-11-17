@@ -92,7 +92,7 @@ the row will be dropped, unlike base subsetting with <code>[</code>.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">filter</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .preserve <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">filter</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span>, .by <span class="op">=</span> <span class="cn">NULL</span>, .preserve <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -108,6 +108,13 @@ more details.</p></dd>
 logical value, and are defined in terms of the variables in <code>.data</code>.
 If multiple expressions are included, they are combined with the <code>&amp;</code> operator.
 Only rows for which all conditions evaluate to <code>TRUE</code> are kept.</p></dd>
+
+
+<dt>.by</dt>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></p>
+<p>&lt;<code><a href="dplyr_tidy_select.html">tidy-select</a></code>&gt; Optionally, a selection of columns to
+temporarily group by using an inline alternative to <code><a href="group_by.html">group_by()</a></code>. For
+details and examples, see <a href="dplyr_by.html">?dplyr_by</a>.</p></dd>
 
 
 <dt>.preserve</dt>

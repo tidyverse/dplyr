@@ -92,6 +92,7 @@ column) and delete columns (by setting their value to <code>NULL</code>).</p>
 <span><span class="fu">mutate</span><span class="op">(</span></span>
 <span>  <span class="va">.data</span>,</span>
 <span>  <span class="va">...</span>,</span>
+<span>  .by <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  .keep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"all"</span>, <span class="st">"used"</span>, <span class="st">"unused"</span>, <span class="st">"none"</span><span class="op">)</span>,</span>
 <span>  .before <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  .after <span class="op">=</span> <span class="cn">NULL</span></span>
@@ -115,6 +116,13 @@ if ungrouped).</p></li>
 <li><p><code>NULL</code>, to remove the column.</p></li>
 <li><p>A data frame or tibble, to create multiple columns in the output.</p></li>
 </ul></dd>
+
+
+<dt>.by</dt>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></p>
+<p>&lt;<code><a href="dplyr_tidy_select.html">tidy-select</a></code>&gt; Optionally, a selection of columns to
+temporarily group by using an inline alternative to <code><a href="group_by.html">group_by()</a></code>. For
+details and examples, see <a href="dplyr_by.html">?dplyr_by</a>.</p></dd>
 
 
 <dt>.keep</dt>
