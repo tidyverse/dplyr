@@ -2,7 +2,7 @@
 % Please edit documentation in R/by.R
 \name{dplyr_by}
 \alias{dplyr_by}
-\title{Grouping with \code{.by}}
+\title{Temporary grouping with \code{.by}}
 \description{
 There are two ways to group in dplyr:
 \itemize{
@@ -11,16 +11,29 @@ There are two ways to group in dplyr:
 }
 
 This help page is dedicated to explaining where and why you might want to use the latter.
-The most important reason to use \code{.by} is that you \emph{never} have to remember to use \code{\link[=ungroup]{ungroup()}} after it.
-The grouping is always temporary, meaning that if an ungrouped data frame goes in, then an ungrouped data frame comes out, regardless of the number of grouping columns that are specified.
+Grouping radically affects the computation of the dplyr verb you use it with, and one of the goals of \code{.by} is to allow you to place that grouping specification alongside the code that actually uses it.
+As an added benefit, with \code{.by} you no longer need to remember to \code{\link[=ungroup]{ungroup()}} after \code{\link[=summarise]{summarise()}}, and \code{summarise()} won't ever message you about how it's handling the groups!
 
-The following dplyr verbs support \code{.by}:
+This great idea comes from \href{https://CRAN.R-project.org/package=data.table}{data.table}, which allows you to specify \code{by} alongside modifications in \code{j}, like: \code{dt[, .(x = mean(x)), by = g]}.
+\subsection{Supported verbs}{
 \itemize{
 \item \code{\link[=mutate]{mutate()}}
 \item \code{\link[=summarise]{summarise()}}
 \item \code{\link[=filter]{filter()}}
 \item \code{\link[=slice]{slice()}} and its variants, such as \code{\link[=slice_head]{slice_head()}}
 }
+}
+
+\subsection{Differences between \code{.by} and \code{group_by()}}{\tabular{ll}{
+   \code{.by} \tab \code{group_by()} \cr
+   Grouping only affects a single verb \tab Grouping is persistent across multiple verbs \cr
+   Selects variables with \link[=dplyr_tidy_select]{tidy-select} \tab Computes expressions with \link[=dplyr_data_masking]{data-masking} \cr
+   Summaries use existing order of group keys \tab Summaries sort group keys in ascending order \cr
+}
+
+}
+
+\subsection{Using \code{.by}}{
 
 Let's take a look at the two grouping approaches using this \code{expenses} data set, which tracks costs accumulated across various \code{id}s and \code{region}s:
 
@@ -55,7 +68,7 @@ You'd probably write something like this:
 #> 2 B       10.5
 }\if{html}{\out{</div>}}
 
-As of dplyr 1.1.0, an additional option is available that lets you specify the grouping \emph{inline} within the verb:
+Instead, you can now specify the grouping \emph{inline} within the verb:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses \%>\%
   summarise(cost = mean(cost), .by = region)
@@ -66,10 +79,21 @@ As of dplyr 1.1.0, an additional option is available that lets you specify the g
 #> 2 B       10.5
 }\if{html}{\out{</div>}}
 
-This great idea comes from \href{https://CRAN.R-project.org/package=data.table}{data.table}, where the equivalent syntax looks something like \code{expenses[, .(cost = mean(cost)), by = region]}.
+Grouping with \code{.by} is temporary, meaning that since \code{expenses} was an ungrouped data frame, the result after applying \code{.by} will also always be an ungrouped data frame, regardless of the number of grouping columns.
 
-Grouping with \code{.by} is temporary, meaning that since \code{expenses} was an ungrouped data frame, the result after applying \code{.by} will also always be an ungrouped data frame, full stop.
-Compare that with \code{group_by() \%>\% summarise()}, where \code{summarise()} generally peels off 1 layer of grouping by default, with a message that it is doing so if there were originally more than one grouping columns:
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses \%>\%
+  summarise(cost = mean(cost), .by = c(id, region))
+#> # A tibble: 5 x 3
+#>      id region  cost
+#>   <dbl> <chr>  <dbl>
+#> 1     1 A         22
+#> 2     2 A         13
+#> 3     3 B         12
+#> 4     1 B          9
+#> 5     3 A          6
+}\if{html}{\out{</div>}}
+
+Compare that with \code{group_by() \%>\% summarise()}, where \code{summarise()} generally peels off 1 layer of grouping by default, typically with a message that it is doing so:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses \%>\%
   group_by(id, region) \%>\%
@@ -87,38 +111,11 @@ Compare that with \code{group_by() \%>\% summarise()}, where \code{summarise()} 
 #> 5     3 B         12
 }\if{html}{\out{</div>}}
 
-This behavior is sometimes useful to sequentially "roll up" a data frame that has been grouped by multiple columns, but often you just want to group temporarily.
-Traditionally, you'd either \code{ungroup()} after the \code{summarise()} or explicitly set \code{.groups = "drop"} to achieve this:
+Because \code{.by} grouping is temporary, you don't need to worry about ungrouping, and it never needs to emit a message to remind you what it is doing with the groups.
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses \%>\%
-  group_by(id, region) \%>\%
-  summarise(cost = mean(cost), .groups = "drop")
-#> # A tibble: 5 x 3
-#>      id region  cost
-#>   <dbl> <chr>  <dbl>
-#> 1     1 A         22
-#> 2     1 B          9
-#> 3     2 A         13
-#> 4     3 A          6
-#> 5     3 B         12
-}\if{html}{\out{</div>}}
-
-Because \code{.by} grouping is temporary, you don't need to worry about ungrouping and it never needs to emit a message to remind you what is happening:
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses \%>\%
-  summarise(cost = mean(cost), .by = c(id, region))
-#> # A tibble: 5 x 3
-#>      id region  cost
-#>   <dbl> <chr>  <dbl>
-#> 1     1 A         22
-#> 2     2 A         13
-#> 3     3 B         12
-#> 4     1 B          9
-#> 5     3 A          6
-}\if{html}{\out{</div>}}
-
-Note that we specified multiple columns to group by using the \link[=dplyr_tidy_select]{tidy-select} syntax \code{c(id, region)}.
+Note that with \code{.by} we specified multiple columns to group by using the \link[=dplyr_tidy_select]{tidy-select} syntax \code{c(id, region)}.
 If you have a character vector of column names you'd like to group by, you can do so with \code{.by = all_of(my_cols)}.
+It will group by the columns in the order they were provided.
 
 To prevent surprising results, you can't use \code{.by} on an existing grouped data frame:
 
@@ -159,27 +156,12 @@ Or you could slice out the maximum cost per combination of id and region:
 #> 4     1 B          9
 #> 5     3 A          6
 }\if{html}{\out{</div>}}
+}
 
-Again, note that the result of this \code{slice_max()} is an ungrouped data frame, which is probably what you'd expect here.
-Compare that to the \code{group_by()} approach, which uses persistent grouping and returns another grouped data frame:
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses \%>\%
-  group_by(id, region) \%>\%
-  slice_max(cost, n = 1)
-#> # A tibble: 5 x 3
-#> # Groups:   id, region [5]
-#>      id region  cost
-#>   <dbl> <chr>  <dbl>
-#> 1     1 A         25
-#> 2     1 B          9
-#> 3     2 A         20
-#> 4     3 A          6
-#> 5     3 B         12
-}\if{html}{\out{</div>}}
 \subsection{Result ordering}{
 
-When used with \code{.by}, \code{summarise()} and \code{slice()} both return results where the group keys are ordered by their existing ordering in the original data rather than by their values.
-This is different from \code{group_by()}, which has always sorted the keys in ascending order.
+When used with \code{.by}, \code{summarise()} and \code{slice()} both maintain the ordering of the existing data.
+This is different from \code{group_by()}, which has always sorted the group keys in ascending order.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{df <- tibble(
   month = c("jan", "jan", "feb", "feb", "mar"),
@@ -206,27 +188,6 @@ df \%>\%
 #> 1 feb           19  
 #> 2 jan           22.5
 #> 3 mar           40
-
-# Same with `slice()`
-df \%>\%
-  slice_max(temp, by = month)
-#> # A tibble: 3 x 2
-#>   month  temp
-#>   <chr> <dbl>
-#> 1 jan      25
-#> 2 feb      20
-#> 3 mar      40
-
-df \%>\%
-  group_by(month) \%>\%
-  slice_max(temp) \%>\%
-  ungroup()
-#> # A tibble: 3 x 2
-#>   month  temp
-#>   <chr> <dbl>
-#> 1 feb      20
-#> 2 jan      25
-#> 3 mar      40
 }\if{html}{\out{</div>}}
 
 If you need sorted group keys, we recommend that you explicitly use \code{\link[=arrange]{arrange()}} either before or after the call to \code{summarise()} or \code{slice()}.
