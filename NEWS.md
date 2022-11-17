@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `n_distinct()` now errors if you don't give it any input (#6535).
+
 * `summarise()` now correctly recycles named 0-column data frames (#6509).
 
 * `.cols` and `.fns` are now required arguments in `across()`, `c_across()`,

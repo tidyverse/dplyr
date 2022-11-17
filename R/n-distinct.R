@@ -30,6 +30,9 @@
 #' # Also works with data frames
 #' n_distinct(data.frame(x, y))
 n_distinct <- function(..., na.rm = FALSE) {
+  if (missing(...)) {
+    abort("... is absent, but must be supplied.")
+  }
   check_dots_unnamed()
 
   data <- df_list(
