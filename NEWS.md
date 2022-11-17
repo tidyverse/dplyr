@@ -16,19 +16,16 @@
   
   ```
   starwars %>%
-    summarise(mean_height = mean(height), .by = c(species, homeworld))
+    summarise(
+      mean_height = mean(height),
+      .by = c(species, homeworld)
+    )
   ```
   
   The most useful reason to do this is because grouping with `.by` is
   _temporary_ and only affects the verb it is being applied to. An ungrouped
   data frame went into the `summarise()` call, so an ungrouped data frame will
-  come out. With `.by`, you never need to remember to `ungroup()` afterwards.
-  
-  Compare that with the `group_by()` example, where one layer of grouping would
-  be peeled off and the output of `summarise()` would be another grouped data
-  frame with a message informing you of how `summarise()` had re-grouped the
-  result. This typically requires either the usage of `.groups` to silence the
-  message or an explicit `ungroup()` afterwards.
+  come out; with `.by`, you never need to remember to `ungroup()` afterwards.
   
   Additionally, using `summarise()` or `slice()` with `.by` will never sort the
   results by the group key, unlike with `group_by()`. Instead, the results are
