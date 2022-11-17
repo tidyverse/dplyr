@@ -80,10 +80,8 @@ test_that("assignments don't overwrite variables (#315)", {
   expect_equal(out, tibble(x = 1, y = 2, z = 10))
 })
 
-test_that("can mutate a data frame with zero columns and `NULL` column names", {
-  skip("Do we really care about this gremlin case? This data frame is unusable.")
+test_that("can mutate a data frame with zero columns", {
   df <- new_data_frame(n = 2L)
-  colnames(df) <- NULL
   expect_equal(mutate(df, x = 1), data.frame(x = c(1, 1)))
 })
 
