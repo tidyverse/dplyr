@@ -210,4 +210,3 @@ This is typically because the verbs are required to retain the grouping columns,
 If \code{group_by()} didn't exist, then these verbs would not have special support for grouped data frames.
 }
 }
-\keyword{internal}

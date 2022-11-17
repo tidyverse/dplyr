@@ -23,7 +23,6 @@ NULL
 #' ```
 #'
 #' @name dplyr_by
-#' @keywords internal
 NULL
 
 compute_by <- function(by,
