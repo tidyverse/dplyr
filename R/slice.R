@@ -64,6 +64,7 @@
 #' * `slice_sample()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("slice_sample")}.
 #' @export
 #' @examples
+#' # Similar to head(mtcars, 1):
 #' mtcars %>% slice(1L)
 #' # Similar to tail(mtcars, 1):
 #' mtcars %>% slice(n())
