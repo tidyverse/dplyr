@@ -41,6 +41,7 @@ reference:
   contents:
   - count
   - group_by
+  - dplyr_by
   - rowwise
   - summarise
   - 'n'

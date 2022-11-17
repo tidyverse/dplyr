@@ -229,3 +229,27 @@
         x y
       1 1 1
 
+# can't use `.by` with `.preserve`
+
+    Code
+      filter(df, .by = x, .preserve = TRUE)
+    Condition
+      Error in `filter()`:
+      ! Can't supply both `.by` and `.preserve`.
+
+# catches `.by` with grouped-df
+
+    Code
+      filter(gdf, .by = x)
+    Condition
+      Error in `filter()`:
+      ! Can't supply `.by` when `.data` is a grouped data frame.
+
+# catches `.by` with rowwise-df
+
+    Code
+      filter(rdf, .by = x)
+    Condition
+      Error in `filter()`:
+      ! Can't supply `.by` when `.data` is a rowwise data frame.
+

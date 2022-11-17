@@ -587,3 +587,62 @@ test_that("if_any() and if_all() work", {
     filter(df, x1 > 6 | x2 > 6)
   )
 })
+
+# .by -------------------------------------------------------------------------
+
+test_that("can group transiently using `.by`", {
+  df <- tibble(g = c(1, 1, 2, 1, 2), x = c(5, 10, 1, 2, 3))
+
+  out <- filter(df, x > mean(x), .by = g)
+
+  expect_identical(out$g, c(1, 2))
+  expect_identical(out$x, c(10, 3))
+  expect_s3_class(out, class(df), exact = TRUE)
+})
+
+test_that("transient grouping retains bare data.frame class", {
+  df <- tibble(g = c(1, 1, 2, 1, 2), x = c(5, 10, 1, 2, 3))
+  out <- filter(df, x > mean(x), .by = g)
+  expect_s3_class(out, class(df), exact = TRUE)
+})
+
+test_that("transient grouping retains data frame attributes", {
+  # With data.frames or tibbles
+  df <- data.frame(g = c(1, 1, 2), x = c(1, 2, 1))
+  tbl <- as_tibble(df)
+
+  attr(df, "foo") <- "bar"
+  attr(tbl, "foo") <- "bar"
+
+  out <- filter(df, x > mean(x), .by = g)
+  expect_identical(attr(out, "foo"), "bar")
+
+  out <- filter(tbl, x > mean(x), .by = g)
+  expect_identical(attr(out, "foo"), "bar")
+})
+
+test_that("can't use `.by` with `.preserve`", {
+  df <- tibble(x = 1)
+
+  expect_snapshot(error = TRUE, {
+    filter(df, .by = x, .preserve = TRUE)
+  })
+})
+
+test_that("catches `.by` with grouped-df", {
+  df <- tibble(x = 1)
+  gdf <- group_by(df, x)
+
+  expect_snapshot(error = TRUE, {
+    filter(gdf, .by = x)
+  })
+})
+
+test_that("catches `.by` with rowwise-df", {
+  df <- tibble(x = 1)
+  rdf <- rowwise(df)
+
+  expect_snapshot(error = TRUE, {
+    filter(rdf, .by = x)
+  })
+})

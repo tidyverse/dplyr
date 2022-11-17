@@ -48,6 +48,7 @@
 #'
 #' @family single table verbs
 #' @inheritParams arrange
+#' @inheritParams args_by
 #' @param ... <[`data-masking`][dplyr_data_masking]> Expressions that return a
 #'   logical value, and are defined in terms of the variables in `.data`.
 #'   If multiple expressions are included, they are combined with the `&` operator.
@@ -105,23 +106,37 @@
 #'     .data[[vars[[2]]]] > cond[[2]]
 #'   )
 #' # Learn more in ?dplyr_data_masking
-filter <- function(.data, ..., .preserve = FALSE) {
+filter <- function(.data, ..., .by = NULL, .preserve = FALSE) {
+  by <- enquo(.by)
+
+  if (!quo_is_null(by) && !is_false(.preserve)) {
+    abort("Can't supply both `.by` and `.preserve`.")
+  }
+
   UseMethod("filter")
 }
 
 #' @export
-filter.data.frame <- function(.data, ..., .preserve = FALSE) {
-  loc <- filter_rows(.data, ...)
+filter.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
+  loc <- filter_rows(.data, ..., .by = {{ .by }})
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
-filter_rows <- function(.data, ..., error_call = caller_env()) {
+filter_rows <- function(.data, ..., .by = NULL, error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
 
   dots <- dplyr_quosures(...)
   check_filter(dots, error_call = error_call)
 
-  mask <- DataMask$new(.data, "filter", error_call = error_call)
+  by <- compute_by(
+    by = {{ .by }},
+    data = .data,
+    by_arg = ".by",
+    data_arg = ".data",
+    error_call = error_call
+  )
+
+  mask <- DataMask$new(.data, by, "filter", error_call = error_call)
   on.exit(mask$forget(), add = TRUE)
 
   dots <- filter_expand(dots, mask = mask, error_call = error_call)
