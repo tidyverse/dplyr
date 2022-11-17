@@ -91,7 +91,7 @@ check_by <- function(by,
 
   if (is_grouped_df(data)) {
     message <- paste0(
-      "{.arg {by_arg}} can't be supplied when ",
+      "Can't supply {.arg {by_arg}} when ",
       "{.arg {data_arg}} is a grouped data frame."
     )
     cli::cli_abort(message, call = error_call)
@@ -99,7 +99,7 @@ check_by <- function(by,
 
   if (is_rowwise_df(data)) {
     message <- paste0(
-      "{.arg {by_arg}} can't be supplied when ",
+      "Can't supply {.arg {by_arg}} when ",
       "{.arg {data_arg}} is a rowwise data frame."
     )
     cli::cli_abort(message, call = error_call)
