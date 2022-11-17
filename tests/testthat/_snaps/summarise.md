@@ -12,7 +12,7 @@
       summarise(gdf, .by = x)
     Condition
       Error in `summarise()`:
-      ! `.by` can't be supplied when `.data` is a grouped data frame.
+      ! Can't supply `.by` when `.data` is a grouped data frame.
 
 # catches `.by` with rowwise-df
 
@@ -20,7 +20,7 @@
       summarise(rdf, .by = x)
     Condition
       Error in `summarise()`:
-      ! `.by` can't be supplied when `.data` is a rowwise data frame.
+      ! Can't supply `.by` when `.data` is a rowwise data frame.
 
 # summarise() gives meaningful errors
 

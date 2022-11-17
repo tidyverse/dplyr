@@ -13,7 +13,7 @@
       compute_by(x, gdf)
     Condition
       Error:
-      ! `by` can't be supplied when `data` is a grouped data frame.
+      ! Can't supply `by` when `data` is a grouped data frame.
 
 # can't set `.by` with a rowwise-df
 
@@ -21,7 +21,7 @@
       compute_by(x, rdf)
     Condition
       Error:
-      ! `by` can't be supplied when `data` is a rowwise data frame.
+      ! Can't supply `by` when `data` is a rowwise data frame.
 
 # can tweak the error args
 
@@ -29,5 +29,5 @@
       compute_by(x, gdf, by_arg = "x", data_arg = "dat")
     Condition
       Error:
-      ! `x` can't be supplied when `dat` is a grouped data frame.
+      ! Can't supply `x` when `dat` is a grouped data frame.
 

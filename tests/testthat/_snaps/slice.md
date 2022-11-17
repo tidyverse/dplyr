@@ -61,7 +61,7 @@
       slice(gdf, .by = x)
     Condition
       Error in `slice()`:
-      ! `.by` can't be supplied when `.data` is a grouped data frame.
+      ! Can't supply `.by` when `.data` is a grouped data frame.
 
 # catches `.by` with rowwise-df
 
@@ -69,7 +69,7 @@
       slice(rdf, .by = x)
     Condition
       Error in `slice()`:
-      ! `.by` can't be supplied when `.data` is a rowwise data frame.
+      ! Can't supply `.by` when `.data` is a rowwise data frame.
 
 # slice_helpers() call get_slice_size()
 
@@ -226,27 +226,27 @@
       slice_head(gdf, n = 1, by = x)
     Condition
       Error in `slice_head()`:
-      ! `by` can't be supplied when `.data` is a grouped data frame.
+      ! Can't supply `by` when `.data` is a grouped data frame.
     Code
       slice_tail(gdf, n = 1, by = x)
     Condition
       Error in `slice_tail()`:
-      ! `by` can't be supplied when `.data` is a grouped data frame.
+      ! Can't supply `by` when `.data` is a grouped data frame.
     Code
       slice_min(gdf, order_by = x, by = x)
     Condition
       Error in `slice_min()`:
-      ! `by` can't be supplied when `.data` is a grouped data frame.
+      ! Can't supply `by` when `.data` is a grouped data frame.
     Code
       slice_max(gdf, order_by = x, by = x)
     Condition
       Error in `slice_max()`:
-      ! `by` can't be supplied when `.data` is a grouped data frame.
+      ! Can't supply `by` when `.data` is a grouped data frame.
     Code
       slice_sample(gdf, n = 1, by = x)
     Condition
       Error in `slice_sample()`:
-      ! `by` can't be supplied when `.data` is a grouped data frame.
+      ! Can't supply `by` when `.data` is a grouped data frame.
 
 # slice_min/max() check size of `order_by=` (#5922)
 

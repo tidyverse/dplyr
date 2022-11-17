@@ -65,7 +65,7 @@
       mutate(gdf, .by = x)
     Condition
       Error in `mutate()`:
-      ! `.by` can't be supplied when `.data` is a grouped data frame.
+      ! Can't supply `.by` when `.data` is a grouped data frame.
 
 # catches `.by` with rowwise-df
 
@@ -73,7 +73,7 @@
       mutate(rdf, .by = x)
     Condition
       Error in `mutate()`:
-      ! `.by` can't be supplied when `.data` is a rowwise data frame.
+      ! Can't supply `.by` when `.data` is a rowwise data frame.
 
 # mutate() deals with 0 groups (#5534)
 
