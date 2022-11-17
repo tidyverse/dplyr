@@ -152,7 +152,6 @@ summarise.data.frame <- function(.data, ..., .by = NULL, .groups = NULL) {
 
 #' @export
 summarise.grouped_df <- function(.data, ..., .by = NULL, .groups = NULL) {
-  # TODO: Is it right to even expose `.by` here? It lets us catch errors.
   # Will always error if `.by != NULL` b/c you can't use it with grouped/rowwise dfs.
   by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
 
@@ -199,7 +198,6 @@ summarise.grouped_df <- function(.data, ..., .by = NULL, .groups = NULL) {
 
 #' @export
 summarise.rowwise_df <- function(.data, ..., .by = NULL, .groups = NULL) {
-  # TODO: Is it right to even expose `.by` here? It lets us catch errors.
   # Will always error if `.by != NULL` b/c you can't use it with grouped/rowwise dfs.
   by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
 
