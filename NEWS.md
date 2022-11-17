@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `group_walk()` gains an explict `.keep` argument (#6530).
+
 * `summarise()` now correctly recycles named 0-column data frames (#6509).
 
 * `.cols` and `.fns` are now required arguments in `across()`, `c_across()`,
