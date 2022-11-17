@@ -54,6 +54,7 @@ compute_by <- function(by,
       type <- "ungrouped"
       names <- by
       data <- group_data(data)
+      data <- as_tibble(data)
     } else {
       type <- "grouped"
       names <- by

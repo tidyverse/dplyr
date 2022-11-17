@@ -29,6 +29,13 @@ test_that("computes `by` group data in order of appearance", {
 })
 
 test_that("extracts existing data when `by = NULL`", {
+  df <- data.frame(x = c(1, 1, 2, 2, 1))
+  out <- compute_by(by = NULL, data = df)
+  expect_identical(out$type, "ungrouped")
+  expect_identical(out$names, character())
+  # `compute_by()` is always type stable on `$data` and returns a bare tibble
+  expect_identical(out$data, as_tibble(group_data(df)))
+
   df <- tibble(x = c(1, 1, 2, 2, 1))
   out <- compute_by(by = NULL, data = df)
   expect_identical(out$type, "ungrouped")
