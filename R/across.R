@@ -785,25 +785,12 @@ across_missing_cols_deprecate_warn <- function() {
   # message, but the warning will still fire and that is more important.
   user_env <- global_env()
 
-  cnd <- catch_cnd(classes = "lifecycle_warning_deprecated", {
-    lifecycle::deprecate_warn(
-      when = "1.1.0",
-      what = I(glue("Using `{across_if_fn}()` without supplying `.cols`")),
-      details = "Please supply `.cols` instead.",
-      user_env = user_env
-    )
-  })
-
-  if (is_null(cnd)) {
-    # Condition wasn't signaled
-    return(NULL)
-  }
-
-  # Subclassed so we can skip computing group context info when the warning
-  # is thrown from `expand_across()` outside of any group
-  class(cnd) <- c("dplyr:::warning_across_missing_cols_deprecated", class(cnd))
-
-  cnd_signal(cnd)
+  lifecycle::deprecate_warn(
+    when = "1.1.0",
+    what = I(glue("Using `{across_if_fn}()` without supplying `.cols`")),
+    details = "Please supply `.cols` instead.",
+    user_env = user_env
+  )
 }
 
 c_across_missing_cols_deprecate_warn <- function(user_env = caller_env(2)) {
