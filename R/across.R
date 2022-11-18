@@ -872,5 +872,5 @@ quo_eval_fns <- function(quo, data = NULL, env = caller_env()) {
 
   # Triggers object not found error or evaluates to an object of the
   # wrong type to be checked later on
-  eval_tidy(quo, quo_get_env(quo))
+  eval_tidy(quo)
 }
