@@ -267,11 +267,11 @@
 # across() applies old `.cols = everything()` default with a warning
 
     Code
-      out <- mutate(df, z = across())
+      out <- mutate(df, across(.fns = times_two))
     Condition
       Warning:
       There was 1 warning in `mutate()`.
-      i In argument `z = across()`.
+      i In argument `..1 = across(.fns = times_two)`.
       Caused by warning:
       ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
       i Please supply `.cols` instead.
@@ -279,38 +279,36 @@
 ---
 
     Code
-      out <- mutate(gdf, z = across())
+      out <- mutate(gdf, across(.fns = times_two))
+    Condition
+      Warning:
+      There was 1 warning in `mutate()`.
+      i In argument `..1 = across(.fns = times_two)`.
+      Caused by warning:
+      ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
+      i Please supply `.cols` instead.
+
+---
+
+    Code
+      out <- mutate(df, (across(.fns = times_two)))
+    Condition
+      Warning:
+      There was 1 warning in `mutate()`.
+      i In argument `..1 = (across(.fns = times_two))`.
+      Caused by warning:
+      ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
+      i Please supply `.cols` instead.
+
+---
+
+    Code
+      out <- mutate(gdf, (across(.fns = times_two)))
     Condition
       Warning:
       There were 2 warnings in `mutate()`.
       The first warning was:
-      i In argument `z = across()`.
-      Caused by warning:
-      ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
-      i Please supply `.cols` instead.
-      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
-
----
-
-    Code
-      out <- mutate(df, z = (across()))
-    Condition
-      Warning:
-      There was 1 warning in `mutate()`.
-      i In argument `z = (across())`.
-      Caused by warning:
-      ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
-      i Please supply `.cols` instead.
-
----
-
-    Code
-      out <- mutate(gdf, z = (across()))
-    Condition
-      Warning:
-      There were 2 warnings in `mutate()`.
-      The first warning was:
-      i In argument `z = (across())`.
+      i In argument `..1 = (across(.fns = times_two))`.
       Caused by warning:
       ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
       i Please supply `.cols` instead.
