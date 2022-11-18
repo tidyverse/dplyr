@@ -41,6 +41,36 @@
       Caused by error in `across()`:
       ! `.unpack` must be `TRUE`, `FALSE`, or a single string, not `NA`.
 
+# across() throws meaningful error with failure during expansion (#6534)
+
+    Code
+      summarise(df, across(everything(), median()))
+    Condition
+      Error in `summarise()`:
+      i In argument: `..1 = across(everything(), median())`.
+      Caused by error in `is.factor()`:
+      ! argument "x" is missing, with no default
+
+---
+
+    Code
+      summarise(df, across(everything(), median()), .by = g)
+    Condition
+      Error in `summarise()`:
+      i In argument: `..1 = across(everything(), median())`.
+      Caused by error in `is.factor()`:
+      ! argument "x" is missing, with no default
+
+---
+
+    Code
+      summarise(gdf, across(everything(), median()))
+    Condition
+      Error in `summarise()`:
+      i In argument: `..1 = across(everything(), median())`.
+      Caused by error in `is.factor()`:
+      ! argument "x" is missing, with no default
+
 # across() gives meaningful messages
 
     Code
