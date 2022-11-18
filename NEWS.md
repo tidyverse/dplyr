@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `group_walk()` gains an explict `.keep` argument (#6530).
+
 * `.by` is a new experimental inline alternative to `group_by()` that supports
   _temporary_ grouping in the following key dplyr verbs: `mutate()`,
   `summarise()`, `filter()`, and the `slice()` family (#6528).
@@ -41,7 +43,7 @@
   ```
   starwars[, .(mean_height = mean(height)), by = .(species, homeworld)]
   ```
-  
+
 * `summarise()` now correctly recycles named 0-column data frames (#6509).
 
 * `.cols` and `.fns` are now required arguments in `across()`, `c_across()`,
