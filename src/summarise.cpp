@@ -50,7 +50,16 @@ SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private) {
   if (n_null == ngroups) {
     return R_NilValue;
   } else if (n_null != 0) {
-    dplyr::stop_summarise_mixed_null();
+    const SEXP* p_chunks = VECTOR_PTR_RO(chunks);
+
+    for (R_xlen_t i = 0; i < ngroups; i++) {
+      if (p_chunks[i] == R_NilValue) {
+        // Find out the first time the group was `NULL`
+        // so that the error will be associated with this group
+        DPLYR_MASK_SET_GROUP(i);
+        dplyr::stop_summarise_mixed_null();
+      }
+    }
   }
 
   return chunks;
