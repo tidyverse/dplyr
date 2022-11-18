@@ -29,7 +29,7 @@
 #' n_distinct(data.frame(x, y))
 n_distinct <- function(..., na.rm = FALSE) {
   if (missing(...)) {
-    abort("... is absent, but must be supplied.")
+    cli::cli_abort("{.arg ...} is absent, but must be supplied.")
   }
   check_dots_unnamed()
 
