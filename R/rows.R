@@ -19,6 +19,20 @@
 #' * `rows_delete()` deletes rows (like `DELETE`). By default, key values in `y`
 #'   must exist in `x`.
 #'
+#' @section Methods:
+#' These function are **generic**s, which means that packages can provide
+#' implementations (methods) for other classes. See the documentation of
+#' individual methods for extra arguments and differences in behaviour.
+#'
+#' Methods available in currently loaded packages:
+#'
+#' * `rows_insert()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_insert")}.
+#' * `rows_append()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_append")}.
+#' * `rows_update()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_update")}.
+#' * `rows_patch()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_patch")}.
+#' * `rows_upsert()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_upsert")}.
+#' * `rows_delete()`: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_delete")}.
+#'
 #' @inheritParams left_join
 #' @param x,y A pair of data frames or data frame extensions (e.g. a tibble).
 #'   `y` must have the same columns of `x` or a subset.

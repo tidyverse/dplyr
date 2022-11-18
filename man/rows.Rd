@@ -137,6 +137,23 @@ key value in \code{y} already exists in \code{x}. Key values in \code{y} must be
 must exist in \code{x}.
 }
 }
+\section{Methods}{
+
+These function are \strong{generic}s, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+Methods available in currently loaded packages:
+\itemize{
+\item \code{rows_insert()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_insert")}.
+\item \code{rows_append()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_append")}.
+\item \code{rows_update()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_update")}.
+\item \code{rows_patch()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_patch")}.
+\item \code{rows_upsert()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_upsert")}.
+\item \code{rows_delete()}: \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("rows_delete")}.
+}
+}
+
 \examples{
 data <- tibble(a = 1:3, b = letters[c(1:2, NA)], c = 0.5 + 0:2)
 data
