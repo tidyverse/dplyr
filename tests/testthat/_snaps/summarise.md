@@ -153,6 +153,16 @@
       ! `x` must return compatible vectors across groups.
       x Can't combine NULL and non NULL results.
     Code
+      (expect_error(data.frame(x = 1:2, g = 1:2) %>% group_by(g) %>% summarise(x = if (
+        g == 2) 42)))
+    Output
+      <error/rlang_error>
+      Error in `summarise()`:
+      i In argument: `x = if (g == 2) 42`.
+      Caused by error:
+      ! `x` must return compatible vectors across groups.
+      x Can't combine NULL and non NULL results.
+    Code
       (expect_error(summarise(mtcars, a = mean(not_there))))
     Output
       <error/rlang_error>
