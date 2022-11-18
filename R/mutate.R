@@ -147,6 +147,9 @@ mutate <- function(.data, ...) {
 }
 
 #' @rdname mutate
+#'
+#' @inheritParams args_by
+#'
 #' @param .keep
 #'   Control which columns from `.data` are retained in the output. Grouping
 #'   columns and columns created by `...` are always kept.
@@ -167,12 +170,15 @@ mutate <- function(.data, ...) {
 #' @export
 mutate.data.frame <- function(.data,
                               ...,
+                              .by = NULL,
                               .keep = c("all", "used", "unused", "none"),
                               .before = NULL,
                               .after = NULL) {
   keep <- arg_match(.keep)
 
-  cols <- mutate_cols(.data, dplyr_quosures(...))
+  by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
+
+  cols <- mutate_cols(.data, dplyr_quosures(...), by)
   used <- attr(cols, "used")
 
   out <- dplyr_col_modify(.data, cols)
@@ -184,7 +190,7 @@ mutate.data.frame <- function(.data,
   cols <- compact_null(cols)
 
   cols_data <- names(.data)
-  cols_group <- group_vars(.data)
+  cols_group <- by$names
 
   cols_expr <- names(cols)
   cols_expr_modified <- intersect(cols_expr, cols_data)
@@ -218,13 +224,13 @@ mutate.data.frame <- function(.data,
 
 # Helpers -----------------------------------------------------------------
 
-mutate_cols <- function(.data, dots, error_call = caller_env()) {
+mutate_cols <- function(data, dots, by, error_call = caller_env()) {
   # Collect dots before setting up error handlers (#6178)
   force(dots)
 
   error_call <- dplyr_error_call(error_call)
 
-  mask <- DataMask$new(.data, "mutate", error_call = error_call)
+  mask <- DataMask$new(data, by, "mutate", error_call = error_call)
   old_current_column <- context_peek_bare("column")
 
   on.exit(context_poke("column", old_current_column), add = TRUE)
@@ -240,7 +246,7 @@ mutate_cols <- function(.data, dots, error_call = caller_env()) {
       poke_error_context(dots, i, mask = mask)
       context_poke("column", old_current_column)
 
-      new_columns <- mutate_col(dots[[i]], .data, mask, new_columns)
+      new_columns <- mutate_col(dots[[i]], data, mask, new_columns)
     },
     error = dplyr_error_handler(
       dots = dots,
@@ -307,7 +313,7 @@ mutate_col <- function(dot, data, mask, new_columns) {
         chunks <- mask$resolve(name)
       }
 
-      if (inherits(data, "rowwise_df") && vec_is_list(result)) {
+      if (mask$is_rowwise() && vec_is_list(result)) {
         sizes <- list_sizes(result)
         wrong <- which(sizes != 1)
         if (length(wrong)) {

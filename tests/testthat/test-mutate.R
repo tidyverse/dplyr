@@ -3,15 +3,21 @@ test_that("empty mutate returns input", {
   gf <- group_by(df, x)
 
   expect_equal(mutate(df), df)
+  expect_equal(mutate(df, .by = x), df)
   expect_equal(mutate(gf), gf)
 
   expect_equal(mutate(df, !!!list()), df)
+  expect_equal(mutate(df, !!!list(), .by = x), df)
   expect_equal(mutate(gf, !!!list()), gf)
 })
 
 test_that("rownames preserved", {
   df <- data.frame(x = c(1, 2), row.names = c("a", "b"))
+
   df <- mutate(df, y = 2)
+  expect_equal(row.names(df), c("a", "b"))
+
+  df <- mutate(df, y = 2, .by = x)
   expect_equal(row.names(df), c("a", "b"))
 })
 
@@ -74,9 +80,8 @@ test_that("assignments don't overwrite variables (#315)", {
   expect_equal(out, tibble(x = 1, y = 2, z = 10))
 })
 
-test_that("can mutate a data frame with zero columns and `NULL` column names", {
+test_that("can mutate a data frame with zero columns", {
   df <- new_data_frame(n = 2L)
-  colnames(df) <- NULL
   expect_equal(mutate(df, x = 1), data.frame(x = c(1, 1)))
 })
 
@@ -382,6 +387,65 @@ test_that("DataMask$add() forces chunks (#4677)", {
   expect_equal(df$log_e_bf01, log(1 / 0.244))
 })
 
+# .by -------------------------------------------------------------------------
+
+test_that("can group transiently using `.by`", {
+  df <- tibble(g = c(1, 1, 2, 1, 2), x = c(5, 2, 1, 2, 3))
+
+  out <- mutate(df, x = mean(x), .by = g)
+
+  expect_identical(out$g, df$g)
+  expect_identical(out$x, c(3, 3, 2, 3, 2))
+  expect_s3_class(out, class(df), exact = TRUE)
+})
+
+test_that("transient grouping retains bare data.frame class", {
+  df <- data.frame(g = c(1, 1, 2, 1, 2), x = c(5, 2, 1, 2, 3))
+  out <- mutate(df, x = mean(x), .by = g)
+  expect_s3_class(out, class(df), exact = TRUE)
+})
+
+test_that("transient grouping retains data frame attributes (#6100)", {
+  # With data.frames or tibbles
+  df <- data.frame(g = c(1, 1, 2), x = c(1, 2, 1))
+  tbl <- as_tibble(df)
+
+  attr(df, "foo") <- "bar"
+  attr(tbl, "foo") <- "bar"
+
+  out <- mutate(df, x = mean(x), .by = g)
+  expect_identical(attr(out, "foo"), "bar")
+
+  out <- mutate(tbl, x = mean(x), .by = g)
+  expect_identical(attr(out, "foo"), "bar")
+})
+
+test_that("can `NULL` out the `.by` column", {
+  df <- tibble(x = 1:3)
+
+  expect_identical(
+    mutate(df, x = NULL, .by = x),
+    new_tibble(list(), nrow = 3)
+  )
+})
+
+test_that("catches `.by` with grouped-df", {
+  df <- tibble(x = 1)
+  gdf <- group_by(df, x)
+
+  expect_snapshot(error = TRUE, {
+    mutate(gdf, .by = x)
+  })
+})
+
+test_that("catches `.by` with rowwise-df", {
+  df <- tibble(x = 1)
+  rdf <- rowwise(df)
+
+  expect_snapshot(error = TRUE, {
+    mutate(rdf, .by = x)
+  })
+})
 
 # .before, .after, .keep ------------------------------------------------------
 

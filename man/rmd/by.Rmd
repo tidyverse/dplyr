@@ -1,0 +1,153 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+There are two ways to group in dplyr:
+
+-   Persistent grouping with [group_by()]
+
+-   Temporary grouping with `.by`
+
+This help page is dedicated to explaining where and why you might want to use the latter.
+Grouping radically affects the computation of the dplyr verb you use it with, and one of the goals of `.by` is to allow you to place that grouping specification alongside the code that actually uses it.
+As an added benefit, with `.by` you no longer need to remember to [ungroup()] after [summarise()], and `summarise()` won't ever message you about how it's handling the groups!
+
+This great idea comes from [data.table](https://CRAN.R-project.org/package=data.table), which allows you to specify `by` alongside modifications in `j`, like: `dt[, .(x = mean(x)), by = g]`.
+
+### Supported verbs
+
+-   [mutate()]
+
+-   [summarise()]
+
+-   [filter()]
+
+-   [slice()] and its variants, such as [slice_head()]
+
+### Differences between `.by` and `group_by()`
+
+| `.by`                                                   | `group_by()`                                                 |
+|----------------------------------|-------------------------------------|
+| Grouping only affects a single verb                     | Grouping is persistent across multiple verbs                 |
+| Selects variables with [tidy-select][dplyr_tidy_select] | Computes expressions with [data-masking][dplyr_data_masking] |
+| Summaries use existing order of group keys              | Summaries sort group keys in ascending order                 |
+
+### Using `.by`
+
+Let's take a look at the two grouping approaches using this `expenses` data set, which tracks costs accumulated across various `id`s and `region`s:
+
+```{r}
+expenses <- tibble(
+  id = c(1, 2, 1, 3, 1, 2, 3),
+  region = c("A", "A", "A", "B", "B", "A", "A"),
+  cost = c(25, 20, 19, 12, 9, 6, 6)
+)
+expenses
+```
+
+Imagine that you wanted to compute the average cost per region.
+You'd probably write something like this:
+
+```{r}
+expenses %>%
+  group_by(region) %>%
+  summarise(cost = mean(cost))
+```
+
+Instead, you can now specify the grouping *inline* within the verb:
+
+```{r}
+expenses %>%
+  summarise(cost = mean(cost), .by = region)
+```
+
+Grouping with `.by` is temporary, meaning that since `expenses` was an ungrouped data frame, the result after applying `.by` will also always be an ungrouped data frame, regardless of the number of grouping columns.
+
+```{r}
+expenses %>%
+  summarise(cost = mean(cost), .by = c(id, region))
+```
+
+Compare that with `group_by() %>% summarise()`, where `summarise()` generally peels off 1 layer of grouping by default, typically with a message that it is doing so:
+
+```{r}
+expenses %>%
+  group_by(id, region) %>%
+  summarise(cost = mean(cost))
+```
+
+Because `.by` grouping is temporary, you don't need to worry about ungrouping, and it never needs to emit a message to remind you what it is doing with the groups.
+
+Note that with `.by` we specified multiple columns to group by using the [tidy-select][dplyr_tidy_select] syntax `c(id, region)`.
+If you have a character vector of column names you'd like to group by, you can do so with `.by = all_of(my_cols)`.
+It will group by the columns in the order they were provided.
+
+To prevent surprising results, you can't use `.by` on an existing grouped data frame:
+
+```{r, error=TRUE}
+expenses %>% 
+  group_by(id) %>%
+  summarise(cost = mean(cost), .by = c(id, region))
+```
+
+So far we've focused on the usage of `.by` with `summarise()`, but `.by` works with a number of other dplyr verbs.
+For example, you could append the mean cost per region onto the original data frame as a new column rather than computing a summary:
+
+```{r}
+expenses %>%
+  mutate(cost_by_region = mean(cost), .by = region)
+```
+
+Or you could slice out the maximum cost per combination of id and region:
+
+```{r}
+expenses %>%
+  slice_max(cost, n = 1, by = c(id, region))
+```
+
+### Result ordering
+
+When used with `.by`, `summarise()` and `slice()` both maintain the ordering of the existing data.
+This is different from `group_by()`, which has always sorted the group keys in ascending order.
+
+```{r}
+df <- tibble(
+  month = c("jan", "jan", "feb", "feb", "mar"),
+  temp = c(20, 25, 18, 20, 40)
+)
+
+# Uses ordering by "first appearance" in the original data
+df %>%
+  summarise(average_temp = mean(temp), .by = month)
+
+# Sorts in ascending order
+df %>%
+  group_by(month) %>%
+  summarise(average_temp = mean(temp))
+```
+
+If you need sorted group keys, we recommend that you explicitly use [arrange()] either before or after the call to `summarise()` or `slice()`.
+This also gives you full access to all of `arrange()`'s features, such as `desc()` and the `.locale` argument.
+
+### Verbs without `.by` support
+
+If a dplyr verb doesn't support `.by`, then that typically means that the verb isn't inherently affected by grouping.
+For example, [pull()] and [rename()] don't support `.by`, because specifying columns to group by would not affect their implementations.
+
+That said, there are a few exceptions to this where sometimes a dplyr verb doesn't support `.by`, but *does* have special support for grouped data frames created by [group_by()].
+This is typically because the verbs are required to retain the grouping columns, for example:
+
+-   [select()] always retains grouping columns, with a message if any aren't specified in the `select()` call.
+
+-   [distinct()] and [count()] place unspecified grouping columns at the front of the data frame before computing their results.
+
+-   [arrange()] has a `.by_group` argument to optionally order by grouping columns first.
+
+If `group_by()` didn't exist, then these verbs would not have special support for grouped data frames.
+

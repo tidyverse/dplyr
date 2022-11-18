@@ -10,6 +10,7 @@ mutate(.data, ...)
 \method{mutate}{data.frame}(
   .data,
   ...,
+  .by = NULL,
   .keep = c("all", "used", "unused", "none"),
   .before = NULL,
   .after = NULL
@@ -31,6 +32,12 @@ if ungrouped).
 \item \code{NULL}, to remove the column.
 \item A data frame or tibble, to create multiple columns in the output.
 }}
+
+\item{.by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
+temporarily group by using an inline alternative to \code{\link[=group_by]{group_by()}}. For
+details and examples, see \link[=dplyr_by]{?dplyr_by}.}
 
 \item{.keep}{Control which columns from \code{.data} are retained in the output. Grouping
 columns and columns created by \code{...} are always kept.

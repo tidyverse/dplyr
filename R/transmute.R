@@ -39,7 +39,10 @@ transmute.data.frame <- function(.data, ...) {
   dots <- check_transmute_args(...)
   dots <- dplyr_quosures(!!!dots)
 
-  cols <- mutate_cols(.data, dots)
+  # We don't expose `.by` because `transmute()` is superseded
+  by <- compute_by(by = NULL, data = .data)
+
+  cols <- mutate_cols(.data, dots, by)
 
   out <- dplyr_col_modify(.data, cols)
 
@@ -53,7 +56,7 @@ transmute.data.frame <- function(.data, ...) {
   cols_expr <- names(cols)
 
   # Retain untouched group variables up front
-  cols_group <- group_vars(.data)
+  cols_group <- by$names
   cols_group <- setdiff(cols_group, cols_expr)
 
   cols_retain <- c(cols_group, cols_expr)

@@ -503,7 +503,8 @@ test_that("`pick()` can be used inside `group_by()` wrappers", {
 
 test_that("`pick()` doesn't expand across anonymous function boundaries", {
   df <- tibble(x = 1, y = 2)
-  mask <- DataMask$new(df, verb = "mutate", error_call = current_env())
+  by <- compute_by(by = NULL, data = df, error_call = current_env())
+  mask <- DataMask$new(df, by, verb = "mutate", error_call = current_env())
 
   # With inline `function() { }` calls (this also handles native R anonymous functions)
   quo <- dplyr_quosures(z = function() pick(y, x))$z
@@ -516,7 +517,8 @@ test_that("`pick()` doesn't expand across anonymous function boundaries", {
 
 test_that("`pick()` expands embedded quosures", {
   df <- tibble(x = 1, y = 2)
-  mask <- DataMask$new(df, verb = "mutate", error_call = current_env())
+  by <- compute_by(by = NULL, data = df, error_call = current_env())
+  mask <- DataMask$new(df, by, verb = "mutate", error_call = current_env())
 
   wrapper <- function(x) {
     dplyr_quosures(z = dense_rank({{x}}))
