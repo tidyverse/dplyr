@@ -168,6 +168,16 @@
       ! `..1` must return compatible vectors across groups.
       x Can't combine NULL and non NULL results.
     Code
+      (expect_error(tibble(a = 1:3, b = 4:6) %>% group_by(a) %>% mutate(if (a ==
+      2) NULL else "foo")))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`:
+      i In argument: `..1 = if (a == 2) NULL else "foo"`.
+      Caused by error:
+      ! `..1` must return compatible vectors across groups.
+      x Can't combine NULL and non NULL results.
+    Code
       (expect_error(data.frame(x = c(2, 2, 3, 3)) %>% mutate(int = 1:5)))
     Output
       <error/dplyr:::mutate_error>
