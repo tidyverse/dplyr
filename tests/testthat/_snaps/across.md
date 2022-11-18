@@ -230,6 +230,16 @@
       i The first argument `.cols` selects a set of columns.
       i The second argument `.fns` operates on each selected columns.
 
+# can't rename during selection (#6522)
+
+    Code
+      mutate(df, z = c_across(c(y = x)))
+    Condition
+      Error in `mutate()`:
+      i In argument: `z = c_across(c(y = x))`.
+      Caused by error in `env_get_list()`:
+      ! Can't find `y` in environment.
+
 # can't explicitly select grouping columns (#6522)
 
     Code

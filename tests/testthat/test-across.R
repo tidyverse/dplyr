@@ -970,6 +970,15 @@ test_that("selects and combines columns", {
   expect_equal(out$z, list(1:4))
 })
 
+test_that("can't rename during selection (#6522)", {
+  df <- tibble(x = 1)
+
+  # TODO: This is the wrong error. Renaming shouldn't be allowed.
+  expect_snapshot(error = TRUE, {
+    mutate(df, z = c_across(c(y = x)))
+  })
+})
+
 test_that("can't explicitly select grouping columns (#6522)", {
   # Related to removing the mask layer from the quosure environments
   df <- tibble(g = 1, x = 2)
