@@ -487,9 +487,14 @@ c_across_setup <- function(cols, mask, error_call = caller_env()) {
 
   data <- mask$get_current_data(groups = FALSE)
 
-  vars <- tidyselect::eval_select(cols, data, error_call = error_call)
-  value <- names(vars)
+  vars <- tidyselect::eval_select(
+    expr = cols,
+    data = data,
+    allow_rename = FALSE,
+    error_call = error_call
+  )
 
+  value <- names(vars)
   value
 }
 

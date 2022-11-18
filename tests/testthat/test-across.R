@@ -973,7 +973,6 @@ test_that("selects and combines columns", {
 test_that("can't rename during selection (#6522)", {
   df <- tibble(x = 1)
 
-  # TODO: This is the wrong error. Renaming shouldn't be allowed.
   expect_snapshot(error = TRUE, {
     mutate(df, z = c_across(c(y = x)))
   })

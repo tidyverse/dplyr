@@ -237,8 +237,8 @@
     Condition
       Error in `mutate()`:
       i In argument: `z = c_across(c(y = x))`.
-      Caused by error in `env_get_list()`:
-      ! Can't find `y` in environment.
+      Caused by error in `c_across()`:
+      ! Can't rename variables in this context.
 
 # can't explicitly select grouping columns (#6522)
 
