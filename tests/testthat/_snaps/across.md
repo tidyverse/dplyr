@@ -235,36 +235,24 @@
     Code
       mutate(gdf, y = c_across(g))
     Condition
-      Warning:
-      There was 1 warning in `mutate()`.
-      i In argument `y = c_across(g)`.
+      Error in `mutate()`:
+      i In argument: `y = c_across(g)`.
       i In group 1: `g = 1`.
-      Caused by warning:
-      ! Using an external vector in selections was deprecated in tidyselect 1.1.0.
-      i Please use `all_of()` or `any_of()` instead.
-        # Was:
-        data %>% select(g)
-      
-        # Now:
-        data %>% select(all_of(g))
-      
-      See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
-    Output
-      # A tibble: 1 x 3
-      # Groups:   g [1]
-            g     x     y
-        <dbl> <dbl> <dbl>
-      1     1     2     2
+      Caused by error in `c_across_setup()`:
+      ! Can't subset columns that don't exist.
+      x Column `g` doesn't exist.
 
 # `all_of()` is evaluated in the correct environment (#6522)
 
     Code
       mutate(df, z = c_across(all_of(y)))
-    Output
-      # A tibble: 1 x 3
-            x     y     z
-        <dbl> <dbl> <dbl>
-      1     1     2     2
+    Condition
+      Error in `mutate()`:
+      i In argument: `z = c_across(all_of(y))`.
+      Caused by error in `c_across_setup()`:
+      ! Problem while evaluating `all_of(y)`.
+      Caused by error in `as_indices_impl()`:
+      ! object 'y' not found
 
 # across() applies old `.cols = everything()` default with a warning
 

@@ -975,8 +975,7 @@ test_that("can't explicitly select grouping columns (#6522)", {
   df <- tibble(g = 1, x = 2)
   gdf <- group_by(df, g)
 
-  # TODO: This is not right. It should error.
-  expect_snapshot({
+  expect_snapshot(error = TRUE, {
     mutate(gdf, y = c_across(g))
   })
 })
@@ -985,15 +984,12 @@ test_that("`all_of()` is evaluated in the correct environment (#6522)", {
   # Related to removing the mask layer from the quosure environments
   df <- tibble(x = 1, y = 2)
 
-  # TODO: This is not right. It should error.
-  expect_snapshot({
+  expect_snapshot(error = TRUE, {
     mutate(df, z = c_across(all_of(y)))
   })
 
   y <- "x"
-  # TODO: This is not right. Should be `"x"`.
-  #expect <- df[["x"]]
-  expect <- df[["y"]]
+  expect <- df[["x"]]
 
   out <- mutate(df, z = c_across(all_of(y)))
   expect_identical(out$z, expect)
