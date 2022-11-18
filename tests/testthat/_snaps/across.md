@@ -309,6 +309,7 @@
       There were 2 warnings in `mutate()`.
       The first warning was:
       i In argument `..1 = (across(.fns = times_two))`.
+      i In group 1: `g = 1`.
       Caused by warning:
       ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
       i Please supply `.cols` instead.
@@ -371,6 +372,7 @@
       There were 2 warnings in `filter()`.
       The first warning was:
       i In argument `..1 = (if_any())`.
+      i In group 1: `g = 1`.
       Caused by warning:
       ! Using `if_any()` without supplying `.cols` was deprecated in dplyr 1.1.0.
       i Please supply `.cols` instead.
@@ -397,6 +399,7 @@
       There were 2 warnings in `filter()`.
       The first warning was:
       i In argument `..1 = (if_all())`.
+      i In group 1: `g = 1`.
       Caused by warning:
       ! Using `if_all()` without supplying `.cols` was deprecated in dplyr 1.1.0.
       i Please supply `.cols` instead.

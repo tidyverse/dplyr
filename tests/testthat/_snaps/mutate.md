@@ -164,6 +164,7 @@
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       i In argument: `..1 = if (a == 1) NULL else "foo"`.
+      i In group 1: `a = 1`.
       Caused by error:
       ! `..1` must return compatible vectors across groups.
       x Can't combine NULL and non NULL results.
@@ -174,6 +175,7 @@
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
       i In argument: `..1 = if (a == 2) NULL else "foo"`.
+      i In group 2: `a = 2`.
       Caused by error:
       ! `..1` must return compatible vectors across groups.
       x Can't combine NULL and non NULL results.

@@ -126,9 +126,12 @@ SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));  
 SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));                   \
 SEXP chops_env = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::chops));               \
 SEXP current_group = PROTECT(Rf_findVarInFrame(ENCLOS(chops_env), dplyr::symbols::dot_current_group)) ;\
-int* p_current_group = INTEGER(current_group)
+int* p_current_group = INTEGER(current_group);                  \
+*p_current_group = 0
 
-#define DPLYR_MASK_FINALISE() UNPROTECT(5)
+#define DPLYR_MASK_FINALISE()                                  \
+UNPROTECT(5);                                                  \
+*p_current_group = 0
 
 #define DPLYR_MASK_SET_GROUP(INDEX) *p_current_group = INDEX + 1
 
