@@ -230,6 +230,40 @@
       i The first argument `.cols` selects a set of columns.
       i The second argument `.fns` operates on each selected columns.
 
+# can't rename during selection (#6522)
+
+    Code
+      mutate(df, z = c_across(c(y = x)))
+    Condition
+      Error in `mutate()`:
+      i In argument: `z = c_across(c(y = x))`.
+      Caused by error in `c_across()`:
+      ! Can't rename variables in this context.
+
+# can't explicitly select grouping columns (#6522)
+
+    Code
+      mutate(gdf, y = c_across(g))
+    Condition
+      Error in `mutate()`:
+      i In argument: `y = c_across(g)`.
+      i In group 1: `g = 1`.
+      Caused by error in `c_across()`:
+      ! Can't subset columns that don't exist.
+      x Column `g` doesn't exist.
+
+# `all_of()` is evaluated in the correct environment (#6522)
+
+    Code
+      mutate(df, z = c_across(all_of(y)))
+    Condition
+      Error in `mutate()`:
+      i In argument: `z = c_across(all_of(y))`.
+      Caused by error in `c_across()`:
+      ! Problem while evaluating `all_of(y)`.
+      Caused by error in `as_indices_impl()`:
+      ! object 'y' not found
+
 # across() applies old `.cols = everything()` default with a warning
 
     Code

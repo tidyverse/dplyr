@@ -478,13 +478,23 @@ quo_set_env_to_data_mask_top <- function(quo) {
   quo_set_env(quo, env)
 }
 
-c_across_setup <- function(cols, mask) {
+c_across_setup <- function(cols, mask, error_call = caller_env()) {
   cols <- enquo(cols)
+
+  # `c_across()` is evaluated in a data mask so we need to remove the
+  # mask layer from the quosure environments (same as `across()`) (#5460, #6522)
+  cols <- quo_set_env_to_data_mask_top(cols)
+
   data <- mask$get_current_data(groups = FALSE)
 
-  vars <- tidyselect::eval_select(expr(!!cols), data)
-  value <- names(vars)
+  vars <- tidyselect::eval_select(
+    expr = cols,
+    data = data,
+    allow_rename = FALSE,
+    error_call = error_call
+  )
 
+  value <- names(vars)
   value
 }
 
