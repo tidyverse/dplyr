@@ -177,15 +177,19 @@ across <- function(.cols,
   caller_env <- caller_env()
 
   .cols <- enquo(.cols)
+  fns_quo <- enquo(.fns)
 
   if (quo_is_missing(.cols)) {
     across_missing_cols_deprecate_warn()
     .cols <- quo_set_expr(.cols, expr(everything()))
   }
+
   if (is_missing(.fns)) {
     # Silent restoration to old defaults of `.fns` for now.
     # TODO: Escalate this to formal deprecation.
     .fns <- NULL
+  } else if (!is_function(.fns) && !is_list(.fns)) {
+    .fns <- quo_eval_fns(fns_quo)
   }
 
   if (!is_bool(.unpack) && !is_string(.unpack)) {
@@ -455,7 +459,7 @@ across_setup <- function(cols,
   )
 
   if (!inline) {
-    fns <- map(fns, as_function)
+    fns <- map(fns, as_function, call = quote(across()))
   }
 
   list(vars = vars, fns = fns, names = names, across_if_fn = across_if_fn)
@@ -648,7 +652,8 @@ expand_across <- function(quo) {
   cols <- as_quosure(cols, env)
 
   if (".fns" %in% names(expr)) {
-    fns <- eval_tidy(expr$.fns, mask, env = env)
+    fns <- as_quosure(expr$.fns, env)
+    fns <- quo_eval_fns(fns, mask, env = env)
   } else {
     # In the missing case, silently restore the old default of `NULL`.
     # TODO: Escalate this to formal deprecation.
@@ -844,4 +849,28 @@ apply_unpack_spec <- function(col, outer, spec, caller_env) {
 
   names(col) <- inner
   col
+}
+
+quo_eval_fns <- function(quo, data = NULL, env = caller_env()) {
+  if (!quo_is_symbol(quo)) {
+    return(eval_tidy(quo, data, env = env))
+  }
+
+  sym <- quo_get_expr(quo)
+  env <- quo_get_env(quo)
+  nm <- as_string(sym)
+
+  while (!identical(env, empty_env())) {
+    out <- env_get(env, nm, default = NULL)
+
+    if (is_function(out) || is_list(out) || is_formula(out)) {
+      return(out)
+    }
+
+    env <- env_parent(env)
+  }
+
+  # Triggers object not found error or evaluates to an object of the
+  # wrong type to be checked later on
+  eval_tidy(quo, quo_get_env(quo))
 }

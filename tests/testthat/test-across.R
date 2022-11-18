@@ -1221,3 +1221,25 @@ test_that("group variables are in scope when passed in dots (#5832)", {
     exp
   )
 })
+
+test_that("symbols are looked up as list or functions (#6545)", {
+  df <- tibble(mean = 1:5)
+  exp <- summarise(df, across(.fns = function(x) mean(x)))
+
+  expect_equal(
+    summarise(df, across(.fns = mean)),
+    exp
+  )
+  expect_equal(
+    summarise(df, (across(.fns = mean))),
+    exp
+  )
+
+  expect_snapshot({
+    # This error is suboptimal because `mean` is looked up at
+    # expansion-time before group chunks are set up
+    (expect_error(summarize(df, across(.fns = list(mean)))))
+
+    (expect_error(summarize(df, (across(.fns = list(mean))))))
+  })
+})
