@@ -75,7 +75,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
-<ul><li><p><code><a href="../reference/group_map.html">group_walk()</a></code> gains an explict <code>.keep</code> argument (<a href="https://github.com/tidyverse/dplyr/issues/6530" class="external-link">#6530</a>).</p></li>
+<ul><li><p><code><a href="../reference/n_distinct.html">n_distinct()</a></code> now errors if you don’t give it any input (<a href="https://github.com/tidyverse/dplyr/issues/6535" class="external-link">#6535</a>).</p></li>
+<li><p><code><a href="../reference/group_map.html">group_walk()</a></code> gains an explict <code>.keep</code> argument (<a href="https://github.com/tidyverse/dplyr/issues/6530" class="external-link">#6530</a>).</p></li>
 <li>
 <p><code>.by</code> is a new experimental inline alternative to <code><a href="../reference/group_by.html">group_by()</a></code> that supports <em>temporary</em> grouping in the following key dplyr verbs: <code><a href="../reference/mutate.html">mutate()</a></code>, <code><a href="../reference/summarise.html">summarise()</a></code>, <code><a href="../reference/filter.html">filter()</a></code>, and the <code><a href="../reference/slice.html">slice()</a></code> family (<a href="https://github.com/tidyverse/dplyr/issues/6528" class="external-link">#6528</a>).</p>
 <p>Rather than:</p>
