@@ -10,7 +10,7 @@ group_map(.data, .f, ..., .keep = FALSE)
 
 group_modify(.data, .f, ..., .keep = FALSE)
 
-group_walk(.data, .f, ...)
+group_walk(.data, .f, ..., .keep = FALSE)
 }
 \arguments{
 \item{.data}{A grouped tibble}

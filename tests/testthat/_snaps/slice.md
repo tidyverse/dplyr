@@ -47,6 +47,30 @@
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
 
+# can't use `.by` with `.preserve`
+
+    Code
+      slice(df, .by = x, .preserve = TRUE)
+    Condition
+      Error in `slice()`:
+      ! Can't supply both `.by` and `.preserve`.
+
+# catches `.by` with grouped-df
+
+    Code
+      slice(gdf, .by = x)
+    Condition
+      Error in `slice()`:
+      ! Can't supply `.by` when `.data` is a grouped data frame.
+
+# catches `.by` with rowwise-df
+
+    Code
+      slice(rdf, .by = x)
+    Condition
+      Error in `slice()`:
+      ! Can't supply `.by` when `.data` is a rowwise data frame.
+
 # slice_helpers() call get_slice_size()
 
     Code
@@ -195,6 +219,34 @@
       * ..1 = 5
       * ..2 = 2
       i Did you forget to name an argument?
+
+# slice_helper `by` errors use correct error context and correct `by_arg`
+
+    Code
+      slice_head(gdf, n = 1, by = x)
+    Condition
+      Error in `slice_head()`:
+      ! Can't supply `by` when `.data` is a grouped data frame.
+    Code
+      slice_tail(gdf, n = 1, by = x)
+    Condition
+      Error in `slice_tail()`:
+      ! Can't supply `by` when `.data` is a grouped data frame.
+    Code
+      slice_min(gdf, order_by = x, by = x)
+    Condition
+      Error in `slice_min()`:
+      ! Can't supply `by` when `.data` is a grouped data frame.
+    Code
+      slice_max(gdf, order_by = x, by = x)
+    Condition
+      Error in `slice_max()`:
+      ! Can't supply `by` when `.data` is a grouped data frame.
+    Code
+      slice_sample(gdf, n = 1, by = x)
+    Condition
+      Error in `slice_sample()`:
+      ! Can't supply `by` when `.data` is a grouped data frame.
 
 # slice_min/max() check size of `order_by=` (#5922)
 

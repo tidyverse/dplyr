@@ -201,8 +201,8 @@ group_modify.grouped_df <- function(.data, .f, ..., .keep = FALSE, keep = deprec
 
 #' @export
 #' @rdname group_map
-group_walk <- function(.data, .f, ...) {
+group_walk <- function(.data, .f, ..., .keep = FALSE) {
   lifecycle::signal_stage("experimental", "group_walk()")
-  group_map(.data, .f, ...)
+  group_map(.data, .f, ..., .keep = .keep)
   invisible(.data)
 }

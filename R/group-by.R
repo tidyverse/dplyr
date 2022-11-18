@@ -244,9 +244,13 @@ add_computed_columns <- function(.data,
   if (any(needs_mutate)) {
     # TODO: use less of a hack
     if (inherits(.data, "data.frame")) {
+      bare_data <- ungroup(.data)
+      by <- compute_by(by = NULL, data = bare_data)
+
       cols <- mutate_cols(
-        ungroup(.data),
+        bare_data,
         dplyr_quosures(!!!vars),
+        by = by,
         error_call = error_call
       )
 

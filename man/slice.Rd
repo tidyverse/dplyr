@@ -9,17 +9,35 @@
 \alias{slice_sample}
 \title{Subset rows using their positions}
 \usage{
-slice(.data, ..., .preserve = FALSE)
+slice(.data, ..., .by = NULL, .preserve = FALSE)
 
-slice_head(.data, ..., n, prop)
+slice_head(.data, ..., n, prop, by = NULL)
 
-slice_tail(.data, ..., n, prop)
+slice_tail(.data, ..., n, prop, by = NULL)
 
-slice_min(.data, order_by, ..., n, prop, with_ties = TRUE, na_rm = FALSE)
+slice_min(
+  .data,
+  order_by,
+  ...,
+  n,
+  prop,
+  by = NULL,
+  with_ties = TRUE,
+  na_rm = FALSE
+)
 
-slice_max(.data, order_by, ..., n, prop, with_ties = TRUE, na_rm = FALSE)
+slice_max(
+  .data,
+  order_by,
+  ...,
+  n,
+  prop,
+  by = NULL,
+  with_ties = TRUE,
+  na_rm = FALSE
+)
 
-slice_sample(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
+slice_sample(.data, ..., n, prop, by = NULL, weight_by = NULL, replace = FALSE)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
@@ -34,6 +52,12 @@ The values provided must be either all positive or all negative.
 Indices beyond the number of rows in the input are silently ignored.
 
 For \verb{slice_*()}, these arguments are passed on to methods.}
+
+\item{.by, by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
+temporarily group by using an inline alternative to \code{\link[=group_by]{group_by()}}. For
+details and examples, see \link[=dplyr_by]{?dplyr_by}.}
 
 \item{.preserve}{Relevant when the \code{.data} input is grouped.
 If \code{.preserve = FALSE} (the default), the grouping structure
@@ -118,6 +142,7 @@ Methods available in currently loaded packages:
 }
 
 \examples{
+# Similar to head(mtcars, 1):
 mtcars \%>\% slice(1L)
 # Similar to tail(mtcars, 1):
 mtcars \%>\% slice(n())
