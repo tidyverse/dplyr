@@ -476,19 +476,19 @@
 # symbols are looked up as list or functions (#6545)
 
     Code
-      (expect_error(summarize(df, across(.fns = list(mean)))))
+      (expect_error(summarize(df, across(everything(), list(mean)))))
     Output
       <error/rlang_error>
       Error in `summarize()`:
-      i In argument: `..1 = across(.fns = list(mean))`.
+      i In argument: `..1 = across(everything(), list(mean))`.
       Caused by error:
       ! attempt to select less than one element in integerOneIndex
     Code
-      (expect_error(summarize(df, (across(.fns = list(mean))))))
+      (expect_error(summarize(df, (across(everything(), list(mean))))))
     Output
       <error/rlang_error>
       Error in `summarize()`:
-      i In argument: `..1 = (across(.fns = list(mean)))`.
+      i In argument: `..1 = (across(everything(), list(mean)))`.
       Caused by error in `across()`:
       ! Can't convert `X[[i]]`, an integer vector, to a function.
 
