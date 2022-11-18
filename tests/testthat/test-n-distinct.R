@@ -1,3 +1,8 @@
+test_that("n_distinct() counts empty inputs", {
+  expect_equal(n_distinct(NULL), 0)
+  expect_equal(n_distinct(data.frame()), 0)
+})
+
 test_that("n_distinct() counts unique values in simple vectors", {
   expect_equal(n_distinct(c(TRUE, FALSE, NA)), 3)
   expect_equal(n_distinct(c(1, 2, NA)), 3)
@@ -33,6 +38,7 @@ test_that("n_distinct() follows recycling rules", {
 
 test_that("n_distinct() generates useful errors", {
   expect_snapshot(error = TRUE, {
+    n_distinct()
     n_distinct(x = 1:4)
     n_distinct(mean)
   })

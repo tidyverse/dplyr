@@ -12,8 +12,6 @@
 #' @returns A single number.
 #' @export
 #' @examples
-#' n_distinct()
-#'
 #' x <- c(1, 1, 2, 2, 2)
 #' n_distinct(x)
 #'
@@ -30,6 +28,9 @@
 #' # Also works with data frames
 #' n_distinct(data.frame(x, y))
 n_distinct <- function(..., na.rm = FALSE) {
+  if (missing(...)) {
+    cli::cli_abort("{.arg ...} is absent, but must be supplied.")
+  }
   check_dots_unnamed()
 
   data <- df_list(

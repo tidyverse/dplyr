@@ -1,6 +1,11 @@
 # n_distinct() generates useful errors
 
     Code
+      n_distinct()
+    Condition
+      Error in `n_distinct()`:
+      ! `...` is absent, but must be supplied.
+    Code
       n_distinct(x = 1:4)
     Condition
       Error in `n_distinct()`:

@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `n_distinct()` now errors if you don't give it any input (#6535).
+
 * `group_walk()` gains an explict `.keep` argument (#6530).
 
 * `.by` is a new experimental inline alternative to `group_by()` that supports
