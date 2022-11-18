@@ -970,6 +970,35 @@ test_that("selects and combines columns", {
   expect_equal(out$z, list(1:4))
 })
 
+test_that("can't explicitly select grouping columns (#6522)", {
+  # Related to removing the mask layer from the quosure environments
+  df <- tibble(g = 1, x = 2)
+  gdf <- group_by(df, g)
+
+  # TODO: This is not right. It should error.
+  expect_snapshot({
+    mutate(gdf, y = c_across(g))
+  })
+})
+
+test_that("`all_of()` is evaluated in the correct environment (#6522)", {
+  # Related to removing the mask layer from the quosure environments
+  df <- tibble(x = 1, y = 2)
+
+  # TODO: This is not right. It should error.
+  expect_snapshot({
+    mutate(df, z = c_across(all_of(y)))
+  })
+
+  y <- "x"
+  # TODO: This is not right. Should be `"x"`.
+  #expect <- df[["x"]]
+  expect <- df[["y"]]
+
+  out <- mutate(df, z = c_across(all_of(y)))
+  expect_identical(out$z, expect)
+})
+
 # cols deprecation --------------------------------------------------------
 
 test_that("across() applies old `.cols = everything()` default with a warning", {

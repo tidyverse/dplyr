@@ -230,6 +230,42 @@
       i The first argument `.cols` selects a set of columns.
       i The second argument `.fns` operates on each selected columns.
 
+# can't explicitly select grouping columns (#6522)
+
+    Code
+      mutate(gdf, y = c_across(g))
+    Condition
+      Warning:
+      There was 1 warning in `mutate()`.
+      i In argument `y = c_across(g)`.
+      i In group 1: `g = 1`.
+      Caused by warning:
+      ! Using an external vector in selections was deprecated in tidyselect 1.1.0.
+      i Please use `all_of()` or `any_of()` instead.
+        # Was:
+        data %>% select(g)
+      
+        # Now:
+        data %>% select(all_of(g))
+      
+      See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
+    Output
+      # A tibble: 1 x 3
+      # Groups:   g [1]
+            g     x     y
+        <dbl> <dbl> <dbl>
+      1     1     2     2
+
+# `all_of()` is evaluated in the correct environment (#6522)
+
+    Code
+      mutate(df, z = c_across(all_of(y)))
+    Output
+      # A tibble: 1 x 3
+            x     y     z
+        <dbl> <dbl> <dbl>
+      1     1     2     2
+
 # across() applies old `.cols = everything()` default with a warning
 
     Code
