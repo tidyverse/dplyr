@@ -478,7 +478,7 @@ quo_set_env_to_data_mask_top <- function(quo) {
   quo_set_env(quo, env)
 }
 
-c_across_setup <- function(cols, mask) {
+c_across_setup <- function(cols, mask, error_call = caller_env()) {
   cols <- enquo(cols)
 
   # `c_across()` is evaluated in a data mask so we need to remove the
@@ -487,7 +487,7 @@ c_across_setup <- function(cols, mask) {
 
   data <- mask$get_current_data(groups = FALSE)
 
-  vars <- tidyselect::eval_select(cols, data)
+  vars <- tidyselect::eval_select(cols, data, error_call = error_call)
   value <- names(vars)
 
   value

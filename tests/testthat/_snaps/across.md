@@ -238,7 +238,7 @@
       Error in `mutate()`:
       i In argument: `y = c_across(g)`.
       i In group 1: `g = 1`.
-      Caused by error in `c_across_setup()`:
+      Caused by error in `c_across()`:
       ! Can't subset columns that don't exist.
       x Column `g` doesn't exist.
 
@@ -249,7 +249,7 @@
     Condition
       Error in `mutate()`:
       i In argument: `z = c_across(all_of(y))`.
-      Caused by error in `c_across_setup()`:
+      Caused by error in `c_across()`:
       ! Problem while evaluating `all_of(y)`.
       Caused by error in `as_indices_impl()`:
       ! object 'y' not found
