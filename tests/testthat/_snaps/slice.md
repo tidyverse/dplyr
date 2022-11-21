@@ -47,6 +47,16 @@
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
 
+# `...` can't be named (#6554)
+
+    Code
+      slice(df, 1, by = g)
+    Condition
+      Error in `slice()`:
+      ! Arguments in `...` must be passed by position, not name.
+      x Problematic argument:
+      * by = g
+
 # can't use `.by` with `.preserve`
 
     Code
