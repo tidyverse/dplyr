@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `slice()` now errors if any expressions in `...` are named. This helps avoid
+  accidentally misspelling an optional argument, such as `.by` (#6554).
+
 * `c_across()` now evaluates `all_of()` correctly and no longer allows you to
   accidentally select grouping variables (#6522).
 
