@@ -665,10 +665,16 @@ test_that("mutate() give meaningful errors", {
                       mutate(val = ifelse(x < 3, "foo", 2))
     ))
 
+    # mixed nulls
     (expect_error(
                     tibble(a = 1:3, b=4:6) %>%
                       group_by(a) %>%
                       mutate(if(a==1) NULL else "foo")
+    ))
+    (expect_error(
+                    tibble(a = 1:3, b=4:6) %>%
+                      group_by(a) %>%
+                      mutate(if(a==2) NULL else "foo")
     ))
 
     # incompatible size

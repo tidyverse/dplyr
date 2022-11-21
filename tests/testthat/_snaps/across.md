@@ -41,6 +41,36 @@
       Caused by error in `across()`:
       ! `.unpack` must be `TRUE`, `FALSE`, or a single string, not `NA`.
 
+# across() throws meaningful error with failure during expansion (#6534)
+
+    Code
+      summarise(df, across(everything(), median()))
+    Condition
+      Error in `summarise()`:
+      i In argument: `..1 = across(everything(), median())`.
+      Caused by error in `is.factor()`:
+      ! argument "x" is missing, with no default
+
+---
+
+    Code
+      summarise(df, across(everything(), median()), .by = g)
+    Condition
+      Error in `summarise()`:
+      i In argument: `..1 = across(everything(), median())`.
+      Caused by error in `is.factor()`:
+      ! argument "x" is missing, with no default
+
+---
+
+    Code
+      summarise(gdf, across(everything(), median()))
+    Condition
+      Error in `summarise()`:
+      i In argument: `..1 = across(everything(), median())`.
+      Caused by error in `is.factor()`:
+      ! argument "x" is missing, with no default
+
 # across() gives meaningful messages
 
     Code
@@ -267,11 +297,11 @@
 # across() applies old `.cols = everything()` default with a warning
 
     Code
-      out <- mutate(df, z = across())
+      out <- mutate(df, across(.fns = times_two))
     Condition
       Warning:
       There was 1 warning in `mutate()`.
-      i In argument `z = across()`.
+      i In argument `..1 = across(.fns = times_two)`.
       Caused by warning:
       ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
       i Please supply `.cols` instead.
@@ -279,38 +309,37 @@
 ---
 
     Code
-      out <- mutate(gdf, z = across())
+      out <- mutate(gdf, across(.fns = times_two))
+    Condition
+      Warning:
+      There was 1 warning in `mutate()`.
+      i In argument `..1 = across(.fns = times_two)`.
+      Caused by warning:
+      ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
+      i Please supply `.cols` instead.
+
+---
+
+    Code
+      out <- mutate(df, (across(.fns = times_two)))
+    Condition
+      Warning:
+      There was 1 warning in `mutate()`.
+      i In argument `..1 = (across(.fns = times_two))`.
+      Caused by warning:
+      ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
+      i Please supply `.cols` instead.
+
+---
+
+    Code
+      out <- mutate(gdf, (across(.fns = times_two)))
     Condition
       Warning:
       There were 2 warnings in `mutate()`.
       The first warning was:
-      i In argument `z = across()`.
-      Caused by warning:
-      ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
-      i Please supply `.cols` instead.
-      i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
-
----
-
-    Code
-      out <- mutate(df, z = (across()))
-    Condition
-      Warning:
-      There was 1 warning in `mutate()`.
-      i In argument `z = (across())`.
-      Caused by warning:
-      ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
-      i Please supply `.cols` instead.
-
----
-
-    Code
-      out <- mutate(gdf, z = (across()))
-    Condition
-      Warning:
-      There were 2 warnings in `mutate()`.
-      The first warning was:
-      i In argument `z = (across())`.
+      i In argument `..1 = (across(.fns = times_two))`.
+      i In group 1: `g = 1`.
       Caused by warning:
       ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
       i Please supply `.cols` instead.
@@ -373,6 +402,7 @@
       There were 2 warnings in `filter()`.
       The first warning was:
       i In argument `..1 = (if_any())`.
+      i In group 1: `g = 1`.
       Caused by warning:
       ! Using `if_any()` without supplying `.cols` was deprecated in dplyr 1.1.0.
       i Please supply `.cols` instead.
@@ -399,6 +429,7 @@
       There were 2 warnings in `filter()`.
       The first warning was:
       i In argument `..1 = (if_all())`.
+      i In group 1: `g = 1`.
       Caused by warning:
       ! Using `if_all()` without supplying `.cols` was deprecated in dplyr 1.1.0.
       i Please supply `.cols` instead.

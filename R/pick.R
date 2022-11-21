@@ -164,26 +164,15 @@ eval_pick <- function(expr, env, mask, error_call = caller_env()) {
   # `rowwise(.data, ...)`.
   data <- mask$get_current_data(groups = FALSE)
 
-  out <- with_pick_tidyselect_errors(tidyselect::eval_select(
+  out <- tidyselect::eval_select(
     expr = expr,
     env = env,
     data = data,
     error_call = error_call,
     allow_rename = FALSE
-  ))
+  )
 
   names(out)
-}
-
-with_pick_tidyselect_errors <- function(expr) {
-  try_fetch(
-    expr,
-    error = function(cnd) {
-      # Subclassed so we can skip computing group context info for them
-      class(cnd) <- c("dplyr:::error_pick_tidyselect", class(cnd))
-      cnd_signal(cnd)
-    }
-  )
 }
 
 as_pick_selection <- function(expr, error_call) {

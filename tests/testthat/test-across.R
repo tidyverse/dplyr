@@ -185,6 +185,23 @@ test_that("across() retains original ordering", {
   expect_named(mutate(df, a = 2, x = across(everything(), identity))$x, c("a", "b"))
 })
 
+test_that("across() throws meaningful error with failure during expansion (#6534)", {
+  df <- tibble(g = 1, x = 1, y = 2, z = 3)
+  gdf <- group_by(df, g)
+
+  # Ends up failing inside the empty `median()` call, which gets evaluated
+  # during `across()` expansion but outside any group context
+  expect_snapshot(error = TRUE, {
+    summarise(df, across(everything(), median()))
+  })
+  expect_snapshot(error = TRUE, {
+    summarise(df, across(everything(), median()), .by = g)
+  })
+  expect_snapshot(error = TRUE, {
+    summarise(gdf, across(everything(), median()))
+  })
+})
+
 test_that("across() gives meaningful messages", {
   expect_snapshot({
     # expanding
@@ -1011,17 +1028,27 @@ test_that("across() applies old `.cols = everything()` default with a warning", 
   df <- tibble(g = c(1, 2), x = c(1, 2), y = c(3, 4))
   gdf <- group_by(df, g)
 
+  times_two <- function(x) x * 2
+
   # Expansion path
-  expect_snapshot(out <- mutate(df, z = across()))
-  expect_identical(out$z, df)
-  expect_snapshot(out <- mutate(gdf, z = across()))
-  expect_identical(out$z, df[c("x", "y")])
+  expect_snapshot(out <- mutate(df, across(.fns = times_two)))
+  expect_identical(out$g, df$g * 2)
+  expect_identical(out$x, df$x * 2)
+  expect_identical(out$y, df$y * 2)
+  expect_snapshot(out <- mutate(gdf, across(.fns = times_two)))
+  expect_identical(out$g, df$g)
+  expect_identical(out$x, df$x * 2)
+  expect_identical(out$y, df$y * 2)
 
   # Evaluation path
-  expect_snapshot(out <- mutate(df, z = (across())))
-  expect_identical(out$z, df)
-  expect_snapshot(out <- mutate(gdf, z = (across())))
-  expect_identical(out$z, df[c("x", "y")])
+  expect_snapshot(out <- mutate(df, (across(.fns = times_two))))
+  expect_identical(out$g, df$g * 2)
+  expect_identical(out$x, df$x * 2)
+  expect_identical(out$y, df$y * 2)
+  expect_snapshot(out <- mutate(gdf, (across(.fns = times_two))))
+  expect_identical(out$g, df$g)
+  expect_identical(out$x, df$x * 2)
+  expect_identical(out$y, df$y * 2)
 })
 
 test_that("if_any() and if_all() apply old `.cols = everything()` default with a warning", {

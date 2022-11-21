@@ -400,9 +400,12 @@ test_that("summarise() gives meaningful errors", {
                         summarise(x = seq_len(z), y = 1:2)
       ))
 
-      # NULL and no NULL
+      # mixed nulls
       (expect_error(
                       data.frame(x = 1:2, g = 1:2) %>% group_by(g) %>% summarise(x = if(g == 1) 42)
+      ))
+      (expect_error(
+                      data.frame(x = 1:2, g = 1:2) %>% group_by(g) %>% summarise(x = if(g == 2) 42)
       ))
 
       # Missing variable

@@ -149,6 +149,18 @@
       <error/rlang_error>
       Error in `summarise()`:
       i In argument: `x = if (g == 1) 42`.
+      i In group 2: `g = 2`.
+      Caused by error:
+      ! `x` must return compatible vectors across groups.
+      x Can't combine NULL and non NULL results.
+    Code
+      (expect_error(data.frame(x = 1:2, g = 1:2) %>% group_by(g) %>% summarise(x = if (
+        g == 2) 42)))
+    Output
+      <error/rlang_error>
+      Error in `summarise()`:
+      i In argument: `x = if (g == 2) 42`.
+      i In group 1: `g = 1`.
       Caused by error:
       ! `x` must return compatible vectors across groups.
       x Can't combine NULL and non NULL results.
