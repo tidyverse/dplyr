@@ -123,18 +123,28 @@ error_label <- function(name, expr_label) {
   if (is_null(name) || !nzchar(name)) {
     expr_label
   } else {
+    name
+  }
+}
+
+ctxt_error_label_named <- function(ctxt = peek_error_context()) {
+  error_label_named(ctxt$error_name, ctxt$error_expression)
+}
+error_label_named <- function(name, expr_label) {
+  if (is_null(name) || !nzchar(name)) {
+    expr_label
+  } else {
     paste0(name, " = ", expr_label)
   }
 }
 
 cnd_bullet_header <- function(what) {
   ctxt <- peek_error_context()
-  label <- ctxt_error_label(ctxt)
+  label <- ctxt_error_label_named(ctxt)
 
   if (is_string(what, "recycle")) {
     glue("Can't {what} `{label}`.")
   } else {
-    # TODO: Could mention argument number only
     c("i" = glue("In argument: `{label}`."))
   }
 }
@@ -358,7 +368,7 @@ new_dplyr_warning <- function(data) {
     group_label <- ""
   }
 
-  label <- error_label(data$name, data$expr)
+  label <- error_label_named(data$name, data$expr)
 
   msg <- c(
     "i" = glue::glue("In argument `{label}`."),

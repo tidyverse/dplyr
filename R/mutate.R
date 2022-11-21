@@ -429,7 +429,7 @@ mutate_bullets <- function(cnd, ...) {
 #' @export
 `mutate_bullets.dplyr:::mutate_incompatible_size` <- function(cnd, ...) {
   error_context <- peek_error_context()
-  error_name <- error_context$error_name
+  error_name <- ctxt_error_label(error_context)
 
   result_size <- cnd$dplyr_error_data$result_size
   expected_size <- cnd$dplyr_error_data$expected_size
@@ -440,7 +440,7 @@ mutate_bullets <- function(cnd, ...) {
 }
 #' @export
 `mutate_bullets.dplyr:::mutate_mixed_null` <- function(cnd, ...) {
-  error_name <- peek_error_context()$error_name
+  error_name <- ctxt_error_label()
   c(
     glue("`{error_name}` must return compatible vectors across groups."),
     x = "Can't combine NULL and non NULL results.",
@@ -449,7 +449,7 @@ mutate_bullets <- function(cnd, ...) {
 }
 #' @export
 `mutate_bullets.dplyr:::mutate_not_vector` <- function(cnd, ...) {
-  error_name <- peek_error_context()$error_name
+  error_name <- ctxt_error_label()
   result <- cnd$dplyr_error_data$result
   c(
     glue("`{error_name}` must be a vector, not {obj_type_friendly(result)}."),
@@ -463,7 +463,7 @@ mutate_bullets <- function(cnd, ...) {
 }
 #' @export
 `mutate_bullets.dplyr:::mutate_constant_recycle_error` <- function(cnd, ...) {
-  error_name <- peek_error_context()$error_name
+  error_name <- ctxt_error_label()
   constant_size <- cnd$constant_size
   data_size <- cnd$data_size
   c(
