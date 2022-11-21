@@ -81,9 +81,9 @@
       slice(mtcars, var = invisible(999 + ""))
     Condition
       Error in `slice()`:
-      i In argument: `var`.
-      Caused by error in `999 + ""`:
-      ! non-numeric argument to binary operator
+      ! Arguments in `...` must be passed by position, not name.
+      x Problematic argument:
+      * var = invisible(999 + "")
 
 # can pass verb-level error call
 

@@ -91,6 +91,15 @@ test_that("user errors are correctly labelled", {
   })
 })
 
+test_that("`...` can't be named (#6554)", {
+  df <- tibble(g = 1, x = 1)
+
+  # Avoids accidentally matching to `.by`
+  expect_snapshot(error = TRUE, {
+    slice(df, 1, by = g)
+  })
+})
+
 test_that("can group transiently using `.by`", {
   df <- tibble(g = c(1, 1, 2), x = c(1, 2, 3))
 

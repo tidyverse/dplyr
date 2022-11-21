@@ -15,7 +15,7 @@ test_that("can hide expression in error messages", {
     filter(mtcars, var = invisible(999 + ""))    # Named arg error
     arrange(mtcars, var = invisible(999 + ""))   # Suboptimal
     select(mtcars, var = invisible(999 + ""))
-    slice(mtcars, var = invisible(999 + ""))
+    slice(mtcars, var = invisible(999 + "")) # Named arg error
   })
 })
 
