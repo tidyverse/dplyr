@@ -19,7 +19,7 @@
       Error in `summarise()`:
       i In argument: `..1 = across(x, mean, .unpack = 1)`.
       Caused by error in `across()`:
-      ! `.unpack` must be `TRUE`, `FALSE`, or a single string, not a number.
+      ! `.unpack` must be `TRUE`, `FALSE`, or a single string, not the number 1.
 
 ---
 

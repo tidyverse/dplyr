@@ -4,7 +4,7 @@
       ntile(1, n = 1.5)
     Condition
       Error in `ntile()`:
-      ! `n` must be a round number, not a number.
+      ! `n` must be a whole number, not the number 1.5.
 
 ---
 
@@ -12,7 +12,7 @@
       ntile(1, n = c(1, 2))
     Condition
       Error in `ntile()`:
-      ! `n` must be a round number, not a double vector.
+      ! `n` must be a whole number, not a double vector.
 
 ---
 
@@ -20,7 +20,7 @@
       ntile(1, n = NA_real_)
     Condition
       Error in `ntile()`:
-      ! `n` must be a round number, not a numeric `NA`.
+      ! `n` must be a whole number, not a numeric `NA`.
 
 ---
 

@@ -267,7 +267,7 @@ dplyr_error_handler <- function(dots,
 #' @export
 last_dplyr_warnings <- function(n = 5) {
   if (!identical(n, Inf)) {
-    check_number(n)
+    check_number_whole(n)
     stopifnot(n >= 0)
   }
 

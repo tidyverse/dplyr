@@ -4,7 +4,7 @@
       count(df, x, name = 1)
     Condition
       Error in `tally()`:
-      ! `name` must be a single string, not a number.
+      ! `name` must be a single string, not the number 1.
 
 ---
 
