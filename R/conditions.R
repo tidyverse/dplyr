@@ -371,7 +371,7 @@ new_dplyr_warning <- function(data) {
   label <- error_label_named(data$name, data$expr)
 
   msg <- c(
-    "i" = glue::glue("In argument `{label}`."),
+    "i" = glue::glue("In argument: `{label}`."),
     "i" = if (nzchar(group_label)) glue("In {group_label}.")
   )
 

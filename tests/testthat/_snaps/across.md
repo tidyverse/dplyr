@@ -301,7 +301,7 @@
     Condition
       Warning:
       There was 1 warning in `mutate()`.
-      i In argument `across(.fns = times_two)`.
+      i In argument: `across(.fns = times_two)`.
       Caused by warning:
       ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
       i Please supply `.cols` instead.
@@ -313,7 +313,7 @@
     Condition
       Warning:
       There was 1 warning in `mutate()`.
-      i In argument `across(.fns = times_two)`.
+      i In argument: `across(.fns = times_two)`.
       Caused by warning:
       ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
       i Please supply `.cols` instead.
@@ -325,7 +325,7 @@
     Condition
       Warning:
       There was 1 warning in `mutate()`.
-      i In argument `(across(.fns = times_two))`.
+      i In argument: `(across(.fns = times_two))`.
       Caused by warning:
       ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
       i Please supply `.cols` instead.
@@ -338,7 +338,7 @@
       Warning:
       There were 2 warnings in `mutate()`.
       The first warning was:
-      i In argument `(across(.fns = times_two))`.
+      i In argument: `(across(.fns = times_two))`.
       i In group 1: `g = 1`.
       Caused by warning:
       ! Using `across()` without supplying `.cols` was deprecated in dplyr 1.1.0.
@@ -388,7 +388,7 @@
     Condition
       Warning:
       There was 1 warning in `filter()`.
-      i In argument `(if_any())`.
+      i In argument: `(if_any())`.
       Caused by warning:
       ! Using `if_any()` without supplying `.cols` was deprecated in dplyr 1.1.0.
       i Please supply `.cols` instead.
@@ -401,7 +401,7 @@
       Warning:
       There were 2 warnings in `filter()`.
       The first warning was:
-      i In argument `(if_any())`.
+      i In argument: `(if_any())`.
       i In group 1: `g = 1`.
       Caused by warning:
       ! Using `if_any()` without supplying `.cols` was deprecated in dplyr 1.1.0.
@@ -415,7 +415,7 @@
     Condition
       Warning:
       There was 1 warning in `filter()`.
-      i In argument `(if_all())`.
+      i In argument: `(if_all())`.
       Caused by warning:
       ! Using `if_all()` without supplying `.cols` was deprecated in dplyr 1.1.0.
       i Please supply `.cols` instead.
@@ -428,7 +428,7 @@
       Warning:
       There were 2 warnings in `filter()`.
       The first warning was:
-      i In argument `(if_all())`.
+      i In argument: `(if_all())`.
       i In group 1: `g = 1`.
       Caused by warning:
       ! Using `if_all()` without supplying `.cols` was deprecated in dplyr 1.1.0.
@@ -443,7 +443,7 @@
       Warning:
       There were 2 warnings in `mutate()`.
       The first warning was:
-      i In argument `z = sum(c_across())`.
+      i In argument: `z = sum(c_across())`.
       i In row 1.
       Caused by warning:
       ! Using `c_across()` without supplying `cols` was deprecated in dplyr 1.1.0.
@@ -457,7 +457,7 @@
     Condition
       Warning:
       There was 1 warning in `summarise()`.
-      i In argument `across(everything(), mean, na.rm = TRUE)`.
+      i In argument: `across(everything(), mean, na.rm = TRUE)`.
       Caused by warning:
       ! The `...` argument of `across()` is deprecated as of dplyr 1.1.0.
       Supply arguments directly to `.fns` through a lambda instead.
