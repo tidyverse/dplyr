@@ -459,7 +459,7 @@ across_setup <- function(cols,
   )
 
   if (!inline) {
-    fns <- map(fns, as_function, call = quote(across()))
+    fns <- map(fns, as_function, call = call(across_if_fn))
   }
 
   list(vars = vars, fns = fns, names = names, across_if_fn = across_if_fn)
