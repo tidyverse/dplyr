@@ -24,7 +24,7 @@
       slice(tibble(), "a")
     Condition
       Error in `slice()`:
-      i In argument: `..1 = "a"`.
+      i In argument: `"a"`.
       Caused by error:
       ! Can't subset elements with `"a"`.
       x `"a"` must be numeric, not the string "a".
@@ -35,14 +35,14 @@
       slice(df, 1 + "")
     Condition
       Error in `slice()`:
-      i In argument: `..1 = 1 + ""`.
+      i In argument: `1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
       slice(group_by(df, x), 1 + "")
     Condition
       Error in `slice()`:
-      i In argument: `..1 = 1 + ""`.
+      i In argument: `1 + ""`.
       i In group 1: `x = 1`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator

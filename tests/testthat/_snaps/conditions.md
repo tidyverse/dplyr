@@ -91,28 +91,28 @@
       mutate(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-      i In argument: `..1 = 1 + ""`.
+      i In argument: `1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
       transmute(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-      i In argument: `..1 = 1 + ""`.
+      i In argument: `1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
       summarise(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-      i In argument: `..1 = 1 + ""`.
+      i In argument: `1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
       summarise(group_by(mtcars, cyl), 1 + "")
     Condition
       Error in `foo()`:
-      i In argument: `..1 = 1 + ""`.
+      i In argument: `1 + ""`.
       i In group 1: `cyl = 4`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
@@ -120,7 +120,7 @@
       filter(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-      i In argument: `..1 = 1 + ""`.
+      i In argument: `1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
@@ -141,7 +141,7 @@
       slice(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-      i In argument: `..1 = 1 + ""`.
+      i In argument: `1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
 

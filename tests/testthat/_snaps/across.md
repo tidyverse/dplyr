@@ -4,7 +4,7 @@
       mutate(df, across(x:y, fn, .unpack = "{outer}"))
     Condition
       Error in `mutate()`:
-      i In argument: `..1 = across(x:y, fn, .unpack = "{outer}")`.
+      i In argument: `across(x:y, fn, .unpack = "{outer}")`.
       Caused by error in `across()`:
       ! Names must be unique.
       x These names are duplicated:
@@ -17,7 +17,7 @@
       summarise(df, across(x, mean, .unpack = 1))
     Condition
       Error in `summarise()`:
-      i In argument: `..1 = across(x, mean, .unpack = 1)`.
+      i In argument: `across(x, mean, .unpack = 1)`.
       Caused by error in `across()`:
       ! `.unpack` must be `TRUE`, `FALSE`, or a single string, not the number 1.
 
@@ -27,7 +27,7 @@
       summarise(df, across(x, mean, .unpack = c("x", "y")))
     Condition
       Error in `summarise()`:
-      i In argument: `..1 = across(x, mean, .unpack = c("x", "y"))`.
+      i In argument: `across(x, mean, .unpack = c("x", "y"))`.
       Caused by error in `across()`:
       ! `.unpack` must be `TRUE`, `FALSE`, or a single string, not a character vector.
 
@@ -37,7 +37,7 @@
       summarise(df, across(x, mean, .unpack = NA))
     Condition
       Error in `summarise()`:
-      i In argument: `..1 = across(x, mean, .unpack = NA)`.
+      i In argument: `across(x, mean, .unpack = NA)`.
       Caused by error in `across()`:
       ! `.unpack` must be `TRUE`, `FALSE`, or a single string, not `NA`.
 
@@ -78,7 +78,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      i In argument: `..1 = across(where(is.numeric), 42)`.
+      i In argument: `across(where(is.numeric), 42)`.
       Caused by error in `across()`:
       ! `.fns` must be a function, a formula, or a list of functions/formulas.
     Code
@@ -86,7 +86,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      i In argument: `..1 = across(y, mean)`.
+      i In argument: `across(y, mean)`.
       Caused by error in `across()`:
       ! Can't subset columns that don't exist.
       x Column `y` doesn't exist.
@@ -163,7 +163,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      i In argument: `..1 = across(everything(), error_fn)`.
+      i In argument: `across(everything(), error_fn)`.
       Caused by error in `across()`:
       ! Can't compute column `y`.
       Caused by error in `error_fn()`:
@@ -174,7 +174,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In argument: `..1 = across(everything(), error_fn)`.
+      i In argument: `across(everything(), error_fn)`.
       Caused by error in `across()`:
       ! Can't compute column `y`.
       Caused by error in `error_fn()`:
@@ -185,7 +185,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      i In argument: `..1 = force(across(everything(), error_fn))`.
+      i In argument: `force(across(everything(), error_fn))`.
       Caused by error in `across()`:
       ! Can't compute column `y`.
       Caused by error in `error_fn()`:
@@ -196,7 +196,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In argument: `..1 = force(across(everything(), error_fn))`.
+      i In argument: `force(across(everything(), error_fn))`.
       Caused by error in `across()`:
       ! Can't compute column `y`.
       Caused by error in `error_fn()`:
@@ -207,7 +207,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      i In argument: `..1 = across(everything(), list(f = mean, f = mean))`.
+      i In argument: `across(everything(), list(f = mean, f = mean))`.
       Caused by error in `across()`:
       ! Names must be unique.
       x These names are duplicated:
@@ -220,7 +220,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = if_any(~.x > 5)`.
+      i In argument: `if_any(~.x > 5)`.
       Caused by error in `if_any()`:
       ! Must supply a column selection.
       i You most likely meant: `if_any(everything(), ~.x > 5)`.
@@ -231,7 +231,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = if_all(~.x > 5)`.
+      i In argument: `if_all(~.x > 5)`.
       Caused by error in `if_all()`:
       ! Must supply a column selection.
       i You most likely meant: `if_all(everything(), ~.x > 5)`.
@@ -242,7 +242,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = !if_any(~.x > 5)`.
+      i In argument: `!if_any(~.x > 5)`.
       Caused by error in `if_any()`:
       ! Must supply a column selection.
       i You most likely meant: `if_any(everything(), ~.x > 5)`.
@@ -253,7 +253,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = !if_all(~.x > 5)`.
+      i In argument: `!if_all(~.x > 5)`.
       Caused by error in `if_all()`:
       ! Must supply a column selection.
       i You most likely meant: `if_all(everything(), ~.x > 5)`.

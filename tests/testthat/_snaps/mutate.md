@@ -267,7 +267,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In argument: `..1 = stop("{")`.
+      i In argument: `stop("{")`.
       Caused by error:
       ! {
 

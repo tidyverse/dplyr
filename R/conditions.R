@@ -31,14 +31,6 @@ dplyr_error_call <- function(call) {
   call
 }
 
-arg_name <- function(quos, index) {
-  name  <- names(quos)[index]
-  if (is.null(name) || name == "") {
-    name <- glue("..{index}")
-  }
-  name
-}
-
 cnd_bullet_cur_group_label <- function(what = "error") {
   label <- cur_group_label()
   if (label != "") {
@@ -99,7 +91,7 @@ new_error_context <- function(dots, i, mask) {
     expr <- dot_as_label(dots[[i]])
 
     env(
-      error_name = arg_name(dots, i),
+      error_name = names(dots)[i],
       error_expression = expr,
       mask = mask
     )
@@ -132,21 +124,37 @@ mask_type <- function(mask = peek_mask()) {
   "ungrouped"
 }
 
-cnd_bullet_header <- function(what) {
-  error_context <- peek_error_context()
-  error_name <- error_context$error_name
-  error_expression <- error_context$error_expression
+error_label <- function(ctxt = peek_error_context()) {
+  name <- ctxt$error_name
+  expr <- ctxt$error_expression
 
-  if (nzchar(error_expression)) {
-    sep <- " = "
+  has_expr <- nzchar(expr)
+
+  if (is_null(name) || !nzchar(name)) {
+    if (has_expr) {
+      expr
+    } else {
+      abort("TODO")
+      paste0("..", ctxt$error_index)
+    }
   } else {
-    sep <- ""
+    if (has_expr) {
+      paste0(name, " = ", expr)
+    } else {
+      expr
+    }
   }
+}
+
+cnd_bullet_header <- function(what) {
+  ctxt <- peek_error_context()
+  label <- error_label(ctxt)
 
   if (is_string(what, "recycle")) {
-    glue("Can't {what} `{error_name}{sep}{error_expression}`.")
+    glue("Can't {what} `{label}`.")
   } else {
-    c("i" = glue("In argument: `{error_name}{sep}{error_expression}`."))
+    # TODO: Could mention argument number only
+    c("i" = glue("In argument: `{label}`."))
   }
 }
 

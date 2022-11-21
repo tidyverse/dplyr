@@ -209,7 +209,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      i In argument: `..1 = stop("{")`.
+      i In argument: `stop("{")`.
       Caused by error:
       ! {
     Code
