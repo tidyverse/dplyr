@@ -88,7 +88,7 @@ new_error_context <- function(dots, i, mask) {
       mask = mask
     )
   } else {
-    expr <- dot_as_label(dots[[i]])
+    expr <- quo_as_label(dots[[i]])
 
     env(
       error_name = names(dots)[i],
@@ -103,14 +103,6 @@ new_error_context <- function(dots, i, mask) {
 poke_error_context <- function(dots, i, mask) {
   ctxt <- new_error_context(dots, i, mask = mask)
   context_poke("dplyr_error_context", ctxt)
-}
-
-dot_as_label <- function(expr) {
-  if (quo_is_call(expr, "invisible")) {
-    ""
-  } else {
-    quo_as_label(expr)
-  }
 }
 
 mask_type <- function(mask = peek_mask()) {
@@ -128,21 +120,15 @@ error_label <- function(ctxt = peek_error_context()) {
   name <- ctxt$error_name
   expr <- ctxt$error_expression
 
-  has_expr <- nzchar(expr)
+  # TODO: Replace by `check_string(allow_empty = FALSE, .internal = TRUE)`
+  if (!is_string(expr) || !nzchar(expr)) {
+    abort("`expr` must be a string.", .internal = TRUE)
+  }
 
   if (is_null(name) || !nzchar(name)) {
-    if (has_expr) {
-      expr
-    } else {
-      abort("TODO")
-      paste0("..", ctxt$error_index)
-    }
+    expr
   } else {
-    if (has_expr) {
-      paste0(name, " = ", expr)
-    } else {
-      expr
-    }
+    paste0(name, " = ", expr)
   }
 }
 
