@@ -221,7 +221,8 @@ inner_join.data.frame <- function(x,
     na_matches = na_matches,
     keep = keep,
     multiple = multiple,
-    unmatched = unmatched
+    unmatched = unmatched,
+    user_env = caller_env()
   )
 }
 
@@ -260,7 +261,8 @@ left_join.data.frame <- function(x,
     na_matches = na_matches,
     keep = keep,
     multiple = multiple,
-    unmatched = unmatched
+    unmatched = unmatched,
+    user_env = caller_env()
   )
 }
 
@@ -299,7 +301,8 @@ right_join.data.frame <- function(x,
     na_matches = na_matches,
     keep = keep,
     multiple = multiple,
-    unmatched = unmatched
+    unmatched = unmatched,
+    user_env = caller_env()
   )
 }
 
@@ -338,7 +341,8 @@ full_join.data.frame <- function(x,
     keep = keep,
     multiple = multiple,
     # All keys from both inputs are retained. Erroring never makes sense.
-    unmatched = "drop"
+    unmatched = "drop",
+    user_env = caller_env()
   )
 }
 
@@ -394,7 +398,7 @@ semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 #' @rdname filter-joins
 semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never")) {
   y <- auto_copy(x, y, copy = copy)
-  join_filter(x, y, by = by, type = "semi", na_matches = na_matches)
+  join_filter(x, y, by = by, type = "semi", na_matches = na_matches, user_env = caller_env())
 }
 
 #' @export
@@ -408,7 +412,7 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 #' @rdname filter-joins
 anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never")) {
   y <- auto_copy(x, y, copy = copy)
-  join_filter(x, y, by = by, type = "anti", na_matches = na_matches)
+  join_filter(x, y, by = by, type = "anti", na_matches = na_matches, user_env = caller_env())
 }
 
 #' Nest join
@@ -532,7 +536,8 @@ nest_join.data.frame <- function(x,
     filter = filter,
     cross = cross,
     multiple = multiple,
-    unmatched = unmatched
+    unmatched = unmatched,
+    user_env = caller_env()
   )
 
   y_loc <- vec_split(rows$y, rows$x)$val
@@ -563,7 +568,8 @@ join_mutate <- function(x,
                         keep = NULL,
                         multiple = NULL,
                         unmatched = "drop",
-                        error_call = caller_env()) {
+                        error_call = caller_env(),
+                        user_env = caller_env()) {
   check_dots_empty0(...)
 
   na_matches <- check_na_matches(na_matches, error_call = error_call)
@@ -612,7 +618,8 @@ join_mutate <- function(x,
     cross = cross,
     multiple = multiple,
     unmatched = unmatched,
-    error_call = error_call
+    error_call = error_call,
+    user_env = user_env
   )
 
   x_slicer <- rows$x
@@ -660,7 +667,8 @@ join_filter <- function(x,
                         type,
                         ...,
                         na_matches = c("na", "never"),
-                        error_call = caller_env()) {
+                        error_call = caller_env(),
+                        user_env = caller_env()) {
   check_dots_empty0(...)
 
   na_matches <- check_na_matches(na_matches, error_call = error_call)
@@ -707,7 +715,8 @@ join_filter <- function(x,
     cross = cross,
     multiple = multiple,
     unmatched = unmatched,
-    error_call = error_call
+    error_call = error_call,
+    user_env = user_env
   )
 
   if (type == "semi") {

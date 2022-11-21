@@ -8,7 +8,8 @@ join_rows <- function(x_key,
                       cross = FALSE,
                       multiple = NULL,
                       unmatched = "drop",
-                      error_call = caller_env()) {
+                      error_call = caller_env(),
+                      user_env = caller_env()) {
   check_dots_empty0(...)
 
   type <- arg_match(type, error_call = error_call)
@@ -26,7 +27,7 @@ join_rows <- function(x_key,
   incomplete <- standardise_join_incomplete(type, na_matches, unmatched)
   no_match <- standardise_join_no_match(type, unmatched)
   remaining <- standardise_join_remaining(type, unmatched)
-  multiple <- standardise_multiple(multiple, condition, filter, cross)
+  multiple <- standardise_multiple(multiple, condition, filter, cross, user_env)
 
   matches <- dplyr_locate_matches(
     needles = x_key,
@@ -222,7 +223,7 @@ standardise_join_remaining <- function(type, unmatched) {
   }
 }
 
-standardise_multiple <- function(multiple, condition, filter, cross) {
+standardise_multiple <- function(multiple, condition, filter, cross, user_env) {
   if (!is_null(multiple)) {
     # User supplied value always wins
     return(multiple)
@@ -236,11 +237,51 @@ standardise_multiple <- function(multiple, condition, filter, cross) {
   # "warning" for equi and rolling joins where multiple matches are surprising.
   # "all" for non-equi joins where multiple matches are expected.
   non_equi <- (condition != "==") & (filter == "none")
-
   if (any(non_equi)) {
-    "all"
-  } else {
+    return("all")
+  }
+
+  if (is_direct(user_env)) {
+    # Direct calls result in a warning when there are multiple matches,
+    # because they are likely surprising and the caller will be able to set
+    # the `multiple` argument. Indirect calls don't warn, because the caller
+    # is unlikely to have access to `multiple` to silence it.
     "warning"
+  } else {
+    "all"
   }
 }
 
+# TODO: Use upstream function when exported from rlang
+# `lifecycle:::is_direct()`
+is_direct <- function(env) {
+  env_inherits_global(env) || from_testthat(env)
+}
+env_inherits_global <- function(env) {
+  # `topenv(emptyenv())` returns the global env. Return `FALSE` in
+  # that case to allow passing the empty env when the
+  # soft-deprecation should not be promoted to deprecation based on
+  # the caller environment.
+  if (is_reference(env, empty_env())) {
+    return(FALSE)
+  }
+
+  is_reference(topenv(env), global_env())
+}
+# TRUE if we are in unit tests and the package being tested is the
+# same as the package that called
+from_testthat <- function(env) {
+  tested_package <- Sys.getenv("TESTTHAT_PKG")
+  if (!nzchar(tested_package)) {
+    return(FALSE)
+  }
+
+  top <- topenv(env)
+  if (!is_namespace(top)) {
+    return(FALSE)
+  }
+
+  # Test for environment names rather than reference/contents because
+  # testthat clones the namespace
+  identical(ns_env_name(top), tested_package)
+}

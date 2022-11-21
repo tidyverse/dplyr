@@ -270,6 +270,32 @@ test_that("join_filter() validates arguments", {
   })
 })
 
+test_that("mutating joins trigger multiple match warning", {
+  df1 <- tibble(x = 1)
+  df2 <- tibble(x = c(1, 1))
+  expect_snapshot(out <- left_join(df1, df2, join_by(x)))
+})
+
+test_that("mutating joins don't trigger multiple match warning when called indirectly", {
+  df1 <- tibble(x = 1)
+  df2 <- tibble(x = c(1, 1))
+
+  fn <- function(df1, df2, multiple = NULL) {
+    left_join(df1, df2, join_by(x), multiple = multiple)
+  }
+
+  # Directly calling `left_join()` from a function you control results in a warning
+  expect_warning(fn(df1, df2), class = "dplyr_warning_join_matches_multiple")
+
+  # Now mimic calling an "rlang function" which you don't control that calls `left_join()`
+  fn_env(fn) <- ns_env("rlang")
+
+  # Indirectly calling `left_join()` through a function you don't control
+  # doesn't warn unless `multiple = "warning"` is explicitly set
+  expect_no_warning(fn(df1, df2), class = "dplyr_warning_join_matches_multiple")
+  expect_warning(fn(df1, df2, "warning"), class = "dplyr_warning_join_matches_multiple")
+})
+
 test_that("mutating joins compute common columns", {
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- tibble(x = c(1, 3), z = c(2, 3))
