@@ -252,6 +252,7 @@ standardise_multiple <- function(multiple, condition, filter, cross, user_env) {
   }
 }
 
+# TODO: Use upstream function when exported from rlang
 # `lifecycle:::is_direct()`
 is_direct <- function(env) {
   env_inherits_global(env) || from_testthat(env)
