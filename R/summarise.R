@@ -41,7 +41,7 @@
 #'   * A vector of length 1, e.g. `min(x)`, `n()`, or `sum(is.na(y))`.
 #'   * A data frame, to add multiple columns from a single expression.
 #'
-#'   `r lifecycle::badge("deprecated")` Returning values with length >1 was
+#'   `r lifecycle::badge("deprecated")` Returning values with size 0 or >1 was
 #'   deprecated as of 1.1.0. Please use [morph()] for this instead.
 #' @param .groups `r lifecycle::badge("experimental")` Grouping structure of the
 #'   result.
@@ -56,7 +56,7 @@
 #'   based on the number of rows of the results:
 #'   * If all the results have 1 row, you get "drop_last".
 #'   * If the number of rows varies, you get "keep" (note that returning a
-#'     variable number of rows is deprecated in favor of [morph()], which also
+#'     variable number of rows was deprecated in favor of [morph()], which also
 #'     unconditionally drops all levels of grouping).
 #'
 #'   In addition, a message informs you of that choice, unless the result is ungrouped,

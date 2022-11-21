@@ -23,7 +23,7 @@ The value can be:
 \item A data frame, to add multiple columns from a single expression.
 }
 
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Returning values with length >1 was
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Returning values with size 0 or >1 was
 deprecated as of 1.1.0. Please use \code{\link[=morph]{morph()}} for this instead.}
 
 \item{.by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
@@ -47,7 +47,7 @@ based on the number of rows of the results:
 \itemize{
 \item If all the results have 1 row, you get "drop_last".
 \item If the number of rows varies, you get "keep" (note that returning a
-variable number of rows is deprecated in favor of \code{\link[=morph]{morph()}}, which also
+variable number of rows was deprecated in favor of \code{\link[=morph]{morph()}}, which also
 unconditionally drops all levels of grouping).
 }
 
