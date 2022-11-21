@@ -57,10 +57,10 @@ Note that \code{df \%>\% nest_by(x, y)} is roughly equivalent to
 }\if{html}{\out{</div>}}
 
 If you want to unnest a nested data frame, you can either use
-\code{tidyr::unnest()} or take advantage of \code{summarise()}s multi-row behaviour:
+\code{tidyr::unnest()} or take advantage of \code{morph()}s multi-row behaviour:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{nested \%>\%
-  summarise(data)
+  morph(data)
 }\if{html}{\out{</div>}}
 }
 \section{Methods}{
@@ -89,10 +89,10 @@ models \%>\% summarise(rsq = summary(model)$r.squared)
 
 # This is particularly elegant with the broom functions
 models \%>\% summarise(broom::glance(model))
-models \%>\% summarise(broom::tidy(model))
+models \%>\% morph(broom::tidy(model))
 \dontshow{\}) # examplesIf}
 
-# Note that you can also summarise to unnest the data
-models \%>\% summarise(data)
+# Note that you can also `morph()` to unnest the data
+models \%>\% morph(data)
 }
 \keyword{internal}
