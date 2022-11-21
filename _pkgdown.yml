@@ -44,6 +44,7 @@ reference:
   - dplyr_by
   - rowwise
   - summarise
+  - morph
   - 'n'
 
 - subtitle: Data frames

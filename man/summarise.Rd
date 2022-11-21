@@ -153,6 +153,7 @@ summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
 Other single table verbs: 
 \code{\link{arrange}()},
 \code{\link{filter}()},
+\code{\link{morph}()},
 \code{\link{mutate}()},
 \code{\link{rename}()},
 \code{\link{select}()},

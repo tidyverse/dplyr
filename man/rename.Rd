@@ -62,6 +62,7 @@ rename_with(iris, ~ tolower(gsub(".", "_", .x, fixed = TRUE)))
 Other single table verbs: 
 \code{\link{arrange}()},
 \code{\link{filter}()},
+\code{\link{morph}()},
 \code{\link{mutate}()},
 \code{\link{select}()},
 \code{\link{slice}()},

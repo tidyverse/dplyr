@@ -246,6 +246,7 @@ To take the difference between two selections, combine the \code{&} and
 Other single table verbs: 
 \code{\link{arrange}()},
 \code{\link{filter}()},
+\code{\link{morph}()},
 \code{\link{mutate}()},
 \code{\link{rename}()},
 \code{\link{slice}()},
