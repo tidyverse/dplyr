@@ -109,7 +109,7 @@ ntile <- function(x = row_number(), n) {
   }
   len <- vec_size(x) - sum(vec_detect_missing(x))
 
-  check_number(n)
+  check_number_whole(n)
   n <- vec_cast(n, integer())
   if (n <= 0L) {
     abort("`n` must be positive.")

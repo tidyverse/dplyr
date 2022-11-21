@@ -4,7 +4,7 @@
       nth(1, 1, na_rm = 1)
     Condition
       Error in `nth()`:
-      ! `na_rm` must be `TRUE` or `FALSE`, not a number.
+      ! `na_rm` must be `TRUE` or `FALSE`, not the number 1.
 
 ---
 

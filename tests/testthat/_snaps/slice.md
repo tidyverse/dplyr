@@ -77,27 +77,27 @@
       slice_head(df, n = "a")
     Condition
       Error in `slice_head()`:
-      ! `n` must be a round number, not a string.
+      ! `n` must be a round number, not the string "a".
     Code
       slice_tail(df, n = "a")
     Condition
       Error in `slice_tail()`:
-      ! `n` must be a round number, not a string.
+      ! `n` must be a round number, not the string "a".
     Code
       slice_min(df, x, n = "a")
     Condition
       Error in `slice_min()`:
-      ! `n` must be a round number, not a string.
+      ! `n` must be a round number, not the string "a".
     Code
       slice_max(df, x, n = "a")
     Condition
       Error in `slice_max()`:
-      ! `n` must be a round number, not a string.
+      ! `n` must be a round number, not the string "a".
     Code
       slice_sample(df, n = "a")
     Condition
       Error in `slice_sample()`:
-      ! `n` must be a round number, not a string.
+      ! `n` must be a round number, not the string "a".
 
 # get_slice_size() validates its inputs
 
@@ -124,12 +124,12 @@
       get_slice_size(n = "a")
     Condition
       Error:
-      ! `n` must be a round number, not a string.
+      ! `n` must be a round number, not the string "a".
     Code
       get_slice_size(prop = "a")
     Condition
       Error:
-      ! `prop` must be a number, not a string.
+      ! `prop` must be a number, not the string "a".
 
 # n must be an integer
 
@@ -137,7 +137,7 @@
       slice_head(df, n = 1.1)
     Condition
       Error in `slice_head()`:
-      ! `n` must be a round number, not a number.
+      ! `n` must be a round number, not the number 1.1.
 
 # slice_*() checks that `n=` is explicitly named and ... is empty
 
@@ -281,22 +281,22 @@
       slice_min(data.frame(x = 1:10), x, with_ties = 1)
     Condition
       Error in `slice_min()`:
-      ! `with_ties` must be `TRUE` or `FALSE`, not a number.
+      ! `with_ties` must be `TRUE` or `FALSE`, not the number 1.
     Code
       slice_max(data.frame(x = 1:10), x, with_ties = 1)
     Condition
       Error in `slice_max()`:
-      ! `with_ties` must be `TRUE` or `FALSE`, not a number.
+      ! `with_ties` must be `TRUE` or `FALSE`, not the number 1.
     Code
       slice_min(data.frame(x = 1:10), x, na_rm = 1)
     Condition
       Error in `slice_min()`:
-      ! `na_rm` must be `TRUE` or `FALSE`, not a number.
+      ! `na_rm` must be `TRUE` or `FALSE`, not the number 1.
     Code
       slice_max(data.frame(x = 1:10), x, na_rm = 1)
     Condition
       Error in `slice_max()`:
-      ! `na_rm` must be `TRUE` or `FALSE`, not a number.
+      ! `na_rm` must be `TRUE` or `FALSE`, not the number 1.
 
 # slice_sample() checks size of `weight_by=` (#5922)
 
@@ -314,7 +314,7 @@
       slice_sample(df, replace = 1)
     Condition
       Error in `slice_sample()`:
-      ! `replace` must be `TRUE` or `FALSE`, not a number.
+      ! `replace` must be `TRUE` or `FALSE`, not the number 1.
     Code
       slice_sample(df, replace = NA)
     Condition

@@ -24,7 +24,7 @@
     Output
       <error/rlang_error>
       Error in `bind_rows()`:
-      ! `.id` must be a single string, not a number.
+      ! `.id` must be a single string, not the number 5.
     Code
       # invalid type
       ll <- list(tibble(a = 1:5), env(a = 1))

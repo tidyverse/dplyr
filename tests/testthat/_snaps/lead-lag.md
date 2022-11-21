@@ -12,7 +12,7 @@
       lead(1:5, n = 1:2)
     Condition
       Error in `lead()`:
-      ! `n` must be a round number, not an integer vector.
+      ! `n` must be a whole number, not an integer vector.
     Code
       lead(1:5, -1)
     Condition
@@ -25,7 +25,7 @@
       lag(1:5, n = 1:2)
     Condition
       Error in `lag()`:
-      ! `n` must be a round number, not an integer vector.
+      ! `n` must be a whole number, not an integer vector.
     Code
       lag(1:5, -1)
     Condition
@@ -99,7 +99,7 @@
       shift(1, n = 1:2)
     Condition
       Error in `shift()`:
-      ! `n` must be a round number, not an integer vector.
+      ! `n` must be a whole number, not an integer vector.
 
 # `order_by` must be the same size as `x`
 
