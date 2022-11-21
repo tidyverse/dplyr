@@ -562,7 +562,7 @@
       Warning:
       There were 32 warnings in `filter()`.
       The first warning was:
-      i In argument `..1 = f()`.
+      i In argument `f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! foo
@@ -594,7 +594,7 @@
     Output
       <warning/rlang_warning>
       Warning in `filter()`:
-      i In argument `..1 = f()`.
+      i In argument `f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! foo

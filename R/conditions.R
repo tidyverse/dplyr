@@ -116,25 +116,20 @@ mask_type <- function(mask = peek_mask()) {
   "ungrouped"
 }
 
-error_label <- function(ctxt = peek_error_context()) {
-  name <- ctxt$error_name
-  expr <- ctxt$error_expression
-
-  # TODO: Replace by `check_string(allow_empty = FALSE, .internal = TRUE)`
-  if (!is_string(expr) || !nzchar(expr)) {
-    abort("`expr` must be a string.", .internal = TRUE)
-  }
-
+ctxt_error_label <- function(ctxt = peek_error_context()) {
+  error_label(ctxt$error_name, ctxt$error_expression)
+}
+error_label <- function(name, expr_label) {
   if (is_null(name) || !nzchar(name)) {
-    expr
+    expr_label
   } else {
-    paste0(name, " = ", expr)
+    paste0(name, " = ", expr_label)
   }
 }
 
 cnd_bullet_header <- function(what) {
   ctxt <- peek_error_context()
-  label <- error_label(ctxt)
+  label <- ctxt_error_label(ctxt)
 
   if (is_string(what, "recycle")) {
     glue("Can't {what} `{label}`.")
@@ -354,18 +349,20 @@ signal_warnings <- function(state, error_call) {
 
 new_dplyr_warning <- function(data) {
   if (data$has_group_data) {
-    label <- cur_group_label(
+    group_label <- cur_group_label(
       data$type,
       data$group_data$id,
       data$group_data$group
     )
   } else {
-    label <- ""
+    group_label <- ""
   }
 
+  label <- error_label(data$name, data$expr)
+
   msg <- c(
-    "i" = glue::glue("In argument `{data$name} = {data$expr}`."),
-    "i" = if (nzchar(label)) glue("In {label}.")
+    "i" = glue::glue("In argument `{label}`."),
+    "i" = if (nzchar(group_label)) glue("In {group_label}.")
   )
 
   warning_cnd(
