@@ -121,6 +121,8 @@ test_that("compact row names are retained", {
 })
 
 test_that("dplyr_reconstruct() strips attributes before dispatch", {
+  skip("duckdb relational: requires better dplyr_reconstruct()")
+
   local_methods(
     dplyr_reconstruct.dplyr_foobar = function(data, template) {
       out <<- data
