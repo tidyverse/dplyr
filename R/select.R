@@ -71,6 +71,11 @@ select.data.frame <- function(.data, ...) {
   )
   loc <- ensure_group_vars(loc, .data, notify = TRUE)
 
+  if (length(loc) == 0) {
+    # Special case: relational can't handle empty projections
+    return(.data[0])
+  }
+
   loc_name <- names(.data)[loc]
 
   rel <- relational::duckdb_rel_from_df(.data)
