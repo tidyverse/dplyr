@@ -71,10 +71,14 @@ select.data.frame <- function(.data, ...) {
   )
   loc <- ensure_group_vars(loc, .data, notify = TRUE)
 
-  out <- dplyr_col_select(.data, loc)
-  out <- set_names(out, names(loc))
+  loc_name <- names(.data)[loc]
 
-  out
+  rel <- relational::duckdb_rel_from_df(.data)
+  exprs <- map2(names(.data)[loc], names(loc), ~ relational::expr_reference(.x, alias = .y))
+  out_rel <- relational::rel_project(rel, exprs)
+
+  out <- relational::rel_to_df(out_rel)
+  dplyr_reconstruct(out, .data)
 }
 
 
