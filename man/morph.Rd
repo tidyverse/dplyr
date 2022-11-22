@@ -2,7 +2,7 @@
 % Please edit documentation in R/morph.R
 \name{morph}
 \alias{morph}
-\title{Create a new data frame}
+\title{Transform each group to an arbitrary number of rows}
 \usage{
 morph(.data, ..., .by = NULL)
 }
@@ -38,8 +38,13 @@ fundamentally creates a new data frame.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
+While \code{\link[=summarise]{summarise()}} requires that each argument returns a single value, and
+\code{\link[=mutate]{mutate()}} requires that each argument returns the same number of rows as the
+input, \code{morph()} is a more general workhorse with no requirements on the
+number of rows returned per group.
+
 \code{morph()} creates a new data frame by applying functions to columns of an
-existing data frame. It is very similar to \code{\link[=summarise]{summarise()}}, with two big
+existing data frame. It is most similar to \code{summarise()}, with two big
 differences:
 \itemize{
 \item \code{morph()} can return an arbitrary number of rows per group, while

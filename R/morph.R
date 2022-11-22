@@ -1,10 +1,15 @@
-#' Create a new data frame
+#' Transform each group to an arbitrary number of rows
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
+#' While [summarise()] requires that each argument returns a single value, and
+#' [mutate()] requires that each argument returns the same number of rows as the
+#' input, `morph()` is a more general workhorse with no requirements on the
+#' number of rows returned per group.
+#'
 #' `morph()` creates a new data frame by applying functions to columns of an
-#' existing data frame. It is very similar to [summarise()], with two big
+#' existing data frame. It is most similar to `summarise()`, with two big
 #' differences:
 #'
 #' - `morph()` can return an arbitrary number of rows per group, while
