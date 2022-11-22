@@ -11,9 +11,9 @@
     return a grouped or rowwise data frame, depending on the scenario.
     
   `morph()` has been added in response to valid concern from the community that
-  allowing `summarise()` to return 0 or >1 rows per group increases the chance
-  for accidental bugs. We still feel that this is a powerful technique, and is a
-  principled replacement for `do()`, so we have moved these features to
+  allowing `summarise()` to return any number of rows per group increases the
+  chance for accidental bugs. We still feel that this is a powerful technique,
+  and is a principled replacement for `do()`, so we have moved these features to
   `morph()` (#6382).
 
 * Returning 0 or >1 rows per group in `summarise()` is now soft-deprecated in
