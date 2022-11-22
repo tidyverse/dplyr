@@ -191,7 +191,8 @@ dplyr_reconstruct_dispatch <- function(data, template) {
 
 #' @export
 dplyr_reconstruct.data.frame <- function(data, template) {
-  .Call(`dplyr_reconstruct_data_frame`, data, template)
+  .Call(relational:::copy_df_attribs, data, template)
+  data
 }
 
 #' @export
