@@ -76,14 +76,33 @@ select.data.frame <- function(.data, ...) {
     return(.data[0])
   }
 
+  if (typeof(.row_names_info(.data, 0L)) != "integer") {
+    # Fall back for row names
+    out <- dplyr_col_select(.data, loc)
+    return(set_names(out, names(loc)))
+  }
+
+  if (inherits(.data, "grouped_df")) {
+    # Fall back for grouped df
+    out <- dplyr_col_select(.data, loc)
+    return(set_names(out, names(loc)))
+  }
+
   loc_name <- names(.data)[loc]
-
-  rel <- relational::duckdb_rel_from_df(.data)
   exprs <- map2(names(.data)[loc], names(loc), ~ relational::expr_reference(.x, alias = .y))
-  out_rel <- relational::rel_project(rel, exprs)
 
-  out <- relational::rel_to_df(out_rel)
-  dplyr_reconstruct(out, .data)
+  tryCatch(
+    {
+      rel <- relational::duckdb_rel_from_df(.data)
+      out_rel <- relational::rel_project(rel, exprs)
+      out <- relational::rel_to_df(out_rel)
+      dplyr_reconstruct(out, .data)
+    },
+    error = function(e) {
+      out <- dplyr_col_select(.data, loc)
+      set_names(out, names(loc))
+    }
+  )
 }
 
 
