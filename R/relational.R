@@ -7,6 +7,9 @@ rel_translate <- function(quo, data) {
 
   do_translate <- function(expr) {
     switch(typeof(expr[[1]]),
+      character = ,
+      logical = ,
+      integer = ,
       double = relational::expr_constant(expr),
       abort(paste0("Internal: Unknown type ", typeof(expr[[1]])))
     )
