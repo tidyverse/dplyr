@@ -78,31 +78,37 @@ select.data.frame <- function(.data, ...) {
 
   if (typeof(.row_names_info(.data, 0L)) != "integer") {
     # Fall back for row names
-    out <- dplyr_col_select(.data, loc)
-    return(set_names(out, names(loc)))
+    return(select_data_frame_fallback(.data, loc))
   }
 
   if (inherits(.data, "grouped_df")) {
     # Fall back for grouped df
-    out <- dplyr_col_select(.data, loc)
-    return(set_names(out, names(loc)))
+    return(select_data_frame_fallback(.data, loc))
   }
 
   loc_name <- names(.data)[loc]
   exprs <- map2(names(.data)[loc], names(loc), ~ relational::expr_reference(.x, alias = .y))
 
-  tryCatch(
+  rel <- NULL
+  fallback <- tryCatch(
     {
       rel <- relational::duckdb_rel_from_df(.data)
-      out_rel <- relational::rel_project(rel, exprs)
-      out <- relational::rel_to_df(out_rel)
-      dplyr_reconstruct(out, .data)
     },
-    error = function(e) {
-      out <- dplyr_col_select(.data, loc)
-      set_names(out, names(loc))
-    }
+    error = function(e) {}
   )
+
+  if (is.null(rel)) {
+    return(select_data_frame_fallback(.data, loc))
+  }
+
+  out_rel <- relational::rel_project(rel, exprs)
+  out <- relational::rel_to_df(out_rel)
+  dplyr_reconstruct(out, .data)
+}
+
+select_data_frame_fallback <- function(.data, loc) {
+  out <- dplyr_col_select(.data, loc)
+  set_names(out, names(loc))
 }
 
 
