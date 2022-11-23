@@ -118,23 +118,22 @@ filter <- function(.data, ..., .by = NULL, .preserve = FALSE) {
 
 #' @export
 filter.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
-  loc <- filter_rows(.data, ..., .by = {{ .by }})
-  dplyr_row_slice(.data, loc, preserve = .preserve)
-}
-
-filter_rows <- function(.data, ..., .by = NULL, error_call = caller_env()) {
-  error_call <- dplyr_error_call(error_call)
-
   dots <- dplyr_quosures(...)
-  check_filter(dots, error_call = error_call)
+  check_filter(dots)
 
   by <- compute_by(
     by = {{ .by }},
     data = .data,
     by_arg = ".by",
-    data_arg = ".data",
-    error_call = error_call
+    data_arg = ".data"
   )
+
+  loc <- filter_rows(.data, dots, by)
+  dplyr_row_slice(.data, loc, preserve = .preserve)
+}
+
+filter_rows <- function(.data, dots, by, error_call = caller_env()) {
+  error_call <- dplyr_error_call(error_call)
 
   mask <- DataMask$new(.data, by, "filter", error_call = error_call)
   on.exit(mask$forget(), add = TRUE)
