@@ -144,8 +144,6 @@ test_that("tally() owns errors (#6139)", {
 # add_count ---------------------------------------------------------------
 
 test_that("ouput preserves grouping", {
-  skip("duckdb relational: requires better dplyr_reconstruct()")
-
   df <- tibble(g = c(1, 2, 2, 2))
   exp <- tibble(g = c(1, 2, 2, 2), n = c(1, 3, 3, 3))
 

@@ -276,8 +276,6 @@ test_that("slice_*() checks that `n=` is explicitly named and ... is empty", {
 })
 
 test_that("slice_helpers do call slice() and benefit from dispatch (#6084)", {
-  skip("duckdb relational: don't care about subclasses yet")
-
   local_methods(
     slice.noisy = function(.data, ..., .preserve = FALSE) {
       warning("noisy")
@@ -467,8 +465,6 @@ test_that("slice_sample() works with `by`", {
 # slice_head/slice_tail ---------------------------------------------------
 
 test_that("slice_head/slice_tail keep positive values", {
-  skip("duckdb relational: grouped operation not supported yet")
-
   gf <- group_by(tibble(g = c(1, 2, 2, 3, 3, 3), id = 1:6), g)
 
   expect_equal(slice_head(gf, n = 1)$id, c(1, 2, 4))
@@ -479,8 +475,6 @@ test_that("slice_head/slice_tail keep positive values", {
 })
 
 test_that("slice_head/tail() count from back with negative n/prop", {
-  skip("duckdb relational: negative n not supported yet")
-
   df <- tibble(id = 1:4, x = c(2, 3, 1, 4))
   expect_equal(slice_head(df, n = -1), slice_head(df, n = 3))
   expect_equal(slice_tail(df, n = -1), slice_tail(df, n = 3))
@@ -491,8 +485,6 @@ test_that("slice_head/tail() count from back with negative n/prop", {
 })
 
 test_that("slice_head/slice_tail drop from opposite end when n/prop negative", {
-  skip("duckdb relational: grouped operation not supported yet")
-
   gf <- group_by(tibble(g = c(1, 2, 2, 3, 3, 3), id = 1:6), g)
 
   expect_equal(slice_head(gf, n = -1)$id, c(2, 4, 5))
@@ -503,8 +495,6 @@ test_that("slice_head/slice_tail drop from opposite end when n/prop negative", {
 })
 
 test_that("slice_head/slice_tail handle infinite n/prop", {
-  skip("duckdb relational: infinity not supported yet")
-
   df <- tibble(x = 1)
   expect_identical(slice_head(df, n = Inf), df)
   expect_identical(slice_tail(df, n = Inf), df)
@@ -518,8 +508,6 @@ test_that("slice_head/slice_tail handle infinite n/prop", {
 })
 
 test_that("slice_head/slice_tail work with `by`", {
-  skip("duckdb relational: grouped operation not supported yet")
-
   df <- tibble(g = c(2, 2, 2, 1), x = c(1, 2, 3, 1))
   expect_identical(slice_head(df, n = 2, by = g), df[c(1, 2, 4),])
   expect_identical(slice_tail(df, n = 2, by = g), df[c(2, 3, 4),])
