@@ -90,7 +90,7 @@ select.data.frame <- function(.data, ...) {
   exprs <- map2(names(.data)[loc], names(loc), ~ relational::expr_reference(.x, alias = .y))
 
   rel <- NULL
-  fallback <- tryCatch(
+  tryCatch(
     {
       rel <- relational::duckdb_rel_from_df(.data)
     },
