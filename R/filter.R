@@ -128,8 +128,29 @@ filter.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
     data_arg = ".data"
   )
 
-  loc <- filter_rows(.data, dots, by)
-  dplyr_row_slice(.data, loc, preserve = .preserve)
+  if (FALSE) {
+    loc <- filter_rows(.data, dots, by)
+    return(dplyr_row_slice(.data, loc, preserve = .preserve))
+  }
+
+
+  out_rel <- NULL
+  tryCatch(
+    {
+      exprs <- rel_translate_dots(dots, .data)
+      rel <- relational::duckdb_rel_from_df(.data)
+      out_rel <- relational::rel_filter(rel, exprs)
+    },
+    error = function(e) {}
+  )
+
+  if (is.null(out_rel)) {
+    loc <- filter_rows(.data, dots, by)
+    return(dplyr_row_slice(.data, loc, preserve = .preserve))
+  }
+
+  out <- relational::rel_to_df(out_rel)
+  dplyr_reconstruct(out, .data)
 }
 
 filter_rows <- function(.data, dots, by, error_call = caller_env()) {
