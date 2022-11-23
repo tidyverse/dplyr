@@ -40,7 +40,7 @@ Suggests:
     covr,
     DBI,
     dbplyr (>= 2.2.1),
-    duckdb,
+    duckdb (>= 0.6.0),
     ggplot2,
     knitr,
     Lahman,
@@ -66,5 +66,5 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Remotes:  
-    duckdb/duckdb/tools/rpkg#5181,
     duckdblabs/relational
+Additional_repositories: https://duckdb.r-universe.dev
