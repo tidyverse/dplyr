@@ -297,8 +297,6 @@ test_that("slice_helpers do call slice() and benefit from dispatch (#6084)", {
 })
 
 test_that("slice_helper `by` errors use correct error context and correct `by_arg`", {
-  skip("duckdb relational: grouped operation not supported yet")
-
   df <- tibble(x = 1)
   gdf <- group_by(df, x)
 
