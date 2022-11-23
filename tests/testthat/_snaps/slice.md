@@ -17,8 +17,6 @@
     Condition
       Warning:
       Slicing with a 1-column matrix was deprecated in dplyr 1.1.0.
-      i The deprecated feature was likely used in the dplyr package.
-        Please report the issue at <https://github.com/tidyverse/dplyr/issues>.
 
 # slice errors if index is not numeric
 
