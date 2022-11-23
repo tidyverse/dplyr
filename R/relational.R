@@ -21,7 +21,12 @@ rel_translate <- function(quo, data) {
         }
       },
       #
-      abort(paste0("Internal: Unknown type ", typeof(expr[[1]])))
+      language = {
+        args <- map(expr[-1], do_translate)
+        relational::expr_function(as.character(expr[[1]]), args)
+      },
+      #
+      abort(paste0("Internal: Unknown type ", typeof(expr)))
     )
   }
 
