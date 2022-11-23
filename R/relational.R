@@ -16,7 +16,7 @@ rel_translate <- function(quo, data) {
         if (as.character(expr) %in% names(data)) {
           relational::expr_reference(as.character(expr))
         } else {
-          val <- eval_tidy(expr, env)
+          val <- eval_tidy(expr, env = env)
           relational::expr_constant(val)
         }
       },
