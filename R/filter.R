@@ -143,7 +143,7 @@ filter_rows <- function(.data, ..., .by = NULL, error_call = caller_env()) {
   filter_eval(dots, mask = mask, error_call = error_call)
 }
 
-check_filter <- function(dots, error_call = error_call) {
+check_filter <- function(dots, error_call = caller_env()) {
   named <- have_name(dots)
 
   for (i in which(named)) {
