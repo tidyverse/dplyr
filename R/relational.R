@@ -1,3 +1,15 @@
+rel_try <- function(rel, fallback) {
+  # return(rel)
+
+  out <- try_fetch(rel, error = identity)
+  if (inherits(out, "error")) {
+    cnd_signal(warning_cnd(message = "Can't process with relational.", parent = out))
+    fallback
+  } else {
+    out
+  }
+}
+
 rel_translate_dots <- function(dots, data) {
   map(dots, rel_translate, data)
 }
