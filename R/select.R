@@ -69,7 +69,6 @@ select.data.frame <- function(.data, ...) {
     data = .data,
     error_call = error_call
   )
-  loc <- ensure_group_vars(loc, .data, notify = TRUE)
 
   loc_name <- names(.data)[loc]
   exprs <- map2(names(.data)[loc], names(loc), ~ relational::expr_reference(.x, alias = .y))
@@ -79,6 +78,9 @@ select.data.frame <- function(.data, ...) {
     {
       rel <- relational::duckdb_rel_from_df(.data)
     }, fallback = {
+      # FIXME: ensure_group_vars() materializes via group_data()
+      loc <- ensure_group_vars(loc, .data, notify = TRUE)
+
       out <- dplyr_col_select(.data, loc)
       return(set_names(out, names(loc)))
     }
