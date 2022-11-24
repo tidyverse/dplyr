@@ -128,7 +128,7 @@ filter.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
     data_arg = ".data"
   )
 
-  if (length(.data) == 0) {
+  if (length(.data) == 0 || length(dots) == 0 || length(by$names) > 0 || inherits(.data, "grouped_df")) {
     loc <- filter_rows(.data, dots, by)
     return(dplyr_row_slice(.data, loc, preserve = .preserve))
   }
