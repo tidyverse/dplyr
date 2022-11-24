@@ -43,6 +43,7 @@ jobs:
         with:
           extra-packages: any::rcmdcheck, url::https://duckdb.r-universe.dev/src/contrib/duckdb_0.6.0.tar.gz
           needs: check
+          pak-version: devel
 
       - uses: r-lib/actions/check-r-package@v2
         with:
