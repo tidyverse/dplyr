@@ -194,13 +194,13 @@ mutate.data.frame <- function(.data,
 
   cols_expr <- names(cols)
   cols_expr_modified <- intersect(cols_expr, cols_data)
-  cols_expr_new <- setdiff(cols_expr, cols_expr_modified)
 
   .before <- enquo(.before)
   .after <- enquo(.after)
 
   if (!quo_is_null(.before) || !quo_is_null(.after)) {
     # Only change the order of new columns
+    cols_expr_new <- setdiff(cols_expr, cols_expr_modified)
     out <- relocate(out, all_of(cols_expr_new), .before = !!.before, .after = !!.after)
   }
 
