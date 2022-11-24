@@ -186,7 +186,7 @@ mutate.data.frame <- function(.data,
   cols <- mutate_cols(.data, dplyr_quosures(...), by)
   out <- dplyr_col_modify(.data, cols)
 
-  # Input for postprocessing
+  # Extract input for postprocessing
   used <- attr(cols, "used")
 
   # Compact out `NULL` columns that got removed.
@@ -194,8 +194,10 @@ mutate.data.frame <- function(.data,
   # Note that `dplyr_col_modify()` makes it impossible to `NULL` a group column,
   # which we rely on below.
   cols <- compact_null(cols)
-  cols_expr <- names(cols)
+
+  # Convert input for postprocessing
   cols_group <- by$names
+  cols_expr <- names(cols)
 
   # Postprocessing
   cols_data <- names(.data)
