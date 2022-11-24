@@ -6,6 +6,9 @@ rel_translate <- function(quo, data) {
   env <- quo_get_env(quo)
 
   do_translate <- function(expr) {
+    # I don't understand yet how this can be a quosure
+    stopifnot(!is_quosure(expr))
+
     switch(typeof(expr),
       character = ,
       logical = ,
