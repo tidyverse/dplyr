@@ -174,29 +174,32 @@ mutate.data.frame <- function(.data,
                               .keep = c("all", "used", "unused", "none"),
                               .before = NULL,
                               .after = NULL) {
+  # dplyr front-end
   keep <- arg_match(.keep)
 
   by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
 
-  cols <- mutate_cols(.data, dplyr_quosures(...), by)
-  used <- attr(cols, "used")
+  .before <- enquo(.before)
+  .after <- enquo(.after)
 
+  # Execution
+  cols <- mutate_cols(.data, dplyr_quosures(...), by)
   out <- dplyr_col_modify(.data, cols)
+
+  # Input for postprocessing
+  used <- attr(cols, "used")
 
   # Compact out `NULL` columns that got removed.
   # These won't exist in `out`, but we don't want them to look "new".
   # Note that `dplyr_col_modify()` makes it impossible to `NULL` a group column,
   # which we rely on below.
   cols <- compact_null(cols)
-
-  cols_data <- names(.data)
+  cols_expr <- names(cols)
   cols_group <- by$names
 
-  cols_expr <- names(cols)
+  # Postprocessing
+  cols_data <- names(.data)
   cols_expr_modified <- intersect(cols_expr, cols_data)
-
-  .before <- enquo(.before)
-  .after <- enquo(.after)
 
   if (!quo_is_null(.before) || !quo_is_null(.after)) {
     # Only change the order of new columns
