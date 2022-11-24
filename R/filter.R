@@ -128,22 +128,20 @@ filter.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
     data_arg = ".data"
   )
 
-  rel_try({
-    if (length(.data) == 0) {
-      error_cnd(message = "Can't use relational with zero-column result set.")
-    } else if (length(dots) == 0) {
-      error_cnd(message = "Can't use relational without filter conditions.")
-    } else if (length(by$names) > 0) {
-      error_cnd(message = "Can't use relational with grouped operation.")
-    } else {
+  rel_try(
+    "Can't use relational with zero-column result set." = (length(.data) == 0),
+    "Can't use relational without filter conditions." = (length(dots) == 0),
+    "Can't use relational with grouped operation." = (length(by$names) > 0),
+    {
       exprs <- rel_translate_dots(dots, .data)
       rel <- relational::duckdb_rel_from_df(.data)
       out_rel <- relational::rel_filter(rel, exprs)
+    },
+    fallback = {
+      loc <- filter_rows(.data, dots, by)
+      return(dplyr_row_slice(.data, loc, preserve = .preserve))
     }
-  }, fallback = {
-    loc <- filter_rows(.data, dots, by)
-    return(dplyr_row_slice(.data, loc, preserve = .preserve))
-  })
+  )
 
   out <- relational::rel_to_df(out_rel)
   dplyr_reconstruct(out, .data)

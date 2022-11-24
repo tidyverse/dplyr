@@ -1,11 +1,22 @@
-rel_try <- function(rel, fallback) {
+rel_try <- function(rel, fallback, ...) {
   # return(rel)
+
+  dots <- as.logical(list(...))
+  for (i in seq_along(dots)) {
+    if (dots[[i]]) {
+      # FIXME: enable always
+      if (!identical(Sys.getenv("TESTTHAT"), "true")) {
+        warn(message = c("Requested fallback for relational:", i = names(dots)[[i]]))
+      }
+      return(fallback)
+    }
+  }
 
   out <- try_fetch(rel, error = identity)
   if (inherits(out, "error")) {
     # FIXME: enable always
     if (!identical(Sys.getenv("TESTTHAT"), "true")) {
-      cnd_signal(warning_cnd(message = "Can't process with relational.", parent = out))
+      cnd_signal(warning_cnd(message = "Error processing with relational.", parent = out))
     }
 
     fallback

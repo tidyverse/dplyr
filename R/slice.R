@@ -153,28 +153,26 @@ slice_head.data.frame <- function(.data, ..., n, prop, by = NULL) {
 
   dplyr_local_error_call()
 
-  rel_try({
-    if (is_missing(n)) {
-      error_cnd(message = "Can't use relational with `slice_head(prop = )`.")
-    } else if (n < 0) {
-      error_cnd(message = "Can't use relational with `slice_head()` and `n < 0`.")
-    } else if (!quo_is_null(by)) {
-      error_cnd(message = "Can't use relational with grouped operation.")
-    } else {
+  rel_try(
+    "Can't use relational with `slice_head(prop = )`." = (is_missing(n)),
+    "Can't use relational with `slice_head()` and `n < 0`." = (!is_missing(n) && n < 0),
+    "Can't use relational with grouped operation." = (!quo_is_null(by)),
+    {
       rel <- relational::duckdb_rel_from_df(.data)
       out_rel <- relational::rel_limit(rel, n)
       out <- relational::rel_to_df(out_rel)
       dplyr_reconstruct(out, .data)
-    }
-  }, fallback = {
-    dplyr_local_slice_by_arg("by")
+    },
+    fallback = {
+      dplyr_local_slice_by_arg("by")
 
-    idx <- function(n) {
-      seq2(1, size(n))
-    }
+      idx <- function(n) {
+        seq2(1, size(n))
+      }
 
-    slice(.data, idx(dplyr::n()), .by = !!by)
-  })
+      slice(.data, idx(dplyr::n()), .by = !!by)
+    }
+  )
 }
 
 #' @export

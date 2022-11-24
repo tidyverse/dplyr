@@ -74,16 +74,15 @@ select.data.frame <- function(.data, ...) {
   loc_name <- names(.data)[loc]
   exprs <- map2(names(.data)[loc], names(loc), ~ relational::expr_reference(.x, alias = .y))
 
-  rel_try({
-    if (length(loc) == 0) {
-      error_cnd(message = "Can't use relational with zero-column result set.")
-    } else {
+  rel_try(
+    "Can't use relational with zero-column result set." = (length(loc) == 0),
+    {
       rel <- relational::duckdb_rel_from_df(.data)
+    }, fallback = {
+      out <- dplyr_col_select(.data, loc)
+      return(set_names(out, names(loc)))
     }
-  }, fallback = {
-    out <- dplyr_col_select(.data, loc)
-    return(set_names(out, names(loc)))
-  })
+  )
 
   out_rel <- relational::rel_project(rel, exprs)
   out <- relational::rel_to_df(out_rel)
