@@ -97,10 +97,6 @@
     Code
       transmute(mtcars, 1 + "")
     Condition
-      Warning:
-      Can't process with relational.
-      Caused by error in `relational::duckdb_rel_from_df()`:
-      ! Need data frame without row names to convert to relational.
       Error in `foo()`:
       i In argument: `..1 = 1 + ""`.
       Caused by error in `1 + ""`:
@@ -154,10 +150,6 @@
     Code
       my_verb(mtcars, 1 + "", am)
     Condition
-      Warning:
-      Can't process with relational.
-      Caused by error in `FUN()`:
-      ! !is_quosure(expr) is not TRUE
       Error in `my_verb()`:
       i In argument: `.result = (1 + "") * am`.
       Caused by error in `1 + ""`:
@@ -165,10 +157,6 @@
     Code
       my_verb(mtcars, cyl, c(am, vs))
     Condition
-      Warning:
-      Can't process with relational.
-      Caused by error in `FUN()`:
-      ! !is_quosure(expr) is not TRUE
       Error in `my_verb()`:
       i In argument: `.result = cyl * c(am, vs)`.
       Caused by error:

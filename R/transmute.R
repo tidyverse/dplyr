@@ -44,7 +44,7 @@ transmute.data.frame <- function(.data, ...) {
 
   rel_try({
     if (length(dots) == 0) {
-      error_cnd("Can't use relational with zero-column result set.")
+      error_cnd(message = "Can't use relational with zero-column result set.")
     } else {
       exprs <- rel_translate_dots(dots, .data)
       rel <- relational::duckdb_rel_from_df(.data)
