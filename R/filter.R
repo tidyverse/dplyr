@@ -128,7 +128,7 @@ filter.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
     data_arg = ".data"
   )
 
-  if (FALSE) {
+  if (length(.data) == 0) {
     loc <- filter_rows(.data, dots, by)
     return(dplyr_row_slice(.data, loc, preserve = .preserve))
   }
