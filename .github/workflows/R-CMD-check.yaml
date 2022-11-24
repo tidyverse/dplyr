@@ -39,6 +39,10 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
+      - name: Install digest
+        run: |
+          R -q -e 'install.packages("digest")'
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck, url::https://duckdb.r-universe.dev/src/contrib/duckdb_0.6.0.tar.gz
