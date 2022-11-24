@@ -99,47 +99,8 @@
     Condition
       Warning:
       Can't process with relational.
-      Caused by error:
-      ! Binder Error: No function matches the given name and argument types '+(DOUBLE, VARCHAR)'. You might need to add explicit type casts.
-      	Candidate functions:
-      	+(TINYINT) -> TINYINT
-      	+(TINYINT, TINYINT) -> TINYINT
-      	+(SMALLINT) -> SMALLINT
-      	+(SMALLINT, SMALLINT) -> SMALLINT
-      	+(INTEGER) -> INTEGER
-      	+(INTEGER, INTEGER) -> INTEGER
-      	+(BIGINT) -> BIGINT
-      	+(BIGINT, BIGINT) -> BIGINT
-      	+(HUGEINT) -> HUGEINT
-      	+(HUGEINT, HUGEINT) -> HUGEINT
-      	+(FLOAT) -> FLOAT
-      	+(FLOAT, FLOAT) -> FLOAT
-      	+(DOUBLE) -> DOUBLE
-      	+(DOUBLE, DOUBLE) -> DOUBLE
-      	+(DECIMAL) -> DECIMAL
-      	+(DECIMAL, DECIMAL) -> DECIMAL
-      	+(UTINYINT) -> UTINYINT
-      	+(UTINYINT, UTINYINT) -> UTINYINT
-      	+(USMALLINT) -> USMALLINT
-      	+(USMALLINT, USMALLINT) -> USMALLINT
-      	+(UINTEGER) -> UINTEGER
-      	+(UINTEGER, UINTEGER) -> UINTEGER
-      	+(UBIGINT) -> UBIGINT
-      	+(UBIGINT, UBIGINT) -> UBIGINT
-      	+(DATE, INTEGER) -> DATE
-      	+(INTEGER, DATE) -> DATE
-      	+(INTERVAL, INTERVAL) -> INTERVAL
-      	+(DATE, INTERVAL) -> DATE
-      	+(INTERVAL, DATE) -> DATE
-      	+(TIME, INTERVAL) -> TIME
-      	+(INTERVAL, TIME) -> TIME
-      	+(TIMESTAMP, INTERVAL) -> TIMESTAMP
-      	+(INTERVAL, TIMESTAMP) -> TIMESTAMP
-      	+(TIME, DATE) -> TIMESTAMP
-      	+(DATE, TIME) -> TIMESTAMP
-      	+(ANY[], ANY[]) -> ANY[]
-      	+(TIMESTAMP WITH TIME ZONE, INTERVAL) -> TIMESTAMP WITH TIME ZONE
-      	+(INTERVAL, TIMESTAMP WITH TIME ZONE) -> TIMESTAMP WITH TIME ZONE
+      Caused by error in `relational::duckdb_rel_from_df()`:
+      ! Need data frame without row names to convert to relational.
       Error in `foo()`:
       i In argument: `..1 = 1 + ""`.
       Caused by error in `1 + ""`:
