@@ -196,9 +196,6 @@ mutate.data.frame <- function(.data,
   cols_expr_modified <- intersect(cols_expr, cols_data)
   cols_expr_new <- setdiff(cols_expr, cols_expr_modified)
 
-  cols_used <- setdiff(cols_data, c(cols_group, cols_expr_modified, names(used)[!used]))
-  cols_unused <- setdiff(cols_data, c(cols_group, cols_expr_modified, names(used)[used]))
-
   .before <- enquo(.before)
   .after <- enquo(.after)
 
@@ -212,11 +209,14 @@ mutate.data.frame <- function(.data,
   if (keep == "all") {
     cols_retain <- cols_out
   } else if (keep == "used") {
+    cols_unused <- setdiff(cols_data, c(cols_group, cols_expr_modified, names(used)[used]))
     cols_retain <- setdiff(cols_out, cols_unused)
   } else if (keep == "unused") {
+    cols_used <- setdiff(cols_data, c(cols_group, cols_expr_modified, names(used)[!used]))
     cols_retain <- setdiff(cols_out, cols_used)
   } else if (keep == "none") {
-    cols_retain <- setdiff(cols_out, c(cols_used, cols_unused))
+    cols_any <- setdiff(cols_data, c(cols_group, cols_expr_modified))
+    cols_retain <- setdiff(cols_out, cols_any)
   }
 
   dplyr_col_select(out, cols_retain)
