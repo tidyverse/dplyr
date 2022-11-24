@@ -37,6 +37,19 @@ explain <- function(x, ...) {
 }
 
 #' @export
+explain.data.frame <- function(x, ...) {
+  rel_try(
+    {
+      rel <- relational::duckdb_rel_from_df(x)
+      relational::rel_explain(rel)
+    },
+    fallback = {
+      writeLines("Can't convert to relational, fallback implementation will be used.")
+    }
+  )
+}
+
+#' @export
 #' @rdname explain
 show_query <- function(x, ...) {
   UseMethod("show_query")

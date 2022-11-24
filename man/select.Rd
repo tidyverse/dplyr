@@ -106,6 +106,9 @@ iris <- as_tibble(iris)
 Select variables by name:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{starwars \%>\% select(height)
+#> Error processing with relational.
+#> Caused by error:
+#> ! rapi_execute: Unsupported column type for bind
 #> # A tibble: 87 x 1
 #>   height
 #>    <int>
@@ -130,6 +133,9 @@ Select multiple variables by separating them with commas. Note how
 the order of columns is determined by the order of inputs:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{starwars \%>\% select(homeworld, height, mass)
+#> Error processing with relational.
+#> Caused by error:
+#> ! rapi_execute: Unsupported column type for bind
 #> # A tibble: 87 x 3
 #>   homeworld height  mass
 #>   <chr>      <int> <dbl>
@@ -158,6 +164,9 @@ dots. In this case use \code{c()} to select multiple variables:
 The \code{:} operator selects a range of consecutive variables:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{starwars \%>\% select(name:mass)
+#> Error processing with relational.
+#> Caused by error:
+#> ! rapi_execute: Unsupported column type for bind
 #> # A tibble: 87 x 3
 #>   name           height  mass
 #>   <chr>           <int> <dbl>
@@ -171,6 +180,9 @@ The \code{:} operator selects a range of consecutive variables:
 The \code{!} operator negates a selection:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{starwars \%>\% select(!(name:mass))
+#> Error processing with relational.
+#> Caused by error:
+#> ! rapi_execute: Unsupported column type for bind
 #> # A tibble: 87 x 11
 #>   hair_color skin_c~1 eye_c~2 birth~3 sex   gender homew~4 species films vehic~5
 #>   <chr>      <chr>    <chr>     <dbl> <chr> <chr>  <chr>   <chr>   <lis> <list> 
@@ -183,6 +195,20 @@ The \code{!} operator negates a selection:
 #> #   5: vehicles
 
 iris \%>\% select(!c(Sepal.Length, Petal.Length))
+#> materializing:
+#> ---------------------
+#> --- Relation Tree ---
+#> ---------------------
+#> Projection ["Sepal.Width" as Sepal.Width, "Petal.Width" as Petal.Width, "Species" as Species]
+#>   r_dataframe_scan(0x12386c808)
+#> 
+#> ---------------------
+#> -- Result Columns  --
+#> ---------------------
+#> - Sepal.Width (DOUBLE)
+#> - Petal.Width (DOUBLE)
+#> - Species ("Species")
+#> 
 #> # A tibble: 150 x 3
 #>   Sepal.Width Petal.Width Species
 #>         <dbl>       <dbl> <fct>  
@@ -193,6 +219,20 @@ iris \%>\% select(!c(Sepal.Length, Petal.Length))
 #> # ... with 146 more rows
 
 iris \%>\% select(!ends_with("Width"))
+#> materializing:
+#> ---------------------
+#> --- Relation Tree ---
+#> ---------------------
+#> Projection ["Sepal.Length" as Sepal.Length, "Petal.Length" as Petal.Length, "Species" as Species]
+#>   r_dataframe_scan(0x116f7b928)
+#> 
+#> ---------------------
+#> -- Result Columns  --
+#> ---------------------
+#> - Sepal.Length (DOUBLE)
+#> - Petal.Length (DOUBLE)
+#> - Species ("Species")
+#> 
 #> # A tibble: 150 x 3
 #>   Sepal.Length Petal.Length Species
 #>          <dbl>        <dbl> <fct>  
@@ -206,6 +246,18 @@ iris \%>\% select(!ends_with("Width"))
 \code{&} and \code{|} take the intersection or the union of two selections:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{iris \%>\% select(starts_with("Petal") & ends_with("Width"))
+#> materializing:
+#> ---------------------
+#> --- Relation Tree ---
+#> ---------------------
+#> Projection ["Petal.Width" as Petal.Width]
+#>   r_dataframe_scan(0x1262622e8)
+#> 
+#> ---------------------
+#> -- Result Columns  --
+#> ---------------------
+#> - Petal.Width (DOUBLE)
+#> 
 #> # A tibble: 150 x 1
 #>   Petal.Width
 #>         <dbl>
@@ -216,6 +268,20 @@ iris \%>\% select(!ends_with("Width"))
 #> # ... with 146 more rows
 
 iris \%>\% select(starts_with("Petal") | ends_with("Width"))
+#> materializing:
+#> ---------------------
+#> --- Relation Tree ---
+#> ---------------------
+#> Projection ["Petal.Length" as Petal.Length, "Petal.Width" as Petal.Width, "Sepal.Width" as Sepal.Width]
+#>   r_dataframe_scan(0x126687308)
+#> 
+#> ---------------------
+#> -- Result Columns  --
+#> ---------------------
+#> - Petal.Length (DOUBLE)
+#> - Petal.Width (DOUBLE)
+#> - Sepal.Width (DOUBLE)
+#> 
 #> # A tibble: 150 x 3
 #>   Petal.Length Petal.Width Sepal.Width
 #>          <dbl>       <dbl>       <dbl>
@@ -230,6 +296,18 @@ To take the difference between two selections, combine the \code{&} and
 \code{!} operators:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{iris \%>\% select(starts_with("Petal") & !ends_with("Width"))
+#> materializing:
+#> ---------------------
+#> --- Relation Tree ---
+#> ---------------------
+#> Projection ["Petal.Length" as Petal.Length]
+#>   r_dataframe_scan(0x126d5e898)
+#> 
+#> ---------------------
+#> -- Result Columns  --
+#> ---------------------
+#> - Petal.Length (DOUBLE)
+#> 
 #> # A tibble: 150 x 1
 #>   Petal.Length
 #>          <dbl>
