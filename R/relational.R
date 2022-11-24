@@ -11,13 +11,17 @@ rel_try <- function(rel, fallback) {
 }
 
 rel_translate_dots <- function(dots, data) {
-  map(dots, rel_translate, data)
+  if (is.null(names(dots))) {
+    map(dots, rel_translate, data)
+  } else {
+    imap(dots, rel_translate, data = data)
+  }
 }
 
-rel_translate <- function(quo, data) {
+rel_translate <- function(quo, data, alias = NULL) {
   env <- quo_get_env(quo)
 
-  do_translate <- function(expr) {
+  do_translate <- function(expr, alias = NULL) {
     # I don't understand yet how this can be a quosure
     stopifnot(!is_quosure(expr))
 
@@ -25,25 +29,29 @@ rel_translate <- function(quo, data) {
       character = ,
       logical = ,
       integer = ,
-      double = relational::expr_constant(expr),
+      double = relational::expr_constant(expr, alias = alias),
       #
       symbol = {
         if (as.character(expr) %in% names(data)) {
-          relational::expr_reference(as.character(expr))
+          relational::expr_reference(as.character(expr), alias = alias)
         } else {
           val <- eval_tidy(expr, env = env)
-          relational::expr_constant(val)
+          relational::expr_constant(val, alias = alias)
         }
       },
       #
       language = {
         args <- map(expr[-1], do_translate)
-        relational::expr_function(as.character(expr[[1]]), args)
+        relational::expr_function(as.character(expr[[1]]), args, alias = alias)
       },
       #
       abort(paste0("Internal: Unknown type ", typeof(expr)))
     )
   }
 
-  do_translate(quo_get_expr(quo))
+  if (identical(alias, "")) {
+    alias <- NULL
+  }
+
+  do_translate(quo_get_expr(quo), alias)
 }
