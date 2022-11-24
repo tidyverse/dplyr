@@ -54,6 +54,8 @@ test_that("can transmute() with .data pronoun (#2715)", {
 })
 
 test_that("transmute() does not warn when a variable is removed with = NULL (#4609)", {
+  skip("duckdb relational: use new alias")
+
   df <- data.frame(x=1)
   expect_warning(transmute(df, y =x+1, z=y*2, y = NULL), NA)
 })
