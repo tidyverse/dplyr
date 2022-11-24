@@ -235,7 +235,7 @@
     Code
       slice_head(gdf, n = 1, by = x)
     Condition
-      Error in `slice()`:
+      Error in `slice_head()`:
       ! Can't supply `by` when `.data` is a grouped data frame.
     Code
       slice_tail(gdf, n = 1, by = x)

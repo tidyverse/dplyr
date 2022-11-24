@@ -149,6 +149,8 @@ slice_head <- function(.data, ..., n, prop, by = NULL) {
 slice_head.data.frame <- function(.data, ..., n, prop, by = NULL) {
   size <- get_slice_size(n = n, prop = prop)
 
+  dplyr_local_error_call()
+
   if (is_missing(n) || n < 0 || !quo_is_null(enquo(by)) || is_grouped_df(.data)) {
     dplyr_local_slice_by_arg("by")
 
@@ -159,8 +161,6 @@ slice_head.data.frame <- function(.data, ..., n, prop, by = NULL) {
     out <- slice(.data, idx(dplyr::n()), .by = {{ by }})
     return(out)
   }
-
-  dplyr_local_error_call()
 
   rel <- relational::duckdb_rel_from_df(.data)
   out_rel <- relational::rel_limit(rel, n)
