@@ -121,23 +121,24 @@ filter.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
   dots <- dplyr_quosures(...)
   check_filter(dots)
 
-  by <- compute_by(
-    by = {{ .by }},
-    data = .data,
-    by_arg = ".by",
-    data_arg = ".data"
-  )
-
   rel_try(
     "Can't use relational with zero-column result set." = (length(.data) == 0),
     "Can't use relational without filter conditions." = (length(dots) == 0),
-    "Can't use relational with grouped operation." = (length(by$names) > 0),
+    "Can't use relational with grouped operation." = (!quo_is_null(enquo(.by))), # (length(by$names) > 0),
     {
       exprs <- rel_translate_dots(dots, .data)
       rel <- relational::duckdb_rel_from_df(.data)
       out_rel <- relational::rel_filter(rel, exprs)
     },
     fallback = {
+      # FIXME: compute_by() materializes
+      by <- compute_by(
+        by = {{ .by }},
+        data = .data,
+        by_arg = ".by",
+        data_arg = ".data"
+      )
+
       loc <- filter_rows(.data, dots, by)
       return(dplyr_row_slice(.data, loc, preserve = .preserve))
     }

@@ -39,9 +39,6 @@ transmute.data.frame <- function(.data, ...) {
   dots <- check_transmute_args(...)
   dots <- dplyr_quosures(!!!dots)
 
-  # We don't expose `.by` because `transmute()` is superseded
-  by <- compute_by(by = NULL, data = .data)
-
   rel_try(
     "Can't use relational with zero-column result set." = (length(dots) == 0),
     {
@@ -52,6 +49,11 @@ transmute.data.frame <- function(.data, ...) {
       dplyr_reconstruct(out, .data)
     },
     fallback = {
+      # FIXME: compute_by() materializes
+
+      # We don't expose `.by` because `transmute()` is superseded
+      by <- compute_by(by = NULL, data = .data)
+
       cols <- mutate_cols(.data, dots, by)
       out <- dplyr_col_modify(.data, cols)
 
