@@ -6,7 +6,7 @@ rel_try <- function(rel, fallback, ...) {
     if (dots[[i]]) {
       # FIXME: enable always
       if (!identical(Sys.getenv("TESTTHAT"), "true")) {
-        warn(message = c("Requested fallback for relational:", i = names(dots)[[i]]))
+        inform(message = c("Requested fallback for relational:", i = names(dots)[[i]]))
       }
       return(fallback)
     }
@@ -16,7 +16,7 @@ rel_try <- function(rel, fallback, ...) {
   if (inherits(out, "error")) {
     # FIXME: enable always
     if (!identical(Sys.getenv("TESTTHAT"), "true")) {
-      cnd_signal(warning_cnd(message = "Error processing with relational.", parent = out))
+      cnd_signal(message_cnd(message = "Error processing with relational.", parent = out))
     }
 
     fallback
