@@ -321,6 +321,8 @@ test_that("mutate() hands list columns with rowwise magic to follow up expressio
 # other -------------------------------------------------------------------
 
 test_that("no utf8 invasion (#722)", {
+  skip("duckdb relational: WAT")
+
   skip_if_not(l10n_info()$"UTF-8")
   source("utf-8.txt", local = TRUE, encoding = "UTF-8")
 })
