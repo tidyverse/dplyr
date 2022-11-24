@@ -47,6 +47,7 @@ explain.data.frame <- function(x, ...) {
       writeLines("Can't convert to relational, fallback implementation will be used.")
     }
   )
+  invisible()
 }
 
 #' @export
