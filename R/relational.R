@@ -55,3 +55,7 @@ rel_translate <- function(quo, data, alias = NULL) {
 
   do_translate(quo_get_expr(quo), alias)
 }
+
+on_load({
+  options(duckdb.materialize_message = TRUE)
+})
