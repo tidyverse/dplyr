@@ -37,6 +37,7 @@ Suggests:
     bench,
     broom,
     callr,
+    constructive,
     covr,
     DBI,
     dbplyr (>= 2.2.1),
@@ -66,5 +67,5 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.2
 Remotes: 
+    cynkra/constructive,
     duckdblabs/relational
-Additional_repositories: https://duckdb.r-universe.dev
