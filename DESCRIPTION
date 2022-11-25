@@ -48,6 +48,7 @@ Suggests:
     lobstr,
     microbenchmark,
     nycflights13,
+    prettycode,
     purrr,
     relational (>= 0.0.0.9000),
     rmarkdown,
