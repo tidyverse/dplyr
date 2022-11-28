@@ -179,8 +179,8 @@ mutate.data.frame <- function(.data,
 
   by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
 
-  .before <- enquo(.before)
-  .after <- enquo(.after)
+  before <- enquo(.before)
+  after <- enquo(.after)
 
   # Execution
   cols <- mutate_cols(.data, dplyr_quosures(...), by)
@@ -203,13 +203,19 @@ mutate.data.frame <- function(.data,
   cols_data <- names(.data)
   cols_expr_modified <- intersect(cols_expr, cols_data)
 
-  if (!quo_is_null(.before) || !quo_is_null(.after)) {
-    # Only change the order of new columns
-    cols_expr_new <- setdiff(cols_expr, cols_expr_modified)
-    out <- relocate(out, all_of(cols_expr_new), .before = !!.before, .after = !!.after)
-  }
+  out <- mutate_relocate(out, before, after, cols_expr, cols_expr_modified)
 
   mutate_keep(out, keep, cols_data, cols_group, cols_expr_modified, used)
+}
+
+mutate_relocate <- function(out, before, after, cols_expr, cols_expr_modified) {
+  if (quo_is_null(before) && quo_is_null(after)) {
+    return(out)
+  }
+
+  # Only change the order of new columns
+  cols_expr_new <- setdiff(cols_expr, cols_expr_modified)
+  relocate(out, all_of(cols_expr_new), .before = !!before, .after = !!after)
 }
 
 mutate_keep <- function(out, keep, cols_data, cols_group, cols_expr_modified, used) {
