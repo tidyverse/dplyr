@@ -323,13 +323,13 @@ When you use `...` in this way, make sure that any other arguments start with `.
 
 ### Creating multiple columns
 
-You can use variable interpolation with `tibble()` to create columns based on the names of an input:
+Sometimes it can be useful for a single expression to return multiple columns. You can do this by returning an unnamed data frame:
 
 ```{r}
 quantile_df <- function(x, probs = c(0.25, 0.5, 0.75)) {
   tibble(
-    "{{x}}_val" := quantile(x, probs),
-    "{{x}}_quant" := probs
+    val = quantile(x, probs),
+    quant = probs
   )
 }
 
@@ -348,47 +348,22 @@ df <- tibble(
 
 df %>%
   group_by(grp) %>%
-  summarise(quantile_df(x))
+  summarise(quantile_df(x, probs = .5))
+
+df %>%
+  group_by(grp) %>%
+  summarise(across(x:y, ~ quantile_df(.x, probs = .5), .unpack = TRUE))
 ```
 
-Unfortunately it doesn't quite yet work with `across()` because (for complicated reasons) it generates so-called packed columns that are themselves data frames:
+Notice that we set `.unpack = TRUE` inside `across()`. This tells `across()` to _unpack_ the data frame returned by `quantile_df()` into its respective columns, combining the column names of the original columns (`x` and `y`) with the column names returned from the function (`val` and `quant`).
+
+If your function returns multiple _rows_ per group, then you'll need to switch from `summarise()` to `reframe()`. `summarise()` is restricted to returning 1 row summaries per group, but `reframe()` lifts this restriction:
 
 ```{r}
 df %>%
   group_by(grp) %>%
-  summarise(across(x:y, quantile_df))
+  reframe(across(x:y, quantile_df, .unpack = TRUE))
 ```
-
-You'll need an additional unpack to get what you want:
-
-```{r}
-df %>%
-  group_by(grp) %>%
-  summarise(across(x:y, quantile_df)) %>%
-  tidyr::unpack(x:y)
-```
-
-### Allowing the user to control column names
-
-If you want to give the user the ability to control the generated names, add an additional argument that uses `englue()` to get the name of the argument to the function:
-
-```{r}
-quantile_df <- function(x, probs = c(0.25, 0.5, 0.75), prefix = rlang::englue("{{x}}")) {
-  tibble(
-    "{prefix}_val" := quantile(x, probs),
-    "{prefix}_quant" := probs
-  )
-}
-
-# Defaults to use the variable name
-quantile_df(x)
-
-# But you can override if needed
-quantile_df(1:5, prefix = "foo")
-```
-
-`englue()` is the tool that powers embracing in variable names, so here we're just using it explicitly so that the user can override if needed.
-Also note that inside the tibble I've switched from embracing (`{{}}`) to glue-style interpolation (`{}`) since `prefix` is now a regular string.
 
 ### Transforming user-supplied variables
 

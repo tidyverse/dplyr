@@ -326,12 +326,12 @@ test_that("across() rejects non vectors", {
 
 test_that("across() uses tidy recycling rules", {
   expect_equal(
-    data.frame(x = 1, y = 2) %>% summarise(across(everything(), ~rep(42, .))),
+    data.frame(x = 1, y = 2) %>% reframe(across(everything(), ~rep(42, .))),
     data.frame(x = rep(42, 2), y = rep(42, 2))
   )
 
   expect_error(
-    data.frame(x = 2, y = 3) %>% summarise(across(everything(), ~rep(42, .)))
+    data.frame(x = 2, y = 3) %>% reframe(across(everything(), ~rep(42, .)))
   )
 })
 

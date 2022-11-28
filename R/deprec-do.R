@@ -5,7 +5,7 @@
 #'
 #' `do()` is superseded as of dplyr 1.0.0, because its syntax never really
 #' felt like it belonged with the rest of dplyr. It's replaced by a combination
-#' of [summarise()] (which can now produce multiple rows and multiple columns),
+#' of [reframe()] (which can produce multiple rows and multiple columns),
 #' [nest_by()] (which creates a [rowwise] tibble of nested data),
 #' and [pick()] (which allows you to access the data for the "current" group).
 #'
@@ -17,12 +17,12 @@
 #' @keywords internal
 #' @export
 #' @examples
-#' # do() with unnamed arguments becomes summarise()
+#' # do() with unnamed arguments becomes reframe() or summarise()
 #' # . becomes pick()
 #' by_cyl <- mtcars %>% group_by(cyl)
 #' by_cyl %>% do(head(., 2))
 #' # ->
-#' by_cyl %>% summarise(head(pick(everything()), 2))
+#' by_cyl %>% reframe(head(pick(everything()), 2))
 #' by_cyl %>% slice_head(n = 2)
 #'
 #' # Can refer to variables directly
@@ -45,7 +45,7 @@
 #' )
 #' @examplesIf requireNamespace("broom", quietly = TRUE)
 #' # ->
-#' models %>% summarise(broom::tidy(mod))
+#' models %>% reframe(broom::tidy(mod))
 do <- function(.data, ...) {
   lifecycle::signal_stage("superseded", "do()")
   UseMethod("do")

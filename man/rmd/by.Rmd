@@ -26,6 +26,8 @@ This great idea comes from [data.table](https://CRAN.R-project.org/package=data.
 
 -   [summarise()]
 
+-   [reframe()]
+
 -   [filter()]
 
 -   [slice()] and its variants, such as [slice_head()]
@@ -33,7 +35,7 @@ This great idea comes from [data.table](https://CRAN.R-project.org/package=data.
 ### Differences between `.by` and `group_by()`
 
 | `.by`                                                   | `group_by()`                                                 |
-|----------------------------------|-------------------------------------|
+|---------------------------------------------------------|--------------------------------------------------------------|
 | Grouping only affects a single verb                     | Grouping is persistent across multiple verbs                 |
 | Selects variables with [tidy-select][dplyr_tidy_select] | Computes expressions with [data-masking][dplyr_data_masking] |
 | Summaries use existing order of group keys              | Summaries sort group keys in ascending order                 |
@@ -113,7 +115,7 @@ expenses %>%
 
 ### Result ordering
 
-When used with `.by`, `summarise()` and `slice()` both maintain the ordering of the existing data.
+When used with `.by`, `summarise()`, `reframe()`, and `slice()` all maintain the ordering of the existing data.
 This is different from `group_by()`, which has always sorted the group keys in ascending order.
 
 ```{r}
@@ -132,7 +134,7 @@ df %>%
   summarise(average_temp = mean(temp))
 ```
 
-If you need sorted group keys, we recommend that you explicitly use [arrange()] either before or after the call to `summarise()` or `slice()`.
+If you need sorted group keys, we recommend that you explicitly use [arrange()] either before or after the call to `summarise()`, `reframe()`, or `slice()`.
 This also gives you full access to all of `arrange()`'s features, such as `desc()` and the `.locale` argument.
 
 ### Verbs without `.by` support
@@ -150,4 +152,3 @@ This is typically because the verbs are required to retain the grouping columns,
 -   [arrange()] has a `.by_group` argument to optionally order by grouping columns first.
 
 If `group_by()` didn't exist, then these verbs would not have special support for grouped data frames.
-

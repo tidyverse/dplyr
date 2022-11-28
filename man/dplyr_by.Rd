@@ -19,6 +19,7 @@ This great idea comes from \href{https://CRAN.R-project.org/package=data.table}{
 \itemize{
 \item \code{\link[=mutate]{mutate()}}
 \item \code{\link[=summarise]{summarise()}}
+\item \code{\link[=reframe]{reframe()}}
 \item \code{\link[=filter]{filter()}}
 \item \code{\link[=slice]{slice()}} and its variants, such as \code{\link[=slice_head]{slice_head()}}
 }
@@ -160,7 +161,7 @@ Or you could slice out the maximum cost per combination of id and region:
 
 \subsection{Result ordering}{
 
-When used with \code{.by}, \code{summarise()} and \code{slice()} both maintain the ordering of the existing data.
+When used with \code{.by}, \code{summarise()}, \code{reframe()}, and \code{slice()} all maintain the ordering of the existing data.
 This is different from \code{group_by()}, which has always sorted the group keys in ascending order.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{df <- tibble(
@@ -190,7 +191,7 @@ df \%>\%
 #> 3 mar           40
 }\if{html}{\out{</div>}}
 
-If you need sorted group keys, we recommend that you explicitly use \code{\link[=arrange]{arrange()}} either before or after the call to \code{summarise()} or \code{slice()}.
+If you need sorted group keys, we recommend that you explicitly use \code{\link[=arrange]{arrange()}} either before or after the call to \code{summarise()}, \code{reframe()}, or \code{slice()}.
 This also gives you full access to all of \code{arrange()}'s features, such as \code{desc()} and the \code{.locale} argument.
 }
 

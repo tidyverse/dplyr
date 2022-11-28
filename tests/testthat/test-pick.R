@@ -332,20 +332,20 @@ test_that("doesn't allow renaming", {
 })
 
 # ------------------------------------------------------------------------------
-# pick() + summarize()
+# pick() + summarise()/reframe()
 
-test_that("can `pick()` inside `summarize()`", {
+test_that("can `pick()` inside `reframe()`", {
   df <- tibble(g = c(1, 1, 2, 1, 2), x = c(1, 1, 1, 2, 2), y = c(1, 1, 1, 2, 1))
   gdf <- group_by(df, g)
 
   expect_key <- df[c(1, 4, 5), c("x", "y")]
   expect_count <- c(3L, 1L, 1L)
 
-  out <- summarize(df, vec_count(pick(x, y), sort = "count"))
+  out <- reframe(df, vec_count(pick(x, y), sort = "count"))
   expect_identical(out$key, expect_key)
   expect_identical(out$count, expect_count)
 
-  out <- summarize(df, vec_count(pick_wrapper(x, y), sort = "count"))
+  out <- reframe(df, vec_count(pick_wrapper(x, y), sort = "count"))
   expect_identical(out$key, expect_key)
   expect_identical(out$count, expect_count)
 
@@ -353,11 +353,11 @@ test_that("can `pick()` inside `summarize()`", {
   expect_key <- df[c(1, 4, 3, 5), c("x", "y")]
   expect_count <- c(2L, 1L, 1L, 1L)
 
-  out <- summarize(gdf, vec_count(pick(x, y), sort = "count"), .groups = "drop")
+  out <- reframe(gdf, vec_count(pick(x, y), sort = "count"))
   expect_identical(out$key, expect_key)
   expect_identical(out$count, expect_count)
 
-  out <- summarize(gdf, vec_count(pick_wrapper(x, y), sort = "count"), .groups = "drop")
+  out <- reframe(gdf, vec_count(pick_wrapper(x, y), sort = "count"))
   expect_identical(out$key, expect_key)
   expect_identical(out$count, expect_count)
 })
@@ -365,16 +365,16 @@ test_that("can `pick()` inside `summarize()`", {
 test_that("recycles correctly with empty selection", {
   df <- tibble(x = 1:5)
 
-  out <- summarise(df, sum = sum(x), y = pick(starts_with("foo")))
+  out <- reframe(df, sum = sum(x), y = pick(starts_with("foo")))
   expect_identical(out$sum, integer())
   expect_identical(out$y, new_tibble(list(), nrow = 0L))
 
-  out <- summarise(df, sum = sum(x), y = pick_wrapper(starts_with("foo")))
+  out <- reframe(df, sum = sum(x), y = pick_wrapper(starts_with("foo")))
   expect_identical(out$sum, integer())
   expect_identical(out$y, new_tibble(list(), nrow = 0L))
 })
 
-test_that("uses 'current' columns of `summarize()`", {
+test_that("uses 'current' columns of `summarize()` and `reframe()`", {
   df <- tibble(x = 1:5, y = 6:10)
 
   # Uses size of current version of `x`
@@ -394,11 +394,11 @@ test_that("uses 'current' columns of `summarize()`", {
   expect_x <- vec_rep(15L, 5)
   expect_z <- tibble(x = 15L, y = 6:10)
 
-  out <- summarise(df, x = sum(x), z = pick(x, y))
+  out <- reframe(df, x = sum(x), z = pick(x, y))
   expect_identical(out$x, expect_x)
   expect_identical(out$z, expect_z)
 
-  out <- summarise(df, x = sum(x), z = pick_wrapper(x, y))
+  out <- reframe(df, x = sum(x), z = pick_wrapper(x, y))
   expect_identical(out$x, expect_x)
   expect_identical(out$z, expect_z)
 })

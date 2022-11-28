@@ -23,11 +23,11 @@
 #' ```
 #'
 #' If you want to unnest a nested data frame, you can either use
-#' `tidyr::unnest()` or take advantage of `summarise()`s multi-row behaviour:
+#' `tidyr::unnest()` or take advantage of `reframe()`s multi-row behaviour:
 #'
 #' ```
 #' nested %>%
-#'   summarise(data)
+#'   reframe(data)
 #' ```
 #'
 #' @return
@@ -69,11 +69,11 @@
 #'
 #' # This is particularly elegant with the broom functions
 #' models %>% summarise(broom::glance(model))
-#' models %>% summarise(broom::tidy(model))
+#' models %>% reframe(broom::tidy(model))
 #' @examples
 #'
-#' # Note that you can also summarise to unnest the data
-#' models %>% summarise(data)
+#' # Note that you can also `reframe()` to unnest the data
+#' models %>% reframe(data)
 nest_by <- function(.data, ..., .key = "data", .keep = FALSE) {
   lifecycle::signal_stage("experimental", "nest_by()")
   UseMethod("nest_by")

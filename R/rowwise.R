@@ -49,15 +49,15 @@
 #'     2,  2,     2,   4,
 #'     3,  3,    -1,   2
 #' )
-#' # Here I supply variables to preserve after the summary
+#' # Here I supply variables to preserve after the computation
 #' params %>%
 #'   rowwise(sim) %>%
-#'   summarise(z = rnorm(n, mean, sd))
+#'   reframe(z = rnorm(n, mean, sd))
 #'
 #' # If you want one row per simulation, put the results in a list()
 #' params %>%
 #'   rowwise(sim) %>%
-#'   summarise(z = list(rnorm(n, mean, sd)))
+#'   summarise(z = list(rnorm(n, mean, sd)), .groups = "keep")
 rowwise <- function(data, ...) {
   UseMethod("rowwise")
 }
