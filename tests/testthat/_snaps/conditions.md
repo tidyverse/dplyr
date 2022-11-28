@@ -1,118 +1,31 @@
-# can hide expression in error messages
-
-    Code
-      mutate(mtcars, invisible(999 + ""))
-    Condition
-      Error in `mutate()`:
-      i In argument: `..1`.
-      Caused by error in `999 + ""`:
-      ! non-numeric argument to binary operator
-    Code
-      summarise(mtcars, invisible(999 + ""))
-    Condition
-      Error in `summarise()`:
-      i In argument: `..1`.
-      Caused by error in `999 + ""`:
-      ! non-numeric argument to binary operator
-    Code
-      filter(mtcars, invisible(999 + ""))
-    Condition
-      Error in `filter()`:
-      i In argument: `..1`.
-      Caused by error in `999 + ""`:
-      ! non-numeric argument to binary operator
-    Code
-      arrange(mtcars, invisible(999 + ""))
-    Condition
-      Error in `arrange()`:
-      i In argument: `..1`.
-      Caused by error in `999 + ""`:
-      ! non-numeric argument to binary operator
-    Code
-      select(mtcars, invisible(999 + ""))
-    Condition
-      Error in `select()`:
-      ! Problem while evaluating `invisible(999 + "")`.
-      Caused by error in `999 + ""`:
-      ! non-numeric argument to binary operator
-    Code
-      slice(mtcars, invisible(999 + ""))
-    Condition
-      Error in `slice()`:
-      i In argument: `..1`.
-      Caused by error in `999 + ""`:
-      ! non-numeric argument to binary operator
-    Code
-      mutate(mtcars, var = invisible(999 + ""))
-    Condition
-      Error in `mutate()`:
-      i In argument: `var`.
-      Caused by error in `999 + ""`:
-      ! non-numeric argument to binary operator
-    Code
-      summarise(mtcars, var = invisible(999 + ""))
-    Condition
-      Error in `summarise()`:
-      i In argument: `var`.
-      Caused by error in `999 + ""`:
-      ! non-numeric argument to binary operator
-    Code
-      filter(mtcars, var = invisible(999 + ""))
-    Condition
-      Error in `filter()`:
-      ! We detected a named input.
-      i This usually means that you've used `=` instead of `==`.
-      i Did you mean `var == invisible(999 + "")`?
-    Code
-      arrange(mtcars, var = invisible(999 + ""))
-    Condition
-      Error in `arrange()`:
-      i In argument: `..1`.
-      Caused by error in `999 + ""`:
-      ! non-numeric argument to binary operator
-    Code
-      select(mtcars, var = invisible(999 + ""))
-    Condition
-      Error in `select()`:
-      ! Problem while evaluating `invisible(999 + "")`.
-      Caused by error in `999 + ""`:
-      ! non-numeric argument to binary operator
-    Code
-      slice(mtcars, var = invisible(999 + ""))
-    Condition
-      Error in `slice()`:
-      ! Arguments in `...` must be passed by position, not name.
-      x Problematic argument:
-      * var = invisible(999 + "")
-
 # can pass verb-level error call
 
     Code
       mutate(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-      i In argument: `..1 = 1 + ""`.
+      i In argument: `1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
       transmute(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-      i In argument: `..1 = 1 + ""`.
+      i In argument: `1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
       summarise(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-      i In argument: `..1 = 1 + ""`.
+      i In argument: `1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
       summarise(group_by(mtcars, cyl), 1 + "")
     Condition
       Error in `foo()`:
-      i In argument: `..1 = 1 + ""`.
+      i In argument: `1 + ""`.
       i In group 1: `cyl = 4`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
@@ -120,7 +33,7 @@
       filter(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-      i In argument: `..1 = 1 + ""`.
+      i In argument: `1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
     Code
@@ -141,7 +54,7 @@
       slice(mtcars, 1 + "")
     Condition
       Error in `foo()`:
-      i In argument: `..1 = 1 + ""`.
+      i In argument: `1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
 
@@ -237,7 +150,7 @@
     Condition
       Warning:
       There was 1 warning in `mutate()`.
-      i In argument `x = f()`.
+      i In argument: `x = f()`.
       Caused by warning in `f()`:
       ! msg
     Code
@@ -246,7 +159,7 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      i In argument `x = f()`.
+      i In argument: `x = f()`.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -266,7 +179,7 @@
       Warning:
       There were 2 warnings in `mutate()`.
       The first warning was:
-      i In argument `x = f()`.
+      i In argument: `x = f()`.
       i In group 1: `id = 1`.
       Caused by warning in `f()`:
       ! msg
@@ -277,7 +190,7 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      i In argument `x = f()`.
+      i In argument: `x = f()`.
       i In group 1: `id = 1`.
       Caused by warning in `f()`:
       ! msg
@@ -291,7 +204,7 @@
       [[2]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      i In argument `x = f()`.
+      i In argument: `x = f()`.
       i In group 2: `id = 2`.
       Caused by warning in `f()`:
       ! msg
@@ -312,7 +225,7 @@
       Warning:
       There were 2 warnings in `mutate()`.
       The first warning was:
-      i In argument `x = f()`.
+      i In argument: `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -323,7 +236,7 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      i In argument `x = f()`.
+      i In argument: `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -337,7 +250,7 @@
       [[2]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      i In argument `x = f()`.
+      i In argument: `x = f()`.
       i In row 2.
       Caused by warning in `f()`:
       ! msg
@@ -358,13 +271,13 @@
     Condition
       Warning:
       There was 1 warning in `group_by()`.
-      i In argument `g = f():n()`.
+      i In argument: `g = f():n()`.
       Caused by warning in `f()`:
       ! msg
       Warning:
       There were 2 warnings in `mutate()`.
       The first warning was:
-      i In argument `x = f()`.
+      i In argument: `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -372,7 +285,7 @@
       Warning:
       There were 2 warnings in `mutate()`.
       The first warning was:
-      i In argument `x = f()`.
+      i In argument: `x = f()`.
       i In group 1: `id = 1`.
       Caused by warning in `f()`:
       ! msg
@@ -383,7 +296,7 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `group_by()`:
-      i In argument `g = f():n()`.
+      i In argument: `g = f():n()`.
       Caused by warning in `f()`:
       ! msg
       ---
@@ -400,7 +313,7 @@
       [[2]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      i In argument `x = f()`.
+      i In argument: `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -416,7 +329,7 @@
       [[3]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      i In argument `x = f()`.
+      i In argument: `x = f()`.
       i In row 2.
       Caused by warning in `f()`:
       ! msg
@@ -432,7 +345,7 @@
       [[4]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      i In argument `x = f()`.
+      i In argument: `x = f()`.
       i In group 1: `id = 1`.
       Caused by warning in `f()`:
       ! msg
@@ -446,7 +359,7 @@
       [[5]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      i In argument `x = f()`.
+      i In argument: `x = f()`.
       i In group 2: `id = 2`.
       Caused by warning in `f()`:
       ! msg
@@ -467,7 +380,7 @@
       Warning:
       There were 2 warnings in `mutate()`.
       The first warning was:
-      i In argument `x = f()`.
+      i In argument: `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -485,7 +398,7 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      i In argument `x = f()`.
+      i In argument: `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -510,7 +423,7 @@
       Warning:
       There were 5 warnings in `mutate()`.
       The first warning was:
-      i In argument `x = f()`.
+      i In argument: `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -531,7 +444,7 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      i In argument `x = f()`.
+      i In argument: `x = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! msg
@@ -553,13 +466,13 @@
     Condition
       Warning:
       There was 1 warning in `group_by()`.
-      i In argument `x = f(1):n()`.
+      i In argument: `x = f(1):n()`.
       Caused by warning in `h()`:
       ! foo
       Warning:
       There were 3 warnings in `mutate()`.
       The first warning was:
-      i In argument `x = f(1, base = FALSE)`.
+      i In argument: `x = f(1, base = FALSE)`.
       i In group 1: `x = 1`.
       Caused by warning:
       ! foo
@@ -578,7 +491,7 @@
       [[1]]
       <warning/rlang_warning>
       Warning in `group_by()`:
-      i In argument `x = f(1):n()`.
+      i In argument: `x = f(1):n()`.
       Caused by warning in `h()`:
       ! foo
       ---
@@ -594,7 +507,7 @@
       [[2]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      i In argument `x = f(1, base = FALSE)`.
+      i In argument: `x = f(1, base = FALSE)`.
       i In group 1: `x = 1`.
       Caused by warning:
       ! foo
@@ -610,7 +523,7 @@
       [[3]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      i In argument `x = f(1, base = FALSE)`.
+      i In argument: `x = f(1, base = FALSE)`.
       i In group 2: `x = 2`.
       Caused by warning:
       ! foo
@@ -626,7 +539,7 @@
       [[4]]
       <warning/rlang_warning>
       Warning in `mutate()`:
-      i In argument `x = f(1, base = FALSE)`.
+      i In argument: `x = f(1, base = FALSE)`.
       i In group 3: `x = 3`.
       Caused by warning:
       ! foo
@@ -649,20 +562,20 @@
       Warning:
       There were 32 warnings in `filter()`.
       The first warning was:
-      i In argument `..1 = f()`.
+      i In argument: `f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! foo
       i Run `dplyr::last_dplyr_warnings()` to see the 31 remaining warnings.
       Warning:
       There was 1 warning in `arrange()`.
-      i In argument `..1 = f()`.
+      i In argument: `..1 = f()`.
       Caused by warning in `f()`:
       ! foo
       Warning:
       There were 32 warnings in `mutate()`.
       The first warning was:
-      i In argument `a = f()`.
+      i In argument: `a = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! foo
@@ -670,7 +583,7 @@
       Warning:
       There were 32 warnings in `summarise()`.
       The first warning was:
-      i In argument `b = f()`.
+      i In argument: `b = f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! foo
@@ -681,7 +594,7 @@
     Output
       <warning/rlang_warning>
       Warning in `filter()`:
-      i In argument `..1 = f()`.
+      i In argument: `f()`.
       i In row 1.
       Caused by warning in `f()`:
       ! foo
@@ -690,7 +603,7 @@
     Output
       <warning/rlang_warning>
       Warning in `arrange()`:
-      i In argument `..1 = f()`.
+      i In argument: `..1 = f()`.
       Caused by warning in `f()`:
       ! foo
     Code
@@ -698,7 +611,7 @@
     Output
       <warning/rlang_warning>
       Warning in `mutate()`:
-      i In argument `a = f()`.
+      i In argument: `a = f()`.
       i In row 32.
       Caused by warning in `f()`:
       ! foo
@@ -707,7 +620,7 @@
     Output
       <warning/rlang_warning>
       Warning in `summarise()`:
-      i In argument `b = f()`.
+      i In argument: `b = f()`.
       i In row 32.
       Caused by warning in `f()`:
       ! foo

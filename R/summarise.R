@@ -381,7 +381,7 @@ summarise_bullets <- function(cnd, ...) {
 #' @export
 `summarise_bullets.dplyr:::summarise_unsupported_type` <- function(cnd, ...) {
   result <- cnd$dplyr_error_data$result
-  error_name <- peek_error_context()$error_name
+  error_name <- ctxt_error_label()
   c(
     glue("`{error_name}` must be a vector, not {obj_type_friendly(result)}."),
     i = cnd_bullet_rowwise_unlist()
@@ -395,7 +395,7 @@ summarise_bullets <- function(cnd, ...) {
   group         <- cnd$dplyr_error_data$group
 
   error_context <- peek_error_context()
-  error_name    <- error_context$error_name
+  error_name <- ctxt_error_label(error_context)
 
   # FIXME: So that cnd_bullet_cur_group_label() correctly reports the
   # faulty group
@@ -409,7 +409,7 @@ summarise_bullets <- function(cnd, ...) {
 
 #' @export
 `summarise_bullets.dplyr:::summarise_mixed_null` <- function(cnd, ...) {
-  error_name    <- peek_error_context()$error_name
+  error_name <- ctxt_error_label()
   c(
     glue("`{error_name}` must return compatible vectors across groups."),
     x = "Can't combine NULL and non NULL results."

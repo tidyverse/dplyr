@@ -82,7 +82,7 @@
     Condition
       Warning:
       There was 1 warning in `mutate()`.
-      i In argument `y = max(x)`.
+      i In argument: `y = max(x)`.
       Caused by warning in `max()`:
       ! no non-missing arguments to max; returning -Inf
     Output
@@ -163,10 +163,10 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In argument: `..1 = if (a == 1) NULL else "foo"`.
+      i In argument: `if (a == 1) NULL else "foo"`.
       i In group 1: `a = 1`.
       Caused by error:
-      ! `..1` must return compatible vectors across groups.
+      ! `if (a == 1) NULL else "foo"` must return compatible vectors across groups.
       x Can't combine NULL and non NULL results.
     Code
       (expect_error(tibble(a = 1:3, b = 4:6) %>% group_by(a) %>% mutate(if (a ==
@@ -174,10 +174,10 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In argument: `..1 = if (a == 2) NULL else "foo"`.
+      i In argument: `if (a == 2) NULL else "foo"`.
       i In group 2: `a = 2`.
       Caused by error:
-      ! `..1` must return compatible vectors across groups.
+      ! `if (a == 2) NULL else "foo"` must return compatible vectors across groups.
       x Can't combine NULL and non NULL results.
     Code
       (expect_error(data.frame(x = c(2, 2, 3, 3)) %>% mutate(int = 1:5)))
@@ -267,7 +267,27 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      i In argument: `..1 = stop("{")`.
+      i In argument: `stop("{")`.
       Caused by error:
       ! {
+
+# mutate() errors refer to expressions if not named
+
+    Code
+      (expect_error(mutate(mtcars, 1:3)))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`:
+      i In argument: `1:3`.
+      Caused by error:
+      ! `1:3` must be size 32 or 1, not 3.
+    Code
+      (expect_error(mutate(group_by(mtcars, cyl), 1:3)))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`:
+      i In argument: `1:3`.
+      i In group 1: `cyl = 4`.
+      Caused by error:
+      ! `1:3` must be size 11 or 1, not 3.
 

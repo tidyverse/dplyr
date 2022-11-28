@@ -23,7 +23,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = matrix(TRUE, nrow = 3, ncol = 2)`.
+      i In argument: `matrix(TRUE, nrow = 3, ncol = 2)`.
       Caused by error:
       ! `..1` must be a logical vector, not a logical matrix.
 
@@ -34,7 +34,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = array(TRUE, dim = c(3, 1, 1))`.
+      i In argument: `array(TRUE, dim = c(3, 1, 1))`.
       Caused by error:
       ! `..1` must be a logical vector, not a logical array.
 
@@ -45,7 +45,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = 1:n()`.
+      i In argument: `1:n()`.
       i In group 1: `Species = setosa`.
       Caused by error:
       ! `..1` must be a logical vector, not an integer vector.
@@ -54,7 +54,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = 1:n()`.
+      i In argument: `1:n()`.
       Caused by error:
       ! `..1` must be a logical vector, not an integer vector.
     Code
@@ -63,7 +63,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = matrix(c(TRUE, FALSE, TRUE, FALSE), nrow = 2)`.
+      i In argument: `matrix(c(TRUE, FALSE, TRUE, FALSE), nrow = 2)`.
       Caused by error:
       ! `..1` must be a logical vector, not a logical matrix.
     Code
@@ -71,7 +71,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = c(TRUE, FALSE)`.
+      i In argument: `c(TRUE, FALSE)`.
       i In group 1: `Species = setosa`.
       Caused by error:
       ! `..1` must be of size 50 or 1, not size 2.
@@ -80,7 +80,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = c(TRUE, FALSE)`.
+      i In argument: `c(TRUE, FALSE)`.
       i In row 1.
       Caused by error:
       ! `..1` must be of size 1, not size 2.
@@ -89,7 +89,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = c(TRUE, FALSE)`.
+      i In argument: `c(TRUE, FALSE)`.
       Caused by error:
       ! `..1` must be of size 150 or 1, not size 2.
     Code
@@ -98,7 +98,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = data.frame(c(TRUE, FALSE))`.
+      i In argument: `data.frame(c(TRUE, FALSE))`.
       i In group 1: `Species = setosa`.
       Caused by error:
       ! `..1` must be of size 50 or 1, not size 2.
@@ -107,7 +107,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = data.frame(c(TRUE, FALSE))`.
+      i In argument: `data.frame(c(TRUE, FALSE))`.
       i In row 1.
       Caused by error:
       ! `..1` must be of size 1, not size 2.
@@ -116,7 +116,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = data.frame(c(TRUE, FALSE))`.
+      i In argument: `data.frame(c(TRUE, FALSE))`.
       Caused by error:
       ! `..1` must be of size 150 or 1, not size 2.
     Code
@@ -124,7 +124,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = c(TRUE, TRUE)`.
+      i In argument: `c(TRUE, TRUE)`.
       Caused by error:
       ! `..1` must be of size 1, not size 2.
     Code
@@ -137,7 +137,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = data.frame(Sepal.Length > 3, 1:n())`.
+      i In argument: `data.frame(Sepal.Length > 3, 1:n())`.
       i In group 1: `Species = setosa`.
       Caused by error:
       ! `..1$X1.n..` must be a logical vector, not an integer vector.
@@ -150,7 +150,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = data.frame(Sepal.Length > 3, 1:n())`.
+      i In argument: `data.frame(Sepal.Length > 3, 1:n())`.
       Caused by error:
       ! `..1$X1.n..` must be a logical vector, not an integer vector.
     Code
@@ -158,7 +158,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = _x`.
+      i In argument: `_x`.
       Caused by error:
       ! object '_x' not found
     Code
@@ -166,7 +166,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = _x`.
+      i In argument: `_x`.
       i In group 1: `cyl = 4`.
       Caused by error:
       ! object '_x' not found
@@ -207,7 +207,7 @@
     Output
       <error/rlang_error>
       Error in `filter()`:
-      i In argument: `..1 = stop("{")`.
+      i In argument: `stop("{")`.
       Caused by error:
       ! {
     Code
