@@ -138,16 +138,16 @@
 #' }
 #'
 #' iris %>%
-#'   morph(across(starts_with("Sepal"), quantile_df))
+#'   reframe(across(starts_with("Sepal"), quantile_df))
 #'
 #' # Use .unpack to automatically expand these packed data frames into their
 #' # individual columns
 #' iris %>%
-#'   morph(across(starts_with("Sepal"), quantile_df, .unpack = TRUE))
+#'   reframe(across(starts_with("Sepal"), quantile_df, .unpack = TRUE))
 #'
 #' # .unpack can utilize a glue specification if you don't like the defaults
 #' iris %>%
-#'   morph(across(starts_with("Sepal"), quantile_df, .unpack = "{outer}.{inner}"))
+#'   reframe(across(starts_with("Sepal"), quantile_df, .unpack = "{outer}.{inner}"))
 #'
 #' # This is also useful inside mutate(), for example, with a multi-lag helper
 #' multilag <- function(x, lags = 1:3) {

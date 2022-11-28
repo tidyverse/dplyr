@@ -24,7 +24,7 @@ The value can be:
 }
 
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Returning values with size 0 or >1 was
-deprecated as of 1.1.0. Please use \code{\link[=morph]{morph()}} for this instead.}
+deprecated as of 1.1.0. Please use \code{\link[=reframe]{reframe()}} for this instead.}
 
 \item{.by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
@@ -47,8 +47,8 @@ based on the number of rows of the results:
 \itemize{
 \item If all the results have 1 row, you get "drop_last".
 \item If the number of rows varies, you get "keep" (note that returning a
-variable number of rows was deprecated in favor of \code{\link[=morph]{morph()}}, which also
-unconditionally drops all levels of grouping).
+variable number of rows was deprecated in favor of \code{\link[=reframe]{reframe()}}, which
+also unconditionally drops all levels of grouping).
 }
 
 In addition, a message informs you of that choice, unless the result is ungrouped,
@@ -141,21 +141,22 @@ summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
 # Learn more in ?dplyr_data_masking
 
 # In dplyr 1.1.0, returning multiple rows per group was deprecated in favor
-# of `morph()`, which never messages and always returns an ungrouped result:
+# of `reframe()`, which never messages and always returns an ungrouped
+# result:
 mtcars \%>\%
    group_by(cyl) \%>\%
    summarise(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
 # ->
 mtcars \%>\%
    group_by(cyl) \%>\%
-   morph(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
+   reframe(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
 }
 \seealso{
 Other single table verbs: 
 \code{\link{arrange}()},
 \code{\link{filter}()},
-\code{\link{morph}()},
 \code{\link{mutate}()},
+\code{\link{reframe}()},
 \code{\link{rename}()},
 \code{\link{select}()},
 \code{\link{slice}()}

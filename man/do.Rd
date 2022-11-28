@@ -19,17 +19,17 @@ unnamed arguments.}
 
 \code{do()} is superseded as of dplyr 1.0.0, because its syntax never really
 felt like it belonged with the rest of dplyr. It's replaced by a combination
-of \code{\link[=morph]{morph()}} (which can produce multiple rows and multiple columns),
+of \code{\link[=reframe]{reframe()}} (which can produce multiple rows and multiple columns),
 \code{\link[=nest_by]{nest_by()}} (which creates a \link{rowwise} tibble of nested data),
 and \code{\link[=pick]{pick()}} (which allows you to access the data for the "current" group).
 }
 \examples{
-# do() with unnamed arguments becomes morph() or summarise()
+# do() with unnamed arguments becomes reframe() or summarise()
 # . becomes pick()
 by_cyl <- mtcars \%>\% group_by(cyl)
 by_cyl \%>\% do(head(., 2))
 # ->
-by_cyl \%>\% morph(head(pick(everything()), 2))
+by_cyl \%>\% reframe(head(pick(everything()), 2))
 by_cyl \%>\% slice_head(n = 2)
 
 # Can refer to variables directly
@@ -52,7 +52,7 @@ models \%>\% do(data.frame(
 )
 \dontshow{if (requireNamespace("broom", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # ->
-models \%>\% morph(broom::tidy(mod))
+models \%>\% reframe(broom::tidy(mod))
 \dontshow{\}) # examplesIf}
 }
 \keyword{internal}

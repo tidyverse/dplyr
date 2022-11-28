@@ -102,8 +102,8 @@ iris \%>\% arrange(across(starts_with("Sepal"), desc))
 \seealso{
 Other single table verbs: 
 \code{\link{filter}()},
-\code{\link{morph}()},
 \code{\link{mutate}()},
+\code{\link{reframe}()},
 \code{\link{rename}()},
 \code{\link{select}()},
 \code{\link{slice}()},

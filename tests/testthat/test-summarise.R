@@ -433,7 +433,7 @@ test_that("summarise() gives meaningful errors", {
 
 })
 
-test_that("non-summary results are deprecated in favor of `morph()` (#6382)", {
+test_that("non-summary results are deprecated in favor of `reframe()` (#6382)", {
   local_options(lifecycle_verbosity = "warning")
 
   df <- tibble(g = c(1, 1, 2), x = 1:3)

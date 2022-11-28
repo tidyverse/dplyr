@@ -357,12 +357,12 @@ df %>%
 
 Notice that we set `.unpack = TRUE` inside `across()`. This tells `across()` to _unpack_ the data frame returned by `quantile_df()` into its respective columns, combining the column names of the original columns (`x` and `y`) with the column names returned from the function (`val` and `quant`).
 
-If your function returns multiple _rows_ per group, then you'll need to switch from `summarise()` to `morph()`. `summarise()` is restricted to returning 1 row summaries per group, but `morph()` lifts this restriction:
+If your function returns multiple _rows_ per group, then you'll need to switch from `summarise()` to `reframe()`. `summarise()` is restricted to returning 1 row summaries per group, but `reframe()` lifts this restriction:
 
 ```{r}
 df %>%
   group_by(grp) %>%
-  morph(across(x:y, quantile_df, .unpack = TRUE))
+  reframe(across(x:y, quantile_df, .unpack = TRUE))
 ```
 
 ### Transforming user-supplied variables

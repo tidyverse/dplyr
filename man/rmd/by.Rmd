@@ -26,7 +26,7 @@ This great idea comes from [data.table](https://CRAN.R-project.org/package=data.
 
 -   [summarise()]
 
--   [morph()]
+-   [reframe()]
 
 -   [filter()]
 
@@ -115,7 +115,7 @@ expenses %>%
 
 ### Result ordering
 
-When used with `.by`, `summarise()`, `morph()`, and `slice()` all maintain the ordering of the existing data.
+When used with `.by`, `summarise()`, `reframe()`, and `slice()` all maintain the ordering of the existing data.
 This is different from `group_by()`, which has always sorted the group keys in ascending order.
 
 ```{r}
@@ -134,7 +134,7 @@ df %>%
   summarise(average_temp = mean(temp))
 ```
 
-If you need sorted group keys, we recommend that you explicitly use [arrange()] either before or after the call to `summarise()`, `morph()`, or `slice()`.
+If you need sorted group keys, we recommend that you explicitly use [arrange()] either before or after the call to `summarise()`, `reframe()`, or `slice()`.
 This also gives you full access to all of `arrange()`'s features, such as `desc()` and the `.locale` argument.
 
 ### Verbs without `.by` support

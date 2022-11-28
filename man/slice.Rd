@@ -201,8 +201,8 @@ filter(mtcars, between(row_number(), 5, n()))
 Other single table verbs: 
 \code{\link{arrange}()},
 \code{\link{filter}()},
-\code{\link{morph}()},
 \code{\link{mutate}()},
+\code{\link{reframe}()},
 \code{\link{rename}()},
 \code{\link{select}()},
 \code{\link{summarise}()}

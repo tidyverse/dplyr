@@ -5,21 +5,21 @@
 #'
 #' While [summarise()] requires that each argument returns a single value, and
 #' [mutate()] requires that each argument returns the same number of rows as the
-#' input, `morph()` is a more general workhorse with no requirements on the
+#' input, `reframe()` is a more general workhorse with no requirements on the
 #' number of rows returned per group.
 #'
-#' `morph()` creates a new data frame by applying functions to columns of an
+#' `reframe()` creates a new data frame by applying functions to columns of an
 #' existing data frame. It is most similar to `summarise()`, with two big
 #' differences:
 #'
-#' - `morph()` can return an arbitrary number of rows per group, while
+#' - `reframe()` can return an arbitrary number of rows per group, while
 #'   `summarise()` reduces each group down to a single row.
 #'
-#' - `morph()` always returns an ungrouped data frame, while `summarise()` might
-#'   return a grouped or rowwise data frame, depending on the scenario.
+#' - `reframe()` always returns an ungrouped data frame, while `summarise()`
+#'   might return a grouped or rowwise data frame, depending on the scenario.
 #'
-#' We expect that you'll use `summarise()` much more often than `morph()`, but
-#' `morph()` can be particularly helpful when you need to apply a complex
+#' We expect that you'll use `summarise()` much more often than `reframe()`, but
+#' `reframe()` can be particularly helpful when you need to apply a complex
 #' function that doesn't return a single summary value.
 #'
 #' @inheritParams args_by
@@ -39,7 +39,7 @@
 #' * The columns are a combination of the grouping keys and the
 #'   expressions that you provide.
 #' * The output is always ungrouped.
-#' * Data frame attributes are **not** preserved, because `morph()`
+#' * Data frame attributes are **not** preserved, because `reframe()`
 #'   fundamentally creates a new data frame.
 #'
 #' @section Methods:
@@ -48,7 +48,7 @@
 #' individual methods for extra arguments and differences in behaviour.
 #'
 #' The following methods are currently available in loaded packages:
-#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("morph")}.
+#' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("reframe")}.
 #'
 #' @family single table verbs
 #' @export
@@ -60,20 +60,20 @@
 #'   x = c("e", "a", "b", "c", "f", "d", "a")
 #' )
 #'
-#' # `morph()` allows you to apply functions that return
+#' # `reframe()` allows you to apply functions that return
 #' # an arbitrary number of rows
 #' df %>%
-#'   morph(x = intersect(x, table))
+#'   reframe(x = intersect(x, table))
 #'
 #' # Functions are applied per group, and each group can return a
 #' # different number of rows.
 #' df %>%
-#'   morph(x = intersect(x, table), .by = g)
+#'   reframe(x = intersect(x, table), .by = g)
 #'
 #' # The output is always ungrouped, even when using `group_by()`
 #' df %>%
 #'   group_by(g) %>%
-#'   morph(x = intersect(x, table))
+#'   reframe(x = intersect(x, table))
 #'
 #' # You can add multiple columns at once using a single expression by returning
 #' # a data frame.
@@ -88,25 +88,25 @@
 #' quantile_df(x)
 #'
 #' starwars %>%
-#'   morph(quantile_df(height))
+#'   reframe(quantile_df(height))
 #'
 #' starwars %>%
-#'   morph(quantile_df(height), .by = homeworld)
+#'   reframe(quantile_df(height), .by = homeworld)
 #'
 #' starwars %>%
-#'   morph(
+#'   reframe(
 #'     across(c(height, mass), quantile_df, .unpack = TRUE),
 #'     .by = homeworld
 #'   )
-morph <- function(.data, ..., .by = NULL) {
-  UseMethod("morph")
+reframe <- function(.data, ..., .by = NULL) {
+  UseMethod("reframe")
 }
 
 #' @export
-morph.data.frame <- function(.data, ..., .by = NULL) {
+reframe.data.frame <- function(.data, ..., .by = NULL) {
   by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
 
-  cols <- summarise_cols(.data, dplyr_quosures(...), by, "morph")
+  cols <- summarise_cols(.data, dplyr_quosures(...), by, "reframe")
   out <- summarise_build(by, cols)
 
   if (!is_tibble(.data)) {

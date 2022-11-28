@@ -52,7 +52,7 @@
 #' # Here I supply variables to preserve after the computation
 #' params %>%
 #'   rowwise(sim) %>%
-#'   morph(z = rnorm(n, mean, sd))
+#'   reframe(z = rnorm(n, mean, sd))
 #'
 #' # If you want one row per simulation, put the results in a list()
 #' params %>%

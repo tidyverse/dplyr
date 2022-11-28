@@ -42,7 +42,7 @@
 #'   * A data frame, to add multiple columns from a single expression.
 #'
 #'   `r lifecycle::badge("deprecated")` Returning values with size 0 or >1 was
-#'   deprecated as of 1.1.0. Please use [morph()] for this instead.
+#'   deprecated as of 1.1.0. Please use [reframe()] for this instead.
 #' @param .groups `r lifecycle::badge("experimental")` Grouping structure of the
 #'   result.
 #'
@@ -56,8 +56,8 @@
 #'   based on the number of rows of the results:
 #'   * If all the results have 1 row, you get "drop_last".
 #'   * If the number of rows varies, you get "keep" (note that returning a
-#'     variable number of rows was deprecated in favor of [morph()], which also
-#'     unconditionally drops all levels of grouping).
+#'     variable number of rows was deprecated in favor of [reframe()], which
+#'     also unconditionally drops all levels of grouping).
 #'
 #'   In addition, a message informs you of that choice, unless the result is ungrouped,
 #'   the option "dplyr.summarise.inform" is set to `FALSE`,
@@ -109,14 +109,15 @@
 #' # Learn more in ?dplyr_data_masking
 #'
 #' # In dplyr 1.1.0, returning multiple rows per group was deprecated in favor
-#' # of `morph()`, which never messages and always returns an ungrouped result:
+#' # of `reframe()`, which never messages and always returns an ungrouped
+#' # result:
 #' mtcars %>%
 #'    group_by(cyl) %>%
 #'    summarise(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
 #' # ->
 #' mtcars %>%
 #'    group_by(cyl) %>%
-#'    morph(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
+#'    reframe(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
 summarise <- function(.data, ..., .by = NULL, .groups = NULL) {
   by <- enquo(.by)
 
@@ -457,10 +458,10 @@ summarise_deprecate_variable_size <- function(env = caller_env(),
   lifecycle::deprecate_soft(
     when = "1.1.0",
     what = I("Returning more (or less) than 1 row per `summarise()` group"),
-    with = "morph()",
+    with = "reframe()",
     details = paste0(
-      "When switching from `summarise()` to `morph()`, remember that ",
-      "`morph()` always returns an ungrouped data frame and adjust accordingly."
+      "When switching from `summarise()` to `reframe()`, remember that ",
+      "`reframe()` always returns an ungrouped data frame and adjust accordingly."
     ),
     env = env,
     user_env = user_env
