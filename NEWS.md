@@ -1,23 +1,23 @@
 # dplyr (development version)
 
-* `morph()` is a new experimental verb that creates a new data frame by applying
-  functions to columns of an existing data frame. It is very similar to
+* `reframe()` is a new experimental verb that creates a new data frame by
+  applying functions to columns of an existing data frame. It is very similar to
   `summarise()`, with two big differences:
 
-  * `morph()` can return an arbitrary number of rows per group, while
+  * `reframe()` can return an arbitrary number of rows per group, while
     `summarise()` reduces each group down to a single row.
 
-  * `morph()` always returns an ungrouped data frame, while `summarise()` might
-    return a grouped or rowwise data frame, depending on the scenario.
+  * `reframe()` always returns an ungrouped data frame, while `summarise()`
+    might return a grouped or rowwise data frame, depending on the scenario.
     
-  `morph()` has been added in response to valid concern from the community that
-  allowing `summarise()` to return any number of rows per group increases the
-  chance for accidental bugs. We still feel that this is a powerful technique,
-  and is a principled replacement for `do()`, so we have moved these features to
-  `morph()` (#6382).
+  `reframe()` has been added in response to valid concern from the community
+  that allowing `summarise()` to return any number of rows per group increases
+  the chance for accidental bugs. We still feel that this is a powerful
+  technique, and is a principled replacement for `do()`, so we have moved these
+  features to `reframe()` (#6382).
 
 * Returning 0 or >1 rows per group in `summarise()` is now soft-deprecated in
-  favor of using `morph()`. See the NEWS bullet about `morph()` for more
+  favor of using `reframe()`. See the NEWS bullet about `reframe()` for more
   details (#6382).
 
 * `slice()` now errors if any expressions in `...` are named. This helps avoid
