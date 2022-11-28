@@ -205,7 +205,7 @@ mutate.data.frame <- function(.data,
 
   out <- mutate_relocate(out, before, after, cols_expr, cols_expr_modified)
 
-  mutate_keep(out, keep, cols_data, cols_group, cols_expr_modified, used)
+  mutate_keep(out, keep, used, cols_data, cols_group, cols_expr_modified)
 }
 
 mutate_relocate <- function(out, before, after, cols_expr, cols_expr_modified) {
@@ -218,7 +218,7 @@ mutate_relocate <- function(out, before, after, cols_expr, cols_expr_modified) {
   relocate(out, all_of(cols_expr_new), .before = !!before, .after = !!after)
 }
 
-mutate_keep <- function(out, keep, cols_data, cols_group, cols_expr_modified, used) {
+mutate_keep <- function(out, keep, used, cols_data, cols_group, cols_expr_modified) {
   cols_out <- names(out)
 
   if (keep == "all") {
