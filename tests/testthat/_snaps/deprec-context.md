@@ -5,7 +5,7 @@
     Condition
       Warning:
       There was 1 warning in `mutate()`.
-      i In argument `y = cur_data()`.
+      i In argument: `y = cur_data()`.
       Caused by warning:
       ! `cur_data()` was deprecated in dplyr 1.1.0.
       i Please use `pick()` instead.
@@ -22,7 +22,7 @@
     Condition
       Warning:
       There was 1 warning in `mutate()`.
-      i In argument `y = cur_data_all()`.
+      i In argument: `y = cur_data_all()`.
       Caused by warning:
       ! `cur_data_all()` was deprecated in dplyr 1.1.0.
       i Please use `pick()` instead.

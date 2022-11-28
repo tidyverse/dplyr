@@ -433,31 +433,30 @@ mutate_bullets <- function(cnd, ...) {
 
 #' @export
 `mutate_bullets.dplyr:::mutate_incompatible_size` <- function(cnd, ...) {
-  error_context <- peek_error_context()
-  error_name <- error_context$error_name
+  label <- ctxt_error_label()
 
   result_size <- cnd$dplyr_error_data$result_size
   expected_size <- cnd$dplyr_error_data$expected_size
   c(
-    glue("`{error_name}` must be size {or_1(expected_size)}, not {result_size}."),
+    glue("`{label}` must be size {or_1(expected_size)}, not {result_size}."),
     i = cnd_bullet_rowwise_unlist()
   )
 }
 #' @export
 `mutate_bullets.dplyr:::mutate_mixed_null` <- function(cnd, ...) {
-  error_name <- peek_error_context()$error_name
+  label <- ctxt_error_label()
   c(
-    glue("`{error_name}` must return compatible vectors across groups."),
+    glue("`{label}` must return compatible vectors across groups."),
     x = "Can't combine NULL and non NULL results.",
     i = cnd_bullet_rowwise_unlist()
   )
 }
 #' @export
 `mutate_bullets.dplyr:::mutate_not_vector` <- function(cnd, ...) {
-  error_name <- peek_error_context()$error_name
+  label <- ctxt_error_label()
   result <- cnd$dplyr_error_data$result
   c(
-    glue("`{error_name}` must be a vector, not {obj_type_friendly(result)}."),
+    glue("`{label}` must be a vector, not {obj_type_friendly(result)}."),
     i = cnd_bullet_rowwise_unlist()
   )
 }
@@ -468,11 +467,11 @@ mutate_bullets <- function(cnd, ...) {
 }
 #' @export
 `mutate_bullets.dplyr:::mutate_constant_recycle_error` <- function(cnd, ...) {
-  error_name <- peek_error_context()$error_name
+  label <- ctxt_error_label()
   constant_size <- cnd$constant_size
   data_size <- cnd$data_size
   c(
-    glue("Inlined constant `{error_name}` must be size {or_1(data_size)}, not {constant_size}.")
+    glue("Inlined constant `{label}` must be size {or_1(data_size)}, not {constant_size}.")
   )
 }
 

@@ -731,3 +731,10 @@ test_that("mutate() give meaningful errors", {
     ))
   })
 })
+
+test_that("mutate() errors refer to expressions if not named", {
+  expect_snapshot({
+    (expect_error(mutate(mtcars, 1:3)))
+    (expect_error(mutate(group_by(mtcars, cyl), 1:3)))
+  })
+})
