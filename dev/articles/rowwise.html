@@ -557,11 +557,8 @@ model per row:</p>
 <span><span class="co">#&gt; <span style="color: #949494;">#   and abbreviated variable names ¹​adj.r.squared, ²​statistic</span></span></span></code></pre></div>
 <p>Or easily access the parameters of each model:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mods</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `summarise()` has grouped output by 'cyl'. You can override using the</span></span>
-<span><span class="co">#&gt; `.groups` argument.</span></span>
+<code class="sourceCode R"><span><span class="va">mods</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/reframe.html">reframe</a></span><span class="op">(</span><span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   cyl [3]</span></span></span>
 <span><span class="co">#&gt;     cyl term        estimate std.error statistic    p.value</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     4 (Intercept)    39.6       4.35      9.10 0.000<span style="text-decoration: underline;">007</span>77</span></span>
@@ -724,13 +721,13 @@ For example, the following code gets the first row of each group:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  21       6   160   110  3.9   2.62  16.5     0     1     4     4</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  18.7     8   360   175  3.15  3.44  17.0     0     0     3     2</span></span></code></pre></div>
-<p>This has been superseded by <code><a href="../reference/pick.html">pick()</a></code> plus the more
-permissive <code><a href="../reference/summarise.html">summarise()</a></code> which can now create multiple
-columns and multiple rows.</p>
+<p>This has been superseded by <code><a href="../reference/pick.html">pick()</a></code> plus
+<code><a href="../reference/reframe.html">reframe()</a></code>, a variant of <code><a href="../reference/summarise.html">summarise()</a></code> that can
+create multiple rows and columns per group.</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/pick.html">pick</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/reframe.html">reframe</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/pick.html">pick</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 11</span></span></span>
 <span><span class="co">#&gt;     cyl   mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -770,8 +767,8 @@ yourself.</p>
 </li>
 </ul>
 <p>The addition of <code><a href="../reference/pick.html">pick()</a></code>/<code><a href="../reference/across.html">across()</a></code> and the
-increased scope of <code><a href="../reference/summarise.html">summarise()</a></code> means that <code><a href="../reference/do.html">do()</a></code>
-is no longer needed, so it is now superseded.</p>
+increased scope of <code><a href="../reference/summarise.html">summarise()</a></code>/<code><a href="../reference/reframe.html">reframe()</a></code> means
+that <code><a href="../reference/do.html">do()</a></code> is no longer needed, so it is now superseded.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

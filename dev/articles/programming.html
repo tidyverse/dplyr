@@ -502,24 +502,24 @@ details.</p>
 <div class="section level3">
 <h3 id="creating-multiple-columns">Creating multiple columns<a class="anchor" aria-label="anchor" href="#creating-multiple-columns"></a>
 </h3>
-<p>You can use variable interpolation with <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble()</a></code> to
-create columns based on the names of an input:</p>
+<p>Sometimes it can be useful for a single expression to return multiple
+columns. You can do this by returning an unnamed data frame:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">quantile_df</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">probs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span>    <span class="st">"{{x}}_val"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">probs</span><span class="op">)</span>,</span>
-<span>    <span class="st">"{{x}}_quant"</span> <span class="op">:=</span> <span class="va">probs</span></span>
+<span>    val <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">probs</span><span class="op">)</span>,</span>
+<span>    quant <span class="op">=</span> <span class="va">probs</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span></span>
 <span><span class="fu">quantile_df</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
-<span><span class="co">#&gt;   x_val x_quant</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     2    0.25</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     3    0.5 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     4    0.75</span></span></code></pre></div>
+<span><span class="co">#&gt;     val quant</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     2  0.25</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     3  0.5 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     4  0.75</span></span></code></pre></div>
 <p>This sort of function is useful inside <code><a href="../reference/summarise.html">summarise()</a></code> and
 <code><a href="../reference/mutate.html">mutate()</a></code> which allow you to add multiple columns by
 returning a data frame:</p>
@@ -532,46 +532,40 @@ returning a data frame:</p>
 <span></span>
 <span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">grp</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu">quantile_df</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `summarise()` has grouped output by 'grp'. You can override using the</span></span>
-<span><span class="co">#&gt; `.groups` argument.</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 3</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   grp [3]</span></span></span>
-<span><span class="co">#&gt;     grp x_val x_quant</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 0.219    0.25</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1 0.361    0.5 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1 0.674    0.75</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     2 0.315    0.25</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows</span></span></span></code></pre></div>
-<p>Unfortunately it doesn’t quite yet work with <code><a href="../reference/across.html">across()</a></code>
-because (for complicated reasons) it generates so-called packed columns
-that are themselves data frames:</p>
+<span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu">quantile_df</span><span class="op">(</span><span class="va">x</span>, probs <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
+<span><span class="co">#&gt;     grp   val quant</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 0.361   0.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2 0.541   0.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3 0.456   0.5</span></span>
+<span></span>
+<span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">grp</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="va">x</span><span class="op">:</span><span class="va">y</span>, <span class="op">~</span> <span class="fu">quantile_df</span><span class="op">(</span><span class="va">.x</span>, probs <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span>, .unpack <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
+<span><span class="co">#&gt;     grp x_val x_quant   y_val y_quant</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 0.361     0.5  0.174      0.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2 0.541     0.5 -<span style="color: #BB0000;">0.011</span><span style="color: #BB0000; text-decoration: underline;">0</span>     0.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3 0.456     0.5  0.058<span style="text-decoration: underline;">3</span>     0.5</span></span></code></pre></div>
+<p>Notice that we set <code>.unpack = TRUE</code> inside
+<code><a href="../reference/across.html">across()</a></code>. This tells <code><a href="../reference/across.html">across()</a></code> to
+<em>unpack</em> the data frame returned by <code>quantile_df()</code>
+into its respective columns, combining the column names of the original
+columns (<code>x</code> and <code>y</code>) with the column names
+returned from the function (<code>val</code> and
+<code>quant</code>).</p>
+<p>If your function returns multiple <em>rows</em> per group, then
+you’ll need to switch from <code><a href="../reference/summarise.html">summarise()</a></code> to
+<code><a href="../reference/reframe.html">reframe()</a></code>. <code><a href="../reference/summarise.html">summarise()</a></code> is restricted to
+returning 1 row summaries per group, but <code><a href="../reference/reframe.html">reframe()</a></code> lifts
+this restriction:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">grp</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="va">x</span><span class="op">:</span><span class="va">y</span>, <span class="va">quantile_df</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `summarise()` has grouped output by 'grp'. You can override using the</span></span>
-<span><span class="co">#&gt; `.groups` argument.</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 3</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   grp [3]</span></span></span>
-<span><span class="co">#&gt;     grp x$x_val $x_quant y$y_val $y_quant</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1   0.219     0.25  -<span style="color: #BB0000;">0.710</span>     0.25</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1   0.361     0.5    0.174     0.5 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1   0.674     0.75   0.524     0.75</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     2   0.315     0.25  -<span style="color: #BB0000;">0.690</span>     0.25</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows</span></span></span></code></pre></div>
-<p>You’ll need an additional unpack to get what you want:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">grp</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="va">x</span><span class="op">:</span><span class="va">y</span>, <span class="va">quantile_df</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pack.html" class="external-link">unpack</a></span><span class="op">(</span><span class="va">x</span><span class="op">:</span><span class="va">y</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `summarise()` has grouped output by 'grp'. You can override using the</span></span>
-<span><span class="co">#&gt; `.groups` argument.</span></span>
+<span>  <span class="fu"><a href="../reference/reframe.html">reframe</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="va">x</span><span class="op">:</span><span class="va">y</span>, <span class="va">quantile_df</span>, .unpack <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 5</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   grp [3]</span></span></span>
 <span><span class="co">#&gt;     grp x_val x_quant  y_val y_quant</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 0.219    0.25 -<span style="color: #BB0000;">0.710</span>    0.25</span></span>
@@ -581,48 +575,11 @@ that are themselves data frames:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="allowing-the-user-to-control-column-names">Allowing the user to control column names<a class="anchor" aria-label="anchor" href="#allowing-the-user-to-control-column-names"></a>
-</h3>
-<p>If you want to give the user the ability to control the generated
-names, add an additional argument that uses <code>englue()</code> to get
-the name of the argument to the function:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">quantile_df</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">probs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span><span class="op">)</span>, <span class="va">prefix</span> <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/englue.html" class="external-link">englue</a></span><span class="op">(</span><span class="st">"{{x}}"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span>    <span class="st">"{prefix}_val"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">probs</span><span class="op">)</span>,</span>
-<span>    <span class="st">"{prefix}_quant"</span> <span class="op">:=</span> <span class="va">probs</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span></span>
-<span><span class="co"># Defaults to use the variable name</span></span>
-<span><span class="fu">quantile_df</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
-<span><span class="co">#&gt;   x_val x_quant</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     2    0.25</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     3    0.5 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     4    0.75</span></span>
-<span></span>
-<span><span class="co"># But you can override if needed</span></span>
-<span><span class="fu">quantile_df</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, prefix <span class="op">=</span> <span class="st">"foo"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
-<span><span class="co">#&gt;   foo_val foo_quant</span></span>
-<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       2      0.25</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       3      0.5 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       4      0.75</span></span></code></pre></div>
-<p><code>englue()</code> is the tool that powers embracing in variable
-names, so here we’re just using it explicitly so that the user can
-override if needed. Also note that inside the tibble I’ve switched from
-embracing (<code>{{}}</code>) to glue-style interpolation
-(<code><a href="https://rdrr.io/r/base/Paren.html" class="external-link">{}</a></code>) since <code>prefix</code> is now a regular string.</p>
-</div>
-<div class="section level3">
 <h3 id="transforming-user-supplied-variables">Transforming user-supplied variables<a class="anchor" aria-label="anchor" href="#transforming-user-supplied-variables"></a>
 </h3>
 <p>If you want the user to provide a set of data-variables that are then
 transformed, use <code><a href="../reference/across.html">across()</a></code> and <code><a href="../reference/pick.html">pick()</a></code>:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_summarise</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">summary_vars</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">summary_vars</span> <span class="op">}</span><span class="op">}</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">.</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -640,7 +597,7 @@ transformed, use <code><a href="../reference/across.html">across()</a></code> an
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 34 more rows</span></span></span></code></pre></div>
 <p>You can use this same idea for multiple sets of input
 data-variables:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_summarise</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">group_var</span>, <span class="va">summarise_var</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="fu"><a href="../reference/pick.html">pick</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">group_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -648,7 +605,7 @@ data-variables:</p>
 <span><span class="op">}</span></span></code></pre></div>
 <p>Use the <code>.names</code> argument to <code><a href="../reference/across.html">across()</a></code> to
 control the names of the output.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_summarise</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">group_var</span>, <span class="va">summarise_var</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="fu"><a href="../reference/pick.html">pick</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">group_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -661,13 +618,13 @@ control the names of the output.</p>
 <p>If you have a character vector of variable names, and want to operate
 on them with a for loop, index into the special <code>.data</code>
 pronoun:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">var</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/count.html">count</a></span><span class="op">(</span><span class="va">.data</span><span class="op">[[</span><span class="va">var</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>This same technique works with for loop alternatives like the base R
 <code><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply()</a></code> family and the purrr <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map()</a></code> family:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="../reference/count.html">count</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">.data</span><span class="op">[[</span><span class="va">.x</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -679,7 +636,7 @@ treated as an env-variable; it will never come from the data.)</p>
 </h3>
 <p>Many Shiny input controls return character vectors, so you can use
 the same approach as above: <code>.data[[input$var]]</code>.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span></span>
 <span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/selectInput.html" class="external-link">selectInput</a></span><span class="op">(</span><span class="st">"var"</span>, <span class="st">"Variable"</span>, choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">diamonds</span><span class="op">)</span><span class="op">)</span>,</span>

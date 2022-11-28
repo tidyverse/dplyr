@@ -13,6 +13,7 @@ Supported verbs
 
 mutate()
 summarise()
+reframe()
 filter()
 slice() and its variants, such as slice_head()
 
@@ -146,7 +147,7 @@ expenses %&amp;gt;%
 Result ordering
 
 
-When used with .by, summarise() and slice() both maintain the ordering of the existing data.
+When used with .by, summarise(), reframe(), and slice() all maintain the ordering of the existing data.
 This is different from group_by(), which has always sorted the group keys in ascending order.
 df &amp;lt;- tibble(
   month = c(&quot;jan&quot;, &quot;jan&quot;, &quot;feb&quot;, &quot;feb&quot;, &quot;mar&quot;),
@@ -174,7 +175,7 @@ df %&amp;gt;%
 #&amp;gt; 2 jan           22.5
 #&amp;gt; 3 mar           40
 
-If you need sorted group keys, we recommend that you explicitly use arrange() either before or after the call to summarise() or slice().
+If you need sorted group keys, we recommend that you explicitly use arrange() either before or after the call to summarise(), reframe(), or slice().
 This also gives you full access to all of arrange()'s features, such as desc() and the .locale argument.
 
 
@@ -207,6 +208,7 @@ Supported verbs
 
 mutate()
 summarise()
+reframe()
 filter()
 slice() and its variants, such as slice_head()
 
@@ -340,7 +342,7 @@ expenses %&amp;gt;%
 Result ordering
 
 
-When used with .by, summarise() and slice() both maintain the ordering of the existing data.
+When used with .by, summarise(), reframe(), and slice() all maintain the ordering of the existing data.
 This is different from group_by(), which has always sorted the group keys in ascending order.
 df &amp;lt;- tibble(
   month = c(&quot;jan&quot;, &quot;jan&quot;, &quot;feb&quot;, &quot;feb&quot;, &quot;mar&quot;),
@@ -368,7 +370,7 @@ df %&amp;gt;%
 #&amp;gt; 2 jan           22.5
 #&amp;gt; 3 mar           40
 
-If you need sorted group keys, we recommend that you explicitly use arrange() either before or after the call to summarise() or slice().
+If you need sorted group keys, we recommend that you explicitly use arrange() either before or after the call to summarise(), reframe(), or slice().
 This also gives you full access to all of arrange()'s features, such as desc() and the .locale argument.
 
 
@@ -473,6 +475,7 @@ As an added benefit, with <code>.by</code> you no longer need to remember to <co
 
 <ul><li><p><code><a href="mutate.html">mutate()</a></code></p></li>
 <li><p><code><a href="summarise.html">summarise()</a></code></p></li>
+<li><p><code><a href="reframe.html">reframe()</a></code></p></li>
 <li><p><code><a href="filter.html">filter()</a></code></p></li>
 <li><p><code><a href="slice.html">slice()</a></code> and its variants, such as <code><a href="slice.html">slice_head()</a></code></p></li>
 </ul></div>
@@ -587,7 +590,7 @@ For example, you could append the mean cost per region onto the original data fr
 <h3 id="result-ordering">Result ordering<a class="anchor" aria-label="anchor" href="#result-ordering"></a></h3>
 
 
-<p>When used with <code>.by</code>, <code><a href="summarise.html">summarise()</a></code> and <code><a href="slice.html">slice()</a></code> both maintain the ordering of the existing data.
+<p>When used with <code>.by</code>, <code><a href="summarise.html">summarise()</a></code>, <code><a href="reframe.html">reframe()</a></code>, and <code><a href="slice.html">slice()</a></code> all maintain the ordering of the existing data.
 This is different from <code><a href="group_by.html">group_by()</a></code>, which has always sorted the group keys in ascending order.</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  month <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"jan"</span>, <span class="st">"jan"</span>, <span class="st">"feb"</span>, <span class="st">"feb"</span>, <span class="st">"mar"</span><span class="op">)</span>,</span>
@@ -614,7 +617,7 @@ This is different from <code><a href="group_by.html">group_by()</a></code>, whic
 <span><span class="co">#&gt; 1 feb           19  </span></span>
 <span><span class="co">#&gt; 2 jan           22.5</span></span>
 <span><span class="co">#&gt; 3 mar           40</span></span></code></pre><p></p></div>
-<p>If you need sorted group keys, we recommend that you explicitly use <code><a href="arrange.html">arrange()</a></code> either before or after the call to <code><a href="summarise.html">summarise()</a></code> or <code><a href="slice.html">slice()</a></code>.
+<p>If you need sorted group keys, we recommend that you explicitly use <code><a href="arrange.html">arrange()</a></code> either before or after the call to <code><a href="summarise.html">summarise()</a></code>, <code><a href="reframe.html">reframe()</a></code>, or <code><a href="slice.html">slice()</a></code>.
 This also gives you full access to all of <code><a href="arrange.html">arrange()</a></code>'s features, such as <code><a href="desc.html">desc()</a></code> and the <code>.locale</code> argument.</p>
 </div>
 
