@@ -455,7 +455,7 @@ summarise_inform <- function(..., .env = parent.frame()) {
 
 summarise_deprecate_variable_size <- function(env = caller_env(),
                                               user_env = caller_env(2)) {
-  lifecycle::deprecate_soft(
+  lifecycle::deprecate_warn(
     when = "1.1.0",
     what = I("Returning more (or less) than 1 row per `summarise()` group"),
     with = "reframe()",
@@ -464,6 +464,7 @@ summarise_deprecate_variable_size <- function(env = caller_env(),
       "`reframe()` always returns an ungrouped data frame and adjust accordingly."
     ),
     env = env,
-    user_env = user_env
+    user_env = user_env,
+    always = TRUE
   )
 }

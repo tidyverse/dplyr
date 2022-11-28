@@ -16,9 +16,9 @@
   technique, and is a principled replacement for `do()`, so we have moved these
   features to `reframe()` (#6382).
 
-* Returning 0 or >1 rows per group in `summarise()` is now soft-deprecated in
-  favor of using `reframe()`. See the NEWS bullet about `reframe()` for more
-  details (#6382).
+* Returning 0 or >1 rows per group in `summarise()` is now deprecated in favor
+  of using `reframe()`. See the NEWS bullet about `reframe()` for more details
+  (#6382).
 
 * `slice()` now errors if any expressions in `...` are named. This helps avoid
   accidentally misspelling an optional argument, such as `.by` (#6554).
