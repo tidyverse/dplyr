@@ -55,5 +55,31 @@ test_that("passes ... along", {
 
 test_that("can't create duplicated names", {
   df <- tibble(x = 1, y = 2)
-  expect_error(df %>% rename_with(~ "X"), class = "vctrs_error_names")
+  expect_error(df %>% rename_with(~ rep_along(.x, "X")), class = "vctrs_error_names")
+})
+
+test_that("`.fn` result type is checked (#6561)", {
+  df <- tibble(x = 1)
+  fn <- function(x) 1L
+
+  expect_snapshot(error = TRUE, {
+    rename_with(df, fn)
+  })
+})
+
+test_that("`.fn` result size is checked (#6561)", {
+  df <- tibble(x = 1, y = 2)
+  fn <- function(x) c("a", "b", "c")
+
+  expect_snapshot(error = TRUE, {
+    rename_with(df, fn)
+  })
+})
+
+test_that("can't rename in `.cols`", {
+  df <- tibble(x = 1)
+
+  expect_snapshot(error = TRUE, {
+    rename_with(df, toupper, .cols = c(y = x))
+  })
 })
