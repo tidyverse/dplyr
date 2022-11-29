@@ -541,13 +541,14 @@ existing code to use <code><a href="../reference/across.html">across()</a></code
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `across(where(is.numeric), mean, na.rm = TRUE)`.</span></span>
 <span><span class="co">#&gt; Caused by warning:</span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> The `...` argument of `across()` is deprecated as of dplyr 1.1.0.</span></span>
-<span><span class="co">#&gt; Supply arguments directly to `.fns` through a lambda instead.</span></span>
+<span><span class="co">#&gt; Supply arguments directly to `.fns` through an anonymous function</span></span>
+<span><span class="co">#&gt; instead.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   # Previously</span></span>
 <span><span class="co">#&gt;   across(a:b, mean, na.rm = TRUE)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   # Now</span></span>
-<span><span class="co">#&gt;   across(a:b, ~mean(.x, na.rm = TRUE))</span></span>
+<span><span class="co">#&gt;   across(a:b, \(x) mean(x, na.rm = TRUE))</span></span>
 <span></span>
 <span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate_all.html">mutate_at</a></span><span class="op">(</span><span class="fu"><a href="../reference/vars.html">vars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"y"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, <span class="va">mean</span><span class="op">)</span></span>
 <span><span class="co"># -&gt;</span></span>
