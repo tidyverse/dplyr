@@ -174,70 +174,76 @@ mutate.data.frame <- function(.data,
                               .keep = c("all", "used", "unused", "none"),
                               .before = NULL,
                               .after = NULL) {
-  # dplyr front-end
   keep <- arg_match(.keep)
 
   by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
 
-  before <- enquo(.before)
-  after <- enquo(.after)
-
-  # Execution
   cols <- mutate_cols(.data, dplyr_quosures(...), by)
+
   out <- dplyr_col_modify(.data, cols)
 
-  # Extract input for postprocessing
+  names_original <- names(.data)
+
+  out <- mutate_relocate(
+    out = out,
+    before = {{ .before }},
+    after = {{ .after }},
+    names_original = names_original
+  )
+
   used <- attr(cols, "used")
+  names_exprs <- names(cols)
+  names_groups <- by$names
 
-  # Compact out `NULL` columns that got removed.
-  # These won't exist in `out`, but we don't want them to look "new".
-  # Note that `dplyr_col_modify()` makes it impossible to `NULL` a group column,
-  # which we rely on below.
-  cols <- compact_null(cols)
+  out <- mutate_keep(
+    out = out,
+    keep = keep,
+    used = used,
+    names_exprs = names_exprs,
+    names_groups = names_groups
+  )
 
-  # Convert input for postprocessing
-  cols_group <- by$names
-  cols_expr <- names(cols)
-
-  # Postprocessing
-  cols_data <- names(.data)
-  cols_expr_modified <- intersect(cols_expr, cols_data)
-
-  out <- mutate_relocate(out, before, after, cols_expr, cols_expr_modified)
-
-  mutate_keep(out, keep, used, cols_data, cols_group, cols_expr_modified)
+  out
 }
 
-mutate_relocate <- function(out, before, after, cols_expr, cols_expr_modified) {
+# Helpers -----------------------------------------------------------------
+
+mutate_relocate <- function(out, before, after, names_original) {
+  before <- enquo(before)
+  after <- enquo(after)
+
   if (quo_is_null(before) && quo_is_null(after)) {
     return(out)
   }
 
-  # Only change the order of new columns
-  cols_expr_new <- setdiff(cols_expr, cols_expr_modified)
-  relocate(out, all_of(cols_expr_new), .before = !!before, .after = !!after)
+  # Only change the order of completely new columns that
+  # didn't exist in the original data
+  names <- names(out)
+  names <- setdiff(names, names_original)
+
+  relocate(
+    .data = out,
+    all_of(names),
+    .before = !!before,
+    .after = !!after
+  )
 }
 
-mutate_keep <- function(out, keep, used, cols_data, cols_group, cols_expr_modified) {
-  cols_out <- names(out)
+mutate_keep <- function(out, keep, used, names_exprs, names_groups) {
+  names <- names(out)
 
   if (keep == "all") {
-    cols_retain <- cols_out
+    names_out <- names
   } else if (keep == "used") {
-    cols_unused <- setdiff(cols_data, c(cols_group, cols_expr_modified, names(used)[used]))
-    cols_retain <- setdiff(cols_out, cols_unused)
+    names_out <- intersect(names, c(names_exprs, names_groups, names(used)[used]))
   } else if (keep == "unused") {
-    cols_used <- setdiff(cols_data, c(cols_group, cols_expr_modified, names(used)[!used]))
-    cols_retain <- setdiff(cols_out, cols_used)
+    names_out <- intersect(names, c(names_exprs, names_groups, names(used)[!used]))
   } else if (keep == "none") {
-    cols_any <- setdiff(cols_data, c(cols_group, cols_expr_modified))
-    cols_retain <- setdiff(cols_out, cols_any)
+    names_out <- intersect(names, c(names_exprs, names_groups))
   }
 
-  dplyr_col_select(out, cols_retain)
+  dplyr_col_select(out, names_out)
 }
-
-# Helpers -----------------------------------------------------------------
 
 mutate_cols <- function(data, dots, by, error_call = caller_env()) {
   # Collect dots before setting up error handlers (#6178)
