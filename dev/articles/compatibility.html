@@ -241,14 +241,11 @@ enclose with the current environment, you can unquote directly in
 <span><span class="co">#&gt; expr: ^mean(cyl)</span></span>
 <span><span class="co">#&gt; env:  global</span></span>
 <span></span>
-<span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/new_quosure.html" class="external-link">as_quosure</a></span><span class="op">(</span><span class="va">sym</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: `as_quosure()` requires an explicit environment as of rlang 0.3.0.</span></span>
-<span><span class="co">#&gt; Please supply `env`.</span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once per session.</span></span></span>
+<span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/new_quosure.html" class="external-link">as_quosure</a></span><span class="op">(</span><span class="va">sym</span>, env <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/search_envs.html" class="external-link">global_env</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">&lt;quosure&gt;</span></span></span>
 <span><span class="co">#&gt; expr: ^cyl</span></span>
 <span><span class="co">#&gt; env:  global</span></span>
-<span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/new_quosure.html" class="external-link">as_quosure</a></span><span class="op">(</span><span class="va">call</span><span class="op">)</span></span>
+<span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/new_quosure.html" class="external-link">as_quosure</a></span><span class="op">(</span><span class="va">call</span>, env <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/search_envs.html" class="external-link">global_env</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">&lt;quosure&gt;</span></span></span>
 <span><span class="co">#&gt; expr: ^mean(cyl)</span></span>
 <span><span class="co">#&gt; env:  global</span></span></code></pre></div>
@@ -263,7 +260,7 @@ functions:</p>
 <code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="op">~</span><span class="va">cyl</span></span>
 <span><span class="va">f</span></span>
 <span><span class="co">#&gt; ~cyl</span></span>
-<span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/new_quosure.html" class="external-link">as_quosure</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span>
+<span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/new_quosure.html" class="external-link">as_quosure</a></span><span class="op">(</span><span class="va">f</span>, env <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/search_envs.html" class="external-link">global_env</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">&lt;quosure&gt;</span></span></span>
 <span><span class="co">#&gt; expr: ^cyl</span></span>
 <span><span class="co">#&gt; env:  global</span></span></code></pre></div>
@@ -305,7 +302,7 @@ quasiquotation:</p>
 <span><span class="va">call</span></span>
 <span><span class="co">#&gt; my_call(foo, bar, baz)</span></span>
 <span></span>
-<span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/new_quosure.html" class="external-link">as_quosure</a></span><span class="op">(</span><span class="va">call</span><span class="op">)</span></span>
+<span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/new_quosure.html" class="external-link">as_quosure</a></span><span class="op">(</span><span class="va">call</span>, env <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/search_envs.html" class="external-link">global_env</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">&lt;quosure&gt;</span></span></span>
 <span><span class="co">#&gt; expr: ^my_call(foo, bar, baz)</span></span>
 <span><span class="co">#&gt; env:  global</span></span>
