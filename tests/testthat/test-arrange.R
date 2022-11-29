@@ -297,6 +297,19 @@ test_that("desc() inside arrange() checks the number of arguments (#5921)", {
   })
 })
 
+test_that("arrange keeps zero length groups",{
+  df <- tibble(
+    e = 1,
+    f = factor(c(1, 1, 2, 2), levels = 1:3),
+    g = c(1, 1, 2, 2),
+    x = c(1, 2, 1, 4)
+  )
+  df <- group_by(df, e, f, g, .drop = FALSE)
+
+  expect_equal( group_size(arrange(df)), c(2, 2, 0) )
+  expect_equal( group_size(arrange(df, x)), c(2, 2, 0) )
+})
+
 # legacy --------------------------------------------------------------
 
 test_that("legacy - using the global option `dplyr.legacy_locale` forces the system locale", {

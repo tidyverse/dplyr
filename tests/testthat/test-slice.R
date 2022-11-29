@@ -100,6 +100,38 @@ test_that("`...` can't be named (#6554)", {
   })
 })
 
+test_that("slice keeps zero length groups", {
+  df <- tibble(
+    e = 1,
+    f = factor(c(1, 1, 2, 2), levels = 1:3),
+    g = c(1, 1, 2, 2),
+    x = c(1, 2, 1, 4)
+  )
+  df <- group_by(df, e, f, g, .drop = FALSE)
+
+  expect_equal(group_size(slice(df, 1)), c(1, 1, 0) )
+})
+
+test_that("slicing retains labels for zero length groups", {
+  df <- tibble(
+    e = 1,
+    f = factor(c(1, 1, 2, 2), levels = 1:3),
+    g = c(1, 1, 2, 2),
+    x = c(1, 2, 1, 4)
+  )
+  df <- group_by(df, e, f, g, .drop = FALSE)
+
+  expect_equal(
+    ungroup(count(slice(df, 1))),
+    tibble(
+      e = 1,
+      f = factor(1:3),
+      g = c(1, 2, NA),
+      n = c(1L, 1L, 0L)
+    )
+  )
+})
+
 test_that("can group transiently using `.by`", {
   df <- tibble(g = c(1, 1, 2), x = c(1, 2, 3))
 

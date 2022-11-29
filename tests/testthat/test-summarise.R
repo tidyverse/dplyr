@@ -166,6 +166,28 @@ test_that("can modify grouping variables", {
   expect_equal(out$a, c(2, 2, 3, 3))
 })
 
+test_that("summarise returns a row for zero length groups", {
+  df <- tibble(
+    e = 1,
+    f = factor(c(1, 1, 2, 2), levels = 1:3),
+    g = c(1, 1, 2, 2),
+    x = c(1, 2, 1, 4)
+  )
+  df <- group_by(df, e, f, g, .drop = FALSE)
+
+  expect_equal( nrow(summarise(df, z = n())), 3L)
+})
+
+test_that("summarise respects zero-length groups (#341)", {
+  df <- tibble(x = factor(rep(1:3, each = 10), levels = 1:4))
+
+  out <- df %>%
+    group_by(x, .drop = FALSE) %>%
+    summarise(n = n())
+
+  expect_equal(out$n, c(10L, 10L, 10L, 0L))
+})
+
 # vector types ----------------------------------------------------------
 
 test_that("summarise allows names (#2675)", {
