@@ -460,13 +460,13 @@
       i In argument: `across(everything(), mean, na.rm = TRUE)`.
       Caused by warning:
       ! The `...` argument of `across()` is deprecated as of dplyr 1.1.0.
-      Supply arguments directly to `.fns` through a lambda instead.
+      Supply arguments directly to `.fns` through an anonymous function instead.
       
         # Previously
         across(a:b, mean, na.rm = TRUE)
       
         # Now
-        across(a:b, ~mean(.x, na.rm = TRUE))
+        across(a:b, \(x) mean(x, na.rm = TRUE))
     Output
       # A tibble: 1 x 1
             x
