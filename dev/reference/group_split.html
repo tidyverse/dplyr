@@ -136,7 +136,10 @@ forwarded to <code><a href="group_by.html">group_by()</a></code>.</p></dd>
     
 
 <p>A list of tibbles. Each tibble contains the rows of <code>.tbl</code> for the
-associated group and all the columns, including the grouping variables.</p>
+associated group and all the columns, including the grouping variables.
+Note that this returns a <a href="https://vctrs.r-lib.org/reference/list_of.html" class="external-link">list_of</a> which is slightly
+stricter than a simple list but is useful for representing lists where
+every element has the same type.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
