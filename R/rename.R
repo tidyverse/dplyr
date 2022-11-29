@@ -75,9 +75,9 @@ rename_with.data.frame <- function(.data, .fn, .cols = everything(), ...) {
       "{.arg .fn} must return a character vector, not {.obj_type_friendly {new}}."
     )
   }
-  if (vec_size(new) != vec_size(sel)) {
+  if (length(new) != length(sel)) {
     cli::cli_abort(
-      "{.arg .fn} must return a vector of size {vec_size(sel)}, not {vec_size(new)}."
+      "{.arg .fn} must return a vector of length {length(sel)}, not {length(new)}."
     )
   }
 

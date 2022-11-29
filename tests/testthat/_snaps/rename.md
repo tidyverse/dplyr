@@ -12,7 +12,7 @@
       rename_with(df, fn)
     Condition
       Error in `rename_with()`:
-      ! `.fn` must return a vector of size 2, not 3.
+      ! `.fn` must return a vector of length 2, not 3.
 
 # can't rename in `.cols`
 
