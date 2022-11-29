@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `slice()` with no inputs now returns 0 rows. This is mostly for theoretical
+  consistency (#6573).
+
 * `rename_with()` now disallows renaming in the `.cols` tidy-selection (#6561).
 
 * `rename_with()` now checks that the result of `.fn` is the right type and size
