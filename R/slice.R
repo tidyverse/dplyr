@@ -314,9 +314,6 @@ slice_rows <- function(.data, ..., .by = NULL, error_call = caller_env()) {
   )
 
   dots <- enquos(...)
-  if (is_empty(dots)) {
-    return(TRUE)
-  }
 
   mask <- DataMask$new(.data, by, "slice", error_call = error_call)
   on.exit(mask$forget(), add = TRUE)
