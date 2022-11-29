@@ -1,5 +1,10 @@
 # dplyr (development version)
 
+* `rename_with()` now disallows renaming in the `.cols` tidy-selection (#6561).
+
+* `rename_with()` now checks that the result of `.fn` is the right type and size
+  (#6561).
+
 * `reframe()` is a new experimental verb that creates a new data frame by
   applying functions to columns of an existing data frame. It is very similar to
   `summarise()`, with two big differences:
