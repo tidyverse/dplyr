@@ -42,6 +42,7 @@
 #'   knitr::knit_child("man/rmd/select.Rmd"),
 #'   tibble.print_min = 4,
 #'   tibble.max_extra_cols = 8,
+#'   pillar.min_title_chars = 20,
 #'   digits = 2
 #' )
 #' cat(result, sep = "\n")
