@@ -17,6 +17,9 @@ forwarded to \code{\link[=group_by]{group_by()}}.}
 \value{
 A list of tibbles. Each tibble contains the rows of \code{.tbl} for the
 associated group and all the columns, including the grouping variables.
+Note that this returns a \link[vctrs:list_of]{list_of} which is slightly
+stricter than a simple list but is useful for representing lists where
+every element has the same type.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
