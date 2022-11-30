@@ -192,14 +192,14 @@ mutate.data.frame <- function(.data,
     names_original = names_original
   )
 
-  names_exprs <- names(cols)
+  names_new <- names(cols)
   names_groups <- by$names
 
   out <- mutate_keep(
     out = out,
     keep = keep,
     used = used,
-    names_exprs = names_exprs,
+    names_new = names_new,
     names_groups = names_groups
   )
 
@@ -229,7 +229,7 @@ mutate_relocate <- function(out, before, after, names_original) {
   )
 }
 
-mutate_keep <- function(out, keep, used, names_exprs, names_groups) {
+mutate_keep <- function(out, keep, used, names_new, names_groups) {
   names <- names(out)
 
   if (keep == "all") {
@@ -242,7 +242,7 @@ mutate_keep <- function(out, keep, used, names_exprs, names_groups) {
       none = character(),
       abort("Unknown `keep`.", .internal = TRUE)
     )
-    names_out <- intersect(names, c(names_exprs, names_groups, names_keep))
+    names_out <- intersect(names, c(names_new, names_groups, names_keep))
   }
 
   dplyr_col_select(out, names_out)
