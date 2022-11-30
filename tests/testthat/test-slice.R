@@ -1,6 +1,11 @@
-test_that("empty slice returns input", {
-  df <- tibble(x = 1:3)
-  expect_equal(slice(df), df)
+test_that("empty slice drops all rows (#6573)", {
+  df <- tibble(g = c(1, 1, 2), x = 1:3)
+  gdf <- group_by(df, g)
+  rdf <- rowwise(df)
+
+  expect_identical(slice(df), df[integer(),])
+  expect_identical(slice(gdf), gdf[integer(),])
+  expect_identical(slice(rdf), rdf[integer(),])
 })
 
 test_that("slicing data.frame yields data.frame", {
