@@ -168,9 +168,12 @@ be handled?</p><ul><li><p><code>"drop"</code> drops unmatched keys from the resu
 <li><p><code>"error"</code> throws an error if unmatched keys are detected.</p></li>
 </ul><p><code>unmatched</code> is intended to protect you from accidentally dropping rows
 during a join. It only checks for unmatched keys in the input that could
-potentially drop rows. For example, in <code><a href="mutate-joins.html">left_join()</a></code> only <code>y</code> is
-checked for unmatched keys, because all keys from <code>x</code> are always retained,
-even if they don't have a match.</p></dd>
+potentially drop rows.</p><ul><li><p>For left joins, it checks <code>y</code>.</p></li>
+<li><p>For right joins, it checks <code>x</code>.</p></li>
+<li><p>For inner joins, it checks both <code>x</code> and <code>y</code>. In this case, <code>unmatched</code> is
+also allowed to be a character vector of length 2 to specify the behavior
+for <code>x</code> and <code>y</code> independently.</p></li>
+</ul></dd>
 
 </dl></div>
     <div class="section level2">
