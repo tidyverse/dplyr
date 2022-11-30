@@ -203,8 +203,8 @@ dplyr_pick_tibble <- function(...) {
   out <- list2(...)
 
   # Allow recycling between selected columns, in case it is called from
-  # a `summarise()` call that modified columns in an earlier expression like
-  # `summarise(df, x = 1, y = pick(x, z))`. This also exactly mimics expansion
+  # a `reframe()` call that modified columns in an earlier expression like
+  # `reframe(df, x = 1, y = pick(x, z))`. This also exactly mimics expansion
   # into `y = tibble(x, z)`.
   size <- vec_size_common(!!!out, .call = error_call)
   out <- vec_recycle_common(!!!out, .size = size, .call = error_call)

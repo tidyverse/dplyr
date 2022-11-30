@@ -32,11 +32,6 @@
       Error:
       ! `na_matches` must be one of "na" or "never", not "foo".
     Code
-      join_mutate(df, df, by = "x", type = "left", unmatched = "foo")
-    Condition
-      Error:
-      ! `unmatched` must be one of "drop" or "error", not "foo".
-    Code
       join_mutate(df, df, by = "x", type = "left", keep = 1)
     Condition
       Error:
@@ -207,9 +202,4 @@
     Condition
       Error in `nest_join()`:
       ! `na_matches` must be a string or character vector.
-    Code
-      nest_join(df1, df2, unmatched = 1)
-    Condition
-      Error in `nest_join()`:
-      ! `unmatched` must be a string or character vector.
 

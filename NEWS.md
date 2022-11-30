@@ -1,5 +1,33 @@
 # dplyr (development version)
 
+* `slice()` with no inputs now returns 0 rows. This is mostly for theoretical
+  consistency (#6573).
+
+* `rename_with()` now disallows renaming in the `.cols` tidy-selection (#6561).
+
+* `rename_with()` now checks that the result of `.fn` is the right type and size
+  (#6561).
+
+* `reframe()` is a new experimental verb that creates a new data frame by
+  applying functions to columns of an existing data frame. It is very similar to
+  `summarise()`, with two big differences:
+
+  * `reframe()` can return an arbitrary number of rows per group, while
+    `summarise()` reduces each group down to a single row.
+
+  * `reframe()` always returns an ungrouped data frame, while `summarise()`
+    might return a grouped or rowwise data frame, depending on the scenario.
+    
+  `reframe()` has been added in response to valid concern from the community
+  that allowing `summarise()` to return any number of rows per group increases
+  the chance for accidental bugs. We still feel that this is a powerful
+  technique, and is a principled replacement for `do()`, so we have moved these
+  features to `reframe()` (#6382).
+
+* Returning 0 or >1 rows per group in `summarise()` is now deprecated in favor
+  of using `reframe()`. See the NEWS bullet about `reframe()` for more details
+  (#6382).
+
 * `slice()` now errors if any expressions in `...` are named. This helps avoid
   accidentally misspelling an optional argument, such as `.by` (#6554).
 

@@ -255,7 +255,6 @@ test_that("join_mutate() validates arguments", {
     join_mutate(df, df, by = 1, type = "left")
     join_mutate(df, df, by = "x", type = "left", suffix = 1)
     join_mutate(df, df, by = "x", type = "left", na_matches = "foo")
-    join_mutate(df, df, by = "x", type = "left", unmatched = "foo")
     join_mutate(df, df, by = "x", type = "left", keep = 1)
   })
 })
@@ -432,7 +431,6 @@ test_that("validates inputs", {
     nest_join(df1, df2, keep = 1)
     nest_join(df1, df2, name = 1)
     nest_join(df1, df2, na_matches = 1)
-    nest_join(df1, df2, unmatched = 1)
   })
 
 })
@@ -464,6 +462,32 @@ test_that("joins preserve groups", {
   expect_equal(i, 4L)
   expect_equal(group_vars(out), "a")
   expect_equal(group_vars(out$gf2[[1]]), "b")
+})
+
+test_that("joins respect zero length groups", {
+  df1 <- tibble(f = factor( c(1,1,2,2), levels = 1:3), x = c(1,2,1,4)) %>%
+    group_by(f)
+
+  df2 <- tibble(f = factor( c(2,2,3,3), levels = 1:3), y = c(1,2,3,4)) %>%
+    group_by(f)
+
+  expect_equal(group_size(left_join( df1, df2, by = "f", multiple = "all")),  c(2,4))
+  expect_equal(group_size(right_join( df1, df2, by = "f", multiple = "all")),  c(4,2))
+  expect_equal(group_size(full_join( df1, df2, by = "f", multiple = "all")),  c(2,4,2))
+  expect_equal(group_size(anti_join( df1, df2, by = "f")),  c(2))
+  expect_equal(group_size(inner_join( df1, df2, by = "f", multiple = "all")),  c(4))
+
+
+  df1 <- tibble(f = factor( c(1,1,2,2), levels = 1:3), x = c(1,2,1,4)) %>%
+    group_by(f, .drop = FALSE)
+  df2 <- tibble(f = factor( c(2,2,3,3), levels = 1:3), y = c(1,2,3,4)) %>%
+    group_by(f, .drop = FALSE)
+
+  expect_equal(group_size(left_join( df1, df2, by = "f", multiple = "all")),  c(2,4,0))
+  expect_equal(group_size(right_join( df1, df2, by = "f", multiple = "all")),  c(0,4,2))
+  expect_equal(group_size(full_join( df1, df2, by = "f", multiple = "all")),  c(2,4,2))
+  expect_equal(group_size(anti_join( df1, df2, by = "f")),  c(2,0,0))
+  expect_equal(group_size(inner_join( df1, df2, by = "f", multiple = "all")),  c(0,4,0))
 })
 
 test_that("group column names reflect renamed duplicate columns (#2330)", {

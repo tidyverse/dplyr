@@ -588,6 +588,38 @@ test_that("if_any() and if_all() work", {
   )
 })
 
+test_that("filter keeps zero length groups", {
+  df <- tibble(
+    e = 1,
+    f = factor(c(1, 1, 2, 2), levels = 1:3),
+    g = c(1, 1, 2, 2),
+    x = c(1, 2, 1, 4)
+  )
+  df <- group_by(df, e, f, g, .drop = FALSE)
+
+  expect_equal(group_size(filter(df, f == 1)), c(2, 0, 0) )
+})
+
+test_that("filtering retains labels for zero length groups", {
+  df <- tibble(
+    e = 1,
+    f = factor(c(1, 1, 2, 2), levels = 1:3),
+    g = c(1, 1, 2, 2),
+    x = c(1, 2, 1, 4)
+  )
+  df <- group_by(df, e, f, g, .drop = FALSE)
+
+  expect_equal(
+    ungroup(count(filter(df, f == 1))),
+    tibble(
+      e = 1,
+      f = factor(1:3),
+      g = c(1, 2, NA),
+      n = c(2L, 0L, 0L)
+    )
+  )
+})
+
 # .by -------------------------------------------------------------------------
 
 test_that("can group transiently using `.by`", {

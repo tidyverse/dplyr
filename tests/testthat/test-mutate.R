@@ -317,6 +317,17 @@ test_that("mutate() hands list columns with rowwise magic to follow up expressio
   )
 })
 
+test_that("mutate keeps zero length groups", {
+  df <- tibble(
+    e = 1,
+    f = factor(c(1, 1, 2, 2), levels = 1:3),
+    g = c(1, 1, 2, 2),
+    x = c(1, 2, 1, 4)
+  )
+  df <- group_by(df, e, f, g, .drop = FALSE)
+
+  expect_equal( group_size(mutate(df, z = 2)), c(2, 2, 0) )
+})
 
 # other -------------------------------------------------------------------
 

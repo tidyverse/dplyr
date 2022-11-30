@@ -122,8 +122,8 @@ enclose with the current environment, you can unquote directly in
 quo(!! sym)
 quo(!! call)
 
-rlang::as_quosure(sym)
-rlang::as_quosure(call)
+rlang::as_quosure(sym, env = rlang::global_env())
+rlang::as_quosure(call, env = rlang::global_env())
 ```
 
 Note that while formulas and quosures are very similar objects (and in
@@ -137,7 +137,7 @@ functions:
 ```{r}
 f <- ~cyl
 f
-rlang::as_quosure(f)
+rlang::as_quosure(f, env = rlang::global_env())
 ```
 
 Finally, and perhaps most importantly, **strings are not and should
@@ -169,7 +169,7 @@ Or create the call with `call2()`:
 call <- rlang::call2("my_call", !!! syms)
 call
 
-rlang::as_quosure(call)
+rlang::as_quosure(call, env = rlang::global_env())
 
 # Or equivalently:
 quo(!! rlang::call2("my_call", !!! syms))
