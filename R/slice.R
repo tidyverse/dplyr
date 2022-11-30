@@ -140,8 +140,7 @@ slice.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
     by = {{ .by }},
     data = .data,
     by_arg = the$slice_by_arg,
-    data_arg = ".data",
-    error_call = error_call
+    data_arg = ".data"
   )
 
   # implementation-specific, could be replaced by an alternative backend
