@@ -195,7 +195,7 @@
       mutate(data.frame(x = 1), pick(y = x))
     Condition
       Error in `mutate()`:
-      i In argument: `..1 = pick(y = x)`.
+      i In argument: `pick(y = x)`.
       Caused by error in `pick()`:
       ! Can't rename variables in this context.
 
@@ -205,7 +205,7 @@
       mutate(data.frame(x = 1), pick_wrapper(y = x))
     Condition
       Error in `mutate()`:
-      i In argument: `..1 = pick_wrapper(y = x)`.
+      i In argument: `pick_wrapper(y = x)`.
       Caused by error in `pick()`:
       ! Can't rename variables in this context.
 
@@ -236,7 +236,7 @@
       filter(df, pick(x, a))
     Condition
       Error in `filter()`:
-      i In argument: `..1 = pick(x, a)`.
+      i In argument: `pick(x, a)`.
       Caused by error in `pick()`:
       ! Can't subset columns that don't exist.
       x Column `a` doesn't exist.
@@ -247,7 +247,7 @@
       filter(df, pick_wrapper(x, a))
     Condition
       Error in `filter()`:
-      i In argument: `..1 = pick_wrapper(x, a)`.
+      i In argument: `pick_wrapper(x, a)`.
       Caused by error in `pick()`:
       ! Can't subset columns that don't exist.
       x Column `a` doesn't exist.
@@ -258,7 +258,7 @@
       filter(df, pick(x, y)$x)
     Condition
       Error in `filter()`:
-      i In argument: `..1 = asNamespace("dplyr")$dplyr_pick_tibble(x = x, y = y)$x`.
+      i In argument: `asNamespace("dplyr")$dplyr_pick_tibble(x = x, y = y)$x`.
       Caused by error:
       ! `..1` must be a logical vector, not a double vector.
 
@@ -268,7 +268,7 @@
       filter(df, pick_wrapper(x, y)$x)
     Condition
       Error in `filter()`:
-      i In argument: `..1 = pick_wrapper(x, y)$x`.
+      i In argument: `pick_wrapper(x, y)$x`.
       Caused by error:
       ! `..1` must be a logical vector, not a double vector.
 

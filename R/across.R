@@ -138,16 +138,16 @@
 #' }
 #'
 #' iris %>%
-#'   summarise(across(starts_with("Sepal"), quantile_df))
+#'   reframe(across(starts_with("Sepal"), quantile_df))
 #'
 #' # Use .unpack to automatically expand these packed data frames into their
 #' # individual columns
 #' iris %>%
-#'   summarise(across(starts_with("Sepal"), quantile_df, .unpack = TRUE))
+#'   reframe(across(starts_with("Sepal"), quantile_df, .unpack = TRUE))
 #'
 #' # .unpack can utilize a glue specification if you don't like the defaults
 #' iris %>%
-#'   summarise(across(starts_with("Sepal"), quantile_df, .unpack = "{outer}.{inner}"))
+#'   reframe(across(starts_with("Sepal"), quantile_df, .unpack = "{outer}.{inner}"))
 #'
 #' # This is also useful inside mutate(), for example, with a multi-lag helper
 #' multilag <- function(x, lags = 1:3) {
@@ -210,13 +210,13 @@ across <- function(.cols,
 
   if (!missing(...)) {
     details <- c(
-      "Supply arguments directly to `.fns` through a lambda instead.",
+      "Supply arguments directly to `.fns` through an anonymous function instead.",
       "",
       " " = "# Previously",
       " " = "across(a:b, mean, na.rm = TRUE)",
       "",
       " " = "# Now",
-      " " = "across(a:b, ~mean(.x, na.rm = TRUE))"
+      " " = "across(a:b, \\(x) mean(x, na.rm = TRUE))"
     )
     lifecycle::deprecate_warn(
       when = "1.1.0",

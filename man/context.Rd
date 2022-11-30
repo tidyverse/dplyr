@@ -61,7 +61,7 @@ gf <- df \%>\% group_by(g)
 gf \%>\% summarise(n = n())
 
 gf \%>\% mutate(id = cur_group_id())
-gf \%>\% summarise(row = cur_group_rows())
+gf \%>\% reframe(row = cur_group_rows())
 gf \%>\% summarise(data = list(cur_group()))
 
 gf \%>\% mutate(across(everything(), ~ paste(cur_column(), round(.x, 2))))

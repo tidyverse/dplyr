@@ -22,7 +22,10 @@
 #'   forwarded to [group_by()].
 #' @param .keep Should the grouping columns be kept?
 #' @returns A list of tibbles. Each tibble contains the rows of `.tbl` for the
-#'  associated group and all the columns, including the grouping variables.
+#'   associated group and all the columns, including the grouping variables.
+#'   Note that this returns a [list_of][vctrs::list_of()] which is slightly
+#'   stricter than a simple list but is useful for representing lists where
+#'   every element has the same type.
 #' @family grouping functions
 #' @export
 #' @examples

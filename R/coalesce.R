@@ -45,10 +45,11 @@
 coalesce <- function(..., .ptype = NULL, .size = NULL) {
   args <- list2(...)
 
-  # Drop `NULL`s
-  # TODO: Use cheaper `vctrs::vec_any_missing()` approach
-  # https://github.com/r-lib/vctrs/issues/1563
-  args <- discard(args, is.null)
+  if (vec_any_missing(args)) {
+    # Drop `NULL`s
+    not_missing <- !vec_detect_missing(args)
+    args <- vec_slice(args, not_missing)
+  }
 
   if (length(args) == 0L) {
     abort("`...` can't be empty.")

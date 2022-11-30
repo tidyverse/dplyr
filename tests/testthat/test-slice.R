@@ -1,6 +1,11 @@
-test_that("empty slice returns input", {
-  df <- tibble(x = 1:3)
-  expect_equal(slice(df), df)
+test_that("empty slice drops all rows (#6573)", {
+  df <- tibble(g = c(1, 1, 2), x = 1:3)
+  gdf <- group_by(df, g)
+  rdf <- rowwise(df)
+
+  expect_identical(slice(df), df[integer(),])
+  expect_identical(slice(gdf), gdf[integer(),])
+  expect_identical(slice(rdf), rdf[integer(),])
 })
 
 test_that("slicing data.frame yields data.frame", {
@@ -98,6 +103,38 @@ test_that("`...` can't be named (#6554)", {
   expect_snapshot(error = TRUE, {
     slice(df, 1, by = g)
   })
+})
+
+test_that("slice keeps zero length groups", {
+  df <- tibble(
+    e = 1,
+    f = factor(c(1, 1, 2, 2), levels = 1:3),
+    g = c(1, 1, 2, 2),
+    x = c(1, 2, 1, 4)
+  )
+  df <- group_by(df, e, f, g, .drop = FALSE)
+
+  expect_equal(group_size(slice(df, 1)), c(1, 1, 0) )
+})
+
+test_that("slicing retains labels for zero length groups", {
+  df <- tibble(
+    e = 1,
+    f = factor(c(1, 1, 2, 2), levels = 1:3),
+    g = c(1, 1, 2, 2),
+    x = c(1, 2, 1, 4)
+  )
+  df <- group_by(df, e, f, g, .drop = FALSE)
+
+  expect_equal(
+    ungroup(count(slice(df, 1))),
+    tibble(
+      e = 1,
+      f = factor(1:3),
+      g = c(1, 2, NA),
+      n = c(1L, 1L, 0L)
+    )
+  )
 })
 
 test_that("can group transiently using `.by`", {

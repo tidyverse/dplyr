@@ -10,7 +10,9 @@ Authors@R: c(
     person("Lionel", "Henry", role = "aut"),
     person("Kirill", "Müller", role = "aut",
            comment = c(ORCID = "0000-0002-1416-3412")),
-    person("RStudio", role = c("cph", "fnd"))
+    person("Davis", "Vaughan", role = "aut",
+           comment = c(ORCID = "0000-0003-4777-038X")),
+    person("Posit, PBC", role = c("cph", "fnd"))
   )
 Description: A fast, consistent tool for working with data frame like
     objects, both in memory and out of memory.
@@ -62,4 +64,4 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.2

@@ -31,14 +31,6 @@ dplyr_error_call <- function(call) {
   call
 }
 
-arg_name <- function(quos, index) {
-  name  <- names(quos)[index]
-  if (is.null(name) || name == "") {
-    name <- glue("..{index}")
-  }
-  name
-}
-
 cnd_bullet_cur_group_label <- function(what = "error") {
   label <- cur_group_label()
   if (label != "") {
@@ -96,10 +88,10 @@ new_error_context <- function(dots, i, mask) {
       mask = mask
     )
   } else {
-    expr <- dot_as_label(dots[[i]])
+    expr <- quo_as_label(dots[[i]])
 
     env(
-      error_name = arg_name(dots, i),
+      error_name = names(dots)[i],
       error_expression = expr,
       mask = mask
     )
@@ -113,14 +105,6 @@ poke_error_context <- function(dots, i, mask) {
   context_poke("dplyr_error_context", ctxt)
 }
 
-dot_as_label <- function(expr) {
-  if (quo_is_call(expr, "invisible")) {
-    ""
-  } else {
-    quo_as_label(expr)
-  }
-}
-
 mask_type <- function(mask = peek_mask()) {
   if (mask$get_size() > 0) {
     if (mask$is_grouped()) {
@@ -132,21 +116,36 @@ mask_type <- function(mask = peek_mask()) {
   "ungrouped"
 }
 
-cnd_bullet_header <- function(what) {
-  error_context <- peek_error_context()
-  error_name <- error_context$error_name
-  error_expression <- error_context$error_expression
-
-  if (nzchar(error_expression)) {
-    sep <- " = "
+ctxt_error_label <- function(ctxt = peek_error_context()) {
+  error_label(ctxt$error_name, ctxt$error_expression)
+}
+error_label <- function(name, expr_label) {
+  if (is_null(name) || !nzchar(name)) {
+    expr_label
   } else {
-    sep <- ""
+    name
   }
+}
+
+ctxt_error_label_named <- function(ctxt = peek_error_context()) {
+  error_label_named(ctxt$error_name, ctxt$error_expression)
+}
+error_label_named <- function(name, expr_label) {
+  if (is_null(name) || !nzchar(name)) {
+    expr_label
+  } else {
+    paste0(name, " = ", expr_label)
+  }
+}
+
+cnd_bullet_header <- function(what) {
+  ctxt <- peek_error_context()
+  label <- ctxt_error_label_named(ctxt)
 
   if (is_string(what, "recycle")) {
-    glue("Can't {what} `{error_name}{sep}{error_expression}`.")
+    glue("Can't {what} `{label}`.")
   } else {
-    c("i" = glue("In argument: `{error_name}{sep}{error_expression}`."))
+    c("i" = glue("In argument: `{label}`."))
   }
 }
 
@@ -360,18 +359,20 @@ signal_warnings <- function(state, error_call) {
 
 new_dplyr_warning <- function(data) {
   if (data$has_group_data) {
-    label <- cur_group_label(
+    group_label <- cur_group_label(
       data$type,
       data$group_data$id,
       data$group_data$group
     )
   } else {
-    label <- ""
+    group_label <- ""
   }
 
+  label <- error_label_named(data$name, data$expr)
+
   msg <- c(
-    "i" = glue::glue("In argument `{data$name} = {data$expr}`."),
-    "i" = if (nzchar(label)) glue("In {label}.")
+    "i" = glue::glue("In argument: `{label}`."),
+    "i" = if (nzchar(group_label)) glue("In {group_label}.")
   )
 
   warning_cnd(
