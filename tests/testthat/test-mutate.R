@@ -534,6 +534,16 @@ test_that("dropping column with `NULL` then readding it retains original locatio
   expect_named(mutate(df, y = NULL, y = 3, .keep = "all", .before = x), c("x", "y", "z", "a"))
 })
 
+test_that("setting a new column to `NULL` works with `.before` and `.after` (#6563)", {
+  df <- tibble(x = 1, y = 2, z = 3, a = 4)
+
+  expect_named(mutate(df, b = NULL, .before = 1), names(df))
+  expect_named(mutate(df, b = 1, b = NULL, .before = 1), names(df))
+  expect_named(mutate(df, b = NULL, b = 1, .before = 1), c("b", "x", "y", "z", "a"))
+
+  expect_named(mutate(df, b = NULL, c = 1, .after = 2), c("x", "y", "c", "z", "a"))
+})
+
 test_that(".keep= always retains grouping variables (#5582)", {
   df <- tibble(x = 1, y = 2, z = 3) %>% group_by(z)
   expect_equal(
