@@ -234,12 +234,15 @@ mutate_keep <- function(out, keep, used, names_exprs, names_groups) {
 
   if (keep == "all") {
     names_out <- names
-  } else if (keep == "used") {
-    names_out <- intersect(names, c(names_exprs, names_groups, names(used)[used]))
-  } else if (keep == "unused") {
-    names_out <- intersect(names, c(names_exprs, names_groups, names(used)[!used]))
-  } else if (keep == "none") {
-    names_out <- intersect(names, c(names_exprs, names_groups))
+  } else {
+    names_keep <- switch(
+      keep,
+      used = names(used)[used],
+      unused = names(used)[!used],
+      none = character(),
+      abort("Unknown `keep`.", .internal = TRUE)
+    )
+    names_out <- intersect(names, c(names_exprs, names_groups, names_keep))
   }
 
   dplyr_col_select(out, names_out)
