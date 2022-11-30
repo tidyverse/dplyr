@@ -116,3 +116,10 @@ test_that("group_size correct for grouped data", {
   expect_equal(n_groups(df), 3L)
   expect_equal(group_size(df), rep(10, 3))
 })
+
+# n_groups ----------------------------------------------------------------
+
+test_that("n_groups respects zero-length groups (#341)", {
+  df <- tibble(x = factor(1:3, levels = 1:4)) %>% group_by(x, .drop = FALSE)
+  expect_equal(n_groups(df), 4)
+})
