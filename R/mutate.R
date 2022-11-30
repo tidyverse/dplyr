@@ -179,6 +179,7 @@ mutate.data.frame <- function(.data,
   by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
 
   cols <- mutate_cols(.data, dplyr_quosures(...), by)
+  used <- attr(cols, "used")
 
   out <- dplyr_col_modify(.data, cols)
 
@@ -191,7 +192,6 @@ mutate.data.frame <- function(.data,
     names_original = names_original
   )
 
-  used <- attr(cols, "used")
   names_exprs <- names(cols)
   names_groups <- by$names
 
