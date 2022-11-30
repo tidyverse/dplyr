@@ -138,9 +138,12 @@
 #'
 #'   `unmatched` is intended to protect you from accidentally dropping rows
 #'   during a join. It only checks for unmatched keys in the input that could
-#'   potentially drop rows. For example, in `left_join()` only `y` is
-#'   checked for unmatched keys, because all keys from `x` are always retained,
-#'   even if they don't have a match.
+#'   potentially drop rows.
+#'   - For left joins, it checks `y`.
+#'   - For right joins, it checks `x`.
+#'   - For inner joins, it checks both `x` and `y`. In this case, `unmatched` is
+#'     also allowed to be a character vector of length 2 to specify the behavior
+#'     for `x` and `y` independently.
 #' @family joins
 #' @examples
 #' band_members %>% inner_join(band_instruments)
@@ -487,7 +490,6 @@ nest_join.data.frame <- function(x,
 
   check_keep(keep)
   na_matches <- check_na_matches(na_matches)
-  unmatched <- check_unmatched(unmatched)
 
   if (is.null(name)) {
     name <- as_label(enexpr(y))
@@ -574,7 +576,6 @@ join_mutate <- function(x,
 
   na_matches <- check_na_matches(na_matches, error_call = error_call)
   check_keep(keep, error_call = error_call)
-  unmatched <- check_unmatched(unmatched, error_call = error_call)
 
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
@@ -748,17 +749,6 @@ check_na_matches <- function(na_matches,
     arg = na_matches,
     values = c("na", "never"),
     arg_nm = "na_matches",
-    error_call = error_call
-  )
-}
-
-check_unmatched <- function(unmatched, ..., error_call = caller_env()) {
-  check_dots_empty0(...)
-
-  arg_match0(
-    arg = unmatched,
-    values = c("drop", "error"),
-    arg_nm = "unmatched",
     error_call = error_call
   )
 }
