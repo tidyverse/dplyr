@@ -75,7 +75,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
-<ul><li><p><code><a href="../reference/rename.html">rename_with()</a></code> now disallows renaming in the <code>.cols</code> tidy-selection (<a href="https://github.com/tidyverse/dplyr/issues/6561" class="external-link">#6561</a>).</p></li>
+<ul><li><p><code><a href="../reference/slice.html">slice()</a></code> with no inputs now returns 0 rows. This is mostly for theoretical consistency (<a href="https://github.com/tidyverse/dplyr/issues/6573" class="external-link">#6573</a>).</p></li>
+<li><p><code><a href="../reference/rename.html">rename_with()</a></code> now disallows renaming in the <code>.cols</code> tidy-selection (<a href="https://github.com/tidyverse/dplyr/issues/6561" class="external-link">#6561</a>).</p></li>
 <li><p><code><a href="../reference/rename.html">rename_with()</a></code> now checks that the result of <code>.fn</code> is the right type and size (<a href="https://github.com/tidyverse/dplyr/issues/6561" class="external-link">#6561</a>).</p></li>
 <li>
 <p><code><a href="../reference/reframe.html">reframe()</a></code> is a new experimental verb that creates a new data frame by applying functions to columns of an existing data frame. It is very similar to <code><a href="../reference/summarise.html">summarise()</a></code>, with two big differences:</p>
