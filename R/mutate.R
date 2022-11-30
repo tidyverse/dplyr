@@ -222,7 +222,7 @@ mutate_relocate <- function(out, before, after, names_original) {
   names <- setdiff(names, names_original)
 
   relocate(
-    .data = out,
+    out,
     all_of(names),
     .before = !!before,
     .after = !!after
