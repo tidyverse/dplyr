@@ -118,6 +118,7 @@ filter <- function(.data, ..., .by = NULL, .preserve = FALSE) {
 
 #' @export
 filter.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
+  # dplyr interface: dots and .by, implementation-agnostic
   dots <- dplyr_quosures(...)
   check_filter(dots)
 
@@ -128,6 +129,7 @@ filter.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
     data_arg = ".data"
   )
 
+  # implementation-specific, could be replaced by an alternative backend
   loc <- filter_rows(.data, dots, by)
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }

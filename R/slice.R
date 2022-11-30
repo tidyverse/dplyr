@@ -133,6 +133,7 @@ slice <- function(.data, ..., .by = NULL, .preserve = FALSE) {
 
 #' @export
 slice.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
+  # dplyr interface: dots and .by, implementation-agnostic
   dots <- enquos(...)
 
   by <- compute_by(
@@ -143,6 +144,7 @@ slice.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
     error_call = error_call
   )
 
+  # implementation-specific, could be replaced by an alternative backend
   loc <- slice_rows(.data, dots, by)
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
