@@ -133,7 +133,17 @@ slice <- function(.data, ..., .by = NULL, .preserve = FALSE) {
 
 #' @export
 slice.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
-  loc <- slice_rows(.data, ..., .by = {{ .by }})
+  dots <- enquos(...)
+
+  by <- compute_by(
+    by = {{ .by }},
+    data = .data,
+    by_arg = the$slice_by_arg,
+    data_arg = ".data",
+    error_call = error_call
+  )
+
+  loc <- slice_rows(.data, dots, by)
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
@@ -302,18 +312,8 @@ slice_sample.data.frame <- function(.data, ..., n, prop, by = NULL, weight_by = 
 
 # helpers -----------------------------------------------------------------
 
-slice_rows <- function(.data, ..., .by = NULL, error_call = caller_env()) {
+slice_rows <- function(.data, dots, by = NULL, error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
-
-  by <- compute_by(
-    by = {{ .by }},
-    data = .data,
-    by_arg = the$slice_by_arg,
-    data_arg = ".data",
-    error_call = error_call
-  )
-
-  dots <- enquos(...)
 
   mask <- DataMask$new(.data, by, "slice", error_call = error_call)
   on.exit(mask$forget(), add = TRUE)
