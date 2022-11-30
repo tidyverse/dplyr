@@ -196,9 +196,14 @@ be handled?
 
 \code{unmatched} is intended to protect you from accidentally dropping rows
 during a join. It only checks for unmatched keys in the input that could
-potentially drop rows. For example, in \code{left_join()} only \code{y} is
-checked for unmatched keys, because all keys from \code{x} are always retained,
-even if they don't have a match.}
+potentially drop rows.
+\itemize{
+\item For left joins, it checks \code{y}.
+\item For right joins, it checks \code{x}.
+\item For inner joins, it checks both \code{x} and \code{y}. In this case, \code{unmatched} is
+also allowed to be a character vector of length 2 to specify the behavior
+for \code{x} and \code{y} independently.
+}}
 }
 \value{
 An object of the same type as \code{x} (including the same groups). The order of
