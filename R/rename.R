@@ -9,7 +9,7 @@
 #'   For `rename()`: <[`tidy-select`][dplyr_tidy_select]> Use
 #'   `new_name = old_name` to rename selected variables.
 #'
-#'   For `rename_with()`: additional arguments passed onto `.fn`.
+#'   For `rename_with()`: additional arguments passed onto `.fns`.
 #' @return
 #' An object of the same type as `.data`. The output has the following
 #' properties:
@@ -51,33 +51,33 @@ rename.data.frame <- function(.data, ...) {
 
 #' @export
 #' @rdname rename
-#' @param .fn A function used to transform the selected `.cols`. Should
+#' @param .fns A function used to transform the selected `.cols`. Should
 #'   return a character vector the same length as the input.
 #' @param .cols <[`tidy-select`][dplyr_tidy_select]> Columns to rename;
 #'   defaults to all columns.
-rename_with <- function(.data, .fn, .cols = everything(), ...) {
+rename_with <- function(.data, .fns, .cols = everything(), ...) {
   UseMethod("rename_with")
 }
 
 
 #' @export
-rename_with.data.frame <- function(.data, .fn, .cols = everything(), ...) {
-  .fn <- as_function(.fn)
+rename_with.data.frame <- function(.data, .fns, .cols = everything(), ...) {
+  .fns <- as_function(.fns)
   cols <- tidyselect::eval_select(enquo(.cols), .data, allow_rename = FALSE)
 
   names <- names(.data)
 
   sel <- vec_slice(names, cols)
-  new <- .fn(sel, ...)
+  new <- .fns(sel, ...)
 
   if (!is_character(new)) {
     cli::cli_abort(
-      "{.arg .fn} must return a character vector, not {.obj_type_friendly {new}}."
+      "{.arg .fns} must return a character vector, not {.obj_type_friendly {new}}."
     )
   }
   if (length(new) != length(sel)) {
     cli::cli_abort(
-      "{.arg .fn} must return a vector of length {length(sel)}, not {length(new)}."
+      "{.arg .fns} must return a vector of length {length(sel)}, not {length(new)}."
     )
   }
 
