@@ -183,46 +183,70 @@ mutate.data.frame <- function(.data,
 
   out <- dplyr_col_modify(.data, cols)
 
-  # Compact out `NULL` columns that got removed.
-  # These won't exist in `out`, but we don't want them to look "new".
-  # Note that `dplyr_col_modify()` makes it impossible to `NULL` a group column,
-  # which we rely on below.
-  cols <- compact_null(cols)
+  names_original <- names(.data)
 
-  cols_data <- names(.data)
-  cols_group <- by$names
+  out <- mutate_relocate(
+    out = out,
+    before = {{ .before }},
+    after = {{ .after }},
+    names_original = names_original
+  )
 
-  cols_expr <- names(cols)
-  cols_expr_modified <- intersect(cols_expr, cols_data)
-  cols_expr_new <- setdiff(cols_expr, cols_expr_modified)
+  names_new <- names(cols)
+  names_groups <- by$names
 
-  cols_used <- setdiff(cols_data, c(cols_group, cols_expr_modified, names(used)[!used]))
-  cols_unused <- setdiff(cols_data, c(cols_group, cols_expr_modified, names(used)[used]))
+  out <- mutate_keep(
+    out = out,
+    keep = keep,
+    used = used,
+    names_new = names_new,
+    names_groups = names_groups
+  )
 
-  .before <- enquo(.before)
-  .after <- enquo(.after)
-
-  if (!quo_is_null(.before) || !quo_is_null(.after)) {
-    # Only change the order of new columns
-    out <- relocate(out, all_of(cols_expr_new), .before = !!.before, .after = !!.after)
-  }
-
-  cols_out <- names(out)
-
-  if (keep == "all") {
-    cols_retain <- cols_out
-  } else if (keep == "used") {
-    cols_retain <- setdiff(cols_out, cols_unused)
-  } else if (keep == "unused") {
-    cols_retain <- setdiff(cols_out, cols_used)
-  } else if (keep == "none") {
-    cols_retain <- setdiff(cols_out, c(cols_used, cols_unused))
-  }
-
-  dplyr_col_select(out, cols_retain)
+  out
 }
 
 # Helpers -----------------------------------------------------------------
+
+mutate_relocate <- function(out, before, after, names_original) {
+  before <- enquo(before)
+  after <- enquo(after)
+
+  if (quo_is_null(before) && quo_is_null(after)) {
+    return(out)
+  }
+
+  # Only change the order of completely new columns that
+  # didn't exist in the original data
+  names <- names(out)
+  names <- setdiff(names, names_original)
+
+  relocate(
+    out,
+    all_of(names),
+    .before = !!before,
+    .after = !!after
+  )
+}
+
+mutate_keep <- function(out, keep, used, names_new, names_groups) {
+  names <- names(out)
+
+  if (keep == "all") {
+    names_out <- names
+  } else {
+    names_keep <- switch(
+      keep,
+      used = names(used)[used],
+      unused = names(used)[!used],
+      none = character(),
+      abort("Unknown `keep`.", .internal = TRUE)
+    )
+    names_out <- intersect(names, c(names_new, names_groups, names_keep))
+  }
+
+  dplyr_col_select(out, names_out)
+}
 
 mutate_cols <- function(data, dots, by, error_call = caller_env()) {
   # Collect dots before setting up error handlers (#6178)
@@ -428,31 +452,30 @@ mutate_bullets <- function(cnd, ...) {
 
 #' @export
 `mutate_bullets.dplyr:::mutate_incompatible_size` <- function(cnd, ...) {
-  error_context <- peek_error_context()
-  error_name <- error_context$error_name
+  label <- ctxt_error_label()
 
   result_size <- cnd$dplyr_error_data$result_size
   expected_size <- cnd$dplyr_error_data$expected_size
   c(
-    glue("`{error_name}` must be size {or_1(expected_size)}, not {result_size}."),
+    glue("`{label}` must be size {or_1(expected_size)}, not {result_size}."),
     i = cnd_bullet_rowwise_unlist()
   )
 }
 #' @export
 `mutate_bullets.dplyr:::mutate_mixed_null` <- function(cnd, ...) {
-  error_name <- peek_error_context()$error_name
+  label <- ctxt_error_label()
   c(
-    glue("`{error_name}` must return compatible vectors across groups."),
+    glue("`{label}` must return compatible vectors across groups."),
     x = "Can't combine NULL and non NULL results.",
     i = cnd_bullet_rowwise_unlist()
   )
 }
 #' @export
 `mutate_bullets.dplyr:::mutate_not_vector` <- function(cnd, ...) {
-  error_name <- peek_error_context()$error_name
+  label <- ctxt_error_label()
   result <- cnd$dplyr_error_data$result
   c(
-    glue("`{error_name}` must be a vector, not {obj_type_friendly(result)}."),
+    glue("`{label}` must be a vector, not {obj_type_friendly(result)}."),
     i = cnd_bullet_rowwise_unlist()
   )
 }
@@ -463,11 +486,11 @@ mutate_bullets <- function(cnd, ...) {
 }
 #' @export
 `mutate_bullets.dplyr:::mutate_constant_recycle_error` <- function(cnd, ...) {
-  error_name <- peek_error_context()$error_name
+  label <- ctxt_error_label()
   constant_size <- cnd$constant_size
   data_size <- cnd$data_size
   c(
-    glue("Inlined constant `{error_name}` must be size {or_1(data_size)}, not {constant_size}.")
+    glue("Inlined constant `{label}` must be size {or_1(data_size)}, not {constant_size}.")
   )
 }
 

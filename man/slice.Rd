@@ -202,6 +202,7 @@ Other single table verbs:
 \code{\link{arrange}()},
 \code{\link{filter}()},
 \code{\link{mutate}()},
+\code{\link{reframe}()},
 \code{\link{rename}()},
 \code{\link{select}()},
 \code{\link{summarise}()}

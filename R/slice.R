@@ -133,7 +133,16 @@ slice <- function(.data, ..., .by = NULL, .preserve = FALSE) {
 
 #' @export
 slice.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
-  loc <- slice_rows(.data, ..., .by = {{ .by }})
+  dots <- enquos(...)
+
+  by <- compute_by(
+    by = {{ .by }},
+    data = .data,
+    by_arg = the$slice_by_arg,
+    data_arg = ".data"
+  )
+
+  loc <- slice_rows(.data, dots, by)
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
@@ -319,23 +328,10 @@ slice_sample.data.frame <- function(.data, ..., n, prop, by = NULL, weight_by = 
 
 # helpers -----------------------------------------------------------------
 
-slice_rows <- function(.data, ..., .by = NULL, error_call = caller_env()) {
+slice_rows <- function(data, dots, by, error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
 
-  by <- compute_by(
-    by = {{ .by }},
-    data = .data,
-    by_arg = the$slice_by_arg,
-    data_arg = ".data",
-    error_call = error_call
-  )
-
-  dots <- enquos(...)
-  if (is_empty(dots)) {
-    return(TRUE)
-  }
-
-  mask <- DataMask$new(.data, by, "slice", error_call = error_call)
+  mask <- DataMask$new(data, by, "slice", error_call = error_call)
   on.exit(mask$forget(), add = TRUE)
 
   chunks <- slice_eval(mask, dots, error_call = error_call)
@@ -567,7 +563,13 @@ dplyr_local_slice_by_arg <- function(by_arg, frame = caller_env()) {
 
 # Backports for R 3.5.0 utils
 ...length2 <- function(frame = caller_env()) {
-  length(env_get(frame, "..."))
+  dots <- env_get(frame, "...")
+
+  if (is_missing(dots)) {
+    0L
+  } else {
+    length(dots)
+  }
 }
 ...elt2 <- function(i, frame = caller_env()) {
   eval_bare(sym(paste0("..", i)), frame)

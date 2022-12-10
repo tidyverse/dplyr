@@ -5,7 +5,9 @@ test_that("can use freshly create variables (#138)", {
   expect_equal(out$z, 6.5)
 })
 
-test_that("inputs are recycled", {
+test_that("inputs are recycled (deprecated in 1.1.0)", {
+  local_options(lifecycle_verbosity = "quiet")
+
   expect_equal(
     tibble() %>% summarise(x = 1, y = 1:3, z = 1),
     tibble(x = 1, y = 1:3, z = 1)
@@ -77,7 +79,6 @@ test_that("works with unquoted values", {
   df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
   expect_equal(summarise(df, out = !!1), tibble(out = 1))
   expect_equal(summarise(df, out = !!quo(1)), tibble(out = 1))
-  expect_equal(summarise(df, out = !!(1:2)), tibble(out = 1:2))
 })
 
 test_that("formulas are evaluated in the right environment (#3019)", {
@@ -107,6 +108,8 @@ test_that("unnamed data frame results with 0 columns are ignored (#5084)", {
 })
 
 test_that("named data frame results with 0 columns participate in recycling (#6509)", {
+  local_options(lifecycle_verbosity = "quiet")
+
   df <- tibble(x = 1:3)
   gdf <- group_by(df, x)
 
@@ -163,6 +166,28 @@ test_that("can modify grouping variables", {
   expect_equal(out$a, c(2, 2, 3, 3))
 })
 
+test_that("summarise returns a row for zero length groups", {
+  df <- tibble(
+    e = 1,
+    f = factor(c(1, 1, 2, 2), levels = 1:3),
+    g = c(1, 1, 2, 2),
+    x = c(1, 2, 1, 4)
+  )
+  df <- group_by(df, e, f, g, .drop = FALSE)
+
+  expect_equal( nrow(summarise(df, z = n())), 3L)
+})
+
+test_that("summarise respects zero-length groups (#341)", {
+  df <- tibble(x = factor(rep(1:3, each = 10), levels = 1:4))
+
+  out <- df %>%
+    group_by(x, .drop = FALSE) %>%
+    summarise(n = n())
+
+  expect_equal(out$n, c(10L, 10L, 10L, 0L))
+})
+
 # vector types ----------------------------------------------------------
 
 test_that("summarise allows names (#2675)", {
@@ -206,16 +231,16 @@ test_that("summarise coerces types across groups", {
 })
 
 test_that("unnamed tibbles are unpacked (#2326)", {
-  df <- tibble(x = 1:2)
+  df <- tibble(x = 2)
   out <- summarise(df, tibble(y = x * 2, z = 3))
-  expect_equal(out$y, c(2L, 4L))
-  expect_equal(out$z, c(3L, 3L))
+  expect_equal(out$y, 4)
+  expect_equal(out$z, 3)
 })
 
 test_that("named tibbles are packed (#2326)", {
-  df <- tibble(x = 1:2)
+  df <- tibble(x = 2)
   out <- summarise(df, df = tibble(y = x * 2, z = 3))
-  expect_equal(out$df, tibble(y = c(2L, 4L), z = c(3L, 3L)))
+  expect_equal(out$df, tibble(y = 4, z = 3))
 })
 
 test_that("summarise(.groups=)", {
@@ -348,7 +373,6 @@ test_that("summarise() gives meaningful errors", {
     expect_snapshot({
       # Messages about .groups=
       tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise()
-      tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise(z = c(2,2))
       tibble(x = 1, y = 2) %>% rowwise(x, y) %>% summarise()
       tibble(x = 1, y = 2) %>% rowwise() %>% summarise()
     })
@@ -429,4 +453,36 @@ test_that("summarise() gives meaningful errors", {
     })
   }))
 
+})
+
+test_that("non-summary results are deprecated in favor of `reframe()` (#6382)", {
+  local_options(lifecycle_verbosity = "warning")
+
+  df <- tibble(g = c(1, 1, 2), x = 1:3)
+  gdf <- group_by(df, g)
+  rdf <- rowwise(df)
+
+  expect_snapshot({
+    out <- summarise(df, x = which(x < 3))
+  })
+  expect_identical(out$x, 1:2)
+
+  expect_snapshot({
+    out <- summarise(df, x = which(x < 3), .by = g)
+  })
+  expect_identical(out$g, c(1, 1))
+  expect_identical(out$x, 1:2)
+
+  # First group returns size 2 summary
+  expect_snapshot({
+    out <- summarise(gdf, x = which(x < 3))
+  })
+  expect_identical(out$g, c(1, 1))
+  expect_identical(out$x, 1:2)
+
+  # Last row returns size 0 summary
+  expect_snapshot({
+    out <- summarise(rdf, x = which(x < 3))
+  })
+  expect_identical(out$x, c(1L, 1L))
 })

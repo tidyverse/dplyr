@@ -148,10 +148,10 @@ filter.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
   dplyr_reconstruct(out, .data)
 }
 
-filter_rows <- function(.data, dots, by, error_call = caller_env()) {
+filter_rows <- function(data, dots, by, error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
 
-  mask <- DataMask$new(.data, by, "filter", error_call = error_call)
+  mask <- DataMask$new(data, by, "filter", error_call = error_call)
   on.exit(mask$forget(), add = TRUE)
 
   dots <- filter_expand(dots, mask = mask, error_call = error_call)

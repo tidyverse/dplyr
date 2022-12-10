@@ -26,11 +26,12 @@ Authors:
   \item Romain François (\href{https://orcid.org/0000-0002-2444-4226}{ORCID})
   \item Lionel Henry
   \item Kirill Müller (\href{https://orcid.org/0000-0002-1416-3412}{ORCID})
+  \item Davis Vaughan (\href{https://orcid.org/0000-0003-4777-038X}{ORCID})
 }
 
 Other contributors:
 \itemize{
-  \item RStudio [copyright holder, funder]
+  \item Posit, PBC [copyright holder, funder]
 }
 
 }

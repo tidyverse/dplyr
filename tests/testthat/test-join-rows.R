@@ -139,6 +139,21 @@ test_that("join_rows() doesn't error on unmatched rows if they won't be dropped"
   expect_identical(out$y, c(1L, NA, 2L))
 })
 
+test_that("join_rows() allows `unmatched` to be specified independently for inner joins", {
+  out <- join_rows(c(1, 2), 1, type = "inner", unmatched = c("drop", "error"))
+  expect_identical(out$x, 1L)
+  expect_identical(out$y, 1L)
+
+  out <- join_rows(1, c(2, 1), type = "inner", unmatched = c("error", "drop"))
+  expect_identical(out$x, 1L)
+  expect_identical(out$y, 2L)
+
+  # Both have dropped rows, only `y` is mentioned in the error
+  expect_snapshot(error = TRUE, {
+    join_rows(c(1, 3), c(1, 2), type = "inner", unmatched = c("drop", "error"))
+  })
+})
+
 test_that("join_rows() expects incompatible type errors to have been handled by join_cast_common()", {
   expect_snapshot({
     (expect_error(
@@ -198,10 +213,26 @@ test_that("join_rows() gives meaningful error message on unmatched rows", {
   )
   expect_snapshot(error = TRUE,
     join_rows(
+      data.frame(x = c(1, 2)),
+      data.frame(x = 1),
+      type = "inner",
+      unmatched = c("error", "drop")
+    )
+  )
+  expect_snapshot(error = TRUE,
+    join_rows(
       data.frame(x = 1),
       data.frame(x = c(1, 2)),
       type = "inner",
       unmatched = "error"
+    )
+  )
+  expect_snapshot(error = TRUE,
+    join_rows(
+      data.frame(x = 1),
+      data.frame(x = c(1, 2)),
+      type = "inner",
+      unmatched = c("drop", "error")
     )
   )
 })
@@ -280,10 +311,28 @@ test_that("join_rows() always errors on unmatched missing values", {
   )
   expect_snapshot(error = TRUE,
     join_rows(
+      data.frame(x = 1),
+      data.frame(x = c(1, NA)),
+      type = "inner",
+      unmatched = c("drop", "error"),
+      na_matches = "na"
+    )
+  )
+  expect_snapshot(error = TRUE,
+    join_rows(
       data.frame(x = c(1, NA)),
       data.frame(x = 1),
       type = "inner",
       unmatched = "error",
+      na_matches = "na"
+    )
+  )
+  expect_snapshot(error = TRUE,
+    join_rows(
+      data.frame(x = c(1, NA)),
+      data.frame(x = 1),
+      type = "inner",
+      unmatched = c("error", "drop"),
       na_matches = "na"
     )
   )
@@ -296,4 +345,23 @@ test_that("join_rows() always errors on unmatched missing values", {
       na_matches = "never"
     )
   )
+})
+
+test_that("join_rows() validates `unmatched`", {
+  df <- tibble(x = 1)
+
+  expect_snapshot(error = TRUE, {
+    join_rows(df, df, unmatched = 1)
+    join_rows(df, df, unmatched = "foo")
+
+    # One `unmatched` input is allowed for most joins
+    join_rows(df, df, type = "left", unmatched = character())
+    join_rows(df, df, type = "left", unmatched = c("drop", "error"))
+
+    # Two `unmatched` inputs are allowed for inner joins
+    join_rows(df, df, type = "inner", unmatched = character())
+    join_rows(df, df, type = "inner", unmatched = c("drop", "error", "error"))
+
+    join_rows(df, df, type = "inner", unmatched = c("drop", "dr"))
+  })
 })

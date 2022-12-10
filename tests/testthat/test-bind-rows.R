@@ -68,6 +68,19 @@ test_that("bind_rows deduplicates row names", {
   expect_equal(rownames(out), c("a...1", "b", "a...3", "c"))
 })
 
+test_that("bind_rows respects the drop attribute of grouped df",{
+  df <- tibble(
+    e = 1,
+    f = factor(c(1, 1, 2, 2), levels = 1:3),
+    g = c(1, 1, 2, 2),
+    x = c(1, 2, 1, 4)
+  )
+  df <- group_by(df, e, f, g, .drop = FALSE)
+
+  gg <- bind_rows(df, df)
+  expect_equal(group_size(gg), c(4L,4L,0L))
+})
+
 # bind_rows() magic ---------------------------------------------------
 
 test_that("bind_rows() handles lists of data frames #1389", {

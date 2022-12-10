@@ -35,17 +35,6 @@
         <dbl> <dbl>
       1     1     2
     Code
-      tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise(z = c(2, 2))
-    Message
-      `summarise()` has grouped output by 'x', 'y'. You can override using the `.groups` argument.
-    Output
-      # A tibble: 2 x 3
-      # Groups:   x, y [1]
-            x     y     z
-        <dbl> <dbl> <dbl>
-      1     1     2     2
-      2     1     2     2
-    Code
       tibble(x = 1, y = 2) %>% rowwise(x, y) %>% summarise()
     Message
       `summarise()` has grouped output by 'x', 'y'. You can override using the `.groups` argument.
@@ -209,7 +198,7 @@
     Output
       <error/rlang_error>
       Error in `summarise()`:
-      i In argument: `..1 = stop("{")`.
+      i In argument: `stop("{")`.
       Caused by error:
       ! {
     Code
@@ -222,4 +211,44 @@
       i In group 1: `b = "{value:1, unit:a}"`.
       Caused by error:
       ! !
+
+# non-summary results are deprecated in favor of `reframe()` (#6382)
+
+    Code
+      out <- summarise(df, x = which(x < 3))
+    Condition
+      Warning:
+      Returning more (or less) than 1 row per `summarise()` group was deprecated in dplyr 1.1.0.
+      i Please use `reframe()` instead.
+      i When switching from `summarise()` to `reframe()`, remember that `reframe()` always returns an ungrouped data frame and adjust accordingly.
+
+---
+
+    Code
+      out <- summarise(df, x = which(x < 3), .by = g)
+    Condition
+      Warning:
+      Returning more (or less) than 1 row per `summarise()` group was deprecated in dplyr 1.1.0.
+      i Please use `reframe()` instead.
+      i When switching from `summarise()` to `reframe()`, remember that `reframe()` always returns an ungrouped data frame and adjust accordingly.
+
+---
+
+    Code
+      out <- summarise(gdf, x = which(x < 3))
+    Condition
+      Warning:
+      Returning more (or less) than 1 row per `summarise()` group was deprecated in dplyr 1.1.0.
+      i Please use `reframe()` instead.
+      i When switching from `summarise()` to `reframe()`, remember that `reframe()` always returns an ungrouped data frame and adjust accordingly.
+
+---
+
+    Code
+      out <- summarise(rdf, x = which(x < 3))
+    Condition
+      Warning:
+      Returning more (or less) than 1 row per `summarise()` group was deprecated in dplyr 1.1.0.
+      i Please use `reframe()` instead.
+      i When switching from `summarise()` to `reframe()`, remember that `reframe()` always returns an ungrouped data frame and adjust accordingly.
 

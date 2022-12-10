@@ -184,15 +184,14 @@ The \code{!} operator negates a selection:
 #> Caused by error:
 #> ! rapi_execute: Unsupported column type for bind
 #> # A tibble: 87 x 11
-#>   hair_color skin_c~1 eye_c~2 birth~3 sex   gender homew~4 species films vehic~5
-#>   <chr>      <chr>    <chr>     <dbl> <chr> <chr>  <chr>   <chr>   <lis> <list> 
-#> 1 blond      fair     blue       19   male  mascu~ Tatooi~ Human   <chr> <chr>  
-#> 2 <NA>       gold     yellow    112   none  mascu~ Tatooi~ Droid   <chr> <chr>  
-#> 3 <NA>       white, ~ red        33   none  mascu~ Naboo   Droid   <chr> <chr>  
-#> 4 none       white    yellow     41.9 male  mascu~ Tatooi~ Human   <chr> <chr>  
-#> # ... with 83 more rows, 1 more variable: starships <list>, and abbreviated
-#> #   variable names 1: skin_color, 2: eye_color, 3: birth_year, 4: homeworld,
-#> #   5: vehicles
+#>   hair_color skin_color  eye_color birth_year sex   gender    homeworld species
+#>   <chr>      <chr>       <chr>          <dbl> <chr> <chr>     <chr>     <chr>  
+#> 1 blond      fair        blue            19   male  masculine Tatooine  Human  
+#> 2 <NA>       gold        yellow         112   none  masculine Tatooine  Droid  
+#> 3 <NA>       white, blue red             33   none  masculine Naboo     Droid  
+#> 4 none       white       yellow          41.9 male  masculine Tatooine  Human  
+#> # ... with 83 more rows, and 3 more variables: films <list>, vehicles <list>,
+#> #   starships <list>
 
 iris \%>\% select(!c(Sepal.Length, Petal.Length))
 #> materializing:
@@ -325,6 +324,7 @@ Other single table verbs:
 \code{\link{arrange}()},
 \code{\link{filter}()},
 \code{\link{mutate}()},
+\code{\link{reframe}()},
 \code{\link{rename}()},
 \code{\link{slice}()},
 \code{\link{summarise}()}

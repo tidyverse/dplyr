@@ -258,7 +258,7 @@ mods %>% summarise(broom::glance(mod))
 Or easily access the parameters of each model:
 
 ```{r}
-mods %>% summarise(broom::tidy(mod))
+mods %>% reframe(broom::tidy(mod))
 ```
 
 ## Repeated function calls
@@ -361,13 +361,13 @@ We've questioned the need for `do()` for quite some time, because it never felt 
       do(head(., 1))
     ```
   
-    This has been superseded by `pick()` plus the more permissive `summarise()` 
-    which can now create multiple columns and multiple rows.
+    This has been superseded by `pick()` plus `reframe()`, a variant of
+    `summarise()` that can create multiple rows and columns per group.
   
     ```{r}
     mtcars %>% 
       group_by(cyl) %>% 
-      summarise(head(pick(everything()), 1))
+      reframe(head(pick(everything()), 1))
     ```
 
 *   With arguments: it worked like `mutate()` but automatically wrapped every
@@ -390,4 +390,4 @@ We've questioned the need for `do()` for quite some time, because it never felt 
 
     If needed (unlike here), you can wrap the results in a list yourself.
 
-The addition of `pick()`/`across()` and the increased scope of `summarise()` means that `do()` is no longer needed, so it is now superseded.
+The addition of `pick()`/`across()` and the increased scope of `summarise()`/`reframe()` means that `do()` is no longer needed, so it is now superseded.

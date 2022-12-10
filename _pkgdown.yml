@@ -44,6 +44,7 @@ reference:
   - dplyr_by
   - rowwise
   - summarise
+  - reframe
   - 'n'
 
 - subtitle: Data frames
