@@ -488,6 +488,7 @@ nest_join.data.frame <- function(x,
                                  na_matches = c("na", "never"),
                                  unmatched = "drop") {
 
+  # duckplyr: Common code
   check_keep(keep)
   na_matches <- check_na_matches(na_matches)
 
@@ -497,6 +498,7 @@ nest_join.data.frame <- function(x,
     check_string(name)
   }
 
+  # duckplyr: Backend-specific
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
 
