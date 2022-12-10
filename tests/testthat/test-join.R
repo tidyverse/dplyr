@@ -255,7 +255,6 @@ test_that("join_mutate() validates arguments", {
     join_mutate(df, df, by = 1, type = "left")
     join_mutate(df, df, by = "x", type = "left", suffix = 1)
     join_mutate(df, df, by = "x", type = "left", na_matches = "foo")
-    join_mutate(df, df, by = "x", type = "left", unmatched = "foo")
     join_mutate(df, df, by = "x", type = "left", keep = 1)
   })
 })
@@ -432,7 +431,6 @@ test_that("validates inputs", {
     nest_join(df1, df2, keep = 1)
     nest_join(df1, df2, name = 1)
     nest_join(df1, df2, na_matches = 1)
-    nest_join(df1, df2, unmatched = 1)
   })
 
 })

@@ -14,6 +14,10 @@ join_rows <- function(x_key,
 
   type <- arg_match(type, error_call = error_call)
 
+  unmatched <- check_unmatched(unmatched, type, error_call = error_call)
+  x_unmatched <- unmatched$x
+  y_unmatched <- unmatched$y
+
   if (cross) {
     # Rather than matching on key values, match on a proxy where every x value
     # matches every y value. This purposefully does not propagate missings, as
@@ -24,9 +28,9 @@ join_rows <- function(x_key,
     filter <- "none"
   }
 
-  incomplete <- standardise_join_incomplete(type, na_matches, unmatched)
-  no_match <- standardise_join_no_match(type, unmatched)
-  remaining <- standardise_join_remaining(type, unmatched)
+  incomplete <- standardise_join_incomplete(type, na_matches, x_unmatched)
+  no_match <- standardise_join_no_match(type, x_unmatched)
+  remaining <- standardise_join_remaining(type, y_unmatched)
   multiple <- standardise_multiple(multiple, condition, filter, cross, user_env)
 
   matches <- dplyr_locate_matches(
@@ -175,11 +179,45 @@ warn_dplyr <- function(message = NULL, class = NULL, ...) {
   warn(message = message, class = c(class, "dplyr_warning"), ...)
 }
 
-standardise_join_incomplete <- function(type, na_matches, unmatched) {
+check_unmatched <- function(unmatched, type, error_call = caller_env()) {
+  # Inner joins check both `x` and `y` for unmatched keys, so `unmatched` is
+  # allowed to be a character vector of size 2 in that case to check `x` and `y`
+  # independently
+  inner <- type == "inner"
+  n_unmatched <- length(unmatched)
+
+  if (n_unmatched == 1L || (n_unmatched == 2L && inner)) {
+    arg_match(
+      arg = unmatched,
+      values = c("drop", "error"),
+      multiple = TRUE,
+      error_arg = "unmatched",
+      error_call = error_call
+    )
+  } else if (inner) {
+    cli::cli_abort(
+      "{.arg unmatched} must be length 1 or 2, not {n_unmatched}.",
+      call = error_call
+    )
+  } else {
+    cli::cli_abort(
+      "{.arg unmatched} must be length 1, not {n_unmatched}.",
+      call = error_call
+    )
+  }
+
+  if (n_unmatched == 1L) {
+    list(x = unmatched, y = unmatched)
+  } else {
+    list(x = unmatched[[1L]], y = unmatched[[2L]])
+  }
+}
+
+standardise_join_incomplete <- function(type, na_matches, x_unmatched) {
   if (na_matches == "na") {
     # Comparing missings in incomplete observations overrides the other arguments
     "compare"
-  } else if (unmatched == "error" && (type == "right" || type == "inner")) {
+  } else if (x_unmatched == "error" && (type == "right" || type == "inner")) {
     # Ensure that `x` can't drop rows when `na_matches = "never"`
     "error"
   } else if (type == "inner" || type == "right" || type == "semi") {
@@ -194,8 +232,8 @@ standardise_join_incomplete <- function(type, na_matches, unmatched) {
   }
 }
 
-standardise_join_no_match <- function(type, unmatched) {
-  if (unmatched == "error" && (type == "right" || type == "inner")) {
+standardise_join_no_match <- function(type, x_unmatched) {
+  if (x_unmatched == "error" && (type == "right" || type == "inner")) {
     # Ensure that `x` can't drop rows
     "error"
   } else if (type == "inner" || type == "right" || type == "semi") {
@@ -210,8 +248,8 @@ standardise_join_no_match <- function(type, unmatched) {
   }
 }
 
-standardise_join_remaining <- function(type, unmatched) {
-  if (unmatched == "error" && (type == "left" || type == "inner" || type == "nest")) {
+standardise_join_remaining <- function(type, y_unmatched) {
+  if (y_unmatched == "error" && (type == "left" || type == "inner" || type == "nest")) {
     # Ensure that `y` can't drop rows
     "error"
   } else if (type == "right" || type == "full") {
