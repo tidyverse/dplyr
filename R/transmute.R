@@ -36,9 +36,11 @@ transmute <- function(.data, ...) {
 
 #' @export
 transmute.data.frame <- function(.data, ...) {
+  # duckplyr: Common code
   dots <- check_transmute_args(...)
   dots <- dplyr_quosures(!!!dots)
 
+  # duckplyr: Backend-specific
   # We don't expose `.by` because `transmute()` is superseded
   by <- compute_by(by = NULL, data = .data)
 
