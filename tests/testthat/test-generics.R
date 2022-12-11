@@ -121,6 +121,8 @@ test_that("compact row names are retained", {
 })
 
 test_that("dplyr_reconstruct() strips attributes before dispatch", {
+  skip("FIXME: replace with meaningful test that checks that row names are not touched.")
+
   local_methods(
     dplyr_reconstruct.dplyr_foobar = function(data, template) {
       out <<- data
