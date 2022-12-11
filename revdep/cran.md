@@ -1,9 +1,9 @@
 ## revdepcheck results
 
-We checked 3632 reverse dependencies (3597 from CRAN + 35 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
+We checked 3623 reverse dependencies (3609 from CRAN + 14 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
 
  * We saw 137 new problems
- * We failed to check 20 packages
+ * We failed to check 23 packages
 
 Issues with CRAN packages are summarised below.
 
@@ -13,11 +13,11 @@ Issues with CRAN packages are summarised below.
 * admiral
   checking tests ... ERROR
 
-* APCI
-  checking tests ... ERROR
-
 * AQuadtree
   checking examples ... ERROR
+
+* arrow
+  checking tests ... ERROR
 
 * blsR
   checking Rd cross-references ... WARNING
@@ -82,9 +82,6 @@ Issues with CRAN packages are summarised below.
 * dtrackr
   checking Rd cross-references ... WARNING
 
-* eHDPrep
-  checking examples ... ERROR
-
 * epocakir
   checking examples ... ERROR
   checking tests ... ERROR
@@ -100,10 +97,6 @@ Issues with CRAN packages are summarised below.
 
 * finnts
   checking tests ... ERROR
-
-* forceR
-  checking examples ... ERROR
-  checking re-building of vignette outputs ... WARNING
 
 * forestmangr
   checking examples ... ERROR
@@ -124,6 +117,9 @@ Issues with CRAN packages are summarised below.
 * GauPro
   checking examples ... ERROR
 
+* GDPuc
+  checking tests ... ERROR
+
 * geosimilarity
   checking examples ... ERROR
 
@@ -138,6 +134,9 @@ Issues with CRAN packages are summarised below.
   checking re-building of vignette outputs ... WARNING
 
 * glmdisc
+  checking tests ... ERROR
+
+* gmgm
   checking tests ... ERROR
 
 * graphicalVAR
@@ -179,15 +178,20 @@ Issues with CRAN packages are summarised below.
 * iNZightTools
   checking tests ... ERROR
 
+* IPEDSuploadables
+  checking examples ... ERROR
+  checking tests ... ERROR
+
 * ipft
   checking examples ... ERROR
+
+* isoorbi
+  checking examples ... ERROR
+  checking re-building of vignette outputs ... WARNING
 
 * janitor
   checking tests ... ERROR
   checking re-building of vignette outputs ... WARNING
-
-* jpgrid
-  checking tests ... ERROR
 
 * jstable
   checking Rd cross-references ... WARNING
@@ -246,6 +250,9 @@ Issues with CRAN packages are summarised below.
 * ncappc
   checking tests ... ERROR
 
+* NHSRplotthedots
+  checking tests ... ERROR
+
 * NobBS
   checking examples ... ERROR
 
@@ -254,9 +261,6 @@ Issues with CRAN packages are summarised below.
 
 * ontologics
   checking examples ... ERROR
-  checking re-building of vignette outputs ... WARNING
-
-* openalexR
   checking re-building of vignette outputs ... WARNING
 
 * overviewR
@@ -269,6 +273,10 @@ Issues with CRAN packages are summarised below.
 
 * panelr
   checking tests ... ERROR
+
+* parsnip
+  checking Rd files ... WARNING
+  checking for unstated dependencies in examples ... WARNING
 
 * PDtoolkit
   checking examples ... ERROR
@@ -317,9 +325,6 @@ Issues with CRAN packages are summarised below.
   checking examples ... ERROR
   checking tests ... ERROR
 
-* recipes
-  checking tests ... ERROR
-
 * RKorAPClient
   checking Rd cross-references ... WARNING
 
@@ -330,7 +335,10 @@ Issues with CRAN packages are summarised below.
   checking tests ... ERROR
 
 * rsample
-  checking tests ... ERROR
+  checking for code/documentation mismatches ... WARNING
+  checking dependencies in R code ... NOTE
+  checking foreign function calls ... NOTE
+  checking R code for possible problems ... NOTE
 
 * ruler
   checking re-building of vignette outputs ... WARNING
@@ -384,10 +392,6 @@ Issues with CRAN packages are summarised below.
 * staRdom
   checking re-building of vignette outputs ... WARNING
 
-* stars
-  checking examples ... ERROR
-  checking re-building of vignette outputs ... WARNING
-
 * starschemar
   checking examples ... ERROR
   checking tests ... ERROR
@@ -404,6 +408,9 @@ Issues with CRAN packages are summarised below.
   checking examples ... ERROR
   checking re-building of vignette outputs ... WARNING
 
+* SVMMaj
+  checking tests ... ERROR
+
 * SwimmeR
   checking examples ... ERROR
   checking tests ... ERROR
@@ -418,7 +425,7 @@ Issues with CRAN packages are summarised below.
 * tabularaster
   checking re-building of vignette outputs ... WARNING
 
-* textrecipes
+* tfrmt
   checking tests ... ERROR
 
 * tidyboot
@@ -446,8 +453,8 @@ Issues with CRAN packages are summarised below.
 * tidytree
   checking tests ... ERROR
 
-* TKCat
-  checking re-building of vignette outputs ... WARNING
+* Tplyr
+  checking tests ... ERROR
 
 * track2KBA
   checking examples ... ERROR
@@ -468,9 +475,6 @@ Issues with CRAN packages are summarised below.
 * wrangle
   checking examples ... ERROR
 
-* xpose
-  checking examples ... ERROR
-
 * xray
   checking examples ... ERROR
 
@@ -482,12 +486,15 @@ Issues with CRAN packages are summarised below.
 * ggPMX          (NA)
 * groupr         (NA)
 * immcp          (NA)
+* ino            (NA)
 * loon.ggplot    (NA)
 * loon.shiny     (NA)
 * MarketMatching (NA)
 * MSclassifR     (NA)
 * nlmixr2extra   (NA)
 * nlmixr2plot    (NA)
+* nlmixr2rpt     (NA)
+* numbat         (NA)
 * OlinkAnalyze   (NA)
 * Platypus       (NA)
 * rabhit         (NA)
