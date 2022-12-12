@@ -120,8 +120,6 @@
 #' filter(mtcars, row_number() == n())
 #' filter(mtcars, between(row_number(), 5, n()))
 slice <- function(.data, ..., .by = NULL, .preserve = FALSE) {
-  check_dots_unnamed()
-
   by <- enquo(.by)
 
   if (!quo_is_null(by) && !is_false(.preserve)) {
@@ -133,6 +131,8 @@ slice <- function(.data, ..., .by = NULL, .preserve = FALSE) {
 
 #' @export
 slice.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
+  check_dots_unnamed()
+
   dots <- enquos(...)
 
   by <- compute_by(
