@@ -4,8 +4,6 @@ test_that("generate informative errors", {
 
     failwith()
 
-    funs()
-
     select_vars()
     rename_vars()
     select_var()
