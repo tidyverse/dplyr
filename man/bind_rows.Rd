@@ -2,6 +2,7 @@
 % Please edit documentation in R/bind-rows.R
 \name{bind_rows}
 \alias{bind_rows}
+\alias{bind}
 \title{Bind multiple data frames by row}
 \usage{
 bind_rows(..., .id = NULL)
