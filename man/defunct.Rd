@@ -4,7 +4,6 @@
 \alias{defunct}
 \alias{id}
 \alias{failwith}
-\alias{funs}
 \alias{select_vars}
 \alias{rename_vars}
 \alias{select_var}
@@ -27,8 +26,6 @@ id(.variables, drop = FALSE)
 failwith(default = NULL, f, quiet = FALSE)
 
 # Deprecated in 0.8.* -------------------------------------
-
-funs(..., .args = list())
 
 select_vars(vars = chr(), ..., include = chr(), exclude = chr())
 

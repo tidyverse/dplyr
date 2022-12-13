@@ -171,8 +171,6 @@
 
 * `progress_estimate()` is deprecated for all uses (#6387).
 
-* `funs()`, deprecated in 0.8.0, is now defunct (#6387).
-
 * `select_vars()`, `rename_vars()`, `select_var()` and `current_var()`, 
   deprecated in 0.8.4, are now defunct (#6387).
 
