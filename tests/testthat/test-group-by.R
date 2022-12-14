@@ -72,6 +72,14 @@ test_that("grouping by constant adds column (#410)", {
   expect_equal(nrow(grouped), 1L)
 })
 
+test_that("can partially `ungroup()` (#6606)", {
+  df <- tibble(g1 = 1:2, g2 = 3:4, x = 5:6)
+  gdf <- group_by(df, g1, g2)
+
+  expect_identical(ungroup(gdf, g1), group_by(df, g2))
+  expect_identical(ungroup(gdf, g1, g2), df)
+})
+
 test_that(".dots is soft deprecated", {
   rlang::local_options(lifecycle_verbosity = "warning")
 
