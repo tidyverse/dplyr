@@ -1,3 +1,283 @@
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
 # cinaR
 
 <details>
@@ -8,7 +288,7 @@
 * Date/Publication: 2022-05-18 14:00:09 UTC
 * Number of recursive dependencies: 179
 
-Run `revdepcheck::cloud_details(, "cinaR")` for more info
+Run `cloud_details(, "cinaR")` for more info
 
 </details>
 
@@ -75,7 +355,7 @@ Status: 1 ERROR
 * Source code: https://github.com/cran/NA
 * Number of recursive dependencies: 0
 
-Run `revdepcheck::cloud_details(, "NA")` for more info
+Run `cloud_details(, "NA")` for more info
 
 </details>
 
@@ -110,7 +390,322 @@ Run `revdepcheck::cloud_details(, "NA")` for more info
 * Source code: https://github.com/cran/NA
 * Number of recursive dependencies: 0
 
-Run `revdepcheck::cloud_details(, "NA")` for more info
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
 
 </details>
 
@@ -146,7 +741,7 @@ Run `revdepcheck::cloud_details(, "NA")` for more info
 * Date/Publication: 2022-08-12 15:50:02 UTC
 * Number of recursive dependencies: 54
 
-Run `revdepcheck::cloud_details(, "elbird")` for more info
+Run `cloud_details(, "elbird")` for more info
 
 </details>
 
@@ -207,7 +802,182 @@ ERROR: configuration failed for package ‘elbird’
 * Source code: https://github.com/cran/NA
 * Number of recursive dependencies: 0
 
-Run `revdepcheck::cloud_details(, "NA")` for more info
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
 
 </details>
 
@@ -243,7 +1013,7 @@ Run `revdepcheck::cloud_details(, "NA")` for more info
 * Date/Publication: 2022-11-23 11:30:02 UTC
 * Number of recursive dependencies: 200
 
-Run `revdepcheck::cloud_details(, "genekitr")` for more info
+Run `cloud_details(, "genekitr")` for more info
 
 </details>
 
@@ -311,7 +1081,7 @@ Status: 1 ERROR
 * Date/Publication: 2022-06-17 23:10:02 UTC
 * Number of recursive dependencies: 177
 
-Run `revdepcheck::cloud_details(, "ggPMX")` for more info
+Run `cloud_details(, "ggPMX")` for more info
 
 </details>
 
@@ -387,7 +1157,7 @@ Status: 1 ERROR, 2 NOTEs
 * Date/Publication: 2020-10-14 12:30:06 UTC
 * Number of recursive dependencies: 63
 
-Run `revdepcheck::cloud_details(, "groupr")` for more info
+Run `cloud_details(, "groupr")` for more info
 
 </details>
 
@@ -454,7 +1224,7 @@ ERROR: lazy loading failed for package ‘groupr’
 * Date/Publication: 2022-05-12 05:50:02 UTC
 * Number of recursive dependencies: 194
 
-Run `revdepcheck::cloud_details(, "immcp")` for more info
+Run `cloud_details(, "immcp")` for more info
 
 </details>
 
@@ -520,7 +1290,7 @@ Status: 1 ERROR
 * Date/Publication: 2022-09-29 06:10:08 UTC
 * Number of recursive dependencies: 82
 
-Run `revdepcheck::cloud_details(, "ino")` for more info
+Run `cloud_details(, "ino")` for more info
 
 </details>
 
@@ -597,7 +1367,42 @@ ERROR: lazy loading failed for package ‘ino’
 * Source code: https://github.com/cran/NA
 * Number of recursive dependencies: 0
 
-Run `revdepcheck::cloud_details(, "NA")` for more info
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
 
 </details>
 
@@ -633,7 +1438,7 @@ Run `revdepcheck::cloud_details(, "NA")` for more info
 * Date/Publication: 2022-11-12 22:30:02 UTC
 * Number of recursive dependencies: 104
 
-Run `revdepcheck::cloud_details(, "loon.ggplot")` for more info
+Run `cloud_details(, "loon.ggplot")` for more info
 
 </details>
 
@@ -705,7 +1510,7 @@ Status: 1 ERROR
 * Date/Publication: 2022-10-08 15:30:02 UTC
 * Number of recursive dependencies: 133
 
-Run `revdepcheck::cloud_details(, "loon.shiny")` for more info
+Run `cloud_details(, "loon.shiny")` for more info
 
 </details>
 
@@ -772,108 +1577,7 @@ Status: 1 ERROR
 * Source code: https://github.com/cran/NA
 * Number of recursive dependencies: 0
 
-Run `revdepcheck::cloud_details(, "NA")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-
-
-
-
-
-
-```
-### CRAN
-
-```
-
-
-
-
-
-
-```
-# MarketMatching
-
-<details>
-
-* Version: 1.2.0
-* GitHub: NA
-* Source code: https://github.com/cran/MarketMatching
-* Date/Publication: 2021-01-08 20:10:02 UTC
-* Number of recursive dependencies: 72
-
-Run `revdepcheck::cloud_details(, "MarketMatching")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-* using log directory ‘/tmp/workdir/MarketMatching/new/MarketMatching.Rcheck’
-* using R version 4.1.1 (2021-08-10)
-* using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using option ‘--no-manual’
-* checking for file ‘MarketMatching/DESCRIPTION’ ... OK
-* checking extension type ... Package
-* this is package ‘MarketMatching’ version ‘1.2.0’
-* checking package namespace information ... OK
-* checking package dependencies ... ERROR
-Packages required but not available: 'CausalImpact', 'bsts', 'Boom'
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
-* DONE
-Status: 1 ERROR
-
-
-
-
-
-```
-### CRAN
-
-```
-* using log directory ‘/tmp/workdir/MarketMatching/old/MarketMatching.Rcheck’
-* using R version 4.1.1 (2021-08-10)
-* using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using option ‘--no-manual’
-* checking for file ‘MarketMatching/DESCRIPTION’ ... OK
-* checking extension type ... Package
-* this is package ‘MarketMatching’ version ‘1.2.0’
-* checking package namespace information ... OK
-* checking package dependencies ... ERROR
-Packages required but not available: 'CausalImpact', 'bsts', 'Boom'
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
-* DONE
-Status: 1 ERROR
-
-
-
-
-
-```
-# NA
-
-<details>
-
-* Version: NA
-* GitHub: NA
-* Source code: https://github.com/cran/NA
-* Number of recursive dependencies: 0
-
-Run `revdepcheck::cloud_details(, "NA")` for more info
+Run `cloud_details(, "NA")` for more info
 
 </details>
 
@@ -908,7 +1612,42 @@ Run `revdepcheck::cloud_details(, "NA")` for more info
 * Source code: https://github.com/cran/NA
 * Number of recursive dependencies: 0
 
-Run `revdepcheck::cloud_details(, "NA")` for more info
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
 
 </details>
 
@@ -944,7 +1683,7 @@ Run `revdepcheck::cloud_details(, "NA")` for more info
 * Date/Publication: 2022-09-29 06:10:12 UTC
 * Number of recursive dependencies: 230
 
-Run `revdepcheck::cloud_details(, "MSclassifR")` for more info
+Run `cloud_details(, "MSclassifR")` for more info
 
 </details>
 
@@ -1006,7 +1745,7 @@ ERROR: lazy loading failed for package ‘MSclassifR’
 * Date/Publication: 2022-10-22 22:32:34 UTC
 * Number of recursive dependencies: 202
 
-Run `revdepcheck::cloud_details(, "nlmixr2extra")` for more info
+Run `cloud_details(, "nlmixr2extra")` for more info
 
 </details>
 
@@ -1072,7 +1811,7 @@ Status: 1 ERROR
 * Date/Publication: 2022-10-20 03:12:36 UTC
 * Number of recursive dependencies: 160
 
-Run `revdepcheck::cloud_details(, "nlmixr2plot")` for more info
+Run `cloud_details(, "nlmixr2plot")` for more info
 
 </details>
 
@@ -1138,7 +1877,7 @@ Status: 1 ERROR
 * Date/Publication: 2022-12-05 10:40:02 UTC
 * Number of recursive dependencies: 204
 
-Run `revdepcheck::cloud_details(, "nlmixr2rpt")` for more info
+Run `cloud_details(, "nlmixr2rpt")` for more info
 
 </details>
 
@@ -1208,7 +1947,7 @@ Status: 1 ERROR
 * Date/Publication: 2022-11-29 18:30:02 UTC
 * Number of recursive dependencies: 183
 
-Run `revdepcheck::cloud_details(, "numbat")` for more info
+Run `cloud_details(, "numbat")` for more info
 
 </details>
 
@@ -1273,7 +2012,7 @@ Status: 1 ERROR
 * Source code: https://github.com/cran/NA
 * Number of recursive dependencies: 0
 
-Run `revdepcheck::cloud_details(, "NA")` for more info
+Run `cloud_details(, "NA")` for more info
 
 </details>
 
@@ -1309,7 +2048,7 @@ Run `revdepcheck::cloud_details(, "NA")` for more info
 * Date/Publication: 2022-11-16 00:30:05 UTC
 * Number of recursive dependencies: 202
 
-Run `revdepcheck::cloud_details(, "OlinkAnalyze")` for more info
+Run `cloud_details(, "OlinkAnalyze")` for more info
 
 </details>
 
@@ -1384,7 +2123,7 @@ Status: 1 NOTE
 * Source code: https://github.com/cran/NA
 * Number of recursive dependencies: 0
 
-Run `revdepcheck::cloud_details(, "NA")` for more info
+Run `cloud_details(, "NA")` for more info
 
 </details>
 
@@ -1420,7 +2159,7 @@ Run `revdepcheck::cloud_details(, "NA")` for more info
 * Date/Publication: 2022-08-15 07:20:20 UTC
 * Number of recursive dependencies: 354
 
-Run `revdepcheck::cloud_details(, "Platypus")` for more info
+Run `cloud_details(, "Platypus")` for more info
 
 </details>
 
@@ -1496,7 +2235,7 @@ Status: 1 ERROR
 * Date/Publication: 2022-09-22 15:10:02 UTC
 * Number of recursive dependencies: 130
 
-Run `revdepcheck::cloud_details(, "rabhit")` for more info
+Run `cloud_details(, "rabhit")` for more info
 
 </details>
 
@@ -1559,7 +2298,7 @@ ERROR: lazy loading failed for package ‘rabhit’
 * Source code: https://github.com/cran/NA
 * Number of recursive dependencies: 0
 
-Run `revdepcheck::cloud_details(, "NA")` for more info
+Run `cloud_details(, "NA")` for more info
 
 </details>
 
@@ -1594,7 +2333,7 @@ Run `revdepcheck::cloud_details(, "NA")` for more info
 * Source code: https://github.com/cran/NA
 * Number of recursive dependencies: 0
 
-Run `revdepcheck::cloud_details(, "NA")` for more info
+Run `cloud_details(, "NA")` for more info
 
 </details>
 
@@ -1630,7 +2369,7 @@ Run `revdepcheck::cloud_details(, "NA")` for more info
 * Date/Publication: 2021-11-01 21:40:02 UTC
 * Number of recursive dependencies: 208
 
-Run `revdepcheck::cloud_details(, "RVA")` for more info
+Run `cloud_details(, "RVA")` for more info
 
 </details>
 
@@ -1695,7 +2434,7 @@ Status: 1 ERROR
 * Source code: https://github.com/cran/NA
 * Number of recursive dependencies: 0
 
-Run `revdepcheck::cloud_details(, "NA")` for more info
+Run `cloud_details(, "NA")` for more info
 
 </details>
 
@@ -1730,7 +2469,7 @@ Run `revdepcheck::cloud_details(, "NA")` for more info
 * Source code: https://github.com/cran/NA
 * Number of recursive dependencies: 0
 
-Run `revdepcheck::cloud_details(, "NA")` for more info
+Run `cloud_details(, "NA")` for more info
 
 </details>
 
@@ -1766,7 +2505,7 @@ Run `revdepcheck::cloud_details(, "NA")` for more info
 * Date/Publication: 2022-04-14 17:50:02 UTC
 * Number of recursive dependencies: 170
 
-Run `revdepcheck::cloud_details(, "tidySEM")` for more info
+Run `cloud_details(, "tidySEM")` for more info
 
 </details>
 
@@ -1841,7 +2580,7 @@ Status: 1 NOTE
 * Source code: https://github.com/cran/NA
 * Number of recursive dependencies: 0
 
-Run `revdepcheck::cloud_details(, "NA")` for more info
+Run `cloud_details(, "NA")` for more info
 
 </details>
 
@@ -1877,7 +2616,7 @@ Run `revdepcheck::cloud_details(, "NA")` for more info
 * Date/Publication: 2021-11-08 10:00:02 UTC
 * Number of recursive dependencies: 228
 
-Run `revdepcheck::cloud_details(, "tinyarray")` for more info
+Run `cloud_details(, "tinyarray")` for more info
 
 </details>
 
@@ -1945,7 +2684,7 @@ Status: 1 ERROR
 * Date/Publication: 2021-11-20 01:30:02 UTC
 * Number of recursive dependencies: 206
 
-Run `revdepcheck::cloud_details(, "vivid")` for more info
+Run `cloud_details(, "vivid")` for more info
 
 </details>
 
@@ -2021,7 +2760,7 @@ Status: 2 NOTEs
 * Date/Publication: 2022-06-08 09:10:02 UTC
 * Number of recursive dependencies: 154
 
-Run `revdepcheck::cloud_details(, "xpose.nlmixr2")` for more info
+Run `cloud_details(, "xpose.nlmixr2")` for more info
 
 </details>
 

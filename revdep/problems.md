@@ -8,7 +8,7 @@
 * Date/Publication: 2022-12-06 08:22:31 UTC
 * Number of recursive dependencies: 126
 
-Run `revdepcheck::cloud_details(, "admiral")` for more info
+Run `cloud_details(, "admiral")` for more info
 
 </details>
 
@@ -31,59 +31,9 @@ Run `revdepcheck::cloud_details(, "admiral")` for more info
         -----------------------------------------------------
       
       
-      [ FAIL 11 | WARN 39 | SKIP 0 | PASS 557 ]
+      [ FAIL 11 | WARN 15 | SKIP 0 | PASS 557 ]
       Error: Test failures
       Execution halted
-    ```
-
-# AQuadtree
-
-<details>
-
-* Version: 1.0.2
-* GitHub: NA
-* Source code: https://github.com/cran/AQuadtree
-* Date/Publication: 2020-09-08 07:50:04 UTC
-* Number of recursive dependencies: 102
-
-Run `revdepcheck::cloud_details(, "AQuadtree")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘AQuadtree-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: joinAQuadtrees
-    > ### Title: Join two AQuadtree objects from the same area, to compare their
-    > ###   data
-    > ### Aliases: joinAQuadtrees
-    > 
-    > ### ** Examples
-    > 
-    ...
-     1. └─AQuadtree::joinAQuadtrees(CharlestonPop.AQT_1, CharlestonPop.AQT_2)
-     2.   ├─dplyr::summarise_at(qt2.act@data, sum.2, funs(sum))
-     3.   │ └─dplyr:::manip_at(...)
-     4.   │   └─dplyr:::as_fun_list(...)
-     5.   │     └─dplyr:::is_fun_list(.funs)
-     6.   └─dplyr::funs(sum)
-     7.     └─lifecycle::deprecate_stop(...)
-     8.       └─lifecycle:::deprecate_stop0(msg)
-     9.         └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.1Mb
-      sub-directories of 1Mb or more:
-        data   3.8Mb
     ```
 
 # arrow
@@ -96,7 +46,7 @@ Run `revdepcheck::cloud_details(, "AQuadtree")` for more info
 * Date/Publication: 2022-12-06 13:40:02 UTC
 * Number of recursive dependencies: 74
 
-Run `revdepcheck::cloud_details(, "arrow")` for more info
+Run `cloud_details(, "arrow")` for more info
 
 </details>
 
@@ -119,7 +69,7 @@ Run `revdepcheck::cloud_details(, "arrow")` for more info
       Caused by error in `n_distinct()`:
       ! `...` is absent, but must be supplied.
       
-      [ FAIL 13 | WARN 3 | SKIP 71 | PASS 8541 ]
+      [ FAIL 13 | WARN 14 | SKIP 71 | PASS 8541 ]
       Error: Test failures
       Execution halted
     ```
@@ -139,215 +89,6 @@ Run `revdepcheck::cloud_details(, "arrow")` for more info
     Package unavailable to check Rd xrefs: ‘readr’
     ```
 
-# blsR
-
-<details>
-
-* Version: 0.4.0
-* GitHub: https://github.com/groditi/blsR
-* Source code: https://github.com/cran/blsR
-* Date/Publication: 2022-10-13 19:22:32 UTC
-* Number of recursive dependencies: 55
-
-Run `revdepcheck::cloud_details(, "blsR")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in documentation object 'data_as_table.Rd':
-      ‘[dplyr:bind]{dplyr::bind_rows()}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
-    ```
-
-# bootnet
-
-<details>
-
-* Version: 1.5
-* GitHub: NA
-* Source code: https://github.com/cran/bootnet
-* Date/Publication: 2021-10-25 16:20:09 UTC
-* Number of recursive dependencies: 170
-
-Run `revdepcheck::cloud_details(, "bootnet")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘bootnet-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: netSimulator
-    > ### Title: Network Estimation Performance
-    > ### Aliases: netSimulator replicationSimulator
-    > 
-    > ### ** Examples
-    > 
-    > # 5-node GGM chain graph:
-    ...
-      8. ├─base::as.data.frame(.)
-      9. ├─dplyr::arrange_(., ~nCases)
-     10. ├─dplyr::summarize_each(., funs(fun(., digits = digits)))
-     11. │ └─dplyr::summarise_each_(tbl, funs, enquos(...))
-     12. │   └─rlang::is_character(funs)
-     13. └─dplyr::funs(fun(., digits = digits))
-     14.   └─lifecycle::deprecate_stop(...)
-     15.     └─lifecycle:::deprecate_stop0(msg)
-     16.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-# caffsim
-
-<details>
-
-* Version: 0.2.2
-* GitHub: https://github.com/asancpt/caffsim
-* Source code: https://github.com/cran/caffsim
-* Date/Publication: 2017-08-28 03:36:21 UTC
-* Number of recursive dependencies: 60
-
-Run `revdepcheck::cloud_details(, "caffsim")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘caffsim-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: caffDescstat
-    > ### Title: Calculate descriptive statistics of simulated PK parameters
-    > ### Aliases: caffDescstat
-    > 
-    > ### ** Examples
-    > 
-    > caffDescstat(caffPkparam(20,500))
-    ...
-      4. ├─dplyr::mutate(...)
-      5. ├─dplyr::summarise_at(., vars(value), funs(mean, sd, min, max))
-      6. │ └─dplyr:::manip_at(...)
-      7. │   └─dplyr:::as_fun_list(...)
-      8. │     └─dplyr:::is_fun_list(.funs)
-      9. └─dplyr::funs(mean, sd, min, max)
-     10.   └─lifecycle::deprecate_stop(...)
-     11.     └─lifecycle:::deprecate_stop0(msg)
-     12.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘markdown’
-      All declared Imports should be used.
-    ```
-
-# carpenter
-
-<details>
-
-* Version: 0.2.2
-* GitHub: https://github.com/lwjohnst86/carpenter
-* Source code: https://github.com/cran/carpenter
-* Date/Publication: 2019-02-05 08:43:30 UTC
-* Number of recursive dependencies: 65
-
-Run `revdepcheck::cloud_details(, "carpenter")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘carpenter-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: carpenter
-    > ### Title: Build common tables for your research needs!
-    > ### Aliases: carpenter
-    > 
-    > ### ** Examples
-    > 
-    > 
-    ...
-      8. │       └─... %>% dplyr::mutate_all(dplyr::funs(as.character))
-      9. ├─dplyr::mutate_all(., dplyr::funs(as.character))
-     10. │ └─dplyr:::manip_all(...)
-     11. │   └─dplyr:::as_fun_list(...)
-     12. │     └─dplyr:::is_fun_list(.funs)
-     13. └─dplyr::funs(as.character)
-     14.   └─lifecycle::deprecate_stop(...)
-     15.     └─lifecycle:::deprecate_stop0(msg)
-     16.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        5. │   └─carpenter (local) FUN(X[[i]], ...)
-        6. │     └─carpenter (local) row_create(...)
-        7. │       └─... %>% dplyr::mutate_all(dplyr::funs(as.character))
-        8. ├─dplyr::mutate_all(., dplyr::funs(as.character))
-        9. │ └─dplyr:::manip_all(...)
-       10. │   └─dplyr:::as_fun_list(...)
-       11. │     └─dplyr:::is_fun_list(.funs)
-       12. └─dplyr::funs(as.character)
-       13.   └─lifecycle::deprecate_stop(...)
-       14.     └─lifecycle:::deprecate_stop0(msg)
-       15.       └─rlang::cnd_signal(...)
-      
-      [ FAIL 1 | WARN 4 | SKIP 0 | PASS 20 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-      ...
-    --- re-building ‘carpenter.Rmd’ using rmarkdown
-    Quitting from lines 87-89 (carpenter.Rmd) 
-    Error: processing vignette 'carpenter.Rmd' failed with diagnostics:
-    `funs()` was deprecated in dplyr 0.8.0 and is now defunct.
-    Please use a list of either functions or lambdas:
-    
-      # Simple named list:
-      list(mean = mean, median = median)
-    ...
-    
-      # Using lambdas
-      list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-    --- failed re-building ‘carpenter.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘carpenter.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-## In both
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
-    ```
-
 # chronicler
 
 <details>
@@ -358,7 +99,7 @@ Run `revdepcheck::cloud_details(, "carpenter")` for more info
 * Date/Publication: 2022-05-17 09:40:04 UTC
 * Number of recursive dependencies: 58
 
-Run `revdepcheck::cloud_details(, "chronicler")` for more info
+Run `cloud_details(, "chronicler")` for more info
 
 </details>
 
@@ -399,7 +140,7 @@ Run `revdepcheck::cloud_details(, "chronicler")` for more info
 * Date/Publication: 2021-05-28 15:00:06 UTC
 * Number of recursive dependencies: 103
 
-Run `revdepcheck::cloud_details(, "circumplex")` for more info
+Run `cloud_details(, "circumplex")` for more info
 
 </details>
 
@@ -487,129 +228,6 @@ Run `revdepcheck::cloud_details(, "circumplex")` for more info
         libs   3.4Mb
     ```
 
-# clustrd
-
-<details>
-
-* Version: 1.4.0
-* GitHub: NA
-* Source code: https://github.com/cran/clustrd
-* Date/Publication: 2022-07-16 23:20:06 UTC
-* Number of recursive dependencies: 62
-
-Run `revdepcheck::cloud_details(, "clustrd")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘clustrd-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: local_bootclus
-    > ### Title: Cluster-wise stability assessment of Joint Dimension Reduction
-    > ###   and Clustering methods by bootstrapping.
-    > ### Aliases: local_bootclus
-    > 
-    > ### ** Examples
-    > 
-    ...
-      4. │     └─x1 %>% group_by(clu) %>% summarise_all(funs(mean))
-      5. ├─dplyr::summarise_all(., funs(mean))
-      6. │ └─dplyr:::manip_all(...)
-      7. │   └─dplyr:::as_fun_list(...)
-      8. │     └─dplyr:::is_fun_list(.funs)
-      9. └─dplyr::funs(mean)
-     10.   └─lifecycle::deprecate_stop(...)
-     11.     └─lifecycle:::deprecate_stop0(msg)
-     12.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-# coefplot
-
-<details>
-
-* Version: 1.2.8
-* GitHub: NA
-* Source code: https://github.com/cran/coefplot
-* Date/Publication: 2022-01-14 09:42:47 UTC
-* Number of recursive dependencies: 109
-
-Run `revdepcheck::cloud_details(, "coefplot")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘coefplot-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: coefplot
-    > ### Title: Plotting Model Coefficients
-    > ### Aliases: coefplot coefplot-package plotcoef coefplot.default
-    > ###   coefplot.lm coefplot.glm coefplot.workflow coefplot.model_fit
-    > ###   coefplot.rxGlm coefplot.rxLinMod coefplot.rxLogit
-    > ### Keywords: coefficient coefficients coefplot dotplot glm linear lm model
-    > ###   rxLinMod
-    ...
-      5.     └─coefplot::buildModelCI.default(...)
-      6.       ├─dplyr::mutate_at(...)
-      7.       │ └─dplyr:::manip_at(...)
-      8.       │   └─dplyr:::as_fun_list(...)
-      9.       │     └─dplyr:::is_fun_list(.funs)
-     10.       └─dplyr::funs(trans)
-     11.         └─lifecycle::deprecate_stop(...)
-     12.           └─lifecycle:::deprecate_stop0(msg)
-     13.             └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-# cometExactTest
-
-<details>
-
-* Version: 0.1.5
-* GitHub: NA
-* Source code: https://github.com/cran/cometExactTest
-* Date/Publication: 2018-01-29 19:30:12 UTC
-* Number of recursive dependencies: 16
-
-Run `revdepcheck::cloud_details(, "cometExactTest")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘cometExactTest-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: comet_exact_test
-    > ### Title: CoMEt exact test for 2^k contingency tables
-    > ### Aliases: comet_exact_test
-    > 
-    > ### ** Examples
-    > 
-    >   comet_exact_test(c(33, 10, 10, 1, 10, 0, 0, 1))  # 2^3 test => 0.02303503
-    ...
-      3. │   └─tmp_alts %>% summarise_all(funs(sum))
-      4. ├─dplyr::summarise_all(., funs(sum))
-      5. │ └─dplyr:::manip_all(...)
-      6. │   └─dplyr:::as_fun_list(...)
-      7. │     └─dplyr:::is_fun_list(.funs)
-      8. └─dplyr::funs(sum)
-      9.   └─lifecycle::deprecate_stop(...)
-     10.     └─lifecycle:::deprecate_stop0(msg)
-     11.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
 # comperes
 
 <details>
@@ -620,7 +238,7 @@ Run `revdepcheck::cloud_details(, "cometExactTest")` for more info
 * Date/Publication: 2020-11-23 21:20:02 UTC
 * Number of recursive dependencies: 63
 
-Run `revdepcheck::cloud_details(, "comperes")` for more info
+Run `cloud_details(, "comperes")` for more info
 
 </details>
 
@@ -658,7 +276,7 @@ Run `revdepcheck::cloud_details(, "comperes")` for more info
 * Date/Publication: 2019-09-20 04:40:02 UTC
 * Number of recursive dependencies: 83
 
-Run `revdepcheck::cloud_details(, "confoundr")` for more info
+Run `cloud_details(, "confoundr")` for more info
 
 </details>
 
@@ -746,7 +364,7 @@ Run `revdepcheck::cloud_details(, "confoundr")` for more info
 * Date/Publication: 2022-11-14 11:20:05 UTC
 * Number of recursive dependencies: 109
 
-Run `revdepcheck::cloud_details(, "dbGaPCheckup")` for more info
+Run `cloud_details(, "dbGaPCheckup")` for more info
 
 </details>
 
@@ -788,8 +406,6 @@ Run `revdepcheck::cloud_details(, "dbGaPCheckup")` for more info
     --- failed re-building ‘dbGaPCheckup.Rmd’
     
     --- re-building ‘dbGaPCheckup_vignette.Rmd’ using rmarkdown
-    New names:
-    ...
     Quitting from lines 181-182 (dbGaPCheckup_vignette.Rmd) 
     Error: processing vignette 'dbGaPCheckup_vignette.Rmd' failed with diagnostics:
     Can't convert `y` <double> to match type of `x` <data.frame>.
@@ -812,7 +428,7 @@ Run `revdepcheck::cloud_details(, "dbGaPCheckup")` for more info
 * Date/Publication: 2022-03-07 11:40:02 UTC
 * Number of recursive dependencies: 103
 
-Run `revdepcheck::cloud_details(, "disk.frame")` for more info
+Run `cloud_details(, "disk.frame")` for more info
 
 </details>
 
@@ -832,13 +448,13 @@ Run `revdepcheck::cloud_details(, "disk.frame")` for more info
     > 
     ...
     Appending disk.frames: 
-    Appending disk.frames: 
     Error in anti_join(.x, .y, by = by, copy = copy, ..., overwrite = overwrite) : 
-      Arguments in `...` must be used.
+      `...` must be empty.
     ✖ Problematic arguments:
     • ..1 = xch
     • ..2 = ych
     • overwrite = overwrite
+    ℹ Did you forget to name an argument?
     Calls: anti_join ... resolve.list -> signalConditionsASAP -> signalConditions
     Execution halted
     ```
@@ -853,7 +469,7 @@ Run `revdepcheck::cloud_details(, "disk.frame")` for more info
 * Date/Publication: 2021-08-09 07:00:05 UTC
 * Number of recursive dependencies: 58
 
-Run `revdepcheck::cloud_details(, "divseg")` for more info
+Run `cloud_details(, "divseg")` for more info
 
 </details>
 
@@ -916,36 +532,11 @@ Run `revdepcheck::cloud_details(, "divseg")` for more info
 * Date/Publication: 2022-10-12 15:42:33 UTC
 * Number of recursive dependencies: 153
 
-Run `revdepcheck::cloud_details(, "dm")` for more info
+Run `cloud_details(, "dm")` for more info
 
 </details>
 
 ## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘dm-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: dplyr_join
-    > ### Title: 'dplyr' join methods for zoomed dm objects
-    > ### Aliases: dplyr_join left_join.dm_zoomed left_join.dm_keyed_tbl
-    > ###   inner_join.dm_zoomed inner_join.dm_keyed_tbl full_join.dm_zoomed
-    > ###   full_join.dm_keyed_tbl right_join.dm_zoomed right_join.dm_keyed_tbl
-    > ###   semi_join.dm_zoomed semi_join.dm_keyed_tbl anti_join.dm_zoomed
-    > ###   anti_join.dm_keyed_tbl nest_join.dm_zoomed
-    ...
-      4. │   └─base::eval(ei, envir)
-      5. │     └─base::eval(ei, envir)
-      6. ├─dm_zoom_to(flights_dm, flights) %>% ...
-      7. └─dplyr::left_join(., airports, select = c(faa, name))
-      8.   └─rlang (local) `<fn>`()
-      9.     └─rlang:::check_dots(env, error, action, call)
-     10.       └─rlang:::action_dots(...)
-     11.         ├─base (local) try_dots(...)
-     12.         └─rlang (local) action(...)
-    Execution halted
-    ```
 
 *   checking tests ... ERROR
     ```
@@ -964,7 +555,7 @@ Run `revdepcheck::cloud_details(, "dm")` for more info
       Caused by error in `if_else()`:
       ! `false` must be a vector, not `NULL`.
       
-      [ FAIL 3 | WARN 15 | SKIP 190 | PASS 1314 ]
+      [ FAIL 2 | WARN 18 | SKIP 191 | PASS 1317 ]
       Error: Test failures
       Execution halted
     ```
@@ -979,7 +570,7 @@ Run `revdepcheck::cloud_details(, "dm")` for more info
 * Date/Publication: 2022-12-07 16:00:07 UTC
 * Number of recursive dependencies: 110
 
-Run `revdepcheck::cloud_details(, "dodgr")` for more info
+Run `cloud_details(, "dodgr")` for more info
 
 </details>
 
@@ -1033,7 +624,7 @@ Run `revdepcheck::cloud_details(, "dodgr")` for more info
 * Date/Publication: 2022-08-20 13:20:02 UTC
 * Number of recursive dependencies: 66
 
-Run `revdepcheck::cloud_details(, "dtplyr")` for more info
+Run `cloud_details(, "dtplyr")` for more info
 
 </details>
 
@@ -1053,39 +644,12 @@ Run `revdepcheck::cloud_details(, "dtplyr")` for more info
        5. │     │ └─base::withCallingHandlers(...)
        6. │     └─rlang::eval_bare(quo_get_expr(.quo), quo_get_env(.quo))
        7. └─dplyr::slice_head(dt, 5)
-       8.   └─dplyr:::check_slice_dots(..., n = n, prop = prop)
+       8.   └─dplyr:::check_slice_unnamed_n_prop(..., n = n, prop = prop)
        9.     └─rlang::abort(bullets, call = error_call)
       
       [ FAIL 1 | WARN 0 | SKIP 25 | PASS 603 ]
       Error: Test failures
       Execution halted
-    ```
-
-# dtrackr
-
-<details>
-
-* Version: 0.2.4
-* GitHub: NA
-* Source code: https://github.com/cran/dtrackr
-* Date/Publication: 2022-07-05 21:00:09 UTC
-* Number of recursive dependencies: 153
-
-Run `revdepcheck::cloud_details(, "dtrackr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in documentation object 'bind_rows.Rd':
-      ‘[dplyr:bind]{dplyr::bind_rows()}’
-    
-    Missing link or links in documentation object 'p_bind_rows.Rd':
-      ‘[dplyr:bind]{dplyr::bind_rows()}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
     ```
 
 # epocakir
@@ -1098,7 +662,7 @@ Run `revdepcheck::cloud_details(, "dtrackr")` for more info
 * Date/Publication: 2022-05-04 23:00:16 UTC
 * Number of recursive dependencies: 77
 
-Run `revdepcheck::cloud_details(, "epocakir")` for more info
+Run `cloud_details(, "epocakir")` for more info
 
 </details>
 
@@ -1151,6 +715,66 @@ Run `revdepcheck::cloud_details(, "epocakir")` for more info
       Execution halted
     ```
 
+# ethnobotanyR
+
+<details>
+
+* Version: 0.1.8
+* GitHub: https://github.com/CWWhitney/ethnobotanyR
+* Source code: https://github.com/cran/ethnobotanyR
+* Date/Publication: 2021-01-06 04:10:02 UTC
+* Number of recursive dependencies: 69
+
+Run `cloud_details(, "ethnobotanyR")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘ethnobotanyR-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: FLs
+    > ### Title: Fidelity Level (FL)
+    > ### Aliases: FLs
+    > ### Keywords: arith logic math methods misc survey
+    > 
+    > ### ** Examples
+    > 
+    ...
+        ▆
+     1. └─ethnobotanyR::FLs(ethnobotanydata)
+     2.   ├─dplyr::left_join(Iu, Ip, by = "sp_name", na.rm = TRUE)
+     3.   └─dplyr:::left_join.data.frame(Iu, Ip, by = "sp_name", na.rm = TRUE)
+     4.     └─rlang::check_dots_empty0(...)
+     5.       └─rlang::check_dots_empty(call = call)
+     6.         └─rlang:::action_dots(...)
+     7.           ├─base (local) try_dots(...)
+     8.           └─rlang (local) action(...)
+    Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error(s) in re-building vignettes:
+      ...
+    --- re-building ‘ethnobotanyr_vignette.Rmd’ using rmarkdown
+    Quitting from lines 192-193 (ethnobotanyr_vignette.Rmd) 
+    Error: processing vignette 'ethnobotanyr_vignette.Rmd' failed with diagnostics:
+    `...` must be empty.
+    ✖ Problematic argument:
+    • na.rm = TRUE
+    --- failed re-building ‘ethnobotanyr_vignette.Rmd’
+    
+    SUMMARY: processing the following file failed:
+      ‘ethnobotanyr_vignette.Rmd’
+    
+    Error: Vignette re-building failed.
+    Execution halted
+    ```
+
 # extdplyr
 
 <details>
@@ -1161,7 +785,7 @@ Run `revdepcheck::cloud_details(, "epocakir")` for more info
 * Date/Publication: 2020-04-20 05:20:02 UTC
 * Number of recursive dependencies: 39
 
-Run `revdepcheck::cloud_details(, "extdplyr")` for more info
+Run `cloud_details(, "extdplyr")` for more info
 
 </details>
 
@@ -1209,7 +833,7 @@ Run `revdepcheck::cloud_details(, "extdplyr")` for more info
 * Date/Publication: 2022-08-19 13:50:05 UTC
 * Number of recursive dependencies: 100
 
-Run `revdepcheck::cloud_details(, "exuber")` for more info
+Run `cloud_details(, "exuber")` for more info
 
 </details>
 
@@ -1238,28 +862,52 @@ Run `revdepcheck::cloud_details(, "exuber")` for more info
       Execution halted
     ```
 
-# ffp
+# fastqcr
 
 <details>
 
-* Version: 0.2.2
-* GitHub: https://github.com/Reckziegel/FFP
-* Source code: https://github.com/cran/ffp
-* Date/Publication: 2022-09-29 15:10:06 UTC
-* Number of recursive dependencies: 107
+* Version: 0.1.2
+* GitHub: https://github.com/kassambara/fastqcr
+* Source code: https://github.com/cran/fastqcr
+* Date/Publication: 2019-01-03 00:20:16 UTC
+* Number of recursive dependencies: 76
 
-Run `revdepcheck::cloud_details(, "ffp")` for more info
+Run `cloud_details(, "fastqcr")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking Rd cross-references ... WARNING
+*   checking examples ... ERROR
     ```
-    Missing link or links in documentation object 'bind_probs.Rd':
-      ‘[dplyr]{bind}’
+    Running examples in ‘fastqcr-Ex.R’ failed
+    The error most likely occurred in:
     
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
+    > ### Name: qc_aggregate
+    > ### Title: Aggregate FastQC Reports for Multiple Samples
+    > ### Aliases: qc_aggregate summary.qc_aggregate qc_stats
+    > 
+    > ### ** Examples
+    > 
+    > # Demo QC dir
+    ...
+     1. ├─base::summary(qc)
+     2. └─fastqcr:::summary.qc_aggregate(qc)
+     3.   ├─dplyr::left_join(res, failed, by = "module", fill = "---")
+     4.   └─dplyr:::left_join.data.frame(res, failed, by = "module", fill = "---")
+     5.     └─rlang::check_dots_empty0(...)
+     6.       └─rlang::check_dots_empty(call = call)
+     7.         └─rlang:::action_dots(...)
+     8.           ├─base (local) try_dots(...)
+     9.           └─rlang (local) action(...)
+    Execution halted
+    ```
+
+## In both
+
+*   checking LazyData ... NOTE
+    ```
+      'LazyData' is specified without a 'data' directory
     ```
 
 # finnts
@@ -1272,7 +920,7 @@ Run `revdepcheck::cloud_details(, "ffp")` for more info
 * Date/Publication: 2022-11-15 23:30:02 UTC
 * Number of recursive dependencies: 210
 
-Run `revdepcheck::cloud_details(, "finnts")` for more info
+Run `cloud_details(, "finnts")` for more info
 
 </details>
 
@@ -1300,6 +948,66 @@ Run `revdepcheck::cloud_details(, "finnts")` for more info
       Execution halted
     ```
 
+# forceR
+
+<details>
+
+* Version: 1.0.15
+* GitHub: https://github.com/Peter-T-Ruehr/forceR
+* Source code: https://github.com/cran/forceR
+* Date/Publication: 2022-06-07 14:50:02 UTC
+* Number of recursive dependencies: 85
+
+Run `cloud_details(, "forceR")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘forceR-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: find_strongest_peaks
+    > ### Title: Find Peaks
+    > ### Aliases: find_strongest_peaks
+    > 
+    > ### ** Examples
+    > 
+    > require(dplyr)
+    ...
+     1. ├─forceR::find_strongest_peaks(df = df.all.200.tax_filtered, no.of.peaks = 5)
+     2. │ └─curr.plot.window %>% slice(n = 1) %>% pull(specimen)
+     3. ├─dplyr::pull(., specimen)
+     4. ├─dplyr::slice(., n = 1)
+     5. └─dplyr:::slice.data.frame(., n = 1)
+     6.   └─rlang::check_dots_unnamed()
+     7.     └─rlang:::action_dots(...)
+     8.       ├─base (local) try_dots(...)
+     9.       └─rlang (local) action(...)
+    Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error(s) in re-building vignettes:
+      ...
+    --- re-building ‘forceR.Rmd’ using rmarkdown
+    Quitting from lines 518-523 (forceR.Rmd) 
+    Error: processing vignette 'forceR.Rmd' failed with diagnostics:
+    Arguments in `...` must be passed by position, not name.
+    ✖ Problematic argument:
+    • n = 1
+    --- failed re-building ‘forceR.Rmd’
+    
+    SUMMARY: processing the following file failed:
+      ‘forceR.Rmd’
+    
+    Error: Vignette re-building failed.
+    Execution halted
+    ```
+
 # forestmangr
 
 <details>
@@ -1310,7 +1018,7 @@ Run `revdepcheck::cloud_details(, "finnts")` for more info
 * Date/Publication: 2021-08-16 13:00:02 UTC
 * Number of recursive dependencies: 121
 
-Run `revdepcheck::cloud_details(, "forestmangr")` for more info
+Run `cloud_details(, "forestmangr")` for more info
 
 </details>
 
@@ -1345,17 +1053,17 @@ Run `revdepcheck::cloud_details(, "forestmangr")` for more info
     ```
     Error(s) in re-building vignettes:
     --- re-building ‘eq_group_fit_en.Rmd’ using rmarkdown
+    --- finished re-building ‘eq_group_fit_en.Rmd’
     
-    Attaching package: 'dplyr'
+    --- re-building ‘eq_group_fit_ptbr.Rmd’ using rmarkdown
+    --- finished re-building ‘eq_group_fit_ptbr.Rmd’
     
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
+    --- re-building ‘invent_vol_plot_en.Rmd’ using rmarkdown
+    Quitting from lines 90-92 (invent_vol_plot_en.Rmd) 
+    Error: processing vignette 'invent_vol_plot_en.Rmd' failed with diagnostics:
     ...
-        intersect, setdiff, setequal, union
     
+    --- re-building ‘yield_growth_ptbr.Rmd’ using rmarkdown
     --- finished re-building ‘yield_growth_ptbr.Rmd’
     
     SUMMARY: processing the following files failed:
@@ -1376,7 +1084,7 @@ Run `revdepcheck::cloud_details(, "forestmangr")` for more info
 * Date/Publication: 2022-08-23 12:40:05 UTC
 * Number of recursive dependencies: 75
 
-Run `revdepcheck::cloud_details(, "fqar")` for more info
+Run `cloud_details(, "fqar")` for more info
 
 </details>
 
@@ -1456,7 +1164,7 @@ Run `revdepcheck::cloud_details(, "fqar")` for more info
 * Date/Publication: 2022-09-15 09:40:08 UTC
 * Number of recursive dependencies: 153
 
-Run `revdepcheck::cloud_details(, "FRK")` for more info
+Run `cloud_details(, "FRK")` for more info
 
 </details>
 
@@ -1479,7 +1187,7 @@ Run `revdepcheck::cloud_details(, "FRK")` for more info
        7.           └─xts:::Ops.xts(i, last(sp_pols@time))
        8.             └─xts::.xts(e, .index(e2), tclass(e2), tzone(e2), tformat = tformat(e2))
       
-      [ FAIL 2 | WARN 7 | SKIP 0 | PASS 203 ]
+      [ FAIL 2 | WARN 83 | SKIP 0 | PASS 203 ]
       Error: Test failures
       Execution halted
     ```
@@ -1490,14 +1198,14 @@ Run `revdepcheck::cloud_details(, "FRK")` for more info
     ```
     Error(s) in re-building vignettes:
     --- re-building ‘FRK_intro.Rnw’ using knitr
+    Quitting from lines 772-785 (FRK_intro.Rnw) 
+    Error: processing vignette 'FRK_intro.Rnw' failed with diagnostics:
+    index length must match number of observations
+    --- failed re-building ‘FRK_intro.Rnw’
     
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
+    --- re-building ‘FRK_non-Gaussian.Rnw’ using knitr
+    Error: processing vignette 'FRK_non-Gaussian.Rnw' failed with diagnostics:
+    Running 'texi2dvi' on 'FRK_non-Gaussian.tex' failed.
     ...
     l.70 ^^M
             
@@ -1520,72 +1228,6 @@ Run `revdepcheck::cloud_details(, "FRK")` for more info
         libs  70.3Mb
     ```
 
-# funModeling
-
-<details>
-
-* Version: 1.9.4
-* GitHub: https://github.com/pablo14/funModeling
-* Source code: https://github.com/cran/funModeling
-* Date/Publication: 2020-06-15 05:10:02 UTC
-* Number of recursive dependencies: 87
-
-Run `revdepcheck::cloud_details(, "funModeling")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘funModeling-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: desc_groups
-    > ### Title: Profiling categorical variable
-    > ### Aliases: desc_groups
-    > 
-    > ### ** Examples
-    > 
-    > # default grouping function: mean
-    ...
-      9. │     ├─dplyr:::new_sel_vars(tbl_vars_dispatch(x), group_vars(x))
-     10. │     │ └─base::structure(...)
-     11. │     └─dplyr:::tbl_vars_dispatch(x)
-     12. ├─dplyr::summarise_each_(., funs(group_func), vars_to_keep)
-     13. │ └─rlang::is_character(funs)
-     14. └─dplyr::funs(group_func)
-     15.   └─lifecycle::deprecate_stop(...)
-     16.     └─lifecycle:::deprecate_stop0(msg)
-     17.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘funModeling_quickstart.Rmd’ using rmarkdown
-    Loading required package: Hmisc
-    Loading required package: lattice
-    Loading required package: survival
-    Loading required package: Formula
-    Loading required package: ggplot2
-    
-    Attaching package: 'Hmisc'
-    
-    ...
-    
-      # Using lambdas
-      list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-    --- failed re-building ‘funModeling_quickstart.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘funModeling_quickstart.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
 # GauPro
 
 <details>
@@ -1596,7 +1238,7 @@ Run `revdepcheck::cloud_details(, "funModeling")` for more info
 * Date/Publication: 2022-11-24 08:40:02 UTC
 * Number of recursive dependencies: 78
 
-Run `revdepcheck::cloud_details(, "GauPro")` for more info
+Run `cloud_details(, "GauPro")` for more info
 
 </details>
 
@@ -1637,183 +1279,6 @@ Run `revdepcheck::cloud_details(, "GauPro")` for more info
         libs  13.3Mb
     ```
 
-# GDPuc
-
-<details>
-
-* Version: 0.9.2
-* GitHub: https://github.com/pik-piam/GDPuc
-* Source code: https://github.com/cran/GDPuc
-* Date/Publication: 2022-09-19 16:16:09 UTC
-* Number of recursive dependencies: 89
-
-Run `revdepcheck::cloud_details(, "GDPuc")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-       11. │         ├─glue::glue("group {id}: {label}", label = group_labels_details(group))
-       12. │         │ └─glue::glue_data(...)
-       13. │         └─dplyr:::group_labels_details(group)
-       14. │           └─dplyr:::map_chr(keys, pillar::format_glimpse)
-       15. │             └─dplyr:::.rlang_purrr_map_mold(.x, .f, character(1), ...)
-       16. │               └─base::vapply(.x, .f, .mold, ..., USE.NAMES = FALSE)
-       17. └─glue (local) `<fn>`("label")
-       18.   ├─.transformer(expr, env) %||% .null
-       19.   └─glue (local) .transformer(expr, env)
-       20.     └─base::eval(parse(text = text, keep.source = FALSE), envir)
-       21.       └─base::eval(parse(text = text, keep.source = FALSE), envir)
-      
-      [ FAIL 3 | WARN 39 | SKIP 0 | PASS 302 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-# geosimilarity
-
-<details>
-
-* Version: 2.2
-* GitHub: NA
-* Source code: https://github.com/cran/geosimilarity
-* Date/Publication: 2022-11-08 16:00:02 UTC
-* Number of recursive dependencies: 85
-
-Run `revdepcheck::cloud_details(, "geosimilarity")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘geosimilarity-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: bestkappa
-    > ### Title: Function for the best kappa parameter
-    > ### Aliases: bestkappa
-    > 
-    > ### ** Examples
-    > 
-    > data("zn")
-    ...
-      4. ├─dplyr::summarise_all(., funs(mean))
-      5. │ └─dplyr:::manip_all(...)
-      6. │   └─dplyr:::as_fun_list(...)
-      7. │     └─dplyr:::is_fun_list(.funs)
-      8. └─dplyr::funs(mean)
-      9.   └─lifecycle::deprecate_stop(...)
-     10.     └─lifecycle:::deprecate_stop0(msg)
-     11.       └─rlang::cnd_signal(...)
-    Timing stopped at: 3.034 0 3.034
-    Execution halted
-    ```
-
-# getLattes
-
-<details>
-
-* Version: 0.2.0
-* GitHub: https://github.com/roneyfraga/getLattes
-* Source code: https://github.com/cran/getLattes
-* Date/Publication: 2021-06-11 08:40:05 UTC
-* Number of recursive dependencies: 47
-
-Run `revdepcheck::cloud_details(, "getLattes")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in documentation object 'getAreasAtuacao.Rd':
-      ‘[dplyr]{bind}’
-    
-    Missing link or links in documentation object 'getArtigosPublicados.Rd':
-      ‘[dplyr]{bind}’
-    
-    Missing link or links in documentation object 'getAtuacoesProfissionais.Rd':
-      ‘[dplyr]{bind}’
-    
-    Missing link or links in documentation object 'getBancasDoutorado.Rd':
-    ...
-    Missing link or links in documentation object 'getParticipacaoProjeto.Rd':
-      ‘[dplyr]{bind}’
-    
-    Missing link or links in documentation object 'getPatentes.Rd':
-      ‘[dplyr]{bind}’
-    
-    Missing link or links in documentation object 'getProducaoTecnica.Rd':
-      ‘[dplyr]{bind}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘pipeR’ ‘rlang’
-      All declared Imports should be used.
-    ```
-
-# GFE
-
-<details>
-
-* Version: 0.1.0
-* GitHub: NA
-* Source code: https://github.com/cran/GFE
-* Date/Publication: 2018-08-02 12:10:10 UTC
-* Number of recursive dependencies: 18
-
-Run `revdepcheck::cloud_details(, "GFE")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘GFE-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: reSamGF
-    > ### Title: Gross flows variance estimation.
-    > ### Aliases: reSamGF
-    > 
-    > ### ** Examples
-    > 
-    > library(TeachingSampling)
-    ...
-      5. ├─dplyr::summarize_all(...)
-      6. │ └─dplyr:::manip_all(...)
-      7. │   └─dplyr:::as_fun_list(...)
-      8. │     └─dplyr:::is_fun_list(.funs)
-      9. ├─base::ifelse(type == "Jackknife", funs(varJack), funs(var))
-     10. └─dplyr::funs(var)
-     11.   └─lifecycle::deprecate_stop(...)
-     12.     └─lifecycle:::deprecate_stop0(msg)
-     13.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-## In both
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
-    ```
-
 # ggblanket
 
 <details>
@@ -1824,7 +1289,7 @@ Run `revdepcheck::cloud_details(, "GFE")` for more info
 * Date/Publication: 2022-11-18 22:20:02 UTC
 * Number of recursive dependencies: 95
 
-Run `revdepcheck::cloud_details(, "ggblanket")` for more info
+Run `cloud_details(, "ggblanket")` for more info
 
 </details>
 
@@ -1858,16 +1323,12 @@ Run `revdepcheck::cloud_details(, "ggblanket")` for more info
 *   checking re-building of vignette outputs ... WARNING
     ```
     Error(s) in re-building vignettes:
+      ...
     --- re-building ‘ggblanket.Rmd’ using rmarkdown
-    
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
-    ...
+    Quitting from lines 84-90 (ggblanket.Rmd) 
+    Error: processing vignette 'ggblanket.Rmd' failed with diagnostics:
+    ℹ In argument: `dplyr::across(...)`.
+    Caused by error in `across()`:
     ! Can't compute column `Species`.
     Caused by error in `dplyr::na_if()`:
     ! Can't convert `y` <double> to match type of `x` <character>.
@@ -1877,137 +1338,6 @@ Run `revdepcheck::cloud_details(, "ggblanket")` for more info
       ‘ggblanket.Rmd’
     
     Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-# glmdisc
-
-<details>
-
-* Version: 0.6
-* GitHub: https://github.com/adimajo/glmdisc
-* Source code: https://github.com/cran/glmdisc
-* Date/Publication: 2020-09-30 21:10:02 UTC
-* Number of recursive dependencies: 117
-
-Run `revdepcheck::cloud_details(, "glmdisc")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Backtrace:
-          ▆
-       1. ├─data.frame(xd[, 1:2]) %>% ... at test-discretize-link.R:88:2
-       2. ├─dplyr::mutate_at(., dplyr::vars("X1", "X2"), dplyr::funs(as.integer))
-       3. │ └─dplyr:::manip_at(...)
-       4. │   └─dplyr:::as_fun_list(...)
-       5. │     └─dplyr:::is_fun_list(.funs)
-       6. └─dplyr::funs(as.integer)
-       7.   └─lifecycle::deprecate_stop(...)
-       8.     └─lifecycle:::deprecate_stop0(msg)
-       9.       └─rlang::cnd_signal(...)
-      
-      [ FAIL 1 | WARN 72 | SKIP 3 | PASS 795 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.1Mb
-      sub-directories of 1Mb or more:
-        libs   4.4Mb
-    ```
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
-    ```
-
-# gmgm
-
-<details>
-
-* Version: 1.1.2
-* GitHub: NA
-* Source code: https://github.com/cran/gmgm
-* Date/Publication: 2022-09-08 20:32:55 UTC
-* Number of recursive dependencies: 60
-
-Run `revdepcheck::cloud_details(, "gmgm")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-       17. │         ├─glue::glue("group {id}: {label}", label = group_labels_details(group))
-       18. │         │ └─glue::glue_data(...)
-       19. │         └─dplyr:::group_labels_details(group)
-       20. │           └─dplyr:::map_chr(keys, pillar::format_glimpse)
-       21. │             └─dplyr:::.rlang_purrr_map_mold(.x, .f, character(1), ...)
-       22. │               └─base::vapply(.x, .f, .mold, ..., USE.NAMES = FALSE)
-       23. └─glue (local) `<fn>`("label")
-       24.   ├─.transformer(expr, env) %||% .null
-       25.   └─glue (local) .transformer(expr, env)
-       26.     └─base::eval(parse(text = text, keep.source = FALSE), envir)
-       27.       └─base::eval(parse(text = text, keep.source = FALSE), envir)
-      
-      [ FAIL 2 | WARN 13 | SKIP 0 | PASS 414 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-# graphicalVAR
-
-<details>
-
-* Version: 0.3
-* GitHub: NA
-* Source code: https://github.com/cran/graphicalVAR
-* Date/Publication: 2021-10-19 19:40:02 UTC
-* Number of recursive dependencies: 88
-
-Run `revdepcheck::cloud_details(, "graphicalVAR")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘graphicalVAR-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: graphicalVAR
-    > ### Title: Estimate the graphical VAR model.
-    > ### Aliases: graphicalVAR
-    > 
-    > ### ** Examples
-    > 
-    > # Simulate model:
-    ...
-      8. ├─dplyr::ungroup(.)
-      9. ├─dplyr::mutate_at(., funs(shift), .vars = vars)
-     10. │ └─dplyr:::manip_at(...)
-     11. │   └─dplyr:::as_fun_list(...)
-     12. │     └─dplyr:::is_fun_list(.funs)
-     13. └─dplyr::funs(shift)
-     14.   └─lifecycle::deprecate_stop(...)
-     15.     └─lifecycle:::deprecate_stop0(msg)
-     16.       └─rlang::cnd_signal(...)
     Execution halted
     ```
 
@@ -2021,7 +1351,7 @@ Run `revdepcheck::cloud_details(, "graphicalVAR")` for more info
 * Date/Publication: 2022-05-09 11:20:03 UTC
 * Number of recursive dependencies: 83
 
-Run `revdepcheck::cloud_details(, "gratia")` for more info
+Run `cloud_details(, "gratia")` for more info
 
 </details>
 
@@ -2059,7 +1389,7 @@ Run `revdepcheck::cloud_details(, "gratia")` for more info
 * Date/Publication: 2020-10-14 12:30:06 UTC
 * Number of recursive dependencies: 63
 
-Run `revdepcheck::cloud_details(, "groupr")` for more info
+Run `cloud_details(, "groupr")` for more info
 
 </details>
 
@@ -2126,7 +1456,7 @@ ERROR: lazy loading failed for package ‘groupr’
 * Date/Publication: 2022-11-11 19:10:02 UTC
 * Number of recursive dependencies: 91
 
-Run `revdepcheck::cloud_details(, "hablar")` for more info
+Run `cloud_details(, "hablar")` for more info
 
 </details>
 
@@ -2151,31 +1481,6 @@ Run `revdepcheck::cloud_details(, "hablar")` for more info
       Execution halted
     ```
 
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘convert.Rmd’ using rmarkdown
-    Quitting from lines 104-109 (convert.Rmd) 
-    Error: processing vignette 'convert.Rmd' failed with diagnostics:
-    `funs()` was deprecated in dplyr 0.8.0 and is now defunct.
-    Please use a list of either functions or lambdas:
-    
-      # Simple named list:
-      list(mean = mean, median = median)
-    
-    ...
-    Caused by warning in `max()`:
-    ! no non-missing arguments to max; returning -Inf
-    ℹ Run `dplyr::last_dplyr_warnings()` to see the 31 remaining warnings.
-    --- finished re-building ‘s.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘convert.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
 # headliner
 
 <details>
@@ -2186,7 +1491,7 @@ Run `revdepcheck::cloud_details(, "hablar")` for more info
 * Date/Publication: 2022-06-26 23:40:02 UTC
 * Number of recursive dependencies: 72
 
-Run `revdepcheck::cloud_details(, "headliner")` for more info
+Run `cloud_details(, "headliner")` for more info
 
 </details>
 
@@ -2197,6 +1502,7 @@ Run `revdepcheck::cloud_details(, "headliner")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+        6. │     └─dplyr:::filter_eval(dots, mask = mask, error_call = error_call)
         7. │       ├─base::withCallingHandlers(...)
         8. │       └─mask$eval_all_filter(dots, env_filter)
         9. │         └─dplyr (local) eval()
@@ -2204,10 +1510,9 @@ Run `revdepcheck::cloud_details(, "headliner")` for more info
        11.   └─dplyr (local) h(simpleError(msg, call))
        12.     └─dplyr:::local_error_context(dots, i = frame[[i_sym]], mask = mask)
        13.       └─dplyr:::new_error_context(dots, i, mask = mask)
-       14.         └─dplyr:::dot_as_label(dots[[i]])
-       15.           └─dplyr:::quo_as_label(expr)
-       16.             └─dplyr:::is_data_pronoun(expr)
-       17.               └─rlang::is_call(x, c("[[", "$"))
+       14.         └─dplyr:::quo_as_label(dots[[i]])
+       15.           └─dplyr:::is_data_pronoun(expr)
+       16.             └─rlang::is_call(x, c("[[", "$"))
       
       [ FAIL 3 | WARN 4 | SKIP 0 | PASS 101 ]
       Error: Test failures
@@ -2224,7 +1529,7 @@ Run `revdepcheck::cloud_details(, "headliner")` for more info
 * Date/Publication: 2021-10-06 11:30:12 UTC
 * Number of recursive dependencies: 118
 
-Run `revdepcheck::cloud_details(, "heemod")` for more info
+Run `cloud_details(, "heemod")` for more info
 
 </details>
 
@@ -2248,7 +1553,7 @@ Run `revdepcheck::cloud_details(, "heemod")` for more info
 * Date/Publication: 2021-01-06 11:00:16 UTC
 * Number of recursive dependencies: 126
 
-Run `revdepcheck::cloud_details(, "helda")` for more info
+Run `cloud_details(, "helda")` for more info
 
 </details>
 
@@ -2296,7 +1601,7 @@ Run `revdepcheck::cloud_details(, "helda")` for more info
 * Date/Publication: 2022-10-24 21:35:04 UTC
 * Number of recursive dependencies: 151
 
-Run `revdepcheck::cloud_details(, "hlaR")` for more info
+Run `cloud_details(, "hlaR")` for more info
 
 </details>
 
@@ -2330,16 +1635,13 @@ Run `revdepcheck::cloud_details(, "hlaR")` for more info
 *   checking re-building of vignette outputs ... WARNING
     ```
     Error(s) in re-building vignettes:
+      ...
     --- re-building ‘allele-haplotype.Rmd’ using rmarkdown
-    ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-    ✔ ggplot2 3.4.0           ✔ dplyr   1.0.99.9000
-    ✔ tibble  3.1.8           ✔ stringr 1.5.0      
-    ✔ tidyr   1.2.1           ✔ forcats 0.5.2      
-    ✔ purrr   0.3.5           
-    ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ✖ dplyr::filter() masks stats::filter()
-    ✖ dplyr::lag()    masks stats::lag()
-    ...
+    --- finished re-building ‘allele-haplotype.Rmd’
+    
+    --- re-building ‘eplet-mm.Rmd’ using rmarkdown
+    Quitting from lines 48-53 (eplet-mm.Rmd) 
+    Error: processing vignette 'eplet-mm.Rmd' failed with diagnostics:
     ℹ In argument: `index = (function (x, y) ...`.
     Caused by error:
     ! Can't convert `y` <character> to match type of `x` <integer>.
@@ -2362,7 +1664,7 @@ Run `revdepcheck::cloud_details(, "hlaR")` for more info
 * Date/Publication: 2022-08-11 09:40:16 UTC
 * Number of recursive dependencies: 157
 
-Run `revdepcheck::cloud_details(, "huito")` for more info
+Run `cloud_details(, "huito")` for more info
 
 </details>
 
@@ -2371,19 +1673,19 @@ Run `revdepcheck::cloud_details(, "huito")` for more info
 *   checking re-building of vignette outputs ... WARNING
     ```
     Error(s) in re-building vignettes:
+      ...
     --- re-building ‘germinar.Rmd’ using rmarkdown
-    Loading required package: magick
-    Linking to ImageMagick 6.9.10.23
-    Enabled features: fontconfig, freetype, fftw, lcms, pango, webp, x11
-    Disabled features: cairo, ghostscript, heic, raw, rsvg
-    Using 8 threads
-    Loading required package: cowplot
     --- finished re-building ‘germinar.Rmd’
     
+    --- re-building ‘huito.Rmd’ using rmarkdown
+    --- finished re-building ‘huito.Rmd’
+    
+    --- re-building ‘labels.Rmd’ using rmarkdown
+    Quitting from lines 22-36 (labels.Rmd) 
     ...
-    Disabled features: cairo, ghostscript, heic, raw, rsvg
-    Using 8 threads
-    Loading required package: cowplot
+    --- failed re-building ‘labels.Rmd’
+    
+    --- re-building ‘stickers.Rmd’ using rmarkdown
     --- finished re-building ‘stickers.Rmd’
     
     SUMMARY: processing the following file failed:
@@ -2403,7 +1705,7 @@ Run `revdepcheck::cloud_details(, "huito")` for more info
 * Date/Publication: 2022-11-12 08:30:07 UTC
 * Number of recursive dependencies: 162
 
-Run `revdepcheck::cloud_details(, "huxtable")` for more info
+Run `cloud_details(, "huxtable")` for more info
 
 </details>
 
@@ -2465,92 +1767,6 @@ Run `revdepcheck::cloud_details(, "huxtable")` for more info
       All declared Imports should be used.
     ```
 
-# IBCF.MTME
-
-<details>
-
-* Version: 1.6-0
-* GitHub: https://github.com/frahik/IBCF.MTME
-* Source code: https://github.com/cran/IBCF.MTME
-* Date/Publication: 2019-03-23 05:18:07 UTC
-* Number of recursive dependencies: 65
-
-Run `revdepcheck::cloud_details(, "IBCF.MTME")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        5. ├─IBCF.MTME:::summary.IBCFY(pm)
-        6. │ └─... %>% as.data.frame()
-        7. ├─base::as.data.frame(.)
-        8. ├─dplyr::mutate_if(., is.numeric, funs(round(., digits)))
-        9. │ └─dplyr:::manip_if(...)
-       10. │   └─dplyr:::as_fun_list(...)
-       11. │     └─dplyr:::is_fun_list(.funs)
-       12. └─dplyr::funs(round(., digits))
-       13.   └─lifecycle::deprecate_stop(...)
-       14.     └─lifecycle:::deprecate_stop0(msg)
-       15.       └─rlang::cnd_signal(...)
-      
-      [ FAIL 8 | WARN 0 | SKIP 0 | PASS 108 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-# interplot
-
-<details>
-
-* Version: 0.2.3
-* GitHub: https://github.com/sammo3182/interplot
-* Source code: https://github.com/cran/interplot
-* Date/Publication: 2021-02-18 06:20:07 UTC
-* Number of recursive dependencies: 80
-
-Run `revdepcheck::cloud_details(, "interplot")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘interplot-vignette.Rmd’ using rmarkdown
-    Loading required package: ggplot2
-    Loading required package: abind
-    Loading required package: arm
-    Loading required package: MASS
-    Loading required package: Matrix
-    Loading required package: lme4
-    
-    arm (Version 1.13-1, built: 2022-8-25)
-    ...
-    
-      # Using lambdas
-      list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-    --- failed re-building ‘interplot-vignette.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘interplot-vignette.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-## In both
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
-    ```
-
 # iNZightTools
 
 <details>
@@ -2561,7 +1777,7 @@ Run `revdepcheck::cloud_details(, "interplot")` for more info
 * Date/Publication: 2022-08-22 20:20:02 UTC
 * Number of recursive dependencies: 87
 
-Run `revdepcheck::cloud_details(, "iNZightTools")` for more info
+Run `cloud_details(, "iNZightTools")` for more info
 
 </details>
 
@@ -2572,17 +1788,17 @@ Run `revdepcheck::cloud_details(, "iNZightTools")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      x Problematic argument:
       * suffix = c(".x", ".y")
       Backtrace:
           ▆
        1. ├─d1 %>% ...
-       2. └─dplyr::anti_join(., d3, by = c(x1 = "x1", x2 = "x6"), suffix = c(".x", ".y"))
-       3.   └─rlang (local) `<fn>`()
-       4.     └─rlang:::check_dots(env, error, action, call)
-       5.       └─rlang:::action_dots(...)
-       6.         ├─base (local) try_dots(...)
-       7.         └─rlang (local) action(...)
+       2. ├─dplyr::anti_join(...)
+       3. └─dplyr:::anti_join.data.frame(., d3, by = c(x1 = "x1", x2 = "x6"), suffix = c(".x", ".y"))
+       4.   └─rlang::check_dots_empty0(...)
+       5.     └─rlang::check_dots_empty(call = call)
+       6.       └─rlang:::action_dots(...)
+       7.         ├─base (local) try_dots(...)
+       8.         └─rlang (local) action(...)
       
       [ FAIL 2 | WARN 0 | SKIP 5 | PASS 331 ]
       Error: Test failures
@@ -2599,7 +1815,7 @@ Run `revdepcheck::cloud_details(, "iNZightTools")` for more info
 * Date/Publication: 2022-12-07 21:02:33 UTC
 * Number of recursive dependencies: 79
 
-Run `revdepcheck::cloud_details(, "IPEDSuploadables")` for more info
+Run `cloud_details(, "IPEDSuploadables")` for more info
 
 </details>
 
@@ -2652,113 +1868,6 @@ Run `revdepcheck::cloud_details(, "IPEDSuploadables")` for more info
       Execution halted
     ```
 
-# ipft
-
-<details>
-
-* Version: 0.7.2
-* GitHub: NA
-* Source code: https://github.com/cran/ipft
-* Date/Publication: 2018-01-04 09:36:52 UTC
-* Number of recursive dependencies: 34
-
-Run `revdepcheck::cloud_details(, "ipft")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘ipft-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: ipfPlotLocation
-    > ### Title: Plots the spatial location of the observations
-    > ### Aliases: ipfPlotLocation
-    > 
-    > ### ** Examples
-    > 
-    > 
-    ...
-      4. ├─dplyr::arrange(., GROUP)
-      5. ├─dplyr::summarise_all(., funs(mean))
-      6. │ └─dplyr:::manip_all(...)
-      7. │   └─dplyr:::as_fun_list(...)
-      8. │     └─dplyr:::is_fun_list(.funs)
-      9. └─dplyr::funs(mean)
-     10.   └─lifecycle::deprecate_stop(...)
-     11.     └─lifecycle:::deprecate_stop0(msg)
-     12.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-# isoorbi
-
-<details>
-
-* Version: 1.0.0
-* GitHub: https://github.com/isoverse/isoorbi
-* Source code: https://github.com/cran/isoorbi
-* Date/Publication: 2022-10-17 12:02:41 UTC
-* Number of recursive dependencies: 106
-
-Run `revdepcheck::cloud_details(, "isoorbi")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘isoorbi-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: orbi_calculate_ratios
-    > ### Title: Calculate isotopocule ratios
-    > ### Aliases: orbi_calculate_ratios
-    > 
-    > ### ** Examples
-    > 
-    > fpath <- system.file("extdata", "testfile_flow.isox", package = "isoorbi")
-    ...
-    +                      orbi_simplify_isox() %>%
-    +                      orbi_define_basepeak(basepeak_def = "M0")
-    orbi_read_isox() is loading .isox data from file path: 
-    /tmp/workdir/isoorbi/new/isoorbi.Rcheck/isoorbi/extdata/testfile_flow.isox
-    orbi_simplify_isox() will keep only the most important columns...
-    orbi_define_basepeak() is setting the M0 isotopocule as the ratio denominator...
-    Error in value[[3L]](cond) : 
-      something went wrong when merging data: Each row in `x` is expected to match at most 1 row in `y`.
-    Calls: %>% ... tryCatch -> tryCatchList -> tryCatchOne -> <Anonymous>
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-      ...
-    --- re-building ‘quick_start.Rmd’ using rmarkdown
-    orbi_read_isox() is loading .isox data from file path: 
-    /tmp/workdir/isoorbi/new/isoorbi.Rcheck/isoorbi/extdata/testfile_flow.isox
-    orbi_simplify_isox() will keep only the most important columns...
-    orbi_filter_isox() is pre-filtering the data by filename (FALSE), compounds (HSO4-), isotopocules (M0, 34S, 18O), minimum (0) and maximum (1) time in minutes...
-    orbi_filter_satellite_peaks() is removing minor signals (e.g., satellite peaks) that were reported by IsoX...
-    orbi_filter_weak_isotopocules() is removing isotopocules from data that are detected in less than 10% of scans (in each grouping)...
-    orbi_filter_scan_intensity() is removing extremely high and low intense scans from data. A total of 20% of the scans will be removed...
-    ...
-    Quitting from lines 21-43 (quick_start.Rmd) 
-    Error: processing vignette 'quick_start.Rmd' failed with diagnostics:
-    something went wrong when merging data: Each row in `x` is expected to match at most 1 row in `y`.
-    --- failed re-building ‘quick_start.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘quick_start.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
 # janitor
 
 <details>
@@ -2769,7 +1878,7 @@ Run `revdepcheck::cloud_details(, "isoorbi")` for more info
 * Date/Publication: 2021-01-05 01:10:04 UTC
 * Number of recursive dependencies: 73
 
-Run `revdepcheck::cloud_details(, "janitor")` for more info
+Run `cloud_details(, "janitor")` for more info
 
 </details>
 
@@ -2800,16 +1909,11 @@ Run `revdepcheck::cloud_details(, "janitor")` for more info
 *   checking re-building of vignette outputs ... WARNING
     ```
     Error(s) in re-building vignettes:
+      ...
     --- re-building ‘janitor.Rmd’ using rmarkdown
-    
-    Attaching package: 'janitor'
-    
-    The following objects are masked from 'package:stats':
-    
-        chisq.test, fisher.test
-    
     --- finished re-building ‘janitor.Rmd’
-    ...
+    
+    --- re-building ‘tabyls.Rmd’ using rmarkdown
     Quitting from lines 239-251 (tabyls.Rmd) 
     Error: processing vignette 'tabyls.Rmd' failed with diagnostics:
     only defined on a data frame with all numeric-alike variables
@@ -2829,33 +1933,6 @@ Run `revdepcheck::cloud_details(, "janitor")` for more info
       'LazyData' is specified without a 'data' directory
     ```
 
-# jstable
-
-<details>
-
-* Version: 1.0.7
-* GitHub: https://github.com/jinseob2kim/jstable
-* Source code: https://github.com/cran/jstable
-* Date/Publication: 2021-10-19 13:00:02 UTC
-* Number of recursive dependencies: 106
-
-Run `revdepcheck::cloud_details(, "jstable")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in documentation object 'TableSubgroupMultiCox.Rd':
-      ‘[dplyr]{bind}’
-    
-    Missing link or links in documentation object 'TableSubgroupMultiGLM.Rd':
-      ‘[dplyr]{bind}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
-    ```
-
 # JumpeR
 
 <details>
@@ -2866,7 +1943,7 @@ Run `revdepcheck::cloud_details(, "jstable")` for more info
 * Date/Publication: 2021-11-16 19:40:02 UTC
 * Number of recursive dependencies: 60
 
-Run `revdepcheck::cloud_details(, "JumpeR")` for more info
+Run `cloud_details(, "JumpeR")` for more info
 
 </details>
 
@@ -2904,7 +1981,7 @@ Run `revdepcheck::cloud_details(, "JumpeR")` for more info
 * Date/Publication: 2022-06-28 16:20:08 UTC
 * Number of recursive dependencies: 48
 
-Run `revdepcheck::cloud_details(, "kmscv")` for more info
+Run `cloud_details(, "kmscv")` for more info
 
 </details>
 
@@ -2935,81 +2012,6 @@ Run `revdepcheck::cloud_details(, "kmscv")` for more info
     Execution halted
     ```
 
-# Lahman
-
-<details>
-
-* Version: 10.0-1
-* GitHub: https://github.com/cdalzell/Lahman
-* Source code: https://github.com/cran/Lahman
-* Date/Publication: 2022-04-26 08:20:10 UTC
-* Number of recursive dependencies: 94
-
-Run `revdepcheck::cloud_details(, "Lahman")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘Lahman-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: Fielding
-    > ### Title: Fielding table
-    > ### Aliases: Fielding
-    > ### Keywords: datasets
-    > 
-    > ### ** Examples
-    > 
-    ...
-        ▆
-     1. ├─... %>% summarise_each(funs(sum))
-     2. ├─dplyr::summarise_each(., funs(sum))
-     3. │ └─dplyr::summarise_each_(tbl, funs, enquos(...))
-     4. │   └─rlang::is_character(funs)
-     5. └─dplyr::funs(sum)
-     6.   └─lifecycle::deprecate_stop(...)
-     7.     └─lifecycle:::deprecate_stop0(msg)
-     8.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘hits-by-type.Rmd’ using rmarkdown
-    
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
-    ...
-    --- failed re-building ‘strikeoutsandhr.Rmd’
-    
-    --- re-building ‘vignette-intro.Rmd’ using rmarkdown
-    --- finished re-building ‘vignette-intro.Rmd’
-    
-    SUMMARY: processing the following files failed:
-      ‘hits-by-type.Rmd’ ‘strikeoutsandhr.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  6.4Mb
-      sub-directories of 1Mb or more:
-        data   5.5Mb
-    ```
-
 # lans2r
 
 <details>
@@ -3020,7 +2022,7 @@ Run `revdepcheck::cloud_details(, "Lahman")` for more info
 * Date/Publication: 2020-06-24 05:20:03 UTC
 * Number of recursive dependencies: 85
 
-Run `revdepcheck::cloud_details(, "lans2r")` for more info
+Run `cloud_details(, "lans2r")` for more info
 
 </details>
 
@@ -3065,7 +2067,7 @@ Run `revdepcheck::cloud_details(, "lans2r")` for more info
 * Date/Publication: 2021-02-16 17:10:05 UTC
 * Number of recursive dependencies: 93
 
-Run `revdepcheck::cloud_details(, "lillies")` for more info
+Run `cloud_details(, "lillies")` for more info
 
 </details>
 
@@ -3084,15 +2086,15 @@ Run `revdepcheck::cloud_details(, "lillies")` for more info
     > ### ** Examples
     > 
     ...
-        ▆
      1. └─lillies::lyl_aggregated_range(...)
      2.   ├─dplyr::mutate(...)
-     3.   └─dplyr::left_join(LYL, ages_onset, by = "age", all.x = T)
-     4.     └─rlang (local) `<fn>`()
-     5.       └─rlang:::check_dots(env, error, action, call)
-     6.         └─rlang:::action_dots(...)
-     7.           ├─base (local) try_dots(...)
-     8.           └─rlang (local) action(...)
+     3.   ├─dplyr::left_join(LYL, ages_onset, by = "age", all.x = T)
+     4.   └─dplyr:::left_join.data.frame(LYL, ages_onset, by = "age", all.x = T)
+     5.     └─rlang::check_dots_empty0(...)
+     6.       └─rlang::check_dots_empty(call = call)
+     7.         └─rlang:::action_dots(...)
+     8.           ├─base (local) try_dots(...)
+     9.           └─rlang (local) action(...)
     Execution halted
     ```
 
@@ -3104,28 +2106,45 @@ Run `revdepcheck::cloud_details(, "lillies")` for more info
       All declared Imports should be used.
     ```
 
-# mark
+# logitr
 
 <details>
 
-* Version: 0.5.3
-* GitHub: https://github.com/jmbarbone/mark
-* Source code: https://github.com/cran/mark
-* Date/Publication: 2022-10-16 13:20:02 UTC
-* Number of recursive dependencies: 74
+* Version: 0.8.0
+* GitHub: https://github.com/jhelvy/logitr
+* Source code: https://github.com/cran/logitr
+* Date/Publication: 2022-10-03 20:30:02 UTC
+* Number of recursive dependencies: 147
 
-Run `revdepcheck::cloud_details(, "mark")` for more info
+Run `cloud_details(, "logitr")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking Rd cross-references ... WARNING
+*   checking re-building of vignette outputs ... WARNING
     ```
-    Missing link or links in documentation object 'row_bind.Rd':
-      ‘[dplyr:bind]{dplyr::bind_rows()}’
+    Error(s) in re-building vignettes:
+    --- re-building ‘basic_usage.Rmd’ using rmarkdown
+    --- finished re-building ‘basic_usage.Rmd’
     
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
+    --- re-building ‘benchmark.Rmd’ using rmarkdown
+    --- finished re-building ‘benchmark.Rmd’
+    
+    --- re-building ‘convergence.Rmd’ using rmarkdown
+    --- finished re-building ‘convergence.Rmd’
+    
+    ...
+    --- failed re-building ‘summarizing_results.Rmd’
+    
+    --- re-building ‘utility_models.Rmd’ using rmarkdown
+    --- finished re-building ‘utility_models.Rmd’
+    
+    SUMMARY: processing the following file failed:
+      ‘summarizing_results.Rmd’
+    
+    Error: Vignette re-building failed.
+    Execution halted
     ```
 
 # MBNMAtime
@@ -3138,7 +2157,7 @@ Run `revdepcheck::cloud_details(, "mark")` for more info
 * Date/Publication: 2021-09-13 15:10:02 UTC
 * Number of recursive dependencies: 111
 
-Run `revdepcheck::cloud_details(, "MBNMAtime")` for more info
+Run `cloud_details(, "MBNMAtime")` for more info
 
 </details>
 
@@ -3183,7 +2202,7 @@ Run `revdepcheck::cloud_details(, "MBNMAtime")` for more info
 * Date/Publication: 2022-02-01 09:10:08 UTC
 * Number of recursive dependencies: 100
 
-Run `revdepcheck::cloud_details(, "MetAlyzer")` for more info
+Run `cloud_details(, "MetAlyzer")` for more info
 
 </details>
 
@@ -3192,16 +2211,12 @@ Run `revdepcheck::cloud_details(, "MetAlyzer")` for more info
 *   checking re-building of vignette outputs ... WARNING
     ```
     Error(s) in re-building vignettes:
+      ...
     --- re-building ‘MetAlyzer_User_Guide.Rmd’ using rmarkdown
-    
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
-    ...
+    Quitting from lines 166-169 (MetAlyzer_User_Guide.Rmd) 
+    Error: processing vignette 'MetAlyzer_User_Guide.Rmd' failed with diagnostics:
+    ℹ In argument: `ANOVA_group = calc_anova(get(categorical),
+      .data$transf_Conc, .data$valid_replicates)`.
     ℹ In group 1: `Method = 1`, `Tissue = Drosophila`, `Metabolite = C0`.
     Caused by error in `contrasts<-`:
     ! contrasts can be applied only to factors with 2 or more levels
@@ -3214,230 +2229,6 @@ Run `revdepcheck::cloud_details(, "MetAlyzer")` for more info
     Execution halted
     ```
 
-# missCompare
-
-<details>
-
-* Version: 1.0.3
-* GitHub: https://github.com/Tirgit/missCompare
-* Source code: https://github.com/cran/missCompare
-* Date/Publication: 2020-12-01 08:50:03 UTC
-* Number of recursive dependencies: 197
-
-Run `revdepcheck::cloud_details(, "missCompare")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        7. │   └─rlang::eval_bare(quo_get_expr(.quo), quo_get_env(.quo))
-        8. ├─missCompare::impute_simulated(...)
-        9. │ └─collect_res %>% group_by(Method) %>% ...
-       10. ├─dplyr::summarise_all(., funs(mymean))
-       11. │ └─dplyr:::manip_all(...)
-       12. │   └─dplyr:::as_fun_list(...)
-       13. │     └─dplyr:::is_fun_list(.funs)
-       14. └─dplyr::funs(mymean)
-       15.   └─lifecycle::deprecate_stop(...)
-       16.     └─lifecycle:::deprecate_stop0(msg)
-       17.       └─rlang::cnd_signal(...)
-      
-      [ FAIL 1 | WARN 1 | SKIP 0 | PASS 35 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-# MRFcov
-
-<details>
-
-* Version: 1.0.38
-* GitHub: https://github.com/nicholasjclark/MRFcov
-* Source code: https://github.com/cran/MRFcov
-* Date/Publication: 2021-03-18 06:40:03 UTC
-* Number of recursive dependencies: 112
-
-Run `revdepcheck::cloud_details(, "MRFcov")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘MRFcov-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: MRFcov
-    > ### Title: Markov Random Fields with covariates
-    > ### Aliases: MRFcov
-    > 
-    > ### ** Examples
-    > 
-    > data("Bird.parasites")
-    ...
-      4. │ └─data.frame(mrf_data) %>% ...
-      5. ├─dplyr::summarise_all(., dplyr::funs(sd(.)))
-      6. │ └─dplyr:::manip_all(...)
-      7. │   └─dplyr:::as_fun_list(...)
-      8. │     └─dplyr:::is_fun_list(.funs)
-      9. └─dplyr::funs(sd(.))
-     10.   └─lifecycle::deprecate_stop(...)
-     11.     └─lifecycle:::deprecate_stop0(msg)
-     12.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        3. │   ├─base::as.vector(t(data.frame(mrf_data) %>% dplyr::summarise_all(dplyr::funs(sd(.)))))
-        4. │   ├─base::t(data.frame(mrf_data) %>% dplyr::summarise_all(dplyr::funs(sd(.))))
-        5. │   └─data.frame(mrf_data) %>% ...
-        6. ├─dplyr::summarise_all(., dplyr::funs(sd(.)))
-        7. │ └─dplyr:::manip_all(...)
-        8. │   └─dplyr:::as_fun_list(...)
-        9. │     └─dplyr:::is_fun_list(.funs)
-       10. └─dplyr::funs(sd(.))
-       11.   └─lifecycle::deprecate_stop(...)
-       12.     └─lifecycle:::deprecate_stop0(msg)
-       13.       └─rlang::cnd_signal(...)
-      
-      [ FAIL 4 | WARN 0 | SKIP 0 | PASS 10 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘Bird_Parasite_CRF.Rmd’ using rmarkdown
-    Loading required package: glmnet
-    Loading required package: Matrix
-    Loaded glmnet 4.1-6
-    Welcome to MRFcov. If you use the package, please cite as: Clark, NJ, Wells, K and Lindberg, O. 2018. Unravelling changing interspecific interactions across environmental gradients using Markov random fields. Ecology doi: 10.1002/ecy.2221 
-    Quitting from lines 39-40 (Bird_Parasite_CRF.Rmd) 
-    Error: processing vignette 'Bird_Parasite_CRF.Rmd' failed with diagnostics:
-    `funs()` was deprecated in dplyr 0.8.0 and is now defunct.
-    Please use a list of either functions or lambdas:
-    ...
-    
-      # Using lambdas
-      list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-    --- failed re-building ‘Gaussian_Poisson_CRFs.Rmd’
-    
-    SUMMARY: processing the following files failed:
-      ‘Bird_Parasite_CRF.Rmd’ ‘Gaussian_Poisson_CRFs.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-# mrgsim.parallel
-
-<details>
-
-* Version: 0.2.1
-* GitHub: https://github.com/kylebaron/mrgsim.parallel
-* Source code: https://github.com/cran/mrgsim.parallel
-* Date/Publication: 2022-03-17 19:50:05 UTC
-* Number of recursive dependencies: 73
-
-Run `revdepcheck::cloud_details(, "mrgsim.parallel")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in documentation object 'bg_mrgsim_d.Rd':
-      ‘[dplyr:bind]{dplyr::bind_rows()}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
-    ```
-
-# MSiP
-
-<details>
-
-* Version: 1.3.7
-* GitHub: NA
-* Source code: https://github.com/cran/MSiP
-* Date/Publication: 2021-06-17 08:20:05 UTC
-* Number of recursive dependencies: 88
-
-Run `revdepcheck::cloud_details(, "MSiP")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘MSiP-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: Weighted.matrixModel
-    > ### Title: Weighted.matrixModel
-    > ### Aliases: Weighted.matrixModel
-    > 
-    > ### ** Examples
-    > 
-    > data(SampleDatInput)
-    ...
-      5. │ └─base::is.data.frame(x)
-      6. ├─base::as.data.frame(.)
-      7. ├─dplyr::summarise_each(., funs(max(.)))
-      8. │ └─dplyr::summarise_each_(tbl, funs, enquos(...))
-      9. │   └─rlang::is_character(funs)
-     10. └─dplyr::funs(max(.))
-     11.   └─lifecycle::deprecate_stop(...)
-     12.     └─lifecycle:::deprecate_stop0(msg)
-     13.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-      ...
-    --- re-building ‘MSiP_tutorial.Rmd’ using knitr
-    Quitting from lines 46-49 (MSiP_tutorial.Rmd) 
-    Error: processing vignette 'MSiP_tutorial.Rmd' failed with diagnostics:
-    `funs()` was deprecated in dplyr 0.8.0 and is now defunct.
-    Please use a list of either functions or lambdas:
-    
-      # Simple named list:
-      list(mean = mean, median = median)
-    ...
-    
-      # Using lambdas
-      list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-    --- failed re-building ‘MSiP_tutorial.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘MSiP_tutorial.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘ranger’
-      All declared Imports should be used.
-    ```
-
 # mudata2
 
 <details>
@@ -3448,7 +2239,7 @@ Run `revdepcheck::cloud_details(, "MSiP")` for more info
 * Date/Publication: 2020-03-20 20:20:03 UTC
 * Number of recursive dependencies: 100
 
-Run `revdepcheck::cloud_details(, "mudata2")` for more info
+Run `cloud_details(, "mudata2")` for more info
 
 </details>
 
@@ -3467,15 +2258,15 @@ Run `revdepcheck::cloud_details(, "mudata2")` for more info
     > 
     > ### ** Examples
     ...
-      3. │   └─mudata2:::write_mudata_common(...)
       4. │     └─mudata2::update_columns_table(md, quiet = FALSE)
       5. │       └─md$columns %>% ...
-      6. └─dplyr::left_join(...)
-      7.   └─rlang (local) `<fn>`()
-      8.     └─rlang:::check_dots(env, error, action, call)
-      9.       └─rlang:::action_dots(...)
-     10.         ├─base (local) try_dots(...)
-     11.         └─rlang (local) action(...)
+      6. ├─dplyr::left_join(...)
+      7. └─dplyr:::left_join.data.frame(...)
+      8.   └─rlang::check_dots_empty0(...)
+      9.     └─rlang::check_dots_empty(call = call)
+     10.       └─rlang:::action_dots(...)
+     11.         ├─base (local) try_dots(...)
+     12.         └─rlang (local) action(...)
     Execution halted
     ```
 
@@ -3484,17 +2275,17 @@ Run `revdepcheck::cloud_details(, "mudata2")` for more info
       Running ‘test-all.R’
     Running the tests in ‘tests/test-all.R’ failed.
     Last 13 lines of output:
-        1. ├─mudata2::write_mudata_json(md_zero, tf_json) at test-mudata-io.R:625:2
         2. │ └─mudata2:::write_mudata_json_common(...)
         3. │   └─mudata2:::write_mudata_common(...)
         4. │     └─mudata2::update_columns_table(md, quiet = FALSE)
         5. │       └─md$columns %>% ...
-        6. └─dplyr::left_join(...)
-        7.   └─rlang (local) `<fn>`()
-        8.     └─rlang:::check_dots(env, error, action, call)
-        9.       └─rlang:::action_dots(...)
-       10.         ├─base (local) try_dots(...)
-       11.         └─rlang (local) action(...)
+        6. ├─dplyr::left_join(...)
+        7. └─dplyr:::left_join.data.frame(...)
+        8.   └─rlang::check_dots_empty0(...)
+        9.     └─rlang::check_dots_empty(call = call)
+       10.       └─rlang:::action_dots(...)
+       11.         ├─base (local) try_dots(...)
+       12.         └─rlang (local) action(...)
       
       [ FAIL 19 | WARN 2 | SKIP 1 | PASS 548 ]
       Error: Test failures
@@ -3511,7 +2302,7 @@ Run `revdepcheck::cloud_details(, "mudata2")` for more info
     --- re-building ‘mudata_create.Rmd’ using rmarkdown
     Quitting from lines 204-206 (mudata_create.Rmd) 
     Error: processing vignette 'mudata_create.Rmd' failed with diagnostics:
-    Arguments in `...` must be used.
+    `...` must be empty.
     ✖ Problematic argument:
     • prefix = c(".x", ".y")
     --- failed re-building ‘mudata_create.Rmd’
@@ -3541,7 +2332,7 @@ Run `revdepcheck::cloud_details(, "mudata2")` for more info
 * Date/Publication: 2021-11-04 16:50:02 UTC
 * Number of recursive dependencies: 68
 
-Run `revdepcheck::cloud_details(, "multicolor")` for more info
+Run `cloud_details(, "multicolor")` for more info
 
 </details>
 
@@ -3587,7 +2378,7 @@ Run `revdepcheck::cloud_details(, "multicolor")` for more info
 * Date/Publication: 2021-05-14 10:20:02 UTC
 * Number of recursive dependencies: 177
 
-Run `revdepcheck::cloud_details(, "naniar")` for more info
+Run `cloud_details(, "naniar")` for more info
 
 </details>
 
@@ -3596,94 +2387,68 @@ Run `revdepcheck::cloud_details(, "naniar")` for more info
 *   checking re-building of vignette outputs ... WARNING
     ```
     Error(s) in re-building vignettes:
+      ...
     --- re-building ‘exploring-imputed-values.Rmd’ using rmarkdown
-    Quitting from lines 125-129 (exploring-imputed-values.Rmd) 
-    Error: processing vignette 'exploring-imputed-values.Rmd' failed with diagnostics:
-    `funs()` was deprecated in dplyr 0.8.0 and is now defunct.
-    Please use a list of either functions or lambdas:
+    --- finished re-building ‘exploring-imputed-values.Rmd’
     
-      # Simple named list:
-      list(mean = mean, median = median)
+    --- re-building ‘getting-started-w-naniar.Rmd’ using rmarkdown
+    --- finished re-building ‘getting-started-w-naniar.Rmd’
     
+    --- re-building ‘naniar-visualisation.Rmd’ using rmarkdown
+    --- finished re-building ‘naniar-visualisation.Rmd’
     ...
     --- failed re-building ‘replace-with-na.Rmd’
     
     --- re-building ‘special-missing-values.Rmd’ using rmarkdown
     --- finished re-building ‘special-missing-values.Rmd’
     
-    SUMMARY: processing the following files failed:
-      ‘exploring-imputed-values.Rmd’ ‘replace-with-na.Rmd’
+    SUMMARY: processing the following file failed:
+      ‘replace-with-na.Rmd’
     
     Error: Vignette re-building failed.
     Execution halted
     ```
 
-# ncappc
+# ndi
 
 <details>
 
-* Version: 0.3.0
-* GitHub: NA
-* Source code: https://github.com/cran/ncappc
-* Date/Publication: 2018-08-24 20:30:03 UTC
-* Number of recursive dependencies: 91
+* Version: 0.1.3
+* GitHub: https://github.com/idblr/ndi
+* Source code: https://github.com/cran/ndi
+* Date/Publication: 2022-12-01 15:20:02 UTC
+* Number of recursive dependencies: 110
 
-Run `revdepcheck::cloud_details(, "ncappc")` for more info
+Run `cloud_details(, "ndi")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking tests ... ERROR
+*   checking examples ... ERROR
     ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Backtrace:
-          ▆
-       1. ├─out$ncaOutput %>% tibble::as_tibble() %>% ... at test-ncappc.R:404:2
-       2. ├─dplyr::mutate_all(., dplyr::funs(as.numeric(as.character(.))))
-       3. │ └─dplyr:::manip_all(...)
-       4. │   └─dplyr:::as_fun_list(...)
-       5. │     └─dplyr:::is_fun_list(.funs)
-       6. └─dplyr::funs(as.numeric(as.character(.)))
-       7.   └─lifecycle::deprecate_stop(...)
-       8.     └─lifecycle:::deprecate_stop0(msg)
-       9.       └─rlang::cnd_signal(...)
-      
-      [ FAIL 6 | WARN 1 | SKIP 0 | PASS 5 ]
-      Error: Test failures
-      Execution halted
+    Running examples in ‘ndi-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: powell_wiley
+    > ### Title: Neighborhood Deprivation Index based on Andrews et al. (2020)
+    > ###   and Slotman et al. (2022)
+    > ### Aliases: powell_wiley
+    > 
+    > ### ** Examples
+    > 
+    ...
+        ▆
+     1. └─ndi::powell_wiley(df = DCtracts2020[, -c(3:10)])
+     2.   ├─dplyr::left_join(...)
+     3.   └─dplyr:::left_join.data.frame(...)
+     4.     └─rlang::check_dots_empty0(...)
+     5.       └─rlang::check_dots_empty(call = call)
+     6.         └─rlang:::action_dots(...)
+     7.           ├─base (local) try_dots(...)
+     8.           └─rlang (local) action(...)
+    Execution halted
     ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘bookdown’
-      All declared Imports should be used.
-    ```
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
-    ```
-
-# NHSRplotthedots
-
-<details>
-
-* Version: 0.1.0
-* GitHub: NA
-* Source code: https://github.com/cran/NHSRplotthedots
-* Date/Publication: 2021-11-03 20:20:10 UTC
-* Number of recursive dependencies: 89
-
-Run `revdepcheck::cloud_details(, "NHSRplotthedots")` for more info
-
-</details>
-
-## Newly broken
 
 *   checking tests ... ERROR
     ```
@@ -3691,30 +2456,21 @@ Run `revdepcheck::cloud_details(, "NHSRplotthedots")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-       16. │         ├─glue::glue("group {id}: {label}", label = group_labels_details(group))
-       17. │         │ └─glue::glue_data(...)
-       18. │         └─dplyr:::group_labels_details(group)
-       19. │           └─dplyr:::map_chr(keys, pillar::format_glimpse)
-       20. │             └─dplyr:::.rlang_purrr_map_mold(.x, .f, character(1), ...)
-       21. │               └─base::vapply(.x, .f, .mold, ..., USE.NAMES = FALSE)
-       22. └─glue (local) `<fn>`("label")
-       23.   ├─.transformer(expr, env) %||% .null
-       24.   └─glue (local) .transformer(expr, env)
-       25.     └─base::eval(parse(text = text, keep.source = FALSE), envir)
-       26.       └─base::eval(parse(text = text, keep.source = FALSE), envir)
+        3. │   ├─testthat (local) .capture(...)
+        4. │   │ └─base::withCallingHandlers(...)
+        5. │   └─rlang::eval_bare(quo_get_expr(.quo), quo_get_env(.quo))
+        6. └─ndi::powell_wiley(df = DCtracts2020[, -c(3:10)])
+        7.   ├─dplyr::left_join(...)
+        8.   └─dplyr:::left_join.data.frame(...)
+        9.     └─rlang::check_dots_empty0(...)
+       10.       └─rlang::check_dots_empty(call = call)
+       11.         └─rlang:::action_dots(...)
+       12.           ├─base (local) try_dots(...)
+       13.           └─rlang (local) action(...)
       
-      [ FAIL 1 | WARN 730 | SKIP 2 | PASS 432 ]
+      [ FAIL 1 | WARN 0 | SKIP 13 | PASS 22 ]
       Error: Test failures
       Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘NHSRdatasets’ ‘grid’ ‘utils’
-      All declared Imports should be used.
     ```
 
 # NobBS
@@ -3727,7 +2483,7 @@ Run `revdepcheck::cloud_details(, "NHSRplotthedots")` for more info
 * Date/Publication: 2020-03-03 10:40:02 UTC
 * Number of recursive dependencies: 19
 
-Run `revdepcheck::cloud_details(, "NobBS")` for more info
+Run `cloud_details(, "NobBS")` for more info
 
 </details>
 
@@ -3768,7 +2524,7 @@ Run `revdepcheck::cloud_details(, "NobBS")` for more info
 * Date/Publication: 2022-10-01 07:00:02 UTC
 * Number of recursive dependencies: 67
 
-Run `revdepcheck::cloud_details(, "nonmemica")` for more info
+Run `cloud_details(, "nonmemica")` for more info
 
 </details>
 
@@ -3809,7 +2565,7 @@ Run `revdepcheck::cloud_details(, "nonmemica")` for more info
 * Date/Publication: 2022-10-19 18:32:36 UTC
 * Number of recursive dependencies: 71
 
-Run `revdepcheck::cloud_details(, "ontologics")` for more info
+Run `cloud_details(, "ontologics")` for more info
 
 </details>
 
@@ -3875,7 +2631,7 @@ Run `revdepcheck::cloud_details(, "ontologics")` for more info
 * Date/Publication: 2022-08-06 08:50:02 UTC
 * Number of recursive dependencies: 123
 
-Run `revdepcheck::cloud_details(, "overviewR")` for more info
+Run `cloud_details(, "overviewR")` for more info
 
 </details>
 
@@ -3886,17 +2642,17 @@ Run `revdepcheck::cloud_details(, "overviewR")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      • by.x = !!dat1_id
-      • by.y = !!dat2_id
+      • all = TRUE
       Backtrace:
           ▆
        1. └─overviewR::overview_overlap(...) at test-check_output.R:320:2
-       2.   └─dplyr::full_join(...)
-       3.     └─rlang (local) `<fn>`()
-       4.       └─rlang:::check_dots(env, error, action, call)
-       5.         └─rlang:::action_dots(...)
-       6.           ├─base (local) try_dots(...)
-       7.           └─rlang (local) action(...)
+       2.   ├─dplyr::full_join(...)
+       3.   └─dplyr:::full_join.data.frame(...)
+       4.     └─rlang::check_dots_empty0(...)
+       5.       └─rlang::check_dots_empty(call = call)
+       6.         └─rlang:::action_dots(...)
+       7.           ├─base (local) try_dots(...)
+       8.           └─rlang (local) action(...)
       
       [ FAIL 1 | WARN 1 | SKIP 4 | PASS 52 ]
       Error: Test failures
@@ -3906,89 +2662,23 @@ Run `revdepcheck::cloud_details(, "overviewR")` for more info
 *   checking re-building of vignette outputs ... WARNING
     ```
     Error(s) in re-building vignettes:
+      ...
     --- re-building ‘getting-started.Rmd’ using rmarkdown
     --- finished re-building ‘getting-started.Rmd’
     
     --- re-building ‘overviewR_vignette.Rmd’ using rmarkdown
-    Loading required package: knitr
-    Loading required package: devtools
-    Loading required package: usethis
-    Loading required package: dplyr
-    
-    ...
+    Quitting from lines 446-458 (overviewR_vignette.Rmd) 
+    Error: processing vignette 'overviewR_vignette.Rmd' failed with diagnostics:
+    `...` must be empty.
     ✖ Problematic arguments:
+    ...
     • by.x = !!dat1_id
     • by.y = !!dat2_id
+    • all = TRUE
     --- failed re-building ‘overviewR_vignette.Rmd’
     
     SUMMARY: processing the following file failed:
       ‘overviewR_vignette.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-# PAC
-
-<details>
-
-* Version: 1.1.4
-* GitHub: NA
-* Source code: https://github.com/cran/PAC
-* Date/Publication: 2021-02-18 07:00:02 UTC
-* Number of recursive dependencies: 59
-
-Run `revdepcheck::cloud_details(, "PAC")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘PAC-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: aggregateData
-    > ### Title: Aggregates results from the clustering and merging step.
-    > ### Aliases: aggregateData
-    > 
-    > ### ** Examples
-    > 
-    > n = 5e3                       # number of observations
-    ...
-      2. │ └─data %>% group_by(ClusterID, SampleID) %>% ...
-      3. ├─dplyr::summarise_all(., funs(sum))
-      4. │ └─dplyr:::manip_all(...)
-      5. │   └─dplyr:::as_fun_list(...)
-      6. │     └─dplyr:::is_fun_list(.funs)
-      7. └─dplyr::funs(sum)
-      8.   └─lifecycle::deprecate_stop(...)
-      9.     └─lifecycle:::deprecate_stop0(msg)
-     10.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-      ...
-    --- re-building ‘intro.Rmd’ using rmarkdown
-    Quitting from lines 42-43 (intro.Rmd) 
-    Error: processing vignette 'intro.Rmd' failed with diagnostics:
-    `funs()` was deprecated in dplyr 0.8.0 and is now defunct.
-    Please use a list of either functions or lambdas:
-    
-      # Simple named list:
-      list(mean = mean, median = median)
-    ...
-    
-      # Using lambdas
-      list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-    --- failed re-building ‘intro.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘intro.Rmd’
     
     Error: Vignette re-building failed.
     Execution halted
@@ -4004,7 +2694,7 @@ Run `revdepcheck::cloud_details(, "PAC")` for more info
 * Date/Publication: 2021-12-17 07:40:02 UTC
 * Number of recursive dependencies: 169
 
-Run `revdepcheck::cloud_details(, "panelr")` for more info
+Run `cloud_details(, "panelr")` for more info
 
 </details>
 
@@ -4039,168 +2729,6 @@ Run `revdepcheck::cloud_details(, "panelr")` for more info
     Package unavailable to check Rd xrefs: ‘AER’
     ```
 
-# parsnip
-
-<details>
-
-* Version: 1.0.3
-* GitHub: https://github.com/tidymodels/parsnip
-* Source code: https://github.com/cran/parsnip
-* Date/Publication: 2022-11-11 07:30:02 UTC
-* Number of recursive dependencies: 134
-
-Run `revdepcheck::cloud_details(, "parsnip")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking Rd files ... WARNING
-    ```
-    prepare_Rd: Each row in `x` is expected to match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ℹ If multiple matches are expected, set `multiple = "all"` to silence this
-      warning.
-    prepare_Rd: Each row in `x` is expected to match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ℹ If multiple matches are expected, set `multiple = "all"` to silence this
-      warning.
-    prepare_Rd: Each row in `x` is expected to match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ...
-    ℹ If multiple matches are expected, set `multiple = "all"` to silence this
-      warning.
-    prepare_Rd: Each row in `x` is expected to match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ℹ If multiple matches are expected, set `multiple = "all"` to silence this
-      warning.
-    prepare_Rd: Each row in `x` is expected to match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ℹ If multiple matches are expected, set `multiple = "all"` to silence this
-      warning.
-    ```
-
-*   checking for unstated dependencies in examples ... WARNING
-    ```
-    Warning in dplyr::left_join(eng, exts, by = "engine") :
-      Each row in `x` is expected to match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ℹ If multiple matches are expected, set `multiple = "all"` to silence this
-      warning.
-    Warning in dplyr::left_join(eng, exts, by = "engine") :
-      Each row in `x` is expected to match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ℹ If multiple matches are expected, set `multiple = "all"` to silence this
-      warning.
-    ...
-    Warning in dplyr::left_join(eng, exts, by = "engine") :
-      Each row in `x` is expected to match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ℹ If multiple matches are expected, set `multiple = "all"` to silence this
-      warning.
-    Warning in dplyr::left_join(eng, exts, by = "engine") :
-      Each row in `x` is expected to match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ℹ If multiple matches are expected, set `multiple = "all"` to silence this
-      warning.
-    ```
-
-## In both
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Packages unavailable to check Rd xrefs: ‘rules’, ‘h2o’, ‘agua’, ‘baguette’, ‘ipred’, ‘dbarts’, ‘lightgbm’, ‘bonsai’, ‘mboost’, ‘mda’, ‘sda’, ‘sparsediscrim’, ‘klaR’, ‘workflows’, ‘brulee’, ‘glmnet’, ‘rstan’, ‘rstanarm’, ‘naivebayes’, ‘plsmod’, ‘pscl’, ‘aorsf’, ‘randomForest’, ‘xrf’, ‘flexsurv’, ‘broom’
-    ```
-
-# PDtoolkit
-
-<details>
-
-* Version: 1.0.0
-* GitHub: https://github.com/andrija-djurovic/PDtoolkit
-* Source code: https://github.com/cran/PDtoolkit
-* Date/Publication: 2022-11-16 12:11:37 UTC
-* Number of recursive dependencies: 67
-
-Run `revdepcheck::cloud_details(, "PDtoolkit")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘PDtoolkit-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: univariate
-    > ### Title: Univariate analysis
-    > ### Aliases: univariate
-    > 
-    > ### ** Examples
-    > 
-    > suppressMessages(library(PDtoolkit))
-    ...
-      7. ├─dplyr::ungroup(.)
-      8. ├─dplyr::summarise_at(...)
-      9. │ └─dplyr:::manip_at(...)
-     10. │   └─dplyr:::as_fun_list(...)
-     11. │     └─dplyr:::is_fun_list(.funs)
-     12. └─dplyr::funs(...)
-     13.   └─lifecycle::deprecate_stop(...)
-     14.     └─lifecycle:::deprecate_stop0(msg)
-     15.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-# phase1PRMD
-
-<details>
-
-* Version: 1.0.2
-* GitHub: NA
-* Source code: https://github.com/cran/phase1PRMD
-* Date/Publication: 2020-03-09 06:50:03 UTC
-* Number of recursive dependencies: 79
-
-Run `revdepcheck::cloud_details(, "phase1PRMD")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘phase1PRMD-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: RunPRMD
-    > ### Title: Implement a Multi-Stage Phase I Dose-Finding Design to recommend
-    > ###   dosage selection based on the data collected in the available patient
-    > ###   cohorts
-    > ### Aliases: RunPRMD
-    > 
-    > ### ** Examples
-    ...
-      9. ├─dplyr::select(., PatID, starts_with("cycle"))
-     10. ├─dplyr::mutate_at(...)
-     11. │ └─dplyr:::manip_at(...)
-     12. │   └─dplyr:::as_fun_list(...)
-     13. │     └─dplyr:::is_fun_list(.funs)
-     14. └─dplyr::funs(...)
-     15.   └─lifecycle::deprecate_stop(...)
-     16.     └─lifecycle:::deprecate_stop0(msg)
-     17.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-## In both
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘phase1RMD’
-    ```
-
 # PHEindicatormethods
 
 <details>
@@ -4211,7 +2739,7 @@ Run `revdepcheck::cloud_details(, "phase1PRMD")` for more info
 * Date/Publication: 2022-12-01 00:10:06 UTC
 * Number of recursive dependencies: 77
 
-Run `revdepcheck::cloud_details(, "PHEindicatormethods")` for more info
+Run `cloud_details(, "PHEindicatormethods")` for more info
 
 </details>
 
@@ -4249,7 +2777,7 @@ Run `revdepcheck::cloud_details(, "PHEindicatormethods")` for more info
 * Date/Publication: 2022-11-07 11:40:02 UTC
 * Number of recursive dependencies: 83
 
-Run `revdepcheck::cloud_details(, "phenofit")` for more info
+Run `cloud_details(, "phenofit")` for more info
 
 </details>
 
@@ -4305,16 +2833,14 @@ Run `revdepcheck::cloud_details(, "phenofit")` for more info
 *   checking re-building of vignette outputs ... WARNING
     ```
     Error(s) in re-building vignettes:
+      ...
     --- re-building ‘phenofit-procedures.Rmd’ using rmarkdown
+    Quitting from lines 71-110 (phenofit-procedures.Rmd) 
+    Error: processing vignette 'phenofit-procedures.Rmd' failed with diagnostics:
+    only defined on a data frame with all numeric-alike variables
+    --- failed re-building ‘phenofit-procedures.Rmd’
     
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:data.table':
-    
-        between, first, last
-    
-    The following objects are masked from 'package:stats':
-    ...
+    --- re-building ‘phenofit_CA-NS6.Rmd’ using rmarkdown
     Quitting from lines 126-140 (phenofit_CA-NS6.Rmd) 
     Error: processing vignette 'phenofit_CA-NS6.Rmd' failed with diagnostics:
     only defined on a data frame with all numeric-alike variables
@@ -4346,7 +2872,7 @@ Run `revdepcheck::cloud_details(, "phenofit")` for more info
 * Date/Publication: 2022-10-16 03:35:14 UTC
 * Number of recursive dependencies: 139
 
-Run `revdepcheck::cloud_details(, "PKNCA")` for more info
+Run `cloud_details(, "PKNCA")` for more info
 
 </details>
 
@@ -4375,56 +2901,6 @@ Run `revdepcheck::cloud_details(, "PKNCA")` for more info
       Execution halted
     ```
 
-# PPforest
-
-<details>
-
-* Version: 0.1.3
-* GitHub: https://github.com/natydasilva/PPforest
-* Source code: https://github.com/cran/PPforest
-* Date/Publication: 2022-09-09 23:32:55 UTC
-* Number of recursive dependencies: 86
-
-Run `revdepcheck::cloud_details(, "PPforest")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘PPforest-vignette.Rmd’ using rmarkdown
-    Loading required package: PPforest
-    Loading required package: dplyr
-    
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    ...
-    
-      # Using lambdas
-      list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-    --- failed re-building ‘PPforest-vignette.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘PPforest-vignette.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  8.4Mb
-      sub-directories of 1Mb or more:
-        libs   7.2Mb
-    ```
-
 # presenter
 
 <details>
@@ -4435,7 +2911,7 @@ Run `revdepcheck::cloud_details(, "PPforest")` for more info
 * Date/Publication: 2021-11-18 06:20:05 UTC
 * Number of recursive dependencies: 121
 
-Run `revdepcheck::cloud_details(, "presenter")` for more info
+Run `cloud_details(, "presenter")` for more info
 
 </details>
 
@@ -4445,14 +2921,14 @@ Run `revdepcheck::cloud_details(, "presenter")` for more info
     ```
     Error(s) in re-building vignettes:
     --- re-building ‘exportToExcel.Rmd’ using rmarkdown
+    --- finished re-building ‘exportToExcel.Rmd’
     
-    Attaching package: 'dplyr'
+    --- re-building ‘flextableAndPowerpoint.Rmd’ using rmarkdown
+    Quitting from lines 36-43 (flextableAndPowerpoint.Rmd) 
+    Error: processing vignette 'flextableAndPowerpoint.Rmd' failed with diagnostics:
+    Can't combine `x` <factor<23ef9>> and `left` <double>.
+    --- failed re-building ‘flextableAndPowerpoint.Rmd’
     
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
     ...
     --- finished re-building ‘formattedFlextable.Rmd’
     
@@ -4474,195 +2950,6 @@ Run `revdepcheck::cloud_details(, "presenter")` for more info
       All declared Imports should be used.
     ```
 
-# prevtoinc
-
-<details>
-
-* Version: 0.12.0
-* GitHub: NA
-* Source code: https://github.com/cran/prevtoinc
-* Date/Publication: 2019-06-18 13:50:04 UTC
-* Number of recursive dependencies: 70
-
-Run `revdepcheck::cloud_details(, "prevtoinc")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘prevtoinc-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: simulate_incidence_stats
-    > ### Title: Calculate theoretical values like x.los, x.loi and other
-    > ###   characteristics of the patient population
-    > ### Aliases: simulate_incidence_stats
-    > 
-    > ### ** Examples
-    > 
-    ...
-      2. │ └─... %>% dplyr::mutate_all(dplyr::funs(unlist))
-      3. ├─dplyr::mutate_all(., dplyr::funs(unlist))
-      4. │ └─dplyr:::manip_all(...)
-      5. │   └─dplyr:::as_fun_list(...)
-      6. │     └─dplyr:::is_fun_list(.funs)
-      7. └─dplyr::funs(unlist)
-      8.   └─lifecycle::deprecate_stop(...)
-      9.     └─lifecycle:::deprecate_stop0(msg)
-     10.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-      ...
-    --- re-building ‘prevtoinc_vignette.Rmd’ using rmarkdown
-    Loading required package: prevtoinc
-    Quitting from lines 170-174 (prevtoinc_vignette.Rmd) 
-    Error: processing vignette 'prevtoinc_vignette.Rmd' failed with diagnostics:
-    `funs()` was deprecated in dplyr 0.8.0 and is now defunct.
-    Please use a list of either functions or lambdas:
-    
-      # Simple named list:
-    ...
-    
-      # Using lambdas
-      list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-    --- failed re-building ‘prevtoinc_vignette.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘prevtoinc_vignette.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-## In both
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
-    ```
-
-# prozor
-
-<details>
-
-* Version: 0.3.1
-* GitHub: https://github.com/protviz/prozor
-* Source code: https://github.com/cran/prozor
-* Date/Publication: 2021-12-07 16:20:02 UTC
-* Number of recursive dependencies: 62
-
-Run `revdepcheck::cloud_details(, "prozor")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘prozor-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: annotatePeptides
-    > ### Title: Annotate peptides with protein ids
-    > ### Aliases: annotatePeptides
-    > 
-    > ### ** Examples
-    > 
-    > 
-    ...
-     1. └─prozor::annotatePeptides(upeptide[seq_len(20)], resCan)
-     2.   ├─dplyr::mutate_at(pepinfo, peptide, dplyr::funs(as.character))
-     3.   │ └─dplyr:::manip_at(...)
-     4.   │   └─dplyr:::as_fun_list(...)
-     5.   │     └─dplyr:::is_fun_list(.funs)
-     6.   └─dplyr::funs(as.character)
-     7.     └─lifecycle::deprecate_stop(...)
-     8.       └─lifecycle:::deprecate_stop0(msg)
-     9.         └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘CreatingDecoyDB.Rmd’ using rmarkdown
-    --- finished re-building ‘CreatingDecoyDB.Rmd’
-    
-    --- re-building ‘PeptideAnnotationwithProzor.Rmd’ using rmarkdown
-    Rows: 5000 Columns: 12
-    ── Column specification ────────────────────────────────────────────────────────
-    Delimiter: "\t"
-    chr  (2): peptideSeq, peptideModSeq
-    dbl (10): RefSpectraId, numPeaks, precursorCharge, precursorMZ, retentionTim...
-    ...
-    --- finished re-building ‘TargetDecoyFDR_Example.Rmd’
-    
-    --- re-building ‘cdsw.Rmd’ using rmarkdown
-    --- finished re-building ‘cdsw.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘PeptideAnnotationwithProzor.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-# psychonetrics
-
-<details>
-
-* Version: 0.10
-* GitHub: https://github.com/SachaEpskamp/psychonetrics
-* Source code: https://github.com/cran/psychonetrics
-* Date/Publication: 2021-10-25 21:30:02 UTC
-* Number of recursive dependencies: 139
-
-Run `revdepcheck::cloud_details(, "psychonetrics")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘psychonetrics-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: CIplot
-    > ### Title: Plot Analytic Confidence Intervals
-    > ### Aliases: CIplot
-    > 
-    > ### ** Examples
-    > 
-    > ### Example from ?ggm ###
-    ...
-      4. │     └─data %>% dplyr::group_by(.data[[idvar]]) %>% ...
-      5. ├─dplyr::summarise_at(., funs(mean(., na.rm = TRUE)), .vars = vars)
-      6. │ └─dplyr:::manip_at(...)
-      7. │   └─dplyr:::as_fun_list(...)
-      8. │     └─dplyr:::is_fun_list(.funs)
-      9. └─dplyr::funs(mean(., na.rm = TRUE))
-     10.   └─lifecycle::deprecate_stop(...)
-     11.     └─lifecycle:::deprecate_stop0(msg)
-     12.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is 101.0Mb
-      sub-directories of 1Mb or more:
-        libs  99.9Mb
-    ```
-
 # PVplr
 
 <details>
@@ -4673,7 +2960,7 @@ Run `revdepcheck::cloud_details(, "psychonetrics")` for more info
 * Date/Publication: 2022-05-13 21:10:02 UTC
 * Number of recursive dependencies: 91
 
-Run `revdepcheck::cloud_details(, "PVplr")` for more info
+Run `cloud_details(, "PVplr")` for more info
 
 </details>
 
@@ -4714,7 +3001,7 @@ Run `revdepcheck::cloud_details(, "PVplr")` for more info
 * Date/Publication: 2022-01-31 16:30:08 UTC
 * Number of recursive dependencies: 135
 
-Run `revdepcheck::cloud_details(, "questionr")` for more info
+Run `cloud_details(, "questionr")` for more info
 
 </details>
 
@@ -4759,7 +3046,7 @@ Run `revdepcheck::cloud_details(, "questionr")` for more info
 * Date/Publication: 2022-11-03 16:50:02 UTC
 * Number of recursive dependencies: 76
 
-Run `revdepcheck::cloud_details(, "r2dii.analysis")` for more info
+Run `cloud_details(, "r2dii.analysis")` for more info
 
 </details>
 
@@ -4783,7 +3070,7 @@ Run `revdepcheck::cloud_details(, "r2dii.analysis")` for more info
         `actual`: 0.5 0.5
       `expected`: 0.1 0.9
       
-      [ FAIL 1 | WARN 79 | SKIP 4 | PASS 268 ]
+      [ FAIL 1 | WARN 80 | SKIP 4 | PASS 268 ]
       Error: Test failures
       Execution halted
     ```
@@ -4798,7 +3085,7 @@ Run `revdepcheck::cloud_details(, "r2dii.analysis")` for more info
 * Date/Publication: 2022-09-22 15:10:02 UTC
 * Number of recursive dependencies: 130
 
-Run `revdepcheck::cloud_details(, "rabhit")` for more info
+Run `cloud_details(, "rabhit")` for more info
 
 </details>
 
@@ -4852,98 +3139,49 @@ ERROR: lazy loading failed for package ‘rabhit’
 
 
 ```
-# randomForestExplainer
+# recipes
 
 <details>
 
-* Version: 0.10.1
-* GitHub: https://github.com/ModelOriented/randomForestExplainer
-* Source code: https://github.com/cran/randomForestExplainer
-* Date/Publication: 2020-07-11 20:30:02 UTC
-* Number of recursive dependencies: 89
+* Version: 1.0.3
+* GitHub: https://github.com/tidymodels/recipes
+* Source code: https://github.com/cran/recipes
+* Date/Publication: 2022-11-09 16:50:02 UTC
+* Number of recursive dependencies: 134
 
-Run `revdepcheck::cloud_details(, "randomForestExplainer")` for more info
+Run `cloud_details(, "recipes")` for more info
 
 </details>
 
 ## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘randomForestExplainer-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: min_depth_interactions
-    > ### Title: Calculate mean conditional minimal depth
-    > ### Aliases: min_depth_interactions
-    > 
-    > ### ** Examples
-    > 
-    > forest <- randomForest::randomForest(Species ~ ., data = iris, ntree = 100)
-    ...
-      5. ├─base::as.data.frame(.)
-      6. ├─dplyr::summarize_at(., vars, funs(max(., na.rm = TRUE)))
-      7. │ └─dplyr:::manip_at(...)
-      8. │   └─dplyr:::as_fun_list(...)
-      9. │     └─dplyr:::is_fun_list(.funs)
-     10. └─dplyr::funs(max(., na.rm = TRUE))
-     11.   └─lifecycle::deprecate_stop(...)
-     12.     └─lifecycle:::deprecate_stop0(msg)
-     13.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
 
 *   checking tests ... ERROR
     ```
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-        4. │   └─randomForestExplainer:::min_depth_interactions_values_ranger(...)
-        5. │     └─... %>% as.data.frame()
-        6. ├─base::as.data.frame(.)
-        7. ├─dplyr::summarize_at(., vars, funs(max(., na.rm = TRUE)))
-        8. │ └─dplyr:::manip_at(...)
-        9. │   └─dplyr:::as_fun_list(...)
-       10. │     └─dplyr:::is_fun_list(.funs)
-       11. └─dplyr::funs(max(., na.rm = TRUE))
-       12.   └─lifecycle::deprecate_stop(...)
-       13.     └─lifecycle:::deprecate_stop0(msg)
-       14.       └─rlang::cnd_signal(...)
+                         - "setosa    "     [1]             
+                         - "setosa    "     [2]             
+                         - "setosa    "     [3]             
+                         - "setosa    "     [4]             
+                         - "setosa    "     [5]             
+                         - "setosa    "     [6]             
+                         - "setosa    "     [7]             
+                         - "setosa    "     [8]             
+                         - "setosa    "     [9]             
+                         - "setosa    "     [10]            
+      ... ...              ...              and 140 more ...
       
-      [ FAIL 12 | WARN 5 | SKIP 0 | PASS 49 ]
+      [ FAIL 3 | WARN 31 | SKIP 401 | PASS 1889 ]
       Error: Test failures
       Execution halted
     ```
 
 ## In both
 
-*   checking LazyData ... NOTE
+*   checking Rd cross-references ... NOTE
     ```
-      'LazyData' is specified without a 'data' directory
-    ```
-
-# RKorAPClient
-
-<details>
-
-* Version: 0.7.5
-* GitHub: https://github.com/KorAP/RKorAPClient
-* Source code: https://github.com/cran/RKorAPClient
-* Date/Publication: 2022-09-07 18:40:09 UTC
-* Number of recursive dependencies: 119
-
-Run `revdepcheck::cloud_details(, "RKorAPClient")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in documentation object 'reexports.Rd':
-      ‘[dplyr:bind]{bind_cols}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
+    Packages unavailable to check Rd xrefs: ‘fastICA’, ‘dimRed’
     ```
 
 # RNeXML
@@ -4956,7 +3194,7 @@ Run `revdepcheck::cloud_details(, "RKorAPClient")` for more info
 * Date/Publication: 2022-10-19 22:27:55 UTC
 * Number of recursive dependencies: 139
 
-Run `revdepcheck::cloud_details(, "RNeXML")` for more info
+Run `cloud_details(, "RNeXML")` for more info
 
 </details>
 
@@ -4995,7 +3233,7 @@ Run `revdepcheck::cloud_details(, "RNeXML")` for more info
 * Date/Publication: 2021-07-20 09:00:02 UTC
 * Number of recursive dependencies: 111
 
-Run `revdepcheck::cloud_details(, "romic")` for more info
+Run `cloud_details(, "romic")` for more info
 
 </details>
 
@@ -5023,169 +3261,6 @@ Run `revdepcheck::cloud_details(, "romic")` for more info
       Execution halted
     ```
 
-# rsample
-
-<details>
-
-* Version: 1.1.1
-* GitHub: https://github.com/tidymodels/rsample
-* Source code: https://github.com/cran/rsample
-* Date/Publication: 2022-12-07 21:00:02 UTC
-* Number of recursive dependencies: 112
-
-Run `revdepcheck::cloud_details(, "rsample")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking for code/documentation mismatches ... WARNING
-    ```
-    Warning in dplyr::left_join(data_ind, freq_table, by = c(..group = "key")) :
-      Each row in `x` is expected to match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ℹ If multiple matches are expected, set `multiple = "all"` to silence this
-      warning.
-    Warning in dplyr::left_join(data_ind, freq_table, by = c(..group = "key")) :
-      Each row in `x` is expected to match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ℹ If multiple matches are expected, set `multiple = "all"` to silence this
-      warning.
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Warning in dplyr::left_join(data_ind, freq_table, by = c(..group = "key")) :
-      Each row in `x` is expected to match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ℹ If multiple matches are expected, set `multiple = "all"` to silence this
-      warning.
-    Warning in dplyr::left_join(data_ind, freq_table, by = c(..group = "key")) :
-      Each row in `x` is expected to match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ℹ If multiple matches are expected, set `multiple = "all"` to silence this
-      warning.
-    ```
-
-*   checking foreign function calls ... NOTE
-    ```
-    Warning in dplyr::left_join(data_ind, freq_table, by = c(..group = "key")) :
-      Each row in `x` is expected to match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ℹ If multiple matches are expected, set `multiple = "all"` to silence this
-      warning.
-    Warning in dplyr::left_join(data_ind, freq_table, by = c(..group = "key")) :
-      Each row in `x` is expected to match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ℹ If multiple matches are expected, set `multiple = "all"` to silence this
-      warning.
-    See chapter ‘System and foreign language interfaces’ in the ‘Writing R
-    Extensions’ manual.
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    Warning in dplyr::left_join(data_ind, freq_table, by = c(..group = "key")) :
-      Each row in `x` is expected to match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ℹ If multiple matches are expected, set `multiple = "all"` to silence this
-      warning.
-    Warning in dplyr::left_join(data_ind, freq_table, by = c(..group = "key")) :
-      Each row in `x` is expected to match at most 1 row in `y`.
-    ℹ Row 1 of `x` matches multiple rows.
-    ℹ If multiple matches are expected, set `multiple = "all"` to silence this
-      warning.
-    ```
-
-# ruler
-
-<details>
-
-* Version: 0.2.4
-* GitHub: https://github.com/echasnovski/ruler
-* Source code: https://github.com/cran/ruler
-* Date/Publication: 2020-11-25 08:00:03 UTC
-* Number of recursive dependencies: 64
-
-Run `revdepcheck::cloud_details(, "ruler")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘design-and-format.Rmd’ using rmarkdown
-    --- finished re-building ‘design-and-format.Rmd’
-    
-    --- re-building ‘rule-packs.Rmd’ using rmarkdown
-    Quitting from lines 109-115 (rule-packs.Rmd) 
-    Error: processing vignette 'rule-packs.Rmd' failed with diagnostics:
-    `funs()` was deprecated in dplyr 0.8.0 and is now defunct.
-    Please use a list of either functions or lambdas:
-    
-    ...
-    --- failed re-building ‘rule-packs.Rmd’
-    
-    --- re-building ‘validation.Rmd’ using rmarkdown
-    --- finished re-building ‘validation.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘rule-packs.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-## In both
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
-    ```
-
-# salesforcer
-
-<details>
-
-* Version: 1.0.1
-* GitHub: https://github.com/StevenMMortimer/salesforcer
-* Source code: https://github.com/cran/salesforcer
-* Date/Publication: 2022-03-01 21:50:02 UTC
-* Number of recursive dependencies: 99
-
-Run `revdepcheck::cloud_details(, "salesforcer")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in documentation object 'format_report_row.Rd':
-      ‘[dplyr:bind]{bind_rows}’
-    
-    Missing link or links in documentation object 'parse_report_detail_rows.Rd':
-      ‘[dplyr:bind]{bind_rows}’
-    
-    Missing link or links in documentation object 'sf_execute_report.Rd':
-      ‘[dplyr:bind]{bind_rows}’
-    
-    Missing link or links in documentation object 'sf_get_report_instance_results.Rd':
-    ...
-    Missing link or links in documentation object 'sf_query_result_bulk_v2.Rd':
-      ‘[dplyr:bind]{bind_rows}’
-    
-    Missing link or links in documentation object 'sf_run_bulk_query.Rd':
-      ‘[dplyr:bind]{bind_rows}’
-    
-    Missing link or links in documentation object 'sf_run_report.Rd':
-      ‘[dplyr:bind]{bind_rows}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
-    ```
-
 # seecolor
 
 <details>
@@ -5196,7 +3271,7 @@ Run `revdepcheck::cloud_details(, "salesforcer")` for more info
 * Date/Publication: 2020-12-07 17:40:03 UTC
 * Number of recursive dependencies: 65
 
-Run `revdepcheck::cloud_details(, "seecolor")` for more info
+Run `cloud_details(, "seecolor")` for more info
 
 </details>
 
@@ -5258,113 +3333,6 @@ Run `revdepcheck::cloud_details(, "seecolor")` for more info
       'LazyData' is specified without a 'data' directory
     ```
 
-# sf
-
-<details>
-
-* Version: 1.0-9
-* GitHub: https://github.com/r-spatial/sf
-* Source code: https://github.com/cran/sf
-* Date/Publication: 2022-11-08 14:20:02 UTC
-* Number of recursive dependencies: 157
-
-Run `revdepcheck::cloud_details(, "sf")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in documentation object 'bind.Rd':
-      ‘[dplyr:bind]{bind_cols}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
-    ```
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is 25.5Mb
-      sub-directories of 1Mb or more:
-        doc      1.7Mb
-        libs    19.1Mb
-        sqlite   1.5Mb
-    ```
-
-# sfc
-
-<details>
-
-* Version: 0.1.0
-* GitHub: https://github.com/ctfysh/sfc
-* Source code: https://github.com/cran/sfc
-* Date/Publication: 2016-08-25 10:01:01
-* Number of recursive dependencies: 27
-
-Run `revdepcheck::cloud_details(, "sfc")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘sfc-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: sfc
-    > ### Title: Substance Flow Computation
-    > ### Aliases: sfc
-    > 
-    > ### ** Examples
-    > 
-    > library(sfc)
-    ...
-     1. ├─sfc::sfc(data, model, sample.size = 100, fileEncoding = "UTF-8")
-     2. │ └─sfc:::impute_data(data)
-     3. │   └─... %>% mutate_each(funs(as.character(.)))
-     4. ├─dplyr::mutate_each(., funs(as.character(.)))
-     5. │ └─rlang::is_character(funs)
-     6. └─dplyr::funs(as.character(.))
-     7.   └─lifecycle::deprecate_stop(...)
-     8.     └─lifecycle:::deprecate_stop0(msg)
-     9.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-## In both
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
-    ```
-
-# sftime
-
-<details>
-
-* Version: 0.2-0
-* GitHub: NA
-* Source code: https://github.com/cran/sftime
-* Date/Publication: 2022-03-17 08:50:01 UTC
-* Number of recursive dependencies: 78
-
-Run `revdepcheck::cloud_details(, "sftime")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in documentation object 'bind.Rd':
-      ‘[dplyr:bind]{bind_cols}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
-    ```
-
 # simplevis
 
 <details>
@@ -5375,7 +3343,7 @@ Run `revdepcheck::cloud_details(, "sftime")` for more info
 * Date/Publication: 2022-08-05 14:00:02 UTC
 * Number of recursive dependencies: 135
 
-Run `revdepcheck::cloud_details(, "simplevis")` for more info
+Run `cloud_details(, "simplevis")` for more info
 
 </details>
 
@@ -5384,16 +3352,8 @@ Run `revdepcheck::cloud_details(, "simplevis")` for more info
 *   checking re-building of vignette outputs ... WARNING
     ```
     Error(s) in re-building vignettes:
+      ...
     --- re-building ‘simplevis.Rmd’ using rmarkdown
-    
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
-    ...
     Quitting from lines 412-437 (simplevis.Rmd) 
     Error: processing vignette 'simplevis.Rmd' failed with diagnostics:
     'names' attribute [9] must be the same length as the vector [3]
@@ -5401,99 +3361,6 @@ Run `revdepcheck::cloud_details(, "simplevis")` for more info
     
     SUMMARY: processing the following file failed:
       ‘simplevis.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-# sjmisc
-
-<details>
-
-* Version: 2.8.9
-* GitHub: https://github.com/strengejacke/sjmisc
-* Source code: https://github.com/cran/sjmisc
-* Date/Publication: 2021-12-03 10:40:02 UTC
-* Number of recursive dependencies: 106
-
-Run `revdepcheck::cloud_details(, "sjmisc")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘sjmisc-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: descr
-    > ### Title: Basic descriptive statistics
-    > ### Aliases: descr
-    > 
-    > ### ** Examples
-    > 
-    > data(efc)
-    ...
-      7. ├─base::as.data.frame(.)
-      8. ├─dplyr::summarise_all(...)
-      9. │ └─dplyr:::manip_all(...)
-     10. │   └─dplyr:::as_fun_list(...)
-     11. │     └─dplyr:::is_fun_list(.funs)
-     12. └─dplyr::funs(...)
-     13.   └─lifecycle::deprecate_stop(...)
-     14.     └─lifecycle:::deprecate_stop0(msg)
-     15.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in documentation object 'add_columns.Rd':
-      ‘[dplyr:bind]{dplyr::bind_cols()}’
-    
-    Missing link or links in documentation object 'add_rows.Rd':
-      ‘[dplyr:bind]{dplyr::bind_rows()}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
-    ```
-
-# sjPlot
-
-<details>
-
-* Version: 2.8.12
-* GitHub: https://github.com/strengejacke/sjPlot
-* Source code: https://github.com/cran/sjPlot
-* Date/Publication: 2022-11-19 22:20:02 UTC
-* Number of recursive dependencies: 186
-
-Run `revdepcheck::cloud_details(, "sjPlot")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘blackwhitefigures.Rmd’ using rmarkdown
-    
-    Attaching package: 'ggplot2'
-    
-    The following object is masked from 'package:sjlabelled':
-    
-        as_label
-    
-    Data were 'prettified'. Consider using `terms="barthel [all]"` to get
-    ...
-    
-    --- re-building ‘table_css.Rmd’ using rmarkdown
-    Install package "strengejacke" from GitHub (`devtools::install_github("strengejacke/strengejacke")`) to load all sj-packages at once!
-    --- finished re-building ‘table_css.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘sjtitemanalysis.Rmd’
     
     Error: Vignette re-building failed.
     Execution halted
@@ -5509,7 +3376,7 @@ Run `revdepcheck::cloud_details(, "sjPlot")` for more info
 * Date/Publication: 2022-02-01 16:00:02 UTC
 * Number of recursive dependencies: 96
 
-Run `revdepcheck::cloud_details(, "skater")` for more info
+Run `cloud_details(, "skater")` for more info
 
 </details>
 
@@ -5569,7 +3436,7 @@ Run `revdepcheck::cloud_details(, "skater")` for more info
     --- re-building ‘basic_usage.Rmd’ using rmarkdown
     Quitting from lines 48-50 (basic_usage.Rmd) 
     Error: processing vignette 'basic_usage.Rmd' failed with diagnostics:
-    ℹ In argument: `..1 = dplyr::across(c(dadid, momid), dplyr::na_if, 0)`.
+    ℹ In argument: `dplyr::across(c(dadid, momid), dplyr::na_if, 0)`.
     Caused by error in `across()`:
     ! Can't compute column `dadid`.
     Caused by error in `fn()`:
@@ -5593,7 +3460,7 @@ Run `revdepcheck::cloud_details(, "skater")` for more info
 * Date/Publication: 2022-04-15 02:20:02 UTC
 * Number of recursive dependencies: 82
 
-Run `revdepcheck::cloud_details(, "skimr")` for more info
+Run `cloud_details(, "skimr")` for more info
 
 </details>
 
@@ -5604,7 +3471,7 @@ Run `revdepcheck::cloud_details(, "skimr")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      ℹ In argument `..1 = dplyr::across(variable_names, mangled_skimmers$funs)`.
+      ℹ In argument: `dplyr::across(variable_names, mangled_skimmers$funs)`.
       Caused by warning:
       ! Using an external vector in selections was deprecated in tidyselect 1.1.0.
       ℹ Please use `all_of()` or `any_of()` instead.
@@ -5621,216 +3488,6 @@ Run `revdepcheck::cloud_details(, "skimr")` for more info
       Execution halted
     ```
 
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in documentation object 'skimr-vctrs.Rd':
-      ‘[dplyr:bind]{dplyr::bind_rows()}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
-    ```
-
-# skynet
-
-<details>
-
-* Version: 1.4.3
-* GitHub: https://github.com/ropensci/skynet
-* Source code: https://github.com/cran/skynet
-* Date/Publication: 2022-06-17 13:00:02 UTC
-* Number of recursive dependencies: 104
-
-Run `revdepcheck::cloud_details(, "skynet")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘skynet-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: summary.skynet
-    > ### Title: Displays a summary of a skynet object
-    > ### Aliases: summary.skynet
-    > 
-    > ### ** Examples
-    > 
-    > net <- make_net_dir(OD_Sample)
-    ...
-      3. │   └─... %>% mutate_all(funs(ifelse(is.na(.), 0, .)))
-      4. ├─dplyr::mutate_all(., funs(ifelse(is.na(.), 0, .)))
-      5. │ └─dplyr:::manip_all(...)
-      6. │   └─dplyr:::as_fun_list(...)
-      7. │     └─dplyr:::is_fun_list(.funs)
-      8. └─dplyr::funs(ifelse(is.na(.), 0, .))
-      9.   └─lifecycle::deprecate_stop(...)
-     10.     └─lifecycle:::deprecate_stop0(msg)
-     11.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        2. ├─skynet::make_net_dir(OD_Sample)
-        3. │ └─skynet::node_stats(x)
-        4. │   └─... %>% mutate_all(funs(ifelse(is.na(.), 0, .)))
-        5. ├─dplyr::mutate_all(., funs(ifelse(is.na(.), 0, .)))
-        6. │ └─dplyr:::manip_all(...)
-        7. │   └─dplyr:::as_fun_list(...)
-        8. │     └─dplyr:::is_fun_list(.funs)
-        9. └─dplyr::funs(ifelse(is.na(.), 0, .))
-       10.   └─lifecycle::deprecate_stop(...)
-       11.     └─lifecycle:::deprecate_stop0(msg)
-       12.       └─rlang::cnd_signal(...)
-      
-      [ FAIL 14 | WARN 0 | SKIP 4 | PASS 20 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘skynet.Rmd’ using rmarkdown
-    
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
-    ...
-    
-      # Using lambdas
-      list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-    --- failed re-building ‘skynet.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘skynet.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘maps’
-      All declared Imports should be used.
-    ```
-
-# slackr
-
-<details>
-
-* Version: 3.2.0
-* GitHub: https://github.com/mrkaye97/slackr
-* Source code: https://github.com/cran/slackr
-* Date/Publication: 2021-09-20 15:10:02 UTC
-* Number of recursive dependencies: 89
-
-Run `revdepcheck::cloud_details(, "slackr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in documentation object 'with_pagination.Rd':
-      ‘[dplyr:bind]{dplyr::bind_rows()}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘methods’
-      All declared Imports should be used.
-    ```
-
-# soiltestcorr
-
-<details>
-
-* Version: 2.1.2
-* GitHub: https://github.com/adriancorrendo/soiltestcorr
-* Source code: https://github.com/cran/soiltestcorr
-* Date/Publication: 2022-06-12 15:50:02 UTC
-* Number of recursive dependencies: 97
-
-Run `revdepcheck::cloud_details(, "soiltestcorr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in documentation object 'linear_plateau.Rd':
-      ‘[dplyr]{bind}’
-    
-    Missing link or links in documentation object 'mitscherlich.Rd':
-      ‘[dplyr]{bind}’
-    
-    Missing link or links in documentation object 'mod_alcc.Rd':
-      ‘[dplyr]{bind}’
-    
-    Missing link or links in documentation object 'quadratic_plateau.Rd':
-      ‘[dplyr]{bind}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
-    ```
-
-# staRdom
-
-<details>
-
-* Version: 1.1.25
-* GitHub: https://github.com/MatthiasPucher/staRdom
-* Source code: https://github.com/cran/staRdom
-* Date/Publication: 2022-03-21 15:50:02 UTC
-* Number of recursive dependencies: 155
-
-Run `revdepcheck::cloud_details(, "staRdom")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘Basic_analysis_of_DOM_samples.Rmd’ using rmarkdown
-    
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
-    ...
-    
-      # Using lambdas
-      list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-    --- failed re-building ‘PARAFAC_analysis_of_EEM.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘PARAFAC_analysis_of_EEM.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
 # starschemar
 
 <details>
@@ -5841,7 +3498,7 @@ Run `revdepcheck::cloud_details(, "staRdom")` for more info
 * Date/Publication: 2020-09-25 21:30:02 UTC
 * Number of recursive dependencies: 66
 
-Run `revdepcheck::cloud_details(, "starschemar")` for more info
+Run `cloud_details(, "starschemar")` for more info
 
 </details>
 
@@ -5920,105 +3577,6 @@ Run `revdepcheck::cloud_details(, "starschemar")` for more info
       All declared Imports should be used.
     ```
 
-# statVisual
-
-<details>
-
-* Version: 1.2.1
-* GitHub: NA
-* Source code: https://github.com/cran/statVisual
-* Date/Publication: 2020-02-20 19:30:02 UTC
-* Number of recursive dependencies: 184
-
-Run `revdepcheck::cloud_details(, "statVisual")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘statVisual-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: BiAxisErrBar
-    > ### Title: Compare Patterns of Two Outcomes in One Scatter Plot
-    > ### Aliases: BiAxisErrBar
-    > ### Keywords: method
-    > 
-    > ### ** Examples
-    > 
-    ...
-      6. │ └─base::is.data.frame(x)
-      7. ├─dplyr::summarise_at(...)
-      8. │ └─dplyr:::manip_at(...)
-      9. │   └─dplyr:::as_fun_list(...)
-     10. │     └─dplyr:::is_fun_list(.funs)
-     11. └─dplyr::funs(mean, seFunc)
-     12.   └─lifecycle::deprecate_stop(...)
-     13.     └─lifecycle:::deprecate_stop0(msg)
-     14.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘statVisual.Rmd’ using rmarkdown
-    Loading required package: BiocGenerics
-    
-    Attaching package: 'BiocGenerics'
-    
-    The following objects are masked from 'package:stats':
-    
-        IQR, mad, sd, var, xtabs
-    
-    ...
-    
-      # Using lambdas
-      list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-    --- failed re-building ‘statVisual.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘statVisual.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘gbm’ ‘ggfortify’ ‘tibble’ ‘tidyverse’
-      All declared Imports should be used.
-    ```
-
-# styler
-
-<details>
-
-* Version: 1.8.1
-* GitHub: https://github.com/r-lib/styler
-* Source code: https://github.com/cran/styler
-* Date/Publication: 2022-11-07 23:40:02 UTC
-* Number of recursive dependencies: 65
-
-Run `revdepcheck::cloud_details(, "styler")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in documentation object 'combine_children.Rd':
-      ‘[dplyr:bind]{dplyr::bind_rows()}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
-    ```
-
 # suddengains
 
 <details>
@@ -6029,7 +3587,7 @@ Run `revdepcheck::cloud_details(, "styler")` for more info
 * Date/Publication: 2020-05-22 22:40:03 UTC
 * Number of recursive dependencies: 91
 
-Run `revdepcheck::cloud_details(, "suddengains")` for more info
+Run `cloud_details(, "suddengains")` for more info
 
 </details>
 
@@ -6083,71 +3641,6 @@ Run `revdepcheck::cloud_details(, "suddengains")` for more info
     Execution halted
     ```
 
-# SVMMaj
-
-<details>
-
-* Version: 0.2.9.1
-* GitHub: NA
-* Source code: https://github.com/cran/SVMMaj
-* Date/Publication: 2022-05-23 08:02:18 UTC
-* Number of recursive dependencies: 57
-
-Run `revdepcheck::cloud_details(, "SVMMaj")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘test_all.R’
-    Running the tests in ‘tests/test_all.R’ failed.
-    Last 13 lines of output:
-      
-      ══ Skipped tests ═══════════════════════════════════════════════════════════════
-      • empty test (4)
-      
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Failure ('test_svmmaj.R:55'): Simple nonlinear kernels & decomposition methods ──
-      max(abs(model.svd$q - model.chol$q)) is not strictly less than 1e-04. Difference: 8.16e-05
-      Backtrace:
-          ▆
-       1. └─testthat::expect_less_than(...) at test_svmmaj.R:55:4
-       2.   └─testthat::expect_lt(...)
-      
-      [ FAIL 1 | WARN 2 | SKIP 4 | PASS 13 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-## In both
-
-*   checking re-building of vignette outputs ... NOTE
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘paper.Rnw’ using Sweave
-    Warning: The dot-dot notation (`..count..`) was deprecated in ggplot2 3.4.0.
-    ℹ Please use `after_stat(count)` instead.
-    ℹ The deprecated feature was likely used in the SVMMaj package.
-      Please report the issue to the authors.
-    Scale for y is already present.
-    Adding another scale for y, which will replace the existing scale.
-    Scale for y is already present.
-    Adding another scale for y, which will replace the existing scale.
-    ...
-    l.55 \RequirePackage
-                        [T1]{fontenc}^^M
-    !  ==> Fatal error occurred, no output PDF file produced!
-    --- failed re-building ‘paper.Rnw’
-    
-    SUMMARY: processing the following file failed:
-      ‘paper.Rnw’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
 # SwimmeR
 
 <details>
@@ -6158,7 +3651,7 @@ Run `revdepcheck::cloud_details(, "SVMMaj")` for more info
 * Date/Publication: 2021-11-05 17:50:02 UTC
 * Number of recursive dependencies: 74
 
-Run `revdepcheck::cloud_details(, "SwimmeR")` for more info
+Run `cloud_details(, "SwimmeR")` for more info
 
 </details>
 
@@ -6216,14 +3709,6 @@ Run `revdepcheck::cloud_details(, "SwimmeR")` for more info
     Error(s) in re-building vignettes:
       ...
     --- re-building ‘SwimmeR.Rmd’ using rmarkdown
-    
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    ...
     Quitting from lines 60-66 (SwimmeR.Rmd) 
     Error: processing vignette 'SwimmeR.Rmd' failed with diagnostics:
     Can't convert `y` <character> to match type of `x` <data.frame>.
@@ -6236,44 +3721,6 @@ Run `revdepcheck::cloud_details(, "SwimmeR")` for more info
     Execution halted
     ```
 
-# table.express
-
-<details>
-
-* Version: 0.4.1
-* GitHub: https://github.com/asardaes/table.express
-* Source code: https://github.com/cran/table.express
-* Date/Publication: 2022-08-24 22:10:02 UTC
-* Number of recursive dependencies: 54
-
-Run `revdepcheck::cloud_details(, "table.express")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        5. ├─dplyr::mutate(., num_purchases = length(unique(payment_id)))
-        6. ├─dplyr::group_by(., name)
-        7. ├─table.express::chain(.)
-        8. ├─dplyr::mutate(., purchase_time = NULL)
-        9. ├─table.express::chain(.)
-       10. └─dplyr::left_join(...)
-       11.   └─rlang (local) `<fn>`()
-       12.     └─rlang:::check_dots(env, error, action, call)
-       13.       └─rlang:::action_dots(...)
-       14.         ├─base (local) try_dots(...)
-       15.         └─rlang (local) action(...)
-      
-      [ FAIL 11 | WARN 0 | SKIP 1 | PASS 591 ]
-      Error: Test failures
-      Execution halted
-    ```
-
 # tabshiftr
 
 <details>
@@ -6284,7 +3731,7 @@ Run `revdepcheck::cloud_details(, "table.express")` for more info
 * Date/Publication: 2022-09-28 23:20:02 UTC
 * Number of recursive dependencies: 75
 
-Run `revdepcheck::cloud_details(, "tabshiftr")` for more info
+Run `cloud_details(, "tabshiftr")` for more info
 
 </details>
 
@@ -6312,45 +3759,49 @@ Run `revdepcheck::cloud_details(, "tabshiftr")` for more info
       Execution halted
     ```
 
-# tabularaster
+# textrecipes
 
 <details>
 
-* Version: 0.7.1
-* GitHub: https://github.com/hypertidy/tabularaster
-* Source code: https://github.com/cran/tabularaster
-* Date/Publication: 2022-10-18 03:00:02 UTC
-* Number of recursive dependencies: 84
+* Version: 1.0.1
+* GitHub: https://github.com/tidymodels/textrecipes
+* Source code: https://github.com/cran/textrecipes
+* Date/Publication: 2022-10-06 03:20:02 UTC
+* Number of recursive dependencies: 124
 
-Run `revdepcheck::cloud_details(, "tabularaster")` for more info
+Run `cloud_details(, "textrecipes")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking re-building of vignette outputs ... WARNING
+*   checking tests ... ERROR
     ```
-    Error(s) in re-building vignettes:
-      ...
-    --- re-building ‘cell-index-raster-abstraction.Rmd’ using rmarkdown
-    --- finished re-building ‘cell-index-raster-abstraction.Rmd’
-    
-    --- re-building ‘tabularaster-usage.Rmd’ using rmarkdown
-    Quitting from lines 176-187 (tabularaster-usage.Rmd) 
-    Error: processing vignette 'tabularaster-usage.Rmd' failed with diagnostics:
-    `funs()` was deprecated in dplyr 0.8.0 and is now defunct.
-    Please use a list of either functions or lambdas:
-    ...
-    
-      # Using lambdas
-      list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-    --- failed re-building ‘tabularaster-usage.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘tabularaster-usage.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
+      Running ‘testthat.R’
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      ══ Skipped tests ═══════════════════════════════════════════════════════════════
+      • On CRAN (88)
+      
+      ══ Failed tests ════════════════════════════════════════════════════════════════
+      ── Error ('test-hashing_dummy.R:42'): hashing collapsed multiple factors ───────
+      <dplyr:::mutate_error/rlang_error/error/condition>
+      Error in `dplyr::mutate(., `:=`(!!new_name, paste0(dplyr::c_across(dplyr::all_of(hash_cols)), 
+          collapse = "")))`: i In argument: `contract_value_band_sponsor_code = paste0(dplyr::c_across(dplyr::all_of(hash_cols)), collapse = "")`.
+      i In row 1.
+      Caused by error in `dplyr::c_across()`:
+      ! Can't rename variables in this context.
+      
+      [ FAIL 1 | WARN 0 | SKIP 88 | PASS 344 ]
+      Error: Test failures
+      Execution halted
+    ```
+
+## In both
+
+*   checking data for non-ASCII characters ... NOTE
+    ```
+      Note: found 4 marked UTF-8 strings
     ```
 
 # tfrmt
@@ -6363,7 +3814,7 @@ Run `revdepcheck::cloud_details(, "tabularaster")` for more info
 * Date/Publication: 2022-12-06 17:00:02 UTC
 * Number of recursive dependencies: 90
 
-Run `revdepcheck::cloud_details(, "tfrmt")` for more info
+Run `cloud_details(, "tfrmt")` for more info
 
 </details>
 
@@ -6386,57 +3837,9 @@ Run `revdepcheck::cloud_details(, "tfrmt")` for more info
        48. └─dplyr (local) `<fn>`(`<rlng_rrr>`)
        49.   └─rlang::abort(message, class = error_class, parent = parent, call = error_call)
       
-      [ FAIL 32 | WARN 226 | SKIP 0 | PASS 405 ]
+      [ FAIL 32 | WARN 227 | SKIP 0 | PASS 405 ]
       Error: Test failures
       Execution halted
-    ```
-
-# tidyboot
-
-<details>
-
-* Version: 0.1.1
-* GitHub: https://github.com/langcog/tidyboot
-* Source code: https://github.com/cran/tidyboot
-* Date/Publication: 2018-03-14 04:13:49 UTC
-* Number of recursive dependencies: 40
-
-Run `revdepcheck::cloud_details(, "tidyboot")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘tidyboot-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: tidyboot.data.frame
-    > ### Title: Non-parametric bootstrap for data frames
-    > ### Aliases: tidyboot.data.frame
-    > 
-    > ### ** Examples
-    > 
-    > ## Mean and 95% confidence interval for 500 samples from two different normal distributions
-    ...
-      5. │   └─x %>% ...
-      6. ├─dplyr::summarise_at(., vars(mean), funs(ci_upper, mean, ci_lower))
-      7. │ └─dplyr:::manip_at(...)
-      8. │   └─dplyr:::as_fun_list(...)
-      9. │     └─dplyr:::is_fun_list(.funs)
-     10. └─dplyr::funs(ci_upper, mean, ci_lower)
-     11.   └─lifecycle::deprecate_stop(...)
-     12.     └─lifecycle:::deprecate_stop0(msg)
-     13.       └─rlang::cnd_signal(...)
-    Execution halted
-    ```
-
-## In both
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
     ```
 
 # tidyCDISC
@@ -6449,7 +3852,7 @@ Run `revdepcheck::cloud_details(, "tidyboot")` for more info
 * Date/Publication: 2022-08-30 13:30:02 UTC
 * Number of recursive dependencies: 148
 
-Run `revdepcheck::cloud_details(, "tidyCDISC")` for more info
+Run `cloud_details(, "tidyCDISC")` for more info
 
 </details>
 
@@ -6488,7 +3891,7 @@ Run `revdepcheck::cloud_details(, "tidyCDISC")` for more info
 * Date/Publication: 2022-08-22 07:20:02 UTC
 * Number of recursive dependencies: 76
 
-Run `revdepcheck::cloud_details(, "tidygraph")` for more info
+Run `cloud_details(, "tidygraph")` for more info
 
 </details>
 
@@ -6516,17 +3919,6 @@ Run `revdepcheck::cloud_details(, "tidygraph")` for more info
       Execution halted
     ```
 
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in documentation object 'bind_graphs.Rd':
-      ‘[dplyr:bind]{dplyr::bind_rows()}’
-    
-    Missing link or links in documentation object 'graph_join.Rd':
-      ‘[dplyr:bind]{dplyr::bind_rows()}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
-    ```
-
 # tidyplus
 
 <details>
@@ -6537,7 +3929,7 @@ Run `revdepcheck::cloud_details(, "tidygraph")` for more info
 * Date/Publication: 2022-08-29 09:20:02 UTC
 * Number of recursive dependencies: 71
 
-Run `revdepcheck::cloud_details(, "tidyplus")` for more info
+Run `cloud_details(, "tidyplus")` for more info
 
 </details>
 
@@ -6575,7 +3967,7 @@ Run `revdepcheck::cloud_details(, "tidyplus")` for more info
 * Date/Publication: 2021-12-02 20:10:02 UTC
 * Number of recursive dependencies: 66
 
-Run `revdepcheck::cloud_details(, "tidyquery")` for more info
+Run `cloud_details(, "tidyquery")` for more info
 
 </details>
 
@@ -6586,57 +3978,19 @@ Run `revdepcheck::cloud_details(, "tidyquery")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-        3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
         4. ├─tidyquery::query("SELECT name, list_price FROM games g LEFT ANTI JOIN inventory i ON g.name = i.game")
         5. │ └─tidyquery:::query_(data, sql, TRUE)
         6. │   └─tidyquery:::join(tree)
         7. │     └─out$data %>% ...
-        8. └─dplyr (local) join_function(...)
-        9.   └─rlang (local) `<fn>`()
-       10.     └─rlang:::check_dots(env, error, action, call)
-       11.       └─rlang:::action_dots(...)
-       12.         ├─base (local) try_dots(...)
-       13.         └─rlang (local) action(...)
+        8. ├─dplyr (local) join_function(...)
+        9. └─dplyr:::anti_join.data.frame(...)
+       10.   └─rlang::check_dots_empty0(...)
+       11.     └─rlang::check_dots_empty(call = call)
+       12.       └─rlang:::action_dots(...)
+       13.         ├─base (local) try_dots(...)
+       14.         └─rlang (local) action(...)
       
       [ FAIL 2 | WARN 9 | SKIP 2 | PASS 217 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-# tidyterra
-
-<details>
-
-* Version: 0.3.1
-* GitHub: https://github.com/dieghernan/tidyterra
-* Source code: https://github.com/cran/tidyterra
-* Date/Publication: 2022-11-09 12:40:02 UTC
-* Number of recursive dependencies: 128
-
-Run `revdepcheck::cloud_details(, "tidyterra")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Error in `slice_sample(r, n = 1, replace = FALSE, .keep_extent = TRUE)`: `...` must be empty.
-      x Problematic argument:
-      * .keep_extent = TRUE
-      Backtrace:
-          ▆
-       1. └─dplyr::slice_sample(r, n = 1, replace = FALSE, .keep_extent = TRUE) at test-slice-SpatRaster.R:426:2
-       2.   └─dplyr:::check_slice_dots(..., n = n, prop = prop)
-       3.     └─rlang::check_dots_empty(call = error_call)
-       4.       └─rlang:::action_dots(...)
-       5.         ├─base (local) try_dots(...)
-       6.         └─rlang (local) action(...)
-      
-      [ FAIL 5 | WARN 0 | SKIP 18 | PASS 911 ]
       Error: Test failures
       Execution halted
     ```
@@ -6651,7 +4005,7 @@ Run `revdepcheck::cloud_details(, "tidyterra")` for more info
 * Date/Publication: 2022-08-26 08:00:02 UTC
 * Number of recursive dependencies: 106
 
-Run `revdepcheck::cloud_details(, "tidytransit")` for more info
+Run `cloud_details(, "tidytransit")` for more info
 
 </details>
 
@@ -6705,7 +4059,7 @@ Run `revdepcheck::cloud_details(, "tidytransit")` for more info
 * Date/Publication: 2022-09-26 10:10:02 UTC
 * Number of recursive dependencies: 61
 
-Run `revdepcheck::cloud_details(, "tidytree")` for more info
+Run `cloud_details(, "tidytree")` for more info
 
 </details>
 
@@ -6716,57 +4070,82 @@ Run `revdepcheck::cloud_details(, "tidytree")` for more info
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-           ▆
         1. ├─tree %<>% left_join(dat, by = "node") at test-dplyr-methods.R:125:4
         2. ├─dplyr::left_join(., dat, by = "node")
         3. ├─tidytree:::left_join.treedata(., dat, by = "node")
         4. │ └─dat %>% ...
-        5. └─dplyr::left_join(., y, by = by, copy = copy, suffix = suffix, !!!dots)
-        6.   └─rlang (local) `<fn>`()
-        7.     └─rlang:::check_dots(env, error, action, call)
-        8.       └─rlang:::action_dots(...)
-        9.         ├─base (local) try_dots(...)
-       10.         └─rlang (local) action(...)
+        5. ├─dplyr::left_join(...)
+        6. └─dplyr:::left_join.data.frame(., y, by = by, copy = copy, suffix = suffix, !!!dots)
+        7.   └─rlang::check_dots_empty0(...)
+        8.     └─rlang::check_dots_empty(call = call)
+        9.       └─rlang:::action_dots(...)
+       10.         ├─base (local) try_dots(...)
+       11.         └─rlang (local) action(...)
       
       [ FAIL 2 | WARN 2 | SKIP 0 | PASS 62 ]
       Error: Test failures
       Execution halted
     ```
 
-# Tplyr
+# topr
 
 <details>
 
-* Version: 1.0.2
-* GitHub: https://github.com/atorus-research/Tplyr
-* Source code: https://github.com/cran/Tplyr
-* Date/Publication: 2022-11-07 23:30:02 UTC
-* Number of recursive dependencies: 118
+* Version: 1.1.1
+* GitHub: https://github.com/GenuityScience/topr
+* Source code: https://github.com/cran/topr
+* Date/Publication: 2022-11-04 13:10:02 UTC
+* Number of recursive dependencies: 77
 
-Run `revdepcheck::cloud_details(, "Tplyr")` for more info
+Run `cloud_details(, "topr")` for more info
 
 </details>
 
 ## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘topr-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: annotate_with_nearest_gene
+    > ### Title: Get the nearest gene for one or more snps
+    > ### Aliases: annotate_with_nearest_gene
+    > 
+    > ### ** Examples
+    > 
+    > variants <-get_lead_snps(CD_UKBB)
+    ...
+      8. ├─dplyr::rename_with(., ~"REF", matches(c("^ref$"), ignore.case = TRUE))
+      9. ├─dplyr::rename_with(., ~"BETA", matches(c("^beta$"), ignore.case = TRUE))
+     10. ├─dplyr::rename_with(...)
+     11. ├─dplyr::rename_with(...)
+     12. ├─dplyr::rename_with(...)
+     13. ├─dplyr::rename_with(...)
+     14. └─dplyr:::rename_with.data.frame(., ~"ID", matches(c("^rsid$", "^rsname$", "^snp$"), ignore.case = TRUE))
+     15.   └─cli::cli_abort("{.arg .fn} must return a vector of length {length(sel)}, not {length(new)}.")
+     16.     └─rlang::abort(...)
+    Execution halted
+    ```
 
 *   checking tests ... ERROR
     ```
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      > library(Tplyr)
-      > 
-      > test_check("Tplyr")
-      [ FAIL 1 | WARN 2 | SKIP 70 | PASS 505 ]
+        6. ├─topr:::dat_chr_check(.)
+        7. ├─dplyr::rename_with(., ~"ALT", matches(c("^alt$"), ignore.case = TRUE))
+        8. ├─dplyr::rename_with(., ~"REF", matches(c("^ref$"), ignore.case = TRUE))
+        9. ├─dplyr::rename_with(., ~"BETA", matches(c("^beta$"), ignore.case = TRUE))
+       10. ├─dplyr::rename_with(...)
+       11. ├─dplyr::rename_with(...)
+       12. ├─dplyr::rename_with(...)
+       13. ├─dplyr::rename_with(...)
+       14. └─dplyr:::rename_with.data.frame(., ~"ID", matches(c("^rsid$", "^rsname$", "^snp$"), ignore.case = TRUE))
+       15.   └─cli::cli_abort("{.arg .fn} must return a vector of length {length(sel)}, not {length(new)}.")
+       16.     └─rlang::abort(...)
       
-      ══ Skipped tests ═══════════════════════════════════════════════════════════════
-      • On CRAN (70)
-      
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Failure ('test-count.R:163'): Count layers are summarized without errors and warnings ──
-      `build(t19)` produced warnings.
-      
-      [ FAIL 1 | WARN 2 | SKIP 70 | PASS 505 ]
+      [ FAIL 6 | WARN 0 | SKIP 4 | PASS 5 ]
       Error: Test failures
       Execution halted
     ```
@@ -6781,7 +4160,7 @@ Run `revdepcheck::cloud_details(, "Tplyr")` for more info
 * Date/Publication: 2022-11-18 23:50:02 UTC
 * Number of recursive dependencies: 100
 
-Run `revdepcheck::cloud_details(, "track2KBA")` for more info
+Run `cloud_details(, "track2KBA")` for more info
 
 </details>
 
@@ -6834,30 +4213,6 @@ Run `revdepcheck::cloud_details(, "track2KBA")` for more info
       Execution halted
     ```
 
-# tsibble
-
-<details>
-
-* Version: 1.1.3
-* GitHub: https://github.com/tidyverts/tsibble
-* Source code: https://github.com/cran/tsibble
-* Date/Publication: 2022-10-09 03:20:02 UTC
-* Number of recursive dependencies: 96
-
-Run `revdepcheck::cloud_details(, "tsibble")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in documentation object 'tsibble-tidyverse.Rd':
-      ‘[dplyr:bind]{dplyr::bind_rows()}’ ‘[dplyr:bind]{dplyr::bind_cols()}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
-    ```
-
 # unpivotr
 
 <details>
@@ -6868,7 +4223,7 @@ Run `revdepcheck::cloud_details(, "tsibble")` for more info
 * Date/Publication: 2021-08-22 04:10:02 UTC
 * Number of recursive dependencies: 88
 
-Run `revdepcheck::cloud_details(, "unpivotr")` for more info
+Run `cloud_details(, "unpivotr")` for more info
 
 </details>
 
@@ -6946,17 +4301,17 @@ Run `revdepcheck::cloud_details(, "unpivotr")` for more info
     Execution halted
     ```
 
-# useful
+# wcep
 
 <details>
 
-* Version: 1.2.6
-* GitHub: https://github.com/jaredlander/useful
-* Source code: https://github.com/cran/useful
-* Date/Publication: 2018-10-08 16:00:03 UTC
-* Number of recursive dependencies: 63
+* Version: 1.0.0
+* GitHub: NA
+* Source code: https://github.com/cran/wcep
+* Date/Publication: 2020-11-13 11:40:02 UTC
+* Number of recursive dependencies: 54
 
-Run `revdepcheck::cloud_details(, "useful")` for more info
+Run `cloud_details(, "wcep")` for more info
 
 </details>
 
@@ -6964,49 +4319,27 @@ Run `revdepcheck::cloud_details(, "useful")` for more info
 
 *   checking examples ... ERROR
     ```
-    Running examples in ‘useful-Ex.R’ failed
+    Running examples in ‘wcep-Ex.R’ failed
     The error most likely occurred in:
     
-    > ### Name: constant
-    > ### Title: constant
-    > ### Aliases: constant
+    > ### Name: wcep
+    > ### Title: Analysis of weighted composite endpoints
+    > ### Aliases: wcep
     > 
     > ### ** Examples
     > 
-    > constant(4)(1:10)
+    > data(toyexample)
     ...
-      2. └─useful::simple.impute.data.frame(theDF, constant(4))
-      3.   ├─dplyr::mutate_at(...)
-      4.   │ └─dplyr:::manip_at(...)
-      5.   │   └─dplyr:::as_fun_list(...)
-      6.   │     └─dplyr:::is_fun_list(.funs)
-      7.   └─dplyr::funs(simple.impute(., fun = fun))
-      8.     └─lifecycle::deprecate_stop(...)
-      9.       └─lifecycle:::deprecate_stop0(msg)
-     10.         └─rlang::cnd_signal(...)
+     1. └─wcep::wcep(toyexample, EW)
+     2.   └─wcep:::wcep_core(x[, 1:3], EW, alpha)
+     3.     ├─dplyr::left_join(ew_h0, ew1, by = "event", stringsAsFactors = FALSE)
+     4.     └─dplyr:::left_join.data.frame(ew_h0, ew1, by = "event", stringsAsFactors = FALSE)
+     5.       └─rlang::check_dots_empty0(...)
+     6.         └─rlang::check_dots_empty(call = call)
+     7.           └─rlang:::action_dots(...)
+     8.             ├─base (local) try_dots(...)
+     9.             └─rlang (local) action(...)
     Execution halted
-    ```
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
-        4. ├─useful::simple.impute(theDF)
-        5. └─useful::simple.impute.data.frame(theDF)
-        6.   ├─dplyr::mutate_at(...)
-        7.   │ └─dplyr:::manip_at(...)
-        8.   │   └─dplyr:::as_fun_list(...)
-        9.   │     └─dplyr:::is_fun_list(.funs)
-       10.   └─dplyr::funs(simple.impute(., fun = fun))
-       11.     └─lifecycle::deprecate_stop(...)
-       12.       └─lifecycle:::deprecate_stop0(msg)
-       13.         └─rlang::cnd_signal(...)
-      
-      [ FAIL 1 | WARN 9 | SKIP 2 | PASS 742 ]
-      Error: Test failures
-      Execution halted
     ```
 
 # wrangle
@@ -7019,7 +4352,7 @@ Run `revdepcheck::cloud_details(, "useful")` for more info
 * Date/Publication: 2022-01-03 18:20:02 UTC
 * Number of recursive dependencies: 20
 
-Run `revdepcheck::cloud_details(, "wrangle")` for more info
+Run `cloud_details(, "wrangle")` for more info
 
 </details>
 
@@ -7047,47 +4380,6 @@ Run `revdepcheck::cloud_details(, "wrangle")` for more info
      19.                       └─vctrs:::stop_incompatible(...)
      20.                         └─vctrs:::stop_vctrs(...)
      21.                           └─rlang::abort(message, class = c(class, "vctrs_error"), ..., call = vctrs_error_call(call))
-    Execution halted
-    ```
-
-# xray
-
-<details>
-
-* Version: 0.2
-* GitHub: https://github.com/sicarul/xray
-* Source code: https://github.com/cran/xray
-* Date/Publication: 2017-12-08 05:15:59 UTC
-* Number of recursive dependencies: 37
-
-Run `revdepcheck::cloud_details(, "xray")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘xray-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: anomalies
-    > ### Title: Analyze a dataset and search for anomalies
-    > ### Aliases: anomalies
-    > 
-    > ### ** Examples
-    > 
-    > 
-    ...
-     14. │       └─dplyr:::tbl_vars_dispatch(x)
-     15. ├─dplyr::mutate_all(...)
-     16. │ └─dplyr:::manip_all(...)
-     17. │   └─dplyr:::as_fun_list(...)
-     18. │     └─dplyr:::is_fun_list(.funs)
-     19. └─dplyr::funs(...)
-     20.   └─lifecycle::deprecate_stop(...)
-     21.     └─lifecycle:::deprecate_stop0(msg)
-     22.       └─rlang::cnd_signal(...)
     Execution halted
     ```
 
