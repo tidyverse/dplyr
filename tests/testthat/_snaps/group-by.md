@@ -1,3 +1,11 @@
+# can't rename while partially `ungroup()`-ing (#6606)
+
+    Code
+      ungroup(gdf, g2 = g)
+    Condition
+      Error in `ungroup()`:
+      ! Can't rename variables in this context.
+
 # select(group_by(.)) implicitely adds grouping variables (#170)
 
     Code
