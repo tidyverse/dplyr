@@ -198,7 +198,6 @@ inner_join <- function(x,
                        suffix = c(".x", ".y"),
                        ...,
                        keep = NULL) {
-  check_dots_used()
   UseMethod("inner_join")
 }
 
@@ -214,6 +213,7 @@ inner_join.data.frame <- function(x,
                                   na_matches = c("na", "never"),
                                   multiple = NULL,
                                   unmatched = "drop") {
+  check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -238,7 +238,6 @@ left_join <- function(x,
                       suffix = c(".x", ".y"),
                       ...,
                       keep = NULL) {
-  check_dots_used()
   UseMethod("left_join")
 }
 
@@ -254,6 +253,7 @@ left_join.data.frame <- function(x,
                                  na_matches = c("na", "never"),
                                  multiple = NULL,
                                  unmatched = "drop") {
+  check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -278,7 +278,6 @@ right_join <- function(x,
                        suffix = c(".x", ".y"),
                        ...,
                        keep = NULL) {
-  check_dots_used()
   UseMethod("right_join")
 }
 
@@ -294,6 +293,7 @@ right_join.data.frame <- function(x,
                                   na_matches = c("na", "never"),
                                   multiple = NULL,
                                   unmatched = "drop") {
+  check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -318,7 +318,6 @@ full_join <- function(x,
                       suffix = c(".x", ".y"),
                       ...,
                       keep = NULL) {
-  check_dots_used()
   UseMethod("full_join")
 }
 
@@ -333,6 +332,7 @@ full_join.data.frame <- function(x,
                                  keep = NULL,
                                  na_matches = c("na", "never"),
                                  multiple = NULL) {
+  check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -393,13 +393,13 @@ NULL
 #' @export
 #' @rdname filter-joins
 semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
-  check_dots_used()
   UseMethod("semi_join")
 }
 
 #' @export
 #' @rdname filter-joins
 semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never")) {
+  check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_filter(x, y, by = by, type = "semi", na_matches = na_matches, user_env = caller_env())
 }
@@ -407,13 +407,13 @@ semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches 
 #' @export
 #' @rdname filter-joins
 anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
-  check_dots_used()
   UseMethod("anti_join")
 }
 
 #' @export
 #' @rdname filter-joins
 anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never")) {
+  check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_filter(x, y, by = by, type = "anti", na_matches = na_matches, user_env = caller_env())
 }
@@ -472,7 +472,6 @@ nest_join <- function(x,
                       keep = NULL,
                       name = NULL,
                       ...) {
-  check_dots_used()
   UseMethod("nest_join")
 }
 
@@ -487,7 +486,7 @@ nest_join.data.frame <- function(x,
                                  ...,
                                  na_matches = c("na", "never"),
                                  unmatched = "drop") {
-
+  check_dots_empty0(...)
   check_keep(keep)
   na_matches <- check_na_matches(na_matches)
 

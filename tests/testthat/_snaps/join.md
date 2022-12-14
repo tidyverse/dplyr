@@ -100,65 +100,51 @@
 
     Code
       inner_join(df1, df2, on = "a")
-    Message
-      Joining with `by = join_by(a)`
     Condition
       Error in `inner_join()`:
-      ! Arguments in `...` must be used.
+      ! `...` must be empty.
       x Problematic argument:
       * on = "a"
     Code
       left_join(df1, df2, on = "a")
-    Message
-      Joining with `by = join_by(a)`
     Condition
       Error in `left_join()`:
-      ! Arguments in `...` must be used.
+      ! `...` must be empty.
       x Problematic argument:
       * on = "a"
     Code
       right_join(df1, df2, on = "a")
-    Message
-      Joining with `by = join_by(a)`
     Condition
       Error in `right_join()`:
-      ! Arguments in `...` must be used.
+      ! `...` must be empty.
       x Problematic argument:
       * on = "a"
     Code
       full_join(df1, df2, on = "a")
-    Message
-      Joining with `by = join_by(a)`
     Condition
       Error in `full_join()`:
-      ! Arguments in `...` must be used.
+      ! `...` must be empty.
       x Problematic argument:
       * on = "a"
     Code
       nest_join(df1, df2, on = "a")
-    Message
-      Joining with `by = join_by(a)`
     Condition
       Error in `nest_join()`:
-      ! Arguments in `...` must be used.
+      ! `...` must be empty.
       x Problematic argument:
       * on = "a"
     Code
       anti_join(df1, df2, on = "a")
-    Message
-      Joining with `by = join_by(a)`
     Condition
       Error in `anti_join()`:
-      ! Arguments in `...` must be used.
+      ! `...` must be empty.
       x Problematic argument:
       * on = "a"
     Code
       semi_join(df1, df2, on = "a")
-    Message
-      Joining with `by = join_by(a)`
     Condition
       Error in `semi_join()`:
-      ! Arguments in `...` must be used.
+      ! `...` must be empty.
       x Problematic argument:
       * on = "a"
 
