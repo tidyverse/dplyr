@@ -80,6 +80,15 @@ test_that("can partially `ungroup()` (#6606)", {
   expect_identical(ungroup(gdf, g1, g2), df)
 })
 
+test_that("can't rename while partially `ungroup()`-ing (#6606)", {
+  df <- tibble(g = 1:2, x = 3:4)
+  gdf <- group_by(df, g)
+
+  expect_snapshot(error = TRUE, {
+    ungroup(gdf, g2 = g)
+  })
+})
+
 test_that(".dots is soft deprecated", {
   rlang::local_options(lifecycle_verbosity = "warning")
 
