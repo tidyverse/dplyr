@@ -12,7 +12,7 @@ There are two ways to group in dplyr:
 
 -   Persistent grouping with [group_by()]
 
--   Per-operation, temporary, grouping with `.by`
+-   Per-operation grouping with `.by`
 
 This help page is dedicated to explaining where and why you might want to use the latter.
 Grouping radically affects the computation of the dplyr verb you use it with, and one of the goals of `.by` is to allow you to place that grouping specification alongside the code that actually uses it.

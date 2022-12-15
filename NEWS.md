@@ -1,6 +1,6 @@
 # dplyr (development version)
 
-* `with_groups()` is superseded in favour of `.by` (#6582)
+* `with_groups()` is superseded in favour of `.by` (#6582).
 
 * `slice()` with no inputs now returns 0 rows. This is mostly for theoretical
   consistency (#6573).
