@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `where()` is re-exported from tidyselect (#6597).
+
 * `slice()` with no inputs now returns 0 rows. This is mostly for theoretical
   consistency (#6573).
 
