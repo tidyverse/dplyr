@@ -44,8 +44,8 @@
 * `group_walk()` gains an explict `.keep` argument (#6530).
 
 * `.by` is a new experimental inline alternative to `group_by()` that supports
-  _temporary_ grouping in the following key dplyr verbs: `mutate()`,
-  `summarise()`, `filter()`, and the `slice()` family (#6528).
+  per-operation grouping for `mutate()`, `summarise()`, `filter()`, and the 
+  `slice()` family (#6528).
   
   Rather than:
   
@@ -66,9 +66,9 @@
   ```
   
   The most useful reason to do this is because grouping with `.by` is
-  _temporary_ and only affects the verb it is being applied to. An ungrouped
-  data frame went into the `summarise()` call, so an ungrouped data frame will
-  come out; with `.by`, you never need to remember to `ungroup()` afterwards.
+  _temporary_ and only affects a single operation. An ungrouped data frame went 
+  into the `summarise()` call, so an ungrouped data frame will come out; with 
+  `.by`, you never need to remember to `ungroup()` afterwards.
   
   Additionally, using `summarise()` or `slice()` with `.by` will never sort the
   results by the group key, unlike with `group_by()`. Instead, the results are
