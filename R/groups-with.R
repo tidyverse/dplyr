@@ -1,10 +1,11 @@
 #' Perform an operation with temporary groups
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
+#' `r lifecycle::badge("superseded")`
 #'
-#' This is an experimental new function that allows you to modify the grouping
-#' variables for a single operation.
+#' This was an experimental function that allows you to modify the grouping
+#' variables for a single operation; it is superseded in favour of using the
+#' `.by` argument to individual verbs.
 #'
 #' @param .data A data frame
 #' @param .groups <[`tidy-select`][dplyr_tidy_select]> One or more variables
@@ -16,22 +17,16 @@
 #' @param .f Function to apply to regrouped data.
 #'   Supports purrr-style `~` syntax
 #' @param ... Additional arguments passed on to `...`.
+#' @keywords internal
 #' @export
 #' @examples
 #' df <- tibble(g = c(1, 1, 2, 2, 3), x = runif(5))
+#'
+#' # Old
 #' df %>%
 #'   with_groups(g, mutate, x_mean = mean(x))
-#' df %>%
-#'   with_groups(g, ~ mutate(.x, x1 = first(x)))
-#'
-#' df %>%
-#'   group_by(g) %>%
-#'   with_groups(NULL, mutate, x_mean = mean(x))
-#'
-#' # NB: grouping can't be restored if you remove the grouping variables
-#' df %>%
-#'   group_by(g) %>%
-#'   with_groups(NULL, mutate, g = NULL)
+#' # New
+#' df %>% mutate(x_mean = mean(x), .by = g)
 with_groups <- function(.data, .groups, .f, ...) {
   lifecycle::signal_stage("experimental", "with_groups()")
   loc <- tidyselect::eval_select(enquo(.groups), data = tbl_ptype(.data))
