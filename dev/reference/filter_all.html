@@ -160,12 +160,12 @@ into account to determine filtered rows.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;predicate intersection&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">&lt;quosure&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> expr: <span style="color: #0000BB;">^is.na(.)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> env:  <span style="color: #0000BB;">0x55984364d780</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> env:  <span style="color: #0000BB;">0x55aed4ea3b48</span></span>
 <span class="r-in"><span><span class="fu"><a href="all_vars.html">any_vars</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;predicate union&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">&lt;quosure&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> expr: <span style="color: #0000BB;">^is.na(.)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> env:  <span style="color: #0000BB;">0x55984364d780</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> env:  <span style="color: #0000BB;">0x55aed4ea3b48</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># You can take the intersection of the replicated expressions:</span></span></span>
@@ -273,7 +273,7 @@ into account to determine filtered rows.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E     21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</span>
 <span class="r-in"><span><span class="co"># -&gt;</span></span></span>
 <span class="r-in"><span><span class="va">is_int</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">==</span> <span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="across.html">if_all</a></span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is_int</span><span class="op">)</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op">!=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="across.html">if_all</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/where.html" class="external-link">where</a></span><span class="op">(</span><span class="va">is_int</span><span class="op">)</span>, <span class="op">~</span> <span class="va">.x</span> <span class="op">!=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710     22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128       32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1</span>
