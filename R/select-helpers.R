@@ -82,3 +82,6 @@ tidyselect::any_of
 #' @importFrom tidyselect all_of
 #' @export
 tidyselect::all_of
+#' @importFrom tidyselect where
+#' @export
+tidyselect::where
