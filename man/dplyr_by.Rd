@@ -7,7 +7,7 @@
 There are two ways to group in dplyr:
 \itemize{
 \item Persistent grouping with \code{\link[=group_by]{group_by()}}
-\item Per-operation, temporary, grouping with \code{.by}
+\item Per-operation grouping with \code{.by}
 }
 
 This help page is dedicated to explaining where and why you might want to use the latter.
