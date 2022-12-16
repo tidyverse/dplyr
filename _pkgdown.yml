@@ -109,7 +109,6 @@ reference:
   - group_modify
   - group_trim
   - group_split
-  - with_groups
 
 - title: Superseded
   desc: >
@@ -123,6 +122,7 @@ reference:
   - ends_with("_at")
   - all_vars
   - vars
+  - with_groups
 
 - title: Remote tables
   contents:

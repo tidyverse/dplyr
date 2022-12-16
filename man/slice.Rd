@@ -56,7 +56,7 @@ For \verb{slice_*()}, these arguments are passed on to methods.}
 \item{.by, by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
 <\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
-temporarily group by using an inline alternative to \code{\link[=group_by]{group_by()}}. For
+group by for just this operation, functioning as an alternative to \code{\link[=group_by]{group_by()}}. For
 details and examples, see \link[=dplyr_by]{?dplyr_by}.}
 
 \item{.preserve}{Relevant when the \code{.data} input is grouped.

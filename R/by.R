@@ -5,14 +5,14 @@
 #' @param .by `r lifecycle::badge("experimental")`
 #'
 #'   <[`tidy-select`][dplyr_tidy_select]> Optionally, a selection of columns to
-#'   temporarily group by using an inline alternative to [group_by()]. For
+#'   group by for just this operation, functioning as an alternative to [group_by()]. For
 #'   details and examples, see [?dplyr_by][dplyr_by].
 #'
 #' @name args_by
 #' @keywords internal
 NULL
 
-#' Temporary grouping with `.by`
+#' Per-operation grouping with `.by`
 #'
 #' ```{r, echo = FALSE, results = "asis"}
 #' result <- rlang::with_options(
