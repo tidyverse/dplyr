@@ -1,8 +1,12 @@
 #' A general vectorised if-else
 #'
-#' This function allows you to vectorise multiple [if_else()] statements. It is
-#' an R equivalent of the SQL "searched" `CASE WHEN` statement. If no cases
-#' match, a missing value is returned unless a `.default` is supplied.
+#' @description
+#' This function allows you to vectorise multiple [if_else()] statements. Each
+#' case is evaluated sequentially and the first match for each element
+#' determines the corresponding value in the output vector. If no cases match,
+#' the `.default` is used.
+#'
+#' `case_when()` is an R equivalent of the SQL "searched" `CASE WHEN` statement.
 #'
 #' @param ... <[`dynamic-dots`][rlang::dyn-dots]> A sequence of two-sided
 #'   formulas. The left hand side (LHS) determines which values match this case.
