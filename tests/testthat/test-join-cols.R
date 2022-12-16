@@ -135,7 +135,8 @@ test_that("emits useful messages", {
   xyz <- c("x", "y", "z")
 
   # join vars errors
-  expect_snapshot(error = TRUE, join_cols(xy, xy, by = as_join_by(list(1, 2))))
+  expect_snapshot(error = TRUE, join_cols(xy, xy, by = as_join_by(list("1", y = "2"))))
+  expect_snapshot(error = TRUE, join_cols(xy, xy, by = as_join_by(list(x = "1", "2"))))
   expect_snapshot(error = TRUE, join_cols(xy, xy, by = as_join_by(c("x", NA))))
   expect_snapshot(error = TRUE, join_cols(xy, xy, by = as_join_by(c("aaa", "bbb"))))
 

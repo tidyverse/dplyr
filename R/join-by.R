@@ -324,6 +324,14 @@ as_join_by.list <- function(x, error_call = caller_env()) {
   # TODO: check lengths
   x_names <- x[["x"]]
   y_names <- x[["y"]]
+
+  if (!is_character(x_names)) {
+    abort("`by$x` must evaluate to a character vector.")
+  }
+  if (!is_character(y_names)) {
+    abort("`by$y` must evaluate to a character vector.")
+  }
+
   finalise_equi_join_by(x_names, y_names)
 }
 
