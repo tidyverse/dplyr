@@ -5,58 +5,61 @@
 #' `by` argument to any of the join functions (such as [left_join()]).
 #'
 #' # Join types
-#' `join_by()` supports four types of joins, as described below:
 #'
-#' * Equi joins
-#' * Non-equi joins
-#' * Rolling joins
-#' * Overlap joins
+#' Joins can be structured into two categories:
+#' - Equality joins
+#' - Non-equi joins, an umbrella term that contains: cross joins, inequality
+#'   joins, rolling joins, and overlap joins.
 #'
-#' ## Equi joins
+#' Equality, inequality, rolling, and overlap joins are discussed in more detail
+#' below. Cross joins are implemented through `cross_join()`.
 #'
-#' Equi joins match on equality, and are the most common type of join. To
-#' construct an equi join, supply two column names to join with separated by
-#' `==`. Alternatively, supplying a single name will be interpreted as an equi
+#' ## Equality joins
+#'
+#' Equality joins match on equality between one or more pairs of columns, and
+#' are the most common type of join. To construct an equality join using
+#' `join_by()`, supply two column names to join with separated by `==`.
+#' Alternatively, supplying a single name will be interpreted as an equality
 #' join between two columns of the same name. For example, `join_by(x)` is
 #' equivalent to `join_by(x == x)`.
 #'
-#' ## Non-equi joins
+#' ## Inequality joins
 #'
-#' Non-equi joins match on an inequality, and are common in time series analysis
-#' and genomics. To construct a non-equi join, supply two column names separated
-#' by `>`, `>=`, `<`, or `<=`.
+#' Inequality joins match on an inequality, such as `>`, `>=`, `<`, or `<=`, and
+#' are common in time series analysis and genomics. To construct an inequality
+#' join using `join_by()`, supply two column names separated by one of the above
+#' mentioned inequalities.
 #'
-#' Note that non-equi joins will match a single row in `x` to a potentially
-#' large number of rows in `y`. Be extra careful when constructing non-equi
+#' Note that inequality joins will match a single row in `x` to a potentially
+#' large number of rows in `y`. Be extra careful when constructing inequality
 #' join specifications!
 #'
 #' ## Rolling joins
 #'
-#' Rolling joins are a variant of non-equi joins that limit the results returned
-#' from a non-equi join condition. They are useful for "rolling" the closest
-#' match forward/backwards when there isn't an exact match. To construct a
-#' rolling join, wrap an inequality with `closest()`.
+#' Rolling joins are a variant of inequality joins that limit the results
+#' returned from an inequality join condition. They are useful for "rolling" the
+#' closest match forward/backwards when there isn't an exact match. To construct
+#' a rolling join, wrap an inequality with `closest()`.
 #'
 #' - `closest(expr)`
 #'
-#'   `expr` must be a binary inequality involving one of: `>`, `>=`, `<`,
-#'   or `<=`.
+#'   `expr` must be an inequality involving one of: `>`, `>=`, `<`, or `<=`.
 #'
 #'   For example, `closest(x >= y)` is interpreted as: For each value in `x`,
 #'   find the closest value in `y` that is less than or equal to that `x` value.
 #'
 #' `closest()` will always use the left-hand table (`x`) as the primary table,
 #' and the right-hand table (`y`) as the one to find the closest match in,
-#' regardless of how the binary condition is specified. For example,
+#' regardless of how the inequality is specified. For example,
 #' `closest(y$a >= x$b)` will always be interpreted as `closest(x$b <= y$a)`.
 #'
 #' ## Overlap joins
 #'
-#' Overlap joins are a special case of a non-equi join generally involving one
-#' or two columns from the left-hand table _overlapping_ a range computed from
-#' two columns from the right-hand table. There are three helpers that
-#' `join_by()` recognizes to assist with constructing overlap joins, all of
-#' which can be constructed from simpler binary expressions.
+#' Overlap joins are a special case of inequality joins involving one or two
+#' columns from the left-hand table _overlapping_ a range computed from two
+#' columns from the right-hand table. There are three helpers that `join_by()`
+#' recognizes to assist with constructing overlap joins, all of which can be
+#' constructed from simpler inequalities.
 #'
 #' - `between(x, y_lower, y_upper, ..., bounds = "[]")`
 #'
@@ -66,8 +69,8 @@
 #'
 #'   `bounds` can be one of \code{"[]"}, \code{"[)"}, \code{"(]"}, or
 #'   \code{"()"} to alter the inclusiveness of the lower and upper bounds. This
-#'   changes whether `>=` or `>` and `<=` or `<` are used to build the binary
-#'   conditions shown above.
+#'   changes whether `>=` or `>` and `<=` or `<` are used to build the
+#'   inequalities shown above.
 #'
 #'   Dots are for future extensions and must be empty.
 #'
@@ -77,8 +80,8 @@
 #'   falls completely within `[y_lower, y_upper]`. Equivalent to `x_lower >=
 #'   y_lower, x_upper <= y_upper`.
 #'
-#'   The binary conditions used to build `within()` are the same regardless of
-#'   the inclusiveness of the supplied ranges.
+#'   The inequalities used to build `within()` are the same regardless of the
+#'   inclusiveness of the supplied ranges.
 #'
 #' - `overlaps(x_lower, x_upper, y_lower, y_upper, ..., bounds = "[]")`
 #'
@@ -89,7 +92,7 @@
 #'   `bounds` can be one of \code{"[]"}, \code{"[)"}, \code{"(]"}, or
 #'   \code{"()"} to alter the inclusiveness of the lower and upper bounds.
 #'   \code{"[]"} uses `<=` and `>=`, but the 3 other options use `<` and `>`
-#'   and generate the exact same binary conditions.
+#'   and generate the exact same inequalities.
 #'
 #'   Dots are for future extensions and must be empty.
 #'
@@ -109,11 +112,12 @@
 #'
 #' @param ... Expressions specifying the join.
 #'
-#'   Each expression should consist of either a join condition or a join helper:
+#'   Each expression should consist of one of the following:
 #'
-#'   - Join conditions: `==`, `>=`, `>`, `<=`, or `<`.
-#'   - Rolling helper: `closest()`.
-#'   - Overlap helpers: `between()`, `within()`, or `overlaps()`.
+#'   - Equality condition: `==`
+#'   - Inequality conditions: `>=`, `>`, `<=`, or `<`
+#'   - Rolling helper: `closest()`
+#'   - Overlap helpers: `between()`, `within()`, or `overlaps()`
 #'
 #'   Other expressions are not supported. If you need to perform a join on
 #'   a computed variable, e.g. `join_by(sales_date - 40 >= promo_date)`,
@@ -121,8 +125,8 @@
 #'
 #'   Column names should be specified as quoted or unquoted names. By default,
 #'   the name on the left-hand side of a join condition refers to the left-hand
-#'   table, unless overridden by explicitly prefixing the column name with either
-#'   `x$` or `y$`.
+#'   table, unless overridden by explicitly prefixing the column name with
+#'   either `x$` or `y$`.
 #'
 #'   If a single column name is provided without any join conditions, it is
 #'   interpreted as if that column name was duplicated on each side of `==`,
