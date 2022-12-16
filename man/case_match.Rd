@@ -37,15 +37,32 @@ A vector with the same size as \code{.x} and the same type as the common type of
 the RHS inputs and \code{.default} (if not overridden by \code{.ptype}).
 }
 \description{
-Create a new vector based on the values of an existing vector, matching one
-or more old values to a new value using a formula based syntax:
-\code{old_values ~ new_value}. Unmatched values become \code{NA} unless \code{.default} is
-supplied.
+This function allows you to vectorise multiple \code{\link[=switch]{switch()}} statements. Each
+case is evaluated sequentially and the first match for each element
+determines the corresponding value in the output vector. If no cases match,
+the \code{.default} is used.
 
-\code{case_match()} is variant of \code{\link[=case_when]{case_when()}} that vectorises the
-idea behind \code{\link[=switch]{switch()}}, rather than \code{\link[=if_else]{if_else()}}. It's the R equivalent of
-the SQL "simple" \verb{CASE WHEN} statement that matches using values rather
-than logical expressions.
+\code{case_match()} is an R equivalent of the SQL "simple" \verb{CASE WHEN} statement.
+\subsection{Connection to \code{case_when()}}{
+
+While \code{\link[=case_when]{case_when()}} uses logical expressions on the left-hand side of the
+formula, \code{case_match()} uses values to match against \code{.x} with. The following
+two statements are roughly equivalent:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{case_when(
+  x \%in\% c("a", "b") ~ 1,
+  x \%in\% "c" ~ 2,
+  x \%in\% c("d", "e") ~ 3
+)
+
+case_match(
+  x,
+  c("a", "b") ~ 1,
+  "c" ~ 2,
+  c("d", "e") ~ 3
+)
+}\if{html}{\out{</div>}}
+}
 }
 \examples{
 x <- c("a", "b", "a", "d", "b", NA, "c", "e")
