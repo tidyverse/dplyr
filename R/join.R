@@ -66,28 +66,31 @@
 #' @param x,y A pair of data frames, data frame extensions (e.g. a tibble), or
 #'   lazy data frames (e.g. from dbplyr or dtplyr). See *Methods*, below, for
 #'   more details.
-#' @param by A character vector of variables to join by or a join specification
-#'   created with [join_by()].
+#' @param by A join specification created with [join_by()], or a character
+#'   vector of variables to join by.
 #'
 #'   If `NULL`, the default, `*_join()` will perform a natural join, using all
 #'   variables in common across `x` and `y`. A message lists the variables so
 #'   that you can check they're correct; suppress the message by supplying `by`
 #'   explicitly.
 #'
-#'   To join on different variables between `x` and `y`, use a named vector or a
-#'   [join_by()] specification. For example, `by = c("a" = "b")` and `by =
-#'   join_by(a == b)` will match `x$a` to `y$b`.
+#'   To join on different variables between `x` and `y`, use a [join_by()]
+#'   specification. For example, `join_by(a == b)` will match `x$a` to `y$b`.
 #'
-#'   To join by multiple variables, use a vector with length >1 or a [join_by()]
-#'   specification with multiple expressions. For example, `by = c("a", "b")`
-#'   and `by = join_by(a, b)` will match `x$a` to `y$a` and `x$b` to `y$b`. Use
-#'   a named vector to match different variables in `x` and `y`. For example,
-#'   `by = c("a" = "b", "c" = "d")` and `by = join_by(a == b, c == d)` will
-#'   match `x$a` to `y$b` and `x$c` to `y$d`.
+#'   To join by multiple variables, use a [join_by()] specification with
+#'   multiple expressions. For example, `join_by(a == b, c == d)` will match
+#'   `x$a` to `y$b` and `x$c` to `y$d`. If the column names are the same between
+#'   `x` and `y`, you can shorten this by listing only the variable names, like
+#'   `join_by(a, c)`.
 #'
-#'   To join on conditions other than equality, like non-equi or rolling joins,
-#'   you'll need to create a join specification with [join_by()]. See the
-#'   documentation there for details on these types of joins.
+#'   [join_by()] can also be used to perform inequality, rolling, and overlap
+#'   joins. See the documentation at [?join_by][join_by()] for details on
+#'   these types of joins.
+#'
+#'   For simple equality joins, you can alternatively specify a character vector
+#'   of variable names to join by. For example, `by = c("a", "b")` joins `x$a`
+#'   to `y$a` and `x$b` to `y$b`. If variable names differ between `x` and `y`,
+#'   use a named character vector like `by = c("x_a" = "y_a", "x_b" = "y_b")`.
 #'
 #'   To perform a cross-join, generating all combinations of `x` and `y`, see
 #'   [cross_join()].
@@ -152,15 +155,15 @@
 #' band_members %>% full_join(band_instruments)
 #'
 #' # To suppress the message about joining variables, supply `by`
-#' band_members %>% inner_join(band_instruments, by = "name")
+#' band_members %>% inner_join(band_instruments, by = join_by(name))
 #' # This is good practice in production code
 #'
-#' # Use a named `by` if the join variables have different names
-#' band_members %>% full_join(band_instruments2, by = c("name" = "artist"))
+#' # Use an equality expression if the join variables have different names
+#' band_members %>% full_join(band_instruments2, by = join_by(name == artist))
 #' # By default, the join keys from `x` and `y` are coalesced in the output; use
 #' # `keep = TRUE` to keep the join keys from both `x` and `y`
 #' band_members %>%
-#'   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
+#'   full_join(band_instruments2, by = join_by(name == artist), keep = TRUE)
 #'
 #' # If a row in `x` matches multiple rows in `y`, all the rows in `y` will be
 #' # returned once for each matching row in `x`, with a warning.
@@ -385,7 +388,7 @@ full_join.data.frame <- function(x,
 #' band_members %>% anti_join(band_instruments)
 #'
 #' # To suppress the message about joining variables, supply `by`
-#' band_members %>% semi_join(band_instruments, by = "name")
+#' band_members %>% semi_join(band_instruments, by = join_by(name))
 #' # This is good practice in production code
 #' @name filter-joins
 NULL
