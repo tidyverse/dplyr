@@ -4,7 +4,7 @@
 \alias{case_when}
 \title{A general vectorised if-else}
 \usage{
-case_when(..., .default = NA, .ptype = NULL, .size = NULL)
+case_when(..., .default = NULL, .ptype = NULL, .size = NULL)
 }
 \arguments{
 \item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> A sequence of two-sided
@@ -36,7 +36,9 @@ the result at those locations will be assigned the \code{.default} value. To
 handle missing values in the conditions differently, you must explicitly
 catch them with another condition before they fall through to the
 \code{.default}. This typically involves some variation of \code{is.na(x) ~ value}
-tailored to your usage of \code{case_when()}.}
+tailored to your usage of \code{case_when()}.
+
+If \code{NULL}, the default, a missing value will be used.}
 
 \item{.ptype}{An optional prototype declaring the desired output type. If
 supplied, this overrides the common type of the RHS inputs.}
@@ -53,7 +55,7 @@ in \code{...}.
 This function allows you to vectorise multiple \code{\link[=if_else]{if_else()}} statements. Each
 case is evaluated sequentially and the first match for each element
 determines the corresponding value in the output vector. If no cases match,
-the \code{.default} (\code{NA}) is used.
+the \code{.default} is used.
 
 \code{case_when()} is an R equivalent of the SQL "searched" \verb{CASE WHEN} statement.
 }

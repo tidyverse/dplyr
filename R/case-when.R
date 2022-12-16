@@ -4,7 +4,7 @@
 #' This function allows you to vectorise multiple [if_else()] statements. Each
 #' case is evaluated sequentially and the first match for each element
 #' determines the corresponding value in the output vector. If no cases match,
-#' the `.default` (`NA`) is used.
+#' the `.default` is used.
 #'
 #' `case_when()` is an R equivalent of the SQL "searched" `CASE WHEN` statement.
 #'
@@ -38,6 +38,8 @@
 #'   catch them with another condition before they fall through to the
 #'   `.default`. This typically involves some variation of `is.na(x) ~ value`
 #'   tailored to your usage of `case_when()`.
+#'
+#'   If `NULL`, the default, a missing value will be used.
 #' @param .ptype An optional prototype declaring the desired output type. If
 #'   supplied, this overrides the common type of the RHS inputs.
 #'
@@ -147,7 +149,7 @@
 #'   mutate(type = case_character_type(height, mass, species, robots = FALSE)) %>%
 #'   pull(type)
 case_when <- function(...,
-                      .default = NA,
+                      .default = NULL,
                       .ptype = NULL,
                       .size = NULL) {
   args <- list2(...)
