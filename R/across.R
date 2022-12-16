@@ -176,6 +176,9 @@ across <- function(.cols,
   mask <- peek_mask()
   caller_env <- caller_env()
 
+  across_if_fn <- context_peek_bare("across_if_fn") %||% "across"
+  error_call <- call(across_if_fn)
+
   .cols <- enquo(.cols)
   fns_quo <- enquo(.fns)
 
@@ -188,8 +191,8 @@ across <- function(.cols,
     # Silent restoration to old defaults of `.fns` for now.
     # TODO: Escalate this to formal deprecation.
     .fns <- NULL
-  } else if (!is_function(.fns) && !is_list(.fns)) {
-    .fns <- quo_eval_fns(fns_quo)
+  } else {
+    .fns <- quo_eval_fns(fns_quo, error_call = error_call)
   }
 
   if (!is_bool(.unpack) && !is_string(.unpack)) {
@@ -209,7 +212,7 @@ across <- function(.cols,
     names = .names,
     .caller_env = caller_env,
     mask = mask,
-    inline = FALSE
+    error_call = error_call
   )
 
   if (!missing(...)) {
@@ -236,7 +239,10 @@ across <- function(.cols,
   fns <- setup$fns
   names <- setup$names
 
-  if (is.null(fns)) {
+  fns_env <- quo_get_env(fns_quo)
+  fns <- map(fns, function(fn) uninline(fn, fns_env, error_call = current_env()))
+
+  if (!length(fns)) {
     # TODO: Deprecate and remove the `.fns = NULL` path in favor of `pick()`
     data <- mask$pick_current(vars)
 
@@ -377,14 +383,14 @@ across_setup <- function(cols,
                          names,
                          .caller_env,
                          mask,
-                         inline = FALSE) {
+                         error_call = caller_env()) {
   cols <- enquo(cols)
+  quo_env <- quo_get_env(cols)
+  across_if_fn <- context_peek_bare("across_if_fn") %||% "across"
 
   # `across()` is evaluated in a data mask so we need to remove the
   # mask layer from the quosure environment (#5460)
   cols <- quo_set_env_to_data_mask_top(cols)
-
-  across_if_fn <- context_peek_bare("across_if_fn") %||% "across"
 
   # TODO: call eval_select with a calling handler to intercept
   #       classed error, after https://github.com/r-lib/tidyselect/issues/233
@@ -395,14 +401,14 @@ across_setup <- function(cols,
       i = "The first argument `.cols` selects a set of columns.",
       i = "The second argument `.fns` operates on each selected columns."
     )
-    abort(bullets, call = call(across_if_fn))
+    abort(bullets, call = error_call)
   }
   data <- mask$get_current_data(groups = FALSE)
 
   vars <- tidyselect::eval_select(
     cols,
     data = data,
-    error_call = call(across_if_fn)
+    error_call = error_call
   )
   names_vars <- names(vars)
   vars <- names(data)[vars]
@@ -414,7 +420,7 @@ across_setup <- function(cols,
       names <- vec_as_names(
         glue(names, .envir = glue_mask),
         repair = "check_unique",
-        call = call(across_if_fn)
+        call = error_call
       )
     } else {
       names <- names_vars
@@ -425,7 +431,7 @@ across_setup <- function(cols,
   }
 
   # apply `.names` smart default
-  if (is.function(fns) || is_formula(fns)) {
+  if (is.function(fns)) {
     names <- names %||% "{.col}"
     fns <- list("1" = fns)
   } else {
@@ -433,8 +439,7 @@ across_setup <- function(cols,
   }
 
   if (!is.list(fns)) {
-    msg <- c("`.fns` must be a function, a formula, or a list of functions/formulas.")
-    abort(msg, call = call(across_if_fn))
+    abort("Expected a list.", .internal = TRUE)
   }
 
   # make sure fns has names, use number to replace unnamed
@@ -455,14 +460,29 @@ across_setup <- function(cols,
   names <- vec_as_names(
     glue(names, .envir = glue_mask),
     repair = "check_unique",
-    call = call(across_if_fn)
+    call = error_call
   )
 
-  if (!inline) {
-    fns <- map(fns, as_function, call = call(across_if_fn))
+  list(
+    vars = vars,
+    fns = fns,
+    names = names,
+    across_if_fn = across_if_fn
+  )
+}
+
+uninline <- function(fn, env, error_call) {
+  if (is_formula(fn)) {
+    fn <- as_function(fn, call = error_call)
   }
 
-  list(vars = vars, fns = fns, names = names, across_if_fn = across_if_fn)
+  # Reset environment of inlinable lambdas which are set to the empty
+  # env sentinel
+  if (is_function(fn) && identical(get_env(fn), empty_env())) {
+    fn <- set_env(fn, env)
+  }
+
+  fn
 }
 
 # FIXME: This pattern should be encapsulated by rlang
@@ -604,6 +624,8 @@ expand_across <- function(quo) {
     return(list(quo))
   }
 
+  error_call <- call(context_peek_bare("across_if_fn") %||% "across")
+
   # Expand dots in lexical env
   env <- quo_get_env(quo)
   expr <- match.call(
@@ -653,7 +675,7 @@ expand_across <- function(quo) {
 
   if (".fns" %in% names(expr)) {
     fns <- as_quosure(expr$.fns, env)
-    fns <- quo_eval_fns(fns, mask, env = env)
+    fns <- quo_eval_fns(fns, mask, env = env, error_call = error_call)
   } else {
     # In the missing case, silently restore the old default of `NULL`.
     # TODO: Escalate this to formal deprecation.
@@ -666,7 +688,7 @@ expand_across <- function(quo) {
     names = eval_tidy(expr$.names, mask, env = env),
     .caller_env = env,
     mask = dplyr_mask,
-    inline = TRUE
+    error_call = error_call
   )
 
   vars <- setup$vars
@@ -736,49 +758,24 @@ new_expanded_quosures <- function(x) {
   structure(x, class = "dplyr_expanded_quosures")
 }
 
-# TODO: Take unevaluated `.fns` and inline calls to `function`. This
-# will enable support for R 4.1 lambdas. Note that unlike formulas,
-# only unevaluated `function` calls can be inlined. This will have
-# performance implications for lists of lambdas where formulas will
-# have better performance. It is possible that we will be able to
-# inline evaluated functions with strictness annotations.
 as_across_fn_call <- function(fn, var, env, mask) {
-  if (is_inlinable_formula(fn, mask)) {
-    # Don't need to worry about arguments passed through `...`
-    # because we cancel expansion in that case
-    expr <- f_rhs(fn)
-    expr <- expr_substitute(expr, quote(.), sym(var))
-    expr <- expr_substitute(expr, quote(.x), sym(var))
-
-    # If the formula environment is the data mask it means the formula
-    # was unevaluated, and in that case we can use the original
-    # quosure environment. Otherwise, use the formula environment
-    # which might include local data that is not reachable from the
-    # data mask.
-    f_env <- f_env(fn)
-    if (identical(f_env, mask)) {
-      f_env <- env
-    }
-
-    new_quosure(expr, f_env)
+  if (is_inlinable_lambda(fn)) {
+    # Transform inlinable lambdas to simple quosured calls
+    arg <- names(formals(fn))[[1]]
+    expr <- body(fn)
+    expr <- expr_substitute(expr, sym(arg), sym(var))
+    new_quosure(expr, env)
   } else {
+    # Non-inlinable elements are wrapped in a quosured call
     fn_call <- call2(as_function(fn), sym(var))
     new_quosure(fn_call, env)
   }
 }
 
-# Don't inline formulas that don't inherit directly from the mask
-# because of a tidyeval bug/limitation that causes an infinite loop.
-# If the formula env is the data mask, we replace it with the original
-# quosure environment (which is maskable) later on to work around that
-# bug.
-is_inlinable_formula <- function(x, mask) {
-  if (is_formula(x, lhs = FALSE, scoped = TRUE)) {
-    env <- f_env(x)
-    identical(env, mask) || !env_inherits(env, mask)
-  } else {
-    FALSE
-  }
+# The environment of functions that are safe to inline has been set to
+# the empty env sentinel
+is_inlinable_lambda <- function(x) {
+  is_function(x) && identical(fn_env(x), empty_env())
 }
 
 across_missing_cols_deprecate_warn <- function() {
@@ -851,9 +848,49 @@ apply_unpack_spec <- function(col, outer, spec, caller_env) {
   col
 }
 
-quo_eval_fns <- function(quo, data = NULL, env = caller_env()) {
+# Return type: <fn> | <list<fn>>
+quo_eval_fns <- function(quo,
+                         data = NULL,
+                         env = caller_env(),
+                         error_call = caller_env()) {
+  # We first inline calls to functions and formulas so they can refer
+  # to data mask objects. E.g. `across(cyl, \(x) mean(x) + mean(am)`
+  # is expanded to `mean(cyl) + mean(am)` in the surrounding call. To
+  # recognise these inlinable lambdas later on, we set their
+  # environments to the empty env.
+
+  if (quo_is_inlinable_lambda(quo)) {
+    fn <- eval(quo_get_expr(quo))
+    fn <- set_env(fn, empty_env())
+    return(fn)
+  }
+  if (quo_is_inlinable_formula(quo)) {
+    f <- quo_get_expr(quo)
+    f <- expr_substitute(f, quote(.), quote(.x))
+    fn <- new_function(pairlist2(.x = ), f_rhs(f), empty_env())
+    return(fn)
+  }
+
+  validate <- function(out, recurse = TRUE) {
+    if (is_list(out)) {
+      map(out, function(x) validate(x, recurse = FALSE))
+    } else if (is_formula(out)) {
+      as_function(out, arg = ".fns", call = error_call)
+    } else if (is_function(out)) {
+      out
+    } else {
+      abort(
+        "`.fns` must be a function, a formula, or a list of functions/formulas.",,
+        call = error_call
+      )
+    }
+  }
+
   if (!quo_is_symbol(quo)) {
-    return(eval_tidy(quo, data, env = env))
+    # Ideally we'd evaluate outside the mask here but we do it anyway
+    # for backward compatibility to support lists of formulas
+    out <- eval_tidy(quo, data, env = env)
+    return(validate(out))
   }
 
   sym <- quo_get_expr(quo)
@@ -864,13 +901,53 @@ quo_eval_fns <- function(quo, data = NULL, env = caller_env()) {
     out <- env_get(env, nm, default = NULL)
 
     if (is_function(out) || is_list(out) || is_formula(out)) {
-      return(out)
+      return(validate(out))
     }
 
     env <- env_parent(env)
   }
 
-  # Triggers object not found error or evaluates to an object of the
-  # wrong type to be checked later on
-  eval_tidy(quo)
+  # Object not found errors are triggered here
+  wrong <- eval_tidy(quo)
+
+  # This type-checks the input
+  validate(wrong)
+
+  abort("Unexpected state.", .internal = TRUE)
+}
+
+quo_is_inlinable_lambda <- function(x) {
+  expr <- quo_get_expr(x)
+
+  if(!is_call(expr, "function")) {
+    return(FALSE)
+  }
+
+  fmls <- formals(eval(expr))
+
+  # Don't inline if there are additional arguments even if they have
+  # defaults or are passed through `...`
+  if (length(fmls) != 1) {
+    return(FALSE)
+  }
+
+  TRUE
+}
+
+quo_is_inlinable_formula <- function(quo) {
+  expr <- quo_get_expr(quo)
+
+  if (!is_formula(expr, scoped = FALSE)) {
+    return(FALSE)
+  }
+
+  # Don't inline if there are additional arguments passed through `...`
+  nms <- all.names(expr)
+  unsupported_arg_rx <- "\\.\\.[0-9]|\\.y"
+
+  if (any(grepl(unsupported_arg_rx, nms))) {
+    return(FALSE)
+  }
+
+  TRUE
 }

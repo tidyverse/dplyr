@@ -260,6 +260,29 @@
       i The first argument `.cols` selects a set of columns.
       i The second argument `.fns` operates on each selected columns.
 
+# inlined and non inlined lambdas work
+
+    Code
+      (expect_error(mutate(df, across(1:2, ~ .y + mean(bar)))))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`:
+      i In argument: `across(1:2, ~.y + mean(bar))`.
+      Caused by error in `across()`:
+      ! Can't compute column `foo`.
+      Caused by error:
+      ! the ... list contains fewer than 2 elements
+    Code
+      (expect_error(mutate(df, (across(1:2, ~ .y + mean(bar))))))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`:
+      i In argument: `(across(1:2, ~.y + mean(bar)))`.
+      Caused by error in `across()`:
+      ! Can't compute column `foo`.
+      Caused by error in `fn()`:
+      ! the ... list contains fewer than 2 elements
+
 # can't rename during selection (#6522)
 
     Code
@@ -490,5 +513,5 @@
       Error in `summarize()`:
       i In argument: `(across(everything(), list(mean)))`.
       Caused by error in `across()`:
-      ! Can't convert `X[[i]]`, an integer vector, to a function.
+      ! `.fns` must be a function, a formula, or a list of functions/formulas.
 
