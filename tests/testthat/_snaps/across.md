@@ -263,7 +263,7 @@
 # inlined and non inlined lambdas work
 
     Code
-      (expect_error(mutate(df, across(1:2, ~ .y + mean(bar)))))
+      (expect_error(df %>% mutate(across(1:2, ~ .y + mean(bar)))))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
@@ -273,7 +273,7 @@
       Caused by error:
       ! the ... list contains fewer than 2 elements
     Code
-      (expect_error(mutate(df, (across(1:2, ~ .y + mean(bar))))))
+      (expect_error(df %>% mutate((across(1:2, ~ .y + mean(bar))))))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
