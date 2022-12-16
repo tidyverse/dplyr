@@ -89,8 +89,8 @@
 #'   you'll need to create a join specification with [join_by()]. See the
 #'   documentation there for details on these types of joins.
 #'
-#'   To perform a cross-join, generating all combinations of `x` and `y`, use
-#'   `by = character()` or `by = join_by()`.
+#'   To perform a cross-join, generating all combinations of `x` and `y`, see
+#'   [cross_join()].
 #' @param copy If `x` and `y` are not from the same data source,
 #'   and `copy` is `TRUE`, then `y` will be copied into the
 #'   same src as `x`.  This allows you to join tables across srcs, but
@@ -129,8 +129,8 @@
 #'
 #'   The default value of `NULL` is equivalent to `"warning"` for equi joins and
 #'   rolling joins, where multiple matches are usually surprising. If any
-#'   non-equi join conditions are present or if you are doing a cross join, then
-#'   it is equivalent to `"all"`, since multiple matches are usually expected.
+#'   non-equi join conditions are present, then it is equivalent to `"all"`,
+#'   since multiple matches are usually expected.
 #' @param unmatched How should unmatched keys that would result in dropped rows
 #'   be handled?
 #'   - `"drop"` drops unmatched keys from the result.
@@ -499,6 +499,14 @@ nest_join.data.frame <- function(x,
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
 
+  if (is_cross_by(by)) {
+    warn_join_cross_by()
+    by <- new_join_by()
+    cross <- TRUE
+  } else {
+    cross <- FALSE
+  }
+
   if (is_null(by)) {
     by <- join_by_common(x_names, y_names)
   } else {
@@ -520,7 +528,6 @@ nest_join.data.frame <- function(x,
 
   condition <- by$condition
   filter <- by$filter
-  cross <- by$cross
 
   # We always want to retain all of the matches. We never experience a Cartesian
   # explosion because `nrow(x) == nrow(out)` is an invariant of `nest_join()`,
@@ -579,6 +586,14 @@ join_mutate <- function(x,
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
 
+  if (is_cross_by(by)) {
+    warn_join_cross_by(env = error_call, user_env = user_env)
+    by <- new_join_by()
+    cross <- TRUE
+  } else {
+    cross <- FALSE
+  }
+
   if (is_null(by)) {
     by <- join_by_common(x_names, y_names, error_call = error_call)
   } else {
@@ -606,7 +621,6 @@ join_mutate <- function(x,
 
   condition <- by$condition
   filter <- by$filter
-  cross <- by$cross
 
   rows <- join_rows(
     x_key = x_key,
@@ -676,6 +690,14 @@ join_filter <- function(x,
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
 
+  if (is_cross_by(by)) {
+    warn_join_cross_by(env = error_call, user_env = user_env)
+    by <- new_join_by()
+    cross <- TRUE
+  } else {
+    cross <- FALSE
+  }
+
   if (is_null(by)) {
     by <- join_by_common(x_names, y_names, error_call = error_call)
   } else {
@@ -696,7 +718,6 @@ join_filter <- function(x,
 
   condition <- by$condition
   filter <- by$filter
-  cross <- by$cross
 
   # We only care about whether or not any matches exist
   multiple <- "any"
@@ -758,4 +779,19 @@ check_keep <- function(keep, error_call = caller_env()) {
       glue("`keep` must be `TRUE`, `FALSE`, or `NULL`, not {obj_type_friendly(keep)}."),
       call = error_call)
   }
+}
+
+is_cross_by <- function(x) {
+  identical(x, character()) || identical(x, list(x = character(), y = character()))
+}
+
+warn_join_cross_by <- function(env = caller_env(),
+                               user_env = caller_env(2)) {
+  lifecycle::deprecate_soft(
+    when = "1.1.0",
+    what = I("Using `by = character()` to perform a cross join"),
+    with = "cross_join()",
+    env = env,
+    user_env = user_env
+  )
 }

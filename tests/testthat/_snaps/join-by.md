@@ -1,3 +1,12 @@
+# joining by nothing is an error
+
+    Code
+      join_by()
+    Condition
+      Error in `join_by()`:
+      ! Must supply at least one expression.
+      i If you want a cross join, use `cross_join()`.
+
 # nicely catches missing arguments when wrapped
 
     Code
@@ -17,14 +26,6 @@
       x Argument `y` is missing.
 
 # has an informative print method
-
-    Code
-      join_by()
-    Output
-      Join By:
-      - Cross
-
----
 
     Code
       join_by(a, b)
@@ -427,5 +428,5 @@
     Condition
       Error:
       ! `by` must be supplied when `x` and `y` have no common variables.
-      i Use `by = join_by()` to perform a cross-join.
+      i Use `cross_join()` to perform a cross-join.
 

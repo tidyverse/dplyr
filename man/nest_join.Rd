@@ -46,8 +46,8 @@ To join on conditions other than equality, like non-equi or rolling joins,
 you'll need to create a join specification with \code{\link[=join_by]{join_by()}}. See the
 documentation there for details on these types of joins.
 
-To perform a cross-join, generating all combinations of \code{x} and \code{y}, use
-\code{by = character()} or \code{by = join_by()}.}
+To perform a cross-join, generating all combinations of \code{x} and \code{y}, see
+\code{\link[=cross_join]{cross_join()}}.}
 
 \item{copy}{If \code{x} and \code{y} are not from the same data source,
 and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
@@ -138,6 +138,7 @@ out$df2
 }
 \seealso{
 Other joins: 
+\code{\link{cross_join}()},
 \code{\link{filter-joins}},
 \code{\link{mutate-joins}}
 }
