@@ -182,6 +182,10 @@ across <- function(.cols,
   .cols <- enquo(.cols)
   fns_quo <- enquo(.fns)
 
+  # Don't evaluate functions in the data mask (#6545)
+  fns_quo_env <- quo_get_env(fns_quo)
+  fns_quo <- quo_set_env_to_data_mask_top(fns_quo)
+
   if (quo_is_missing(.cols)) {
     across_missing_cols_deprecate_warn()
     .cols <- quo_set_expr(.cols, expr(everything()))
@@ -192,7 +196,7 @@ across <- function(.cols,
     # TODO: Escalate this to formal deprecation.
     .fns <- NULL
   } else {
-    .fns <- quo_eval_fns(fns_quo, error_call = error_call)
+    .fns <- quo_eval_fns(fns_quo, formula_env = fns_quo_env, error_call = error_call)
   }
 
   if (!is_bool(.unpack) && !is_string(.unpack)) {
@@ -239,8 +243,7 @@ across <- function(.cols,
   fns <- setup$fns
   names <- setup$names
 
-  fns_env <- quo_get_env(fns_quo)
-  fns <- map(fns, function(fn) uninline(fn, fns_env, error_call = current_env()))
+  fns <- map(fns, function(fn) uninline(fn, fns_quo_env, error_call = current_env()))
 
   if (!length(fns)) {
     # TODO: Deprecate and remove the `.fns = NULL` path in favor of `pick()`
@@ -675,7 +678,7 @@ expand_across <- function(quo) {
 
   if (".fns" %in% names(expr)) {
     fns <- as_quosure(expr$.fns, env)
-    fns <- quo_eval_fns(fns, mask, env = env, error_call = error_call)
+    fns <- quo_eval_fns(fns, formula_env = mask, error_call = error_call)
   } else {
     # In the missing case, silently restore the old default of `NULL`.
     # TODO: Escalate this to formal deprecation.
@@ -850,8 +853,7 @@ apply_unpack_spec <- function(col, outer, spec, caller_env) {
 
 # Return type: <fn> | <list<fn>>
 quo_eval_fns <- function(quo,
-                         data = NULL,
-                         env = caller_env(),
+                         formula_env = NULL,
                          error_call = caller_env()) {
   # We first inline calls to functions and formulas so they can refer
   # to data mask objects. E.g. `across(cyl, \(x) mean(x) + mean(am)`
@@ -871,10 +873,15 @@ quo_eval_fns <- function(quo,
     return(fn)
   }
 
+  mask_env <- empty_env()
+
   validate <- function(out, recurse = TRUE) {
     if (is_list(out)) {
       map(out, function(x) validate(x, recurse = FALSE))
     } else if (is_formula(out)) {
+      if (!is_null(formula_env) && identical(get_env(out), mask_env)) {
+        out <- set_env(out, formula_env)
+      }
       as_function(out, arg = ".fns", call = error_call)
     } else if (is_function(out)) {
       out
@@ -887,9 +894,19 @@ quo_eval_fns <- function(quo,
   }
 
   if (!quo_is_symbol(quo)) {
-    # Ideally we'd evaluate outside the mask here but we do it anyway
-    # for backward compatibility to support lists of formulas
-    out <- eval_tidy(quo, data, env = env)
+    # This weird scheme is a work around to reconciliate two
+    # contradictory goals. We want to evaluate outside the mask so
+    # that data mask columns are not confused with functions (#6545).
+    # However at the same time we want non-inlinable formulas
+    # (inlinable ones are dealt with above) to inherit from the mask
+    # so they can refer to data mask columns. So we evaluate outside
+    # the mask, but detect formulas that inherit from it to patch them
+    # up to inherit from the mask. This whole thing could be made
+    # simpler and removed at the price of a behaviour change.
+    out <- eval_tidy(quo({
+      mask_env <<- current_env()
+      !!quo
+    }))
     return(validate(out))
   }
 

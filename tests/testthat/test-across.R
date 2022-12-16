@@ -1286,11 +1286,14 @@ test_that("symbols are looked up as list or functions (#6545)", {
     exp
   )
 
-  expect_snapshot({
-    # This error is suboptimal because `mean` is looked up at
-    # expansion-time before group chunks are set up
-    (expect_error(summarize(df, across(everything(), list(mean)))))
+  exp <- summarise(df, across(everything(), list(function(x) mean(x))))
 
-    (expect_error(summarize(df, (across(everything(), list(mean))))))
-  })
+  expect_equal(
+    summarize(df, across(everything(), list(mean))),
+    exp
+  )
+  expect_equal(
+    summarize(df, (across(everything(), list(mean)))),
+    exp
+  )
 })

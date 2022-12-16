@@ -496,22 +496,3 @@
         <dbl>
       1     1
 
-# symbols are looked up as list or functions (#6545)
-
-    Code
-      (expect_error(summarize(df, across(everything(), list(mean)))))
-    Output
-      <error/rlang_error>
-      Error in `summarize()`:
-      i In argument: `across(everything(), list(mean))`.
-      Caused by error:
-      ! attempt to select less than one element in integerOneIndex
-    Code
-      (expect_error(summarize(df, (across(everything(), list(mean))))))
-    Output
-      <error/rlang_error>
-      Error in `summarize()`:
-      i In argument: `(across(everything(), list(mean)))`.
-      Caused by error in `across()`:
-      ! `.fns` must be a function, a formula, or a list of functions/formulas.
-
