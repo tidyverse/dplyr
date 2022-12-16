@@ -47,8 +47,8 @@
 #' # You can also use distinct on computed variables
 #' distinct(df, diff = abs(x - y))
 #'
-#' # use across() to access select()-style semantics
-#' distinct(starwars, across(contains("color")))
+#' # Use `pick()` to select columns with tidy-select
+#' distinct(starwars, pick(contains("color")))
 #'
 #' # Grouping -------------------------------------------------
 #' # The same behaviour applies for grouped data frames,
@@ -88,10 +88,7 @@ distinct_prepare <- function(.data,
   }
 
   # If any calls, use mutate to add new columns, then distinct on those
-  computed_columns <- add_computed_columns(.data, vars,
-    caller_env = caller_env,
-    error_call = error_call
-  )
+  computed_columns <- add_computed_columns(.data, vars, error_call = error_call)
   .data <- computed_columns$data
   distinct_vars <- computed_columns$added_names
 

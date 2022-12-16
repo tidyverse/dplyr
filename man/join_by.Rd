@@ -12,7 +12,7 @@ join_by(...)
 Each expression should consist of either a join condition or a join helper:
 \itemize{
 \item Join conditions: \code{==}, \code{>=}, \code{>}, \code{<=}, or \code{<}.
-\item Rolling helpers: \code{preceding()} or \code{following()}.
+\item Rolling helper: \code{closest()}.
 \item Overlap helpers: \code{between()}, \code{within()}, or \code{overlaps()}.
 }
 
@@ -35,7 +35,7 @@ using a small domain specific language. The result can be supplied as the
 \code{by} argument to any of the join functions (such as \code{\link[=left_join]{left_join()}}).
 }
 \section{Join types}{
-\code{join_by()} supports four types of join, as described below:
+\code{join_by()} supports four types of joins, as described below:
 \itemize{
 \item Equi joins
 \item Non-equi joins
@@ -64,46 +64,24 @@ join specifications!
 
 \subsection{Rolling joins}{
 
-Rolling joins are a variant of a non-equi join that limit the results
-returned from the non-equi join condition. They are useful for "rolling"
-the preceding value forward or the following value backwards when there
-isn't an exact match. There are two helpers that \code{join_by()} recognizes
-to assist with constructing rolling joins.
+Rolling joins are a variant of non-equi joins that limit the results returned
+from a non-equi join condition. They are useful for "rolling" the closest
+match forward/backwards when there isn't an exact match. To construct a
+rolling join, wrap an inequality with \code{closest()}.
 \itemize{
-\item \code{preceding(x, y, ..., inclusive = TRUE)}
+\item \code{closest(expr)}
 
-For each value in \code{x}, this finds the value in \code{y} that is directly
-preceding it. If \code{inclusive = TRUE}, an exact match is allowed to count as
-the preceding value.
+\code{expr} must be a binary inequality involving one of: \code{>}, \code{>=}, \code{<},
+or \code{<=}.
 
-Technically, this finds all matches using the binary condition \code{x >= y},
-then filters those matches to only include the one corresponding to the
-maximum value of \code{y} (i.e. the preceding match). If \code{inclusive = FALSE},
-\code{>=} is replaced with \code{>}.
-
-Dots are for future extensions and must be empty.
-\item \code{following(x, y, ..., inclusive = TRUE)}
-
-For each value in \code{x}, this finds the value in \code{y} that is directly
-following it. If \code{inclusive = TRUE}, an exact match is allowed to count as
-the following value.
-
-Technically, this finds all matches using the binary condition \code{x <= y},
-then filters those matches to only include the one corresponding to the
-minimum value of \code{y} (i.e. the following match). If \code{inclusive = FALSE},
-\code{<=} is replaced with \code{<}.
-
-Dots are for future extensions and must be empty.
+For example, \code{closest(x >= y)} is interpreted as: For each value in \code{x},
+find the closest value in \code{y} that is less than or equal to that \code{x} value.
 }
 
-Unlike other join helpers, the \code{x} argument must reference the left-hand
-table (\code{x}) and the \code{y} argument must reference the right-hand table (\code{y}).
-Attempting something like \code{preceding(y$a, x$b)} is not defined and will
-result in an error.
-
-Rolling joins can't be constructed directly from binary conditions, but are
-approximately equivalent to applying the binary condition mentioned above
-followed by a \code{filter()} for only the maximum or minimum \code{y} value.
+\code{closest()} will always use the left-hand table (\code{x}) as the primary table,
+and the right-hand table (\code{y}) as the one to find the closest match in,
+regardless of how the binary condition is specified. For example,
+\code{closest(y$a >= x$b)} will always be interpreted as \code{closest(x$b <= y$a)}.
 }
 
 \subsection{Overlap joins}{
@@ -114,22 +92,41 @@ two columns from the right-hand table. There are three helpers that
 \code{join_by()} recognizes to assist with constructing overlap joins, all of
 which can be constructed from simpler binary expressions.
 \itemize{
-\item \code{between(x, y_lower, y_upper)}
+\item \code{between(x, y_lower, y_upper, ..., bounds = "[]")}
 
 For each value in \code{x}, this finds everywhere that value falls between
-\verb{[y_lower, y_upper]}. Equivalent to \verb{x >= y_lower, x <= y_upper}.
+\verb{[y_lower, y_upper]}. Equivalent to \verb{x >= y_lower, x <= y_upper} by
+default.
+
+\code{bounds} can be one of \code{"[]"}, \code{"[)"}, \code{"(]"}, or
+\code{"()"} to alter the inclusiveness of the lower and upper bounds. This
+changes whether \code{>=} or \code{>} and \code{<=} or \code{<} are used to build the binary
+conditions shown above.
+
+Dots are for future extensions and must be empty.
 \item \code{within(x_lower, x_upper, y_lower, y_upper)}
 
 For each range in \verb{[x_lower, x_upper]}, this finds everywhere that range
 falls completely within \verb{[y_lower, y_upper]}. Equivalent to \verb{x_lower >= y_lower, x_upper <= y_upper}.
-\item \code{overlaps(x_lower, x_upper, y_lower, y_upper)}
+
+The binary conditions used to build \code{within()} are the same regardless of
+the inclusiveness of the supplied ranges.
+\item \code{overlaps(x_lower, x_upper, y_lower, y_upper, ..., bounds = "[]")}
 
 For each range in \verb{[x_lower, x_upper]}, this finds everywhere that range
-overlaps \verb{[y_lower, y_upper]} in any capacity. Equivalent to \verb{x_lower <= y_upper, x_upper >= y_lower}.
+overlaps \verb{[y_lower, y_upper]} in any capacity. Equivalent to \verb{x_lower <= y_upper, x_upper >= y_lower} by default.
+
+\code{bounds} can be one of \code{"[]"}, \code{"[)"}, \code{"(]"}, or
+\code{"()"} to alter the inclusiveness of the lower and upper bounds.
+\code{"[]"} uses \code{<=} and \code{>=}, but the 3 other options use \code{<} and \code{>}
+and generate the exact same binary conditions.
+
+Dots are for future extensions and must be empty.
 }
 
-These conditions assume that the ranges are well-formed, i.e.
-\code{x_lower <= x_upper}.
+These conditions assume that the ranges are well-formed and non-empty, i.e.
+\code{x_lower <= x_upper} when bounds are treated as \code{"[]"}, and
+\code{x_lower < x_upper} otherwise.
 }
 }
 
@@ -166,22 +163,21 @@ by <- join_by(id, sale_date >= promo_date)
 left_join(sales, promos, by)
 
 # For each `sale_date` within a particular `id`,
-# find only the preceding `promo_date` that occurred directly
-# before that sale
-by <- join_by(id, preceding(sale_date, promo_date))
+# find only the closest `promo_date` that occurred before that sale
+by <- join_by(id, closest(sale_date >= promo_date))
 left_join(sales, promos, by)
 
-# If you want to disallow exact matching in rolling joins,
-# set `inclusive = FALSE`. Note that the promo on `2019-01-05` is no longer
-# considered the preceding match for the sale on the same date.
-by <- join_by(id, preceding(sale_date, promo_date, inclusive = FALSE))
+# If you want to disallow exact matching in rolling joins, use `>` rather
+# than `>=`. Note that the promo on `2019-01-05` is no longer considered the
+# closest match for the sale on the same date.
+by <- join_by(id, closest(sale_date > promo_date))
 left_join(sales, promos, by)
 
 # Same as before, but also require that the promo had to occur at most 1
 # day before the sale was made. We'll use a full join to see that id 2's
 # promo on `2019-01-02` is no longer matched to the sale on `2019-01-04`.
 sales <- mutate(sales, sale_date_lower = sale_date - 1)
-by <- join_by(id, preceding(sale_date, promo_date), sale_date_lower <= promo_date)
+by <- join_by(id, closest(sale_date >= promo_date), sale_date_lower <= promo_date)
 full_join(sales, promos, by)
 
 # ---------------------------------------------------------------------------
@@ -197,7 +193,7 @@ segments
 reference <- tibble(
   reference_id = 1:4,
   chromosome = c("chr1", "chr1", "chr2", "chr2"),
-  start = c(100, 200, 300, 400),
+  start = c(100, 200, 300, 415),
   end = c(150, 250, 399, 450)
 )
 reference
@@ -221,5 +217,11 @@ inner_join(segments, reference, by)
 
 # Find every time a segment overlaps a reference in any way.
 by <- join_by(chromosome, overlaps(x$start, x$end, y$start, y$end))
+full_join(segments, reference, by)
+
+# It is common to have right-open ranges with bounds like `[)`, which would
+# mean an end value of `415` would no longer overlap a start value of `415`.
+# Setting `bounds` allows you to compute overlaps with those kinds of ranges.
+by <- join_by(chromosome, overlaps(x$start, x$end, y$start, y$end, bounds = "[)"))
 full_join(segments, reference, by)
 }

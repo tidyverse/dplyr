@@ -49,34 +49,32 @@ undocumented.
 }
 }
 \examples{
-by_cyl <- mtcars \%>\% group_by(cyl)
+df <- tibble(x = 1:5, w = c(0.1, 0.1, 0.1, 2, 2))
 
 # sample_n() -> slice_sample() ----------------------------------------------
-sample_n(mtcars, 10)
-sample_n(mtcars, 50, replace = TRUE)
-sample_n(mtcars, 10, weight = mpg)
+# Was:
+sample_n(df, 3)
+sample_n(df, 10, replace = TRUE)
+sample_n(df, 3, weight = w)
 
-# Changes:
-# * explicitly name the `n` argument,
-# * the `weight` argument is now `weight_by`.
-
-slice_sample(mtcars, n = 10)
-slice_sample(mtcars, n = 50, replace = TRUE)
-slice_sample(mtcars, n = 10, weight_by = mpg)
+# Now:
+slice_sample(df, n = 3)
+slice_sample(df, n = 10, replace = TRUE)
+slice_sample(df, n = 3, weight_by = w)
 
 # Note that sample_n() would error if n was bigger than the group size
 # slice_sample() will just use the available rows for consistency with
 # the other slice helpers like slice_head()
+try(sample_n(df, 10))
+slice_sample(df, n = 10)
 
 # sample_frac() -> slice_sample() -------------------------------------------
-sample_frac(mtcars)
-sample_frac(mtcars, replace = TRUE)
+# Was:
+sample_frac(df, 0.25)
+sample_frac(df, 2, replace = TRUE)
 
-# Changes:
-# * use prop = 1 to randomly sample all rows
-
-slice_sample(mtcars, prop = 1)
-slice_sample(mtcars, prop = 1, replace = TRUE)
-
+# Now:
+slice_sample(df, prop = 0.25)
+slice_sample(df, prop = 2, replace = TRUE)
 }
 \keyword{internal}

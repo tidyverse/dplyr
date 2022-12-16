@@ -25,7 +25,8 @@ functions and strings representing function names.}
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
 Scoped verbs (\verb{_if}, \verb{_at}, \verb{_all}) have been superseded by the use of
-\code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for details.
+\code{\link[=pick]{pick()}} or \code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for
+details.
 
 The variants suffixed with \verb{_if}, \verb{_at} or \verb{_all} apply an
 expression (sometimes several) to all variables within a specified

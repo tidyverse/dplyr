@@ -48,6 +48,7 @@
 #'
 #' @family single table verbs
 #' @inheritParams arrange
+#' @inheritParams args_by
 #' @param ... <[`data-masking`][dplyr_data_masking]> Expressions that return a
 #'   logical value, and are defined in terms of the variables in `.data`.
 #'   If multiple expressions are included, they are combined with the `&` operator.
@@ -105,30 +106,43 @@
 #'     .data[[vars[[2]]]] > cond[[2]]
 #'   )
 #' # Learn more in ?dplyr_data_masking
-filter <- function(.data, ..., .preserve = FALSE) {
+filter <- function(.data, ..., .by = NULL, .preserve = FALSE) {
+  by <- enquo(.by)
+
+  if (!quo_is_null(by) && !is_false(.preserve)) {
+    abort("Can't supply both `.by` and `.preserve`.")
+  }
+
   UseMethod("filter")
 }
 
 #' @export
-filter.data.frame <- function(.data, ..., .preserve = FALSE) {
-  loc <- filter_rows(.data, ..., caller_env = caller_env())
+filter.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
+  dots <- dplyr_quosures(...)
+  check_filter(dots)
+
+  by <- compute_by(
+    by = {{ .by }},
+    data = .data,
+    by_arg = ".by",
+    data_arg = ".data"
+  )
+
+  loc <- filter_rows(.data, dots, by)
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
-filter_rows <- function(.data, ..., caller_env, error_call = caller_env()) {
+filter_rows <- function(data, dots, by, error_call = caller_env()) {
   error_call <- dplyr_error_call(error_call)
 
-  dots <- dplyr_quosures(...)
-  check_filter(dots, error_call = error_call)
-
-  mask <- DataMask$new(.data, caller_env, "filter", error_call = error_call)
+  mask <- DataMask$new(data, by, "filter", error_call = error_call)
   on.exit(mask$forget(), add = TRUE)
 
   dots <- filter_expand(dots, mask = mask, error_call = error_call)
   filter_eval(dots, mask = mask, error_call = error_call)
 }
 
-check_filter <- function(dots, error_call = error_call) {
+check_filter <- function(dots, error_call = caller_env()) {
   named <- have_name(dots)
 
   for (i in which(named)) {
@@ -154,14 +168,17 @@ filter_expand <- function(dots, mask, error_call = caller_env()) {
   env_filter <-  env()
   filter_expand_one <- function(dot, index) {
     env_filter$current_expression <- index
+    dot <- expand_pick(dot, mask)
     expand_if_across(dot)
   }
+
+  local_error_context(dots, i = 0L, mask = mask)
 
   dots <- withCallingHandlers(
     imap(unname(dots), filter_expand_one),
     error = function(cnd) {
-      local_error_context(dots = dots, .index = env_filter$current_expression, mask = mask)
-      abort(cnd_bullet_header("expanding"), call = error_call, parent = cnd)
+      poke_error_context(dots, env_filter$current_expression, mask = mask)
+      abort(cnd_bullet_header("expand"), call = error_call, parent = cnd)
     }
   )
 
@@ -170,55 +187,100 @@ filter_expand <- function(dots, mask, error_call = caller_env()) {
 
 filter_eval <- function(dots, mask, error_call = caller_env()) {
   env_filter <- env()
+  warnings_state <- env(warnings = list())
 
-  withCallingHandlers({
-    mask$eval_all_filter(dots, env_filter)
-  }, error = function(e) {
-    local_error_context(dots = dots, .index = env_filter$current_expression, mask = mask)
+  # For condition handlers
+  i <- NULL
+  env_bind_active(
+    current_env(),
+    "i" = function() env_filter$current_expression
+  )
 
-    bullets <- c(
-      cnd_bullet_header("computing"),
-      filter_bullets(e)
-    )
-    abort(bullets, call = error_call, parent = skip_internal_condition(e))
+  warning_handler <- dplyr_warning_handler(
+    state = warnings_state,
+    mask = mask,
+    error_call = error_call
+  )
 
-  })
+  out <- withCallingHandlers(
+    mask$eval_all_filter(dots, env_filter),
+    error = dplyr_error_handler(
+      dots = dots,
+      mask = mask,
+      bullets = filter_bullets,
+      error_call = error_call
+    ),
+    warning = function(cnd) {
+      local_error_context(dots, i, mask)
+      warning_handler(cnd)
+    },
+    `dplyr:::signal_filter_one_column_matrix` = function(e) {
+      warn_filter_one_column_matrix(call = error_call)
+    },
+    `dplyr:::signal_filter_across` = function(e) {
+      warn_filter_across(call = error_call)
+    },
+    `dplyr:::signal_filter_data_frame` = function(e) {
+      warn_filter_data_frame(call = error_call)
+    }
+  )
+
+  signal_warnings(warnings_state, error_call)
+  out
 }
 
 filter_bullets <- function(cnd, ...) {
   UseMethod("filter_bullets")
 }
-#' @export
-filter_bullets.default <- function(cnd, ...) {
-  c(i = cnd_bullet_cur_group_label())
-}
 
 #' @export
 `filter_bullets.dplyr:::filter_incompatible_type` <- function(cnd, ...) {
   column_name <- cnd$dplyr_error_data$column_name
-  index       <- cnd$dplyr_error_data$index
-  result      <- cnd$dplyr_error_data$result
+  index <- cnd$dplyr_error_data$index
+  result <- cnd$dplyr_error_data$result
 
-  input_name <- if (is.null(column_name)) {
-    glue("..{index}")
-  }  else {
-    glue("..{index}${column_name}")
+  if (is.null(column_name)) {
+    input_name <- glue("..{index}")
+  } else {
+    input_name <- glue("..{index}${column_name}")
   }
-  c(
-    x = glue("Input `{input_name}` must be a logical vector, not a {vec_ptype_full(result)}."),
-    i = cnd_bullet_cur_group_label()
-  )
+  glue("`{input_name}` must be a logical vector, not {obj_type_friendly(result)}.")
 }
 
 #' @export
 `filter_bullets.dplyr:::filter_incompatible_size` <- function(cnd, ...) {
-  index         <- cnd$dplyr_error_data$index
+  index <- cnd$dplyr_error_data$index
   expected_size <- cnd$dplyr_error_data$expected_size
-  size          <- cnd$dplyr_error_data$size
+  size <- cnd$dplyr_error_data$size
 
-  c(
-    x = glue("Input `..{index}` must be of size {or_1(expected_size)}, not size {size}."),
-    i = cnd_bullet_cur_group_label()
+  glue("`..{index}` must be of size {or_1(expected_size)}, not size {size}.")
+}
+
+warn_filter_one_column_matrix <- function(call) {
+  lifecycle::deprecate_warn(
+    when = "1.1.0",
+    what = I("Using one column matrices in `filter()`"),
+    with = I("one dimensional logical vectors"),
+    env = call
   )
 }
 
+warn_filter_across <- function(call) {
+  lifecycle::deprecate_warn(
+    when = "1.0.8",
+    what = I("Using `across()` in `filter()`"),
+    with = I("`if_any()` or `if_all()`"),
+    always = TRUE,
+    env = call
+  )
+}
+
+warn_filter_data_frame <- function(call) {
+  lifecycle::deprecate_warn(
+    when = "1.0.8",
+    what = I("Returning data frames from `filter()` expressions"),
+    with = I("`if_any()` or `if_all()`"),
+    always = TRUE,
+    env = call
+  )
+}

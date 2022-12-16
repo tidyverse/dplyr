@@ -5,22 +5,25 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `z = <int>`.
-      Inlined constant `z` must be size 10 or 1, not 5.
+      i In argument: `z = <int>`.
+      Caused by error:
+      ! Inlined constant `z` must be size 10 or 1, not 5.
     Code
       (expect_error(df %>% group_by(g) %>% mutate(z = !!z)))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `z = <int>`.
-      Inlined constant `z` must be size 10 or 1, not 5.
+      i In argument: `z = <int>`.
+      Caused by error:
+      ! Inlined constant `z` must be size 10 or 1, not 5.
     Code
       (expect_error(df %>% rowwise() %>% mutate(z = !!z)))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `z = <int>`.
-      Inlined constant `z` must be size 10 or 1, not 5.
+      i In argument: `z = <int>`.
+      Caused by error:
+      ! Inlined constant `z` must be size 10 or 1, not 5.
 
 ---
 
@@ -29,18 +32,20 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `y = .env$y`.
-      x `y` must be size 5 or 1, not 10.
-      i The error occurred in group 1: g = 1.
+      i In argument: `y = .env$y`.
+      i In group 1: `g = 1`.
+      Caused by error:
+      ! `y` must be size 5 or 1, not 10.
     Code
       (expect_error(df %>% rowwise() %>% mutate(y = .env$y)))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `y = .env$y`.
-      x `y` must be size 1, not 10.
+      i In argument: `y = .env$y`.
+      i In row 1.
+      Caused by error:
+      ! `y` must be size 1, not 10.
       i Did you mean: `y = list(.env$y)` ?
-      i The error occurred in row 1.
 
 # rowwise mutate un-lists existing size-1 list-columns (#6302)
 
@@ -48,10 +53,42 @@
       mutate(df, y = x)
     Condition
       Error in `mutate()`:
-      ! Problem while computing `y = x`.
-      x `y` must be size 1, not 2.
+      i In argument: `y = x`.
+      i In row 2.
+      Caused by error:
+      ! `y` must be size 1, not 2.
       i Did you mean: `y = list(x)` ?
-      i The error occurred in row 2.
+
+# catches `.by` with grouped-df
+
+    Code
+      mutate(gdf, .by = x)
+    Condition
+      Error in `mutate()`:
+      ! Can't supply `.by` when `.data` is a grouped data frame.
+
+# catches `.by` with rowwise-df
+
+    Code
+      mutate(rdf, .by = x)
+    Condition
+      Error in `mutate()`:
+      ! Can't supply `.by` when `.data` is a rowwise data frame.
+
+# mutate() deals with 0 groups (#5534)
+
+    Code
+      mutate(df, y = max(x))
+    Condition
+      Warning:
+      There was 1 warning in `mutate()`.
+      i In argument: `y = max(x)`.
+      Caused by warning in `max()`:
+      ! no non-missing arguments to max; returning -Inf
+    Output
+      # A tibble: 0 x 2
+      # Groups:   x [0]
+      # ... with 2 variables: x <dbl>, y <dbl>
 
 # mutate() give meaningful errors
 
@@ -61,7 +98,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `a = sum(y)`.
+      i In argument: `a = sum(y)`.
       Caused by error:
       ! object 'y' not found
     Code
@@ -69,8 +106,8 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `a = sum(y)`.
-      i The error occurred in group 1: x = 1.
+      i In argument: `a = sum(y)`.
+      i In group 1: `x = 1`.
       Caused by error:
       ! object 'y' not found
     Code
@@ -78,109 +115,132 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `y = mean`.
-      x `y` must be a vector, not a function.
+      i In argument: `y = mean`.
+      Caused by error:
+      ! `y` must be a vector, not a function.
     Code
       df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
       (expect_error(df %>% mutate(out = env(a = 1))))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `out = env(a = 1)`.
-      x `out` must be a vector, not an environment.
+      i In argument: `out = env(a = 1)`.
+      Caused by error:
+      ! `out` must be a vector, not an environment.
     Code
       (expect_error(df %>% group_by(g) %>% mutate(out = env(a = 1))))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `out = env(a = 1)`.
-      x `out` must be a vector, not an environment.
-      i The error occurred in group 1: g = 1.
+      i In argument: `out = env(a = 1)`.
+      i In group 1: `g = 1`.
+      Caused by error:
+      ! `out` must be a vector, not an environment.
     Code
       (expect_error(df %>% rowwise() %>% mutate(out = rnorm)))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `out = rnorm`.
-      x `out` must be a vector, not a function.
+      i In argument: `out = rnorm`.
+      i In row 1.
+      Caused by error:
+      ! `out` must be a vector, not a function.
       i Did you mean: `out = list(rnorm)` ?
-      i The error occurred in row 1.
     Code
       (expect_error(data.frame(x = rep(1:5, each = 3)) %>% group_by(x) %>% mutate(
         val = ifelse(x < 3, "foo", 2))))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `val = ifelse(x < 3, "foo", 2)`.
+      i In argument: `val = ifelse(x < 3, "foo", 2)`.
       Caused by error:
       ! `val` must return compatible vectors across groups.
-      i Result type for group 1 (x = 1): <character>.
-      i Result type for group 3 (x = 3): <double>.
+      i Result of type <character> for group 1: `x = 1`.
+      i Result of type <double> for group 3: `x = 3`.
     Code
       (expect_error(tibble(a = 1:3, b = 4:6) %>% group_by(a) %>% mutate(if (a ==
       1) NULL else "foo")))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `..1 = if (a == 1) NULL else "foo"`.
-      x `..1` must return compatible vectors across groups.
+      i In argument: `if (a == 1) NULL else "foo"`.
+      i In group 1: `a = 1`.
+      Caused by error:
+      ! `if (a == 1) NULL else "foo"` must return compatible vectors across groups.
+      x Can't combine NULL and non NULL results.
+    Code
+      (expect_error(tibble(a = 1:3, b = 4:6) %>% group_by(a) %>% mutate(if (a ==
+      2) NULL else "foo")))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`:
+      i In argument: `if (a == 2) NULL else "foo"`.
+      i In group 2: `a = 2`.
+      Caused by error:
+      ! `if (a == 2) NULL else "foo"` must return compatible vectors across groups.
       x Can't combine NULL and non NULL results.
     Code
       (expect_error(data.frame(x = c(2, 2, 3, 3)) %>% mutate(int = 1:5)))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `int = 1:5`.
-      x `int` must be size 4 or 1, not 5.
+      i In argument: `int = 1:5`.
+      Caused by error:
+      ! `int` must be size 4 or 1, not 5.
     Code
       (expect_error(data.frame(x = c(2, 2, 3, 3)) %>% group_by(x) %>% mutate(int = 1:
       5)))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `int = 1:5`.
-      x `int` must be size 2 or 1, not 5.
-      i The error occurred in group 1: x = 2.
+      i In argument: `int = 1:5`.
+      i In group 1: `x = 2`.
+      Caused by error:
+      ! `int` must be size 2 or 1, not 5.
     Code
       (expect_error(data.frame(x = c(2, 3, 3)) %>% group_by(x) %>% mutate(int = 1:5)))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `int = 1:5`.
-      x `int` must be size 1, not 5.
-      i The error occurred in group 1: x = 2.
+      i In argument: `int = 1:5`.
+      i In group 1: `x = 2`.
+      Caused by error:
+      ! `int` must be size 1, not 5.
     Code
       (expect_error(data.frame(x = c(2, 2, 3, 3)) %>% rowwise() %>% mutate(int = 1:5))
       )
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `int = 1:5`.
-      x `int` must be size 1, not 5.
+      i In argument: `int = 1:5`.
+      i In row 1.
+      Caused by error:
+      ! `int` must be size 1, not 5.
       i Did you mean: `int = list(1:5)` ?
-      i The error occurred in row 1.
     Code
       (expect_error(tibble(y = list(1:3, "a")) %>% rowwise() %>% mutate(y2 = y)))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `y2 = y`.
-      x `y2` must be size 1, not 3.
+      i In argument: `y2 = y`.
+      i In row 1.
+      Caused by error:
+      ! `y2` must be size 1, not 3.
       i Did you mean: `y2 = list(y)` ?
-      i The error occurred in row 1.
     Code
       (expect_error(data.frame(x = 1:10) %>% mutate(y = 11:20, y = 1:2)))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `y = 1:2`.
-      x `y` must be size 10 or 1, not 2.
+      i In argument: `y = 1:2`.
+      Caused by error:
+      ! `y` must be size 10 or 1, not 2.
     Code
       (expect_error(tibble(a = 1) %>% mutate(c = .data$b)))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `c = .data$b`.
+      i In argument: `c = .data$b`.
       Caused by error in `.data$b`:
       ! Column `b` not found in `.data`.
     Code
@@ -188,8 +248,8 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `c = .data$b`.
-      i The error occurred in group 1: a = 1.
+      i In argument: `c = .data$b`.
+      i In group 1: `a = 1`.
       Caused by error in `.data$b`:
       ! Column `b` not found in `.data`.
     Code
@@ -207,7 +267,27 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
-      ! Problem while computing `..1 = stop("{")`.
+      i In argument: `stop("{")`.
       Caused by error:
       ! {
+
+# mutate() errors refer to expressions if not named
+
+    Code
+      (expect_error(mutate(mtcars, 1:3)))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`:
+      i In argument: `1:3`.
+      Caused by error:
+      ! `1:3` must be size 32 or 1, not 3.
+    Code
+      (expect_error(mutate(group_by(mtcars, cyl), 1:3)))
+    Output
+      <error/dplyr:::mutate_error>
+      Error in `mutate()`:
+      i In argument: `1:3`.
+      i In group 1: `cyl = 4`.
+      Caused by error:
+      ! `1:3` must be size 11 or 1, not 3.
 

@@ -4,7 +4,8 @@
 #' `r lifecycle::badge("superseded")`
 #'
 #' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
-#' [across()] in an existing verb. See `vignette("colwise")` for details.
+#' [pick()] or [across()] in an existing verb. See `vignette("colwise")` for
+#' details.
 #'
 #' The [scoped] variants of [summarise()] make it easy to apply the same
 #' transformation to multiple variables.
@@ -152,7 +153,8 @@ summarize_at <- summarise_at
 #' `r lifecycle::badge("superseded")`
 #'
 #' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
-#' [across()] in an existing verb. See `vignette("colwise")` for details.
+#' [pick()] or [across()] in an existing verb. See `vignette("colwise")` for
+#' details.
 #'
 #' The [scoped] variants of [mutate()] and [transmute()] make it easy to apply
 #' the same transformation to multiple variables. There are three variants:
@@ -307,17 +309,17 @@ manip_all <- function(.tbl, .funs, .quo, .env, ..., .include_group_vars = FALSE,
   } else {
     syms <- syms(tbl_nongroup_vars(.tbl))
   }
-  funs <- as_fun_list(.funs, .env, ..., .caller = .caller, error_call = error_call)
+  funs <- as_fun_list(.funs, .env, ..., .caller = .caller, error_call = error_call, .user_env = caller_env(2))
   manip_apply_syms(funs, syms, .tbl)
 }
 manip_if <- function(.tbl, .predicate, .funs, .quo, .env, ..., .include_group_vars = FALSE, .caller, error_call = caller_env()) {
   vars <- tbl_if_syms(.tbl, .predicate, .env, .include_group_vars = .include_group_vars, error_call = error_call)
-  funs <- as_fun_list(.funs, .env, ..., .caller = .caller, error_call = error_call)
+  funs <- as_fun_list(.funs, .env, ..., .caller = .caller, error_call = error_call, .user_env = caller_env(2))
   manip_apply_syms(funs, vars, .tbl)
 }
 manip_at <- function(.tbl, .vars, .funs, .quo, .env, ..., .include_group_vars = FALSE, .caller, error_call = caller_env()) {
   syms <- tbl_at_syms(.tbl, .vars, .include_group_vars = .include_group_vars, error_call = error_call)
-  funs <- as_fun_list(.funs, .env, ..., .caller = .caller, error_call = error_call)
+  funs <- as_fun_list(.funs, .env, ..., .caller = .caller, error_call = error_call, .user_env = caller_env(2))
   manip_apply_syms(funs, syms, .tbl)
 }
 

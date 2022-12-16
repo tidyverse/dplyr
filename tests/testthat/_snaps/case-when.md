@@ -36,7 +36,7 @@
       case_when(1 ~ NULL)
     Condition
       Error in `case_when()`:
-      ! `NULL` must be a vector, not NULL.
+      ! `NULL` must be a vector, not `NULL`.
 
 ---
 
@@ -44,7 +44,7 @@
       case_when(NULL ~ 1)
     Condition
       Error in `case_when()`:
-      ! `NULL` must be a vector, not NULL.
+      ! `NULL` must be a vector, not `NULL`.
 
 # throws chained errors when formula evaluation fails
 
@@ -93,13 +93,13 @@
     Output
       <error/rlang_error>
       Error in `case_when()`:
-      ! Case 1 (`paste(50)`) must be a two-sided formula, not a string.
+      ! Case 1 (`paste(50)`) must be a two-sided formula, not the string "50".
     Code
       (expect_error(case_when(y ~ x, paste(50))))
     Output
       <error/rlang_error>
       Error in `case_when()`:
-      ! Case 2 (`paste(50)`) must be a two-sided formula, not a string.
+      ! Case 2 (`paste(50)`) must be a two-sided formula, not the string "50".
     Code
       (expect_error(case_when()))
     Output

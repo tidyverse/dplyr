@@ -4,7 +4,8 @@
 #' `r lifecycle::badge("superseded")`
 #'
 #' Scoped verbs (`_if`, `_at`, `_all`) have been superseded by the use of
-#' [across()] in an existing verb. See `vignette("colwise")` for details.
+#' [pick()] or [across()] in an existing verb. See `vignette("colwise")` for
+#' details.
 #'
 #' These [scoped] variants of [arrange()] sort a data frame by a
 #' selection of variables. Like [arrange()], you can modify the
@@ -24,7 +25,7 @@
 #' df <- as_tibble(mtcars)
 #' arrange_all(df)
 #' # ->
-#' arrange(df, across())
+#' arrange(df, pick(everything()))
 #'
 #' arrange_all(df, desc)
 #' # ->

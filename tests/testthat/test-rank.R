@@ -21,6 +21,24 @@ test_that("rank functions deal pass NA (and NaN) through (#774, #1132)", {
   expect_equal(row_number(x), c(2L, 4L, NA, 3L, 1L, NA))
 })
 
+test_that("ranking functions can handle data frames", {
+  # Explicitly testing partially/fully incomplete rows
+  df <- tibble(
+    year = c(2020, 2020, 2021, 2020, 2020, NA),
+    month = c(3, 2, 1, 2, NA, NA)
+  )
+
+  expect_identical(row_number(df), c(3L, 1L, 4L, 2L, NA, NA))
+  expect_identical(min_rank(df), c(3L, 1L, 4L, 1L, NA, NA))
+  expect_identical(dense_rank(df), c(2L, 1L, 3L, 1L, NA, NA))
+
+  expect_identical(percent_rank(df), c(2/3, 0/3, 3/3, 0/3, NA, NA))
+  expect_identical(cume_dist(df), c(3/4, 2/4, 4/4, 2/4, NA, NA))
+
+  expect_identical(ntile(df, 2), c(2L, 1L, 2L, 1L, NA, NA))
+  expect_identical(ntile(df, 4), c(3L, 1L, 4L, 2L, NA, NA))
+})
+
 # row_number() --------------------------------------------------------------
 
 test_that("zero-arg row_number() works in mutate", {
@@ -77,5 +95,20 @@ test_that("ntile() works with one argument (#3418)", {
 
   gf <- group_by(df, id)
   expect_equal(mutate(gf, out = ntile(n = 2))$out, c(1, 2, 1, 1, 2))
+})
+
+test_that("ntile() validates `n`", {
+  expect_snapshot(error = TRUE, {
+    ntile(1, n = 1.5)
+  })
+  expect_snapshot(error = TRUE, {
+    ntile(1, n = c(1, 2))
+  })
+  expect_snapshot(error = TRUE, {
+    ntile(1, n = NA_real_)
+  })
+  expect_snapshot(error = TRUE, {
+    ntile(1, n = 0)
+  })
 })
 

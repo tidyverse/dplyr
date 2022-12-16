@@ -5,26 +5,23 @@
     Output
       <error/rlang_error>
       Error in `arrange()`:
-      ! Problem with the implicit `transmute()` step.
-      Caused by error in `transmute()`:
       ! Can't transform a data frame with duplicate names.
     Code
       (expect_error(tibble(x = 1) %>% arrange(y)))
     Output
-      <error/rlang_error>
+      <error/dplyr:::mutate_error>
       Error in `arrange()`:
-      ! Problem with the implicit `transmute()` step.
-      x Problem while computing `..1 = y`.
+      i In argument: `..1 = y`.
       Caused by error:
       ! object 'y' not found
     Code
       (expect_error(tibble(x = 1) %>% arrange(rep(x, 2))))
     Output
-      <error/rlang_error>
+      <error/dplyr:::mutate_error>
       Error in `arrange()`:
-      ! Problem with the implicit `transmute()` step.
-      x Problem while computing `..1 = rep(x, 2)`.
-      x `..1` must be size 1, not 2.
+      i In argument: `..1 = rep(x, 2)`.
+      Caused by error:
+      ! `..1` must be size 1, not 2.
 
 # arrange errors if stringi is not installed and a locale identifier is used
 

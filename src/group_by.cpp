@@ -65,20 +65,14 @@ public:
       return ExpanderResult(NA_INTEGER, NA_INTEGER, index);
     }
 
-    R_xlen_t nr = 0;
-
     ExpanderResult first = expanders[0]->collect(*this, depth + 1);
     R_xlen_t start = first.start;
     R_xlen_t end = first.end;
     fill_indices(depth, start, end, first.index);
 
-    nr += first.size();
-
     for (R_xlen_t i = 1; i < n; i++) {
       ExpanderResult exp_i = expanders[i]->collect(*this, depth + 1);
       fill_indices(depth, exp_i.start, exp_i.end, exp_i.index);
-
-      nr += exp_i.size();
       end = exp_i.end;
     }
 

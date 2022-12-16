@@ -39,7 +39,8 @@ positions, or \code{NULL}.}
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
 Scoped verbs (\verb{_if}, \verb{_at}, \verb{_all}) have been superseded by the use of
-\code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for details.
+\code{\link[=if_all]{if_all()}} or \code{\link[=if_any]{if_any()}} in an existing verb. See \code{vignette("colwise")} for
+details.
 
 These \link{scoped} filtering verbs apply a predicate expression to a
 selection of variables. The predicate expression should be quoted

@@ -1,5 +1,166 @@
 # dplyr (development version)
 
+* `with_groups()` is superseded in favour of `.by` (#6582).
+
+* `where()` is re-exported from tidyselect (#6597).
+
+* `slice()` with no inputs now returns 0 rows. This is mostly for theoretical
+  consistency (#6573).
+
+* `rename_with()` now disallows renaming in the `.cols` tidy-selection (#6561).
+
+* `rename_with()` now checks that the result of `.fn` is the right type and size
+  (#6561).
+
+* `reframe()` is a new experimental verb that creates a new data frame by
+  applying functions to columns of an existing data frame. It is very similar to
+  `summarise()`, with two big differences:
+
+  * `reframe()` can return an arbitrary number of rows per group, while
+    `summarise()` reduces each group down to a single row.
+
+  * `reframe()` always returns an ungrouped data frame, while `summarise()`
+    might return a grouped or rowwise data frame, depending on the scenario.
+    
+  `reframe()` has been added in response to valid concern from the community
+  that allowing `summarise()` to return any number of rows per group increases
+  the chance for accidental bugs. We still feel that this is a powerful
+  technique, and is a principled replacement for `do()`, so we have moved these
+  features to `reframe()` (#6382).
+
+* Returning 0 or >1 rows per group in `summarise()` is now deprecated in favor
+  of using `reframe()`. See the NEWS bullet about `reframe()` for more details
+  (#6382).
+
+* `slice()` now errors if any expressions in `...` are named. This helps avoid
+  accidentally misspelling an optional argument, such as `.by` (#6554).
+
+* `c_across()` now evaluates `all_of()` correctly and no longer allows you to
+  accidentally select grouping variables (#6522).
+
+* `c_across()` now throws a more informative error if you try to rename during
+  column selection (#6522).
+
+* `n_distinct()` now errors if you don't give it any input (#6535).
+
+* `group_walk()` gains an explict `.keep` argument (#6530).
+
+* `.by` is a new experimental inline alternative to `group_by()` that supports
+  per-operation grouping for `mutate()`, `summarise()`, `filter()`, and the 
+  `slice()` family (#6528).
+  
+  Rather than:
+  
+  ```
+  starwars %>%
+    group_by(species, homeworld) %>%
+    summarise(mean_height = mean(height))
+  ```
+  
+  You can now write:
+  
+  ```
+  starwars %>%
+    summarise(
+      mean_height = mean(height),
+      .by = c(species, homeworld)
+    )
+  ```
+  
+  The most useful reason to do this is because grouping with `.by` is
+  _temporary_ and only affects a single operation. An ungrouped data frame went 
+  into the `summarise()` call, so an ungrouped data frame will come out; with 
+  `.by`, you never need to remember to `ungroup()` afterwards.
+  
+  Additionally, using `summarise()` or `slice()` with `.by` will never sort the
+  results by the group key, unlike with `group_by()`. Instead, the results are
+  returned using the existing ordering of the groups from the original data. We
+  feel this is more predictable, better maintains any ordering you might have
+  already applied with a previous call to `arrange()`, and provides a way to
+  maintain the current ordering without having to resort to factors.
+  
+  This exciting feature was inspired by
+  [data.table](https://CRAN.R-project.org/package=data.table), where the
+  equivalent syntax looks like:
+  
+  ```
+  starwars[, .(mean_height = mean(height)), by = .(species, homeworld)]
+  ```
+
+* `summarise()` now correctly recycles named 0-column data frames (#6509).
+
+* `.cols` and `.fns` are now required arguments in `across()`, `c_across()`,
+  `if_any()`, and `if_all()`. In general, we now recommend that you use `pick()`
+  instead of empty calls to `across()` (i.e. with no arguments) or
+  `across(c(x, y))` (i.e. with no `.fns`) to select a subset of columns without
+  applying any transformation (#6523).
+  
+  * Relying on the previous default of `.cols = everything()` is deprecated.
+    We have skipped the soft-deprecation stage in this case, because indirect
+    usage of `across()` and friends in this way is rare.
+  
+  * Relying on the previous default of `.fns = NULL` is not yet formally
+    soft-deprecated, because there was no good alternative until now, but is
+    discouraged and will be soft-deprecated in the next minor release.
+
+* `cur_data()` and `cur_data_all()` are now soft-deprecated in favor of
+  `pick()` (#6204).
+
+* New `pick()` to access a subset of columns from the current group. `pick()`
+  is intended as a replacement for `across(.fns = NULL)`, `cur_data()`, and
+  `cur_data_all()`. We feel that `pick()` is a much more evocative name when you
+  are just trying to select a subset of columns from your data (#6204).
+
+* `arrange()` now works correctly when `across()` calls are used as the 2nd
+  (or more) ordering expression (#6495).
+
+* Joins now reference the correct column in `y` when a type error is thrown
+  while joining on two columns with different names (#6465).
+
+* Warnings are now enriched with contextualised information in `summarise()` and
+  `filter()` just like they have been in `mutate()` and `arrange()`.
+
+* Using 1 column matrices in `filter()` is now deprecated (#6091).
+
+* Warnings emitted inside `mutate()` and variants are now collected and stashed
+  away. Run the new `last_dplyr_warnings()` function to see the warnings emitted
+  within dplyr verbs during the last top-level command.
+
+  This fixes performance issues when thousands of warnings are emitted with
+  rowwise and grouped data frames (#6005, #6236).
+
+* `group_by_prepare()` loses the `caller_env` argument. It was rarely used
+  and it is no longer needed (#6444).
+
+* `nth()`, `first()`, `last()`, and `with_order()` now sort character `order_by`
+  vectors in the C locale. Using character vectors for `order_by` is rare, so we
+  expect this to have little practical impact (#6451).
+
+* `slice()`ing with a 1-column matrix is now deprecated.
+
+* `row_number()`, `min_rank()`, `dense_rank()`, `ntile()`, `cume_dist()`, and
+  `percent_rank()` are now powered by vctrs, meaning that they are faster and
+  work for more types. You can now also rank by multiple columns at once by
+  supplying a data frame to these functions (#6428).
+  
+* `ntile()` now requires `n` to be a single positive integer.
+
+* `transmute()` is superseded in favour of `mutate(.keep = "none")`
+
+* `recode()` is superseded in favor of `case_match()`. `recode_factor()` is
+  superseded as well, but we don't have a direct replacement for it yet. We plan
+  to add one to forcats, but in the meantime you can often use a pattern of
+  `case_match(.ptype = factor(levels = ))` instead (#6433).
+
+* `across()` has gained a new experimental `.unpack` argument to optionally
+  unpack (as in, `tidyr::unpack()`) data frames returned by functions in `.fns`
+  (#6360).
+
+* `cur_group()` now works correctly with zero row grouped data frames (#6304).
+
+* Error messages in `group_by()`, `distinct()`, `tally()`, and `count()` are now
+  more relevant (#6139).
+
 * `slice_sample()` now accepts negative `n` and `prop` values (#6402).
 
 * `slice_*()` now requires `n` to be an integer.
@@ -13,8 +174,6 @@
    were omitted due to an error (@steveharoz, #6320).
 
 * `progress_estimate()` is deprecated for all uses (#6387).
-
-* `funs()`, deprecated in 0.8.0, is now defunct (#6387).
 
 * `select_vars()`, `rename_vars()`, `select_var()` and `current_var()`, 
   deprecated in 0.8.4, are now defunct (#6387).
@@ -241,12 +400,8 @@
 * `between()` has been rewritten to utilize vctrs. This means that it is no
   longer restricted to just numeric and date-time vectors. Additionally, `left`
   and `right` are no longer required to be scalars, they can now also be vectors
-  with the same length as `x`. Finally, `left` and `right` are now cast to the
-  type of `x` before the comparison is made. This last change means that you
-  can no longer make comparisons like `between(<int>, 0, 2.5)`, as `2.5` can't
-  be cast to integer without losing information. We recommend that you convert
-  the `<int>` vector to double before calling `between()` if you require this
-  (#6183, #6260).
+  with the same length as `x`. Finally, `x`, `left`, and `right` are now cast to
+  their common type before the comparison is made (#6183, #6260, #6478).
 
 * Joins have undergone a complete overhaul. The purpose of this overhaul is to
   enable more flexible join operations, while also providing tools to perform
@@ -269,10 +424,10 @@
       `join_by(sale_date >= commercial_date)` to find every commercial that
       aired before a particular sale.
       
-    * Rolling joins: For "rolling" the preceding value forward or the following
-      value backwards when there isn't an exact match, specified by using one of
-      the rolling helpers: `preceding()` or `following()`. For example,
-      `join_by(preceding(sale_date, commercial_date))` to find only the most
+    * Rolling joins: For "rolling" the closest match forward or backwards when
+      there isn't an exact match, specified by using the rolling helper,
+      `closest()`. For example,
+      `join_by(closest(sale_date >= commercial_date))` to find only the most
       recent commercial that aired before a particular sale.
       
     * Overlap joins: For detecting overlaps between sets of columns, specified
@@ -306,6 +461,10 @@
     `"error"` if dropped rows would be surprising.
 
 * `nest_join()` has gained the `na_matches` argument that all other joins have.
+
+# dplyr 1.0.10
+
+Hot patch release to resolve R CMD check failures.
 
 # dplyr 1.0.9
 

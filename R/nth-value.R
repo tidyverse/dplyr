@@ -94,8 +94,8 @@ nth <- function(x, n, order_by = NULL, default = NULL, na_rm = FALSE) {
 
   check_bool(na_rm)
 
-  if (na_rm) {
-    not_missing <- !vec_equal_na(x)
+  if (na_rm && vec_any_missing(x)) {
+    not_missing <- !vec_detect_missing(x)
 
     x <- vec_slice(x, not_missing)
     size <- vec_size(x)
@@ -115,7 +115,7 @@ nth <- function(x, n, order_by = NULL, default = NULL, na_rm = FALSE) {
   }
 
   if (!is.null(order_by)) {
-    order <- vec_order_base(order_by)
+    order <- vec_order_radix(order_by)
     n <- order[[n]]
   }
 

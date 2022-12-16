@@ -95,14 +95,15 @@ tidy_eval_arrange <- function(.data, var) {
 }
 tidy_eval_arrange(mtcars, mpg)
 
-# use across() to access select()-style semantics
-iris \%>\% arrange(across(starts_with("Sepal")))
+# Use `across()` or `pick()` to select columns with tidy-select
+iris \%>\% arrange(pick(starts_with("Sepal")))
 iris \%>\% arrange(across(starts_with("Sepal"), desc))
 }
 \seealso{
 Other single table verbs: 
 \code{\link{filter}()},
 \code{\link{mutate}()},
+\code{\link{reframe}()},
 \code{\link{rename}()},
 \code{\link{select}()},
 \code{\link{slice}()},

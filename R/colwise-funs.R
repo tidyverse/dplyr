@@ -1,6 +1,12 @@
-
-as_fun_list <- function(.funs, .env, ..., .caller, .caller_arg = "...", error_call = caller_env()) {
+as_fun_list <- function(.funs,
+                        .env,
+                        ...,
+                        .caller,
+                        .caller_arg = "...",
+                        error_call = caller_env(),
+                        .user_env = caller_env(2)) {
   args <- list2(...)
+  force(.user_env)
 
   if (is_fun_list(.funs)) {
     if (!is_empty(args)) {
@@ -26,14 +32,15 @@ as_fun_list <- function(.funs, .env, ..., .caller, .caller_arg = "...", error_ca
       if (is_quosure(.x)) {
         what <- paste0(
           "dplyr::", .caller, "(", .caller_arg, " = ",
-          "'can\\'t contain quosures.')"
+          "'can\\'t contain quosures')"
         )
 
         lifecycle::deprecate_warn(
           "0.8.3", what,
           details = "Please use a one-sided formula, a function, or a function name.",
           always = TRUE,
-          env = .env
+          env = .env,
+          user_env = .user_env
         )
         .x <- new_formula(NULL, quo_squash(.x), quo_get_env(.x))
       }

@@ -5,7 +5,7 @@
 #' `by` argument to any of the join functions (such as [left_join()]).
 #'
 #' # Join types
-#' `join_by()` supports four types of join, as described below:
+#' `join_by()` supports four types of joins, as described below:
 #'
 #' * Equi joins
 #' * Non-equi joins
@@ -32,46 +32,23 @@
 #'
 #' ## Rolling joins
 #'
-#' Rolling joins are a variant of a non-equi join that limit the results
-#' returned from the non-equi join condition. They are useful for "rolling"
-#' the preceding value forward or the following value backwards when there
-#' isn't an exact match. There are two helpers that `join_by()` recognizes
-#' to assist with constructing rolling joins.
+#' Rolling joins are a variant of non-equi joins that limit the results returned
+#' from a non-equi join condition. They are useful for "rolling" the closest
+#' match forward/backwards when there isn't an exact match. To construct a
+#' rolling join, wrap an inequality with `closest()`.
 #'
-#' - `preceding(x, y, ..., inclusive = TRUE)`
+#' - `closest(expr)`
 #'
-#'   For each value in `x`, this finds the value in `y` that is directly
-#'   preceding it. If `inclusive = TRUE`, an exact match is allowed to count as
-#'   the preceding value.
+#'   `expr` must be a binary inequality involving one of: `>`, `>=`, `<`,
+#'   or `<=`.
 #'
-#'   Technically, this finds all matches using the binary condition `x >= y`,
-#'   then filters those matches to only include the one corresponding to the
-#'   maximum value of `y` (i.e. the preceding match). If `inclusive = FALSE`,
-#'   `>=` is replaced with `>`.
+#'   For example, `closest(x >= y)` is interpreted as: For each value in `x`,
+#'   find the closest value in `y` that is less than or equal to that `x` value.
 #'
-#'   Dots are for future extensions and must be empty.
-#'
-#' - `following(x, y, ..., inclusive = TRUE)`
-#'
-#'   For each value in `x`, this finds the value in `y` that is directly
-#'   following it. If `inclusive = TRUE`, an exact match is allowed to count as
-#'   the following value.
-#'
-#'   Technically, this finds all matches using the binary condition `x <= y`,
-#'   then filters those matches to only include the one corresponding to the
-#'   minimum value of `y` (i.e. the following match). If `inclusive = FALSE`,
-#'   `<=` is replaced with `<`.
-#'
-#'   Dots are for future extensions and must be empty.
-#'
-#' Unlike other join helpers, the `x` argument must reference the left-hand
-#' table (`x`) and the `y` argument must reference the right-hand table (`y`).
-#' Attempting something like `preceding(y$a, x$b)` is not defined and will
-#' result in an error.
-#'
-#' Rolling joins can't be constructed directly from binary conditions, but are
-#' approximately equivalent to applying the binary condition mentioned above
-#' followed by a `filter()` for only the maximum or minimum `y` value.
+#' `closest()` will always use the left-hand table (`x`) as the primary table,
+#' and the right-hand table (`y`) as the one to find the closest match in,
+#' regardless of how the binary condition is specified. For example,
+#' `closest(y$a >= x$b)` will always be interpreted as `closest(x$b <= y$a)`.
 #'
 #' ## Overlap joins
 #'
@@ -81,10 +58,18 @@
 #' `join_by()` recognizes to assist with constructing overlap joins, all of
 #' which can be constructed from simpler binary expressions.
 #'
-#' - `between(x, y_lower, y_upper)`
+#' - `between(x, y_lower, y_upper, ..., bounds = "[]")`
 #'
 #'   For each value in `x`, this finds everywhere that value falls between
-#'   `[y_lower, y_upper]`. Equivalent to `x >= y_lower, x <= y_upper`.
+#'   `[y_lower, y_upper]`. Equivalent to `x >= y_lower, x <= y_upper` by
+#'   default.
+#'
+#'   `bounds` can be one of \code{"[]"}, \code{"[)"}, \code{"(]"}, or
+#'   \code{"()"} to alter the inclusiveness of the lower and upper bounds. This
+#'   changes whether `>=` or `>` and `<=` or `<` are used to build the binary
+#'   conditions shown above.
+#'
+#'   Dots are for future extensions and must be empty.
 #'
 #' - `within(x_lower, x_upper, y_lower, y_upper)`
 #'
@@ -92,14 +77,25 @@
 #'   falls completely within `[y_lower, y_upper]`. Equivalent to `x_lower >=
 #'   y_lower, x_upper <= y_upper`.
 #'
-#' - `overlaps(x_lower, x_upper, y_lower, y_upper)`
+#'   The binary conditions used to build `within()` are the same regardless of
+#'   the inclusiveness of the supplied ranges.
+#'
+#' - `overlaps(x_lower, x_upper, y_lower, y_upper, ..., bounds = "[]")`
 #'
 #'   For each range in `[x_lower, x_upper]`, this finds everywhere that range
 #'   overlaps `[y_lower, y_upper]` in any capacity. Equivalent to `x_lower <=
-#'   y_upper, x_upper >= y_lower`.
+#'   y_upper, x_upper >= y_lower` by default.
 #'
-#' These conditions assume that the ranges are well-formed, i.e.
-#' `x_lower <= x_upper`.
+#'   `bounds` can be one of \code{"[]"}, \code{"[)"}, \code{"(]"}, or
+#'   \code{"()"} to alter the inclusiveness of the lower and upper bounds.
+#'   \code{"[]"} uses `<=` and `>=`, but the 3 other options use `<` and `>`
+#'   and generate the exact same binary conditions.
+#'
+#'   Dots are for future extensions and must be empty.
+#'
+#' These conditions assume that the ranges are well-formed and non-empty, i.e.
+#' `x_lower <= x_upper` when bounds are treated as \code{"[]"}, and
+#' `x_lower < x_upper` otherwise.
 #'
 #' # Column referencing
 #'
@@ -116,7 +112,7 @@
 #'   Each expression should consist of either a join condition or a join helper:
 #'
 #'   - Join conditions: `==`, `>=`, `>`, `<=`, or `<`.
-#'   - Rolling helpers: `preceding()` or `following()`.
+#'   - Rolling helper: `closest()`.
 #'   - Overlap helpers: `between()`, `within()`, or `overlaps()`.
 #'
 #'   Other expressions are not supported. If you need to perform a join on
@@ -156,22 +152,21 @@
 #' left_join(sales, promos, by)
 #'
 #' # For each `sale_date` within a particular `id`,
-#' # find only the preceding `promo_date` that occurred directly
-#' # before that sale
-#' by <- join_by(id, preceding(sale_date, promo_date))
+#' # find only the closest `promo_date` that occurred before that sale
+#' by <- join_by(id, closest(sale_date >= promo_date))
 #' left_join(sales, promos, by)
 #'
-#' # If you want to disallow exact matching in rolling joins,
-#' # set `inclusive = FALSE`. Note that the promo on `2019-01-05` is no longer
-#' # considered the preceding match for the sale on the same date.
-#' by <- join_by(id, preceding(sale_date, promo_date, inclusive = FALSE))
+#' # If you want to disallow exact matching in rolling joins, use `>` rather
+#' # than `>=`. Note that the promo on `2019-01-05` is no longer considered the
+#' # closest match for the sale on the same date.
+#' by <- join_by(id, closest(sale_date > promo_date))
 #' left_join(sales, promos, by)
 #'
 #' # Same as before, but also require that the promo had to occur at most 1
 #' # day before the sale was made. We'll use a full join to see that id 2's
 #' # promo on `2019-01-02` is no longer matched to the sale on `2019-01-04`.
 #' sales <- mutate(sales, sale_date_lower = sale_date - 1)
-#' by <- join_by(id, preceding(sale_date, promo_date), sale_date_lower <= promo_date)
+#' by <- join_by(id, closest(sale_date >= promo_date), sale_date_lower <= promo_date)
 #' full_join(sales, promos, by)
 #'
 #' # ---------------------------------------------------------------------------
@@ -187,7 +182,7 @@
 #' reference <- tibble(
 #'   reference_id = 1:4,
 #'   chromosome = c("chr1", "chr1", "chr2", "chr2"),
-#'   start = c(100, 200, 300, 400),
+#'   start = c(100, 200, 300, 415),
 #'   end = c(150, 250, 399, 450)
 #' )
 #' reference
@@ -212,8 +207,19 @@
 #' # Find every time a segment overlaps a reference in any way.
 #' by <- join_by(chromosome, overlaps(x$start, x$end, y$start, y$end))
 #' full_join(segments, reference, by)
+#'
+#' # It is common to have right-open ranges with bounds like `[)`, which would
+#' # mean an end value of `415` would no longer overlap a start value of `415`.
+#' # Setting `bounds` allows you to compute overlaps with those kinds of ranges.
+#' by <- join_by(chromosome, overlaps(x$start, x$end, y$start, y$end, bounds = "[)"))
+#' full_join(segments, reference, by)
 join_by <- function(...) {
-  exprs <- enexprs(..., .named = NULL)
+  # `join_by()` works off pure expressions with no evaluation in the user's
+  # environment, but we want to allow `{{ }}` to make it easier to program with.
+  # The best way to do this is to capture quosures with `enquos()`, and then
+  # immediately squash them recursively into expressions with `quo_squash()`.
+  exprs <- enquos(..., .named = NULL)
+  exprs <- map(exprs, quo_squash)
 
   if (!is_null(names(exprs))) {
     abort(c(
@@ -278,7 +284,7 @@ new_join_by <- function(exprs, condition, filter, cross, x, y) {
 }
 
 flat_map_chr <- function(x, fn) {
-  vec_unchop(map(x, fn), ptype = character())
+  list_unchop(map(x, fn), ptype = character())
 }
 
 # ------------------------------------------------------------------------------
@@ -352,18 +358,14 @@ join_by_common <- function(x_names,
   if (length(by) == 0) {
     message <- c(
       "`by` must be supplied when `x` and `y` have no common variables.",
-      i = "Use `by = character()` to perform a cross-join."
+      i = "Use `by = join_by()` to perform a cross-join."
     )
     abort(message, call = error_call)
   }
 
-  by_quoted <- encodeString(by, quote = '"')
-  if (length(by_quoted) == 1L) {
-    by_code <- by_quoted
-  } else {
-    by_code <- paste0("c(", paste(by_quoted, collapse = ", "), ")")
-  }
-  inform(paste0("Joining, by = ", by_code))
+  by_names <- tick_if_needed(by)
+  by_names <- glue_collapse(by_names, sep = ", ")
+  inform(glue("Joining with `by = join_by({by_names})`"))
 
   finalise_equi_join_by(by, by)
 }
@@ -377,6 +379,14 @@ join_by_common <- function(x_names,
 # these functions don't have an `error_call` argument.
 
 parse_join_by_expr <- function(expr, i, error_call) {
+  if (is_missing(expr)) {
+    message <- c(
+      "Join by expressions can't be missing.",
+      x = glue("Expression {i} is missing.")
+    )
+    abort(message, call = error_call)
+  }
+
   if (length(expr) == 0L) {
     message <- c(
       "Join by expressions can't be empty.",
@@ -409,12 +419,10 @@ parse_join_by_expr <- function(expr, i, error_call) {
     "<" = parse_join_by_binary(expr, i, error_call),
 
     "between" = parse_join_by_between(expr, i, error_call),
+    "within" = parse_join_by_within(expr, i, error_call),
+    "overlaps" = parse_join_by_overlaps(expr, i, error_call),
 
-    "overlaps" =,
-    "within" = parse_join_by_containment(expr, i, error_call),
-
-    "preceding" =,
-    "following" = parse_join_by_rolling(expr, i, error_call),
+    "closest" = parse_join_by_closest(expr, i, error_call),
 
     "$" = stop_invalid_dollar_sign(expr, i, error_call),
 
@@ -432,7 +440,7 @@ stop_invalid_dollar_sign <- function(expr, i, call) {
 }
 
 stop_invalid_top_expression <- function(expr, i, call) {
-  options <- c("==", ">=", ">", "<=", "<", "preceding()", "following()", "between()", "overlaps()", "within()")
+  options <- c("==", ">=", ">", "<=", "<", "closest()", "between()", "overlaps()", "within()")
   options <- glue::backtick(options)
   options <- glue_collapse(options, sep = ", ", last = ", or ")
 
@@ -605,108 +613,84 @@ binding_join_by_less_than_or_equal <- function(x, y) {
   binding_join_by_binary("<=", caller_env(), !!enexpr(x), !!enexpr(y))
 }
 
-parse_join_by_rolling <- function(expr, i, error_call) {
-  args <- eval_join_by_rolling(expr, error_call)
+parse_join_by_closest <- function(expr, i, error_call) {
+  args <- eval_join_by_closest(expr, error_call)
 
-  rolling <- args$rolling
-  inclusive <- args$inclusive
+  expr_binary <- args$expr
+
+  if (!is_call(expr_binary)) {
+    message <- c(
+      "The first argument of `closest()` must be an expression.",
+      i = glue("Expression {i} is {err_expr(expr)}.")
+    )
+    abort(message, call = error_call)
+  }
+
+  op <- as_string(expr_binary[[1]])
+
+  out <- switch(
+    op,
+
+    ">=" =,
+    ">" =,
+    "<=" =,
+    "<" = parse_join_by_binary(expr_binary, i, error_call),
+
+    "==" = stop_join_by_closest_equal_expression(expr, i, error_call),
+
+    stop_join_by_closest_invalid_expression(expr, i, error_call)
+  )
 
   filter <- switch(
-    rolling,
-    preceding = "max",
-    following = "min",
-    abort("Unknown `rolling` value.", .internal = TRUE)
+    out$condition,
+    ">=" = "max",
+    ">" = "max",
+    "<=" = "min",
+    "<" = "min",
+    abort("Unexpected `closest()` `condition`.", .internal = TRUE)
   )
 
-  condition <- switch(
-    rolling,
-    preceding = if (inclusive) ">=" else ">",
-    following = if (inclusive) "<=" else "<",
-    abort("Unknown `rolling` value.", .internal = TRUE)
-  )
+  out$filter <- filter
 
-  lhs <- args$lhs
-  rhs <- args$rhs
-
-  lhs <- parse_join_by_name(lhs, i, default_side = "x", error_call = error_call)
-  rhs <- parse_join_by_name(rhs, i, default_side = "y", error_call = error_call)
-
-  # It doesn't make sense to allow `preceding(y$a, x$b)`, as that can't
-  # translate to anything meaningful / intuitive.
-  if (lhs$side == "y") {
-    rolling <- glue::backtick(glue("{rolling}()"))
-
-    message <- c(
-      glue("The first argument to {rolling} must reference the `x` table."),
-      i = glue("Expression {i} contains {err_expr(expr)}.")
-    )
-    abort(message, call = error_call)
-  }
-
-  if (rhs$side == "x") {
-    rolling <- glue::backtick(glue("{rolling}()"))
-
-    message <- c(
-      glue("The second argument to {rolling} must reference the `y` table."),
-      i = glue("Expression {i} contains {err_expr(expr)}.")
-    )
-    abort(message, call = error_call)
-  }
-
-  x <- lhs$name
-  y <- rhs$name
-
-  list(
-    x = x,
-    y = y,
-    condition = condition,
-    filter = filter
-  )
+  out
 }
-eval_join_by_rolling <- function(expr, error_call) {
+eval_join_by_closest <- function(expr, error_call) {
   env <- new_environment()
   local_error_call(error_call, frame = env)
 
-  env_bind(
-    env,
-    preceding = binding_join_by_preceding,
-    following = binding_join_by_following
-  )
+  env_poke(env, "closest", binding_join_by_closest)
 
   eval_tidy(expr, env = env)
 }
-binding_join_by_rolling <- function(rolling, error_call, x, y, ..., inclusive) {
-  if (dots_n(...) > 0L) {
-    rolling <- glue::backtick(glue("{rolling}()"))
-    message <- c(
-      "`...` must be empty.",
-      i = glue("Non-empty dots were detected inside {rolling}.")
-    )
-    abort(message, call = error_call)
-  }
+binding_join_by_closest <- function(expr) {
+  error_call <- caller_env()
 
-  x <- enexpr(x)
-  y <- enexpr(y)
+  expr <- enexpr(expr)
 
-  check_missing_arg(x, "x", rolling, error_call)
-  check_missing_arg(y, "y", rolling, error_call)
+  check_missing_arg(expr, "expr", "closest", error_call)
 
-  if (!is_bool(inclusive)) {
-    rolling <- glue::backtick(glue("{rolling}()"))
-    message <- c(
-      "`inclusive` must be a single `TRUE` or `FALSE`.",
-      i = glue("An invalid `inclusive` value was detected inside {rolling}.")
-    )
-    abort(message, call = error_call)
-  }
-
-  list(rolling = rolling, lhs = x, rhs = y, inclusive = inclusive)
+  list(expr = expr)
 }
-binding_join_by_preceding <- function(x, y, ..., inclusive = TRUE) {
-  binding_join_by_rolling("preceding", caller_env(), !!enexpr(x), !!enexpr(y), ..., inclusive = inclusive)
+stop_join_by_closest_equal_expression <- function(expr, i, error_call) {
+  # `closest(x == y)` doesn't make any sense,
+  # even if vctrs can technically handle it.
+  message <- c(
+    "The expression used in `closest()` can't use `==`.",
+    i = glue("Expression {i} is {err_expr(expr)}.")
+  )
+  abort(message, call = error_call)
 }
-binding_join_by_following <- function(x, y, ..., inclusive = TRUE) {
-  binding_join_by_rolling("following", caller_env(), !!enexpr(x), !!enexpr(y), ..., inclusive = inclusive)
+stop_join_by_closest_invalid_expression <- function(expr, i, error_call) {
+  options <- c(">=", ">", "<=", "<")
+  options <- glue::backtick(options)
+  options <- glue_collapse(options, sep = ", ", last = ", or ")
+
+  message <- c(
+    glue("The expression used in `closest()` must use one of: {options}."),
+    i = glue("Expression {i} is {err_expr(expr)}.")
+  )
+
+  abort(message, call = error_call)
 }
 
 parse_join_by_between <- function(expr, i, error_call) {
@@ -715,6 +699,8 @@ parse_join_by_between <- function(expr, i, error_call) {
   lhs <- parse_join_by_name(args$lhs, i, "x", error_call)
   rhs_lower <- parse_join_by_name(args$rhs_lower, i, "y", error_call)
   rhs_upper <- parse_join_by_name(args$rhs_upper, i, "y", error_call)
+
+  bounds <- args$bounds
 
   if (rhs_lower$side != rhs_upper$side) {
     message <- c(
@@ -735,11 +721,23 @@ parse_join_by_between <- function(expr, i, error_call) {
   if (lhs$side == "x") {
     x <- c(lhs$name, lhs$name)
     y <- c(rhs_lower$name, rhs_upper$name)
-    condition <- c(">=", "<=")
+    condition <- switch(
+      bounds,
+      "[]" = c(">=", "<="),
+      "[)" = c(">=", "<"),
+      "(]" = c(">", "<="),
+      "()" = c(">", "<")
+    )
   } else {
     x <- c(rhs_lower$name, rhs_upper$name)
     y <- c(lhs$name, lhs$name)
-    condition <- c("<=", ">=")
+    condition <- switch(
+      bounds,
+      "[]" = c("<=", ">="),
+      "[)" = c("<=", ">"),
+      "(]" = c("<", ">="),
+      "()" = c("<", ">")
+    )
   }
 
   filter <- c("none", "none")
@@ -759,8 +757,10 @@ eval_join_by_between <- function(expr, error_call) {
 
   eval_tidy(expr, env = env)
 }
-binding_join_by_between <- function(x, y_lower, y_upper) {
+binding_join_by_between <- function(x, y_lower, y_upper, ..., bounds = "[]") {
   error_call <- caller_env()
+
+  check_join_by_dots_empty(..., fn = "between", call = error_call)
 
   x <- enexpr(x)
   y_lower <- enexpr(y_lower)
@@ -770,13 +770,13 @@ binding_join_by_between <- function(x, y_lower, y_upper) {
   check_missing_arg(y_lower, "y_lower", "between", error_call)
   check_missing_arg(y_upper, "y_upper", "between", error_call)
 
-  list(lhs = x, rhs_lower = y_lower, rhs_upper = y_upper)
+  bounds <- check_bounds(bounds, call = error_call)
+
+  list(lhs = x, rhs_lower = y_lower, rhs_upper = y_upper, bounds = bounds)
 }
 
-parse_join_by_containment <- function(expr, i, error_call) {
-  args <- eval_join_by_containment(expr, error_call)
-
-  type <- args$type
+parse_join_by_within <- function(expr, i, error_call) {
+  args <- eval_join_by_within(expr, error_call)
 
   lhs_lower <- parse_join_by_name(args$lhs_lower, i, "x", error_call)
   lhs_upper <- parse_join_by_name(args$lhs_upper, i, "x", error_call)
@@ -786,7 +786,7 @@ parse_join_by_containment <- function(expr, i, error_call) {
   if (lhs_lower$side != lhs_upper$side) {
     message <- c(
       paste0(
-        "Expressions containing `overlaps()` or `within()` must reference ",
+        "Expressions containing `within()` must reference ",
         "the same table for the left-hand side lower and upper bounds."
       ),
       i = glue("Expression {i} is {err_expr(expr)}.")
@@ -797,7 +797,7 @@ parse_join_by_containment <- function(expr, i, error_call) {
   if (rhs_lower$side != rhs_upper$side) {
     message <- c(
       paste0(
-        "Expressions containing `overlaps()` or `within()` must reference ",
+        "Expressions containing `within()` must reference ",
         "the same table for the right-hand side lower and upper bounds."
       ),
       i = glue("Expression {i} is {err_expr(expr)}.")
@@ -807,34 +807,20 @@ parse_join_by_containment <- function(expr, i, error_call) {
 
   if (lhs_lower$side == rhs_lower$side) {
     message <- c(
-      "Expressions containing `overlaps()` or `within()` can't all reference the same table.",
+      "Expressions containing `within()` can't all reference the same table.",
       i = glue("Expression {i} is {err_expr(expr)}.")
     )
     abort(message, call = error_call)
   }
 
-  if (type == "overlaps") {
-    if (lhs_lower$side == "x") {
-      x <- c(lhs_lower$name, lhs_upper$name)
-      y <- c(rhs_upper$name, rhs_lower$name)
-      condition <- c("<=", ">=")
-    } else {
-      x <- c(rhs_upper$name, rhs_lower$name)
-      y <- c(lhs_lower$name, lhs_upper$name)
-      condition <- c(">=", "<=")
-    }
-  } else if (type == "within") {
-    if (lhs_lower$side == "x") {
-      x <- c(lhs_lower$name, lhs_upper$name)
-      y <- c(rhs_lower$name, rhs_upper$name)
-      condition <- c(">=", "<=")
-    } else {
-      x <- c(rhs_lower$name, rhs_upper$name)
-      y <- c(lhs_lower$name, lhs_upper$name)
-      condition <- c("<=", ">=")
-    }
+  if (lhs_lower$side == "x") {
+    x <- c(lhs_lower$name, lhs_upper$name)
+    y <- c(rhs_lower$name, rhs_upper$name)
+    condition <- c(">=", "<=")
   } else {
-    abort("Unknown containment `type`.", .internal = TRUE)
+    x <- c(rhs_lower$name, rhs_upper$name)
+    y <- c(lhs_lower$name, lhs_upper$name)
+    condition <- c("<=", ">=")
   }
 
   filter <- c("none", "none")
@@ -846,61 +832,182 @@ parse_join_by_containment <- function(expr, i, error_call) {
     filter = filter
   )
 }
-eval_join_by_containment <- function(expr, error_call) {
+eval_join_by_within <- function(expr, error_call) {
   env <- new_environment()
   local_error_call(error_call, frame = env)
 
-  env_bind(
-    env,
-    within = binding_join_by_within,
-    overlaps = binding_join_by_overlaps
-  )
+  env_poke(env, "within", binding_join_by_within)
 
   eval_tidy(expr, env = env)
 }
-binding_join_by_containment <- function(type,
-                                        error_call,
-                                        x_lower,
-                                        x_upper,
-                                        y_lower,
-                                        y_upper) {
+binding_join_by_within <- function(x_lower,
+                                   x_upper,
+                                   y_lower,
+                                   y_upper) {
+  error_call <- caller_env()
+
   x_lower <- enexpr(x_lower)
   x_upper <- enexpr(x_upper)
   y_lower <- enexpr(y_lower)
   y_upper <- enexpr(y_upper)
 
-  check_missing_arg(x_lower, "x_lower", type, error_call)
-  check_missing_arg(x_upper, "x_upper", type, error_call)
-  check_missing_arg(y_lower, "y_lower", type, error_call)
-  check_missing_arg(y_upper, "y_upper", type, error_call)
+  check_missing_arg(x_lower, "x_lower", "within", error_call)
+  check_missing_arg(x_upper, "x_upper", "within", error_call)
+  check_missing_arg(y_lower, "y_lower", "within", error_call)
+  check_missing_arg(y_upper, "y_upper", "within", error_call)
 
   list(
-    type = type,
     lhs_lower = x_lower,
     lhs_upper = x_upper,
     rhs_lower = y_lower,
     rhs_upper = y_upper
   )
 }
-binding_join_by_within <- function(x_lower, x_upper, y_lower, y_upper) {
-  binding_join_by_containment(
-    type = "within",
-    error_call = caller_env(),
-    x_lower = !!enexpr(x_lower),
-    x_upper = !!enexpr(x_upper),
-    y_lower = !!enexpr(y_lower),
-    y_upper = !!enexpr(y_upper)
+
+parse_join_by_overlaps <- function(expr, i, error_call) {
+  args <- eval_join_by_overlaps(expr, error_call)
+
+  lhs_lower <- parse_join_by_name(args$lhs_lower, i, "x", error_call)
+  lhs_upper <- parse_join_by_name(args$lhs_upper, i, "x", error_call)
+  rhs_lower <- parse_join_by_name(args$rhs_lower, i, "y", error_call)
+  rhs_upper <- parse_join_by_name(args$rhs_upper, i, "y", error_call)
+
+  bounds <- args$bounds
+
+  if (lhs_lower$side != lhs_upper$side) {
+    message <- c(
+      paste0(
+        "Expressions containing `overlaps()` must reference ",
+        "the same table for the left-hand side lower and upper bounds."
+      ),
+      i = glue("Expression {i} is {err_expr(expr)}.")
+    )
+    abort(message, call = error_call)
+  }
+
+  if (rhs_lower$side != rhs_upper$side) {
+    message <- c(
+      paste0(
+        "Expressions containing `overlaps()` must reference ",
+        "the same table for the right-hand side lower and upper bounds."
+      ),
+      i = glue("Expression {i} is {err_expr(expr)}.")
+    )
+    abort(message, call = error_call)
+  }
+
+  if (lhs_lower$side == rhs_lower$side) {
+    message <- c(
+      "Expressions containing `overlaps()` can't all reference the same table.",
+      i = glue("Expression {i} is {err_expr(expr)}.")
+    )
+    abort(message, call = error_call)
+  }
+
+  # 3 of the `bounds` have the exact same behavior, but the argument name is
+  # consistent with `between(bounds =)` and easier to remember and interpret
+  # than exposing `closed` directly (#6504).
+  # - `[]` uses `<=` and `>=`
+  # - All other conditions use `<` and `>` due to the presence of a `(` or `)`
+  closed <- switch(
+    bounds,
+    "[]" = TRUE,
+    "[)" = FALSE,
+    "(]" = FALSE,
+    "()" = FALSE,
+    abort("Unknown `bounds`.", .internal = TRUE)
+  )
+
+  if (lhs_lower$side == "x") {
+    x <- c(lhs_lower$name, lhs_upper$name)
+    y <- c(rhs_upper$name, rhs_lower$name)
+
+    if (closed) {
+      condition <- c("<=", ">=")
+    } else {
+      condition <- c("<", ">")
+    }
+  } else {
+    x <- c(rhs_upper$name, rhs_lower$name)
+    y <- c(lhs_lower$name, lhs_upper$name)
+
+    if (closed) {
+      condition <- c(">=", "<=")
+    } else {
+      condition <- c(">", "<")
+    }
+  }
+
+  filter <- c("none", "none")
+
+  list(
+    x = x,
+    y = y,
+    condition = condition,
+    filter = filter
   )
 }
-binding_join_by_overlaps <- function(x_lower, x_upper, y_lower, y_upper) {
-  binding_join_by_containment(
-    type = "overlaps",
-    error_call = caller_env(),
-    x_lower = !!enexpr(x_lower),
-    x_upper = !!enexpr(x_upper),
-    y_lower = !!enexpr(y_lower),
-    y_upper = !!enexpr(y_upper)
+eval_join_by_overlaps <- function(expr, error_call) {
+  env <- new_environment()
+  local_error_call(error_call, frame = env)
+
+  env_poke(env, "overlaps", binding_join_by_overlaps)
+
+  eval_tidy(expr, env = env)
+}
+binding_join_by_overlaps <- function(x_lower,
+                                     x_upper,
+                                     y_lower,
+                                     y_upper,
+                                     ...,
+                                     bounds = "[]") {
+  error_call <- caller_env()
+
+  check_join_by_dots_empty(..., fn = "overlaps", call = error_call)
+
+  x_lower <- enexpr(x_lower)
+  x_upper <- enexpr(x_upper)
+  y_lower <- enexpr(y_lower)
+  y_upper <- enexpr(y_upper)
+
+  check_missing_arg(x_lower, "x_lower", "overlaps", error_call)
+  check_missing_arg(x_upper, "x_upper", "overlaps", error_call)
+  check_missing_arg(y_lower, "y_lower", "overlaps", error_call)
+  check_missing_arg(y_upper, "y_upper", "overlaps", error_call)
+
+  bounds <- check_bounds(bounds, call = error_call)
+
+  list(
+    lhs_lower = x_lower,
+    lhs_upper = x_upper,
+    rhs_lower = y_lower,
+    rhs_upper = y_upper,
+    bounds = bounds
   )
+}
+
+check_bounds <- function(bounds, call) {
+  arg_match0(
+    bounds,
+    values = c("[]", "[)", "(]", "()"),
+    arg_nm = "bounds",
+    error_call = call
+  )
+}
+
+check_join_by_dots_empty <- function(..., fn, call) {
+  if (dots_n(...) == 0L) {
+    return()
+  }
+
+  fn <- glue::backtick(glue("{fn}()"))
+
+  message <- c(
+    "`...` must be empty.",
+    i = glue("Non-empty dots were detected inside {fn}.")
+  )
+
+  abort(message, call = call)
 }
 
 check_missing_arg <- function(arg,

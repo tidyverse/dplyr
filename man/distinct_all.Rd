@@ -38,7 +38,8 @@ functions and strings representing function names.}
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
 Scoped verbs (\verb{_if}, \verb{_at}, \verb{_all}) have been superseded by the use of
-\code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for details.
+\code{\link[=pick]{pick()}} or \code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for
+details.
 
 These \link{scoped} variants of \code{\link[=distinct]{distinct()}} extract distinct rows by a
 selection of variables. Like \code{distinct()}, you can modify the
@@ -56,15 +57,15 @@ df <- tibble(x = rep(2:5, each = 2) / 2, y = rep(2:3, each = 4) / 2)
 
 distinct_all(df)
 # ->
-distinct(df, across())
+distinct(df, pick(everything()))
 
 distinct_at(df, vars(x,y))
 # ->
-distinct(df, across(c(x, y)))
+distinct(df, pick(x, y))
 
 distinct_if(df, is.numeric)
 # ->
-distinct(df, across(where(is.numeric)))
+distinct(df, pick(where(is.numeric)))
 
 # You can supply a function that will be applied before extracting the distinct values
 # The variables of the sorted tibble keep their original values.

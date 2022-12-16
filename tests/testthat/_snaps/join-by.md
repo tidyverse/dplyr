@@ -1,3 +1,21 @@
+# nicely catches missing arguments when wrapped
+
+    Code
+      fn(a)
+    Condition
+      Error in `join_by()`:
+      ! Join by expressions can't be missing.
+      x Expression 2 is missing.
+
+---
+
+    Code
+      fn(a)
+    Condition
+      Error:
+      ! Expressions using `==` can't contain missing arguments.
+      x Argument `y` is missing.
+
 # has an informative print method
 
     Code
@@ -45,12 +63,12 @@
 ---
 
     Code
-      join_by(a == a, preceding(b, c), following(d, e, inclusive = FALSE))
+      join_by(a == a, closest(b >= c), closest(d < e))
     Output
       Join By:
       - a == a
-      - preceding(b, c)
-      - following(d, e, inclusive = FALSE)
+      - closest(b >= c)
+      - closest(d < e)
 
 # has informative error messages
 
@@ -76,7 +94,7 @@
       join_by(foo(x > y))
     Condition
       Error in `join_by()`:
-      ! Join by expressions must use one of: `==`, `>=`, `>`, `<=`, `<`, `preceding()`, `following()`, `between()`, `overlaps()`, or `within()`.
+      ! Join by expressions must use one of: `==`, `>=`, `>`, `<=`, `<`, `closest()`, `between()`, `overlaps()`, or `within()`.
       i Expression 1 is `foo(x > y)`.
 
 ---
@@ -85,7 +103,7 @@
       join_by(x == y, x^y)
     Condition
       Error in `join_by()`:
-      ! Join by expressions must use one of: `==`, `>=`, `>`, `<=`, `<`, `preceding()`, `following()`, `between()`, `overlaps()`, or `within()`.
+      ! Join by expressions must use one of: `==`, `>=`, `>`, `<=`, `<`, `closest()`, `between()`, `overlaps()`, or `within()`.
       i Expression 2 is `x^y`.
 
 ---
@@ -184,7 +202,7 @@
       join_by(within(x$a, x$b, x$a, x$b))
     Condition
       Error in `join_by()`:
-      ! Expressions containing `overlaps()` or `within()` can't all reference the same table.
+      ! Expressions containing `within()` can't all reference the same table.
       i Expression 1 is `within(x$a, x$b, x$a, x$b)`.
 
 ---
@@ -193,8 +211,17 @@
       join_by(overlaps(a, b, x$a, x$b))
     Condition
       Error in `join_by()`:
-      ! Expressions containing `overlaps()` or `within()` can't all reference the same table.
+      ! Expressions containing `overlaps()` can't all reference the same table.
       i Expression 1 is `overlaps(a, b, x$a, x$b)`.
+
+---
+
+    Code
+      join_by(closest(x$a >= x$b))
+    Condition
+      Error in `join_by()`:
+      ! The left and right-hand sides of a binary expression must reference different tables.
+      i Expression 1 contains `x$a >= x$b`.
 
 ---
 
@@ -211,7 +238,7 @@
       join_by(within(x$a, y$b, y$a, y$b))
     Condition
       Error in `join_by()`:
-      ! Expressions containing `overlaps()` or `within()` must reference the same table for the left-hand side lower and upper bounds.
+      ! Expressions containing `within()` must reference the same table for the left-hand side lower and upper bounds.
       i Expression 1 is `within(x$a, y$b, y$a, y$b)`.
 
 ---
@@ -220,7 +247,7 @@
       join_by(overlaps(x$a, x$b, y$a, x$b))
     Condition
       Error in `join_by()`:
-      ! Expressions containing `overlaps()` or `within()` must reference the same table for the right-hand side lower and upper bounds.
+      ! Expressions containing `overlaps()` must reference the same table for the right-hand side lower and upper bounds.
       i Expression 1 is `overlaps(x$a, x$b, y$a, x$b)`.
 
 ---
@@ -262,29 +289,11 @@
 ---
 
     Code
-      join_by(preceding(x))
+      join_by(closest())
     Condition
       Error:
-      ! Expressions using `preceding()` can't contain missing arguments.
-      x Argument `y` is missing.
-
----
-
-    Code
-      join_by(preceding(y = x))
-    Condition
-      Error:
-      ! Expressions using `preceding()` can't contain missing arguments.
-      x Argument `x` is missing.
-
----
-
-    Code
-      join_by(following(x))
-    Condition
-      Error:
-      ! Expressions using `following()` can't contain missing arguments.
-      x Argument `y` is missing.
+      ! Expressions using `closest()` can't contain missing arguments.
+      x Argument `expr` is missing.
 
 ---
 
@@ -298,38 +307,96 @@
 ---
 
     Code
-      join_by(preceding(x, y, TRUE))
+      join_by(closest(a >= b, 1))
+    Condition
+      Error in `closest()`:
+      ! unused argument (1)
+
+---
+
+    Code
+      join_by(closest(a == b))
+    Condition
+      Error in `join_by()`:
+      ! The expression used in `closest()` can't use `==`.
+      i Expression 1 is `closest(a == b)`.
+
+---
+
+    Code
+      join_by(closest(x))
+    Condition
+      Error in `join_by()`:
+      ! The first argument of `closest()` must be an expression.
+      i Expression 1 is `closest(x)`.
+
+---
+
+    Code
+      join_by(closest(1))
+    Condition
+      Error in `join_by()`:
+      ! The first argument of `closest()` must be an expression.
+      i Expression 1 is `closest(1)`.
+
+---
+
+    Code
+      join_by(closest(x + y))
+    Condition
+      Error in `join_by()`:
+      ! The expression used in `closest()` must use one of: `>=`, `>`, `<=`, or `<`.
+      i Expression 1 is `closest(x + y)`.
+
+---
+
+    Code
+      join_by(between(x, lower, upper, bounds = 1))
+    Condition
+      Error:
+      ! `bounds` must be a string or character vector.
+
+---
+
+    Code
+      join_by(between(x, lower, upper, bounds = "a"))
+    Condition
+      Error:
+      ! `bounds` must be one of "[]", "[)", "(]", or "()", not "a".
+
+---
+
+    Code
+      join_by(overlaps(x, y, lower, upper, bounds = 1))
+    Condition
+      Error:
+      ! `bounds` must be a string or character vector.
+
+---
+
+    Code
+      join_by(overlaps(x, y, lower, upper, bounds = "a"))
+    Condition
+      Error:
+      ! `bounds` must be one of "[]", "[)", "(]", or "()", not "a".
+
+---
+
+    Code
+      join_by(between(x, lower, upper, foo = 1))
     Condition
       Error:
       ! `...` must be empty.
-      i Non-empty dots were detected inside `preceding()`.
+      i Non-empty dots were detected inside `between()`.
 
 ---
 
     Code
-      join_by(following(x, y, TRUE))
+      join_by(overlaps(x, y, lower, upper, foo = 1))
     Condition
       Error:
       ! `...` must be empty.
-      i Non-empty dots were detected inside `following()`.
-
----
-
-    Code
-      join_by(preceding(y$a, b))
-    Condition
-      Error in `join_by()`:
-      ! The first argument to `preceding()` must reference the `x` table.
-      i Expression 1 contains `preceding(y$a, b)`.
-
----
-
-    Code
-      join_by(preceding(a, x$b))
-    Condition
-      Error in `join_by()`:
-      ! The second argument to `preceding()` must reference the `y` table.
-      i Expression 1 contains `preceding(a, x$b)`.
+      i Non-empty dots were detected inside `overlaps()`.
 
 # as_join_by() emits useful errors
 
@@ -344,7 +411,14 @@
     Code
       by <- join_by_common(c("x", "y"), c("x", "y"))
     Message
-      Joining, by = c("x", "y")
+      Joining with `by = join_by(x, y)`
+
+---
+
+    Code
+      by <- join_by_common(c("_x", "foo bar"), c("_x", "foo bar"))
+    Message
+      Joining with `by = join_by(`_x`, `foo bar`)`
 
 ---
 
@@ -353,5 +427,5 @@
     Condition
       Error:
       ! `by` must be supplied when `x` and `y` have no common variables.
-      i Use `by = character()` to perform a cross-join.
+      i Use `by = join_by()` to perform a cross-join.
 

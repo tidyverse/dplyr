@@ -1,3 +1,11 @@
+# can't rename while partially `ungroup()`-ing (#6606)
+
+    Code
+      ungroup(gdf, g2 = g)
+    Condition
+      Error in `ungroup()`:
+      ! Can't rename variables in this context.
+
 # select(group_by(.)) implicitely adds grouping variables (#170)
 
     Code
@@ -36,16 +44,14 @@
     Output
       <error/vctrs_error_subscript_oob>
       Error in `ungroup()`:
-      ! Can't select columns that don't exist.
+      ! Can't subset columns that don't exist.
       x Column `z` doesn't exist.
     Code
       (expect_error(df %>% group_by(z = a + 1)))
     Output
-      <error/rlang_error>
+      <error/dplyr:::mutate_error>
       Error in `group_by()`:
-      ! Problem adding computed columns.
-      Caused by error in `mutate()`:
-      ! Problem while computing `z = a + 1`.
+      i In argument: `z = a + 1`.
       Caused by error:
       ! object 'a' not found
 

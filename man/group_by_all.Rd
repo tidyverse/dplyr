@@ -60,7 +60,8 @@ functions and strings representing function names.}
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
 Scoped verbs (\verb{_if}, \verb{_at}, \verb{_all}) have been superseded by the use of
-\code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for details.
+\code{\link[=pick]{pick()}} or \code{\link[=across]{across()}} in an existing verb. See \code{vignette("colwise")} for
+details.
 
 These \link{scoped} variants of \code{\link[=group_by]{group_by()}} group a data frame by a
 selection of variables. Like \code{\link[=group_by]{group_by()}}, they have optional
@@ -77,17 +78,17 @@ the selection.
 # Group a data frame by all variables:
 group_by_all(mtcars)
 # ->
-mtcars \%>\% group_by(across())
+mtcars \%>\% group_by(pick(everything()))
 
 # Group by variables selected with a predicate:
 group_by_if(iris, is.factor)
 # ->
-iris \%>\% group_by(across(where(is.factor)))
+iris \%>\% group_by(pick(where(is.factor)))
 
 # Group by variables selected by name:
 group_by_at(mtcars, vars(vs, am))
 # ->
-mtcars \%>\% group_by(across(c(vs, am)))
+mtcars \%>\% group_by(pick(vs, am))
 
 # Like group_by(), the scoped variants have optional mutate
 # semantics. This provide a shortcut for group_by() + mutate():

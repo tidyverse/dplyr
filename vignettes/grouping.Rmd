@@ -203,7 +203,7 @@ by_species %>%
 Note that second example is sorted by `species` (from the `group_by()` statement) and
 then by `mass` (within species).
 
-### `mutate()` and `transmute()`
+### `mutate()`
 
 In simple cases with vectorised functions, grouped and ungrouped `mutate()` give the same results. They differ when used with summary functions:
 
@@ -270,29 +270,3 @@ by_species %>%
   filter(!is.na(height)) %>% 
   slice_min(height, n = 2)
 ```
-
-## Computing on grouping information
-
-Inside dplyr verbs, you can access various properties of the "current" group using a family of functions with the `cur_` prefix. These functions are typically needed for everyday usage of dplyr, but can be useful because they allow you to free from some of the typical constraints of dplyr verbs.
-
-### `cur_data()`
-
-`cur_data()` returns the current group, excluding grouping variables. It's useful to feed to functions that take a whole data frame. For example, the following code fits a linear model of `mass ~ height` to each species:
-
-```{r cur_data}
-by_species %>%
-  filter(n() > 1) %>% 
-  mutate(mod = list(lm(mass ~ height, data = cur_data())))
-```
-
-### `cur_group()` and `cur_group_id()`
-
-`cur_group_id()` gives a unique numeric identifier for the current group. This is sometimes useful if you want to index into an external data structure.
-
-```{r cur_group_id}
-by_species %>%
-  arrange(species) %>% 
-  select(name, species, homeworld) %>% 
-  mutate(id = cur_group_id())
-```
-

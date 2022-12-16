@@ -74,7 +74,6 @@ work by generating a vector of row indices, and then subsetting
 with \code{dplyr_row_slice()}.
 \item \code{mutate()} generates a list of new column value (using \code{NULL} to indicate
 when columns should be deleted), then passes that to \code{dplyr_col_modify()}.
-\code{transmute()} does the same then uses 1d \code{[} to select the columns.
 \item \code{summarise()} works similarly to \code{mutate()} but the data modified by
 \code{dplyr_col_modify()} comes from \code{group_data()}.
 \item \code{select()} uses 1d \code{[} to select columns, then \verb{names<-} to rename them.

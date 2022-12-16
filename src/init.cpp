@@ -49,6 +49,7 @@ SEXP symbols::caller = Rf_install("caller");
 SEXP symbols::current_data = Rf_install("current_data");
 SEXP symbols::dot_drop = Rf_install(".drop");
 SEXP symbols::dplyr_internal_error = Rf_install("dplyr_internal_error");
+SEXP symbols::dplyr_internal_signal = Rf_install("dplyr_internal_signal");
 SEXP symbols::dot_indices = Rf_install(".indices");
 SEXP symbols::chops = Rf_install("chops");
 SEXP symbols::mask = Rf_install("mask");
@@ -105,7 +106,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_mask_eval_all_mutate", (DL_FUNC)& dplyr_mask_eval_all_mutate, 2},
   {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 4},
 
-  {"dplyr_summarise_recycle_chunks", (DL_FUNC)& dplyr_summarise_recycle_chunks, 4},
+  {"dplyr_summarise_recycle_chunks_in_place", (DL_FUNC)& dplyr_summarise_recycle_chunks_in_place, 2},
 
   {"dplyr_group_indices", (DL_FUNC)& dplyr_group_indices, 2},
   {"dplyr_group_keys", (DL_FUNC)& dplyr_group_keys, 1},
@@ -113,7 +114,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_mask_remove", (DL_FUNC)& dplyr_mask_remove, 2},
   {"dplyr_mask_add", (DL_FUNC)& dplyr_mask_add, 4},
 
-  {"dplyr_lazy_vec_chop_impl", (DL_FUNC)& dplyr_lazy_vec_chop, 2},
+  {"dplyr_lazy_vec_chop_impl", (DL_FUNC)& dplyr_lazy_vec_chop, 4},
   {"dplyr_data_masks_setup", (DL_FUNC)& dplyr_data_masks_setup, 3},
   {"env_resolved", (DL_FUNC)& env_resolved, 2},
 

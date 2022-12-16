@@ -41,8 +41,10 @@ reference:
   contents:
   - count
   - group_by
+  - dplyr_by
   - rowwise
   - summarise
+  - reframe
   - 'n'
 
 - subtitle: Data frames
@@ -65,6 +67,7 @@ reference:
   contents:
   - across
   - c_across
+  - pick
 
 - title: Vector functions
   desc: >
@@ -106,7 +109,6 @@ reference:
   - group_modify
   - group_trim
   - group_split
-  - with_groups
 
 - title: Superseded
   desc: >
@@ -120,6 +122,7 @@ reference:
   - ends_with("_at")
   - all_vars
   - vars
+  - with_groups
 
 - title: Remote tables
   contents:

@@ -5,7 +5,7 @@
     Output
       <error/rlang_error>
       Error in `order_by()`:
-      ! `call` must be a function call, not a number.
+      ! `call` must be a function call, not the number 10.
     Code
       (expect_error(order_by(mtcars, cyl)))
     Output
@@ -29,5 +29,5 @@
     Output
       <error/rlang_error>
       Error in `order_by()`:
-      ! `call` must be a function call, not an integer.
+      ! `call` must be a function call, not the number 1.
 

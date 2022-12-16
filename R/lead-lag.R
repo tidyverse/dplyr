@@ -61,7 +61,7 @@ lag <- function(x, n = 1L, default = NULL, order_by = NULL, ...) {
   }
   check_dots_empty0(...)
 
-  check_number(n)
+  check_number_whole(n)
   if (n < 0L) {
     abort("`n` must be positive.")
   }
@@ -74,7 +74,7 @@ lag <- function(x, n = 1L, default = NULL, order_by = NULL, ...) {
 lead <- function(x, n = 1L, default = NULL, order_by = NULL, ...) {
   check_dots_empty0(...)
 
-  check_number(n)
+  check_number_whole(n)
   if (n < 0L) {
     abort("`n` must be positive.")
   }
@@ -103,7 +103,7 @@ shift <- function(x,
   }
 
   vec_assert(x, arg = "x", call = error_call)
-  check_number(n)
+  check_number_whole(n)
   n <- vec_cast(n, integer(), call = error_call)
 
   if (!is.null(default)) {

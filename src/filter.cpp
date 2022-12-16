@@ -1,134 +1,183 @@
 #include "dplyr.h"
-#include <string.h>
 
 namespace dplyr {
 
-void stop_filter_incompatible_size(R_xlen_t i, SEXP quos, R_xlen_t nres, R_xlen_t n) {
+static inline
+void stop_filter_incompatible_size(R_xlen_t i,
+                                   SEXP quos,
+                                   R_xlen_t nres,
+                                   R_xlen_t n) {
   DPLYR_ERROR_INIT(3);
-    DPLYR_ERROR_SET(0, "index", Rf_ScalarInteger(i + 1));
-    DPLYR_ERROR_SET(1, "size", Rf_ScalarInteger(nres));
-    DPLYR_ERROR_SET(2, "expected_size", Rf_ScalarInteger(n));
-
+  DPLYR_ERROR_SET(0, "index", Rf_ScalarInteger(i + 1));
+  DPLYR_ERROR_SET(1, "size", Rf_ScalarInteger(nres));
+  DPLYR_ERROR_SET(2, "expected_size", Rf_ScalarInteger(n));
   DPLYR_ERROR_THROW("dplyr:::filter_incompatible_size");
 }
 
-void stop_filter_incompatible_type(R_xlen_t i, SEXP quos, SEXP column_name, SEXP result){
+static inline
+void stop_filter_incompatible_type(R_xlen_t i,
+                                   SEXP quos,
+                                   SEXP column_name,
+                                   SEXP result){
   DPLYR_ERROR_INIT(3);
-    DPLYR_ERROR_SET(0, "index", Rf_ScalarInteger(i + 1));
-    DPLYR_ERROR_SET(1, "column_name", column_name);
-    DPLYR_ERROR_SET(2, "result", result);
-
+  DPLYR_ERROR_SET(0, "index", Rf_ScalarInteger(i + 1));
+  DPLYR_ERROR_SET(1, "column_name", column_name);
+  DPLYR_ERROR_SET(2, "result", result);
   DPLYR_ERROR_THROW("dplyr:::filter_incompatible_type");
 }
 
+static inline
+void signal_filter(const char* cls) {
+  SEXP ffi_cls = PROTECT(Rf_mkString(cls));
+  SEXP ffi_call = PROTECT(Rf_lang2(dplyr::symbols::dplyr_internal_signal, ffi_cls));
+  Rf_eval(ffi_call, dplyr::envs::ns_dplyr);
+  UNPROTECT(2);
+}
+static
+void signal_filter_one_column_matrix() {
+  signal_filter("dplyr:::signal_filter_one_column_matrix");
+}
+static
+void signal_filter_across() {
+  signal_filter("dplyr:::signal_filter_across");
+}
+static
+void signal_filter_data_frame() {
+  signal_filter("dplyr:::signal_filter_data_frame");
 }
 
-bool all_lgl_columns(SEXP data) {
-  R_xlen_t nc = XLENGTH(data);
-
-  const SEXP* p_data = VECTOR_PTR_RO(data);
-  for (R_xlen_t i = 0; i < nc; i++) {
-    if (TYPEOF(p_data[i]) != LGLSXP) return false;
-  }
-
-  return true;
 }
 
-void reduce_lgl_and(SEXP reduced, SEXP x, int n) {
-  R_xlen_t nres = XLENGTH(x);
-  int* p_reduced = LOGICAL(reduced);
-  if (nres == 1) {
-    if (LOGICAL(x)[0] != TRUE) {
-      for (R_xlen_t i = 0; i < n; i++, ++p_reduced) {
-        *p_reduced = FALSE;
+// Reduces using logical `&`
+static inline
+void filter_lgl_reduce(SEXP x, R_xlen_t n, int* p_reduced) {
+  const R_xlen_t n_x = Rf_xlength(x);
+  const int* p_x = LOGICAL_RO(x);
+
+  if (n_x == 1) {
+    if (p_x[0] != TRUE) {
+      for (R_xlen_t i = 0; i < n; ++i) {
+        p_reduced[i] = FALSE;
       }
     }
   } else {
-    int* p_x = LOGICAL(x);
-    for (R_xlen_t i = 0; i < n; i++, ++p_reduced, ++p_x) {
-      *p_reduced = *p_reduced == TRUE && *p_x == TRUE ;
+    for (R_xlen_t i = 0; i < n; ++i) {
+      p_reduced[i] = (p_reduced[i] == TRUE) && (p_x[i] == TRUE);
     }
   }
 }
 
-void filter_check_size(SEXP res, int i, R_xlen_t n, SEXP quos) {
-  R_xlen_t nres = vctrs::short_vec_size(res);
-  if (nres != n && nres != 1) {
-    dplyr::stop_filter_incompatible_size(i, quos, nres, n);
+static inline
+bool filter_is_valid_lgl(SEXP x, bool first) {
+  if (TYPEOF(x) != LGLSXP) {
+    return false;
+  }
+
+  SEXP dim = PROTECT(Rf_getAttrib(x, R_DimSymbol));
+
+  if (dim == R_NilValue) {
+    // Bare logical vector
+    UNPROTECT(1);
+    return true;
+  }
+
+  const R_xlen_t dimensionality = Rf_xlength(dim);
+
+  if (dimensionality == 1) {
+    // 1 dimension array. We allow these because many things in R produce them.
+    UNPROTECT(1);
+    return true;
+  }
+
+  const int* p_dim = INTEGER(dim);
+
+  if (dimensionality == 2 && p_dim[1] == 1) {
+    // 1 column matrix. We allow these with a warning that this will be
+    // deprecated in the future.
+    if (first) {
+      dplyr::signal_filter_one_column_matrix();
+    }
+    UNPROTECT(1);
+    return true;
+  }
+
+  UNPROTECT(1);
+  return false;
+}
+
+static inline
+void filter_df_reduce(SEXP x,
+                      R_xlen_t n,
+                      bool first,
+                      R_xlen_t i_quo,
+                      SEXP quos,
+                      int* p_reduced) {
+  if (first) {
+    SEXP expr = rlang::quo_get_expr(VECTOR_ELT(quos, i_quo));
+    const bool across = TYPEOF(expr) == LANGSXP && CAR(expr) == dplyr::symbols::across;
+
+    if (across) {
+      dplyr::signal_filter_across();
+    } else {
+      dplyr::signal_filter_data_frame();
+    }
+  }
+
+  const SEXP* p_x = VECTOR_PTR_RO(x);
+  const R_xlen_t n_col = Rf_xlength(x);
+
+  for (R_xlen_t i = 0; i < n_col; ++i) {
+    SEXP col = p_x[i];
+
+    if (!filter_is_valid_lgl(col, first)) {
+      SEXP names = PROTECT(Rf_getAttrib(x, R_NamesSymbol));
+      SEXP name = PROTECT(Rf_ScalarString(STRING_ELT(names, i)));
+      dplyr::stop_filter_incompatible_type(i_quo, quos, name, col);
+      UNPROTECT(2);
+    }
+
+    filter_lgl_reduce(col, n, p_reduced);
   }
 }
 
-void filter_check_type(SEXP res, R_xlen_t i, SEXP quos) {
-  if (TYPEOF(res) == LGLSXP) {
-    if (!Rf_isMatrix(res)) {
-      return;
-    }
+static
+SEXP eval_filter_one(SEXP quos,
+                     SEXP mask,
+                     SEXP caller,
+                     R_xlen_t n,
+                     SEXP env_filter,
+                     bool first) {
+  // Reduce to a single logical vector of size `n`
 
-    if (INTEGER(Rf_getAttrib(res, R_DimSymbol))[1] == 1) {
-      // not yet,
-      // Rf_warningcall(R_NilValue, "Matrices of 1 column are deprecated in `filter()`.");
-      return;
-    }
-  }
-
-  if (Rf_inherits(res, "data.frame")) {
-    R_xlen_t ncol = XLENGTH(res);
-    if (ncol == 0) return;
-
-    const SEXP* p_res = VECTOR_PTR_RO(res);
-    for (R_xlen_t j=0; j<ncol; j++) {
-      SEXP res_j = p_res[j];
-      if (TYPEOF(res_j) != LGLSXP) {
-        SEXP colnames = PROTECT(Rf_getAttrib(res, R_NamesSymbol));
-        SEXP colnames_j = PROTECT(Rf_ScalarString(STRING_ELT(colnames, j)));
-        dplyr::stop_filter_incompatible_type(i, quos, colnames_j, res_j);
-        UNPROTECT(2);
-      }
-    }
-  } else {
-    dplyr::stop_filter_incompatible_type(i, quos, R_NilValue, res);
-  }
-}
-
-SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t n, SEXP env_filter, bool first) {
-  // then reduce to a single logical vector of size n
   SEXP reduced = PROTECT(Rf_allocVector(LGLSXP, n));
-
-  // init with TRUE
   int* p_reduced = LOGICAL(reduced);
-  for (R_xlen_t i = 0; i < n ; i++, ++p_reduced) {
-    *p_reduced = TRUE;
+
+  // Init with `TRUE`
+  for (R_xlen_t i = 0; i < n; ++i) {
+    p_reduced[i] = TRUE;
   }
 
-  // reduce
-  R_xlen_t nquos = XLENGTH(quos);
-  for (R_xlen_t i = 0; i < nquos; i++) {
-    SEXP current_expression = PROTECT(Rf_ScalarInteger(i+1));
+  const R_xlen_t n_quos = Rf_xlength(quos);
+  SEXP const* p_quos = VECTOR_PTR_RO(quos);
+
+  // Reduce loop
+  for (R_xlen_t i = 0; i < n_quos; ++i) {
+    SEXP current_expression = PROTECT(Rf_ScalarInteger(i + 1));
     Rf_defineVar(dplyr::symbols::current_expression, current_expression, env_filter);
 
-    SEXP res = PROTECT(rlang::eval_tidy(VECTOR_ELT(quos, i), mask, caller));
+    SEXP res = PROTECT(rlang::eval_tidy(p_quos[i], mask, caller));
 
-    filter_check_size(res, i, n, quos);
-    filter_check_type(res, i, quos);
+    const R_xlen_t res_size = vctrs::short_vec_size(res);
+    if (res_size != n && res_size != 1) {
+      dplyr::stop_filter_incompatible_size(i, quos, res_size, n);
+    }
 
-    if (TYPEOF(res) == LGLSXP) {
-      reduce_lgl_and(reduced, res, n);
-    } else if(Rf_inherits(res, "data.frame")) {
-      if (first) {
-        SEXP expr = rlang::quo_get_expr(VECTOR_ELT(quos, i));
-        bool across = TYPEOF(expr) == LANGSXP && CAR(expr) == dplyr::symbols::across;
-        if (across) {
-          Rf_warningcall(R_NilValue, "Using `across()` in `filter()` is deprecated, use `if_any()` or `if_all()`.");
-        } else {
-          Rf_warningcall(R_NilValue, "data frame results in `filter()` are deprecated, use `if_any()` or `if_all()`.");
-        }
-      }
-
-      const SEXP* p_res = VECTOR_PTR_RO(res);
-      R_xlen_t ncol = XLENGTH(res);
-      for (R_xlen_t j = 0; j < ncol; j++) {
-        reduce_lgl_and(reduced, p_res[j], n);
-      }
+    if (filter_is_valid_lgl(res, first)) {
+      filter_lgl_reduce(res, n, p_reduced);
+    } else if (Rf_inherits(res, "data.frame")) {
+      filter_df_reduce(res, n, first, i, quos, p_reduced);
+    } else {
+      dplyr::stop_filter_incompatible_type(i, quos, R_NilValue, res);
     }
 
     UNPROTECT(2);
@@ -138,25 +187,40 @@ SEXP eval_filter_one(SEXP quos, SEXP mask, SEXP caller, R_xlen_t n, SEXP env_fil
   return reduced;
 }
 
-SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_filter) {
+SEXP dplyr_mask_eval_all_filter(SEXP quos,
+                                SEXP env_private,
+                                SEXP s_n,
+                                SEXP env_filter) {
   DPLYR_MASK_INIT();
   const SEXP* p_rows = VECTOR_PTR_RO(rows);
 
-  R_xlen_t n = Rf_asInteger(s_n);
+  const R_xlen_t n = Rf_asInteger(s_n);
+
   SEXP keep = PROTECT(Rf_allocVector(LGLSXP, n));
   int* p_keep = LOGICAL(keep);
 
-  for (R_xlen_t i = 0; i < ngroups; i++) {
+  for (R_xlen_t i = 0; i < ngroups; ++i) {
     DPLYR_MASK_SET_GROUP(i);
+
+    const bool first = i == 0;
+
     SEXP rows_i = p_rows[i];
-    R_xlen_t n_i = XLENGTH(rows_i);
+    R_xlen_t n_i = Rf_xlength(rows_i);
 
-    SEXP result_i = PROTECT(eval_filter_one(quos, mask, caller, n_i, env_filter, i == 0));
+    SEXP result_i = PROTECT(eval_filter_one(
+      quos,
+      mask,
+      caller,
+      n_i,
+      env_filter,
+      first
+    ));
 
-    int* p_rows_i = INTEGER(rows_i);
-    int* p_result_i = LOGICAL(result_i);
-    for (R_xlen_t j = 0; j < n_i; j++, ++p_rows_i, ++p_result_i) {
-      p_keep[*p_rows_i - 1] = *p_result_i == TRUE;
+    const int* p_rows_i = INTEGER(rows_i);
+    const int* p_result_i = LOGICAL(result_i);
+
+    for (R_xlen_t j = 0; j < n_i; ++j) {
+      p_keep[p_rows_i[j] - 1] = p_result_i[j];
     }
 
     UNPROTECT(1);
@@ -166,14 +230,4 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_
   DPLYR_MASK_FINALISE();
 
   return keep;
-}
-
-SEXP new_logical(int n, int value) {
-  SEXP x = PROTECT(Rf_allocVector(LGLSXP, n));
-  int* p_x = LOGICAL(x);
-  for (int i = 0; i < n; i++) {
-    p_x[i] = value;
-  }
-  UNPROTECT(1);
-  return x;
 }

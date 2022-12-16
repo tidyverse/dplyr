@@ -9,7 +9,7 @@
     Code
       (expect_error(coalesce(1:2, letters[1:2])))
     Output
-      <error/vctrs_error_incompatible_type>
+      <error/vctrs_error_ptype2>
       Error in `coalesce()`:
       ! Can't combine `..1` <integer> and `..2` <character>.
 

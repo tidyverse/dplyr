@@ -1,10 +1,10 @@
 DataMask <- R6Class("DataMask",
   public = list(
-    initialize = function(data, caller, verb, error_call) {
-      rows <- group_rows(data)
-      # workaround for when there are 0 groups
+    initialize = function(data, by, verb, error_call) {
+      rows <- by$data$.rows
       if (length(rows) == 0) {
-        rows <- list(integer())
+        # Specially handle case of zero groups
+        rows <- new_list_of(list(integer()), ptype = integer())
       }
       private$rows <- rows
 
@@ -16,20 +16,23 @@ DataMask <- R6Class("DataMask",
         abort("Can't transform a data frame with duplicate names.", call = error_call)
       }
       names(data) <- names_bindings
-      private$data <- data
-      private$caller <- caller
-      private$current_data <- unclass(data)
 
-      private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows)
+      private$size <- nrow(data)
+      private$current_data <- dplyr_new_list(data)
+
+      private$grouped <- by$type == "grouped"
+      private$rowwise <- by$type == "rowwise"
+
+      private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows, private$grouped, private$rowwise)
       private$mask <- .Call(dplyr_data_masks_setup, private$chops, data, rows)
 
-      private$keys <- group_keys(data)
-      private$group_vars <- group_vars(data)
+      private$keys <- group_keys0(by$data)
+      private$by_names <- by$names
       private$verb <- verb
     },
 
     add_one = function(name, chunks, result) {
-      if (inherits(private$data, "rowwise_df")){
+      if (self$is_rowwise()){
         is_scalar_list <- function(.x) {
           vec_is_list(.x) && length(.x) == 1L
         }
@@ -67,13 +70,16 @@ DataMask <- R6Class("DataMask",
     },
 
     eval_all_filter = function(quos, env_filter) {
-      eval <- function() .Call(`dplyr_mask_eval_all_filter`, quos, private, nrow(private$data), env_filter)
+      eval <- function() .Call(`dplyr_mask_eval_all_filter`, quos, private, private$size, env_filter)
       eval()
     },
 
-    pick = function(vars) {
+    pick_current = function(vars) {
+      # Only used for deprecated `cur_data()`, `cur_data_all()`, and
+      # `across(.fns = NULL)`. We should remove this when we defunct those.
       cols <- self$current_cols(vars)
-      if (inherits(private$data, "rowwise_df")) {
+
+      if (self$is_rowwise()) {
         cols <- map2(cols, names(cols), function(col, name) {
           if (vec_is_list(private$current_data[[name]])) {
             col <- list(col)
@@ -81,8 +87,9 @@ DataMask <- R6Class("DataMask",
           col
         })
       }
-      nrow <- length(self$current_rows())
-      new_tibble(cols, nrow = nrow)
+
+      size <- length(self$current_rows())
+      dplyr_new_tibble(cols, size = size)
     },
 
     current_cols = function(vars) {
@@ -94,7 +101,16 @@ DataMask <- R6Class("DataMask",
     },
 
     current_key = function() {
-      vec_slice(private$keys, self$get_current_group())
+      keys <- private$keys
+
+      if (vec_size(keys) == 0L) {
+        # Specially handle case of zero groups, like in `$initialize()`.
+        # We always evaluate at least 1 group, so the slice call would attempt
+        # to do `vec_slice(<0-row-df>, 1L)`, which is an error.
+        keys
+      } else {
+        vec_slice(keys, self$get_current_group())
+      }
     },
 
     current_vars = function() {
@@ -102,7 +118,7 @@ DataMask <- R6Class("DataMask",
     },
 
     current_non_group_vars = function() {
-      setdiff(self$current_vars(), private$group_vars)
+      setdiff(self$current_vars(), private$by_names)
     },
 
     get_current_group = function() {
@@ -111,10 +127,6 @@ DataMask <- R6Class("DataMask",
 
     set_current_group = function(group) {
       parent.env(private$chops)$.current_group[] <- group
-    },
-
-    full_data = function() {
-      private$data
     },
 
     get_used = function() {
@@ -131,8 +143,14 @@ DataMask <- R6Class("DataMask",
       private$rows
     },
 
-    across_cols = function() {
-      private$current_data[self$current_non_group_vars()]
+    get_current_data = function(groups = TRUE) {
+      out <- private$current_data
+
+      if (!groups) {
+        out <- out[self$current_non_group_vars()]
+      }
+
+      out
     },
 
     forget = function() {
@@ -155,24 +173,33 @@ DataMask <- R6Class("DataMask",
       })
     },
 
+    is_grouped = function() {
+      private$grouped
+    },
+
+    is_rowwise = function() {
+      private$rowwise
+    },
+
+    get_keys = function() {
+      private$keys
+    },
+
+    get_size = function() {
+      private$size
+    },
+
     get_env_bindings = function() {
       parent.env(private$mask)
     },
 
     get_rlang_mask = function() {
       private$mask
-    },
-
-    get_caller_env = function() {
-      private$caller
     }
 
   ),
 
   private = list(
-    # the input data
-    data = NULL,
-
     # environment that contains lazy vec_chop()s for each input column
     # and list of result chunks as they get added.
     #
@@ -189,8 +216,8 @@ DataMask <- R6Class("DataMask",
     # ptypes of all the variables
     current_data = list(),
 
-    # names of the grouping variables
-    group_vars = character(),
+    # names of the `by` variables
+    by_names = character(),
 
     # list of indices, one integer vector per group
     rows = NULL,
@@ -198,8 +225,12 @@ DataMask <- R6Class("DataMask",
     # data frame of keys, one row per group
     keys = NULL,
 
-    # caller environment of the verb (summarise(), ...)
-    caller = NULL,
+    # number of rows in `data`
+    size = NULL,
+
+    # Type of data frame
+    grouped = NULL,
+    rowwise = NULL,
 
     verb = character()
   )

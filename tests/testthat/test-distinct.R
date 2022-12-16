@@ -137,7 +137,7 @@ test_that("distinct() handles auto splicing", {
 
   expect_equal(
     iris %>% distinct(Species),
-    iris %>% distinct(across(Species))
+    iris %>% distinct(pick(Species))
   )
 
   expect_equal(
@@ -156,10 +156,6 @@ test_that("distinct preserves grouping", {
   i <- count_regroups(out <- distinct(gf, x = x + 2))
   expect_equal(i, 1)
   expect_equal(group_vars(out), "x")
-})
-
-test_that("distinct() propagates caller env", {
-  expect_caller_env(distinct(mtcars, sig_caller_env()))
 })
 
 test_that("distinct() preserves attributes on bare data frames (#6318)", {

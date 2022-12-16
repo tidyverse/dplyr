@@ -5,8 +5,7 @@
     Condition
       Warning:
       `combine()` was deprecated in dplyr 1.0.0.
-      Please use `vctrs::vec_c()` instead.
-      Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+      i Please use `vctrs::vec_c()` instead.
     Output
       logical(0)
 
@@ -15,13 +14,13 @@
     Code
       (expect_error(combine("a", 1)))
     Output
-      <error/vctrs_error_incompatible_type>
-      Error:
+      <error/vctrs_error_ptype2>
+      Error in `vec_c()`:
       ! Can't combine `..1` <character> and `..2` <double>.
     Code
       (expect_error(combine(factor("a"), 1L)))
     Output
-      <error/vctrs_error_incompatible_type>
-      Error:
+      <error/vctrs_error_ptype2>
+      Error in `vec_c()`:
       ! Can't combine `..1` <factor<4d52a>> and `..2` <integer>.
 

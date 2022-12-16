@@ -8,10 +8,15 @@ join_rows <- function(x_key,
                       cross = FALSE,
                       multiple = NULL,
                       unmatched = "drop",
-                      error_call = caller_env()) {
+                      error_call = caller_env(),
+                      user_env = caller_env()) {
   check_dots_empty0(...)
 
   type <- arg_match(type, error_call = error_call)
+
+  unmatched <- check_unmatched(unmatched, type, error_call = error_call)
+  x_unmatched <- unmatched$x
+  y_unmatched <- unmatched$y
 
   if (cross) {
     # Rather than matching on key values, match on a proxy where every x value
@@ -23,10 +28,10 @@ join_rows <- function(x_key,
     filter <- "none"
   }
 
-  incomplete <- standardise_join_incomplete(type, na_matches, unmatched)
-  no_match <- standardise_join_no_match(type, unmatched)
-  remaining <- standardise_join_remaining(type, unmatched)
-  multiple <- standardise_multiple(multiple, condition, filter, cross)
+  incomplete <- standardise_join_incomplete(type, na_matches, x_unmatched)
+  no_match <- standardise_join_no_match(type, x_unmatched)
+  remaining <- standardise_join_remaining(type, y_unmatched)
+  multiple <- standardise_multiple(multiple, condition, filter, cross, user_env)
 
   matches <- dplyr_locate_matches(
     needles = x_key,
@@ -74,7 +79,7 @@ dplyr_locate_matches <- function(needles,
       nan_distinct = TRUE
     ),
     vctrs_error_incompatible_type = function(cnd) {
-      rethrow_error_join_incompatible_type(cnd, error_call)
+      abort("`join_cast_common()` should have handled this.", .internal = TRUE)
     },
     vctrs_error_matches_nothing = function(cnd) {
       rethrow_error_join_matches_nothing(cnd, error_call)
@@ -89,26 +94,8 @@ dplyr_locate_matches <- function(needles,
       rethrow_error_join_matches_multiple(cnd, error_call)
     },
     vctrs_warning_matches_multiple = function(cnd) {
-      rethrow_warning_join_matches_multiple(cnd)
+      rethrow_warning_join_matches_multiple(cnd, error_call)
     }
-  )
-}
-
-rethrow_error_join_incompatible_type <- function(cnd, call) {
-  x_name <- cnd$x_arg
-  y_name <- cnd$y_arg
-
-  x_type <- vec_ptype_full(cnd$x)
-  y_type <- vec_ptype_full(cnd$y)
-
-  stop_join(
-    message = c(
-      glue("Can't join `{x_name}` with `{y_name}` because of incompatible types."),
-      i = glue("`{x_name}` is of type <{x_type}>."),
-      i = glue("`{y_name}` is of type <{y_type}>.")
-    ),
-    class = "dplyr_error_join_incompatible_type",
-    call = call
   )
 }
 
@@ -150,7 +137,7 @@ rethrow_error_join_matches_multiple <- function(cnd, call) {
 
   stop_join(
     message = c(
-      glue("Each row in `x` can match at most 1 row in `y`."),
+      glue("Each row in `x` must match at most 1 row in `y`."),
       i = glue("Row {i} of `x` matches multiple rows.")
     ),
     class = "dplyr_error_join_matches_multiple",
@@ -158,19 +145,20 @@ rethrow_error_join_matches_multiple <- function(cnd, call) {
   )
 }
 
-rethrow_warning_join_matches_multiple <- function(cnd) {
+rethrow_warning_join_matches_multiple <- function(cnd, call) {
   i <- cnd$i
 
   warn_join(
     message = c(
-      glue("Each row in `x` should match at most 1 row in `y`."),
+      glue("Each row in `x` is expected to match at most 1 row in `y`."),
       i = glue("Row {i} of `x` matches multiple rows."),
       i = paste0(
-        "If multiple matches are expected, specify `multiple = \"all\"` in ",
-        "the join call to silence this warning."
+        "If multiple matches are expected, set `multiple = \"all\"` ",
+        "to silence this warning."
       )
     ),
-    class = "dplyr_warning_join_matches_multiple"
+    class = "dplyr_warning_join_matches_multiple",
+    call = call
   )
 
   # Cancel `cnd`
@@ -191,11 +179,45 @@ warn_dplyr <- function(message = NULL, class = NULL, ...) {
   warn(message = message, class = c(class, "dplyr_warning"), ...)
 }
 
-standardise_join_incomplete <- function(type, na_matches, unmatched) {
+check_unmatched <- function(unmatched, type, error_call = caller_env()) {
+  # Inner joins check both `x` and `y` for unmatched keys, so `unmatched` is
+  # allowed to be a character vector of size 2 in that case to check `x` and `y`
+  # independently
+  inner <- type == "inner"
+  n_unmatched <- length(unmatched)
+
+  if (n_unmatched == 1L || (n_unmatched == 2L && inner)) {
+    arg_match(
+      arg = unmatched,
+      values = c("drop", "error"),
+      multiple = TRUE,
+      error_arg = "unmatched",
+      error_call = error_call
+    )
+  } else if (inner) {
+    cli::cli_abort(
+      "{.arg unmatched} must be length 1 or 2, not {n_unmatched}.",
+      call = error_call
+    )
+  } else {
+    cli::cli_abort(
+      "{.arg unmatched} must be length 1, not {n_unmatched}.",
+      call = error_call
+    )
+  }
+
+  if (n_unmatched == 1L) {
+    list(x = unmatched, y = unmatched)
+  } else {
+    list(x = unmatched[[1L]], y = unmatched[[2L]])
+  }
+}
+
+standardise_join_incomplete <- function(type, na_matches, x_unmatched) {
   if (na_matches == "na") {
     # Comparing missings in incomplete observations overrides the other arguments
     "compare"
-  } else if (unmatched == "error" && (type == "right" || type == "inner")) {
+  } else if (x_unmatched == "error" && (type == "right" || type == "inner")) {
     # Ensure that `x` can't drop rows when `na_matches = "never"`
     "error"
   } else if (type == "inner" || type == "right" || type == "semi") {
@@ -210,8 +232,8 @@ standardise_join_incomplete <- function(type, na_matches, unmatched) {
   }
 }
 
-standardise_join_no_match <- function(type, unmatched) {
-  if (unmatched == "error" && (type == "right" || type == "inner")) {
+standardise_join_no_match <- function(type, x_unmatched) {
+  if (x_unmatched == "error" && (type == "right" || type == "inner")) {
     # Ensure that `x` can't drop rows
     "error"
   } else if (type == "inner" || type == "right" || type == "semi") {
@@ -226,8 +248,8 @@ standardise_join_no_match <- function(type, unmatched) {
   }
 }
 
-standardise_join_remaining <- function(type, unmatched) {
-  if (unmatched == "error" && (type == "left" || type == "inner" || type == "nest")) {
+standardise_join_remaining <- function(type, y_unmatched) {
+  if (y_unmatched == "error" && (type == "left" || type == "inner" || type == "nest")) {
     # Ensure that `y` can't drop rows
     "error"
   } else if (type == "right" || type == "full") {
@@ -239,7 +261,7 @@ standardise_join_remaining <- function(type, unmatched) {
   }
 }
 
-standardise_multiple <- function(multiple, condition, filter, cross) {
+standardise_multiple <- function(multiple, condition, filter, cross, user_env) {
   if (!is_null(multiple)) {
     # User supplied value always wins
     return(multiple)
@@ -253,11 +275,51 @@ standardise_multiple <- function(multiple, condition, filter, cross) {
   # "warning" for equi and rolling joins where multiple matches are surprising.
   # "all" for non-equi joins where multiple matches are expected.
   non_equi <- (condition != "==") & (filter == "none")
-
   if (any(non_equi)) {
-    "all"
-  } else {
+    return("all")
+  }
+
+  if (is_direct(user_env)) {
+    # Direct calls result in a warning when there are multiple matches,
+    # because they are likely surprising and the caller will be able to set
+    # the `multiple` argument. Indirect calls don't warn, because the caller
+    # is unlikely to have access to `multiple` to silence it.
     "warning"
+  } else {
+    "all"
   }
 }
 
+# TODO: Use upstream function when exported from rlang
+# `lifecycle:::is_direct()`
+is_direct <- function(env) {
+  env_inherits_global(env) || from_testthat(env)
+}
+env_inherits_global <- function(env) {
+  # `topenv(emptyenv())` returns the global env. Return `FALSE` in
+  # that case to allow passing the empty env when the
+  # soft-deprecation should not be promoted to deprecation based on
+  # the caller environment.
+  if (is_reference(env, empty_env())) {
+    return(FALSE)
+  }
+
+  is_reference(topenv(env), global_env())
+}
+# TRUE if we are in unit tests and the package being tested is the
+# same as the package that called
+from_testthat <- function(env) {
+  tested_package <- Sys.getenv("TESTTHAT_PKG")
+  if (!nzchar(tested_package)) {
+    return(FALSE)
+  }
+
+  top <- topenv(env)
+  if (!is_namespace(top)) {
+    return(FALSE)
+  }
+
+  # Test for environment names rather than reference/contents because
+  # testthat clones the namespace
+  identical(ns_env_name(top), tested_package)
+}

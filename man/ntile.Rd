@@ -9,13 +9,14 @@ ntile(x = row_number(), n)
 \arguments{
 \item{x}{A vector to rank
 
-By default, the smallest values will get the smallest ranks.
-Use \code{\link[=desc]{desc()}} to reverse the direction so the largest values get the smallest
-ranks.
+By default, the smallest values will get the smallest ranks. Use \code{\link[=desc]{desc()}}
+to reverse the direction so the largest values get the smallest ranks.
 
 Missing values will be given rank \code{NA}. Use \code{coalesce(x, Inf)} or
 \code{coalesce(x, -Inf)} if you want to treat them as the largest or smallest
-values respectively.}
+values respectively.
+
+To rank by multiple columns at once, supply a data frame.}
 
 \item{n}{Number of groups to bucket into}
 }

@@ -75,8 +75,8 @@
 #' }
 #' tidy_eval_arrange(mtcars, mpg)
 #'
-#' # use across() to access select()-style semantics
-#' iris %>% arrange(across(starts_with("Sepal")))
+#' # Use `across()` or `pick()` to select columns with tidy-select
+#' iris %>% arrange(pick(starts_with("Sepal")))
 #' iris %>% arrange(across(starts_with("Sepal"), desc))
 arrange <- function(.data, ..., .by_group = FALSE) {
   UseMethod("arrange")
@@ -104,68 +104,66 @@ arrange_rows <- function(data,
                          dots,
                          locale,
                          error_call = caller_env()) {
-  error_call <- dplyr_error_call(error_call)
+  dplyr_local_error_call(error_call)
+
+  size <- nrow(data)
+
+  # `arrange()` implementation always uses bare data frames
+  data <- new_data_frame(data, n = size)
 
   # Strip out calls to desc() replacing with direction argument
   is_desc_call <- function(x) {
     quo_is_call(x, "desc", ns = c("", "dplyr"))
   }
-  directions <- map_chr(dots, function(quosure) {
-    if (is_desc_call(quosure)) "desc" else "asc"
+  directions <- map_chr(dots, function(dot) {
+    if (is_desc_call(dot)) "desc" else "asc"
   })
-  quosures <- map(dots, function(quosure) {
-    if (is_desc_call(quosure)) {
-      expr <- quo_get_expr(quosure)
+  dots <- map(dots, function(dot) {
+    if (is_desc_call(dot)) {
+      expr <- quo_get_expr(dot)
       if (!has_length(expr, 2L)) {
         abort("`desc()` must be called with exactly one argument.", call = error_call)
       }
 
-      quosure <- new_quosure(node_cadr(expr), quo_get_env(quosure))
+      dot <- new_quosure(expr[[2]], quo_get_env(dot))
     }
-    quosure
+    dot
   })
 
-  # give the quosures arbitrary names so that
-  # data has the right number of columns below after transmute()
-  quo_names <- vec_paste0("^^--arrange_quosure_", seq_along(quosures))
-  names(quosures) <- quo_names
+  n_dots <- length(dots)
+  seq_dots <- seq_len(n_dots)
 
-  # TODO: not quite that because when the quosure is some expression
-  #       it should be evaluated by groups.
-  #       for now this abuses transmute so that we get just one
-  #       column per quosure
-  #
-  #       revisit when we have something like mutate_one() to
-  #       evaluate one quosure in the data mask
-  data <- withCallingHandlers({
-    transmute(new_data_frame(data), !!!quosures)
-  }, error = function(cnd) {
+  cols <- vector("list", length = n_dots)
+  names(cols) <- as.character(seq_dots)
 
-    if (inherits(cnd, "dplyr:::mutate_error")) {
-      # reverse the name mangling
-      bullets <- gsub("^^--arrange_quosure_", "..", cnd$bullets, fixed = TRUE)
-      # only name bullets that aren't already named
-      names <- names2(bullets)
-      names[names == ""] <- "x"
-      bullets <- set_names(bullets, names)
+  for (i in seq_dots) {
+    name <- vec_paste0("..", i)
+    dot <- dots[[i]]
 
-      # skip the parent as this has reworked the bullets
-      # and this would be confusing to have them
-      parent <- cnd$parent
-    } else {
-      parent <- cnd
-      bullets <- c()
+    # Evaluate each `dot` on the original data separately, rather than
+    # evaluating all at once. We want to avoid the "sequential evaluation"
+    # feature of `mutate()` where the 2nd expression can access results of the
+    # 1st (#6495).
+    elt <- mutate(data, "{name}" := !!dot, .keep = "none")
+    elt <- elt[[name]]
+
+    if (is.null(elt)) {
+      # In this case, `dot` evaluated to `NULL` for "column removal" so
+      # `elt[[name]]` won't exist, but we don't want to shorten `cols`.
+      next
     }
 
-    bullets <- c(
-      "Problem with the implicit `transmute()` step. ",
-      bullets
-    )
-    abort(bullets, call = error_call, parent = parent)
+    cols[[i]] <- elt
+  }
 
-  })
+  if (vec_any_missing(cols)) {
+    # Drop `NULL`s that could result from `dot` evaluating to `NULL` above
+    not_missing <- !vec_detect_missing(cols)
+    cols <- vec_slice(cols, not_missing)
+    directions <- vec_slice(directions, not_missing)
+  }
 
-  directions <- directions[quo_names %in% names(data)]
+  data <- new_data_frame(cols, n = size)
 
   if (is.null(locale) && dplyr_legacy_locale()) {
     # Temporary legacy support for respecting the system locale.
@@ -225,7 +223,7 @@ sort_key_generator <- function(locale) {
 
 # ------------------------------------------------------------------------------
 
-dplyr_order_legacy <- function(data, direction) {
+dplyr_order_legacy <- function(data, direction = "asc") {
   if (ncol(data) == 0L) {
     # Work around `order(!!!list())` returning `NULL`
     return(seq_len(nrow(data)))
@@ -263,6 +261,14 @@ dplyr_proxy_order_legacy <- function(x, direction) {
     out <- vec_match(x, sorted_unique)
 
     return(out)
+  }
+
+  if (!is_character(x) && !is_logical(x) && !is_integer(x) && !is_double(x) && !is_complex(x)) {
+    abort("Invalid type returned by `vec_proxy_order()`.", .internal = TRUE)
+  }
+
+  if (is.object(x)) {
+    x <- unstructure(x)
   }
 
   if (direction == "desc") {

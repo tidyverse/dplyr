@@ -3,11 +3,11 @@
 \name{summarise}
 \alias{summarise}
 \alias{summarize}
-\title{Summarise each group to fewer rows}
+\title{Summarise each group down to one row}
 \usage{
-summarise(.data, ..., .groups = NULL)
+summarise(.data, ..., .by = NULL, .groups = NULL)
 
-summarize(.data, ..., .groups = NULL)
+summarize(.data, ..., .by = NULL, .groups = NULL)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
@@ -20,11 +20,20 @@ functions. The name will be the name of the variable in the result.
 The value can be:
 \itemize{
 \item A vector of length 1, e.g. \code{min(x)}, \code{n()}, or \code{sum(is.na(y))}.
-\item A vector of length \code{n}, e.g. \code{quantile()}.
 \item A data frame, to add multiple columns from a single expression.
-}}
+}
 
-\item{.groups}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} Grouping structure of the result.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Returning values with size 0 or >1 was
+deprecated as of 1.1.0. Please use \code{\link[=reframe]{reframe()}} for this instead.}
+
+\item{.by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
+group by for just this operation, functioning as an alternative to \code{\link[=group_by]{group_by()}}. For
+details and examples, see \link[=dplyr_by]{?dplyr_by}.}
+
+\item{.groups}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} Grouping structure of the
+result.
 \itemize{
 \item "drop_last": dropping the last level of grouping. This was the
 only supported option before version 1.0.0.
@@ -37,7 +46,9 @@ When \code{.groups} is not specified, it is chosen
 based on the number of rows of the results:
 \itemize{
 \item If all the results have 1 row, you get "drop_last".
-\item If the number of rows varies, you get "keep".
+\item If the number of rows varies, you get "keep" (note that returning a
+variable number of rows was deprecated in favor of \code{\link[=reframe]{reframe()}}, which
+also unconditionally drops all levels of grouping).
 }
 
 In addition, a message informs you of that choice, unless the result is ungrouped,
@@ -57,11 +68,11 @@ fundamentally creates a new data frame.
 }
 }
 \description{
-\code{summarise()} creates a new data frame. It will have one (or more) rows for
-each combination of grouping variables; if there are no grouping variables,
-the output will have a single row summarising all observations in the input.
-It will contain one column for each grouping variable and one column
-for each of the summary statistics that you have specified.
+\code{summarise()} creates a new data frame. It returns one row for each
+combination of grouping variables; if there are no grouping variables, the
+output will have a single row summarising all observations in the input. It
+will contain one column for each grouping variable and one column for each of
+the summary statistics that you have specified.
 
 \code{summarise()} and \code{summarize()} are synonyms.
 }
@@ -70,7 +81,7 @@ for each of the summary statistics that you have specified.
 \itemize{
 \item Center: \code{\link[=mean]{mean()}}, \code{\link[=median]{median()}}
 \item Spread: \code{\link[=sd]{sd()}}, \code{\link[=IQR]{IQR()}}, \code{\link[=mad]{mad()}}
-\item Range: \code{\link[=min]{min()}}, \code{\link[=max]{max()}}, \code{\link[=quantile]{quantile()}}
+\item Range: \code{\link[=min]{min()}}, \code{\link[=max]{max()}},
 \item Position: \code{\link[=first]{first()}}, \code{\link[=last]{last()}}, \code{\link[=nth]{nth()}},
 \item Count: \code{\link[=n]{n()}}, \code{\link[=n_distinct]{n_distinct()}}
 \item Logical: \code{\link[=any]{any()}}, \code{\link[=all]{all()}}
@@ -112,20 +123,6 @@ mtcars \%>\%
   group_by(cyl) \%>\%
   summarise(mean = mean(disp), n = n())
 
-# dplyr 1.0.0 allows to summarise to more than one value:
-mtcars \%>\%
-   group_by(cyl) \%>\%
-   summarise(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
-
-# You use a data frame to create multiple columns so you can wrap
-# this up into a function:
-my_quantile <- function(x, probs) {
-  tibble(x = quantile(x, probs), probs = probs)
-}
-mtcars \%>\%
-  group_by(cyl) \%>\%
-  summarise(my_quantile(disp, c(0.25, 0.75)))
-
 # Each summary call removes one grouping level (since that group
 # is now just a single row)
 mtcars \%>\%
@@ -142,12 +139,24 @@ mtcars \%>\%
 var <- "mass"
 summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
 # Learn more in ?dplyr_data_masking
+
+# In dplyr 1.1.0, returning multiple rows per group was deprecated in favor
+# of `reframe()`, which never messages and always returns an ungrouped
+# result:
+mtcars \%>\%
+   group_by(cyl) \%>\%
+   summarise(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
+# ->
+mtcars \%>\%
+   group_by(cyl) \%>\%
+   reframe(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
 }
 \seealso{
 Other single table verbs: 
 \code{\link{arrange}()},
 \code{\link{filter}()},
 \code{\link{mutate}()},
+\code{\link{reframe}()},
 \code{\link{rename}()},
 \code{\link{select}()},
 \code{\link{slice}()}

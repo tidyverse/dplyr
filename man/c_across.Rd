@@ -4,12 +4,12 @@
 \alias{c_across}
 \title{Combine values from multiple columns}
 \usage{
-c_across(cols = everything())
+c_across(cols)
 }
 \arguments{
 \item{cols}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Columns to transform.
-Because \code{across()} is used within functions like \code{summarise()} and
-\code{mutate()}, you can't select or compute upon grouping variables.}
+You can't select grouping columns because they are already automatically
+handled by the verb (i.e. \code{\link[=summarise]{summarise()}} or \code{\link[=mutate]{mutate()}}).}
 }
 \description{
 \code{c_across()} is designed to work with \code{\link[=rowwise]{rowwise()}} to make it easy to
@@ -27,7 +27,7 @@ df \%>\%
   mutate(
     sum = sum(c_across(w:z)),
     sd = sd(c_across(w:z))
- )
+  )
 }
 \seealso{
 \code{\link[=across]{across()}} for a function that returns a tibble.

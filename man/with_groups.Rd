@@ -22,24 +22,19 @@ Supports purrr-style \code{~} syntax}
 \item{...}{Additional arguments passed on to \code{...}.}
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
-This is an experimental new function that allows you to modify the grouping
-variables for a single operation.
+This was an experimental function that allows you to modify the grouping
+variables for a single operation; it is superseded in favour of using the
+\code{.by} argument to individual verbs.
 }
 \examples{
 df <- tibble(g = c(1, 1, 2, 2, 3), x = runif(5))
+
+# Old
 df \%>\%
   with_groups(g, mutate, x_mean = mean(x))
-df \%>\%
-  with_groups(g, ~ mutate(.x, x1 = first(x)))
-
-df \%>\%
-  group_by(g) \%>\%
-  with_groups(NULL, mutate, x_mean = mean(x))
-
-# NB: grouping can't be restored if you remove the grouping variables
-df \%>\%
-  group_by(g) \%>\%
-  with_groups(NULL, mutate, g = NULL)
+# New
+df \%>\% mutate(x_mean = mean(x), .by = g)
 }
+\keyword{internal}
