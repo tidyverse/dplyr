@@ -238,7 +238,7 @@ join_by <- function(...) {
 
   if (!is_null(names(exprs))) {
     abort(c(
-      "`join_by()` expressions can't be named.",
+      "Can't name join expressions.",
       i = "Did you use `=` instead of `==`?"
     ))
   }
@@ -403,7 +403,7 @@ join_by_common <- function(x_names,
 parse_join_by_expr <- function(expr, i, error_call) {
   if (is_missing(expr)) {
     message <- c(
-      "Join by expressions can't be missing.",
+      "Expressions can't be missing.",
       x = glue("Expression {i} is missing.")
     )
     abort(message, call = error_call)
@@ -411,7 +411,7 @@ parse_join_by_expr <- function(expr, i, error_call) {
 
   if (length(expr) == 0L) {
     message <- c(
-      "Join by expressions can't be empty.",
+      "Expressions can't be empty.",
       x = glue("Expression {i} is empty.")
     )
     abort(message, call = error_call)
@@ -454,7 +454,7 @@ parse_join_by_expr <- function(expr, i, error_call) {
 
 stop_invalid_dollar_sign <- function(expr, i, call) {
   message <- c(
-    "When specifying a single column name, `$` cannot be used.",
+    "Can't use `$` when specifying a single column name.",
     i = glue("Expression {i} is {err_expr(expr)}.")
   )
 
@@ -467,7 +467,7 @@ stop_invalid_top_expression <- function(expr, i, call) {
   options <- glue_collapse(options, sep = ", ", last = ", or ")
 
   message <- c(
-    glue("Join by expressions must use one of: {options}."),
+    glue("Expressions must use one of: {options}."),
     i = glue("Expression {i} is {err_expr(expr)}.")
   )
 
@@ -489,7 +489,7 @@ parse_join_by_name <- function(expr,
 
   message <- c(
     paste0(
-      "`join_by()` expressions cannot contain computed columns, ",
+      "Expressions can't contain computed columns, ",
       "and can only reference columns by name or by explicitly specifying ",
       "a side, like `x$col` or `y$col`."
     ),
