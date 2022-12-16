@@ -40,6 +40,7 @@
 #'   tailored to your usage of `case_when()`.
 #'
 #'   If `NULL`, the default, a missing value will be used.
+#'
 #' @param .ptype An optional prototype declaring the desired output type. If
 #'   supplied, this overrides the common type of the RHS inputs.
 #'
