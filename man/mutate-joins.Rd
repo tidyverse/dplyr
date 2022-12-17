@@ -132,8 +132,8 @@ To join on conditions other than equality, like non-equi or rolling joins,
 you'll need to create a join specification with \code{\link[=join_by]{join_by()}}. See the
 documentation there for details on these types of joins.
 
-To perform a cross-join, generating all combinations of \code{x} and \code{y}, use
-\code{by = character()} or \code{by = join_by()}.}
+To perform a cross-join, generating all combinations of \code{x} and \code{y}, see
+\code{\link[=cross_join]{cross_join()}}.}
 
 \item{copy}{If \code{x} and \code{y} are not from the same data source,
 and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
@@ -184,8 +184,8 @@ then falls back to \code{"all"}.
 
 The default value of \code{NULL} is equivalent to \code{"warning"} for equi joins and
 rolling joins, where multiple matches are usually surprising. If any
-non-equi join conditions are present or if you are doing a cross join, then
-it is equivalent to \code{"all"}, since multiple matches are usually expected.}
+non-equi join conditions are present, then it is equivalent to \code{"all"},
+since multiple matches are usually expected.}
 
 \item{unmatched}{How should unmatched keys that would result in dropped rows
 be handled?
@@ -320,6 +320,7 @@ left_join(df1, df2, na_matches = "never")
 }
 \seealso{
 Other joins: 
+\code{\link{cross_join}()},
 \code{\link{filter-joins}},
 \code{\link{nest_join}()}
 }

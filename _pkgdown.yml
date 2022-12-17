@@ -57,6 +57,7 @@ reference:
   - left_join
   - nest_join
   - semi_join
+  - cross_join
   - join_by
   - rows
 

@@ -70,10 +70,18 @@
 ---
 
     Code
-      join_cols(xy, xy, by = as_join_by(list(1, 2)))
+      join_cols(xy, xy, by = as_join_by(list("1", y = "2")))
     Condition
-      Error:
-      ! Join columns in `x` must be character vectors.
+      Error in `as_join_by()`:
+      ! `by$x` must evaluate to a character vector.
+
+---
+
+    Code
+      join_cols(xy, xy, by = as_join_by(list(x = "1", "2")))
+    Condition
+      Error in `as_join_by()`:
+      ! `by$y` must evaluate to a character vector.
 
 ---
 

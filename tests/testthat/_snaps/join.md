@@ -189,3 +189,57 @@
       Error in `nest_join()`:
       ! `na_matches` must be a string or character vector.
 
+# `by = character()` technically respects `unmatched`
+
+    Code
+      left_join(df1, df2, by = character(), unmatched = "error")
+    Condition
+      Error in `left_join()`:
+      ! Each row of `y` must be matched by `x`.
+      i Row 1 of `y` was not matched.
+
+# `by = character()` technically respects `multiple`
+
+    Code
+      left_join(df, df, by = character(), multiple = "error")
+    Condition
+      Error in `left_join()`:
+      ! Each row in `x` must match at most 1 row in `y`.
+      i Row 1 of `x` matches multiple rows.
+
+# `by = character()` for a cross join is deprecated (#6604)
+
+    Code
+      out <- left_join(df1, df2, by = character())
+    Condition
+      Warning:
+      Using `by = character()` to perform a cross join was deprecated in dplyr 1.1.0.
+      i Please use `cross_join()` instead.
+
+---
+
+    Code
+      out <- semi_join(df1, df2, by = character())
+    Condition
+      Warning:
+      Using `by = character()` to perform a cross join was deprecated in dplyr 1.1.0.
+      i Please use `cross_join()` instead.
+
+---
+
+    Code
+      out <- nest_join(df1, df2, by = character())
+    Condition
+      Warning:
+      Using `by = character()` to perform a cross join was deprecated in dplyr 1.1.0.
+      i Please use `cross_join()` instead.
+
+# `by = list(x = character(), y = character())` for a cross join is deprecated (#6604)
+
+    Code
+      out <- left_join(df1, df2, by = list(x = character(), y = character()))
+    Condition
+      Warning:
+      Using `by = character()` to perform a cross join was deprecated in dplyr 1.1.0.
+      i Please use `cross_join()` instead.
+

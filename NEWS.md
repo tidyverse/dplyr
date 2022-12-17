@@ -144,6 +144,8 @@
   and `cur_data_all()`. We feel that `pick()` is a much more evocative name when 
   you are just trying to select a subset of columns from your data (#6204).
 
+* `cross_join()` is a more explicit and slightly more correct replacement for
+  using `by = character()` during a join (#6604).
 
 * `symdiff()` function computes the symmetric difference (#4811).
 
@@ -199,6 +201,9 @@
 
 * `cur_data()` and `cur_data_all()` are now soft-deprecated in favor of
   `pick()` (#6204).
+
+* Using `by = character()` to perform a cross join is now soft-deprecated in
+  favor of `cross_join()` (#6604).
 
 * Using 1 column matrices in `filter()` is now deprecated (#6091).
 

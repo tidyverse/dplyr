@@ -221,6 +221,15 @@ join_by <- function(...) {
   exprs <- enquos(..., .named = NULL)
   exprs <- map(exprs, quo_squash)
 
+  n <- length(exprs)
+
+  if (n == 0L) {
+    abort(c(
+      "Must supply at least one expression.",
+      i = "If you want a cross join, use `cross_join()`."
+    ))
+  }
+
   if (!is_null(names(exprs))) {
     abort(c(
       "`join_by()` expressions can't be named.",
@@ -230,7 +239,6 @@ join_by <- function(...) {
 
   error_call <- environment()
 
-  n <- length(exprs)
   bys <- vector("list", length = n)
 
   for (i in seq_len(n)) {
@@ -243,14 +251,10 @@ join_by <- function(...) {
   filter <- flat_map_chr(bys, function(by) by$filter)
   condition <- flat_map_chr(bys, function(by) by$condition)
 
-  # Cross join for empty `join_by()` calls
-  cross <- n == 0L
-
   new_join_by(
     exprs = exprs,
     condition = condition,
     filter = filter,
-    cross = cross,
     x = x,
     y = y
   )
@@ -258,12 +262,8 @@ join_by <- function(...) {
 
 #' @export
 print.dplyr_join_by <- function(x, ...) {
-  if (x$cross) {
-    out <- "- Cross"
-  } else {
-    out <- map_chr(x$exprs, expr_deparse)
-    out <- glue_collapse(glue("- {out}"), sep = "\n")
-  }
+  out <- map_chr(x$exprs, expr_deparse)
+  out <- glue_collapse(glue("- {out}"), sep = "\n")
 
   cat("Join By:\n")
   cat(out)
@@ -271,12 +271,15 @@ print.dplyr_join_by <- function(x, ...) {
   invisible(x)
 }
 
-new_join_by <- function(exprs, condition, filter, cross, x, y) {
+new_join_by <- function(exprs = list(),
+                        condition = character(),
+                        filter = character(),
+                        x = character(),
+                        y = character()) {
   out <- list(
     exprs = exprs,
     condition = condition,
     filter = filter,
-    cross = cross,
     x = x,
     y = y
   )
@@ -324,22 +327,35 @@ as_join_by.list <- function(x, error_call = caller_env()) {
   # TODO: check lengths
   x_names <- x[["x"]]
   y_names <- x[["y"]]
+
+  if (!is_character(x_names)) {
+    abort("`by$x` must evaluate to a character vector.")
+  }
+  if (!is_character(y_names)) {
+    abort("`by$y` must evaluate to a character vector.")
+  }
+
   finalise_equi_join_by(x_names, y_names)
 }
 
 finalise_equi_join_by <- function(x_names, y_names) {
   n <- length(x_names)
 
+  if (n == 0L) {
+    abort(
+      "Backwards compatible support for cross joins should have been caught earlier.",
+      .internal = TRUE
+    )
+  }
+
   exprs <- map2(x_names, y_names, function(x, y) expr(!!x == !!y))
   condition <- vec_rep("==", times = n)
   filter <- vec_rep("none", times = n)
-  cross <- n == 0L
 
   new_join_by(
     exprs = exprs,
     condition = condition,
     filter = filter,
-    cross = cross,
     x = x_names,
     y = y_names
   )
@@ -358,7 +374,7 @@ join_by_common <- function(x_names,
   if (length(by) == 0) {
     message <- c(
       "`by` must be supplied when `x` and `y` have no common variables.",
-      i = "Use `by = join_by()` to perform a cross-join."
+      i = "Use `cross_join()` to perform a cross-join."
     )
     abort(message, call = error_call)
   }

@@ -29,18 +29,6 @@ test_that("even when column names change", {
   expect_named(out, c("x", "z.x", "a", "z.y", "b"))
 })
 
-test_that("by = character() / by = join_by() generates cross (#4206)", {
-  df1 <- tibble(x = 1:2)
-  df2 <- tibble(y = 1:2)
-  out <- left_join(df1, df2, by = character())
-
-  expect_equal(out$x, rep(1:2, each = 2))
-  expect_equal(out$y, rep(1:2, 2))
-
-  out2 <- left_join(df1, df2, by = join_by())
-  expect_identical(out, out2)
-})
-
 test_that("filtering joins preserve row and column order of x (#2964)", {
   df1 <- data.frame(a = 4:1, b = 1)
   df2 <- data.frame(b = 1, c = 2, a = 2:3)
@@ -507,4 +495,67 @@ test_that("rowwise group structure is updated after a join (#5227)", {
   x <- left_join(df1, df2, by = "x", multiple = "all")
 
   expect_identical(group_rows(x), list_of(1L, 2L, 3L))
+})
+
+# deprecated ----------------------------------------------------------------
+
+test_that("by = character() generates cross (#4206)", {
+  local_options(lifecycle_verbosity = "quiet")
+
+  df1 <- tibble(x = 1:2)
+  df2 <- tibble(y = 1:2)
+  out <- left_join(df1, df2, by = character())
+
+  expect_equal(out$x, rep(1:2, each = 2))
+  expect_equal(out$y, rep(1:2, 2))
+})
+
+test_that("`by = character()` technically respects `unmatched`", {
+  local_options(lifecycle_verbosity = "quiet")
+
+  df1 <- tibble()
+  df2 <- tibble(x = 1)
+
+  expect_snapshot(error = TRUE, {
+    left_join(df1, df2, by = character(), unmatched = "error")
+  })
+})
+
+test_that("`by = character()` technically respects `multiple`", {
+  local_options(lifecycle_verbosity = "quiet")
+
+  df <- tibble(x = 1:2)
+
+  expect_snapshot(error = TRUE, {
+    left_join(df, df, by = character(), multiple = "error")
+  })
+})
+
+test_that("`by = character()` for a cross join is deprecated (#6604)", {
+  df1 <- tibble(x = 1:2)
+  df2 <- tibble(y = 1:2)
+
+  # Mutating join
+  expect_snapshot({
+    out <- left_join(df1, df2, by = character())
+  })
+
+  # Filtering join
+  expect_snapshot({
+    out <- semi_join(df1, df2, by = character())
+  })
+
+  # Nest join
+  expect_snapshot({
+    out <- nest_join(df1, df2, by = character())
+  })
+})
+
+test_that("`by = list(x = character(), y = character())` for a cross join is deprecated (#6604)", {
+  df1 <- tibble(x = 1:2)
+  df2 <- tibble(y = 1:2)
+
+  expect_snapshot({
+    out <- left_join(df1, df2, by = list(x = character(), y = character()))
+  })
 })
