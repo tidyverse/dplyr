@@ -129,8 +129,8 @@ match <code>x$a</code> to <code>y$b</code> and <code>x$c</code> to <code>y$d</co
 <p>To join on conditions other than equality, like non-equi or rolling joins,
 you'll need to create a join specification with <code><a href="join_by.html">join_by()</a></code>. See the
 documentation there for details on these types of joins.</p>
-<p>To perform a cross-join, generating all combinations of <code>x</code> and <code>y</code>, use
-<code>by = character()</code> or <code>by = join_by()</code>.</p></dd>
+<p>To perform a cross-join, generating all combinations of <code>x</code> and <code>y</code>, see
+<code><a href="cross_join.html">cross_join()</a></code>.</p></dd>
 
 
 <dt>copy</dt>
@@ -177,6 +177,7 @@ individual methods for extra arguments and differences in behaviour.</p>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other joins: 
+<code><a href="cross_join.html">cross_join</a>()</code>,
 <code><a href="mutate-joins.html">mutate-joins</a></code>,
 <code><a href="nest_join.html">nest_join</a>()</code></p></div>
     </div>
