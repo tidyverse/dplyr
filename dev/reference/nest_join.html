@@ -111,23 +111,26 @@ more details.</p></dd>
 
 
 <dt>by</dt>
-<dd><p>A character vector of variables to join by or a join specification
-created with <code><a href="join_by.html">join_by()</a></code>.</p>
+<dd><p>A join specification created with <code><a href="join_by.html">join_by()</a></code>, or a character
+vector of variables to join by.</p>
 <p>If <code>NULL</code>, the default, <code>*_join()</code> will perform a natural join, using all
 variables in common across <code>x</code> and <code>y</code>. A message lists the variables so
 that you can check they're correct; suppress the message by supplying <code>by</code>
 explicitly.</p>
-<p>To join on different variables between <code>x</code> and <code>y</code>, use a named vector or a
-<code><a href="join_by.html">join_by()</a></code> specification. For example, <code>by = c("a" = "b")</code> and <code>by = join_by(a == b)</code> will match <code>x$a</code> to <code>y$b</code>.</p>
-<p>To join by multiple variables, use a vector with length &gt;1 or a <code><a href="join_by.html">join_by()</a></code>
-specification with multiple expressions. For example, <code>by = c("a", "b")</code>
-and <code>by = join_by(a, b)</code> will match <code>x$a</code> to <code>y$a</code> and <code>x$b</code> to <code>y$b</code>. Use
-a named vector to match different variables in <code>x</code> and <code>y</code>. For example,
-<code>by = c("a" = "b", "c" = "d")</code> and <code>by = join_by(a == b, c == d)</code> will
-match <code>x$a</code> to <code>y$b</code> and <code>x$c</code> to <code>y$d</code>.</p>
-<p>To join on conditions other than equality, like non-equi or rolling joins,
-you'll need to create a join specification with <code><a href="join_by.html">join_by()</a></code>. See the
-documentation there for details on these types of joins.</p>
+<p>To join on different variables between <code>x</code> and <code>y</code>, use a <code><a href="join_by.html">join_by()</a></code>
+specification. For example, <code>join_by(a == b)</code> will match <code>x$a</code> to <code>y$b</code>.</p>
+<p>To join by multiple variables, use a <code><a href="join_by.html">join_by()</a></code> specification with
+multiple expressions. For example, <code>join_by(a == b, c == d)</code> will match
+<code>x$a</code> to <code>y$b</code> and <code>x$c</code> to <code>y$d</code>. If the column names are the same between
+<code>x</code> and <code>y</code>, you can shorten this by listing only the variable names, like
+<code>join_by(a, c)</code>.</p>
+<p><code><a href="join_by.html">join_by()</a></code> can also be used to perform inequality, rolling, and overlap
+joins. See the documentation at <a href="join_by.html">?join_by</a> for details on
+these types of joins.</p>
+<p>For simple equality joins, you can alternatively specify a character vector
+of variable names to join by. For example, <code>by = c("a", "b")</code> joins <code>x$a</code>
+to <code>y$a</code> and <code>x$b</code> to <code>y$b</code>. If variable names differ between <code>x</code> and <code>y</code>,
+use a named character vector like <code>by = c("x_a" = "y_a", "x_b" = "y_b")</code>.</p>
 <p>To perform a cross-join, generating all combinations of <code>x</code> and <code>y</code>, see
 <code><a href="cross_join.html">cross_join()</a></code>.</p></dd>
 
