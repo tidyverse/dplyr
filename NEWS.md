@@ -2,7 +2,7 @@
 
 ## New features
 
-* `.by` is a new experimental inline alternative to `group_by()` that supports
+* `.by` is an experimental alternative to `group_by()` that supports 
   per-operation grouping for `mutate()`, `summarise()`, `filter()`, and the 
   `slice()` family (#6528).
   
@@ -37,7 +37,7 @@
   maintain the current ordering without having to resort to factors.
   `with_groups()` is superseded in favour of `.by` (#6582).
   
-  This exciting feature was inspired by
+  This feature was inspired by
   [data.table](https://CRAN.R-project.org/package=data.table), where the
   equivalent syntax looks like:
   
@@ -70,10 +70,9 @@
   is heavily inspired by data.table's `forder()`. See the C locale news bullet
   below for more details (#4962).
 
-* Joins have undergone a complete overhaul. The purpose of this overhaul is to
-  enable more flexible join operations, while also providing tools to perform
-  quality control checks directly in the join call. Many of these changes are
-  inspired by data.table's join syntax (#5914, #5661, #5413, #2240).
+* Joins been completely overhauled to enable more flexible join operations and
+  provide more tools for quality control. Many of these changes are inspired by
+  data.table's join syntax (#5914, #5661, #5413, #2240).
 
   * A _join specification_ can now be created through `join_by()`. This allows
     you to specify both the left and right hand side of a join using unquoted
@@ -81,15 +80,14 @@
     specifications can be supplied to any `*_join()` function as the `by`
     argument.
     
-  * Join specifications allow for various new types of joins:
+  * Join specifications allow for new types of joins:
   
-    * Equi joins: The most common join, specified by `==`. For example,
+    * Equi-joins: The most common join, specified by `==`. For example,
       `join_by(sale_date == commercial_date)`.
       
-    * Non-equi joins: For joining on conditions other than equality, specified
-      by `>=`, `>`, `<`, and `<=`. For example,
-      `join_by(sale_date >= commercial_date)` to find every commercial that
-      aired before a particular sale.
+    * Inequality joins: For joining on inequalities, i.e.`>=`, `>`, `<`, and 
+      `<=`. For example, use `join_by(sale_date >= commercial_date)` to find 
+      every commercial that aired before a particular sale.
       
     * Rolling joins: For "rolling" the closest match forward or backwards when
       there isn't an exact match, specified by using the rolling helper,
@@ -99,7 +97,7 @@
       
     * Overlap joins: For detecting overlaps between sets of columns, specified
       by using one of the overlap helpers: `between()`, `within()`, or
-      `overlaps()`. For example,
+      `overlaps()`. For example, use
       `join_by(between(commercial_date, sale_date_lower, sale_date))` to
       find commercials that aired before a particular sale, as long as they
       occurred after some lower bound, such as 40 days before the sale was made.
@@ -111,7 +109,7 @@
     
   * `multiple` is a new argument for controlling what happens when a row
     in `x` matches multiple rows in `y`. For equi joins and rolling joins,
-    where this is usually surprising, this defaults to signaling a `"warning"`,
+    where this is usually surprising, this defaults to signalling a `"warning"`,
     but still returns all of the matches. For non-equi joins and cross joins,
     where multiple matches are usually expected, this defaults to returning
     `"all"` of the matches. You can also return only the `"first"` or `"last"`
@@ -127,8 +125,8 @@
     compatibility, the default is `"drop"`, but you can also choose to
     `"error"` if dropped rows would be surprising.
 
-* `across()` has gained a new experimental `.unpack` argument to optionally
-  unpack (as in, `tidyr::unpack()`) data frames returned by functions in `.fns`
+* `across()` gains an experimental `.unpack` argument to optionally unpack
+  (as in, `tidyr::unpack()`) data frames returned by functions in `.fns`
   (#6360).
 
 * `consecutive_id()` for creating groups based on contiguous runs of the
@@ -139,13 +137,13 @@
   `CASE WHEN` statement, whereas `case_when()` is like a SQL "searched" 
   `CASE WHEN` statement (#6328).
 
+* `cross_join()` is a more explicit and slightly more correct replacement for
+  using `by = character()` during a join (#6604).
+
 * `pick()` makes it easy to access a subset of columns from the current group. 
   `pick()` is intended as a replacement for `across(.fns = NULL)`, `cur_data()`, 
   and `cur_data_all()`. We feel that `pick()` is a much more evocative name when 
   you are just trying to select a subset of columns from your data (#6204).
-
-* `cross_join()` is a more explicit and slightly more correct replacement for
-  using `by = character()` during a join (#6604).
 
 * `symdiff()` function computes the symmetric difference (#4811).
 
@@ -153,98 +151,99 @@
 
 ### Breaking changes
 
-* `arrange()` and `group_by()` now both default to using the C locale when
-  ordering or grouping character vectors rather than the system locale. This
-  brings _substantial_ performance improvements, increases reproducibility
-  across R sessions, makes dplyr more consistent with data.table, and we believe
-  it should affect little existing code. If it does affect your code, you can
-  use `options(dplyr.legacy_locale = TRUE)` to quickly revert to the previous
-  behavior. In general, we instead recommend that you use the new `.locale`
-  argument of `arrange()` when the locale matters. For a full explanation of
-  this change, please read the associated
+* `arrange()` and `group_by()` now use the C locale, not the system locale, 
+  when ordering or grouping character vectors. This brings _substantial_ 
+  performance improvements, increases reproducibility across R sessions, makes 
+  dplyr more consistent with data.table, and we believe it should affect little
+  existing code. If it does affect your code, you can use 
+  `options(dplyr.legacy_locale = TRUE)` to quickly revert to the previous
+  behavior. However, in general, we instead recommend that you use the new 
+  `.locale` argument to precisely specify the desired locale. For a full 
+  explanation please read the associated
   [grouping](https://github.com/tidyverse/tidyups/blob/main/006-dplyr-group-by-ordering.md)
   and [ordering](https://github.com/tidyverse/tidyups/blob/main/003-dplyr-radix-ordering.md)
   tidyups.
   
-### Newly defunct
-
-* `select_vars()`, `rename_vars()`, `select_var()` and `current_var()`, 
-  deprecated in 0.8.4, are now defunct (#6387).
-
 * `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()`,
   `eval_tbl()`, `location()` and `changes()`, deprecated in 1.0.0, are now 
   defunct (#6387).
 
+* `frame_data()`, `data_frame_()`, `lst_()` and `tbl_sum()` are no longer 
+  re-exported from tibble (#6276, #6277, #6278, #6284).
+
+* `select_vars()`, `rename_vars()`, `select_var()` and `current_var()`, 
+  deprecated in 0.8.4, are now defunct (#6387).
+
 ### Newly deprecated
 
-* `across()`, `c_across()`, `if_any()`, and `if_all()` now require that 
-  `.cols` and `.fns` arguments in . In general, we now recommend that you use 
-  `pick()` instead of empty calls to `across()` (i.e. with no arguments) or
-  `across(c(x, y))` (i.e. with no `.fns`) to select a subset of columns without
-  applying any transformation (#6523).
+* `across()`, `c_across()`, `if_any()`, and `if_all()` now require the 
+  `.cols` and `.fns` arguments. In general, we now recommend that you use 
+  `pick()` instead of a bare `across()` or `across()` with no `.fns`
+  (e.g. `across(c(x, y))`. (#6523).
   
   * Relying on the previous default of `.cols = everything()` is deprecated.
     We have skipped the soft-deprecation stage in this case, because indirect
     usage of `across()` and friends in this way is rare.
   
   * Relying on the previous default of `.fns = NULL` is not yet formally
-    soft-deprecated, because there was no good alternative until now, but is
+    soft-deprecated, because there was no good alternative until now, but itis
     discouraged and will be soft-deprecated in the next minor release.
 
-* `all_equal()` is formally deprecated. We've advised against it for
-  some time, and we explicitly recommend you use `all.equal()`,
-  manually reordering the rows and columns (#6324).
-
-* Passing `...` to `across()` is now deprecated because the evaluation timing of
-  `...` is ambiguous. Now instead of (e.g.) `across(a:b, mean, na.rm = TRUE)`
+* Passing `...` to `across()` is deprecated because it's ambiguous when those
+  arguments are evaluated. Now, instead of (e.g.) `across(a:b, mean, na.rm = TRUE)`
   you should write `across(a:b, ~ mean(.x, na.rm = TRUE))` (#6073).
 
-* `cur_data()` and `cur_data_all()` are now soft-deprecated in favor of
+* `all_equal()` is deprecated. We've advised against it for some time, and 
+  we explicitly recommend you use `all.equal()`, manually reordering the rows 
+  and columns (#6324).
+
+* `cur_data()` and `cur_data_all()` are soft-deprecated in favour of
   `pick()` (#6204).
 
 * Using `by = character()` to perform a cross join is now soft-deprecated in
   favor of `cross_join()` (#6604).
 
-* Using 1 column matrices in `filter()` is now deprecated (#6091).
-
-* Returning 0 or >1 rows per group in `summarise()` is now deprecated in favor
-  of using `reframe()`. See the NEWS bullet about `reframe()` for more details
-  (#6382).
+* `filter()`ing with a 1-column matrix is deprecated (#6091).
 
 * `progress_estimate()` is deprecated for all uses (#6387).
 
-* All functions deprecated in 1.0.0 and earlier now warn every time you 
-  use them (#6387). This includes `combine()`, `src_local()`, `src_mysql()`,
-  `src_postgres()`, `src_sqlite()`, `rename_vars_()`, `select_vars_()`, 
-  `summarise_each_()`, `mutate_each_()`, `as.tbl()`, `tbl_df()`, and a handful
-  of older arguments. They are likely to be made defunct in the next major 
-  version (but not before mid 2024).
+* Using `summarise()` to produce a 0 or >1 rows "summary" deprecated in favour
+  of the new `reframe()`. See the NEWS bullet about `reframe()` for more details 
+  (#6382).
 
-* `slice()`ing with a 1-column matrix is now deprecated.
+* All functions deprecated in 1.0.0 (released April 2020) and earlier now warn 
+  every time you  use them (#6387). This includes `combine()`, `src_local()`,
+  `src_mysql()`, `src_postgres()`, `src_sqlite()`, `rename_vars_()`, 
+  `select_vars_()`, `summarise_each_()`, `mutate_each_()`, `as.tbl()`, 
+  `tbl_df()`, and a handful of older arguments. They are likely to be made 
+  defunct in the next major version (but not before mid 2024).
+
+* `slice()`ing with a 1-column matrix is deprecated.
 
 ### Newly superseded
 
+* `recode()` is superseded in favour of `case_match()` (#6433). 
+
+* `recode_factor()` is superseded. We don't have a direct replacement for it 
+  yet, but we plan to add one to forcats. In the meantime you can often use
+`case_match(.ptype = factor(levels = ))` instead (#6433).
+
 * `transmute()` is superseded in favour of `mutate(.keep = "none")`
 
-* `recode()` is superseded in favour of `case_match()`. `recode_factor()` is
-  superseded as well, but we don't have a direct replacement for it yet. We plan
-  to add one to forcats, but in the meantime you can often use a pattern of
-  `case_match(.ptype = factor(levels = ))` instead (#6433).
+### Newly stable
 
-### No longer experimental
-
-* The `.keep`, `.before`, and `.after` arguments to `mutate()` 
-  are no longer experimental.
+* The `.keep`, `.before`, and `.after` arguments to `mutate()` have moved
+  from experimental to stable.
   
-* The `rows_*()` family of functions are no longer experimental.
+* The `rows_*()` family of functions have moved from experimental to stable.
 
 ## vctrs
 
-Many of dplyr's vector functions have been rewritten to make use of the vctrs package, bringing greater consistent and performance.
+Many of dplyr's vector functions have been rewritten to make use of the vctrs package, bringing greater consistent and improved performance.
 
-* `between()` is no longer restricted to just numeric and date-time vectors.
-  Additionally, `left` and `right` can now also be vectors (with the same length 
-  as `x`), and  `x`, `left`, and `right` are now cast to their common type 
+* `between()` can now work with all vector types, not just numeric and 
+  date-time. Additionally, `left` and `right` can now also be vectors (with the 
+  same length as `x`), and `x`, `left`, and `right` are cast to the common type 
   before the comparison is made (#6183, #6260, #6478).
 
 * `case_when()` (#5106):
@@ -253,11 +252,10 @@ Many of dplyr's vector functions have been rewritten to make use of the vctrs pa
     `TRUE ~ default_value` as a more explicit and readable way to specify
     a default value. In the future, we will deprecate the unsafe recycling of
     the LHS inputs that allows `TRUE ~` to work, so we encourage you to switch
-    over to using `.default` instead.
+    to using `.default`.
   
-  * No longer requires exact matching of the types of RHS inputs. For example,
-    the following no longer requires you to use `NA_character_` instead of just
-    `NA`.
+  * No longer requires exact matching of the types of RHS values. For example,
+    the following no longer requires you to use `NA_character_`.
 
     ```
     x <- c("little", "unknown", "small", "missing", "large")
@@ -269,8 +267,8 @@ Many of dplyr's vector functions have been rewritten to make use of the vctrs pa
     )
     ```
     
-  * Supports a larger variety of value types. For example, you can use a data 
-    frame to create multiple columns at once.
+  * Supports a larger variety of RHS value types. For example, you can use a 
+    data frame to create multiple columns at once.
      
   * Has new `.ptype` and `.size` arguments which allow you to enforce
     a particular output type and size.
@@ -303,14 +301,12 @@ Many of dplyr's vector functions have been rewritten to make use of the vctrs pa
   Additionally, they have all gained an `na_rm` argument since they
   are summary functions (#6242, with contributions from @tnederlof).
 
-* `if_else()` comes with most of the same benefits as the `case_when()` rewrite. 
-  In particular, `if_else()` now takes the common type of `true`, `false`, and
-  `missing` when determining what the output type should be, meaning that you no
-  longer have to be quite as strict about types when supplying values for them
-  (for example, you no longer need to supply typed `NA` values, like 
-  `NA_character_`) (#6243).
+* `if_else()` gains most of the same benefits as `case_when()`. In particular,     
+  `if_else()` now takes the common type of `true`, `false`, and `missing` to
+  determine the output type, meaning that you can now reliably use `NA`,
+  rather than `NA_character_` and friends (#6243).
 
-* `na_if()` (#6329) now casts `y` to the type of `x` before comparing them, which 
+* `na_if()` (#6329) now casts `y` to the type of `x` before comparison, which 
   makes it clearer that this function is type and size stable on `x`. In
   particular, this means that you can no longer do `na_if(<tibble>, 0)`, which
   previously accidentally allowed you to replace any instance of `0` across 
@@ -335,7 +331,7 @@ Many of dplyr's vector functions have been rewritten to make use of the vctrs pa
 * Fixed an issue with latest rlang that caused internal tools (such as
   `mask$eval_all_summarise()`) to be mentioned in error messages (#6308).
 
-* Warnings are now enriched with contextualised information in `summarise()` and
+* Warnings are enriched with contextualised information in `summarise()` and
   `filter()` just like they have been in `mutate()` and `arrange()`.
 
 * Joins now reference the correct column in `y` when a type error is thrown
@@ -352,7 +348,7 @@ Many of dplyr's vector functions have been rewritten to make use of the vctrs pa
 * `arrange()` now works correctly when `across()` calls are used as the 2nd
   (or more) ordering expression (#6495).
 
-* `arrange(df, mydesc::desc(x))` works correctly when the mydesc re-exports
+* `arrange(df, mydesc::desc(x))` works correctly when mydesc re-exports
    `dplyr::desc()` (#6231).
 
 * `c_across()` now evaluates `all_of()` correctly and no longer allows you to
@@ -467,15 +463,6 @@ Many of dplyr's vector functions have been rewritten to make use of the vctrs pa
   i.e. they have the same columns, and the columns have compatible types.
 
 * `where()` is re-exported from tidyselect (#6597).
-
-
-* `tbl_sum()` is no longer reexported from tibble (#6284).
-
-* `frame_data()` is no longer reexported from tibble (#6278).
-
-* `lst_()` is no longer reexported from tibble (#6276).
-
-* `data_frame_()` is no longer reexported from tibble (#6277).
 
 # dplyr 1.0.10
 
