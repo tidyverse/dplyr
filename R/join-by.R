@@ -18,8 +18,8 @@
 #'
 #' ## Equality joins
 #'
-#' Equality joins match on equality between one or more pairs of columns, and
-#' are the most common type of join. To construct an equality join using
+#' Equality joins require keys to be equal between one or more pairs of columns,
+#' and are the most common type of join. To construct an equality join using
 #' `join_by()`, supply two column names to join with separated by `==`.
 #' Alternatively, supplying a single name will be interpreted as an equality
 #' join between two columns of the same name. For example, `join_by(x)` is
@@ -58,8 +58,8 @@
 #' ## Overlap joins
 #'
 #' Overlap joins are a special case of inequality joins involving one or two
-#' columns from the left-hand table _overlapping_ a range computed from two
-#' columns from the right-hand table. There are three helpers that `join_by()`
+#' columns from the left-hand table _overlapping_ a range defined by two columns
+#' from the right-hand table. There are three helpers that `join_by()`
 #' recognizes to assist with constructing overlap joins, all of which can be
 #' constructed from simpler inequalities.
 #'

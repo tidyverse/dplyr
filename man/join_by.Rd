@@ -49,8 +49,8 @@ Equality, inequality, rolling, and overlap joins are discussed in more detail
 below. Cross joins are implemented through \code{\link[=cross_join]{cross_join()}}.
 \subsection{Equality joins}{
 
-Equality joins match on equality between one or more pairs of columns, and
-are the most common type of join. To construct an equality join using
+Equality joins require keys to be equal between one or more pairs of columns,
+and are the most common type of join. To construct an equality join using
 \code{join_by()}, supply two column names to join with separated by \code{==}.
 Alternatively, supplying a single name will be interpreted as an equality
 join between two columns of the same name. For example, \code{join_by(x)} is
@@ -93,8 +93,8 @@ regardless of how the inequality is specified. For example,
 \subsection{Overlap joins}{
 
 Overlap joins are a special case of inequality joins involving one or two
-columns from the left-hand table \emph{overlapping} a range computed from two
-columns from the right-hand table. There are three helpers that \code{join_by()}
+columns from the left-hand table \emph{overlapping} a range defined by two columns
+from the right-hand table. There are three helpers that \code{join_by()}
 recognizes to assist with constructing overlap joins, all of which can be
 constructed from simpler inequalities.
 \itemize{
