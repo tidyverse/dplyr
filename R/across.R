@@ -888,27 +888,32 @@ quo_eval_fns <- function(quo, error_call = caller_env()) {
   # name.
   quo <- quo_set_env_to_data_mask_top(quo)
 
-  # Below, we evaluate the expressions in an empty data-mask that
-  # handles quosures and whose environment serves as a sentinel for
-  # lambda functions or formulas (see comment in `validate()`). This
-  # sentinel is initialised here to an irrelevant env because we use
-  # it in `validate()` which is also called in the symbol-fetching
-  # path.
-  orig_env <- get_env(quo)
+  # The following strange scheme is a work around to reconciliate two
+  # contradictory goals. We want to evaluate outside the mask so that
+  # data mask columns are not confused with functions (#6545).
+  # However at the same time we want non-inlinable lambdas (inlinable
+  # ones are dealt with above) to be maskable so they can refer to
+  # data mask columns. So we evaluate outside the mask, in a data-less
+  # quosure mask that handles quosures. Then, in `validate()`, we
+  # detect lambdas that inherit from this quosure mask and transform
+  # them into maskable closures.
   sentinel_env <- empty_env()
 
-  validate <- function(x, recurse = TRUE) {
-    if (is_list(x)) {
-      map(x, function(elt) validate(elt, recurse = FALSE))
-    } else if (is_formula(x) || is_function(x)) {
+  out <- eval_tidy(quo({
+    sentinel_env <<- current_env()
+    !!quo
+  }))
+
+  validate <- function(x) {
+     if (is_formula(x) || is_function(x)) {
       out <- as_function(x, arg = ".fns", call = error_call)
 
-      # If the function inherits from the data-less mask, we know we
-      # have a lambda: a function or formula that was directly
-      # supplied and evaluated here. We transform it to a maskable
-      # closure so it can refer to columns when run.
+      # If the function inherits from the data-less quosure mask, we
+      # know we have a non-inlinable lambda: a function or formula
+      # that was directly supplied and evaluated here. We transform it
+      # to a maskable closure so it can refer to columns when run.
       if (identical(get_env(x), sentinel_env)) {
-        out <- set_env(out, orig_env)
+        out <- set_env(out, quo_get_env(quo))
         out <- as_maskable_closure(out)
       }
 
@@ -921,47 +926,11 @@ quo_eval_fns <- function(quo, error_call = caller_env()) {
     }
   }
 
-  if (!quo_is_symbol(quo)) {
-    # This weird scheme is a work around to reconciliate two
-    # contradictory goals. We want to evaluate outside the mask so
-    # that data mask columns are not confused with functions (#6545).
-    # However at the same time we want non-inlinable formulas
-    # (inlinable ones are dealt with above) to inherit from the mask
-    # so they can refer to data mask columns. So we evaluate outside
-    # the mask, but detect formulas that inherit from it to patch them
-    # up to inherit from the mask. This whole thing could be made
-    # simpler and removed at the price of a behaviour change.
-    out <- eval_tidy(quo({
-      sentinel_env <<- current_env()
-      !!quo
-    }))
-    return(validate(out))
+  if (vec_is_list(out)) {
+    map(out, function(elt) validate(elt))
+  } else {
+    validate(out)
   }
-
-  # Symbol-fetching path. We implement a variant of `match.fun()` that
-  # also fetches lists and formulas in the lexical ancestry of `quo`.
-  # This avoids data-mask ambiguity.
-  sym <- quo_get_expr(quo)
-  env <- quo_get_env(quo)
-  nm <- as_string(sym)
-
-  while (!identical(env, empty_env())) {
-    out <- env_get(env, nm, default = NULL)
-
-    if (is_function(out) || is_list(out) || is_formula(out)) {
-      return(validate(out))
-    }
-
-    env <- env_parent(env)
-  }
-
-  # Object not found errors are triggered here
-  wrong <- eval_tidy(quo)
-
-  # This throws a type error
-  validate(wrong)
-
-  abort("Unexpected state.", .internal = TRUE)
 }
 
 quo_is_inlinable_lambda <- function(x) {
