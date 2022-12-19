@@ -1,9 +1,9 @@
 ## revdepcheck results
 
-We checked 3648 reverse dependencies (3611 from CRAN + 37 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
+We checked 3638 reverse dependencies (3616 from CRAN + 22 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 82 new problems
- * We failed to check 22 packages
+ * We saw 83 new problems
+ * We failed to check 24 packages
 
 Issues with CRAN packages are summarised below.
 
@@ -11,6 +11,13 @@ Issues with CRAN packages are summarised below.
 (This reports the first line of each new failure)
 
 * admiral
+  checking tests ... ERROR
+
+* AirMonitor
+  checking examples ... ERROR
+  checking re-building of vignette outputs ... WARNING
+
+* APCI
   checking tests ... ERROR
 
 * arrow
@@ -39,10 +46,6 @@ Issues with CRAN packages are summarised below.
 * disk.frame
   checking examples ... ERROR
 
-* divseg
-  checking examples ... ERROR
-  checking tests ... ERROR
-
 * dm
   checking tests ... ERROR
 
@@ -55,10 +58,6 @@ Issues with CRAN packages are summarised below.
 * epocakir
   checking examples ... ERROR
   checking tests ... ERROR
-
-* ethnobotanyR
-  checking examples ... ERROR
-  checking re-building of vignette outputs ... WARNING
 
 * extdplyr
   checking examples ... ERROR
@@ -85,18 +84,18 @@ Issues with CRAN packages are summarised below.
   checking tests ... ERROR
   checking re-building of vignette outputs ... WARNING
 
-* FRK
-  checking tests ... ERROR
-
 * GauPro
   checking examples ... ERROR
 
-* ggblanket
-  checking examples ... ERROR
-  checking re-building of vignette outputs ... WARNING
+* ggmuller
+  checking whether package ‘ggmuller’ can be installed ... WARNING
 
 * gratia
   checking tests ... ERROR
+
+* greatR
+  checking tests ... ERROR
+  checking re-building of vignette outputs ... WARNING
 
 * hablar
   checking tests ... ERROR
@@ -121,6 +120,9 @@ Issues with CRAN packages are summarised below.
   checking examples ... ERROR
   checking tests ... ERROR
 
+* insectDisease
+  checking examples ... ERROR
+
 * iNZightTools
   checking tests ... ERROR
 
@@ -141,17 +143,25 @@ Issues with CRAN packages are summarised below.
 * lans2r
   checking tests ... ERROR
 
+* LARGB
+  checking whether package ‘LARGB’ can be installed ... WARNING
+
 * lillies
   checking examples ... ERROR
 
 * logitr
   checking re-building of vignette outputs ... WARNING
 
+* MazamaTimeSeries
+  checking examples ... ERROR
+  checking tests ... ERROR
+
 * MBNMAtime
   checking tests ... ERROR
 
-* MetAlyzer
-  checking re-building of vignette outputs ... WARNING
+* metacore
+  checking examples ... ERROR
+  checking tests ... ERROR
 
 * mudata2
   checking examples ... ERROR
@@ -176,6 +186,9 @@ Issues with CRAN packages are summarised below.
 
 * ontologics
   checking examples ... ERROR
+  checking re-building of vignette outputs ... WARNING
+
+* openalexR
   checking re-building of vignette outputs ... WARNING
 
 * overviewR
@@ -205,13 +218,7 @@ Issues with CRAN packages are summarised below.
 * questionr
   checking tests ... ERROR
 
-* r2dii.analysis
-  checking tests ... ERROR
-
 * recipes
-  checking tests ... ERROR
-
-* RNeXML
   checking tests ... ERROR
 
 * romic
@@ -261,16 +268,10 @@ Issues with CRAN packages are summarised below.
 * tidygraph
   checking tests ... ERROR
 
-* tidyplus
-  checking tests ... ERROR
-
 * tidyquery
   checking tests ... ERROR
 
 * tidytransit
-  checking tests ... ERROR
-
-* tidytree
   checking tests ... ERROR
 
 * topr
@@ -280,6 +281,9 @@ Issues with CRAN packages are summarised below.
 * track2KBA
   checking examples ... ERROR
   checking tests ... ERROR
+
+* treeplyr
+  checking whether package ‘treeplyr’ can be installed ... WARNING
 
 * unpivotr
   checking examples ... ERROR
@@ -294,25 +298,27 @@ Issues with CRAN packages are summarised below.
 
 ### Failed to check
 
-* cinaR         (NA)
-* elbird        (NA)
-* genekitr      (NA)
-* ggPMX         (NA)
-* groupr        (NA)
-* immcp         (NA)
-* ino           (NA)
-* loon.ggplot   (NA)
-* loon.shiny    (NA)
-* MSclassifR    (NA)
-* nlmixr2extra  (NA)
-* nlmixr2plot   (NA)
-* nlmixr2rpt    (NA)
-* numbat        (NA)
-* OlinkAnalyze  (NA)
-* Platypus      (NA)
-* rabhit        (NA)
-* RVA           (NA)
-* tidySEM       (NA)
-* tinyarray     (NA)
-* vivid         (NA)
-* xpose.nlmixr2 (NA)
+* cinaR          (NA)
+* elbird         (NA)
+* genekitr       (NA)
+* ggPMX          (NA)
+* ggpubr         (NA)
+* groupr         (NA)
+* gWQS           (NA)
+* immcp          (NA)
+* loon.ggplot    (NA)
+* loon.shiny     (NA)
+* MetaIntegrator (NA)
+* nlmixr2extra   (NA)
+* nlmixr2plot    (NA)
+* nlmixr2rpt     (NA)
+* numbat         (NA)
+* OlinkAnalyze   (NA)
+* Platypus       (NA)
+* rabhit         (NA)
+* rtsVis         (NA)
+* RVA            (NA)
+* tidySEM        (NA)
+* tinyarray      (NA)
+* vivid          (NA)
+* xpose.nlmixr2  (NA)
