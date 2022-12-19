@@ -82,7 +82,7 @@
     
   * Join specifications allow for new types of joins:
   
-    * Equi-joins: The most common join, specified by `==`. For example,
+    * Equality joins: The most common join, specified by `==`. For example,
       `join_by(sale_date == commercial_date)`.
       
     * Inequality joins: For joining on inequalities, i.e.`>=`, `>`, `<`, and 
@@ -108,17 +108,17 @@
     to that by name in `join_by()`.
     
   * `multiple` is a new argument for controlling what happens when a row
-    in `x` matches multiple rows in `y`. For equi joins and rolling joins,
+    in `x` matches multiple rows in `y`. For equality joins and rolling joins,
     where this is usually surprising, this defaults to signalling a `"warning"`,
-    but still returns all of the matches. For non-equi joins and cross joins,
+    but still returns all of the matches. For inequality joins and cross joins,
     where multiple matches are usually expected, this defaults to returning
     `"all"` of the matches. You can also return only the `"first"` or `"last"`
     match, `"any"` of the matches, or you can `"error"`.
     
   * `keep` now defaults to `NULL` rather than `FALSE`. `NULL` implies
-    `keep = FALSE` for equi-join conditions, but `keep = TRUE` for non-equi
-    join conditions, since you generally want to preserve both sides of a
-    non-equi join.
+    `keep = FALSE` for equality conditions, but `keep = TRUE` for inequality
+    conditions, since you generally want to preserve both sides of an
+    inequality join.
     
   * `unmatched` is a new argument for controlling what happens when a row
     would be dropped because it doesn't have a match. For backwards

@@ -9,11 +9,12 @@ join_by(...)
 \arguments{
 \item{...}{Expressions specifying the join.
 
-Each expression should consist of either a join condition or a join helper:
+Each expression should consist of one of the following:
 \itemize{
-\item Join conditions: \code{==}, \code{>=}, \code{>}, \code{<=}, or \code{<}.
-\item Rolling helper: \code{closest()}.
-\item Overlap helpers: \code{between()}, \code{within()}, or \code{overlaps()}.
+\item Equality condition: \code{==}
+\item Inequality conditions: \code{>=}, \code{>}, \code{<=}, or \code{<}
+\item Rolling helper: \code{closest()}
+\item Overlap helpers: \code{between()}, \code{within()}, or \code{overlaps()}
 }
 
 Other expressions are not supported. If you need to perform a join on
@@ -22,8 +23,8 @@ you'll need to precompute and store it in a separate column.
 
 Column names should be specified as quoted or unquoted names. By default,
 the name on the left-hand side of a join condition refers to the left-hand
-table, unless overridden by explicitly prefixing the column name with either
-\verb{x$} or \verb{y$}.
+table, unless overridden by explicitly prefixing the column name with
+either \verb{x$} or \verb{y$}.
 
 If a single column name is provided without any join conditions, it is
 interpreted as if that column name was duplicated on each side of \code{==},
@@ -35,44 +36,49 @@ using a small domain specific language. The result can be supplied as the
 \code{by} argument to any of the join functions (such as \code{\link[=left_join]{left_join()}}).
 }
 \section{Join types}{
-\code{join_by()} supports four types of joins, as described below:
+The following types of joins are supported by dplyr:
 \itemize{
-\item Equi joins
-\item Non-equi joins
+\item Equality joins
+\item Inequality joins
 \item Rolling joins
 \item Overlap joins
+\item Cross joins
 }
-\subsection{Equi joins}{
 
-Equi joins match on equality, and are the most common type of join. To
-construct an equi join, supply two column names to join with separated by
-\code{==}. Alternatively, supplying a single name will be interpreted as an equi
+Equality, inequality, rolling, and overlap joins are discussed in more detail
+below. Cross joins are implemented through \code{\link[=cross_join]{cross_join()}}.
+\subsection{Equality joins}{
+
+Equality joins require keys to be equal between one or more pairs of columns,
+and are the most common type of join. To construct an equality join using
+\code{join_by()}, supply two column names to join with separated by \code{==}.
+Alternatively, supplying a single name will be interpreted as an equality
 join between two columns of the same name. For example, \code{join_by(x)} is
 equivalent to \code{join_by(x == x)}.
 }
 
-\subsection{Non-equi joins}{
+\subsection{Inequality joins}{
 
-Non-equi joins match on an inequality, and are common in time series analysis
-and genomics. To construct a non-equi join, supply two column names separated
-by \code{>}, \code{>=}, \code{<}, or \code{<=}.
+Inequality joins match on an inequality, such as \code{>}, \code{>=}, \code{<}, or \code{<=}, and
+are common in time series analysis and genomics. To construct an inequality
+join using \code{join_by()}, supply two column names separated by one of the above
+mentioned inequalities.
 
-Note that non-equi joins will match a single row in \code{x} to a potentially
-large number of rows in \code{y}. Be extra careful when constructing non-equi
+Note that inequality joins will match a single row in \code{x} to a potentially
+large number of rows in \code{y}. Be extra careful when constructing inequality
 join specifications!
 }
 
 \subsection{Rolling joins}{
 
-Rolling joins are a variant of non-equi joins that limit the results returned
-from a non-equi join condition. They are useful for "rolling" the closest
-match forward/backwards when there isn't an exact match. To construct a
-rolling join, wrap an inequality with \code{closest()}.
+Rolling joins are a variant of inequality joins that limit the results
+returned from an inequality join condition. They are useful for "rolling" the
+closest match forward/backwards when there isn't an exact match. To construct
+a rolling join, wrap an inequality with \code{closest()}.
 \itemize{
 \item \code{closest(expr)}
 
-\code{expr} must be a binary inequality involving one of: \code{>}, \code{>=}, \code{<},
-or \code{<=}.
+\code{expr} must be an inequality involving one of: \code{>}, \code{>=}, \code{<}, or \code{<=}.
 
 For example, \code{closest(x >= y)} is interpreted as: For each value in \code{x},
 find the closest value in \code{y} that is less than or equal to that \code{x} value.
@@ -80,17 +86,17 @@ find the closest value in \code{y} that is less than or equal to that \code{x} v
 
 \code{closest()} will always use the left-hand table (\code{x}) as the primary table,
 and the right-hand table (\code{y}) as the one to find the closest match in,
-regardless of how the binary condition is specified. For example,
+regardless of how the inequality is specified. For example,
 \code{closest(y$a >= x$b)} will always be interpreted as \code{closest(x$b <= y$a)}.
 }
 
 \subsection{Overlap joins}{
 
-Overlap joins are a special case of a non-equi join generally involving one
-or two columns from the left-hand table \emph{overlapping} a range computed from
-two columns from the right-hand table. There are three helpers that
-\code{join_by()} recognizes to assist with constructing overlap joins, all of
-which can be constructed from simpler binary expressions.
+Overlap joins are a special case of inequality joins involving one or two
+columns from the left-hand table \emph{overlapping} a range defined by two columns
+from the right-hand table. There are three helpers that \code{join_by()}
+recognizes to assist with constructing overlap joins, all of which can be
+constructed from simpler inequalities.
 \itemize{
 \item \code{between(x, y_lower, y_upper, ..., bounds = "[]")}
 
@@ -100,8 +106,8 @@ default.
 
 \code{bounds} can be one of \code{"[]"}, \code{"[)"}, \code{"(]"}, or
 \code{"()"} to alter the inclusiveness of the lower and upper bounds. This
-changes whether \code{>=} or \code{>} and \code{<=} or \code{<} are used to build the binary
-conditions shown above.
+changes whether \code{>=} or \code{>} and \code{<=} or \code{<} are used to build the
+inequalities shown above.
 
 Dots are for future extensions and must be empty.
 \item \code{within(x_lower, x_upper, y_lower, y_upper)}
@@ -109,8 +115,8 @@ Dots are for future extensions and must be empty.
 For each range in \verb{[x_lower, x_upper]}, this finds everywhere that range
 falls completely within \verb{[y_lower, y_upper]}. Equivalent to \verb{x_lower >= y_lower, x_upper <= y_upper}.
 
-The binary conditions used to build \code{within()} are the same regardless of
-the inclusiveness of the supplied ranges.
+The inequalities used to build \code{within()} are the same regardless of the
+inclusiveness of the supplied ranges.
 \item \code{overlaps(x_lower, x_upper, y_lower, y_upper, ..., bounds = "[]")}
 
 For each range in \verb{[x_lower, x_upper]}, this finds everywhere that range
@@ -119,7 +125,7 @@ overlaps \verb{[y_lower, y_upper]} in any capacity. Equivalent to \verb{x_lower 
 \code{bounds} can be one of \code{"[]"}, \code{"[)"}, \code{"(]"}, or
 \code{"()"} to alter the inclusiveness of the lower and upper bounds.
 \code{"[]"} uses \code{<=} and \code{>=}, but the 3 other options use \code{<} and \code{>}
-and generate the exact same binary conditions.
+and generate the exact same inequalities.
 
 Dots are for future extensions and must be empty.
 }
