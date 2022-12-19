@@ -32,7 +32,7 @@ Multiple matches
 
 By default, if an observation in x matches multiple observations in y,
 all of the matching observations in y will be returned. If this occurs in
-an equi join or a rolling join, a warning will be thrown stating that
+an equality join or a rolling join, a warning will be thrown stating that
 multiple matches have been detected since this is usually surprising. If
 multiple matches are expected in these cases, silence this warning by
 explicitly setting multiple = "all".
@@ -70,7 +70,7 @@ Multiple matches
 
 By default, if an observation in x matches multiple observations in y,
 all of the matching observations in y will be returned. If this occurs in
-an equi join or a rolling join, a warning will be thrown stating that
+an equality join or a rolling join, a warning will be thrown stating that
 multiple matches have been detected since this is usually surprising. If
 multiple matches are expected in these cases, silence this warning by
 explicitly setting multiple = "all".
@@ -181,7 +181,7 @@ data frames:</p><ul><li><p>A <code>left_join()</code> keeps all observations in 
 
 <p>By default, if an observation in <code>x</code> matches multiple observations in <code>y</code>,
 all of the matching observations in <code>y</code> will be returned. If this occurs in
-an equi join or a rolling join, a warning will be thrown stating that
+an equality join or a rolling join, a warning will be thrown stating that
 multiple matches have been detected since this is usually surprising. If
 multiple matches are expected in these cases, silence this warning by
 explicitly setting <code>multiple = "all"</code>.</p>
@@ -370,9 +370,9 @@ if you just need to detect if there is at least one match.</p></li>
 <li><p><code>"warning"</code> throws a warning if multiple matches are detected, and
 then falls back to <code>"all"</code>.</p></li>
 <li><p><code>"error"</code> throws an error if multiple matches are detected.</p></li>
-</ul><p>The default value of <code>NULL</code> is equivalent to <code>"warning"</code> for equi joins and
-rolling joins, where multiple matches are usually surprising. If any
-non-equi join conditions are present, then it is equivalent to <code>"all"</code>,
+</ul><p>The default value of <code>NULL</code> is equivalent to <code>"warning"</code> for equality joins
+and rolling joins, where multiple matches are usually surprising. If any
+inequality join conditions are present, then it is equivalent to <code>"all"</code>,
 since multiple matches are usually expected.</p></dd>
 
 
@@ -528,7 +528,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     2 third </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     3 <span style="color: #BB0000;">NA</span>    </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Use `join_by()` with a condition other than `==` to perform a non-equi</span></span></span>
+<span class="r-in"><span><span class="co"># Use `join_by()` with a condition other than `==` to perform an inequality</span></span></span>
 <span class="r-in"><span><span class="co"># join. Here we match on every instance where `df1$x &gt; df2$x`.</span></span></span>
 <span class="r-in"><span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">left_join</span><span class="op">(</span><span class="va">df2</span>, <span class="fu"><a href="join_by.html">join_by</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&gt;</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 3</span></span>
