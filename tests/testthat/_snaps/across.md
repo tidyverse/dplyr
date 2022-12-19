@@ -280,7 +280,7 @@
       i In argument: `(across(1:2, ~.y + mean(bar)))`.
       Caused by error in `across()`:
       ! Can't compute column `foo`.
-      Caused by error in `fn()`:
+      Caused by error:
       ! the ... list contains fewer than 2 elements
 
 # can't rename during selection (#6522)

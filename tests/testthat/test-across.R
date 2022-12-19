@@ -691,7 +691,7 @@ test_that("across() inlines formulas", {
 
   # Formulas are converted to functions
   expect_rlang_lambda <- function(fn) {
-    expect_s3_class(fn, "rlang_lambda_function")
+    expect_s3_class(fn, "dplyr:::maskable_closure")
     out <- as_across_fn_call(fn, quote(var), env, env)
     expect_equal(out, new_quosure(call2(fn, quote(var)), env))
   }
@@ -731,6 +731,20 @@ test_that("inlined and non inlined lambdas work", {
     (expect_error(df %>% mutate(across(1:2, ~ .y + mean(bar)))))
     (expect_error(df %>% mutate((across(1:2, ~ .y + mean(bar))))))
   })
+})
+
+test_that("list of lambdas work", {
+  df <- data.frame(foo = 1:2, bar = 100:101)
+  exp <- cbind(
+    df,
+    data.frame(foo_1 = c(101.5, 102.5), bar_1 = c(200.5, 201.5))
+  )
+
+  expect_equal(df %>% mutate(across(1:2, list(function(x) x + mean(bar)))), exp)
+  expect_equal(df %>% mutate((across(1:2, list(function(x) x + mean(bar))))), exp)
+
+  expect_equal(df %>% mutate(across(1:2, list(~ .x + mean(bar)))), exp)
+  expect_equal(df %>% mutate((across(1:2, list(~ .x + mean(bar))))), exp)
 })
 
 test_that("across() uses local formula environment (#5881)", {

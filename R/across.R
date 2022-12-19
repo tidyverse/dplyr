@@ -182,10 +182,6 @@ across <- function(.cols,
   .cols <- enquo(.cols)
   fns_quo <- enquo(.fns)
 
-  # Don't evaluate functions in the data mask (#6545)
-  fns_quo_env <- quo_get_env(fns_quo)
-  fns_quo <- quo_set_env_to_data_mask_top(fns_quo)
-
   if (quo_is_missing(.cols)) {
     across_missing_cols_deprecate_warn()
     .cols <- quo_set_expr(.cols, expr(everything()))
@@ -196,7 +192,7 @@ across <- function(.cols,
     # TODO: Escalate this to formal deprecation.
     .fns <- NULL
   } else {
-    .fns <- quo_eval_fns(fns_quo, formula_env = fns_quo_env, error_call = error_call)
+    .fns <- quo_eval_fns(fns_quo, error_call = error_call)
   }
 
   if (!is_bool(.unpack) && !is_string(.unpack)) {
@@ -243,6 +239,7 @@ across <- function(.cols,
   fns <- setup$fns
   names <- setup$names
 
+  fns_quo_env <- quo_get_env(fns_quo)
   fns <- map(fns, function(fn) uninline(fn, fns_quo_env, error_call = current_env()))
 
   if (!length(fns)) {
@@ -678,7 +675,7 @@ expand_across <- function(quo) {
 
   if (".fns" %in% names(expr)) {
     fns <- as_quosure(expr$.fns, env)
-    fns <- quo_eval_fns(fns, formula_env = mask, error_call = error_call)
+    fns <- quo_eval_fns(fns, error_call = error_call)
   } else {
     # In the missing case, silently restore the old default of `NULL`.
     # TODO: Escalate this to formal deprecation.
@@ -770,8 +767,7 @@ as_across_fn_call <- function(fn, var, env, mask) {
     new_quosure(expr, env)
   } else {
     # Non-inlinable elements are wrapped in a quosured call
-    fn_call <- call2(as_function(fn), sym(var))
-    new_quosure(fn_call, env)
+    new_quosure(call2(fn, sym(var)), env)
   }
 }
 
@@ -851,16 +847,27 @@ apply_unpack_spec <- function(col, outer, spec, caller_env) {
   col
 }
 
-# Return type: <fn> | <list<fn>>
-quo_eval_fns <- function(quo,
-                         formula_env = NULL,
-                         error_call = caller_env()) {
-  # We first inline calls to functions and formulas so they can refer
-  # to data mask objects. E.g. `across(cyl, \(x) mean(x) + mean(am)`
-  # is expanded to `mean(cyl) + mean(am)` in the surrounding call. To
-  # recognise these inlinable lambdas later on, we set their
-  # environments to the empty env.
-
+# Evaluate the quosure of the `.fns` argument
+#
+# We detect and mark inlinable lambdas here. By lambda we mean either
+# a `~` or `function` call that is directly supplied to
+# `across()`. Lambdas haven't been evaluated yet and don't carry an
+# environment.
+#
+# Inlinable lambdas are eventually expanded in the surrounding call.
+# To distinguish inlinable lambdas from non-inlinable ones, we set
+# their environments to the empty env.
+#
+# None of the lambdas passed through `list()` are inlinable and there
+# are some other cases where we can't inline (e.g. lambdas that are
+# passed additional arguments through `...`). We still want
+# non-inlinable lambdas to be maskable so that they can refer to
+# data-mask columns. This requires some special tricks that are
+# documented inline.
+#
+# @value  <fn> | <list<fn>>. Inlinable lambdas are set to the
+#   empty env.
+quo_eval_fns <- function(quo, error_call = caller_env()) {
   if (quo_is_inlinable_lambda(quo)) {
     fn <- eval(quo_get_expr(quo))
     fn <- set_env(fn, empty_env())
@@ -873,17 +880,38 @@ quo_eval_fns <- function(quo,
     return(fn)
   }
 
-  mask_env <- empty_env()
+  # In the evaluation path (as opposed to expansion), the quosure
+  # inherits from the data mask. We set the environment to the data
+  # mask top (the original quosure environment) so that we don't
+  # evaluate the function expressions in the mask. This prevents
+  # masking a function symbol (e.g. `mean`) by a column of the same
+  # name.
+  quo <- quo_set_env_to_data_mask_top(quo)
 
-  validate <- function(out, recurse = TRUE) {
-    if (is_list(out)) {
-      map(out, function(x) validate(x, recurse = FALSE))
-    } else if (is_formula(out)) {
-      if (!is_null(formula_env) && identical(get_env(out), mask_env)) {
-        out <- set_env(out, formula_env)
+  # Below, we evaluate the expressions in an empty data-mask that
+  # handles quosures and whose environment serves as a sentinel for
+  # lambda functions or formulas (see comment in `validate()`). This
+  # sentinel is initialised here to an irrelevant env because we use
+  # it in `validate()` which is also called in the symbol-fetching
+  # path.
+  orig_env <- get_env(quo)
+  sentinel_env <- empty_env()
+
+  validate <- function(x, recurse = TRUE) {
+    if (is_list(x)) {
+      map(x, function(elt) validate(elt, recurse = FALSE))
+    } else if (is_formula(x) || is_function(x)) {
+      out <- as_function(x, arg = ".fns", call = error_call)
+
+      # If the function inherits from the data-less mask, we know we
+      # have a lambda: a function or formula that was directly
+      # supplied and evaluated here. We transform it to a maskable
+      # closure so it can refer to columns when run.
+      if (identical(get_env(x), sentinel_env)) {
+        out <- set_env(out, orig_env)
+        out <- as_maskable_closure(out)
       }
-      as_function(out, arg = ".fns", call = error_call)
-    } else if (is_function(out)) {
+
       out
     } else {
       abort(
@@ -904,12 +932,15 @@ quo_eval_fns <- function(quo,
     # up to inherit from the mask. This whole thing could be made
     # simpler and removed at the price of a behaviour change.
     out <- eval_tidy(quo({
-      mask_env <<- current_env()
+      sentinel_env <<- current_env()
       !!quo
     }))
     return(validate(out))
   }
 
+  # Symbol-fetching path. We implement a variant of `match.fun()` that
+  # also fetches lists and formulas in the lexical ancestry of `quo`.
+  # This avoids data-mask ambiguity.
   sym <- quo_get_expr(quo)
   env <- quo_get_env(quo)
   nm <- as_string(sym)
@@ -927,7 +958,7 @@ quo_eval_fns <- function(quo,
   # Object not found errors are triggered here
   wrong <- eval_tidy(quo)
 
-  # This type-checks the input
+  # This throws a type error
   validate(wrong)
 
   abort("Unexpected state.", .internal = TRUE)
@@ -967,4 +998,30 @@ quo_is_inlinable_formula <- function(quo) {
   }
 
   TRUE
+}
+
+# Create a closure with the signature of an rlang lambda that
+# evaluates `f`'s body as a maskable expression. This is necessary in
+# the expansion case because the quosure env in which formulas and
+# functions are evaluated does not inherit from the data mask, and in
+# the evaluation case because we set the quosure env to the data mask
+# top to avoid masking the function expressions.
+as_maskable_closure <- function(fn) {
+  # Scoped in dplyr's namespace
+  mask_call <- call2(function() peek_mask()$get_rlang_mask())
+  class <- class(fn)
+
+  # Preserve the lexical env of `fn` but insert a call to
+  # `eval_tidy()` to data-mask the closure's body
+  body(fn) <- expr({
+    rlang::eval_tidy(
+      expr = quote(!!body(fn)),
+      data = !!mask_call
+    )
+  })
+
+  # For unit tests
+  class(fn) <- c("dplyr:::maskable_closure", "function")
+
+  fn
 }
