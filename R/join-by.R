@@ -12,7 +12,7 @@
 #'   joins, rolling joins, and overlap joins.
 #'
 #' Equality, inequality, rolling, and overlap joins are discussed in more detail
-#' below. Cross joins are implemented through `cross_join()`.
+#' below. Cross joins are implemented through [cross_join()].
 #'
 #' ## Equality joins
 #'

@@ -44,7 +44,7 @@ joins, rolling joins, and overlap joins.
 }
 
 Equality, inequality, rolling, and overlap joins are discussed in more detail
-below. Cross joins are implemented through \code{cross_join()}.
+below. Cross joins are implemented through \code{\link[=cross_join]{cross_join()}}.
 \subsection{Equality joins}{
 
 Equality joins match on equality between one or more pairs of columns, and
