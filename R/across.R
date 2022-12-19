@@ -940,11 +940,18 @@ quo_is_inlinable_lambda <- function(x) {
     return(FALSE)
   }
 
-  fmls <- formals(eval(expr))
+  fn <- eval(expr)
+  fmls <- formals(fn)
 
   # Don't inline if there are additional arguments even if they have
   # defaults or are passed through `...`
   if (length(fmls) != 1) {
+    return(FALSE)
+  }
+
+  # Don't inline lambdas that call `return()` at the moment a few
+  # packages do things like `across(1, function(x) return(x))`
+  if ("return" %in% all.names(body(fn))) {
     return(FALSE)
   }
 
@@ -978,13 +985,15 @@ quo_is_inlinable_formula <- function(quo) {
 as_maskable_closure <- function(fn) {
   # Scoped in dplyr's namespace
   mask_call <- call2(function() peek_mask()$get_rlang_mask())
-  class <- class(fn)
+
+  # Wrap body in `eval()` so that `return()` works as expected
+  call <- call2(evalq, body(fn))
 
   # Preserve the lexical env of `fn` but insert a call to
   # `eval_tidy()` to data-mask the closure's body
   body(fn) <- expr({
     rlang::eval_tidy(
-      expr = quote(!!body(fn)),
+      expr = base::quote(!!call),
       data = !!mask_call
     )
   })
