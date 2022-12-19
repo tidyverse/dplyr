@@ -65,30 +65,30 @@ Run `revdepcheck::cloud_details(, "AirMonitor")` for more info
     > 
     > library(AirMonitor)
     ...
-     10. │ └─dplyr:::mutate_cols(.data, dplyr_quosures(...), by)
-     11. │   ├─base::withCallingHandlers(...)
-     12. │   └─dplyr:::mutate_col(dots[[i]], data, mask, new_columns)
-     13. │     ├─base::withCallingHandlers(...)
-     14. │     └─mask$eval_all_mutate(quo)
-     15. │       └─dplyr (local) eval()
-     16. └─base::.handleSimpleError(...)
-     17.   └─dplyr (local) h(simpleError(msg, call))
-     18.     └─rlang::abort(msg, call = call("across"), parent = cnd)
+    
+      # Now
+      across(a:b, \(x) mean(x, na.rm = TRUE))
+    ℹ The deprecated feature was likely used in the MazamaTimeSeries package.
+      Please report the issue at
+      <https://github.com/MazamaScience/MazamaTimeSeries/issues>.
+    Error in aqiColors(dailyAverage, pollutant, palette) : 
+      'x' is neither numeric nor a valid mts_monitor object
+    Calls: %>% -> monitor_dailyBarplot -> aqiColors
     Execution halted
     ```
 
 *   checking re-building of vignette outputs ... WARNING
     ```
     Error(s) in re-building vignettes:
+      ...
     --- re-building ‘AirMonitor.Rmd’ using rmarkdown
-    Quitting from lines 135-141 (AirMonitor.Rmd) 
+    Quitting from lines 146-152 (AirMonitor.Rmd) 
     Error: processing vignette 'AirMonitor.Rmd' failed with diagnostics:
-    ℹ In argument: `across(...)`.
-    Caused by error in `across()`:
-    ! Can't compute column `timeUnit`.
-    Caused by error:
-    ! no function to return from, jumping to top level
+    'x' is neither numeric nor a valid mts_monitor object
     --- failed re-building ‘AirMonitor.Rmd’
+    
+    --- re-building ‘Data_Model.Rmd’ using rmarkdown
+    Quitting from lines 168-189 (Data_Model.Rmd) 
     ...
     --- failed re-building ‘Data_Model.Rmd’
     
@@ -123,20 +123,20 @@ Run `revdepcheck::cloud_details(, "APCI")` for more info
       Running ‘1_tests.R’
     Running the tests in ‘tests/1_tests.R’ failed.
     Last 13 lines of output:
-          acc2:pcc2     acc3:pcc2     acc4:pcc2     acc5:pcc2     acc6:pcc2 
-       -0.166737028  -0.008181908  -0.266406573   0.003009676   0.495455499 
-          acc7:pcc2     acc8:pcc2     acc9:pcc2     acc1:pcc3     acc2:pcc3 
-        0.032838855  -0.259202425   0.293822424   0.059593295   0.032560207 
-          acc3:pcc3     acc4:pcc3     acc5:pcc3     acc6:pcc3     acc7:pcc3 
-       -0.360797771   0.113729147   0.152598027  -0.435201878   0.230804655 
-          acc8:pcc3     acc9:pcc3     acc1:pcc4     acc2:pcc4     acc3:pcc4 
-       -0.120818073   0.161316485  -0.386040869   0.016914730   0.275161279 
-          acc4:pcc4     acc5:pcc4     acc6:pcc4     acc7:pcc4     acc8:pcc4 
-        0.280934827   0.251980636  -0.198511867  -0.057540929  -0.245540699 
-          acc9:pcc4     acc1:pcc5     acc2:pcc5     acc3:pcc5     acc4:pcc5 
-        0.016930357   0.101808757   0.188219676  -0.149040830  -0.082807573 
-          acc5:pcc5     acc6:pcc5     acc7:pcc5     acc8:pcc5     acc9:pcc5 
-       -0.550529050  -0.297014449   0.293906791   0.700096798  -0.256099663 
+         acc4:pcc1    acc5:pcc1    acc6:pcc1    acc7:pcc1    acc8:pcc1    acc9:pcc1 
+        0.03637281  -0.03909819  -0.04056353  -0.31251842   0.32123340   0.01220785 
+         acc1:pcc2    acc2:pcc2    acc3:pcc2    acc4:pcc2    acc5:pcc2    acc6:pcc2 
+        0.25071329  -0.24596828  -0.01006323  -0.21442462   0.03519657   0.43420266 
+         acc7:pcc2    acc8:pcc2    acc9:pcc2    acc1:pcc3    acc2:pcc3    acc3:pcc3 
+        0.15492886  -0.31297414   0.21075577   0.07335566   0.08097157  -0.33212994 
+         acc4:pcc3    acc5:pcc3    acc6:pcc3    acc7:pcc3    acc8:pcc3    acc9:pcc3 
+       -0.03192825   0.14972956  -0.30986450   0.18015263  -0.07592116   0.11679240 
+         acc1:pcc4    acc2:pcc4    acc3:pcc4    acc4:pcc4    acc5:pcc4    acc6:pcc4 
+       -0.42601769   0.01742361   0.25582368   0.26526771   0.30726955  -0.13196487 
+         acc7:pcc4    acc8:pcc4    acc9:pcc4    acc1:pcc5    acc2:pcc5    acc3:pcc5 
+       -0.09223423  -0.30333773   0.08797172   0.04080063   0.31907495  -0.07737515 
+         acc4:pcc5    acc5:pcc5    acc6:pcc5    acc7:pcc5    acc8:pcc5    acc9:pcc5 
+       -0.13230501  -0.55762522  -0.28933606   0.31002711   0.62523697  -0.26638513 
       Killed
     ```
 
@@ -1247,69 +1247,6 @@ Run `revdepcheck::cloud_details(, "gratia")` for more info
       Execution halted
     ```
 
-# greatR
-
-<details>
-
-* Version: 0.2.0
-* GitHub: https://github.com/ruthkr/greatR
-* Source code: https://github.com/cran/greatR
-* Date/Publication: 2022-06-08 22:30:02 UTC
-* Number of recursive dependencies: 71
-
-Run `revdepcheck::cloud_details(, "greatR")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Caused by error in `across()`:
-      ! Can't compute column `registered.BIC`.
-      Caused by error:
-      ! no function to return from, jumping to top level
-      ────────────────────────────────────────────────────────────────────────────────
-      
-      ⠏ |         0 | utils-calcs                                                     
-      ✔ |         3 | utils-calcs
-      
-      ══ Results ═════════════════════════════════════════════════════════════════════
-      Duration: 34.6 s
-      
-      [ FAIL 3 | WARN 6 | SKIP 0 | PASS 11 ]
-      Error: Failures detected.
-      Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘optimise-parameters.Rmd’ using rmarkdown
-    --- finished re-building ‘optimise-parameters.Rmd’
-    
-    --- re-building ‘prepare-data.Rmd’ using rmarkdown
-    --- finished re-building ‘prepare-data.Rmd’
-    
-    --- re-building ‘register-data.Rmd’ using rmarkdown
-    Quitting from lines 68-130 (register-data.Rmd) 
-    Error: processing vignette 'register-data.Rmd' failed with diagnostics:
-    ...
-    ! Can't compute column `registered.BIC`.
-    Caused by error:
-    ! no function to return from, jumping to top level
-    --- failed re-building ‘visualise-results.Rmd’
-    
-    SUMMARY: processing the following files failed:
-      ‘register-data.Rmd’ ‘visualise-results.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
 # groupr
 
 <details>
@@ -1696,47 +1633,6 @@ Run `revdepcheck::cloud_details(, "huxtable")` for more info
     Namespaces in Imports field not imported from:
       ‘R6’ ‘xml2’
       All declared Imports should be used.
-    ```
-
-# insectDisease
-
-<details>
-
-* Version: 1.2.1
-* GitHub: https://github.com/viralemergence/insectDisease
-* Source code: https://github.com/cran/insectDisease
-* Date/Publication: 2022-08-24 08:30:02 UTC
-* Number of recursive dependencies: 144
-
-Run `revdepcheck::cloud_details(, "insectDisease")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘insectDisease-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: getNCBI
-    > ### Title: Get NCBI taxonomy data
-    > ### Aliases: getNCBI
-    > 
-    > ### ** Examples
-    > 
-    >   mouse <- getNCBI("Peromyscus leucopus")
-    ...
-    ══  Results  ═════════════════
-    
-    • Total: 1 
-    • Found: 1 
-    • Not Found: 0
-    No ENTREZ API key provided
-     Get one via taxize::use_entrez()
-    See https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/
-    Error: Bad Request (HTTP 400)
-    Execution halted
     ```
 
 # iNZightTools
@@ -2158,49 +2054,24 @@ Run `revdepcheck::cloud_details(, "MazamaTimeSeries")` for more info
 
 ## Newly broken
 
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘MazamaTimeSeries-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: mts_summarize
-    > ### Title: Create summary time series for an _mts_ time series object
-    > ### Aliases: mts_summarize
-    > 
-    > ### ** Examples
-    > 
-    > library(MazamaTimeSeries)
-    ...
-      6. │ └─dplyr:::mutate_cols(.data, dplyr_quosures(...), by)
-      7. │   ├─base::withCallingHandlers(...)
-      8. │   └─dplyr:::mutate_col(dots[[i]], data, mask, new_columns)
-      9. │     ├─base::withCallingHandlers(...)
-     10. │     └─mask$eval_all_mutate(quo)
-     11. │       └─dplyr (local) eval()
-     12. └─base::.handleSimpleError(...)
-     13.   └─dplyr (local) h(simpleError(msg, call))
-     14.     └─rlang::abort(msg, call = call("across"), parent = cnd)
-    Execution halted
-    ```
-
 *   checking tests ... ERROR
     ```
       Running ‘testthat.R’
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      ! no function to return from, jumping to top level
-      ── Error ('test-sts_summarize.R:52'): na.rm and minCount work ──────────────────
-      <dplyr:::mutate_error/rlang_error/error/condition>
-      Error in `dplyr::mutate(., across(everything(), function(x) {
-          x[!is.finite(x)] <- NA
-          return(x)
-      }))`: ℹ In argument: `across(...)`.
-      Caused by error in `across()`:
-      ! Can't compute column `timeUnit`.
-      Caused by error:
-      ! no function to return from, jumping to top level
+      [1] 25.7 - 1.47e+09 == -1.47e+09
+      ── Failure ('test-sts_summarize.R:61'): na.rm and minCount work ────────────────
+      as.logical(NA) not identical to daily$data[1, 2] %>% as.logical().
+      'is.NA' value mismatch: 0 in current 1 in target
+      ── Failure ('test-sts_summarize.R:76'): na.rm and minCount work ────────────────
+      as.logical(NA) not identical to daily$data[1, 2] %>% as.logical().
+      'is.NA' value mismatch: 0 in current 1 in target
+      ── Failure ('test-sts_summarize.R:92'): na.rm and minCount work ────────────────
+      dplyr::pull(bop$data, 2)[1:24] %>% mean(na.rm = TRUE) not identical to daily$data[1, 2] %>% as.numeric().
+      1/1 mismatches
+      [1] 28 - 1.47e+09 == -1.47e+09
       
-      [ FAIL 4 | WARN 3 | SKIP 0 | PASS 176 ]
+      [ FAIL 8 | WARN 4 | SKIP 0 | PASS 176 ]
       Error: Test failures
       Execution halted
     ```
@@ -2707,39 +2578,6 @@ Run `revdepcheck::cloud_details(, "ontologics")` for more info
     
     SUMMARY: processing the following files failed:
       ‘conversion_to_rdf.Rmd’ ‘map_new_concepts.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-# openalexR
-
-<details>
-
-* Version: 1.0.0
-* GitHub: https://github.com/massimoaria/openalexR
-* Source code: https://github.com/cran/openalexR
-* Date/Publication: 2022-10-06 10:40:02 UTC
-* Number of recursive dependencies: 78
-
-Run `revdepcheck::cloud_details(, "openalexR")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-      ...
-    --- re-building ‘A_Brief_Introduction_to_openalexR.Rmd’ using rmarkdown
-    Quitting from lines 260-269 (A_Brief_Introduction_to_openalexR.Rmd) 
-    Error: processing vignette 'A_Brief_Introduction_to_openalexR.Rmd' failed with diagnostics:
-    $ operator is invalid for atomic vectors
-    --- failed re-building ‘A_Brief_Introduction_to_openalexR.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘A_Brief_Introduction_to_openalexR.Rmd’
     
     Error: Vignette re-building failed.
     Execution halted

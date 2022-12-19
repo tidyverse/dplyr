@@ -1,9 +1,9 @@
 ## revdepcheck results
 
-We checked 3638 reverse dependencies (3616 from CRAN + 22 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
+We checked 103 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 83 new problems
- * We failed to check 24 packages
+ * We saw 80 new problems
+ * We failed to check 19 packages
 
 Issues with CRAN packages are summarised below.
 
@@ -93,10 +93,6 @@ Issues with CRAN packages are summarised below.
 * gratia
   checking tests ... ERROR
 
-* greatR
-  checking tests ... ERROR
-  checking re-building of vignette outputs ... WARNING
-
 * hablar
   checking tests ... ERROR
 
@@ -119,9 +115,6 @@ Issues with CRAN packages are summarised below.
 * huxtable
   checking examples ... ERROR
   checking tests ... ERROR
-
-* insectDisease
-  checking examples ... ERROR
 
 * iNZightTools
   checking tests ... ERROR
@@ -153,7 +146,6 @@ Issues with CRAN packages are summarised below.
   checking re-building of vignette outputs ... WARNING
 
 * MazamaTimeSeries
-  checking examples ... ERROR
   checking tests ... ERROR
 
 * MBNMAtime
@@ -186,9 +178,6 @@ Issues with CRAN packages are summarised below.
 
 * ontologics
   checking examples ... ERROR
-  checking re-building of vignette outputs ... WARNING
-
-* openalexR
   checking re-building of vignette outputs ... WARNING
 
 * overviewR
@@ -298,27 +287,22 @@ Issues with CRAN packages are summarised below.
 
 ### Failed to check
 
-* cinaR          (NA)
-* elbird         (NA)
-* genekitr       (NA)
-* ggPMX          (NA)
-* ggpubr         (NA)
-* groupr         (NA)
-* gWQS           (NA)
-* immcp          (NA)
-* loon.ggplot    (NA)
-* loon.shiny     (NA)
-* MetaIntegrator (NA)
-* nlmixr2extra   (NA)
-* nlmixr2plot    (NA)
-* nlmixr2rpt     (NA)
-* numbat         (NA)
-* OlinkAnalyze   (NA)
-* Platypus       (NA)
-* rabhit         (NA)
-* rtsVis         (NA)
-* RVA            (NA)
-* tidySEM        (NA)
-* tinyarray      (NA)
-* vivid          (NA)
-* xpose.nlmixr2  (NA)
+* cinaR         (NA)
+* genekitr      (NA)
+* ggPMX         (NA)
+* groupr        (NA)
+* immcp         (NA)
+* loon.ggplot   (NA)
+* loon.shiny    (NA)
+* nlmixr2extra  (NA)
+* nlmixr2plot   (NA)
+* nlmixr2rpt    (NA)
+* numbat        (NA)
+* OlinkAnalyze  (NA)
+* Platypus      (NA)
+* rabhit        (NA)
+* RVA           (NA)
+* tidySEM       (NA)
+* tinyarray     (NA)
+* vivid         (NA)
+* xpose.nlmixr2 (NA)

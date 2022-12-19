@@ -1,57 +1,30 @@
 # Revdeps
 
-## Failed to check (46)
+## Failed to check (19)
 
-|package        |version |error  |warning |note |
-|:--------------|:-------|:------|:-------|:----|
-|NA             |?       |       |        |     |
-|cinaR          |?       |       |        |     |
-|NA             |?       |       |        |     |
-|NA             |?       |       |        |     |
-|NA             |?       |       |        |     |
-|elbird         |0.2.5   |1      |        |     |
-|NA             |?       |       |        |     |
-|NA             |?       |       |        |     |
-|genekitr       |?       |       |        |     |
-|ggPMX          |?       |       |        |     |
-|ggpubr         |0.5.0   |1      |        |     |
+|package       |version |error  |warning |note |
+|:-------------|:-------|:------|:-------|:----|
+|cinaR         |?       |       |        |     |
+|genekitr      |?       |       |        |     |
+|ggPMX         |?       |       |        |     |
 |[groupr](failures.md#groupr)|0.1.0   |__+1__ |        |-1   |
-|gWQS           |3.0.4   |1      |        |     |
-|NA             |?       |       |        |     |
-|immcp          |?       |       |        |     |
-|NA             |?       |       |        |     |
-|NA             |?       |       |        |     |
-|NA             |?       |       |        |     |
-|loon.ggplot    |?       |       |        |     |
-|loon.shiny     |?       |       |        |     |
-|NA             |?       |       |        |     |
-|NA             |?       |       |        |     |
-|MetaIntegrator |?       |       |        |     |
-|NA             |?       |       |        |     |
-|nlmixr2extra   |?       |       |        |     |
-|nlmixr2plot    |?       |       |        |     |
-|nlmixr2rpt     |?       |       |        |     |
-|numbat         |?       |       |        |     |
-|NA             |?       |       |        |     |
-|OlinkAnalyze   |?       |       |        |     |
-|NA             |?       |       |        |     |
-|Platypus       |?       |       |        |     |
-|NA             |?       |       |        |     |
+|immcp         |?       |       |        |     |
+|loon.ggplot   |?       |       |        |     |
+|loon.shiny    |?       |       |        |     |
+|nlmixr2extra  |?       |       |        |     |
+|nlmixr2plot   |?       |       |        |     |
+|nlmixr2rpt    |?       |       |        |     |
+|numbat        |?       |       |        |     |
+|OlinkAnalyze  |?       |       |        |     |
+|Platypus      |?       |       |        |     |
 |[rabhit](failures.md#rabhit)|0.2.4   |__+1__ |        |     |
-|NA             |?       |       |        |     |
-|NA             |?       |       |        |     |
-|rtsVis         |0.0.3   |1      |        |     |
-|RVA            |?       |       |        |     |
-|NA             |?       |       |        |     |
-|NA             |?       |       |        |     |
-|NA             |?       |       |        |     |
-|tidySEM        |?       |       |        |     |
-|NA             |?       |       |        |     |
-|tinyarray      |?       |       |        |     |
-|vivid          |?       |       |        |     |
-|xpose.nlmixr2  |?       |       |        |     |
+|RVA           |?       |       |        |     |
+|tidySEM       |?       |       |        |     |
+|tinyarray     |?       |       |        |     |
+|vivid         |?       |       |        |     |
+|xpose.nlmixr2 |?       |       |        |     |
 
-## New problems (83)
+## New problems (80)
 
 |package             |version |error  |warning |note |
 |:-------------------|:-------|:------|:-------|:----|
@@ -79,7 +52,6 @@
 |[GauPro](problems.md#gaupro)|0.2.6   |__+1__ |        |1    |
 |[ggmuller](problems.md#ggmuller)|0.5.4   |       |__+1__  |     |
 |[gratia](problems.md#gratia)|0.7.3   |__+1__ |        |     |
-|[greatR](problems.md#greatr)|0.2.0   |__+1__ |__+1__  |     |
 |[hablar](problems.md#hablar)|0.3.1   |__+1__ |        |     |
 |[headliner](problems.md#headliner)|0.0.2   |__+1__ |        |     |
 |[heemod](problems.md#heemod)|0.14.4  |       |__+1__  |     |
@@ -87,7 +59,6 @@
 |[hlaR](problems.md#hlar)|0.1.5   |__+1__ |__+1__  |     |
 |[huito](problems.md#huito)|0.2.1   |       |__+1__  |     |
 |[huxtable](problems.md#huxtable)|5.5.2   |__+2__ |        |1    |
-|[insectDisease](problems.md#insectdisease)|1.2.1   |__+1__ |        |     |
 |[iNZightTools](problems.md#inzighttools)|1.12.3  |__+1__ |        |     |
 |[IPEDSuploadables](problems.md#ipedsuploadables)|2.6.5   |__+2__ |        |     |
 |[janitor](problems.md#janitor)|2.1.0   |__+1__ |__+1__  |1    |
@@ -97,7 +68,7 @@
 |[LARGB](problems.md#largb)|0.1.0   |       |__+1__  |     |
 |[lillies](problems.md#lillies)|0.2.9   |__+1__ |        |1    |
 |[logitr](problems.md#logitr)|0.8.0   |       |__+1__  |     |
-|[MazamaTimeSeries](problems.md#mazamatimeseries)|0.2.8   |__+2__ |        |1    |
+|[MazamaTimeSeries](problems.md#mazamatimeseries)|0.2.8   |__+1__ |        |1    |
 |[MBNMAtime](problems.md#mbnmatime)|0.2.1   |__+1__ |        |1    |
 |[metacore](problems.md#metacore)|0.1.1   |__+2__ |        |     |
 |[mudata2](problems.md#mudata2)|1.1.2   |__+2__ |__+1__  |1    |
@@ -107,7 +78,6 @@
 |[NobBS](problems.md#nobbs)|0.1.0   |__+1__ |        |     |
 |[nonmemica](problems.md#nonmemica)|0.9.9   |__+1__ |        |     |
 |[ontologics](problems.md#ontologics)|0.5.2   |__+1__ |__+1__  |     |
-|[openalexR](problems.md#openalexr)|1.0.0   |       |__+1__  |     |
 |[overviewR](problems.md#overviewr)|0.0.11  |__+1__ |__+1__  |     |
 |[panelr](problems.md#panelr)|0.7.6   |__+1__ |        |1    |
 |[PHEindicatormethods](problems.md#pheindicatormethods)|1.4.2   |__+1__ |        |     |
