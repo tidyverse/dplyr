@@ -186,9 +186,9 @@ then falls back to \code{"all"}.
 \item \code{"error"} throws an error if multiple matches are detected.
 }
 
-The default value of \code{NULL} is equivalent to \code{"warning"} for equi joins and
-rolling joins, where multiple matches are usually surprising. If any
-non-equi join conditions are present, then it is equivalent to \code{"all"},
+The default value of \code{NULL} is equivalent to \code{"warning"} for equality joins
+and rolling joins, where multiple matches are usually surprising. If any
+inequality join conditions are present, then it is equivalent to \code{"all"},
 since multiple matches are usually expected.}
 
 \item{unmatched}{How should unmatched keys that would result in dropped rows
@@ -260,7 +260,7 @@ data frames:
 
 By default, if an observation in \code{x} matches multiple observations in \code{y},
 all of the matching observations in \code{y} will be returned. If this occurs in
-an equi join or a rolling join, a warning will be thrown stating that
+an equality join or a rolling join, a warning will be thrown stating that
 multiple matches have been detected since this is usually surprising. If
 multiple matches are expected in these cases, silence this warning by
 explicitly setting \code{multiple = "all"}.
@@ -308,7 +308,7 @@ df1 \%>\% left_join(df2)
 # the warning
 df1 \%>\% left_join(df2, multiple = "all")
 
-# Use `join_by()` with a condition other than `==` to perform a non-equi
+# Use `join_by()` with a condition other than `==` to perform an inequality
 # join. Here we match on every instance where `df1$x > df2$x`.
 df1 \%>\% left_join(df2, join_by(x > x))
 

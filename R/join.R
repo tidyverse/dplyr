@@ -30,7 +30,7 @@
 #'
 #' By default, if an observation in `x` matches multiple observations in `y`,
 #' all of the matching observations in `y` will be returned. If this occurs in
-#' an equi join or a rolling join, a warning will be thrown stating that
+#' an equality join or a rolling join, a warning will be thrown stating that
 #' multiple matches have been detected since this is usually surprising. If
 #' multiple matches are expected in these cases, silence this warning by
 #' explicitly setting `multiple = "all"`.
@@ -130,9 +130,9 @@
 #'     then falls back to `"all"`.
 #'   - `"error"` throws an error if multiple matches are detected.
 #'
-#'   The default value of `NULL` is equivalent to `"warning"` for equi joins and
-#'   rolling joins, where multiple matches are usually surprising. If any
-#'   non-equi join conditions are present, then it is equivalent to `"all"`,
+#'   The default value of `NULL` is equivalent to `"warning"` for equality joins
+#'   and rolling joins, where multiple matches are usually surprising. If any
+#'   inequality join conditions are present, then it is equivalent to `"all"`,
 #'   since multiple matches are usually expected.
 #' @param unmatched How should unmatched keys that would result in dropped rows
 #'   be handled?
@@ -175,7 +175,7 @@
 #' # the warning
 #' df1 %>% left_join(df2, multiple = "all")
 #'
-#' # Use `join_by()` with a condition other than `==` to perform a non-equi
+#' # Use `join_by()` with a condition other than `==` to perform an inequality
 #' # join. Here we match on every instance where `df1$x > df2$x`.
 #' df1 %>% left_join(df2, join_by(x > x))
 #'
@@ -441,7 +441,7 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches 
 #' @param name The name of the list-column created by the join. If `NULL`,
 #'   the default, the name of `y` is used.
 #' @param keep Should the new list-column contain join keys? The default
-#'   will preserve the join keys for non-equi-joins.
+#'   will preserve the join keys for inequality joins.
 #' @return
 #' The output:
 #' * Is same type as `x` (including having the same groups).

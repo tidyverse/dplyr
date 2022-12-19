@@ -59,7 +59,7 @@ same src as \code{x}.  This allows you to join tables across srcs, but
 it is a potentially expensive operation so you must opt into it.}
 
 \item{keep}{Should the new list-column contain join keys? The default
-will preserve the join keys for non-equi-joins.}
+will preserve the join keys for inequality joins.}
 
 \item{name}{The name of the list-column created by the join. If \code{NULL},
 the default, the name of \code{y} is used.}
