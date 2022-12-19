@@ -6,10 +6,12 @@
 #'
 #' # Join types
 #'
-#' Joins can be structured into two categories:
+#' The following types of joins are supported by dplyr:
 #' - Equality joins
-#' - Non-equi joins, an umbrella term that contains: cross joins, inequality
-#'   joins, rolling joins, and overlap joins.
+#' - Inequality joins
+#' - Rolling joins
+#' - Overlap joins
+#' - Cross joins
 #'
 #' Equality, inequality, rolling, and overlap joins are discussed in more detail
 #' below. Cross joins are implemented through [cross_join()].

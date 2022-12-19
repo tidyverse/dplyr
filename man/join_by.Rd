@@ -36,11 +36,13 @@ using a small domain specific language. The result can be supplied as the
 \code{by} argument to any of the join functions (such as \code{\link[=left_join]{left_join()}}).
 }
 \section{Join types}{
-Joins can be structured into two categories:
+The following types of joins are supported by dplyr:
 \itemize{
 \item Equality joins
-\item Non-equi joins, an umbrella term that contains: cross joins, inequality
-joins, rolling joins, and overlap joins.
+\item Inequality joins
+\item Rolling joins
+\item Overlap joins
+\item Cross joins
 }
 
 Equality, inequality, rolling, and overlap joins are discussed in more detail
