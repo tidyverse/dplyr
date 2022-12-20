@@ -218,7 +218,7 @@ across <- function(.cols,
       " " = "# Now",
       " " = "across(a:b, \\(x) mean(x, na.rm = TRUE))"
     )
-    lifecycle::deprecate_warn(
+    lifecycle::deprecate_soft(
       when = "1.1.0",
       what = "across(...)",
       details = details
