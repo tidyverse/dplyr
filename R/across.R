@@ -986,7 +986,7 @@ as_maskable_closure <- function(fn) {
   # This retrieves the dplyr mask but adds one more layer containing
   # `fn`'s execution frame. This way the arguments are not data-masked.
   mask_fn <- function(frame = caller_env()) {
-    frame <- env_clone(caller_env())
+    frame <- clone(caller_env())
     mask <- peek_mask()$get_rlang_mask()
 
     env_poke_parent(frame, mask)
@@ -1012,4 +1012,20 @@ as_maskable_closure <- function(fn) {
   class(fn) <- c("dplyr:::maskable_closure", "function")
 
   fn
+}
+
+# Workaround because `rlang::env_clone()` forces bindings on R < 4.0
+clone <- function(env) {
+  nms <- names(env)
+  out <- env(env_parent(env))
+
+  if ("..." %in% nms) {
+    env_bind(out, ... = env_get(env, "..."))
+    nms <- setdiff(nms, "...")
+  }
+
+  syms <- map(set_names(nms), sym)
+  env_bind_lazy(out, !!!syms, .eval_env = env)
+
+  out
 }
