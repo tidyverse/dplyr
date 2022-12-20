@@ -189,9 +189,10 @@
     soft-deprecated, because there was no good alternative until now, but itis
     discouraged and will be soft-deprecated in the next minor release.
 
-* Passing `...` to `across()` is deprecated because it's ambiguous when those
-  arguments are evaluated. Now, instead of (e.g.) `across(a:b, mean, na.rm = TRUE)`
-  you should write `across(a:b, ~ mean(.x, na.rm = TRUE))` (#6073).
+* Passing `...` to `across()` is soft-deprecated because it's ambiguous when
+  those arguments are evaluated. Now, instead of (e.g.)
+  `across(a:b, mean, na.rm = TRUE)` you should write
+  `across(a:b, ~ mean(.x, na.rm = TRUE))` (#6073).
 
 * `all_equal()` is deprecated. We've advised against it for some time, and 
   we explicitly recommend you use `all.equal()`, manually reordering the rows 
