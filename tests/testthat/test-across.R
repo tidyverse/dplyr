@@ -1313,3 +1313,12 @@ test_that("symbols are looked up as list or functions (#6545)", {
     exp
   )
 })
+
+test_that("non-inlinable but maskable lambdas give precedence to function arguments", {
+  df <- data.frame(
+    foo = 1,
+    bar = "a"
+  )
+  out <- mutate(df, across(1:2, function(foo) return(foo)))
+  expect_equal(out, df)
+})

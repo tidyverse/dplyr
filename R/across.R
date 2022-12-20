@@ -983,8 +983,18 @@ quo_is_inlinable_formula <- function(quo) {
 # the evaluation case because we set the quosure env to the data mask
 # top to avoid masking the function expressions.
 as_maskable_closure <- function(fn) {
-  # Scoped in dplyr's namespace
-  mask_call <- call2(function() peek_mask()$get_rlang_mask())
+  # This retrieves the dplyr mask but adds one more layer containing
+  # `fn`'s execution frame. This way the arguments are not data-masked.
+  mask_fn <- function(frame = caller_env()) {
+    frame <- env_clone(caller_env())
+    mask <- peek_mask()$get_rlang_mask()
+
+    env_poke_parent(frame, mask)
+    env_bind(frame, !!!as.list(mask, all.names = TRUE))
+
+    frame
+  }
+  mask_call <- call2(mask_fn)
 
   # Wrap body in `eval()` so that `return()` works as expected
   call <- call2(evalq, body(fn))
