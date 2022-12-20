@@ -2,7 +2,7 @@
 
 We checked 103 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 80 new problems
+ * We saw 77 new problems
  * We failed to check 19 packages
 
 Issues with CRAN packages are summarised below.
@@ -12,10 +12,6 @@ Issues with CRAN packages are summarised below.
 
 * admiral
   checking tests ... ERROR
-
-* AirMonitor
-  checking examples ... ERROR
-  checking re-building of vignette outputs ... WARNING
 
 * APCI
   checking tests ... ERROR
@@ -96,9 +92,6 @@ Issues with CRAN packages are summarised below.
 * hablar
   checking tests ... ERROR
 
-* headliner
-  checking tests ... ERROR
-
 * heemod
   checking Rd cross-references ... WARNING
 
@@ -144,9 +137,6 @@ Issues with CRAN packages are summarised below.
 
 * logitr
   checking re-building of vignette outputs ... WARNING
-
-* MazamaTimeSeries
-  checking tests ... ERROR
 
 * MBNMAtime
   checking tests ... ERROR

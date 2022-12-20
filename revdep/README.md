@@ -24,12 +24,11 @@
 |vivid         |?       |       |        |     |
 |xpose.nlmixr2 |?       |       |        |     |
 
-## New problems (80)
+## New problems (77)
 
 |package             |version |error  |warning |note |
 |:-------------------|:-------|:------|:-------|:----|
 |[admiral](problems.md#admiral)|0.9.0   |__+1__ |        |     |
-|[AirMonitor](problems.md#airmonitor)|0.2.2   |__+1__ |__+1__  |     |
 |[APCI](problems.md#apci)|1.0.6   |__+1__ |        |     |
 |[arrow](problems.md#arrow)|10.0.1  |__+1__ |        |2    |
 |[chronicler](problems.md#chronicler)|0.2.0   |       |__+1__  |     |
@@ -53,7 +52,6 @@
 |[ggmuller](problems.md#ggmuller)|0.5.4   |       |__+1__  |     |
 |[gratia](problems.md#gratia)|0.7.3   |__+1__ |        |     |
 |[hablar](problems.md#hablar)|0.3.1   |__+1__ |        |     |
-|[headliner](problems.md#headliner)|0.0.2   |__+1__ |        |     |
 |[heemod](problems.md#heemod)|0.14.4  |       |__+1__  |     |
 |[helda](problems.md#helda)|1.1.5   |__+1__ |        |1    |
 |[hlaR](problems.md#hlar)|0.1.5   |__+1__ |__+1__  |     |
@@ -68,7 +66,6 @@
 |[LARGB](problems.md#largb)|0.1.0   |       |__+1__  |     |
 |[lillies](problems.md#lillies)|0.2.9   |__+1__ |        |1    |
 |[logitr](problems.md#logitr)|0.8.0   |       |__+1__  |     |
-|[MazamaTimeSeries](problems.md#mazamatimeseries)|0.2.8   |__+1__ |        |1    |
 |[MBNMAtime](problems.md#mbnmatime)|0.2.1   |__+1__ |        |1    |
 |[metacore](problems.md#metacore)|0.1.1   |__+2__ |        |     |
 |[mudata2](problems.md#mudata2)|1.1.2   |__+2__ |__+1__  |1    |

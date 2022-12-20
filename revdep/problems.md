@@ -36,72 +36,6 @@ Run `revdepcheck::cloud_details(, "admiral")` for more info
       Execution halted
     ```
 
-# AirMonitor
-
-<details>
-
-* Version: 0.2.2
-* GitHub: https://github.com/MazamaScience/AirMonitor
-* Source code: https://github.com/cran/AirMonitor
-* Date/Publication: 2022-03-31 13:30:02 UTC
-* Number of recursive dependencies: 146
-
-Run `revdepcheck::cloud_details(, "AirMonitor")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘AirMonitor-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: monitor_dailyBarplot
-    > ### Title: Create daily barplot
-    > ### Aliases: monitor_dailyBarplot
-    > 
-    > ### ** Examples
-    > 
-    > library(AirMonitor)
-    ...
-    
-      # Now
-      across(a:b, \(x) mean(x, na.rm = TRUE))
-    ℹ The deprecated feature was likely used in the MazamaTimeSeries package.
-      Please report the issue at
-      <https://github.com/MazamaScience/MazamaTimeSeries/issues>.
-    Error in aqiColors(dailyAverage, pollutant, palette) : 
-      'x' is neither numeric nor a valid mts_monitor object
-    Calls: %>% -> monitor_dailyBarplot -> aqiColors
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-      ...
-    --- re-building ‘AirMonitor.Rmd’ using rmarkdown
-    Quitting from lines 146-152 (AirMonitor.Rmd) 
-    Error: processing vignette 'AirMonitor.Rmd' failed with diagnostics:
-    'x' is neither numeric nor a valid mts_monitor object
-    --- failed re-building ‘AirMonitor.Rmd’
-    
-    --- re-building ‘Data_Model.Rmd’ using rmarkdown
-    Quitting from lines 168-189 (Data_Model.Rmd) 
-    ...
-    --- failed re-building ‘Data_Model.Rmd’
-    
-    --- re-building ‘Developer_Style_Guide.Rmd’ using rmarkdown
-    --- finished re-building ‘Developer_Style_Guide.Rmd’
-    
-    SUMMARY: processing the following files failed:
-      ‘AirMonitor.Rmd’ ‘Data_Model.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
 # APCI
 
 <details>
@@ -123,20 +57,20 @@ Run `revdepcheck::cloud_details(, "APCI")` for more info
       Running ‘1_tests.R’
     Running the tests in ‘tests/1_tests.R’ failed.
     Last 13 lines of output:
-         acc4:pcc1    acc5:pcc1    acc6:pcc1    acc7:pcc1    acc8:pcc1    acc9:pcc1 
-        0.03637281  -0.03909819  -0.04056353  -0.31251842   0.32123340   0.01220785 
-         acc1:pcc2    acc2:pcc2    acc3:pcc2    acc4:pcc2    acc5:pcc2    acc6:pcc2 
-        0.25071329  -0.24596828  -0.01006323  -0.21442462   0.03519657   0.43420266 
-         acc7:pcc2    acc8:pcc2    acc9:pcc2    acc1:pcc3    acc2:pcc3    acc3:pcc3 
-        0.15492886  -0.31297414   0.21075577   0.07335566   0.08097157  -0.33212994 
-         acc4:pcc3    acc5:pcc3    acc6:pcc3    acc7:pcc3    acc8:pcc3    acc9:pcc3 
-       -0.03192825   0.14972956  -0.30986450   0.18015263  -0.07592116   0.11679240 
-         acc1:pcc4    acc2:pcc4    acc3:pcc4    acc4:pcc4    acc5:pcc4    acc6:pcc4 
-       -0.42601769   0.01742361   0.25582368   0.26526771   0.30726955  -0.13196487 
-         acc7:pcc4    acc8:pcc4    acc9:pcc4    acc1:pcc5    acc2:pcc5    acc3:pcc5 
-       -0.09223423  -0.30333773   0.08797172   0.04080063   0.31907495  -0.07737515 
-         acc4:pcc5    acc5:pcc5    acc6:pcc5    acc7:pcc5    acc8:pcc5    acc9:pcc5 
-       -0.13230501  -0.55762522  -0.28933606   0.31002711   0.62523697  -0.26638513 
+          acc2:pcc2     acc3:pcc2     acc4:pcc2     acc5:pcc2     acc6:pcc2 
+       -0.290611119   0.035609076  -0.286282906   0.038376389   0.444523397 
+          acc7:pcc2     acc8:pcc2     acc9:pcc2     acc1:pcc3     acc2:pcc3 
+        0.201353458  -0.315833488   0.226195972   0.006561414   0.002987424 
+          acc3:pcc3     acc4:pcc3     acc5:pcc3     acc6:pcc3     acc7:pcc3 
+       -0.303382332   0.109407522   0.114987092  -0.343497428   0.190518865 
+          acc8:pcc3     acc9:pcc3     acc1:pcc4     acc2:pcc4     acc3:pcc4 
+       -0.112542859   0.107515070  -0.440638544  -0.008197609   0.209193107 
+          acc4:pcc4     acc5:pcc4     acc6:pcc4     acc7:pcc4     acc8:pcc4 
+        0.264194416   0.319202783  -0.152235042  -0.055023477  -0.289377613 
+          acc9:pcc4     acc1:pcc5     acc2:pcc5     acc3:pcc5     acc4:pcc5 
+        0.118105664   0.055865879   0.328390505  -0.121637453  -0.132578691 
+          acc5:pcc5     acc6:pcc5     acc7:pcc5     acc8:pcc5     acc9:pcc5 
+       -0.547406628  -0.299684313   0.306634925   0.644268013  -0.297331057 
       Killed
     ```
 
@@ -1349,44 +1283,6 @@ Run `revdepcheck::cloud_details(, "hablar")` for more info
       Execution halted
     ```
 
-# headliner
-
-<details>
-
-* Version: 0.0.2
-* GitHub: https://github.com/rjake/headliner
-* Source code: https://github.com/cran/headliner
-* Date/Publication: 2022-06-26 23:40:02 UTC
-* Number of recursive dependencies: 73
-
-Run `revdepcheck::cloud_details(, "headliner")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        6. │     └─dplyr:::filter_eval(dots, mask = mask, error_call = error_call)
-        7. │       ├─base::withCallingHandlers(...)
-        8. │       └─mask$eval_all_filter(dots, env_filter)
-        9. │         └─dplyr (local) eval()
-       10. └─base::.handleSimpleError(`<fn>`, "object '' not found", base::quote(eval()))
-       11.   └─dplyr (local) h(simpleError(msg, call))
-       12.     └─dplyr:::local_error_context(dots, i = frame[[i_sym]], mask = mask)
-       13.       └─dplyr:::new_error_context(dots, i, mask = mask)
-       14.         └─dplyr:::quo_as_label(dots[[i]])
-       15.           └─dplyr:::is_data_pronoun(expr)
-       16.             └─rlang::is_call(x, c("[[", "$"))
-      
-      [ FAIL 3 | WARN 4 | SKIP 0 | PASS 101 ]
-      Error: Test failures
-      Execution halted
-    ```
-
 # heemod
 
 <details>
@@ -2036,51 +1932,6 @@ Run `revdepcheck::cloud_details(, "logitr")` for more info
     
     Error: Vignette re-building failed.
     Execution halted
-    ```
-
-# MazamaTimeSeries
-
-<details>
-
-* Version: 0.2.8
-* GitHub: https://github.com/MazamaScience/MazamaTimeSeries
-* Source code: https://github.com/cran/MazamaTimeSeries
-* Date/Publication: 2022-10-13 18:42:33 UTC
-* Number of recursive dependencies: 110
-
-Run `revdepcheck::cloud_details(, "MazamaTimeSeries")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      [1] 25.7 - 1.47e+09 == -1.47e+09
-      ── Failure ('test-sts_summarize.R:61'): na.rm and minCount work ────────────────
-      as.logical(NA) not identical to daily$data[1, 2] %>% as.logical().
-      'is.NA' value mismatch: 0 in current 1 in target
-      ── Failure ('test-sts_summarize.R:76'): na.rm and minCount work ────────────────
-      as.logical(NA) not identical to daily$data[1, 2] %>% as.logical().
-      'is.NA' value mismatch: 0 in current 1 in target
-      ── Failure ('test-sts_summarize.R:92'): na.rm and minCount work ────────────────
-      dplyr::pull(bop$data, 2)[1:24] %>% mean(na.rm = TRUE) not identical to daily$data[1, 2] %>% as.numeric().
-      1/1 mismatches
-      [1] 28 - 1.47e+09 == -1.47e+09
-      
-      [ FAIL 8 | WARN 4 | SKIP 0 | PASS 176 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-## In both
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 1 marked UTF-8 string
     ```
 
 # MBNMAtime
