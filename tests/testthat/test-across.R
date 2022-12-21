@@ -1322,3 +1322,13 @@ test_that("non-inlinable but maskable lambdas give precedence to function argume
   out <- mutate(df, across(1:2, function(foo) return(foo)))
   expect_equal(out, df)
 })
+
+test_that("non-inlinable but maskable lambdas can refer to their lexical environment", {
+  foo <- "OK"
+  df <- tibble(bar = "a")
+
+  expect_equal(
+    mutate(df, across(1, function(x) return(paste(x, foo)))),
+    tibble(bar = "a OK")
+  )
+})

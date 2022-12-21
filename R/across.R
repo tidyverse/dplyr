@@ -767,7 +767,15 @@ as_across_fn_call <- function(fn, var, env, mask) {
     expr <- expr_substitute(expr, sym(arg), sym(var))
     new_quosure(expr, env)
   } else {
-    # Non-inlinable elements are wrapped in a quosured call
+    # Non-inlinable elements are wrapped in a quosured call. It's
+    # important that these are set to their original quosure
+    # environment (passed as `env`) because we change non-inlinable
+    # lambdas to inherit from the data mask in order to make them
+    # maskable. By wrapping them in a quosured call that inherits from
+    # the original quosure environment that wrapped the expanded
+    # `across()` call, we cause `eval_tidy()` to chains this
+    # environment to the top of the data mask, thereby preserving the
+    # lexical environment of the lambda when it is evaluated.
     new_quosure(call2(fn, sym(var)), env)
   }
 }
