@@ -192,7 +192,8 @@ across <- function(.cols,
     # TODO: Escalate this to formal deprecation.
     .fns <- NULL
   } else {
-    .fns <- quo_eval_fns(fns_quo, error_call = error_call)
+    fns_quo_env <- quo_get_env(fns_quo)
+    .fns <- quo_eval_fns(fns_quo, mask = fns_quo_env, error_call = error_call)
   }
 
   if (!is_bool(.unpack) && !is_string(.unpack)) {
@@ -675,7 +676,7 @@ expand_across <- function(quo) {
 
   if (".fns" %in% names(expr)) {
     fns <- as_quosure(expr$.fns, env)
-    fns <- quo_eval_fns(fns, error_call = error_call)
+    fns <- quo_eval_fns(fns, mask = mask, error_call = error_call)
   } else {
     # In the missing case, silently restore the old default of `NULL`.
     # TODO: Escalate this to formal deprecation.
@@ -862,12 +863,13 @@ apply_unpack_spec <- function(col, outer, spec, caller_env) {
 # are some other cases where we can't inline (e.g. lambdas that are
 # passed additional arguments through `...`). We still want
 # non-inlinable lambdas to be maskable so that they can refer to
-# data-mask columns. This requires some special tricks that are
-# documented inline.
+# data-mask columns. So we set them (a) in the evaluation case, to
+# their original quosure environment which is the data mask, or (b) in
+# the expansion case, to the unitialised data mask.
 #
 # @value  <fn> | <list<fn>>. Inlinable lambdas are set to the
 #   empty env.
-quo_eval_fns <- function(quo, error_call = caller_env()) {
+quo_eval_fns <- function(quo, mask, error_call = caller_env()) {
   if (quo_is_inlinable_lambda(quo)) {
     fn <- eval(quo_get_expr(quo))
     fn <- set_env(fn, empty_env())
@@ -895,8 +897,8 @@ quo_eval_fns <- function(quo, error_call = caller_env()) {
   # ones are dealt with above) to be maskable so they can refer to
   # data mask columns. So we evaluate outside the mask, in a data-less
   # quosure mask that handles quosures. Then, in `validate()`, we
-  # detect lambdas that inherit from this quosure mask and transform
-  # them into maskable closures.
+  # detect lambdas that inherit from this quosure mask and set their
+  # environment to the data mask.
   sentinel_env <- empty_env()
 
   out <- eval_tidy(quo({
@@ -910,11 +912,10 @@ quo_eval_fns <- function(quo, error_call = caller_env()) {
 
       # If the function inherits from the data-less quosure mask, we
       # know we have a non-inlinable lambda: a function or formula
-      # that was directly supplied and evaluated here. We transform it
-      # to a maskable closure so it can refer to columns when run.
+      # that was directly supplied and evaluated here. We set its
+      # environment to the data mask so it can refer to columns.
       if (identical(get_env(x), sentinel_env)) {
-        out <- set_env(out, quo_get_env(quo))
-        out <- as_maskable_closure(out)
+        out <- set_env(out, mask)
       }
 
       out
@@ -974,58 +975,4 @@ quo_is_inlinable_formula <- function(quo) {
   }
 
   TRUE
-}
-
-# Create a closure with the signature of an rlang lambda that
-# evaluates `f`'s body as a maskable expression. This is necessary in
-# the expansion case because the quosure env in which formulas and
-# functions are evaluated does not inherit from the data mask, and in
-# the evaluation case because we set the quosure env to the data mask
-# top to avoid masking the function expressions.
-as_maskable_closure <- function(fn) {
-  # This retrieves the dplyr mask but adds one more layer containing
-  # `fn`'s execution frame. This way the arguments are not data-masked.
-  mask_fn <- function(frame = caller_env()) {
-    frame <- clone(caller_env())
-    mask <- peek_mask()$get_rlang_mask()
-
-    env_poke_parent(frame, mask)
-    env_bind(frame, !!!as.list(mask, all.names = TRUE))
-
-    frame
-  }
-  mask_call <- call2(mask_fn)
-
-  # Wrap body in `eval()` so that `return()` works as expected
-  call <- call2(evalq, body(fn))
-
-  # Preserve the lexical env of `fn` but insert a call to
-  # `eval_tidy()` to data-mask the closure's body
-  body(fn) <- expr({
-    rlang::eval_tidy(
-      expr = base::quote(!!call),
-      data = !!mask_call
-    )
-  })
-
-  # For unit tests
-  class(fn) <- c("dplyr:::maskable_closure", "function")
-
-  fn
-}
-
-# Workaround because `rlang::env_clone()` forces bindings on R < 4.0
-clone <- function(env) {
-  nms <- names(env)
-  out <- env(env_parent(env))
-
-  if ("..." %in% nms) {
-    env_bind(out, ... = env_get(env, "..."))
-    nms <- setdiff(nms, "...")
-  }
-
-  syms <- map(set_names(nms), sym)
-  env_bind_lazy(out, !!!syms, .eval_env = env)
-
-  out
 }

@@ -669,42 +669,42 @@ test_that("across() inlines formulas", {
   # unevaluated lambdas should inherit from that env after inlining.
   env <- env()
 
-  lambda <- quo_eval_fns(quo(function(x) fn(x)))
+  lambda <- quo_eval_fns(quo(function(x) fn(x)), mask = env)
   out <- as_across_fn_call(lambda, quote(var), env, env)
   expect_equal(out, new_quosure(quote(fn(var)), env))
 
-  formula <- quo_eval_fns(quo(~ fn(.x)))
+  formula <- quo_eval_fns(quo(~ fn(.x)), mask = env)
   out <- as_across_fn_call(formula, quote(var), env, env)
   expect_equal(out, new_quosure(quote(fn(var)), env))
 
   # Evaluated formulas preserve their own env
   f <- local(~ fn(.x))
-  fn <- quo_eval_fns(quo(!!f))
+  fn <- quo_eval_fns(quo(!!f), mask = env)
   out <- as_across_fn_call(fn, quote(var), env, env)
   expect_equal(get_env(f), get_env(fn))
   expect_equal(out, new_quosure(call2(fn, quote(var)), env))
 
   # Inlining is disabled for complex lambda calls
-  fn <- quo_eval_fns(quo(function(x, y) x))
+  fn <- quo_eval_fns(quo(function(x, y) x), mask = env)
   out <- as_across_fn_call(fn, quote(var), env, env)
   expect_equal(out, new_quosure(call2(fn, quote(var)), env))
 
   # Formulas are converted to functions
   expect_rlang_lambda <- function(fn) {
-    expect_s3_class(fn, "dplyr:::maskable_closure")
+    expect_s3_class(fn, "rlang_lambda_function")
     out <- as_across_fn_call(fn, quote(var), env, env)
     expect_equal(out, new_quosure(call2(fn, quote(var)), env))
   }
 
-  out <- quo_eval_fns(quo(~ .y))
+  out <- quo_eval_fns(quo(~ .y), mask = env)
   expect_rlang_lambda(out)
 
-  out <- quo_eval_fns(quo(list(~ .y)))
+  out <- quo_eval_fns(quo(list(~ .y)), mask = env)
   expect_type(out, "list")
   map(out, expect_rlang_lambda)
 
   # All formula-lambda arguments are interpolated
-  fn <- quo_eval_fns(quo(~ list(.x, ., .x)))
+  fn <- quo_eval_fns(quo(~ list(.x, ., .x)), mask = env)
   out <- as_across_fn_call(fn, quote(var), env, env)
   expect_equal(
     out,
