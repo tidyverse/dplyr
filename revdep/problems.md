@@ -8,7 +8,7 @@
 * Date/Publication: 2022-12-06 08:22:31 UTC
 * Number of recursive dependencies: 126
 
-Run `cloud_details(, "admiral")` for more info
+Run `revdepcheck::cloud_details(, "admiral")` for more info
 
 </details>
 
@@ -36,6 +36,44 @@ Run `cloud_details(, "admiral")` for more info
       Execution halted
     ```
 
+# APCI
+
+<details>
+
+* Version: 1.0.6
+* GitHub: NA
+* Source code: https://github.com/cran/APCI
+* Date/Publication: 2022-11-11 08:00:02 UTC
+* Number of recursive dependencies: 90
+
+Run `revdepcheck::cloud_details(, "APCI")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking tests ... ERROR
+    ```
+      Running ‘1_tests.R’
+    Running the tests in ‘tests/1_tests.R’ failed.
+    Last 13 lines of output:
+          acc2:pcc2     acc3:pcc2     acc4:pcc2     acc5:pcc2     acc6:pcc2 
+       -0.290611119   0.035609076  -0.286282906   0.038376389   0.444523397 
+          acc7:pcc2     acc8:pcc2     acc9:pcc2     acc1:pcc3     acc2:pcc3 
+        0.201353458  -0.315833488   0.226195972   0.006561414   0.002987424 
+          acc3:pcc3     acc4:pcc3     acc5:pcc3     acc6:pcc3     acc7:pcc3 
+       -0.303382332   0.109407522   0.114987092  -0.343497428   0.190518865 
+          acc8:pcc3     acc9:pcc3     acc1:pcc4     acc2:pcc4     acc3:pcc4 
+       -0.112542859   0.107515070  -0.440638544  -0.008197609   0.209193107 
+          acc4:pcc4     acc5:pcc4     acc6:pcc4     acc7:pcc4     acc8:pcc4 
+        0.264194416   0.319202783  -0.152235042  -0.055023477  -0.289377613 
+          acc9:pcc4     acc1:pcc5     acc2:pcc5     acc3:pcc5     acc4:pcc5 
+        0.118105664   0.055865879   0.328390505  -0.121637453  -0.132578691 
+          acc5:pcc5     acc6:pcc5     acc7:pcc5     acc8:pcc5     acc9:pcc5 
+       -0.547406628  -0.299684313   0.306634925   0.644268013  -0.297331057 
+      Killed
+    ```
+
 # arrow
 
 <details>
@@ -44,9 +82,9 @@ Run `cloud_details(, "admiral")` for more info
 * GitHub: https://github.com/apache/arrow
 * Source code: https://github.com/cran/arrow
 * Date/Publication: 2022-12-06 13:40:02 UTC
-* Number of recursive dependencies: 74
+* Number of recursive dependencies: 75
 
-Run `cloud_details(, "arrow")` for more info
+Run `revdepcheck::cloud_details(, "arrow")` for more info
 
 </details>
 
@@ -97,9 +135,9 @@ Run `cloud_details(, "arrow")` for more info
 * GitHub: https://github.com/b-rodrigues/chronicler
 * Source code: https://github.com/cran/chronicler
 * Date/Publication: 2022-05-17 09:40:04 UTC
-* Number of recursive dependencies: 58
+* Number of recursive dependencies: 59
 
-Run `cloud_details(, "chronicler")` for more info
+Run `revdepcheck::cloud_details(, "chronicler")` for more info
 
 </details>
 
@@ -140,7 +178,7 @@ Run `cloud_details(, "chronicler")` for more info
 * Date/Publication: 2021-05-28 15:00:06 UTC
 * Number of recursive dependencies: 103
 
-Run `cloud_details(, "circumplex")` for more info
+Run `revdepcheck::cloud_details(, "circumplex")` for more info
 
 </details>
 
@@ -238,7 +276,7 @@ Run `cloud_details(, "circumplex")` for more info
 * Date/Publication: 2020-11-23 21:20:02 UTC
 * Number of recursive dependencies: 63
 
-Run `cloud_details(, "comperes")` for more info
+Run `revdepcheck::cloud_details(, "comperes")` for more info
 
 </details>
 
@@ -276,7 +314,7 @@ Run `cloud_details(, "comperes")` for more info
 * Date/Publication: 2019-09-20 04:40:02 UTC
 * Number of recursive dependencies: 83
 
-Run `cloud_details(, "confoundr")` for more info
+Run `revdepcheck::cloud_details(, "confoundr")` for more info
 
 </details>
 
@@ -364,7 +402,7 @@ Run `cloud_details(, "confoundr")` for more info
 * Date/Publication: 2022-11-14 11:20:05 UTC
 * Number of recursive dependencies: 109
 
-Run `cloud_details(, "dbGaPCheckup")` for more info
+Run `revdepcheck::cloud_details(, "dbGaPCheckup")` for more info
 
 </details>
 
@@ -428,7 +466,7 @@ Run `cloud_details(, "dbGaPCheckup")` for more info
 * Date/Publication: 2022-03-07 11:40:02 UTC
 * Number of recursive dependencies: 103
 
-Run `cloud_details(, "disk.frame")` for more info
+Run `revdepcheck::cloud_details(, "disk.frame")` for more info
 
 </details>
 
@@ -459,69 +497,6 @@ Run `cloud_details(, "disk.frame")` for more info
     Execution halted
     ```
 
-# divseg
-
-<details>
-
-* Version: 0.0.4
-* GitHub: https://github.com/christopherkenny/divseg
-* Source code: https://github.com/cran/divseg
-* Date/Publication: 2021-08-09 07:00:05 UTC
-* Number of recursive dependencies: 58
-
-Run `cloud_details(, "divseg")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘divseg-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: ds_abs_cent
-    > ### Title: Compute Absolute Centralization
-    > ### Aliases: ds_abs_cent abs_cent
-    > 
-    > ### ** Examples
-    > 
-    > data("de_county")
-    ...
-     14.   └─vctrs::vec_default_cast(...)
-     15.     ├─base::withRestarts(...)
-     16.     │ └─base (local) withOneRestart(expr, restarts[[1L]])
-     17.     │   └─base (local) doWithOneRestart(return(expr), restart)
-     18.     └─vctrs::stop_incompatible_cast(...)
-     19.       └─vctrs::stop_incompatible_type(...)
-     20.         └─vctrs:::stop_incompatible(...)
-     21.           └─vctrs:::stop_vctrs(...)
-     22.             └─rlang::abort(message, class = c(class, "vctrs_error"), ..., call = vctrs_error_call(call))
-    Execution halted
-    ```
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Error in `.gmat * .c`: non-numeric argument to binary operator
-      Backtrace:
-          ▆
-       1. └─divseg::ds_spat_prox(de_county, c(pop_black, starts_with("pop_"))) at test-spat_prox.R:4:2
-       2.   └─divseg:::calc_pgg(.data, sub %>% dplyr::pull(.data$.x))
-      ── Error ('test-spat_prox.R:10'): spat_prox .name works ────────────────────────
-      Error in `.gmat * .c`: non-numeric argument to binary operator
-      Backtrace:
-          ▆
-       1. └─divseg::ds_spat_prox(...) at test-spat_prox.R:10:2
-       2.   └─divseg:::calc_pgg(.data, sub %>% dplyr::pull(.data$.x))
-      
-      [ FAIL 32 | WARN 73 | SKIP 0 | PASS 26 ]
-      Error: Test failures
-      Execution halted
-    ```
-
 # dm
 
 <details>
@@ -532,7 +507,7 @@ Run `cloud_details(, "divseg")` for more info
 * Date/Publication: 2022-10-12 15:42:33 UTC
 * Number of recursive dependencies: 153
 
-Run `cloud_details(, "dm")` for more info
+Run `revdepcheck::cloud_details(, "dm")` for more info
 
 </details>
 
@@ -570,7 +545,7 @@ Run `cloud_details(, "dm")` for more info
 * Date/Publication: 2022-12-07 16:00:07 UTC
 * Number of recursive dependencies: 110
 
-Run `cloud_details(, "dodgr")` for more info
+Run `revdepcheck::cloud_details(, "dodgr")` for more info
 
 </details>
 
@@ -624,7 +599,7 @@ Run `cloud_details(, "dodgr")` for more info
 * Date/Publication: 2022-08-20 13:20:02 UTC
 * Number of recursive dependencies: 66
 
-Run `cloud_details(, "dtplyr")` for more info
+Run `revdepcheck::cloud_details(, "dtplyr")` for more info
 
 </details>
 
@@ -662,7 +637,7 @@ Run `cloud_details(, "dtplyr")` for more info
 * Date/Publication: 2022-05-04 23:00:16 UTC
 * Number of recursive dependencies: 77
 
-Run `cloud_details(, "epocakir")` for more info
+Run `revdepcheck::cloud_details(, "epocakir")` for more info
 
 </details>
 
@@ -715,66 +690,6 @@ Run `cloud_details(, "epocakir")` for more info
       Execution halted
     ```
 
-# ethnobotanyR
-
-<details>
-
-* Version: 0.1.8
-* GitHub: https://github.com/CWWhitney/ethnobotanyR
-* Source code: https://github.com/cran/ethnobotanyR
-* Date/Publication: 2021-01-06 04:10:02 UTC
-* Number of recursive dependencies: 69
-
-Run `cloud_details(, "ethnobotanyR")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘ethnobotanyR-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: FLs
-    > ### Title: Fidelity Level (FL)
-    > ### Aliases: FLs
-    > ### Keywords: arith logic math methods misc survey
-    > 
-    > ### ** Examples
-    > 
-    ...
-        ▆
-     1. └─ethnobotanyR::FLs(ethnobotanydata)
-     2.   ├─dplyr::left_join(Iu, Ip, by = "sp_name", na.rm = TRUE)
-     3.   └─dplyr:::left_join.data.frame(Iu, Ip, by = "sp_name", na.rm = TRUE)
-     4.     └─rlang::check_dots_empty0(...)
-     5.       └─rlang::check_dots_empty(call = call)
-     6.         └─rlang:::action_dots(...)
-     7.           ├─base (local) try_dots(...)
-     8.           └─rlang (local) action(...)
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-      ...
-    --- re-building ‘ethnobotanyr_vignette.Rmd’ using rmarkdown
-    Quitting from lines 192-193 (ethnobotanyr_vignette.Rmd) 
-    Error: processing vignette 'ethnobotanyr_vignette.Rmd' failed with diagnostics:
-    `...` must be empty.
-    ✖ Problematic argument:
-    • na.rm = TRUE
-    --- failed re-building ‘ethnobotanyr_vignette.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘ethnobotanyr_vignette.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
 # extdplyr
 
 <details>
@@ -785,7 +700,7 @@ Run `cloud_details(, "ethnobotanyR")` for more info
 * Date/Publication: 2020-04-20 05:20:02 UTC
 * Number of recursive dependencies: 39
 
-Run `cloud_details(, "extdplyr")` for more info
+Run `revdepcheck::cloud_details(, "extdplyr")` for more info
 
 </details>
 
@@ -833,7 +748,7 @@ Run `cloud_details(, "extdplyr")` for more info
 * Date/Publication: 2022-08-19 13:50:05 UTC
 * Number of recursive dependencies: 100
 
-Run `cloud_details(, "exuber")` for more info
+Run `revdepcheck::cloud_details(, "exuber")` for more info
 
 </details>
 
@@ -872,7 +787,7 @@ Run `cloud_details(, "exuber")` for more info
 * Date/Publication: 2019-01-03 00:20:16 UTC
 * Number of recursive dependencies: 76
 
-Run `cloud_details(, "fastqcr")` for more info
+Run `revdepcheck::cloud_details(, "fastqcr")` for more info
 
 </details>
 
@@ -920,7 +835,7 @@ Run `cloud_details(, "fastqcr")` for more info
 * Date/Publication: 2022-11-15 23:30:02 UTC
 * Number of recursive dependencies: 210
 
-Run `cloud_details(, "finnts")` for more info
+Run `revdepcheck::cloud_details(, "finnts")` for more info
 
 </details>
 
@@ -956,9 +871,9 @@ Run `cloud_details(, "finnts")` for more info
 * GitHub: https://github.com/Peter-T-Ruehr/forceR
 * Source code: https://github.com/cran/forceR
 * Date/Publication: 2022-06-07 14:50:02 UTC
-* Number of recursive dependencies: 85
+* Number of recursive dependencies: 86
 
-Run `cloud_details(, "forceR")` for more info
+Run `revdepcheck::cloud_details(, "forceR")` for more info
 
 </details>
 
@@ -1018,7 +933,7 @@ Run `cloud_details(, "forceR")` for more info
 * Date/Publication: 2021-08-16 13:00:02 UTC
 * Number of recursive dependencies: 121
 
-Run `cloud_details(, "forestmangr")` for more info
+Run `revdepcheck::cloud_details(, "forestmangr")` for more info
 
 </details>
 
@@ -1084,7 +999,7 @@ Run `cloud_details(, "forestmangr")` for more info
 * Date/Publication: 2022-08-23 12:40:05 UTC
 * Number of recursive dependencies: 75
 
-Run `cloud_details(, "fqar")` for more info
+Run `revdepcheck::cloud_details(, "fqar")` for more info
 
 </details>
 
@@ -1154,80 +1069,6 @@ Run `cloud_details(, "fqar")` for more info
     Execution halted
     ```
 
-# FRK
-
-<details>
-
-* Version: 2.1.0
-* GitHub: https://github.com/andrewzm/FRK
-* Source code: https://github.com/cran/FRK
-* Date/Publication: 2022-09-15 09:40:08 UTC
-* Number of recursive dependencies: 153
-
-Run `cloud_details(, "FRK")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Error in `.xts(e, .index(e2), tclass(e2), tzone(e2), tformat = tformat(e2))`: index length must match number of observations
-      Backtrace:
-          ▆
-       1. └─FRK::SRE(f, list(STobj), G, grid_BAUs, est_error = FALSE) at test_SRE.R:206:4
-       2.   ├─FRK:::map_data_to_BAUs(...)
-       3.   └─FRK:::map_data_to_BAUs(...)
-       4.     └─FRK (local) .local(data_sp, sp_pols, average_in_BAU, sum_variables, silently)
-       5.       └─base::lapply(...)
-       6.         └─FRK (local) FUN(X[[i]], ...)
-       7.           └─xts:::Ops.xts(i, last(sp_pols@time))
-       8.             └─xts::.xts(e, .index(e2), tclass(e2), tzone(e2), tformat = tformat(e2))
-      
-      [ FAIL 2 | WARN 83 | SKIP 0 | PASS 203 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-## In both
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘FRK_intro.Rnw’ using knitr
-    Quitting from lines 772-785 (FRK_intro.Rnw) 
-    Error: processing vignette 'FRK_intro.Rnw' failed with diagnostics:
-    index length must match number of observations
-    --- failed re-building ‘FRK_intro.Rnw’
-    
-    --- re-building ‘FRK_non-Gaussian.Rnw’ using knitr
-    Error: processing vignette 'FRK_non-Gaussian.Rnw' failed with diagnostics:
-    Running 'texi2dvi' on 'FRK_non-Gaussian.tex' failed.
-    ...
-    l.70 ^^M
-            
-    !  ==> Fatal error occurred, no output PDF file produced!
-    --- failed re-building ‘FRK_non-Gaussian.Rnw’
-    
-    SUMMARY: processing the following files failed:
-      ‘FRK_intro.Rnw’ ‘FRK_non-Gaussian.Rnw’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is 77.9Mb
-      sub-directories of 1Mb or more:
-        data   5.0Mb
-        doc    1.6Mb
-        libs  70.3Mb
-    ```
-
 # GauPro
 
 <details>
@@ -1236,9 +1077,9 @@ Run `cloud_details(, "FRK")` for more info
 * GitHub: https://github.com/CollinErickson/GauPro
 * Source code: https://github.com/cran/GauPro
 * Date/Publication: 2022-11-24 08:40:02 UTC
-* Number of recursive dependencies: 78
+* Number of recursive dependencies: 79
 
-Run `cloud_details(, "GauPro")` for more info
+Run `revdepcheck::cloud_details(, "GauPro")` for more info
 
 </details>
 
@@ -1279,66 +1120,27 @@ Run `cloud_details(, "GauPro")` for more info
         libs  13.3Mb
     ```
 
-# ggblanket
+# ggmuller
 
 <details>
 
-* Version: 1.6.1
-* GitHub: https://github.com/davidhodge931/ggblanket
-* Source code: https://github.com/cran/ggblanket
-* Date/Publication: 2022-11-18 22:20:02 UTC
-* Number of recursive dependencies: 95
+* Version: 0.5.4
+* GitHub: NA
+* Source code: https://github.com/cran/ggmuller
+* Date/Publication: 2019-09-05 02:10:17 UTC
+* Number of recursive dependencies: 56
 
-Run `cloud_details(, "ggblanket")` for more info
+Run `revdepcheck::cloud_details(, "ggmuller")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking examples ... ERROR
+*   checking whether package ‘ggmuller’ can be installed ... WARNING
     ```
-    Running examples in ‘ggblanket-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: add_tooltip
-    > ### Title: Add a tooltip column
-    > ### Aliases: add_tooltip
-    > 
-    > ### ** Examples
-    > 
-    > library(ggplot2)
-    ...
-     16.   └─vctrs::vec_default_cast(...)
-     17.     ├─base::withRestarts(...)
-     18.     │ └─base (local) withOneRestart(expr, restarts[[1L]])
-     19.     │   └─base (local) doWithOneRestart(return(expr), restart)
-     20.     └─vctrs::stop_incompatible_cast(...)
-     21.       └─vctrs::stop_incompatible_type(...)
-     22.         └─vctrs:::stop_incompatible(...)
-     23.           └─vctrs:::stop_vctrs(...)
-     24.             └─rlang::abort(message, class = c(class, "vctrs_error"), ..., call = vctrs_error_call(call))
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-      ...
-    --- re-building ‘ggblanket.Rmd’ using rmarkdown
-    Quitting from lines 84-90 (ggblanket.Rmd) 
-    Error: processing vignette 'ggblanket.Rmd' failed with diagnostics:
-    ℹ In argument: `dplyr::across(...)`.
-    Caused by error in `across()`:
-    ! Can't compute column `Species`.
-    Caused by error in `dplyr::na_if()`:
-    ! Can't convert `y` <double> to match type of `x` <character>.
-    --- failed re-building ‘ggblanket.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘ggblanket.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
+    Found the following significant warnings:
+      Warning: replacing previous import ‘ape::where’ by ‘dplyr::where’ when loading ‘ggmuller’
+    See ‘/tmp/workdir/ggmuller/new/ggmuller.Rcheck/00install.out’ for details.
     ```
 
 # gratia
@@ -1349,9 +1151,9 @@ Run `cloud_details(, "ggblanket")` for more info
 * GitHub: https://github.com/gavinsimpson/gratia
 * Source code: https://github.com/cran/gratia
 * Date/Publication: 2022-05-09 11:20:03 UTC
-* Number of recursive dependencies: 83
+* Number of recursive dependencies: 84
 
-Run `cloud_details(, "gratia")` for more info
+Run `revdepcheck::cloud_details(, "gratia")` for more info
 
 </details>
 
@@ -1389,7 +1191,7 @@ Run `cloud_details(, "gratia")` for more info
 * Date/Publication: 2020-10-14 12:30:06 UTC
 * Number of recursive dependencies: 63
 
-Run `cloud_details(, "groupr")` for more info
+Run `revdepcheck::cloud_details(, "groupr")` for more info
 
 </details>
 
@@ -1454,9 +1256,9 @@ ERROR: lazy loading failed for package ‘groupr’
 * GitHub: https://github.com/davidsjoberg/hablar
 * Source code: https://github.com/cran/hablar
 * Date/Publication: 2022-11-11 19:10:02 UTC
-* Number of recursive dependencies: 91
+* Number of recursive dependencies: 92
 
-Run `cloud_details(, "hablar")` for more info
+Run `revdepcheck::cloud_details(, "hablar")` for more info
 
 </details>
 
@@ -1481,44 +1283,6 @@ Run `cloud_details(, "hablar")` for more info
       Execution halted
     ```
 
-# headliner
-
-<details>
-
-* Version: 0.0.2
-* GitHub: https://github.com/rjake/headliner
-* Source code: https://github.com/cran/headliner
-* Date/Publication: 2022-06-26 23:40:02 UTC
-* Number of recursive dependencies: 72
-
-Run `cloud_details(, "headliner")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        6. │     └─dplyr:::filter_eval(dots, mask = mask, error_call = error_call)
-        7. │       ├─base::withCallingHandlers(...)
-        8. │       └─mask$eval_all_filter(dots, env_filter)
-        9. │         └─dplyr (local) eval()
-       10. └─base::.handleSimpleError(`<fn>`, "object '' not found", base::quote(eval()))
-       11.   └─dplyr (local) h(simpleError(msg, call))
-       12.     └─dplyr:::local_error_context(dots, i = frame[[i_sym]], mask = mask)
-       13.       └─dplyr:::new_error_context(dots, i, mask = mask)
-       14.         └─dplyr:::quo_as_label(dots[[i]])
-       15.           └─dplyr:::is_data_pronoun(expr)
-       16.             └─rlang::is_call(x, c("[[", "$"))
-      
-      [ FAIL 3 | WARN 4 | SKIP 0 | PASS 101 ]
-      Error: Test failures
-      Execution halted
-    ```
-
 # heemod
 
 <details>
@@ -1529,7 +1293,7 @@ Run `cloud_details(, "headliner")` for more info
 * Date/Publication: 2021-10-06 11:30:12 UTC
 * Number of recursive dependencies: 118
 
-Run `cloud_details(, "heemod")` for more info
+Run `revdepcheck::cloud_details(, "heemod")` for more info
 
 </details>
 
@@ -1553,7 +1317,7 @@ Run `cloud_details(, "heemod")` for more info
 * Date/Publication: 2021-01-06 11:00:16 UTC
 * Number of recursive dependencies: 126
 
-Run `cloud_details(, "helda")` for more info
+Run `revdepcheck::cloud_details(, "helda")` for more info
 
 </details>
 
@@ -1601,7 +1365,7 @@ Run `cloud_details(, "helda")` for more info
 * Date/Publication: 2022-10-24 21:35:04 UTC
 * Number of recursive dependencies: 151
 
-Run `cloud_details(, "hlaR")` for more info
+Run `revdepcheck::cloud_details(, "hlaR")` for more info
 
 </details>
 
@@ -1664,7 +1428,7 @@ Run `cloud_details(, "hlaR")` for more info
 * Date/Publication: 2022-08-11 09:40:16 UTC
 * Number of recursive dependencies: 157
 
-Run `cloud_details(, "huito")` for more info
+Run `revdepcheck::cloud_details(, "huito")` for more info
 
 </details>
 
@@ -1699,13 +1463,13 @@ Run `cloud_details(, "huito")` for more info
 
 <details>
 
-* Version: 5.5.1
+* Version: 5.5.2
 * GitHub: https://github.com/hughjonesd/huxtable
 * Source code: https://github.com/cran/huxtable
-* Date/Publication: 2022-11-12 08:30:07 UTC
+* Date/Publication: 2022-12-16 13:30:02 UTC
 * Number of recursive dependencies: 162
 
-Run `cloud_details(, "huxtable")` for more info
+Run `revdepcheck::cloud_details(, "huxtable")` for more info
 
 </details>
 
@@ -1742,7 +1506,7 @@ Run `cloud_details(, "huxtable")` for more info
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
            ▆
-        1. ├─testthat::expect_equivalent(...) at test-mapping-functions.R:123:2
+        1. ├─testthat::expect_equivalent(...) at test-mapping-functions.R:127:2
         2. │ └─testthat::quasi_label(enquo(object), label, arg = "object")
         3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
         4. ├─huxtable (local) f(m, 1:3, 1:2, ct)
@@ -1753,7 +1517,7 @@ Run `cloud_details(, "huxtable")` for more info
         9.     └─vctrs:::stop_vctrs(...)
        10.       └─rlang::abort(message, class = c(class, "vctrs_error"), ..., call = vctrs_error_call(call))
       
-      [ FAIL 2 | WARN 2 | SKIP 25 | PASS 1230 ]
+      [ FAIL 2 | WARN 3 | SKIP 25 | PASS 1230 ]
       Error: Test failures
       Execution halted
     ```
@@ -1777,7 +1541,7 @@ Run `cloud_details(, "huxtable")` for more info
 * Date/Publication: 2022-08-22 20:20:02 UTC
 * Number of recursive dependencies: 87
 
-Run `cloud_details(, "iNZightTools")` for more info
+Run `revdepcheck::cloud_details(, "iNZightTools")` for more info
 
 </details>
 
@@ -1815,7 +1579,7 @@ Run `cloud_details(, "iNZightTools")` for more info
 * Date/Publication: 2022-12-07 21:02:33 UTC
 * Number of recursive dependencies: 79
 
-Run `cloud_details(, "IPEDSuploadables")` for more info
+Run `revdepcheck::cloud_details(, "IPEDSuploadables")` for more info
 
 </details>
 
@@ -1876,9 +1640,9 @@ Run `cloud_details(, "IPEDSuploadables")` for more info
 * GitHub: https://github.com/sfirke/janitor
 * Source code: https://github.com/cran/janitor
 * Date/Publication: 2021-01-05 01:10:04 UTC
-* Number of recursive dependencies: 73
+* Number of recursive dependencies: 74
 
-Run `cloud_details(, "janitor")` for more info
+Run `revdepcheck::cloud_details(, "janitor")` for more info
 
 </details>
 
@@ -1943,7 +1707,7 @@ Run `cloud_details(, "janitor")` for more info
 * Date/Publication: 2021-11-16 19:40:02 UTC
 * Number of recursive dependencies: 60
 
-Run `cloud_details(, "JumpeR")` for more info
+Run `revdepcheck::cloud_details(, "JumpeR")` for more info
 
 </details>
 
@@ -1981,7 +1745,7 @@ Run `cloud_details(, "JumpeR")` for more info
 * Date/Publication: 2022-06-28 16:20:08 UTC
 * Number of recursive dependencies: 48
 
-Run `cloud_details(, "kmscv")` for more info
+Run `revdepcheck::cloud_details(, "kmscv")` for more info
 
 </details>
 
@@ -2022,7 +1786,7 @@ Run `cloud_details(, "kmscv")` for more info
 * Date/Publication: 2020-06-24 05:20:03 UTC
 * Number of recursive dependencies: 85
 
-Run `cloud_details(, "lans2r")` for more info
+Run `revdepcheck::cloud_details(, "lans2r")` for more info
 
 </details>
 
@@ -2057,6 +1821,29 @@ Run `cloud_details(, "lans2r")` for more info
       'LazyData' is specified without a 'data' directory
     ```
 
+# LARGB
+
+<details>
+
+* Version: 0.1.0
+* GitHub: NA
+* Source code: https://github.com/cran/LARGB
+* Date/Publication: 2021-09-28 09:00:05 UTC
+* Number of recursive dependencies: 31
+
+Run `revdepcheck::cloud_details(, "LARGB")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘LARGB’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: replacing previous import ‘dplyr::where’ by ‘imager::where’ when loading ‘LARGB’
+    See ‘/tmp/workdir/LARGB/new/LARGB.Rcheck/00install.out’ for details.
+    ```
+
 # lillies
 
 <details>
@@ -2065,9 +1852,9 @@ Run `cloud_details(, "lans2r")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/lillies
 * Date/Publication: 2021-02-16 17:10:05 UTC
-* Number of recursive dependencies: 93
+* Number of recursive dependencies: 95
 
-Run `cloud_details(, "lillies")` for more info
+Run `revdepcheck::cloud_details(, "lillies")` for more info
 
 </details>
 
@@ -2116,7 +1903,7 @@ Run `cloud_details(, "lillies")` for more info
 * Date/Publication: 2022-10-03 20:30:02 UTC
 * Number of recursive dependencies: 147
 
-Run `cloud_details(, "logitr")` for more info
+Run `revdepcheck::cloud_details(, "logitr")` for more info
 
 </details>
 
@@ -2155,9 +1942,9 @@ Run `cloud_details(, "logitr")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/MBNMAtime
 * Date/Publication: 2021-09-13 15:10:02 UTC
-* Number of recursive dependencies: 111
+* Number of recursive dependencies: 112
 
-Run `cloud_details(, "MBNMAtime")` for more info
+Run `revdepcheck::cloud_details(, "MBNMAtime")` for more info
 
 </details>
 
@@ -2192,41 +1979,67 @@ Run `cloud_details(, "MBNMAtime")` for more info
     Package unavailable to check Rd xrefs: ‘gemtc’
     ```
 
-# MetAlyzer
+# metacore
 
 <details>
 
-* Version: 0.1.0
-* GitHub: NA
-* Source code: https://github.com/cran/MetAlyzer
-* Date/Publication: 2022-02-01 09:10:08 UTC
-* Number of recursive dependencies: 100
+* Version: 0.1.1
+* GitHub: https://github.com/atorus-research/metacore
+* Source code: https://github.com/cran/metacore
+* Date/Publication: 2022-12-07 14:10:06 UTC
+* Number of recursive dependencies: 70
 
-Run `cloud_details(, "MetAlyzer")` for more info
+Run `revdepcheck::cloud_details(, "metacore")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking re-building of vignette outputs ... WARNING
+*   checking examples ... ERROR
     ```
-    Error(s) in re-building vignettes:
-      ...
-    --- re-building ‘MetAlyzer_User_Guide.Rmd’ using rmarkdown
-    Quitting from lines 166-169 (MetAlyzer_User_Guide.Rmd) 
-    Error: processing vignette 'MetAlyzer_User_Guide.Rmd' failed with diagnostics:
-    ℹ In argument: `ANOVA_group = calc_anova(get(categorical),
-      .data$transf_Conc, .data$valid_replicates)`.
-    ℹ In group 1: `Method = 1`, `Tissue = Drosophila`, `Metabolite = C0`.
-    Caused by error in `contrasts<-`:
-    ! contrasts can be applied only to factors with 2 or more levels
-    --- failed re-building ‘MetAlyzer_User_Guide.Rmd’
+    Running examples in ‘metacore-Ex.R’ failed
+    The error most likely occurred in:
     
-    SUMMARY: processing the following file failed:
-      ‘MetAlyzer_User_Guide.Rmd’
-    
-    Error: Vignette re-building failed.
+    > ### Name: check_inconsistent_labels
+    > ### Title: Optional checks to consistency of metadata
+    > ### Aliases: check_inconsistent_labels check_inconsistent_types
+    > ###   check_inconsistent_formats
+    > 
+    > ### ** Examples
+    > 
+    ...
+      8. ├─dplyr:::mutate.data.frame(...)
+      9. │ └─dplyr:::mutate_cols(.data, dplyr_quosures(...), by)
+     10. │   ├─base::withCallingHandlers(...)
+     11. │   └─dplyr:::mutate_col(dots[[i]], data, mask, new_columns)
+     12. │     ├─base::withCallingHandlers(...)
+     13. │     └─mask$eval_all_mutate(quo)
+     14. │       └─dplyr (local) eval()
+     15. └─dplyr:::dplyr_internal_error("dplyr:::mutate_incompatible_size", `<named list>`)
+     16.   └─rlang::abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
     Execution halted
+    ```
+
+*   checking tests ... ERROR
+    ```
+      Running ‘testthat.R’
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+       14. │       └─dplyr (local) eval()
+       15. ├─dplyr:::dplyr_internal_error(...)
+       16. │ └─rlang::abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
+       17. │   └─rlang:::signal_abort(cnd, .file)
+       18. │     └─base::signalCondition(cnd)
+       19. ├─dplyr (local) `<fn>`(`<dpl:::__>`)
+       20. │ └─rlang::abort(msg, call = call("across"), parent = cnd)
+       21. │   └─rlang:::signal_abort(cnd, .file)
+       22. │     └─base::signalCondition(cnd)
+       23. └─dplyr (local) `<fn>`(`<rlng_rrr>`)
+       24.   └─rlang::abort(message, class = error_class, parent = parent, call = error_call)
+      
+      [ FAIL 2 | WARN 1 | SKIP 0 | PASS 67 ]
+      Error: Test failures
+      Execution halted
     ```
 
 # mudata2
@@ -2239,7 +2052,7 @@ Run `cloud_details(, "MetAlyzer")` for more info
 * Date/Publication: 2020-03-20 20:20:03 UTC
 * Number of recursive dependencies: 100
 
-Run `cloud_details(, "mudata2")` for more info
+Run `revdepcheck::cloud_details(, "mudata2")` for more info
 
 </details>
 
@@ -2332,7 +2145,7 @@ Run `cloud_details(, "mudata2")` for more info
 * Date/Publication: 2021-11-04 16:50:02 UTC
 * Number of recursive dependencies: 68
 
-Run `cloud_details(, "multicolor")` for more info
+Run `revdepcheck::cloud_details(, "multicolor")` for more info
 
 </details>
 
@@ -2378,7 +2191,7 @@ Run `cloud_details(, "multicolor")` for more info
 * Date/Publication: 2021-05-14 10:20:02 UTC
 * Number of recursive dependencies: 177
 
-Run `cloud_details(, "naniar")` for more info
+Run `revdepcheck::cloud_details(, "naniar")` for more info
 
 </details>
 
@@ -2419,7 +2232,7 @@ Run `cloud_details(, "naniar")` for more info
 * Date/Publication: 2022-12-01 15:20:02 UTC
 * Number of recursive dependencies: 110
 
-Run `cloud_details(, "ndi")` for more info
+Run `revdepcheck::cloud_details(, "ndi")` for more info
 
 </details>
 
@@ -2483,7 +2296,7 @@ Run `cloud_details(, "ndi")` for more info
 * Date/Publication: 2020-03-03 10:40:02 UTC
 * Number of recursive dependencies: 19
 
-Run `cloud_details(, "NobBS")` for more info
+Run `revdepcheck::cloud_details(, "NobBS")` for more info
 
 </details>
 
@@ -2522,9 +2335,9 @@ Run `cloud_details(, "NobBS")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/nonmemica
 * Date/Publication: 2022-10-01 07:00:02 UTC
-* Number of recursive dependencies: 67
+* Number of recursive dependencies: 68
 
-Run `cloud_details(, "nonmemica")` for more info
+Run `revdepcheck::cloud_details(, "nonmemica")` for more info
 
 </details>
 
@@ -2565,7 +2378,7 @@ Run `cloud_details(, "nonmemica")` for more info
 * Date/Publication: 2022-10-19 18:32:36 UTC
 * Number of recursive dependencies: 71
 
-Run `cloud_details(, "ontologics")` for more info
+Run `revdepcheck::cloud_details(, "ontologics")` for more info
 
 </details>
 
@@ -2631,7 +2444,7 @@ Run `cloud_details(, "ontologics")` for more info
 * Date/Publication: 2022-08-06 08:50:02 UTC
 * Number of recursive dependencies: 123
 
-Run `cloud_details(, "overviewR")` for more info
+Run `revdepcheck::cloud_details(, "overviewR")` for more info
 
 </details>
 
@@ -2694,7 +2507,7 @@ Run `cloud_details(, "overviewR")` for more info
 * Date/Publication: 2021-12-17 07:40:02 UTC
 * Number of recursive dependencies: 169
 
-Run `cloud_details(, "panelr")` for more info
+Run `revdepcheck::cloud_details(, "panelr")` for more info
 
 </details>
 
@@ -2737,9 +2550,9 @@ Run `cloud_details(, "panelr")` for more info
 * GitHub: https://github.com/PublicHealthEngland/PHEindicatormethods
 * Source code: https://github.com/cran/PHEindicatormethods
 * Date/Publication: 2022-12-01 00:10:06 UTC
-* Number of recursive dependencies: 77
+* Number of recursive dependencies: 63
 
-Run `cloud_details(, "PHEindicatormethods")` for more info
+Run `revdepcheck::cloud_details(, "PHEindicatormethods")` for more info
 
 </details>
 
@@ -2775,9 +2588,9 @@ Run `cloud_details(, "PHEindicatormethods")` for more info
 * GitHub: https://github.com/eco-hydro/phenofit
 * Source code: https://github.com/cran/phenofit
 * Date/Publication: 2022-11-07 11:40:02 UTC
-* Number of recursive dependencies: 83
+* Number of recursive dependencies: 84
 
-Run `cloud_details(, "phenofit")` for more info
+Run `revdepcheck::cloud_details(, "phenofit")` for more info
 
 </details>
 
@@ -2872,7 +2685,7 @@ Run `cloud_details(, "phenofit")` for more info
 * Date/Publication: 2022-10-16 03:35:14 UTC
 * Number of recursive dependencies: 139
 
-Run `cloud_details(, "PKNCA")` for more info
+Run `revdepcheck::cloud_details(, "PKNCA")` for more info
 
 </details>
 
@@ -2911,7 +2724,7 @@ Run `cloud_details(, "PKNCA")` for more info
 * Date/Publication: 2021-11-18 06:20:05 UTC
 * Number of recursive dependencies: 121
 
-Run `cloud_details(, "presenter")` for more info
+Run `revdepcheck::cloud_details(, "presenter")` for more info
 
 </details>
 
@@ -2958,9 +2771,9 @@ Run `cloud_details(, "presenter")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/PVplr
 * Date/Publication: 2022-05-13 21:10:02 UTC
-* Number of recursive dependencies: 91
+* Number of recursive dependencies: 92
 
-Run `cloud_details(, "PVplr")` for more info
+Run `revdepcheck::cloud_details(, "PVplr")` for more info
 
 </details>
 
@@ -3001,7 +2814,7 @@ Run `cloud_details(, "PVplr")` for more info
 * Date/Publication: 2022-01-31 16:30:08 UTC
 * Number of recursive dependencies: 135
 
-Run `cloud_details(, "questionr")` for more info
+Run `revdepcheck::cloud_details(, "questionr")` for more info
 
 </details>
 
@@ -3036,45 +2849,6 @@ Run `cloud_details(, "questionr")` for more info
       Note: found 8504 marked UTF-8 strings
     ```
 
-# r2dii.analysis
-
-<details>
-
-* Version: 0.2.1
-* GitHub: https://github.com/RMI-PACTA/r2dii.analysis
-* Source code: https://github.com/cran/r2dii.analysis
-* Date/Publication: 2022-11-03 16:50:02 UTC
-* Number of recursive dependencies: 76
-
-Run `cloud_details(, "r2dii.analysis")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘spelling.R’
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      
-      ══ Skipped tests ═══════════════════════════════════════════════════════════════
-      • On CRAN (4)
-      
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Failure ('test-target_market_share.R:923'): projects technology share as 'production / total production' when
-                computing by company, unweighted by relative loan size (#288) ──
-      out$technology_share (`actual`) not equal to out$production/sum(out$production) (`expected`).
-      
-        `actual`: 0.5 0.5
-      `expected`: 0.1 0.9
-      
-      [ FAIL 1 | WARN 80 | SKIP 4 | PASS 268 ]
-      Error: Test failures
-      Execution halted
-    ```
-
 # rabhit
 
 <details>
@@ -3085,7 +2859,7 @@ Run `cloud_details(, "r2dii.analysis")` for more info
 * Date/Publication: 2022-09-22 15:10:02 UTC
 * Number of recursive dependencies: 130
 
-Run `cloud_details(, "rabhit")` for more info
+Run `revdepcheck::cloud_details(, "rabhit")` for more info
 
 </details>
 
@@ -3149,7 +2923,7 @@ ERROR: lazy loading failed for package ‘rabhit’
 * Date/Publication: 2022-11-09 16:50:02 UTC
 * Number of recursive dependencies: 134
 
-Run `cloud_details(, "recipes")` for more info
+Run `revdepcheck::cloud_details(, "recipes")` for more info
 
 </details>
 
@@ -3184,45 +2958,6 @@ Run `cloud_details(, "recipes")` for more info
     Packages unavailable to check Rd xrefs: ‘fastICA’, ‘dimRed’
     ```
 
-# RNeXML
-
-<details>
-
-* Version: 2.4.8
-* GitHub: https://github.com/ropensci/RNeXML
-* Source code: https://github.com/cran/RNeXML
-* Date/Publication: 2022-10-19 22:27:55 UTC
-* Number of recursive dependencies: 139
-
-Run `cloud_details(, "RNeXML")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘spelling.R’
-      Running ‘test-all.R’
-    Running the tests in ‘tests/test-all.R’ failed.
-    Last 13 lines of output:
-      Loading required package: ape
-      Done simulation(s).
-      [ FAIL 1 | WARN 1 | SKIP 42 | PASS 302 ]
-      
-      ══ Skipped tests ═══════════════════════════════════════════════════════════════
-      • On CRAN (42)
-      
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Failure ('test_meta_extract.R:204'): ID assignments are correct and complete when meta are nested ──
-      sort(meta.cont[, "Meta"]) not equal to sort(unique(meta.nested[, "meta"])).
-      names for target but not for current
-      
-      [ FAIL 1 | WARN 1 | SKIP 42 | PASS 302 ]
-      Error: Test failures
-      Execution halted
-    ```
-
 # romic
 
 <details>
@@ -3233,7 +2968,7 @@ Run `cloud_details(, "RNeXML")` for more info
 * Date/Publication: 2021-07-20 09:00:02 UTC
 * Number of recursive dependencies: 111
 
-Run `cloud_details(, "romic")` for more info
+Run `revdepcheck::cloud_details(, "romic")` for more info
 
 </details>
 
@@ -3271,7 +3006,7 @@ Run `cloud_details(, "romic")` for more info
 * Date/Publication: 2020-12-07 17:40:03 UTC
 * Number of recursive dependencies: 65
 
-Run `cloud_details(, "seecolor")` for more info
+Run `revdepcheck::cloud_details(, "seecolor")` for more info
 
 </details>
 
@@ -3343,7 +3078,7 @@ Run `cloud_details(, "seecolor")` for more info
 * Date/Publication: 2022-08-05 14:00:02 UTC
 * Number of recursive dependencies: 135
 
-Run `cloud_details(, "simplevis")` for more info
+Run `revdepcheck::cloud_details(, "simplevis")` for more info
 
 </details>
 
@@ -3376,7 +3111,7 @@ Run `cloud_details(, "simplevis")` for more info
 * Date/Publication: 2022-02-01 16:00:02 UTC
 * Number of recursive dependencies: 96
 
-Run `cloud_details(, "skater")` for more info
+Run `revdepcheck::cloud_details(, "skater")` for more info
 
 </details>
 
@@ -3460,7 +3195,7 @@ Run `cloud_details(, "skater")` for more info
 * Date/Publication: 2022-04-15 02:20:02 UTC
 * Number of recursive dependencies: 82
 
-Run `cloud_details(, "skimr")` for more info
+Run `revdepcheck::cloud_details(, "skimr")` for more info
 
 </details>
 
@@ -3496,9 +3231,9 @@ Run `cloud_details(, "skimr")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/starschemar
 * Date/Publication: 2020-09-25 21:30:02 UTC
-* Number of recursive dependencies: 66
+* Number of recursive dependencies: 67
 
-Run `cloud_details(, "starschemar")` for more info
+Run `revdepcheck::cloud_details(, "starschemar")` for more info
 
 </details>
 
@@ -3585,9 +3320,9 @@ Run `cloud_details(, "starschemar")` for more info
 * GitHub: https://github.com/milanwiedemann/suddengains
 * Source code: https://github.com/cran/suddengains
 * Date/Publication: 2020-05-22 22:40:03 UTC
-* Number of recursive dependencies: 91
+* Number of recursive dependencies: 92
 
-Run `cloud_details(, "suddengains")` for more info
+Run `revdepcheck::cloud_details(, "suddengains")` for more info
 
 </details>
 
@@ -3651,7 +3386,7 @@ Run `cloud_details(, "suddengains")` for more info
 * Date/Publication: 2021-11-05 17:50:02 UTC
 * Number of recursive dependencies: 74
 
-Run `cloud_details(, "SwimmeR")` for more info
+Run `revdepcheck::cloud_details(, "SwimmeR")` for more info
 
 </details>
 
@@ -3731,7 +3466,7 @@ Run `cloud_details(, "SwimmeR")` for more info
 * Date/Publication: 2022-09-28 23:20:02 UTC
 * Number of recursive dependencies: 75
 
-Run `cloud_details(, "tabshiftr")` for more info
+Run `revdepcheck::cloud_details(, "tabshiftr")` for more info
 
 </details>
 
@@ -3769,7 +3504,7 @@ Run `cloud_details(, "tabshiftr")` for more info
 * Date/Publication: 2022-10-06 03:20:02 UTC
 * Number of recursive dependencies: 124
 
-Run `cloud_details(, "textrecipes")` for more info
+Run `revdepcheck::cloud_details(, "textrecipes")` for more info
 
 </details>
 
@@ -3814,7 +3549,7 @@ Run `cloud_details(, "textrecipes")` for more info
 * Date/Publication: 2022-12-06 17:00:02 UTC
 * Number of recursive dependencies: 90
 
-Run `cloud_details(, "tfrmt")` for more info
+Run `revdepcheck::cloud_details(, "tfrmt")` for more info
 
 </details>
 
@@ -3852,7 +3587,7 @@ Run `cloud_details(, "tfrmt")` for more info
 * Date/Publication: 2022-08-30 13:30:02 UTC
 * Number of recursive dependencies: 148
 
-Run `cloud_details(, "tidyCDISC")` for more info
+Run `revdepcheck::cloud_details(, "tidyCDISC")` for more info
 
 </details>
 
@@ -3891,7 +3626,7 @@ Run `cloud_details(, "tidyCDISC")` for more info
 * Date/Publication: 2022-08-22 07:20:02 UTC
 * Number of recursive dependencies: 76
 
-Run `cloud_details(, "tidygraph")` for more info
+Run `revdepcheck::cloud_details(, "tidygraph")` for more info
 
 </details>
 
@@ -3919,44 +3654,6 @@ Run `cloud_details(, "tidygraph")` for more info
       Execution halted
     ```
 
-# tidyplus
-
-<details>
-
-* Version: 0.0.1
-* GitHub: NA
-* Source code: https://github.com/cran/tidyplus
-* Date/Publication: 2022-08-29 09:20:02 UTC
-* Number of recursive dependencies: 71
-
-Run `cloud_details(, "tidyplus")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-       23. │             └─rlang:::signal_abort(cnd, .file)
-       24. │               └─base::signalCondition(cnd)
-       25. ├─dplyr (local) `<fn>`(`<vctrs_r_>`)
-       26. │ └─rlang::abort(msg, call = call("across"), parent = cnd)
-       27. │   └─rlang:::signal_abort(cnd, .file)
-       28. │     └─base::signalCondition(cnd)
-       29. └─dplyr (local) `<fn>`(`<rlng_rrr>`)
-       30.   └─rlang::abort(message, class = error_class, parent = parent, call = error_call)
-      
-      [ FAIL 1 | WARN 7 | SKIP 3 | PASS 125 ]
-      Deleting unused snapshots:
-      • replace-na-if/works.csv
-      • unite-str/notremove.csv
-      Error: Test failures
-      Execution halted
-    ```
-
 # tidyquery
 
 <details>
@@ -3967,7 +3664,7 @@ Run `cloud_details(, "tidyplus")` for more info
 * Date/Publication: 2021-12-02 20:10:02 UTC
 * Number of recursive dependencies: 66
 
-Run `cloud_details(, "tidyquery")` for more info
+Run `revdepcheck::cloud_details(, "tidyquery")` for more info
 
 </details>
 
@@ -4005,7 +3702,7 @@ Run `cloud_details(, "tidyquery")` for more info
 * Date/Publication: 2022-08-26 08:00:02 UTC
 * Number of recursive dependencies: 106
 
-Run `cloud_details(, "tidytransit")` for more info
+Run `revdepcheck::cloud_details(, "tidytransit")` for more info
 
 </details>
 
@@ -4049,44 +3746,6 @@ Run `cloud_details(, "tidytransit")` for more info
       All declared Imports should be used.
     ```
 
-# tidytree
-
-<details>
-
-* Version: 0.4.1
-* GitHub: https://github.com/YuLab-SMU/tidytree
-* Source code: https://github.com/cran/tidytree
-* Date/Publication: 2022-09-26 10:10:02 UTC
-* Number of recursive dependencies: 61
-
-Run `cloud_details(, "tidytree")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ... ERROR
-    ```
-      Running ‘testthat.R’
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-        1. ├─tree %<>% left_join(dat, by = "node") at test-dplyr-methods.R:125:4
-        2. ├─dplyr::left_join(., dat, by = "node")
-        3. ├─tidytree:::left_join.treedata(., dat, by = "node")
-        4. │ └─dat %>% ...
-        5. ├─dplyr::left_join(...)
-        6. └─dplyr:::left_join.data.frame(., y, by = by, copy = copy, suffix = suffix, !!!dots)
-        7.   └─rlang::check_dots_empty0(...)
-        8.     └─rlang::check_dots_empty(call = call)
-        9.       └─rlang:::action_dots(...)
-       10.         ├─base (local) try_dots(...)
-       11.         └─rlang (local) action(...)
-      
-      [ FAIL 2 | WARN 2 | SKIP 0 | PASS 62 ]
-      Error: Test failures
-      Execution halted
-    ```
-
 # topr
 
 <details>
@@ -4097,7 +3756,7 @@ Run `cloud_details(, "tidytree")` for more info
 * Date/Publication: 2022-11-04 13:10:02 UTC
 * Number of recursive dependencies: 77
 
-Run `cloud_details(, "topr")` for more info
+Run `revdepcheck::cloud_details(, "topr")` for more info
 
 </details>
 
@@ -4160,7 +3819,7 @@ Run `cloud_details(, "topr")` for more info
 * Date/Publication: 2022-11-18 23:50:02 UTC
 * Number of recursive dependencies: 100
 
-Run `cloud_details(, "track2KBA")` for more info
+Run `revdepcheck::cloud_details(, "track2KBA")` for more info
 
 </details>
 
@@ -4213,6 +3872,29 @@ Run `cloud_details(, "track2KBA")` for more info
       Execution halted
     ```
 
+# treeplyr
+
+<details>
+
+* Version: 0.1.10
+* GitHub: https://github.com/uyedaj/treeplyr
+* Source code: https://github.com/cran/treeplyr
+* Date/Publication: 2020-09-17 10:10:02 UTC
+* Number of recursive dependencies: 45
+
+Run `revdepcheck::cloud_details(, "treeplyr")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘treeplyr’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: replacing previous import ‘ape::where’ by ‘dplyr::where’ when loading ‘treeplyr’
+    See ‘/tmp/workdir/treeplyr/new/treeplyr.Rcheck/00install.out’ for details.
+    ```
+
 # unpivotr
 
 <details>
@@ -4223,7 +3905,7 @@ Run `cloud_details(, "track2KBA")` for more info
 * Date/Publication: 2021-08-22 04:10:02 UTC
 * Number of recursive dependencies: 88
 
-Run `cloud_details(, "unpivotr")` for more info
+Run `revdepcheck::cloud_details(, "unpivotr")` for more info
 
 </details>
 
@@ -4311,7 +3993,7 @@ Run `cloud_details(, "unpivotr")` for more info
 * Date/Publication: 2020-11-13 11:40:02 UTC
 * Number of recursive dependencies: 54
 
-Run `cloud_details(, "wcep")` for more info
+Run `revdepcheck::cloud_details(, "wcep")` for more info
 
 </details>
 
@@ -4352,7 +4034,7 @@ Run `cloud_details(, "wcep")` for more info
 * Date/Publication: 2022-01-03 18:20:02 UTC
 * Number of recursive dependencies: 20
 
-Run `cloud_details(, "wrangle")` for more info
+Run `revdepcheck::cloud_details(, "wrangle")` for more info
 
 </details>
 
