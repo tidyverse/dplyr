@@ -240,7 +240,7 @@ across <- function(.cols,
   fns <- setup$fns
   names <- setup$names
 
-  fns <- map(fns, function(fn) uninline(fn, fns_quo_env, error_call = error_call))
+  fns <- map(fns, function(fn) uninline(fn, fns_quo_env))
 
   if (!length(fns)) {
     # TODO: Deprecate and remove the `.fns = NULL` path in favor of `pick()`
@@ -470,18 +470,14 @@ across_setup <- function(cols,
   )
 }
 
-uninline <- function(fn, env, error_call) {
-  if (is_formula(fn)) {
-    fn <- as_function(fn, call = error_call)
-  }
-
+uninline <- function(fn, env) {
   # Reset environment of inlinable lambdas which are set to the empty
   # env sentinel
-  if (is_function(fn) && identical(get_env(fn), empty_env())) {
-    fn <- set_env(fn, env)
+  if (identical(get_env(fn), empty_env())) {
+    set_env(fn, env)
+  } else {
+    fn
   }
-
-  fn
 }
 
 # FIXME: This pattern should be encapsulated by rlang
