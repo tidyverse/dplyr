@@ -181,6 +181,7 @@ across <- function(.cols,
 
   .cols <- enquo(.cols)
   fns_quo <- enquo(.fns)
+  fns_quo_env <- quo_get_env(fns_quo)
 
   if (quo_is_missing(.cols)) {
     across_missing_cols_deprecate_warn()
@@ -192,7 +193,6 @@ across <- function(.cols,
     # TODO: Escalate this to formal deprecation.
     .fns <- NULL
   } else {
-    fns_quo_env <- quo_get_env(fns_quo)
     .fns <- quo_eval_fns(fns_quo, mask = fns_quo_env, error_call = error_call)
   }
 
@@ -240,8 +240,7 @@ across <- function(.cols,
   fns <- setup$fns
   names <- setup$names
 
-  fns_quo_env <- quo_get_env(fns_quo)
-  fns <- map(fns, function(fn) uninline(fn, fns_quo_env, error_call = current_env()))
+  fns <- map(fns, function(fn) uninline(fn, fns_quo_env, error_call = error_call))
 
   if (!length(fns)) {
     # TODO: Deprecate and remove the `.fns = NULL` path in favor of `pick()`
@@ -386,7 +385,6 @@ across_setup <- function(cols,
                          mask,
                          error_call = caller_env()) {
   cols <- enquo(cols)
-  quo_env <- quo_get_env(cols)
   across_if_fn <- context_peek_bare("across_if_fn") %||% "across"
 
   # `across()` is evaluated in a data mask so we need to remove the
@@ -873,7 +871,7 @@ apply_unpack_spec <- function(col, outer, spec, caller_env) {
 # non-inlinable lambdas to be maskable so that they can refer to
 # data-mask columns. So we set them (a) in the evaluation case, to
 # their original quosure environment which is the data mask, or (b) in
-# the expansion case, to the unitialised data mask.
+# the expansion case, to the uninitialised data mask.
 #
 # @value  <fn> | <list<fn>>. Inlinable lambdas are set to the
 #   empty env.
@@ -929,7 +927,7 @@ quo_eval_fns <- function(quo, mask, error_call = caller_env()) {
       out
     } else {
       abort(
-        "`.fns` must be a function, a formula, or a list of functions/formulas.",,
+        "`.fns` must be a function, a formula, or a list of functions/formulas.",
         call = error_call
       )
     }
@@ -959,7 +957,9 @@ quo_is_inlinable_lambda <- function(x) {
   }
 
   # Don't inline lambdas that call `return()` at the moment a few
-  # packages do things like `across(1, function(x) return(x))`
+  # packages do things like `across(1, function(x)
+  # return(x))`. Whereas `eval()` sets a return point, `eval_tidy()`
+  # doesn't which causes `return()` to throw an error.
   if ("return" %in% all.names(body(fn))) {
     return(FALSE)
   }
@@ -970,7 +970,7 @@ quo_is_inlinable_lambda <- function(x) {
 quo_is_inlinable_formula <- function(quo) {
   expr <- quo_get_expr(quo)
 
-  if (!is_formula(expr, scoped = FALSE)) {
+  if (!is_formula(expr, scoped = FALSE, lhs = FALSE)) {
     return(FALSE)
   }
 
