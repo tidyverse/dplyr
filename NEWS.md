@@ -344,6 +344,14 @@ Many of dplyr's vector functions have been rewritten to make use of the vctrs pa
 * `across()` used without functions inside a rowwise-data frame no longer
    generates an invalid data frame (#6264).
 
+* Anonymous functions supplied with `function()` and `\()` are now inlined by
+  `across()` if possible, which slightly improves performance and makes possible
+  further optimisations in the future.
+
+* Functions supplied to `across()` are no longer masked by columns (#6545). For
+  instance, `across(1:2, mean)` will now work as expected even if there is a
+  column called `mean`.
+
 * `arrange()` now correctly ignores `NULL` inputs (#6193).
 
 * `arrange()` now works correctly when `across()` calls are used as the 2nd
