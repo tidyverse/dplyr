@@ -177,10 +177,7 @@ across <- function(.cols,
   caller_env <- caller_env()
 
   across_if_fn <- context_peek_bare("across_if_fn") %||% "across"
-
-  # TODO: Pass down across-if-frame and use that as error call
-  local_error_call(call(across_if_fn))
-  error_call <- current_env()
+  error_call <- context_peek_bare("across_frame") %||% current_env()
 
   .cols <- enquo(.cols)
   fns_quo <- enquo(.fns)
@@ -310,12 +307,14 @@ across <- function(.cols,
 #' @export
 if_any <- function(.cols, .fns, ..., .names = NULL) {
   context_local("across_if_fn", "if_any")
+  context_local("across_frame", current_env())
   if_across(`|`, across({{ .cols }}, .fns, ..., .names = .names))
 }
 #' @rdname across
 #' @export
 if_all <- function(.cols, .fns, ..., .names = NULL) {
   context_local("across_if_fn", "if_all")
+  context_local("across_frame", current_env())
   if_across(`&`, across({{ .cols }}, .fns, ..., .names = .names))
 }
 
@@ -594,6 +593,13 @@ expand_if_across <- function(quo) {
   }
 
   context_local("across_if_fn", if_fn)
+
+  # Set frame here for backtrace truncation. But override error call
+  # via `local_error_call()` so it refers to the function we're
+  # expanding, e.g. `if_any()` and not `expand_if_across()`.
+  context_local("across_frame", current_env())
+  local_error_call(call(if_fn))
+
   call[[1]] <- quote(across)
   quos <- expand_across(quo_set_expr(quo, call))
 
@@ -624,9 +630,10 @@ expand_across <- function(quo) {
 
   across_if_fn <- context_peek_bare("across_if_fn") %||% "across"
 
-  # TODO: Pass down across-if-frame and use that as error call
+  # Set error call to frame for backtrace truncation, but override
+  # call with the relevant function we're doing the expansion for
+  error_call <- context_peek_bare("across_frame") %||% current_env()
   local_error_call(call(across_if_fn))
-  error_call <- current_env()
 
   # Expand dots in lexical env
   env <- quo_get_env(quo)
