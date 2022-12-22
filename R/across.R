@@ -177,7 +177,10 @@ across <- function(.cols,
   caller_env <- caller_env()
 
   across_if_fn <- context_peek_bare("across_if_fn") %||% "across"
-  error_call <- call(across_if_fn)
+
+  # TODO: Pass down across-if-frame and use that as error call
+  local_error_call(call(across_if_fn))
+  error_call <- current_env()
 
   .cols <- enquo(.cols)
   fns_quo <- enquo(.fns)
@@ -620,7 +623,10 @@ expand_across <- function(quo) {
   }
 
   across_if_fn <- context_peek_bare("across_if_fn") %||% "across"
-  error_call <- call(across_if_fn)
+
+  # TODO: Pass down across-if-frame and use that as error call
+  local_error_call(call(across_if_fn))
+  error_call <- current_env()
 
   # Expand dots in lexical env
   env <- quo_get_env(quo)
