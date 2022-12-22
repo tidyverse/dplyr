@@ -213,7 +213,8 @@ across <- function(.cols,
     names = .names,
     .caller_env = caller_env,
     mask = mask,
-    error_call = error_call
+    error_call = error_call,
+    across_if_fn = across_if_fn
   )
 
   if (!missing(...)) {
@@ -286,7 +287,7 @@ across <- function(.cols,
       bullets <- c(
         glue("Can't compute column `{names[k]}`.")
       )
-      abort(bullets, call = call(setup$across_if_fn), parent = cnd)
+      abort(bullets, call = error_call, parent = cnd)
     }
   )
 
@@ -383,9 +384,9 @@ across_setup <- function(cols,
                          names,
                          .caller_env,
                          mask,
-                         error_call = caller_env()) {
+                         error_call = caller_env(),
+                         across_if_fn = "across") {
   cols <- enquo(cols)
-  across_if_fn <- context_peek_bare("across_if_fn") %||% "across"
 
   # `across()` is evaluated in a data mask so we need to remove the
   # mask layer from the quosure environment (#5460)
@@ -465,8 +466,7 @@ across_setup <- function(cols,
   list(
     vars = vars,
     fns = fns,
-    names = names,
-    across_if_fn = across_if_fn
+    names = names
   )
 }
 
@@ -619,7 +619,8 @@ expand_across <- function(quo) {
     return(list(quo))
   }
 
-  error_call <- call(context_peek_bare("across_if_fn") %||% "across")
+  across_if_fn <- context_peek_bare("across_if_fn") %||% "across"
+  error_call <- call(across_if_fn)
 
   # Expand dots in lexical env
   env <- quo_get_env(quo)
@@ -683,7 +684,8 @@ expand_across <- function(quo) {
     names = eval_tidy(expr$.names, mask, env = env),
     .caller_env = env,
     mask = dplyr_mask,
-    error_call = error_call
+    error_call = error_call,
+    across_if_fn = across_if_fn
   )
 
   vars <- setup$vars
