@@ -876,9 +876,8 @@ apply_unpack_spec <- function(col, outer, spec, caller_env) {
 # To distinguish inlinable lambdas from non-inlinable ones, we set
 # their environments to the empty env.
 #
-# None of the lambdas passed through `list()` are inlinable and there
-# are some other cases where we can't inline (e.g. lambdas that are
-# passed additional arguments through `...`). We still want
+# There are cases where we can't inline, for instance lambdas that are
+# passed additional arguments through `...`. We still want these
 # non-inlinable lambdas to be maskable so that they can refer to
 # data-mask columns. So we set them (a) in the evaluation case, to
 # their original quosure environment which is the data mask, or (b) in
@@ -887,18 +886,6 @@ apply_unpack_spec <- function(col, outer, spec, caller_env) {
 # @value  <fn> | <list<fn>>. Inlinable lambdas are set to the
 #   empty env.
 quo_eval_fns <- function(quo, mask, error_call = caller_env()) {
-  if (quo_is_inlinable_lambda(quo)) {
-    fn <- eval(quo_get_expr(quo))
-    fn <- set_env(fn, empty_env())
-    return(fn)
-  }
-  if (quo_is_inlinable_formula(quo)) {
-    f <- quo_get_expr(quo)
-    f <- expr_substitute(f, quote(.), quote(.x))
-    fn <- new_function(pairlist2(.x = ), f_rhs(f), empty_env())
-    return(fn)
-  }
-
   # In the evaluation path (as opposed to expansion), the quosure
   # inherits from the data mask. We set the environment to the data
   # mask top (the original quosure environment) so that we don't
@@ -924,18 +911,27 @@ quo_eval_fns <- function(quo, mask, error_call = caller_env()) {
   }))
 
   validate <- function(x) {
-     if (is_formula(x) || is_function(x)) {
-      out <- as_function(x, arg = ".fns", call = error_call)
-
-      # If the function inherits from the data-less quosure mask, we
-      # know we have a non-inlinable lambda: a function or formula
-      # that was directly supplied and evaluated here. We set its
-      # environment to the data mask so it can refer to columns.
+    if (is_formula(x) || is_function(x)) {
+      # If the function or formula inherits from the data-less quosure
+      # mask, we we have a lambda that was directly supplied and
+      # evaluated here. We inline it if possible.
       if (identical(get_env(x), sentinel_env)) {
-        out <- set_env(out, mask)
+        if (is_inlinable_function(x)) {
+          return(set_env(x, empty_env()))
+        }
+
+        if (is_inlinable_formula(x)) {
+          x <- expr_substitute(x, quote(.), quote(.x))
+          fn <- new_function(pairlist2(.x = ), f_rhs(x), empty_env())
+          return(fn)
+        }
+
+        # Can't inline the lambda. We set its environment to the data
+        # mask so it can still refer to columns.
+        x <- set_env(x, mask)
       }
 
-      out
+      as_function(x, arg = ".fns", call = error_call)
     } else {
       abort(
         "`.fns` must be a function, a formula, or a list of functions/formulas.",
@@ -951,15 +947,12 @@ quo_eval_fns <- function(quo, mask, error_call = caller_env()) {
   }
 }
 
-quo_is_inlinable_lambda <- function(x) {
-  expr <- quo_get_expr(x)
-
-  if(!is_call(expr, "function")) {
+is_inlinable_function <- function(x) {
+  if (!is_function(x)) {
     return(FALSE)
   }
 
-  fn <- eval(expr)
-  fmls <- formals(fn)
+  fmls <- formals(x)
 
   # Don't inline if there are additional arguments even if they have
   # defaults or are passed through `...`
@@ -971,22 +964,20 @@ quo_is_inlinable_lambda <- function(x) {
   # packages do things like `across(1, function(x)
   # return(x))`. Whereas `eval()` sets a return point, `eval_tidy()`
   # doesn't which causes `return()` to throw an error.
-  if ("return" %in% all.names(body(fn))) {
+  if ("return" %in% all.names(body(x))) {
     return(FALSE)
   }
 
   TRUE
 }
 
-quo_is_inlinable_formula <- function(quo) {
-  expr <- quo_get_expr(quo)
-
-  if (!is_formula(expr, scoped = FALSE, lhs = FALSE)) {
+is_inlinable_formula <- function(x) {
+  if (!is_formula(x, lhs = FALSE)) {
     return(FALSE)
   }
 
   # Don't inline if there are additional arguments passed through `...`
-  nms <- all.names(expr)
+  nms <- all.names(x)
   unsupported_arg_rx <- "\\.\\.[0-9]|\\.y"
 
   if (any(grepl(unsupported_arg_rx, nms))) {
