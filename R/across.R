@@ -986,5 +986,10 @@ quo_is_inlinable_formula <- function(quo) {
     return(FALSE)
   }
 
+  # Don't inline lambdas that call `return()` at the moment, see above
+  if ("return" %in% nms) {
+    return(FALSE)
+  }
+
   TRUE
 }
