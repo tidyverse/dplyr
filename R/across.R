@@ -913,7 +913,7 @@ quo_eval_fns <- function(quo, mask, error_call = caller_env()) {
   validate <- function(x) {
     if (is_formula(x) || is_function(x)) {
       # If the function or formula inherits from the data-less quosure
-      # mask, we we have a lambda that was directly supplied and
+      # mask, we have a lambda that was directly supplied and
       # evaluated here. We inline it if possible.
       if (identical(get_env(x), sentinel_env)) {
         if (is_inlinable_function(x)) {
