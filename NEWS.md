@@ -327,7 +327,7 @@ Many of dplyr's vector functions have been rewritten to make use of the vctrs pa
 * `with_order()` now checks that the size of `order_by` is the same size as `x`,
   and now works correctly when `order_by` is a data frame (#6334).
 
-## Minor improvements and bug fiees
+## Minor improvements and bug fixes
 
 * Fixed an issue with latest rlang that caused internal tools (such as
   `mask$eval_all_summarise()`) to be mentioned in error messages (#6308).
