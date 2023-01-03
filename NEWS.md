@@ -35,7 +35,7 @@
   feel this is more predictable, better maintains any ordering you might have
   already applied with a previous call to `arrange()`, and provides a way to
   maintain the current ordering without having to resort to factors.
-  `with_groups()` is superseded in favour of `.by` (#6582).
+  `with_groups()` is superseded in favor of `.by` (#6582).
   
   This feature was inspired by
   [data.table](https://CRAN.R-project.org/package=data.table), where the
@@ -70,9 +70,9 @@
   is heavily inspired by data.table's `forder()`. See the C locale news bullet
   below for more details (#4962).
 
-* Joins been completely overhauled to enable more flexible join operations and
-  provide more tools for quality control. Many of these changes are inspired by
-  data.table's join syntax (#5914, #5661, #5413, #2240).
+* Joins have been completely overhauled to enable more flexible join operations
+  and provide more tools for quality control. Many of these changes are inspired
+  by data.table's join syntax (#5914, #5661, #5413, #2240).
 
   * A _join specification_ can now be created through `join_by()`. This allows
     you to specify both the left and right hand side of a join using unquoted
@@ -178,7 +178,7 @@
 
 * `across()`, `c_across()`, `if_any()`, and `if_all()` now require the 
   `.cols` and `.fns` arguments. In general, we now recommend that you use 
-  `pick()` instead of a bare `across()` or `across()` with no `.fns`
+  `pick()` instead of an empty `across()` call or `across()` with no `.fns`
   (e.g. `across(c(x, y))`. (#6523).
   
   * Relying on the previous default of `.cols = everything()` is deprecated.
@@ -186,7 +186,7 @@
     usage of `across()` and friends in this way is rare.
   
   * Relying on the previous default of `.fns = NULL` is not yet formally
-    soft-deprecated, because there was no good alternative until now, but itis
+    soft-deprecated, because there was no good alternative until now, but it is
     discouraged and will be soft-deprecated in the next minor release.
 
 * Passing `...` to `across()` is soft-deprecated because it's ambiguous when
@@ -196,7 +196,7 @@
 
 * `all_equal()` is deprecated. We've advised against it for some time, and 
   we explicitly recommend you use `all.equal()`, manually reordering the rows 
-  and columns (#6324).
+  and columns as needed (#6324).
 
 * `cur_data()` and `cur_data_all()` are soft-deprecated in favour of
   `pick()` (#6204).
@@ -208,7 +208,7 @@
 
 * `progress_estimate()` is deprecated for all uses (#6387).
 
-* Using `summarise()` to produce a 0 or >1 rows "summary" deprecated in favour
+* Using `summarise()` to produce a 0 or >1 row "summary" is deprecated in favor
   of the new `reframe()`. See the NEWS bullet about `reframe()` for more details 
   (#6382).
 
@@ -240,7 +240,8 @@
 
 ## vctrs
 
-Many of dplyr's vector functions have been rewritten to make use of the vctrs package, bringing greater consistent and improved performance.
+Many of dplyr's vector functions have been rewritten to make use of the vctrs
+package, bringing greater consistency and improved performance.
 
 * `between()` can now work with all vector types, not just numeric and 
   date-time. Additionally, `left` and `right` can now also be vectors (with the 
