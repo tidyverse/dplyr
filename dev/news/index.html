@@ -206,7 +206,7 @@
 <li><p><code><a href="../reference/with_order.html">with_order()</a></code> now checks that the size of <code>order_by</code> is the same size as <code>x</code>, and now works correctly when <code>order_by</code> is a data frame (<a href="https://github.com/tidyverse/dplyr/issues/6334" class="external-link">#6334</a>).</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="minor-improvements-and-bug-fiees-development-version">Minor improvements and bug fiees<a class="anchor" aria-label="anchor" href="#minor-improvements-and-bug-fiees-development-version"></a></h3>
+<h3 id="minor-improvements-and-bug-fixes-development-version">Minor improvements and bug fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-bug-fixes-development-version"></a></h3>
 <ul><li><p>Fixed an issue with latest rlang that caused internal tools (such as <code>mask$eval_all_summarise()</code>) to be mentioned in error messages (<a href="https://github.com/tidyverse/dplyr/issues/6308" class="external-link">#6308</a>).</p></li>
 <li><p>Warnings are enriched with contextualised information in <code><a href="../reference/summarise.html">summarise()</a></code> and <code><a href="../reference/filter.html">filter()</a></code> just like they have been in <code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/arrange.html">arrange()</a></code>.</p></li>
 <li><p>Joins now reference the correct column in <code>y</code> when a type error is thrown while joining on two columns with different names (<a href="https://github.com/tidyverse/dplyr/issues/6465" class="external-link">#6465</a>).</p></li>
