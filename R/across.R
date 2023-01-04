@@ -90,7 +90,7 @@
 #'
 #' # Inside `across()`: 6 normal variates (ncol * ngroup)
 #' gdf %>% mutate(across(v1:v2, ~ .x + rnorm(1)))
-#' ````
+#' ```
 #'
 #' @examples
 #' # For better printing
