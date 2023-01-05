@@ -1,15 +1,33 @@
 #' A general vectorised `switch()`
 #'
 #' @description
-#' Create a new vector based on the values of an existing vector, matching one
-#' or more old values to a new value using a formula based syntax:
-#' `old_values ~ new_value`. Unmatched values become `NA` unless `.default` is
-#' supplied.
+#' This function allows you to vectorise multiple [switch()] statements. Each
+#' case is evaluated sequentially and the first match for each element
+#' determines the corresponding value in the output vector. If no cases match,
+#' the `.default` is used.
 #'
-#' `case_match()` is variant of [case_when()] that vectorises the
-#' idea behind [switch()], rather than [if_else()]. It's the R equivalent of
-#' the SQL "simple" `CASE WHEN` statement that matches using values rather
-#' than logical expressions.
+#' `case_match()` is an R equivalent of the SQL "simple" `CASE WHEN` statement.
+#'
+#' ## Connection to `case_when()`
+#'
+#' While [case_when()] uses logical expressions on the left-hand side of the
+#' formula, `case_match()` uses values to match against `.x` with. The following
+#' two statements are roughly equivalent:
+#'
+#' ```
+#' case_when(
+#'   x %in% c("a", "b") ~ 1,
+#'   x %in% "c" ~ 2,
+#'   x %in% c("d", "e") ~ 3
+#' )
+#'
+#' case_match(
+#'   x,
+#'   c("a", "b") ~ 1,
+#'   "c" ~ 2,
+#'   c("d", "e") ~ 3
+#' )
+#' ```
 #'
 #' @param .x A vector to match against.
 #'

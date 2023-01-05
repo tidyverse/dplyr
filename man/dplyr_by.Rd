@@ -2,12 +2,12 @@
 % Please edit documentation in R/by.R
 \name{dplyr_by}
 \alias{dplyr_by}
-\title{Temporary grouping with \code{.by}}
+\title{Per-operation grouping with \code{.by}}
 \description{
 There are two ways to group in dplyr:
 \itemize{
 \item Persistent grouping with \code{\link[=group_by]{group_by()}}
-\item Temporary grouping with \code{.by}
+\item Per-operation grouping with \code{.by}
 }
 
 This help page is dedicated to explaining where and why you might want to use the latter.
@@ -80,7 +80,7 @@ Instead, you can now specify the grouping \emph{inline} within the verb:
 #> 2 B       10.5
 }\if{html}{\out{</div>}}
 
-Grouping with \code{.by} is temporary, meaning that since \code{expenses} was an ungrouped data frame, the result after applying \code{.by} will also always be an ungrouped data frame, regardless of the number of grouping columns.
+\code{.by} applies to a single operation, meaning that since \code{expenses} was an ungrouped data frame, the result after applying \code{.by} will also always be an ungrouped data frame, regardless of the number of grouping columns.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses \%>\%
   summarise(cost = mean(cost), .by = c(id, region))
@@ -112,7 +112,7 @@ Compare that with \code{group_by() \%>\% summarise()}, where \code{summarise()} 
 #> 5     3 B         12
 }\if{html}{\out{</div>}}
 
-Because \code{.by} grouping is temporary, you don't need to worry about ungrouping, and it never needs to emit a message to remind you what it is doing with the groups.
+Because \code{.by} grouping applies to a single operation, you don't need to worry about ungrouping, and it never needs to emit a message to remind you what it is doing with the groups.
 
 Note that with \code{.by} we specified multiple columns to group by using the \link[=dplyr_tidy_select]{tidy-select} syntax \code{c(id, region)}.
 If you have a character vector of column names you'd like to group by, you can do so with \code{.by = all_of(my_cols)}.

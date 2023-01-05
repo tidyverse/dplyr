@@ -1,10 +1,19 @@
+# joining by nothing is an error
+
+    Code
+      join_by()
+    Condition
+      Error in `join_by()`:
+      ! Must supply at least one expression.
+      i If you want a cross join, use `cross_join()`.
+
 # nicely catches missing arguments when wrapped
 
     Code
       fn(a)
     Condition
       Error in `join_by()`:
-      ! Join by expressions can't be missing.
+      ! Expressions can't be missing.
       x Expression 2 is missing.
 
 ---
@@ -17,14 +26,6 @@
       x Argument `y` is missing.
 
 # has an informative print method
-
-    Code
-      join_by()
-    Output
-      Join By:
-      - Cross
-
----
 
     Code
       join_by(a, b)
@@ -76,7 +77,7 @@
       join_by(a = b)
     Condition
       Error in `join_by()`:
-      ! `join_by()` expressions can't be named.
+      ! Can't name join expressions.
       i Did you use `=` instead of `==`?
 
 ---
@@ -85,7 +86,7 @@
       join_by(NULL)
     Condition
       Error in `join_by()`:
-      ! Join by expressions can't be empty.
+      ! Expressions can't be empty.
       x Expression 1 is empty.
 
 ---
@@ -94,7 +95,7 @@
       join_by(foo(x > y))
     Condition
       Error in `join_by()`:
-      ! Join by expressions must use one of: `==`, `>=`, `>`, `<=`, `<`, `closest()`, `between()`, `overlaps()`, or `within()`.
+      ! Expressions must use one of: `==`, `>=`, `>`, `<=`, `<`, `closest()`, `between()`, `overlaps()`, or `within()`.
       i Expression 1 is `foo(x > y)`.
 
 ---
@@ -103,7 +104,7 @@
       join_by(x == y, x^y)
     Condition
       Error in `join_by()`:
-      ! Join by expressions must use one of: `==`, `>=`, `>`, `<=`, `<`, `closest()`, `between()`, `overlaps()`, or `within()`.
+      ! Expressions must use one of: `==`, `>=`, `>`, `<=`, `<`, `closest()`, `between()`, `overlaps()`, or `within()`.
       i Expression 2 is `x^y`.
 
 ---
@@ -112,7 +113,7 @@
       join_by(x + 1 == y)
     Condition
       Error in `join_by()`:
-      ! `join_by()` expressions cannot contain computed columns, and can only reference columns by name or by explicitly specifying a side, like `x$col` or `y$col`.
+      ! Expressions can't contain computed columns, and can only reference columns by name or by explicitly specifying a side, like `x$col` or `y$col`.
       i Expression 1 contains `x + 1`.
 
 ---
@@ -121,7 +122,7 @@
       join_by(x == y + 1)
     Condition
       Error in `join_by()`:
-      ! `join_by()` expressions cannot contain computed columns, and can only reference columns by name or by explicitly specifying a side, like `x$col` or `y$col`.
+      ! Expressions can't contain computed columns, and can only reference columns by name or by explicitly specifying a side, like `x$col` or `y$col`.
       i Expression 1 contains `y + 1`.
 
 ---
@@ -139,7 +140,7 @@
       join_by(x$a)
     Condition
       Error in `join_by()`:
-      ! When specifying a single column name, `$` cannot be used.
+      ! Can't use `$` when specifying a single column name.
       i Expression 1 is `x$a`.
 
 ---
@@ -427,5 +428,5 @@
     Condition
       Error:
       ! `by` must be supplied when `x` and `y` have no common variables.
-      i Use `by = join_by()` to perform a cross-join.
+      i Use `cross_join()` to perform a cross-join.
 

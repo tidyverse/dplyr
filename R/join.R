@@ -30,7 +30,7 @@
 #'
 #' By default, if an observation in `x` matches multiple observations in `y`,
 #' all of the matching observations in `y` will be returned. If this occurs in
-#' an equi join or a rolling join, a warning will be thrown stating that
+#' an equality join or a rolling join, a warning will be thrown stating that
 #' multiple matches have been detected since this is usually surprising. If
 #' multiple matches are expected in these cases, silence this warning by
 #' explicitly setting `multiple = "all"`.
@@ -66,31 +66,34 @@
 #' @param x,y A pair of data frames, data frame extensions (e.g. a tibble), or
 #'   lazy data frames (e.g. from dbplyr or dtplyr). See *Methods*, below, for
 #'   more details.
-#' @param by A character vector of variables to join by or a join specification
-#'   created with [join_by()].
+#' @param by A join specification created with [join_by()], or a character
+#'   vector of variables to join by.
 #'
 #'   If `NULL`, the default, `*_join()` will perform a natural join, using all
 #'   variables in common across `x` and `y`. A message lists the variables so
 #'   that you can check they're correct; suppress the message by supplying `by`
 #'   explicitly.
 #'
-#'   To join on different variables between `x` and `y`, use a named vector or a
-#'   [join_by()] specification. For example, `by = c("a" = "b")` and `by =
-#'   join_by(a == b)` will match `x$a` to `y$b`.
+#'   To join on different variables between `x` and `y`, use a [join_by()]
+#'   specification. For example, `join_by(a == b)` will match `x$a` to `y$b`.
 #'
-#'   To join by multiple variables, use a vector with length >1 or a [join_by()]
-#'   specification with multiple expressions. For example, `by = c("a", "b")`
-#'   and `by = join_by(a, b)` will match `x$a` to `y$a` and `x$b` to `y$b`. Use
-#'   a named vector to match different variables in `x` and `y`. For example,
-#'   `by = c("a" = "b", "c" = "d")` and `by = join_by(a == b, c == d)` will
-#'   match `x$a` to `y$b` and `x$c` to `y$d`.
+#'   To join by multiple variables, use a [join_by()] specification with
+#'   multiple expressions. For example, `join_by(a == b, c == d)` will match
+#'   `x$a` to `y$b` and `x$c` to `y$d`. If the column names are the same between
+#'   `x` and `y`, you can shorten this by listing only the variable names, like
+#'   `join_by(a, c)`.
 #'
-#'   To join on conditions other than equality, like non-equi or rolling joins,
-#'   you'll need to create a join specification with [join_by()]. See the
-#'   documentation there for details on these types of joins.
+#'   [join_by()] can also be used to perform inequality, rolling, and overlap
+#'   joins. See the documentation at [?join_by][join_by()] for details on
+#'   these types of joins.
 #'
-#'   To perform a cross-join, generating all combinations of `x` and `y`, use
-#'   `by = character()` or `by = join_by()`.
+#'   For simple equality joins, you can alternatively specify a character vector
+#'   of variable names to join by. For example, `by = c("a", "b")` joins `x$a`
+#'   to `y$a` and `x$b` to `y$b`. If variable names differ between `x` and `y`,
+#'   use a named character vector like `by = c("x_a" = "y_a", "x_b" = "y_b")`.
+#'
+#'   To perform a cross-join, generating all combinations of `x` and `y`, see
+#'   [cross_join()].
 #' @param copy If `x` and `y` are not from the same data source,
 #'   and `copy` is `TRUE`, then `y` will be copied into the
 #'   same src as `x`.  This allows you to join tables across srcs, but
@@ -127,10 +130,10 @@
 #'     then falls back to `"all"`.
 #'   - `"error"` throws an error if multiple matches are detected.
 #'
-#'   The default value of `NULL` is equivalent to `"warning"` for equi joins and
-#'   rolling joins, where multiple matches are usually surprising. If any
-#'   non-equi join conditions are present or if you are doing a cross join, then
-#'   it is equivalent to `"all"`, since multiple matches are usually expected.
+#'   The default value of `NULL` is equivalent to `"warning"` for equality joins
+#'   and rolling joins, where multiple matches are usually surprising. If any
+#'   inequality join conditions are present, then it is equivalent to `"all"`,
+#'   since multiple matches are usually expected.
 #' @param unmatched How should unmatched keys that would result in dropped rows
 #'   be handled?
 #'   - `"drop"` drops unmatched keys from the result.
@@ -152,15 +155,15 @@
 #' band_members %>% full_join(band_instruments)
 #'
 #' # To suppress the message about joining variables, supply `by`
-#' band_members %>% inner_join(band_instruments, by = "name")
+#' band_members %>% inner_join(band_instruments, by = join_by(name))
 #' # This is good practice in production code
 #'
-#' # Use a named `by` if the join variables have different names
-#' band_members %>% full_join(band_instruments2, by = c("name" = "artist"))
+#' # Use an equality expression if the join variables have different names
+#' band_members %>% full_join(band_instruments2, by = join_by(name == artist))
 #' # By default, the join keys from `x` and `y` are coalesced in the output; use
 #' # `keep = TRUE` to keep the join keys from both `x` and `y`
 #' band_members %>%
-#'   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
+#'   full_join(band_instruments2, by = join_by(name == artist), keep = TRUE)
 #'
 #' # If a row in `x` matches multiple rows in `y`, all the rows in `y` will be
 #' # returned once for each matching row in `x`, with a warning.
@@ -172,7 +175,7 @@
 #' # the warning
 #' df1 %>% left_join(df2, multiple = "all")
 #'
-#' # Use `join_by()` with a condition other than `==` to perform a non-equi
+#' # Use `join_by()` with a condition other than `==` to perform an inequality
 #' # join. Here we match on every instance where `df1$x > df2$x`.
 #' df1 %>% left_join(df2, join_by(x > x))
 #'
@@ -198,7 +201,6 @@ inner_join <- function(x,
                        suffix = c(".x", ".y"),
                        ...,
                        keep = NULL) {
-  check_dots_used()
   UseMethod("inner_join")
 }
 
@@ -214,6 +216,7 @@ inner_join.data.frame <- function(x,
                                   na_matches = c("na", "never"),
                                   multiple = NULL,
                                   unmatched = "drop") {
+  check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -238,7 +241,6 @@ left_join <- function(x,
                       suffix = c(".x", ".y"),
                       ...,
                       keep = NULL) {
-  check_dots_used()
   UseMethod("left_join")
 }
 
@@ -254,6 +256,7 @@ left_join.data.frame <- function(x,
                                  na_matches = c("na", "never"),
                                  multiple = NULL,
                                  unmatched = "drop") {
+  check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -278,7 +281,6 @@ right_join <- function(x,
                        suffix = c(".x", ".y"),
                        ...,
                        keep = NULL) {
-  check_dots_used()
   UseMethod("right_join")
 }
 
@@ -294,6 +296,7 @@ right_join.data.frame <- function(x,
                                   na_matches = c("na", "never"),
                                   multiple = NULL,
                                   unmatched = "drop") {
+  check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -318,7 +321,6 @@ full_join <- function(x,
                       suffix = c(".x", ".y"),
                       ...,
                       keep = NULL) {
-  check_dots_used()
   UseMethod("full_join")
 }
 
@@ -333,6 +335,7 @@ full_join.data.frame <- function(x,
                                  keep = NULL,
                                  na_matches = c("na", "never"),
                                  multiple = NULL) {
+  check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
     x = x,
@@ -385,7 +388,7 @@ full_join.data.frame <- function(x,
 #' band_members %>% anti_join(band_instruments)
 #'
 #' # To suppress the message about joining variables, supply `by`
-#' band_members %>% semi_join(band_instruments, by = "name")
+#' band_members %>% semi_join(band_instruments, by = join_by(name))
 #' # This is good practice in production code
 #' @name filter-joins
 NULL
@@ -393,13 +396,13 @@ NULL
 #' @export
 #' @rdname filter-joins
 semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
-  check_dots_used()
   UseMethod("semi_join")
 }
 
 #' @export
 #' @rdname filter-joins
 semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never")) {
+  check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_filter(x, y, by = by, type = "semi", na_matches = na_matches, user_env = caller_env())
 }
@@ -407,13 +410,13 @@ semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches 
 #' @export
 #' @rdname filter-joins
 anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
-  check_dots_used()
   UseMethod("anti_join")
 }
 
 #' @export
 #' @rdname filter-joins
 anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never")) {
+  check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_filter(x, y, by = by, type = "anti", na_matches = na_matches, user_env = caller_env())
 }
@@ -438,7 +441,7 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches 
 #' @param name The name of the list-column created by the join. If `NULL`,
 #'   the default, the name of `y` is used.
 #' @param keep Should the new list-column contain join keys? The default
-#'   will preserve the join keys for non-equi-joins.
+#'   will preserve the join keys for inequality joins.
 #' @return
 #' The output:
 #' * Is same type as `x` (including having the same groups).
@@ -472,7 +475,6 @@ nest_join <- function(x,
                       keep = NULL,
                       name = NULL,
                       ...) {
-  check_dots_used()
   UseMethod("nest_join")
 }
 
@@ -489,6 +491,7 @@ nest_join.data.frame <- function(x,
                                  unmatched = "drop") {
 
   # duckplyr: Common code
+  check_dots_empty0(...)
   check_keep(keep)
   na_matches <- check_na_matches(na_matches)
 
@@ -501,6 +504,14 @@ nest_join.data.frame <- function(x,
   # duckplyr: Backend-specific
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
+
+  if (is_cross_by(by)) {
+    warn_join_cross_by()
+    by <- new_join_by()
+    cross <- TRUE
+  } else {
+    cross <- FALSE
+  }
 
   if (is_null(by)) {
     by <- join_by_common(x_names, y_names)
@@ -523,7 +534,6 @@ nest_join.data.frame <- function(x,
 
   condition <- by$condition
   filter <- by$filter
-  cross <- by$cross
 
   # We always want to retain all of the matches. We never experience a Cartesian
   # explosion because `nrow(x) == nrow(out)` is an invariant of `nest_join()`,
@@ -582,6 +592,14 @@ join_mutate <- function(x,
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
 
+  if (is_cross_by(by)) {
+    warn_join_cross_by(env = error_call, user_env = user_env)
+    by <- new_join_by()
+    cross <- TRUE
+  } else {
+    cross <- FALSE
+  }
+
   if (is_null(by)) {
     by <- join_by_common(x_names, y_names, error_call = error_call)
   } else {
@@ -609,7 +627,6 @@ join_mutate <- function(x,
 
   condition <- by$condition
   filter <- by$filter
-  cross <- by$cross
 
   rows <- join_rows(
     x_key = x_key,
@@ -679,6 +696,14 @@ join_filter <- function(x,
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
 
+  if (is_cross_by(by)) {
+    warn_join_cross_by(env = error_call, user_env = user_env)
+    by <- new_join_by()
+    cross <- TRUE
+  } else {
+    cross <- FALSE
+  }
+
   if (is_null(by)) {
     by <- join_by_common(x_names, y_names, error_call = error_call)
   } else {
@@ -699,7 +724,6 @@ join_filter <- function(x,
 
   condition <- by$condition
   filter <- by$filter
-  cross <- by$cross
 
   # We only care about whether or not any matches exist
   multiple <- "any"
@@ -761,4 +785,19 @@ check_keep <- function(keep, error_call = caller_env()) {
       glue("`keep` must be `TRUE`, `FALSE`, or `NULL`, not {obj_type_friendly(keep)}."),
       call = error_call)
   }
+}
+
+is_cross_by <- function(x) {
+  identical(x, character()) || identical(x, list(x = character(), y = character()))
+}
+
+warn_join_cross_by <- function(env = caller_env(),
+                               user_env = caller_env(2)) {
+  lifecycle::deprecate_soft(
+    when = "1.1.0",
+    what = I("Using `by = character()` to perform a cross join"),
+    with = "cross_join()",
+    env = env,
+    user_env = user_env
+  )
 }

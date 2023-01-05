@@ -19,19 +19,27 @@ join_rows <- function(x_key,
   y_unmatched <- unmatched$y
 
   if (cross) {
+    # TODO: Remove this section when `by = character()` is defunct
+
     # Rather than matching on key values, match on a proxy where every x value
     # matches every y value. This purposefully does not propagate missings, as
     # missing values aren't considered in a cross-join.
     x_key <- vec_rep(1L, times = vec_size(x_key))
     y_key <- vec_rep(1L, times = vec_size(y_key))
+
     condition <- "=="
     filter <- "none"
+
+    if (is_null(multiple)) {
+      # If user supplied `multiple`, that wins. Otherwise expect multiple.
+      multiple <- "all"
+    }
   }
 
   incomplete <- standardise_join_incomplete(type, na_matches, x_unmatched)
   no_match <- standardise_join_no_match(type, x_unmatched)
   remaining <- standardise_join_remaining(type, y_unmatched)
-  multiple <- standardise_multiple(multiple, condition, filter, cross, user_env)
+  multiple <- standardise_multiple(multiple, condition, filter, user_env)
 
   matches <- dplyr_locate_matches(
     needles = x_key,
@@ -261,15 +269,10 @@ standardise_join_remaining <- function(type, y_unmatched) {
   }
 }
 
-standardise_multiple <- function(multiple, condition, filter, cross, user_env) {
+standardise_multiple <- function(multiple, condition, filter, user_env) {
   if (!is_null(multiple)) {
     # User supplied value always wins
     return(multiple)
-  }
-
-  if (cross) {
-    # Cross join is special cased to never warn
-    return("all")
   }
 
   # "warning" for equi and rolling joins where multiple matches are surprising.

@@ -52,9 +52,12 @@ inputs in \code{...} and the same type as the common type of the RHS inputs
 in \code{...}.
 }
 \description{
-This function allows you to vectorise multiple \code{\link[=if_else]{if_else()}} statements. It is
-an R equivalent of the SQL "searched" \verb{CASE WHEN} statement. If no cases
-match, a missing value is returned unless a \code{.default} is supplied.
+This function allows you to vectorise multiple \code{\link[=if_else]{if_else()}} statements. Each
+case is evaluated sequentially and the first match for each element
+determines the corresponding value in the output vector. If no cases match,
+the \code{.default} is used.
+
+\code{case_when()} is an R equivalent of the SQL "searched" \verb{CASE WHEN} statement.
 }
 \examples{
 x <- 1:70

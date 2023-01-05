@@ -8,7 +8,6 @@ test_that("works with equi conditions", {
   expect_identical(by$y, c("y", "b"))
   expect_identical(by$condition, c("==", "=="))
   expect_identical(by$filter, c("none", "none"))
-  expect_identical(by$cross, FALSE)
 })
 
 test_that("works with non-equi conditions", {
@@ -186,11 +185,10 @@ test_that("between / overlaps / within / closest can use named arguments", {
   expect_identical(by$y, "b")
 })
 
-test_that("can `join_by()` nothing for a cross join", {
-  by <- join_by()
-  expect_identical(by$x, character())
-  expect_identical(by$y, character())
-  expect_identical(by$cross, TRUE)
+test_that("joining by nothing is an error", {
+  expect_snapshot(error = TRUE, {
+    join_by()
+  })
 })
 
 test_that("can pass `...` on to wrapped `join_by()`", {
@@ -244,7 +242,6 @@ test_that("nicely catches missing arguments when wrapped", {
 })
 
 test_that("has an informative print method", {
-  expect_snapshot(join_by())
   expect_snapshot(join_by(a, b))
   expect_snapshot(join_by("a", "b"))
   expect_snapshot(join_by(a == a, b >= c))

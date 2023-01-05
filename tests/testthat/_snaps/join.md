@@ -100,65 +100,51 @@
 
     Code
       inner_join(df1, df2, on = "a")
-    Message
-      Joining with `by = join_by(a)`
     Condition
       Error in `inner_join()`:
-      ! Arguments in `...` must be used.
+      ! `...` must be empty.
       x Problematic argument:
       * on = "a"
     Code
       left_join(df1, df2, on = "a")
-    Message
-      Joining with `by = join_by(a)`
     Condition
       Error in `left_join()`:
-      ! Arguments in `...` must be used.
+      ! `...` must be empty.
       x Problematic argument:
       * on = "a"
     Code
       right_join(df1, df2, on = "a")
-    Message
-      Joining with `by = join_by(a)`
     Condition
       Error in `right_join()`:
-      ! Arguments in `...` must be used.
+      ! `...` must be empty.
       x Problematic argument:
       * on = "a"
     Code
       full_join(df1, df2, on = "a")
-    Message
-      Joining with `by = join_by(a)`
     Condition
       Error in `full_join()`:
-      ! Arguments in `...` must be used.
+      ! `...` must be empty.
       x Problematic argument:
       * on = "a"
     Code
       nest_join(df1, df2, on = "a")
-    Message
-      Joining with `by = join_by(a)`
     Condition
       Error in `nest_join()`:
-      ! Arguments in `...` must be used.
+      ! `...` must be empty.
       x Problematic argument:
       * on = "a"
     Code
       anti_join(df1, df2, on = "a")
-    Message
-      Joining with `by = join_by(a)`
     Condition
       Error in `anti_join()`:
-      ! Arguments in `...` must be used.
+      ! `...` must be empty.
       x Problematic argument:
       * on = "a"
     Code
       semi_join(df1, df2, on = "a")
-    Message
-      Joining with `by = join_by(a)`
     Condition
       Error in `semi_join()`:
-      ! Arguments in `...` must be used.
+      ! `...` must be empty.
       x Problematic argument:
       * on = "a"
 
@@ -202,4 +188,58 @@
     Condition
       Error in `nest_join()`:
       ! `na_matches` must be a string or character vector.
+
+# `by = character()` technically respects `unmatched`
+
+    Code
+      left_join(df1, df2, by = character(), unmatched = "error")
+    Condition
+      Error in `left_join()`:
+      ! Each row of `y` must be matched by `x`.
+      i Row 1 of `y` was not matched.
+
+# `by = character()` technically respects `multiple`
+
+    Code
+      left_join(df, df, by = character(), multiple = "error")
+    Condition
+      Error in `left_join()`:
+      ! Each row in `x` must match at most 1 row in `y`.
+      i Row 1 of `x` matches multiple rows.
+
+# `by = character()` for a cross join is deprecated (#6604)
+
+    Code
+      out <- left_join(df1, df2, by = character())
+    Condition
+      Warning:
+      Using `by = character()` to perform a cross join was deprecated in dplyr 1.1.0.
+      i Please use `cross_join()` instead.
+
+---
+
+    Code
+      out <- semi_join(df1, df2, by = character())
+    Condition
+      Warning:
+      Using `by = character()` to perform a cross join was deprecated in dplyr 1.1.0.
+      i Please use `cross_join()` instead.
+
+---
+
+    Code
+      out <- nest_join(df1, df2, by = character())
+    Condition
+      Warning:
+      Using `by = character()` to perform a cross join was deprecated in dplyr 1.1.0.
+      i Please use `cross_join()` instead.
+
+# `by = list(x = character(), y = character())` for a cross join is deprecated (#6604)
+
+    Code
+      out <- left_join(df1, df2, by = list(x = character(), y = character()))
+    Condition
+      Warning:
+      Using `by = character()` to perform a cross join was deprecated in dplyr 1.1.0.
+      i Please use `cross_join()` instead.
 

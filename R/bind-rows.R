@@ -11,6 +11,7 @@
 #'   create an output column that identifies each input. The column will use
 #'   names if available, otherwise it will use positions.
 #' @returns A data frame the same type as the first element of `...`.
+#' @aliases bind
 #' @export
 #' @examples
 #' df1 <- tibble(x = 1:2, y = letters[1:2])
