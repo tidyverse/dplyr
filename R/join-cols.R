@@ -162,14 +162,19 @@ add_suffixes <- function(x, y, suffix) {
     return(x)
   }
 
-  out <- rep_along(x, na_chr)
-  for (i in seq_along(x)) {
-    nm <- x[[i]]
-    while (nm %in% y || nm %in% out[seq_len(i - 1)]) {
-      nm <- paste0(nm, suffix)
+  if (isTRUE(any(endsWith(c(x, y), suffix)))) {
+    out <- rep_along(x, na_chr)
+    for (i in seq_along(x)) {
+      nm <- x[[i]]
+      while (nm %in% y || nm %in% out[seq_len(i - 1)]) {
+        nm <- paste0(nm, suffix)
+      }
+      out[[i]] <- nm
     }
-
-    out[[i]] <- nm
+  } else {
+    out <- x
+    x_in_y <- x %in% y
+    out[x_in_y] <- paste0(x[x_in_y], suffix)
   }
   out
 }
