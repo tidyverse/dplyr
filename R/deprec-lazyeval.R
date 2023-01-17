@@ -25,9 +25,17 @@
 #' @keywords internal
 NULL
 
-lazy_deprec <- function(fun, hint = TRUE) {
-  lifecycle::deprecate_warn("0.7.0", paste0(fun, "_()"), paste0(fun, "()"),
+lazy_deprec <- function(fun,
+                        hint = TRUE,
+                        env = caller_env(),
+                        user_env = caller_env(2)) {
+  lifecycle::deprecate_warn(
+    when = "0.7.0",
+    what = paste0(fun, "_()"),
+    with = paste0(fun, "()"),
     details = if (hint) "See vignette('programming') for more help",
+    env = env,
+    user_env = user_env,
     always = TRUE
   )
 }
