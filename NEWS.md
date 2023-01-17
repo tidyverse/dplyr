@@ -339,6 +339,9 @@ package, bringing greater consistency and improved performance.
 * Joins now reference the correct column in `y` when a type error is thrown
   while joining on two columns with different names (#6465).
 
+* Joins on very wide tables are no longer limited by the application of `suffix`
+  (#6642).
+
 * `*_join()` now error if you supply them with additional arguments that
   aren't used (#6228).
 
