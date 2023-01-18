@@ -157,21 +157,27 @@ standardise_join_suffix <- function(x,
   list(x = x[[1]], y = x[[2]])
 }
 
+# `join_cols()` checks that `x` and `y` are individually unique,
+# which plays into assumptions made here
 add_suffixes <- function(x, y, suffix) {
   if (identical(suffix, "")) {
     return(x)
   }
 
-  out <- rep_along(x, na_chr)
-  for (i in seq_along(x)) {
-    nm <- x[[i]]
-    while (nm %in% y || nm %in% out[seq_len(i - 1)]) {
-      nm <- paste0(nm, suffix)
-    }
+  x <- c(y, x)
 
-    out[[i]] <- nm
+  # Never marks the "first" duplicate (i.e. never anything in `y`)
+  dup <- duplicated(x)
+
+  while (any(dup)) {
+    x[dup] <- paste0(x[dup], suffix)
+    dup <- duplicated(x)
   }
-  out
+
+  loc <- seq2(length(y) + 1L, length(x))
+  x <- x[loc]
+
+  x
 }
 
 join_cast_common <- function(x, y, vars, error_call = caller_env()) {
