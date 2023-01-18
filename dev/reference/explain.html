@@ -196,32 +196,32 @@ diagnosing performance problems.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;SQL&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">SELECT</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `playerID`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`yearID`<span style="color: #0000BB;"> AS </span>`yearID`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Batting`.`yearID`<span style="color: #0000BB;"> AS </span>`yearID`,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `stint`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`teamID`<span style="color: #0000BB;"> AS </span>`teamID`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`lgID`<span style="color: #0000BB;"> AS </span>`lgID.x`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`G`<span style="color: #0000BB;"> AS </span>`G.x`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`AB`<span style="color: #0000BB;"> AS </span>`AB.x`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`R`<span style="color: #0000BB;"> AS </span>`R.x`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`H`<span style="color: #0000BB;"> AS </span>`H.x`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`X2B`<span style="color: #0000BB;"> AS </span>`X2B.x`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`X3B`<span style="color: #0000BB;"> AS </span>`X3B.x`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`HR`<span style="color: #0000BB;"> AS </span>`HR.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Batting`.`teamID`<span style="color: #0000BB;"> AS </span>`teamID`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Batting`.`lgID`<span style="color: #0000BB;"> AS </span>`lgID.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Batting`.`G`<span style="color: #0000BB;"> AS </span>`G.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Batting`.`AB`<span style="color: #0000BB;"> AS </span>`AB.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Batting`.`R`<span style="color: #0000BB;"> AS </span>`R.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Batting`.`H`<span style="color: #0000BB;"> AS </span>`H.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Batting`.`X2B`<span style="color: #0000BB;"> AS </span>`X2B.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Batting`.`X3B`<span style="color: #0000BB;"> AS </span>`X3B.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Batting`.`HR`<span style="color: #0000BB;"> AS </span>`HR.x`,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `RBI`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`SB`<span style="color: #0000BB;"> AS </span>`SB.x`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`CS`<span style="color: #0000BB;"> AS </span>`CS.x`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`BB`<span style="color: #0000BB;"> AS </span>`BB.x`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`SO`<span style="color: #0000BB;"> AS </span>`SO.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Batting`.`SB`<span style="color: #0000BB;"> AS </span>`SB.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Batting`.`CS`<span style="color: #0000BB;"> AS </span>`CS.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Batting`.`BB`<span style="color: #0000BB;"> AS </span>`BB.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Batting`.`SO`<span style="color: #0000BB;"> AS </span>`SO.x`,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `IBB`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`HBP`<span style="color: #0000BB;"> AS </span>`HBP.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Batting`.`HBP`<span style="color: #0000BB;"> AS </span>`HBP.x`,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `SH`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `LHS`.`SF`<span style="color: #0000BB;"> AS </span>`SF.x`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Batting`.`SF`<span style="color: #0000BB;"> AS </span>`SF.x`,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `GIDP`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`lgID`<span style="color: #0000BB;"> AS </span>`lgID.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Teams`.`lgID`<span style="color: #0000BB;"> AS </span>`lgID.y`,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `franchID`,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `divID`,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `Rank`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`G`<span style="color: #0000BB;"> AS </span>`G.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Teams`.`G`<span style="color: #0000BB;"> AS </span>`G.y`,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `Ghome`,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `W`,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `L`,</span>
@@ -229,18 +229,18 @@ diagnosing performance problems.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `WCWin`,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `LgWin`,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `WSWin`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`R`<span style="color: #0000BB;"> AS </span>`R.y`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`AB`<span style="color: #0000BB;"> AS </span>`AB.y`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`H`<span style="color: #0000BB;"> AS </span>`H.y`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`X2B`<span style="color: #0000BB;"> AS </span>`X2B.y`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`X3B`<span style="color: #0000BB;"> AS </span>`X3B.y`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`HR`<span style="color: #0000BB;"> AS </span>`HR.y`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`BB`<span style="color: #0000BB;"> AS </span>`BB.y`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`SO`<span style="color: #0000BB;"> AS </span>`SO.y`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`SB`<span style="color: #0000BB;"> AS </span>`SB.y`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`CS`<span style="color: #0000BB;"> AS </span>`CS.y`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`HBP`<span style="color: #0000BB;"> AS </span>`HBP.y`,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `RHS`.`SF`<span style="color: #0000BB;"> AS </span>`SF.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Teams`.`R`<span style="color: #0000BB;"> AS </span>`R.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Teams`.`AB`<span style="color: #0000BB;"> AS </span>`AB.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Teams`.`H`<span style="color: #0000BB;"> AS </span>`H.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Teams`.`X2B`<span style="color: #0000BB;"> AS </span>`X2B.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Teams`.`X3B`<span style="color: #0000BB;"> AS </span>`X3B.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Teams`.`HR`<span style="color: #0000BB;"> AS </span>`HR.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Teams`.`BB`<span style="color: #0000BB;"> AS </span>`BB.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Teams`.`SO`<span style="color: #0000BB;"> AS </span>`SO.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Teams`.`SB`<span style="color: #0000BB;"> AS </span>`SB.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Teams`.`CS`<span style="color: #0000BB;"> AS </span>`CS.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Teams`.`HBP`<span style="color: #0000BB;"> AS </span>`HBP.y`,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Teams`.`SF`<span style="color: #0000BB;"> AS </span>`SF.y`,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `RA`,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `ER`,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `ERA`,</span>
@@ -263,17 +263,20 @@ diagnosing performance problems.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `teamIDBR`,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `teamIDlahman45`,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `teamIDretro`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">FROM</span> `Batting`<span style="color: #0000BB;"> AS </span>`LHS`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">LEFT JOIN</span> `Teams`<span style="color: #0000BB;"> AS </span>`RHS`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #0000BB;">ON</span> (`LHS`.`yearID` = `RHS`.`yearID`<span style="color: #0000BB;"> AND</span> `LHS`.`teamID` = `RHS`.`teamID`)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">FROM</span> `Batting`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">LEFT JOIN</span> `Teams`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #0000BB;">ON</span> (</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     `Batting`.`yearID` = `Teams`.`yearID`<span style="color: #0000BB;"> AND</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     `Batting`.`teamID` = `Teams`.`teamID`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PLAN&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   id parent notused</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  4      0       0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  6      0       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     detail</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                 SCAN LHS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 SEARCH RHS USING INDEX Teams_yearID (yearID=?) LEFT-JOIN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                       detail</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                               SCAN Batting</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 SEARCH Teams USING INDEX Teams_yearID (yearID=?) LEFT-JOIN</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
