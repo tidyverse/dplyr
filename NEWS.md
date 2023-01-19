@@ -355,6 +355,9 @@ package, bringing greater consistency and improved performance.
 * Functions supplied to `across()` are no longer masked by columns (#6545). For
   instance, `across(1:2, mean)` will now work as expected even if there is a
   column called `mean`.
+  
+* `across()` will now error when supplied `...` without a `.fns` argument 
+  (#6638).
 
 * `arrange()` now correctly ignores `NULL` inputs (#6193).
 
