@@ -473,6 +473,18 @@
       i Please supply `cols` instead.
       i Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
 
+# across errors with non-empty dots and no `.fns` supplied (#6638)
+
+    Code
+      mutate(df, across(x, .funs = ~ . * 1000))
+    Condition
+      Error in `mutate()`:
+      i In argument: `across(x, .funs = ~. * 1000)`.
+      Caused by error in `across()`:
+      ! `...` must be empty.
+      x Problematic argument:
+      * .funs = ~. * 1000
+
 # across(...) is deprecated
 
     Code

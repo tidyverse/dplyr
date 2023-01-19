@@ -192,6 +192,10 @@ across <- function(.cols,
     # Silent restoration to old defaults of `.fns` for now.
     # TODO: Escalate this to formal deprecation.
     .fns <- NULL
+
+    # Catch if dots are non-empty with no `.fns` supplied.
+    # Mainly catches typos, e.g. `.funs` (#6638).
+    check_dots_empty0(...)
   } else {
     .fns <- quo_eval_fns(fns_quo, mask = fns_quo_env, error_call = error_call)
   }

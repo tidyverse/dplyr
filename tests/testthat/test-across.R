@@ -1185,6 +1185,15 @@ test_that("if_any() and if_all() apply old `.fns = NULL` default", {
   expect_identical(filter(df, (if_all(everything()))), df[3,])
 })
 
+test_that("across errors with non-empty dots and no `.fns` supplied (#6638)", {
+  df <- tibble(x = 1)
+
+  expect_snapshot(
+    error = TRUE,
+    mutate(df, across(x, .funs = ~ . * 1000))
+  )
+})
+
 # dots --------------------------------------------------------------------
 
 test_that("across(...) is deprecated", {
