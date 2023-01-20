@@ -99,9 +99,8 @@ test_that("user errors are correctly labelled", {
 test_that("`...` can't be named (#6554)", {
   df <- tibble(g = 1, x = 1)
 
-  # Avoids accidentally matching to `.by`
   expect_snapshot(error = TRUE, {
-    slice(df, 1, by = g)
+    slice(df, 1, foo = g)
   })
 })
 
@@ -200,6 +199,14 @@ test_that("catches `.by` with rowwise-df", {
 
   expect_snapshot(error = TRUE, {
     slice(rdf, .by = x)
+  })
+})
+
+test_that("catches `by` typo (#6647)", {
+  df <- tibble(x = 1)
+
+  expect_snapshot(error = TRUE, {
+    slice(df, by = x)
   })
 })
 
@@ -343,6 +350,18 @@ test_that("slice_helper `by` errors use correct error context and correct `by_ar
     slice_min(gdf, order_by = x, by = x)
     slice_max(gdf, order_by = x, by = x)
     slice_sample(gdf, n = 1, by = x)
+  })
+})
+
+test_that("slice_helper catches `.by` typo (#6647)", {
+  df <- tibble(x = 1)
+
+  expect_snapshot(error = TRUE, {
+    slice_head(df, n = 1, .by = x)
+    slice_tail(df, n = 1, .by = x)
+    slice_min(df, order_by = x, .by = x)
+    slice_max(df, order_by = x, .by = x)
+    slice_sample(df, n = 1, .by = x)
   })
 })
 

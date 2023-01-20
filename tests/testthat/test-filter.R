@@ -678,3 +678,11 @@ test_that("catches `.by` with rowwise-df", {
     filter(rdf, .by = x)
   })
 })
+
+test_that("catches `by` typo (#6647)", {
+  df <- tibble(x = 1)
+
+  expect_snapshot(error = TRUE, {
+    filter(df, by = x)
+  })
+})

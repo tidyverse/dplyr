@@ -120,6 +120,8 @@
 #' filter(mtcars, row_number() == n())
 #' filter(mtcars, between(row_number(), 5, n()))
 slice <- function(.data, ..., .by = NULL, .preserve = FALSE) {
+  check_by_typo(...)
+
   by <- enquo(.by)
 
   if (!quo_is_null(by) && !is_false(.preserve)) {
@@ -149,6 +151,7 @@ slice.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
 #' @export
 #' @rdname slice
 slice_head <- function(.data, ..., n, prop, by = NULL) {
+  check_dot_by_typo(...)
   check_slice_unnamed_n_prop(..., n = n, prop = prop)
 
   UseMethod("slice_head")
@@ -172,6 +175,7 @@ slice_head.data.frame <- function(.data, ..., n, prop, by = NULL) {
 #' @export
 #' @rdname slice
 slice_tail <- function(.data, ..., n, prop, by = NULL) {
+  check_dot_by_typo(...)
   check_slice_unnamed_n_prop(..., n = n, prop = prop)
 
   UseMethod("slice_tail")
@@ -206,6 +210,7 @@ slice_tail.data.frame <- function(.data, ..., n, prop, by = NULL) {
 #'   reach `n`/`prop`.
 slice_min <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
   check_required(order_by)
+  check_dot_by_typo(...)
   check_slice_unnamed_n_prop(..., n = n, prop = prop)
   check_bool(with_ties)
   check_bool(na_rm)
@@ -245,6 +250,7 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, by = NULL, with_
 #' @rdname slice
 slice_max <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
   check_required(order_by)
+  check_dot_by_typo(...)
   check_slice_unnamed_n_prop(..., n = n, prop = prop)
   check_bool(with_ties)
   check_bool(na_rm)
@@ -289,6 +295,7 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, by = NULL, with_
 #'   This must evaluate to a vector of non-negative numbers the same length as
 #'   the input. Weights are automatically standardised to sum to 1.
 slice_sample <- function(.data, ..., n, prop, by = NULL, weight_by = NULL, replace = FALSE) {
+  check_dot_by_typo(...)
   check_slice_unnamed_n_prop(..., n = n, prop = prop)
   check_bool(replace)
 
