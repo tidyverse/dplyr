@@ -107,6 +107,8 @@
 #'   )
 #' # Learn more in ?dplyr_data_masking
 filter <- function(.data, ..., .by = NULL, .preserve = FALSE) {
+  check_by_typo(...)
+
   by <- enquo(.by)
 
   if (!quo_is_null(by) && !is_false(.preserve)) {

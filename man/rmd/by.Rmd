@@ -12,25 +12,39 @@ There are two ways to group in dplyr:
 
 -   Persistent grouping with [group_by()]
 
--   Per-operation grouping with `.by`
+-   Per-operation grouping with `.by`/`by`
 
 This help page is dedicated to explaining where and why you might want to use the latter.
+
+Depending on the dplyr verb, the per-operation grouping argument may be named `.by` or `by`.
+The *Supported verbs* section below outlines this on a case-by-case basis.
+The remainder of this page will refer to `.by` for simplicity.
+
 Grouping radically affects the computation of the dplyr verb you use it with, and one of the goals of `.by` is to allow you to place that grouping specification alongside the code that actually uses it.
 As an added benefit, with `.by` you no longer need to remember to [ungroup()] after [summarise()], and `summarise()` won't ever message you about how it's handling the groups!
 
-This great idea comes from [data.table](https://CRAN.R-project.org/package=data.table), which allows you to specify `by` alongside modifications in `j`, like: `dt[, .(x = mean(x)), by = g]`.
+This idea comes from [data.table](https://CRAN.R-project.org/package=data.table), which allows you to specify `by` alongside modifications in `j`, like: `dt[, .(x = mean(x)), by = g]`.
 
 ### Supported verbs
 
--   [mutate()]
+-   [`mutate(.by = )`][mutate()]
 
--   [summarise()]
+-   [`summarise(.by = )`][summarise()]
 
--   [reframe()]
+-   [`reframe(.by = )`][reframe()]
 
--   [filter()]
+-   [`filter(.by = )`][filter()]
 
--   [slice()] and its variants, such as [slice_head()]
+-   [`slice(.by = )`][slice()]
+
+-   [`slice_head(by = )`][slice_head()] and [`slice_tail(by = )`][slice_tail()]
+
+-   [`slice_min(by = )`][slice_min()] and [`slice_max(by = )`][slice_max()]
+
+-   [`slice_sample(by = )`][slice_sample()]
+
+Note that some dplyr verbs use `by` while others use `.by`.
+This is a purely technical difference.
 
 ### Differences between `.by` and `group_by()`
 
@@ -109,6 +123,7 @@ expenses %>%
 Or you could slice out the maximum cost per combination of id and region:
 
 ```{r}
+# Note that the argument is named `by` in `slice_max()`
 expenses %>%
   slice_max(cost, n = 1, by = c(id, region))
 ```

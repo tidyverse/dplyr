@@ -253,3 +253,12 @@
       Error in `filter()`:
       ! Can't supply `.by` when `.data` is a rowwise data frame.
 
+# catches `by` typo (#6647)
+
+    Code
+      filter(df, by = x)
+    Condition
+      Error in `filter()`:
+      ! Can't specify an argument named `by` in this verb.
+      i Did you mean to use `.by` instead?
+

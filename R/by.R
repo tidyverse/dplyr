@@ -12,7 +12,7 @@
 #' @keywords internal
 NULL
 
-#' Per-operation grouping with `.by`
+#' Per-operation grouping with `.by`/`by`
 #'
 #' ```{r, echo = FALSE, results = "asis"}
 #' result <- rlang::with_options(
@@ -123,4 +123,42 @@ eval_select_by <- function(by,
 
 new_by <- function(type, names, data) {
   structure(list(type = type, names = names, data = data), class = "dplyr_by")
+}
+
+check_by_typo <- function(...,
+                          by = NULL,
+                          error_call = caller_env()) {
+  check_by_typo_impl(
+    wrong = "by",
+    right = ".by",
+    by = {{ by }},
+    error_call = error_call
+  )
+}
+check_dot_by_typo <- function(...,
+                              .by = NULL,
+                              error_call = caller_env()) {
+  check_by_typo_impl(
+    wrong = ".by",
+    right = "by",
+    by = {{ .by }},
+    error_call = error_call
+  )
+}
+check_by_typo_impl <- function(wrong,
+                               right,
+                               by = NULL,
+                               error_call = caller_env()) {
+  by <- enquo(by)
+
+  if (quo_is_null(by)) {
+    return(invisible())
+  }
+
+  message <- c(
+    "Can't specify an argument named {.code {wrong}} in this verb.",
+    i = "Did you mean to use {.code {right}} instead?"
+  )
+
+  cli::cli_abort(message, call = error_call)
 }

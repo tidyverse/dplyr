@@ -2,7 +2,7 @@
 
 ## New features
 
-* `.by` is an experimental alternative to `group_by()` that supports 
+* `.by`/`by` is an experimental alternative to `group_by()` that supports 
   per-operation grouping for `mutate()`, `summarise()`, `filter()`, and the 
   `slice()` family (#6528).
   

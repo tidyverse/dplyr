@@ -50,12 +50,12 @@
 # `...` can't be named (#6554)
 
     Code
-      slice(df, 1, by = g)
+      slice(df, 1, foo = g)
     Condition
       Error in `slice()`:
       ! Arguments in `...` must be passed by position, not name.
       x Problematic argument:
-      * by = g
+      * foo = g
 
 # can't use `.by` with `.preserve`
 
@@ -80,6 +80,15 @@
     Condition
       Error in `slice()`:
       ! Can't supply `.by` when `.data` is a rowwise data frame.
+
+# catches `by` typo (#6647)
+
+    Code
+      slice(df, by = x)
+    Condition
+      Error in `slice()`:
+      ! Can't specify an argument named `by` in this verb.
+      i Did you mean to use `.by` instead?
 
 # slice_helpers() call get_slice_size()
 
@@ -257,6 +266,39 @@
     Condition
       Error in `slice_sample()`:
       ! Can't supply `by` when `.data` is a grouped data frame.
+
+# slice_helper catches `.by` typo (#6647)
+
+    Code
+      slice_head(df, n = 1, .by = x)
+    Condition
+      Error in `slice_head()`:
+      ! Can't specify an argument named `.by` in this verb.
+      i Did you mean to use `by` instead?
+    Code
+      slice_tail(df, n = 1, .by = x)
+    Condition
+      Error in `slice_tail()`:
+      ! Can't specify an argument named `.by` in this verb.
+      i Did you mean to use `by` instead?
+    Code
+      slice_min(df, order_by = x, .by = x)
+    Condition
+      Error in `slice_min()`:
+      ! Can't specify an argument named `.by` in this verb.
+      i Did you mean to use `by` instead?
+    Code
+      slice_max(df, order_by = x, .by = x)
+    Condition
+      Error in `slice_max()`:
+      ! Can't specify an argument named `.by` in this verb.
+      i Did you mean to use `by` instead?
+    Code
+      slice_sample(df, n = 1, .by = x)
+    Condition
+      Error in `slice_sample()`:
+      ! Can't specify an argument named `.by` in this verb.
+      i Did you mean to use `by` instead?
 
 # slice_min/max() check size of `order_by=` (#5922)
 

@@ -2,27 +2,38 @@
 % Please edit documentation in R/by.R
 \name{dplyr_by}
 \alias{dplyr_by}
-\title{Per-operation grouping with \code{.by}}
+\title{Per-operation grouping with \code{.by}/\code{by}}
 \description{
 There are two ways to group in dplyr:
 \itemize{
 \item Persistent grouping with \code{\link[=group_by]{group_by()}}
-\item Per-operation grouping with \code{.by}
+\item Per-operation grouping with \code{.by}/\code{by}
 }
 
 This help page is dedicated to explaining where and why you might want to use the latter.
+
+Depending on the dplyr verb, the per-operation grouping argument may be named \code{.by} or \code{by}.
+The \emph{Supported verbs} section below outlines this on a case-by-case basis.
+The remainder of this page will refer to \code{.by} for simplicity.
+
 Grouping radically affects the computation of the dplyr verb you use it with, and one of the goals of \code{.by} is to allow you to place that grouping specification alongside the code that actually uses it.
 As an added benefit, with \code{.by} you no longer need to remember to \code{\link[=ungroup]{ungroup()}} after \code{\link[=summarise]{summarise()}}, and \code{summarise()} won't ever message you about how it's handling the groups!
 
-This great idea comes from \href{https://CRAN.R-project.org/package=data.table}{data.table}, which allows you to specify \code{by} alongside modifications in \code{j}, like: \code{dt[, .(x = mean(x)), by = g]}.
+This idea comes from \href{https://CRAN.R-project.org/package=data.table}{data.table}, which allows you to specify \code{by} alongside modifications in \code{j}, like: \code{dt[, .(x = mean(x)), by = g]}.
 \subsection{Supported verbs}{
 \itemize{
-\item \code{\link[=mutate]{mutate()}}
-\item \code{\link[=summarise]{summarise()}}
-\item \code{\link[=reframe]{reframe()}}
-\item \code{\link[=filter]{filter()}}
-\item \code{\link[=slice]{slice()}} and its variants, such as \code{\link[=slice_head]{slice_head()}}
+\item \code{\link[=mutate]{mutate(.by = )}}
+\item \code{\link[=summarise]{summarise(.by = )}}
+\item \code{\link[=reframe]{reframe(.by = )}}
+\item \code{\link[=filter]{filter(.by = )}}
+\item \code{\link[=slice]{slice(.by = )}}
+\item \code{\link[=slice_head]{slice_head(by = )}} and \code{\link[=slice_tail]{slice_tail(by = )}}
+\item \code{\link[=slice_min]{slice_min(by = )}} and \code{\link[=slice_max]{slice_max(by = )}}
+\item \code{\link[=slice_sample]{slice_sample(by = )}}
 }
+
+Note that some dplyr verbs use \code{by} while others use \code{.by}.
+This is a purely technical difference.
 }
 
 \subsection{Differences between \code{.by} and \code{group_by()}}{\tabular{ll}{
@@ -146,7 +157,8 @@ For example, you could append the mean cost per region onto the original data fr
 
 Or you could slice out the maximum cost per combination of id and region:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses \%>\%
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# Note that the argument is named `by` in `slice_max()`
+expenses \%>\%
   slice_max(cost, n = 1, by = c(id, region))
 #> # A tibble: 5 x 3
 #>      id region  cost
