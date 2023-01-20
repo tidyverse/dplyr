@@ -2,17 +2,17 @@
 % Please edit documentation in R/by.R
 \name{dplyr_by}
 \alias{dplyr_by}
-\title{Per-operation grouping with \code{by}/\code{.by}}
+\title{Per-operation grouping with \code{.by}/\code{by}}
 \description{
 There are two ways to group in dplyr:
 \itemize{
 \item Persistent grouping with \code{\link[=group_by]{group_by()}}
-\item Per-operation grouping with \code{by}/\code{.by}
+\item Per-operation grouping with \code{.by}/\code{by}
 }
 
 This help page is dedicated to explaining where and why you might want to use the latter.
 
-Depending on the dplyr verb, the per-operation grouping argument may be named \code{by} or \code{.by}.
+Depending on the dplyr verb, the per-operation grouping argument may be named \code{.by} or \code{by}.
 The \emph{Supported verbs} section below outlines this on a case-by-case basis.
 The remainder of this page will refer to \code{.by} for simplicity.
 

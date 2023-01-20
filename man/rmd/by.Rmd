@@ -12,11 +12,11 @@ There are two ways to group in dplyr:
 
 -   Persistent grouping with [group_by()]
 
--   Per-operation grouping with `by`/`.by`
+-   Per-operation grouping with `.by`/`by`
 
 This help page is dedicated to explaining where and why you might want to use the latter.
 
-Depending on the dplyr verb, the per-operation grouping argument may be named `by` or `.by`.
+Depending on the dplyr verb, the per-operation grouping argument may be named `.by` or `by`.
 The *Supported verbs* section below outlines this on a case-by-case basis.
 The remainder of this page will refer to `.by` for simplicity.
 

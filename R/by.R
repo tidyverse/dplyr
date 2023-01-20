@@ -12,7 +12,7 @@
 #' @keywords internal
 NULL
 
-#' Per-operation grouping with `by`/`.by`
+#' Per-operation grouping with `.by`/`by`
 #'
 #' ```{r, echo = FALSE, results = "asis"}
 #' result <- rlang::with_options(
