@@ -328,13 +328,17 @@ slice_sample.data.frame <- function(.data, ..., n, prop, by = NULL, weight_by = 
 
 # helpers -----------------------------------------------------------------
 
-slice_rows <- function(data, dots, by, error_call = caller_env()) {
+slice_rows <- function(data,
+                       dots,
+                       by,
+                       error_call = caller_env(),
+                       user_env = caller_env(2)) {
   error_call <- dplyr_error_call(error_call)
 
   mask <- DataMask$new(data, by, "slice", error_call = error_call)
   on.exit(mask$forget(), add = TRUE)
 
-  chunks <- slice_eval(mask, dots, error_call = error_call)
+  chunks <- slice_eval(mask, dots, error_call = error_call, user_env = user_env)
   slice_indices <- slice_combine(chunks, dots, mask = mask, error_call = error_call)
 
   vec_c(!!!slice_indices, .ptype = integer())
@@ -349,7 +353,10 @@ is_slice_call <- function(error_call) {
   is_slice
 }
 
-slice_eval <- function(mask, dots, error_call = caller_env()) {
+slice_eval <- function(mask,
+                       dots,
+                       error_call = caller_env(),
+                       user_env = caller_env(2)) {
   index <- 0L
   impl <- function(...) {
     n <- ...length2()
@@ -359,8 +366,14 @@ slice_eval <- function(mask, dots, error_call = caller_env()) {
       index <<- i
 
       slice_idx <- ...elt2(i)
+
       if (is.matrix(slice_idx) && ncol(slice_idx) == 1) {
-        lifecycle::deprecate_warn("1.1.0", I("Slicing with a 1-column matrix"))
+        lifecycle::deprecate_warn(
+          when = "1.1.0",
+          what = I("Slicing with a 1-column matrix"),
+          env = error_call,
+          user_env = user_env
+        )
         slice_idx <- slice_idx[, 1]
       }
 
