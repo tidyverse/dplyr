@@ -96,6 +96,7 @@ symdiff <- function(x, y, ...) {
 #' @export
 symdiff.default <- function (x, y, ...) {
   check_dots_empty()
+  # Default is defined in terms of base R methods
   setdiff(union(x, y), intersect(x, y))
 }
 
@@ -104,8 +105,8 @@ intersect.data.frame <- function(x, y, ...) {
   check_dots_empty()
   check_compatible(x, y)
 
-  cast <- vec_cast_common(x = x, y = y)
-  out <- vec_unique(vec_slice(cast$x, vec_in(cast$x, cast$y)))
+  out <- vec_set_intersect(x, y, error_call = current_env())
+
   dplyr_reconstruct(out, x)
 }
 
@@ -114,7 +115,8 @@ union.data.frame <- function(x, y, ...) {
   check_dots_empty()
   check_compatible(x, y)
 
-  out <- vec_unique(vec_rbind(x, y))
+  out <- vec_set_union(x, y, error_call = current_env())
+
   dplyr_reconstruct(out, x)
 }
 
@@ -132,8 +134,8 @@ setdiff.data.frame <- function(x, y, ...) {
   check_dots_empty()
   check_compatible(x, y)
 
-  cast <- vec_cast_common(x = x, y = y)
-  out <- vec_unique(vec_slice(cast$x, !vec_in(cast$x, cast$y)))
+  out <- vec_set_difference(x, y, error_call = current_env())
+
   dplyr_reconstruct(out, x)
 }
 
@@ -156,11 +158,8 @@ symdiff.data.frame <- function(x, y, ...) {
   check_dots_empty()
   check_compatible(x, y)
 
-  cast <- vec_cast_common(x = x, y = y)
-  only_x <- vec_slice(cast$x, !vec_in(cast$x, cast$y))
-  only_y <- vec_slice(cast$y, !vec_in(cast$y, cast$x))
+  out <- vec_set_symmetric_difference(x, y, error_call = current_env())
 
-  out <- vec_unique(vec_rbind(only_x, only_y))
   dplyr_reconstruct(out, x)
 }
 
