@@ -428,6 +428,9 @@ package, bringing greater consistency and improved performance.
   multiple times while it is being moved. This better matches the behavior of
   `rename()` (#6209, with help from @eutwt).
 
+* `rename()` now contains examples of using `all_of()` and `any_of()` to rename
+  using a named character vector (#6644).
+
 * `rename_with()` now disallows renaming in the `.cols` tidy-selection (#6561).
 
 * `rename_with()` now checks that the result of `.fn` is the right type and size
