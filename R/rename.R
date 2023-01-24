@@ -31,6 +31,16 @@
 #' iris <- as_tibble(iris) # so it prints a little nicer
 #' rename(iris, petal_length = Petal.Length)
 #'
+#' # Rename using a named vector and `all_of()`
+#' lookup <- c(pl = "Petal.Length", sl = "Sepal.Length")
+#' rename(iris, all_of(lookup))
+#'
+#' # If your named vector might contain names that don't exist in the data,
+#' # use `any_of()` instead
+#' lookup <- c(lookup, new = "unknown")
+#' try(rename(iris, all_of(lookup)))
+#' rename(iris, any_of(lookup))
+#'
 #' rename_with(iris, toupper)
 #' rename_with(iris, toupper, starts_with("Petal"))
 #' rename_with(iris, ~ tolower(gsub(".", "_", .x, fixed = TRUE)))
