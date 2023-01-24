@@ -14,7 +14,7 @@ more details.}
 \item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> Optional variables to use
 when determining uniqueness. If there are multiple rows for a given
 combination of inputs, only the first row will be preserved. If omitted,
-will use all variables.}
+will use all variables in the data frame.}
 
 \item{.keep_all}{If \code{TRUE}, keep all variables in \code{.data}.
 If a combination of \code{...} is not distinct, this keeps the
@@ -68,12 +68,18 @@ distinct(df, diff = abs(x - y))
 distinct(starwars, pick(contains("color")))
 
 # Grouping -------------------------------------------------
-# The same behaviour applies for grouped data frames,
-# except that the grouping variables are always included
+
 df <- tibble(
-  g = c(1, 1, 2, 2),
-  x = c(1, 1, 2, 1)
-) \%>\% group_by(g)
+  g = c(1, 1, 2, 2, 2),
+  x = c(1, 1, 2, 1, 2),
+  y = c(3, 2, 1, 3, 1)
+)
+df <- df \%>\% group_by(g)
+
+# With grouped data frames, distinctness is computed within each group
 df \%>\% distinct(x)
 
+# When `...` are omitted, `distinct()` still computes distinctness using
+# all variables in the data frame
+df \%>\% distinct()
 }
