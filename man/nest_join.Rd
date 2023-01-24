@@ -113,7 +113,7 @@ corresponding row in \code{x}.
 \section{Relationship to other joins}{
 You can recreate many other joins from the result of a nest join:
 \itemize{
-\item \code{\link[=inner_join]{inner_join()}} is a \code{nest_join()} plus \code{\link[tidyr:nest]{tidyr::unnest()}}.
+\item \code{\link[=inner_join]{inner_join()}} is a \code{nest_join()} plus \code{\link[tidyr:unnest]{tidyr::unnest()}}.
 \item \code{\link[=left_join]{left_join()}} is a \code{nest_join()} plus \code{tidyr::unnest(keep_empty = TRUE)}.
 \item \code{\link[=semi_join]{semi_join()}} is a \code{nest_join()} plus a \code{filter()} where you check
 that every element of data has at least one row.
