@@ -38,6 +38,11 @@ test_that("can rename with duplicate columns", {
   expect_named(df %>% rename(x2 = 2), c("x", "x2", "y"))
 })
 
+test_that("rename() ignores duplicates", {
+  df <- tibble(x = 1)
+  expect_named(rename(df, a = x, b = x), "b")
+})
+
 # rename_with -------------------------------------------------------------
 
 test_that("can select columns", {
@@ -82,10 +87,4 @@ test_that("can't rename in `.cols`", {
   expect_snapshot(error = TRUE, {
     rename_with(df, toupper, .cols = c(y = x))
   })
-})
-
-test_that("rename() ignores duplicates", {
-  df <- tibble(x = 1)
-
-  expect_equal(rename(df, a = x, b = x), tibble(b = 1))
 })
