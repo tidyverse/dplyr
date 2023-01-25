@@ -32,3 +32,7 @@ x[between(x, -1, 1)]
 # On a tibble using `filter()`
 filter(starwars, between(height, 100, 150))
 }
+\seealso{
+\code{\link[=join_by]{join_by()}} if you are looking for documentation for the \code{between()} overlap
+join helper.
+}
