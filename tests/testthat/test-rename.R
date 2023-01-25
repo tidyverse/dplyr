@@ -83,3 +83,9 @@ test_that("can't rename in `.cols`", {
     rename_with(df, toupper, .cols = c(y = x))
   })
 })
+
+test_that("rename() ignores duplicates", {
+  df <- tibble(x = 1)
+
+  expect_equal(rename(df, a = x, b = x), tibble(b = 1))
+})
