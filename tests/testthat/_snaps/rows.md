@@ -40,6 +40,26 @@
       ! Can't convert from `y$value` <double> to `x$value` <integer> due to loss of precision.
       * Locations: 1
 
+# rows_insert() checks that `x` and `y` contain `by` (#6652)
+
+    Code
+      (expect_error(rows_insert(x, y, by = "c")))
+    Output
+      <error/rlang_error>
+      Error in `rows_insert()`:
+      ! All columns specified through `by` must exist in `x` and `y`.
+      i The following columns are missing from `x`: `c`.
+
+---
+
+    Code
+      (expect_error(rows_insert(x, y, by = c("a", "b"))))
+    Output
+      <error/rlang_error>
+      Error in `rows_insert()`:
+      ! All columns specified through `by` must exist in `x` and `y`.
+      i The following columns are missing from `y`: `b`.
+
 # `conflict` is validated
 
     Code
@@ -244,10 +264,10 @@
       Error in `rows_delete()`:
       ! Can't combine `x$key` <integer> and `y$key` <character>.
 
-# rows_check_containment() checks that `y` columns are in `x`
+# rows_check_x_contains_y() checks that `y` columns are in `x`
 
     Code
-      (expect_error(rows_check_containment(x, y)))
+      (expect_error(rows_check_x_contains_y(x, y)))
     Output
       <error/rlang_error>
       Error:
@@ -291,34 +311,34 @@
       Error:
       ! `by` must be unnamed.
 
-# rows_select_key() checks that all `by` columns are in `x`
+# rows_check_contains_by() checks that all `by` columns are in `x`
 
     Code
-      (expect_error(rows_select_key(x, "y", arg = "x")))
+      (expect_error(rows_check_contains_by(x, "y", arg = "x")))
     Output
       <error/rlang_error>
       Error:
       ! All columns specified through `by` must exist in `x` and `y`.
       i The following columns are missing from `x`: `y`.
     Code
-      (expect_error(rows_select_key(x, c("y", "x", "z"), arg = "y")))
+      (expect_error(rows_check_contains_by(x, c("y", "x", "z"), arg = "y")))
     Output
       <error/rlang_error>
       Error:
       ! All columns specified through `by` must exist in `x` and `y`.
       i The following columns are missing from `y`: `y` and `z`.
 
-# rows_select_key() optionally requires uniqueness
+# rows_check_unique() requires uniqueness
 
     Code
-      (expect_error(rows_select_key(x, "x", arg = "x", unique = TRUE)))
+      (expect_error(rows_check_unique(x["x"], "x")))
     Output
       <error/rlang_error>
       Error:
       ! `x` key values must be unique.
       i The following rows contain duplicate key values: `c(1, 2, 3)`.
     Code
-      (expect_error(rows_select_key(x, c("x", "y"), arg = "y", unique = TRUE)))
+      (expect_error(rows_check_unique(x[c("x", "y")], "y")))
     Output
       <error/rlang_error>
       Error:
