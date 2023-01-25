@@ -436,6 +436,8 @@ package, bringing greater consistency and improved performance.
 * `rename_with()` now checks that the result of `.fn` is the right type and size
   (#6561).
 
+* `rows_insert()` now checks that `y` contains the `by` columns (#6652).
+
 * `setequal()` ignores differences between freely coercible types (e.g. integer 
   and double) (#6114) and ignores duplicated rows (#6057).
 

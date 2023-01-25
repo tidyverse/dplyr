@@ -79,6 +79,18 @@ test_that("rows_insert() casts values to the type of `x`", {
   })
 })
 
+test_that("rows_insert() checks that `x` and `y` contain `by` (#6652)", {
+  x <- tibble(a = 1, b = 2)
+  y <- tibble(a = 1)
+
+  expect_snapshot({
+    (expect_error(rows_insert(x, y, by = "c")))
+  })
+  expect_snapshot({
+    (expect_error(rows_insert(x, y, by = c("a", "b"))))
+  })
+})
+
 test_that("`conflict` is validated", {
   x <- tibble(a = 1)
   y <- tibble(a = 2)
@@ -468,11 +480,11 @@ test_that("rows_delete() casts keys to their common type for matching but retain
 # ------------------------------------------------------------------------------
 # Common errors
 
-test_that("rows_check_containment() checks that `y` columns are in `x`", {
+test_that("rows_check_x_contains_y() checks that `y` columns are in `x`", {
   x <- tibble(a = 1)
   y <- tibble(a = 1, b = 2)
 
-  expect_snapshot((expect_error(rows_check_containment(x, y))))
+  expect_snapshot((expect_error(rows_check_x_contains_y(x, y))))
 })
 
 test_that("rows_check_by() checks that `y` has at least 1 column before using it (#6061)", {
@@ -501,31 +513,22 @@ test_that("rows_check_by() validates `by`", {
   })
 })
 
-test_that("rows_select_key() selects the key columns", {
-  x <- tibble(x = 1, y = 2, z = 3)
-
-  expect_identical(
-    rows_select_key(x, c("z", "x"), "x"),
-    x[c("z", "x")]
-  )
-})
-
-test_that("rows_select_key() checks that all `by` columns are in `x`", {
+test_that("rows_check_contains_by() checks that all `by` columns are in `x`", {
   x <- tibble(x = 1)
 
   expect_snapshot({
-    (expect_error(rows_select_key(x, "y", arg = "x")))
-    (expect_error(rows_select_key(x, c("y", "x", "z"), arg = "y")))
+    (expect_error(rows_check_contains_by(x, "y", arg = "x")))
+    (expect_error(rows_check_contains_by(x, c("y", "x", "z"), arg = "y")))
   })
 })
 
-test_that("rows_select_key() optionally requires uniqueness", {
+test_that("rows_check_unique() requires uniqueness", {
   x <- tibble(x = c(1, 1, 1), y = c(2, 3, 2), z = c(1, 2, 3))
 
-  expect_identical(rows_select_key(x, "z", arg = "x", unique = TRUE), x["z"])
+  expect_silent(rows_check_unique(x, "x"))
 
   expect_snapshot({
-    (expect_error(rows_select_key(x, "x", arg = "x", unique = TRUE)))
-    (expect_error(rows_select_key(x, c("x", "y"), arg = "y", unique = TRUE)))
+    (expect_error(rows_check_unique(x["x"], "x")))
+    (expect_error(rows_check_unique(x[c("x", "y")], "y")))
   })
 })
