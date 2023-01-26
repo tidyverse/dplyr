@@ -2,6 +2,9 @@
 % Please edit documentation in R/join-by.R
 \name{join_by}
 \alias{join_by}
+\alias{closest}
+\alias{overlaps}
+\alias{within}
 \title{Join specifications}
 \usage{
 join_by(...)

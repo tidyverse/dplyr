@@ -134,6 +134,8 @@
 #'   interpreted as if that column name was duplicated on each side of `==`,
 #'   i.e. `x` is interpreted as `x == x`.
 #'
+#' @aliases closest overlaps within
+#'
 #' @export
 #' @examples
 #' sales <- tibble(
