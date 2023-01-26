@@ -1,23 +1,20 @@
 ## revdepcheck results
 
-We checked 103 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 3725 reverse dependencies (3680 from CRAN + 45 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 77 new problems
- * We failed to check 19 packages
+ * We saw 60 new problems
+ * We failed to check 86 packages
 
 Issues with CRAN packages are summarised below.
 
 ### New problems
 (This reports the first line of each new failure)
 
-* admiral
-  checking tests ... ERROR
-
-* APCI
-  checking tests ... ERROR
-
 * arrow
   checking tests ... ERROR
+
+* autoGO
+  checking whether package ‘autoGO’ can be installed ... WARNING
 
 * chronicler
   checking re-building of vignette outputs ... WARNING
@@ -27,16 +24,9 @@ Issues with CRAN packages are summarised below.
   checking tests ... ERROR
   checking re-building of vignette outputs ... WARNING
 
-* comperes
-  checking tests ... ERROR
-
 * confoundr
   checking examples ... ERROR
   checking tests ... ERROR
-  checking re-building of vignette outputs ... WARNING
-
-* dbGaPCheckup
-  checking examples ... ERROR
   checking re-building of vignette outputs ... WARNING
 
 * disk.frame
@@ -45,14 +35,7 @@ Issues with CRAN packages are summarised below.
 * dm
   checking tests ... ERROR
 
-* dodgr
-  checking tests ... ERROR
-
 * dtplyr
-  checking tests ... ERROR
-
-* epocakir
-  checking examples ... ERROR
   checking tests ... ERROR
 
 * extdplyr
@@ -64,9 +47,6 @@ Issues with CRAN packages are summarised below.
 * fastqcr
   checking examples ... ERROR
 
-* finnts
-  checking tests ... ERROR
-
 * forceR
   checking examples ... ERROR
   checking re-building of vignette outputs ... WARNING
@@ -74,14 +54,6 @@ Issues with CRAN packages are summarised below.
 * forestmangr
   checking examples ... ERROR
   checking re-building of vignette outputs ... WARNING
-
-* fqar
-  checking examples ... ERROR
-  checking tests ... ERROR
-  checking re-building of vignette outputs ... WARNING
-
-* GauPro
-  checking examples ... ERROR
 
 * ggmuller
   checking whether package ‘ggmuller’ can be installed ... WARNING
@@ -102,11 +74,11 @@ Issues with CRAN packages are summarised below.
   checking examples ... ERROR
   checking re-building of vignette outputs ... WARNING
 
-* huito
-  checking re-building of vignette outputs ... WARNING
-
 * huxtable
   checking examples ... ERROR
+  checking tests ... ERROR
+
+* injurytools
   checking tests ... ERROR
 
 * iNZightTools
@@ -135,20 +107,12 @@ Issues with CRAN packages are summarised below.
 * lillies
   checking examples ... ERROR
 
-* logitr
-  checking re-building of vignette outputs ... WARNING
-
 * MBNMAtime
   checking tests ... ERROR
 
 * metacore
   checking examples ... ERROR
   checking tests ... ERROR
-
-* mudata2
-  checking examples ... ERROR
-  checking tests ... ERROR
-  checking re-building of vignette outputs ... WARNING
 
 * multicolor
   checking tests ... ERROR
@@ -163,18 +127,14 @@ Issues with CRAN packages are summarised below.
 * NobBS
   checking examples ... ERROR
 
-* nonmemica
-  checking examples ... ERROR
-
 * ontologics
   checking examples ... ERROR
   checking re-building of vignette outputs ... WARNING
 
-* overviewR
-  checking tests ... ERROR
+* openalexR
   checking re-building of vignette outputs ... WARNING
 
-* panelr
+* overviewR
   checking tests ... ERROR
 
 * PHEindicatormethods
@@ -185,9 +145,6 @@ Issues with CRAN packages are summarised below.
   checking tests ... ERROR
   checking re-building of vignette outputs ... WARNING
 
-* PKNCA
-  checking tests ... ERROR
-
 * presenter
   checking re-building of vignette outputs ... WARNING
 
@@ -197,15 +154,15 @@ Issues with CRAN packages are summarised below.
 * questionr
   checking tests ... ERROR
 
-* recipes
-  checking tests ... ERROR
-
 * romic
   checking tests ... ERROR
 
 * seecolor
   checking examples ... ERROR
   checking re-building of vignette outputs ... WARNING
+
+* sift
+  checking tests ... ERROR
 
 * simplevis
   checking re-building of vignette outputs ... WARNING
@@ -214,9 +171,6 @@ Issues with CRAN packages are summarised below.
   checking examples ... ERROR
   checking tests ... ERROR
   checking re-building of vignette outputs ... WARNING
-
-* skimr
-  checking tests ... ERROR
 
 * starschemar
   checking examples ... ERROR
@@ -235,9 +189,6 @@ Issues with CRAN packages are summarised below.
 * tabshiftr
   checking tests ... ERROR
 
-* textrecipes
-  checking tests ... ERROR
-
 * tfrmt
   checking tests ... ERROR
 
@@ -247,14 +198,10 @@ Issues with CRAN packages are summarised below.
 * tidygraph
   checking tests ... ERROR
 
-* tidyquery
-  checking tests ... ERROR
-
 * tidytransit
   checking tests ... ERROR
 
 * topr
-  checking examples ... ERROR
   checking tests ... ERROR
 
 * track2KBA
@@ -264,35 +211,94 @@ Issues with CRAN packages are summarised below.
 * treeplyr
   checking whether package ‘treeplyr’ can be installed ... WARNING
 
-* unpivotr
-  checking examples ... ERROR
-  checking tests ... ERROR
-  checking re-building of vignette outputs ... WARNING
-
 * wcep
-  checking examples ... ERROR
-
-* wrangle
   checking examples ... ERROR
 
 ### Failed to check
 
-* cinaR         (NA)
-* genekitr      (NA)
-* ggPMX         (NA)
-* groupr        (NA)
-* immcp         (NA)
-* loon.ggplot   (NA)
-* loon.shiny    (NA)
-* nlmixr2extra  (NA)
-* nlmixr2plot   (NA)
-* nlmixr2rpt    (NA)
-* numbat        (NA)
-* OlinkAnalyze  (NA)
-* Platypus      (NA)
-* rabhit        (NA)
-* RVA           (NA)
-* tidySEM       (NA)
-* tinyarray     (NA)
-* vivid         (NA)
-* xpose.nlmixr2 (NA)
+* accept               (NA)
+* afex                 (NA)
+* autoTS               (NA)
+* bayesian             (NA)
+* bayesnec             (NA)
+* bayesplot            (NA)
+* BayesPostEst         (NA)
+* bayesrules           (NA)
+* beadplexr            (NA)
+* BiodiversityR        (NA)
+* blocs                (NA)
+* breathtestcore       (NA)
+* broom.helpers        (NA)
+* broom.mixed          (NA)
+* calendR              (NA)
+* causact              (NA)
+* cinaR                (NA)
+* CRE                  (NA)
+* dafishr              (NA)
+* datawizard           (NA)
+* distillML            (NA)
+* edbuildmapr          (NA)
+* elbird               (NA)
+* embed                (NA)
+* escalation           (NA)
+* ESTER                (NA)
+* fable.prophet        (NA)
+* finnts               (NA)
+* genekitr             (NA)
+* geocmeans            (NA)
+* ggPMX                (NA)
+* ggstatsplot          (NA)
+* groupr               (NA)
+* GseaVis              (NA)
+* gtsummary            (NA)
+* healthyR.ai          (NA)
+* healthyR.ts          (NA)
+* healthyverse         (NA)
+* historicalborrowlong (NA)
+* immcp                (NA)
+* INSPECTumours        (NA)
+* IRexamples           (NA)
+* loon.ggplot          (NA)
+* loon.shiny           (NA)
+* marginaleffects      (NA)
+* merTools             (NA)
+* modeltime            (NA)
+* modeltime.ensemble   (NA)
+* modeltime.gluonts    (NA)
+* modeltime.h2o        (NA)
+* modeltime.resample   (NA)
+* mpower               (NA)
+* nlmixr2extra         (NA)
+* nlmixr2plot          (NA)
+* nlmixr2rpt           (NA)
+* numbat               (NA)
+* OlinkAnalyze         (NA)
+* ordbetareg           (NA)
+* Platypus             (NA)
+* polished             (NA)
+* promotionImpact      (NA)
+* rabhit               (NA)
+* RBesT                (NA)
+* rdss                 (NA)
+* report               (NA)
+* RKorAPClient         (NA)
+* Robyn                (NA)
+* RVA                  (NA)
+* SAMtool              (NA)
+* SCpubr               (NA)
+* sjPlot               (NA)
+* SkeweDF              (NA)
+* sknifedatar          (NA)
+* stacks               (NA)
+* statsExpressions     (NA)
+* StatTeacherAssistant (NA)
+* tidybayes            (NA)
+* tidyposterior        (NA)
+* tidySEM              (NA)
+* timetk               (NA)
+* tinyarray            (NA)
+* tipmap               (NA)
+* vivid                (NA)
+* wearables            (NA)
+* webSDM               (NA)
+* xpose.nlmixr2        (NA)
