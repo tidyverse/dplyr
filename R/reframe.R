@@ -42,6 +42,14 @@
 #' * Data frame attributes are **not** preserved, because `reframe()`
 #'   fundamentally creates a new data frame.
 #'
+#' @section Connection to tibble:
+#' `reframe()` is theoretically connected to two functions in tibble,
+#' [tibble::enframe()] and [tibble::deframe()]:
+#'
+#' * `enframe()`: vector -> data frame
+#' * `deframe()`: data frame -> vector
+#' * `reframe()`: data frame -> data frame
+#'
 #' @section Methods:
 #' This function is a **generic**, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of

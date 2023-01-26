@@ -57,6 +57,17 @@ We expect that you'll use \code{summarise()} much more often than \code{reframe(
 \code{reframe()} can be particularly helpful when you need to apply a complex
 function that doesn't return a single summary value.
 }
+\section{Connection to tibble}{
+
+\code{reframe()} is theoretically connected to two functions in tibble,
+\code{\link[tibble:enframe]{tibble::enframe()}} and \code{\link[tibble:enframe]{tibble::deframe()}}:
+\itemize{
+\item \code{enframe()}: vector -> data frame
+\item \code{deframe()}: data frame -> vector
+\item \code{reframe()}: data frame -> data frame
+}
+}
+
 \section{Methods}{
 
 This function is a \strong{generic}, which means that packages can provide
