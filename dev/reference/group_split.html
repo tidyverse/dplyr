@@ -142,6 +142,16 @@ stricter than a simple list but is useful for representing lists where
 every element has the same type.</p>
     </div>
     <div class="section level2">
+    <h2 id="lifecycle">Lifecycle<a class="anchor" aria-label="anchor" href="#lifecycle"></a></h2>
+    
+
+<p><code>group_split()</code> is not stable because you can achieve very similar results by
+manipulating the nested column returned from
+<code><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">tidyr::nest(.by =)</a></code>. That also retains the group keys all
+within a single data structure. <code>group_split()</code> may be deprecated in the
+future.</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other grouping functions: 
 <code><a href="group_by.html">group_by</a>()</code>,
