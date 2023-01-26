@@ -30,6 +30,10 @@
 #'   reframe(data)
 #' ```
 #'
+#' @section Lifecycle:
+#' `nest_by()` is not stable because [`tidyr::nest(.by =)`][tidyr::nest()]
+#' provides very similar behavior. It may be deprecated in the future.
+#'
 #' @return
 #' A [rowwise] data frame. The output has the following properties:
 #'

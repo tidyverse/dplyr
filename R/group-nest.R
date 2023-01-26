@@ -10,6 +10,10 @@ group_nest_impl <- function(.tbl, .key, keep = FALSE){
 #'
 #' Nest a tibble using a grouping specification
 #'
+#' @section Lifecycle:
+#' `group_nest()` is not stable because [`tidyr::nest(.by =)`][tidyr::nest()]
+#' provides very similar behavior. It may be deprecated in the future.
+#'
 #' @section Grouped data frames:
 #'
 #' The primary use case for [group_nest()] is with already grouped data frames,

@@ -25,6 +25,12 @@ with matching rows of the remaining columns.
 
 Nest a tibble using a grouping specification
 }
+\section{Lifecycle}{
+
+\code{group_nest()} is not stable because \code{\link[tidyr:nest]{tidyr::nest(.by =)}}
+provides very similar behavior. It may be deprecated in the future.
+}
+
 \section{Grouped data frames}{
 
 

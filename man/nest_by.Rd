@@ -63,6 +63,12 @@ If you want to unnest a nested data frame, you can either use
   reframe(data)
 }\if{html}{\out{</div>}}
 }
+\section{Lifecycle}{
+
+\code{nest_by()} is not stable because \code{\link[tidyr:nest]{tidyr::nest(.by =)}}
+provides very similar behavior. It may be deprecated in the future.
+}
+
 \section{Methods}{
 
 This function is a \strong{generic}, which means that packages can provide

@@ -17,6 +17,13 @@
 #' is generally not very useful as you want have easy access to the group
 #' metadata.
 #'
+#' @section Lifecycle:
+#' `group_split()` is not stable because you can achieve very similar results by
+#' manipulating the nested column returned from
+#' [`tidyr::nest(.by =)`][tidyr::nest()]. That also retains the group keys all
+#' within a single data structure. `group_split()` may be deprecated in the
+#' future.
+#'
 #' @param .tbl A tbl.
 #' @param ... If `.tbl` is an ungrouped data frame, a grouping specification,
 #'   forwarded to [group_by()].
@@ -26,6 +33,7 @@
 #'   Note that this returns a [list_of][vctrs::list_of()] which is slightly
 #'   stricter than a simple list but is useful for representing lists where
 #'   every element has the same type.
+#' @keywords internal
 #' @family grouping functions
 #' @export
 #' @examples

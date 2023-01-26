@@ -38,6 +38,15 @@ You can pass \code{...} to group and split an ungrouped data frame, but this
 is generally not very useful as you want have easy access to the group
 metadata.
 }
+\section{Lifecycle}{
+
+\code{group_split()} is not stable because you can achieve very similar results by
+manipulating the nested column returned from
+\code{\link[tidyr:nest]{tidyr::nest(.by =)}}. That also retains the group keys all
+within a single data structure. \code{group_split()} may be deprecated in the
+future.
+}
+
 \examples{
 ir <- iris \%>\% group_by(Species)
 
@@ -52,3 +61,4 @@ Other grouping functions:
 \code{\link{group_trim}()}
 }
 \concept{grouping functions}
+\keyword{internal}
