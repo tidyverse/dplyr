@@ -30,7 +30,7 @@
 #'   reframe(data)
 #' ```
 #'
-#' @section Life cycle:
+#' @section Lifecycle:
 #' `nest_by()` is not stable because [`tidyr::nest(.by =)`][tidyr::nest()]
 #' provides very similar behavior. It may be deprecated in the future.
 #'

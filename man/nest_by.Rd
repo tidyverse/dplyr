@@ -63,7 +63,7 @@ If you want to unnest a nested data frame, you can either use
   reframe(data)
 }\if{html}{\out{</div>}}
 }
-\section{Life cycle}{
+\section{Lifecycle}{
 
 \code{nest_by()} is not stable because \code{\link[tidyr:nest]{tidyr::nest(.by =)}}
 provides very similar behavior. It may be deprecated in the future.

@@ -17,7 +17,7 @@
 #' is generally not very useful as you want have easy access to the group
 #' metadata.
 #'
-#' @section Life cycle:
+#' @section Lifecycle:
 #' `group_split()` is not stable because you can achieve very similar results by
 #' manipulating the nested column returned from
 #' [`tidyr::nest(.by =)`][tidyr::nest()]. That also retains the group keys all

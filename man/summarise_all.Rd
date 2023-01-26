@@ -117,7 +117,7 @@ If a variable in \code{.vars} is named, a new column by that name will be create
 Name collisions in the new columns are disambiguated using a unique suffix.
 }
 
-\section{Life cycle}{
+\section{Lifecycle}{
 
 
 The functions are maturing, because the naming scheme and the

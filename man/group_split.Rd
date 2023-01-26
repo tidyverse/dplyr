@@ -38,7 +38,7 @@ You can pass \code{...} to group and split an ungrouped data frame, but this
 is generally not very useful as you want have easy access to the group
 metadata.
 }
-\section{Life cycle}{
+\section{Lifecycle}{
 
 \code{group_split()} is not stable because you can achieve very similar results by
 manipulating the nested column returned from
