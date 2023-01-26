@@ -96,7 +96,7 @@ using a small domain specific language. The result can be supplied as the
 <p>Each expression should consist of one of the following:</p><ul><li><p>Equality condition: <code>==</code></p></li>
 <li><p>Inequality conditions: <code>&gt;=</code>, <code>&gt;</code>, <code>&lt;=</code>, or <code>&lt;</code></p></li>
 <li><p>Rolling helper: <code>closest()</code></p></li>
-<li><p>Overlap helpers: <code><a href="between.html">between()</a></code>, <code><a href="https://rdrr.io/r/base/with.html" class="external-link">within()</a></code>, or <code>overlaps()</code></p></li>
+<li><p>Overlap helpers: <code><a href="between.html">between()</a></code>, <code>within()</code>, or <code>overlaps()</code></p></li>
 </ul><p>Other expressions are not supported. If you need to perform a join on
 a computed variable, e.g. <code>join_by(sales_date - 40 &gt;= promo_date)</code>,
 you'll need to precompute and store it in a separate column.</p>
@@ -179,7 +179,7 @@ inequalities shown above.</p>
 <li><p><code>within(x_lower, x_upper, y_lower, y_upper)</code></p>
 <p>For each range in <code>[x_lower, x_upper]</code>, this finds everywhere that range
 falls completely within <code>[y_lower, y_upper]</code>. Equivalent to <code>x_lower &gt;= y_lower, x_upper &lt;= y_upper</code>.</p>
-<p>The inequalities used to build <code><a href="https://rdrr.io/r/base/with.html" class="external-link">within()</a></code> are the same regardless of the
+<p>The inequalities used to build <code>within()</code> are the same regardless of the
 inclusiveness of the supplied ranges.</p></li>
 <li><p><code>overlaps(x_lower, x_upper, y_lower, y_upper, ..., bounds = "[]")</code></p>
 <p>For each range in <code>[x_lower, x_upper]</code>, this finds everywhere that range
@@ -365,7 +365,7 @@ come from.</p>
 <span class="r-in"><span><span class="co"># Find every time a segment falls completely within a reference.</span></span></span>
 <span class="r-in"><span><span class="co"># Sometimes using `x$` and `y$` makes your intentions clearer, even if they</span></span></span>
 <span class="r-in"><span><span class="co"># match the default behavior.</span></span></span>
-<span class="r-in"><span><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">chromosome</span>, <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">within</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">start</span>, <span class="va">x</span><span class="op">$</span><span class="va">end</span>, <span class="va">y</span><span class="op">$</span><span class="va">start</span>, <span class="va">y</span><span class="op">$</span><span class="va">end</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">by</span> <span class="op">&lt;-</span> <span class="fu">join_by</span><span class="op">(</span><span class="va">chromosome</span>, <span class="fu">within</span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">start</span>, <span class="va">x</span><span class="op">$</span><span class="va">end</span>, <span class="va">y</span><span class="op">$</span><span class="va">start</span>, <span class="va">y</span><span class="op">$</span><span class="va">end</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">segments</span>, <span class="va">reference</span>, <span class="va">by</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   segment_id chromosome start.x end.x reference_id start.y end.y</span>
