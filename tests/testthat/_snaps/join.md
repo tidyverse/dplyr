@@ -234,6 +234,15 @@
       Using `by = character()` to perform a cross join was deprecated in dplyr 1.1.0.
       i Please use `cross_join()` instead.
 
+# `by = named character()` for a cross join works
+
+    Code
+      out <- left_join(df1, df2, by = by)
+    Condition
+      Warning:
+      Using `by = character()` to perform a cross join was deprecated in dplyr 1.1.0.
+      i Please use `cross_join()` instead.
+
 # `by = list(x = character(), y = character())` for a cross join is deprecated (#6604)
 
     Code

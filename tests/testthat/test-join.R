@@ -551,6 +551,22 @@ test_that("`by = character()` for a cross join is deprecated (#6604)", {
   })
 })
 
+test_that("`by = named character()` for a cross join works", {
+  # Used by the sift package
+  df1 <- tibble(x = 1:2)
+  df2 <- tibble(y = 1:2)
+
+  by <- set_names(character(), nm = character())
+
+  expect_snapshot({
+    out <- left_join(df1, df2, by = by)
+  })
+  expect_identical(
+    out,
+    cross_join(df1, df2)
+  )
+})
+
 test_that("`by = list(x = character(), y = character())` for a cross join is deprecated (#6604)", {
   df1 <- tibble(x = 1:2)
   df2 <- tibble(y = 1:2)
