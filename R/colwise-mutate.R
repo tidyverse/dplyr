@@ -75,11 +75,6 @@
 #'
 #' Name collisions in the new columns are disambiguated using a unique suffix.
 #'
-#' @section Lifecycle:
-#'
-#' The functions are maturing, because the naming scheme and the
-#' disambiguation algorithm are subject to change in dplyr 0.9.0.
-#'
 #' @examples
 #' # The _at() variants directly support strings:
 #' starwars %>%
@@ -196,7 +191,6 @@ summarize_at <- summarise_at
 #'   `transmute_if()`.
 #'
 #' @inheritSection summarise_all Naming
-#' @inheritSection summarise_all Lifecycle
 #'
 #' @examples
 #' iris <- as_tibble(iris)
