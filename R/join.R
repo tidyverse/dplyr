@@ -785,7 +785,20 @@ check_keep <- function(keep, error_call = caller_env()) {
 }
 
 is_cross_by <- function(x) {
-  identical(x, character()) || identical(x, list(x = character(), y = character()))
+  if (is_character(x, n = 0L)) {
+    # `character()` or `named character()`
+    return(TRUE)
+  }
+
+  if (is_list(x, n = 2L) &&
+      is_character(x[["x"]], n = 0L) &&
+      is_character(x[["y"]], n = 0L)) {
+    # `list(x = character(), y = character())`
+    # (possibly with named empty character elements)
+    return(TRUE)
+  }
+
+  FALSE
 }
 
 warn_join_cross_by <- function(env = caller_env(),
