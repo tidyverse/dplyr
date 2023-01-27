@@ -1,17 +1,68 @@
-## Release summary
+We expect 60 reverse dependency failures, listed below. We have sent each of
+these a pull request containing a backwards compatible patch. See
+https://github.com/tidyverse/dplyr/issues/6262 for more information.
 
-This is a minor release in the 1.0.* series.  
+All reverse dependency failures have had over a month to update their package,
+with the exception of autoGO and injurytools, which are new packages that made
+it to CRAN in January after we notified all other maintainers.
 
-## R CMD check results
-
-0 errors v | 0 warnings v | 0 notes v
-
-R CMD check succeeded
-
-## revdepcheck results
-
-We checked 3323 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
-
- * We saw 0 new problems
- * We failed to check 7 packages
-
+* arrow
+* autoGO
+* chronicler
+* circumplex
+* confoundr
+* disk.frame
+* dm
+* dtplyr
+* extdplyr
+* exuber
+* fastqcr
+* forceR
+* forestmangr
+* ggmuller
+* gratia
+* hablar
+* heemod
+* helda
+* hlaR
+* huxtable
+* injurytools
+* iNZightTools
+* IPEDSuploadables
+* janitor
+* JumpeR
+* kmscv
+* lans2r
+* LARGB
+* lillies
+* MBNMAtime
+* metacore
+* multicolor
+* naniar
+* ndi
+* NobBS
+* ontologics
+* openalexR
+* overviewR
+* PHEindicatormethods
+* phenofit
+* presenter
+* PVplr
+* questionr
+* romic
+* seecolor
+* sift
+* simplevis
+* skater
+* starschemar
+* suddengains
+* SwimmeR
+* tabshiftr
+* tfrmt
+* tidyCDISC
+* tidygraph
+* tidytransit
+* topr
+* track2KBA
+* treeplyr
+* wcep
