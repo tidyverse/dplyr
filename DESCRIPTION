@@ -3,14 +3,14 @@ Package: dplyr
 Title: A Grammar of Data Manipulation
 Version: 1.0.99.9000
 Authors@R: c(
-    person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre"),
+    person("Hadley", "Wickham", , "hadley@posit.co", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4757-117X")),
     person("Romain", "François", role = "aut",
            comment = c(ORCID = "0000-0002-2444-4226")),
     person("Lionel", "Henry", role = "aut"),
     person("Kirill", "Müller", role = "aut",
            comment = c(ORCID = "0000-0002-1416-3412")),
-    person("Davis", "Vaughan", role = "aut",
+    person("Davis", "Vaughan", , "davis@posit.co", role = "aut",
            comment = c(ORCID = "0000-0003-4777-038X")),
     person("Posit, PBC", role = c("cph", "fnd"))
   )

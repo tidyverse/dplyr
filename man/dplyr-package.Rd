@@ -19,14 +19,14 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Hadley Wickham \email{hadley@rstudio.com} (\href{https://orcid.org/0000-0003-4757-117X}{ORCID})
+\strong{Maintainer}: Hadley Wickham \email{hadley@posit.co} (\href{https://orcid.org/0000-0003-4757-117X}{ORCID})
 
 Authors:
 \itemize{
   \item Romain François (\href{https://orcid.org/0000-0002-2444-4226}{ORCID})
   \item Lionel Henry
   \item Kirill Müller (\href{https://orcid.org/0000-0002-1416-3412}{ORCID})
-  \item Davis Vaughan (\href{https://orcid.org/0000-0003-4777-038X}{ORCID})
+  \item Davis Vaughan \email{davis@posit.co} (\href{https://orcid.org/0000-0003-4777-038X}{ORCID})
 }
 
 Other contributors:
