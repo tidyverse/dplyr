@@ -2,9 +2,9 @@
 
 ## New features
 
-* `.by`/`by` is an experimental alternative to `group_by()` that supports 
-  per-operation grouping for `mutate()`, `summarise()`, `filter()`, and the 
-  `slice()` family (#6528).
+* [`.by`/`by`](https://dplyr.tidyverse.org/dev/reference/dplyr_by.html) is an
+  experimental alternative to `group_by()` that supports per-operation grouping
+  for `mutate()`, `summarise()`, `filter()`, and the `slice()` family (#6528).
   
   Rather than:
   
@@ -24,18 +24,18 @@
     )
   ```
   
-  The most useful reason to do this is because grouping with `.by` is
-  _temporary_ and only affects a single operation. An ungrouped data frame went 
-  into the `summarise()` call, so an ungrouped data frame will come out; with 
-  `.by`, you never need to remember to `ungroup()` afterwards.
+  The most useful reason to do this is because `.by` only affects a single
+  operation. In the example above, an ungrouped data frame went into the
+  `summarise()` call, so an ungrouped data frame will come out; with `.by`, you
+  never need to remember to `ungroup()` afterwards and you never need to use
+  the `.groups` argument.
   
-  Additionally, using `summarise()` or `slice()` with `.by` will never sort the
-  results by the group key, unlike with `group_by()`. Instead, the results are
-  returned using the existing ordering of the groups from the original data. We
-  feel this is more predictable, better maintains any ordering you might have
-  already applied with a previous call to `arrange()`, and provides a way to
-  maintain the current ordering without having to resort to factors.
-  `with_groups()` is superseded in favor of `.by` (#6582).
+  Additionally, using `summarise()` with `.by` will never sort the results by
+  the group key, unlike with `group_by()`. Instead, the results are returned
+  using the existing ordering of the groups from the original data. We feel this
+  is more predictable, better maintains any ordering you might have already
+  applied with a previous call to `arrange()`, and provides a way to maintain
+  the current ordering without having to resort to factors.
   
   This feature was inspired by
   [data.table](https://CRAN.R-project.org/package=data.table), where the
@@ -44,6 +44,8 @@
   ```
   starwars[, .(mean_height = mean(height)), by = .(species, homeworld)]
   ```
+  
+  `with_groups()` is superseded in favor of `.by` (#6582).
 
 * `reframe()` is a new experimental verb that creates a new data frame by
   applying functions to columns of an existing data frame. It is very similar to
@@ -110,10 +112,10 @@
   * `multiple` is a new argument for controlling what happens when a row
     in `x` matches multiple rows in `y`. For equality joins and rolling joins,
     where this is usually surprising, this defaults to signalling a `"warning"`,
-    but still returns all of the matches. For inequality joins and cross joins,
-    where multiple matches are usually expected, this defaults to returning
-    `"all"` of the matches. You can also return only the `"first"` or `"last"`
-    match, `"any"` of the matches, or you can `"error"`.
+    but still returns all of the matches. For inequality joins, where multiple
+    matches are usually expected, this defaults to returning `"all"` of the
+    matches. You can also return only the `"first"` or `"last"` match, `"any"`
+    of the matches, or you can `"error"`.
     
   * `keep` now defaults to `NULL` rather than `FALSE`. `NULL` implies
     `keep = FALSE` for equality conditions, but `keep = TRUE` for inequality
@@ -145,7 +147,7 @@
   and `cur_data_all()`. We feel that `pick()` is a much more evocative name when 
   you are just trying to select a subset of columns from your data (#6204).
 
-* `symdiff()` function computes the symmetric difference (#4811).
+* `symdiff()` computes the symmetric difference (#4811).
 
 ## Lifecycle changes
 
@@ -165,13 +167,13 @@
   tidyups.
   
 * `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()`,
-  `eval_tbl()`, `location()` and `changes()`, deprecated in 1.0.0, are now 
+  `eval_tbls2()`, `location()` and `changes()`, deprecated in 1.0.0, are now 
   defunct (#6387).
 
 * `frame_data()`, `data_frame_()`, `lst_()` and `tbl_sum()` are no longer 
   re-exported from tibble (#6276, #6277, #6278, #6284).
 
-* `select_vars()`, `rename_vars()`, `select_var()` and `current_var()`, 
+* `select_vars()`, `rename_vars()`, `select_var()` and `current_vars()`, 
   deprecated in 0.8.4, are now defunct (#6387).
 
 ### Newly deprecated
@@ -229,7 +231,7 @@
   yet, but we plan to add one to forcats. In the meantime you can often use
 `case_match(.ptype = factor(levels = ))` instead (#6433).
 
-* `transmute()` is superseded in favour of `mutate(.keep = "none")`
+* `transmute()` is superseded in favour of `mutate(.keep = "none")` (#6414).
 
 ### Newly stable
 
@@ -279,11 +281,11 @@ package, bringing greater consistency and improved performance.
 
 * `coalesce()` (#6265):
 
-  * Discards `NULL` inputs are up front.
+  * Discards `NULL` inputs up front.
 
   * No longer iterates over the columns of data frame input. Instead, a row is 
     now only coalesced if it is entirely missing, which is consistent with
-    `vctrs::vec_equal_na()` and greatly simplifies the implementation.
+    `vctrs::vec_detect_missing()` and greatly simplifies the implementation.
     
   * Has new `.ptype` and `.size` arguments which allow you to enforce
     a particular output type and size.
