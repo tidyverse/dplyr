@@ -40,7 +40,7 @@ If you are new to dplyr, the best place to start is the [data transformation cha
 
 In addition to data frames/tibbles, dplyr makes working with other computational backends accessible and efficient. Below is a list of alternative backends:
 
-- [arrow](https://arrow.apache.org/docs/r) for larger-than-memory datasets, including on remote cloud storage like AWS S3, using the Apache Arrow C++ engine, [Acero](https://arrow.apache.org/docs/cpp/streaming_execution.html).
+- [arrow](https://arrow.apache.org/docs/r/) for larger-than-memory datasets, including on remote cloud storage like AWS S3, using the Apache Arrow C++ engine, [Acero](https://arrow.apache.org/docs/cpp/streaming_execution.html).
 
 - [dtplyr](https://dtplyr.tidyverse.org/) for large, in-memory datasets. 
   Translates your dplyr code to high performance 
