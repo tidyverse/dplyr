@@ -89,15 +89,16 @@ library(dplyr)
 starwars %>% 
   filter(species == "Droid")
 #> # A tibble: 6 × 14
-#>   name   height  mass hair_color skin_color  eye_color birth_year sex   gender  
-#>   <chr>   <int> <dbl> <chr>      <chr>       <chr>          <dbl> <chr> <chr>   
-#> 1 C-3PO     167    75 <NA>       gold        yellow           112 none  masculi…
-#> 2 R2-D2      96    32 <NA>       white, blue red               33 none  masculi…
-#> 3 R5-D4      97    32 <NA>       white, red  red               NA none  masculi…
-#> 4 IG-88     200   140 none       metal       red               15 none  masculi…
-#> 5 R4-P17     96    NA none       silver, red red, blue         NA none  feminine
-#> # … with 1 more row, and 5 more variables: homeworld <chr>, species <chr>,
-#> #   films <list>, vehicles <list>, starships <list>
+#>   name   height  mass hair_color skin_color eye_c…¹ birth…² sex   gender homew…³
+#>   <chr>   <int> <dbl> <chr>      <chr>      <chr>     <dbl> <chr> <chr>  <chr>  
+#> 1 C-3PO     167    75 <NA>       gold       yellow      112 none  mascu… Tatooi…
+#> 2 R2-D2      96    32 <NA>       white, bl… red          33 none  mascu… Naboo  
+#> 3 R5-D4      97    32 <NA>       white, red red          NA none  mascu… Tatooi…
+#> 4 IG-88     200   140 none       metal      red          15 none  mascu… <NA>   
+#> 5 R4-P17     96    NA none       silver, r… red, b…      NA none  femin… <NA>   
+#> # … with 1 more row, 4 more variables: species <chr>, films <list>,
+#> #   vehicles <list>, starships <list>, and abbreviated variable names
+#> #   ¹​eye_color, ²​birth_year, ³​homeworld
 
 starwars %>% 
   select(name, ends_with("color"))
@@ -127,15 +128,16 @@ starwars %>%
 starwars %>% 
   arrange(desc(mass))
 #> # A tibble: 87 × 14
-#>   name      height  mass hair_color skin_color eye_color birth_year sex   gender
-#>   <chr>      <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> <chr> 
-#> 1 Jabba De…    175  1358 <NA>       green-tan… orange         600   herm… mascu…
-#> 2 Grievous     216   159 none       brown, wh… green, y…       NA   male  mascu…
-#> 3 IG-88        200   140 none       metal      red             15   none  mascu…
-#> 4 Darth Va…    202   136 none       white      yellow          41.9 male  mascu…
-#> 5 Tarfful      234   136 brown      brown      blue            NA   male  mascu…
-#> # … with 82 more rows, and 5 more variables: homeworld <chr>, species <chr>,
-#> #   films <list>, vehicles <list>, starships <list>
+#>   name         height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵
+#>   <chr>         <int> <dbl> <chr>   <chr>   <chr>     <dbl> <chr> <chr>  <chr>  
+#> 1 Jabba Desil…    175  1358 <NA>    green-… orange    600   herm… mascu… Nal Hu…
+#> 2 Grievous        216   159 none    brown,… green,…    NA   male  mascu… Kalee  
+#> 3 IG-88           200   140 none    metal   red        15   none  mascu… <NA>   
+#> 4 Darth Vader     202   136 none    white   yellow     41.9 male  mascu… Tatooi…
+#> 5 Tarfful         234   136 brown   brown   blue       NA   male  mascu… Kashyy…
+#> # … with 82 more rows, 4 more variables: species <chr>, films <list>,
+#> #   vehicles <list>, starships <list>, and abbreviated variable names
+#> #   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld
 
 starwars %>%
   group_by(species) %>%
