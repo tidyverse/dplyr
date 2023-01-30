@@ -400,6 +400,7 @@ test_that("across() uses environment from the current quosure (#5460)", {
 })
 
 test_that("across() sees columns in the recursive case (#5498)", {
+  skip_if_not_installed("purrr")
   df <- tibble(
     vars = list("foo"),
     data = list(data.frame(foo = 1, bar = 2))
