@@ -1,4 +1,5 @@
 test_that("bind_cols() uses shallow copies", {
+  skip_if_not_installed("lobstr")
   df1 <- data.frame(
     int = 1:10,
     num = rnorm(10),
