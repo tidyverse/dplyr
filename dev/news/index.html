@@ -198,6 +198,7 @@
 <ul><li><p>When used on a data frame, these functions now return a single row rather than a single column. This is more consistent with the vctrs principle that a data frame is generally treated as a vector of rows.</p></li>
 <li><p>The <code>default</code> is no longer “guessed”, and will always automatically be set to a missing value appropriate for the type of <code>x</code>.</p></li>
 <li><p>Error if <code>n</code> is not an integer. <code>nth(x, n = 2)</code> is fine, but <code>nth(x, n = 2.5)</code> is now an error.</p></li>
+<li><p>No longer support indexing into scalar objects, like <code>&lt;lm&gt;</code> or scalar S4 objects (<a href="https://github.com/tidyverse/dplyr/issues/6670" class="external-link">#6670</a>).</p></li>
 </ul><p>Additionally, they have all gained an <code>na_rm</code> argument since they are summary functions (<a href="https://github.com/tidyverse/dplyr/issues/6242" class="external-link">#6242</a>, with contributions from <a href="https://github.com/tnederlof" class="external-link">@tnederlof</a>).</p>
 </li>
 <li><p><code><a href="../reference/if_else.html">if_else()</a></code> gains most of the same benefits as <code><a href="../reference/case_when.html">case_when()</a></code>. In particular,<br><code><a href="../reference/if_else.html">if_else()</a></code> now takes the common type of <code>true</code>, <code>false</code>, and <code>missing</code> to determine the output type, meaning that you can now reliably use <code>NA</code>, rather than <code>NA_character_</code> and friends (<a href="https://github.com/tidyverse/dplyr/issues/6243" class="external-link">#6243</a>).</p></li>
@@ -1614,7 +1615,7 @@
    </div>
   <footer><div class="container">
   <div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://github.com/romainfrancois" class="external-link">Romain François</a>, <a href="https://github.com/lionel-" class="external-link">Lionel Henry</a>, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://github.com/DavisVaughan" class="external-link">Davis Vaughan</a>, Posit, PBC.</p>
+  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://github.com/romainfrancois" class="external-link">Romain François</a>, <a href="https://github.com/lionel-" class="external-link">Lionel Henry</a>, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://github.com/DavisVaughan" class="external-link">Davis Vaughan</a>, <a href="https://www.posit.co" class="external-link"><img src="https://www.tidyverse.org/posit-logo.svg" alt="Posit" height="16" style="margin-bottom: 3px;"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
