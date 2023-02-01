@@ -304,6 +304,9 @@ package, bringing greater consistency and improved performance.
   * Error if `n` is not an integer. `nth(x, n = 2)` is fine, but 
     `nth(x, n = 2.5)` is now an error.
     
+  * No longer support indexing into scalar objects, like `<lm>` or scalar S4
+    objects (#6670).
+    
   Additionally, they have all gained an `na_rm` argument since they
   are summary functions (#6242, with contributions from @tnederlof).
 
