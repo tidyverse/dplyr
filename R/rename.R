@@ -44,6 +44,21 @@
 #' rename_with(iris, toupper)
 #' rename_with(iris, toupper, starts_with("Petal"))
 #' rename_with(iris, ~ tolower(gsub(".", "_", .x, fixed = TRUE)))
+#'
+#' @examplesIf getRversion() > "4.0.1"
+#' # If your renaming function uses `paste0()`, make sure to set
+#' # `recycle0 = TRUE` to ensure that empty selections are recycled correctly
+#' try(rename_with(
+#'   iris,
+#'   ~ paste0("prefix_", .x),
+#'   starts_with("nonexistent")
+#' ))
+#'
+#' rename_with(
+#'   iris,
+#'   ~ paste0("prefix_", .x, recycle0 = TRUE),
+#'   starts_with("nonexistent")
+#' )
 #' @export
 rename <- function(.data, ...) {
   UseMethod("rename")

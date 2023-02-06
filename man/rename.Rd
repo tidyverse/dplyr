@@ -67,6 +67,22 @@ rename(iris, any_of(lookup))
 rename_with(iris, toupper)
 rename_with(iris, toupper, starts_with("Petal"))
 rename_with(iris, ~ tolower(gsub(".", "_", .x, fixed = TRUE)))
+
+\dontshow{if (getRversion() > "4.0.1") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+# If your renaming function uses `paste0()`, make sure to set
+# `recycle0 = TRUE` to ensure that empty selections are recycled correctly
+try(rename_with(
+  iris,
+  ~ paste0("prefix_", .x),
+  starts_with("nonexistent")
+))
+
+rename_with(
+  iris,
+  ~ paste0("prefix_", .x, recycle0 = TRUE),
+  starts_with("nonexistent")
+)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other single table verbs: 
