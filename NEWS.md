@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `rename_with()` now includes an example of using `paste0(recycle0 = TRUE)` to
+  correctly handle empty selections (#6688).
+
 # dplyr 1.1.0
 
 ## New features
