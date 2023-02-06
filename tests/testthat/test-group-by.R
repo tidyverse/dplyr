@@ -129,6 +129,7 @@ test_that("mutate does not lose variables (#144)", {
 })
 
 test_that("group_by uses shallow copy", {
+  skip_if_not_installed("lobstr")
   m1 <- group_by(mtcars, cyl)
   expect_equal(group_vars(mtcars), character())
 

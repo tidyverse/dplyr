@@ -333,6 +333,7 @@ test_that("mutate keeps zero length groups", {
 
 test_that("no utf8 invasion (#722)", {
   skip_if_not(l10n_info()$"UTF-8")
+  skip_if_not_installed("lobstr")
   source("utf-8.txt", local = TRUE, encoding = "UTF-8")
 })
 
