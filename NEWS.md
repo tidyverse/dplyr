@@ -4,7 +4,7 @@
 
 ## New features
 
-* [`.by`/`by`](https://dplyr.tidyverse.org/dev/reference/dplyr_by.html) is an
+* [`.by`/`by`](https://dplyr.tidyverse.org/reference/dplyr_by.html) is an
   experimental alternative to `group_by()` that supports per-operation grouping
   for `mutate()`, `summarise()`, `filter()`, and the `slice()` family (#6528).
   
