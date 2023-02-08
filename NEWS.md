@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* The developer documentation in `?dplyr_extending` has been refreshed and
+  brought up to date with all changes made in 1.1.0 (#6695).
+
 * R >=3.5.0 is now explicitly required. This is in line with the tidyverse
   policy of supporting the [5 most recent versions of
   R](https://www.tidyverse.org/blog/2019/04/r-version-support/).
