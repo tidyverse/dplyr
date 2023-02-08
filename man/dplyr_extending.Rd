@@ -15,14 +15,14 @@ dplyr_reconstruct(data, template)
 }
 \arguments{
 \item{data}{A tibble. We use tibbles because they avoid some inconsistent
-subset-assignment use cases}
+subset-assignment use cases.}
 
-\item{i}{A numeric or logical vector that indexes the rows of \code{.data}.}
+\item{i}{A numeric or logical vector that indexes the rows of \code{data}.}
 
-\item{cols}{A named list used modify columns. A \code{NULL} value should remove
+\item{cols}{A named list used to modify columns. A \code{NULL} value should remove
 an existing column.}
 
-\item{template}{Template to use for restoring attributes}
+\item{template}{Template data frame to use for restoring attributes.}
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
@@ -44,6 +44,10 @@ in basically the same way.
 \itemize{
 \item If you have data frame attributes that don't depend on the rows or columns
 (and should unconditionally be preserved), you don't need to do anything.
+The one exception to this is if your subclass extends a data.frame
+directly rather than extending a tibble. The \verb{[.data.frame} method does not
+preserve attributes, so you'll need to write a \code{[} method for your subclass
+that preserves attributes important for your class.
 \item If you have \strong{scalar} attributes that depend on \strong{rows}, implement a
 \code{dplyr_reconstruct()} method. Your method should recompute the attribute
 depending on rows now present.
@@ -69,27 +73,34 @@ methods as needed.
 
 \section{Current usage}{
 \itemize{
-\item \code{arrange()}, \code{filter()}, \code{slice()}, \code{semi_join()}, and \code{anti_join()}
-work by generating a vector of row indices, and then subsetting
-with \code{dplyr_row_slice()}.
+\item \code{arrange()}, \code{filter()}, \code{slice()} (and the rest of the \verb{slice_*()}
+family), \code{semi_join()}, and \code{anti_join()} work by generating a vector of
+row indices, and then subsetting with \code{dplyr_row_slice()}.
 \item \code{mutate()} generates a list of new column value (using \code{NULL} to indicate
 when columns should be deleted), then passes that to \code{dplyr_col_modify()}.
-\item \code{summarise()} works similarly to \code{mutate()} but the data modified by
-\code{dplyr_col_modify()} comes from \code{group_data()}.
+It also uses 1d \code{[} to implement \code{.keep}, and will call \code{relocate()} if
+either \code{.before} or \code{.after} are supplied.
+\item \code{summarise()} and \code{reframe()} work similarly to \code{mutate()} but the data
+modified by \code{dplyr_col_modify()} comes from \code{group_data()} or is built
+from \code{.by}.
 \item \code{select()} uses 1d \code{[} to select columns, then \verb{names<-} to rename them.
 \code{rename()} just uses \verb{names<-}. \code{relocate()} just uses 1d \code{[}.
 \item \code{inner_join()}, \code{left_join()}, \code{right_join()}, and \code{full_join()}
-coerces \code{x} to a tibble, modify the rows, then uses \code{dplyr_reconstruct()}
+coerce \code{x} to a tibble, modify the rows, then use \code{dplyr_reconstruct()}
 to convert back to the same type as \code{x}.
-\item \code{nest_join()} uses \code{dplyr_col_modify()} to cast the key variables to
-common type and add the nested-df that \code{y} becomes.
+\item \code{nest_join()} converts both \code{x} and \code{y} to tibbles, modifies the rows,
+and uses \code{dplyr_col_modify()} to handle modified key variables and the
+list-column that \code{y} becomes. It also uses \code{dplyr_reconstruct()} to convert
+the outer result back to the type of \code{x}, and to convert the nested tibbles
+back to the type of \code{y}.
 \item \code{distinct()} does a \code{mutate()} if any expressions are present, then
 uses 1d \code{[} to select variables to keep, then \code{dplyr_row_slice()} to
 select distinct rows.
 }
 
-Note that \code{group_by()} and \code{ungroup()} don't use any these generics and
-you'll need to provide methods directly.
+Note that \code{group_by()} and \code{ungroup()} don't use any of these generics and
+you'll need to provide methods for them directly, or rely on \code{.by} for
+per-operation grouping.
 }
 
 \keyword{internal}
