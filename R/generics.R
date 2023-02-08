@@ -21,6 +21,10 @@
 #'
 #' * If you have data frame attributes that don't depend on the rows or columns
 #'   (and should unconditionally be preserved), you don't need to do anything.
+#'   The one exception to this is if your subclass extends a data.frame
+#'   directly rather than extending a tibble. The `[.data.frame` method does not
+#'   preserve attributes, so you'll need to write a `[` method for your subclass
+#'   that preserves attributes important for your class.
 #'
 #' * If you have __scalar__ attributes that depend on __rows__, implement a
 #'   `dplyr_reconstruct()` method. Your method should recompute the attribute
@@ -48,42 +52,49 @@
 #'
 #' # Current usage
 #'
-#' * `arrange()`, `filter()`, `slice()`, `semi_join()`, and `anti_join()`
-#'   work by generating a vector of row indices, and then subsetting
-#'   with `dplyr_row_slice()`.
+#' * `arrange()`, `filter()`, `slice()` (and the rest of the `slice_*()`
+#'   family), `semi_join()`, and `anti_join()` work by generating a vector of
+#'   row indices, and then subsetting with `dplyr_row_slice()`.
 #'
 #' * `mutate()` generates a list of new column value (using `NULL` to indicate
 #'   when columns should be deleted), then passes that to `dplyr_col_modify()`.
+#'   It also uses 1d `[` to implement `.keep`, and will call `relocate()` if
+#'   either `.before` or `.after` are supplied.
 #'
-#' * `summarise()` works similarly to `mutate()` but the data modified by
-#'   `dplyr_col_modify()` comes from `group_data()`.
+#' * `summarise()` and `reframe()` work similarly to `mutate()` but the data
+#'   modified by `dplyr_col_modify()` comes from `group_data()` or is built
+#'   from `.by`.
 #'
 #' * `select()` uses 1d `[` to select columns, then `names<-` to rename them.
 #'   `rename()` just uses `names<-`. `relocate()` just uses 1d `[`.
 #'
 #' * `inner_join()`, `left_join()`, `right_join()`, and `full_join()`
-#'   coerces `x` to a tibble, modify the rows, then uses `dplyr_reconstruct()`
+#'   coerce `x` to a tibble, modify the rows, then use `dplyr_reconstruct()`
 #'   to convert back to the same type as `x`.
 #'
-#' * `nest_join()` uses `dplyr_col_modify()` to cast the key variables to
-#'   common type and add the nested-df that `y` becomes.
+#' * `nest_join()` converts both `x` and `y` to tibbles, modifies the rows,
+#'   and uses `dplyr_col_modify()` to handle modified key variables and the
+#'   list-column that `y` becomes. It also uses `dplyr_reconstruct()` to convert
+#'   the outer result back to the type of `x`, and to convert the nested tibbles
+#'   back to the type of `y`.
 #'
 #' * `distinct()` does a `mutate()` if any expressions are present, then
 #'   uses 1d `[` to select variables to keep, then `dplyr_row_slice()` to
 #'   select distinct rows.
 #'
-#' Note that `group_by()` and `ungroup()` don't use any these generics and
-#' you'll need to provide methods directly.
+#' Note that `group_by()` and `ungroup()` don't use any of these generics and
+#' you'll need to provide methods for them directly, or rely on `.by` for
+#' per-operation grouping.
 #'
 #' @keywords internal
 #' @param data A tibble. We use tibbles because they avoid some inconsistent
-#'    subset-assignment use cases
+#'    subset-assignment use cases.
 #' @name dplyr_extending
 NULL
 
 #' @export
 #' @rdname dplyr_extending
-#' @param i A numeric or logical vector that indexes the rows of `.data`.
+#' @param i A numeric or logical vector that indexes the rows of `data`.
 dplyr_row_slice <- function(data, i, ...) {
   if (!is.numeric(i) && !is.logical(i)) {
     abort("`i` must be a numeric or logical vector.")
@@ -125,7 +136,7 @@ dplyr_row_slice.rowwise_df <- function(data, i, ..., preserve = FALSE) {
 
 #' @export
 #' @rdname dplyr_extending
-#' @param cols A named list used modify columns. A `NULL` value should remove
+#' @param cols A named list used to modify columns. A `NULL` value should remove
 #'   an existing column.
 dplyr_col_modify <- function(data, cols) {
   UseMethod("dplyr_col_modify")
@@ -175,7 +186,7 @@ dplyr_col_modify.rowwise_df <- function(data, cols) {
   rowwise_df(out, group_vars(data))
 }
 
-#' @param template Template to use for restoring attributes
+#' @param template Template data frame to use for restoring attributes.
 #' @export
 #' @rdname dplyr_extending
 dplyr_reconstruct <- function(data, template) {
