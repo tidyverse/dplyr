@@ -34,7 +34,7 @@ Imports:
     tibble (>= 2.1.3),
     tidyselect (>= 1.2.0),
     utils,
-    vctrs (>= 0.5.2)
+    vctrs (>= 0.5.2.9000)
 Suggests: 
     bench,
     broom,
@@ -66,4 +66,5 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Remotes:
-    r-lib/rlang
+    r-lib/rlang,
+    r-lib/vctrs#1782
