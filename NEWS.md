@@ -1,5 +1,9 @@
 # dplyr (development version)
 
+* R >=3.5.0 is now explicitly required. This is in line with the tidyverse
+  policy of supporting the [5 most recent versions of
+  R](https://www.tidyverse.org/blog/2019/04/r-version-support/).
+
 * `rename_with()` now includes an example of using `paste0(recycle0 = TRUE)` to
   correctly handle empty selections (#6688).
 
