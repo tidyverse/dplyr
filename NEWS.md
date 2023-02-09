@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* Deprecation warnings thrown by `filter()` now mention the correct package
+  where the problem originated from (#6679).
+
 * The developer documentation in `?dplyr_extending` has been refreshed and
   brought up to date with all changes made in 1.1.0 (#6695).
 
