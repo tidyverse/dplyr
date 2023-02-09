@@ -142,6 +142,8 @@ test_that("named data frame results with 0 columns participate in recycling (#65
 })
 
 test_that("can't overwrite column active bindings (#6666)", {
+  skip_if(getRversion() < "3.6.3", message = "Active binding error changed")
+
   df <- tibble(g = c(1, 1, 2, 2), x = 1:4)
   gdf <- group_by(df, g)
 

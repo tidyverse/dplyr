@@ -121,6 +121,8 @@ test_that("mutate() supports constants (#6056, #6305)", {
 })
 
 test_that("can't overwrite column active bindings (#6666)", {
+  skip_if(getRversion() < "3.6.3", message = "Active binding error changed")
+
   df <- tibble(g = 1:2, x = 3:4)
   gdf <- group_by(df, g)
 
