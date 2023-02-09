@@ -1,3 +1,44 @@
+# can't overwrite column active bindings (#6666)
+
+    Code
+      summarise(df, y = {
+        x <<- x + 2L
+        mean(x)
+      })
+    Condition
+      Error in `summarise()`:
+      i In argument: `y = { ... }`.
+      Caused by error:
+      ! unused argument (base::quote(3:6))
+
+---
+
+    Code
+      summarise(df, .by = g, y = {
+        x <<- x + 2L
+        mean(x)
+      })
+    Condition
+      Error in `summarise()`:
+      i In argument: `y = { ... }`.
+      i In group 1: `g = 1`.
+      Caused by error:
+      ! unused argument (base::quote(3:4))
+
+---
+
+    Code
+      summarise(gdf, y = {
+        x <<- x + 2L
+        mean(x)
+      })
+    Condition
+      Error in `summarise()`:
+      i In argument: `y = { ... }`.
+      i In group 1: `g = 1`.
+      Caused by error:
+      ! unused argument (base::quote(3:4))
+
 # can't use `.by` with `.groups`
 
     Code

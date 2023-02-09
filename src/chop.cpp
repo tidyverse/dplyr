@@ -89,7 +89,7 @@ SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows, SEXP ffi_grouped, SEXP ffi_rowwis
   return chops_env;
 }
 
-void add_mask_binding(SEXP name, SEXP env_bindings, SEXP env_chops) {
+void add_column_binding(SEXP name, SEXP env_bindings, SEXP env_chops) {
   SEXP body = PROTECT(Rf_lang3(dplyr::functions::dot_subset2, name, dplyr::symbols::dot_current_group));
   SEXP fun  = PROTECT(Rf_lang3(dplyr::functions::function, R_NilValue, body));
   SEXP binding = PROTECT(Rf_eval(fun, env_chops));
@@ -98,25 +98,25 @@ void add_mask_binding(SEXP name, SEXP env_bindings, SEXP env_chops) {
   UNPROTECT(3);
 }
 
-SEXP dplyr_data_masks_setup(SEXP env_chops, SEXP data, SEXP rows) {
-  SEXP names = PROTECT(Rf_getAttrib(data, R_NamesSymbol));
-  const SEXP* p_names = STRING_PTR_RO(names);
+SEXP dplyr_make_column_bindings(SEXP env_chops, SEXP data) {
   R_xlen_t n_columns = XLENGTH(data);
 
-  // create dynamic mask with one active binding per column
-  R_xlen_t mask_size = XLENGTH(data) + 20;
-  SEXP env_bindings = PROTECT(new_environment(mask_size, R_EmptyEnv));
+  SEXP names = PROTECT(Rf_getAttrib(data, R_NamesSymbol));
+  const SEXP* p_names = STRING_PTR_RO(names);
+
+  // Create environment with one active binding per column.
+  // Leave some extra room for new columns added by `dplyr_binding_add()`.
+  R_xlen_t size = n_columns + 20;
+  SEXP env_bindings = PROTECT(new_environment(size, R_EmptyEnv));
+
   for (R_xlen_t i = 0; i < n_columns; i++) {
     SEXP name = PROTECT(rlang::str_as_symbol(p_names[i]));
-    add_mask_binding(name, env_bindings, env_chops);
+    add_column_binding(name, env_bindings, env_chops);
     UNPROTECT(1);
   }
-  SEXP mask = PROTECT(rlang::new_data_mask(env_bindings, R_NilValue));
-  SEXP pronoun = PROTECT(rlang::as_data_pronoun(env_bindings));
-  Rf_defineVar(dplyr::symbols::dot_data, pronoun, mask);
 
-  UNPROTECT(4);
-  return mask;
+  UNPROTECT(2);
+  return env_bindings;
 }
 
 SEXP env_resolved(SEXP env, SEXP names) {

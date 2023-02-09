@@ -120,6 +120,66 @@ test_that("mutate() supports constants (#6056, #6305)", {
   })
 })
 
+test_that("can't overwrite column active bindings (#6666)", {
+  df <- tibble(g = 1:2, x = 3:4)
+  gdf <- group_by(df, g)
+
+  # The error seen here comes from trying to `<-` to an active binding when
+  # the active binding function has 0 arguments.
+  expect_snapshot(error = TRUE, {
+    mutate(df, y = {
+      x <<- 2
+      x
+    })
+  })
+  expect_snapshot(error = TRUE, {
+    mutate(df, .by = g, y = {
+      x <<- 2
+      x
+    })
+  })
+  expect_snapshot(error = TRUE, {
+    mutate(gdf, y = {
+      x <<- 2
+      x
+    })
+  })
+})
+
+test_that("assigning with `<-` doesn't affect the mask (#6666)", {
+  df <- tibble(g = 1:2, x = 3:4)
+  gdf <- group_by(df, g)
+
+  out <- mutate(df, .by = g, y = {
+    x <- x + 2L
+    x
+  })
+  expect_identical(out$x, c(3L, 4L))
+  expect_identical(out$y, c(5L, 6L))
+
+  out <- mutate(gdf, y = {
+    x <- x + 2L
+    x
+  })
+  expect_identical(out$x, c(3L, 4L))
+  expect_identical(out$y, c(5L, 6L))
+})
+
+test_that("`across()` inline expansions that use `<-` don't affect the mask (#6666)", {
+  df <- tibble(g = 1:2, x = 3:4)
+
+  out <- df %>%
+    mutate(
+      across(x, function(col) {
+        col <- col + 2L
+        col
+      }),
+      .by = g
+    )
+
+  expect_identical(out$x, c(5L, 6L))
+})
+
 # column types ------------------------------------------------------------
 
 test_that("glue() is supported", {

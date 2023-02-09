@@ -24,7 +24,7 @@ DataMask <- R6Class("DataMask",
       private$rowwise <- by$type == "rowwise"
 
       private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows, private$grouped, private$rowwise)
-      private$mask <- .Call(dplyr_data_masks_setup, private$chops, data, rows)
+      private$env_bindings <- .Call(dplyr_make_column_bindings, private$chops, data)
 
       private$keys <- group_keys0(by$data)
       private$by_names <- by$names
@@ -41,11 +41,11 @@ DataMask <- R6Class("DataMask",
         }
       }
 
-      .Call(`dplyr_mask_add`, private, name, result, chunks)
+      .Call(`dplyr_binding_add`, private, name, result, chunks)
     },
 
     remove = function(name) {
-      .Call(`dplyr_mask_remove`, private, name)
+      .Call(`dplyr_binding_remove`, private, name)
     },
 
     resolve = function(name) {
@@ -93,7 +93,7 @@ DataMask <- R6Class("DataMask",
     },
 
     current_cols = function(vars) {
-      env_get_list(parent.env(private$mask), vars)
+      env_get_list(private$env_bindings, vars)
     },
 
     current_rows = function() {
@@ -190,11 +190,16 @@ DataMask <- R6Class("DataMask",
     },
 
     get_env_bindings = function() {
-      parent.env(private$mask)
+      private$env_bindings
     },
 
     get_rlang_mask = function() {
-      private$mask
+      # Mimicking the data mask that is created during typical
+      # expression evaluations, like in `DataMask$eval_all_mutate()`.
+      # Important to insert a `.data` pronoun!
+      mask <- new_data_mask(private$env_bindings)
+      mask[[".data"]] <- as_data_pronoun(private$env_bindings)
+      mask
     }
 
   ),
@@ -208,10 +213,12 @@ DataMask <- R6Class("DataMask",
     # - .current_group: scalar integer that identifies the current group
     chops = NULL,
 
-    # dynamic data mask, with active bindings for each column
-    # this is an rlang data mask, as such the bindings are actually
-    # in the parent environment of `mask`
-    mask = NULL,
+    # Environment with active bindings for each column.
+    # Expressions are evaluated in a fresh data mask created from this
+    # environment. Each group gets its own newly created data mask to avoid
+    # cross group contamination of the data mask by lexical side effects, like
+    # usage of `<-` (#6666).
+    env_bindings = NULL,
 
     # ptypes of all the variables
     current_data = list(),
