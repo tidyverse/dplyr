@@ -73,7 +73,7 @@
     Output
       <error/rlang_error>
       Error in `rows_insert()`:
-      ! `conflict` must be a character vector, not a number.
+      ! `conflict` must be a character vector, not the number 1.
 
 # rows_append() casts to the type of `x`
 
@@ -148,7 +148,7 @@
     Output
       <error/rlang_error>
       Error in `rows_update()`:
-      ! `unmatched` must be a character vector, not a number.
+      ! `unmatched` must be a character vector, not the number 1.
 
 # rows_patch() requires `y` keys to exist in `x` by default
 

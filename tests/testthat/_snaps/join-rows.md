@@ -252,7 +252,7 @@
       join_rows(df, df, unmatched = 1)
     Condition
       Error:
-      ! `unmatched` must be a character vector, not a number.
+      ! `unmatched` must be a character vector, not the number 1.
     Code
       join_rows(df, df, unmatched = "foo")
     Condition
