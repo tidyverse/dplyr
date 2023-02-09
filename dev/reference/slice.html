@@ -392,30 +392,30 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># slice_sample() allows you to random select with or without replacement</span></span></span>
 <span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">slice_sample</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat 128       32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag  21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230       22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360     14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla 33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa       30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4          21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710         22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla     33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4</span>
 <span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">slice_sample</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 mpg cyl  disp  hp drat   wt  qsec vs am gear carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C...1  17.8   6 167.6 123 3.92 3.44 18.90  1  0    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710     22.8   4 108.0  93 3.85 2.32 18.61  1  1    4    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE...3 16.4   8 275.8 180 3.07 4.07 17.40  0  0    3    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C...4  17.8   6 167.6 123 3.92 3.44 18.90  1  0    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE...5 16.4   8 275.8 180 3.07 4.07 17.40  0  0    3    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora     15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Valiant           18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corona     21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout 18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SLC       15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># you can optionally weight by a variable - this code weights by the</span></span></span>
 <span class="r-in"><span><span class="co"># physical weight of the cars, so heavy cars are more likely to get</span></span></span>
 <span class="r-in"><span><span class="co"># selected</span></span></span>
 <span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">slice_sample</span><span class="op">(</span>weight_by <span class="op">=</span> <span class="va">wt</span>, n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                     mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood 10.4   8  472 205 2.93 5.250 17.98  0  0    3    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28         13.3   8  350 245 3.73 3.840 15.41  0  0    3    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin        15.2   8  304 150 3.15 3.435 17.30  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout  18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird   19.2   8  400 175 3.08 3.845 17.05  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora    15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger 15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive   21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D        24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird 19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Group wise operation ----------------------------------------</span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
@@ -430,11 +430,11 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   group [3]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   group     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> a     0.787</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> b     0.573</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> b     0.563</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> c     0.967</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> c     0.934</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> a     0.496</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> b     0.124</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> b     0.279</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> c     0.927</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> c     0.712</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># When specifying the proportion of rows to include non-integer sizes</span></span></span>
 <span class="r-in"><span><span class="co"># are rounded down, so group a gets 0 rows</span></span></span>
@@ -443,9 +443,9 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   group [2]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   group     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> b     0.573</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> c     0.967</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> c     0.934</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> b     0.124</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> c     0.927</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> c     0.712</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Filter equivalents --------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># slice() expressions can often be written to use `filter()` and</span></span></span>
