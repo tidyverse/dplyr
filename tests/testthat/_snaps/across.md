@@ -283,6 +283,18 @@
       Caused by error in `fn()`:
       ! the ... list contains fewer than 2 elements
 
+# anonymous function `.fns` can access the `.data` pronoun even when not inlined
+
+    Code
+      mutate(df, across(y, fn))
+    Condition
+      Error in `mutate()`:
+      i In argument: `across(y, fn)`.
+      Caused by error in `across()`:
+      ! Can't compute column `y`.
+      Caused by error:
+      ! Can't subset `.data` outside of a data mask context.
+
 # can't rename during selection (#6522)
 
     Code

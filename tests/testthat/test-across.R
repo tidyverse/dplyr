@@ -748,6 +748,30 @@ test_that("list of lambdas work", {
   expect_equal(df %>% mutate((across(1:2, list(~ .x + mean(bar))))), exp)
 })
 
+test_that("anonymous function `.fns` can access the `.data` pronoun even when not inlined", {
+  df <- tibble(x = 1:2, y = 3:4)
+
+  # Can't access it here, `fn()`'s environment doesn't know about `.data`
+  fn <- function(col) {
+    .data[["x"]]
+  }
+  expect_snapshot(error = TRUE, {
+    mutate(df, across(y, fn))
+  })
+
+  # Can access it with inlinable quosures
+  out <- mutate(df, across(y, function(col) {
+    .data[["x"]]
+  }))
+  expect_identical(out$y, out$x)
+
+  # Can access it with non-inlinable quosures
+  out <- mutate(df, across(y, function(col) {
+    return(.data[["x"]])
+  }))
+  expect_identical(out$y, out$x)
+})
+
 test_that("across() uses local formula environment (#5881)", {
   f <- local({
     prefix <- "foo"
