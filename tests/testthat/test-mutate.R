@@ -182,6 +182,23 @@ test_that("`across()` inline expansions that use `<-` don't affect the mask (#66
   expect_identical(out$x, c(5L, 6L))
 })
 
+test_that("can't share local variables across expressions (#6666)", {
+  df <- tibble(x = 1:2, y = 3:4)
+
+  expect_snapshot(error = TRUE, {
+    mutate(
+      df,
+      x2 = {
+        foo <- x
+        x
+      },
+      y2 = {
+        foo
+      }
+    )
+  })
+})
+
 # column types ------------------------------------------------------------
 
 test_that("glue() is supported", {

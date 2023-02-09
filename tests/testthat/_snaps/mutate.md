@@ -88,6 +88,21 @@
       Caused by error:
       ! unused argument (base::quote(2))
 
+# can't share local variables across expressions (#6666)
+
+    Code
+      mutate(df, x2 = {
+        foo <- x
+        x
+      }, y2 = {
+        foo
+      })
+    Condition
+      Error in `mutate()`:
+      i In argument: `y2 = { ... }`.
+      Caused by error:
+      ! object 'foo' not found
+
 # rowwise mutate un-lists existing size-1 list-columns (#6302)
 
     Code
