@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* Fixed an issue where expressions involving infix operators had an abnormally
+  large amount of overhead (#6681).
+
 * `nth()` now errors informatively if `n` is `NA` (#6682).
 
 * Fixed performance regression related to `nth()`, `first()`, and `last()`
