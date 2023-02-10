@@ -141,6 +141,51 @@ test_that("named data frame results with 0 columns participate in recycling (#65
   )
 })
 
+test_that("can't overwrite column active bindings (#6666)", {
+  skip_if(getRversion() < "3.6.3", message = "Active binding error changed")
+
+  df <- tibble(g = c(1, 1, 2, 2), x = 1:4)
+  gdf <- group_by(df, g)
+
+  # The error seen here comes from trying to `<-` to an active binding when
+  # the active binding function has 0 arguments.
+  expect_snapshot(error = TRUE, {
+    summarise(df, y = {
+      x <<- x + 2L
+      mean(x)
+    })
+  })
+  expect_snapshot(error = TRUE, {
+    summarise(df, .by = g, y = {
+      x <<- x + 2L
+      mean(x)
+    })
+  })
+  expect_snapshot(error = TRUE, {
+    summarise(gdf, y = {
+      x <<- x + 2L
+      mean(x)
+    })
+  })
+})
+
+test_that("assigning with `<-` doesn't affect the mask (#6666)", {
+  df <- tibble(g = c(1, 1, 2, 2), x = 1:4)
+  gdf <- group_by(df, g)
+
+  out <- summarise(df, .by = g, y = {
+    x <- x + 4L
+    mean(x)
+  })
+  expect_identical(out$y, c(5.5, 7.5))
+
+  out <- summarise(gdf, y = {
+    x <- x + 4L
+    mean(x)
+  })
+  expect_identical(out$y, c(5.5, 7.5))
+})
+
 # grouping ----------------------------------------------------------------
 
 test_that("peels off a single layer of grouping", {

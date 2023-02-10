@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* Fixed an issue where using `<-` within a grouped `mutate()` or `summarise()`
+  could cross contaminate other groups (#6666).
+
 * Deprecation warnings thrown by `filter()` now mention the correct package
   where the problem originated from (#6679).
 

@@ -30,7 +30,7 @@ Imports:
     methods,
     pillar (>= 1.5.1),
     R6,
-    rlang (>= 1.0.6),
+    rlang (>= 1.0.6.9000),
     tibble (>= 2.1.3),
     tidyselect (>= 1.2.0),
     utils,
@@ -65,3 +65,5 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Remotes:
+    r-lib/rlang

@@ -200,6 +200,7 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos,
   int* p_keep = LOGICAL(keep);
 
   for (R_xlen_t i = 0; i < ngroups; ++i) {
+    DPLYR_MASK_ITERATION_INIT();
     DPLYR_MASK_SET_GROUP(i);
 
     const bool first = i == 0;
@@ -224,6 +225,7 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos,
     }
 
     UNPROTECT(1);
+    DPLYR_MASK_ITERATION_FINALISE();
   }
 
   UNPROTECT(1);
