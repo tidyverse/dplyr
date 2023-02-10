@@ -211,29 +211,29 @@ case_formula_evaluate <- function(args,
   lhs <- vector("list", n_args)
   rhs <- vector("list", n_args)
 
-  for (i in seq_args) {
-    pair <- pairs[[i]]
+  env_error_info <- new_environment()
 
-    lhs_elt <- with_case_errors(
-      eval_tidy(pair$lhs, env = default_env),
-      side = "left",
-      i = i,
-      error_call = error_call
-    )
-    rhs_elt <- with_case_errors(
-      eval_tidy(pair$rhs, env = default_env),
-      side = "right",
-      i = i,
-      error_call = error_call
-    )
+  # Using 1 call to `with_case_errors()` that wraps all `eval_tidy()`
+  # evaluations to avoid repeated calls to `try_fetch()` (#6674)
+  with_case_errors(error_call = error_call, env_error_info = env_error_info, {
+    for (i in seq_args) {
+      env_error_info[["i"]] <- i
+      pair <- pairs[[i]]
 
-    if (!is.null(lhs_elt)) {
-      lhs[[i]] <- lhs_elt
+      env_error_info[["side"]] <- "left"
+      elt_lhs <- eval_tidy(pair$lhs, env = default_env)
+
+      env_error_info[["side"]] <- "right"
+      elt_rhs <- eval_tidy(pair$rhs, env = default_env)
+
+      if (!is.null(elt_lhs)) {
+        lhs[[i]] <- elt_lhs
+      }
+      if (!is.null(elt_rhs)) {
+        rhs[[i]] <- elt_rhs
+      }
     }
-    if (!is.null(rhs_elt)) {
-      rhs[[i]] <- rhs_elt
-    }
-  }
+  })
 
   # TODO: Ideally we'd name the lhs/rhs values with their `as_label()`-ed
   # expressions. But `as_label()` is much too slow for that to be useful in
@@ -295,10 +295,12 @@ validate_and_split_formula <- function(x,
   )
 }
 
-with_case_errors <- function(expr, side, i, error_call) {
+with_case_errors <- function(expr, error_call, env_error_info) {
   try_fetch(
     expr,
     error = function(cnd) {
+      i <- env_error_info$i
+      side <- env_error_info$side
       message <- glue("Failed to evaluate the {side}-hand side of formula {i}.")
       abort(message, parent = cnd, call = error_call)
     }
