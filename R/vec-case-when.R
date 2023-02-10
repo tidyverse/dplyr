@@ -51,13 +51,7 @@ vec_case_when <- function(conditions,
   for (i in seq_len(n_conditions)) {
     condition <- conditions[[i]]
     condition_arg <- condition_args[[i]]
-
-    vec_assert(
-      x = condition,
-      ptype = logical(),
-      arg = condition_arg,
-      call = call
-    )
+    check_logical(condition, arg = condition_arg, call = call)
   }
 
   size <- vec_size_common(

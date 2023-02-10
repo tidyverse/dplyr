@@ -92,8 +92,7 @@
       vec_case_when(list(1), list(2))
     Condition
       Error in `vec_case_when()`:
-      ! `conditions[[1]]` must be a vector with type <logical>.
-      Instead, it has type <double>.
+      ! `conditions[[1]]` must be a logical vector, not the number 1.
 
 ---
 
@@ -101,8 +100,7 @@
       vec_case_when(list(TRUE, 3.5), list(2, 4))
     Condition
       Error in `vec_case_when()`:
-      ! `conditions[[2]]` must be a vector with type <logical>.
-      Instead, it has type <double>.
+      ! `conditions[[2]]` must be a logical vector, not the number 3.5.
 
 # `size` overrides the `conditions` sizes
 
@@ -193,8 +191,7 @@
       vec_case_when(list(x = 1.5), list(1))
     Condition
       Error in `vec_case_when()`:
-      ! `conditions$x` must be a vector with type <logical>.
-      Instead, it has type <double>.
+      ! `conditions$x` must be a logical vector, not the number 1.5.
 
 ---
 
@@ -202,8 +199,7 @@
       vec_case_when(list(x = 1.5), list(1), conditions_arg = "foo")
     Condition
       Error in `vec_case_when()`:
-      ! `foo$x` must be a vector with type <logical>.
-      Instead, it has type <double>.
+      ! `foo$x` must be a logical vector, not the number 1.5.
 
 ---
 
@@ -211,8 +207,7 @@
       vec_case_when(list(x = 1.5), list(1), conditions_arg = "")
     Condition
       Error in `vec_case_when()`:
-      ! `x` must be a vector with type <logical>.
-      Instead, it has type <double>.
+      ! `x` must be a logical vector, not the number 1.5.
 
 ---
 

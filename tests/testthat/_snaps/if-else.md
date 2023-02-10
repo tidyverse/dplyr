@@ -20,8 +20,7 @@
       if_else(1:10, 1, 2)
     Condition
       Error in `if_else()`:
-      ! `condition` must be a vector with type <logical>.
-      Instead, it has type <integer>.
+      ! `condition` must be a logical vector, not an integer vector.
 
 # `true`, `false`, and `missing` must recycle to the size of `condition`
 
