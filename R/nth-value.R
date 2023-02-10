@@ -165,7 +165,9 @@ vec_slice2 <- function(x, i) {
   # Our unimplemented vctrs equivalent of `[[`
   # https://github.com/r-lib/vctrs/pull/1228/
 
-  i <- vec_as_location2(i, vec_size(x))
+  # A real implementation would use this, but it is too slow right now
+  # and we know `i` is a valid integer index (#6682)
+  # i <- vec_as_location2(i, vec_size(x))
 
   if (vec_is_list(x)) {
     out <- .subset2(x, i)
