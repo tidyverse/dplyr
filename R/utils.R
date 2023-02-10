@@ -75,3 +75,10 @@ node_walk_replace <- function(node, old, new) {
 cli_collapse <- function(x, last = " and ") {
   cli::cli_vec(x, style = list("vec-last" = last))
 }
+
+with_no_rlang_infix_labeling <- function(expr) {
+  # TODO: Temporary patch for a slowdown seen with `rlang::as_label()` and infix
+  # operators. A real solution likely involves lazy ALTREP vectors (#6681).
+  # https://github.com/r-lib/rlang/commit/33db700d556b0b85a1fe78e14a53f95ac9248004
+  with_options("rlang:::use_as_label_infix" = FALSE, expr)
+}

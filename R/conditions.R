@@ -68,7 +68,7 @@ quo_as_label <- function(quo)  {
   if (is_data_pronoun(expr)) {
     deparse(expr)[[1]]
   } else{
-    as_label(expr)
+    with_no_rlang_infix_labeling(as_label(expr))
   }
 }
 
