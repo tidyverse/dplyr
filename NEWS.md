@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `arrange()` can once again sort the `numeric_version` type from base R
+  (#6680).
+
 * Fixed an issue where using `<-` within a grouped `mutate()` or `summarise()`
   could cross contaminate other groups (#6666).
 
