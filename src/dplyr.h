@@ -52,7 +52,7 @@ struct symbols {
   static SEXP dot_data;
   static SEXP used;
   static SEXP across;
-  static SEXP env_bindings;
+  static SEXP env_mask_bindings;
 };
 
 struct vectors {
@@ -109,13 +109,13 @@ SEXP dplyr_summarise_recycle_chunks_in_place(SEXP list_of_chunks, SEXP list_of_r
 SEXP dplyr_group_indices(SEXP data, SEXP rows);
 SEXP dplyr_group_keys(SEXP group_data);
 
-SEXP dplyr_binding_remove(SEXP env_private, SEXP s_name);
-SEXP dplyr_binding_add(SEXP env_private, SEXP s_name, SEXP ptype, SEXP chunks);
+SEXP dplyr_mask_binding_remove(SEXP env_private, SEXP s_name);
+SEXP dplyr_mask_binding_add(SEXP env_private, SEXP s_name, SEXP ptype, SEXP chunks);
 
 SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows, SEXP ffi_grouped, SEXP ffi_rowwise);
-SEXP dplyr_make_column_bindings(SEXP chops, SEXP data);
+SEXP dplyr_make_mask_bindings(SEXP chops, SEXP data);
 SEXP env_resolved(SEXP env, SEXP names);
-void add_column_binding(SEXP name, SEXP env_bindings, SEXP env_chops);
+void add_mask_binding(SEXP name, SEXP env_mask_bindings, SEXP env_chops);
 
 SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype);
 
@@ -123,8 +123,8 @@ SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype);
   SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));                             \
   R_xlen_t ngroups = XLENGTH(rows);                                                                      \
   SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));                         \
-  SEXP env_bindings = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::env_bindings));             \
-  SEXP pronoun = PROTECT(rlang::as_data_pronoun(env_bindings));                                          \
+  SEXP env_mask_bindings = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::env_mask_bindings));   \
+  SEXP pronoun = PROTECT(rlang::as_data_pronoun(env_mask_bindings));                                     \
   SEXP chops_env = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::chops));                       \
   SEXP current_group = PROTECT(Rf_findVarInFrame(ENCLOS(chops_env), dplyr::symbols::dot_current_group)); \
   int* p_current_group = INTEGER(current_group);                                                         \
@@ -136,8 +136,8 @@ SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype);
 
 // At each iteration, we create a fresh data mask so that lexical side effects,
 // such as using `<-` in a `mutate()`, don't persist between groups
-#define DPLYR_MASK_ITERATION_INIT()                                    \
-  SEXP mask = PROTECT(rlang::new_data_mask(env_bindings, R_NilValue)); \
+#define DPLYR_MASK_ITERATION_INIT()                                         \
+  SEXP mask = PROTECT(rlang::new_data_mask(env_mask_bindings, R_NilValue)); \
   Rf_defineVar(dplyr::symbols::dot_data, pronoun, mask)
 
 #define DPLYR_MASK_ITERATION_FINALISE()                        \

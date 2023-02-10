@@ -24,7 +24,7 @@ DataMask <- R6Class("DataMask",
       private$rowwise <- by$type == "rowwise"
 
       private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows, private$grouped, private$rowwise)
-      private$env_bindings <- .Call(dplyr_make_column_bindings, private$chops, data)
+      private$env_mask_bindings <- .Call(dplyr_make_mask_bindings, private$chops, data)
 
       private$keys <- group_keys0(by$data)
       private$by_names <- by$names
@@ -41,11 +41,11 @@ DataMask <- R6Class("DataMask",
         }
       }
 
-      .Call(`dplyr_binding_add`, private, name, result, chunks)
+      .Call(`dplyr_mask_binding_add`, private, name, result, chunks)
     },
 
     remove = function(name) {
-      .Call(`dplyr_binding_remove`, private, name)
+      .Call(`dplyr_mask_binding_remove`, private, name)
     },
 
     resolve = function(name) {
@@ -93,7 +93,7 @@ DataMask <- R6Class("DataMask",
     },
 
     current_cols = function(vars) {
-      env_get_list(private$env_bindings, vars)
+      env_get_list(private$env_mask_bindings, vars)
     },
 
     current_rows = function() {
@@ -166,10 +166,10 @@ DataMask <- R6Class("DataMask",
       }
 
       promises <- map(names_bindings, function(.x) expr(osbolete_promise_fn(!!.x)))
-      bindings <- self$get_env_bindings()
+      env_mask_bindings <- private$env_mask_bindings
       suppressWarnings({
-        rm(list = names_bindings, envir = bindings)
-        env_bind_lazy(bindings, !!!set_names(promises, names_bindings))
+        rm(list = names_bindings, envir = env_mask_bindings)
+        env_bind_lazy(env_mask_bindings, !!!set_names(promises, names_bindings))
       })
     },
 
@@ -189,16 +189,12 @@ DataMask <- R6Class("DataMask",
       private$size
     },
 
-    get_env_bindings = function() {
-      private$env_bindings
-    },
-
     get_rlang_mask = function() {
       # Mimicking the data mask that is created during typical
       # expression evaluations, like in `DataMask$eval_all_mutate()`.
       # Important to insert a `.data` pronoun!
-      mask <- new_data_mask(private$env_bindings)
-      mask[[".data"]] <- as_data_pronoun(private$env_bindings)
+      mask <- new_data_mask(private$env_mask_bindings)
+      mask[[".data"]] <- as_data_pronoun(private$env_mask_bindings)
       mask
     }
 
@@ -218,7 +214,7 @@ DataMask <- R6Class("DataMask",
     # environment. Each group gets its own newly created data mask to avoid
     # cross group contamination of the data mask by lexical side effects, like
     # usage of `<-` (#6666).
-    env_bindings = NULL,
+    env_mask_bindings = NULL,
 
     # ptypes of all the variables
     current_data = list(),
