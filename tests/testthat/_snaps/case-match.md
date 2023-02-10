@@ -20,7 +20,7 @@
       case_match(1, 1 ~ 1L, .default = "x")
     Condition
       Error in `case_match()`:
-      ! Can't combine `1L` <integer> and `.default` <character>.
+      ! Can't combine `..1 (RHS)` <integer> and `.default` <character>.
 
 # `NULL` formula element throws meaningful error
 
@@ -28,7 +28,7 @@
       case_match(1, 1 ~ NULL)
     Condition
       Error in `case_match()`:
-      ! `NULL` must be a vector, not `NULL`.
+      ! `..1 (RHS)` must be a vector, not `NULL`.
 
 ---
 
@@ -36,7 +36,7 @@
       case_match(1, NULL ~ 1)
     Condition
       Error in `case_match()`:
-      ! `NULL` must be a vector, not `NULL`.
+      ! `..1 (LHS)` must be a vector, not `NULL`.
 
 # throws chained errors when formula evaluation fails
 

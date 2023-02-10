@@ -192,6 +192,7 @@ case_formula_evaluate <- function(args,
   # `case_when()`'s formula interface compacts `NULL`s
   args <- compact_null(args)
   n_args <- length(args)
+  seq_args <- seq_len(n_args)
 
   lhs <- vector("list", n_args)
   rhs <- vector("list", n_args)
@@ -229,15 +230,25 @@ case_formula_evaluate <- function(args,
     }
   }
 
-  # Add the expressions as names for `lhs` and `rhs` for nice errors.
-  # These names also get passed on to the underlying vctrs backend.
-  lhs_names <- map(quos_pairs, function(pair) pair$lhs)
-  lhs_names <- map_chr(lhs_names, as_label)
-  names(lhs) <- lhs_names
-
-  rhs_names <- map(quos_pairs, function(pair) pair$rhs)
-  rhs_names <- map_chr(rhs_names, as_label)
-  names(rhs) <- rhs_names
+  # TODO: Ideally we'd name the lhs/rhs values with their `as_label()`-ed
+  # expressions. But `as_label()` is much too slow for that to be useful in
+  # a grouped `mutate()`. We need a way to add ALTREP lazy names that only get
+  # materialized on demand (i.e. on error). Until then, we fall back to the
+  # positional names (like `..1` or `..3`) with info about LHS/RHS (#6674).
+  #
+  # # Add the expressions as names for `lhs` and `rhs` for nice errors.
+  # # These names also get passed on to the underlying vctrs backend.
+  # lhs_names <- map(quos_pairs, function(pair) pair$lhs)
+  # lhs_names <- map_chr(lhs_names, as_label)
+  # names(lhs) <- lhs_names
+  #
+  # rhs_names <- map(quos_pairs, function(pair) pair$rhs)
+  # rhs_names <- map_chr(rhs_names, as_label)
+  # names(rhs) <- rhs_names
+  if (n_args > 0L) {
+    names(lhs) <- paste0("..", seq_args, " (LHS)")
+    names(rhs) <- paste0("..", seq_args, " (RHS)")
+  }
 
   list(
     lhs = lhs,
