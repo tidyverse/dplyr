@@ -9,7 +9,7 @@
 #' @importFrom tibble new_tibble is_tibble
 #' @importFrom stats setNames update
 #' @importFrom utils head tail
-#' @importFrom methods is
+#' @importFrom methods setOldClass
 #' @importFrom lifecycle deprecated
 #' @importFrom R6 R6Class
 "_PACKAGE"
