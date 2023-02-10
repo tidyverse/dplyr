@@ -192,7 +192,7 @@ dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/select.tbl_lazy.ht
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">rename</span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of</a></span><span class="op">(</span><span class="va">lookup</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in rename(iris, all_of(lookup)) : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Problem while evaluating `all_of(lookup)`.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `all_of()`:</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `all_of()` at rlang/R/eval-tidy.R:121:2:</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Can't subset elements that don't exist.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Element `unknown` doesn't exist.</span>
 <span class="r-in"><span><span class="fu">rename</span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">any_of</a></span><span class="op">(</span><span class="va">lookup</span><span class="op">)</span><span class="op">)</span></span></span>
