@@ -46,6 +46,14 @@
       Error in `nth()`:
       ! `n` must have size 1, not size 2.
 
+---
+
+    Code
+      nth(1:10, n = NA_integer_)
+    Condition
+      Error in `nth()`:
+      ! `n` can't be `NA`.
+
 # `x` must be a vector
 
     Code
