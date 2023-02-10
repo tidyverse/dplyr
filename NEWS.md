@@ -1,5 +1,10 @@
 # dplyr (development version)
 
+* `nth()` now errors informatively if `n` is `NA` (#6682).
+
+* Fixed performance regression related to `nth()`, `first()`, and `last()`
+  (#6682).
+
 * `arrange()` can once again sort the `numeric_version` type from base R
   (#6680).
 
