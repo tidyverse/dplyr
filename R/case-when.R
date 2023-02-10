@@ -155,15 +155,11 @@ case_when <- function(...,
                       .size = NULL) {
   args <- list2(...)
 
-  default_env <- caller_env()
-  dots_env <- current_env()
-  error_call <- current_env()
-
   args <- case_formula_evaluate(
     args = args,
-    default_env = default_env,
-    dots_env = dots_env,
-    error_call = error_call
+    default_env = caller_env(),
+    dots_env = current_env(),
+    error_call = current_env()
   )
 
   conditions <- args$lhs
@@ -171,10 +167,10 @@ case_when <- function(...,
 
   # `case_when()`'s formula interface finds the common size of ALL of its inputs.
   # This is what allows `TRUE ~` to work.
-  .size <- vec_size_common(!!!conditions, !!!values, .size = .size, .call = error_call)
+  .size <- vec_size_common(!!!conditions, !!!values, .size = .size)
 
-  conditions <- vec_recycle_common(!!!conditions, .size = .size, .call = error_call)
-  values <- vec_recycle_common(!!!values, .size = .size, .call = error_call)
+  conditions <- vec_recycle_common(!!!conditions, .size = .size)
+  values <- vec_recycle_common(!!!values, .size = .size)
 
   vec_case_when(
     conditions = conditions,
@@ -185,7 +181,7 @@ case_when <- function(...,
     default_arg = ".default",
     ptype = .ptype,
     size = .size,
-    call = error_call
+    call = current_env()
   )
 }
 
