@@ -305,6 +305,16 @@ test_that("`conditions` must be logical (and aren't cast to logical!)", {
   })
 })
 
+test_that("`conditions` are allowed to have attributes", {
+  x <- structure(c(FALSE, TRUE), label = "foo")
+  expect_identical(vec_case_when(list(x), list(1), default = 2), c(2, 1))
+})
+
+test_that("`conditions` can be classed logicals", {
+  x <- structure(c(FALSE, TRUE), class = "my_logical")
+  expect_identical(vec_case_when(list(x), list(1), default = 2), c(2, 1))
+})
+
 test_that("`size` overrides the `conditions` sizes", {
   expect_snapshot(error = TRUE, {
     vec_case_when(list(TRUE), list(1), size = 5)
