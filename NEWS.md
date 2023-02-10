@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `if_else()` and `case_when()` again accept logical conditions that have
+  attributes (#6678).
+
 * `slice_sample()` now works when the input has a column named `replace`.
   `slice_min()` and `slice_max()` now work when the input has columns named
   `na_rm` or `with_ties` (#6725).
