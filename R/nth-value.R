@@ -105,6 +105,10 @@ nth <- function(x, n, order_by = NULL, default = NULL, na_rm = FALSE) {
     }
   }
 
+  if (is.na(n)) {
+    abort("`n` can't be `NA`.")
+  }
+
   if (n < 0L) {
     # Negative values index from RHS
     n <- size + n + 1L

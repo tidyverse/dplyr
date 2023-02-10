@@ -163,6 +163,9 @@ test_that("`n` is validated (#5466)", {
   expect_snapshot(error = TRUE, {
     nth(1:10, n = 1:2)
   })
+  expect_snapshot(error = TRUE, {
+    nth(1:10, n = NA_integer_)
+  })
 })
 
 test_that("`x` must be a vector", {
