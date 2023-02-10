@@ -194,20 +194,25 @@ case_formula_evaluate <- function(args,
   n_args <- length(args)
   seq_args <- seq_len(n_args)
 
+  pairs <- map2(
+    .x = args,
+    .y = seq_args,
+    .f = function(x, i) {
+      validate_and_split_formula(
+        x = x,
+        i = i,
+        default_env = default_env,
+        dots_env = dots_env,
+        error_call = error_call
+      )
+    }
+  )
+
   lhs <- vector("list", n_args)
   rhs <- vector("list", n_args)
 
-  quos_pairs <- map2(
-    .x = args,
-    .y = seq_len(n_args),
-    .f = validate_and_split_formula,
-    default_env = default_env,
-    dots_env = dots_env,
-    error_call = error_call
-  )
-
-  for (i in seq_len(n_args)) {
-    pair <- quos_pairs[[i]]
+  for (i in seq_args) {
+    pair <- pairs[[i]]
 
     lhs_elt <- with_case_errors(
       eval_tidy(pair$lhs, env = default_env),
