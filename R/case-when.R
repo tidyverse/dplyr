@@ -213,9 +213,9 @@ case_formula_evaluate <- function(args,
 
   env_error_info <- new_environment()
 
-  # Using 1 call to `with_case_errors()` that wraps all `eval_tidy()`
-  # evaluations to avoid repeated calls to `try_fetch()` (#6674)
-  with_case_errors(error_call = error_call, env_error_info = env_error_info, {
+  # Using 1 call to `withCallingHandlers()` that wraps all `eval_tidy()`
+  # evaluations to avoid repeated handler setup (#6674)
+  withCallingHandlers(
     for (i in seq_args) {
       env_error_info[["i"]] <- i
       pair <- pairs[[i]]
@@ -232,8 +232,15 @@ case_formula_evaluate <- function(args,
       if (!is.null(elt_rhs)) {
         rhs[[i]] <- elt_rhs
       }
+    },
+    error = function(cnd) {
+      message <- glue::glue_data(
+        env_error_info,
+        "Failed to evaluate the {side}-hand side of formula {i}."
+      )
+      abort(message, parent = cnd, call = error_call)
     }
-  })
+  )
 
   # TODO: Ideally we'd name the lhs/rhs values with their `as_label()`-ed
   # expressions. But `as_label()` is much too slow for that to be useful in
@@ -292,17 +299,5 @@ validate_and_split_formula <- function(x,
   list(
     lhs = new_quosure(f_lhs(x), env),
     rhs = new_quosure(f_rhs(x), env)
-  )
-}
-
-with_case_errors <- function(expr, error_call, env_error_info) {
-  try_fetch(
-    expr,
-    error = function(cnd) {
-      i <- env_error_info$i
-      side <- env_error_info$side
-      message <- glue("Failed to evaluate the {side}-hand side of formula {i}.")
-      abort(message, parent = cnd, call = error_call)
-    }
   )
 }
