@@ -246,7 +246,7 @@ case_formula_evaluate <- function(args,
   # expressions. But `as_label()` is much too slow for that to be useful in
   # a grouped `mutate()`. We need a way to add ALTREP lazy names that only get
   # materialized on demand (i.e. on error). Until then, we fall back to the
-  # positional names (like `..1` or `..3`) with info about LHS/RHS (#6674).
+  # positional names (like `..1` or `..3`) with info about left/right (#6674).
   #
   # # Add the expressions as names for `lhs` and `rhs` for nice errors.
   # # These names also get passed on to the underlying vctrs backend.
@@ -258,8 +258,8 @@ case_formula_evaluate <- function(args,
   # rhs_names <- map_chr(rhs_names, as_label)
   # names(rhs) <- rhs_names
   if (n_args > 0L) {
-    names(lhs) <- paste0("..", seq_args, " (LHS)")
-    names(rhs) <- paste0("..", seq_args, " (RHS)")
+    names(lhs) <- paste0("..", seq_args, " (left)")
+    names(rhs) <- paste0("..", seq_args, " (right)")
   }
 
   list(
