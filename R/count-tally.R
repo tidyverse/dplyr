@@ -92,7 +92,7 @@ tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 
 #' @export
 tally.data.frame <- function(x, wt = NULL, sort = FALSE, name = NULL) {
-  name <- check_name(name, group_vars(x))
+  name <- check_n_name(name, group_vars(x))
 
   dplyr_local_error_call()
 
@@ -165,7 +165,7 @@ add_count_impl <- function(x,
 #' @rdname count
 #' @export
 add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
-  name <- check_name(name, tbl_vars(x))
+  name <- check_n_name(name, tbl_vars(x))
 
   dplyr_local_error_call()
 
@@ -200,10 +200,10 @@ tally_n <- function(x, wt) {
   }
 }
 
-check_name <- function(name,
-                       vars,
-                       arg = caller_arg(name),
-                       call = caller_env()) {
+check_n_name <- function(name,
+                         vars,
+                         arg = caller_arg(name),
+                         call = caller_env()) {
   if (is.null(name)) {
     name <- n_name(vars)
 
