@@ -1,6 +1,8 @@
 # dplyr (development version)
 
-* A major performance regression in `case_when()` has been fixed (#6674).
+* A major performance regression in `case_when()` has been fixed. It is still a
+  little slower than in dplyr 1.0.10, but we plan to improve this further in the
+  future (#6674).
 
 * Fixed an issue where expressions involving infix operators had an abnormally
   large amount of overhead (#6681).
