@@ -1,7 +1,15 @@
-# nocov start --- r-lib/rlang compat-obj-type
+# Standalone file: do not edit by hand
+# Source: <https://github.com/r-lib/rlang/blob/main/R/standalone-obj-type.R>
+# ----------------------------------------------------------------------
 #
-# Changelog
-# =========
+# ---
+# repo: r-lib/rlang
+# file: standalone-obj-type.R
+# last-updated: 2022-10-04
+# license: https://unlicense.org
+# ---
+#
+# ## Changelog
 #
 # 2022-10-04:
 # - `obj_type_friendly(value = TRUE)` now shows numeric scalars
@@ -36,7 +44,8 @@
 # - Added support for matrices and arrays (#141).
 # - Added documentation.
 # - Added changelog.
-
+#
+# nocov start
 
 #' Return English-friendly type
 #' @param x Any R object.
@@ -288,7 +297,7 @@ stop_input_type <- function(x,
                             show_value = TRUE,
                             arg = caller_arg(x),
                             call = caller_env()) {
-  # From compat-cli.R
+  # From standalone-cli.R
   cli <- env_get_list(
     nms = c("format_arg", "format_code"),
     last = topenv(),
