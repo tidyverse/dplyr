@@ -155,15 +155,11 @@ case_when <- function(...,
                       .size = NULL) {
   args <- list2(...)
 
-  default_env <- caller_env()
-  dots_env <- current_env()
-  error_call <- current_env()
-
   args <- case_formula_evaluate(
     args = args,
-    default_env = default_env,
-    dots_env = dots_env,
-    error_call = error_call
+    default_env = caller_env(),
+    dots_env = current_env(),
+    error_call = current_env()
   )
 
   conditions <- args$lhs
@@ -171,10 +167,10 @@ case_when <- function(...,
 
   # `case_when()`'s formula interface finds the common size of ALL of its inputs.
   # This is what allows `TRUE ~` to work.
-  .size <- vec_size_common(!!!conditions, !!!values, .size = .size, .call = error_call)
+  .size <- vec_size_common(!!!conditions, !!!values, .size = .size)
 
-  conditions <- vec_recycle_common(!!!conditions, .size = .size, .call = error_call)
-  values <- vec_recycle_common(!!!values, .size = .size, .call = error_call)
+  conditions <- vec_recycle_common(!!!conditions, .size = .size)
+  values <- vec_recycle_common(!!!values, .size = .size)
 
   vec_case_when(
     conditions = conditions,
@@ -185,7 +181,7 @@ case_when <- function(...,
     default_arg = ".default",
     ptype = .ptype,
     size = .size,
-    call = error_call
+    call = current_env()
   )
 }
 
@@ -196,52 +192,75 @@ case_formula_evaluate <- function(args,
   # `case_when()`'s formula interface compacts `NULL`s
   args <- compact_null(args)
   n_args <- length(args)
+  seq_args <- seq_len(n_args)
+
+  pairs <- map2(
+    .x = args,
+    .y = seq_args,
+    .f = function(x, i) {
+      validate_and_split_formula(
+        x = x,
+        i = i,
+        default_env = default_env,
+        dots_env = dots_env,
+        error_call = error_call
+      )
+    }
+  )
 
   lhs <- vector("list", n_args)
   rhs <- vector("list", n_args)
 
-  quos_pairs <- map2(
-    .x = args,
-    .y = seq_len(n_args),
-    .f = validate_and_split_formula,
-    default_env = default_env,
-    dots_env = dots_env,
-    error_call = error_call
+  env_error_info <- new_environment()
+
+  # Using 1 call to `withCallingHandlers()` that wraps all `eval_tidy()`
+  # evaluations to avoid repeated handler setup (#6674)
+  withCallingHandlers(
+    for (i in seq_args) {
+      env_error_info[["i"]] <- i
+      pair <- pairs[[i]]
+
+      env_error_info[["side"]] <- "left"
+      elt_lhs <- eval_tidy(pair$lhs, env = default_env)
+
+      env_error_info[["side"]] <- "right"
+      elt_rhs <- eval_tidy(pair$rhs, env = default_env)
+
+      if (!is.null(elt_lhs)) {
+        lhs[[i]] <- elt_lhs
+      }
+      if (!is.null(elt_rhs)) {
+        rhs[[i]] <- elt_rhs
+      }
+    },
+    error = function(cnd) {
+      message <- glue::glue_data(
+        env_error_info,
+        "Failed to evaluate the {side}-hand side of formula {i}."
+      )
+      abort(message, parent = cnd, call = error_call)
+    }
   )
 
-  for (i in seq_len(n_args)) {
-    pair <- quos_pairs[[i]]
-
-    lhs_elt <- with_case_errors(
-      eval_tidy(pair$lhs, env = default_env),
-      side = "left",
-      i = i,
-      error_call = error_call
-    )
-    rhs_elt <- with_case_errors(
-      eval_tidy(pair$rhs, env = default_env),
-      side = "right",
-      i = i,
-      error_call = error_call
-    )
-
-    if (!is.null(lhs_elt)) {
-      lhs[[i]] <- lhs_elt
-    }
-    if (!is.null(rhs_elt)) {
-      rhs[[i]] <- rhs_elt
-    }
+  # TODO: Ideally we'd name the lhs/rhs values with their `as_label()`-ed
+  # expressions. But `as_label()` is much too slow for that to be useful in
+  # a grouped `mutate()`. We need a way to add ALTREP lazy names that only get
+  # materialized on demand (i.e. on error). Until then, we fall back to the
+  # positional names (like `..1` or `..3`) with info about left/right (#6674).
+  #
+  # # Add the expressions as names for `lhs` and `rhs` for nice errors.
+  # # These names also get passed on to the underlying vctrs backend.
+  # lhs_names <- map(quos_pairs, function(pair) pair$lhs)
+  # lhs_names <- map_chr(lhs_names, as_label)
+  # names(lhs) <- lhs_names
+  #
+  # rhs_names <- map(quos_pairs, function(pair) pair$rhs)
+  # rhs_names <- map_chr(rhs_names, as_label)
+  # names(rhs) <- rhs_names
+  if (n_args > 0L) {
+    names(lhs) <- paste0("..", seq_args, " (left)")
+    names(rhs) <- paste0("..", seq_args, " (right)")
   }
-
-  # Add the expressions as names for `lhs` and `rhs` for nice errors.
-  # These names also get passed on to the underlying vctrs backend.
-  lhs_names <- map(quos_pairs, function(pair) pair$lhs)
-  lhs_names <- map_chr(lhs_names, as_label)
-  names(lhs) <- lhs_names
-
-  rhs_names <- map(quos_pairs, function(pair) pair$rhs)
-  rhs_names <- map_chr(rhs_names, as_label)
-  names(rhs) <- rhs_names
 
   list(
     lhs = lhs,
@@ -280,15 +299,5 @@ validate_and_split_formula <- function(x,
   list(
     lhs = new_quosure(f_lhs(x), env),
     rhs = new_quosure(f_rhs(x), env)
-  )
-}
-
-with_case_errors <- function(expr, side, i, error_call) {
-  try_fetch(
-    expr,
-    error = function(cnd) {
-      message <- glue("Failed to evaluate the {side}-hand side of formula {i}.")
-      abort(message, parent = cnd, call = error_call)
-    }
   )
 }

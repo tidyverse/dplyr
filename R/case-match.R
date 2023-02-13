@@ -128,15 +128,11 @@ case_match <- function(.x,
                        .ptype = NULL) {
   args <- list2(...)
 
-  default_env <- caller_env()
-  dots_env <- current_env()
-  error_call <- current_env()
-
   args <- case_formula_evaluate(
     args = args,
-    default_env = default_env,
-    dots_env = dots_env,
-    error_call = error_call
+    default_env = caller_env(),
+    dots_env = current_env(),
+    error_call = current_env()
   )
 
   haystacks <- args$lhs
@@ -152,6 +148,6 @@ case_match <- function(.x,
     default = .default,
     default_arg = ".default",
     ptype = .ptype,
-    call = error_call
+    call = current_env()
   )
 }

@@ -12,7 +12,7 @@
       case_when(TRUE ~ 1L, .default = "x")
     Condition
       Error in `case_when()`:
-      ! Can't combine `1L` <integer> and `.default` <character>.
+      ! Can't combine `..1 (right)` <integer> and `.default` <character>.
 
 # passes through `.size` correctly
 
@@ -20,7 +20,7 @@
       case_when(TRUE ~ 1:2, .size = 3)
     Condition
       Error in `case_when()`:
-      ! Can't recycle `1:2` (size 2) to size 3.
+      ! Can't recycle `..1 (right)` (size 2) to size 3.
 
 # invalid type errors are correct (#6261) (#6206)
 
@@ -28,7 +28,7 @@
       case_when(TRUE ~ 1, TRUE ~ "x")
     Condition
       Error in `case_when()`:
-      ! Can't combine `1` <double> and `"x"` <character>.
+      ! Can't combine `..1 (right)` <double> and `..2 (right)` <character>.
 
 # `NULL` formula element throws meaningful error
 
@@ -36,7 +36,7 @@
       case_when(1 ~ NULL)
     Condition
       Error in `case_when()`:
-      ! `NULL` must be a vector, not `NULL`.
+      ! `..1 (right)` must be a vector, not `NULL`.
 
 ---
 
@@ -44,7 +44,7 @@
       case_when(NULL ~ 1)
     Condition
       Error in `case_when()`:
-      ! `NULL` must be a vector, not `NULL`.
+      ! `..1 (left)` must be a vector, not `NULL`.
 
 # throws chained errors when formula evaluation fails
 
@@ -73,20 +73,20 @@
     Output
       <error/vctrs_error_incompatible_size>
       Error in `case_when()`:
-      ! Can't recycle `c(TRUE, FALSE)` (size 2) to match `1:3` (size 3).
+      ! Can't recycle `..1 (left)` (size 2) to match `..1 (right)` (size 3).
     Code
       (expect_error(case_when(c(TRUE, FALSE) ~ 1, c(FALSE, TRUE, FALSE) ~ 2, c(FALSE,
         TRUE, FALSE, NA) ~ 3)))
     Output
       <error/vctrs_error_incompatible_size>
       Error in `case_when()`:
-      ! Can't recycle `c(TRUE, FALSE)` (size 2) to match `c(FALSE, TRUE, FALSE)` (size 3).
+      ! Can't recycle `..1 (left)` (size 2) to match `..2 (left)` (size 3).
     Code
       (expect_error(case_when(50 ~ 1:3)))
     Output
       <error/vctrs_error_assert_ptype>
       Error in `case_when()`:
-      ! `50` must be a vector with type <logical>.
+      ! `..1 (left)` must be a vector with type <logical>.
       Instead, it has type <double>.
     Code
       (expect_error(case_when(paste(50))))
