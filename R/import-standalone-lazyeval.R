@@ -1,8 +1,17 @@
-# nocov start - compat-lazyeval (last updated: rlang 0.3.0)
-
+# Standalone file: do not edit by hand
+# Source: <https://github.com/r-lib/rlang/blob/main/R/standalone-lazyeval.R>
+# ----------------------------------------------------------------------
+#
+# ---
+# repo: r-lib/rlang
+# file: standalone-lazyeval.R
+# last-updated: 2018-09-18
+# license: https://unlicense.org
+# ---
+#
 # This file serves as a reference for compatibility functions for lazyeval.
-# Please find the most recent version in rlang's repository.
-
+#
+# nocov start
 
 warn_underscored <- function() {
   return(NULL)
@@ -53,7 +62,7 @@ compat_lazy <- function(lazy, env = caller_env(), warn = TRUE) {
   )
 
   if (is_null(out)) {
-    abort(sprintf("Can't convert a %s to a quosure.", typeof(lazy)))
+    abort(sprintf("Can't convert a %s to a quosure", typeof(lazy)))
   } else {
     out
   }
@@ -93,7 +102,7 @@ compat_as_lazy <- function(quo) {
   ))
 }
 compat_as_lazy_dots <- function(...) {
-  structure(class = "lazy_dots", lapply(enquos(...), compat_as_lazy))
+  structure(class = "lazy_dots", lapply(quos(...), compat_as_lazy))
 }
 
 
