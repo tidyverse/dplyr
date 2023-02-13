@@ -1,19 +1,37 @@
-# nocov start - compat-purrr.R
-# Latest version: https://github.com/r-lib/rlang/blob/master/R/compat-purrr.R
-
+# Standalone file: do not edit by hand
+# Source: <https://github.com/r-lib/rlang/blob/main/R/standalone-purrr.R>
+# ----------------------------------------------------------------------
+#
+# ---
+# repo: r-lib/rlang
+# file: standalone-purrr.R
+# last-updated: 2022-06-07
+# license: https://unlicense.org
+# ---
+#
 # This file provides a minimal shim to provide a purrr-like API on top of
 # base R functions. They are not drop-in replacements but allow a similar style
 # of programming.
 #
-# Changelog:
+# ## Changelog
+#
+# 2022-06-07:
+# * `transpose()` is now more consistent with purrr when inner names
+#   are not congruent (#1346).
+#
+# 2021-12-15:
+# * `transpose()` now supports empty lists.
+#
+# 2021-05-21:
+# * Fixed "object `x` not found" error in `imap()` (@mgirlich)
+#
 # 2020-04-14:
 # * Removed `pluck*()` functions
 # * Removed `*_cpl()` functions
 # * Used `as_function()` to allow use of `~`
 # * Used `.` prefix for helpers
 #
-# 2021-05-21:
-# * Fixed "object `x` not found" error in `imap()` (@mgirlich)
+# nocov start
 
 map <- function(.x, .f, ...) {
   .f <- as_function(.f, env = global_env())
@@ -115,12 +133,28 @@ compact <- function(.x) {
 }
 
 transpose <- function(.l) {
+  if (!length(.l)) {
+    return(.l)
+  }
+
   inner_names <- names(.l[[1]])
+
   if (is.null(inner_names)) {
     fields <- seq_along(.l[[1]])
   } else {
     fields <- set_names(inner_names)
+    .l <- map(.l, function(x) {
+      if (is.null(names(x))) {
+        set_names(x, inner_names)
+      } else {
+        x
+      }
+    })
   }
+
+  # This way missing fields are subsetted as `NULL` instead of causing
+  # an error
+  .l <- map(.l, as.list)
 
   map(fields, function(i) {
     map(.l, .subset2, i)
