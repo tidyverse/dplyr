@@ -1,5 +1,9 @@
 # dplyr (development version)
 
+* `slice_sample()` now works when the input has a column named `replace`.
+  `slice_min()` and `slice_max()` now work when the input has columns named
+  `na_rm` or `with_ties` (#6725).
+
 * A major performance regression in `case_when()` has been fixed. It is still a
   little slower than in dplyr 1.0.10, but we plan to improve this further in the
   future (#6674).
