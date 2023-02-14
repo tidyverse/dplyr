@@ -23,7 +23,12 @@ DataMask <- R6Class("DataMask",
       private$grouped <- by$type == "grouped"
       private$rowwise <- by$type == "rowwise"
 
-      private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows, private$grouped, private$rowwise)
+      private$env_current <- new_environment(data = list(
+        `dplyr:::current_group_id` = 0L,
+        `dplyr:::current_group_size` = 0L
+      ))
+
+      private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows, private$env_current, private$grouped, private$rowwise)
       private$env_mask_bindings <- .Call(dplyr_make_mask_bindings, private$chops, data)
 
       private$keys <- group_keys0(by$data)
@@ -88,7 +93,7 @@ DataMask <- R6Class("DataMask",
         })
       }
 
-      size <- length(self$current_rows())
+      size <- self$get_current_group_size()
       dplyr_new_tibble(cols, size = size)
     },
 
@@ -97,7 +102,7 @@ DataMask <- R6Class("DataMask",
     },
 
     current_rows = function() {
-      private$rows[[self$get_current_group()]]
+      private$rows[[self$get_current_group_id()]]
     },
 
     current_key = function() {
@@ -109,7 +114,7 @@ DataMask <- R6Class("DataMask",
         # to do `vec_slice(<0-row-df>, 1L)`, which is an error.
         keys
       } else {
-        vec_slice(keys, self$get_current_group())
+        vec_slice(keys, self$get_current_group_id())
       }
     },
 
@@ -121,12 +126,25 @@ DataMask <- R6Class("DataMask",
       setdiff(self$current_vars(), private$by_names)
     },
 
-    get_current_group = function() {
-      parent.env(private$chops)$.current_group
+    get_current_group_id = function() {
+      # `dplyr:::current_group_id` is modified by reference at the C level.
+      # If the result of `get_current_group_id()` is used in a persistent way
+      # (like in `cur_group_id()`), then it must be duplicated on the way out.
+      private[["env_current"]][["dplyr:::current_group_id"]]
+    },
+
+    get_current_group_size = function() {
+      # `dplyr:::current_group_size` is modified by reference at the C level.
+      # If the result of `get_current_group_size()` is used in a persistent way
+      # (like in `n()`), then it must be duplicated on the way out.
+      private[["env_current"]][["dplyr:::current_group_size"]]
     },
 
     set_current_group = function(group) {
-      parent.env(private$chops)$.current_group[] <- group
+      # Only to be used right before throwing an error.
+      # TODO: Is the `[]` really needed?
+      private[["env_current"]][["dplyr:::current_group_id"]][] <- group
+      private[["env_current"]][["dplyr:::current_group_size"]][] <- length(private$rows[[group]])
     },
 
     get_used = function() {
@@ -203,11 +221,14 @@ DataMask <- R6Class("DataMask",
   private = list(
     # environment that contains lazy vec_chop()s for each input column
     # and list of result chunks as they get added.
-    #
-    # The parent environment of chops has:
-    # - .indices: the list of indices
-    # - .current_group: scalar integer that identifies the current group
     chops = NULL,
+
+    # Environment which contains the:
+    # - Current group id
+    # - Current group size
+    # Both of which are updated by reference at the C level.
+    # This environment is the parent environment of `chops`.
+    env_current = NULL,
 
     # Environment with active bindings for each column.
     # Expressions are evaluated in a fresh data mask created from this
