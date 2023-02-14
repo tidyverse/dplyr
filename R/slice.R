@@ -239,8 +239,8 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, by = NULL, with_
         order_by,
         size(n),
         direction = "asc",
-        with_ties = with_ties,
-        na_rm = na_rm
+        with_ties = !!with_ties,
+        na_rm = !!na_rm
       )
     })
   )
@@ -280,8 +280,8 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, by = NULL, with_
         order_by,
         size(n),
         direction = "desc",
-        with_ties = with_ties,
-        na_rm = na_rm
+        with_ties = !!with_ties,
+        na_rm = !!na_rm
       )
     })
   )
@@ -321,7 +321,7 @@ slice_sample.data.frame <- function(.data, ..., n, prop, by = NULL, weight_by = 
       if (!is.null(weight_by)) {
         weight_by <- vec_assert(weight_by, size = n, arg = "weight_by")
       }
-      sample_int(n, size(n), replace = replace, wt = weight_by)
+      sample_int(n, size(n), replace = !!replace, wt = weight_by)
     })
   )
 }
