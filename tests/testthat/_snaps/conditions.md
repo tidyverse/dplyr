@@ -83,7 +83,7 @@
       Error in `err_locs()`:
       ! `x` must be an integer vector of locations.
       i This is an internal error that was detected in the dplyr package.
-        Please report it at <https://github.com/tidyverse/dplyr/issues> with a reprex (<https://https://tidyverse.org/help/>) and the full backtrace.
+        Please report it at <https://github.com/tidyverse/dplyr/issues> with a reprex (<https://tidyverse.org/help/>) and the full backtrace.
 
 ---
 
@@ -93,7 +93,7 @@
       Error in `err_locs()`:
       ! `x` must have at least 1 location.
       i This is an internal error that was detected in the dplyr package.
-        Please report it at <https://github.com/tidyverse/dplyr/issues> with a reprex (<https://https://tidyverse.org/help/>) and the full backtrace.
+        Please report it at <https://github.com/tidyverse/dplyr/issues> with a reprex (<https://tidyverse.org/help/>) and the full backtrace.
 
 ---
 

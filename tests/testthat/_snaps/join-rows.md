@@ -36,7 +36,7 @@
       Error:
       ! `join_cast_common()` should have handled this.
       i This is an internal error that was detected in the dplyr package.
-        Please report it at <https://github.com/tidyverse/dplyr/issues> with a reprex (<https://https://tidyverse.org/help/>) and the full backtrace.
+        Please report it at <https://github.com/tidyverse/dplyr/issues> with a reprex (<https://tidyverse.org/help/>) and the full backtrace.
 
 # join_rows() gives meaningful error/warning message on multiple matches
 
