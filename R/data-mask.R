@@ -142,9 +142,13 @@ DataMask <- R6Class("DataMask",
 
     set_current_group = function(group) {
       # Only to be used right before throwing an error.
-      # TODO: Is the `[]` really needed?
-      private[["env_current"]][["dplyr:::current_group_id"]][] <- group
-      private[["env_current"]][["dplyr:::current_group_size"]][] <- length(private$rows[[group]])
+      # We `duplicate()` group to be extremely conservative, because there is an
+      # extremely small chance we could modify this by reference and cause
+      # issues with the `group` variable in the caller, but this has never been
+      # seen. `length()` always returns a fresh variable so we don't duplicate
+      # in that case.
+      private[["env_current"]][["dplyr:::current_group_id"]] <- duplicate(group)
+      private[["env_current"]][["dplyr:::current_group_size"]] <- length(private$rows[[group]])
     },
 
     get_used = function() {
