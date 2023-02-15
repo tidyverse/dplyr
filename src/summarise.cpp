@@ -39,7 +39,7 @@ SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private) {
 
     if (result_i == R_NilValue) {
       n_null++;
-    } else if (!vctrs::vec_is_vector(result_i)) {
+    } else if (!vctrs::obj_is_vector(result_i)) {
       dplyr::stop_summarise_unsupported_type(result_i);
     }
 

@@ -82,7 +82,7 @@ void env_unbind(SEXP, SEXP);
 }
 
 namespace vctrs {
-bool vec_is_vector(SEXP x) ;
+bool obj_is_vector(SEXP x) ;
 R_len_t short_vec_size(SEXP x) ;
 SEXP short_vec_recycle(SEXP x, R_len_t n);
 

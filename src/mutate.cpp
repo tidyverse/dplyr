@@ -43,7 +43,7 @@ SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private) {
         dplyr::stop_mutate_mixed_null();
       }
 
-    } else if (vctrs::vec_is_vector(result_i)) {
+    } else if (vctrs::obj_is_vector(result_i)) {
       seen_vec = true;
 
       R_len_t n_result_i = vctrs::short_vec_size(result_i);
