@@ -44,7 +44,7 @@
       case_when(NULL ~ 1)
     Condition
       Error in `case_when()`:
-      ! `..1 (left)` must be a vector, not `NULL`.
+      ! `..1 (left)` must be a logical vector, not `NULL`.
 
 # throws chained errors when formula evaluation fails
 
@@ -84,10 +84,9 @@
     Code
       (expect_error(case_when(50 ~ 1:3)))
     Output
-      <error/vctrs_error_assert_ptype>
+      <error/rlang_error>
       Error in `case_when()`:
-      ! `..1 (left)` must be a vector with type <logical>.
-      Instead, it has type <double>.
+      ! `..1 (left)` must be a logical vector, not a double vector.
     Code
       (expect_error(case_when(paste(50))))
     Output

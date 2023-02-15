@@ -120,6 +120,11 @@ test_that("case_when() can be used inside mutate()", {
   expect_identical(out, c(2, 2, 1, 0))
 })
 
+test_that("case_when() accepts logical conditions with attributes (#6678)", {
+  x <- structure(c(FALSE, TRUE), label = "foo")
+  expect_identical(case_when(x ~ 1, .default = 2), c(2, 1))
+})
+
 test_that("can pass quosures to case_when()", {
   fs <- local({
     x <- 3:1

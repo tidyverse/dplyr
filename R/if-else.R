@@ -60,11 +60,7 @@ if_else <- function(condition,
   check_dots_empty0(...)
 
   # Assert early since we `!` the `condition`
-  vec_assert(
-    x = condition,
-    ptype = logical(),
-    arg = "condition"
-  )
+  check_logical(condition)
 
   conditions <- list(
     condition = condition,

@@ -63,6 +63,11 @@ test_that("can recycle to size 0 `condition`", {
   expect_identical(if_else(logical(), 1, 2, missing = 3), double())
 })
 
+test_that("accepts logical conditions with attributes (#6678)", {
+  x <- structure(TRUE, label = "foo")
+  expect_identical(if_else(x, 1, 2), 1)
+})
+
 test_that("`condition` must be logical (and isn't cast to logical!)", {
   expect_snapshot(error = TRUE, {
     if_else(1:10, 1, 2)
