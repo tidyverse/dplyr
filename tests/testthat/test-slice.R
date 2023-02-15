@@ -438,6 +438,26 @@ test_that("slice_min/max() work with `by`", {
   expect_identical(slice_max(df, x, by = g), df[c(2, 3),])
 })
 
+test_that("slice_min/max() inject `with_ties` and `na_rm` (#6725)", {
+  # So columns named `with_ties` and `na_rm` don't mask those arguments
+
+  df <- tibble(x = c(1, 1, 2, 2), with_ties = 1:4)
+
+  expect_identical(slice_min(df, x, n = 1), vec_slice(df, 1:2))
+  expect_identical(slice_min(df, x, n = 1, with_ties = FALSE), vec_slice(df, 1))
+
+  expect_identical(slice_max(df, x, n = 1), vec_slice(df, 3:4))
+  expect_identical(slice_max(df, x, n = 1, with_ties = FALSE), vec_slice(df, 3))
+
+  df <- tibble(x = c(1, NA), na_rm = 1:2)
+
+  expect_identical(slice_min(df, x, n = 2), df)
+  expect_identical(slice_min(df, x, n = 2, na_rm = TRUE), vec_slice(df, 1))
+
+  expect_identical(slice_max(df, x, n = 2), df)
+  expect_identical(slice_max(df, x, n = 2, na_rm = TRUE), vec_slice(df, 1))
+})
+
 test_that("slice_min/max() check size of `order_by=` (#5922)", {
   expect_snapshot(error = TRUE, {
     slice_min(data.frame(x = 1:10), 1:6)
@@ -493,6 +513,13 @@ test_that("`slice_sample()` validates `replace`", {
     slice_sample(df, replace = 1)
     slice_sample(df, replace = NA)
   })
+})
+
+test_that("slice_sample() injects `replace` (#6725)", {
+  # So a column named `replace` doesn't mask that argument
+  df <- tibble(replace = 1)
+  expect_identical(slice_sample(df, n = 2), df)
+  expect_identical(slice_sample(df, n = 2, replace = TRUE), vec_slice(df, c(1, 1)))
 })
 
 test_that("slice_sample() handles positive n= and prop=", {
