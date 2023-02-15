@@ -5,12 +5,18 @@
 # ---
 # repo: r-lib/rlang
 # file: standalone-types-check.R
-# last-updated: 2022-10-07
+# last-updated: 2023-02-15
 # license: https://unlicense.org
 # dependencies: standalone-obj-type.R
 # ---
 #
 # ## Changelog
+#
+# 2023-02-15:
+# - Added `check_logical()`.
+#
+# 2023-02-13:
+# - `check_bool()` is now implemented in C.
 #
 # 2022-10-07:
 # - `check_number_whole()` and `_decimal()` no longer treat
@@ -45,16 +51,8 @@ check_bool <- function(x,
                        allow_null = FALSE,
                        arg = caller_arg(x),
                        call = caller_env()) {
-  if (!missing(x)) {
-    if (is_bool(x)) {
-      return(invisible(NULL))
-    }
-    if (allow_null && is_null(x)) {
-      return(invisible(NULL))
-    }
-    if (allow_na && identical(x, NA)) {
-      return(invisible(NULL))
-    }
+  if (!missing(x) && .Call(ffi_standalone_is_bool_1.0.7, x, allow_na, allow_null)) {
+    return(invisible(NULL))
   }
 
   stop_input_type(
@@ -467,6 +465,30 @@ check_character <- function(x,
   stop_input_type(
     x,
     "a character vector",
+    ...,
+    allow_null = allow_null,
+    arg = arg,
+    call = call
+  )
+}
+
+check_logical <- function(x,
+                          ...,
+                          allow_null = FALSE,
+                          arg = caller_arg(x),
+                          call = caller_env()) {
+  if (!missing(x)) {
+    if (is_logical(x)) {
+      return(invisible(NULL))
+    }
+    if (allow_null && is_null(x)) {
+      return(invisible(NULL))
+    }
+  }
+
+  stop_input_type(
+    x,
+    "a logical vector",
     ...,
     allow_null = allow_null,
     arg = arg,
