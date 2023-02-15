@@ -82,29 +82,3 @@ with_no_rlang_infix_labeling <- function(expr) {
   # https://github.com/r-lib/rlang/commit/33db700d556b0b85a1fe78e14a53f95ac9248004
   with_options("rlang:::use_as_label_infix" = FALSE, expr)
 }
-
-# TODO: Update rlang compat files and use that version
-# https://github.com/r-lib/rlang/pull/1560
-check_logical <- function(x,
-                          ...,
-                          allow_null = FALSE,
-                          arg = caller_arg(x),
-                          call = caller_env()) {
-  if (!missing(x)) {
-    if (is_logical(x)) {
-      return(invisible(NULL))
-    }
-    if (allow_null && is_null(x)) {
-      return(invisible(NULL))
-    }
-  }
-
-  stop_input_type(
-    x,
-    "a logical vector",
-    ...,
-    allow_null = allow_null,
-    arg = arg,
-    call = call
-  )
-}
