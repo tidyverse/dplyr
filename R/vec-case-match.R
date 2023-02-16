@@ -11,7 +11,7 @@ vec_case_match <- function(needles,
                            call = current_env()) {
   check_dots_empty0(...)
 
-  vec_assert(needles, arg = needles_arg, call = call)
+  obj_check_vector(needles, arg = needles_arg, call = call)
   vec_check_list(haystacks, arg = haystacks_arg, call = call)
   list_check_all_vectors(haystacks, arg = haystacks_arg, call = call)
 

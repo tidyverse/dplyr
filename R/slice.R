@@ -233,7 +233,7 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, by = NULL, with_
     local({
       n <- dplyr::n()
       order_by <- {{ order_by }}
-      vec_assert(order_by, size = n)
+      vec_check_size(order_by, size = n)
 
       slice_rank_idx(
         order_by,
@@ -273,8 +273,7 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, by = NULL, with_
     local({
       n <- dplyr::n()
       order_by <- {{ order_by }}
-
-      vec_assert(order_by, size = n)
+      vec_check_size(order_by, size = n)
 
       slice_rank_idx(
         order_by,
@@ -319,7 +318,7 @@ slice_sample.data.frame <- function(.data, ..., n, prop, by = NULL, weight_by = 
 
       n <- dplyr::n()
       if (!is.null(weight_by)) {
-        weight_by <- vec_assert(weight_by, size = n, arg = "weight_by")
+        vec_check_size(weight_by, size = n)
       }
       sample_int(n, size(n), replace = !!replace, wt = weight_by)
     })

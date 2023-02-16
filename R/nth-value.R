@@ -83,11 +83,11 @@
 nth <- function(x, n, order_by = NULL, default = NULL, na_rm = FALSE) {
   size <- vec_size(x)
 
-  vec_assert(n, size = 1L, arg = "n")
-  n <- vec_cast(n, to = integer(), x_arg = "n")
+  vec_check_size(n, size = 1L)
+  n <- vec_cast(n, to = integer())
 
   if (!is.null(order_by)) {
-    vec_assert(order_by, size = size, arg = "order_by")
+    vec_check_size(order_by, size = size)
   }
 
   default <- check_nth_default(default, x = x)
@@ -152,7 +152,7 @@ check_nth_default <- function(default, x, ..., error_call = caller_env()) {
     return(vec_init(x))
   }
 
-  vec_assert(default, size = 1L, arg = "default", call = error_call)
+  vec_check_size(default, size = 1L, call = error_call)
 
   default <- vec_cast(
     x = default,
