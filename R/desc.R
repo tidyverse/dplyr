@@ -14,7 +14,6 @@
 #'
 #' starwars %>% arrange(desc(mass))
 desc <- function(x) {
-  vec_assert(x)
-
+  obj_check_vector(x)
   -xtfrm(x)
 }

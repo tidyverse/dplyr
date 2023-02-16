@@ -102,12 +102,13 @@ shift <- function(x,
     return(out)
   }
 
-  vec_assert(x, arg = "x", call = error_call)
+  obj_check_vector(x, call = error_call)
+
   check_number_whole(n)
   n <- vec_cast(n, integer(), call = error_call)
 
   if (!is.null(default)) {
-    vec_assert(default, size = 1L, arg = "default", call = error_call)
+    vec_check_size(default, size = 1L, call = error_call)
 
     default <- vec_cast(
       x = default,
