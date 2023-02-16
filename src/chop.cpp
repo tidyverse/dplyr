@@ -68,7 +68,7 @@ void dplyr_lazy_vec_chop_ungrouped(SEXP chops_env, SEXP data) {
 
 SEXP dplyr_lazy_vec_chop(SEXP data,
                          SEXP rows,
-                         SEXP env_current,
+                         SEXP env_current_group_info,
                          SEXP ffi_grouped,
                          SEXP ffi_rowwise) {
   bool grouped = static_cast<bool>(LOGICAL_ELT(ffi_grouped, 0));
@@ -77,7 +77,7 @@ SEXP dplyr_lazy_vec_chop(SEXP data,
   // An environment to hold the chops of the columns.
   // Parent environment contains information about current group id
   // and current group size, for use in mask binding evaluation.
-  SEXP env_chops = PROTECT(new_environment(XLENGTH(data), env_current));
+  SEXP env_chops = PROTECT(new_environment(XLENGTH(data), env_current_group_info));
 
   if (grouped) {
     dplyr_lazy_vec_chop_grouped(env_chops, rows, data, false);

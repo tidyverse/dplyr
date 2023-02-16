@@ -52,7 +52,7 @@ struct symbols {
   static SEXP dot_data;
   static SEXP used;
   static SEXP across;
-  static SEXP env_current;
+  static SEXP env_current_group_info;
   static SEXP env_mask_bindings;
 };
 
@@ -113,26 +113,26 @@ SEXP dplyr_group_keys(SEXP group_data);
 SEXP dplyr_mask_binding_remove(SEXP env_private, SEXP s_name);
 SEXP dplyr_mask_binding_add(SEXP env_private, SEXP s_name, SEXP ptype, SEXP chunks);
 
-SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows, SEXP env_current, SEXP ffi_grouped, SEXP ffi_rowwise);
+SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows, SEXP env_current_group_info, SEXP ffi_grouped, SEXP ffi_rowwise);
 SEXP dplyr_make_mask_bindings(SEXP chops, SEXP data);
 SEXP env_resolved(SEXP env, SEXP names);
 void add_mask_binding(SEXP name, SEXP env_mask_bindings, SEXP env_chops);
 
 SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype);
 
-#define DPLYR_MASK_INIT()                                                                                \
-  SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));                             \
-  const SEXP* v_rows = VECTOR_PTR_RO(rows);                                                              \
-  R_xlen_t ngroups = XLENGTH(rows);                                                                      \
-  SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));                         \
-  SEXP env_mask_bindings = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::env_mask_bindings));   \
-  SEXP pronoun = PROTECT(rlang::as_data_pronoun(env_mask_bindings));                                     \
-  SEXP env_current = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::env_current));               \
-  SEXP current_group_id = PROTECT(Rf_findVarInFrame(env_current, dplyr::symbols::current_group_id));     \
-  int* p_current_group_id = INTEGER(current_group_id);                                                   \
-  *p_current_group_id = 0;                                                                               \
-  SEXP current_group_size = PROTECT(Rf_findVarInFrame(env_current, dplyr::symbols::current_group_size)); \
-  int* p_current_group_size = INTEGER(current_group_size);                                               \
+#define DPLYR_MASK_INIT()                                                                                            \
+  SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));                                         \
+  const SEXP* v_rows = VECTOR_PTR_RO(rows);                                                                          \
+  R_xlen_t ngroups = XLENGTH(rows);                                                                                  \
+  SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));                                     \
+  SEXP env_mask_bindings = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::env_mask_bindings));               \
+  SEXP pronoun = PROTECT(rlang::as_data_pronoun(env_mask_bindings));                                                 \
+  SEXP env_current_group_info = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::env_current_group_info));     \
+  SEXP current_group_id = PROTECT(Rf_findVarInFrame(env_current_group_info, dplyr::symbols::current_group_id));      \
+  int* p_current_group_id = INTEGER(current_group_id);                                                               \
+  *p_current_group_id = 0;                                                                                           \
+  SEXP current_group_size = PROTECT(Rf_findVarInFrame(env_current_group_info, dplyr::symbols::current_group_size));  \
+  int* p_current_group_size = INTEGER(current_group_size);                                                           \
   *p_current_group_size = 0
 
 #define DPLYR_MASK_FINALISE()                                  \

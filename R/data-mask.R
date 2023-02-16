@@ -23,13 +23,25 @@ DataMask <- R6Class("DataMask",
       private$grouped <- by$type == "grouped"
       private$rowwise <- by$type == "rowwise"
 
-      private$env_current <- new_environment(data = list(
+      private$env_current_group_info <- new_environment(data = list(
         `dplyr:::current_group_id` = 0L,
         `dplyr:::current_group_size` = 0L
       ))
 
-      private$chops <- .Call(dplyr_lazy_vec_chop_impl, data, rows, private$env_current, private$grouped, private$rowwise)
-      private$env_mask_bindings <- .Call(dplyr_make_mask_bindings, private$chops, data)
+      private$chops <- .Call(
+        dplyr_lazy_vec_chop_impl,
+        data,
+        rows,
+        private$env_current_group_info,
+        private$grouped,
+        private$rowwise
+      )
+
+      private$env_mask_bindings <- .Call(
+        dplyr_make_mask_bindings,
+        private$chops,
+        data
+      )
 
       private$keys <- group_keys0(by$data)
       private$by_names <- by$names
@@ -130,14 +142,14 @@ DataMask <- R6Class("DataMask",
       # `dplyr:::current_group_id` is modified by reference at the C level.
       # If the result of `get_current_group_id()` is used in a persistent way
       # (like in `cur_group_id()`), then it must be duplicated on the way out.
-      private[["env_current"]][["dplyr:::current_group_id"]]
+      private[["env_current_group_info"]][["dplyr:::current_group_id"]]
     },
 
     get_current_group_size = function() {
       # `dplyr:::current_group_size` is modified by reference at the C level.
       # If the result of `get_current_group_size()` is used in a persistent way
       # (like in `n()`), then it must be duplicated on the way out.
-      private[["env_current"]][["dplyr:::current_group_size"]]
+      private[["env_current_group_info"]][["dplyr:::current_group_size"]]
     },
 
     set_current_group = function(group) {
@@ -147,8 +159,9 @@ DataMask <- R6Class("DataMask",
       # issues with the `group` variable in the caller, but this has never been
       # seen. `length()` always returns a fresh variable so we don't duplicate
       # in that case.
-      private[["env_current"]][["dplyr:::current_group_id"]] <- duplicate(group)
-      private[["env_current"]][["dplyr:::current_group_size"]] <- length(private$rows[[group]])
+      env_current_group_info <- private[["env_current_group_info"]]
+      env_current_group_info[["dplyr:::current_group_id"]] <- duplicate(group)
+      env_current_group_info[["dplyr:::current_group_size"]] <- length(private$rows[[group]])
     },
 
     get_used = function() {
@@ -232,7 +245,7 @@ DataMask <- R6Class("DataMask",
     # - Current group size
     # Both of which are updated by reference at the C level.
     # This environment is the parent environment of `chops`.
-    env_current = NULL,
+    env_current_group_info = NULL,
 
     # Environment with active bindings for each column.
     # Expressions are evaluated in a fresh data mask created from this

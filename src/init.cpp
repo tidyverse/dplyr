@@ -57,7 +57,7 @@ SEXP symbols::new_env = Rf_install("new.env");
 SEXP symbols::dot_data = Rf_install(".data");
 SEXP symbols::used = Rf_install("used");
 SEXP symbols::across = Rf_install("across");
-SEXP symbols::env_current = Rf_install("env_current");
+SEXP symbols::env_current_group_info = Rf_install("env_current_group_info");
 SEXP symbols::env_mask_bindings = Rf_install("env_mask_bindings");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
