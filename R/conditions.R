@@ -53,7 +53,7 @@ or_1 <- function(x) {
 }
 
 has_active_group_context <- function(mask) {
-  mask$get_current_group() != 0L
+  mask$get_current_group_id_mutable() != 0L
 }
 
 # Common ------------------------------------------------------------------

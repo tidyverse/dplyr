@@ -66,31 +66,33 @@ void dplyr_lazy_vec_chop_ungrouped(SEXP chops_env, SEXP data) {
   UNPROTECT(1);
 }
 
-SEXP dplyr_lazy_vec_chop(SEXP data, SEXP rows, SEXP ffi_grouped, SEXP ffi_rowwise) {
+SEXP dplyr_lazy_vec_chop(SEXP data,
+                         SEXP rows,
+                         SEXP env_current_group_info,
+                         SEXP ffi_grouped,
+                         SEXP ffi_rowwise) {
   bool grouped = static_cast<bool>(LOGICAL_ELT(ffi_grouped, 0));
   bool rowwise = static_cast<bool>(LOGICAL_ELT(ffi_rowwise, 0));
 
-  // a first environment to hide `.indices` and `.current_group`
-  // this is for example used by funs::
-  SEXP indices_env = PROTECT(new_environment(2, R_EmptyEnv));
-  Rf_defineVar(dplyr::symbols::dot_indices, rows, indices_env);
-  Rf_defineVar(dplyr::symbols::dot_current_group, Rf_ScalarInteger(0), indices_env);
+  // An environment to hold the chops of the columns.
+  // Parent environment contains information about current group id
+  // and current group size, for use in mask binding evaluation.
+  SEXP env_chops = PROTECT(new_environment(XLENGTH(data), env_current_group_info));
 
-  // then an environment to hold the chops of the columns
-  SEXP chops_env = PROTECT(new_environment(XLENGTH(data), indices_env));
   if (grouped) {
-    dplyr_lazy_vec_chop_grouped(chops_env, rows, data, false);
+    dplyr_lazy_vec_chop_grouped(env_chops, rows, data, false);
   } else if (rowwise) {
-    dplyr_lazy_vec_chop_grouped(chops_env, rows, data, true);
+    dplyr_lazy_vec_chop_grouped(env_chops, rows, data, true);
   } else {
-    dplyr_lazy_vec_chop_ungrouped(chops_env, data);
+    dplyr_lazy_vec_chop_ungrouped(env_chops, data);
   }
-  UNPROTECT(2);
-  return chops_env;
+
+  UNPROTECT(1);
+  return env_chops;
 }
 
 void add_mask_binding(SEXP name, SEXP env_mask_bindings, SEXP env_chops) {
-  SEXP body = PROTECT(Rf_lang3(dplyr::functions::dot_subset2, name, dplyr::symbols::dot_current_group));
+  SEXP body = PROTECT(Rf_lang3(dplyr::functions::dot_subset2, name, dplyr::symbols::current_group_id));
   SEXP fun  = PROTECT(Rf_lang3(dplyr::functions::function, R_NilValue, body));
   SEXP binding = PROTECT(Rf_eval(fun, env_chops));
   R_MakeActiveBinding(name, binding, env_mask_bindings);
