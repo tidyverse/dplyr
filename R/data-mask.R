@@ -105,8 +105,7 @@ DataMask <- R6Class("DataMask",
         })
       }
 
-      size <- self$get_current_group_size()
-      dplyr_new_tibble(cols, size = size)
+      dplyr_new_tibble(cols, size = self$get_current_group_size_mutable())
     },
 
     current_cols = function(vars) {
@@ -114,7 +113,7 @@ DataMask <- R6Class("DataMask",
     },
 
     current_rows = function() {
-      private$rows[[self$get_current_group_id()]]
+      private$rows[[self$get_current_group_id_mutable()]]
     },
 
     current_key = function() {
@@ -126,7 +125,7 @@ DataMask <- R6Class("DataMask",
         # to do `vec_slice(<0-row-df>, 1L)`, which is an error.
         keys
       } else {
-        vec_slice(keys, self$get_current_group_id())
+        vec_slice(keys, self$get_current_group_id_mutable())
       }
     },
 
@@ -138,17 +137,31 @@ DataMask <- R6Class("DataMask",
       setdiff(self$current_vars(), private$by_names)
     },
 
+    # This pair of functions provides access to `dplyr:::current_group_id`.
+    # - `dplyr:::current_group_id` is modified by reference at the C level.
+    # - If you access it ephemerally, the mutable version can be used.
+    # - If you access it persistently, like in `cur_group_id()`, it must be
+    #   duplicated on the way out.
+    # - For maximal performance, we inline the mutable function definition into
+    #   the non-mutable version.
     get_current_group_id = function() {
-      # `dplyr:::current_group_id` is modified by reference at the C level.
-      # If the result of `get_current_group_id()` is used in a persistent way
-      # (like in `cur_group_id()`), then it must be duplicated on the way out.
+      duplicate(private[["env_current_group_info"]][["dplyr:::current_group_id"]])
+    },
+    get_current_group_id_mutable = function() {
       private[["env_current_group_info"]][["dplyr:::current_group_id"]]
     },
 
+    # This pair of functions provides access to `dplyr:::current_group_size`.
+    # - `dplyr:::current_group_size` is modified by reference at the C level.
+    # - If you access it ephemerally, the mutable version can be used.
+    # - If you access it persistently, like in `n()`, it must be duplicated on
+    #   the way out.
+    # - For maximal performance, we inline the mutable function definition into
+    #   the non-mutable version.
     get_current_group_size = function() {
-      # `dplyr:::current_group_size` is modified by reference at the C level.
-      # If the result of `get_current_group_size()` is used in a persistent way
-      # (like in `n()`), then it must be duplicated on the way out.
+      duplicate(private[["env_current_group_info"]][["dplyr:::current_group_size"]])
+    },
+    get_current_group_size_mutable = function() {
       private[["env_current_group_info"]][["dplyr:::current_group_size"]]
     },
 

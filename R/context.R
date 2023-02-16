@@ -48,7 +48,7 @@ NULL
 #' @rdname context
 #' @export
 n <- function() {
-  duplicate(peek_mask()$get_current_group_size())
+  peek_mask()$get_current_group_size()
 }
 
 #' @rdname context
@@ -60,11 +60,7 @@ cur_group <- function() {
 #' @rdname context
 #' @export
 cur_group_id <- function() {
-  # `duplicate()` to copy the private `dplyr:::current_group_id` variable we
-  # modify by reference. If we don't get a copy, code like this won't give
-  # correct results:
-  # summarise(id = cur_group_id())
-  duplicate(peek_mask()$get_current_group_id())
+  peek_mask()$get_current_group_id()
 }
 
 #' @rdname context
