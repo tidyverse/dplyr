@@ -771,7 +771,6 @@ check_na_matches <- function(na_matches,
   arg_match0(
     arg = na_matches,
     values = c("na", "never"),
-    arg_nm = "na_matches",
     error_call = error_call
   )
 }

@@ -174,7 +174,7 @@ mutate.data.frame <- function(.data,
                               .keep = c("all", "used", "unused", "none"),
                               .before = NULL,
                               .after = NULL) {
-  keep <- arg_match(.keep)
+  keep <- arg_match0(.keep, values = c("all", "used", "unused", "none"))
 
   by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
 

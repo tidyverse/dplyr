@@ -12,7 +12,11 @@ join_rows <- function(x_key,
                       user_env = caller_env()) {
   check_dots_empty0(...)
 
-  type <- arg_match(type, error_call = error_call)
+  type <- arg_match0(
+    arg = type,
+    values = c("inner", "left", "right", "full", "semi", "anti", "nest"),
+    error_call = error_call
+  )
 
   unmatched <- check_unmatched(unmatched, type, error_call = error_call)
   x_unmatched <- unmatched$x

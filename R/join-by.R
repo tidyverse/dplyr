@@ -1014,7 +1014,6 @@ check_bounds <- function(bounds, call) {
   arg_match0(
     bounds,
     values = c("[]", "[)", "(]", "()"),
-    arg_nm = "bounds",
     error_call = call
   )
 }
