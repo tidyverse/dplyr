@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `group_data()` on ungrouped data frames is faster (#6736).
+
 * `n()` is now a little faster when there are many groups (#6727).
 
 * `if_else()` and `case_when()` again accept logical conditions that have
