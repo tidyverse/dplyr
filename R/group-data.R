@@ -51,13 +51,19 @@ group_data <- function(.data) {
 
 #' @export
 group_data.data.frame <- function(.data) {
-  rows <- new_list_of(list(seq_len(nrow(.data))), ptype = integer())
-  new_data_frame(list(.rows = rows), n = 1L)
+  size <- vec_size(.data)
+  out <- seq_len(size)
+  out <- new_list_of(list(out), ptype = integer())
+  out <- list(.rows = out)
+  out <- new_data_frame(out, n = 1L)
+  out
 }
 
 #' @export
 group_data.tbl_df <- function(.data) {
-  as_tibble(NextMethod())
+  out <- NextMethod()
+  out <- dplyr_new_tibble(out, size = 1L)
+  out
 }
 
 #' @export
