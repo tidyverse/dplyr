@@ -541,7 +541,7 @@ dplyr_quosures <- function(...) {
     if (is_named) {
       name_auto <- name_given
     } else {
-      name_auto <- as_label(quosure)
+      name_auto <- with_no_rlang_infix_labeling(as_label(quosure))
     }
 
     quosures[[i]] <- new_dplyr_quosure(quosure,
