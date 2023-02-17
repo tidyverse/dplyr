@@ -545,7 +545,11 @@ slice_rank_idx <- function(
     na_rm = FALSE,
     call = caller_env()
 ) {
-  direction <- arg_match(direction, error_call = call)
+  direction <- arg_match0(
+    arg = direction,
+    values = c("asc", "desc"),
+    error_call = call
+  )
   # puts missing values at the end
   na_value <- if (direction == "asc") "largest" else "smallest"
   ties <- if (with_ties) "min" else "sequential"

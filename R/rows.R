@@ -622,23 +622,21 @@ rows_check_y_unmatched <- function(x_key,
 }
 
 rows_check_conflict <- function(conflict, ..., error_call = caller_env()) {
-  check_dots_empty()
+  check_dots_empty0(...)
 
-  arg_match(
+  arg_match0(
     arg = conflict,
     values = c("error", "ignore"),
-    error_arg = "conflict",
     error_call = error_call
   )
 }
 
 rows_check_unmatched <- function(unmatched, ..., error_call = caller_env()) {
-  check_dots_empty()
+  check_dots_empty0(...)
 
-  arg_match(
+  arg_match0(
     arg = unmatched,
     values = c("error", "ignore"),
-    error_arg = "unmatched",
     error_call = error_call
   )
 }
