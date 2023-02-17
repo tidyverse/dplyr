@@ -47,14 +47,19 @@ compute_by <- function(by,
     names <- group_vars(data)
     data <- group_data(data)
   } else {
-    by <- eval_select_by(by, data, error_call = error_call)
+    if (quo_is_null(by)) {
+      # Much faster than `eval_select_by()` for this common case
+      by <- character()
+    } else {
+      by <- eval_select_by(by, data, error_call = error_call)
+    }
 
     if (length(by) == 0L) {
       # `by = NULL` or empty selection
       type <- "ungrouped"
       names <- by
       data <- group_data(data)
-      data <- as_tibble(data)
+      data <- dplyr_new_tibble(data, size = vec_size(data))
     } else {
       type <- "grouped"
       names <- by
@@ -73,7 +78,7 @@ compute_by_groups <- function(data, names, error_call = caller_env()) {
 
   out <- dplyr_new_list(info$key)
   out[[".rows"]] <- new_list_of(info$loc, ptype = integer())
-  out <- new_tibble(out, nrow = size)
+  out <- dplyr_new_tibble(out, size = size)
 
   out
 }
