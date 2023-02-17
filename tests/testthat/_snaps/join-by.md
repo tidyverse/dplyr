@@ -7,16 +7,7 @@
       ! Must supply at least one expression.
       i If you want a cross join, use `cross_join()`.
 
-# nicely catches missing arguments when wrapped
-
-    Code
-      fn(a)
-    Condition
-      Error in `join_by()`:
-      ! Expressions can't be missing.
-      x Expression 2 is missing.
-
----
+# nicely catches required missing arguments when wrapped
 
     Code
       fn(a)

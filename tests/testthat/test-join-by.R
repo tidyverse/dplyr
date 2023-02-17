@@ -229,12 +229,7 @@ test_that("can wrap `join_by()` and use embracing to inject expressions", {
   expect_identical(fn(a == b), join_by(a == b, a <= b))
 })
 
-test_that("nicely catches missing arguments when wrapped", {
-  fn <- function(x, y) {
-    join_by({{x}}, {{y}})
-  }
-  expect_snapshot(error = TRUE, fn(a))
-
+test_that("nicely catches required missing arguments when wrapped", {
   fn <- function(x, y) {
     join_by({{x}} == {{y}})
   }
