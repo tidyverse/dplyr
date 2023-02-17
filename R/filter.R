@@ -49,10 +49,11 @@
 #' @family single table verbs
 #' @inheritParams arrange
 #' @inheritParams args_by
-#' @param ... <[`data-masking`][dplyr_data_masking]> Expressions that return a
-#'   logical value, and are defined in terms of the variables in `.data`.
-#'   If multiple expressions are included, they are combined with the `&` operator.
-#'   Only rows for which all conditions evaluate to `TRUE` are kept.
+#' @param ... <[`data-masking`][rlang::args_data_masking]> Expressions that
+#'   return a logical value, and are defined in terms of the variables in
+#'   `.data`. If multiple expressions are included, they are combined with the
+#'   `&` operator. Only rows for which all conditions evaluate to `TRUE` are
+#'   kept.
 #' @param .preserve Relevant when the `.data` input is grouped.
 #'   If `.preserve = FALSE` (the default), the grouping structure
 #'   is recalculated based on the resulting data, otherwise the grouping is kept as is.
@@ -105,7 +106,7 @@
 #'     .data[[vars[[1]]]] > cond[[1]],
 #'     .data[[vars[[2]]]] > cond[[2]]
 #'   )
-#' # Learn more in ?dplyr_data_masking
+#' # Learn more in ?rlang::args_data_masking
 filter <- function(.data, ..., .by = NULL, .preserve = FALSE) {
   check_by_typo(...)
 

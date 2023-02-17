@@ -3,7 +3,7 @@
 #' @description
 #' `pick()` provides a way to easily select a subset of columns from your data
 #' using [select()] semantics while inside a
-#' ["data-masking"][dplyr_data_masking] function like [mutate()] or
+#' ["data-masking"][rlang::args_data_masking] function like [mutate()] or
 #' [summarise()]. `pick()` returns a data frame containing the selected columns
 #' for the current group.
 #'

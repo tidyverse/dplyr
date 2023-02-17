@@ -14,8 +14,9 @@
 #'
 #' @param x A data frame, data frame extension (e.g. a tibble), or a
 #'   lazy data frame (e.g. from dbplyr or dtplyr).
-#' @param ... <[`data-masking`][dplyr_data_masking]> Variables to group by.
-#' @param wt <[`data-masking`][dplyr_data_masking]> Frequency weights.
+#' @param ... <[`data-masking`][rlang::args_data_masking]> Variables to group
+#'   by.
+#' @param wt <[`data-masking`][rlang::args_data_masking]> Frequency weights.
 #'   Can be `NULL` or a variable:
 #'
 #'   * If `NULL` (the default), counts the number of rows in each group.

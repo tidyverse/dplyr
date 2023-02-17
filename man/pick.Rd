@@ -20,7 +20,7 @@ A tibble containing the selected columns for the current group.
 \description{
 \code{pick()} provides a way to easily select a subset of columns from your data
 using \code{\link[=select]{select()}} semantics while inside a
-\link[=dplyr_data_masking]{"data-masking"} function like \code{\link[=mutate]{mutate()}} or
+\link[rlang:args_data_masking]{"data-masking"} function like \code{\link[=mutate]{mutate()}} or
 \code{\link[=summarise]{summarise()}}. \code{pick()} returns a data frame containing the selected columns
 for the current group.
 

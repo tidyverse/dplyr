@@ -10,7 +10,7 @@ all_vars(expr)
 any_vars(expr)
 }
 \arguments{
-\item{expr}{<\code{\link[=dplyr_data_masking]{data-masking}}> An expression that
+\item{expr}{<\code{\link[rlang:args_data_masking]{data-masking}}> An expression that
 returns a logical vector, using \code{.} to refer to the "current" variable.}
 }
 \description{

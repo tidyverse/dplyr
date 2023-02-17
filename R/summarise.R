@@ -34,8 +34,8 @@
 #' @export
 #' @inheritParams arrange
 #' @inheritParams args_by
-#' @param ... <[`data-masking`][dplyr_data_masking]> Name-value pairs of summary
-#'   functions. The name will be the name of the variable in the result.
+#' @param ... <[`data-masking`][rlang::args_data_masking]> Name-value pairs of
+#'   summary functions. The name will be the name of the variable in the result.
 #'
 #'   The value can be:
 #'   * A vector of length 1, e.g. `min(x)`, `n()`, or `sum(is.na(y))`.
@@ -106,7 +106,7 @@
 #' # Refer to column names stored as strings with the `.data` pronoun:
 #' var <- "mass"
 #' summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
-#' # Learn more in ?dplyr_data_masking
+#' # Learn more in ?rlang::args_data_masking
 #'
 #' # In dplyr 1.1.0, returning multiple rows per group was deprecated in favor
 #' # of `reframe()`, which never messages and always returns an ungrouped

@@ -11,10 +11,11 @@ filter(.data, ..., .by = NULL, .preserve = FALSE)
 lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> Expressions that return a
-logical value, and are defined in terms of the variables in \code{.data}.
-If multiple expressions are included, they are combined with the \code{&} operator.
-Only rows for which all conditions evaluate to \code{TRUE} are kept.}
+\item{...}{<\code{\link[rlang:args_data_masking]{data-masking}}> Expressions that
+return a logical value, and are defined in terms of the variables in
+\code{.data}. If multiple expressions are included, they are combined with the
+\code{&} operator. Only rows for which all conditions evaluate to \code{TRUE} are
+kept.}
 
 \item{.by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
@@ -129,7 +130,7 @@ starwars \%>\%
     .data[[vars[[1]]]] > cond[[1]],
     .data[[vars[[2]]]] > cond[[2]]
   )
-# Learn more in ?dplyr_data_masking
+# Learn more in ?rlang::args_data_masking
 }
 \seealso{
 Other single table verbs: 

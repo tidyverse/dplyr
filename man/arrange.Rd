@@ -14,8 +14,9 @@ arrange(.data, ..., .by_group = FALSE)
 lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> Variables, or functions of
-variables. Use \code{\link[=desc]{desc()}} to sort a variable in descending order.}
+\item{...}{<\code{\link[rlang:args_data_masking]{data-masking}}> Variables, or
+functions of variables. Use \code{\link[=desc]{desc()}} to sort a variable in descending
+order.}
 
 \item{.by_group}{If \code{TRUE}, will sort first by grouping variable. Applies to
 grouped data frames only.}
@@ -88,7 +89,7 @@ by_cyl \%>\% arrange(desc(wt))
 by_cyl \%>\% arrange(desc(wt), .by_group = TRUE)
 
 # use embracing when wrapping in a function;
-# see ?dplyr_data_masking for more details
+# see ?rlang::args_data_masking for more details
 tidy_eval_arrange <- function(.data, var) {
   .data \%>\%
     arrange({{ var }})

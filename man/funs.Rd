@@ -7,7 +7,7 @@
 funs(..., .args = list())
 }
 \arguments{
-\item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> A list of functions
+\item{...}{<\code{\link[rlang:args_data_masking]{data-masking}}> A list of functions
 specified by:
 \itemize{
 \item Their name, \code{"mean"}
