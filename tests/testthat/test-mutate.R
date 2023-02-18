@@ -839,3 +839,12 @@ test_that("mutate() errors refer to expressions if not named", {
     (expect_error(mutate(group_by(mtcars, cyl), 1:3)))
   })
 })
+
+test_that("mutate() correctly auto-names expressions", {
+  df <- tibble(a = 1L)
+
+  expect_identical(mutate(df, -a), tibble(a = 1L, "-a" = -1L))
+
+  foo <- "foobar"
+  expect_identical(mutate(df, foo), tibble(a = 1L, foo = "foobar"))
+})
