@@ -847,4 +847,7 @@ test_that("mutate() correctly auto-names expressions", {
 
   foo <- "foobar"
   expect_identical(mutate(df, foo), tibble(a = 1L, foo = "foobar"))
+
+  a <- 2L
+  expect_identical(mutate(df, a), tibble(a = 1L))
 })
