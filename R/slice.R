@@ -506,17 +506,27 @@ get_slice_size <- function(n, prop, allow_outsize = FALSE, error_call = caller_e
 
   if (slice_input$type == "n") {
     if (slice_input$n >= 0) {
-      function(n) clamp(0, floor(slice_input$n), if (allow_outsize) Inf else n)
+      if (allow_outsize) {
+        code <- expr(!!floor(slice_input$n))
+      } else {
+        code <- expr(clamp(0, !!floor(slice_input$n), n))
+      }
     } else {
-      function(n) clamp(0, ceiling(n + slice_input$n), n)
+      code <- expr(clamp(0, ceiling(n + !!slice_input$n), n))
     }
   } else if (slice_input$type == "prop") {
     if (slice_input$prop >= 0) {
-      function(n) clamp(0, floor(slice_input$prop * n), if (allow_outsize) Inf else n)
+      if (allow_outsize) {
+        code <- expr(clamp(0, floor(!!slice_input$prop * n), Inf))
+      } else {
+        code <- expr(clamp(0, floor(!!slice_input$prop * n), n))
+      }
     } else {
-      function(n) clamp(0, ceiling(n + slice_input$prop * n), n)
+      code <- expr(clamp(0, ceiling(n + !!slice_input$prop * n), n))
     }
   }
+
+  new_function(pairlist2(n = ), code, clamp_env)
 }
 
 clamp <- function(min, x, max) {
@@ -528,6 +538,8 @@ clamp <- function(min, x, max) {
     x
   }
 }
+
+clamp_env <- new_environment(list(clamp = clamp), parent = baseenv())
 
 sample_int <- function(n, size, replace = FALSE, wt = NULL) {
   if (size == 0L) {
