@@ -531,3 +531,9 @@ test_that("non-summary results are deprecated in favor of `reframe()` (#6382)", 
   })
   expect_identical(out$x, c(1L, 1L))
 })
+
+test_that("summarise() correctly auto-names expressions", {
+  df <- tibble(a = 1L)
+
+  expect_identical(summarise(df, sum(-a)), tibble("sum(-a)" = -1L))
+})
