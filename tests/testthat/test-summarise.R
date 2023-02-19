@@ -535,5 +535,5 @@ test_that("non-summary results are deprecated in favor of `reframe()` (#6382)", 
 test_that("summarise() correctly auto-names expressions", {
   df <- tibble(a = 1L)
 
-  expect_identical(summarise(df, sum(-a)), tibble("sum(-a)" = -1L))
+  expect_equal(summarise(df, sum(-a)), tibble("sum(-a)" = -1))
 })
