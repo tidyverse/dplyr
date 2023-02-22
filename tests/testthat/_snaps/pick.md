@@ -142,11 +142,9 @@
       Error in `mutate()`:
       i In argument: `d = my_pick()`.
       i In group 1: `a = 1`.
-      Caused by error in `pick()`:
-      ! Problem while evaluating `all_of(x)`.
       Caused by error in `all_of()`:
-      ! Can't subset elements that don't exist.
-      x Element `a` doesn't exist.
+      ! Can't subset columns that don't exist.
+      x Column `a` doesn't exist.
 
 ---
 
@@ -156,11 +154,9 @@
       Error in `mutate()`:
       i In argument: `d = my_pick(y)`.
       i In group 1: `a = 1`.
-      Caused by error in `pick()`:
-      ! Problem while evaluating `all_of(x)`.
       Caused by error in `all_of()`:
-      ! Can't subset elements that don't exist.
-      x Element `a` doesn't exist.
+      ! Can't subset columns that don't exist.
+      x Column `a` doesn't exist.
 
 # `pick()` expansion evaluates on the full data
 
