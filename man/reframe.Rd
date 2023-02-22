@@ -11,7 +11,7 @@ reframe(.data, ..., .by = NULL)
 lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}>
+\item{...}{<\code{\link[rlang:args_data_masking]{data-masking}}>
 
 Name-value pairs of functions. The name will be the name of the variable in
 the result. The value can be a vector of any length.

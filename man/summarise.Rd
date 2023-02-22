@@ -14,8 +14,8 @@ summarize(.data, ..., .by = NULL, .groups = NULL)
 lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
-\item{...}{<\code{\link[=dplyr_data_masking]{data-masking}}> Name-value pairs of summary
-functions. The name will be the name of the variable in the result.
+\item{...}{<\code{\link[rlang:args_data_masking]{data-masking}}> Name-value pairs of
+summary functions. The name will be the name of the variable in the result.
 
 The value can be:
 \itemize{
@@ -138,7 +138,7 @@ mtcars \%>\%
 # Refer to column names stored as strings with the `.data` pronoun:
 var <- "mass"
 summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
-# Learn more in ?dplyr_data_masking
+# Learn more in ?rlang::args_data_masking
 
 # In dplyr 1.1.0, returning multiple rows per group was deprecated in favor
 # of `reframe()`, which never messages and always returns an ungrouped

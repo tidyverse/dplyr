@@ -25,7 +25,7 @@
 #' @inheritParams args_by
 #' @inheritParams arrange
 #'
-#' @param ... <[`data-masking`][dplyr_data_masking]>
+#' @param ... <[`data-masking`][rlang::args_data_masking]>
 #'
 #'   Name-value pairs of functions. The name will be the name of the variable in
 #'   the result. The value can be a vector of any length.

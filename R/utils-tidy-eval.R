@@ -3,8 +3,8 @@
 #' @description
 #' These tidy eval functions are no longer for normal usage, but are still
 #' exported from dplyr for backward compatibility.
-#' See [`?dplyr_data_masking`][dplyr_data_masking] and `vignette("programming")`
-#' for the latest recommendations.
+#' See [`?rlang::args_data_masking`][rlang::args_data_masking] and
+#' `vignette("programming")` for the latest recommendations.
 #'
 #' * [expr()][rlang::expr]
 #' * [enquo()][rlang::enquo]

@@ -69,7 +69,7 @@ summarize_(.data, ..., .dots = list())
 
 \item{vars}{Various meanings depending on the verb.}
 
-\item{wt}{<\code{\link[=dplyr_data_masking]{data-masking}}> Frequency weights.
+\item{wt}{<\code{\link[rlang:args_data_masking]{data-masking}}> Frequency weights.
 Can be \code{NULL} or a variable:
 \itemize{
 \item If \code{NULL} (the default), counts the number of rows in each group.

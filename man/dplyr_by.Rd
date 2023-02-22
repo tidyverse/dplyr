@@ -39,7 +39,7 @@ This is a purely technical difference.
 \subsection{Differences between \code{.by} and \code{group_by()}}{\tabular{ll}{
    \code{.by} \tab \code{group_by()} \cr
    Grouping only affects a single verb \tab Grouping is persistent across multiple verbs \cr
-   Selects variables with \link[=dplyr_tidy_select]{tidy-select} \tab Computes expressions with \link[=dplyr_data_masking]{data-masking} \cr
+   Selects variables with \link[=dplyr_tidy_select]{tidy-select} \tab Computes expressions with \link[rlang:args_data_masking]{data-masking} \cr
    Summaries use existing order of group keys \tab Summaries sort group keys in ascending order \cr
 }
 

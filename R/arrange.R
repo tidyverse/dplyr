@@ -34,8 +34,9 @@
 #' @param .data A data frame, data frame extension (e.g. a tibble), or a
 #'   lazy data frame (e.g. from dbplyr or dtplyr). See *Methods*, below, for
 #'   more details.
-#' @param ... <[`data-masking`][dplyr_data_masking]> Variables, or functions of
-#'   variables. Use [desc()] to sort a variable in descending order.
+#' @param ... <[`data-masking`][rlang::args_data_masking]> Variables, or
+#'   functions of variables. Use [desc()] to sort a variable in descending
+#'   order.
 #' @param .by_group If `TRUE`, will sort first by grouping variable. Applies to
 #'   grouped data frames only.
 #' @param .locale The locale to sort character vectors in.
@@ -68,7 +69,7 @@
 #' by_cyl %>% arrange(desc(wt), .by_group = TRUE)
 #'
 #' # use embracing when wrapping in a function;
-#' # see ?dplyr_data_masking for more details
+#' # see ?rlang::args_data_masking for more details
 #' tidy_eval_arrange <- function(.data, var) {
 #'   .data %>%
 #'     arrange({{ var }})

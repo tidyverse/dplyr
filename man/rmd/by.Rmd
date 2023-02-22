@@ -48,11 +48,11 @@ This is a purely technical difference.
 
 ### Differences between `.by` and `group_by()`
 
-| `.by`                                                   | `group_by()`                                                 |
-|---------------------------------------------------------|--------------------------------------------------------------|
-| Grouping only affects a single verb                     | Grouping is persistent across multiple verbs                 |
-| Selects variables with [tidy-select][dplyr_tidy_select] | Computes expressions with [data-masking][dplyr_data_masking] |
-| Summaries use existing order of group keys              | Summaries sort group keys in ascending order                 |
+| `.by`                                                   | `group_by()`                                                       |
+|---------------------------------------------------------|--------------------------------------------------------------------|
+| Grouping only affects a single verb                     | Grouping is persistent across multiple verbs                       |
+| Selects variables with [tidy-select][dplyr_tidy_select] | Computes expressions with [data-masking][rlang::args_data_masking] |
+| Summaries use existing order of group keys              | Summaries sort group keys in ascending order                       |
 
 ### Using `.by`
 
