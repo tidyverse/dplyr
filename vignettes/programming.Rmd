@@ -212,45 +212,6 @@ mutate_y <- function(data) {
 }
 ```
 
-### Eliminating `R CMD check` `NOTE`s
-
-If you're writing a package and you have a function that uses data masking or tidy selection:
-
-```{r}
-my_summary_function <- function(data) {
-  data %>% 
-    select(grp, x, y) %>% 
-    filter(x > 0) %>% 
-    group_by(grp) %>% 
-    summarise(y = mean(y), n = n())
-}
-```
-
-You'll get an `NOTE` because `R CMD check` doesn't know that dplyr functions use tidy evaluation:
-
-    N  checking R code for possible problems
-       my_summary_function: no visible binding for global variable ‘grp’, ‘x’, ‘y’
-       Undefined global functions or variables:
-         grp x y
-
-To eliminate this note:
-
--   For data masking, import `.data` from [rlang](https://rlang.r-lib.org/) and then use `.data$var` instead of `var`.
--   For tidy selection, use `"var"` instead of `var`.
-
-That yields:
-
-```{r}
-#' @importFrom rlang .data
-my_summary_function <- function(data) {
-  data %>% 
-    select("grp", "x", "y") %>% 
-    filter(.data$x > 0) %>% 
-    group_by(.data$grp) %>% 
-    summarise(y = mean(.data$y), n = n())
-}
-```
-
 ### One or more user-supplied expressions
 
 If you want the user to supply an expression that's passed onto an argument which uses data masking or tidy select, embrace the argument:
