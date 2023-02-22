@@ -186,6 +186,11 @@ test_that("assigning with `<-` doesn't affect the mask (#6666)", {
   expect_identical(out$y, c(5.5, 7.5))
 })
 
+test_that("summarise() correctly auto-names expressions (#6741)", {
+  df <- tibble(a = 1L)
+  expect_identical(summarise(df, sum(-a)), tibble("sum(-a)" = -1L))
+})
+
 # grouping ----------------------------------------------------------------
 
 test_that("peels off a single layer of grouping", {

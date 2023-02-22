@@ -478,6 +478,22 @@ test_that("DataMask$add() forces chunks (#4677)", {
   expect_equal(df$log_e_bf01, log(1 / 0.244))
 })
 
+test_that("mutate() correctly auto-names expressions (#6741)", {
+  df <- tibble(a = 1L)
+
+  expect_identical(mutate(df, -a), tibble(a = 1L, "-a" = -1L))
+
+  foo <- "foobar"
+  expect_identical(mutate(df, foo), tibble(a = 1L, foo = "foobar"))
+
+  a <- 2L
+  expect_identical(mutate(df, a), tibble(a = 1L))
+
+  df <- tibble(a = 1L, "a + 1" = 5L)
+  a <- 2L
+  expect_identical(mutate(df, a + 1), tibble(a = 1L, "a + 1" = 2))
+})
+
 # .by -------------------------------------------------------------------------
 
 test_that("can group transiently using `.by`", {
