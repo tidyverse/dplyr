@@ -107,8 +107,10 @@ test_that("funs_ works", {
 })
 
 test_that("as_fun_list() auto names chr vectors (4307)", {
-  expect_identical(
-    data.frame(x = 1:10) %>% summarise_at("x", c("mean", "sum") %>% names()),
+  df <- data.frame(x = 1:10)
+
+  expect_named(
+    summarise_at(df, "x", c("mean", "sum")),
     c("mean", "sum")
   )
 })
