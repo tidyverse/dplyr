@@ -25,13 +25,13 @@
     <loc>https://dplyr.tidyverse.org/dev/articles/colwise.html</loc>
   </url>
   <url>
-    <loc>https://dplyr.tidyverse.org/dev/articles/compatibility.html</loc>
-  </url>
-  <url>
     <loc>https://dplyr.tidyverse.org/dev/articles/dplyr.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/dev/articles/grouping.html</loc>
+  </url>
+  <url>
+    <loc>https://dplyr.tidyverse.org/dev/articles/in-packages.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/dev/articles/index.html</loc>
