@@ -15,8 +15,13 @@
 # 2023-02-15:
 # - Added `check_logical()`.
 #
-# 2023-02-13:
-# - `check_bool()` is now implemented in C.
+# - `check_bool()`, `check_number_whole()`, and
+#   `check_number_decimal()` are now implemented in C.
+#
+# - For efficiency, `check_number_whole()` and
+#   `check_number_decimal()` now take a `NULL` default for `min` and
+#   `max`. This makes it possible to bypass unnecessary type-checking
+#   and comparisons in the default case of no bounds checks.
 #
 # 2022-10-07:
 # - `check_number_whole()` and `_decimal()` no longer treat
@@ -45,13 +50,15 @@
 
 # Scalars -----------------------------------------------------------------
 
+.standalone_types_check_dot_call <- .Call
+
 check_bool <- function(x,
                        ...,
                        allow_na = FALSE,
                        allow_null = FALSE,
                        arg = caller_arg(x),
                        call = caller_env()) {
-  if (!missing(x) && .Call(ffi_standalone_is_bool_1.0.7, x, allow_na, allow_null)) {
+  if (!missing(x) && .standalone_types_check_dot_call(ffi_standalone_is_bool_1.0.7, x, allow_na, allow_null)) {
     return(invisible(NULL))
   }
 
@@ -145,22 +152,41 @@ check_name <- function(x,
   )
 }
 
+IS_NUMBER_true <- 0
+IS_NUMBER_false <- 1
+IS_NUMBER_oob <- 2
+
 check_number_decimal <- function(x,
                                  ...,
-                                 min = -Inf,
-                                 max = Inf,
+                                 min = NULL,
+                                 max = NULL,
                                  allow_infinite = TRUE,
                                  allow_na = FALSE,
                                  allow_null = FALSE,
                                  arg = caller_arg(x),
                                  call = caller_env()) {
-  .rlang_types_check_number(
+  if (missing(x)) {
+    exit_code <- IS_NUMBER_false
+  } else if (0 == (exit_code <- .standalone_types_check_dot_call(
+    ffi_standalone_check_number_1.0.7,
+    x,
+    allow_decimal = TRUE,
+    min,
+    max,
+    allow_infinite,
+    allow_na,
+    allow_null
+  ))) {
+    return(invisible(NULL))
+  }
+
+  .stop_not_number(
     x,
     ...,
+    exit_code = exit_code,
+    allow_decimal = TRUE,
     min = min,
     max = max,
-    allow_decimal = TRUE,
-    allow_infinite = allow_infinite,
     allow_na = allow_na,
     allow_null = allow_null,
     arg = arg,
@@ -170,19 +196,34 @@ check_number_decimal <- function(x,
 
 check_number_whole <- function(x,
                                ...,
-                               min = -Inf,
-                               max = Inf,
+                               min = NULL,
+                               max = NULL,
                                allow_na = FALSE,
                                allow_null = FALSE,
                                arg = caller_arg(x),
                                call = caller_env()) {
-  .rlang_types_check_number(
+  if (missing(x)) {
+    exit_code <- IS_NUMBER_false
+  } else if (0 == (exit_code <- .standalone_types_check_dot_call(
+    ffi_standalone_check_number_1.0.7,
+    x,
+    allow_decimal = FALSE,
+    min,
+    max,
+    allow_infinite = FALSE,
+    allow_na,
+    allow_null
+  ))) {
+    return(invisible(NULL))
+  }
+
+  .stop_not_number(
     x,
     ...,
+    exit_code = exit_code,
+    allow_decimal = FALSE,
     min = min,
     max = max,
-    allow_decimal = FALSE,
-    allow_infinite = FALSE,
     allow_na = allow_na,
     allow_null = allow_null,
     arg = arg,
@@ -190,23 +231,36 @@ check_number_whole <- function(x,
   )
 }
 
-.rlang_types_check_number <- function(x,
-                                      ...,
-                                      min = -Inf,
-                                      max = Inf,
-                                      allow_decimal = FALSE,
-                                      allow_infinite = FALSE,
-                                      allow_na = FALSE,
-                                      allow_null = FALSE,
-                                      arg = caller_arg(x),
-                                      call = caller_env()) {
-  if (allow_decimal) {
+.stop_not_number <- function(x,
+                             ...,
+                             exit_code,
+                             allow_decimal,
+                             min,
+                             max,
+                             allow_na,
+                             allow_null,
+                             arg,
+                             call) {
+  if (exit_code == IS_NUMBER_oob) {
+    min <- min %||% -Inf
+    max <- max %||% Inf
+
+    if (min > -Inf && max < Inf) {
+      what <- sprintf("a number between %s and %s", min, max)
+    } else if (x < min) {
+      what <- sprintf("a number larger than %s", min)
+    } else if (x > max) {
+      what <- sprintf("a number smaller than %s", max)
+    } else {
+      abort("Unexpected state in OOB check", .internal = TRUE)
+    }
+  } else if (allow_decimal) {
     what <- "a number"
   } else {
     what <- "a whole number"
   }
 
-  .stop <- function(x, what, ...) stop_input_type(
+  stop_input_type(
     x,
     what,
     ...,
@@ -215,66 +269,6 @@ check_number_whole <- function(x,
     arg = arg,
     call = call
   )
-
-  if (!missing(x)) {
-    is_number <- is_number(
-      x,
-      allow_decimal = allow_decimal,
-      allow_infinite = allow_infinite
-    )
-
-    if (is_number) {
-      if (min > -Inf && max < Inf) {
-        what <- sprintf("a number between %s and %s", min, max)
-      } else {
-        what <- NULL
-      }
-      if (x < min) {
-        what <- what %||% sprintf("a number larger than %s", min)
-        .stop(x, what, ...)
-      }
-      if (x > max) {
-        what <- what %||% sprintf("a number smaller than %s", max)
-        .stop(x, what, ...)
-      }
-      return(invisible(NULL))
-    }
-
-    if (allow_null && is_null(x)) {
-      return(invisible(NULL))
-    }
-    if (allow_na && (identical(x, NA) ||
-                     identical(x, na_dbl) ||
-                     identical(x, na_int))) {
-      return(invisible(NULL))
-    }
-  }
-
-  .stop(x, what, ...)
-}
-
-is_number <- function(x,
-                      allow_decimal = FALSE,
-                      allow_infinite = FALSE) {
-  if (!typeof(x) %in% c("integer", "double")) {
-    return(FALSE)
-  }
-  if (!is.numeric(x)) {
-    return(FALSE)
-  }
-  if (length(x) != 1) {
-    return(FALSE)
-  }
-  if (is.na(x)) {
-    return(FALSE)
-  }
-  if (!allow_decimal && !is_integerish(x)) {
-    return(FALSE)
-  }
-  if (!allow_infinite && is.infinite(x)) {
-    return(FALSE)
-  }
-  TRUE
 }
 
 check_symbol <- function(x,
