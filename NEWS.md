@@ -1,7 +1,7 @@
 # dplyr (development version)
 
 * The compatibility vignette has been replaced with a more general vignette on
-  using dplyr in packages, `vignette("in-packages")`. (#6702).
+  using dplyr in packages, `vignette("in-packages")` (#6702).
 
 * `group_data()` on ungrouped data frames is faster (#6736).
 
