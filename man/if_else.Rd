@@ -9,7 +9,7 @@ if_else(condition, true, false, missing = NULL, ..., ptype = NULL, size = NULL)
 \arguments{
 \item{condition}{A logical vector}
 
-\item{true, false}{Values to use for \code{TRUE} and \code{FALSE} values of
+\item{true, false}{Vectors to use for \code{TRUE} and \code{FALSE} values of
 \code{condition}.
 
 Both \code{true} and \code{false} will be \link[vctrs:vector_recycling_rules]{recycled}

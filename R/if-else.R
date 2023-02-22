@@ -9,7 +9,7 @@
 #'
 #' @param condition A logical vector
 #'
-#' @param true,false Values to use for `TRUE` and `FALSE` values of
+#' @param true,false Vectors to use for `TRUE` and `FALSE` values of
 #'   `condition`.
 #'
 #'   Both `true` and `false` will be [recycled][vctrs::vector_recycling_rules]
