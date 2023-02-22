@@ -359,6 +359,11 @@ package, bringing greater consistency and improved performance.
   `if_else()` now takes the common type of `true`, `false`, and `missing` to
   determine the output type, meaning that you can now reliably use `NA`,
   rather than `NA_character_` and friends (#6243).
+  
+  `if_else()` also no longer allows you to supply `NULL` for either `true` or
+  `false`, which was an undocumented usage that we consider to be off-label,
+  because `true` and `false` are intended to be (and documented to be) vector
+  inputs (#6730).
 
 * `na_if()` (#6329) now casts `y` to the type of `x` before comparison, which 
   makes it clearer that this function is type and size stable on `x`. In
