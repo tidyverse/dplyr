@@ -111,8 +111,9 @@ more details.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>&lt;<code><a href="dplyr_data_masking.html">data-masking</a></code>&gt; Variables, or functions of
-variables. Use <code><a href="desc.html">desc()</a></code> to sort a variable in descending order.</p></dd>
+<dd><p>&lt;<code><a href="https://rlang.r-lib.org/reference/args_data_masking.html" class="external-link">data-masking</a></code>&gt; Variables, or
+functions of variables. Use <code><a href="desc.html">desc()</a></code> to sort a variable in descending
+order.</p></dd>
 
 
 <dt>.by_group</dt>
@@ -289,7 +290,7 @@ dplyr (<code>data.frame</code>)
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 22 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># use embracing when wrapping in a function;</span></span></span>
-<span class="r-in"><span><span class="co"># see ?dplyr_data_masking for more details</span></span></span>
+<span class="r-in"><span><span class="co"># see ?rlang::args_data_masking for more details</span></span></span>
 <span class="r-in"><span><span class="va">tidy_eval_arrange</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.data</span>, <span class="va">var</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="va">.data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>    <span class="fu">arrange</span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span></span></span>
