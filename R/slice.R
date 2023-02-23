@@ -512,7 +512,7 @@ get_slice_size <- function(n, prop, allow_outsize = FALSE, error_call = caller_e
         code <- expr(clamp(0, !!floor(slice_input$n), n))
       }
     } else {
-      code <- expr(clamp(0, ceiling(n + !!slice_input$n), n))
+      code <- expr(clamp(0, ceiling(n - !!-slice_input$n), n))
     }
   } else if (slice_input$type == "prop") {
     if (slice_input$prop >= 0) {
@@ -522,7 +522,7 @@ get_slice_size <- function(n, prop, allow_outsize = FALSE, error_call = caller_e
         code <- expr(clamp(0, floor(!!slice_input$prop * n), n))
       }
     } else {
-      code <- expr(clamp(0, ceiling(n + !!slice_input$prop * n), n))
+      code <- expr(clamp(0, ceiling(!!(1 + slice_input$prop) * n), n))
     }
   }
 

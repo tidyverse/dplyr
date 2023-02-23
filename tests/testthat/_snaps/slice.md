@@ -171,11 +171,11 @@
     Code
       body(get_slice_size(prop = -0.4))
     Output
-      clamp(0, ceiling(n + -0.4 * n), n)
+      clamp(0, ceiling(0.6 * n), n)
     Code
       body(get_slice_size(prop = -2))
     Output
-      clamp(0, ceiling(n + -2 * n), n)
+      clamp(0, ceiling(-1 * n), n)
     Code
       body(get_slice_size(n = 0))
     Output
@@ -195,11 +195,11 @@
     Code
       body(get_slice_size(n = -4))
     Output
-      clamp(0, ceiling(n + -4), n)
+      clamp(0, ceiling(n - 4), n)
     Code
       body(get_slice_size(n = -20))
     Output
-      clamp(0, ceiling(n + -20), n)
+      clamp(0, ceiling(n - 20), n)
 
 # n must be an integer
 
