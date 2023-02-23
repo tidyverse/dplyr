@@ -526,7 +526,7 @@ get_slice_size <- function(n, prop, allow_outsize = FALSE, error_call = caller_e
     }
   }
 
-  new_function(pairlist2(n = ), code, clamp_env)
+  new_function(pairlist2(n = ), code, environment())
 }
 
 clamp <- function(min, x, max) {
@@ -538,8 +538,6 @@ clamp <- function(min, x, max) {
     x
   }
 }
-
-clamp_env <- new_environment(list(clamp = clamp), parent = baseenv())
 
 sample_int <- function(n, size, replace = FALSE, wt = NULL) {
   if (size == 0L) {
