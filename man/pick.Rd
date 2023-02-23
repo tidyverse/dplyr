@@ -35,6 +35,13 @@ Theoretically, \code{pick()} is intended to be replaceable with an equivalent ca
 to \code{tibble()}. For example, \code{pick(a, c)} could be replaced with
 \code{tibble(a = a, c = c)}, and \code{pick(everything())} on a data frame with cols
 \code{a}, \code{b}, and \code{c} could be replaced with \code{tibble(a = a, b = b, c = c)}.
+\code{pick()} specially handles the case of an empty selection by returning a 1
+row, 0 column tibble, so an exact replacement is more like:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{size <- vctrs::vec_size_common(..., .absent = 1L)
+out <- vctrs::vec_recycle_common(..., .size = size)
+tibble::new_tibble(out, nrow = size)
+}\if{html}{\out{</div>}}
 }
 \examples{
 df <- tibble(
