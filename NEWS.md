@@ -1,5 +1,10 @@
 # dplyr (development version)
 
+* `pick()` now returns a 1 row, 0 column tibble when `...` evaluates to an
+  empty selection. This makes it more compatible with [tidyverse recycling
+  rules](https://vctrs.r-lib.org/reference/vector_recycling_rules.html) in some
+  edge cases (#6685).
+
 * The compatibility vignette has been replaced with a more general vignette on
   using dplyr in packages, `vignette("in-packages")` (#6702).
 
