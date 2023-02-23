@@ -152,6 +152,17 @@ iris \%>\%
 iris \%>\%
   mutate(across(where(is.double) & !c(Petal.Length, Petal.Width), round))
 
+# Using an external vector of names
+cols <- c("Sepal.Length", "Petal.Width")
+iris \%>\%
+  mutate(across(all_of(cols), round))
+
+# If the external vector is named, the output columns will be named according
+# to those names
+names(cols) <- tolower(cols)
+iris \%>\%
+  mutate(across(all_of(cols), round))
+
 # A purrr-style formula
 iris \%>\%
   group_by(Species) \%>\%
@@ -169,6 +180,12 @@ iris \%>\%
 iris \%>\%
   group_by(Species) \%>\%
   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), .names = "{.col}.{.fn}"))
+
+# If a named external vector is used for column selection, .names will use
+# those names when constructing the output names
+iris \%>\%
+  group_by(Species) \%>\%
+  summarise(across(all_of(cols), mean, .names = "mean_{.col}"))
 
 # When the list is not named, .fn is replaced by the function's position
 iris \%>\%
