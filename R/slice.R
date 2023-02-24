@@ -507,26 +507,26 @@ get_slice_size <- function(n, prop, allow_outsize = FALSE, error_call = caller_e
   if (slice_input$type == "n") {
     if (slice_input$n >= 0) {
       if (allow_outsize) {
-        code <- expr(!!floor(slice_input$n))
+        body <- expr(!!floor(slice_input$n))
       } else {
-        code <- expr(clamp(0, !!floor(slice_input$n), n))
+        body <- expr(clamp(0, !!floor(slice_input$n), n))
       }
     } else {
-      code <- expr(clamp(0, ceiling(n - !!-slice_input$n), n))
+      body <- expr(clamp(0, ceiling(n + !!slice_input$n), n))
     }
   } else if (slice_input$type == "prop") {
     if (slice_input$prop >= 0) {
       if (allow_outsize) {
-        code <- expr(clamp(0, floor(!!slice_input$prop * n), Inf))
+        body <- expr(floor(!!slice_input$prop * n))
       } else {
-        code <- expr(clamp(0, floor(!!slice_input$prop * n), n))
+        body <- expr(clamp(0, floor(!!slice_input$prop * n), n))
       }
     } else {
-      code <- expr(clamp(0, ceiling(!!(1 + slice_input$prop) * n), n))
+      body <- expr(clamp(0, ceiling(n + !!slice_input$prop * n), n))
     }
   }
 
-  new_function(pairlist2(n = ), code, environment())
+  new_function(pairlist2(n = ), body)
 }
 
 clamp <- function(min, x, max) {
