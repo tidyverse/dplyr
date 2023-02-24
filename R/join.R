@@ -41,7 +41,7 @@
 #' rows returned from the join.
 #'
 #' If a many-to-many relationship is expected, silence this warning by
-#' explicitly setting `relationship = "many_to_many"`.
+#' explicitly setting `relationship = "many-to-many"`.
 #'
 #' In production code, it is best to preemptively set `relationship` to whatever
 #' relationship you expect to exist between the keys of `x` and `y`, as this
@@ -55,7 +55,7 @@
 #'
 #' Rolling joins don't warn on many-to-many relationships either, but many
 #' rolling joins follow a many-to-one relationship, so it is often useful to
-#' set `relationship = "many_to_one"` to enforce this.
+#' set `relationship = "many-to-one"` to enforce this.
 #'
 #' Note that in SQL, most database providers won't let you specify a
 #' many-to-many relationship between two tables, instead requiring that you
@@ -171,32 +171,32 @@
 #'   invalidated, an error is thrown.
 #'
 #'   - `NULL`, the default, chooses:
-#'     - `"warn_many_to_many"` for equality joins
+#'     - `"warn-many-to-many"` for equality joins
 #'     - `"none"` for inequality joins, rolling joins, and overlap joins
 #'
 #'     See the _Many-to-many relationships_ section for more details.
 #'
 #'   - `"none"` doesn't perform any relationship checks.
 #'
-#'   - `"one_to_one"` expects:
+#'   - `"one-to-one"` expects:
 #'     - Each row in `x` matches at most 1 row in `y`.
 #'     - Each row in `y` matches at most 1 row in `x`.
 #'
-#'   - `"one_to_many"` expects:
+#'   - `"one-to-many"` expects:
 #'     - Each row in `y` matches at most 1 row in `x`.
 #'
-#'   - `"many_to_one"` expects:
+#'   - `"many-to-one"` expects:
 #'     - Each row in `x` matches at most 1 row in `y`.
 #'
-#'   - `"many_to_many"` doesn't perform any relationship checks, and is
+#'   - `"many-to-many"` doesn't perform any relationship checks, and is
 #'     identical to `"none"`, but is provided to allow you to be explicit about
 #'     this relationship if you know it exists.
 #'
-#'   - `"warn_many_to_many"` doesn't assume there is any known relationship, but
+#'   - `"warn-many-to-many"` doesn't assume there is any known relationship, but
 #'     will warn if `x` and `y` have a many-to-many relationship
 #'     (which is typically unexpected), encouraging you to either take a closer
 #'     look at your inputs or make this relationship explicit by specifying
-#'     `"many_to_many"`.
+#'     `"many-to-many"`.
 #'
 #'   `relationship` doesn't handle cases where there are zero matches. For that,
 #'   see `unmatched`.
@@ -232,8 +232,8 @@
 #' df3 %>% left_join(df2)
 #'
 #' # In the rare case where a many-to-many relationship is expected, set
-#' # `relationship = "many_to_many"` to silence this warning
-#' df3 %>% left_join(df2, relationship = "many_to_many")
+#' # `relationship = "many-to-many"` to silence this warning
+#' df3 %>% left_join(df2, relationship = "many-to-many")
 #'
 #' # Use `join_by()` with a condition other than `==` to perform an inequality
 #' # join. Here we match on every instance where `df1$x > df2$x`.

@@ -222,7 +222,7 @@ rethrow_warning_join_relationship_many_to_many <- function(cnd, call) {
       i = glue("Row {j} of `y` matches multiple rows in `x`."),
       i = paste0(
         "If a many-to-many relationship is expected, ",
-        "set `relationship = \"many_to_many\"` to silence this warning."
+        "set `relationship = \"many-to-many\"` to silence this warning."
       )
     ),
     class = "dplyr_warning_join_relationship_many_to_many",
@@ -377,7 +377,7 @@ standardise_join_relationship <- function(relationship, condition, user_env) {
   # - Inequality and overlap joins often generate many-to-many relationships
   #   by nature
   # - Rolling joins are a little trickier, but we've decided that not warning is
-  #   probably easier to explain. `relationship = "many_to_one"` can always be
+  #   probably easier to explain. `relationship = "many-to-one"` can always be
   #   used explicitly as needed.
   any_inequality <- any(condition != "==")
 
@@ -388,7 +388,7 @@ standardise_join_relationship <- function(relationship, condition, user_env) {
     # to `relationship` to silence it
     "none"
   } else {
-    "warn_many_to_many"
+    "warn-many-to-many"
   }
 }
 
@@ -400,7 +400,7 @@ warn_join_multiple <- function(what, user_env = caller_env(2)) {
   lifecycle::deprecate_warn(
     when = "1.1.1",
     what = I(what),
-    with = I('`relationship = "many_to_one"`'),
+    with = I('`relationship = "many-to-one"`'),
     user_env = user_env,
     always = TRUE
   )

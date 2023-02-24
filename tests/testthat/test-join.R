@@ -276,9 +276,9 @@ test_that("mutating joins don't trigger many-to-many warning when called indirec
   fn_env(fn) <- ns_env("rlang")
 
   # Indirectly calling `left_join()` through a function you don't control
-  # doesn't warn unless `relationship = "warn_many_to_many"` is explicitly set
+  # doesn't warn unless `relationship = "warn-many-to-many"` is explicitly set
   expect_no_warning(fn(df, df), class = "dplyr_warning_join_relationship_many_to_many")
-  expect_warning(fn(df, df, "warn_many_to_many"), class = "dplyr_warning_join_relationship_many_to_many")
+  expect_warning(fn(df, df, "warn-many-to-many"), class = "dplyr_warning_join_relationship_many_to_many")
 })
 
 test_that("mutating joins compute common columns", {
@@ -457,11 +457,11 @@ test_that("joins respect zero length groups", {
   df2 <- tibble(f = factor( c(2,2,3,3), levels = 1:3), y = c(1,2,3,4)) %>%
     group_by(f)
 
-  expect_equal(group_size(left_join( df1, df2, by = "f", relationship = "many_to_many")),  c(2,4))
-  expect_equal(group_size(right_join( df1, df2, by = "f", relationship = "many_to_many")),  c(4,2))
-  expect_equal(group_size(full_join( df1, df2, by = "f", relationship = "many_to_many")),  c(2,4,2))
+  expect_equal(group_size(left_join( df1, df2, by = "f", relationship = "many-to-many")),  c(2,4))
+  expect_equal(group_size(right_join( df1, df2, by = "f", relationship = "many-to-many")),  c(4,2))
+  expect_equal(group_size(full_join( df1, df2, by = "f", relationship = "many-to-many")),  c(2,4,2))
   expect_equal(group_size(anti_join( df1, df2, by = "f")),  c(2))
-  expect_equal(group_size(inner_join( df1, df2, by = "f", relationship = "many_to_many")),  c(4))
+  expect_equal(group_size(inner_join( df1, df2, by = "f", relationship = "many-to-many")),  c(4))
 
 
   df1 <- tibble(f = factor( c(1,1,2,2), levels = 1:3), x = c(1,2,1,4)) %>%
@@ -469,11 +469,11 @@ test_that("joins respect zero length groups", {
   df2 <- tibble(f = factor( c(2,2,3,3), levels = 1:3), y = c(1,2,3,4)) %>%
     group_by(f, .drop = FALSE)
 
-  expect_equal(group_size(left_join( df1, df2, by = "f", relationship = "many_to_many")),  c(2,4,0))
-  expect_equal(group_size(right_join( df1, df2, by = "f", relationship = "many_to_many")),  c(0,4,2))
-  expect_equal(group_size(full_join( df1, df2, by = "f", relationship = "many_to_many")),  c(2,4,2))
+  expect_equal(group_size(left_join( df1, df2, by = "f", relationship = "many-to-many")),  c(2,4,0))
+  expect_equal(group_size(right_join( df1, df2, by = "f", relationship = "many-to-many")),  c(0,4,2))
+  expect_equal(group_size(full_join( df1, df2, by = "f", relationship = "many-to-many")),  c(2,4,2))
   expect_equal(group_size(anti_join( df1, df2, by = "f")),  c(2,0,0))
-  expect_equal(group_size(inner_join( df1, df2, by = "f", relationship = "many_to_many")),  c(0,4,0))
+  expect_equal(group_size(inner_join( df1, df2, by = "f", relationship = "many-to-many")),  c(0,4,0))
 })
 
 test_that("group column names reflect renamed duplicate columns (#2330)", {
@@ -525,7 +525,7 @@ test_that("`by = character()` technically respects `relationship`", {
   df <- tibble(x = 1:2)
 
   expect_snapshot(error = TRUE, {
-    left_join(df, df, by = character(), relationship = "many_to_one")
+    left_join(df, df, by = character(), relationship = "many-to-one")
   })
 })
 

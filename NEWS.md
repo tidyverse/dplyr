@@ -17,21 +17,21 @@
     
   * The mutating joins gain a new `relationship` argument, allowing you to
     enforce one of the following relationship constraints between the keys of
-    `x` and `y`: `"none"`, `"one_to_one"`, `"one_to_many"`, `"many_to_one"`,
-    `"many_to_many"`, or `"warn_many_to_many"`.
+    `x` and `y`: `"none"`, `"one-to-one"`, `"one-to-many"`, `"many-to-one"`,
+    `"many-to-many"`, or `"warn-many-to-many"`.
     
-    For example, `"many_to_one"` enforces that each row in `x` can match at
+    For example, `"many-to-one"` enforces that each row in `x` can match at
     most 1 row in `y`. If a row in `x` matches >1 rows in `y`, an error is
     thrown. This option serves as the replacement for `multiple = "error"`.
     
-    For equality joins, `relationship` defaults to `"warn_many_to_many"` to
+    For equality joins, `relationship` defaults to `"warn-many-to-many"` to
     warn if an unexpected many-to-many relationship is detected, and otherwise
     defaults to `"none"` for inequality, rolling, and overlap joins.
     
   This change unfortunately does mean that if you have set `multiple = "all"` to
   avoid a warning and you happened to be doing a many-to-many style join, then
   you will need to replace `multiple = "all"` with
-  `relationship = "many_to_many"` to silence the new warning, but we believe
+  `relationship = "many-to-many"` to silence the new warning, but we believe
   this should be rare since many-to-many relationships are fairly uncommon.
 
 * `pick()` now returns a 1 row, 0 column tibble when `...` evaluates to an

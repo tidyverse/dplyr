@@ -211,33 +211,33 @@ invalidated, an error is thrown.
 \itemize{
 \item \code{NULL}, the default, chooses:
 \itemize{
-\item \code{"warn_many_to_many"} for equality joins
+\item \code{"warn-many-to-many"} for equality joins
 \item \code{"none"} for inequality joins, rolling joins, and overlap joins
 }
 
 See the \emph{Many-to-many relationships} section for more details.
 \item \code{"none"} doesn't perform any relationship checks.
-\item \code{"one_to_one"} expects:
+\item \code{"one-to-one"} expects:
 \itemize{
 \item Each row in \code{x} matches at most 1 row in \code{y}.
 \item Each row in \code{y} matches at most 1 row in \code{x}.
 }
-\item \code{"one_to_many"} expects:
+\item \code{"one-to-many"} expects:
 \itemize{
 \item Each row in \code{y} matches at most 1 row in \code{x}.
 }
-\item \code{"many_to_one"} expects:
+\item \code{"many-to-one"} expects:
 \itemize{
 \item Each row in \code{x} matches at most 1 row in \code{y}.
 }
-\item \code{"many_to_many"} doesn't perform any relationship checks, and is
+\item \code{"many-to-many"} doesn't perform any relationship checks, and is
 identical to \code{"none"}, but is provided to allow you to be explicit about
 this relationship if you know it exists.
-\item \code{"warn_many_to_many"} doesn't assume there is any known relationship, but
+\item \code{"warn-many-to-many"} doesn't assume there is any known relationship, but
 will warn if \code{x} and \code{y} have a many-to-many relationship
 (which is typically unexpected), encouraging you to either take a closer
 look at your inputs or make this relationship explicit by specifying
-\code{"many_to_many"}.
+\code{"many-to-many"}.
 }
 
 \code{relationship} doesn't handle cases where there are zero matches. For that,
@@ -307,7 +307,7 @@ problematic because they can result in a Cartesian explosion of the number of
 rows returned from the join.
 
 If a many-to-many relationship is expected, silence this warning by
-explicitly setting \code{relationship = "many_to_many"}.
+explicitly setting \code{relationship = "many-to-many"}.
 
 In production code, it is best to preemptively set \code{relationship} to whatever
 relationship you expect to exist between the keys of \code{x} and \code{y}, as this
@@ -321,7 +321,7 @@ return a large number of rows.
 
 Rolling joins don't warn on many-to-many relationships either, but many
 rolling joins follow a many-to-one relationship, so it is often useful to
-set \code{relationship = "many_to_one"} to enforce this.
+set \code{relationship = "many-to-one"} to enforce this.
 
 Note that in SQL, most database providers won't let you specify a
 many-to-many relationship between two tables, instead requiring that you
@@ -375,8 +375,8 @@ df3 <- tibble(x = c(1, 1, 1, 3))
 df3 \%>\% left_join(df2)
 
 # In the rare case where a many-to-many relationship is expected, set
-# `relationship = "many_to_many"` to silence this warning
-df3 \%>\% left_join(df2, relationship = "many_to_many")
+# `relationship = "many-to-many"` to silence this warning
+df3 \%>\% left_join(df2, relationship = "many-to-many")
 
 # Use `join_by()` with a condition other than `==` to perform an inequality
 # join. Here we match on every instance where `df1$x > df2$x`.

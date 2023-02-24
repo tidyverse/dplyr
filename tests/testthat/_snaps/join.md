@@ -59,7 +59,7 @@
       Detected an unexpected many-to-many relationship between `x` and `y`.
       i Row 1 of `x` matches multiple rows in `y`.
       i Row 1 of `y` matches multiple rows in `x`.
-      i If a many-to-many relationship is expected, set `relationship = "many_to_many"` to silence this warning.
+      i If a many-to-many relationship is expected, set `relationship = "many-to-many"` to silence this warning.
 
 # mutating joins compute common columns
 
@@ -202,7 +202,7 @@
 # `by = character()` technically respects `relationship`
 
     Code
-      left_join(df, df, by = character(), relationship = "many_to_one")
+      left_join(df, df, by = character(), relationship = "many-to-one")
     Condition
       Error in `left_join()`:
       ! Each row in `x` must match at most 1 row in `y`.

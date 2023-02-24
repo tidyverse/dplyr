@@ -1,5 +1,5 @@
 test_that("`relationship` default behavior is correct", {
-  # "warn_many_to_many" for equality joins
+  # "warn-many-to-many" for equality joins
   expect_snapshot(out <- join_rows(c(1, 1), c(1, 1), condition = "=="))
   expect_equal(out$x, c(1L, 1L, 2L, 2L))
   expect_equal(out$y, c(1L, 2L, 1L, 2L))
@@ -170,28 +170,28 @@ test_that("join_rows() expects incompatible type errors to have been handled by 
 
 test_that("join_rows() gives meaningful one-to-one errors", {
   expect_snapshot(error = TRUE, {
-    join_rows(1, c(1, 1), relationship = "one_to_one")
+    join_rows(1, c(1, 1), relationship = "one-to-one")
   })
   expect_snapshot(error = TRUE, {
-    join_rows(c(1, 1), 1, relationship = "one_to_one")
+    join_rows(c(1, 1), 1, relationship = "one-to-one")
   })
 })
 
 test_that("join_rows() gives meaningful one-to-many errors", {
   expect_snapshot(error = TRUE, {
-    join_rows(c(1, 1), 1, relationship = "one_to_many")
+    join_rows(c(1, 1), 1, relationship = "one-to-many")
   })
 })
 
 test_that("join_rows() gives meaningful many-to-one errors", {
   expect_snapshot(error = TRUE, {
-    join_rows(1, c(1, 1), relationship = "many_to_one")
+    join_rows(1, c(1, 1), relationship = "many-to-one")
   })
 })
 
 test_that("join_rows() gives meaningful many-to-many warnings", {
   expect_snapshot({
-    join_rows(c(1, 1), c(1, 1), relationship = "warn_many_to_many")
+    join_rows(c(1, 1), c(1, 1), relationship = "warn-many-to-many")
   })
 
   # With proof that the defaults flow through user facing functions

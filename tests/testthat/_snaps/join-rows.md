@@ -7,7 +7,7 @@
       Detected an unexpected many-to-many relationship between `x` and `y`.
       i Row 1 of `x` matches multiple rows in `y`.
       i Row 1 of `y` matches multiple rows in `x`.
-      i If a many-to-many relationship is expected, set `relationship = "many_to_many"` to silence this warning.
+      i If a many-to-many relationship is expected, set `relationship = "many-to-many"` to silence this warning.
 
 # join_rows() allows `unmatched` to be specified independently for inner joins
 
@@ -32,7 +32,7 @@
 # join_rows() gives meaningful one-to-one errors
 
     Code
-      join_rows(1, c(1, 1), relationship = "one_to_one")
+      join_rows(1, c(1, 1), relationship = "one-to-one")
     Condition
       Error:
       ! Each row in `x` must match at most 1 row in `y`.
@@ -41,7 +41,7 @@
 ---
 
     Code
-      join_rows(c(1, 1), 1, relationship = "one_to_one")
+      join_rows(c(1, 1), 1, relationship = "one-to-one")
     Condition
       Error:
       ! Each row in `y` must match at most 1 row in `x`.
@@ -50,7 +50,7 @@
 # join_rows() gives meaningful one-to-many errors
 
     Code
-      join_rows(c(1, 1), 1, relationship = "one_to_many")
+      join_rows(c(1, 1), 1, relationship = "one-to-many")
     Condition
       Error:
       ! Each row in `y` must match at most 1 row in `x`.
@@ -59,7 +59,7 @@
 # join_rows() gives meaningful many-to-one errors
 
     Code
-      join_rows(1, c(1, 1), relationship = "many_to_one")
+      join_rows(1, c(1, 1), relationship = "many-to-one")
     Condition
       Error:
       ! Each row in `x` must match at most 1 row in `y`.
@@ -68,13 +68,13 @@
 # join_rows() gives meaningful many-to-many warnings
 
     Code
-      join_rows(c(1, 1), c(1, 1), relationship = "warn_many_to_many")
+      join_rows(c(1, 1), c(1, 1), relationship = "warn-many-to-many")
     Condition
       Warning:
       Detected an unexpected many-to-many relationship between `x` and `y`.
       i Row 1 of `x` matches multiple rows in `y`.
       i Row 1 of `y` matches multiple rows in `x`.
-      i If a many-to-many relationship is expected, set `relationship = "many_to_many"` to silence this warning.
+      i If a many-to-many relationship is expected, set `relationship = "many-to-many"` to silence this warning.
     Output
       $x
       [1] 1 1 2 2
@@ -92,7 +92,7 @@
       Detected an unexpected many-to-many relationship between `x` and `y`.
       i Row 1 of `x` matches multiple rows in `y`.
       i Row 1 of `y` matches multiple rows in `x`.
-      i If a many-to-many relationship is expected, set `relationship = "many_to_many"` to silence this warning.
+      i If a many-to-many relationship is expected, set `relationship = "many-to-many"` to silence this warning.
     Output
         x
       1 1
@@ -351,7 +351,7 @@
     Condition
       Warning:
       Specifying `multiple = "error"` was deprecated in dplyr 1.1.1.
-      i Please use `relationship = "many_to_one"` instead.
+      i Please use `relationship = "many-to-one"` instead.
       Error:
       ! Each row in `x` must match at most 1 row in `y`.
       i Row 2 of `x` matches multiple rows in `y`.
@@ -363,7 +363,7 @@
     Condition
       Warning:
       Specifying `multiple = "error"` was deprecated in dplyr 1.1.1.
-      i Please use `relationship = "many_to_one"` instead.
+      i Please use `relationship = "many-to-one"` instead.
       Error in `left_join()`:
       ! Each row in `x` must match at most 1 row in `y`.
       i Row 2 of `x` matches multiple rows in `y`.
@@ -375,7 +375,7 @@
     Condition
       Warning:
       Specifying `multiple = "warning"` was deprecated in dplyr 1.1.1.
-      i Please use `relationship = "many_to_one"` instead.
+      i Please use `relationship = "many-to-one"` instead.
       Warning:
       Each row in `x` is expected to match at most 1 row in `y`.
       i Row 2 of `x` matches multiple rows.
@@ -387,7 +387,7 @@
     Condition
       Warning:
       Specifying `multiple = "warning"` was deprecated in dplyr 1.1.1.
-      i Please use `relationship = "many_to_one"` instead.
+      i Please use `relationship = "many-to-one"` instead.
       Warning in `left_join()`:
       Each row in `x` is expected to match at most 1 row in `y`.
       i Row 2 of `x` matches multiple rows.
