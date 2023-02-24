@@ -1,22 +1,13 @@
-# `multiple` default behavior is correct
+# `relationship` default behavior is correct
 
     Code
       out <- join_rows(c(1, 1), c(1, 1), condition = "==")
     Condition
       Warning:
-      Each row in `x` is expected to match at most 1 row in `y`.
-      i Row 1 of `x` matches multiple rows.
-      i If multiple matches are expected, set `multiple = "all"` to silence this warning.
-
----
-
-    Code
-      out <- join_rows(c(1, 1), c(1, 1), condition = ">=", filter = "max")
-    Condition
-      Warning:
-      Each row in `x` is expected to match at most 1 row in `y`.
-      i Row 1 of `x` matches multiple rows.
-      i If multiple matches are expected, set `multiple = "all"` to silence this warning.
+      Detected an unexpected many-to-many relationship between `x` and `y`.
+      i Row 1 of `x` matches multiple rows in `y`.
+      i Row 1 of `y` matches multiple rows in `x`.
+      i If a many-to-many relationship is expected, set `relationship = "many-to-many"` to silence this warning.
 
 # join_rows() allows `unmatched` to be specified independently for inner joins
 
@@ -38,33 +29,76 @@
       i This is an internal error that was detected in the dplyr package.
         Please report it at <https://github.com/tidyverse/dplyr/issues> with a reprex (<https://tidyverse.org/help/>) and the full backtrace.
 
-# join_rows() gives meaningful error/warning message on multiple matches
+# join_rows() gives meaningful one-to-one errors
 
     Code
-      join_rows(1, c(1, 1), multiple = "error")
+      join_rows(1, c(1, 1), relationship = "one-to-one")
     Condition
       Error:
       ! Each row in `x` must match at most 1 row in `y`.
-      i Row 1 of `x` matches multiple rows.
+      i Row 1 of `x` matches multiple rows in `y`.
 
 ---
 
     Code
-      cat(conditionMessage(cnd))
+      join_rows(c(1, 1), 1, relationship = "one-to-one")
+    Condition
+      Error:
+      ! Each row in `y` must match at most 1 row in `x`.
+      i Row 1 of `y` matches multiple rows in `x`.
+
+# join_rows() gives meaningful one-to-many errors
+
+    Code
+      join_rows(c(1, 1), 1, relationship = "one-to-many")
+    Condition
+      Error:
+      ! Each row in `y` must match at most 1 row in `x`.
+      i Row 1 of `y` matches multiple rows in `x`.
+
+# join_rows() gives meaningful many-to-one errors
+
+    Code
+      join_rows(1, c(1, 1), relationship = "many-to-one")
+    Condition
+      Error:
+      ! Each row in `x` must match at most 1 row in `y`.
+      i Row 1 of `x` matches multiple rows in `y`.
+
+# join_rows() gives meaningful many-to-many warnings
+
+    Code
+      join_rows(c(1, 1), c(1, 1))
+    Condition
+      Warning:
+      Detected an unexpected many-to-many relationship between `x` and `y`.
+      i Row 1 of `x` matches multiple rows in `y`.
+      i Row 1 of `y` matches multiple rows in `x`.
+      i If a many-to-many relationship is expected, set `relationship = "many-to-many"` to silence this warning.
     Output
-      Each row in `x` is expected to match at most 1 row in `y`.
-      i Row 1 of `x` matches multiple rows.
-      i If multiple matches are expected, set `multiple = "all"` to silence this warning.
+      $x
+      [1] 1 1 2 2
+      
+      $y
+      [1] 1 2 1 2
+      
 
 ---
 
     Code
-      . <- left_join(df1, df2, by = "x")
+      left_join(df, df, by = join_by(x))
     Condition
       Warning in `left_join()`:
-      Each row in `x` is expected to match at most 1 row in `y`.
-      i Row 1 of `x` matches multiple rows.
-      i If multiple matches are expected, set `multiple = "all"` to silence this warning.
+      Detected an unexpected many-to-many relationship between `x` and `y`.
+      i Row 1 of `x` matches multiple rows in `y`.
+      i Row 1 of `y` matches multiple rows in `x`.
+      i If a many-to-many relationship is expected, set `relationship = "many-to-many"` to silence this warning.
+    Output
+        x
+      1 1
+      2 1
+      3 1
+      4 1
 
 # join_rows() gives meaningful error message on unmatched rows
 
@@ -284,4 +318,109 @@
       Error:
       ! `unmatched` must be one of "drop" or "error", not "dr".
       i Did you mean "drop"?
+
+# join_rows() validates `relationship`
+
+    Code
+      join_rows(df, df, relationship = 1)
+    Condition
+      Error:
+      ! `relationship` must be a string or character vector.
+
+---
+
+    Code
+      join_rows(df, df, relationship = "none")
+    Condition
+      Error:
+      ! `relationship` must be one of "one-to-one", "one-to-many", "many-to-one", or "many-to-many", not "none".
+
+---
+
+    Code
+      join_rows(df, df, relationship = "warn-many-to-many")
+    Condition
+      Error:
+      ! `relationship` must be one of "one-to-one", "one-to-many", "many-to-one", or "many-to-many", not "warn-many-to-many".
+      i Did you mean "many-to-many"?
+
+# `multiple = NULL` is deprecated and results in `'all'` (#6731)
+
+    Code
+      out <- join_rows(df1, df2, multiple = NULL)
+    Condition
+      Warning:
+      Specifying `multiple = NULL` was deprecated in dplyr 1.1.1.
+      i Please use `multiple = "all"` instead.
+
+---
+
+    Code
+      left_join(df1, df2, by = join_by(x), multiple = NULL)
+    Condition
+      Warning:
+      Specifying `multiple = NULL` was deprecated in dplyr 1.1.1.
+      i Please use `multiple = "all"` instead.
+    Output
+      # A tibble: 3 x 1
+            x
+        <dbl>
+      1     1
+      2     2
+      3     2
+
+# `multiple = 'error'` is deprecated (#6731)
+
+    Code
+      join_rows(df1, df2, multiple = "error")
+    Condition
+      Warning:
+      Specifying `multiple = "error"` was deprecated in dplyr 1.1.1.
+      i Please use `relationship = "many-to-one"` instead.
+      Error:
+      ! Each row in `x` must match at most 1 row in `y`.
+      i Row 2 of `x` matches multiple rows in `y`.
+
+---
+
+    Code
+      left_join(df1, df2, by = join_by(x), multiple = "error")
+    Condition
+      Warning:
+      Specifying `multiple = "error"` was deprecated in dplyr 1.1.1.
+      i Please use `relationship = "many-to-one"` instead.
+      Error in `left_join()`:
+      ! Each row in `x` must match at most 1 row in `y`.
+      i Row 2 of `x` matches multiple rows in `y`.
+
+# `multiple = 'warning'` is deprecated (#6731)
+
+    Code
+      out <- join_rows(df1, df2, multiple = "warning")
+    Condition
+      Warning:
+      Specifying `multiple = "warning"` was deprecated in dplyr 1.1.1.
+      i Please use `relationship = "many-to-one"` instead.
+      Warning:
+      Each row in `x` is expected to match at most 1 row in `y`.
+      i Row 2 of `x` matches multiple rows.
+
+---
+
+    Code
+      left_join(df1, df2, by = join_by(x), multiple = "warning")
+    Condition
+      Warning:
+      Specifying `multiple = "warning"` was deprecated in dplyr 1.1.1.
+      i Please use `relationship = "many-to-one"` instead.
+      Warning in `left_join()`:
+      Each row in `x` is expected to match at most 1 row in `y`.
+      i Row 2 of `x` matches multiple rows.
+    Output
+      # A tibble: 3 x 1
+            x
+        <dbl>
+      1     1
+      2     2
+      3     2
 

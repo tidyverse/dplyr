@@ -6,8 +6,9 @@ join_rows <- function(x_key,
                       condition = "==",
                       filter = "none",
                       cross = FALSE,
-                      multiple = NULL,
+                      multiple = "all",
                       unmatched = "drop",
+                      relationship = NULL,
                       error_call = caller_env(),
                       user_env = caller_env()) {
   check_dots_empty0(...)
@@ -22,6 +23,16 @@ join_rows <- function(x_key,
   x_unmatched <- unmatched$x
   y_unmatched <- unmatched$y
 
+  # TODO: Remove this when `multiple = NULL / "error" / "warning"` is defunct
+  if (is_null(multiple)) {
+    warn_join_multiple_null(user_env = user_env)
+    multiple <- "all"
+  } else if (is_string(multiple, "error")) {
+    warn_join_multiple("error", user_env = user_env)
+  } else if (is_string(multiple, "warning")) {
+    warn_join_multiple("warning", user_env = user_env)
+  }
+
   if (cross) {
     # TODO: Remove this section when `by = character()` is defunct
 
@@ -33,17 +44,17 @@ join_rows <- function(x_key,
 
     condition <- "=="
     filter <- "none"
+  }
 
-    if (is_null(multiple)) {
-      # If user supplied `multiple`, that wins. Otherwise expect multiple.
-      multiple <- "all"
-    }
+  if (is_null(relationship)) {
+    relationship <- compute_join_relationship(type, condition, cross, user_env = user_env)
+  } else {
+    relationship <- check_join_relationship(relationship, error_call = error_call)
   }
 
   incomplete <- standardise_join_incomplete(type, na_matches, x_unmatched)
   no_match <- standardise_join_no_match(type, x_unmatched)
   remaining <- standardise_join_remaining(type, y_unmatched)
-  multiple <- standardise_multiple(multiple, condition, filter, user_env)
 
   matches <- dplyr_locate_matches(
     needles = x_key,
@@ -54,6 +65,7 @@ join_rows <- function(x_key,
     no_match = no_match,
     remaining = remaining,
     multiple = multiple,
+    relationship = relationship,
     needles_arg = "x",
     haystack_arg = "y",
     error_call = error_call
@@ -71,6 +83,7 @@ dplyr_locate_matches <- function(needles,
                                  no_match = NA_integer_,
                                  remaining = "drop",
                                  multiple = "all",
+                                 relationship = "none",
                                  needles_arg = "",
                                  haystack_arg = "",
                                  error_call = caller_env()) {
@@ -86,6 +99,7 @@ dplyr_locate_matches <- function(needles,
       no_match = no_match,
       remaining = remaining,
       multiple = multiple,
+      relationship = relationship,
       needles_arg = needles_arg,
       haystack_arg = haystack_arg,
       nan_distinct = TRUE
@@ -101,6 +115,18 @@ dplyr_locate_matches <- function(needles,
     },
     vctrs_error_matches_remaining = function(cnd) {
       rethrow_error_join_matches_remaining(cnd, error_call)
+    },
+    vctrs_error_matches_relationship_one_to_one = function(cnd) {
+      rethrow_error_join_relationship_one_to_one(cnd, error_call)
+    },
+    vctrs_error_matches_relationship_one_to_many = function(cnd) {
+      rethrow_error_join_relationship_one_to_many(cnd, error_call)
+    },
+    vctrs_error_matches_relationship_many_to_one = function(cnd) {
+      rethrow_error_join_relationship_many_to_one(cnd, error_call)
+    },
+    vctrs_warning_matches_relationship_many_to_many = function(cnd) {
+      rethrow_warning_join_relationship_many_to_many(cnd, error_call)
     },
     vctrs_error_matches_multiple = function(cnd) {
       rethrow_error_join_matches_multiple(cnd, error_call)
@@ -144,14 +170,74 @@ rethrow_error_join_matches_remaining <- function(cnd, call) {
   )
 }
 
-rethrow_error_join_matches_multiple <- function(cnd, call) {
+rethrow_error_join_relationship_one_to_one <- function(cnd, call) {
   i <- cnd$i
+  which <- cnd$which
 
-  stop_join(
+  if (which == "needles") {
+    x_name <- "x"
+    y_name <- "y"
+  } else {
+    x_name <- "y"
+    y_name <- "x"
+  }
+
+  stop_join_matches_multiple(
+    i = i,
+    x_name = x_name,
+    y_name = y_name,
+    class = "dplyr_error_join_relationship_one_to_one",
+    call = call
+  )
+}
+
+rethrow_error_join_relationship_one_to_many <- function(cnd, call) {
+  stop_join_matches_multiple(
+    i = cnd$i,
+    x_name = "y",
+    y_name = "x",
+    class = "dplyr_error_join_relationship_one_to_many",
+    call = call
+  )
+}
+
+rethrow_error_join_relationship_many_to_one <- function(cnd, call) {
+  stop_join_matches_multiple(
+    i = cnd$i,
+    x_name = "x",
+    y_name = "y",
+    class = "dplyr_error_join_relationship_many_to_one",
+    call = call
+  )
+}
+
+rethrow_warning_join_relationship_many_to_many <- function(cnd, call) {
+  i <- cnd$i
+  j <- cnd$j
+
+  warn_join(
     message = c(
-      glue("Each row in `x` must match at most 1 row in `y`."),
-      i = glue("Row {i} of `x` matches multiple rows.")
+      "Detected an unexpected many-to-many relationship between `x` and `y`.",
+      i = glue("Row {i} of `x` matches multiple rows in `y`."),
+      i = glue("Row {j} of `y` matches multiple rows in `x`."),
+      i = paste0(
+        "If a many-to-many relationship is expected, ",
+        "set `relationship = \"many-to-many\"` to silence this warning."
+      )
     ),
+    class = "dplyr_warning_join_relationship_many_to_many",
+    call = call
+  )
+
+  # Cancel `cnd`
+  maybe_restart("muffleWarning")
+}
+
+rethrow_error_join_matches_multiple <- function(cnd, call) {
+  stop_join_matches_multiple(
+    i = cnd$i,
+    x_name = "x",
+    y_name = "y",
     class = "dplyr_error_join_matches_multiple",
     call = call
   )
@@ -163,11 +249,7 @@ rethrow_warning_join_matches_multiple <- function(cnd, call) {
   warn_join(
     message = c(
       glue("Each row in `x` is expected to match at most 1 row in `y`."),
-      i = glue("Row {i} of `x` matches multiple rows."),
-      i = paste0(
-        "If multiple matches are expected, set `multiple = \"all\"` ",
-        "to silence this warning."
-      )
+      i = glue("Row {i} of `x` matches multiple rows.")
     ),
     class = "dplyr_warning_join_matches_multiple",
     call = call
@@ -175,6 +257,17 @@ rethrow_warning_join_matches_multiple <- function(cnd, call) {
 
   # Cancel `cnd`
   maybe_restart("muffleWarning")
+}
+
+stop_join_matches_multiple <- function(i, x_name, y_name, class, call) {
+  stop_join(
+    message = c(
+      glue("Each row in `{x_name}` must match at most 1 row in `{y_name}`."),
+      i = glue("Row {i} of `{x_name}` matches multiple rows in `{y_name}`.")
+    ),
+    class = class,
+    call = call
+  )
 }
 
 stop_join <- function(message = NULL, class = NULL, ..., call = caller_env()) {
@@ -273,29 +366,82 @@ standardise_join_remaining <- function(type, y_unmatched) {
   }
 }
 
-standardise_multiple <- function(multiple, condition, filter, user_env) {
-  if (!is_null(multiple)) {
-    # User supplied value always wins
-    return(multiple)
+compute_join_relationship <- function(type, condition, cross, user_env = caller_env(2)) {
+  if (type == "nest") {
+    # Not unreasonable to see a many-to-many relationship here, but it can't
+    # result in a Cartesian explosion in the result so we don't check for it
+    return("none")
   }
 
-  # "warning" for equi and rolling joins where multiple matches are surprising.
-  # "all" for non-equi joins where multiple matches are expected.
-  non_equi <- (condition != "==") & (filter == "none")
-  if (any(non_equi)) {
-    return("all")
+  if (type %in% c("semi", "anti")) {
+    # Impossible to generate a many-to-many relationship here because we set
+    # `multiple = "any"`
+    return("none")
   }
 
-  if (is_direct(user_env)) {
-    # Direct calls result in a warning when there are multiple matches,
-    # because they are likely surprising and the caller will be able to set
-    # the `multiple` argument. Indirect calls don't warn, because the caller
-    # is unlikely to have access to `multiple` to silence it.
-    "warning"
-  } else {
-    "all"
+  if (cross) {
+    # TODO: Remove when `by = character()` is defunct
+    # Cross-joins always result in many-to-many relationships
+    return("none")
   }
+
+  any_inequality <- any(condition != "==")
+
+  if (any_inequality) {
+    # We only check for a many-to-many relationship when doing an equality join,
+    # because that is where it is typically unexpected.
+    # - Inequality and overlap joins often generate many-to-many relationships
+    #   by nature
+    # - Rolling joins are a little trickier, but we've decided that not warning
+    #   is probably easier to explain. `relationship = "many-to-one"` can always
+    #   be used explicitly as needed.
+    return("none")
+  }
+
+  if (!is_direct(user_env)) {
+    # Indirect calls don't warn, because the caller is unlikely to have access
+    # to `relationship` to silence it
+    return("none")
+  }
+
+  "warn-many-to-many"
 }
+
+check_join_relationship <- function(relationship, error_call = caller_env()) {
+  arg_match0(
+    arg = relationship,
+    values = c("one-to-one", "one-to-many", "many-to-one", "many-to-many"),
+    error_call = error_call
+  )
+}
+
+# ------------------------------------------------------------------------------
+
+warn_join_multiple <- function(what, user_env = caller_env(2)) {
+  what <- glue::glue('Specifying `multiple = "{what}"`')
+
+  lifecycle::deprecate_warn(
+    when = "1.1.1",
+    what = I(what),
+    with = I('`relationship = "many-to-one"`'),
+    user_env = user_env,
+    always = TRUE
+  )
+}
+
+warn_join_multiple_null <- function(user_env = caller_env(2)) {
+  # Only really needed in case people wrapped `left_join()` and friends and
+  # passed the old default of `NULL` through
+  lifecycle::deprecate_warn(
+    when = "1.1.1",
+    what = I("Specifying `multiple = NULL`"),
+    with = I('`multiple = "all"`'),
+    user_env = user_env,
+    always = TRUE
+  )
+}
+
+# ------------------------------------------------------------------------------
 
 # TODO: Use upstream function when exported from rlang
 # `lifecycle:::is_direct()`

@@ -50,15 +50,16 @@
       Error:
       ! `na_matches` must be one of "na" or "never", not "foo".
 
-# mutating joins trigger multiple match warning
+# mutating joins trigger many-to-many warning
 
     Code
-      out <- left_join(df1, df2, join_by(x))
+      out <- left_join(df, df, join_by(x))
     Condition
       Warning in `left_join()`:
-      Each row in `x` is expected to match at most 1 row in `y`.
-      i Row 1 of `x` matches multiple rows.
-      i If multiple matches are expected, set `multiple = "all"` to silence this warning.
+      Detected an unexpected many-to-many relationship between `x` and `y`.
+      i Row 1 of `x` matches multiple rows in `y`.
+      i Row 1 of `y` matches multiple rows in `x`.
+      i If a many-to-many relationship is expected, set `relationship = "many-to-many"` to silence this warning.
 
 # mutating joins compute common columns
 
@@ -198,14 +199,14 @@
       ! Each row of `y` must be matched by `x`.
       i Row 1 of `y` was not matched.
 
-# `by = character()` technically respects `multiple`
+# `by = character()` technically respects `relationship`
 
     Code
-      left_join(df, df, by = character(), multiple = "error")
+      left_join(df, df, by = character(), relationship = "many-to-one")
     Condition
       Error in `left_join()`:
       ! Each row in `x` must match at most 1 row in `y`.
-      i Row 1 of `x` matches multiple rows.
+      i Row 1 of `x` matches multiple rows in `y`.
 
 # `by = character()` for a cross join is deprecated (#6604)
 

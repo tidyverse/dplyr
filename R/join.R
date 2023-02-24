@@ -26,14 +26,41 @@
 #'
 #' * A `full_join()` keeps all observations in `x` and `y`.
 #'
-#' ## Multiple matches
+#' @section Many-to-many relationships:
 #'
-#' By default, if an observation in `x` matches multiple observations in `y`,
-#' all of the matching observations in `y` will be returned. If this occurs in
-#' an equality join or a rolling join, a warning will be thrown stating that
-#' multiple matches have been detected since this is usually surprising. If
-#' multiple matches are expected in these cases, silence this warning by
-#' explicitly setting `multiple = "all"`.
+#' By default, dplyr guards against many-to-many relationships in equality joins
+#' by throwing a warning. These occur when both of the following are true:
+#'
+#' - A row in `x` matches multiple rows in `y`.
+#' - A row in `y` matches multiple rows in `x`.
+#'
+#' This is typically surprising, as most joins involve a relationship of
+#' one-to-one, one-to-many, or many-to-one, and is often the result of an
+#' improperly specified join. Many-to-many relationships are particularly
+#' problematic because they can result in a Cartesian explosion of the number of
+#' rows returned from the join.
+#'
+#' If a many-to-many relationship is expected, silence this warning by
+#' explicitly setting `relationship = "many-to-many"`.
+#'
+#' In production code, it is best to preemptively set `relationship` to whatever
+#' relationship you expect to exist between the keys of `x` and `y`, as this
+#' forces an error to occur immediately if the data doesn't align with your
+#' expectations.
+#'
+#' Inequality joins typically result in many-to-many relationships by nature, so
+#' they don't warn on them by default, but you should still take extra care when
+#' specifying an inequality join, because they also have the capability to
+#' return a large number of rows.
+#'
+#' Rolling joins don't warn on many-to-many relationships either, but many
+#' rolling joins follow a many-to-one relationship, so it is often useful to
+#' set `relationship = "many-to-one"` to enforce this.
+#'
+#' Note that in SQL, most database providers won't let you specify a
+#' many-to-many relationship between two tables, instead requiring that you
+#' create a third _junction table_ that results in two one-to-many relationships
+#' instead.
 #'
 #' @return
 #' An object of the same type as `x` (including the same groups). The order of
@@ -119,21 +146,13 @@
 #'   for database sources and to `base::merge(incomparables = NA)`.
 #' @param multiple Handling of rows in `x` with multiple matches in `y`.
 #'   For each row of `x`:
-#'   - `"all"` returns every match detected in `y`. This is the same behavior
-#'     as SQL.
+#'   - `"all"`, the default, returns every match detected in `y`. This is the
+#'     same behavior as SQL.
 #'   - `"any"` returns one match detected in `y`, with no guarantees on which
 #'     match will be returned. It is often faster than `"first"` and `"last"`
 #'     if you just need to detect if there is at least one match.
 #'   - `"first"` returns the first match detected in `y`.
 #'   - `"last"` returns the last match detected in `y`.
-#'   - `"warning"` throws a warning if multiple matches are detected, and
-#'     then falls back to `"all"`.
-#'   - `"error"` throws an error if multiple matches are detected.
-#'
-#'   The default value of `NULL` is equivalent to `"warning"` for equality joins
-#'   and rolling joins, where multiple matches are usually surprising. If any
-#'   inequality join conditions are present, then it is equivalent to `"all"`,
-#'   since multiple matches are usually expected.
 #' @param unmatched How should unmatched keys that would result in dropped rows
 #'   be handled?
 #'   - `"drop"` drops unmatched keys from the result.
@@ -147,6 +166,34 @@
 #'   - For inner joins, it checks both `x` and `y`. In this case, `unmatched` is
 #'     also allowed to be a character vector of length 2 to specify the behavior
 #'     for `x` and `y` independently.
+#' @param relationship Handling of the expected relationship between the keys of
+#'   `x` and `y`. If the expectations chosen from the list below are
+#'   invalidated, an error is thrown.
+#'
+#'   - `NULL`, the default, doesn't expect there to be any relationship between
+#'     `x` and `y`. However, for equality joins it will check for a many-to-many
+#'     relationship (which is typically unexpected) and will warn if one occurs,
+#'     encouraging you to either take a closer look at your inputs or make this
+#'     relationship explicit by specifying `"many-to-many"`.
+#'
+#'     See the _Many-to-many relationships_ section for more details.
+#'
+#'   - `"one-to-one"` expects:
+#'     - Each row in `x` matches at most 1 row in `y`.
+#'     - Each row in `y` matches at most 1 row in `x`.
+#'
+#'   - `"one-to-many"` expects:
+#'     - Each row in `y` matches at most 1 row in `x`.
+#'
+#'   - `"many-to-one"` expects:
+#'     - Each row in `x` matches at most 1 row in `y`.
+#'
+#'   - `"many-to-many"` doesn't perform any relationship checks, but is provided
+#'     to allow you to be explicit about this relationship if you know it
+#'     exists.
+#'
+#'   `relationship` doesn't handle cases where there are zero matches. For that,
+#'   see `unmatched`.
 #' @family joins
 #' @examples
 #' band_members %>% inner_join(band_instruments)
@@ -166,14 +213,21 @@
 #'   full_join(band_instruments2, by = join_by(name == artist), keep = TRUE)
 #'
 #' # If a row in `x` matches multiple rows in `y`, all the rows in `y` will be
-#' # returned once for each matching row in `x`, with a warning.
+#' # returned once for each matching row in `x`.
 #' df1 <- tibble(x = 1:3)
 #' df2 <- tibble(x = c(1, 1, 2), y = c("first", "second", "third"))
 #' df1 %>% left_join(df2)
 #'
-#' # If multiple matches are expected, set `multiple` to `"all"` to silence
-#' # the warning
-#' df1 %>% left_join(df2, multiple = "all")
+#' # If a row in `y` also matches multiple rows in `x`, this is known as a
+#' # many-to-many relationship, which is typically a result of an improperly
+#' # specified join or some kind of messy data. In this case, a warning is
+#' # thrown by default:
+#' df3 <- tibble(x = c(1, 1, 1, 3))
+#' df3 %>% left_join(df2)
+#'
+#' # In the rare case where a many-to-many relationship is expected, set
+#' # `relationship = "many-to-many"` to silence this warning
+#' df3 %>% left_join(df2, relationship = "many-to-many")
 #'
 #' # Use `join_by()` with a condition other than `==` to perform an inequality
 #' # join. Here we match on every instance where `df1$x > df2$x`.
@@ -214,8 +268,9 @@ inner_join.data.frame <- function(x,
                                   ...,
                                   keep = NULL,
                                   na_matches = c("na", "never"),
-                                  multiple = NULL,
-                                  unmatched = "drop") {
+                                  multiple = "all",
+                                  unmatched = "drop",
+                                  relationship = NULL) {
   check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
@@ -228,6 +283,7 @@ inner_join.data.frame <- function(x,
     keep = keep,
     multiple = multiple,
     unmatched = unmatched,
+    relationship = relationship,
     user_env = caller_env()
   )
 }
@@ -254,8 +310,9 @@ left_join.data.frame <- function(x,
                                  ...,
                                  keep = NULL,
                                  na_matches = c("na", "never"),
-                                 multiple = NULL,
-                                 unmatched = "drop") {
+                                 multiple = "all",
+                                 unmatched = "drop",
+                                 relationship = NULL) {
   check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
@@ -268,6 +325,7 @@ left_join.data.frame <- function(x,
     keep = keep,
     multiple = multiple,
     unmatched = unmatched,
+    relationship = relationship,
     user_env = caller_env()
   )
 }
@@ -294,8 +352,9 @@ right_join.data.frame <- function(x,
                                   ...,
                                   keep = NULL,
                                   na_matches = c("na", "never"),
-                                  multiple = NULL,
-                                  unmatched = "drop") {
+                                  multiple = "all",
+                                  unmatched = "drop",
+                                  relationship = NULL) {
   check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
@@ -308,6 +367,7 @@ right_join.data.frame <- function(x,
     keep = keep,
     multiple = multiple,
     unmatched = unmatched,
+    relationship = relationship,
     user_env = caller_env()
   )
 }
@@ -334,7 +394,8 @@ full_join.data.frame <- function(x,
                                  ...,
                                  keep = NULL,
                                  na_matches = c("na", "never"),
-                                 multiple = NULL) {
+                                 multiple = "all",
+                                 relationship = NULL) {
   check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
@@ -348,6 +409,7 @@ full_join.data.frame <- function(x,
     multiple = multiple,
     # All keys from both inputs are retained. Erroring never makes sense.
     unmatched = "drop",
+    relationship = relationship,
     user_env = caller_env()
   )
 }
@@ -538,6 +600,10 @@ nest_join.data.frame <- function(x,
   # row of `x` (#6392).
   multiple <- "all"
 
+  # Will be set to `"none"` in `join_rows()`. Because we can't have a Cartesian
+  # explosion, we don't care about many-to-many relationships.
+  relationship <- NULL
+
   rows <- join_rows(
     x_key = x_key,
     y_key = y_key,
@@ -548,6 +614,7 @@ nest_join.data.frame <- function(x,
     cross = cross,
     multiple = multiple,
     unmatched = unmatched,
+    relationship = relationship,
     user_env = caller_env()
   )
 
@@ -577,8 +644,9 @@ join_mutate <- function(x,
                         suffix = c(".x", ".y"),
                         na_matches = "na",
                         keep = NULL,
-                        multiple = NULL,
+                        multiple = "all",
                         unmatched = "drop",
+                        relationship = NULL,
                         error_call = caller_env(),
                         user_env = caller_env()) {
   check_dots_empty0(...)
@@ -635,6 +703,7 @@ join_mutate <- function(x,
     cross = cross,
     multiple = multiple,
     unmatched = unmatched,
+    relationship = relationship,
     error_call = error_call,
     user_env = user_env
   )
@@ -725,6 +794,10 @@ join_filter <- function(x,
   # We only care about whether or not any matches exist
   multiple <- "any"
 
+  # Will be set to `"none"` in `join_rows()`. Because `multiple = "any"`, that
+  # means many-to-many relationships aren't possible.
+  relationship <- NULL
+
   # Since we are actually testing the presence of matches, it doesn't make
   # sense to ever error on unmatched values.
   unmatched <- "drop"
@@ -739,6 +812,7 @@ join_filter <- function(x,
     cross = cross,
     multiple = multiple,
     unmatched = unmatched,
+    relationship = relationship,
     error_call = error_call,
     user_env = user_env
   )

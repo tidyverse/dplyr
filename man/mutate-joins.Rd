@@ -33,8 +33,9 @@ inner_join(
   ...,
   keep = NULL,
   na_matches = c("na", "never"),
-  multiple = NULL,
-  unmatched = "drop"
+  multiple = "all",
+  unmatched = "drop",
+  relationship = NULL
 )
 
 left_join(
@@ -56,8 +57,9 @@ left_join(
   ...,
   keep = NULL,
   na_matches = c("na", "never"),
-  multiple = NULL,
-  unmatched = "drop"
+  multiple = "all",
+  unmatched = "drop",
+  relationship = NULL
 )
 
 right_join(
@@ -79,8 +81,9 @@ right_join(
   ...,
   keep = NULL,
   na_matches = c("na", "never"),
-  multiple = NULL,
-  unmatched = "drop"
+  multiple = "all",
+  unmatched = "drop",
+  relationship = NULL
 )
 
 full_join(
@@ -102,7 +105,8 @@ full_join(
   ...,
   keep = NULL,
   na_matches = c("na", "never"),
-  multiple = NULL
+  multiple = "all",
+  relationship = NULL
 )
 }
 \arguments{
@@ -174,22 +178,14 @@ for database sources and to \code{base::merge(incomparables = NA)}.
 \item{multiple}{Handling of rows in \code{x} with multiple matches in \code{y}.
 For each row of \code{x}:
 \itemize{
-\item \code{"all"} returns every match detected in \code{y}. This is the same behavior
-as SQL.
+\item \code{"all"}, the default, returns every match detected in \code{y}. This is the
+same behavior as SQL.
 \item \code{"any"} returns one match detected in \code{y}, with no guarantees on which
 match will be returned. It is often faster than \code{"first"} and \code{"last"}
 if you just need to detect if there is at least one match.
 \item \code{"first"} returns the first match detected in \code{y}.
 \item \code{"last"} returns the last match detected in \code{y}.
-\item \code{"warning"} throws a warning if multiple matches are detected, and
-then falls back to \code{"all"}.
-\item \code{"error"} throws an error if multiple matches are detected.
-}
-
-The default value of \code{NULL} is equivalent to \code{"warning"} for equality joins
-and rolling joins, where multiple matches are usually surprising. If any
-inequality join conditions are present, then it is equivalent to \code{"all"},
-since multiple matches are usually expected.}
+}}
 
 \item{unmatched}{How should unmatched keys that would result in dropped rows
 be handled?
@@ -208,6 +204,38 @@ potentially drop rows.
 also allowed to be a character vector of length 2 to specify the behavior
 for \code{x} and \code{y} independently.
 }}
+
+\item{relationship}{Handling of the expected relationship between the keys of
+\code{x} and \code{y}. If the expectations chosen from the list below are
+invalidated, an error is thrown.
+\itemize{
+\item \code{NULL}, the default, doesn't expect there to be any relationship between
+\code{x} and \code{y}. However, for equality joins it will check for a many-to-many
+relationship (which is typically unexpected) and will warn if one occurs,
+encouraging you to either take a closer look at your inputs or make this
+relationship explicit by specifying \code{"many-to-many"}.
+
+See the \emph{Many-to-many relationships} section for more details.
+\item \code{"one-to-one"} expects:
+\itemize{
+\item Each row in \code{x} matches at most 1 row in \code{y}.
+\item Each row in \code{y} matches at most 1 row in \code{x}.
+}
+\item \code{"one-to-many"} expects:
+\itemize{
+\item Each row in \code{y} matches at most 1 row in \code{x}.
+}
+\item \code{"many-to-one"} expects:
+\itemize{
+\item Each row in \code{x} matches at most 1 row in \code{y}.
+}
+\item \code{"many-to-many"} doesn't perform any relationship checks, but is provided
+to allow you to be explicit about this relationship if you know it
+exists.
+}
+
+\code{relationship} doesn't handle cases where there are zero matches. For that,
+see \code{unmatched}.}
 }
 \value{
 An object of the same type as \code{x} (including the same groups). The order of
@@ -255,17 +283,46 @@ data frames:
 \item A \code{full_join()} keeps all observations in \code{x} and \code{y}.
 }
 }
-
-\subsection{Multiple matches}{
-
-By default, if an observation in \code{x} matches multiple observations in \code{y},
-all of the matching observations in \code{y} will be returned. If this occurs in
-an equality join or a rolling join, a warning will be thrown stating that
-multiple matches have been detected since this is usually surprising. If
-multiple matches are expected in these cases, silence this warning by
-explicitly setting \code{multiple = "all"}.
 }
+\section{Many-to-many relationships}{
+
+
+By default, dplyr guards against many-to-many relationships in equality joins
+by throwing a warning. These occur when both of the following are true:
+\itemize{
+\item A row in \code{x} matches multiple rows in \code{y}.
+\item A row in \code{y} matches multiple rows in \code{x}.
 }
+
+This is typically surprising, as most joins involve a relationship of
+one-to-one, one-to-many, or many-to-one, and is often the result of an
+improperly specified join. Many-to-many relationships are particularly
+problematic because they can result in a Cartesian explosion of the number of
+rows returned from the join.
+
+If a many-to-many relationship is expected, silence this warning by
+explicitly setting \code{relationship = "many-to-many"}.
+
+In production code, it is best to preemptively set \code{relationship} to whatever
+relationship you expect to exist between the keys of \code{x} and \code{y}, as this
+forces an error to occur immediately if the data doesn't align with your
+expectations.
+
+Inequality joins typically result in many-to-many relationships by nature, so
+they don't warn on them by default, but you should still take extra care when
+specifying an inequality join, because they also have the capability to
+return a large number of rows.
+
+Rolling joins don't warn on many-to-many relationships either, but many
+rolling joins follow a many-to-one relationship, so it is often useful to
+set \code{relationship = "many-to-one"} to enforce this.
+
+Note that in SQL, most database providers won't let you specify a
+many-to-many relationship between two tables, instead requiring that you
+create a third \emph{junction table} that results in two one-to-many relationships
+instead.
+}
+
 \section{Methods}{
 
 These functions are \strong{generic}s, which means that packages can provide
@@ -299,14 +356,21 @@ band_members \%>\%
   full_join(band_instruments2, by = join_by(name == artist), keep = TRUE)
 
 # If a row in `x` matches multiple rows in `y`, all the rows in `y` will be
-# returned once for each matching row in `x`, with a warning.
+# returned once for each matching row in `x`.
 df1 <- tibble(x = 1:3)
 df2 <- tibble(x = c(1, 1, 2), y = c("first", "second", "third"))
 df1 \%>\% left_join(df2)
 
-# If multiple matches are expected, set `multiple` to `"all"` to silence
-# the warning
-df1 \%>\% left_join(df2, multiple = "all")
+# If a row in `y` also matches multiple rows in `x`, this is known as a
+# many-to-many relationship, which is typically a result of an improperly
+# specified join or some kind of messy data. In this case, a warning is
+# thrown by default:
+df3 <- tibble(x = c(1, 1, 1, 3))
+df3 \%>\% left_join(df2)
+
+# In the rare case where a many-to-many relationship is expected, set
+# `relationship = "many-to-many"` to silence this warning
+df3 \%>\% left_join(df2, relationship = "many-to-many")
 
 # Use `join_by()` with a condition other than `==` to perform an inequality
 # join. Here we match on every instance where `df1$x > df2$x`.

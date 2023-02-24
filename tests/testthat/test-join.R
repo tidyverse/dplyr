@@ -257,30 +257,27 @@ test_that("join_filter() validates arguments", {
   })
 })
 
-test_that("mutating joins trigger multiple match warning", {
-  df1 <- tibble(x = 1)
-  df2 <- tibble(x = c(1, 1))
-  expect_snapshot(out <- left_join(df1, df2, join_by(x)))
+test_that("mutating joins trigger many-to-many warning", {
+  df <- tibble(x = c(1, 1))
+  expect_snapshot(out <- left_join(df, df, join_by(x)))
 })
 
-test_that("mutating joins don't trigger multiple match warning when called indirectly", {
-  df1 <- tibble(x = 1)
-  df2 <- tibble(x = c(1, 1))
+test_that("mutating joins don't trigger many-to-many warning when called indirectly", {
+  df <- tibble(x = c(1, 1))
 
-  fn <- function(df1, df2, multiple = NULL) {
-    left_join(df1, df2, join_by(x), multiple = multiple)
+  fn <- function(df1, df2, relationship = NULL) {
+    left_join(df1, df2, join_by(x), relationship = relationship)
   }
 
   # Directly calling `left_join()` from a function you control results in a warning
-  expect_warning(fn(df1, df2), class = "dplyr_warning_join_matches_multiple")
+  expect_warning(fn(df, df), class = "dplyr_warning_join_relationship_many_to_many")
 
   # Now mimic calling an "rlang function" which you don't control that calls `left_join()`
   fn_env(fn) <- ns_env("rlang")
 
   # Indirectly calling `left_join()` through a function you don't control
-  # doesn't warn unless `multiple = "warning"` is explicitly set
-  expect_no_warning(fn(df1, df2), class = "dplyr_warning_join_matches_multiple")
-  expect_warning(fn(df1, df2, "warning"), class = "dplyr_warning_join_matches_multiple")
+  # doesn't warn
+  expect_no_warning(fn(df, df), class = "dplyr_warning_join_relationship_many_to_many")
 })
 
 test_that("mutating joins compute common columns", {
@@ -437,7 +434,7 @@ test_that("joins preserve groups", {
   gf1 <- tibble(a = 1:3) %>% group_by(a)
   gf2 <- tibble(a = rep(1:4, 2), b = 1) %>% group_by(b)
 
-  i <- count_regroups(out <- inner_join(gf1, gf2, by = "a", multiple = "all"))
+  i <- count_regroups(out <- inner_join(gf1, gf2, by = "a"))
   expect_equal(i, 1L)
   expect_equal(group_vars(out), "a")
 
@@ -459,11 +456,11 @@ test_that("joins respect zero length groups", {
   df2 <- tibble(f = factor( c(2,2,3,3), levels = 1:3), y = c(1,2,3,4)) %>%
     group_by(f)
 
-  expect_equal(group_size(left_join( df1, df2, by = "f", multiple = "all")),  c(2,4))
-  expect_equal(group_size(right_join( df1, df2, by = "f", multiple = "all")),  c(4,2))
-  expect_equal(group_size(full_join( df1, df2, by = "f", multiple = "all")),  c(2,4,2))
+  expect_equal(group_size(left_join( df1, df2, by = "f", relationship = "many-to-many")),  c(2,4))
+  expect_equal(group_size(right_join( df1, df2, by = "f", relationship = "many-to-many")),  c(4,2))
+  expect_equal(group_size(full_join( df1, df2, by = "f", relationship = "many-to-many")),  c(2,4,2))
   expect_equal(group_size(anti_join( df1, df2, by = "f")),  c(2))
-  expect_equal(group_size(inner_join( df1, df2, by = "f", multiple = "all")),  c(4))
+  expect_equal(group_size(inner_join( df1, df2, by = "f", relationship = "many-to-many")),  c(4))
 
 
   df1 <- tibble(f = factor( c(1,1,2,2), levels = 1:3), x = c(1,2,1,4)) %>%
@@ -471,11 +468,11 @@ test_that("joins respect zero length groups", {
   df2 <- tibble(f = factor( c(2,2,3,3), levels = 1:3), y = c(1,2,3,4)) %>%
     group_by(f, .drop = FALSE)
 
-  expect_equal(group_size(left_join( df1, df2, by = "f", multiple = "all")),  c(2,4,0))
-  expect_equal(group_size(right_join( df1, df2, by = "f", multiple = "all")),  c(0,4,2))
-  expect_equal(group_size(full_join( df1, df2, by = "f", multiple = "all")),  c(2,4,2))
+  expect_equal(group_size(left_join( df1, df2, by = "f", relationship = "many-to-many")),  c(2,4,0))
+  expect_equal(group_size(right_join( df1, df2, by = "f", relationship = "many-to-many")),  c(0,4,2))
+  expect_equal(group_size(full_join( df1, df2, by = "f", relationship = "many-to-many")),  c(2,4,2))
   expect_equal(group_size(anti_join( df1, df2, by = "f")),  c(2,0,0))
-  expect_equal(group_size(inner_join( df1, df2, by = "f", multiple = "all")),  c(0,4,0))
+  expect_equal(group_size(inner_join( df1, df2, by = "f", relationship = "many-to-many")),  c(0,4,0))
 })
 
 test_that("group column names reflect renamed duplicate columns (#2330)", {
@@ -492,7 +489,7 @@ test_that("rowwise group structure is updated after a join (#5227)", {
   df1 <- rowwise(tibble(x = 1:2))
   df2 <- tibble(x = c(1:2, 2L))
 
-  x <- left_join(df1, df2, by = "x", multiple = "all")
+  x <- left_join(df1, df2, by = "x")
 
   expect_identical(group_rows(x), list_of(1L, 2L, 3L))
 })
@@ -521,13 +518,13 @@ test_that("`by = character()` technically respects `unmatched`", {
   })
 })
 
-test_that("`by = character()` technically respects `multiple`", {
+test_that("`by = character()` technically respects `relationship`", {
   local_options(lifecycle_verbosity = "quiet")
 
   df <- tibble(x = 1:2)
 
   expect_snapshot(error = TRUE, {
-    left_join(df, df, by = character(), multiple = "error")
+    left_join(df, df, by = character(), relationship = "many-to-one")
   })
 })
 

@@ -1,5 +1,40 @@
 # dplyr (development version)
 
+* Mutating joins now warn about multiple matches much less often. At a high
+  level, a warning was previously being thrown when a one-to-many or
+  many-to-many relationship was detected between the keys of `x` and `y`, but is
+  now only thrown for a many-to-many relationship, which is much rarer and much
+  more dangerous than one-to-many because it can result in a Cartesian explosion
+  in the number of rows returned from the join (#6731, #6717).
+  
+  We've accomplished this in two steps:
+  
+  * `multiple` now defaults to `"all"`, and the options of `"error"` and
+    `"warning"` are now deprecated in favor of using `relationship` (see below).
+    We are using an accelerated deprecation process for these two options
+    because they've only been available for a few weeks, and `relationship` is
+    a clearly superior alternative.
+    
+  * The mutating joins gain a new `relationship` argument, allowing you to
+    optionally enforce one of the following relationship constraints between the
+    keys of `x` and `y`: `"one-to-one"`, `"one-to-many"`, `"many-to-one"`, or
+    `"many-to-many"`.
+    
+    For example, `"many-to-one"` enforces that each row in `x` can match at
+    most 1 row in `y`. If a row in `x` matches >1 rows in `y`, an error is
+    thrown. This option serves as the replacement for `multiple = "error"`.
+    
+    The default behavior of `relationship` doesn't assume that there is any
+    relationship between `x` and `y`. However, for equality joins it will check
+    for the presence of a many-to-many relationship, and will warn if it detects
+    one.
+    
+  This change unfortunately does mean that if you have set `multiple = "all"` to
+  avoid a warning and you happened to be doing a many-to-many style join, then
+  you will need to replace `multiple = "all"` with
+  `relationship = "many-to-many"` to silence the new warning, but we believe
+  this should be rare since many-to-many relationships are fairly uncommon.
+
 * `pick()` now returns a 1 row, 0 column tibble when `...` evaluates to an
   empty selection. This makes it more compatible with [tidyverse recycling
   rules](https://vctrs.r-lib.org/reference/vector_recycling_rules.html) in some

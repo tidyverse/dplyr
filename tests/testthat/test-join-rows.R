@@ -1,18 +1,24 @@
-test_that("`multiple` default behavior is correct", {
-  # "warning" for equi and rolling joins
+test_that("`relationship` default behavior is correct", {
+  # "warn-many-to-many" for equality joins
   expect_snapshot(out <- join_rows(c(1, 1), c(1, 1), condition = "=="))
   expect_equal(out$x, c(1L, 1L, 2L, 2L))
   expect_equal(out$y, c(1L, 2L, 1L, 2L))
 
-  expect_snapshot(out <- join_rows(c(1, 1), c(1, 1), condition = ">=", filter = "max"))
+  # "none" for rolling joins
+  expect_warning(out <- join_rows(c(1, 2), c(1, 1), condition = ">=", filter = "max"), NA)
   expect_equal(out$x, c(1L, 1L, 2L, 2L))
   expect_equal(out$y, c(1L, 2L, 1L, 2L))
+  # If rolling joins warned on many-to-many relationships, it would be a little
+  # hard to explain that the above example warns, but this wouldn't just because
+  # we've removed `2` as a key from `x`:
+  # `join_rows(1, c(1, 1), condition = ">=", filter = "max")`
 
-  # "all" for non-equi and cross joins
+  # "none" for inequality joins (and overlap joins)
   expect_warning(out <- join_rows(c(1, 2), c(0, 1), condition = ">="), NA)
   expect_equal(out$x, c(1L, 1L, 2L, 2L))
   expect_equal(out$y, c(1L, 2L, 1L, 2L))
 
+  # "none" for deprecated cross joins
   expect_warning(out <- join_rows(c(1, 1), c(1, 1), cross = TRUE), NA)
   expect_equal(out$x, c(1L, 1L, 2L, 2L))
   expect_equal(out$y, c(1L, 2L, 1L, 2L))
@@ -162,15 +168,37 @@ test_that("join_rows() expects incompatible type errors to have been handled by 
   })
 })
 
-test_that("join_rows() gives meaningful error/warning message on multiple matches", {
-  expect_snapshot(error = TRUE, join_rows(1, c(1, 1), multiple = "error"))
+test_that("join_rows() gives meaningful one-to-one errors", {
+  expect_snapshot(error = TRUE, {
+    join_rows(1, c(1, 1), relationship = "one-to-one")
+  })
+  expect_snapshot(error = TRUE, {
+    join_rows(c(1, 1), 1, relationship = "one-to-one")
+  })
+})
 
-  cnd <- catch_cnd(join_rows(1, c(1, 1), multiple = "warning"), classes = "warning")
-  expect_snapshot(cat(conditionMessage(cnd)))
+test_that("join_rows() gives meaningful one-to-many errors", {
+  expect_snapshot(error = TRUE, {
+    join_rows(c(1, 1), 1, relationship = "one-to-many")
+  })
+})
 
-  df1 <- data.frame(x = 1)
-  df2 <- data.frame(x = c(1, 1))
-  expect_snapshot(. <- left_join(df1, df2, by = "x"))
+test_that("join_rows() gives meaningful many-to-one errors", {
+  expect_snapshot(error = TRUE, {
+    join_rows(1, c(1, 1), relationship = "many-to-one")
+  })
+})
+
+test_that("join_rows() gives meaningful many-to-many warnings", {
+  expect_snapshot({
+    join_rows(c(1, 1), c(1, 1))
+  })
+
+  # With proof that the defaults flow through user facing functions
+  df <- data.frame(x = c(1, 1))
+  expect_snapshot({
+    left_join(df, df, by = join_by(x))
+  })
 })
 
 test_that("join_rows() gives meaningful error message on unmatched rows", {
@@ -363,5 +391,65 @@ test_that("join_rows() validates `unmatched`", {
     join_rows(df, df, type = "inner", unmatched = c("drop", "error", "error"))
 
     join_rows(df, df, type = "inner", unmatched = c("drop", "dr"))
+  })
+})
+
+test_that("join_rows() validates `relationship`", {
+  df <- tibble(x = 1)
+
+  expect_snapshot(error = TRUE, {
+    join_rows(df, df, relationship = 1)
+  })
+
+  # Notably can't use the vctrs options
+  expect_snapshot(error = TRUE, {
+    join_rows(df, df, relationship = "none")
+  })
+  expect_snapshot(error = TRUE, {
+    join_rows(df, df, relationship = "warn-many-to-many")
+  })
+})
+
+# Deprecated behavior ----------------------------------------------------------
+
+test_that("`multiple = NULL` is deprecated and results in `'all'` (#6731)", {
+  df1 <- tibble(x = c(1, 2))
+  df2 <- tibble(x = c(2, 1, 2))
+
+  expect_snapshot({
+    out <- join_rows(df1, df2, multiple = NULL)
+  })
+  expect_identical(out$x, c(1L, 2L, 2L))
+  expect_identical(out$y, c(2L, 1L, 3L))
+
+  expect_snapshot({
+    left_join(df1, df2, by = join_by(x), multiple = NULL)
+  })
+})
+
+test_that("`multiple = 'error'` is deprecated (#6731)", {
+  df1 <- tibble(x = c(1, 2))
+  df2 <- tibble(x = c(2, 1, 2))
+
+  expect_snapshot(error = TRUE, {
+    join_rows(df1, df2, multiple = "error")
+  })
+  expect_snapshot(error = TRUE, {
+    left_join(df1, df2, by = join_by(x), multiple = "error")
+  })
+})
+
+test_that("`multiple = 'warning'` is deprecated (#6731)", {
+  df1 <- tibble(x = c(1, 2))
+  df2 <- tibble(x = c(2, 1, 2))
+
+  expect_snapshot({
+    out <- join_rows(df1, df2, multiple = "warning")
+  })
+  expect_identical(out$x, c(1L, 2L, 2L))
+  expect_identical(out$y, c(2L, 1L, 3L))
+
+  expect_snapshot({
+    left_join(df1, df2, by = join_by(x), multiple = "warning")
   })
 })
