@@ -16,17 +16,18 @@
     a clearly superior alternative.
     
   * The mutating joins gain a new `relationship` argument, allowing you to
-    enforce one of the following relationship constraints between the keys of
-    `x` and `y`: `"none"`, `"one-to-one"`, `"one-to-many"`, `"many-to-one"`,
-    `"many-to-many"`, or `"warn-many-to-many"`.
+    optionally enforce one of the following relationship constraints between the
+    keys of `x` and `y`: `"one-to-one"`, `"one-to-many"`, `"many-to-one"`, or
+    `"many-to-many"`.
     
     For example, `"many-to-one"` enforces that each row in `x` can match at
     most 1 row in `y`. If a row in `x` matches >1 rows in `y`, an error is
     thrown. This option serves as the replacement for `multiple = "error"`.
     
-    For equality joins, `relationship` defaults to `"warn-many-to-many"` to
-    warn if an unexpected many-to-many relationship is detected, and otherwise
-    defaults to `"none"` for inequality, rolling, and overlap joins.
+    The default behavior of `relationship` doesn't assume that there is any
+    relationship between `x` and `y`. However, for equality joins it will check
+    for the presence of a many-to-many relationship, and will warn if it detects
+    one.
     
   This change unfortunately does mean that if you have set `multiple = "all"` to
   avoid a warning and you happened to be doing a many-to-many style join, then
