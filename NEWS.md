@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* All major dplyr verbs now throw an informative error message if the input
+  data frame contains a column named `NA` or `""` (#6758).
+
 * Mutating joins now warn about multiple matches much less often. At a high
   level, a warning was previously being thrown when a one-to-many or
   many-to-many relationship was detected between the keys of `x` and `y`, but is
