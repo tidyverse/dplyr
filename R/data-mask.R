@@ -12,6 +12,10 @@ DataMask <- R6Class("DataMask",
       local_mask(self, frame)
 
       names_bindings <- chr_unserialise_unicode(names2(data))
+      if (any(names_bindings == "")) {
+        # `names2()` converted potential `NA` names to `""` already
+        abort("Can't transform a data frame with `NA` or `\"\"` names.", call = error_call)
+      }
       if (anyDuplicated(names_bindings)) {
         abort("Can't transform a data frame with duplicate names.", call = error_call)
       }

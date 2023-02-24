@@ -620,6 +620,18 @@ test_that("filtering retains labels for zero length groups", {
   )
 })
 
+test_that("`filter()` doesn't allow data frames with missing or empty names (#6758)", {
+  df1 <- new_data_frame(set_names(list(1), ""))
+  df2 <- new_data_frame(set_names(list(1), NA_character_))
+
+  expect_snapshot(error = TRUE, {
+    filter(df1)
+  })
+  expect_snapshot(error = TRUE, {
+    filter(df2)
+  })
+})
+
 # .by -------------------------------------------------------------------------
 
 test_that("can group transiently using `.by`", {
