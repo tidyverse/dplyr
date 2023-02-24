@@ -276,9 +276,8 @@ test_that("mutating joins don't trigger many-to-many warning when called indirec
   fn_env(fn) <- ns_env("rlang")
 
   # Indirectly calling `left_join()` through a function you don't control
-  # doesn't warn unless `relationship = "warn-many-to-many"` is explicitly set
+  # doesn't warn
   expect_no_warning(fn(df, df), class = "dplyr_warning_join_relationship_many_to_many")
-  expect_warning(fn(df, df, "warn-many-to-many"), class = "dplyr_warning_join_relationship_many_to_many")
 })
 
 test_that("mutating joins compute common columns", {

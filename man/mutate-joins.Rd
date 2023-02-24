@@ -209,14 +209,13 @@ for \code{x} and \code{y} independently.
 \code{x} and \code{y}. If the expectations chosen from the list below are
 invalidated, an error is thrown.
 \itemize{
-\item \code{NULL}, the default, chooses:
-\itemize{
-\item \code{"warn-many-to-many"} for equality joins
-\item \code{"none"} for inequality joins, rolling joins, and overlap joins
-}
+\item \code{NULL}, the default, doesn't expect there to be any relationship between
+\code{x} and \code{y}. However, for equality joins it will check for a many-to-many
+relationship (which is typically unexpected) and will warn if one occurs,
+encouraging you to either take a closer look at your inputs or make this
+relationship explicit by specifying \code{"many-to-many"}.
 
 See the \emph{Many-to-many relationships} section for more details.
-\item \code{"none"} doesn't perform any relationship checks.
 \item \code{"one-to-one"} expects:
 \itemize{
 \item Each row in \code{x} matches at most 1 row in \code{y}.
@@ -230,14 +229,9 @@ See the \emph{Many-to-many relationships} section for more details.
 \itemize{
 \item Each row in \code{x} matches at most 1 row in \code{y}.
 }
-\item \code{"many-to-many"} doesn't perform any relationship checks, and is
-identical to \code{"none"}, but is provided to allow you to be explicit about
-this relationship if you know it exists.
-\item \code{"warn-many-to-many"} doesn't assume there is any known relationship, but
-will warn if \code{x} and \code{y} have a many-to-many relationship
-(which is typically unexpected), encouraging you to either take a closer
-look at your inputs or make this relationship explicit by specifying
-\code{"many-to-many"}.
+\item \code{"many-to-many"} doesn't perform any relationship checks, but is provided
+to allow you to be explicit about this relationship if you know it
+exists.
 }
 
 \code{relationship} doesn't handle cases where there are zero matches. For that,

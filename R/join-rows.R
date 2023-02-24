@@ -44,17 +44,17 @@ join_rows <- function(x_key,
 
     condition <- "=="
     filter <- "none"
+  }
 
-    if (is_null(relationship)) {
-      # If user supplied `relationship`, that wins. Otherwise no checks.
-      relationship <- "none"
-    }
+  if (is_null(relationship)) {
+    relationship <- compute_join_relationship(type, condition, cross, user_env = user_env)
+  } else {
+    relationship <- check_join_relationship(relationship, error_call = error_call)
   }
 
   incomplete <- standardise_join_incomplete(type, na_matches, x_unmatched)
   no_match <- standardise_join_no_match(type, x_unmatched)
   remaining <- standardise_join_remaining(type, y_unmatched)
-  relationship <- standardise_join_relationship(relationship, condition, user_env)
 
   matches <- dplyr_locate_matches(
     needles = x_key,
@@ -366,30 +366,53 @@ standardise_join_remaining <- function(type, y_unmatched) {
   }
 }
 
-standardise_join_relationship <- function(relationship, condition, user_env) {
-  if (!is_null(relationship)) {
-    # Prefer user supplied value
-    return(relationship)
+compute_join_relationship <- function(type, condition, cross, user_env = caller_env(2)) {
+  if (type == "nest") {
+    # Not unreasonable to see a many-to-many relationship here, but it can't
+    # result in a Cartesian explosion in the result so we don't check for it
+    return("none")
   }
 
-  # We only check for a many-to-many relationship when doing an equality join,
-  # because that is typically unexpected.
-  # - Inequality and overlap joins often generate many-to-many relationships
-  #   by nature
-  # - Rolling joins are a little trickier, but we've decided that not warning is
-  #   probably easier to explain. `relationship = "many-to-one"` can always be
-  #   used explicitly as needed.
+  if (type %in% c("semi", "anti")) {
+    # Impossible to generate a many-to-many relationship here because we set
+    # `multiple = "any"`
+    return("none")
+  }
+
+  if (cross) {
+    # TODO: Remove when `by = character()` is defunct
+    # Cross-joins always result in many-to-many relationships
+    return("none")
+  }
+
   any_inequality <- any(condition != "==")
 
   if (any_inequality) {
-    "none"
-  } else if (!is_direct(user_env)) {
+    # We only check for a many-to-many relationship when doing an equality join,
+    # because that is where it is typically unexpected.
+    # - Inequality and overlap joins often generate many-to-many relationships
+    #   by nature
+    # - Rolling joins are a little trickier, but we've decided that not warning
+    #   is probably easier to explain. `relationship = "many-to-one"` can always
+    #   be used explicitly as needed.
+    return("none")
+  }
+
+  if (!is_direct(user_env)) {
     # Indirect calls don't warn, because the caller is unlikely to have access
     # to `relationship` to silence it
-    "none"
-  } else {
-    "warn-many-to-many"
+    return("none")
   }
+
+  "warn-many-to-many"
+}
+
+check_join_relationship <- function(relationship, error_call = caller_env()) {
+  arg_match0(
+    arg = relationship,
+    values = c("one-to-one", "one-to-many", "many-to-one", "many-to-many"),
+    error_call = error_call
+  )
 }
 
 # ------------------------------------------------------------------------------

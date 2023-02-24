@@ -68,7 +68,7 @@
 # join_rows() gives meaningful many-to-many warnings
 
     Code
-      join_rows(c(1, 1), c(1, 1), relationship = "warn-many-to-many")
+      join_rows(c(1, 1), c(1, 1))
     Condition
       Warning:
       Detected an unexpected many-to-many relationship between `x` and `y`.
@@ -318,6 +318,31 @@
       Error:
       ! `unmatched` must be one of "drop" or "error", not "dr".
       i Did you mean "drop"?
+
+# join_rows() validates `relationship`
+
+    Code
+      join_rows(df, df, relationship = 1)
+    Condition
+      Error:
+      ! `relationship` must be a string or character vector.
+
+---
+
+    Code
+      join_rows(df, df, relationship = "none")
+    Condition
+      Error:
+      ! `relationship` must be one of "one-to-one", "one-to-many", "many-to-one", or "many-to-many", not "none".
+
+---
+
+    Code
+      join_rows(df, df, relationship = "warn-many-to-many")
+    Condition
+      Error:
+      ! `relationship` must be one of "one-to-one", "one-to-many", "many-to-one", or "many-to-many", not "warn-many-to-many".
+      i Did you mean "many-to-many"?
 
 # `multiple = NULL` is deprecated and results in `'all'` (#6731)
 

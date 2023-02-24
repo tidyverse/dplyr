@@ -191,7 +191,7 @@ test_that("join_rows() gives meaningful many-to-one errors", {
 
 test_that("join_rows() gives meaningful many-to-many warnings", {
   expect_snapshot({
-    join_rows(c(1, 1), c(1, 1), relationship = "warn-many-to-many")
+    join_rows(c(1, 1), c(1, 1))
   })
 
   # With proof that the defaults flow through user facing functions
@@ -391,6 +391,22 @@ test_that("join_rows() validates `unmatched`", {
     join_rows(df, df, type = "inner", unmatched = c("drop", "error", "error"))
 
     join_rows(df, df, type = "inner", unmatched = c("drop", "dr"))
+  })
+})
+
+test_that("join_rows() validates `relationship`", {
+  df <- tibble(x = 1)
+
+  expect_snapshot(error = TRUE, {
+    join_rows(df, df, relationship = 1)
+  })
+
+  # Notably can't use the vctrs options
+  expect_snapshot(error = TRUE, {
+    join_rows(df, df, relationship = "none")
+  })
+  expect_snapshot(error = TRUE, {
+    join_rows(df, df, relationship = "warn-many-to-many")
   })
 })
 

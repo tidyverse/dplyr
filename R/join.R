@@ -170,13 +170,13 @@
 #'   `x` and `y`. If the expectations chosen from the list below are
 #'   invalidated, an error is thrown.
 #'
-#'   - `NULL`, the default, chooses:
-#'     - `"warn-many-to-many"` for equality joins
-#'     - `"none"` for inequality joins, rolling joins, and overlap joins
+#'   - `NULL`, the default, doesn't expect there to be any relationship between
+#'     `x` and `y`. However, for equality joins it will check for a many-to-many
+#'     relationship (which is typically unexpected) and will warn if one occurs,
+#'     encouraging you to either take a closer look at your inputs or make this
+#'     relationship explicit by specifying `"many-to-many"`.
 #'
 #'     See the _Many-to-many relationships_ section for more details.
-#'
-#'   - `"none"` doesn't perform any relationship checks.
 #'
 #'   - `"one-to-one"` expects:
 #'     - Each row in `x` matches at most 1 row in `y`.
@@ -188,15 +188,9 @@
 #'   - `"many-to-one"` expects:
 #'     - Each row in `x` matches at most 1 row in `y`.
 #'
-#'   - `"many-to-many"` doesn't perform any relationship checks, and is
-#'     identical to `"none"`, but is provided to allow you to be explicit about
-#'     this relationship if you know it exists.
-#'
-#'   - `"warn-many-to-many"` doesn't assume there is any known relationship, but
-#'     will warn if `x` and `y` have a many-to-many relationship
-#'     (which is typically unexpected), encouraging you to either take a closer
-#'     look at your inputs or make this relationship explicit by specifying
-#'     `"many-to-many"`.
+#'   - `"many-to-many"` doesn't perform any relationship checks, but is provided
+#'     to allow you to be explicit about this relationship if you know it
+#'     exists.
 #'
 #'   `relationship` doesn't handle cases where there are zero matches. For that,
 #'   see `unmatched`.
@@ -603,10 +597,12 @@ nest_join.data.frame <- function(x,
   # We always want to retain all of the matches. We never experience a Cartesian
   # explosion because `nrow(x) == nrow(out)` is an invariant of `nest_join()`,
   # and the whole point of `nest_join()` is to nest all of the matches for that
-  # row of `x` (#6392). Because we can't have a Cartesian explosion, we also
-  # don't care about many-to-many relationships.
+  # row of `x` (#6392).
   multiple <- "all"
-  relationship <- "none"
+
+  # Will be set to `"none"` in `join_rows()`. Because we can't have a Cartesian
+  # explosion, we don't care about many-to-many relationships.
+  relationship <- NULL
 
   rows <- join_rows(
     x_key = x_key,
@@ -798,9 +794,9 @@ join_filter <- function(x,
   # We only care about whether or not any matches exist
   multiple <- "any"
 
-  # Because `multiple = "any"`, that means many-to-many relationships aren't
-  # possible
-  relationship <- "none"
+  # Will be set to `"none"` in `join_rows()`. Because `multiple = "any"`, that
+  # means many-to-many relationships aren't possible.
+  relationship <- NULL
 
   # Since we are actually testing the presence of matches, it doesn't make
   # sense to ever error on unmatched values.
