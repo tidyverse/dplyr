@@ -418,6 +418,18 @@ test_that("summarise() preserves the call stack on error (#5308)", {
   expect_true(some(stack, is_call, "foobar"))
 })
 
+test_that("`summarise()` doesn't allow data frames with missing or empty names (#6758)", {
+  df1 <- new_data_frame(set_names(list(1), ""))
+  df2 <- new_data_frame(set_names(list(1), NA_character_))
+
+  expect_snapshot(error = TRUE, {
+    summarise(df1)
+  })
+  expect_snapshot(error = TRUE, {
+    summarise(df2)
+  })
+})
+
 test_that("summarise() gives meaningful errors", {
   eval(envir = global_env(), expr({
     expect_snapshot({

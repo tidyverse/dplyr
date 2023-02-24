@@ -229,6 +229,22 @@
         x y
       1 1 1
 
+# `filter()` doesn't allow data frames with missing or empty names (#6758)
+
+    Code
+      filter(df1)
+    Condition
+      Error in `filter()`:
+      ! Can't transform a data frame with `NA` or `""` names.
+
+---
+
+    Code
+      filter(df2)
+    Condition
+      Error in `filter()`:
+      ! Can't transform a data frame with `NA` or `""` names.
+
 # can't use `.by` with `.preserve`
 
     Code

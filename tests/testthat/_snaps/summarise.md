@@ -63,6 +63,22 @@
       Error in `summarise()`:
       ! Can't supply `.by` when `.data` is a rowwise data frame.
 
+# `summarise()` doesn't allow data frames with missing or empty names (#6758)
+
+    Code
+      summarise(df1)
+    Condition
+      Error in `summarise()`:
+      ! Can't transform a data frame with `NA` or `""` names.
+
+---
+
+    Code
+      summarise(df2)
+    Condition
+      Error in `summarise()`:
+      ! Can't transform a data frame with `NA` or `""` names.
+
 # summarise() gives meaningful errors
 
     Code

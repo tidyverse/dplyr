@@ -855,3 +855,15 @@ test_that("mutate() errors refer to expressions if not named", {
     (expect_error(mutate(group_by(mtcars, cyl), 1:3)))
   })
 })
+
+test_that("`mutate()` doesn't allow data frames with missing or empty names (#6758)", {
+  df1 <- new_data_frame(set_names(list(1), ""))
+  df2 <- new_data_frame(set_names(list(1), NA_character_))
+
+  expect_snapshot(error = TRUE, {
+    mutate(df1)
+  })
+  expect_snapshot(error = TRUE, {
+    mutate(df2)
+  })
+})

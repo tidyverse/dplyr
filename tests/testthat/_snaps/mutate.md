@@ -347,3 +347,19 @@
       Caused by error:
       ! `1:3` must be size 11 or 1, not 3.
 
+# `mutate()` doesn't allow data frames with missing or empty names (#6758)
+
+    Code
+      mutate(df1)
+    Condition
+      Error in `mutate()`:
+      ! Can't transform a data frame with `NA` or `""` names.
+
+---
+
+    Code
+      mutate(df2)
+    Condition
+      Error in `mutate()`:
+      ! Can't transform a data frame with `NA` or `""` names.
+
