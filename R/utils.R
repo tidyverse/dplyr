@@ -48,6 +48,49 @@ dplyr_new_tibble <- function(x, size) {
   new_data_frame(x = x, n = size, class = c("tbl_df", "tbl"))
 }
 
+#' @param x A list
+#' @param fn An optional function of 1 argument to be applied to each list
+#'   element of `x`. This allows you to further refine what elements should be
+#'   flattened. `fn` should return a single `TRUE` or `FALSE`.
+#' @param recursive Should `list_flatten()` be applied recursively? If `TRUE`,
+#'   it will continue to apply `list_flatten()` as long as at least one element
+#'   of `x` was flattened in the previous iteration.
+#' @noRd
+list_flatten <- function(x, ..., fn = NULL, recursive = FALSE) {
+  check_dots_empty0(...)
+
+  vec_check_list(x)
+  x <- unclass(x)
+
+  loc <- map_lgl(x, vec_is_list)
+
+  if (!is_null(fn)) {
+    loc[loc] <- map_lgl(x[loc], fn)
+  }
+
+  not_loc <- !loc
+
+  names <- names(x)
+  if (!is_null(names)) {
+    # Always prefer inner names, even if inner elements are actually unnamed.
+    # This is what `rlang::flatten_if()` did, with a warning. We could also
+    # use `name_spec` and `name_repair` for a more complete solution.
+    names[loc] <- ""
+    names(x) <- names
+  }
+
+  x[loc] <- map(x[loc], unclass)
+  x[not_loc] <- map(x[not_loc], list)
+
+  out <- list_unchop(x, ptype = list())
+
+  if (recursive && any(loc)) {
+    out <- list_flatten(out, fn = fn, recursive = TRUE)
+  }
+
+  out
+}
+
 maybe_restart <- function(restart) {
   if (!is_null(findRestart(restart))) {
     invokeRestart(restart)

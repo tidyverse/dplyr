@@ -189,7 +189,9 @@ filter_expand <- function(dots, mask, error_call = caller_env()) {
     }
   )
 
-  new_quosures(flatten(dots))
+  dots <- list_flatten(dots)
+
+  new_quosures(dots)
 }
 
 filter_eval <- function(dots,

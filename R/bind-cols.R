@@ -28,7 +28,7 @@
 bind_cols <- function(..., .name_repair = c("unique", "universal", "check_unique", "minimal")) {
   dots <- list2(...)
 
-  dots <- squash_if(dots, vec_is_list)
+  dots <- list_flatten(dots, recursive = TRUE)
   dots <- discard(dots, is.null)
 
   # Strip names off of data frame components so that vec_cbind() unpacks them
