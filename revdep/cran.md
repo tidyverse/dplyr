@@ -1,304 +1,191 @@
 ## revdepcheck results
 
-We checked 3725 reverse dependencies (3680 from CRAN + 45 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
+We checked 3780 reverse dependencies (3732 from CRAN + 48 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 60 new problems
- * We failed to check 86 packages
+ * We saw 45 new problems
+ * We failed to check 22 packages
 
 Issues with CRAN packages are summarised below.
 
 ### New problems
 (This reports the first line of each new failure)
 
+* APCI
+  checking tests ... ERROR
+
 * arrow
   checking tests ... ERROR
 
-* autoGO
-  checking whether package ‘autoGO’ can be installed ... WARNING
-
-* chronicler
+* autoReg
+  checking examples ... ERROR
   checking re-building of vignette outputs ... WARNING
 
-* circumplex
-  checking examples ... ERROR
+* comperes
+  checking tests ... ERROR
+
+* dbplyr
+  checking Rd cross-references ... WARNING
+
+* dexter
   checking tests ... ERROR
   checking re-building of vignette outputs ... WARNING
-
-* confoundr
-  checking examples ... ERROR
-  checking tests ... ERROR
-  checking re-building of vignette outputs ... WARNING
-
-* disk.frame
-  checking examples ... ERROR
 
 * dm
   checking tests ... ERROR
+  checking Rd cross-references ... WARNING
 
 * dtplyr
-  checking tests ... ERROR
+  checking Rd cross-references ... WARNING
 
-* extdplyr
+* dtrackr
+  checking Rd cross-references ... WARNING
+
+* edeaR
+  checking Rd cross-references ... WARNING
+
+* epifitter
   checking examples ... ERROR
+  checking re-building of vignette outputs ... WARNING
 
 * exuber
   checking tests ... ERROR
 
-* fastqcr
+* ezplot
   checking examples ... ERROR
-
-* forceR
-  checking examples ... ERROR
-  checking re-building of vignette outputs ... WARNING
-
-* forestmangr
-  checking examples ... ERROR
-  checking re-building of vignette outputs ... WARNING
-
-* ggmuller
-  checking whether package ‘ggmuller’ can be installed ... WARNING
-
-* gratia
   checking tests ... ERROR
 
-* hablar
-  checking tests ... ERROR
-
-* heemod
+* fabletools
   checking Rd cross-references ... WARNING
 
-* helda
+* ForIT
   checking examples ... ERROR
 
-* hlaR
+* GDPuc
+  checking tests ... ERROR
+
+* gtreg
   checking examples ... ERROR
+  checking tests ... ERROR
+
+* gtsummary
+  checking examples ... ERROR
+  checking tests ... ERROR
   checking re-building of vignette outputs ... WARNING
-
-* huxtable
-  checking examples ... ERROR
-  checking tests ... ERROR
-
-* injurytools
-  checking tests ... ERROR
 
 * iNZightTools
-  checking tests ... ERROR
+  checking Rd cross-references ... WARNING
 
-* IPEDSuploadables
+* IPDFileCheck
   checking examples ... ERROR
   checking tests ... ERROR
 
-* janitor
-  checking tests ... ERROR
-  checking re-building of vignette outputs ... WARNING
+* ir
+  checking Rd cross-references ... WARNING
 
-* JumpeR
-  checking tests ... ERROR
-
-* kmscv
-  checking examples ... ERROR
-
-* lans2r
+* itscalledsoccer
   checking tests ... ERROR
 
-* LARGB
-  checking whether package ‘LARGB’ can be installed ... WARNING
-
-* lillies
-  checking examples ... ERROR
-
-* MBNMAtime
-  checking tests ... ERROR
-
-* metacore
-  checking examples ... ERROR
-  checking tests ... ERROR
-
-* multicolor
-  checking tests ... ERROR
-
-* naniar
-  checking re-building of vignette outputs ... WARNING
-
-* ndi
-  checking examples ... ERROR
-  checking tests ... ERROR
-
-* NobBS
-  checking examples ... ERROR
-
-* ontologics
+* mapping
   checking examples ... ERROR
   checking re-building of vignette outputs ... WARNING
 
-* openalexR
+* NetworkExtinction
   checking re-building of vignette outputs ... WARNING
 
-* overviewR
+* onemap
+  checking re-building of vignette outputs ... WARNING
+
+* PKNCA
+  checking Rd cross-references ... WARNING
+
+* pubh
+  checking examples ... ERROR
+  checking re-building of vignette outputs ... WARNING
+
+* PupillometryR
+  checking examples ... ERROR
+  checking re-building of vignette outputs ... WARNING
+
+* redist
+  checking Rd cross-references ... WARNING
+
+* rWCVP
   checking tests ... ERROR
 
-* PHEindicatormethods
+* saeSim
+  checking Rd cross-references ... WARNING
+
+* sgsR
   checking tests ... ERROR
 
-* phenofit
+* srvyr
   checking examples ... ERROR
   checking tests ... ERROR
   checking re-building of vignette outputs ... WARNING
 
-* presenter
-  checking re-building of vignette outputs ... WARNING
-
-* PVplr
-  checking examples ... ERROR
-
-* questionr
-  checking tests ... ERROR
-
-* romic
-  checking tests ... ERROR
-
-* seecolor
-  checking examples ... ERROR
-  checking re-building of vignette outputs ... WARNING
-
-* sift
-  checking tests ... ERROR
-
-* simplevis
-  checking re-building of vignette outputs ... WARNING
-
-* skater
+* stRoke
   checking examples ... ERROR
   checking tests ... ERROR
   checking re-building of vignette outputs ... WARNING
 
-* starschemar
+* tbrf
   checking examples ... ERROR
   checking tests ... ERROR
   checking re-building of vignette outputs ... WARNING
 
-* suddengains
-  checking examples ... ERROR
+* testdat
+  checking Rd cross-references ... WARNING
+
+* tidycat
   checking re-building of vignette outputs ... WARNING
 
-* SwimmeR
-  checking examples ... ERROR
-  checking tests ... ERROR
-  checking re-building of vignette outputs ... WARNING
-
-* tabshiftr
+* tidycmprsk
   checking tests ... ERROR
 
-* tfrmt
+* tidyquant
   checking tests ... ERROR
 
-* tidyCDISC
-  checking tests ... ERROR
-
-* tidygraph
-  checking tests ... ERROR
+* tidyterra
+  checking Rd cross-references ... WARNING
 
 * tidytransit
   checking tests ... ERROR
 
-* topr
+* timetk
+  checking Rd cross-references ... WARNING
+
+* vctrs
   checking tests ... ERROR
 
-* track2KBA
+* whomds
   checking examples ... ERROR
   checking tests ... ERROR
+  checking re-building of vignette outputs ... WARNING
 
-* treeplyr
-  checking whether package ‘treeplyr’ can be installed ... WARNING
-
-* wcep
-  checking examples ... ERROR
+* yamlet
+  checking Rd cross-references ... WARNING
 
 ### Failed to check
 
-* accept               (NA)
-* afex                 (NA)
-* autoTS               (NA)
-* bayesian             (NA)
-* bayesnec             (NA)
-* bayesplot            (NA)
-* BayesPostEst         (NA)
-* bayesrules           (NA)
-* beadplexr            (NA)
-* BiodiversityR        (NA)
-* blocs                (NA)
-* breathtestcore       (NA)
-* broom.helpers        (NA)
-* broom.mixed          (NA)
-* calendR              (NA)
-* causact              (NA)
-* cinaR                (NA)
-* CRE                  (NA)
-* dafishr              (NA)
-* datawizard           (NA)
-* distillML            (NA)
-* edbuildmapr          (NA)
-* elbird               (NA)
-* embed                (NA)
-* escalation           (NA)
-* ESTER                (NA)
-* fable.prophet        (NA)
-* finnts               (NA)
-* genekitr             (NA)
-* geocmeans            (NA)
-* ggPMX                (NA)
-* ggstatsplot          (NA)
-* groupr               (NA)
-* GseaVis              (NA)
-* gtsummary            (NA)
-* healthyR.ai          (NA)
-* healthyR.ts          (NA)
-* healthyverse         (NA)
-* historicalborrowlong (NA)
-* immcp                (NA)
-* INSPECTumours        (NA)
-* IRexamples           (NA)
-* loon.ggplot          (NA)
-* loon.shiny           (NA)
-* marginaleffects      (NA)
-* merTools             (NA)
-* modeltime            (NA)
-* modeltime.ensemble   (NA)
-* modeltime.gluonts    (NA)
-* modeltime.h2o        (NA)
-* modeltime.resample   (NA)
-* mpower               (NA)
-* nlmixr2extra         (NA)
-* nlmixr2plot          (NA)
-* nlmixr2rpt           (NA)
-* numbat               (NA)
-* OlinkAnalyze         (NA)
-* ordbetareg           (NA)
-* Platypus             (NA)
-* polished             (NA)
-* promotionImpact      (NA)
-* rabhit               (NA)
-* RBesT                (NA)
-* rdss                 (NA)
-* report               (NA)
-* RKorAPClient         (NA)
-* Robyn                (NA)
-* RVA                  (NA)
-* SAMtool              (NA)
-* SCpubr               (NA)
-* sjPlot               (NA)
-* SkeweDF              (NA)
-* sknifedatar          (NA)
-* stacks               (NA)
-* statsExpressions     (NA)
-* StatTeacherAssistant (NA)
-* tidybayes            (NA)
-* tidyposterior        (NA)
-* tidySEM              (NA)
-* timetk               (NA)
-* tinyarray            (NA)
-* tipmap               (NA)
-* vivid                (NA)
-* wearables            (NA)
-* webSDM               (NA)
-* xpose.nlmixr2        (NA)
+* beadplexr      (NA)
+* cinaR          (NA)
+* genekitr       (NA)
+* ggPMX          (NA)
+* immcp          (NA)
+* loon.ggplot    (NA)
+* loon.shiny     (NA)
+* MarketMatching (NA)
+* nlmixr2extra   (NA)
+* nlmixr2plot    (NA)
+* nlmixr2rpt     (NA)
+* numbat         (NA)
+* OlinkAnalyze   (NA)
+* Platypus       (NA)
+* Rraven         (NA)
+* RVA            (NA)
+* SCpubr         (NA)
+* SpaDES.tools   (NA)
+* tidySEM        (NA)
+* tinyarray      (NA)
+* vivid          (NA)
+* xpose.nlmixr2  (NA)

@@ -1,203 +1,127 @@
 # Revdeps
 
-## Failed to check (131)
+## Failed to check (70)
 
-|package              |version |error  |warning |note |
-|:--------------------|:-------|:------|:-------|:----|
-|accept               |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|afex                 |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|autoTS               |?       |       |        |     |
-|bayesian             |0.0.9   |1      |        |1    |
-|NA                   |?       |       |        |     |
-|bayesnec             |2.1.0.0 |1      |        |1    |
-|bayesplot            |?       |       |        |     |
-|BayesPostEst         |?       |       |        |     |
-|bayesrules           |?       |       |        |     |
-|beadplexr            |?       |       |        |     |
-|BiodiversityR        |2.15-1  |1      |        |     |
-|blocs                |?       |       |        |     |
-|breathtestcore       |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|broom.helpers        |?       |       |        |     |
-|broom.mixed          |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|calendR              |1.1     |1      |        |     |
-|NA                   |?       |       |        |     |
-|causact              |0.4.2   |1      |        |     |
-|NA                   |?       |       |        |     |
-|cinaR                |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|CRE                  |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|dafishr              |1.0.0   |1      |        |     |
-|datawizard           |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|distillML            |0.1.0.9 |1      |        |     |
-|NA                   |?       |       |        |     |
-|edbuildmapr          |0.3.1   |1      |        |     |
-|elbird               |0.2.5   |1      |        |     |
-|embed                |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|escalation           |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|ESTER                |0.2.0   |1      |        |     |
-|NA                   |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|fable.prophet        |?       |       |        |     |
-|finnts               |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|genekitr             |?       |       |        |     |
-|geocmeans            |?       |       |        |     |
-|ggPMX                |?       |       |        |     |
-|ggstatsplot          |?       |       |        |     |
-|[groupr](failures.md#groupr)|0.1.0   |__+1__ |        |-1   |
-|GseaVis              |?       |       |        |     |
-|gtsummary            |1.7.0   |1      |        |     |
-|healthyR.ai          |?       |       |        |     |
-|healthyR.ts          |?       |       |        |     |
-|healthyverse         |?       |       |        |     |
-|historicalborrowlong |?       |       |        |     |
-|immcp                |?       |       |        |     |
-|INSPECTumours        |0.1.0   |1      |        |     |
-|NA                   |?       |       |        |     |
-|IRexamples           |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|loon.ggplot          |?       |       |        |     |
-|loon.shiny           |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|marginaleffects      |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|merTools             |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|modeltime            |?       |       |        |     |
-|modeltime.ensemble   |?       |       |        |     |
-|modeltime.gluonts    |?       |       |        |     |
-|modeltime.h2o        |?       |       |        |     |
-|modeltime.resample   |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|mpower               |?       |       |        |     |
-|nlmixr2extra         |?       |       |        |     |
-|nlmixr2plot          |?       |       |        |     |
-|nlmixr2rpt           |?       |       |        |     |
-|numbat               |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|OlinkAnalyze         |?       |       |        |     |
-|ordbetareg           |0.5.0   |1      |        |     |
-|NA                   |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|Platypus             |?       |       |        |     |
-|polished             |0.8.0   |1      |1       |     |
-|promotionImpact      |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|[rabhit](failures.md#rabhit)|0.2.4   |__+1__ |        |     |
-|RBesT                |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|rdss                 |?       |       |        |     |
-|report               |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|RKorAPClient         |0.7.5   |1      |        |     |
-|Robyn                |?       |       |        |     |
-|RVA                  |?       |       |        |     |
-|SAMtool              |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|SCpubr               |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|sjPlot               |?       |       |        |     |
-|SkeweDF              |0.1.0   |1      |        |     |
-|sknifedatar          |?       |       |        |     |
-|stacks               |1.0.1   |1      |        |     |
-|statsExpressions     |?       |       |        |     |
-|StatTeacherAssistant |0.0.1   |1      |        |     |
-|NA                   |?       |       |        |     |
-|tidybayes            |?       |       |        |     |
-|tidyposterior        |?       |       |        |     |
-|tidySEM              |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|timetk               |?       |       |        |     |
-|tinyarray            |?       |       |        |     |
-|tipmap               |?       |       |        |     |
-|vivid                |?       |       |        |     |
-|wearables            |0.8.1   |1      |        |     |
-|webSDM               |?       |       |        |     |
-|NA                   |?       |       |        |     |
-|xpose.nlmixr2        |?       |       |        |     |
+|package        |version |error |warning |note |
+|:--------------|:-------|:-----|:-------|:----|
+|ADAM           |?       |      |        |     |
+|AGread         |?       |      |        |     |
+|ags            |?       |      |        |     |
+|AMARETTO       |?       |      |        |     |
+|amplican       |?       |      |        |     |
+|bayesmodels    |?       |      |        |     |
+|beadplexr      |?       |      |        |     |
+|brendaDb       |?       |      |        |     |
+|BUSpaRse       |?       |      |        |     |
+|cattonum       |?       |      |        |     |
+|ceRNAnetsim    |?       |      |        |     |
+|cinaR          |?       |      |        |     |
+|COMPASS        |?       |      |        |     |
+|covidmx        |?       |      |        |     |
+|ctDNAtools     |?       |      |        |     |
+|CytoML         |?       |      |        |     |
+|D2MCS          |?       |      |        |     |
+|DeLorean       |?       |      |        |     |
+|DepecheR       |?       |      |        |     |
+|DiffBind       |?       |      |        |     |
+|diffman        |?       |      |        |     |
+|diffrprojects  |?       |      |        |     |
+|dynfrail       |?       |      |        |     |
+|EpiForsk       |?       |      |        |     |
+|epiphy         |?       |      |        |     |
+|epitopeR       |?       |      |        |     |
+|EScvtmle       |?       |      |        |     |
+|evaluator      |?       |      |        |     |
+|expstudies     |?       |      |        |     |
+|fipe           |?       |      |        |     |
+|foieGras       |?       |      |        |     |
+|genekitr       |?       |      |        |     |
+|ggPMX          |?       |      |        |     |
+|immcp          |?       |      |        |     |
+|intRinsic      |?       |      |        |     |
+|irtQ           |?       |      |        |     |
+|IsoCorrectoR   |?       |      |        |     |
+|lifeR          |?       |      |        |     |
+|loon.ggplot    |?       |      |        |     |
+|loon.shiny     |?       |      |        |     |
+|MantaID        |?       |      |        |     |
+|MarketMatching |?       |      |        |     |
+|mbRes          |?       |      |        |     |
+|microservices  |?       |      |        |     |
+|moexer         |?       |      |        |     |
+|nlmixr2extra   |?       |      |        |     |
+|nlmixr2plot    |?       |      |        |     |
+|nlmixr2rpt     |?       |      |        |     |
+|numbat         |?       |      |        |     |
+|OBL            |?       |      |        |     |
+|OlinkAnalyze   |?       |      |        |     |
+|peramo         |?       |      |        |     |
+|Platypus       |?       |      |        |     |
+|prqlr          |?       |      |        |     |
+|rcssci         |?       |      |        |     |
+|RevGadgets     |?       |      |        |     |
+|Rraven         |?       |      |        |     |
+|RVA            |?       |      |        |     |
+|scGate         |?       |      |        |     |
+|SCpubr         |?       |      |        |     |
+|shinyHugePlot  |?       |      |        |     |
+|SpaDES.tools   |?       |      |        |     |
+|stortingscrape |?       |      |        |     |
+|tame           |?       |      |        |     |
+|tidySEM        |?       |      |        |     |
+|tidytags       |?       |      |        |     |
+|tinyarray      |?       |      |        |     |
+|vivid          |?       |      |        |     |
+|wrappedtools   |?       |      |        |     |
+|xpose.nlmixr2  |?       |      |        |     |
 
-## New problems (60)
+## New problems (45)
 
-|package             |version |error  |warning |note |
-|:-------------------|:-------|:------|:-------|:----|
-|[arrow](problems.md#arrow)|10.0.1  |__+1__ |        |2    |
-|[autoGO](problems.md#autogo)|0.9     |       |__+1__  |     |
-|[chronicler](problems.md#chronicler)|0.2.0   |       |__+1__  |     |
-|[circumplex](problems.md#circumplex)|0.3.8   |__+2__ |__+1__  |1    |
-|[confoundr](problems.md#confoundr)|1.2     |__+2__ |__+1__  |     |
-|[disk.frame](problems.md#diskframe)|0.7.2   |__+1__ |        |     |
-|[dm](problems.md#dm)|1.0.3   |__+1__ |        |     |
-|[dtplyr](problems.md#dtplyr)|1.2.2   |__+1__ |        |     |
-|[extdplyr](problems.md#extdplyr)|0.1.5   |__+1__ |        |1    |
-|[exuber](problems.md#exuber)|1.0.0   |__+1__ |        |     |
-|[fastqcr](problems.md#fastqcr)|0.1.2   |__+1__ |        |1    |
-|[forceR](problems.md#forcer)|1.0.15  |__+1__ |__+1__  |     |
-|[forestmangr](problems.md#forestmangr)|0.9.4   |__+1__ |__+1__  |     |
-|[ggmuller](problems.md#ggmuller)|0.5.4   |       |__+1__  |     |
-|[gratia](problems.md#gratia)|0.7.3   |__+1__ |        |     |
-|[hablar](problems.md#hablar)|0.3.1   |__+1__ |        |     |
-|[heemod](problems.md#heemod)|0.14.4  |       |__+1__  |     |
-|[helda](problems.md#helda)|1.1.5   |__+1__ |        |1    |
-|[hlaR](problems.md#hlar)|0.1.6   |__+1__ |__+1__  |     |
-|[huxtable](problems.md#huxtable)|5.5.2   |__+2__ |        |1    |
-|[injurytools](problems.md#injurytools)|1.0.0   |__+1__ |        |1    |
-|[iNZightTools](problems.md#inzighttools)|1.12.3  |__+1__ |        |     |
-|[IPEDSuploadables](problems.md#ipedsuploadables)|2.6.5   |__+2__ |        |     |
-|[janitor](problems.md#janitor)|2.1.0   |__+1__ |__+1__  |1    |
-|[JumpeR](problems.md#jumper)|0.3.0   |__+1__ |        |     |
-|[kmscv](problems.md#kmscv)|0.1.0   |__+1__ |        |     |
-|[lans2r](problems.md#lans2r)|1.1.0   |__+1__ |        |1    |
-|[LARGB](problems.md#largb)|0.1.0   |       |__+1__  |     |
-|[lillies](problems.md#lillies)|0.2.9   |__+1__ |        |1    |
-|[MBNMAtime](problems.md#mbnmatime)|0.2.1   |__+1__ |        |1    |
-|[metacore](problems.md#metacore)|0.1.1   |__+2__ |        |     |
-|[multicolor](problems.md#multicolor)|0.1.6   |__+1__ |        |1    |
-|[naniar](problems.md#naniar)|0.6.1   |       |__+1__  |     |
-|[ndi](problems.md#ndi)|0.1.3   |__+2__ |        |     |
-|[NobBS](problems.md#nobbs)|0.1.0   |__+1__ |        |     |
-|[ontologics](problems.md#ontologics)|0.6.4   |__+1__ |__+1__  |     |
-|[openalexR](problems.md#openalexr)|1.0.0   |       |__+1__  |     |
-|[overviewR](problems.md#overviewr)|0.0.11  |__+1__ |1       |1    |
-|[PHEindicatormethods](problems.md#pheindicatormethods)|1.4.2   |__+1__ |        |     |
-|[phenofit](problems.md#phenofit)|0.3.7   |__+2__ |__+1__  |1    |
-|[presenter](problems.md#presenter)|0.1.1   |       |__+1__  |1    |
-|[PVplr](problems.md#pvplr)|0.1.1   |__+1__ |        |     |
-|[questionr](problems.md#questionr)|0.7.7   |__+1__ |        |1    |
-|[romic](problems.md#romic)|1.0.0   |__+1__ |        |     |
-|[seecolor](problems.md#seecolor)|0.1.0   |__+1__ |__+1__  |2    |
-|[sift](problems.md#sift)|0.1.0   |__+1__ |        |1    |
-|[simplevis](problems.md#simplevis)|6.4.0   |       |__+1__  |     |
-|[skater](problems.md#skater)|0.1.1   |__+2__ |__+1__  |     |
-|[starschemar](problems.md#starschemar)|1.2.0   |__+2__ |__+1__  |1    |
-|[suddengains](problems.md#suddengains)|0.4.4   |__+1__ |__+1__  |     |
-|[SwimmeR](problems.md#swimmer)|0.13.0  |__+2__ |__+1__  |     |
-|[tabshiftr](problems.md#tabshiftr)|0.4.0   |__+1__ |        |     |
-|[tfrmt](problems.md#tfrmt)|0.0.1   |__+1__ |        |     |
-|[tidyCDISC](problems.md#tidycdisc)|0.1.0   |__+1__ |        |     |
-|[tidygraph](problems.md#tidygraph)|1.2.2   |__+1__ |        |     |
-|[tidytransit](problems.md#tidytransit)|1.4     |__+1__ |        |2    |
-|[topr](problems.md#topr)|1.1.2   |__+1__ |        |     |
-|[track2KBA](problems.md#track2kba)|1.0.4   |__+2__ |        |     |
-|[treeplyr](problems.md#treeplyr)|0.1.10  |       |__+1__  |     |
-|[wcep](problems.md#wcep)|1.0.0   |__+1__ |        |     |
+|package           |version  |error  |warning |note |
+|:-----------------|:--------|:------|:-------|:----|
+|[APCI](problems.md#apci)|1.0.6    |__+1__ |        |     |
+|[arrow](problems.md#arrow)|11.0.0.2 |__+1__ |        |2    |
+|[autoReg](problems.md#autoreg)|0.2.6    |__+1__ |__+1__  |     |
+|[comperes](problems.md#comperes)|0.2.6    |__+1__ |        |     |
+|[dbplyr](problems.md#dbplyr)|2.3.1    |       |__+1__  |     |
+|[dexter](problems.md#dexter)|1.2.2    |__+1__ |__+1__  |1    |
+|[dm](problems.md#dm)|1.0.4    |__+1__ |__+1__  |     |
+|[dtplyr](problems.md#dtplyr)|1.3.0    |       |__+1__  |     |
+|[dtrackr](problems.md#dtrackr)|0.2.4    |       |__+1__  |     |
+|[edeaR](problems.md#edear)|0.9.3    |       |__+1__  |     |
+|[epifitter](problems.md#epifitter)|0.3.0    |__+1__ |__+1__  |1    |
+|[exuber](problems.md#exuber)|1.0.1    |__+1__ |        |1    |
+|[ezplot](problems.md#ezplot)|0.7.5    |__+2__ |        |     |
+|[fabletools](problems.md#fabletools)|0.3.2    |       |__+1__  |     |
+|[ForIT](problems.md#forit)|2.0.1    |__+1__ |        |     |
+|[GDPuc](problems.md#gdpuc)|0.10.0   |__+1__ |        |     |
+|[gtreg](problems.md#gtreg)|0.2.0    |__+2__ |        |     |
+|[gtsummary](problems.md#gtsummary)|1.7.0    |__+2__ |__+1__  |     |
+|[iNZightTools](problems.md#inzighttools)|1.13.0   |       |__+1__  |     |
+|[IPDFileCheck](problems.md#ipdfilecheck)|0.7.5    |__+2__ |        |1    |
+|[ir](problems.md#ir)|0.2.1    |       |__+1__  |     |
+|[itscalledsoccer](problems.md#itscalledsoccer)|0.2.1    |__+1__ |        |     |
+|[mapping](problems.md#mapping)|1.3      |__+1__ |__+1__  |1    |
+|[NetworkExtinction](problems.md#networkextinction)|1.0.2    |       |__+1__  |     |
+|[onemap](problems.md#onemap)|3.0.0    |       |__+1__  |1    |
+|[PKNCA](problems.md#pknca)|0.10.1   |       |__+1__  |     |
+|[pubh](problems.md#pubh)|1.2.7    |__+1__ |__+1__  |1    |
+|[PupillometryR](problems.md#pupillometryr)|0.0.4    |__+1__ |__+1__  |1    |
+|[redist](problems.md#redist)|4.0.1    |       |__+1__  |1    |
+|[rWCVP](problems.md#rwcvp)|1.2.4    |__+1__ |        |1    |
+|[saeSim](problems.md#saesim)|0.11.0   |       |__+1__  |     |
+|[sgsR](problems.md#sgsr)|1.4.0    |__+1__ |1       |     |
+|[srvyr](problems.md#srvyr)|1.2.0    |__+2__ |__+1__  |1    |
+|[stRoke](problems.md#stroke)|23.1.7   |__+2__ |__+1__  |     |
+|[tbrf](problems.md#tbrf)|0.1.5    |__+2__ |__+1__  |     |
+|[testdat](problems.md#testdat)|0.4.1    |       |__+1__  |     |
+|[tidycat](problems.md#tidycat)|0.1.2    |       |__+1__  |1    |
+|[tidycmprsk](problems.md#tidycmprsk)|0.2.0    |__+1__ |        |     |
+|[tidyquant](problems.md#tidyquant)|1.0.6    |__+1__ |        |1    |
+|[tidyterra](problems.md#tidyterra)|0.3.2    |       |__+1__  |     |
+|[tidytransit](problems.md#tidytransit)|1.4.1    |__+1__ |        |1    |
+|[timetk](problems.md#timetk)|2.8.2    |1      |__+1__  |2    |
+|[vctrs](problems.md#vctrs)|0.5.2    |__+1__ |        |1    |
+|[whomds](problems.md#whomds)|1.1.0    |__+2__ |__+1__  |     |
+|[yamlet](problems.md#yamlet)|0.10.10  |       |__+1__  |     |
 
