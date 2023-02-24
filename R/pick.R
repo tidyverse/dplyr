@@ -16,6 +16,14 @@
 #' to `tibble()`. For example, `pick(a, c)` could be replaced with
 #' `tibble(a = a, c = c)`, and `pick(everything())` on a data frame with cols
 #' `a`, `b`, and `c` could be replaced with `tibble(a = a, b = b, c = c)`.
+#' `pick()` specially handles the case of an empty selection by returning a 1
+#' row, 0 column tibble, so an exact replacement is more like:
+#'
+#' ```
+#' size <- vctrs::vec_size_common(..., .absent = 1L)
+#' out <- vctrs::vec_recycle_common(..., .size = size)
+#' tibble::new_tibble(out, nrow = size)
+#' ```
 #'
 #' @param ... <[`tidy-select`][dplyr_tidy_select]>
 #'
@@ -204,9 +212,10 @@ dplyr_pick_tibble <- function(...) {
 
   # Allow recycling between selected columns, in case it is called from
   # a `reframe()` call that modified columns in an earlier expression like
-  # `reframe(df, x = 1, y = pick(x, z))`. This also exactly mimics expansion
-  # into `y = tibble(x, z)`.
-  size <- vec_size_common(!!!out, .call = error_call)
+  # `reframe(df, x = 1, y = pick(x, z))`. This also closely mimics expansion
+  # into `y = tibble(x, z)`, with an empty selection being an exception that
+  # is like `y = tibble(.rows = 1L)` for recycling purposes (#6685).
+  size <- vec_size_common(!!!out, .absent = 1L, .call = error_call)
   out <- vec_recycle_common(!!!out, .size = size, .call = error_call)
 
   dplyr_new_tibble(out, size = size)

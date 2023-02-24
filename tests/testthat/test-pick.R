@@ -119,18 +119,24 @@ test_that("`all_of()` is evaluated in the correct environment (#5460)", {
   expect_identical(out$z, expect)
 })
 
-test_that("empty selections create 0 row data frames", {
-  # Most closely mimics macro expansion of `pick(<empty-sel>) -> tibble()`.
-  # Easily explainable as such.
+test_that("empty selections create 1 row tibbles (#6685)", {
+  # This makes the result recyclable against other inputs, and ensures that
+  # a `pick(NULL)` call can be used in a `group_by()` wrapper to
+  # "group by nothing". It is a slight departure from viewing `pick()` as a
+  # pure macro expansion into `tibble()`. Instead it is more like an expansion
+  # into:
+  # size <- vctrs::vec_size_common(..., .absent = 1L)
+  # out <- vctrs::vec_recycle_common(..., .size = size)
+  # tibble::new_tibble(out, nrow = size)
+
   df <- tibble(g = c(1, 1, 2), x = c(2, 3, 4))
   gdf <- group_by(df, g)
 
-  expect_snapshot(error = TRUE, {
-    mutate(gdf, y = pick(starts_with("foo")))
-  })
-  expect_snapshot(error = TRUE, {
-    mutate(gdf, y = pick_wrapper(starts_with("foo")))
-  })
+  out <- mutate(gdf, y = pick(starts_with("foo")))
+  expect_identical(out$y, new_tibble(list(), nrow = 3L))
+
+  out <- mutate(gdf, y = pick_wrapper(starts_with("foo")))
+  expect_identical(out$y, new_tibble(list(), nrow = 3L))
 })
 
 test_that("must supply at least one selector to `pick()`", {
@@ -255,10 +261,9 @@ test_that("`pick()` expansion evaluates on the full data", {
   df <- tibble(g = c(1, 1, 2, 2), x = c(0, 0, 1, 1), y = c(1, 1, 0, 0))
   gdf <- group_by(df, g)
 
-  # Doesn't select any columns
-  expect_snapshot(error = TRUE, {
-    mutate(gdf, y = pick(where(~all(.x == 0))))
-  })
+  # Doesn't select any columns. Returns a 1 row tibble per group (#6685).
+  out <- mutate(gdf, y = pick(where(~all(.x == 0))))
+  expect_identical(out$y, new_tibble(list(), nrow = 4L))
 
   # `pick()` evaluation fallback evaluates on the group specific data,
   # forcing potentially different results per group.
@@ -362,15 +367,25 @@ test_that("can `pick()` inside `reframe()`", {
   expect_identical(out$count, expect_count)
 })
 
-test_that("recycles correctly with empty selection", {
+test_that("empty selections recycle to the size of any other column", {
   df <- tibble(x = 1:5)
 
-  out <- reframe(df, sum = sum(x), y = pick(starts_with("foo")))
-  expect_identical(out$sum, integer())
+  # Returns size 1 tibbles that stay the same size (#6685)
+  out <- summarise(df, sum = sum(x), y = pick(starts_with("foo")))
+  expect_identical(out$sum, 15L)
+  expect_identical(out$y, new_tibble(list(), nrow = 1L))
+
+  out <- summarise(df, sum = sum(x), y = pick_wrapper(starts_with("foo")))
+  expect_identical(out$sum, 15L)
+  expect_identical(out$y, new_tibble(list(), nrow = 1L))
+
+  # Returns size 1 tibbles that recycle to size 0 because of `empty` (#6685)
+  out <- reframe(df, empty = integer(), y = pick(starts_with("foo")))
+  expect_identical(out$empty, integer())
   expect_identical(out$y, new_tibble(list(), nrow = 0L))
 
-  out <- reframe(df, sum = sum(x), y = pick_wrapper(starts_with("foo")))
-  expect_identical(out$sum, integer())
+  out <- reframe(df, empty = integer(), y = pick_wrapper(starts_with("foo")))
+  expect_identical(out$empty, integer())
   expect_identical(out$y, new_tibble(list(), nrow = 0L))
 })
 
@@ -484,17 +499,27 @@ test_that("`pick()` can be used inside `group_by()` wrappers", {
   tidyselect_group_by <- function(data, groups) {
     group_by(data, pick({{ groups }}))
   }
+  tidyselect_group_by_wrapper <- function(data, groups) {
+    group_by(data, pick_wrapper({{ groups }}))
+  }
+
   expect_identical(
     tidyselect_group_by(df, c(a, c)),
     group_by(df, a, c)
   )
-
-  tidyselect_group_by_wrapper <- function(data, groups) {
-    group_by(data, pick_wrapper({{ groups }}))
-  }
   expect_identical(
     tidyselect_group_by_wrapper(df, c(a, c)),
     group_by(df, a, c)
+  )
+
+  # Empty selections group by nothing (#6685)
+  expect_identical(
+    tidyselect_group_by(df, NULL),
+    df
+  )
+  expect_identical(
+    tidyselect_group_by_wrapper(df, NULL),
+    df
   )
 })
 

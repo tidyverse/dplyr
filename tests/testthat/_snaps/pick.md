@@ -69,28 +69,6 @@
       Caused by error in `as_indices_impl()`:
       ! object 'y' not found
 
-# empty selections create 0 row data frames
-
-    Code
-      mutate(gdf, y = pick(starts_with("foo")))
-    Condition
-      Error in `mutate()`:
-      i In argument: `y = pick(starts_with("foo"))`.
-      i In group 1: `g = 1`.
-      Caused by error:
-      ! `y` must be size 2 or 1, not 0.
-
----
-
-    Code
-      mutate(gdf, y = pick_wrapper(starts_with("foo")))
-    Condition
-      Error in `mutate()`:
-      i In argument: `y = pick_wrapper(starts_with("foo"))`.
-      i In group 1: `g = 1`.
-      Caused by error:
-      ! `y` must be size 2 or 1, not 0.
-
 # must supply at least one selector to `pick()`
 
     Code
@@ -157,17 +135,6 @@
       Caused by error in `all_of()`:
       ! Can't subset columns that don't exist.
       x Column `a` doesn't exist.
-
-# `pick()` expansion evaluates on the full data
-
-    Code
-      mutate(gdf, y = pick(where(~ all(.x == 0))))
-    Condition
-      Error in `mutate()`:
-      i In argument: `y = pick(where(~all(.x == 0)))`.
-      i In group 1: `g = 1`.
-      Caused by error:
-      ! `y` must be size 2 or 1, not 0.
 
 # errors correctly outside mutate context
 
