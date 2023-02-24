@@ -234,6 +234,28 @@ test_that("get_slice_size() validates its inputs", {
   })
 })
 
+test_that("get_slice_size() snapshots", {
+  expect_snapshot({
+    body(get_slice_size(prop = 0))
+
+    body(get_slice_size(prop = 0.4))
+    body(get_slice_size(prop = 2))
+    body(get_slice_size(prop = 2, allow_outsize = TRUE))
+
+    body(get_slice_size(prop = -0.4))
+    body(get_slice_size(prop = -2))
+
+    body(get_slice_size(n = 0))
+
+    body(get_slice_size(n = 4))
+    body(get_slice_size(n = 20))
+    body(get_slice_size(n = 20, allow_outsize = TRUE))
+
+    body(get_slice_size(n = -4))
+    body(get_slice_size(n = -20))
+  })
+})
+
 test_that("get_slice_size() standardises prop", {
   expect_equal(get_slice_size(prop = 0)(10), 0)
 
