@@ -76,7 +76,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
-<ul><li>
+<ul><li><p>All major dplyr verbs now throw an informative error message if the input data frame contains a column named <code>NA</code> or <code>""</code> (<a href="https://github.com/tidyverse/dplyr/issues/6758" class="external-link">#6758</a>).</p></li>
+<li>
 <p>Mutating joins now warn about multiple matches much less often. At a high level, a warning was previously being thrown when a one-to-many or many-to-many relationship was detected between the keys of <code>x</code> and <code>y</code>, but is now only thrown for a many-to-many relationship, which is much rarer and much more dangerous than one-to-many because it can result in a Cartesian explosion in the number of rows returned from the join (<a href="https://github.com/tidyverse/dplyr/issues/6731" class="external-link">#6731</a>, <a href="https://github.com/tidyverse/dplyr/issues/6717" class="external-link">#6717</a>).</p>
 <p>We’ve accomplished this in two steps:</p>
 <ul><li><p><code>multiple</code> now defaults to <code>"all"</code>, and the options of <code>"error"</code> and <code>"warning"</code> are now deprecated in favor of using <code>relationship</code> (see below). We are using an accelerated deprecation process for these two options because they’ve only been available for a few weeks, and <code>relationship</code> is a clearly superior alternative.</p></li>
