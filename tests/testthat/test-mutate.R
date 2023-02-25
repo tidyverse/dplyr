@@ -478,6 +478,22 @@ test_that("DataMask$add() forces chunks (#4677)", {
   expect_equal(df$log_e_bf01, log(1 / 0.244))
 })
 
+test_that("DataMask uses fresh copies of group id / size variables (#6762)", {
+  df <- tibble(x = 1:2)
+
+  fn <- function() {
+    df <- tibble(a = 1)
+    # Otherwise, this nested `mutate()` can modify the same
+    # id/size variable as the outer one, which causes havoc
+    mutate(df, b = a + 1)
+  }
+
+  out <- mutate(df, y = {fn(); x})
+
+  expect_identical(out$x, 1:2)
+  expect_identical(out$y, 1:2)
+})
+
 test_that("mutate() correctly auto-names expressions (#6741)", {
   df <- tibble(a = 1L)
 
