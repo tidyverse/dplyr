@@ -175,7 +175,7 @@
       vec_case_when(1, list(2))
     Condition
       Error in `vec_case_when()`:
-      ! `conditions` must be a list, not a number.
+      ! `conditions` must be a list, not the number 1.
 
 # `values` must be a list
 
@@ -183,7 +183,7 @@
       vec_case_when(list(TRUE), 1)
     Condition
       Error in `vec_case_when()`:
-      ! `values` must be a list, not a number.
+      ! `values` must be a list, not the number 1.
 
 # named inputs show up in the error message
 

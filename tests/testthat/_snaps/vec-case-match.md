@@ -80,7 +80,7 @@
       vec_case_match(1, haystacks = 1, values = list(2))
     Condition
       Error in `vec_case_match()`:
-      ! `haystacks` must be a list, not a number.
+      ! `haystacks` must be a list, not the number 1.
 
 # `values` must be a list
 
@@ -88,7 +88,7 @@
       vec_case_match(1, haystacks = list(1), values = 2)
     Condition
       Error in `vec_case_match()`:
-      ! `values` must be a list, not a number.
+      ! `values` must be a list, not the number 2.
 
 # `needles_arg` is respected
 
@@ -114,7 +114,7 @@
       vec_case_match(needles = 1, haystacks = 1, values = list(1), haystacks_arg = "foo")
     Condition
       Error in `vec_case_match()`:
-      ! `foo` must be a list, not a number.
+      ! `foo` must be a list, not the number 1.
 
 ---
 
@@ -122,7 +122,7 @@
       vec_case_match(needles = 1, haystacks = 1, values = list(1), haystacks_arg = "")
     Condition
       Error in `vec_case_match()`:
-      ! Input must be a list, not a number.
+      ! Input must be a list, not the number 1.
 
 ---
 
