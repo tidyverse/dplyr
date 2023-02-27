@@ -27,9 +27,13 @@ DataMask <- R6Class("DataMask",
       private$grouped <- by$type == "grouped"
       private$rowwise <- by$type == "rowwise"
 
+      # `duplicate(0L)` is necessary to ensure that the value we modify by
+      # reference is "fresh" and completely owned by this instance of the
+      # `DataMask`. Otherwise nested `mutate()` calls can end up modifying
+      # the same value (#6762).
       private$env_current_group_info <- new_environment(data = list(
-        `dplyr:::current_group_id` = 0L,
-        `dplyr:::current_group_size` = 0L
+        `dplyr:::current_group_id` = duplicate(0L),
+        `dplyr:::current_group_size` = duplicate(0L)
       ))
 
       private$chops <- .Call(
@@ -171,14 +175,15 @@ DataMask <- R6Class("DataMask",
 
     set_current_group = function(group) {
       # Only to be used right before throwing an error.
-      # We `duplicate()` group to be extremely conservative, because there is an
-      # extremely small chance we could modify this by reference and cause
+      # We `duplicate()` both values to be extremely conservative, because there
+      # is an extremely small chance we could modify this by reference and cause
       # issues with the `group` variable in the caller, but this has never been
-      # seen. `length()` always returns a fresh variable so we don't duplicate
-      # in that case.
+      # seen. We generally assume `length()` always returns a fresh variable, so
+      # we probably don't need to duplicate there, but it seems better to be
+      # extremely safe here.
       env_current_group_info <- private[["env_current_group_info"]]
       env_current_group_info[["dplyr:::current_group_id"]] <- duplicate(group)
-      env_current_group_info[["dplyr:::current_group_size"]] <- length(private$rows[[group]])
+      env_current_group_info[["dplyr:::current_group_size"]] <- duplicate(length(private$rows[[group]]))
     },
 
     get_used = function() {
