@@ -127,10 +127,10 @@ for which the function returns <code>TRUE</code>.</p></li>
     <h2 id="indirection">Indirection<a class="anchor" aria-label="anchor" href="#indirection"></a></h2>
     <p>There are two main cases:</p><ul><li><p>If you have a character vector of column names, use <code><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of()</a></code>
 or <code><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">any_of()</a></code>, depending on whether or not you want unknown variable
-names to cause an error, e.g <code>select(df, all_of(vars))</code>,
+names to cause an error, e.g. <code>select(df, all_of(vars))</code>,
 <code>select(df, !any_of(vars))</code>.</p></li>
 <li><p>If you you want the user to supply a tidyselect specification in a
-function argument, embrace the function argument, e.g
+function argument, embrace the function argument, e.g.
 <code>select(df, {{ vars }})</code>.</p></li>
 </ul></div>
 
