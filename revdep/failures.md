@@ -1682,72 +1682,6 @@ Run `revdepcheck::cloud_details(, "MantaID")` for more info
 
 
 ```
-# MarketMatching
-
-<details>
-
-* Version: 1.2.0
-* GitHub: NA
-* Source code: https://github.com/cran/MarketMatching
-* Date/Publication: 2021-01-08 20:10:02 UTC
-* Number of recursive dependencies: 73
-
-Run `revdepcheck::cloud_details(, "MarketMatching")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-* using log directory ‘/tmp/workdir/MarketMatching/new/MarketMatching.Rcheck’
-* using R version 4.1.1 (2021-08-10)
-* using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using option ‘--no-manual’
-* checking for file ‘MarketMatching/DESCRIPTION’ ... OK
-* checking extension type ... Package
-* this is package ‘MarketMatching’ version ‘1.2.0’
-* checking package namespace information ... OK
-* checking package dependencies ... ERROR
-Packages required but not available: 'CausalImpact', 'bsts', 'Boom'
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
-* DONE
-Status: 1 ERROR
-
-
-
-
-
-```
-### CRAN
-
-```
-* using log directory ‘/tmp/workdir/MarketMatching/old/MarketMatching.Rcheck’
-* using R version 4.1.1 (2021-08-10)
-* using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using option ‘--no-manual’
-* checking for file ‘MarketMatching/DESCRIPTION’ ... OK
-* checking extension type ... Package
-* this is package ‘MarketMatching’ version ‘1.2.0’
-* checking package namespace information ... OK
-* checking package dependencies ... ERROR
-Packages required but not available: 'CausalImpact', 'bsts', 'Boom'
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
-* DONE
-Status: 1 ERROR
-
-
-
-
-
-```
 # mbRes
 
 <details>
@@ -1812,6 +1746,62 @@ Run `revdepcheck::cloud_details(, "microservices")` for more info
 
 ```
 
+
+
+
+
+
+```
+# MOCHA
+
+<details>
+
+* Version: 0.1.0
+* GitHub: NA
+* Source code: https://github.com/cran/MOCHA
+* Date/Publication: 2022-12-06 13:42:38 UTC
+* Number of recursive dependencies: 203
+
+Run `revdepcheck::cloud_details(, "MOCHA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+* using log directory ‘/tmp/workdir/MOCHA/old/MOCHA.Rcheck’
+* using R version 4.1.1 (2021-08-10)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using option ‘--no-manual’
+* checking for file ‘MOCHA/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘MOCHA’ version ‘0.1.0’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+...
+* checking tests ... OK
+  Running ‘testthat.R’
+* checking for unstated dependencies in vignettes ... OK
+* checking package vignettes in ‘inst/doc’ ... OK
+* checking running R code from vignettes ... NONE
+  ‘COVID-walkthrough.Rmd’ using ‘UTF-8’... OK
+  ‘Comparing-Cell-Populations.Rmd’ using ‘UTF-8’... OK
+* checking re-building of vignette outputs ... OK
+* DONE
+Status: 1 NOTE
 
 
 
@@ -2442,82 +2432,6 @@ Run `revdepcheck::cloud_details(, "RevGadgets")` for more info
 
 ```
 
-
-
-
-
-
-```
-# Rraven
-
-<details>
-
-* Version: 1.0.13
-* GitHub: https://github.com/maRce10/Rraven
-* Source code: https://github.com/cran/Rraven
-* Date/Publication: 2021-04-21 06:10:06 UTC
-* Number of recursive dependencies: 88
-
-Run `revdepcheck::cloud_details(, "Rraven")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-* using log directory ‘/tmp/workdir/Rraven/new/Rraven.Rcheck’
-* using R version 4.1.1 (2021-08-10)
-* using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using option ‘--no-manual’
-* checking for file ‘Rraven/DESCRIPTION’ ... OK
-* checking extension type ... Package
-* this is package ‘Rraven’ version ‘1.0.13’
-* checking package namespace information ... OK
-* checking package dependencies ... OK
-...
---- failed re-building ‘Rraven.Rmd’
-
-SUMMARY: processing the following file failed:
-  ‘Rraven.Rmd’
-
-Error: Vignette re-building failed.
-Execution halted
-
-* DONE
-Status: 1 WARNING, 1 NOTE
-
-
-
-
-
-```
-### CRAN
-
-```
-* using log directory ‘/tmp/workdir/Rraven/old/Rraven.Rcheck’
-* using R version 4.1.1 (2021-08-10)
-* using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using option ‘--no-manual’
-* checking for file ‘Rraven/DESCRIPTION’ ... OK
-* checking extension type ... Package
-* this is package ‘Rraven’ version ‘1.0.13’
-* checking package namespace information ... OK
-* checking package dependencies ... OK
-...
---- failed re-building ‘Rraven.Rmd’
-
-SUMMARY: processing the following file failed:
-  ‘Rraven.Rmd’
-
-Error: Vignette re-building failed.
-Execution halted
-
-* DONE
-Status: 1 WARNING, 1 NOTE
 
 
 
