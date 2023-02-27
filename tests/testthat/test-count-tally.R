@@ -35,7 +35,7 @@ test_that("output includes empty levels with .drop = FALSE", {
   expect_equal(out$n, c(0, 1, 0))
 })
 
-test_that("ouput preserves grouping", {
+test_that("output preserves grouping", {
   df <- tibble(g = c(1, 2, 2, 2))
   exp <- tibble(g = c(1, 2), n = c(1, 3))
 
@@ -143,7 +143,7 @@ test_that("tally() owns errors (#6139)", {
 
 # add_count ---------------------------------------------------------------
 
-test_that("ouput preserves grouping", {
+test_that("output preserves grouping", {
   df <- tibble(g = c(1, 2, 2, 2))
   exp <- tibble(g = c(1, 2, 2, 2), n = c(1, 3, 3, 3))
 
