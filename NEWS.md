@@ -493,7 +493,7 @@ package, bringing greater consistency and improved performance.
 * `group_by_prepare()` loses the `caller_env` argument. It was rarely used
   and it is no longer needed (#6444).
 
-* `group_walk()` gains an explict `.keep` argument (#6530).
+* `group_walk()` gains an explicit `.keep` argument (#6530).
 
 * Warnings emitted inside `mutate()` and variants are now collected and stashed
   away. Run the new `last_dplyr_warnings()` function to see the warnings emitted
@@ -1476,7 +1476,7 @@ Hot patch release to resolve R CMD check failures.
 
   Unwind-protection also makes dplyr more robust in corner cases because it
   ensures the C++ destructors are correctly called in all circumstances
-  (debugger exit, captured condition, restart invokation).
+  (debugger exit, captured condition, restart invocation).
 
 * `sample_n()` and `sample_frac()` gain `...` (#2888). 
 * Improved performance for wide tibbles (#3335).
@@ -1865,7 +1865,7 @@ If you've implemented a database backend for dplyr, please read the [backend new
   applied on this subset of the data. This is robust for the common
   case of checking the type of a column (#2129).
 
-* Summarise and mutate colwise functions pass `...` on the the manipulation
+* Summarise and mutate colwise functions pass `...` on to the manipulation
   functions.
 
 * The performance of colwise verbs like `mutate_all()` is now back to
@@ -1977,7 +1977,7 @@ and so these functions have been deprecated (but remain around for backward comp
   an empty `distinct()` on an ungrouped data frame, namely it uses all
   variables (#2476).
 
-* `copy_to()` now returns it's output invisibly (since you're often just
+* `copy_to()` now returns its output invisibly (since you're often just
    calling for the side-effect).
 
 * `filter()` and `lag()` throw informative error if used with ts objects (#2219)
@@ -2540,7 +2540,7 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
   of observations (@ilarischeinin, #988).
 
 * Joins handles matrix columns better (#1230), and can join `Date` objects
-  with heterogenous representations (some `Date`s are integers, while other
+  with heterogeneous representations (some `Date`s are integers, while other
   are numeric). This also improves `all.equal()` (#1204).
 
 * Fixed `percent_rank()` and `cume_dist()` so that missing values no longer
@@ -2932,7 +2932,7 @@ This is a minor release containing fixes for a number of crashes and issues iden
 * Switched from RC to R6.
 
 * `tally()` and `top_n()` work consistently: neither accidentally
-  evaluates the the `wt` param. (#426, @mnel)
+  evaluates the `wt` param. (#426, @mnel)
 
 * `rename` handles grouped data (#640).
 
@@ -3014,7 +3014,7 @@ This is a minor release containing fixes for a number of crashes and issues iden
 
 * `LazySubset` was confused about input data size (#452).
 
-* Internal `n_distinct()` is stricter about it's inputs: it requires one symbol
+* Internal `n_distinct()` is stricter about its inputs: it requires one symbol
   which must be from the data frame (#567).
 
 * `rbind_*()` handle data frames with 0 rows (#597). They fill character

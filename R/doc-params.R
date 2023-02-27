@@ -23,11 +23,11 @@
 #'
 #' *   If you have a character vector of column names, use `all_of()`
 #'     or `any_of()`, depending on whether or not you want unknown variable
-#'     names to cause an error, e.g `select(df, all_of(vars))`,
+#'     names to cause an error, e.g. `select(df, all_of(vars))`,
 #'     `select(df, !any_of(vars))`.
 #'
 #' *   If you you want the user to supply a tidyselect specification in a
-#'     function argument, embrace the function argument, e.g
+#'     function argument, embrace the function argument, e.g.
 #'     `select(df, {{ vars }})`.
 #'
 #' @keywords internal

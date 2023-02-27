@@ -165,7 +165,7 @@ test_that("group_by() handles list as grouping variables", {
   expect_equal(gdata$.rows, list_of(c(1L, 3L), 2L))
 })
 
-test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
+test_that("select(group_by(.)) implicitly adds grouping variables (#170)", {
   expect_snapshot(
     res <- mtcars %>% group_by(vs) %>% select(mpg)
   )

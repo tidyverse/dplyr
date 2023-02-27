@@ -6,7 +6,7 @@
       Error in `ungroup()`:
       ! Can't rename variables in this context.
 
-# select(group_by(.)) implicitely adds grouping variables (#170)
+# select(group_by(.)) implicitly adds grouping variables (#170)
 
     Code
       res <- mtcars %>% group_by(vs) %>% select(mpg)
