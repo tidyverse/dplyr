@@ -51,7 +51,7 @@ group_data <- function(.data) {
 
 #' @export
 group_data.data.frame <- function(.data) {
-  size <- vec_size(.data)
+  size <- nrow(.data)
   out <- seq_len(size)
   out <- new_list_of(list(out), ptype = integer())
   out <- list(.rows = out)
