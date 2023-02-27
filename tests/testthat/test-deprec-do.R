@@ -28,7 +28,7 @@ test_that("multiple outputs can access data (#2998)", {
   expect_equal(out$h, list(1L))
 })
 
-test_that("colums in output override columns in input", {
+test_that("columns in output override columns in input", {
   out <- df %>% do(data.frame(g = 1))
   expect_equal(names(out), "g")
   expect_equal(out$g, c(1, 1, 1))
