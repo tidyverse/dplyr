@@ -59,7 +59,7 @@ DataMask <- R6Class("DataMask",
     add_one = function(name, chunks, result) {
       if (self$is_rowwise()){
         is_scalar_list <- function(.x) {
-          vec_is_list(.x) && length(.x) == 1L
+          obj_is_list(.x) && length(.x) == 1L
         }
         if (all(map_lgl(chunks, is_scalar_list))) {
           chunks <- map(chunks, `[[`, 1L)
@@ -106,7 +106,7 @@ DataMask <- R6Class("DataMask",
 
       if (self$is_rowwise()) {
         cols <- map2(cols, names(cols), function(col, name) {
-          if (vec_is_list(private$current_data[[name]])) {
+          if (obj_is_list(private$current_data[[name]])) {
             col <- list(col)
           }
           col

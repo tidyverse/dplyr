@@ -56,7 +56,7 @@ bind_rows <- function(..., .id = NULL) {
       abort(glue("Argument {i} must be a data frame or a named atomic vector."))
     }
 
-    if (vec_is_list(.x)) {
+    if (obj_is_list(.x)) {
       dots[[i]] <- vctrs::data_frame(!!!.x, .name_repair = "minimal")
     }
   }

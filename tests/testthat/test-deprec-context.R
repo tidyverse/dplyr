@@ -42,10 +42,10 @@ test_that("cur_data()/cur_data_all() keeps list columns as lists in rowwise_df (
     rowwise()
 
   expect_true(
-    all(summarise(df, test = vec_is_list(cur_data()$x))$test)
+    all(summarise(df, test = obj_is_list(cur_data()$x))$test)
   )
   expect_true(
-    all(summarise(df, test = vec_is_list(cur_data_all()$x))$test)
+    all(summarise(df, test = obj_is_list(cur_data_all()$x))$test)
   )
 })
 
