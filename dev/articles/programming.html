@@ -281,12 +281,12 @@ argument, you can use embracing syntax:</p>
 <code class="sourceCode R"><span><span class="va">my_df</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="st">"{{x}}_2"</span> <span class="op">:=</span> <span class="va">x</span> <span class="op">*</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
-<span><span class="fu">my_df</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="va">my_var</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span><span class="fu">my_df</span><span class="op">(</span><span class="va">my_var</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 1</span></span></span>
-<span><span class="co">#&gt;     x_2</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    20</span></span></code></pre></div>
+<span><span class="co">#&gt;   my_var_2</span></span>
+<span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       20</span></span></code></pre></div>
 </li>
 </ul>
 <p>Learn more in <code><a href="https://rlang.r-lib.org/reference/dyn-dots.html" class="external-link">?rlang::`dyn-dots`</a></code>.</p>
