@@ -47,7 +47,7 @@ struct symbols {
   static SEXP dplyr_internal_error;
   static SEXP dplyr_internal_signal;
   static SEXP chops;
-  static SEXP vec_is_list;
+  static SEXP obj_is_list;
   static SEXP new_env;
   static SEXP dot_data;
   static SEXP used;
@@ -87,8 +87,8 @@ bool obj_is_vector(SEXP x) ;
 R_len_t short_vec_size(SEXP x) ;
 SEXP short_vec_recycle(SEXP x, R_len_t n);
 
-inline bool vec_is_list(SEXP x) {
-  SEXP call = PROTECT(Rf_lang2(dplyr::symbols::vec_is_list, x));
+inline bool obj_is_list(SEXP x) {
+  SEXP call = PROTECT(Rf_lang2(dplyr::symbols::obj_is_list, x));
   SEXP res = Rf_eval(call, dplyr::envs::ns_vctrs);
   UNPROTECT(1);
   return LOGICAL(res)[0];

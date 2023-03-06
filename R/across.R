@@ -961,7 +961,7 @@ quo_eval_fns <- function(quo, mask, error_call = caller_env()) {
     }
   }
 
-  if (vec_is_list(out)) {
+  if (obj_is_list(out)) {
     map(out, function(elt) validate(elt))
   } else {
     validate(out)

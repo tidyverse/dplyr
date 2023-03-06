@@ -59,10 +59,10 @@ dplyr_new_tibble <- function(x, size) {
 list_flatten <- function(x, ..., fn = NULL, recursive = FALSE) {
   check_dots_empty0(...)
 
-  vec_check_list(x)
+  obj_check_list(x)
   x <- unclass(x)
 
-  loc <- map_lgl(x, vec_is_list)
+  loc <- map_lgl(x, obj_is_list)
 
   if (!is_null(fn)) {
     loc[loc] <- map_lgl(x[loc], fn)

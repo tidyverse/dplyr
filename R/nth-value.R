@@ -141,7 +141,7 @@ last <- function(x, order_by = NULL, default = NULL, na_rm = FALSE) {
 check_nth_default <- function(default, x, ..., error_call = caller_env()) {
   check_dots_empty0(...)
 
-  if (vec_is_list(x)) {
+  if (obj_is_list(x)) {
     # Very special behavior for lists, since we use `[[` on them.
     # Valid to use any `default` here (even non-vectors).
     # And `default = NULL` is the correct default `default` for lists.
@@ -173,7 +173,7 @@ vec_slice2 <- function(x, i) {
   # and we know `i` is a valid integer index (#6682)
   # i <- vec_as_location2(i, vec_size(x))
 
-  if (vec_is_list(x)) {
+  if (obj_is_list(x)) {
     out <- .subset2(x, i)
   } else {
     out <- vec_slice(x, i)

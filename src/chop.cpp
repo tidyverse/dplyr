@@ -18,7 +18,7 @@ void dplyr_lazy_vec_chop_grouped(SEXP chops_env, SEXP rows, SEXP data, bool roww
     SET_PRENV(prom, R_EmptyEnv);
     SEXP column = p_data[i];
 
-    if (rowwise && vctrs::vec_is_list(column)) {
+    if (rowwise && vctrs::obj_is_list(column)) {
       if (Rf_length(column) == 0) {
         SEXP ptype = PROTECT(Rf_getAttrib(column, Rf_install("ptype")));
         column = PROTECT(Rf_allocVector(VECSXP, 1));

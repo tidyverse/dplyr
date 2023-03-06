@@ -337,7 +337,7 @@ mutate_col <- function(dot, data, mask, new_columns) {
         chunks <- mask$resolve(name)
       }
 
-      if (mask$is_rowwise() && vec_is_list(result)) {
+      if (mask$is_rowwise() && obj_is_list(result)) {
         sizes <- list_sizes(result)
         wrong <- which(sizes != 1)
         if (length(wrong)) {
