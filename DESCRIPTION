@@ -67,4 +67,4 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Remotes:
     r-lib/rlang,
-    r-lib/vctrs#1803
+    r-lib/vctrs
