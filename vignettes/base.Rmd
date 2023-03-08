@@ -41,7 +41,7 @@ This vignette compares dplyr functions to their base R equivalents. This helps t
 
 # One table verbs
 
-The following table shows a condensed translation between dplyr verbs and their base R equivalents. The following sections describe each operation in more detail. You learn more about the dplyr verbs in their documentation and in For more `vignette("one-table")`.
+The following table shows a condensed translation between dplyr verbs and their base R equivalents. The following sections describe each operation in more detail. You'll learn more about the dplyr verbs in their documentation and in `vignette("dplyr")`.
 
 | dplyr                          | base                                             |
 |------------------------------- |--------------------------------------------------|
