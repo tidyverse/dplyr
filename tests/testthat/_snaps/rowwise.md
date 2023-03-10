@@ -49,11 +49,13 @@
       (expect_error(attr(df8, "groups")$.rows <- 1:8))
     Output
       <error/tibble_error_assign_incompatible_size>
-      Error:
+      Error in `$<-`:
       ! Assigned data `1:8` must be compatible with existing data.
       x Existing data has 10 rows.
       x Assigned data has 8 rows.
       i Only vectors of size 1 are recycled.
+      Caused by error in `vectbl_recycle_rhs_rows()`:
+      ! Can't recycle input of size 8 to size 10.
     Code
       (expect_error(validate_rowwise_df(df10)))
     Output

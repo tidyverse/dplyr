@@ -31,7 +31,7 @@ Imports:
     pillar (>= 1.5.1),
     R6,
     rlang (>= 1.0.6.9000),
-    tibble (>= 2.1.3),
+    tibble (>= 3.2.0),
     tidyselect (>= 1.2.0),
     utils,
     vctrs (>= 0.5.2.9000)
