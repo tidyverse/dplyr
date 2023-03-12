@@ -116,9 +116,9 @@ test_that("setequal uses coercion rules (#6114)", {
 })
 
 test_that("setequal tibbles must have same rows and columns", {
-  expect_false(setequal(tibble(x = 1:2), tibble(y = 1:2)))
+  expect_error(setequal(tibble(x = 1:2), tibble(y = 1:2)))
   expect_false(setequal(tibble(x = 1:2), tibble(x = 2:3)))
-  expect_false(setequal(tibble(x = 1:2), tibble(x = c("a", "b"))))
+  expect_error(setequal(tibble(x = 1:2), tibble(x = c("a", "b"))))
 })
 
 test_that("setequal checks y is a data frame", {

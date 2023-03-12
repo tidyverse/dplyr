@@ -102,7 +102,8 @@
       setequal(mtcars, 1)
     Condition
       Error in `setequal()`:
-      ! `y` must be a data frame.
+      ! `x` and `y` are not compatible.
+      `y` must be a data frame.
 
 # setequal checks for extra arguments
 
