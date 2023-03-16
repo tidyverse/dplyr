@@ -457,7 +457,7 @@ summarise_deprecate_variable_size <- function(env = caller_env(),
                                               user_env = caller_env(2)) {
   lifecycle::deprecate_warn(
     when = "1.1.0",
-    what = I("Returning more (or less) than 1 row per `summarise()` group"),
+    what = I("Returning more (or fewer) than 1 row per `summarise()` group"),
     with = "reframe()",
     details = paste0(
       "When switching from `summarise()` to `reframe()`, remember that ",
