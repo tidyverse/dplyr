@@ -44,32 +44,32 @@
 # across() throws meaningful error with failure during expansion (#6534)
 
     Code
-      summarise(df, across(everything(), median()))
+      summarise(df, across(everything(), fn()))
     Condition
       Error in `summarise()`:
-      i In argument: `across(everything(), median())`.
-      Caused by error in `is.factor()`:
-      ! argument "x" is missing, with no default
+      i In argument: `across(everything(), fn())`.
+      Caused by error in `fn()`:
+      ! oh no!
 
 ---
 
     Code
-      summarise(df, across(everything(), median()), .by = g)
+      summarise(df, across(everything(), fn()), .by = g)
     Condition
       Error in `summarise()`:
-      i In argument: `across(everything(), median())`.
-      Caused by error in `is.factor()`:
-      ! argument "x" is missing, with no default
+      i In argument: `across(everything(), fn())`.
+      Caused by error in `fn()`:
+      ! oh no!
 
 ---
 
     Code
-      summarise(gdf, across(everything(), median()))
+      summarise(gdf, across(everything(), fn()))
     Condition
       Error in `summarise()`:
-      i In argument: `across(everything(), median())`.
-      Caused by error in `is.factor()`:
-      ! argument "x" is missing, with no default
+      i In argument: `across(everything(), fn())`.
+      Caused by error in `fn()`:
+      ! oh no!
 
 # across() gives meaningful messages
 
@@ -316,18 +316,6 @@
       Caused by error in `c_across()`:
       ! Can't subset columns that don't exist.
       x Column `g` doesn't exist.
-
-# `all_of()` is evaluated in the correct environment (#6522)
-
-    Code
-      mutate(df, z = c_across(all_of(y)))
-    Condition
-      Error in `mutate()`:
-      i In argument: `z = c_across(all_of(y))`.
-      Caused by error in `c_across()`:
-      ! Problem while evaluating `all_of(y)`.
-      Caused by error in `as_indices_impl()`:
-      ! object 'y' not found
 
 # across() applies old `.cols = everything()` default with a warning
 

@@ -126,20 +126,6 @@
       Error:
       ! Must supply `n` or `prop`, but not both.
     Code
-      get_slice_size(n = foo)
-    Condition
-      Error:
-      ! `n` must be a constant.
-      Caused by error in `force()`:
-      ! object 'foo' not found
-    Code
-      get_slice_size(prop = foo)
-    Condition
-      Error:
-      ! `prop` must be a constant.
-      Caused by error in `force()`:
-      ! object 'foo' not found
-    Code
       get_slice_size(n = "a")
     Condition
       Error:

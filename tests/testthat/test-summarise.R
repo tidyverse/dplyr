@@ -494,10 +494,6 @@ test_that("summarise() gives meaningful errors", {
                       data.frame(x = 1:2, g = 1:2) %>% group_by(g) %>% summarise(x = if(g == 2) 42)
       ))
 
-      # Missing variable
-      (expect_error(summarise(mtcars, a = mean(not_there))))
-      (expect_error(summarise(group_by(mtcars, cyl), a = mean(not_there))))
-
       # .data pronoun
       (expect_error(summarise(tibble(a = 1), c = .data$b)))
       (expect_error(summarise(group_by(tibble(a = 1:3), a), c = .data$b)))

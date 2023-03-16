@@ -227,8 +227,6 @@ test_that("slice_helpers() call get_slice_size()", {
 test_that("get_slice_size() validates its inputs", {
   expect_snapshot(error = TRUE, {
     get_slice_size(n = 1, prop = 1)
-    get_slice_size(n = foo)
-    get_slice_size(prop = foo)
     get_slice_size(n = "a")
     get_slice_size(prop = "a")
   })

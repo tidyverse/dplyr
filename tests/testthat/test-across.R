@@ -189,16 +189,20 @@ test_that("across() throws meaningful error with failure during expansion (#6534
   df <- tibble(g = 1, x = 1, y = 2, z = 3)
   gdf <- group_by(df, g)
 
-  # Ends up failing inside the empty `median()` call, which gets evaluated
+  fn <- function() {
+    stop("oh no!")
+  }
+
+  # Ends up failing inside the `fn()` call, which gets evaluated
   # during `across()` expansion but outside any group context
   expect_snapshot(error = TRUE, {
-    summarise(df, across(everything(), median()))
+    summarise(df, across(everything(), fn()))
   })
   expect_snapshot(error = TRUE, {
-    summarise(df, across(everything(), median()), .by = g)
+    summarise(df, across(everything(), fn()), .by = g)
   })
   expect_snapshot(error = TRUE, {
-    summarise(gdf, across(everything(), median()))
+    summarise(gdf, across(everything(), fn()))
   })
 })
 
@@ -1101,9 +1105,10 @@ test_that("`all_of()` is evaluated in the correct environment (#6522)", {
   # Related to removing the mask layer from the quosure environments
   df <- tibble(x = 1, y = 2)
 
-  expect_snapshot(error = TRUE, {
-    mutate(df, z = c_across(all_of(y)))
-  })
+  # We expect an "object not found" error, but we don't control that
+  # so we aren't going to snapshot it, especially since the call reported
+  # by those kinds of errors changed in R 4.3.
+  expect_error(mutate(df, z = c_across(all_of(y))))
 
   y <- "x"
   expect <- df[["x"]]

@@ -45,30 +45,6 @@
       ! Can't subset columns that don't exist.
       x Column `g` doesn't exist.
 
-# `all_of()` is evaluated in the correct environment (#5460)
-
-    Code
-      mutate(df, z = pick(all_of(y)))
-    Condition
-      Error in `mutate()`:
-      i In argument: `z = pick(all_of(y))`.
-      Caused by error in `pick()`:
-      ! Problem while evaluating `all_of(y)`.
-      Caused by error in `as_indices_impl()`:
-      ! object 'y' not found
-
----
-
-    Code
-      mutate(df, z = pick_wrapper(all_of(y)))
-    Condition
-      Error in `mutate()`:
-      i In argument: `z = pick_wrapper(all_of(y))`.
-      Caused by error in `pick()`:
-      ! Problem while evaluating `all_of(y)`.
-      Caused by error in `as_indices_impl()`:
-      ! object 'y' not found
-
 # must supply at least one selector to `pick()`
 
     Code
