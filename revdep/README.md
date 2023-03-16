@@ -1,94 +1,238 @@
 # Revdeps
 
-## Failed to check (69)
+## Failed to check (222)
 
-|package        |version |error |warning |note |
-|:--------------|:-------|:-----|:-------|:----|
-|ADAM           |?       |      |        |     |
-|AGread         |?       |      |        |     |
-|ags            |?       |      |        |     |
-|AMARETTO       |?       |      |        |     |
-|amplican       |?       |      |        |     |
-|bayesmodels    |?       |      |        |     |
-|beadplexr      |?       |      |        |     |
-|brendaDb       |?       |      |        |     |
-|BUSpaRse       |?       |      |        |     |
-|cattonum       |?       |      |        |     |
-|ceRNAnetsim    |?       |      |        |     |
-|cinaR          |?       |      |        |     |
-|COMPASS        |?       |      |        |     |
-|covidmx        |?       |      |        |     |
-|ctDNAtools     |?       |      |        |     |
-|CytoML         |?       |      |        |     |
-|D2MCS          |?       |      |        |     |
-|DeLorean       |?       |      |        |     |
-|DepecheR       |?       |      |        |     |
-|DiffBind       |?       |      |        |     |
-|diffman        |?       |      |        |     |
-|diffrprojects  |?       |      |        |     |
-|dynfrail       |?       |      |        |     |
-|EpiForsk       |?       |      |        |     |
-|epiphy         |?       |      |        |     |
-|epitopeR       |?       |      |        |     |
-|EScvtmle       |?       |      |        |     |
-|evaluator      |?       |      |        |     |
-|expstudies     |?       |      |        |     |
-|fipe           |?       |      |        |     |
-|foieGras       |?       |      |        |     |
-|genekitr       |?       |      |        |     |
-|ggPMX          |?       |      |        |     |
-|immcp          |?       |      |        |     |
-|intRinsic      |?       |      |        |     |
-|irtQ           |?       |      |        |     |
-|IsoCorrectoR   |?       |      |        |     |
-|lifeR          |?       |      |        |     |
-|loon.ggplot    |?       |      |        |     |
-|loon.shiny     |?       |      |        |     |
-|MantaID        |?       |      |        |     |
-|mbRes          |?       |      |        |     |
-|microservices  |?       |      |        |     |
-|MOCHA          |?       |      |        |     |
-|moexer         |?       |      |        |     |
-|nlmixr2extra   |?       |      |        |     |
-|nlmixr2plot    |?       |      |        |     |
-|nlmixr2rpt     |?       |      |        |     |
-|numbat         |?       |      |        |     |
-|OBL            |?       |      |        |     |
-|OlinkAnalyze   |?       |      |        |     |
-|peramo         |?       |      |        |     |
-|Platypus       |?       |      |        |     |
-|prqlr          |?       |      |        |     |
-|rcssci         |?       |      |        |     |
-|RevGadgets     |?       |      |        |     |
-|RVA            |?       |      |        |     |
-|scGate         |?       |      |        |     |
-|SCpubr         |?       |      |        |     |
-|shinyHugePlot  |?       |      |        |     |
-|SpaDES.tools   |?       |      |        |     |
-|stortingscrape |?       |      |        |     |
-|tame           |?       |      |        |     |
-|tidySEM        |?       |      |        |     |
-|tidytags       |?       |      |        |     |
-|tinyarray      |?       |      |        |     |
-|vivid          |?       |      |        |     |
-|wrappedtools   |?       |      |        |     |
-|xpose.nlmixr2  |?       |      |        |     |
+|package              |version |error |warning |note |
+|:--------------------|:-------|:-----|:-------|:----|
+|abstr                |?       |      |        |     |
+|accept               |?       |      |        |     |
+|ADAM                 |?       |      |        |     |
+|afex                 |?       |      |        |     |
+|AGread               |?       |      |        |     |
+|agridat              |?       |      |        |     |
+|AMARETTO             |?       |      |        |     |
+|amplican             |?       |      |        |     |
+|autoTS               |?       |      |        |     |
+|bangladesh           |?       |      |        |     |
+|bayesian             |?       |      |        |     |
+|bayesmodels          |?       |      |        |     |
+|bayesnec             |?       |      |        |     |
+|bayesplot            |?       |      |        |     |
+|BayesPostEst         |?       |      |        |     |
+|bayesrules           |?       |      |        |     |
+|bdl                  |?       |      |        |     |
+|BiodiversityR        |?       |      |        |     |
+|blocs                |?       |      |        |     |
+|breathtestcore       |?       |      |        |     |
+|brendaDb             |?       |      |        |     |
+|broom.helpers        |?       |      |        |     |
+|broom.mixed          |?       |      |        |     |
+|BUSpaRse             |?       |      |        |     |
+|cancensus            |?       |      |        |     |
+|cattonum             |?       |      |        |     |
+|CCAMLRGIS            |?       |      |        |     |
+|ceRNAnetsim          |?       |      |        |     |
+|choroplethr          |3.7.1   |1     |        |     |
+|COMPASS              |?       |      |        |     |
+|CoordinateCleaner    |2.0-20  |1     |        |     |
+|CopernicusMarine     |?       |      |        |     |
+|CRE                  |?       |      |        |     |
+|ctDNAtools           |?       |      |        |     |
+|cubble               |?       |      |        |     |
+|cxr                  |?       |      |        |     |
+|cyclestreets         |?       |      |        |     |
+|CytoML               |?       |      |        |     |
+|datawizard           |?       |      |        |     |
+|dbmss                |?       |      |        |     |
+|DeLorean             |?       |      |        |     |
+|DepecheR             |?       |      |        |     |
+|DiffBind             |?       |      |        |     |
+|diffman              |?       |      |        |     |
+|diffrprojects        |?       |      |        |     |
+|dycdtools            |?       |      |        |     |
+|dynamicSDM           |?       |      |        |     |
+|dynfrail             |?       |      |        |     |
+|edbuildmapr          |?       |      |        |     |
+|EFDR                 |?       |      |        |     |
+|embed                |?       |      |        |     |
+|EnvExpInd            |?       |      |        |     |
+|epiphy               |?       |      |        |     |
+|escalation           |?       |      |        |     |
+|eSDM                 |?       |      |        |     |
+|ESTER                |?       |      |        |     |
+|evaluator            |?       |      |        |     |
+|expstudies           |?       |      |        |     |
+|fable.prophet        |?       |      |        |     |
+|finnts               |?       |      |        |     |
+|fipe                 |?       |      |        |     |
+|foieGras             |?       |      |        |     |
+|FRK                  |?       |      |        |     |
+|fsr                  |?       |      |        |     |
+|geocmeans            |?       |      |        |     |
+|GeodesiCL            |1.0.0   |1     |        |     |
+|ggchangepoint        |?       |      |        |     |
+|ggOceanMaps          |?       |      |        |     |
+|ggspatial            |?       |      |        |     |
+|ggstatsplot          |?       |      |        |     |
+|glottospace          |?       |      |        |     |
+|GREENeR              |?       |      |        |     |
+|gtfs2gps             |?       |      |        |     |
+|gumboot              |?       |      |        |     |
+|gwavr                |?       |      |        |     |
+|GWPR.light           |?       |      |        |     |
+|happign              |?       |      |        |     |
+|healthyR.ai          |?       |      |        |     |
+|healthyR.ts          |?       |      |        |     |
+|healthyverse         |?       |      |        |     |
+|himach               |?       |      |        |     |
+|historicalborrowlong |?       |      |        |     |
+|HYPEtools            |?       |      |        |     |
+|hypsoLoop            |?       |      |        |     |
+|incidence2           |1.2.3   |1     |        |     |
+|INSPECTumours        |?       |      |        |     |
+|intSDM               |1.0.5   |1     |        |1    |
+|IRexamples           |?       |      |        |     |
+|IsoCorrectoR         |?       |      |        |     |
+|itsdm                |?       |      |        |     |
+|jpgrid               |?       |      |        |     |
+|loon.ggplot          |?       |      |        |     |
+|loon.shiny           |?       |      |        |     |
+|MainExistingDatasets |?       |      |        |     |
+|manydata             |0.8.2   |1     |        |     |
+|mapboxapi            |?       |      |        |     |
+|mapme.biodiversity   |?       |      |        |     |
+|mapping              |?       |      |        |     |
+|mapsapi              |?       |      |        |     |
+|mapscanner           |?       |      |        |     |
+|marginaleffects      |?       |      |        |     |
+|MazamaSpatialPlots   |?       |      |        |     |
+|merTools             |?       |      |        |     |
+|meteoland            |?       |      |        |     |
+|modeltime            |?       |      |        |     |
+|modeltime.ensemble   |?       |      |        |     |
+|modeltime.gluonts    |?       |      |        |     |
+|modeltime.h2o        |?       |      |        |     |
+|modeltime.resample   |?       |      |        |     |
+|motif                |?       |      |        |     |
+|mpower               |?       |      |        |     |
+|MSclassifR           |?       |      |        |     |
+|multibiasmeta        |?       |      |        |     |
+|naturaList           |?       |      |        |     |
+|ncdfgeom             |?       |      |        |     |
+|nhdplusTools         |?       |      |        |     |
+|nhdR                 |?       |      |        |     |
+|nlmixr2est           |2.1.3   |1     |        |     |
+|nlmixr2extra         |?       |      |        |     |
+|nlmixr2plot          |2.0.7   |1     |        |     |
+|nlmixr2rpt           |0.1.0   |1     |        |     |
+|occCite              |?       |      |        |     |
+|occUncertain         |0.1.0   |1     |        |     |
+|oceanexplorer        |?       |      |        |     |
+|oceanis              |?       |      |        |     |
+|ohsome               |?       |      |        |     |
+|OpenLand             |?       |      |        |     |
+|ordbetareg           |?       |      |        |     |
+|palaeoSig            |?       |      |        |     |
+|panelr               |?       |      |        |     |
+|pct                  |?       |      |        |     |
+|photosynthesis       |?       |      |        |     |
+|Platypus             |?       |      |        |     |
+|PoolTestR            |?       |      |        |     |
+|PopGenHelpR          |?       |      |        |     |
+|ppcSpatial           |?       |      |        |     |
+|prioriactions        |?       |      |        |     |
+|promotionImpact      |?       |      |        |     |
+|PSS.Health           |0.6.1   |1     |        |     |
+|rangeModelMetadata   |?       |      |        |     |
+|rbenvo               |?       |      |        |     |
+|RBesT                |?       |      |        |     |
+|rcontroll            |?       |      |        |     |
+|RCzechia             |?       |      |        |     |
+|rdss                 |?       |      |        |     |
+|redist               |?       |      |        |     |
+|remap                |?       |      |        |     |
+|report               |?       |      |        |     |
+|rGhanaCensus         |?       |      |        |     |
+|rnaturalearth        |?       |      |        |     |
+|roads                |?       |      |        |     |
+|Robyn                |?       |      |        |     |
+|Rsagacmd             |?       |      |        |     |
+|rsinaica             |?       |      |        |     |
+|rstac                |?       |      |        |     |
+|rxode2               |2.0.11  |1     |        |     |
+|rxode2et             |2.0.9   |1     |        |     |
+|saeSim               |0.11.0  |1     |        |     |
+|SAMtool              |?       |      |        |     |
+|sandwichr            |?       |      |        |     |
+|SDGdetector          |2.7.1   |1     |        |     |
+|SDLfilter            |?       |      |        |     |
+|sdmApp               |?       |      |        |     |
+|sf                   |?       |      |        |     |
+|sfdep                |?       |      |        |     |
+|sfnetworks           |?       |      |        |     |
+|sftime               |?       |      |        |     |
+|ShellChron           |?       |      |        |     |
+|simodels             |?       |      |        |     |
+|simplevis            |?       |      |        |     |
+|sjPlot               |?       |      |        |     |
+|sjstats              |?       |      |        |     |
+|sknifedatar          |?       |      |        |     |
+|slendr               |?       |      |        |     |
+|sociome              |2.1.0   |1     |        |1    |
+|SOMEnv               |1.1.2   |1     |        |     |
+|SpaDES.tools         |?       |      |        |     |
+|SPARTAAS             |1.1.0   |1     |        |     |
+|spatgeom             |?       |      |        |     |
+|SpatialEpi           |1.2.8   |1     |        |     |
+|SpatialKDE           |?       |      |        |     |
+|spatialrisk          |?       |      |        |     |
+|spatialsample        |?       |      |        |     |
+|spDates              |?       |      |        |     |
+|spectacles           |0.5-3   |1     |        |     |
+|spnaf                |?       |      |        |     |
+|spNetwork            |?       |      |        |     |
+|spqdep               |?       |      |        |     |
+|spsur                |1.0.2.5 |1     |        |1    |
+|spup                 |?       |      |        |     |
+|stars                |?       |      |        |     |
+|starsTileServer      |?       |      |        |     |
+|stats19              |?       |      |        |     |
+|statsExpressions     |?       |      |        |     |
+|stplanr              |?       |      |        |     |
+|stppSim              |?       |      |        |     |
+|stxplore             |?       |      |        |     |
+|SUNGEO               |?       |      |        |     |
+|swfscAirDAS          |0.2.3   |1     |        |     |
+|SWTools              |?       |      |        |     |
+|telemac              |?       |      |        |     |
+|tidybayes            |?       |      |        |     |
+|tidyposterior        |?       |      |        |     |
+|tidySEM              |?       |      |        |     |
+|tilemaps             |?       |      |        |     |
+|timetk               |?       |      |        |     |
+|tipmap               |?       |      |        |     |
+|tmap                 |?       |      |        |     |
+|trackdf              |?       |      |        |     |
+|trending             |?       |      |        |     |
+|TUFLOWR              |?       |      |        |     |
+|VancouvR             |?       |      |        |     |
+|vivid                |?       |      |        |     |
+|wallace              |?       |      |        |     |
+|waterquality         |?       |      |        |     |
+|waves                |0.2.4   |1     |        |     |
+|wdpar                |?       |      |        |     |
+|wearables            |0.8.1   |1     |        |     |
+|webSDM               |?       |      |        |     |
+|xpose.nlmixr2        |0.4.0   |1     |        |     |
+|zipcodeR             |0.3.5   |1     |        |     |
+|zonebuilder          |?       |      |        |     |
 
-## New problems (13)
+## New problems (4)
 
-|package           |version  |error  |warning |note |
-|:-----------------|:--------|:------|:-------|:----|
-|[arrow](problems.md#arrow)|11.0.0.2 |__+1__ |        |2    |
-|[autoReg](problems.md#autoreg)|0.2.6    |__+1__ |__+1__  |     |
-|[comperes](problems.md#comperes)|0.2.6    |__+1__ |        |     |
-|[dm](problems.md#dm)|1.0.4    |__+1__ |        |     |
-|[exuber](problems.md#exuber)|1.0.1    |__+1__ |        |1    |
-|[isotracer](problems.md#isotracer)|1.1.3    |__+1__ |        |2    |
-|[mapping](problems.md#mapping)|1.3      |__+1__ |__+1__  |1    |
-|[NetworkExtinction](problems.md#networkextinction)|1.0.2    |       |__+1__  |     |
-|[onemap](problems.md#onemap)|3.0.0    |       |__+1__  |1    |
-|[PupillometryR](problems.md#pupillometryr)|0.0.4    |__+1__ |__+1__  |1    |
-|[rgho](problems.md#rgho)|3.0.0    |__+1__ |        |     |
-|[tidytransit](problems.md#tidytransit)|1.4.1    |__+1__ |        |1    |
-|[vctrs](problems.md#vctrs)|0.5.2    |__+1__ |        |1    |
+|package     |version |error  |warning |note |
+|:-----------|:-------|:------|:-------|:----|
+|[dm](problems.md#dm)|1.0.4   |__+1__ |        |     |
+|[exuber](problems.md#exuber)|1.0.1   |__+1__ |        |1    |
+|[missCompare](problems.md#misscompare)|1.0.3   |__+1__ |        |     |
+|[rapbase](problems.md#rapbase)|1.24.0  |__+1__ |        |     |
 

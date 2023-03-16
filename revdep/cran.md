@@ -1,24 +1,14 @@
 ## revdepcheck results
 
-We checked 3794 reverse dependencies (3746 from CRAN + 48 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
+We checked 3801 reverse dependencies (3777 from CRAN + 24 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 13 new problems
- * We failed to check 21 packages
+ * We saw 4 new problems
+ * We failed to check 198 packages
 
 Issues with CRAN packages are summarised below.
 
 ### New problems
 (This reports the first line of each new failure)
-
-* arrow
-  checking tests ... ERROR
-
-* autoReg
-  checking examples ... ERROR
-  checking re-building of vignette outputs ... WARNING
-
-* comperes
-  checking tests ... ERROR
 
 * dm
   checking tests ... ERROR
@@ -26,52 +16,209 @@ Issues with CRAN packages are summarised below.
 * exuber
   checking tests ... ERROR
 
-* isotracer
+* missCompare
   checking tests ... ERROR
 
-* mapping
-  checking examples ... ERROR
-  checking re-building of vignette outputs ... WARNING
-
-* NetworkExtinction
-  checking re-building of vignette outputs ... WARNING
-
-* onemap
-  checking re-building of vignette outputs ... WARNING
-
-* PupillometryR
-  checking examples ... ERROR
-  checking re-building of vignette outputs ... WARNING
-
-* rgho
-  checking tests ... ERROR
-
-* tidytransit
-  checking tests ... ERROR
-
-* vctrs
+* rapbase
   checking tests ... ERROR
 
 ### Failed to check
 
-* beadplexr     (NA)
-* cinaR         (NA)
-* genekitr      (NA)
-* ggPMX         (NA)
-* immcp         (NA)
-* loon.ggplot   (NA)
-* loon.shiny    (NA)
-* MOCHA         (NA)
-* nlmixr2extra  (NA)
-* nlmixr2plot   (NA)
-* nlmixr2rpt    (NA)
-* numbat        (NA)
-* OlinkAnalyze  (NA)
-* Platypus      (NA)
-* RVA           (NA)
-* SCpubr        (NA)
-* SpaDES.tools  (NA)
-* tidySEM       (NA)
-* tinyarray     (NA)
-* vivid         (NA)
-* xpose.nlmixr2 (NA)
+* abstr                (NA)
+* accept               (NA)
+* afex                 (NA)
+* agridat              (NA)
+* autoTS               (NA)
+* bangladesh           (NA)
+* bayesian             (NA)
+* bayesnec             (NA)
+* bayesplot            (NA)
+* BayesPostEst         (NA)
+* bayesrules           (NA)
+* bdl                  (NA)
+* BiodiversityR        (NA)
+* blocs                (NA)
+* breathtestcore       (NA)
+* broom.helpers        (NA)
+* broom.mixed          (NA)
+* cancensus            (NA)
+* CCAMLRGIS            (NA)
+* choroplethr          (NA)
+* CoordinateCleaner    (NA)
+* CopernicusMarine     (NA)
+* CRE                  (NA)
+* cubble               (NA)
+* cxr                  (NA)
+* cyclestreets         (NA)
+* datawizard           (NA)
+* dbmss                (NA)
+* dycdtools            (NA)
+* dynamicSDM           (NA)
+* edbuildmapr          (NA)
+* EFDR                 (NA)
+* embed                (NA)
+* EnvExpInd            (NA)
+* escalation           (NA)
+* eSDM                 (NA)
+* ESTER                (NA)
+* fable.prophet        (NA)
+* finnts               (NA)
+* FRK                  (NA)
+* fsr                  (NA)
+* geocmeans            (NA)
+* GeodesiCL            (NA)
+* ggchangepoint        (NA)
+* ggOceanMaps          (NA)
+* ggspatial            (NA)
+* ggstatsplot          (NA)
+* glottospace          (NA)
+* GREENeR              (NA)
+* gtfs2gps             (NA)
+* gumboot              (NA)
+* gwavr                (NA)
+* GWPR.light           (NA)
+* happign              (NA)
+* healthyR.ai          (NA)
+* healthyR.ts          (NA)
+* healthyverse         (NA)
+* himach               (NA)
+* historicalborrowlong (NA)
+* HYPEtools            (NA)
+* hypsoLoop            (NA)
+* incidence2           (NA)
+* INSPECTumours        (NA)
+* intSDM               (NA)
+* IRexamples           (NA)
+* itsdm                (NA)
+* jpgrid               (NA)
+* loon.ggplot          (NA)
+* loon.shiny           (NA)
+* MainExistingDatasets (NA)
+* manydata             (NA)
+* mapboxapi            (NA)
+* mapme.biodiversity   (NA)
+* mapping              (NA)
+* mapsapi              (NA)
+* mapscanner           (NA)
+* marginaleffects      (NA)
+* MazamaSpatialPlots   (NA)
+* merTools             (NA)
+* meteoland            (NA)
+* modeltime            (NA)
+* modeltime.ensemble   (NA)
+* modeltime.gluonts    (NA)
+* modeltime.h2o        (NA)
+* modeltime.resample   (NA)
+* motif                (NA)
+* mpower               (NA)
+* MSclassifR           (NA)
+* multibiasmeta        (NA)
+* naturaList           (NA)
+* ncdfgeom             (NA)
+* nhdplusTools         (NA)
+* nhdR                 (NA)
+* nlmixr2est           (NA)
+* nlmixr2extra         (NA)
+* nlmixr2plot          (NA)
+* nlmixr2rpt           (NA)
+* occCite              (NA)
+* occUncertain         (NA)
+* oceanexplorer        (NA)
+* oceanis              (NA)
+* ohsome               (NA)
+* OpenLand             (NA)
+* ordbetareg           (NA)
+* palaeoSig            (NA)
+* panelr               (NA)
+* pct                  (NA)
+* photosynthesis       (NA)
+* Platypus             (NA)
+* PoolTestR            (NA)
+* PopGenHelpR          (NA)
+* ppcSpatial           (NA)
+* prioriactions        (NA)
+* promotionImpact      (NA)
+* PSS.Health           (NA)
+* rangeModelMetadata   (NA)
+* rbenvo               (NA)
+* RBesT                (NA)
+* rcontroll            (NA)
+* RCzechia             (NA)
+* rdss                 (NA)
+* redist               (NA)
+* remap                (NA)
+* report               (NA)
+* rGhanaCensus         (NA)
+* rnaturalearth        (NA)
+* roads                (NA)
+* Robyn                (NA)
+* Rsagacmd             (NA)
+* rsinaica             (NA)
+* rstac                (NA)
+* rxode2               (NA)
+* rxode2et             (NA)
+* saeSim               (NA)
+* SAMtool              (NA)
+* sandwichr            (NA)
+* SDGdetector          (NA)
+* SDLfilter            (NA)
+* sdmApp               (NA)
+* sf                   (NA)
+* sfdep                (NA)
+* sfnetworks           (NA)
+* sftime               (NA)
+* ShellChron           (NA)
+* simodels             (NA)
+* simplevis            (NA)
+* sjPlot               (NA)
+* sjstats              (NA)
+* sknifedatar          (NA)
+* slendr               (NA)
+* sociome              (NA)
+* SOMEnv               (NA)
+* SpaDES.tools         (NA)
+* SPARTAAS             (NA)
+* spatgeom             (NA)
+* SpatialEpi           (NA)
+* SpatialKDE           (NA)
+* spatialrisk          (NA)
+* spatialsample        (NA)
+* spDates              (NA)
+* spectacles           (NA)
+* spnaf                (NA)
+* spNetwork            (NA)
+* spqdep               (NA)
+* spsur                (NA)
+* spup                 (NA)
+* stars                (NA)
+* starsTileServer      (NA)
+* stats19              (NA)
+* statsExpressions     (NA)
+* stplanr              (NA)
+* stppSim              (NA)
+* stxplore             (NA)
+* SUNGEO               (NA)
+* swfscAirDAS          (NA)
+* SWTools              (NA)
+* telemac              (NA)
+* tidybayes            (NA)
+* tidyposterior        (NA)
+* tidySEM              (NA)
+* tilemaps             (NA)
+* timetk               (NA)
+* tipmap               (NA)
+* tmap                 (NA)
+* trackdf              (NA)
+* trending             (NA)
+* TUFLOWR              (NA)
+* VancouvR             (NA)
+* vivid                (NA)
+* wallace              (NA)
+* waterquality         (NA)
+* waves                (NA)
+* wdpar                (NA)
+* wearables            (NA)
+* webSDM               (NA)
+* xpose.nlmixr2        (NA)
+* zipcodeR             (NA)
+* zonebuilder          (NA)
