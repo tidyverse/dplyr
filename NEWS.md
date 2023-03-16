@@ -1,8 +1,5 @@
 # dplyr (development version)
 
-* All major dplyr verbs now throw an informative error message if the input
-  data frame contains a column named `NA` or `""` (#6758).
-
 * Mutating joins now warn about multiple matches much less often. At a high
   level, a warning was previously being thrown when a one-to-many or
   many-to-many relationship was detected between the keys of `x` and `y`, but is
@@ -38,55 +35,58 @@
   `relationship = "many-to-many"` to silence the new warning, but we believe
   this should be rare since many-to-many relationships are fairly uncommon.
 
+* Fixed a major performance regression in `case_when()`. It is still a little
+  slower than in dplyr 1.0.10, but we plan to improve this further in the future
+  (#6674).
+
+* Fixed a performance regression related to `nth()`, `first()`, and `last()`
+  (#6682).
+
+* Fixed an issue where expressions involving infix operators had an abnormally
+  large amount of overhead (#6681).
+
+* `group_data()` on ungrouped data frames is faster (#6736).
+
+* `n()` is a little faster when there are many groups (#6727).
+
 * `pick()` now returns a 1 row, 0 column tibble when `...` evaluates to an
   empty selection. This makes it more compatible with [tidyverse recycling
   rules](https://vctrs.r-lib.org/reference/vector_recycling_rules.html) in some
   edge cases (#6685).
 
-* The compatibility vignette has been replaced with a more general vignette on
-  using dplyr in packages, `vignette("in-packages")` (#6702).
-
-* `group_data()` on ungrouped data frames is faster (#6736).
-
-* `n()` is now a little faster when there are many groups (#6727).
-
 * `if_else()` and `case_when()` again accept logical conditions that have
   attributes (#6678).
+  
+* `arrange()` can once again sort the `numeric_version` type from base R
+  (#6680).
 
 * `slice_sample()` now works when the input has a column named `replace`.
   `slice_min()` and `slice_max()` now work when the input has columns named
   `na_rm` or `with_ties` (#6725).
 
-* A major performance regression in `case_when()` has been fixed. It is still a
-  little slower than in dplyr 1.0.10, but we plan to improve this further in the
-  future (#6674).
-
-* Fixed an issue where expressions involving infix operators had an abnormally
-  large amount of overhead (#6681).
-
 * `nth()` now errors informatively if `n` is `NA` (#6682).
-
-* Fixed performance regression related to `nth()`, `first()`, and `last()`
-  (#6682).
-
-* `arrange()` can once again sort the `numeric_version` type from base R
-  (#6680).
-
-* Fixed an issue where using `<-` within a grouped `mutate()` or `summarise()`
-  could cross contaminate other groups (#6666).
+  
+* All major dplyr verbs now throw an informative error message if the input
+  data frame contains a column named `NA` or `""` (#6758).
 
 * Deprecation warnings thrown by `filter()` now mention the correct package
   where the problem originated from (#6679).
+  
+* Fixed an issue where using `<-` within a grouped `mutate()` or `summarise()`
+  could cross contaminate other groups (#6666).
+
+* The compatibility vignette has been replaced with a more general vignette on
+  using dplyr in packages, `vignette("in-packages")` (#6702).
 
 * The developer documentation in `?dplyr_extending` has been refreshed and
   brought up to date with all changes made in 1.1.0 (#6695).
 
+* `rename_with()` now includes an example of using `paste0(recycle0 = TRUE)` to
+  correctly handle empty selections (#6688).
+
 * R >=3.5.0 is now explicitly required. This is in line with the tidyverse
   policy of supporting the [5 most recent versions of
   R](https://www.tidyverse.org/blog/2019/04/r-version-support/).
-
-* `rename_with()` now includes an example of using `paste0(recycle0 = TRUE)` to
-  correctly handle empty selections (#6688).
 
 # dplyr 1.1.0
 
