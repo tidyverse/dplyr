@@ -211,23 +211,6 @@
       ! `x` must return compatible vectors across groups.
       x Can't combine NULL and non NULL results.
     Code
-      (expect_error(summarise(mtcars, a = mean(not_there))))
-    Output
-      <error/rlang_error>
-      Error in `summarise()`:
-      i In argument: `a = mean(not_there)`.
-      Caused by error in `mean()`:
-      ! object 'not_there' not found
-    Code
-      (expect_error(summarise(group_by(mtcars, cyl), a = mean(not_there))))
-    Output
-      <error/rlang_error>
-      Error in `summarise()`:
-      i In argument: `a = mean(not_there)`.
-      i In group 1: `cyl = 4`.
-      Caused by error in `mean()`:
-      ! object 'not_there' not found
-    Code
       (expect_error(summarise(tibble(a = 1), c = .data$b)))
     Output
       <error/rlang_error>

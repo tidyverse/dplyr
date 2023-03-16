@@ -102,12 +102,11 @@ test_that("`all_of()` is evaluated in the correct environment (#5460)", {
   # Related to removing the mask layer from the quosure environments
   df <- tibble(g = 1, x = 2, y = 3)
 
-  expect_snapshot(error = TRUE, {
-    mutate(df, z = pick(all_of(y)))
-  })
-  expect_snapshot(error = TRUE, {
-    mutate(df, z = pick_wrapper(all_of(y)))
-  })
+  # We expect an "object not found" error, but we don't control that
+  # so we aren't going to snapshot it, especially since the call reported
+  # by those kinds of errors changed in R 4.3.
+  expect_error(mutate(df, z = pick(all_of(y))))
+  expect_error(mutate(df, z = pick_wrapper(all_of(y))))
 
   y <- "x"
   expect <- df["x"]
