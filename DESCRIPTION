@@ -30,11 +30,11 @@ Imports:
     methods,
     pillar (>= 1.5.1),
     R6,
-    rlang (>= 1.0.6.9000),
+    rlang (>= 1.1.0),
     tibble (>= 3.2.0),
     tidyselect (>= 1.2.0),
     utils,
-    vctrs (>= 0.5.2.9000)
+    vctrs (>= 0.6.0)
 Suggests: 
     bench,
     broom,
@@ -65,6 +65,3 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
-Remotes:
-    r-lib/rlang,
-    r-lib/vctrs
