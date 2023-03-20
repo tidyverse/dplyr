@@ -326,6 +326,16 @@ test_that("selection on rowwise data frames uses full list-cols, but actual eval
   expect_identical(out$y, map(df$x, ~tibble(x = .x)))
 })
 
+test_that("when expansion occurs, error labels use the pre-expansion quosure", {
+  df <- tibble(g = c(1, 2, 2), x = c(1, 2, 3))
+
+  # Fails in common type casting of the group chunks,
+  # which references the auto-named column name
+  expect_snapshot(error = TRUE, {
+    mutate(df, if (cur_group_id() == 1L) pick(x) else "x", .by = g)
+  })
+})
+
 test_that("doesn't allow renaming", {
   expect_snapshot(error = TRUE, {
     mutate(data.frame(x = 1), pick(y = x))

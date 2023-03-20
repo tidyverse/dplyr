@@ -302,7 +302,7 @@ summarise_cols <- function(data, dots, by, verb, error_call = caller_env()) {
           results <- append(results, results_k)
           out_names <- c(out_names, types_k_names)
         } else {
-          name <- quo_data$name_auto
+          name <- dplyr_quosure_name(quo_data)
           mask$add_one(name = name, chunks = chunks_k, result = results_k)
           chunks <- append(chunks, list(chunks_k))
           types <- append(types, list(types_k))
@@ -360,7 +360,8 @@ summarise_eval_one <- function(quo, mask) {
     chunks_k <- withCallingHandlers(
       mask$eval_all_summarise(quo),
       error = function(cnd) {
-        msg <- glue("Can't compute column `{quo_data$name_auto}`.")
+        name <- dplyr_quosure_name(quo_data)
+        msg <- glue("Can't compute column `{name}`.")
         abort(msg, call = call("across"), parent = cnd)
       }
     )
@@ -372,7 +373,11 @@ summarise_eval_one <- function(quo, mask) {
     return(NULL)
   }
 
-  types_k <- dplyr_vec_ptype_common(chunks_k, quo_data$name_auto)
+  # `name` specified lazily
+  types_k <- dplyr_vec_ptype_common(
+    chunks = chunks_k,
+    name = dplyr_quosure_name(quo_data)
+  )
 
   chunks_k <- vec_cast_common(!!!chunks_k, .to = types_k)
   result_k <- vec_c(!!!chunks_k, .ptype = types_k)

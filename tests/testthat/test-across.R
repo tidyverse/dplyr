@@ -1020,8 +1020,7 @@ test_that("expand_across() expands lambdas", {
   quo <- quo(across(c(cyl, am), ~ identity(.x)))
   quo <- new_dplyr_quosure(
     quo,
-    name_given = "",
-    name_auto = "across()",
+    name = quo,
     is_named = FALSE,
     index = 1
   )
@@ -1042,8 +1041,7 @@ test_that("expand_if_across() expands lambdas", {
   quo <- quo(if_any(c(cyl, am), ~ . > 4))
   quo <- new_dplyr_quosure(
     quo,
-    name_given = "",
-    name_auto = "if_any()",
+    name = quo,
     is_named = FALSE,
     index = 1
   )
