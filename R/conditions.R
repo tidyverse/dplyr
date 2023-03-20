@@ -40,7 +40,7 @@ cnd_bullet_cur_group_label <- function(what = "error") {
 
 cnd_bullet_rowwise_unlist <- function() {
   if (peek_mask()$is_rowwise()) {
-    glue_data(peek_error_context(), "Did you mean: `{error_name} = list({error_expression})` ?")
+    glue_data(peek_error_context(), "Did you mean: `{error_name} = list({quo_as_label(error_quo)})` ?")
   }
 }
 
@@ -84,15 +84,15 @@ new_error_context <- function(dots, i, mask) {
   if (!length(dots) || i == 0L) {
     env(
       error_name = "",
-      error_expression = NULL,
+      error_quo = NULL,
       mask = mask
     )
   } else {
-    expr <- quo_as_label(dots[[i]])
-
+    # Saving the quosure rather than the result of `quo_as_label()` to avoid
+    # slow label creation unless required
     env(
-      error_name = names(dots)[i],
-      error_expression = expr,
+      error_name = names(dots)[[i]],
+      error_quo = dots[[i]],
       mask = mask
     )
   }
@@ -117,24 +117,24 @@ mask_type <- function(mask = peek_mask()) {
 }
 
 ctxt_error_label <- function(ctxt = peek_error_context()) {
-  error_label(ctxt$error_name, ctxt$error_expression)
+  error_label(ctxt$error_name, ctxt$error_quo)
 }
-error_label <- function(name, expr_label) {
+error_label <- function(name, quo) {
   if (is_null(name) || !nzchar(name)) {
-    expr_label
+    quo_as_label(quo)
   } else {
     name
   }
 }
 
 ctxt_error_label_named <- function(ctxt = peek_error_context()) {
-  error_label_named(ctxt$error_name, ctxt$error_expression)
+  error_label_named(ctxt$error_name, ctxt$error_quo)
 }
-error_label_named <- function(name, expr_label) {
+error_label_named <- function(name, quo) {
   if (is_null(name) || !nzchar(name)) {
-    expr_label
+    quo_as_label(quo)
   } else {
-    paste0(name, " = ", expr_label)
+    paste0(name, " = ", quo_as_label(quo))
   }
 }
 
@@ -368,7 +368,7 @@ new_dplyr_warning <- function(data) {
     group_label <- ""
   }
 
-  label <- error_label_named(data$name, data$expr)
+  label <- error_label_named(data$name, data$quo)
 
   msg <- c(
     "i" = glue::glue("In argument: `{label}`."),
