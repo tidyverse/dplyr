@@ -22,8 +22,8 @@
 #'
 #' @keywords internal
 #' @name tidyeval-compat
-#' @aliases expr enquo enquos sym syms as_label
-#' @export expr enquo enquos sym syms as_label .data
+#' @aliases .data expr enquo enquos sym syms as_label
+#' @export .data expr enquo enquos sym syms as_label
 #' @aliases quo quos quo_name ensym ensyms enexpr enexprs
 #' @export quo quos quo_name ensym ensyms enexpr enexprs
 NULL

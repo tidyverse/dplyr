@@ -2,6 +2,7 @@
 % Please edit documentation in R/utils-tidy-eval.R
 \name{tidyeval-compat}
 \alias{tidyeval-compat}
+\alias{.data}
 \alias{expr}
 \alias{enquo}
 \alias{enquos}
