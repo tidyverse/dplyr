@@ -42,12 +42,16 @@ copy_to <- function(dest, df, name = deparse(substitute(df)),
 #' @param ... Other arguments passed on to methods.
 #' @export
 auto_copy <- function(x, y, copy = FALSE, ...) {
-  if (same_src(x, y)) return(y)
+  if (same_src(x, y)) {
+    return(y)
+  }
 
   if (!copy) {
     bullets <- c(
-      "`x` and `y` must share the same src.",
-      i = "set `copy` = TRUE (may be slow)."
+      "`x` and `y` must share the same source.",
+      i = cli::format_inline("`x` is {obj_type_friendly(x)}."),
+      i = cli::format_inline("`y` is {obj_type_friendly(y)}."),
+      i = "Set `copy = TRUE` if `y` can be copied to the same source as `x` (may be slow)."
     )
     abort(bullets)
   }
