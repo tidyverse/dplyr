@@ -128,6 +128,18 @@
       Error in `pick()`:
       ! Must only be used inside data-masking verbs like `mutate()`, `filter()`, and `group_by()`.
 
+# when expansion occurs, error labels use the pre-expansion quosure
+
+    Code
+      mutate(df, if (cur_group_id() == 1L) pick(x) else "x", .by = g)
+    Condition
+      Error in `mutate()`:
+      i In argument: `if (cur_group_id() == 1L) pick(x) else "x"`.
+      Caused by error:
+      ! `if (cur_group_id() == 1L) pick(x) else "x"` must return compatible vectors across groups.
+      i Result of type <tbl_df<x:double>> for group 1: `g = 1`.
+      i Result of type <character> for group 2: `g = 2`.
+
 # doesn't allow renaming
 
     Code
