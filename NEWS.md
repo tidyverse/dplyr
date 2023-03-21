@@ -65,6 +65,9 @@
   `na_rm` or `with_ties` (#6725).
 
 * `nth()` now errors informatively if `n` is `NA` (#6682).
+
+* Joins now throw a more informative error when `y` doesn't have the same
+  source as `x` (#6798).
   
 * All major dplyr verbs now throw an informative error message if the input
   data frame contains a column named `NA` or `""` (#6758).
