@@ -189,6 +189,9 @@ join_cast_common <- function(x, y, vars, error_call = caller_env()) {
     }
   )
 
+  # Finalize unspecified columns (#6804)
+  ptype <- vec_ptype_finalise(ptype)
+
   vec_cast_common(x = x, y = y, .to = ptype, .call = error_call)
 }
 

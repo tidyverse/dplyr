@@ -164,6 +164,28 @@ test_that("takes common type", {
   expect_identical(out$y, tibble(a = 1, b = 3))
 })
 
+test_that("finalizes unspecified columns (#6804)", {
+  vars <- join_cols(x_names = "x", y_names = "x", by = join_by(x))
+
+  x <- tibble(x = NA)
+  y <- tibble(x = NA)
+  out <- join_cast_common(x, y, vars)
+  expect_identical(out$x, tibble(x = NA))
+  expect_identical(out$y, tibble(x = NA))
+
+  x <- tibble(x = NA)
+  y <- tibble(x = unspecified())
+  out <- join_cast_common(x, y, vars)
+  expect_identical(out$x, tibble(x = NA))
+  expect_identical(out$y, tibble(x = logical()))
+
+  x <- tibble(x = unspecified())
+  y <- tibble(x = unspecified())
+  out <- join_cast_common(x, y, vars)
+  expect_identical(out$x, tibble(x = logical()))
+  expect_identical(out$y, tibble(x = logical()))
+})
+
 test_that("references original column in `y` when there are type errors (#6465)", {
   x <- tibble(a = 1)
   y <- tibble(b = "1")

@@ -292,6 +292,55 @@ test_that("filtering joins compute common columns", {
   expect_snapshot(out <- semi_join(df1, df2))
 })
 
+test_that("mutating joins finalize unspecified columns (#6804)", {
+  df1 <- tibble(x = NA)
+  df2 <- tibble(x = NA)
+
+  expect_identical(
+    inner_join(df1, df2, by = join_by(x)),
+    tibble(x = NA)
+  )
+  expect_identical(
+    inner_join(df1, df2, by = join_by(x), na_matches = "never"),
+    tibble(x = logical())
+  )
+
+  # Pre-existing `unspecified()` vectors get finalized, because they are
+  # considered internal types and we took a "common type" between the keys
+  df1 <- tibble(x = unspecified())
+  df2 <- tibble(x = unspecified())
+
+  expect_identical(
+    inner_join(df1, df2, by = join_by(x)),
+    tibble(x = logical())
+  )
+})
+
+test_that("filtering joins finalize unspecified columns (#6804)", {
+  df1 <- tibble(x = NA)
+  df2 <- tibble(x = NA)
+
+  expect_identical(
+    semi_join(df1, df2, by = join_by(x)),
+    tibble(x = NA)
+  )
+  expect_identical(
+    semi_join(df1, df2, by = join_by(x), na_matches = "never"),
+    tibble(x = logical())
+  )
+
+  # Pre-existing `unspecified()` vectors aren't finalized,
+  # because we don't take the common type of the keys.
+  # We retain the exact type of `x`.
+  df1 <- tibble(x = unspecified())
+  df2 <- tibble(x = NA)
+
+  expect_identical(
+    semi_join(df1, df2, by = join_by(x)),
+    tibble(x = unspecified())
+  )
+})
+
 test_that("mutating joins reference original column in `y` when there are type errors (#6465)", {
   x <- tibble(a = 1)
   y <- tibble(b = "1")
@@ -360,6 +409,34 @@ test_that("nest_join computes common columns", {
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- tibble(x = c(1, 3), z = c(2, 3))
   expect_snapshot(out <- nest_join(df1, df2))
+})
+
+test_that("nest_join finalizes unspecified columns (#6804)", {
+  df1 <- tibble(x = NA)
+  df2 <- tibble(x = NA)
+
+  expect_identical(
+    nest_join(df1, df2, by = join_by(x)),
+    tibble(x = NA, df2 = list(tibble(.rows = 1L)))
+  )
+  expect_identical(
+    nest_join(df1, df2, by = join_by(x), keep = TRUE),
+    tibble(x = NA, df2 = list(tibble(x = NA)))
+  )
+  expect_identical(
+    nest_join(df1, df2, by = join_by(x), na_matches = "never"),
+    tibble(x = NA, df2 = list(tibble()))
+  )
+
+  # Pre-existing `unspecified()` vectors get finalized, because they are
+  # considered internal types and we took a "common type" between the keys
+  df1 <- tibble(x = unspecified())
+  df2 <- tibble(x = unspecified())
+
+  expect_identical(
+    nest_join(df1, df2, by = join_by(x)),
+    tibble(x = logical(), df2 = list())
+  )
 })
 
 test_that("nest_join references original column in `y` when there are type errors (#6465)", {
