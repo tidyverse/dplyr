@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,6 +76,9 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.1" id="dplyr-111">dplyr 1.1.1<a class="anchor" aria-label="anchor" href="#dplyr-111"></a></h2>
 <ul><li>
 <p>Mutating joins now warn about multiple matches much less often. At a high level, a warning was previously being thrown when a one-to-many or many-to-many relationship was detected between the keys of <code>x</code> and <code>y</code>, but is now only thrown for a many-to-many relationship, which is much rarer and much more dangerous than one-to-many because it can result in a Cartesian explosion in the number of rows returned from the join (<a href="https://github.com/tidyverse/dplyr/issues/6731" class="external-link">#6731</a>, <a href="https://github.com/tidyverse/dplyr/issues/6717" class="external-link">#6717</a>).</p>
 <p>We’ve accomplished this in two steps:</p>
