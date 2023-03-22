@@ -12,7 +12,7 @@ vectors and translated to the appropriate SQL for remote tables."><meta property
     
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,6 +45,7 @@ vectors and translated to the appropriate SQL for remote tables."><meta property
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-news">
     <h6 class="dropdown-header" data-toc-skip>Releases</h6>
+    <a class="external-link dropdown-item" href="https://www.tidyverse.org/tags/dplyr-1-1-0/">Version 1.1.0</a>
     <a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     <a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     <a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/">Version 0.8.2</a>
@@ -122,20 +123,20 @@ join helper.</p></div>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1e2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="fu">between</span><span class="op">(</span><span class="va">x</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  0.496786543  0.788610973  0.327939643  0.095102253  0.664095951</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] -0.864626965 -0.107118597  0.853549261 -0.812461187  0.593979747</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11]  0.686156832 -0.973352048  0.187170113  0.164175850  0.470210275</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16] -0.388739412  0.944686936 -0.314554677 -0.544363031 -0.713363693</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21]  0.048874092  0.592074856  0.651235615 -0.100209486 -0.694376334</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [26]  0.772777723 -0.233525745  0.743856201 -0.004148703  0.731551786</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31]  0.466756495 -0.039305665 -0.859256223  0.186114388  0.080753716</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [36] -0.641700817  0.232976691  0.878171721 -0.224428242 -0.666524840</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [41]  0.666186061 -0.923129198  0.581075084 -0.631087798  0.400960174</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [46] -0.225209257  0.973384949  0.589073020 -0.738191598 -0.556561229</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [51]  0.625097480  0.305428536  0.284444921 -0.906215324  0.080477571</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [56]  0.370830830 -0.330783698  0.414300906  0.340783564 -0.566565551</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [61] -0.327901416 -0.956085934 -0.536002311  0.600653831  0.345734047</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [66] -0.141477198  0.329280336 -0.925292390</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  0.54057054 -0.08286293 -0.60323008  0.15058639 -0.47112106</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6]  0.02971698  0.65285386  0.16253083 -0.03131250 -0.47316890</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11] -0.64259266  0.91233152 -0.22201034  0.76654026  0.67218648</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16]  0.46059672 -0.45414103 -0.33429181 -0.02293150 -0.06795504</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21] -0.94770633 -0.11681580  0.91635090 -0.35065754 -0.42899747</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26] -0.59190071 -0.71631015  0.48370485 -0.73979816  0.53779866</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31] -0.80307077 -0.81820515 -0.98363713 -0.11975901 -0.02517410</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36] -0.10057217 -0.47255610  0.48147376  0.26921535 -0.62493075</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [41] -0.10728361 -0.51738229 -0.97409919  0.41108414  0.94593778</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [46] -0.14557297  0.79051202 -0.15684770 -0.50682657  0.23008647</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [51] -0.83940853 -0.48354585  0.21468774  0.75184365  0.13167364</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [56]  0.07636336 -0.34812653  0.49794558  0.19882047 -0.24430489</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [61]  0.61868164 -0.13053836 -0.57550601  0.81582582 -0.69632358</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [66]  0.88857743  0.89552620  0.31387865  0.08209141  0.33065388</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># On a tibble using `filter()`</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="fu">between</span><span class="op">(</span><span class="va">height</span>, <span class="fl">100</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -159,7 +160,7 @@ join helper.</p></div>
    </div>
   <footer><div class="container">
   <div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://github.com/romainfrancois" class="external-link">Romain François</a>, <a href="https://github.com/lionel-" class="external-link">Lionel Henry</a>, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://github.com/DavisVaughan" class="external-link">Davis Vaughan</a>, Posit, PBC.</p>
+  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://github.com/romainfrancois" class="external-link">Romain François</a>, <a href="https://github.com/lionel-" class="external-link">Lionel Henry</a>, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://github.com/DavisVaughan" class="external-link">Davis Vaughan</a>, <a href="https://www.posit.co" class="external-link"><img src="https://www.tidyverse.org/posit-logo.svg" alt="Posit" height="16" style="margin-bottom: 3px;"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

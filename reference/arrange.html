@@ -20,7 +20,7 @@ once per data frame, not once per group."><meta property="og:image" content="htt
     
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,6 +53,7 @@ once per data frame, not once per group."><meta property="og:image" content="htt
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-news">
     <h6 class="dropdown-header" data-toc-skip>Releases</h6>
+    <a class="external-link dropdown-item" href="https://www.tidyverse.org/tags/dplyr-1-1-0/">Version 1.1.0</a>
     <a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     <a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     <a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/">Version 0.8.2</a>
@@ -110,8 +111,9 @@ more details.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>&lt;<code><a href="dplyr_data_masking.html">data-masking</a></code>&gt; Variables, or functions of
-variables. Use <code><a href="desc.html">desc()</a></code> to sort a variable in descending order.</p></dd>
+<dd><p>&lt;<code><a href="https://rlang.r-lib.org/reference/args_data_masking.html" class="external-link">data-masking</a></code>&gt; Variables, or
+functions of variables. Use <code><a href="desc.html">desc()</a></code> to sort a variable in descending
+order.</p></dd>
 
 
 <dt>.by_group</dt>
@@ -288,7 +290,7 @@ dplyr (<code>data.frame</code>)
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 22 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># use embracing when wrapping in a function;</span></span></span>
-<span class="r-in"><span><span class="co"># see ?dplyr_data_masking for more details</span></span></span>
+<span class="r-in"><span><span class="co"># see ?rlang::args_data_masking for more details</span></span></span>
 <span class="r-in"><span><span class="va">tidy_eval_arrange</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.data</span>, <span class="va">var</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="va">.data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>    <span class="fu">arrange</span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span></span></span>
@@ -642,7 +644,7 @@ dplyr (<code>data.frame</code>)
    </div>
   <footer><div class="container">
   <div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://github.com/romainfrancois" class="external-link">Romain François</a>, <a href="https://github.com/lionel-" class="external-link">Lionel Henry</a>, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://github.com/DavisVaughan" class="external-link">Davis Vaughan</a>, Posit, PBC.</p>
+  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://github.com/romainfrancois" class="external-link">Romain François</a>, <a href="https://github.com/lionel-" class="external-link">Lionel Henry</a>, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://github.com/DavisVaughan" class="external-link">Davis Vaughan</a>, <a href="https://www.posit.co" class="external-link"><img src="https://www.tidyverse.org/posit-logo.svg" alt="Posit" height="16" style="margin-bottom: 3px;"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

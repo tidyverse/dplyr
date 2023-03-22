@@ -32,7 +32,7 @@ each group."><meta property="og:image" content="https://dplyr.tidyverse.org/logo
     
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,6 +65,7 @@ each group."><meta property="og:image" content="https://dplyr.tidyverse.org/logo
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-news">
     <h6 class="dropdown-header" data-toc-skip>Releases</h6>
+    <a class="external-link dropdown-item" href="https://www.tidyverse.org/tags/dplyr-1-1-0/">Version 1.1.0</a>
     <a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     <a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     <a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/">Version 0.8.2</a>
@@ -150,8 +151,8 @@ more details.</p></dd>
 
 
 <dt>...</dt>
-<dd><p>For <code>slice()</code>: &lt;<code><a href="dplyr_data_masking.html">data-masking</a></code>&gt; Integer row
-values.</p>
+<dd><p>For <code>slice()</code>: &lt;<code><a href="https://rlang.r-lib.org/reference/args_data_masking.html" class="external-link">data-masking</a></code>&gt;
+Integer row values.</p>
 <p>Provide either positive values to keep, or negative values to drop.
 The values provided must be either all positive or all negative.
 Indices beyond the number of rows in the input are silently ignored.</p>
@@ -184,9 +185,9 @@ rows; <code>prop = -0.25</code> with 8 rows will select 8 * (1 - 0.25) = 6 rows.
 
 
 <dt>order_by</dt>
-<dd><p>&lt;<code><a href="dplyr_data_masking.html">data-masking</a></code>&gt; Variable or function
-of variables to order by. To order by multiple variables, wrap them in a
-data frame or tibble.</p></dd>
+<dd><p>&lt;<code><a href="https://rlang.r-lib.org/reference/args_data_masking.html" class="external-link">data-masking</a></code>&gt; Variable or
+function of variables to order by. To order by multiple variables, wrap
+them in a data frame or tibble.</p></dd>
 
 
 <dt>with_ties</dt>
@@ -203,9 +204,9 @@ reach <code>n</code>/<code>prop</code>.</p></dd>
 
 
 <dt>weight_by</dt>
-<dd><p>&lt;<code><a href="dplyr_data_masking.html">data-masking</a></code>&gt; Sampling weights.
-This must evaluate to a vector of non-negative numbers the same length as
-the input. Weights are automatically standardised to sum to 1.</p></dd>
+<dd><p>&lt;<code><a href="https://rlang.r-lib.org/reference/args_data_masking.html" class="external-link">data-masking</a></code>&gt; Sampling
+weights. This must evaluate to a vector of non-negative numbers the same
+length as the input. Weights are automatically standardised to sum to 1.</p></dd>
 
 
 <dt>replace</dt>
@@ -392,29 +393,29 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-in"><span><span class="co"># slice_sample() allows you to random select with or without replacement</span></span></span>
 <span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">slice_sample</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL        17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag     21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Hornet Sportabout 18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E        21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird  19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin       15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Duster 360        14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Datsun 710        22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa      30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Chrysler Imperial 14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4</span>
 <span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">slice_sample</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Pontiac Firebird 19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4        21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa...3 30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa...4 30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AMC Javelin      15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SE    16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 240D     24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Honda Civic   30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Fiat X1-9     27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Porsche 914-2 26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># you can optionally weight by a variable - this code weights by the</span></span></span>
 <span class="r-in"><span><span class="co"># physical weight of the cars, so heavy cars are more likely to get</span></span></span>
 <span class="r-in"><span><span class="co"># selected</span></span></span>
 <span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">slice_sample</span><span class="op">(</span>weight_by <span class="op">=</span> <span class="va">wt</span>, n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                     mpg cyl  disp  hp drat   wt  qsec vs am gear carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cadillac Fleetwood 10.4   8 472.0 205 2.93 5.25 17.98  0  0    3    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger   15.5   8 318.0 150 2.76 3.52 16.87  0  0    3    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C          17.8   6 167.6 123 3.92 3.44 18.90  1  0    4    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Camaro Z28         13.3   8 350.0 245 3.73 3.84 15.41  0  0    3    4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 230           22.8   4 140.8  95 3.92 3.15 22.90  1  0    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Group wise operation ----------------------------------------</span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
@@ -429,11 +430,11 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   group [3]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   group     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> a     0.710</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> b     0.158</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> b     0.198</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> c     0.570</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> c     0.838</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> a     0.233</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> b     0.855</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> b     0.804</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> c     0.919</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> c     0.646</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># When specifying the proportion of rows to include non-integer sizes</span></span></span>
 <span class="r-in"><span><span class="co"># are rounded down, so group a gets 0 rows</span></span></span>
@@ -442,9 +443,9 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   group [2]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   group     x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> b     0.158</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> c     0.570</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> c     0.838</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> b     0.855</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> c     0.919</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> c     0.646</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Filter equivalents --------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># slice() expressions can often be written to use `filter()` and</span></span></span>
@@ -495,7 +496,7 @@ individual methods for extra arguments and differences in behaviour.</p>
    </div>
   <footer><div class="container">
   <div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://github.com/romainfrancois" class="external-link">Romain François</a>, <a href="https://github.com/lionel-" class="external-link">Lionel Henry</a>, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://github.com/DavisVaughan" class="external-link">Davis Vaughan</a>, Posit, PBC.</p>
+  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://github.com/romainfrancois" class="external-link">Romain François</a>, <a href="https://github.com/lionel-" class="external-link">Lionel Henry</a>, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://github.com/DavisVaughan" class="external-link">Davis Vaughan</a>, <a href="https://www.posit.co" class="external-link"><img src="https://www.tidyverse.org/posit-logo.svg" alt="Posit" height="16" style="margin-bottom: 3px;"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

@@ -28,7 +28,7 @@ With across(), you typically apply a function to each column.
     
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,6 +61,7 @@ With across(), you typically apply a function to each column.
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-news">
     <h6 class="dropdown-header" data-toc-skip>Releases</h6>
+    <a class="external-link dropdown-item" href="https://www.tidyverse.org/tags/dplyr-1-1-0/">Version 1.1.0</a>
     <a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     <a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     <a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/">Version 0.8.2</a>
@@ -95,7 +96,7 @@ With across(), you typically apply a function to each column.
     <div class="ref-description section level2">
     <p><code>pick()</code> provides a way to easily select a subset of columns from your data
 using <code><a href="select.html">select()</a></code> semantics while inside a
-<a href="dplyr_data_masking.html">"data-masking"</a> function like <code><a href="mutate.html">mutate()</a></code> or
+<a href="https://rlang.r-lib.org/reference/args_data_masking.html" class="external-link">"data-masking"</a> function like <code><a href="mutate.html">mutate()</a></code> or
 <code><a href="summarise.html">summarise()</a></code>. <code>pick()</code> returns a data frame containing the selected columns
 for the current group.</p>
 <p><code>pick()</code> is complementary to <code><a href="across.html">across()</a></code>:</p><ul><li><p>With <code>pick()</code>, you typically apply a function to the full data frame.</p></li>
@@ -127,7 +128,12 @@ handled by the verb (i.e. <code><a href="summarise.html">summarise()</a></code> 
     <p>Theoretically, <code>pick()</code> is intended to be replaceable with an equivalent call
 to <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble()</a></code>. For example, <code>pick(a, c)</code> could be replaced with
 <code>tibble(a = a, c = c)</code>, and <code>pick(everything())</code> on a data frame with cols
-<code>a</code>, <code>b</code>, and <code>c</code> could be replaced with <code>tibble(a = a, b = b, c = c)</code>.</p>
+<code>a</code>, <code>b</code>, and <code>c</code> could be replaced with <code>tibble(a = a, b = b, c = c)</code>.
+<code>pick()</code> specially handles the case of an empty selection by returning a 1
+row, 0 column tibble, so an exact replacement is more like:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>size <span class="ot">&lt;-</span> vctrs<span class="sc">::</span><span class="fu">vec_size_common</span>(..., <span class="at">.absent =</span> 1L)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> vctrs<span class="sc">::</span><span class="fu">vec_recycle_common</span>(..., <span class="at">.size =</span> size)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">new_tibble</span>(out, <span class="at">nrow =</span> size)</span></code></pre><p></p></div>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -214,7 +220,7 @@ to <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="ext
    </div>
   <footer><div class="container">
   <div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://github.com/romainfrancois" class="external-link">Romain François</a>, <a href="https://github.com/lionel-" class="external-link">Lionel Henry</a>, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://github.com/DavisVaughan" class="external-link">Davis Vaughan</a>, Posit, PBC.</p>
+  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://github.com/romainfrancois" class="external-link">Romain François</a>, <a href="https://github.com/lionel-" class="external-link">Lionel Henry</a>, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://github.com/DavisVaughan" class="external-link">Davis Vaughan</a>, <a href="https://www.posit.co" class="external-link"><img src="https://www.tidyverse.org/posit-logo.svg" alt="Posit" height="16" style="margin-bottom: 3px;"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

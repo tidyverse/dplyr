@@ -37,7 +37,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,6 +71,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-news">
     <h6 class="dropdown-header" data-toc-skip>Releases</h6>
+    <a class="external-link dropdown-item" href="https://www.tidyverse.org/tags/dplyr-1-1-0/">Version 1.1.0</a>
     <a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     <a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     <a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/">Version 0.8.2</a>
@@ -337,10 +338,11 @@ matching observations:</p>
 <span></span>
 <span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Joining with `by = join_by(x)`</span></span>
-<span><span class="co">#&gt; Warning in left_join(., df2): Each row in `x` is expected to match at most 1 row in `y`.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Row 1 of `x` matches multiple rows.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> If multiple matches are expected, set `multiple = "all"` to silence</span></span>
-<span><span class="co">#&gt;   this warning.</span></span>
+<span><span class="co">#&gt; Warning in left_join(., df2): Detected an unexpected many-to-many relationship between `x` and `y`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Row 1 of `x` matches multiple rows in `y`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Row 1 of `y` matches multiple rows in `x`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> If a many-to-many relationship is expected, set `relationship =</span></span>
+<span><span class="co">#&gt;   "many-to-many"` to silence this warning.</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 3</span></span></span>
 <span><span class="co">#&gt;       x     y z    </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
@@ -394,10 +396,11 @@ they only ever remove observations.</p>
 <span><span class="co">#&gt; [1] 4</span></span>
 <span><span class="co"># And we get four rows after the join</span></span>
 <span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">df2</span>, by <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in inner_join(., df2, by = "x"): Each row in `x` is expected to match at most 1 row in `y`.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Row 1 of `x` matches multiple rows.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> If multiple matches are expected, set `multiple = "all"` to silence</span></span>
-<span><span class="co">#&gt;   this warning.</span></span>
+<span><span class="co">#&gt; Warning in inner_join(., df2, by = "x"): Detected an unexpected many-to-many relationship between `x` and `y`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Row 1 of `x` matches multiple rows in `y`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Row 1 of `y` matches multiple rows in `x`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> If a many-to-many relationship is expected, set `relationship =</span></span>
+<span><span class="co">#&gt;   "many-to-many"` to silence this warning.</span></span>
 <span><span class="co">#&gt; [1] 4</span></span>
 <span><span class="co"># But only two rows actually match</span></span>
 <span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/filter-joins.html">semi_join</a></span><span class="op">(</span><span class="va">df2</span>, by <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -481,7 +484,7 @@ tables as you need.</p>
   <footer><div class="container">
   <div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://github.com/romainfrancois" class="external-link">Romain François</a>, <a href="https://github.com/lionel-" class="external-link">Lionel Henry</a>, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://github.com/DavisVaughan" class="external-link">Davis Vaughan</a>, Posit, PBC.</p>
+<p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://github.com/romainfrancois" class="external-link">Romain François</a>, <a href="https://github.com/lionel-" class="external-link">Lionel Henry</a>, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://github.com/DavisVaughan" class="external-link">Davis Vaughan</a>, <a href="https://www.posit.co" class="external-link"><img src="https://www.tidyverse.org/posit-logo.svg" alt="Posit" height="16" style="margin-bottom: 3px;"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

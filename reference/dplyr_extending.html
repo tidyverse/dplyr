@@ -26,7 +26,7 @@ implement them will find a home in what comes next."><meta property="og:image" c
     
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,6 +59,7 @@ implement them will find a home in what comes next."><meta property="og:image" c
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-news">
     <h6 class="dropdown-header" data-toc-skip>Releases</h6>
+    <a class="external-link dropdown-item" href="https://www.tidyverse.org/tags/dplyr-1-1-0/">Version 1.1.0</a>
     <a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a>
     <a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a>
     <a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/">Version 0.8.2</a>
@@ -115,20 +116,20 @@ implement them will find a home in what comes next.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data</dt>
 <dd><p>A tibble. We use tibbles because they avoid some inconsistent
-subset-assignment use cases</p></dd>
+subset-assignment use cases.</p></dd>
 
 
 <dt>i</dt>
-<dd><p>A numeric or logical vector that indexes the rows of <code>.data</code>.</p></dd>
+<dd><p>A numeric or logical vector that indexes the rows of <code>data</code>.</p></dd>
 
 
 <dt>cols</dt>
-<dd><p>A named list used modify columns. A <code>NULL</code> value should remove
+<dd><p>A named list used to modify columns. A <code>NULL</code> value should remove
 an existing column.</p></dd>
 
 
 <dt>template</dt>
-<dd><p>Template to use for restoring attributes</p></dd>
+<dd><p>Template data frame to use for restoring attributes.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -136,7 +137,11 @@ an existing column.</p></dd>
     <p>This section gives you basic advice if you want to extend dplyr to work with
 your custom data frame subclass, and you want the dplyr methods to behave
 in basically the same way.</p><ul><li><p>If you have data frame attributes that don't depend on the rows or columns
-(and should unconditionally be preserved), you don't need to do anything.</p></li>
+(and should unconditionally be preserved), you don't need to do anything.
+The one exception to this is if your subclass extends a data.frame
+directly rather than extending a tibble. The <code>[.data.frame</code> method does not
+preserve attributes, so you'll need to write a <code>[</code> method for your subclass
+that preserves attributes important for your class.</p></li>
 <li><p>If you have <strong>scalar</strong> attributes that depend on <strong>rows</strong>, implement a
 <code>dplyr_reconstruct()</code> method. Your method should recompute the attribute
 depending on rows now present.</p></li>
@@ -161,25 +166,32 @@ methods as needed.</p></li>
     <div class="section level2">
     <h2 id="current-usage">Current usage<a class="anchor" aria-label="anchor" href="#current-usage"></a></h2>
     
-<ul><li><p><code><a href="arrange.html">arrange()</a></code>, <code><a href="filter.html">filter()</a></code>, <code><a href="slice.html">slice()</a></code>, <code><a href="filter-joins.html">semi_join()</a></code>, and <code><a href="filter-joins.html">anti_join()</a></code>
-work by generating a vector of row indices, and then subsetting
-with <code>dplyr_row_slice()</code>.</p></li>
+<ul><li><p><code><a href="arrange.html">arrange()</a></code>, <code><a href="filter.html">filter()</a></code>, <code><a href="slice.html">slice()</a></code> (and the rest of the <code>slice_*()</code>
+family), <code><a href="filter-joins.html">semi_join()</a></code>, and <code><a href="filter-joins.html">anti_join()</a></code> work by generating a vector of
+row indices, and then subsetting with <code>dplyr_row_slice()</code>.</p></li>
 <li><p><code><a href="mutate.html">mutate()</a></code> generates a list of new column value (using <code>NULL</code> to indicate
-when columns should be deleted), then passes that to <code>dplyr_col_modify()</code>.</p></li>
-<li><p><code><a href="summarise.html">summarise()</a></code> works similarly to <code><a href="mutate.html">mutate()</a></code> but the data modified by
-<code>dplyr_col_modify()</code> comes from <code><a href="group_data.html">group_data()</a></code>.</p></li>
+when columns should be deleted), then passes that to <code>dplyr_col_modify()</code>.
+It also uses 1d <code>[</code> to implement <code>.keep</code>, and will call <code><a href="relocate.html">relocate()</a></code> if
+either <code>.before</code> or <code>.after</code> are supplied.</p></li>
+<li><p><code><a href="summarise.html">summarise()</a></code> and <code><a href="reframe.html">reframe()</a></code> work similarly to <code><a href="mutate.html">mutate()</a></code> but the data
+modified by <code>dplyr_col_modify()</code> comes from <code><a href="group_data.html">group_data()</a></code> or is built
+from <code>.by</code>.</p></li>
 <li><p><code><a href="select.html">select()</a></code> uses 1d <code>[</code> to select columns, then <code>names&lt;-</code> to rename them.
 <code><a href="rename.html">rename()</a></code> just uses <code>names&lt;-</code>. <code><a href="relocate.html">relocate()</a></code> just uses 1d <code>[</code>.</p></li>
 <li><p><code><a href="mutate-joins.html">inner_join()</a></code>, <code><a href="mutate-joins.html">left_join()</a></code>, <code><a href="mutate-joins.html">right_join()</a></code>, and <code><a href="mutate-joins.html">full_join()</a></code>
-coerces <code>x</code> to a tibble, modify the rows, then uses <code>dplyr_reconstruct()</code>
+coerce <code>x</code> to a tibble, modify the rows, then use <code>dplyr_reconstruct()</code>
 to convert back to the same type as <code>x</code>.</p></li>
-<li><p><code><a href="nest_join.html">nest_join()</a></code> uses <code>dplyr_col_modify()</code> to cast the key variables to
-common type and add the nested-df that <code>y</code> becomes.</p></li>
+<li><p><code><a href="nest_join.html">nest_join()</a></code> converts both <code>x</code> and <code>y</code> to tibbles, modifies the rows,
+and uses <code>dplyr_col_modify()</code> to handle modified key variables and the
+list-column that <code>y</code> becomes. It also uses <code>dplyr_reconstruct()</code> to convert
+the outer result back to the type of <code>x</code>, and to convert the nested tibbles
+back to the type of <code>y</code>.</p></li>
 <li><p><code><a href="distinct.html">distinct()</a></code> does a <code><a href="mutate.html">mutate()</a></code> if any expressions are present, then
 uses 1d <code>[</code> to select variables to keep, then <code>dplyr_row_slice()</code> to
 select distinct rows.</p></li>
-</ul><p>Note that <code><a href="group_by.html">group_by()</a></code> and <code><a href="group_by.html">ungroup()</a></code> don't use any these generics and
-you'll need to provide methods directly.</p>
+</ul><p>Note that <code><a href="group_by.html">group_by()</a></code> and <code><a href="group_by.html">ungroup()</a></code> don't use any of these generics and
+you'll need to provide methods for them directly, or rely on <code>.by</code> for
+per-operation grouping.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -189,7 +201,7 @@ you'll need to provide methods directly.</p>
    </div>
   <footer><div class="container">
   <div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://github.com/romainfrancois" class="external-link">Romain François</a>, <a href="https://github.com/lionel-" class="external-link">Lionel Henry</a>, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://github.com/DavisVaughan" class="external-link">Davis Vaughan</a>, Posit, PBC.</p>
+  <p></p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://github.com/romainfrancois" class="external-link">Romain François</a>, <a href="https://github.com/lionel-" class="external-link">Lionel Henry</a>, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://github.com/DavisVaughan" class="external-link">Davis Vaughan</a>, <a href="https://www.posit.co" class="external-link"><img src="https://www.tidyverse.org/posit-logo.svg" alt="Posit" height="16" style="margin-bottom: 3px;"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
