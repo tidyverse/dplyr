@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* Joins better handle key columns will all `NA`s (#6804).
+
 # dplyr 1.1.1
 
 * Mutating joins now warn about multiple matches much less often. At a high
