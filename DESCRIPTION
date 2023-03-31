@@ -28,7 +28,7 @@ Imports:
     lifecycle (>= 1.0.3),
     magrittr (>= 1.5),
     methods,
-    pillar (>= 1.5.1),
+    pillar (>= 1.9.0),
     R6,
     rlang (>= 1.1.0),
     tibble (>= 3.2.0),
