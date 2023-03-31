@@ -144,7 +144,7 @@
     Output
       # A tibble: 0 x 2
       # Groups:   x [0]
-      # ... with 2 variables: x <dbl>, y <dbl>
+      # i 2 variables: x <dbl>, y <dbl>
 
 # mutate() give meaningful errors
 
