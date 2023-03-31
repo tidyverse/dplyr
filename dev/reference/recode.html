@@ -188,19 +188,19 @@ in <code>...</code>. The levels in <code>.default</code> and <code>.missing</cod
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># `recode()` is superseded by `case_match()`</span></span></span>
 <span class="r-in"><span><span class="fu">recode</span><span class="op">(</span><span class="va">char_vec</span>, a <span class="op">=</span> <span class="st">"Apple"</span>, b <span class="op">=</span> <span class="st">"Banana"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Banana" "Banana" "Apple"  "Banana" "c"      "Banana" "Banana"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "Apple"  "Banana" "Banana"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Banana" "c"      "c"      "c"      "c"      "c"      "Apple" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "Apple"  "Banana" "Apple" </span>
 <span class="r-in"><span><span class="fu"><a href="case_match.html">case_match</a></span><span class="op">(</span><span class="va">char_vec</span>, <span class="st">"a"</span> <span class="op">~</span> <span class="st">"Apple"</span>, <span class="st">"b"</span> <span class="op">~</span> <span class="st">"Banana"</span>, .default <span class="op">=</span> <span class="va">char_vec</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Banana" "Banana" "Apple"  "Banana" "c"      "Banana" "Banana"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "Apple"  "Banana" "Banana"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Banana" "c"      "c"      "c"      "c"      "c"      "Apple" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "Apple"  "Banana" "Apple" </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># With `case_match()`, you don't need typed missings like `NA_character_`</span></span></span>
 <span class="r-in"><span><span class="fu">recode</span><span class="op">(</span><span class="va">char_vec</span>, a <span class="op">=</span> <span class="st">"Apple"</span>, b <span class="op">=</span> <span class="st">"Banana"</span>, .default <span class="op">=</span> <span class="cn">NA_character_</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Banana" "Banana" "Apple"  "Banana" NA       "Banana" "Banana"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "Apple"  "Banana" "Banana"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Banana" NA       NA       NA       NA       NA       "Apple" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "Apple"  "Banana" "Apple" </span>
 <span class="r-in"><span><span class="fu"><a href="case_match.html">case_match</a></span><span class="op">(</span><span class="va">char_vec</span>, <span class="st">"a"</span> <span class="op">~</span> <span class="st">"Apple"</span>, <span class="st">"b"</span> <span class="op">~</span> <span class="st">"Banana"</span>, .default <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Banana" "Banana" "Apple"  "Banana" NA       "Banana" "Banana"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "Apple"  "Banana" "Banana"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Banana" NA       NA       NA       NA       NA       "Apple" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "Apple"  "Banana" "Apple" </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Throws an error as `NA` is logical, not character.</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">recode</span><span class="op">(</span><span class="va">char_vec</span>, a <span class="op">=</span> <span class="st">"Apple"</span>, b <span class="op">=</span> <span class="st">"Banana"</span>, .default <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span></span>
