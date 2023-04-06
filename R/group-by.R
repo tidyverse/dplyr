@@ -156,7 +156,7 @@ ungroup <- function(x, ...) {
 #' @export
 ungroup.grouped_df <- function(x, ...) {
   if (missing(...)) {
-    as_tibble(x)
+    new_tibble(x, groups = NULL)
   } else {
     old_groups <- group_vars(x)
     to_remove <- tidyselect::eval_select(
@@ -174,7 +174,7 @@ ungroup.grouped_df <- function(x, ...) {
 #' @export
 ungroup.rowwise_df <- function(x, ...) {
   check_dots_empty()
-  as_tibble(x)
+  new_tibble(x, groups = NULL)
 }
 
 #' @export
