@@ -185,7 +185,7 @@ test_that("combine works with NA and complex (#2203)", {
   expect_equal(works1, expected_result)
 
   # NA length == 1
-  expected_result <- c(1, 2, NA, 4) + 1i
+  expected_result <- c(1 + 1i, 2 + 1i, NA, 4 + 1i)
 
   expect_equal(combine(as.list(expected_result)), expected_result)
 
@@ -193,7 +193,7 @@ test_that("combine works with NA and complex (#2203)", {
   expect_equal(works2, expected_result)
 
   # NA length > 1
-  expected_result <- c(1, 2, NA, NA, 4) + 1i
+  expected_result <- c(1 + 1i, 2 + 1i, NA, NA, 4 + 1i)
   expect_equal(
     combine(split(expected_result, c(1, 2, 3, 3, 4))),
     expected_result
