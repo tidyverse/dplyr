@@ -121,11 +121,11 @@ rf %>%
 The `rowwise()` approach will work for any summary function. But if you need greater speed, it's worth looking for a built-in row-wise variant of your summary function. These are more efficient because they operate on the data frame as whole; they don't split it into rows, compute the summary, and then join the results back together again.
 
 ```{r}
-df %>% mutate(total = rowSums(pick(where(is.numeric))))
-df %>% mutate(mean = rowMeans(pick(where(is.numeric))))
+df %>% mutate(total = rowSums(pick(where(is.numeric), -id)))
+df %>% mutate(mean = rowMeans(pick(where(is.numeric), -id)))
 ```
 
-**NB**: I use `df` (not `rf`) and `pick()` (not `c_across()`) here because `rowMeans()` and `rowSums()` take a multi-row data frame as input.
+**NB**: I use `df` (not `rf`) and `pick()` (not `c_across()`) here because `rowMeans()` and `rowSums()` take a multi-row data frame as input. Also note that `-id` is needed to avoid selecting `id` in `pick()`. This wasn't required with the rowwise data frame because we had specified `id` as an identifier in our original call to `rowwise()`, preventing it from being selected as a grouping column.
 
 ```{r, eval = FALSE, include = FALSE}
 bench::mark(
