@@ -303,28 +303,32 @@ efficient because they operate on the data frame as whole; they don’t
 split it into rows, compute the summary, and then join the results back
 together again.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="fu"><a href="../reference/pick.html">pick</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/where.html" class="external-link">where</a></span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="fu"><a href="../reference/pick.html">pick</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/where.html" class="external-link">where</a></span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="op">-</span><span class="va">id</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
 <span><span class="co">#&gt;      id     w     x     y     z total</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1    10    20    30    40   101</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2    11    21    31    41   106</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    12    22    32    42   111</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4    13    23    33    43   116</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1    10    20    30    40   100</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2    11    21    31    41   104</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    12    22    32    42   108</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4    13    23    33    43   112</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more rows</span></span></span>
-<span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="../reference/pick.html">pick</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/where.html" class="external-link">where</a></span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="../reference/pick.html">pick</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/where.html" class="external-link">where</a></span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span>, <span class="op">-</span><span class="va">id</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
 <span><span class="co">#&gt;      id     w     x     y     z  mean</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1    10    20    30    40  20.2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2    11    21    31    41  21.2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    12    22    32    42  22.2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4    13    23    33    43  23.2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1    10    20    30    40    25</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2    11    21    31    41    26</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    12    22    32    42    27</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4    13    23    33    43    28</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more rows</span></span></span></code></pre></div>
 <p><strong>NB</strong>: I use <code>df</code> (not <code>rf</code>) and
 <code><a href="../reference/pick.html">pick()</a></code> (not <code><a href="../reference/c_across.html">c_across()</a></code>) here because
 <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans()</a></code> and <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums()</a></code> take a multi-row data
-frame as input.</p>
+frame as input. Also note that <code>-id</code> is needed to avoid
+selecting <code>id</code> in <code><a href="../reference/pick.html">pick()</a></code>. This wasn’t required
+with the rowwise data frame because we had specified <code>id</code> as
+an identifier in our original call to <code><a href="../reference/rowwise.html">rowwise()</a></code>, preventing
+it from being selected as a grouping column.</p>
 </div>
 </div>
 <div class="section level2">
