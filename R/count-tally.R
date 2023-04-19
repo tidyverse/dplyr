@@ -27,9 +27,14 @@
 #'   If omitted, it will default to `n`. If there's already a column called `n`,
 #'   it will use `nn`. If there's a column called `n` and `nn`, it'll use
 #'   `nnn`, and so on, adding `n`s until it gets a new name.
-#' @param .drop For `count()`: if `FALSE` will include counts for empty groups
-#'   (i.e. for levels of factors that don't exist in the data). Deprecated in
-#'   `add_count()` since it didn't actually affect the output.
+#' @param .drop Handling of factor levels that don't appear in the data, passed
+#'   on to [group_by()].
+#'
+#'   For `count()`: if `FALSE` will include counts for empty groups (i.e. for
+#'   levels of factors that don't exist in the data).
+#'
+#'  `r lifecycle::badge("deprecated")` For `add_count()`: deprecated since it
+#'  can't actually affect the output.
 #' @return
 #' An object of the same type as `.data`. `count()` and `add_count()`
 #' group transiently, so the output has the same groups as the input.
@@ -55,6 +60,18 @@
 #' # counts runs:
 #' df %>% count(gender, wt = runs)
 #'
+#' # When factors are involved, `.drop = FALSE` can be used to retain factor
+#' # levels that don't appear in the data
+#' df2 <- tibble(
+#'   id = 1:5,
+#'   type = factor(c("a", "c", "a", NA, "a"), levels = c("a", "b", "c"))
+#' )
+#' df2 %>% count(type)
+#' df2 %>% count(type, .drop = FALSE)
+#'
+#' # Or, using `group_by()`:
+#' df2 %>% group_by(type, .drop = FALSE) %>% count()
+#'
 #' # tally() is a lower-level function that assumes you've done the grouping
 #' starwars %>% tally()
 #' starwars %>% group_by(species) %>% tally()
@@ -68,6 +85,7 @@ count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
 }
 
 #' @export
+#' @rdname count
 count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
   dplyr_local_error_call()
 
