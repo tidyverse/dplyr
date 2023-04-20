@@ -1,3 +1,5 @@
+# dplyr (development version)
+
 # dplyr 1.1.2
 
 * `count()` better documents that it has a `.drop` argument (#6820).
