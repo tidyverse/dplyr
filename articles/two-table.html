@@ -37,7 +37,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -159,7 +159,7 @@ names to the flight data:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    MIA   N619AA  AA      American Airlines …</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    BQN   N804JB  B6      JetBlue Airways    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">2</span>013     1     1     6 LGA    ATL   N668DN  DL      Delta Air Lines In…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 336,771 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 336,771 more rows</span></span></span></code></pre></div>
 <div class="section level3">
 <h3 id="controlling-how-the-tables-are-matched">Controlling how the tables are matched<a class="anchor" aria-label="anchor" href="#controlling-how-the-tables-are-matched"></a>
 </h3>
@@ -184,9 +184,9 @@ year, month, day, hour and origin.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    MIA   N619AA  AA       39.0  27.0  61.6</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    BQN   N804JB  B6       39.0  27.0  61.6</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">2</span>013     1     1     6 LGA    ATL   N668DN  DL       39.9  25.0  54.8</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 336,771 more rows, and 7 more variables: wind_dir &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   wind_speed &lt;dbl&gt;, wind_gust &lt;dbl&gt;, precip &lt;dbl&gt;, pressure &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   visib &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 336,771 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 7 more variables: wind_dir &lt;dbl&gt;, wind_speed &lt;dbl&gt;, wind_gust &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   precip &lt;dbl&gt;, pressure &lt;dbl&gt;, visib &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></span></span></code></pre></div>
 </li>
 <li>
 <p>A character vector, <code>by = "x"</code>. Like a natural join,
@@ -204,8 +204,9 @@ columns, but they mean different things so we only want to join by
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>   <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    MIA   N619AA  AA        <span style="text-decoration: underline;">1</span>990 Fixed wing…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>   <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    BQN   N804JB  B6        <span style="text-decoration: underline;">2</span>012 Fixed wing…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>   <span style="text-decoration: underline;">2</span>013     1     1     6 LGA    ATL   N668DN  DL        <span style="text-decoration: underline;">1</span>991 Fixed wing…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 336,771 more rows, and 6 more variables: manufacturer &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   model &lt;chr&gt;, engines &lt;int&gt;, seats &lt;int&gt;, speed &lt;int&gt;, engine &lt;chr&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 336,771 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: manufacturer &lt;chr&gt;, model &lt;chr&gt;, engines &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   seats &lt;int&gt;, speed &lt;int&gt;, engine &lt;chr&gt;</span></span></span></code></pre></div>
 <p>Note that the year columns in the output are disambiguated with a
 suffix.</p>
 </li>
@@ -226,8 +227,8 @@ need to specify which one we want to join to:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    MIA   N619AA  AA      Miami …  25.8 -<span style="color: #BB0000;">80.3</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    BQN   N804JB  B6      <span style="color: #BB0000;">NA</span>       <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">2</span>013     1     1     6 LGA    ATL   N668DN  DL      Hartsf…  33.6 -<span style="color: #BB0000;">84.4</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 336,771 more rows, and 4 more variables: alt &lt;dbl&gt;, tz &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   dst &lt;chr&gt;, tzone &lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 336,771 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: alt &lt;dbl&gt;, tz &lt;dbl&gt;, dst &lt;chr&gt;, tzone &lt;chr&gt;</span></span></span>
 <span><span class="va">flights2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">airports</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"origin"</span> <span class="op">=</span> <span class="st">"faa"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 336,776 × 15</span></span></span>
 <span><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier name      lat   lon</span></span>
@@ -237,8 +238,8 @@ need to specify which one we want to join to:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    MIA   N619AA  AA      John F…  40.6 -<span style="color: #BB0000;">73.8</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">2</span>013     1     1     5 JFK    BQN   N804JB  B6      John F…  40.6 -<span style="color: #BB0000;">73.8</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">2</span>013     1     1     6 LGA    ATL   N668DN  DL      La Gua…  40.8 -<span style="color: #BB0000;">73.9</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 336,771 more rows, and 4 more variables: alt &lt;dbl&gt;, tz &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   dst &lt;chr&gt;, tzone &lt;chr&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 336,771 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: alt &lt;dbl&gt;, tz &lt;dbl&gt;, dst &lt;chr&gt;, tzone &lt;chr&gt;</span></span></span></code></pre></div>
 </li>
 </ul>
 </div>
@@ -382,7 +383,7 @@ matching tail number in the planes table:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> N722MQ    513</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> N723MQ    507</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> N713MQ    483</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 717 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 717 more rows</span></span></span></code></pre></div>
 <p>If you’re worried about what observations your joins will match,
 start with a <code><a href="../reference/filter-joins.html">semi_join()</a></code> or <code><a href="../reference/filter-joins.html">anti_join()</a></code>.
 <code><a href="../reference/filter-joins.html">semi_join()</a></code> and <code><a href="../reference/filter-joins.html">anti_join()</a></code> never duplicate;

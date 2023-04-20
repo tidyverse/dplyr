@@ -37,7 +37,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -176,7 +176,7 @@ later.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Gungan       1      1         1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Human        2      2        16</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Kaminoan     2      2         1</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more rows</span></span></span>
 <span></span>
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -189,7 +189,7 @@ later.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Corellia    175   78.5       25  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Coruscant   174.  50         91  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Kamino      208.  83.1       31.5</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more rows</span></span></span></code></pre></div>
 <p>Because <code><a href="../reference/across.html">across()</a></code> is usually used in combination with
 <code><a href="../reference/summarise.html">summarise()</a></code> and <code><a href="../reference/mutate.html">mutate()</a></code>, it doesn’t select
 grouping variables in order to avoid accidentally modifying them:</p>
@@ -382,7 +382,7 @@ returns a data frame containing the selected columns.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #BB0000;">NA</span>         gold        yellow   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> <span style="color: #BB0000;">NA</span>         white, blue red      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> none       white       yellow   </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 63 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 63 more rows</span></span></span></code></pre></div>
 </li>
 <li>
 <p>Count all combinations of variables with a given pattern:</p>
@@ -395,7 +395,7 @@ returns a data frame containing the selected columns.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> brown      fair       blue          4</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> none       grey       black         4</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> black      dark       brown         3</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 63 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 63 more rows</span></span></span></code></pre></div>
 </li>
 </ul>
 <p><code><a href="../reference/across.html">across()</a></code> doesn’t work with <code><a href="../reference/select.html">select()</a></code> or
@@ -418,15 +418,15 @@ because we need an extra step to combine the results. To that end,
 <code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">if_any</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 14</span></span></span>
-<span><span class="co">#&gt;   name   height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Luke …    172    77 blond   fair    blue       19   male  mascu… Tatooi…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> C-3PO     167    75 <span style="color: #BB0000;">NA</span>      gold    yellow    112   none  mascu… Tatooi…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> R2-D2      96    32 <span style="color: #BB0000;">NA</span>      white,… red        33   none  mascu… Naboo  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Darth…    202   136 none    white   yellow     41.9 male  mascu… Tatooi…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   name       height  mass hair_color skin_color eye_color birth_year sex  </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Luke Skyw…    172    77 blond      fair       blue            19   male </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> C-3PO         167    75 <span style="color: #BB0000;">NA</span>         gold       yellow         112   none </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> R2-D2          96    32 <span style="color: #BB0000;">NA</span>         white, bl… red             33   none </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Darth Vad…    202   136 none       white      yellow          41.9 male </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 83 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></span></code></pre></div>
 <ul>
 <li>
 <code><a href="../reference/across.html">if_all()</a></code> keeps the rows where the predicate is true for
@@ -436,15 +436,15 @@ because we need an extra step to combine the results. To that end,
 <code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">if_all</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 29 × 14</span></span></span>
-<span><span class="co">#&gt;   name   height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Luke …    172    77 blond   fair    blue       19   male  mascu… Tatooi…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Darth…    202   136 none    white   yellow     41.9 male  mascu… Tatooi…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Leia …    150    49 brown   light   brown      19   fema… femin… Aldera…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Owen …    178   120 brown,… light   blue       52   male  mascu… Tatooi…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 25 more rows, 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;, and abbreviated variable names</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​hair_color, ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   name       height  mass hair_color skin_color eye_color birth_year sex  </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Luke Skyw…    172    77 blond      fair       blue            19   male </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Darth Vad…    202   136 none       white      yellow          41.9 male </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Leia Orga…    150    49 brown      light      brown           19   fema…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Owen Lars     178   120 brown, gr… light      blue            52   male </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 25 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">

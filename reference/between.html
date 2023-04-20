@@ -12,7 +12,7 @@ vectors and translated to the appropriate SQL for remote tables."><meta property
     
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -123,34 +123,33 @@ join helper.</p></div>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1e2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="fu">between</span><span class="op">(</span><span class="va">x</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  0.54057054 -0.08286293 -0.60323008  0.15058639 -0.47112106</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6]  0.02971698  0.65285386  0.16253083 -0.03131250 -0.47316890</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11] -0.64259266  0.91233152 -0.22201034  0.76654026  0.67218648</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16]  0.46059672 -0.45414103 -0.33429181 -0.02293150 -0.06795504</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21] -0.94770633 -0.11681580  0.91635090 -0.35065754 -0.42899747</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [26] -0.59190071 -0.71631015  0.48370485 -0.73979816  0.53779866</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31] -0.80307077 -0.81820515 -0.98363713 -0.11975901 -0.02517410</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [36] -0.10057217 -0.47255610  0.48147376  0.26921535 -0.62493075</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [41] -0.10728361 -0.51738229 -0.97409919  0.41108414  0.94593778</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [46] -0.14557297  0.79051202 -0.15684770 -0.50682657  0.23008647</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [51] -0.83940853 -0.48354585  0.21468774  0.75184365  0.13167364</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [56]  0.07636336 -0.34812653  0.49794558  0.19882047 -0.24430489</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [61]  0.61868164 -0.13053836 -0.57550601  0.81582582 -0.69632358</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [66]  0.88857743  0.89552620  0.31387865  0.08209141  0.33065388</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  0.10769471  0.87580196  0.75522441 -0.96583077  0.02155849</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] -0.05054036  0.56044248 -0.30945985 -0.05548114 -0.85242240</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11]  0.25381536  0.42971347 -0.50080208 -0.25382082 -0.59756293</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16] -0.28067940  0.21760347  0.47929487 -0.49849769 -0.38158819</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21]  0.10599646  0.07133988  0.09952818 -0.64165676  0.78617863</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26]  0.06567302  0.24314028  0.47160376 -0.91637001 -0.43950826</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31] -0.23747332  0.67174900  0.12393467  0.19904088  0.86802928</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36] -0.09909801  0.63839144  0.39417364  0.58959079  0.25863891</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [41] -0.56755801 -0.60235590 -0.10117788 -0.88121554  0.55622372</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [46] -0.18184584 -0.42743734  0.79919215  0.09977236 -0.82417686</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [51] -0.56373160  0.14772181 -0.05727589 -0.17872094 -0.33802101</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [56]  0.50788298 -0.63153401  0.15963938 -0.96049290  0.20252813</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [61] -0.80161451 -0.26711230 -0.33216348  0.72240742  0.46963281</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [66]  0.24724472  0.63007830 -0.81189770  0.26320166  0.41922544</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># On a tibble using `filter()`</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="fu">between</span><span class="op">(</span><span class="va">height</span>, <span class="fl">100</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 14</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   name   height  mass hair_…¹ skin_…² eye_c…³ birth…⁴ sex   gender homew…⁵</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Leia …    150    49 brown   light   brown        19 fema… femin… Aldera…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Mon M…    150    <span style="color: #BB0000;">NA</span> auburn  fair    blue         48 fema… femin… Chandr…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Watto     137    <span style="color: #BB0000;">NA</span> black   blue, … yellow       <span style="color: #BB0000;">NA</span> male  mascu… Toydar…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Sebul…    112    40 none    grey, … orange       <span style="color: #BB0000;">NA</span> male  mascu… Malast…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Gasga…    122    <span style="color: #BB0000;">NA</span> none    white,… black        <span style="color: #BB0000;">NA</span> male  mascu… Troiken</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   starships &lt;list&gt;, and abbreviated variable names ¹​hair_color,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​skin_color, ³​eye_color, ⁴​birth_year, ⁵​homeworld</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   name       height  mass hair_color skin_color eye_color birth_year sex  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Leia Orga…    150    49 brown      light      brown             19 fema…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Mon Mothma    150    <span style="color: #BB0000;">NA</span> auburn     fair       blue              48 fema…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Watto         137    <span style="color: #BB0000;">NA</span> black      blue, grey yellow            <span style="color: #BB0000;">NA</span> male </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Sebulba       112    40 none       grey, red  orange            <span style="color: #BB0000;">NA</span> male </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Gasgano       122    <span style="color: #BB0000;">NA</span> none       white, bl… black             <span style="color: #BB0000;">NA</span> male </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

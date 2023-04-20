@@ -37,7 +37,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -444,7 +444,7 @@ the user full control over a single part of the pipeline, like a
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Aleen Minor    15    79 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Bespin         79   175 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Bestine IV    110   180 </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 45 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 45 more rows</span></span></span>
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">my_summarise</span><span class="op">(</span><span class="va">sex</span>, <span class="va">gender</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `summarise()` has grouped output by 'sex'. You can override using the</span></span>
 <span><span class="co">#&gt; `.groups` argument.</span></span>
@@ -456,7 +456,7 @@ the user full control over a single part of the pipeline, like a
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> hermaphroditic masculine <span style="text-decoration: underline;">1</span>358     175 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> male           masculine   81.0   179.</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> none           feminine   <span style="color: #BB0000;">NaN</span>      96 </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more rows</span></span></span></code></pre></div>
 <p>When you use <code>...</code> in this way, make sure that any other
 arguments start with <code>.</code> to reduce the chances of argument
 clashes; see <a href="https://design.tidyverse.org/dots-prefix.html" class="external-link uri">https://design.tidyverse.org/dots-prefix.html</a> for more
@@ -535,7 +535,7 @@ this restriction:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1 0.361    0.5   0.174    0.5 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1 0.674    0.75  0.524    0.75</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     2 0.315    0.25 -<span style="color: #BB0000;">0.690</span>    0.25</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 5 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="transforming-user-supplied-variables">Transforming user-supplied variables<a class="anchor" aria-label="anchor" href="#transforming-user-supplied-variables"></a>
@@ -557,7 +557,7 @@ transformed, use <code><a href="../reference/across.html">across()</a></code> an
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Besalisk   102    198</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cerean      82    198</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Chagrian   <span style="color: #BB0000;">NaN</span>    196</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 34 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 34 more rows</span></span></span></code></pre></div>
 <p>You can use this same idea for multiple sets of input
 data-variables:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
