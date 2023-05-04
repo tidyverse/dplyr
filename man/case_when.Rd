@@ -55,7 +55,7 @@ in \code{...}.
 This function allows you to vectorise multiple \code{\link[=if_else]{if_else()}} statements. Each
 case is evaluated sequentially and the first match for each element
 determines the corresponding value in the output vector. If no cases match,
-the \code{.default} is used.
+the \code{.default} is used as a final "else" statment.
 
 \code{case_when()} is an R equivalent of the SQL "searched" \verb{CASE WHEN} statement.
 }
