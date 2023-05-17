@@ -43,11 +43,18 @@ test_that("filtering joins preserve row and column order of x (#2964)", {
 })
 
 test_that("keys are coerced to symmetric type", {
+  foo <- tibble(id = 1:2, var1 = "foo")
+  bar <- tibble(id = as.numeric(1:2), var2 = "bar")
+  expect_type(inner_join(foo, bar, by = "id")$id, "double")
+  expect_type(inner_join(bar, foo, by = "id")$id, "double")
+
   foo <- tibble(id = factor(c("a", "b")), var1 = "foo")
   bar <- tibble(id = c("a", "b"), var2 = "bar")
   expect_type(inner_join(foo, bar, by = "id")$id, "character")
   expect_type(inner_join(bar, foo, by = "id")$id, "character")
+})
 
+test_that("factor keys are coerced to the union factor type", {
   df1 <- tibble(x = 1, y = factor("a"))
   df2 <- tibble(x = 2, y = factor("b"))
   out <- full_join(df1, df2, by = c("x", "y"))
