@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `setequal()` now requires the input data frames to be compatible, similar to
+  the other set methods like `setdiff()` or `intersect()` (#6786).
+
 # dplyr 1.1.2
 
 * `count()` better documents that it has a `.drop` argument (#6820).
@@ -96,8 +99,6 @@
 
 * `rename_with()` now includes an example of using `paste0(recycle0 = TRUE)` to
   correctly handle empty selections (#6688).
-
-* `setequal()` now requires the input data frames to be compatible, similarly to the other set methods like `setdiff()` or `intersect()` (#6786).
 
 * R >=3.5.0 is now explicitly required. This is in line with the tidyverse
   policy of supporting the [5 most recent versions of
