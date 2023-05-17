@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `setequal()` now requires the input data frames to be compatible, similar to
+  the other set methods like `setdiff()` or `intersect()` (#6786).
+
 # dplyr 1.1.2
 
 * `count()` better documents that it has a `.drop` argument (#6820).

@@ -96,13 +96,33 @@
     Output
       Incompatible types for column `x`: double vs character.
 
+# setequal tibbles must have same rows and columns
+
+    Code
+      setequal(tibble(x = 1:2), tibble(y = 1:2))
+    Condition
+      Error in `setequal()`:
+      ! `x` and `y` are not compatible.
+      x Cols in `y` but not `x`: `y`.
+      x Cols in `x` but not `y`: `x`.
+
+---
+
+    Code
+      setequal(tibble(x = 1:2), tibble(x = c("a", "b")))
+    Condition
+      Error in `setequal()`:
+      ! `x` and `y` are not compatible.
+      x Incompatible types for column `x`: integer vs character.
+
 # setequal checks y is a data frame
 
     Code
       setequal(mtcars, 1)
     Condition
       Error in `setequal()`:
-      ! `y` must be a data frame.
+      ! `x` and `y` are not compatible.
+      `y` must be a data frame.
 
 # setequal checks for extra arguments
 
