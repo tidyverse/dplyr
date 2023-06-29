@@ -7,7 +7,7 @@
 #'
 #' * `slice_head()` and `slice_tail()` select the first or last rows.
 #' * `slice_sample()` randomly selects rows.
-#' * `slice_min()` and `slice_max()` select rows with highest or lowest values
+#' * `slice_min()` and `slice_max()` select rows with the lowest or highest values
 #'   of a variable.
 #'
 #' If `.data` is a [grouped_df], the operation will be performed on each group,
