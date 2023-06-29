@@ -1,14 +1,14 @@
 #' Argument type: tidy-select
 #'
 #' @description
-#' This page the describes the `<tidy-select>` argument modifier which indicates
+#' This page describes the `<tidy-select>` argument modifier which indicates
 #' the argument supports **tidy selections**. Tidy selection provides a concise
 #' dialect of R for selecting variables based on their names or properties.
 #'
 #' Tidy selection is a variant of tidy evaluation. This means that inside
 #' functions, tidy-select arguments require special attention, as described in
-#' the Indirection section. If you've never heard of tidy evaluation before,
-#' start with `vignette("programming")`.
+#' the *Indirection* section below. If you've never heard of tidy evaluation
+#' before, start with `vignette("programming")`.
 #'
 #'
 #' # Overview of selection features
@@ -26,8 +26,8 @@
 #'     names to cause an error, e.g. `select(df, all_of(vars))`,
 #'     `select(df, !any_of(vars))`.
 #'
-#' *   If you you want the user to supply a tidyselect specification in a
-#'     function argument, embrace the function argument, e.g.
+#' *   If you want the user to be able to supply a tidyselect specification in
+#'     a function argument, embrace the function argument, e.g.
 #'     `select(df, {{ vars }})`.
 #'
 #' @keywords internal
