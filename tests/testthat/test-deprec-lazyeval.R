@@ -28,6 +28,28 @@ test_that("mutate_each_() and summarise_each_() handle lazydots", {
   expect_equal(cyl_mean, mean(mtcars$cyl))
 })
 
+test_that("mutate_each() and mutate_each_() are deprecated (#6869)", {
+  df <- tibble(x = 1:2, y = 3:4)
+
+  expect_snapshot({
+    mutate_each(df, list(~ .x + 1L))
+  })
+  expect_snapshot({
+    mutate_each_(df, list(~ .x + 1L), c("x", "y"))
+  })
+})
+
+test_that("summarise_each() and summarise_each_() are deprecated (#6869)", {
+  df <- tibble(x = 1:2, y = 3:4)
+
+  expect_snapshot({
+    summarise_each(df, list(mean))
+  })
+  expect_snapshot({
+    summarise_each_(df, list(mean), c("x", "y"))
+  })
+})
+
 test_that("select_vars_() handles lazydots", {
   withr::local_options(lifecycle_verbosity = "quiet")
 
