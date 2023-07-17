@@ -359,17 +359,34 @@ summarize_ <- summarise_
 #' @keywords internal
 #' @export
 summarise_each <- function(tbl, funs, ...) {
-  summarise_each_(tbl, funs, enquos(...))
+  summarise_each_impl(tbl, funs, enquos(...), "summarise_each")
 }
 #' @export
 #' @rdname summarise_each
 summarise_each_ <- function(tbl, funs, vars) {
-  lifecycle::deprecate_warn("0.7.0", "summarise_each_()", "across()", always = TRUE)
+  summarise_each_impl(tbl, funs, vars, "summarise_each_")
+}
+summarise_each_impl <- function(tbl,
+                                funs,
+                                vars,
+                                name,
+                                env = caller_env(),
+                                user_env = caller_env(2)) {
+  what <- paste0(name, "()")
+
+  lifecycle::deprecate_warn(
+    when = "0.7.0",
+    what = what,
+    with = "across()",
+    always = TRUE,
+    env = env,
+    user_env = user_env
+  )
 
   if (is_empty(vars)) {
     vars <- tbl_nongroup_vars(tbl)
   } else {
-    vars <- compat_lazy_dots(vars, caller_env())
+    vars <- compat_lazy_dots(vars, user_env)
     vars <- tidyselect::vars_select(tbl_nongroup_vars(tbl), !!!vars)
     if (length(vars) == 1 && names(vars) == as_string(vars)) {
       vars <- unname(vars)
@@ -378,7 +395,7 @@ summarise_each_ <- function(tbl, funs, vars) {
   if (is_character(funs)) {
     funs <- funs_(funs)
   }
-  funs <- manip_at(tbl, vars, funs, enquo(funs), caller_env(), .caller = "summarise_each_")
+  funs <- manip_at(tbl, vars, funs, enquo(funs), user_env, .caller = name)
   summarise(tbl, !!!funs)
 }
 
@@ -388,24 +405,40 @@ mutate_each <- function(tbl, funs, ...) {
   if (is_character(funs)) {
     funs <- funs_(funs)
   }
-
-  mutate_each_(tbl, funs, enquos(...))
+  mutate_each_impl(tbl, funs, enquos(...), "mutate_each")
 }
 #' @export
 #' @rdname summarise_each
 mutate_each_ <- function(tbl, funs, vars) {
-  lifecycle::deprecate_warn("0.7.0", "mutate_each_()", "across()", always = TRUE)
+  mutate_each_impl(tbl, funs, vars, "mutate_each_")
+}
+mutate_each_impl <- function(tbl,
+                             funs,
+                             vars,
+                             name,
+                             env = caller_env(),
+                             user_env = caller_env(2)) {
+  what <- paste0(name, "()")
+
+  lifecycle::deprecate_warn(
+    when = "0.7.0",
+    what = what,
+    with = "across()",
+    always = TRUE,
+    env = env,
+    user_env = user_env
+  )
 
   if (is_empty(vars)) {
     vars <- tbl_nongroup_vars(tbl)
   } else {
-    vars <- compat_lazy_dots(vars, caller_env())
+    vars <- compat_lazy_dots(vars, user_env)
     vars <- tidyselect::vars_select(tbl_nongroup_vars(tbl), !!!vars)
     if (length(vars) == 1 && names(vars) == as_string(vars)) {
       vars <- unname(vars)
     }
   }
-  funs <- manip_at(tbl, vars, funs, enquo(funs), caller_env(), .caller = "mutate_each_")
+  funs <- manip_at(tbl, vars, funs, enquo(funs), user_env, .caller = name)
   mutate(tbl, !!!funs)
 }
 

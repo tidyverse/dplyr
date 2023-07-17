@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `mutate_each()` and `summarise_each()` now throw correct deprecation messages
+  (#6869).
+
 * `setequal()` now requires the input data frames to be compatible, similar to
   the other set methods like `setdiff()` or `intersect()` (#6786).
 
