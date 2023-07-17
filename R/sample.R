@@ -77,7 +77,7 @@ sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
 sample_n.data.frame <- function(tbl, size, replace = FALSE,
                                 weight = NULL, .env = NULL, ...) {
   if (!is_null(.env)) {
-    inform("`sample_n() argument `.env` is deprecated and no longer has any effect.")
+    inform("`sample_n()` argument `.env` is deprecated and no longer has any effect.")
   }
 
   size <- enquo(size)
