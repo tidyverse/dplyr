@@ -293,7 +293,7 @@ test_that("named tibbles are packed (#2326)", {
   expect_equal(out$df, tibble(y = 4, z = 3))
 })
 
-test_that("summarise(.groups=)", {
+test_that("summarise(.groups=) in global environment", {
   expect_message(eval_bare(
     expr(data.frame(x = 1, y = 2) %>% group_by(x, y) %>% summarise()),
     env(global_env())
@@ -302,7 +302,9 @@ test_that("summarise(.groups=)", {
     expr(data.frame(x = 1, y = 2) %>% rowwise(x, y) %>% summarise()),
     env(global_env())
   ))
+})
 
+test_that("summarise(.groups=)", {
   df <- data.frame(x = 1, y = 2)
   expect_equal(df %>% summarise(z = 3, .groups= "rowwise"), rowwise(data.frame(z = 3)))
 
