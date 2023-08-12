@@ -58,6 +58,9 @@ collapse <- function(x, ...) {
 
 #' @export
 collect.data.frame <- function(x, ...) {
+  # Side effect: ensure that all results are available for duckplyr
+  .row_names_info(x)
+
   x
 }
 
