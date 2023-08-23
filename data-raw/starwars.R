@@ -63,7 +63,7 @@ starwars <- tibble(
 # collected data from @MeganBeckett.
 
 # Droids are robots and do not have a biological sex. But they
-# they have a gender, determined by they were programmed:
+# they have a gender, determined by how they were programmed:
 # https://starwars.fandom.com/wiki/Sexes
 #
 # Hutts are hermaphroditic, but identify as either male or female
