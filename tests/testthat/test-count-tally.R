@@ -1,18 +1,20 @@
 # count -------------------------------------------------------------------
 
-test_that("count sorts output by default", {
+test_that("count sorts output by keys by default", {
+  # Due to usage of `summarise()` internally
   df <- tibble(x = c(2, 1, 1, 2, 1))
   out <- count(df, x)
   expect_equal(out, tibble(x = c(1, 2), n = c(3, 2)))
 })
 
-test_that("count can sort output", {
+test_that("count can sort output by `n`", {
   df <- tibble(x = c(1, 1, 2, 2, 2))
   out <- count(df, x, sort = TRUE)
   expect_equal(out, tibble(x = c(2, 1), n = c(3, 2)))
 })
 
 test_that("count can rename grouping columns", {
+  # But should it really allow this?
   df <- tibble(x = c(2, 1, 1, 2, 1))
   out <- count(df, y = x)
   expect_equal(out, tibble(y = c(1, 2), n = c(3, 2)))
