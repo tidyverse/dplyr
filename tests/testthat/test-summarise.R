@@ -187,8 +187,8 @@ test_that("assigning with `<-` doesn't affect the mask (#6666)", {
 })
 
 test_that("summarise() correctly auto-names expressions (#6741)", {
-  df <- tibble(a = 1L)
-  expect_identical(summarise(df, sum(-a)), tibble("sum(-a)" = -1L))
+  df <- tibble(a = 1:3)
+  expect_identical(summarise(df, min(-a)), tibble("min(-a)" = -3L))
 })
 
 # grouping ----------------------------------------------------------------
