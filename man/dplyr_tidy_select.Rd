@@ -4,14 +4,14 @@
 \alias{dplyr_tidy_select}
 \title{Argument type: tidy-select}
 \description{
-This page the describes the \verb{<tidy-select>} argument modifier which indicates
+This page describes the \verb{<tidy-select>} argument modifier which indicates
 the argument supports \strong{tidy selections}. Tidy selection provides a concise
 dialect of R for selecting variables based on their names or properties.
 
 Tidy selection is a variant of tidy evaluation. This means that inside
 functions, tidy-select arguments require special attention, as described in
-the Indirection section. If you've never heard of tidy evaluation before,
-start with \code{vignette("programming")}.
+the \emph{Indirection} section below. If you've never heard of tidy evaluation
+before, start with \code{vignette("programming")}.
 }
 \section{Overview of selection features}{
 Tidyverse selections implement a dialect of R where operators make
@@ -64,8 +64,8 @@ There are two main cases:
 or \code{any_of()}, depending on whether or not you want unknown variable
 names to cause an error, e.g. \code{select(df, all_of(vars))},
 \code{select(df, !any_of(vars))}.
-\item If you you want the user to supply a tidyselect specification in a
-function argument, embrace the function argument, e.g.
+\item If you want the user to be able to supply a tidyselect specification in
+a function argument, embrace the function argument, e.g.
 \code{select(df, {{ vars }})}.
 }
 }
