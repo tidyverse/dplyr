@@ -111,8 +111,8 @@ helpers for common use cases:
 \itemize{
 \item \code{slice_head()} and \code{slice_tail()} select the first or last rows.
 \item \code{slice_sample()} randomly selects rows.
-\item \code{slice_min()} and \code{slice_max()} select rows with highest or lowest values
-of a variable.
+\item \code{slice_min()} and \code{slice_max()} select rows with the smallest or largest
+values of a variable.
 }
 
 If \code{.data} is a \link{grouped_df}, the operation will be performed on each group,
