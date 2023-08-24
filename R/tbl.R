@@ -19,7 +19,6 @@ tbl <- function(src, ...) {
 #' @param subclass name of subclass. "tbl" is an abstract base class, so you
 #'   must supply this value. `tbl_` is automatically prepended to the
 #'   class name
-#' @param object to test/coerce.
 #' @param ... For `tbl()`, other fields used by class. For `as.tbl()`,
 #'   other arguments passed to methods.
 make_tbl <- function(subclass, ...) {

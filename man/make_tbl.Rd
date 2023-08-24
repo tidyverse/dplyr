@@ -13,8 +13,6 @@ class name}
 
 \item{...}{For \code{tbl()}, other fields used by class. For \code{as.tbl()},
 other arguments passed to methods.}
-
-\item{object}{to test/coerce.}
 }
 \description{
 \code{tbl()} is the standard constructor for tbls. \code{as.tbl()} coerces,
