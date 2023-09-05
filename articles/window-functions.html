@@ -16,8 +16,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.5/font.css" rel="stylesheet">
-<link href="../deps/Source_Code_Pro-0.4.5/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.7/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.7/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Window functions">
@@ -37,7 +37,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -224,15 +224,15 @@ equal to the current value.</p>
 records within each group. For example:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">players</span>, <span class="fu"><a href="../reference/percent_rank.html">cume_dist</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">0.1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,080 × 7</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   playerID [986]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,090 × 7</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   playerID [995]</span></span></span>
 <span><span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> aaronha01   <span style="text-decoration: underline;">1</span>963 ML1      161   631   121   201</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> aaronha01   <span style="text-decoration: underline;">1</span>968 ATL      160   606    84   174</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> abbotji01   <span style="text-decoration: underline;">1</span>991 CAL       34     0     0     0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> abernte02   <span style="text-decoration: underline;">1</span>965 CHN       84    18     1     3</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,076 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,086 more rows</span></span></span></code></pre></div>
 <p>Finally, <code><a href="../reference/ntile.html">ntile()</a></code> divides the data up into <code>n</code>
 evenly sized buckets. It’s a coarse ranking, and it can be used in with
 <code><a href="../reference/mutate.html">mutate()</a></code> to divide the data into buckets for further
@@ -249,10 +249,10 @@ number of games within each group.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 2</span></span></span>
 <span><span class="co">#&gt;   quartile `mean(G)`</span></span>
 <span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        1      23.0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>        2      92.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>        3     254. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>        4     964.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        1      22.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>        2      91.8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>        3     253. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>        4     961.</span></span></code></pre></div>
 <p>All ranking functions rank from lowest to highest so that small input
 values get small ranks. Use <code><a href="../reference/desc.html">desc()</a></code> to rank from highest to
 lowest.</p>
@@ -380,7 +380,7 @@ compute the “career year”, the number of years a player has played since
 they entered the league:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">players</span>, career_year <span class="op">=</span> <span class="va">yearID</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">yearID</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20,706 × 8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20,874 × 8</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   playerID [1,436]</span></span></span>
 <span><span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H career_year</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -388,11 +388,11 @@ they entered the league:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> aaronha01   <span style="text-decoration: underline;">1</span>955 ML1      153   602   105   189           2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> aaronha01   <span style="text-decoration: underline;">1</span>956 ML1      153   609   106   200           3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> aaronha01   <span style="text-decoration: underline;">1</span>957 ML1      151   615   118   198           4</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 20,702 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 20,870 more rows</span></span></span></code></pre></div>
 <p>Or, as in the introductory example, we could compute a z-score:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">players</span>, G_z <span class="op">=</span> <span class="op">(</span><span class="va">G</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20,706 × 8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20,874 × 8</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   playerID [1,436]</span></span></span>
 <span><span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H    G_z</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -400,7 +400,7 @@ they entered the league:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> aaronha01   <span style="text-decoration: underline;">1</span>955 ML1      153   602   105   189  0.519</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> aaronha01   <span style="text-decoration: underline;">1</span>956 ML1      153   609   106   200  0.519</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> aaronha01   <span style="text-decoration: underline;">1</span>957 ML1      151   615   118   198  0.411</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 20,702 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 20,870 more rows</span></span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
