@@ -1,4 +1,4 @@
-# dplyr (development version)
+# dplyr 1.1.3
 
 * `mutate_each()` and `summarise_each()` now throw correct deprecation messages
   (#6869).
