@@ -121,6 +121,8 @@ static const R_CallMethodDef CallEntries[] = {
 
   {"dplyr_extract_chunks", (DL_FUNC)& dplyr_extract_chunks, 2},
 
+  {"dplyr_reconstruct_impl", (DL_FUNC)& dplyr_reconstruct_impl, 2},
+
   {NULL, NULL, 0}
 };
 
