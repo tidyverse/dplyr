@@ -1,146 +1,28 @@
 # Revdeps
 
-## Failed to check (132)
+## Failed to check (15)
 
-|package              |version |error |warning |note |
-|:--------------------|:-------|:-----|:-------|:----|
-|abstr                |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|bdl                  |?       |      |        |     |
-|cancensus            |?       |      |        |     |
-|CCAMLRGIS            |?       |      |        |     |
-|choroplethr          |3.7.1   |1     |        |     |
-|cleanTS              |0.1.1   |1     |        |     |
-|CoordinateCleaner    |2.0-20  |1     |        |     |
-|CopernicusMarine     |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|ctsem                |3.7.2   |1     |        |     |
-|cubble               |?       |      |        |     |
-|cyclestreets         |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|dbmss                |?       |      |        |     |
-|dycdtools            |?       |      |        |     |
-|dynamicSDM           |?       |      |        |     |
-|edbuildmapr          |?       |      |        |     |
-|EFDR                 |?       |      |        |     |
-|eflm                 |0.3.0   |1     |        |     |
-|EnvExpInd            |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|eSDM                 |?       |      |        |     |
-|fgdr                 |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|FORTLS               |?       |      |        |     |
-|FRK                  |?       |      |        |     |
-|fsr                  |?       |      |        |     |
-|GeodesiCL            |1.0.0   |1     |        |     |
-|ggchangepoint        |?       |      |        |     |
-|ggOceanMaps          |?       |      |        |     |
-|ggspatial            |?       |      |        |     |
-|glottospace          |?       |      |        |     |
-|GREENeR              |?       |      |        |     |
-|gumboot              |?       |      |        |     |
-|gwavr                |?       |      |        |     |
-|GWPR.light           |?       |      |        |     |
-|happign              |?       |      |        |     |
-|himach               |?       |      |        |     |
-|HYPEtools            |?       |      |        |     |
-|hypsoLoop            |?       |      |        |     |
-|incidence2           |1.2.3   |1     |        |     |
-|NA                   |?       |      |        |     |
-|intSDM               |1.0.5   |1     |        |1    |
-|NA                   |?       |      |        |     |
-|itsdm                |?       |      |        |     |
-|jpgrid               |?       |      |        |     |
-|jpmesh               |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|MainExistingDatasets |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|manydata             |0.8.2   |1     |        |     |
-|mapboxapi            |?       |      |        |     |
-|mapme.biodiversity   |?       |      |        |     |
-|mapping              |?       |      |        |     |
-|mapscanner           |?       |      |        |     |
-|MazamaSpatialPlots   |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|meteoland            |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|motif                |?       |      |        |     |
-|MSclassifR           |?       |      |        |     |
-|naturaList           |?       |      |        |     |
-|ncdfgeom             |?       |      |        |     |
-|nhdplusTools         |?       |      |        |     |
-|nhdR                 |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|occCite              |?       |      |        |     |
-|oceanexplorer        |?       |      |        |     |
-|oceanis              |?       |      |        |     |
-|OpenLand             |?       |      |        |     |
-|palaeoSig            |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|PopGenHelpR          |?       |      |        |     |
-|ppcSpatial           |?       |      |        |     |
-|prioriactions        |?       |      |        |     |
-|PSS.Health           |0.6.1   |1     |        |     |
-|rangeModelMetadata   |?       |      |        |     |
-|rbenvo               |?       |      |        |     |
-|rcontroll            |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|redist               |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|roads                |?       |      |        |     |
-|Rsagacmd             |?       |      |        |     |
-|rsinaica             |?       |      |        |     |
-|saeSim               |0.11.0  |1     |        |     |
-|sandwichr            |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|SDGdetector          |2.7.1   |1     |        |     |
-|SDLfilter            |?       |      |        |     |
-|sfnetworks           |?       |      |        |     |
-|ShellChron           |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|simodels             |?       |      |        |     |
-|simplevis            |?       |      |        |     |
-|slendr               |?       |      |        |     |
-|sociome              |2.1.0   |1     |        |1    |
-|SPARTAAS             |1.1.0   |1     |        |     |
-|spatgeom             |?       |      |        |     |
-|SpatialKDE           |?       |      |        |     |
-|spatialrisk          |?       |      |        |     |
-|spDates              |?       |      |        |     |
-|spnaf                |?       |      |        |     |
-|spNetwork            |?       |      |        |     |
-|spqdep               |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|stplanr              |?       |      |        |     |
-|stppSim              |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|stxplore             |?       |      |        |     |
-|SUNGEO               |?       |      |        |     |
-|swfscAirDAS          |0.2.3   |1     |        |     |
-|SWTools              |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|telemac              |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|trackdf              |?       |      |        |     |
-|TUFLOWR              |?       |      |        |     |
-|VancouvR             |?       |      |        |     |
-|wallace              |?       |      |        |     |
-|waterquality         |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|waves                |0.2.4   |1     |        |     |
-|wdpar                |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|zipcodeR             |0.3.5   |1     |        |     |
+|package           |version |error |warning |note |
+|:-----------------|:-------|:-----|:-------|:----|
+|bayesdfa          |1.2.0   |1     |        |     |
+|beadplexr         |?       |      |        |     |
+|Covid19Wastewater |?       |      |        |     |
+|Elja              |?       |      |        |     |
+|loon.ggplot       |?       |      |        |     |
+|loon.shiny        |?       |      |        |     |
+|MarketMatching    |?       |      |        |     |
+|peptoolkit        |?       |      |        |     |
+|peramo            |?       |      |        |     |
+|profoc            |?       |      |        |     |
+|RiskScorescvd     |?       |      |        |     |
+|smoothy           |?       |      |        |     |
+|staRdom           |?       |      |        |     |
+|tidyfit           |?       |      |        |     |
+|vivid             |?       |      |        |     |
 
-## New problems (2)
+## New problems (1)
 
-|package    |version |error  |warning |note |
-|:----------|:-------|:------|:-------|:----|
-|[exuber](problems.md#exuber)|1.0.1   |__+1__ |        |1    |
-|[modelplotr](problems.md#modelplotr)|1.1.0   |       |__+1__  |     |
+|package   |version |error  |warning |note |
+|:---------|:-------|:------|:-------|:----|
+|[eiCompare](problems.md#eicompare)|3.0.4   |__+1__ |        |     |
 
