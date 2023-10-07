@@ -3070,7 +3070,7 @@ Gilbert,1988,9,19,12,37.7,-93.2,tropical depression,NA,25,999,NA,NA
 Gilbert,1988,9,19,18,40.2,-89.9,extratropical,NA,25,998,NA,NA
 Gilbert,1988,9,20,0,43.4,-86.5,extratropical,NA,25,995,NA,NA
 Helene,1988,9,19,18,13.4,-31.6,tropical depression,NA,30,1009,NA,NA
-Helene,1988,9,20,0,13.3,-32.7,tropical depression,NA,32,1008,NA,NA
+Helene,1988,9,20,0,13.3,-32.7,tropical depression,NA,30,1008,NA,NA
 Helene,1988,9,20,6,13.2,-33.8,tropical storm,NA,35,1008,NA,NA
 Helene,1988,9,20,12,13,-34.8,tropical storm,NA,40,1004,NA,NA
 Helene,1988,9,20,18,12.4,-35.7,tropical storm,NA,45,1002,NA,NA
@@ -9078,7 +9078,7 @@ Grace,2003,8,30,12,24.3,-92.4,tropical depression,NA,30,1008,NA,NA
 Grace,2003,8,30,18,24.9,-93.3,tropical storm,NA,35,1009,NA,NA
 Grace,2003,8,31,0,25.8,-94.3,tropical storm,NA,35,1009,NA,NA
 Grace,2003,8,31,6,27.2,-94.9,tropical storm,NA,35,1008,NA,NA
-Grace,2003,8,31,11,29.4,-95.1,tropical storm,NA,35,1007,NA,NA
+Grace,2003,8,31,11,29,-95.1,tropical storm,NA,35,1007,NA,NA
 Grace,2003,8,31,12,29.4,-95.2,tropical storm,NA,35,1007,NA,NA
 Grace,2003,8,31,18,30.1,-95.6,tropical depression,NA,30,1009,NA,NA
 Grace,2003,9,1,0,30.9,-96.4,tropical depression,NA,25,1009,NA,NA
@@ -14726,8 +14726,8 @@ Arthur,2014,7,3,6,30.9,-79.1,hurricane,1,70,984,130,15
 Arthur,2014,7,3,12,31.8,-78.8,hurricane,1,80,981,160,20
 Arthur,2014,7,3,18,32.9,-78.3,hurricane,1,80,978,190,50
 Arthur,2014,7,4,0,34,-77.3,hurricane,2,85,975,190,60
-Arthur,2014,7,4,3,34.7,-76.6,hurricane,2,85,973,190,60
-Arthur,2014,7,4,6,35.3,-76,hurricane,2,85,972,190,60
+Arthur,2014,7,4,3,34.7,-76.6,hurricane,2,85,974,190,60
+Arthur,2014,7,4,6,35.3,-76,hurricane,2,85,973,190,60
 Arthur,2014,7,4,8,35.8,-75.5,hurricane,2,85,973,190,60
 Arthur,2014,7,4,12,36.8,-74.4,hurricane,1,80,976,190,55
 Arthur,2014,7,4,18,38.4,-72.4,hurricane,1,70,978,220,70
@@ -16791,7 +16791,7 @@ Florence,2018,9,16,12,33.6,-81.5,tropical storm,NA,35,1002,140,0
 Florence,2018,9,16,18,34.1,-82.1,tropical depression,NA,30,1006,0,0
 Florence,2018,9,17,0,35,-82.2,tropical depression,NA,25,1007,0,0
 Florence,2018,9,17,6,36.4,-82.6,tropical depression,NA,25,1008,0,0
-Florence,2018,9,17,12,37.8,-82,extratropical,NA,25,1008,0,0
+Florence,2018,9,17,12,37.8,-82.2,extratropical,NA,25,1008,0,0
 Florence,2018,9,17,18,38.8,-82,extratropical,NA,25,1008,0,0
 Florence,2018,9,18,0,39.5,-80.5,extratropical,NA,25,1008,0,0
 Florence,2018,9,18,6,41.3,-76.8,extratropical,NA,25,1007,0,0
@@ -19065,3 +19065,474 @@ Wanda,2021,11,7,6,38.1,-36.4,tropical storm,NA,35,1004,60,0
 Wanda,2021,11,7,12,39.2,-34.9,other low,NA,35,1006,90,0
 Wanda,2021,11,7,18,40.9,-32.8,other low,NA,40,1006,90,0
 Wanda,2021,11,8,0,43.2,-29.7,other low,NA,40,1006,70,0
+Alex,2022,6,2,18,21.3,-87.5,disturbance,NA,30,1004,0,0
+Alex,2022,6,3,0,21.6,-87.3,disturbance,NA,30,1003,0,0
+Alex,2022,6,3,6,21.9,-87.1,disturbance,NA,35,1003,60,0
+Alex,2022,6,3,12,22.2,-86.9,disturbance,NA,35,1003,90,0
+Alex,2022,6,3,18,22.8,-86.3,disturbance,NA,35,1003,180,0
+Alex,2022,6,4,0,23.9,-85.1,disturbance,NA,35,1003,210,0
+Alex,2022,6,4,6,25,-83.7,disturbance,NA,35,1003,210,0
+Alex,2022,6,4,12,26.2,-82,disturbance,NA,35,1002,210,0
+Alex,2022,6,4,18,27.2,-80.4,disturbance,NA,40,1001,210,0
+Alex,2022,6,5,0,28,-78.8,tropical storm,NA,40,999,180,0
+Alex,2022,6,5,6,28.8,-77.2,tropical storm,NA,45,995,210,0
+Alex,2022,6,5,12,29.9,-75,tropical storm,NA,50,993,220,0
+Alex,2022,6,5,18,31,-72.5,tropical storm,NA,60,985,260,0
+Alex,2022,6,6,0,32.1,-70.2,tropical storm,NA,60,984,270,0
+Alex,2022,6,6,6,33,-67.8,tropical storm,NA,55,987,270,0
+Alex,2022,6,6,12,33.8,-65.2,other low,NA,55,992,270,0
+Alex,2022,6,6,18,34.7,-62.2,other low,NA,50,994,270,0
+Bonnie,2022,6,27,18,8.3,-50.5,disturbance,NA,35,1009,120,0
+Bonnie,2022,6,28,0,8.7,-52.2,disturbance,NA,35,1009,120,0
+Bonnie,2022,6,28,6,9.1,-54.2,disturbance,NA,35,1009,120,0
+Bonnie,2022,6,28,12,9.6,-56.5,disturbance,NA,35,1009,110,0
+Bonnie,2022,6,28,18,10.2,-58.9,disturbance,NA,35,1009,110,0
+Bonnie,2022,6,29,0,10.7,-61.6,disturbance,NA,35,1009,100,0
+Bonnie,2022,6,29,6,11.1,-64,disturbance,NA,35,1009,100,0
+Bonnie,2022,6,29,12,11.4,-66.2,disturbance,NA,35,1009,100,0
+Bonnie,2022,6,29,18,11.7,-68,disturbance,NA,35,1009,100,0
+Bonnie,2022,6,30,0,11.9,-69.7,disturbance,NA,35,1009,90,0
+Bonnie,2022,6,30,6,12,-71.4,disturbance,NA,35,1009,70,0
+Bonnie,2022,6,30,12,12,-73.1,disturbance,NA,35,1008,70,0
+Bonnie,2022,6,30,18,12,-74.9,disturbance,NA,35,1007,70,0
+Bonnie,2022,7,1,0,11.9,-76.7,disturbance,NA,35,1005,70,0
+Bonnie,2022,7,1,6,11.6,-78.5,tropical storm,NA,35,1005,80,0
+Bonnie,2022,7,1,12,11.3,-80.2,tropical storm,NA,35,1005,100,0
+Bonnie,2022,7,1,18,11.2,-81.8,tropical storm,NA,40,1004,100,0
+Bonnie,2022,7,2,0,10.9,-83.1,tropical storm,NA,50,996,120,0
+Bonnie,2022,7,2,3,11,-83.8,tropical storm,NA,50,996,120,0
+Bonnie,2022,7,2,6,11.1,-84.5,tropical storm,NA,40,1000,60,0
+Bonnie,2022,7,2,12,11.2,-85.9,tropical storm,NA,35,1002,60,0
+Bonnie,2022,7,2,18,11.2,-87.4,tropical storm,NA,45,999,80,0
+Bonnie,2022,7,3,0,11.2,-88.9,tropical storm,NA,50,997,90,0
+Bonnie,2022,7,3,6,11.5,-90.4,tropical storm,NA,50,997,90,0
+Bonnie,2022,7,3,12,11.8,-91.9,tropical storm,NA,55,995,90,0
+Bonnie,2022,7,3,18,12.2,-93.4,tropical storm,NA,60,993,110,0
+Bonnie,2022,7,4,0,12.9,-94.9,hurricane,1,65,989,120,20
+Bonnie,2022,7,4,6,13.4,-96.6,hurricane,1,70,987,120,20
+Bonnie,2022,7,4,12,13.6,-98.2,hurricane,1,75,984,140,30
+Bonnie,2022,7,4,18,13.8,-99.6,hurricane,2,85,978,140,30
+Bonnie,2022,7,5,0,14.4,-100.9,hurricane,2,90,974,140,30
+Bonnie,2022,7,5,6,14.9,-102.4,hurricane,2,95,968,150,30
+Bonnie,2022,7,5,12,15.1,-103.8,hurricane,3,100,964,160,40
+Bonnie,2022,7,5,18,15.4,-105.1,hurricane,2,95,967,160,40
+Bonnie,2022,7,6,0,15.6,-106.4,hurricane,2,90,970,160,40
+Bonnie,2022,7,6,6,15.8,-107.6,hurricane,2,85,974,150,40
+Bonnie,2022,7,6,12,16,-108.5,hurricane,2,85,975,120,30
+Bonnie,2022,7,6,18,16.3,-109.5,hurricane,2,85,975,130,30
+Bonnie,2022,7,7,0,16.6,-110.6,hurricane,1,80,980,130,30
+Bonnie,2022,7,7,6,16.9,-111.8,hurricane,1,80,980,100,30
+Bonnie,2022,7,7,12,17.2,-113.1,hurricane,1,80,980,100,30
+Bonnie,2022,7,7,18,17.5,-114.5,hurricane,2,85,976,110,30
+Bonnie,2022,7,8,0,17.8,-116.1,hurricane,2,85,976,110,30
+Bonnie,2022,7,8,6,18,-117.7,hurricane,1,75,982,110,25
+Bonnie,2022,7,8,12,18.2,-119.3,hurricane,1,65,989,110,25
+Bonnie,2022,7,8,18,18.6,-121,tropical storm,NA,55,998,90,0
+Bonnie,2022,7,9,0,19,-122.8,tropical storm,NA,50,1001,90,0
+Bonnie,2022,7,9,6,19.2,-124.7,tropical storm,NA,45,1002,90,0
+Bonnie,2022,7,9,12,19.4,-126.6,tropical storm,NA,40,1005,70,0
+Bonnie,2022,7,9,18,19.5,-128.6,other low,NA,40,1008,40,0
+Bonnie,2022,7,10,0,19.6,-130.5,other low,NA,35,1008,40,0
+Bonnie,2022,7,10,6,19.5,-132.3,other low,NA,35,1008,40,0
+Bonnie,2022,7,10,12,19.4,-134,other low,NA,30,1008,0,0
+Bonnie,2022,7,10,18,19.4,-135.5,other low,NA,25,1010,0,0
+Bonnie,2022,7,11,0,19.4,-136.9,other low,NA,25,1010,0,0
+Colin,2022,7,1,18,31.8,-80.5,tropical depression,NA,30,1014,0,0
+Colin,2022,7,1,23,32.4,-80.5,tropical storm,NA,35,1011,60,0
+Colin,2022,7,2,0,32.5,-80.4,tropical storm,NA,35,1011,60,0
+Colin,2022,7,2,6,33,-79.9,tropical storm,NA,35,1011,60,0
+Colin,2022,7,2,12,33.4,-79.4,tropical storm,NA,35,1011,70,0
+Colin,2022,7,2,18,33.8,-78.9,tropical depression,NA,30,1015,0,0
+Danielle,2022,8,31,12,37.5,-46.6,other low,NA,25,1016,0,0
+Danielle,2022,8,31,18,37.8,-46.1,other low,NA,25,1015,0,0
+Danielle,2022,9,1,0,38,-45.6,other low,NA,25,1014,0,0
+Danielle,2022,9,1,6,38.1,-45.2,tropical depression,NA,30,1011,0,0
+Danielle,2022,9,1,12,38.1,-44.8,tropical storm,NA,35,1007,30,0
+Danielle,2022,9,1,18,38,-44.4,tropical storm,NA,45,1002,60,0
+Danielle,2022,9,2,0,37.9,-44.1,tropical storm,NA,55,996,90,0
+Danielle,2022,9,2,6,37.8,-43.8,tropical storm,NA,60,990,110,0
+Danielle,2022,9,2,12,37.8,-43.6,hurricane,1,65,986,140,15
+Danielle,2022,9,2,18,37.9,-43.5,hurricane,1,65,985,160,15
+Danielle,2022,9,3,0,38,-43.6,hurricane,1,65,986,180,15
+Danielle,2022,9,3,6,38,-43.8,tropical storm,NA,60,989,190,0
+Danielle,2022,9,3,12,38,-44.2,tropical storm,NA,60,989,190,0
+Danielle,2022,9,3,18,38,-44.6,tropical storm,NA,60,989,190,0
+Danielle,2022,9,4,0,37.9,-45,hurricane,1,65,986,200,25
+Danielle,2022,9,4,6,37.9,-45.3,hurricane,1,70,982,200,30
+Danielle,2022,9,4,12,38.1,-45.4,hurricane,1,70,979,200,50
+Danielle,2022,9,4,18,38.4,-45.2,hurricane,1,75,976,200,55
+Danielle,2022,9,5,0,38.7,-45,hurricane,1,75,975,200,55
+Danielle,2022,9,5,6,39.2,-44.6,hurricane,1,75,975,200,55
+Danielle,2022,9,5,12,39.9,-44.1,hurricane,1,75,975,210,60
+Danielle,2022,9,5,18,40.6,-43.6,hurricane,1,75,976,220,60
+Danielle,2022,9,6,0,41.3,-43.1,hurricane,1,70,980,230,65
+Danielle,2022,9,6,6,41.8,-42.5,hurricane,1,65,982,240,45
+Danielle,2022,9,6,12,42.1,-41.8,hurricane,1,65,982,260,50
+Danielle,2022,9,6,18,42.3,-41,hurricane,1,65,980,280,55
+Danielle,2022,9,7,0,42.5,-39.9,hurricane,1,65,978,290,60
+Danielle,2022,9,7,6,42.9,-38.6,hurricane,1,70,974,310,75
+Danielle,2022,9,7,12,43.5,-37.2,hurricane,1,70,972,330,90
+Danielle,2022,9,7,18,44.4,-35.6,hurricane,1,70,972,330,105
+Danielle,2022,9,8,0,45.3,-33.9,hurricane,1,65,973,350,110
+Danielle,2022,9,8,6,46.2,-32.4,tropical storm,NA,60,974,360,0
+Danielle,2022,9,8,12,47.3,-31.4,extratropical,NA,55,975,370,0
+Danielle,2022,9,8,18,48.5,-30.8,extratropical,NA,55,975,380,0
+Danielle,2022,9,9,0,49.8,-30.5,extratropical,NA,55,975,380,0
+Danielle,2022,9,9,6,51,-31.1,extratropical,NA,50,976,380,0
+Danielle,2022,9,9,12,51.1,-33.2,extratropical,NA,50,977,380,0
+Danielle,2022,9,9,18,49.8,-34.8,extratropical,NA,45,979,310,0
+Danielle,2022,9,10,0,47.8,-34.1,extratropical,NA,45,983,280,0
+Danielle,2022,9,10,6,46.1,-31.2,extratropical,NA,45,985,170,0
+Danielle,2022,9,10,12,45.2,-28,extratropical,NA,40,987,170,0
+Danielle,2022,9,10,18,44.7,-26.1,extratropical,NA,40,988,160,0
+Danielle,2022,9,11,0,43.9,-24.7,extratropical,NA,40,990,160,0
+Danielle,2022,9,11,6,42.7,-23.4,extratropical,NA,35,991,150,0
+Danielle,2022,9,11,12,41.2,-21.9,extratropical,NA,35,992,150,0
+Danielle,2022,9,11,18,40.1,-20.4,extratropical,NA,35,993,140,0
+Danielle,2022,9,12,0,39.1,-18.8,extratropical,NA,35,994,120,0
+Danielle,2022,9,12,6,38.4,-17,extratropical,NA,35,994,110,0
+Danielle,2022,9,12,12,38.6,-15,extratropical,NA,35,994,90,0
+Danielle,2022,9,12,18,39.4,-12.7,extratropical,NA,35,993,90,0
+Danielle,2022,9,13,0,40.8,-11.2,extratropical,NA,35,992,60,0
+Danielle,2022,9,13,6,42.5,-10.6,extratropical,NA,35,992,60,0
+Danielle,2022,9,13,12,43.3,-10.7,extratropical,NA,35,993,60,0
+Danielle,2022,9,13,18,43.6,-11.3,extratropical,NA,35,994,60,0
+Danielle,2022,9,14,0,43.3,-11.4,extratropical,NA,30,996,0,0
+Danielle,2022,9,14,6,43,-11.2,extratropical,NA,25,998,0,0
+Danielle,2022,9,14,12,42.7,-10.9,extratropical,NA,25,1000,0,0
+Danielle,2022,9,14,18,42.5,-10.4,extratropical,NA,25,1003,0,0
+Danielle,2022,9,15,0,42.2,-10.1,extratropical,NA,25,1006,0,0
+Danielle,2022,9,15,6,41.6,-10,extratropical,NA,25,1008,0,0
+Danielle,2022,9,15,12,40.9,-10.1,extratropical,NA,20,1010,0,0
+Danielle,2022,9,15,18,40.2,-10.3,extratropical,NA,20,1012,0,0
+Earl,2022,9,2,18,17.9,-58.6,tropical storm,NA,35,1006,60,0
+Earl,2022,9,3,0,18.3,-59.8,tropical storm,NA,40,1005,150,0
+Earl,2022,9,3,6,18.6,-60.9,tropical storm,NA,40,1004,150,0
+Earl,2022,9,3,12,18.9,-61.9,tropical storm,NA,40,1002,150,0
+Earl,2022,9,3,18,19.2,-62.9,tropical storm,NA,45,999,90,0
+Earl,2022,9,4,0,19.4,-63.6,tropical storm,NA,45,999,90,0
+Earl,2022,9,4,6,19.5,-64.1,tropical storm,NA,45,999,90,0
+Earl,2022,9,4,12,19.8,-64.6,tropical storm,NA,45,999,90,0
+Earl,2022,9,4,18,20,-65,tropical storm,NA,50,998,130,0
+Earl,2022,9,5,0,20.3,-65.3,tropical storm,NA,50,998,130,0
+Earl,2022,9,5,6,20.8,-65.4,tropical storm,NA,55,998,130,0
+Earl,2022,9,5,12,21.5,-65.2,tropical storm,NA,55,998,150,0
+Earl,2022,9,5,18,22,-65.2,tropical storm,NA,60,997,160,0
+Earl,2022,9,6,0,22.5,-65.2,tropical storm,NA,60,991,160,0
+Earl,2022,9,6,6,23.1,-65.3,tropical storm,NA,55,995,160,0
+Earl,2022,9,6,12,23.5,-65.7,tropical storm,NA,55,996,160,0
+Earl,2022,9,6,18,23.9,-65.7,hurricane,1,65,994,160,30
+Earl,2022,9,7,0,24.5,-65.8,hurricane,1,70,985,180,35
+Earl,2022,9,7,6,25,-65.9,hurricane,1,75,982,190,60
+Earl,2022,9,7,12,25.4,-65.8,hurricane,1,75,978,210,60
+Earl,2022,9,7,18,26.1,-65.6,hurricane,1,80,974,220,65
+Earl,2022,9,8,0,26.8,-65.5,hurricane,2,90,970,220,65
+Earl,2022,9,8,6,27.7,-65.5,hurricane,2,90,969,240,75
+Earl,2022,9,8,12,28.7,-65.3,hurricane,2,85,962,240,80
+Earl,2022,9,8,18,29.7,-64.8,hurricane,1,80,962,260,90
+Earl,2022,9,9,0,30.6,-64.3,hurricane,1,80,964,260,90
+Earl,2022,9,9,6,31.9,-63.2,hurricane,1,80,963,320,105
+Earl,2022,9,9,12,33.4,-61.9,hurricane,2,85,961,340,105
+Earl,2022,9,9,18,34.9,-59.8,hurricane,2,90,954,400,105
+Earl,2022,9,10,0,37.1,-56.8,hurricane,2,95,948,460,110
+Earl,2022,9,10,6,40,-54.3,hurricane,2,90,955,680,120
+Earl,2022,9,10,12,42.4,-53.3,hurricane,1,80,964,680,120
+Earl,2022,9,10,18,43.3,-52.8,extratropical,NA,70,967,720,160
+Earl,2022,9,11,0,43.3,-52.6,extratropical,NA,60,968,690,0
+Earl,2022,9,11,6,43.8,-52.2,extratropical,NA,55,970,720,0
+Earl,2022,9,11,12,44.2,-52,extratropical,NA,50,974,650,0
+Earl,2022,9,11,18,44.3,-51.9,extratropical,NA,45,974,500,0
+Earl,2022,9,12,0,44.2,-51.9,extratropical,NA,45,974,510,0
+Earl,2022,9,12,6,44.3,-52.1,extratropical,NA,40,978,400,0
+Earl,2022,9,12,12,43.9,-51.9,extratropical,NA,40,978,400,0
+Earl,2022,9,12,18,43.2,-51.2,extratropical,NA,35,981,300,0
+Earl,2022,9,13,0,42.9,-48.3,extratropical,NA,35,981,270,0
+Earl,2022,9,13,6,43,-46.8,extratropical,NA,35,985,240,0
+Earl,2022,9,13,12,43.4,-45.2,extratropical,NA,35,989,240,0
+Earl,2022,9,13,18,44.3,-43.7,extratropical,NA,35,989,240,0
+Earl,2022,9,14,0,45,-42.4,extratropical,NA,35,990,220,0
+Earl,2022,9,14,6,45.4,-41.6,extratropical,NA,35,990,220,0
+Earl,2022,9,14,12,45.5,-40.9,extratropical,NA,35,990,220,0
+Earl,2022,9,14,18,45.3,-40.5,extratropical,NA,30,992,0,0
+Earl,2022,9,15,0,45.2,-39.4,extratropical,NA,30,994,0,0
+Earl,2022,9,15,6,45.2,-37.7,extratropical,NA,30,995,0,0
+Earl,2022,9,15,12,45.6,-36.1,extratropical,NA,30,996,0,0
+Fiona,2022,9,14,6,16,-47.9,tropical depression,NA,25,1010,0,0
+Fiona,2022,9,14,12,16.4,-49.1,tropical depression,NA,30,1009,0,0
+Fiona,2022,9,14,18,16.6,-50.1,tropical storm,NA,35,1006,60,0
+Fiona,2022,9,15,0,16.6,-51.3,tropical storm,NA,45,1002,120,0
+Fiona,2022,9,15,6,16.5,-52.4,tropical storm,NA,45,1002,120,0
+Fiona,2022,9,15,12,16.4,-53.6,tropical storm,NA,45,1002,210,0
+Fiona,2022,9,15,18,16.3,-54.8,tropical storm,NA,50,1006,210,0
+Fiona,2022,9,16,0,16.1,-56.2,tropical storm,NA,50,1005,210,0
+Fiona,2022,9,16,6,15.8,-57.5,tropical storm,NA,50,1005,210,0
+Fiona,2022,9,16,12,15.8,-58.8,tropical storm,NA,45,1005,210,0
+Fiona,2022,9,16,18,16.3,-60.4,tropical storm,NA,45,1005,200,0
+Fiona,2022,9,16,23,16.4,-61.4,tropical storm,NA,50,1002,200,0
+Fiona,2022,9,17,0,16.4,-61.6,tropical storm,NA,50,1002,200,0
+Fiona,2022,9,17,6,16.3,-62.6,tropical storm,NA,50,1000,180,0
+Fiona,2022,9,17,12,16.4,-63.3,tropical storm,NA,50,1000,180,0
+Fiona,2022,9,17,18,16.5,-64,tropical storm,NA,50,1002,200,0
+Fiona,2022,9,18,0,16.5,-64.7,tropical storm,NA,50,997,200,0
+Fiona,2022,9,18,6,16.9,-65.5,tropical storm,NA,55,994,200,0
+Fiona,2022,9,18,12,17.2,-66.2,hurricane,1,65,990,200,25
+Fiona,2022,9,18,18,17.8,-66.9,hurricane,1,75,986,200,25
+Fiona,2022,9,18,19,18,-67.1,hurricane,1,75,986,200,25
+Fiona,2022,9,19,0,18.1,-67.8,hurricane,1,75,984,210,40
+Fiona,2022,9,19,6,18.2,-68.4,hurricane,1,80,977,220,40
+Fiona,2022,9,19,7,18.4,-68.5,hurricane,1,80,976,220,40
+Fiona,2022,9,19,12,18.8,-68.9,hurricane,1,75,980,220,40
+Fiona,2022,9,19,18,19.5,-69.5,hurricane,2,85,972,220,45
+Fiona,2022,9,20,0,20.2,-70.1,hurricane,2,95,974,230,45
+Fiona,2022,9,20,6,20.8,-70.7,hurricane,3,100,967,230,50
+Fiona,2022,9,20,11,21.4,-71.1,hurricane,3,100,962,230,50
+Fiona,2022,9,20,12,21.5,-71.2,hurricane,3,100,961,250,50
+Fiona,2022,9,20,18,22.3,-71.7,hurricane,3,100,959,250,50
+Fiona,2022,9,21,0,22.9,-71.8,hurricane,3,110,951,250,60
+Fiona,2022,9,21,6,23.5,-71.8,hurricane,4,120,939,250,60
+Fiona,2022,9,21,12,24.2,-71.7,hurricane,4,115,937,290,70
+Fiona,2022,9,21,18,25.1,-71.6,hurricane,4,115,937,290,70
+Fiona,2022,9,22,0,26,-71.4,hurricane,4,115,934,310,105
+Fiona,2022,9,22,6,26.9,-71.1,hurricane,4,115,934,330,105
+Fiona,2022,9,22,12,28,-70.6,hurricane,4,115,936,330,105
+Fiona,2022,9,22,18,29.5,-70,hurricane,4,115,936,390,110
+Fiona,2022,9,23,0,30.9,-69,hurricane,4,115,931,400,150
+Fiona,2022,9,23,6,32.5,-67.5,hurricane,4,115,936,460,150
+Fiona,2022,9,23,12,34.3,-65,hurricane,4,115,935,460,150
+Fiona,2022,9,23,18,37.8,-61.7,hurricane,3,110,940,500,180
+Fiona,2022,9,24,0,42.3,-60.7,extratropical,NA,100,932,500,240
+Fiona,2022,9,24,6,45,-61.2,extratropical,NA,85,931,625,230
+Fiona,2022,9,24,7,45.2,-61.2,extratropical,NA,85,931,625,230
+Fiona,2022,9,24,12,46.8,-61.2,extratropical,NA,75,938,620,100
+Fiona,2022,9,24,18,47.9,-60.8,extratropical,NA,65,952,750,90
+Fiona,2022,9,25,0,48.8,-59.8,extratropical,NA,60,968,680,0
+Fiona,2022,9,25,6,50.6,-58.6,extratropical,NA,50,972,360,0
+Fiona,2022,9,25,8,51.3,-58.3,extratropical,NA,45,974,360,0
+Fiona,2022,9,25,12,53.1,-57.5,extratropical,NA,45,981,360,0
+Fiona,2022,9,25,18,55.5,-58,extratropical,NA,40,984,360,0
+Fiona,2022,9,26,0,57.5,-59,extratropical,NA,35,985,360,0
+Fiona,2022,9,26,6,58.5,-59,extratropical,NA,35,985,360,0
+Fiona,2022,9,26,12,59.5,-59,extratropical,NA,35,986,360,0
+Fiona,2022,9,26,18,60.5,-58.5,extratropical,NA,35,988,320,0
+Fiona,2022,9,27,0,61.5,-58,extratropical,NA,35,994,320,0
+Fiona,2022,9,27,6,62.5,-57,extratropical,NA,35,998,320,0
+Fiona,2022,9,27,12,63.3,-55,extratropical,NA,35,1000,320,0
+Fiona,2022,9,27,18,64,-52,extratropical,NA,25,1002,0,0
+Gaston,2022,9,19,12,28.7,-46.3,other low,NA,25,1014,0,0
+Gaston,2022,9,19,18,29.6,-45.8,other low,NA,25,1014,0,0
+Gaston,2022,9,20,0,30.4,-45.8,other low,NA,25,1014,0,0
+Gaston,2022,9,20,6,31.3,-45.9,other low,NA,25,1013,0,0
+Gaston,2022,9,20,12,32.5,-45.8,tropical depression,NA,30,1013,0,0
+Gaston,2022,9,20,18,34,-45,tropical storm,NA,35,1009,60,0
+Gaston,2022,9,21,0,35.5,-44.1,tropical storm,NA,45,1004,110,0
+Gaston,2022,9,21,6,36.9,-43.1,tropical storm,NA,55,999,120,0
+Gaston,2022,9,21,12,37.9,-42,tropical storm,NA,55,998,120,0
+Gaston,2022,9,21,18,38.6,-40.7,tropical storm,NA,55,998,100,0
+Gaston,2022,9,22,0,39.4,-38.6,tropical storm,NA,55,998,100,0
+Gaston,2022,9,22,6,40.1,-36.5,tropical storm,NA,55,998,140,0
+Gaston,2022,9,22,12,40.7,-34.8,tropical storm,NA,55,996,190,0
+Gaston,2022,9,22,18,41,-33.1,tropical storm,NA,55,994,190,0
+Gaston,2022,9,23,0,41.1,-31.5,tropical storm,NA,55,995,190,0
+Gaston,2022,9,23,6,40.9,-30.1,tropical storm,NA,55,995,190,0
+Gaston,2022,9,23,12,40.5,-29.2,tropical storm,NA,55,995,250,0
+Gaston,2022,9,23,18,39.8,-28.8,tropical storm,NA,50,997,250,0
+Gaston,2022,9,24,0,39.1,-29.2,tropical storm,NA,45,999,250,0
+Gaston,2022,9,24,6,38.7,-29.7,tropical storm,NA,45,1000,250,0
+Gaston,2022,9,24,12,38.2,-30.4,tropical storm,NA,40,1001,230,0
+Gaston,2022,9,24,18,38,-31.4,tropical storm,NA,45,998,100,0
+Gaston,2022,9,25,0,38.4,-32.7,tropical storm,NA,45,998,100,0
+Gaston,2022,9,25,6,38.9,-34.1,tropical storm,NA,45,999,100,0
+Gaston,2022,9,25,12,39.4,-35.7,tropical storm,NA,45,999,160,0
+Gaston,2022,9,25,18,39.2,-37,tropical storm,NA,40,1000,140,0
+Gaston,2022,9,26,0,38.8,-37.7,other low,NA,35,1007,60,0
+Gaston,2022,9,26,6,38.5,-38.5,other low,NA,35,1010,60,0
+Gaston,2022,9,26,12,38.4,-39.4,other low,NA,30,1011,0,0
+Gaston,2022,9,26,18,38.2,-40.4,other low,NA,30,1012,0,0
+Gaston,2022,9,27,0,38,-41.5,other low,NA,30,1012,0,0
+Gaston,2022,9,27,6,37.6,-42.8,other low,NA,30,1013,0,0
+Gaston,2022,9,27,12,37.2,-44.2,other low,NA,25,1014,0,0
+Gaston,2022,9,27,18,37,-45.9,other low,NA,25,1015,0,0
+Ian,2022,9,22,18,12.3,-66.3,other low,NA,30,1006,0,0
+Ian,2022,9,23,0,12.9,-67.2,other low,NA,30,1006,0,0
+Ian,2022,9,23,6,13.7,-68.1,tropical depression,NA,30,1006,0,0
+Ian,2022,9,23,12,14.2,-69.3,tropical depression,NA,30,1006,0,0
+Ian,2022,9,23,18,14.6,-70.6,tropical depression,NA,30,1006,0,0
+Ian,2022,9,24,0,14.7,-71.7,tropical storm,NA,35,1005,30,0
+Ian,2022,9,24,6,14.7,-72.9,tropical storm,NA,35,1005,30,0
+Ian,2022,9,24,12,14.5,-74.4,tropical storm,NA,40,1003,50,0
+Ian,2022,9,24,18,14.4,-75.8,tropical storm,NA,40,1003,50,0
+Ian,2022,9,25,0,14.6,-77.2,tropical storm,NA,40,1003,50,0
+Ian,2022,9,25,6,14.6,-78.3,tropical storm,NA,40,1003,50,0
+Ian,2022,9,25,12,15,-79.4,tropical storm,NA,40,1003,50,0
+Ian,2022,9,25,18,15.8,-80.1,tropical storm,NA,40,1003,50,0
+Ian,2022,9,26,0,16.8,-80.9,tropical storm,NA,50,991,90,0
+Ian,2022,9,26,6,17.7,-81.7,hurricane,1,65,985,140,15
+Ian,2022,9,26,12,18.7,-82.4,hurricane,1,70,981,170,20
+Ian,2022,9,26,18,19.7,-83,hurricane,1,80,976,180,45
+Ian,2022,9,27,0,20.8,-83.3,hurricane,2,85,965,180,45
+Ian,2022,9,27,6,21.8,-83.6,hurricane,3,100,956,190,50
+Ian,2022,9,27,8,22.2,-83.7,hurricane,3,110,947,190,50
+Ian,2022,9,27,12,22.6,-83.6,hurricane,3,100,963,240,50
+Ian,2022,9,27,18,23.5,-83.3,hurricane,3,105,951,240,55
+Ian,2022,9,28,0,24.4,-83,hurricane,3,105,947,240,55
+Ian,2022,9,28,2,24.6,-82.9,hurricane,3,110,952,240,55
+Ian,2022,9,28,6,25.2,-82.9,hurricane,4,120,945,280,70
+Ian,2022,9,28,12,26,-82.7,hurricane,5,140,937,290,80
+Ian,2022,9,28,18,26.6,-82.4,hurricane,4,135,938,300,85
+Ian,2022,9,28,19,26.7,-82.2,hurricane,4,130,941,300,85
+Ian,2022,9,28,20,26.8,-82,hurricane,4,125,945,300,85
+Ian,2022,9,29,0,27.2,-81.7,hurricane,3,100,960,340,85
+Ian,2022,9,29,6,27.7,-81.1,hurricane,1,65,985,510,30
+Ian,2022,9,29,12,28.4,-80.6,tropical storm,NA,60,987,510,0
+Ian,2022,9,29,18,28.9,-80.1,hurricane,1,65,986,510,40
+Ian,2022,9,30,0,29.6,-79.4,hurricane,1,70,986,540,60
+Ian,2022,9,30,6,30.3,-79.1,hurricane,1,75,984,520,60
+Ian,2022,9,30,12,31.5,-79,hurricane,1,75,980,360,80
+Ian,2022,9,30,18,33.3,-79.2,hurricane,1,70,978,290,40
+Ian,2022,9,30,18,33.3,-79.2,hurricane,1,70,978,290,40
+Ian,2022,10,1,0,34.4,-79.3,extratropical,NA,50,990,170,0
+Ian,2022,10,1,6,35.3,-79.7,extratropical,NA,30,999,0,0
+Hermine,2022,9,23,6,16.6,-19.4,other low,NA,30,1005,0,0
+Hermine,2022,9,23,12,17.4,-19.9,tropical depression,NA,30,1004,0,0
+Hermine,2022,9,23,18,18.1,-20.3,tropical storm,NA,35,1003,40,0
+Hermine,2022,9,24,0,18.7,-20.7,tropical storm,NA,35,1003,40,0
+Hermine,2022,9,24,6,19.4,-20.9,tropical storm,NA,35,1004,40,0
+Hermine,2022,9,24,12,20.3,-20.9,tropical depression,NA,30,1005,0,0
+Hermine,2022,9,24,18,21.4,-20.7,tropical depression,NA,30,1006,0,0
+Hermine,2022,9,25,0,22.4,-20.5,other low,NA,30,1006,0,0
+Hermine,2022,9,25,6,23.1,-20.3,other low,NA,25,1007,0,0
+Hermine,2022,9,25,12,23.7,-20.1,other low,NA,25,1007,0,0
+Hermine,2022,9,25,18,24.1,-19.8,other low,NA,25,1008,0,0
+Hermine,2022,9,26,0,24.6,-19.4,other low,NA,25,1008,0,0
+Eleven,2022,9,26,18,13.8,-35.8,other low,NA,25,1009,0,0
+Eleven,2022,9,27,0,13.6,-35.4,other low,NA,25,1009,0,0
+Eleven,2022,9,27,6,13.6,-35,other low,NA,25,1009,0,0
+Eleven,2022,9,27,12,13.8,-34.7,other low,NA,25,1009,0,0
+Eleven,2022,9,27,18,14.1,-34.5,other low,NA,25,1009,0,0
+Eleven,2022,9,28,0,14.5,-34.3,tropical depression,NA,30,1008,0,0
+Eleven,2022,9,28,6,15.1,-34.2,tropical depression,NA,30,1008,0,0
+Eleven,2022,9,28,12,15.7,-34.3,tropical depression,NA,25,1009,0,0
+Eleven,2022,9,28,18,16.2,-34.7,tropical depression,NA,25,1009,0,0
+Eleven,2022,9,29,0,16.7,-35.2,tropical depression,NA,25,1009,0,0
+Eleven,2022,9,29,6,17.5,-36,tropical depression,NA,25,1009,0,0
+Eleven,2022,9,29,12,18.3,-36.9,other low,NA,25,1009,0,0
+Twelve,2022,10,4,12,13.6,-29.5,tropical depression,NA,30,1007,0,0
+Twelve,2022,10,4,18,14.2,-30.2,tropical depression,NA,30,1007,0,0
+Twelve,2022,10,5,0,14.6,-30.5,tropical depression,NA,30,1007,0,0
+Twelve,2022,10,5,6,15,-30.9,tropical depression,NA,30,1007,0,0
+Twelve,2022,10,5,12,15.3,-31.5,tropical depression,NA,30,1007,0,0
+Twelve,2022,10,5,18,16,-31.9,tropical depression,NA,30,1007,0,0
+Twelve,2022,10,6,0,17,-32.1,tropical depression,NA,30,1007,0,0
+Twelve,2022,10,6,6,17.7,-32.8,tropical depression,NA,30,1007,0,0
+Twelve,2022,10,6,12,18.1,-33.9,tropical depression,NA,30,1008,0,0
+Twelve,2022,10,6,18,18.7,-35,tropical depression,NA,30,1009,0,0
+Julia,2022,10,6,12,11.4,-66.5,disturbance,NA,30,1006,0,0
+Julia,2022,10,6,18,11.6,-67.8,disturbance,NA,30,1005,0,0
+Julia,2022,10,7,0,11.9,-69.2,tropical depression,NA,30,1004,0,0
+Julia,2022,10,7,3,12,-69.8,tropical depression,NA,30,1004,0,0
+Julia,2022,10,7,6,12.1,-70.6,tropical depression,NA,30,1004,0,0
+Julia,2022,10,7,8,12.2,-71.2,tropical depression,NA,30,1004,0,0
+Julia,2022,10,7,12,12.5,-72.1,tropical storm,NA,35,1002,70,0
+Julia,2022,10,7,18,12.8,-73.8,tropical storm,NA,40,1002,80,0
+Julia,2022,10,8,0,12.8,-75.5,tropical storm,NA,45,999,90,0
+Julia,2022,10,8,6,12.7,-77.2,tropical storm,NA,50,999,100,0
+Julia,2022,10,8,12,12.7,-78.9,tropical storm,NA,55,994,140,0
+Julia,2022,10,8,18,12.6,-80.5,tropical storm,NA,60,993,150,0
+Julia,2022,10,9,0,12.5,-82,hurricane,1,65,989,160,30
+Julia,2022,10,9,6,12.4,-83.3,hurricane,1,75,982,170,30
+Julia,2022,10,9,7,12.4,-83.6,hurricane,1,75,982,170,30
+Julia,2022,10,9,12,12.3,-84.7,hurricane,1,65,985,140,30
+Julia,2022,10,9,18,12.3,-86.2,tropical storm,NA,45,988,90,0
+Julia,2022,10,10,0,12.6,-87.6,tropical storm,NA,40,993,90,0
+Julia,2022,10,10,6,13.1,-88.8,tropical storm,NA,35,998,50,0
+Julia,2022,10,10,11,13.6,-89.7,tropical storm,NA,35,1001,50,0
+Julia,2022,10,10,12,13.7,-89.9,tropical depression,NA,30,1002,0,0
+Karl,2022,10,11,12,19,-94.1,tropical depression,NA,30,1007,0,0
+Karl,2022,10,11,18,19.6,-94.5,tropical storm,NA,35,1006,210,0
+Karl,2022,10,12,0,20.2,-94.8,tropical storm,NA,35,1005,180,0
+Karl,2022,10,12,6,20.9,-94.9,tropical storm,NA,35,1004,150,0
+Karl,2022,10,12,12,21.5,-94.8,tropical storm,NA,40,1002,120,0
+Karl,2022,10,12,18,22,-94.6,tropical storm,NA,50,1000,100,0
+Karl,2022,10,13,0,22.4,-94.3,tropical storm,NA,50,1000,90,0
+Karl,2022,10,13,6,22.4,-94.3,tropical storm,NA,45,1000,100,0
+Karl,2022,10,13,12,21.9,-94,tropical storm,NA,45,1000,100,0
+Karl,2022,10,13,18,21.3,-93.6,tropical storm,NA,40,999,70,0
+Karl,2022,10,14,0,20.9,-93,tropical storm,NA,40,998,60,0
+Karl,2022,10,14,6,20.3,-92.6,tropical storm,NA,35,997,50,0
+Karl,2022,10,14,12,19.8,-92.6,tropical storm,NA,35,997,50,0
+Karl,2022,10,14,18,19.4,-92.6,tropical storm,NA,35,999,40,0
+Karl,2022,10,15,0,19,-92.7,other low,NA,30,1004,0,0
+Karl,2022,10,15,6,18.7,-92.9,other low,NA,25,1007,0,0
+Karl,2022,10,15,12,18.5,-93.3,other low,NA,20,1009,0,0
+Karl,2022,10,15,18,18.4,-94,other low,NA,20,1010,0,0
+Lisa,2022,10,30,18,15.7,-73.3,other low,NA,35,1005,100,0
+Lisa,2022,10,31,0,15.7,-74.4,other low,NA,35,1005,100,0
+Lisa,2022,10,31,6,15.6,-75.5,other low,NA,35,1005,90,0
+Lisa,2022,10,31,12,15.5,-76.7,tropical storm,NA,35,1003,90,0
+Lisa,2022,10,31,18,15.5,-77.8,tropical storm,NA,40,1002,90,0
+Lisa,2022,11,1,0,15.6,-78.8,tropical storm,NA,40,1002,90,0
+Lisa,2022,11,1,6,15.9,-79.9,tropical storm,NA,40,1003,90,0
+Lisa,2022,11,1,12,16.2,-81.2,tropical storm,NA,45,1002,80,0
+Lisa,2022,11,1,18,16.5,-82.5,tropical storm,NA,50,1001,80,0
+Lisa,2022,11,2,0,16.7,-84.1,tropical storm,NA,55,993,120,0
+Lisa,2022,11,2,6,17,-85.5,tropical storm,NA,60,992,120,0
+Lisa,2022,11,2,12,17.1,-86.7,hurricane,1,70,990,120,10
+Lisa,2022,11,2,18,17.3,-87.7,hurricane,1,75,988,100,15
+Lisa,2022,11,2,21,17.4,-88.3,hurricane,1,80,985,90,30
+Lisa,2022,11,3,0,17.5,-88.6,hurricane,1,65,990,90,15
+Lisa,2022,11,3,6,17.7,-89.6,tropical storm,NA,45,998,60,0
+Lisa,2022,11,3,12,17.9,-90.6,tropical depression,NA,30,1008,0,0
+Lisa,2022,11,3,18,18,-91.7,tropical depression,NA,30,1008,0,0
+Lisa,2022,11,4,0,18.1,-92.7,tropical depression,NA,30,1008,0,0
+Lisa,2022,11,4,6,18.3,-93.6,tropical depression,NA,30,1008,0,0
+Lisa,2022,11,4,12,18.7,-94.5,tropical depression,NA,25,1008,0,0
+Lisa,2022,11,4,18,19.2,-95.2,tropical depression,NA,25,1008,0,0
+Lisa,2022,11,5,0,19.4,-95.4,tropical depression,NA,25,1008,0,0
+Lisa,2022,11,5,6,19.7,-95.4,tropical depression,NA,25,1008,0,0
+Martin,2022,10,30,18,34.2,-64,extratropical,NA,40,1006,180,0
+Martin,2022,10,31,0,34.6,-63.1,extratropical,NA,45,1004,180,0
+Martin,2022,10,31,6,34.9,-62.2,extratropical,NA,45,1004,180,0
+Martin,2022,10,31,12,35,-61.6,extratropical,NA,40,1004,180,0
+Martin,2022,10,31,18,35,-60.9,extratropical,NA,40,1004,180,0
+Martin,2022,11,1,0,35.1,-59.6,extratropical,NA,35,1004,190,0
+Martin,2022,11,1,6,35.2,-57.9,extratropical,NA,35,1002,160,0
+Martin,2022,11,1,12,35.3,-56.7,tropical storm,NA,40,998,150,0
+Martin,2022,11,1,18,35.3,-55.4,tropical storm,NA,45,993,170,0
+Martin,2022,11,2,0,35.1,-54.2,tropical storm,NA,50,991,170,0
+Martin,2022,11,2,6,35,-53,tropical storm,NA,55,989,190,0
+Martin,2022,11,2,12,35.1,-50.9,hurricane,1,65,983,200,30
+Martin,2022,11,2,18,36.1,-48.9,hurricane,1,75,974,220,60
+Martin,2022,11,3,0,38,-46.4,hurricane,1,75,970,300,80
+Martin,2022,11,3,6,40.3,-43.6,hurricane,1,75,965,450,80
+Martin,2022,11,3,12,43.7,-38.8,extratropical,NA,75,960,600,100
+Martin,2022,11,3,18,49,-35.3,extratropical,NA,75,950,810,100
+Martin,2022,11,4,0,52.7,-38,extratropical,NA,70,947,990,100
+Martin,2022,11,4,6,54.7,-37.7,extratropical,NA,65,936,1050,100
+Martin,2022,11,4,12,55.8,-37.2,extratropical,NA,60,932,1170,0
+Martin,2022,11,4,18,56.5,-36.5,extratropical,NA,55,939,1170,0
+Nicole,2022,11,6,12,20.6,-66.8,other low,NA,30,1005,0,0
+Nicole,2022,11,6,18,22.4,-66.8,other low,NA,35,1005,120,0
+Nicole,2022,11,7,0,23.9,-67.5,other low,NA,35,1005,240,0
+Nicole,2022,11,7,6,25.2,-68.2,subtropical storm,NA,40,1004,240,0
+Nicole,2022,11,7,12,25.9,-69.3,subtropical storm,NA,40,1002,310,0
+Nicole,2022,11,7,18,26.4,-70.3,subtropical storm,NA,40,1001,350,0
+Nicole,2022,11,8,0,26.8,-70.7,subtropical storm,NA,40,998,450,0
+Nicole,2022,11,8,6,27.5,-71.2,subtropical storm,NA,40,996,570,0
+Nicole,2022,11,8,12,27.7,-72.1,subtropical storm,NA,45,993,570,0
+Nicole,2022,11,8,18,27.6,-73.3,tropical storm,NA,50,991,570,0
+Nicole,2022,11,9,0,27.2,-74.3,tropical storm,NA,60,984,570,0
+Nicole,2022,11,9,6,26.8,-75.3,tropical storm,NA,60,986,520,0
+Nicole,2022,11,9,12,26.5,-76.2,tropical storm,NA,55,985,520,0
+Nicole,2022,11,9,17,26.5,-77.1,tropical storm,NA,60,985,520,0
+Nicole,2022,11,9,18,26.5,-77.3,tropical storm,NA,60,985,480,0
+Nicole,2022,11,9,23,26.6,-78.2,hurricane,1,65,980,480,20
+Nicole,2022,11,10,0,26.7,-78.4,hurricane,1,65,980,480,20
+Nicole,2022,11,10,6,27.3,-79.8,hurricane,1,65,980,570,20
+Nicole,2022,11,10,7,27.6,-80.3,hurricane,1,65,980,570,20
+Nicole,2022,11,10,12,28,-81.6,tropical storm,NA,55,984,480,0
+Nicole,2022,11,10,18,29,-82.8,tropical storm,NA,40,989,300,0
+Nicole,2022,11,10,19,29.2,-83,tropical storm,NA,40,989,300,0
+Nicole,2022,11,11,0,30.1,-84,tropical storm,NA,35,992,300,0
+Nicole,2022,11,11,6,31.2,-84.6,tropical depression,NA,30,996,0,0
+Nicole,2022,11,11,12,33.2,-84.6,tropical depression,NA,25,999,0,0
+Nicole,2022,11,11,18,35.4,-83.8,other low,NA,25,1000,0,0
