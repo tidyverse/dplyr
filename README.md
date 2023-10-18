@@ -51,6 +51,11 @@ alternative backends:
 - [dbplyr](https://dbplyr.tidyverse.org/) for data stored in a
   relational database. Translates your dplyr code to SQL.
 
+- [duckplyr](https://duckdblabs.github.io/duckplyr/) for using
+  [duckdb](https://duckdb.org) on large, in-memory datasets with zero
+  extra copies. Translates your dplyr code to high performance duckdb
+  queries with an automatic R fallback when translation isn’t possible.
+
 - [duckdb](https://duckdb.org/docs/api/r) for large datasets that are
   still small enough to fit on your computer.
 
