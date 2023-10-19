@@ -9,8 +9,10 @@
 #' `in_place` for selected backends.
 #'
 #' * `rows_insert()` adds new rows (like `INSERT`). By default, key values in
-#'   `y` must not exist in `x`.
-#' * `rows_append()` works like `rows_insert()` but ignores keys.
+#'   `y` must not exist in `x`. Adds rows to a dataset without overwriting existing 
+#    rows or introducing complete duplicates based on key columns.
+#' * `rows_append()` works like `rows_insert()` but ignores keys.  
+#    Attaches new rows to the end of a dataset without any checks for duplicates. 
 #' * `rows_update()` modifies existing rows (like `UPDATE`). Key values in `y`
 #'   must be unique, and, by default, key values in `y` must exist in `x`.
 #' * `rows_patch()` works like `rows_update()` but only overwrites `NA` values.
@@ -91,10 +93,11 @@
 #' # and will throw an error. Alternatively, you can ignore rows in `y`
 #' # containing keys that conflict with keys in `x` with `conflict = "ignore"`,
 #' # or you can use `rows_append()` to ignore keys entirely.
+#' # For instance, if you're adding a customer record and don't want to insert a new row if a customer with the same ID already exists, choose this function.
 #' try(rows_insert(data, tibble(a = 3, b = "z")))
 #' rows_insert(data, tibble(a = 3, b = "z"), conflict = "ignore")
 #' rows_append(data, tibble(a = 3, b = "z"))
-#'
+#'If you're merging datasets and aren't concerned about potential overlaps or repeated rows, this function is ideal.
 #' # Update
 #' rows_update(data, tibble(a = 2:3, b = "z"))
 #' rows_update(data, tibble(b = "z", a = 2:3), by = "a")
