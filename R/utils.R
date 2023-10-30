@@ -48,6 +48,13 @@ dplyr_new_tibble <- function(x, size) {
   new_data_frame(x = x, n = size, class = c("tbl_df", "tbl"))
 }
 
+dplyr_attributes <- function(x) {
+  .Call(ffi_dplyr_attributes, x)
+}
+dplyr_set_attributes <- function(x, attributes) {
+  .Call(ffi_dplyr_set_attributes, x, attributes)
+}
+
 #' @param x A list
 #' @param fn An optional function of 1 argument to be applied to each list
 #'   element of `x`. This allows you to further refine what elements should be
