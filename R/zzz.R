@@ -40,13 +40,16 @@
   setHook(packageEvent("plyr", "attach"), NULL, "replace")
 }
 
-import_vctrs <- function(name) {
-  import_from(name, "vctrs")
+import_vctrs <- function(name, optional = FALSE) {
+  import_from(name, "vctrs", optional = optional)
 }
-import_from <- function(name, package) {
+import_from <- function(name, package, optional = FALSE) {
   ns <- getNamespace(package)
 
   if (!exists(name, mode = "function", envir = ns, inherits = FALSE)) {
+    if (optional) {
+      return(NULL)
+    }
     abort(sprintf("No such '%s' function: `%s()`.", package, name))
   }
 
