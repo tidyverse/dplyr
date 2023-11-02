@@ -192,6 +192,7 @@ dplyr_col_modify.rowwise_df <- function(data, cols) {
 dplyr_reconstruct <- function(data, template) {
   # Strip attributes before dispatch to make it easier to implement
   # methods and prevent unexpected leaking of irrelevant attributes.
+  # This also enforces that `data` is a well-formed data frame.
   data <- dplyr_new_data_frame(data)
   return(dplyr_reconstruct_dispatch(data, template))
   UseMethod("dplyr_reconstruct", template)
@@ -202,10 +203,7 @@ dplyr_reconstruct_dispatch <- function(data, template) {
 
 #' @export
 dplyr_reconstruct.data.frame <- function(data, template) {
-  attributes <- dplyr_attributes(template)
-  attributes$names <- names(data)
-  attributes$row.names <- .row_names_info(data, type = 0L)
-  dplyr_set_attributes(data, attributes)
+  .Call(ffi_dplyr_reconstruct, data, template)
 }
 
 #' @export
