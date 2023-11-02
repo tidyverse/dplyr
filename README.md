@@ -30,8 +30,8 @@ provides a variety of two-table verbs, which you can learn about in
 `vignette("two-table")`.
 
 If you are new to dplyr, the best place to start is the [data
-transformation chapter](https://r4ds.had.co.nz/transform.html) in R for
-data science.
+transformation chapter](https://r4ds.hadley.nz/data-transform) in R for
+Data Science.
 
 ## Backends
 
