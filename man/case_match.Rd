@@ -20,12 +20,12 @@ If a value is repeated in the LHS, i.e. a value in \code{.x} matches to
 multiple cases, the first match is used.
 
 The RHS inputs will be coerced to their common type. Each RHS input will be
-\link[vctrs:vector_recycling_rules]{recycled} to the size of \code{.x}.}
+\link[vctrs:theory-faq-recycling]{recycled} to the size of \code{.x}.}
 
 \item{.default}{The value used when values in \code{.x} aren't matched by any of
 the LHS inputs. If \code{NULL}, the default, a missing value will be used.
 
-\code{.default} is \link[vctrs:vector_recycling_rules]{recycled} to the size of
+\code{.default} is \link[vctrs:theory-faq-recycling]{recycled} to the size of
 \code{.x}.}
 
 \item{.ptype}{An optional prototype declaring the desired output type. If

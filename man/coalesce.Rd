@@ -10,7 +10,7 @@ coalesce(..., .ptype = NULL, .size = NULL)
 \item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}>
 
 One or more vectors. These will be
-\link[vctrs:vector_recycling_rules]{recycled} against each other, and will be
+\link[vctrs:theory-faq-recycling]{recycled} against each other, and will be
 cast to their common type.}
 
 \item{.ptype}{An optional prototype declaring the desired output type. If
