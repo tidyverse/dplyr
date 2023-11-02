@@ -168,7 +168,7 @@ diagnosing performance problems.</p>
 <span class="r-in"><span><span class="co"># SQLite automatically picks the most restrictive index</span></span></span>
 <span class="r-in"><span><span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">lgID</span> <span class="op">==</span> <span class="st">"NL"</span> <span class="op">&amp;</span> <span class="va">yearID</span> <span class="op">==</span> <span class="fl">2000L</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">explain</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;SQL&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">SELECT</span> *</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">SELECT</span> `Batting`.*</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">FROM</span> `Batting`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">WHERE</span> (`lgID` = 'NL' AND `yearID` = 2000)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -179,7 +179,7 @@ diagnosing performance problems.</p>
 <span class="r-in"><span><span class="co"># OR's will use multiple indexes</span></span></span>
 <span class="r-in"><span><span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">lgID</span> <span class="op">==</span> <span class="st">"NL"</span> <span class="op">|</span> <span class="va">yearID</span> <span class="op">==</span> <span class="fl">2000</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">explain</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;SQL&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">SELECT</span> *</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">SELECT</span> `Batting`.*</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">FROM</span> `Batting`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">WHERE</span> (`lgID` = 'NL' OR `yearID` = 2000.0)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
