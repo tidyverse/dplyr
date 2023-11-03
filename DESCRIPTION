@@ -19,9 +19,9 @@ Description: A fast, consistent tool for working with data frame like
 License: MIT + file LICENSE
 URL: https://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
 BugReports: https://github.com/tidyverse/dplyr/issues
-Depends: 
+Depends:
     R (>= 3.5.0)
-Imports: 
+Imports:
     cli (>= 3.4.0),
     generics,
     glue (>= 1.3.2),
@@ -34,8 +34,8 @@ Imports:
     tibble (>= 3.2.0),
     tidyselect (>= 1.2.0),
     utils,
-    vctrs (>= 0.6.0)
-Suggests: 
+    vctrs (>= 0.6.4)
+Suggests:
     bench,
     broom,
     callr,
@@ -57,7 +57,7 @@ Suggests:
     testthat (>= 3.1.5),
     tidyr (>= 1.3.0),
     withr
-VignetteBuilder: 
+VignetteBuilder:
     knitr
 Config/Needs/website: tidyverse, shiny, pkgdown, tidyverse/tidytemplate
 Config/testthat/edition: 3

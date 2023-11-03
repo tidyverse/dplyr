@@ -12,7 +12,7 @@ bind_cols(
 \arguments{
 \item{...}{Data frames to combine. Each argument can either be a data frame,
 a list that could be a data frame, or a list of data frames.
-Inputs are \link[vctrs:vector_recycling_rules]{recycled} to the same length,
+Inputs are \link[vctrs:theory-faq-recycling]{recycled} to the same length,
 then matched by position.}
 
 \item{.name_repair}{One of \code{"unique"}, \code{"universal"}, or

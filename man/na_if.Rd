@@ -14,7 +14,7 @@ value in \code{x} will be replaced with \code{NA}.
 
 \code{y} is cast to the type of \code{x} before comparison.
 
-\code{y} is \link[vctrs:vector_recycling_rules]{recycled} to the size of \code{x} before
+\code{y} is \link[vctrs:theory-faq-recycling]{recycled} to the size of \code{x} before
 comparison. This means that \code{y} can be a vector with the same size as \code{x},
 but most of the time this will be a single value.}
 }
