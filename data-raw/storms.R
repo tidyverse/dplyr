@@ -168,5 +168,9 @@ storms <- storms %>%
   # drop some columns
   select(name, year, month, day, hour, lat, long, status, category, wind, pressure, tropicalstorm_force_diameter, hurricane_force_diameter)
 
+# save in convenient form for diffs
+storms %>%
+  write_csv("data-raw/storms.csv")
+
 # output for the package
 usethis::use_data(storms, overwrite = TRUE)
