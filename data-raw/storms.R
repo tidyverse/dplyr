@@ -7,7 +7,7 @@ library(tidyverse)
 # TO UPDATE: get the latest URL from https://www.nhc.noaa.gov/data/#hurdat, and rerun this code
 
 # Read in data set so each line is a character string
-storm_file_complete <- read_file("https://www.nhc.noaa.gov/data/hurdat/hurdat2-1851-2021-041922.txt")
+storm_file_complete <- read_file("https://www.nhc.noaa.gov/data/hurdat/hurdat2-1851-2022-050423.txt")
 storm_strings <- read_lines(storm_file_complete)
 
 # Identify the header lines that have three commas

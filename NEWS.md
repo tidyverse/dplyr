@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* Updated the `storms` data to include 2022 data (#6937, @steveharoz).
+
 * Updated the `starwars` data to use a new API, because the old one is defunct.
   There are very minor changes to the data itself (#6938, @steveharoz).
 
