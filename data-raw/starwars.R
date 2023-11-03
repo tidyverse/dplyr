@@ -100,14 +100,6 @@ starwars %>% count(sex, gender, sort = TRUE)
 starwars = starwars %>%
   mutate(name = ifelse(name == "Beru Whitesun lars", "Beru Whitesun Lars", name))
 
-# Fix inconsistencies with data sources -----------------------------------
-
-# this data was lost when moved to the new API
-starwars = starwars %>%
-  mutate(sex    = ifelse(name == "Jek Tono Porkins", "male", sex)) %>%
-  mutate(gender = ifelse(name == "Jek Tono Porkins", "masculine", gender)) %>%
-  mutate(species = ifelse(name == "Jek Tono Porkins", "Human", species))
-
 # Basic checks -------------------------------------------------------------
 
 starwars %>% count(species, sort = TRUE)
