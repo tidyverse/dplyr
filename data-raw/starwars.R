@@ -41,7 +41,7 @@ starships <- lookup("https://swapi.py4e.com/api/starships/?format=json")
 
 starwars <- tibble(
   name = people %>% map_chr("name"),
-  height = people %>% map_chr("height") %>% parse_integer(na = "unknown"),
+  height = people %>% map_chr("height") %>% parse_integer(na = c("unknown", "none")),
   mass = people %>% map_chr("mass") %>% parse_number(na = "unknown"),
   hair_color = people %>% map_chr("hair_color") %>% parse_character(na = "n/a"),
   skin_color = people %>% map_chr("skin_color"),
