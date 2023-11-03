@@ -240,7 +240,7 @@ dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/filter.tbl_lazy.ht
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span>
 <span class="r-in"><span><span class="fu">filter</span><span class="op">(</span><span class="va">starwars</span>, <span class="va">hair_color</span> <span class="op">==</span> <span class="st">"none"</span> <span class="op">|</span> <span class="va">eye_color</span> <span class="op">==</span> <span class="st">"black"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 38 × 14</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 39 × 14</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    name      height  mass hair_color skin_color eye_color birth_year sex  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Darth Va…    202   136 none       white      yellow          41.9 male </span>
@@ -253,7 +253,7 @@ dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/filter.tbl_lazy.ht
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Nute Gun…    191    90 none       mottled g… red             <span style="color: #BB0000;">NA</span>   male </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Jar Jar …    196    66 none       orange     orange          52   male </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Roos Tar…    224    82 none       grey       orange          <span style="color: #BB0000;">NA</span>   male </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 28 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 29 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span>
 <span class="r-in"><span></span></span>
@@ -288,7 +288,7 @@ dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/filter.tbl_lazy.ht
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Owen Lars    178   120 brown, gr… light      blue            52   male </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Chewbacca    228   112 brown      unknown    blue           200   male </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Jabba De…    175  <span style="text-decoration: underline;">1</span>358 <span style="color: #BB0000;">NA</span>         green-tan… orange         600   herm…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Jek Tono…    180   110 brown      fair       blue            <span style="color: #BB0000;">NA</span>   male </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Jek Tono…    180   110 brown      fair       blue            <span style="color: #BB0000;">NA</span>   <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> IG-88        200   140 none       metal      red             15   none </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Bossk        190   113 none       green      red             53   male </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Dexter J…    198   102 none       brown      yellow          <span style="color: #BB0000;">NA</span>   male </span>
@@ -300,8 +300,8 @@ dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/filter.tbl_lazy.ht
 <span class="r-in"><span><span class="co"># Whereas this keeps rows with `mass` greater than the gender</span></span></span>
 <span class="r-in"><span><span class="co"># average:</span></span></span>
 <span class="r-in"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">gender</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">filter</span><span class="op">(</span><span class="va">mass</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mass</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 14 × 14</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   gender [2]</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 15 × 14</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   gender [3]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    name     height   mass hair_color skin_color eye_color birth_year sex  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Darth V…    202  136   none       white      yellow          41.9 male </span>
@@ -309,15 +309,16 @@ dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/filter.tbl_lazy.ht
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Beru Wh…    165   75   brown      light      blue            47   fema…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Chewbac…    228  112   brown      unknown    blue           200   male </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Jabba D…    175 <span style="text-decoration: underline;">1</span>358   <span style="color: #BB0000;">NA</span>         green-tan… orange         600   herm…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Jek Ton…    180  110   brown      fair       blue            <span style="color: #BB0000;">NA</span>   male </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Jek Ton…    180  110   brown      fair       blue            <span style="color: #BB0000;">NA</span>   <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> IG-88       200  140   none       metal      red             15   none </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Bossk       190  113   none       green      red             53   male </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Ayla Se…    178   55   none       blue       hazel           48   fema…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Luminar…    170   56.2 black      yellow     blue            58   fema…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> Zam Wes…    168   55   blonde     fair, gre… yellow          <span style="color: #BB0000;">NA</span>   fema…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> Shaak Ti    178   57   none       red, blue… black           <span style="color: #BB0000;">NA</span>   fema…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> Grievous    216  159   none       brown, wh… green, y…       <span style="color: #BB0000;">NA</span>   male </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> Tarfful     234  136   brown      brown      blue            <span style="color: #BB0000;">NA</span>   male </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Gregar …    185   85   black      dark       brown           <span style="color: #BB0000;">NA</span>   <span style="color: #BB0000;">NA</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> Luminar…    170   56.2 black      yellow     blue            58   fema…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> Zam Wes…    168   55   blonde     fair, gre… yellow          <span style="color: #BB0000;">NA</span>   fema…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> Shaak Ti    178   57   none       red, blue… black           <span style="color: #BB0000;">NA</span>   fema…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> Grievous    216  159   none       brown, wh… green, y…       <span style="color: #BB0000;">NA</span>   male </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> Tarfful     234  136   brown      brown      blue            <span style="color: #BB0000;">NA</span>   male </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span>
 <span class="r-in"><span></span></span>
@@ -339,7 +340,7 @@ dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/filter.tbl_lazy.ht
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Anakin S…    188    84 blond      fair       blue            41.9 male </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Chewbacca    228   112 brown      unknown    blue           200   male </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Jabba De…    175  <span style="text-decoration: underline;">1</span>358 <span style="color: #BB0000;">NA</span>         green-tan… orange         600   herm…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Jek Tono…    180   110 brown      fair       blue            <span style="color: #BB0000;">NA</span>   male </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Jek Tono…    180   110 brown      fair       blue            <span style="color: #BB0000;">NA</span>   <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> IG-88        200   140 none       metal      red             15   none </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Bossk        190   113 none       green      red             53   male </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Ackbar       180    83 none       brown mot… orange          41   male </span>

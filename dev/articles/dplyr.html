@@ -229,8 +229,8 @@ brown eyes with:</p>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Leia Orga…    150    49 brown      light      brown             19 fema…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Biggs Dar…    183    84 black      light      brown             24 male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cordé         157    <span style="color: #BB0000;">NA</span> brown      light      brown             <span style="color: #BB0000;">NA</span> fema…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Dormé         165    <span style="color: #BB0000;">NA</span> brown      light      brown             <span style="color: #BB0000;">NA</span> fema…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Padmé Ami…    185    45 brown      light      brown             46 fema…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Cordé         157    <span style="color: #BB0000;">NA</span> brown      light      brown             <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>   </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></span></code></pre></div>
@@ -315,12 +315,12 @@ prop to choose a certain proportion of the cases.</li>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/slice.html">slice_sample</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 14</span></span></span>
-<span><span class="co">#&gt;   name     height  mass hair_color skin_color   eye_color birth_year sex  </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Dud Bolt     94    45 none       blue, grey   yellow            <span style="color: #BB0000;">NA</span> male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Bossk       190   113 none       green        red               53 male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Shaak Ti    178    57 none       red, blue, … black             <span style="color: #BB0000;">NA</span> fema…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Dormé       165    <span style="color: #BB0000;">NA</span> brown      light        brown             <span style="color: #BB0000;">NA</span> fema…</span></span>
+<span><span class="co">#&gt;   name       height  mass hair_color skin_color eye_color birth_year sex  </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Ayla Secu…    178  55   none       blue       hazel             48 fema…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Bossk         190 113   none       green      red               53 male </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> San Hill      191  <span style="color: #BB0000;">NA</span>   none       grey       gold              <span style="color: #BB0000;">NA</span> male </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Luminara …    170  56.2 black      yellow     blue              58 fema…</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more row</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></span>
@@ -329,9 +329,9 @@ prop to choose a certain proportion of the cases.</li>
 <span><span class="co">#&gt;   name       height  mass hair_color skin_color eye_color birth_year sex  </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Qui-Gon J…    193    89 brown      fair       blue              92 male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Dexter Je…    198   102 none       brown      yellow            <span style="color: #BB0000;">NA</span> male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> R4-P17         96    <span style="color: #BB0000;">NA</span> none       silver, r… red, blue         <span style="color: #BB0000;">NA</span> none </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Lama Su       229    88 none       grey       black             <span style="color: #BB0000;">NA</span> male </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Jango Fett    183    79 black      tan        brown             66 male </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Jocasta Nu    167    <span style="color: #BB0000;">NA</span> white      fair       blue              <span style="color: #BB0000;">NA</span> fema…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Zam Wesell    168    55 blonde     fair, gre… yellow            <span style="color: #BB0000;">NA</span> fema…</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></span></code></pre></div>
@@ -541,7 +541,7 @@ to a single row.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 1</span></span></span>
 <span><span class="co">#&gt;   height</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   174.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   175.</span></span></code></pre></div>
 <p>It’s not that useful until we learn the <code><a href="../reference/group_by.html">group_by()</a></code> verb
 below.</p>
 </div>
