@@ -96,7 +96,8 @@ to convert an annoying value to <code>NA</code>.</p>
 <dt>y</dt>
 <dd><p>Value or vector to compare against. When <code>x</code> and <code>y</code> are equal, the
 value in <code>x</code> will be replaced with <code>NA</code>.</p>
-<p><code>y</code> is cast to the type of <code>x</code> before comparison.</p>
+<p><code>y</code> is <a href="https://vctrs.r-lib.org/reference/theory-faq-coercion.html" class="external-link">cast</a> to the type of <code>x</code> before
+comparison.</p>
 <p><code>y</code> is <a href="https://vctrs.r-lib.org/reference/theory-faq-recycling.html" class="external-link">recycled</a> to the size of <code>x</code> before
 comparison. This means that <code>y</code> can be a vector with the same size as <code>x</code>,
 but most of the time this will be a single value.</p></dd>
