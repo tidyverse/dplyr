@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* Updated the `starwars` data to use a new API, because the old one is defunct.
+  There are very minor changes to the data itself (#6938, @steveharoz).
+
 # dplyr 1.1.3
 
 * `mutate_each()` and `summarise_each()` now throw correct deprecation messages
