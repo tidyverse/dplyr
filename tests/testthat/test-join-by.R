@@ -236,6 +236,23 @@ test_that("nicely catches required missing arguments when wrapped", {
   expect_snapshot(error = TRUE, fn(a))
 })
 
+test_that("allows for namespaced helpers (#6838)", {
+  # Captures namespaced expression for printing
+  expect_snapshot(join_by(dplyr::between(x, left, right)))
+  expect_snapshot(join_by(dplyr::within(xl, xu, yl, yu)))
+  expect_snapshot(join_by(dplyr::overlaps(xl, xu, yl, yu)))
+  expect_snapshot(join_by(dplyr::closest(x < y)))
+
+  # Underlying values are otherwise the same as non-namespaced version
+  by <- join_by(dplyr::between(x, left, right))
+  reference <- join_by(between(x, left, right))
+
+  expect_identical(by$condition, reference$condition)
+  expect_identical(by$filter, reference$filter)
+  expect_identical(by$x, reference$x)
+  expect_identical(by$y, reference$y)
+})
+
 test_that("has an informative print method", {
   expect_snapshot(join_by(a, b))
   expect_snapshot(join_by("a", "b"))

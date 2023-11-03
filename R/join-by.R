@@ -431,6 +431,13 @@ parse_join_by_expr <- function(expr, i, error_call) {
     abort(message, call = error_call)
   }
 
+  if (is_string(call_ns(expr), "dplyr")) {
+    # Normalize by removing the `dplyr::`
+    fn <- call_name(expr)
+    args <- call_args(expr)
+    expr <- call2(fn, !!!args)
+  }
+
   op <- as_string(expr[[1]])
 
   switch(

@@ -16,6 +16,38 @@
       ! Expressions using `==` can't contain missing arguments.
       x Argument `y` is missing.
 
+# allows for namespaced helpers (#6838)
+
+    Code
+      join_by(dplyr::between(x, left, right))
+    Output
+      Join By:
+      - dplyr::between(x, left, right)
+
+---
+
+    Code
+      join_by(dplyr::within(xl, xu, yl, yu))
+    Output
+      Join By:
+      - dplyr::within(xl, xu, yl, yu)
+
+---
+
+    Code
+      join_by(dplyr::overlaps(xl, xu, yl, yu))
+    Output
+      Join By:
+      - dplyr::overlaps(xl, xu, yl, yu)
+
+---
+
+    Code
+      join_by(dplyr::closest(x < y))
+    Output
+      Join By:
+      - dplyr::closest(x < y)
+
 # has an informative print method
 
     Code
