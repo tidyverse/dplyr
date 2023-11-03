@@ -25,7 +25,7 @@ A tibble with 87 rows and 14 variables:
 starwars
 }
 \description{
-The original data, from SWAPI, the Star Wars API, \url{https://swapi.dev/}, has been revised
+The original data, from SWAPI, the Star Wars API, \url{https://swapi.py4e.com/}, has been revised
 to reflect additional research into gender and sex determinations of characters.
 }
 \examples{

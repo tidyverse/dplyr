@@ -17,7 +17,7 @@ get_all <- function(url) {
   out
 }
 
-people <- get_all("http://swapi.co/api/people")
+people <- get_all("https://swapi.py4e.com/api/people/?format=json")
 str(people[[1]])
 
 
@@ -33,15 +33,15 @@ lookup <- function(url, name = "name") {
   set_names(name, url)
 }
 
-species <- lookup("http://swapi.co/api/species")
-films <- lookup("http://swapi.co/api/films", "title")
-planets <- lookup("http://swapi.co/api/planets")
-vehicles <- lookup("http://swapi.co/api/vehicles")
-starships <- lookup("http://swapi.co/api/starships")
+species <- lookup("https://swapi.py4e.com/api/species/?format=json")
+films <- lookup("https://swapi.py4e.com/api/films/?format=json", "title")
+planets <- lookup("https://swapi.py4e.com/api/planets/?format=json")
+vehicles <- lookup("https://swapi.py4e.com/api/vehicles/?format=json")
+starships <- lookup("https://swapi.py4e.com/api/starships/?format=json")
 
 starwars <- tibble(
   name = people %>% map_chr("name"),
-  height = people %>% map_chr("height") %>% parse_integer(na = "unknown"),
+  height = people %>% map_chr("height") %>% parse_integer(na = c("unknown", "none")),
   mass = people %>% map_chr("mass") %>% parse_number(na = "unknown"),
   hair_color = people %>% map_chr("hair_color") %>% parse_character(na = "n/a"),
   skin_color = people %>% map_chr("skin_color"),
@@ -93,6 +93,12 @@ starwars %>% filter(is.na(sex)) %>% select(name, species, gender, sex)
 
 starwars %>% count(gender, sort = TRUE)
 starwars %>% count(sex, gender, sort = TRUE)
+
+# Fix a typo --------------------------------------------------------------
+
+# see https://github.com/tidyverse/dplyr/pull/6840
+starwars = starwars %>%
+  mutate(name = ifelse(name == "Beru Whitesun lars", "Beru Whitesun Lars", name))
 
 # Basic checks -------------------------------------------------------------
 

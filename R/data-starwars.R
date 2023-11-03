@@ -1,6 +1,6 @@
 #' Starwars characters
 #'
-#' The original data, from SWAPI, the Star Wars API, <https://swapi.dev/>, has been revised
+#' The original data, from SWAPI, the Star Wars API, <https://swapi.py4e.com/>, has been revised
 #' to reflect additional research into gender and sex determinations of characters.
 #'
 #' @format A tibble with 87 rows and 14 variables:
