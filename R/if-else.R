@@ -12,7 +12,7 @@
 #' @param true,false Vectors to use for `TRUE` and `FALSE` values of
 #'   `condition`.
 #'
-#'   Both `true` and `false` will be [recycled][vctrs::vector_recycling_rules]
+#'   Both `true` and `false` will be [recycled][vctrs::theory-faq-recycling]
 #'   to the size of `condition`.
 #'
 #'   `true`, `false`, and `missing` (if used) will be cast to their common type.

@@ -10,7 +10,7 @@
 #'   `y` is [cast][vctrs::theory-faq-coercion] to the type of `x` before
 #'   comparison.
 #'
-#'   `y` is [recycled][vctrs::vector_recycling_rules] to the size of `x` before
+#'   `y` is [recycled][vctrs::theory-faq-recycling] to the size of `x` before
 #'   comparison. This means that `y` can be a vector with the same size as `x`,
 #'   but most of the time this will be a single value.
 #' @return A modified version of `x` that replaces any values that

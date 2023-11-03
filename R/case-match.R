@@ -42,12 +42,12 @@
 #'   multiple cases, the first match is used.
 #'
 #'   The RHS inputs will be coerced to their common type. Each RHS input will be
-#'   [recycled][vctrs::vector_recycling_rules] to the size of `.x`.
+#'   [recycled][vctrs::theory-faq-recycling] to the size of `.x`.
 #'
 #' @param .default The value used when values in `.x` aren't matched by any of
 #'   the LHS inputs. If `NULL`, the default, a missing value will be used.
 #'
-#'   `.default` is [recycled][vctrs::vector_recycling_rules] to the size of
+#'   `.default` is [recycled][vctrs::theory-faq-recycling] to the size of
 #'   `.x`.
 #'
 #' @param .ptype An optional prototype declaring the desired output type. If

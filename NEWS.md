@@ -74,7 +74,7 @@
 
 * `pick()` now returns a 1 row, 0 column tibble when `...` evaluates to an
   empty selection. This makes it more compatible with [tidyverse recycling
-  rules](https://vctrs.r-lib.org/reference/vector_recycling_rules.html) in some
+  rules](https://vctrs.r-lib.org/reference/theory-faq-recycling.html) in some
   edge cases (#6685).
 
 * `if_else()` and `case_when()` again accept logical conditions that have

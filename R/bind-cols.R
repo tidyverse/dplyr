@@ -11,7 +11,7 @@
 #'
 #' @param ... Data frames to combine. Each argument can either be a data frame,
 #'   a list that could be a data frame, or a list of data frames.
-#'   Inputs are [recycled][vctrs::vector_recycling_rules] to the same length,
+#'   Inputs are [recycled][vctrs::theory-faq-recycling] to the same length,
 #'   then matched by position.
 #' @param .name_repair One of `"unique"`, `"universal"`, or
 #'   `"check_unique"`. See [vctrs::vec_as_names()] for the meaning of these

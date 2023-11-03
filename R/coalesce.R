@@ -7,7 +7,7 @@
 #' @param ... <[`dynamic-dots`][rlang::dyn-dots]>
 #'
 #'   One or more vectors. These will be
-#'   [recycled][vctrs::vector_recycling_rules] against each other, and will be
+#'   [recycled][vctrs::theory-faq-recycling] against each other, and will be
 #'   cast to their common type.
 #'
 #' @param .ptype An optional prototype declaring the desired output type. If
