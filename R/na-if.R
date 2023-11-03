@@ -7,7 +7,8 @@
 #' @param y Value or vector to compare against. When `x` and `y` are equal, the
 #'   value in `x` will be replaced with `NA`.
 #'
-#'   `y` is cast to the type of `x` before comparison.
+#'   `y` is [cast][vctrs::theory-faq-coercion] to the type of `x` before
+#'   comparison.
 #'
 #'   `y` is [recycled][vctrs::vector_recycling_rules] to the size of `x` before
 #'   comparison. This means that `y` can be a vector with the same size as `x`,

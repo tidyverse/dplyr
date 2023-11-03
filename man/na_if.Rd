@@ -12,7 +12,8 @@ na_if(x, y)
 \item{y}{Value or vector to compare against. When \code{x} and \code{y} are equal, the
 value in \code{x} will be replaced with \code{NA}.
 
-\code{y} is cast to the type of \code{x} before comparison.
+\code{y} is \link[vctrs:theory-faq-coercion]{cast} to the type of \code{x} before
+comparison.
 
 \code{y} is \link[vctrs:theory-faq-recycling]{recycled} to the size of \code{x} before
 comparison. This means that \code{y} can be a vector with the same size as \code{x},
