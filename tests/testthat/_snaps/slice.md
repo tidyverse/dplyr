@@ -231,6 +231,39 @@
 ---
 
     Code
+      dplyr::slice_head(df, 5)
+    Condition
+      Error in `dplyr::slice_head()`:
+      ! `n` must be explicitly named.
+      i Did you mean `dplyr::slice_head(n = 5)`?
+    Code
+      dplyr::slice_tail(df, 5)
+    Condition
+      Error in `dplyr::slice_tail()`:
+      ! `n` must be explicitly named.
+      i Did you mean `dplyr::slice_tail(n = 5)`?
+    Code
+      dplyr::slice_min(df, x, 5)
+    Condition
+      Error in `dplyr::slice_min()`:
+      ! `n` must be explicitly named.
+      i Did you mean `dplyr::slice_min(n = 5)`?
+    Code
+      dplyr::slice_max(df, x, 5)
+    Condition
+      Error in `dplyr::slice_max()`:
+      ! `n` must be explicitly named.
+      i Did you mean `dplyr::slice_max(n = 5)`?
+    Code
+      dplyr::slice_sample(df, 5)
+    Condition
+      Error in `dplyr::slice_sample()`:
+      ! `n` must be explicitly named.
+      i Did you mean `dplyr::slice_sample(n = 5)`?
+
+---
+
+    Code
       slice_head(df, 5, 2)
     Condition
       Error in `slice_head()`:
