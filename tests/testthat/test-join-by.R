@@ -283,6 +283,13 @@ test_that("has informative error messages", {
   # Garbage input
   expect_snapshot(error = TRUE, join_by(1))
 
+  # Call with non-symbol first element
+  expect_snapshot(error = TRUE, join_by(1()))
+
+  # Namespace prefixed helper with non-dplyr namespace
+  # (typo or re-export, which currently isn't allowed)
+  expect_snapshot(error = TRUE, join_by(dplyrr::between(x, left, right)))
+
   # Top level usage of `$`
   expect_snapshot(error = TRUE, join_by(x$a))
 
