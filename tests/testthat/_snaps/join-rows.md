@@ -351,10 +351,8 @@
     Condition
       Error:
       ! This join would result in more rows than dplyr can handle.
-      i 50000005000000 rows would be returned.
-      i 2147483647 is the maximum number of rows allowed.
+      i 50000005000000 rows would be returned. 2147483647 rows is the maximum number allowed.
       i Double check your join keys. This error commonly occurs due to a missing join key, or an improperly specified join condition.
-      i If you believe this is an error in dplyr, please report it at <https://github.com/tidyverse/dplyr/issues>.
 
 # `multiple = NULL` is deprecated and results in `'all'` (#6731)
 

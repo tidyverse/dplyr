@@ -146,16 +146,14 @@ rethrow_error_join_matches_overflow <- function(cnd, call) {
   stop_join(
     message = c(
       "This join would result in more rows than dplyr can handle.",
-      i = glue("{size} rows would be returned."),
-      i = "2147483647 is the maximum number of rows allowed.",
+      i = glue(
+        "{size} rows would be returned. ",
+        "2147483647 rows is the maximum number allowed."
+      ),
       i = paste0(
         "Double check your join keys. This error commonly occurs due to a ",
         "missing join key, or an improperly specified join condition."
-      ),
-      i = cli::format_inline(paste0(
-        "If you believe this is an error in dplyr, ",
-        "please report it at {.url https://github.com/tidyverse/dplyr/issues}."
-      ))
+      )
     ),
     class = "dplyr_error_join_matches_overflow",
     call = call
