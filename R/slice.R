@@ -464,6 +464,7 @@ check_slice_unnamed_n_prop <- function(..., n, prop, error_call = caller_env()) 
 
   if (length(dots) == 1L && names2(dots)[[1L]] == "") {
     slice_call <- frame_call(frame = error_call)[[1]]
+    slice_call <- as_label(slice_call)
     bullets <- c(
       "`n` must be explicitly named.",
       i = glue("Did you mean `{slice_call}(n = {as_label(dots[[1]])})`?")

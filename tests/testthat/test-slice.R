@@ -320,14 +320,23 @@ test_that("slice_*() doesn't look for `n` in data (#6089)", {
 
 test_that("slice_*() checks that `n=` is explicitly named and ... is empty", {
   # i.e. that every function calls check_slice_dots()
-
   df <- data.frame(x = 1:10)
+
   expect_snapshot(error = TRUE, {
     slice_head(df, 5)
     slice_tail(df, 5)
     slice_min(df, x, 5)
     slice_max(df, x, 5)
     slice_sample(df, 5)
+  })
+
+  # And works with namespace prefix (#6946)
+  expect_snapshot(error = TRUE, {
+    dplyr::slice_head(df, 5)
+    dplyr::slice_tail(df, 5)
+    dplyr::slice_min(df, x, 5)
+    dplyr::slice_max(df, x, 5)
+    dplyr::slice_sample(df, 5)
   })
 
   expect_snapshot(error = TRUE, {
