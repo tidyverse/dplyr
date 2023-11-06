@@ -107,6 +107,9 @@ dplyr_locate_matches <- function(needles,
     vctrs_error_incompatible_type = function(cnd) {
       abort("`join_cast_common()` should have handled this.", .internal = TRUE)
     },
+    vctrs_error_matches_overflow = function(cnd) {
+      rethrow_error_join_matches_overflow(cnd, error_call)
+    },
     vctrs_error_matches_nothing = function(cnd) {
       rethrow_error_join_matches_nothing(cnd, error_call)
     },
@@ -134,6 +137,26 @@ dplyr_locate_matches <- function(needles,
     vctrs_warning_matches_multiple = function(cnd) {
       rethrow_warning_join_matches_multiple(cnd, error_call)
     }
+  )
+}
+
+rethrow_error_join_matches_overflow <- function(cnd, call) {
+  size <- cnd$size
+
+  stop_join(
+    message = c(
+      "This join would result in more rows than dplyr can handle.",
+      i = glue(
+        "{size} rows would be returned. ",
+        "2147483647 rows is the maximum number allowed."
+      ),
+      i = paste0(
+        "Double check your join keys. This error commonly occurs due to a ",
+        "missing join key, or an improperly specified join condition."
+      )
+    ),
+    class = "dplyr_error_join_matches_overflow",
+    call = call
   )
 }
 

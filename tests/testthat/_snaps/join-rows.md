@@ -344,6 +344,16 @@
       ! `relationship` must be one of "one-to-one", "one-to-many", "many-to-one", or "many-to-many", not "warn-many-to-many".
       i Did you mean "many-to-many"?
 
+# join_rows() rethrows overflow error nicely (#6912)
+
+    Code
+      join_rows(df, df, condition = ">=")
+    Condition
+      Error:
+      ! This join would result in more rows than dplyr can handle.
+      i 50000005000000 rows would be returned. 2147483647 rows is the maximum number allowed.
+      i Double check your join keys. This error commonly occurs due to a missing join key, or an improperly specified join condition.
+
 # `multiple = NULL` is deprecated and results in `'all'` (#6731)
 
     Code

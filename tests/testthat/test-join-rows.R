@@ -410,6 +410,19 @@ test_that("join_rows() validates `relationship`", {
   })
 })
 
+test_that("join_rows() rethrows overflow error nicely (#6912)", {
+  skip_on_cran()
+  # Windows 32-bit doesn't support long vectors of this size, and the
+  # intermediate `r_ssize` will be too large
+  skip_if(.Machine$sizeof.pointer < 8L, message = "No long vector support")
+
+  df <- tibble(x = 1:1e7)
+
+  expect_snapshot(error = TRUE, {
+    join_rows(df, df, condition = ">=")
+  })
+})
+
 # Deprecated behavior ----------------------------------------------------------
 
 test_that("`multiple = NULL` is deprecated and results in `'all'` (#6731)", {
