@@ -350,7 +350,7 @@
       join_rows(df, df, condition = ">=")
     Condition
       Error:
-      ! This join would result in more rows than R can handle.
+      ! This join would result in more rows than dplyr can handle.
       i 50000005000000 rows would be returned.
       i 2147483647 is the maximum number of rows allowed.
       i Double check your join keys. This error commonly occurs due to a missing join key, or an improperly specified join condition.

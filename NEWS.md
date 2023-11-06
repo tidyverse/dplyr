@@ -1,7 +1,7 @@
 # dplyr (development version)
 
 * `left_join()` and friends now return a specialized error message if they
-  detect that your join would return more rows than R can handle (#6912).
+  detect that your join would return more rows than dplyr can handle (#6912).
 
 * `slice_*()` now throw the correct error if you forget to name `n` while also
   prefixing the call with `dplyr::` (#6946).

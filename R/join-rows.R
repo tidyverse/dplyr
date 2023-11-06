@@ -145,7 +145,7 @@ rethrow_error_join_matches_overflow <- function(cnd, call) {
 
   stop_join(
     message = c(
-      "This join would result in more rows than R can handle.",
+      "This join would result in more rows than dplyr can handle.",
       i = glue("{size} rows would be returned."),
       i = "2147483647 is the maximum number of rows allowed.",
       i = paste0(
