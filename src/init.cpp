@@ -95,6 +95,10 @@ SEXP dplyr_init_library(SEXP ns_dplyr, SEXP ns_vctrs, SEXP ns_rlang) {
 static const R_CallMethodDef CallEntries[] = {
   {"dplyr_init_library", (DL_FUNC)& dplyr_init_library, 3},
 
+  {"ffi_dplyr_reconstruct", (DL_FUNC)& ffi_dplyr_reconstruct, 2},
+  {"ffi_test_dplyr_attributes", (DL_FUNC)& ffi_test_dplyr_attributes, 1},
+  {"ffi_test_dplyr_set_attributes", (DL_FUNC)& ffi_test_dplyr_set_attributes, 2},
+
   {"dplyr_expand_groups", (DL_FUNC)& dplyr_expand_groups, 3},
   {"dplyr_cumall", (DL_FUNC)& dplyr_cumall, 1},
   {"dplyr_cumany", (DL_FUNC)& dplyr_cumany, 1},

@@ -96,6 +96,10 @@ inline bool obj_is_list(SEXP x) {
 
 }
 
+SEXP ffi_dplyr_reconstruct(SEXP data, SEXP template_);
+SEXP ffi_test_dplyr_attributes(SEXP x);
+SEXP ffi_test_dplyr_set_attributes(SEXP x, SEXP attributes);
+
 SEXP dplyr_expand_groups(SEXP old_groups, SEXP positions, SEXP s_nr);
 SEXP dplyr_cumall(SEXP x);
 SEXP dplyr_cumany(SEXP x);

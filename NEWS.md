@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `dplyr_reconstruct()`'s default method has been rewritten to avoid
+  materializing duckplyr queries too early (#6947).
+
 * Updated the `storms` data to include 2022 data (#6937, @steveharoz).
 
 * Updated the `starwars` data to use a new API, because the old one is defunct.
