@@ -431,7 +431,22 @@ parse_join_by_expr <- function(expr, i, error_call) {
     abort(message, call = error_call)
   }
 
-  op <- as_string(expr[[1]])
+  if (is_call(expr, ns = "dplyr")) {
+    # Normalize by removing the `dplyr::`
+    expr[[1]] <- sym(call_name(expr))
+  }
+
+  op <- expr[[1]]
+
+  if (!is_symbol(op)) {
+    if (is_call(op, name = "::")) {
+      stop_invalid_namespaced_expression(expr, i, error_call)
+    } else {
+      stop_invalid_top_expression(expr, i, error_call)
+    }
+  }
+
+  op <- as_string(op)
 
   switch(
     op,
@@ -470,6 +485,15 @@ stop_invalid_top_expression <- function(expr, i, call) {
 
   message <- c(
     glue("Expressions must use one of: {options}."),
+    i = glue("Expression {i} is {err_expr(expr)}.")
+  )
+
+  abort(message, call = call)
+}
+
+stop_invalid_namespaced_expression <- function(expr, i, call) {
+  message <- c(
+    glue("Expressions can only be namespace prefixed with `dplyr::`."),
     i = glue("Expression {i} is {err_expr(expr)}.")
   )
 

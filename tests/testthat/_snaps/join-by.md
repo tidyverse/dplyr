@@ -16,6 +16,38 @@
       ! Expressions using `==` can't contain missing arguments.
       x Argument `y` is missing.
 
+# allows for namespaced helpers (#6838)
+
+    Code
+      join_by(dplyr::between(x, left, right))
+    Output
+      Join By:
+      - dplyr::between(x, left, right)
+
+---
+
+    Code
+      join_by(dplyr::within(xl, xu, yl, yu))
+    Output
+      Join By:
+      - dplyr::within(xl, xu, yl, yu)
+
+---
+
+    Code
+      join_by(dplyr::overlaps(xl, xu, yl, yu))
+    Output
+      Join By:
+      - dplyr::overlaps(xl, xu, yl, yu)
+
+---
+
+    Code
+      join_by(dplyr::closest(x < y))
+    Output
+      Join By:
+      - dplyr::closest(x < y)
+
 # has an informative print method
 
     Code
@@ -124,6 +156,24 @@
       Error in `join_by()`:
       ! Each element of `...` must be a single column name or a join by expression.
       x Element 1 is not a name and not an expression.
+
+---
+
+    Code
+      join_by(1())
+    Condition
+      Error in `join_by()`:
+      ! Expressions must use one of: `==`, `>=`, `>`, `<=`, `<`, `closest()`, `between()`, `overlaps()`, or `within()`.
+      i Expression 1 is `1()`.
+
+---
+
+    Code
+      join_by(dplyrr::between(x, left, right))
+    Condition
+      Error in `join_by()`:
+      ! Expressions can only be namespace prefixed with `dplyr::`.
+      i Expression 1 is `dplyrr::between(x, left, right)`.
 
 ---
 

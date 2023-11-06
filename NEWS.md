@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `join_by()` now allows its helper functions to be namespaced with `dplyr::`,
+  like `join_by(dplyr::between(x, lower, upper))` (#6838).
+
 * `dplyr_reconstruct()`'s default method has been rewritten to avoid
   materializing duckplyr queries too early (#6947).
 
