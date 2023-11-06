@@ -841,6 +841,29 @@ test_that("across() can access lexical scope (#5862)", {
   )
 })
 
+test_that("across() allows renaming in `.cols` (#6895)", {
+  df <- tibble(x = 1, y = 2, z = 3)
+  cols <- set_names(c("x", "y"), c("a", "b"))
+
+  expect_identical(
+    mutate(df, across(all_of(cols), identity)),
+    mutate(df, a = x, b = y)
+  )
+  expect_identical(
+    mutate(df, (across(all_of(cols), identity))),
+    mutate(df, a = x, b = y)
+  )
+
+  expect_identical(
+    mutate(df, across(all_of(cols), identity, .names = "{.col}_name")),
+    mutate(df, a_name = x, b_name = y)
+  )
+  expect_identical(
+    mutate(df, (across(all_of(cols), identity, .names = "{.col}_name"))),
+    mutate(df, a_name = x, b_name = y)
+  )
+})
+
 test_that("if_any() and if_all() expansions deal with no inputs or single inputs", {
   d <- data.frame(x = 1)
 
