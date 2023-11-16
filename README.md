@@ -154,15 +154,15 @@ starwars %>%
     n > 1,
     mass > 50
   )
-#> # A tibble: 8 × 3
+#> # A tibble: 9 × 3
 #>   species      n  mass
 #>   <chr>    <int> <dbl>
 #> 1 Droid        6  69.8
 #> 2 Gungan       3  74  
-#> 3 Human       35  82.8
+#> 3 Human       35  81.3
 #> 4 Kaminoan     2  88  
 #> 5 Mirialan     2  53.1
-#> # ℹ 3 more rows
+#> # ℹ 4 more rows
 ```
 
 ## Getting help
