@@ -180,26 +180,26 @@ test_that("combine works with NA and complex (#2203)", {
   withr::local_options(lifecycle_verbosity = "quiet")
 
   # NA first
-  expected_result <- c(NA, 1 + 2i)
-  works1 <- combine(list(NA, 1 + 2i))
+  expected_result <- c(NA_complex_, 1 + 2i)
+  works1 <- combine(list(NA_complex_, 1 + 2i))
   expect_equal(works1, expected_result)
 
   # NA length == 1
-  expected_result <- c(1 + 1i, 2 + 1i, NA, 4 + 1i)
+  expected_result <- c(1 + 1i, 2 + 1i, NA_complex_, 4 + 1i)
 
   expect_equal(combine(as.list(expected_result)), expected_result)
 
-  works2 <- combine(list(1 + 1i, 2 + 1i, NA, 4 + 1i))
+  works2 <- combine(list(1 + 1i, 2 + 1i, NA_complex_, 4 + 1i))
   expect_equal(works2, expected_result)
 
   # NA length > 1
-  expected_result <- c(1 + 1i, 2 + 1i, NA, NA, 4 + 1i)
+  expected_result <- c(1 + 1i, 2 + 1i, NA_complex_, NA_complex_, 4 + 1i)
   expect_equal(
     combine(split(expected_result, c(1, 2, 3, 3, 4))),
     expected_result
   )
 
-  works3 <- combine(list(1 + 1i, 2 + 1i, c(NA, NA), 4 + 1i))
+  works3 <- combine(list(1 + 1i, 2 + 1i, c(NA_complex_, NA_complex_), 4 + 1i))
   expect_equal(works3, expected_result)
 })
 
