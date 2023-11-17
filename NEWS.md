@@ -1,4 +1,4 @@
-# dplyr (development version)
+# dplyr 1.1.4
 
 * `join_by()` now allows its helper functions to be namespaced with `dplyr::`,
   like `join_by(dplyr::between(x, lower, upper))` (#6838).
