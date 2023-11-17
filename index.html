@@ -37,7 +37,7 @@
     
     <a class="navbar-brand me-2" href="index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,7 +126,7 @@
 <code><a href="reference/arrange.html">arrange()</a></code> changes the ordering of the rows.</li>
 </ul>
 <p>These all combine naturally with <code><a href="reference/group_by.html">group_by()</a></code> which allows you to perform any operation “by group”. You can learn more about them in <code><a href="articles/dplyr.html">vignette("dplyr")</a></code>. As well as these single-table verbs, dplyr also provides a variety of two-table verbs, which you can learn about in <code><a href="articles/two-table.html">vignette("two-table")</a></code>.</p>
-<p>If you are new to dplyr, the best place to start is the <a href="https://r4ds.had.co.nz/transform.html" class="external-link">data transformation chapter</a> in R for data science.</p>
+<p>If you are new to dplyr, the best place to start is the <a href="https://r4ds.hadley.nz/data-transform" class="external-link">data transformation chapter</a> in R for Data Science.</p>
 </div>
 <div class="section level2">
 <h2 id="backends">Backends<a class="anchor" aria-label="anchor" href="#backends"></a>
@@ -136,6 +136,7 @@
 <li><p><a href="https://arrow.apache.org/docs/r/" class="external-link">arrow</a> for larger-than-memory datasets, including on remote cloud storage like AWS S3, using the Apache Arrow C++ engine, <a href="https://arrow.apache.org/docs/cpp/streaming_execution.html" class="external-link">Acero</a>.</p></li>
 <li><p><a href="https://dtplyr.tidyverse.org/" class="external-link">dtplyr</a> for large, in-memory datasets. Translates your dplyr code to high performance <a href="https://rdatatable.gitlab.io/data.table/" class="external-link">data.table</a> code.</p></li>
 <li><p><a href="https://dbplyr.tidyverse.org/" class="external-link">dbplyr</a> for data stored in a relational database. Translates your dplyr code to SQL.</p></li>
+<li><p><a href="https://duckdblabs.github.io/duckplyr/" class="external-link">duckplyr</a> for using <a href="https://duckdb.org" class="external-link">duckdb</a> on large, in-memory datasets with zero extra copies. Translates your dplyr code to high performance duckdb queries with an automatic R fallback when translation isn’t possible.</p></li>
 <li><p><a href="https://duckdb.org/docs/api/r" class="external-link">duckdb</a> for large datasets that are still small enough to fit on your computer.</p></li>
 <li><p><a href="https://spark.rstudio.com" class="external-link">sparklyr</a> for very large datasets stored in <a href="https://spark.apache.org" class="external-link">Apache Spark</a>.</p></li>
 </ul>
@@ -232,15 +233,15 @@
 <span>    <span class="va">n</span> <span class="op">&gt;</span> <span class="fl">1</span>,</span>
 <span>    <span class="va">mass</span> <span class="op">&gt;</span> <span class="fl">50</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 8 × 3</span></span>
+<span><span class="co">#&gt; # A tibble: 9 × 3</span></span>
 <span><span class="co">#&gt;   species      n  mass</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;</span></span>
 <span><span class="co">#&gt; 1 Droid        6  69.8</span></span>
 <span><span class="co">#&gt; 2 Gungan       3  74  </span></span>
-<span><span class="co">#&gt; 3 Human       35  82.8</span></span>
+<span><span class="co">#&gt; 3 Human       35  81.3</span></span>
 <span><span class="co">#&gt; 4 Kaminoan     2  88  </span></span>
 <span><span class="co">#&gt; 5 Mirialan     2  53.1</span></span>
-<span><span class="co">#&gt; # ℹ 3 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 4 more rows</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="getting-help">Getting help<a class="anchor" aria-label="anchor" href="#getting-help"></a>

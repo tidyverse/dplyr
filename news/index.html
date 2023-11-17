@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,6 +75,15 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.4" id="dplyr-114">dplyr 1.1.4<a class="anchor" aria-label="anchor" href="#dplyr-114"></a></h2>
+<ul><li><p><code><a href="../reference/join_by.html">join_by()</a></code> now allows its helper functions to be namespaced with <code>dplyr::</code>, like <code>join_by(dplyr::between(x, lower, upper))</code> (<a href="https://github.com/tidyverse/dplyr/issues/6838" class="external-link">#6838</a>).</p></li>
+<li><p><code><a href="../reference/mutate-joins.html">left_join()</a></code> and friends now return a specialized error message if they detect that your join would return more rows than dplyr can handle (<a href="https://github.com/tidyverse/dplyr/issues/6912" class="external-link">#6912</a>).</p></li>
+<li><p><code>slice_*()</code> now throw the correct error if you forget to name <code>n</code> while also prefixing the call with <code>dplyr::</code> (<a href="https://github.com/tidyverse/dplyr/issues/6946" class="external-link">#6946</a>).</p></li>
+<li><p><code><a href="../reference/dplyr_extending.html">dplyr_reconstruct()</a></code>’s default method has been rewritten to avoid materializing duckplyr queries too early (<a href="https://github.com/tidyverse/dplyr/issues/6947" class="external-link">#6947</a>).</p></li>
+<li><p>Updated the <code>storms</code> data to include 2022 data (<a href="https://github.com/tidyverse/dplyr/issues/6937" class="external-link">#6937</a>, <a href="https://github.com/steveharoz" class="external-link">@steveharoz</a>).</p></li>
+<li><p>Updated the <code>starwars</code> data to use a new API, because the old one is defunct. There are very minor changes to the data itself (<a href="https://github.com/tidyverse/dplyr/issues/6938" class="external-link">#6938</a>, <a href="https://github.com/steveharoz" class="external-link">@steveharoz</a>).</p></li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.3" id="dplyr-113">dplyr 1.1.3<a class="anchor" aria-label="anchor" href="#dplyr-113"></a></h2><p class="text-muted">CRAN release: 2023-09-03</p>
 <ul><li><p><code><a href="../reference/summarise_each.html">mutate_each()</a></code> and <code><a href="../reference/summarise_each.html">summarise_each()</a></code> now throw correct deprecation messages (<a href="https://github.com/tidyverse/dplyr/issues/6869" class="external-link">#6869</a>).</p></li>
 <li><p><code><a href="../reference/setops.html">setequal()</a></code> now requires the input data frames to be compatible, similar to the other set methods like <code><a href="../reference/setops.html">setdiff()</a></code> or <code><a href="../reference/setops.html">intersect()</a></code> (<a href="https://github.com/tidyverse/dplyr/issues/6786" class="external-link">#6786</a>).</p></li>
@@ -103,7 +112,7 @@
 <li><p>Fixed an issue where expressions involving infix operators had an abnormally large amount of overhead (<a href="https://github.com/tidyverse/dplyr/issues/6681" class="external-link">#6681</a>).</p></li>
 <li><p><code><a href="../reference/group_data.html">group_data()</a></code> on ungrouped data frames is faster (<a href="https://github.com/tidyverse/dplyr/issues/6736" class="external-link">#6736</a>).</p></li>
 <li><p><code><a href="../reference/context.html">n()</a></code> is a little faster when there are many groups (<a href="https://github.com/tidyverse/dplyr/issues/6727" class="external-link">#6727</a>).</p></li>
-<li><p><code><a href="../reference/pick.html">pick()</a></code> now returns a 1 row, 0 column tibble when <code>...</code> evaluates to an empty selection. This makes it more compatible with <a href="https://vctrs.r-lib.org/reference/vector_recycling_rules.html" class="external-link">tidyverse recycling rules</a> in some edge cases (<a href="https://github.com/tidyverse/dplyr/issues/6685" class="external-link">#6685</a>).</p></li>
+<li><p><code><a href="../reference/pick.html">pick()</a></code> now returns a 1 row, 0 column tibble when <code>...</code> evaluates to an empty selection. This makes it more compatible with <a href="https://vctrs.r-lib.org/reference/theory-faq-recycling.html" class="external-link">tidyverse recycling rules</a> in some edge cases (<a href="https://github.com/tidyverse/dplyr/issues/6685" class="external-link">#6685</a>).</p></li>
 <li><p><code><a href="../reference/if_else.html">if_else()</a></code> and <code><a href="../reference/case_when.html">case_when()</a></code> again accept logical conditions that have attributes (<a href="https://github.com/tidyverse/dplyr/issues/6678" class="external-link">#6678</a>).</p></li>
 <li><p><code><a href="../reference/arrange.html">arrange()</a></code> can once again sort the <code>numeric_version</code> type from base R (<a href="https://github.com/tidyverse/dplyr/issues/6680" class="external-link">#6680</a>).</p></li>
 <li><p><code><a href="../reference/slice.html">slice_sample()</a></code> now works when the input has a column named <code>replace</code>. <code><a href="../reference/slice.html">slice_min()</a></code> and <code><a href="../reference/slice.html">slice_max()</a></code> now work when the input has columns named <code>na_rm</code> or <code>with_ties</code> (<a href="https://github.com/tidyverse/dplyr/issues/6725" class="external-link">#6725</a>).</p></li>
@@ -243,7 +252,7 @@
 </ul><p>Additionally, they have all gained an <code>na_rm</code> argument since they are summary functions (<a href="https://github.com/tidyverse/dplyr/issues/6242" class="external-link">#6242</a>, with contributions from <a href="https://github.com/tnederlof" class="external-link">@tnederlof</a>).</p>
 </li>
 <li>
-<p><code><a href="../reference/if_else.html">if_else()</a></code> gains most of the same benefits as <code><a href="../reference/case_when.html">case_when()</a></code>. In particular,<br><code><a href="../reference/if_else.html">if_else()</a></code> now takes the common type of <code>true</code>, <code>false</code>, and <code>missing</code> to determine the output type, meaning that you can now reliably use <code>NA</code>, rather than <code>NA_character_</code> and friends (<a href="https://github.com/tidyverse/dplyr/issues/6243" class="external-link">#6243</a>).</p>
+<p><code><a href="../reference/if_else.html">if_else()</a></code> gains most of the same benefits as <code><a href="../reference/case_when.html">case_when()</a></code>. In particular, <code><a href="../reference/if_else.html">if_else()</a></code> now takes the common type of <code>true</code>, <code>false</code>, and <code>missing</code> to determine the output type, meaning that you can now reliably use <code>NA</code>, rather than <code>NA_character_</code> and friends (<a href="https://github.com/tidyverse/dplyr/issues/6243" class="external-link">#6243</a>).</p>
 <p><code><a href="../reference/if_else.html">if_else()</a></code> also no longer allows you to supply <code>NULL</code> for either <code>true</code> or <code>false</code>, which was an undocumented usage that we consider to be off-label, because <code>true</code> and <code>false</code> are intended to be (and documented to be) vector inputs (<a href="https://github.com/tidyverse/dplyr/issues/6730" class="external-link">#6730</a>).</p>
 </li>
 <li>
@@ -691,7 +700,7 @@
 <p><code><a href="../reference/nest_join.html">nest_join()</a></code> creates a list column of the matching rows. <code><a href="../reference/nest_join.html">nest_join()</a></code> + <code><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">tidyr::unnest()</a></code> is equivalent to <code>inner_join</code> (<a href="https://github.com/tidyverse/dplyr/issues/3570" class="external-link">#3570</a>).</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">band_members</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">band_members</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/nest_join.html">nest_join</a></span><span class="op">(</span><span class="va">band_instruments</span><span class="op">)</span></span></code></pre></div>
 </li>
 <li>
@@ -699,7 +708,7 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/group_nest.html">group_nest</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -710,7 +719,7 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>   </span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/group_split.html">group_split</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -734,14 +743,14 @@
 <code class="sourceCode R"><span></span>
 <span><span class="co"># 3 groups</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, </span>
+<span>  x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span>
 <span>  f <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">f</span>, .drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># the order of the grouping variables matter</span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, </span>
+<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,</span>
 <span>  f <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">f</span>, <span class="va">x</span>, .drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -750,9 +759,9 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, </span>
+<span>    x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span>
 <span>    f <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></code></pre></div>
 </li>
 <li>
@@ -760,9 +769,9 @@
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, </span>
+<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,</span>
 <span>  f <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">f</span>, .drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">x</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -823,15 +832,15 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># the grouping metadata, as a tibble</span></span>
-<span><span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/group_data.html">group_data</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># the indices</span></span>
-<span><span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/group_data.html">group_data</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/group_data.html">group_data</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/pull.html">pull</a></span><span class="op">(</span><span class="va">.rows</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/group_data.html">group_rows</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </li>
 <li><p>Hybrid evaluation has been completely redesigned for better performance and stability.</p></li>

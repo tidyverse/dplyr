@@ -60,7 +60,7 @@ case_match(
     
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -174,13 +174,13 @@ length, allowing you to map multiple <code>.x</code> values to the same RHS valu
 If a value is repeated in the LHS, i.e. a value in <code>.x</code> matches to
 multiple cases, the first match is used.</p>
 <p>The RHS inputs will be coerced to their common type. Each RHS input will be
-<a href="https://vctrs.r-lib.org/reference/vector_recycling_rules.html" class="external-link">recycled</a> to the size of <code>.x</code>.</p></dd>
+<a href="https://vctrs.r-lib.org/reference/theory-faq-recycling.html" class="external-link">recycled</a> to the size of <code>.x</code>.</p></dd>
 
 
 <dt>.default</dt>
 <dd><p>The value used when values in <code>.x</code> aren't matched by any of
 the LHS inputs. If <code>NULL</code>, the default, a missing value will be used.</p>
-<p><code>.default</code> is <a href="https://vctrs.r-lib.org/reference/vector_recycling_rules.html" class="external-link">recycled</a> to the size of
+<p><code>.default</code> is <a href="https://vctrs.r-lib.org/reference/theory-faq-recycling.html" class="external-link">recycled</a> to the size of
 <code>.x</code>.</p></dd>
 
 
