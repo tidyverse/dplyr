@@ -75,6 +75,20 @@ test_that("preserved class, but not attributes", {
   expect_null(attr(out, "res"))
 })
 
+test_that("strips off subclass", {
+  df <- new_data_frame(list(a = 1), class = "myclass")
+  out <- df %>% summarise(n = n())
+  expect_s3_class(out, "data.frame", exact = TRUE)
+  out <- df %>% summarise(.by = a, n = n())
+  expect_s3_class(out, "data.frame", exact = TRUE)
+
+  df <- new_tibble(list(a = 1), class = "myclass")
+  out <- df %>% summarise(n = n())
+  expect_s3_class(out, class(tibble()), exact = TRUE)
+  out <- df %>% summarise(.by = a, n = n())
+  expect_s3_class(out, class(tibble()), exact = TRUE)
+})
+
 test_that("works with unquoted values", {
   df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
   expect_equal(summarise(df, out = !!1), tibble(out = 1))
