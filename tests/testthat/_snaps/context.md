@@ -40,5 +40,5 @@
     Code
       group_labels_details(c(a = 1, b = 2))
     Output
-      [1] "`a = 1`, `b = 2`"
+      [1] "`a = 1` and `b = 2`"
 
