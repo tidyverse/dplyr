@@ -60,19 +60,42 @@ test_that("no expressions yields grouping data", {
   expect_equal(summarise(gf, !!!list()), tibble(x = 1:2))
 })
 
-test_that("preserved class, but not attributes", {
+test_that("doesn't preserve attributes", {
   df <- structure(
     data.frame(x = 1:10, g1 = rep(1:2, each = 5), g2 = rep(1:5, 2)),
     meta = "this is important"
   )
 
   out <- df %>% summarise(n = n())
-  expect_s3_class(out, "data.frame", exact = TRUE)
   expect_null(attr(out, "res"))
 
   out <- df %>% group_by(g1) %>% summarise(n = n())
-  # expect_s3_class(out, "data.frame", exact = TRUE)
   expect_null(attr(out, "res"))
+})
+
+test_that("strips off subclass", {
+  # We consider the data frame returned by `summarise()` to be
+  # "fundamentally a new data frame"
+
+  df <- new_data_frame(list(a = 1), class = "myclass")
+  out <- df %>% summarise(n = n())
+  expect_s3_class(out, "data.frame", exact = TRUE)
+  out <- df %>% summarise(.by = a, n = n())
+  expect_s3_class(out, "data.frame", exact = TRUE)
+
+  df <- new_tibble(list(a = 1), class = "myclass")
+  out <- df %>% summarise(n = n())
+  expect_s3_class(out, class(tibble()), exact = TRUE)
+  out <- df %>% summarise(.by = a, n = n())
+  expect_s3_class(out, class(tibble()), exact = TRUE)
+
+  gdf <- group_by(tibble(a = 1), a)
+  df <- gdf
+  class(df) <- c("myclass", class(gdf))
+  out <- df %>% summarise(n = n(), .groups = "drop")
+  expect_s3_class(out, class(tibble()), exact = TRUE)
+  out <- df %>% summarise(n = n(), .groups = "keep")
+  expect_s3_class(out, class(gdf), exact = TRUE)
 })
 
 test_that("works with unquoted values", {

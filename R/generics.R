@@ -63,7 +63,9 @@
 #'
 #' * `summarise()` and `reframe()` work similarly to `mutate()` but the data
 #'   modified by `dplyr_col_modify()` comes from `group_data()` or is built
-#'   from `.by`.
+#'   from `.by`. Note that this means that the data frames returned by
+#'   `summarise()` and `reframe()` are fundamentally new data frames, and
+#'   will not retain any custom subclasses or attributes.
 #'
 #' * `select()` uses 1d `[` to select columns, then `names<-` to rename them.
 #'   `rename()` just uses `names<-`. `relocate()` just uses 1d `[`.
