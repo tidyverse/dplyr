@@ -175,7 +175,9 @@ It also uses 1d <code>[</code> to implement <code>.keep</code>, and will call <c
 either <code>.before</code> or <code>.after</code> are supplied.</p></li>
 <li><p><code><a href="summarise.html">summarise()</a></code> and <code><a href="reframe.html">reframe()</a></code> work similarly to <code><a href="mutate.html">mutate()</a></code> but the data
 modified by <code>dplyr_col_modify()</code> comes from <code><a href="group_data.html">group_data()</a></code> or is built
-from <code>.by</code>.</p></li>
+from <code>.by</code>. Note that this means that the data frames returned by
+<code><a href="summarise.html">summarise()</a></code> and <code><a href="reframe.html">reframe()</a></code> are fundamentally new data frames, and
+will not retain any custom subclasses or attributes.</p></li>
 <li><p><code><a href="select.html">select()</a></code> uses 1d <code>[</code> to select columns, then <code>names&lt;-</code> to rename them.
 <code><a href="rename.html">rename()</a></code> just uses <code>names&lt;-</code>. <code><a href="relocate.html">relocate()</a></code> just uses 1d <code>[</code>.</p></li>
 <li><p><code><a href="mutate-joins.html">inner_join()</a></code>, <code><a href="mutate-joins.html">left_join()</a></code>, <code><a href="mutate-joins.html">right_join()</a></code>, and <code><a href="mutate-joins.html">full_join()</a></code>
