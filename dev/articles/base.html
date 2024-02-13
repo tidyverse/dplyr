@@ -15,9 +15,9 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.7/font.css" rel="stylesheet">
-<link href="../deps/Source_Code_Pro-0.4.7/font.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.8/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.8/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="dplyr &lt;-&gt; base R">
@@ -303,18 +303,18 @@ descending order.</li>
 <span><span class="co">#&gt;       x</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more rows</span></span></span>
 <span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/distinct.html">distinct</a></span><span class="op">(</span><span class="va">x</span>, .keep_all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># whole data frame</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 2</span></span></span>
 <span><span class="co">#&gt;       x     y</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     6     4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     5     6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     9    10</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     8    10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     6     8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     7     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     5     7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1     7</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more rows</span></span></span></code></pre></div>
 <p>There are two equivalents in base R, depending on whether you want
 the whole data frame, or just selected variables:</p>
@@ -324,18 +324,18 @@ the whole data frame, or just selected variables:</p>
 <span><span class="co">#&gt;       x</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more rows</span></span></span>
 <span><span class="va">df</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">duplicated</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">x</span><span class="op">)</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span> <span class="co"># whole data frame</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 2</span></span></span>
 <span><span class="co">#&gt;       x     y</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     6     4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     5     6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     9    10</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     8    10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     6     8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     7     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     5     7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1     7</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -450,22 +450,22 @@ variables:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 100 × 4</span></span></span>
 <span><span class="co">#&gt;       x     y     z    z2</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     6     4    10   100</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     5     6    11   121</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     6     9    15   225</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     9    10    19   361</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     6     8    14   196</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     7     2     9    81</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     5     7    12   144</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1     7     8    64</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 96 more rows</span></span></span></code></pre></div>
 <p>The closest base equivalent is <code><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform()</a></code>, but note
 that it cannot use freshly created variables:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform</a></span><span class="op">(</span><span class="va">df</span>, z <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span>, z2 <span class="op">=</span> <span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   x  y  z  z2</span></span>
-<span><span class="co">#&gt; 1 6  4 10 100</span></span>
-<span><span class="co">#&gt; 2 5  6 11 121</span></span>
-<span><span class="co">#&gt; 3 6  9 15 225</span></span>
-<span><span class="co">#&gt; 4 9 10 19 361</span></span>
-<span><span class="co">#&gt; 5 8 10 18 324</span></span>
-<span><span class="co">#&gt; 6 4  2  6  36</span></span></code></pre></div>
+<span><span class="co">#&gt;   x y  z  z2</span></span>
+<span><span class="co">#&gt; 1 6 8 14 196</span></span>
+<span><span class="co">#&gt; 2 7 2  9  81</span></span>
+<span><span class="co">#&gt; 3 5 7 12 144</span></span>
+<span><span class="co">#&gt; 4 1 7  8  64</span></span>
+<span><span class="co">#&gt; 5 7 5 12 144</span></span>
+<span><span class="co">#&gt; 6 5 9 14 196</span></span></code></pre></div>
 <p>Alternatively, you can use <code>$&lt;-</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span><span class="op">$</span><span class="va">cyl2</span> <span class="op">&lt;-</span> <span class="va">mtcars</span><span class="op">$</span><span class="va">cyl</span> <span class="op">*</span> <span class="fl">2</span></span>
@@ -921,7 +921,7 @@ challenging to implement.</p>
   <footer><div class="container">
   <div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://github.com/romainfrancois" class="external-link">Romain François</a>, <a href="https://github.com/lionel-" class="external-link">Lionel Henry</a>, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://github.com/DavisVaughan" class="external-link">Davis Vaughan</a>, <a href="https://www.posit.co" class="external-link"><img src="https://www.tidyverse.org/posit-logo.svg" alt="Posit" height="16" style="margin-bottom: 3px;"></a>.</p>
+<p>Developed by <a href="https://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://github.com/romainfrancois" class="external-link">Romain François</a>, <a href="https://github.com/lionel-" class="external-link">Lionel Henry</a>, <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://github.com/DavisVaughan" class="external-link">Davis Vaughan</a>, <a href="https://www.posit.co" class="external-link"><img src="https://www.tidyverse.org/posit-logo.svg" alt="Posit" height="16" style="margin-bottom: 3px;"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
