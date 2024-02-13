@@ -239,6 +239,7 @@ recode_default <- function(x, default, out) {
   UseMethod("recode_default")
 }
 
+#' @export
 recode_default.default <- function(x, default, out) {
   same_type <- identical(typeof(x), typeof(out))
   if (is.null(default) && same_type) {
@@ -248,6 +249,7 @@ recode_default.default <- function(x, default, out) {
   }
 }
 
+#' @export
 recode_default.factor <- function(x, default, out) {
   if (is.null(default)) {
     if ((is.character(out) || is.factor(out)) && is.factor(x)) {
