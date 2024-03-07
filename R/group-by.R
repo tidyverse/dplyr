@@ -183,7 +183,7 @@ ungroup.data.frame <- function(x, ...) {
   x
 }
 
-#' Prepare for grouping.
+#' Prepare for grouping and other operations
 #'
 #' `*_prepare()` performs standard manipulation that is needed prior
 #' to actual data processing. They are only be needed by packages

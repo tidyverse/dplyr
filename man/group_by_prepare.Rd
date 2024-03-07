@@ -3,8 +3,7 @@
 \name{distinct_prepare}
 \alias{distinct_prepare}
 \alias{group_by_prepare}
-\title{Same basic philosophy as group_by_prepare(): lazy_dots comes in, list of data and
-vars (character vector) comes out.}
+\title{Prepare for grouping and other operations}
 \usage{
 distinct_prepare(
   .data,
