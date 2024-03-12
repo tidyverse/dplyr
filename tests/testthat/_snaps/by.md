@@ -4,7 +4,7 @@
       compute_by(by = y, data = df)
     Condition
       Error:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `y` doesn't exist.
 
 # can't set `.by` with a grouped-df

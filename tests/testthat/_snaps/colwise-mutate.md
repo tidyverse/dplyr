@@ -30,7 +30,7 @@
     Output
       <error/vctrs_error_subscript_oob>
       Error in `tbl_at_vars()`:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `test` doesn't exist.
     Code
       tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8)
@@ -39,7 +39,7 @@
     Output
       <error/vctrs_error_subscript_oob>
       Error in `tbl_at_vars()`:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `gr1` doesn't exist.
     Code
       (expect_error(mutate_all(mtcars, length, 0, 0)))

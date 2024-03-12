@@ -44,7 +44,7 @@
     Output
       <error/vctrs_error_subscript_oob>
       Error in `ungroup()`:
-      ! Can't subset columns that don't exist.
+      ! Can't select columns that don't exist.
       x Column `z` doesn't exist.
     Code
       (expect_error(df %>% group_by(z = a + 1)))

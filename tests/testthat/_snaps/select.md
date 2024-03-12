@@ -30,7 +30,7 @@
     Output
       <error/rlang_error>
       Error in `select()`:
-      ! Problem while evaluating `1 + ""`.
+      i In argument: `1 + ""`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
 
@@ -41,7 +41,7 @@
     Output
       <error/vctrs_error_subscript_oob>
       Error in `select()`:
-      ! Can't subset columns past the end.
+      ! Can't select columns past the end.
       i Location 2 doesn't exist.
       i There is only 1 column.
     Code
@@ -60,7 +60,7 @@
     Output
       <error/vctrs_error_subscript_oob>
       Error in `select()`:
-      ! Can't subset columns past the end.
+      ! Can't select columns past the end.
       i Location 2 doesn't exist.
       i There is only 1 column.
     Code
