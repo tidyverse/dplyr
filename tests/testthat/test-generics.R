@@ -157,8 +157,6 @@ test_that("`dplyr_reconstruct()` doesn't modify the original `data` in place", {
 })
 
 test_that("`dplyr_reconstruct()`, which gets and sets attributes, doesn't touch `row.names` (#6525)", {
-  skip_if_no_lazy_character()
-
   dplyr_attributes <- function(x) {
     .Call(ffi_test_dplyr_attributes, x)
   }
