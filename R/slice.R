@@ -358,13 +358,13 @@ slice_eval <- function(mask,
                        user_env = caller_env(2)) {
   index <- 0L
   impl <- function(...) {
-    n <- ...length2()
+    n <- ...length()
     out <- vector("list", n)
 
     for (i in seq_len(n)) {
       index <<- i
 
-      slice_idx <- ...elt2(i)
+      slice_idx <- ...elt(i)
 
       if (is.matrix(slice_idx) && ncol(slice_idx) == 1) {
         lifecycle::deprecate_warn(
@@ -587,18 +587,4 @@ on_load({
 })
 dplyr_local_slice_by_arg <- function(by_arg, frame = caller_env()) {
   local_bindings(slice_by_arg = by_arg, .env = the, .frame = frame)
-}
-
-# Backports for R 3.5.0 utils
-...length2 <- function(frame = caller_env()) {
-  dots <- env_get(frame, "...")
-
-  if (is_missing(dots)) {
-    0L
-  } else {
-    length(dots)
-  }
-}
-...elt2 <- function(i, frame = caller_env()) {
-  eval_bare(sym(paste0("..", i)), frame)
 }
