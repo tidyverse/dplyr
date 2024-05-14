@@ -71,8 +71,8 @@ distinct <- function(.data, ..., .keep_all = FALSE) {
 
 
 
-#' Same basic philosophy as group_by_prepare(): lazy_dots comes in, list of data and
-#' vars (character vector) comes out.
+# Same basic philosophy as group_by_prepare(): lazy_dots comes in, list of data and
+# vars (character vector) comes out.
 #' @rdname group_by_prepare
 #' @export
 distinct_prepare <- function(.data,
