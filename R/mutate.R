@@ -501,13 +501,9 @@ check_muffled_warning <- function(cnd) {
 
   # Cancel early exits, e.g. from an exiting handler. This way we can
   # still instrument caught warnings to avoid confusing
-  # inconsistencies. This doesn't work on versions of R older than
-  # 3.5.0 because they don't include this change:
-  # https://github.com/wch/r-source/commit/688eaebf. So with
-  # `tryCatch(warning = )`, the original warning `cnd` will be caught
-  # instead of the instrumented warning.
+  # inconsistencies.
   on.exit(
-    if (can_return_from_exit && early_exit) {
+    if (early_exit) {
       return(FALSE)
     }
   )
@@ -523,7 +519,3 @@ check_muffled_warning <- function(cnd) {
   early_exit <- FALSE
   muffled
 }
-
-on_load(
-  can_return_from_exit <- getRversion() >= "3.5.0"
-)
