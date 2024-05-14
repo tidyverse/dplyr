@@ -261,7 +261,7 @@ test_that("ungroup.rowwise_df gives a tbl_df (#936)", {
   expect_equal(res, c("tbl_df", "tbl", "data.frame"))
 })
 
-test_that(paste0("group_by handles encodings for native strings (#1507)"), {
+test_that("group_by handles encodings for native strings (#1507)", {
   local_non_utf8_encoding()
 
   special <- get_native_lang_string()
