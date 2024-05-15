@@ -1,6 +1,4 @@
 skip_if_no_lazy_character <- function() {
-  skip_if(getRversion() <= "3.5.0")
-
   new_lazy_character <- import_vctrs("new_lazy_character", optional = TRUE)
   lazy_character_is_materialized <- import_vctrs("lazy_character_is_materialized", optional = TRUE)
 

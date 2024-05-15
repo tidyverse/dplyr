@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* R >=3.6.0 is now explicitly required (#7026).
+
 # dplyr 1.1.4
 
 * `join_by()` now allows its helper functions to be namespaced with `dplyr::`,
