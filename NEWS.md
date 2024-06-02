@@ -2,6 +2,8 @@
 
 * R >=3.6.0 is now explicitly required (#7026).
 
+* The new equivalent of `transmute()` is `mutate(.keep = "transmute")`. This is analogous to `mutate(.keep = "none")`, but it retains the column order within mutate (#6861). 
+
 # dplyr 1.1.4
 
 * `join_by()` now allows its helper functions to be namespaced with `dplyr::`,
