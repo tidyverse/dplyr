@@ -163,7 +163,7 @@ mutate <- function(.data, ...) {
 #'     the columns used to generate them.
 #'   * `"none"` doesn't retain any extra columns from `.data`. Only the grouping
 #'     variables and columns created by `...` are kept.
-#'   * `"transmute"` equivalent to "none," but preserves the column order in the
+#'   * `"transmute"` equivalent to "none", but preserves the column order in the
 #'     mutate.
 #' @param .before,.after
 #'   <[`tidy-select`][dplyr_tidy_select]> Optionally, control where new columns

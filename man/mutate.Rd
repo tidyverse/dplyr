@@ -51,7 +51,7 @@ columns. This is useful if you generate new columns, but no longer need
 the columns used to generate them.
 \item \code{"none"} doesn't retain any extra columns from \code{.data}. Only the grouping
 variables and columns created by \code{...} are kept.
-\item \code{"transmute"} equivalent to "none," but preserves the column order in the
+\item \code{"transmute"} equivalent to "none", but preserves the column order in the
 mutate.
 }}
 
