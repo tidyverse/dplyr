@@ -11,7 +11,7 @@ mutate(.data, ...)
   .data,
   ...,
   .by = NULL,
-  .keep = c("all", "used", "unused", "none"),
+  .keep = c("all", "used", "unused", "none", "transmute"),
   .before = NULL,
   .after = NULL
 )
@@ -51,6 +51,8 @@ columns. This is useful if you generate new columns, but no longer need
 the columns used to generate them.
 \item \code{"none"} doesn't retain any extra columns from \code{.data}. Only the grouping
 variables and columns created by \code{...} are kept.
+\item \code{"transmute"} equivalent to "none," but preserves the column order in the
+mutate.
 }}
 
 \item{.before, .after}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, control where new columns

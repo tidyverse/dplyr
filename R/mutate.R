@@ -163,6 +163,8 @@ mutate <- function(.data, ...) {
 #'     the columns used to generate them.
 #'   * `"none"` doesn't retain any extra columns from `.data`. Only the grouping
 #'     variables and columns created by `...` are kept.
+#'   * `"transmute"` equivalent to "none," but preserves the column order in the
+#'     mutate.
 #' @param .before,.after
 #'   <[`tidy-select`][dplyr_tidy_select]> Optionally, control where new columns
 #'   should appear (the default is to add to the right hand side). See
@@ -171,10 +173,10 @@ mutate <- function(.data, ...) {
 mutate.data.frame <- function(.data,
                               ...,
                               .by = NULL,
-                              .keep = c("all", "used", "unused", "none"),
+                              .keep = c("all", "used", "unused", "none", "transmute"),
                               .before = NULL,
                               .after = NULL) {
-  keep <- arg_match0(.keep, values = c("all", "used", "unused", "none"))
+  keep <- arg_match0(.keep, values = c("all", "used", "unused", "none", "transmute"))
 
   by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
 
@@ -187,6 +189,7 @@ mutate.data.frame <- function(.data,
 
   out <- mutate_relocate(
     out = out,
+    keep = keep,
     before = {{ .before }},
     after = {{ .after }},
     names_original = names_original
@@ -208,11 +211,11 @@ mutate.data.frame <- function(.data,
 
 # Helpers -----------------------------------------------------------------
 
-mutate_relocate <- function(out, before, after, names_original) {
+mutate_relocate <- function(out, keep, before, after, names_original) {
   before <- enquo(before)
   after <- enquo(after)
 
-  if (quo_is_null(before) && quo_is_null(after)) {
+  if (keep == "transmute" || (quo_is_null(before) && quo_is_null(after))) {
     return(out)
   }
 
@@ -234,6 +237,9 @@ mutate_keep <- function(out, keep, used, names_new, names_groups) {
 
   if (keep == "all") {
     names_out <- names
+  } else if (keep == "transmute") {
+    names_groups <- setdiff(names_groups, names_new)
+    names_out <- c(names_groups, names_new)
   } else {
     names_keep <- switch(
       keep,
