@@ -181,6 +181,11 @@ add_suffixes <- function(x, y, suffix) {
 }
 
 join_cast_common <- function(x, y, vars, error_call = caller_env()) {
+  ptype <- join_ptype_common(x, y, vars, error_call = error_call)
+  vec_cast_common(x = x, y = y, .to = ptype, .call = error_call)
+}
+
+join_ptype_common <- function(x, y, vars, error_call = caller_env()) {
   # Explicit `x/y_arg = ""` to avoid auto naming in `cnd$x_arg`
   ptype <- try_fetch(
     vec_ptype2(x, y, x_arg = "", y_arg = "", call = error_call),
@@ -192,7 +197,7 @@ join_cast_common <- function(x, y, vars, error_call = caller_env()) {
   # Finalize unspecified columns (#6804)
   ptype <- vec_ptype_finalise(ptype)
 
-  vec_cast_common(x = x, y = y, .to = ptype, .call = error_call)
+  ptype
 }
 
 rethrow_error_join_incompatible_type <- function(cnd, vars, call) {
