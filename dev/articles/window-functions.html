@@ -202,10 +202,12 @@ they handle ties:</p>
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/row_number.html">row_number</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1 2 3 4 5</span></span>
-<span><span class="fu"><a href="../reference/row_number.html">min_rank</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1 1 3 3 3</span></span>
-<span><span class="fu"><a href="../reference/row_number.html">dense_rank</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1 2 3 4 5</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/row_number.html">min_rank</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1 1 3 3 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/row_number.html">dense_rank</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1 1 2 2 2</span></span></code></pre></div>
 <p>If you’re familiar with R, you may recognise that
 <code><a href="../reference/row_number.html">row_number()</a></code> and <code><a href="../reference/row_number.html">min_rank()</a></code> can be computed
@@ -216,14 +218,15 @@ a little typing, and to make it easier to convert between R and SQL.</p>
 <code><a href="../reference/percent_rank.html">percent_rank()</a></code> gives the percentage of the rank;
 <code><a href="../reference/percent_rank.html">cume_dist()</a></code> gives the proportion of values less than or
 equal to the current value.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/percent_rank.html">cume_dist</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.4 0.4 1.0 1.0 1.0</span></span>
-<span><span class="fu"><a href="../reference/percent_rank.html">percent_rank</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.4 0.4 1.0 1.0 1.0</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/percent_rank.html">percent_rank</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.0 0.0 0.5 0.5 0.5</span></span></code></pre></div>
 <p>These are useful if you want to select (for example) the top 10% of
 records within each group. For example:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">players</span>, <span class="fu"><a href="../reference/percent_rank.html">cume_dist</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">0.1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,090 × 7</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   playerID [995]</span></span></span>
@@ -240,12 +243,13 @@ evenly sized buckets. It’s a coarse ranking, and it can be used in with
 summary. For example, we could use <code><a href="../reference/ntile.html">ntile()</a></code> to divide the
 players within a team into four ranked groups, and calculate the average
 number of games within each group.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_team_player</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">batting</span>, <span class="va">teamID</span>, <span class="va">playerID</span><span class="op">)</span></span>
 <span><span class="va">by_team</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="va">by_team_player</span>, G <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `summarise()` has grouped output by 'teamID'. You can override using the</span></span>
-<span><span class="co">#&gt; `.groups` argument.</span></span>
-<span><span class="va">by_team_quartile</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">by_team</span>, quartile <span class="op">=</span> <span class="fu"><a href="../reference/ntile.html">ntile</a></span><span class="op">(</span><span class="va">G</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; `.groups` argument.</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">by_team_quartile</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">by_team</span>, quartile <span class="op">=</span> <span class="fu"><a href="../reference/ntile.html">ntile</a></span><span class="op">(</span><span class="va">G</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="va">by_team_quartile</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 2</span></span></span>
 <span><span class="co">#&gt;   quartile `mean(G)`</span></span>
@@ -264,17 +268,18 @@ lowest.</p>
 <p><code><a href="../reference/lead-lag.html">lead()</a></code> and <code><a href="../reference/lead-lag.html">lag()</a></code> produce offset versions of
 a input vector that is either ahead of or behind the original
 vector.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span></span>
 <span><span class="fu"><a href="../reference/lead-lag.html">lead</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1]  2  3  4  5 NA</span></span>
-<span><span class="fu"><a href="../reference/lead-lag.html">lag</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1]  2  3  4  5 NA</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/lead-lag.html">lag</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] NA  1  2  3  4</span></span></code></pre></div>
 <p>You can use them to:</p>
 <ul>
 <li>
 <p>Compute differences or percent changes.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compute the relative change in games played</span></span>
 <span><span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">players</span>, G_delta <span class="op">=</span> <span class="va">G</span> <span class="op">-</span> <span class="fu"><a href="../reference/lead-lag.html">lag</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Using <code><a href="../reference/lead-lag.html">lag()</a></code> is more convenient than <code><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff()</a></code>
@@ -283,7 +288,7 @@ because for <code>n</code> inputs <code><a href="https://rdrr.io/r/base/diff.htm
 </li>
 <li>
 <p>Find out when a value changes.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Find when a player changed teams</span></span>
 <span><span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">players</span>, <span class="va">teamID</span> <span class="op">!=</span> <span class="fu"><a href="../reference/lead-lag.html">lag</a></span><span class="op">(</span><span class="va">teamID</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </li>
@@ -295,7 +300,7 @@ variable. This is important if you have not already sorted the data, or
 you want to sort one way and lag another.</p>
 <p>Here’s a simple example of what happens if you don’t specify
 <code>order_by</code> when you need it:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>year <span class="op">=</span> <span class="fl">2000</span><span class="op">:</span><span class="fl">2005</span>, value <span class="op">=</span> <span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="va">scrambled</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span></span>
 <span></span>
@@ -307,8 +312,9 @@ you want to sort one way and lag another.</p>
 <span><span class="co">#&gt; 3 2002     4          9</span></span>
 <span><span class="co">#&gt; 4 2003     9         16</span></span>
 <span><span class="co">#&gt; 5 2004    16         NA</span></span>
-<span><span class="co">#&gt; 6 2005    25          1</span></span>
-<span></span>
+<span><span class="co">#&gt; 6 2005    25          1</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="va">right</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">scrambled</span>, prev_value <span class="op">=</span> <span class="fu"><a href="../reference/lead-lag.html">lag</a></span><span class="op">(</span><span class="va">value</span>, order_by <span class="op">=</span> <span class="va">year</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">right</span>, <span class="va">year</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   year value prev_value</span></span>
@@ -335,14 +341,14 @@ selecting all rows up to, or all rows after, a condition is true for the
 first (or last) time. For example, we can use <code><a href="../reference/cumall.html">cumany()</a></code> to
 find all records for a player after they played a year with 150
 games:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">players</span>, <span class="fu"><a href="../reference/cumall.html">cumany</a></span><span class="op">(</span><span class="va">G</span> <span class="op">&gt;</span> <span class="fl">150</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Like lead and lag, you may want to control the order in which the
 accumulation occurs. None of the built in functions have an
 <code>order_by</code> argument so <code>dplyr</code> provides a helper:
 <code><a href="../reference/order_by.html">order_by()</a></code>. You give it the variable you want to order by,
 and then the call to the window function:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">10</span><span class="op">:</span><span class="fl">1</span></span>
 <span><span class="fu"><a href="../reference/order_by.html">order_by</a></span><span class="op">(</span><span class="va">y</span>, <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
@@ -359,7 +365,7 @@ or lower than a summary. I call this a recycled aggregate because the
 value of the aggregate is recycled to be the same length as the original
 vector. Recycled aggregates are useful if you want to find all records
 greater than the mean or less than the median:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">players</span>, <span class="va">G</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">players</span>, <span class="va">G</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>While most SQL databases don’t have an equivalent of
@@ -369,7 +375,7 @@ achieve the same effect with <code><a href="../reference/ntile.html">ntile()</a>
 <code>ntile(x, 2) == 2</code>; <code>x &gt; quantile(x, 75)</code> is
 equivalent to <code>ntile(x, 100) &gt; 75</code> or
 <code>ntile(x, 4) &gt; 3</code>.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">players</span>, <span class="fu"><a href="../reference/ntile.html">ntile</a></span><span class="op">(</span><span class="va">G</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p>You can also use this idea to select the records with the highest
 (<code>x == max(x)</code>) or lowest value (<code>x == min(x)</code>)
@@ -379,7 +385,7 @@ and allow you to select any number of records.</p>
 <code><a href="../reference/mutate.html">mutate()</a></code>. For example, with the batting data, we could
 compute the “career year”, the number of years a player has played since
 they entered the league:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">players</span>, career_year <span class="op">=</span> <span class="va">yearID</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">yearID</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20,874 × 8</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   playerID [1,436]</span></span></span>
@@ -391,7 +397,7 @@ they entered the league:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> aaronha01   <span style="text-decoration: underline;">1</span>957 ML1      151   615   118   198           4</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 20,870 more rows</span></span></span></code></pre></div>
 <p>Or, as in the introductory example, we could compute a z-score:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">players</span>, G_z <span class="op">=</span> <span class="op">(</span><span class="va">G</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20,874 × 8</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   playerID [1,436]</span></span></span>
