@@ -467,7 +467,7 @@ rows_check_by <- function(by, y, ..., error_call = caller_env()) {
   check_dots_empty()
 
   if (is.null(by)) {
-    if (ncol(y) == 0L) {
+    if (df_n_col(y) == 0L) {
       abort("`y` must have at least one column.", call = error_call)
     }
 

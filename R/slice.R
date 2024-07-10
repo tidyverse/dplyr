@@ -366,7 +366,7 @@ slice_eval <- function(mask,
 
       slice_idx <- ...elt(i)
 
-      if (is.matrix(slice_idx) && ncol(slice_idx) == 1) {
+      if (is.matrix(slice_idx) && mat_n_col(slice_idx) == 1) {
         lifecycle::deprecate_warn(
           when = "1.1.0",
           what = I("Slicing with a 1-column matrix"),

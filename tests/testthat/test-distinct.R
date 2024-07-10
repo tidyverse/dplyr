@@ -22,7 +22,7 @@ test_that("distinct for single column works as expected (#1937)", {
 test_that("distinct works for 0-sized columns (#1437)", {
   df <- tibble(x = 1:10) %>% select(-x)
   ddf <- distinct(df)
-  expect_equal(ncol(ddf), 0L)
+  expect_equal(df_n_col(ddf), 0L)
 })
 
 test_that("if no variables specified, uses all", {

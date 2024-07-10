@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* Fixed an issue where duckplyr's ALTREP data frames were being materialized
+  early due to internal usage of `ncol()` (#7049).
+
 * R >=3.6.0 is now explicitly required (#7026).
 
 # dplyr 1.1.4

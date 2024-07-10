@@ -181,13 +181,13 @@ test_that("summarise_at with multiple columns AND unnamed functions works (#4119
   res <- storms %>%
     summarise_at(vars(wind, pressure), list(mean, median))
 
-  expect_equal(ncol(res), 4L)
+  expect_equal(df_n_col(res), 4L)
   expect_equal(names(res), c("wind_fn1", "pressure_fn1", "wind_fn2", "pressure_fn2"))
 
   res <- storms %>%
     summarise_at(vars(wind, pressure), list(n = length, mean, median))
 
-  expect_equal(ncol(res), 6L)
+  expect_equal(df_n_col(res), 6L)
   expect_equal(names(res), c("wind_n", "pressure_n", "wind_fn1", "pressure_fn1", "wind_fn2", "pressure_fn2"))
 })
 
@@ -195,7 +195,7 @@ test_that("mutate_at with multiple columns AND unnamed functions works (#4119)",
   res <- storms %>%
     mutate_at(vars(wind, pressure), list(mean, median))
 
-  expect_equal(ncol(res), ncol(storms) + 4L)
+  expect_equal(df_n_col(res), df_n_col(storms) + 4L)
   expect_equal(
     names(res),
     c(names(storms), c("wind_fn1", "pressure_fn1", "wind_fn2", "pressure_fn2"))

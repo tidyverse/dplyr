@@ -167,15 +167,15 @@ test_that("across() result locations are aligned with column names (#4967)", {
 test_that("across() works sequentially (#4907)", {
   df <- tibble(a = 1)
   expect_equal(
-    mutate(df, x = ncol(across(where(is.numeric), identity)), y = ncol(across(where(is.numeric), identity))),
+    mutate(df, x = df_n_col(across(where(is.numeric), identity)), y = df_n_col(across(where(is.numeric), identity))),
     tibble(a = 1, x = 1L, y = 2L)
   )
   expect_equal(
-    mutate(df, a = "x", y = ncol(across(where(is.numeric), identity))),
+    mutate(df, a = "x", y = df_n_col(across(where(is.numeric), identity))),
     tibble(a = "x", y = 0L)
   )
   expect_equal(
-    mutate(df, x = 1, y = ncol(across(where(is.numeric), identity))),
+    mutate(df, x = 1, y = df_n_col(across(where(is.numeric), identity))),
     tibble(a = 1, x = 1, y = 2L)
   )
 })
@@ -282,7 +282,7 @@ test_that("across() gives meaningful messages", {
 test_that("monitoring cache - across() can be used twice in the same expression", {
   df <- tibble(a = 1, b = 2)
   expect_equal(
-    mutate(df, x = ncol(across(where(is.numeric), identity)) + ncol(across(a, identity))),
+    mutate(df, x = df_n_col(across(where(is.numeric), identity)) + df_n_col(across(a, identity))),
     tibble(a = 1, b = 2, x = 3)
   )
 })
@@ -290,7 +290,7 @@ test_that("monitoring cache - across() can be used twice in the same expression"
 test_that("monitoring cache - across() can be used in separate expressions", {
   df <- tibble(a = 1, b = 2)
   expect_equal(
-    mutate(df, x = ncol(across(where(is.numeric), identity)), y = ncol(across(a, identity))),
+    mutate(df, x = df_n_col(across(where(is.numeric), identity)), y = df_n_col(across(a, identity))),
     tibble(a = 1, b = 2, x = 2, y = 1)
   )
 })
