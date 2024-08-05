@@ -59,7 +59,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
-<ul><li>R &gt;=3.6.0 is now explicitly required (<a href="https://github.com/tidyverse/dplyr/issues/7026" class="external-link">#7026</a>).</li>
+<ul><li><p>Fixed an issue where duckplyr’s ALTREP data frames were being materialized early due to internal usage of <code><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol()</a></code> (<a href="https://github.com/tidyverse/dplyr/issues/7049" class="external-link">#7049</a>).</p></li>
+<li><p>R &gt;=3.6.0 is now explicitly required (<a href="https://github.com/tidyverse/dplyr/issues/7026" class="external-link">#7026</a>).</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.4" id="dplyr-114">dplyr 1.1.4<a class="anchor" aria-label="anchor" href="#dplyr-114"></a></h2><p class="text-muted">CRAN release: 2023-11-17</p>
