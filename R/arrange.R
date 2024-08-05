@@ -225,7 +225,7 @@ sort_key_generator <- function(locale) {
 # ------------------------------------------------------------------------------
 
 dplyr_order_legacy <- function(data, direction = "asc") {
-  if (ncol(data) == 0L) {
+  if (df_n_col(data) == 0L) {
     # Work around `order(!!!list())` returning `NULL`
     return(seq_len(nrow(data)))
   }

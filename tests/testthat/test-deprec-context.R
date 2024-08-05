@@ -54,13 +54,13 @@ test_that("cur_data() and cur_data_all() work sequentially", {
 
   df <- tibble(a = 1)
   expect_equal(
-    mutate(df, x = ncol(cur_data()), y = ncol(cur_data())),
+    mutate(df, x = df_n_col(cur_data()), y = df_n_col(cur_data())),
     tibble(a = 1, x = 1, y = 2)
   )
 
   gf <- tibble(a = 1, b = 2) %>% group_by(a)
   expect_equal(
-    mutate(gf, x = ncol(cur_data_all()), y = ncol(cur_data_all())),
+    mutate(gf, x = df_n_col(cur_data_all()), y = df_n_col(cur_data_all())),
     group_by(tibble(a = 1, b = 2, x = 2, y = 3), a)
   )
 })

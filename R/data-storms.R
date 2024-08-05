@@ -10,7 +10,7 @@
 #'   <https://github.com/tidyverse/dplyr/blob/main/data-raw/storms.R>
 #'
 #' @format A tibble with `r format(nrow(storms), big.mark = ",")` observations
-#'   and `r ncol(storms)` variables:
+#'   and `r df_n_col(storms)` variables:
 #' \describe{
 #' \item{name}{Storm Name}
 #' \item{year,month,day}{Date of report}
