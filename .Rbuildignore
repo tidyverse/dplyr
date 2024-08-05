@@ -41,3 +41,5 @@
 ^doc$
 ^Meta$
 ^CRAN-SUBMISSION$
+^compile_commands\.json$
+^\.cache$

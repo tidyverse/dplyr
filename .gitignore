@@ -23,3 +23,5 @@ vignettes/*.R
 bench-libs
 doc
 Meta
+compile_commands.json
+.cache
