@@ -5,7 +5,7 @@
 #'
 #' `transmute()` creates a new data frame containing only the specified
 #' computations. It's superseded because you can perform the same job
-#' with `mutate(.keep = "none")`.
+#' with `mutate(.keep = "transmute")`.
 #'
 #' @inheritParams mutate
 #' @section Methods:
@@ -29,7 +29,7 @@
 #' @export
 transmute <- function(.data, ...) {
   # dplyr 1.1.0
-  lifecycle::signal_stage("superseded", "transmute()", I("mutate(.keep = 'none')"))
+  lifecycle::signal_stage("superseded", "transmute()", I("mutate(.keep = 'transmute')"))
 
   UseMethod("transmute")
 }
