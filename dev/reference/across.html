@@ -169,6 +169,13 @@ be returned depending on how the results of <code>.fns</code> are unpacked.</p>
 <p><code>if_any()</code> and <code>if_all()</code> return a logical vector.</p>
     </div>
     <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>When there are no selected columns:</p><ul><li><p><code>if_any()</code> will return <code>FALSE</code>, consistent with the behavior of
+<code><a href="https://rdrr.io/r/base/any.html" class="external-link">any()</a></code> when called without inputs.</p></li>
+<li><p><code>if_all()</code> will return <code>TRUE</code>, consistent with the behavior of
+<code><a href="https://rdrr.io/r/base/all.html" class="external-link">all()</a></code> when called without inputs.</p></li>
+</ul></div>
+    <div class="section level2">
     <h2 id="timing-of-evaluation">Timing of evaluation<a class="anchor" aria-label="anchor" href="#timing-of-evaluation"></a></h2>
 
 
@@ -368,9 +375,16 @@ about when it should happen and place your code in consequence.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> setosa                  5.01             3.43</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> versicolor              5.94             2.77</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> virginica               6.59             2.97</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">Species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="summarise.html">summarise</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Sepal"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="va">mean</span>, sd <span class="op">=</span> <span class="va">sd</span><span class="op">)</span>, .names <span class="op">=</span> <span class="st">"{.col}.{.fn}"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="summarise.html">summarise</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu">across</span><span class="op">(</span></span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Sepal"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="va">mean</span>, sd <span class="op">=</span> <span class="va">sd</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      .names <span class="op">=</span> <span class="st">"{.col}.{.fn}"</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Species    Sepal.Length.mean Sepal.Length.sd Sepal.Width.mean</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -394,7 +408,9 @@ about when it should happen and place your code in consequence.</p>
 <span class="r-in"><span><span class="co"># When the list is not named, .fn is replaced by the function's position</span></span></span>
 <span class="r-in"><span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">Species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="summarise.html">summarise</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Sepal"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">mean</span>, <span class="va">sd</span><span class="op">)</span>, .names <span class="op">=</span> <span class="st">"{.col}.fn{.fn}"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="summarise.html">summarise</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu">across</span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Sepal"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">mean</span>, <span class="va">sd</span><span class="op">)</span>, .names <span class="op">=</span> <span class="st">"{.col}.fn{.fn}"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Species    Sepal.Length.fn1 Sepal.Length.fn2 Sepal.Width.fn1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -432,7 +448,9 @@ about when it should happen and place your code in consequence.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># .unpack can utilize a glue specification if you don't like the defaults</span></span></span>
 <span class="r-in"><span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="reframe.html">reframe</a></span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Sepal"</span><span class="op">)</span>, <span class="va">quantile_df</span>, .unpack <span class="op">=</span> <span class="st">"{outer}.{inner}"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="reframe.html">reframe</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu">across</span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Sepal"</span><span class="op">)</span>, <span class="va">quantile_df</span>, .unpack <span class="op">=</span> <span class="st">"{outer}.{inner}"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Sepal.Length.quantile Sepal.Length.value Sepal.Width.quantile</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
