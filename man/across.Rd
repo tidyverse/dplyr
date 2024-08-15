@@ -86,6 +86,15 @@ of them, then you probably want to use \code{\link[=pick]{pick()}} instead.
 \code{across()} supersedes the family of "scoped variants" like
 \code{summarise_at()}, \code{summarise_if()}, and \code{summarise_all()}.
 }
+\details{
+When there are no selected columns:
+\itemize{
+\item \code{if_any()} will return \code{FALSE}, consistent with the behavior of
+\code{any()} when called without inputs.
+\item \code{if_all()} will return \code{TRUE}, consistent with the behavior of
+\code{all()} when called without inputs.
+}
+}
 \section{Timing of evaluation}{
 
 R code in dplyr verbs is generally evaluated once per group.
@@ -177,9 +186,16 @@ iris \%>\%
 iris \%>\%
   group_by(Species) \%>\%
   summarise(across(starts_with("Sepal"), mean, .names = "mean_{.col}"))
+
 iris \%>\%
   group_by(Species) \%>\%
-  summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), .names = "{.col}.{.fn}"))
+  summarise(
+    across(
+      starts_with("Sepal"),
+      list(mean = mean, sd = sd),
+      .names = "{.col}.{.fn}"
+    )
+  )
 
 # If a named external vector is used for column selection, .names will use
 # those names when constructing the output names
@@ -190,7 +206,9 @@ iris \%>\%
 # When the list is not named, .fn is replaced by the function's position
 iris \%>\%
   group_by(Species) \%>\%
-  summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{.col}.fn{.fn}"))
+  summarise(
+    across(starts_with("Sepal"), list(mean, sd), .names = "{.col}.fn{.fn}")
+  )
 
 # When the functions in .fns return a data frame, you typically get a
 # "packed" data frame back
@@ -208,7 +226,9 @@ iris \%>\%
 
 # .unpack can utilize a glue specification if you don't like the defaults
 iris \%>\%
-  reframe(across(starts_with("Sepal"), quantile_df, .unpack = "{outer}.{inner}"))
+  reframe(
+    across(starts_with("Sepal"), quantile_df, .unpack = "{outer}.{inner}")
+  )
 
 # This is also useful inside mutate(), for example, with a multi-lag helper
 multilag <- function(x, lags = 1:3) {

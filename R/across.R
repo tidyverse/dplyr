@@ -12,18 +12,19 @@
 #' the predicate is `TRUE` for *any* of the selected columns, `if_all()`
 #' is `TRUE` when the predicate is `TRUE` for *all* selected columns.
 #'
-#' **Important Behavior:** When there are no selected columns:
-#'
-#' - `if_any()` will return `FALSE`, consistent with the behavior of
-#'   `any()` when called without inputs.
-#' - `if_all()` will return `TRUE`, consistent with the behavior of
-#'   `all()` when called without inputs.
-#'
 #' If you just need to select columns without applying a transformation to each
 #' of them, then you probably want to use [pick()] instead.
 #'
 #' `across()` supersedes the family of "scoped variants" like
 #' `summarise_at()`, `summarise_if()`, and `summarise_all()`.
+#'
+#' @details
+#' When there are no selected columns:
+#'
+#' - `if_any()` will return `FALSE`, consistent with the behavior of
+#'   `any()` when called without inputs.
+#' - `if_all()` will return `TRUE`, consistent with the behavior of
+#'   `all()` when called without inputs.
 #'
 #' @param .cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
 #'   You can't select grouping columns because they are already automatically
