@@ -37,22 +37,15 @@
 #' between(x, "b", "c", ptype = x)
 between <- function(x, left, right, ..., ptype = NULL) {
   check_dots_empty0(...)
-  if (is.null(ptype)) {
-    args <- list(x = x, left = left, right = right)
-    # Common type of all inputs
-    args <- vec_cast_common(!!!args, .to = ptype)
-    x <- args$x
-    args$x <- NULL
-  } else {
-    # Cast left and right to the type of ptype
-    left <- vec_cast(left, ptype)
-    right <- vec_cast(right, ptype)
-    # Ensure x is also of type ptype
-    x <- vec_cast(x, ptype)
-  }
 
-  # But recycle to size of `x`
-  args <- vec_recycle_common(left = left, right = right, .size = vec_size(x))
+  args <- list(x = x, left = left, right = right)
+  # Common type of all inputs
+  args <- vec_cast_common(!!!args, .to = ptype)
+  x <- args$x
+  args$x <- NULL
+
+  # Recycle to size of `x`
+  args <- vec_recycle_common(!!!args, .size = vec_size(x))
   left <- args$left
   right <- args$right
 
