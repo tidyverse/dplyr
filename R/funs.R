@@ -11,6 +11,11 @@
 #'
 #' @returns
 #' A logical vector the same size as `x`.
+#' 
+#' @seealso
+#' [join_by()] if you are looking for documentation for the `between()` overlap
+#' join helper.
+#'
 #'
 #' @export
 #' @examples
