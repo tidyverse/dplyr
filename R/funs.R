@@ -10,8 +10,8 @@
 #' @param x A vector
 #' @param left,right Boundary values. Both `left` and `right` are recycled to
 #'   the size of `x`.
-#' @param ptype An optional prototype giving the desired output type. If NULL,
-#'   the common type of x, left, and right is used.
+#' @param ptype An optional prototype giving the desired output type. If `NULL`,
+#'   the common type of `x`, `left`, and `right` is used.
 #'
 #' @returns
 #' A logical vector the same size as `x`.
