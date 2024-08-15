@@ -2,7 +2,7 @@
 #'
 #' This is a shortcut for `x >= left & x <= right`, implemented for local
 #' vectors and translated to the appropriate SQL for remote tables.
-#' 
+#'
 #' @details
 #' `x`, `left`, and `right` are all cast to their common type before the
 #' comparison is made. Use `ptype` argument to specify type manually.
@@ -15,7 +15,7 @@
 #'
 #' @returns
 #' A logical vector the same size as `x`.
-#' 
+#'
 #' @seealso
 #' [join_by()] if you are looking for documentation for the `between()` overlap
 #' join helper.
@@ -48,18 +48,18 @@ between <- function(x, left, right, ptype = NULL) {
     # Ensure x is also of type ptype
     x <- vec_cast(x, ptype)
   }
-  
+
   # Recycle to size of `x`
   args <- vec_recycle_common(left = left, right = right, .size = vec_size(x))
   left <- args$left
   right <- args$right
-  
+
   left <- vec_compare(x, left)
   left <- left >= 0L
-  
+
   right <- vec_compare(x, right)
   right <- right <= 0L
-  
+
   left & right
 }
 
