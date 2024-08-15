@@ -4,13 +4,15 @@
 \alias{between}
 \title{Detect where values fall in a specified range}
 \usage{
-between(x, left, right, ptype = NULL)
+between(x, left, right, ..., ptype = NULL)
 }
 \arguments{
 \item{x}{A vector}
 
 \item{left, right}{Boundary values. Both \code{left} and \code{right} are recycled to
 the size of \code{x}.}
+
+\item{...}{These dots are for future extensions and must be empty.}
 
 \item{ptype}{An optional prototype giving the desired output type. If \code{NULL},
 the common type of \code{x}, \code{left}, and \code{right} is used.}

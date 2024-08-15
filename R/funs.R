@@ -7,6 +7,8 @@
 #' `x`, `left`, and `right` are all cast to their common type before the
 #' comparison is made. Use `ptype` argument to specify type manually.
 #'
+#' @inheritParams rlang::args_dots_empty
+#'
 #' @param x A vector
 #' @param left,right Boundary values. Both `left` and `right` are recycled to
 #'   the size of `x`.
@@ -33,11 +35,12 @@
 #' # Using ptype argument with factors
 #' x <- factor(c("a", "b", "c", "d"), levels = c("a", "b", "c", "d"), ordered = TRUE)
 #' between(x, "b", "c", ptype = x)
-between <- function(x, left, right, ptype = NULL) {
+between <- function(x, left, right, ..., ptype = NULL) {
+  check_dots_empty0(...)
   if (is.null(ptype)) {
     args <- list(x = x, left = left, right = right)
     # Common type of all inputs
-    args <- vec_cast_common(!!!args)
+    args <- vec_cast_common(!!!args, .to = ptype)
     x <- args$x
     args$x <- NULL
   } else {
@@ -48,7 +51,7 @@ between <- function(x, left, right, ptype = NULL) {
     x <- vec_cast(x, ptype)
   }
 
-  # Recycle to size of `x`
+  # But recycle to size of `x`
   args <- vec_recycle_common(left = left, right = right, .size = vec_size(x))
   left <- args$left
   right <- args$right
