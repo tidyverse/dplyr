@@ -361,5 +361,5 @@
       mutate(df2)
     Condition
       Error in `mutate()`:
-      ! Can't transform a data frame with `NA` or `""` names.
+      ! Can't transform a data frame with missing names.
 

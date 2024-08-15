@@ -243,7 +243,7 @@
       filter(df2)
     Condition
       Error in `filter()`:
-      ! Can't transform a data frame with `NA` or `""` names.
+      ! Can't transform a data frame with missing names.
 
 # can't use `.by` with `.preserve`
 

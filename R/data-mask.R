@@ -14,10 +14,16 @@ DataMask <- R6Class("DataMask",
       names <- names(data)
 
       if (is.null(names)) {
-        abort("Can't transform a data frame with `NULL` names.")
+        cli::cli_abort(
+          "Can't transform a data frame with `NULL` names.",
+          call = error_call
+        )
       }
       if (vec_any_missing(names)) {
-        abort("Can't transform a data frame with missing names.")
+        cli::cli_abort(
+          "Can't transform a data frame with missing names.",
+          call = error_call
+        )
       }
 
       names_bindings <- chr_unserialise_unicode(names)
