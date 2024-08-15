@@ -178,13 +178,8 @@ The \code{!} operator negates a selection:
 #> 2 <NA>       gold        yellow         112   none  masculine Tatooine  Droid  
 #> 3 <NA>       white, blue red             33   none  masculine Naboo     Droid  
 #> 4 none       white       yellow          41.9 male  masculine Tatooine  Human  
-#>   films     vehicles  starships
-#>   <list>    <list>    <list>   
-#> 1 <chr [5]> <chr [2]> <chr [2]>
-#> 2 <chr [6]> <chr [0]> <chr [0]>
-#> 3 <chr [7]> <chr [0]> <chr [0]>
-#> 4 <chr [4]> <chr [0]> <chr [1]>
 #> # i 83 more rows
+#> # i 3 more variables: films <list>, vehicles <list>, starships <list>
 
 iris \%>\% select(!c(Sepal.Length, Petal.Length))
 #> # A tibble: 150 x 3
