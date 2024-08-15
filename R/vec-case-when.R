@@ -52,6 +52,9 @@ vec_case_when <- function(conditions,
     condition <- conditions[[i]]
     condition_arg <- condition_args[[i]]
     check_logical(condition, arg = condition_arg, call = call)
+    check_matrix(condition, call = call)
+
+
   }
 
   size <- vec_size_common(
@@ -206,4 +209,12 @@ names_as_error_names <- function(names, arg = "") {
 vec_paste0 <- function (...) {
   args <- vec_recycle_common(...)
   exec(paste0, !!!args)
+}
+
+check_matrix <- function(condition, call) {
+  if (inherits(condition, "matrix")) {
+    abort("`conditions` cannot be a matrix.", call = call)
+
+  }
+
 }

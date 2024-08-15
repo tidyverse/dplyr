@@ -305,3 +305,11 @@
       Error in `vec_case_when()`:
       ! `x` must be a vector, not `NULL`.
 
+# error message shows up when conditions input is a matrix
+
+    Code
+      case_when(!is.finite(matrix(rnorm(36), ncol = 6)) ~ "Invalid", .default = "Default")
+    Condition
+      Error in `case_when()`:
+      ! `conditions` cannot be a matrix.
+

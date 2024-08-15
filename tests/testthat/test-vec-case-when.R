@@ -426,3 +426,12 @@ test_that("named inputs show up in the error message", {
     vec_case_when(list(TRUE), list(x = NULL), values_arg = "")
   })
 })
+
+test_that("error message shows up when conditions input is a matrix", {
+
+  expect_snapshot(error = TRUE, {
+    case_when(!is.finite(matrix(rnorm(36), ncol = 6)) ~ "Invalid",
+              .default = "Default")
+  })
+
+})
