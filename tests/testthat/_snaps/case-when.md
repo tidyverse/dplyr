@@ -118,3 +118,11 @@
       Error in `case_when()`:
       ! Case 1 (`~1:2`) must be a two-sided formula.
 
+# condition input as matrix 
+
+    Code
+      case_when(!is.finite(x) ~ "Invalid", .default = "Default")
+    Condition
+      Error in `case_when()`:
+      ! `conditions` cannot be a matrix.
+

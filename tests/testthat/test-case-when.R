@@ -305,3 +305,13 @@ test_that("case_when() give meaningful errors", {
   })
 
 })
+
+test_that("condition input as matrix ", {
+  # throw an informative error when condition is a matrix
+  x <- matrix(rnorm(36), ncol = 6)
+
+  expect_snapshot(error = TRUE, {
+    case_when(!is.finite(x) ~ "Invalid",
+              .default = "Default")
+  })
+})
