@@ -2,6 +2,10 @@
 #'
 #' This is a shortcut for `x >= left & x <= right`, implemented for local
 #' vectors and translated to the appropriate SQL for remote tables.
+#' 
+#' @details
+#' `x`, `left`, and `right` are all cast to their common type before the
+#' comparison is made. Use `ptype` argument to specify type manually.
 #'
 #' @param x A vector
 #' @param left,right Boundary values. Both `left` and `right` are recycled to
