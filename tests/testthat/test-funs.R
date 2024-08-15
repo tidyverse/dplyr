@@ -74,6 +74,77 @@ test_that("recycles `left` and `right` to the size of `x`", {
   })
 })
 
+test_that("ptype argument works as expected", {
+  x <- factor(c("a", "b", "c", "d"), levels = c("a", "b", "c", "d"), ordered = TRUE)
+  
+  # Test with ptype specified
+  expect_identical(
+    between(x, "b", "c", ptype = x),
+    c(FALSE, TRUE, TRUE, FALSE)
+  )
+  
+  # Test without ptype (actual behavior)
+  expect_identical(
+    between(x, "b", "c"),
+    c(FALSE, TRUE, TRUE, FALSE)
+  )
+})
+
+test_that("ptype argument affects type casting", {
+  x <- 1:5
+  expect_identical(
+    between(x, 1.5, 3.5),
+    c(FALSE, TRUE, TRUE, FALSE, FALSE)
+  )
+  expect_error(
+    between(x, 1.5, 3.5, ptype = integer())
+  )
+})
+
+test_that("ptype argument works with different types", {
+  # Test with numeric
+  x_num <- c(1, 2, 3, 4, 5)
+  expect_identical(
+    between(x_num, 2, 4, ptype = integer()),
+    c(FALSE, TRUE, TRUE, TRUE, FALSE)
+  )
+})
+
+test_that("ptype argument handles errors correctly", {
+  x <- 1:5
+  
+  expect_error(
+    between(x, 2, 4, ptype = "not a valid ptype"),
+    "Can't convert"
+  )
+  
+  expect_error(
+    between(x, "2", "4", ptype = integer()),
+    "Can't convert"
+  )
+})
+
+test_that("ptype argument works with data frames", {
+  x <- tibble(a = 1:3, b = 4:6)
+  left <- tibble(a = c(0, 1, 2), b = c(3, 4, 5))
+  right <- tibble(a = c(2, 3, 4), b = c(6, 7, 8))
+  
+  expect_identical(
+    between(x, left, right, ptype = x),
+    c(TRUE, TRUE, TRUE)
+  )
+})
+
+test_that("ptype argument maintains backwards compatibility", {
+  x <- 1:5
+  
+  # Should behave the same as before when ptype is NULL
+  expect_identical(
+    between(x, 2, 4),
+    between(x, 2, 4, ptype = NULL)
+  )
+})
+
 
 # cum* --------------------------------------------------------------------
 
