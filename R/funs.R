@@ -49,7 +49,7 @@ between <- function(x, left, right) {
   left & right
 }
 
-#' Cumulativate versions of any, all, and mean
+#' Cumulative versions of any, all, and mean
 #'
 #' dplyr provides `cumall()`, `cumany()`, and `cummean()` to complete R's set
 #' of cumulative functions.
