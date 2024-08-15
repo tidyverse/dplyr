@@ -4,13 +4,20 @@
 #' `across()` makes it easy to apply the same transformation to multiple
 #' columns, allowing you to use [select()] semantics inside in "data-masking"
 #' functions like [summarise()] and [mutate()]. See `vignette("colwise")` for
-#'  more details.
+#' more details.
 #'
 #' `if_any()` and `if_all()` apply the same
 #' predicate function to a selection of columns and combine the
 #' results into a single logical vector: `if_any()` is `TRUE` when
 #' the predicate is `TRUE` for *any* of the selected columns, `if_all()`
 #' is `TRUE` when the predicate is `TRUE` for *all* selected columns.
+#'
+#' **Important Behavior:** When there are no selected columns:
+#'
+#' - `if_any()` will return `FALSE`, consistent with the behavior of
+#'   `any()` when called without inputs.
+#' - `if_all()` will return `TRUE`, consistent with the behavior of
+#'   `all()` when called without inputs.
 #'
 #' If you just need to select columns without applying a transformation to each
 #' of them, then you probably want to use [pick()] instead.
@@ -133,9 +140,16 @@
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), mean, .names = "mean_{.col}"))
+#'
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), .names = "{.col}.{.fn}"))
+#'   summarise(
+#'     across(
+#'       starts_with("Sepal"),
+#'       list(mean = mean, sd = sd),
+#'       .names = "{.col}.{.fn}"
+#'     )
+#'   )
 #'
 #' # If a named external vector is used for column selection, .names will use
 #' # those names when constructing the output names
@@ -146,7 +160,9 @@
 #' # When the list is not named, .fn is replaced by the function's position
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{.col}.fn{.fn}"))
+#'   summarise(
+#'     across(starts_with("Sepal"), list(mean, sd), .names = "{.col}.fn{.fn}")
+#'   )
 #'
 #' # When the functions in .fns return a data frame, you typically get a
 #' # "packed" data frame back
@@ -164,7 +180,9 @@
 #'
 #' # .unpack can utilize a glue specification if you don't like the defaults
 #' iris %>%
-#'   reframe(across(starts_with("Sepal"), quantile_df, .unpack = "{outer}.{inner}"))
+#'   reframe(
+#'     across(starts_with("Sepal"), quantile_df, .unpack = "{outer}.{inner}")
+#'   )
 #'
 #' # This is also useful inside mutate(), for example, with a multi-lag helper
 #' multilag <- function(x, lags = 1:3) {
@@ -618,9 +636,11 @@ expand_if_across <- function(quo) {
   if (is_call(call, "if_any")) {
     op <- "|"
     if_fn <- "if_any"
+    empty <- FALSE
   } else {
     op <- "&"
     if_fn <- "if_all"
+    empty <- TRUE
   }
 
   context_local("across_if_fn", if_fn)
@@ -634,9 +654,10 @@ expand_if_across <- function(quo) {
   call[[1]] <- quote(across)
   quos <- expand_across(quo_set_expr(quo, call))
 
-  # Select all rows if there are no inputs
+  # Select all rows if there are no inputs for if_all(),
+  # but select no rows if there are no inputs for if_any().
   if (!length(quos)) {
-    return(list(quo(TRUE)))
+    return(list(quo(empty)))
   }
 
   combine <- function(x, y) {

@@ -888,6 +888,32 @@ test_that("if_any() and if_all() expansions deal with no inputs or single inputs
   )
 })
 
+test_that("if_any() on zero-column selection behaves as expected in filter", {
+  tbl <- tibble(
+    x1 = 1:5,
+    x2 = c(-1, 4, 5, 4, 1),
+    y = c(1, 4, 2, 4, 9),
+  )
+
+  expect_equal(
+    filter(tbl, if_any(c(), ~ is.na(.x))),
+    filter(tbl, FALSE)
+  )
+})
+
+test_that("if_all() on zero-column selection behaves as expected in filter", {
+  tbl <- tibble(
+    x1 = 1:5,
+    x2 = c(-1, 4, 5, 4, 1),
+    y = c(1, 4, 2, 4, 9),
+  )
+
+  expect_equal(
+    filter(tbl, if_all(c(), ~ is.na(.x))),
+    filter(tbl, TRUE)
+  )
+})
+
 test_that("if_any() and if_all() wrapped deal with no inputs or single inputs", {
   d <- data.frame(x = 1)
 
