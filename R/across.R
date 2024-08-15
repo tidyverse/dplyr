@@ -658,7 +658,7 @@ expand_if_across <- function(quo) {
   # Select all rows if there are no inputs for if_all(),
   # but select no rows if there are no inputs for if_any().
   if (!length(quos)) {
-    return(list(quo(empty)))
+    return(list(quo(!!empty)))
   }
 
   combine <- function(x, y) {
