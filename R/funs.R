@@ -3,20 +3,14 @@
 #' This is a shortcut for `x >= left & x <= right`, implemented for local
 #' vectors and translated to the appropriate SQL for remote tables.
 #'
-#' @details
-#' `x`, `left`, and `right` are all cast to their common type before the
-#' comparison is made.
-#'
 #' @param x A vector
 #' @param left,right Boundary values. Both `left` and `right` are recycled to
 #'   the size of `x`.
+#' @param ptype An optional prototype giving the desired output type. If NULL,
+#'   the common type of x, left, and right is used.
 #'
 #' @returns
 #' A logical vector the same size as `x`.
-#'
-#' @seealso
-#' [join_by()] if you are looking for documentation for the `between()` overlap
-#' join helper.
 #'
 #' @export
 #' @examples
@@ -27,25 +21,36 @@
 #'
 #' # On a tibble using `filter()`
 #' filter(starwars, between(height, 100, 150))
-between <- function(x, left, right) {
-  args <- list(x = x, left = left, right = right)
-
-  # Common type of all inputs
-  args <- vec_cast_common(!!!args)
-  x <- args$x
-  args$x <- NULL
-
-  # But recycle to size of `x`
-  args <- vec_recycle_common(!!!args, .size = vec_size(x))
+#'
+#' # Using ptype argument with factors
+#' x <- factor(c("a", "b", "c", "d"), levels = c("a", "b", "c", "d"), ordered = TRUE)
+#' between(x, "b", "c", ptype = x)
+between <- function(x, left, right, ptype = NULL) {
+  if (is.null(ptype)) {
+    args <- list(x = x, left = left, right = right)
+    # Common type of all inputs
+    args <- vec_cast_common(!!!args)
+    x <- args$x
+    args$x <- NULL
+  } else {
+    # Cast left and right to the type of ptype
+    left <- vec_cast(left, ptype)
+    right <- vec_cast(right, ptype)
+    # Ensure x is also of type ptype
+    x <- vec_cast(x, ptype)
+  }
+  
+  # Recycle to size of `x`
+  args <- vec_recycle_common(left = left, right = right, .size = vec_size(x))
   left <- args$left
   right <- args$right
-
+  
   left <- vec_compare(x, left)
   left <- left >= 0L
-
+  
   right <- vec_compare(x, right)
   right <- right <= 0L
-
+  
   left & right
 }
 
