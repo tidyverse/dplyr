@@ -22,6 +22,10 @@ A logical vector the same size as \code{x}.
 This is a shortcut for \code{x >= left & x <= right}, implemented for local
 vectors and translated to the appropriate SQL for remote tables.
 }
+\details{
+\code{x}, \code{left}, and \code{right} are all cast to their common type before the
+comparison is made. Use \code{ptype} argument to specify type manually.
+}
 \examples{
 between(1:12, 7, 9)
 
@@ -34,4 +38,8 @@ filter(starwars, between(height, 100, 150))
 # Using ptype argument with factors
 x <- factor(c("a", "b", "c", "d"), levels = c("a", "b", "c", "d"), ordered = TRUE)
 between(x, "b", "c", ptype = x)
+}
+\seealso{
+\code{\link[=join_by]{join_by()}} if you are looking for documentation for the \code{between()} overlap
+join helper.
 }
