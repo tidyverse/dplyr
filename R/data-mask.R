@@ -11,7 +11,22 @@ DataMask <- R6Class("DataMask",
       frame <- caller_env(n = 2)
       local_mask(self, frame)
 
-      names_bindings <- chr_unserialise_unicode(names2(data))
+      names <- names(data)
+
+      if (is.null(names)) {
+        cli::cli_abort(
+          "Can't transform a data frame with `NULL` names.",
+          call = error_call
+        )
+      }
+      if (vec_any_missing(names)) {
+        cli::cli_abort(
+          "Can't transform a data frame with missing names.",
+          call = error_call
+        )
+      }
+
+      names_bindings <- chr_unserialise_unicode(names)
       if (any(names_bindings == "")) {
         # `names2()` converted potential `NA` names to `""` already
         abort("Can't transform a data frame with `NA` or `\"\"` names.", call = error_call)
