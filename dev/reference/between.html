@@ -67,7 +67,7 @@ vectors and translated to the appropriate SQL for remote tables.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">between</span><span class="op">(</span><span class="va">x</span>, <span class="va">left</span>, <span class="va">right</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">between</span><span class="op">(</span><span class="va">x</span>, <span class="va">left</span>, <span class="va">right</span>, <span class="va">...</span>, ptype <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -82,15 +82,25 @@ vectors and translated to the appropriate SQL for remote tables.</p>
 <dd><p>Boundary values. Both <code>left</code> and <code>right</code> are recycled to
 the size of <code>x</code>.</p></dd>
 
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>These dots are for future extensions and must be empty.</p></dd>
+
+
+<dt id="arg-ptype">ptype<a class="anchor" aria-label="anchor" href="#arg-ptype"></a></dt>
+<dd><p>An optional prototype giving the desired output type. The
+default is to compute the common type of <code>x</code>, <code>left</code>, and <code>right</code> using
+<code><a href="https://vctrs.r-lib.org/reference/vec_cast.html" class="external-link">vctrs::vec_cast_common()</a></code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A logical vector the same size as <code>x</code>.</p>
+    <p>A logical vector the same size as <code>x</code> with a type determined by <code>ptype</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><code>x</code>, <code>left</code>, and <code>right</code> are all cast to their common type before the
-comparison is made.</p>
+comparison is made. Use the <code>ptype</code> argument to specify the type manually.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -133,6 +143,17 @@ join helper.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Gasgano       122    <span style="color: #BB0000;">NA</span> none       white, bl… black             <span style="color: #BB0000;">NA</span> male </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Using the `ptype` argument with ordered factors, where otherwise everything</span></span></span>
+<span class="r-in"><span><span class="co"># is cast to the common type of character before the comparison</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>, <span class="st">"medium"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">between</span><span class="op">(</span><span class="va">x</span>, <span class="st">"medium"</span>, <span class="st">"high"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE FALSE FALSE FALSE</span>
+<span class="r-in"><span><span class="fu">between</span><span class="op">(</span><span class="va">x</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>, ptype <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE  TRUE  TRUE  TRUE</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
