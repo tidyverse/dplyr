@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `case_when()` now throws a better error if one of the conditions is an array
+  (#6862, @ilovemane).
+
 * `between()` gains a new `ptype` argument, allowing users to specify the
   desired output type. This is particularly useful for ordered factors and other
   complex types where the default common type behavior might not be ideal
