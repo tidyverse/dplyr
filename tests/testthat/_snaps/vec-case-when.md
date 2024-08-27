@@ -102,7 +102,7 @@
       Error in `vec_case_when()`:
       ! `conditions[[2]]` must be a logical vector, not the number 3.5.
 
-# `conditions` can't be arrays (#7069)
+# `conditions` can't be arrays (#6862)
 
     Code
       vec_case_when(list(x), list(y))
