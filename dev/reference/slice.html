@@ -191,7 +191,9 @@ reach <code>n</code>/<code>prop</code>.</p></dd>
 <dt id="arg-weight-by">weight_by<a class="anchor" aria-label="anchor" href="#arg-weight-by"></a></dt>
 <dd><p>&lt;<code><a href="https://rlang.r-lib.org/reference/args_data_masking.html" class="external-link">data-masking</a></code>&gt; Sampling
 weights. This must evaluate to a vector of non-negative numbers the same
-length as the input. Weights are automatically standardised to sum to 1.</p></dd>
+length as the input. Weights are automatically standardised to sum to 1.
+See the <code>Details</code> section for more technical details regarding these
+weights.</p></dd>
 
 
 <dt id="arg-replace">replace<a class="anchor" aria-label="anchor" href="#arg-replace"></a></dt>
@@ -212,6 +214,11 @@ properties:</p><ul><li><p>Each row may appear 0, 1, or many times in the output.
     <p>Slice does not work with relational databases because they have no
 intrinsic notion of row order. If you want to perform the equivalent
 operation, use <code><a href="filter.html">filter()</a></code> and <code><a href="row_number.html">row_number()</a></code>.</p>
+<p>For <code>slice_sample()</code>, note that the weights provided in <code>weight_by</code> are
+passed through to the <code>prob</code> argument of <code><a href="https://rdrr.io/r/base/sample.html" class="external-link">base::sample.int()</a></code>. This means
+they cannot be used to reconstruct summary statistics from the underlying
+population. See <a href="https://stats.stackexchange.com/q/639211/" class="external-link">this discussion</a>
+for more details.</p>
     </div>
     <div class="section level2">
     <h2 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a></h2>
@@ -389,9 +396,9 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Hornet 4 Drive    21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Merc 450SL        17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># you can optionally weight by a variable - this code weights by the</span></span></span>
+<span class="r-in"><span><span class="co"># You can optionally weight by a variable - this code weights by the</span></span></span>
 <span class="r-in"><span><span class="co"># physical weight of the cars, so heavy cars are more likely to get</span></span></span>
-<span class="r-in"><span><span class="co"># selected</span></span></span>
+<span class="r-in"><span><span class="co"># selected.</span></span></span>
 <span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">slice_sample</span><span class="op">(</span>weight_by <span class="op">=</span> <span class="va">wt</span>, n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental 10.4   8  460 215 3.00 5.424 17.82  0  0    3    4</span>
