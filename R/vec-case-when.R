@@ -52,9 +52,7 @@ vec_case_when <- function(conditions,
     condition <- conditions[[i]]
     condition_arg <- condition_args[[i]]
     check_logical(condition, arg = condition_arg, call = call)
-    check_matrix(condition, call = call)
-
-
+    check_no_dim(condition, arg = condition_arg, call = call)
   }
 
   size <- vec_size_common(
@@ -211,10 +209,16 @@ vec_paste0 <- function (...) {
   exec(paste0, !!!args)
 }
 
-check_matrix <- function(condition, call) {
-  if (inherits(condition, "matrix")) {
-    abort("`conditions` cannot be a matrix.", call = call)
-
+check_no_dim <- function(x,
+                         ...,
+                         arg = caller_arg(x),
+                         call = caller_env()) {
+  if (is.null(dim(x))) {
+    return(invisible(NULL))
   }
 
+  cli::cli_abort(
+    "{.arg {arg}} can't be an array.",
+    call = call
+  )
 }
