@@ -19,6 +19,12 @@
 #' intrinsic notion of row order. If you want to perform the equivalent
 #' operation, use [filter()] and [row_number()].
 #'
+#' For `slice_sample()`, note that the weights provided in `weight_by` are
+#' passed through to the `prob` argument of [base::sample.int()]. This means
+#' they cannot be used to reconstruct summary statistics from the underlying
+#' population. See [this discussion](https://stats.stackexchange.com/q/639211/)
+#' for more details.
+#'
 #' @family single table verbs
 #' @inheritParams args_by
 #' @inheritParams arrange
@@ -93,11 +99,9 @@
 #' mtcars %>% slice_sample(n = 5)
 #' mtcars %>% slice_sample(n = 5, replace = TRUE)
 #'
-#' # you can optionally weight by a variable - this code weights by the
+#' # You can optionally weight by a variable - this code weights by the
 #' # physical weight of the cars, so heavy cars are more likely to get
-#' # selected. Note that the weights cannot then be used to reconstruct
-#' # summary statistics from the underlying population. See
-#' # https://stats.stackexchange.com/q/639211/ for more details.
+#' # selected.
 #' mtcars %>% slice_sample(weight_by = wt, n = 5)
 #'
 #' # Group wise operation ----------------------------------------
@@ -295,9 +299,8 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, by = NULL, with_
 #' @param weight_by <[`data-masking`][rlang::args_data_masking]> Sampling
 #'   weights. This must evaluate to a vector of non-negative numbers the same
 #'   length as the input. Weights are automatically standardised to sum to 1.
-#'   Note that these weights cannot be used to reconstruct summary statistics
-#'   via, for example, Horvitz-Thompson estimators. See
-#'   https://stats.stackexchange.com/q/639211/ for more details.
+#'   See the `Details` section for more technical details regarding these
+#'   weights.
 slice_sample <- function(.data, ..., n, prop, by = NULL, weight_by = NULL, replace = FALSE) {
   check_dot_by_typo(...)
   check_slice_unnamed_n_prop(..., n = n, prop = prop)
