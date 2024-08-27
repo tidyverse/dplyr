@@ -1,8 +1,9 @@
 # dplyr (development version)
 
-* `between()` gains a new `ptype` argument, allowing users to specify the desired
-  output type. This is particularly useful for ordered factors and other complex
-  types where the default common type behavior might not be ideal (#6906).
+* `between()` gains a new `ptype` argument, allowing users to specify the
+  desired output type. This is particularly useful for ordered factors and other
+  complex types where the default common type behavior might not be ideal
+  (#6906, @JamesHWade).
 
 * Fixed an edge case when coercing data frames to matrices (#7004).
 
