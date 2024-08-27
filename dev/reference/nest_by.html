@@ -99,10 +99,10 @@ more details.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>In <code><a href="group_by.html">group_by()</a></code>, variables or computations to group by.
-Computations are always done on the ungrouped data frame.
-To perform computations on the grouped data, you need to use
-a separate <code><a href="mutate.html">mutate()</a></code> step before the <code><a href="group_by.html">group_by()</a></code>.
+<dd><p>&lt;<code><a href="https://rlang.r-lib.org/reference/args_data_masking.html" class="external-link">data-masking</a></code>&gt; In <code><a href="group_by.html">group_by()</a></code>,
+variables or computations to group by. Computations are always done on the
+ungrouped data frame. To perform computations on the grouped data, you need
+to use a separate <code><a href="mutate.html">mutate()</a></code> step before the <code><a href="group_by.html">group_by()</a></code>.
 Computations are not allowed in <code>nest_by()</code>.
 In <code><a href="group_by.html">ungroup()</a></code>, variables to remove from the grouping.</p></dd>
 
