@@ -5,14 +5,19 @@
 #'
 #' @details
 #' `x`, `left`, and `right` are all cast to their common type before the
-#' comparison is made.
+#' comparison is made. Use the `ptype` argument to specify the type manually.
+#'
+#' @inheritParams rlang::args_dots_empty
 #'
 #' @param x A vector
 #' @param left,right Boundary values. Both `left` and `right` are recycled to
 #'   the size of `x`.
+#' @param ptype An optional prototype giving the desired output type. The
+#'   default is to compute the common type of `x`, `left`, and `right` using
+#'   [vctrs::vec_cast_common()].
 #'
 #' @returns
-#' A logical vector the same size as `x`.
+#' A logical vector the same size as `x` with a type determined by `ptype`.
 #'
 #' @seealso
 #' [join_by()] if you are looking for documentation for the `between()` overlap
@@ -27,15 +32,26 @@
 #'
 #' # On a tibble using `filter()`
 #' filter(starwars, between(height, 100, 150))
-between <- function(x, left, right) {
+#'
+#' # Using the `ptype` argument with ordered factors, where otherwise everything
+#' # is cast to the common type of character before the comparison
+#' x <- ordered(
+#'   c("low", "medium", "high", "medium"),
+#'   levels = c("low", "medium", "high")
+#' )
+#' between(x, "medium", "high")
+#' between(x, "medium", "high", ptype = x)
+between <- function(x, left, right, ..., ptype = NULL) {
+  check_dots_empty0(...)
+
   args <- list(x = x, left = left, right = right)
 
   # Common type of all inputs
-  args <- vec_cast_common(!!!args)
+  args <- vec_cast_common(!!!args, .to = ptype)
   x <- args$x
   args$x <- NULL
 
-  # But recycle to size of `x`
+  # Recycle to size of `x`
   args <- vec_recycle_common(!!!args, .size = vec_size(x))
   left <- args$left
   right <- args$right
