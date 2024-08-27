@@ -14,11 +14,12 @@ the size of \code{x}.}
 
 \item{...}{These dots are for future extensions and must be empty.}
 
-\item{ptype}{An optional prototype giving the desired output type. If \code{NULL},
-the common type of \code{x}, \code{left}, and \code{right} is used.}
+\item{ptype}{An optional prototype giving the desired output type. The
+default is to compute the common type of \code{x}, \code{left}, and \code{right} using
+\code{\link[vctrs:vec_cast]{vctrs::vec_cast_common()}}.}
 }
 \value{
-A logical vector the same size as \code{x}.
+A logical vector the same size as \code{x} with a type determined by \code{ptype}.
 }
 \description{
 This is a shortcut for \code{x >= left & x <= right}, implemented for local
@@ -26,7 +27,7 @@ vectors and translated to the appropriate SQL for remote tables.
 }
 \details{
 \code{x}, \code{left}, and \code{right} are all cast to their common type before the
-comparison is made. Use \code{ptype} argument to specify type manually.
+comparison is made. Use the \code{ptype} argument to specify the type manually.
 }
 \examples{
 between(1:12, 7, 9)
@@ -37,9 +38,14 @@ x[between(x, -1, 1)]
 # On a tibble using `filter()`
 filter(starwars, between(height, 100, 150))
 
-# Using ptype argument with factors
-x <- factor(c("a", "b", "c", "d"), levels = c("a", "b", "c", "d"), ordered = TRUE)
-between(x, "b", "c", ptype = x)
+# Using the `ptype` argument with ordered factors, where otherwise everything
+# is cast to the common type of character before the comparison
+x <- ordered(
+  c("low", "medium", "high", "medium"),
+  levels = c("low", "medium", "high")
+)
+between(x, "medium", "high")
+between(x, "medium", "high", ptype = x)
 }
 \seealso{
 \code{\link[=join_by]{join_by()}} if you are looking for documentation for the \code{between()} overlap
