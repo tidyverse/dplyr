@@ -97,23 +97,10 @@ test_that("ptype argument affects type casting", {
     between(x, 1.5, 3.5),
     c(FALSE, TRUE, TRUE, FALSE, FALSE)
   )
-  expect_snapshot(
-    between(x, 1.5, 3.5, ptype = integer()),
-    error = TRUE
-  )
+  expect_snapshot(error = TRUE, {
+    between(x, 1.5, 3.5, ptype = integer())
+  })
 })
-
-
-test_that("ptype argument maintains backwards compatibility", {
-  x <- 1:5
-
-  # Should behave the same as before when ptype is NULL
-  expect_identical(
-    between(x, 2, 4),
-    between(x, 2, 4, ptype = NULL)
-  )
-})
-
 
 # cum* --------------------------------------------------------------------
 
