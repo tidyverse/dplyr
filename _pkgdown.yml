@@ -108,6 +108,7 @@ reference:
   - group_cols
   - group_map
   - group_modify
+  - group_split
   - group_trim
 
 - title: Superseded
