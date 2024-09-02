@@ -109,6 +109,7 @@ reference:
   - group_map
   - group_modify
   - group_trim
+  - group_split
 
 - title: Superseded
   desc: >
