@@ -27,6 +27,7 @@
 #'
 #' @export
 standard_summary <- function(df, vars, functions = list(
+  sum = ~sum(.x, na.rm = TRUE)
   mean = ~mean(.x, na.rm = TRUE),
   sd = ~sd(.x, na.rm = TRUE),
   min = ~min(.x, na.rm = TRUE),
