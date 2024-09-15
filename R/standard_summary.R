@@ -23,6 +23,7 @@
 #'
 #' @export
 standard_summary <- function(df, vars, functions = list(
+  sum = ~sum(.x, na.rm = TRUE)
   mean = ~mean(.x, na.rm = TRUE),
   sd = ~sd(.x, na.rm = TRUE),
   min = ~min(.x, na.rm = TRUE),
@@ -46,5 +47,4 @@ standard_summary <- function(df, vars, functions = list(
     pivot_wider(id_cols = c(gg, "VARIABLE"), values_from = value, names_from = STAT) %>%
     as.data.frame()
   return(summary_res)
-
 }
