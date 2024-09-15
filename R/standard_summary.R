@@ -3,14 +3,14 @@
 #' This function calculates standard summary statistics for specified variables in a data frame.
 #'
 #' @param df A data frame.
-#' @param vars A character vector specifying the variables for which summary statistics should be calculated.
+#' @param vars A character vector specifying the numeric variables for which summary statistics should be calculated.
 #' @param functions A list of functions to be applied to each variable. The default functions include mean, standard deviation, minimum, 10th percentile, 25th percentile, median, 75th percentile, 90th percentile, maximum, count, and count of missing values.
 #'
 #' @return A data frame containing the calculated summary statistics.
 #'
 #' @examples
 #' df <- data.frame(
-#'   groups = c("a","a","a","b","c")
+#'   groups = c("a","a","a","b","c"),
 #'   var1 = c(1, 2, 3, 4, 5),
 #'   var2 = c(6, 7, NA, 9, 10)
 #' )
@@ -19,11 +19,7 @@
 #' summary <- df %>% group_by(groups) %>% standard_summary(c("var1", "var2"))
 #' print(summary)
 #'
-#' @import dplyr
-#' @import tidyr
-#' @import stringr
-#' @importFrom stats mean sd min quantile max
-#' @importFrom base length which is.na
+#' @importFrom stats sd quantile
 #'
 #' @export
 standard_summary <- function(df, vars, functions = list(
@@ -41,10 +37,14 @@ standard_summary <- function(df, vars, functions = list(
 ) {
   gg <- as.character(groups(df))
   summary_res <- df %>%
-    select(!!vars) %>%
+    select(all_of(vars)) %>%
     summarise(across(.cols = c(!!vars), .fns = functions, .names = "{.col}xx_xx{.fn}")) %>%
     ungroup() %>%
-    pivot_longer(cols = contains("xx")) %>%
+    pivot_longer(cols = contains("xx_xx")) %>%
+    mutate(value = as.numeric(value)) %>%
     separate(name, into = c("VARIABLE", "STAT"), sep = "xx_xx") %>%
-    pivot_wider(id_cols = c(gg, "VARIABLE"), values_from = value, names_from = STAT)
+    pivot_wider(id_cols = c(gg, "VARIABLE"), values_from = value, names_from = STAT) %>%
+    as.data.frame()
+  return(summary_res)
+
 }
