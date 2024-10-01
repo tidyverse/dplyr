@@ -758,7 +758,7 @@ expand_across <- function(quo) {
 
   # Empty expansion
   if (length(vars) == 0L) {
-    return(new_expanded_quosures(list()))
+    return(list())
   }
 
   fns <- setup$fns
@@ -767,7 +767,7 @@ expand_across <- function(quo) {
   # No functions, so just return a list of symbols
   if (is.null(fns)) {
     # TODO: Deprecate and remove the `.fns = NULL` path in favor of `pick()`
-    expressions <- pmap(list(vars, names, seq_along(vars)), function(var, name, k) {
+    exprs <- pmap(list(vars, names, seq_along(vars)), function(var, name, k) {
       quo <- new_quosure(sym(var), empty_env())
       quo <- new_dplyr_quosure(
         quo,
@@ -777,9 +777,8 @@ expand_across <- function(quo) {
         column = var
       )
     })
-    names(expressions) <- names
-    expressions <- new_expanded_quosures(expressions)
-    return(expressions)
+    names(exprs) <- names
+    return(exprs)
   }
 
   n_vars <- length(vars)
@@ -788,8 +787,7 @@ expand_across <- function(quo) {
   seq_vars <- seq_len(n_vars)
   seq_fns  <- seq_len(n_fns)
 
-  expressions <- vector(mode = "list", n_vars * n_fns)
-  columns <- character(n_vars * n_fns)
+  exprs <- new_list(n_vars * n_fns, names = names)
 
   k <- 1L
   for (i in seq_vars) {
@@ -799,7 +797,7 @@ expand_across <- function(quo) {
       fn_call <- as_across_fn_call(fns[[j]], var, env, mask)
 
       name <- names[[k]]
-      expressions[[k]] <- new_dplyr_quosure(
+      exprs[[k]] <- new_dplyr_quosure(
         fn_call,
         name = name,
         is_named = TRUE,
@@ -811,12 +809,7 @@ expand_across <- function(quo) {
     }
   }
 
-  names(expressions) <- names
-  new_expanded_quosures(expressions)
-}
-
-new_expanded_quosures <- function(x) {
-  structure(x, class = "dplyr_expanded_quosures")
+  exprs
 }
 
 as_across_fn_call <- function(fn, var, env, mask) {
