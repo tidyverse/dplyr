@@ -167,12 +167,8 @@ diagnosing performance problems.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">WHERE</span> (`lgID` = 'NL' OR `yearID` = 2000.0)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;PLAN&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   id parent notused                                               detail</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  4      0       0                                       MULTI-INDEX OR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  5      4       0                                              INDEX 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 11      5       0     SEARCH Batting USING INDEX Batting_lgID (lgID=?)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 16      4       0                                              INDEX 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 22     16       0 SEARCH Batting USING INDEX Batting_yearID (yearID=?)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   id parent notused       detail</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  2      0       0 SCAN Batting</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Joins will use indexes in both tables</span></span></span>
 <span class="r-in"><span><span class="va">teams</span> <span class="op">&lt;-</span> <span class="fu"><a href="tbl.html">tbl</a></span><span class="op">(</span><span class="va">lahman_s</span>, <span class="st">"Teams"</span><span class="op">)</span></span></span>
@@ -275,7 +271,7 @@ diagnosing performance problems.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
   </div></footer></body></html>
