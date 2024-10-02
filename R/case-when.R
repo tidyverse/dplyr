@@ -4,7 +4,7 @@
 #' This function allows you to vectorise multiple [if_else()] statements. Each
 #' case is evaluated sequentially and the first match for each element
 #' determines the corresponding value in the output vector. If no cases match,
-#' the `.default` is used as a final "else" statment.
+#' the `.default` is used as a final "else" statement.
 #'
 #' `case_when()` is an R equivalent of the SQL "searched" `CASE WHEN` statement.
 #'
