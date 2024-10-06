@@ -165,10 +165,10 @@ is_compatible <- function(x, y, ignore_col_order = TRUE, convert = TRUE) {
     return("`y` must be a data frame.")
   }
 
-  nc <- ncol(x)
-  if (nc != ncol(y)) {
+  nc <- df_n_col(x)
+  if (nc != df_n_col(y)) {
     return(
-      c(x = glue("Different number of columns: {nc} vs {ncol(y)}."))
+      c(x = glue("Different number of columns: {nc} vs {df_n_col(y)}."))
     )
   }
 

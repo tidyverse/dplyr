@@ -52,6 +52,7 @@ vec_case_when <- function(conditions,
     condition <- conditions[[i]]
     condition_arg <- condition_args[[i]]
     check_logical(condition, arg = condition_arg, call = call)
+    check_no_dim(condition, arg = condition_arg, call = call)
   }
 
   size <- vec_size_common(
@@ -206,4 +207,18 @@ names_as_error_names <- function(names, arg = "") {
 vec_paste0 <- function (...) {
   args <- vec_recycle_common(...)
   exec(paste0, !!!args)
+}
+
+check_no_dim <- function(x,
+                         ...,
+                         arg = caller_arg(x),
+                         call = caller_env()) {
+  if (is.null(dim(x))) {
+    return(invisible(NULL))
+  }
+
+  cli::cli_abort(
+    "{.arg {arg}} can't be an array.",
+    call = call
+  )
 }

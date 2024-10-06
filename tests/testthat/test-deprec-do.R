@@ -15,7 +15,7 @@ test_that("unnamed results bound together by row", {
 })
 
 test_that("named argument become list columns", {
-  out <- df %>% do(nrow = nrow(.), ncol = ncol(.))
+  out <- df %>% do(nrow = nrow(.), ncol = df_n_col(.))
   expect_equal(out$nrow, list(1, 2, 3))
   # includes grouping columns
   expect_equal(out$ncol, list(3, 3, 3))
@@ -121,7 +121,7 @@ test_that("empty data frames give consistent outputs", {
     vapply(pillar::type_sum, character(1)) %>%
     expect_equal(c(x = "dbl", g = "chr", y = "int"))
   dat %>%
-    do(y = ncol(.)) %>%
+    do(y = df_n_col(.)) %>%
     vapply(pillar::type_sum, character(1)) %>%
     expect_equal(c(y = "list"))
 
@@ -144,7 +144,7 @@ test_that("empty data frames give consistent outputs", {
     vapply(pillar::type_sum, character(1)) %>%
     expect_equal(c(x = "dbl", g = "chr", y = "int"))
   grp %>%
-    do(y = ncol(.)) %>%
+    do(y = df_n_col(.)) %>%
     vapply(pillar::type_sum, character(1)) %>%
     expect_equal(c(g = "chr", y = "list"))
 
@@ -166,7 +166,7 @@ test_that("empty data frames give consistent outputs", {
     vapply(pillar::type_sum, character(1)) %>%
     expect_equal(c(x = "dbl", g = "chr", y = "int"))
   emt %>%
-    do(y = ncol(.)) %>%
+    do(y = df_n_col(.)) %>%
     vapply(pillar::type_sum, character(1)) %>%
     expect_equal(c(g = "chr", y = "list"))
 })

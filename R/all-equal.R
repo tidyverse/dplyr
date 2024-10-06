@@ -60,7 +60,7 @@ equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = T
     return("Different number of rows.")
   }
 
-  if (ncol(x) == 0L) {
+  if (df_n_col(x) == 0L) {
     return(TRUE)
   }
 

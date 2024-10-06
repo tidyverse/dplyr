@@ -77,7 +77,7 @@
       summarise(df2)
     Condition
       Error in `summarise()`:
-      ! Can't transform a data frame with `NA` or `""` names.
+      ! Can't transform a data frame with missing names.
 
 # summarise() gives meaningful errors
 

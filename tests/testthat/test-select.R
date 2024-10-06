@@ -46,11 +46,11 @@ test_that("select doesn't fail if some names missing", {
 
 test_that("select with no args returns nothing", {
   empty <- select(mtcars)
-  expect_equal(ncol(empty), 0)
+  expect_equal(df_n_col(empty), 0)
   expect_equal(nrow(empty), 32)
 
   empty <- select(mtcars, !!!list())
-  expect_equal(ncol(empty), 0)
+  expect_equal(df_n_col(empty), 0)
   expect_equal(nrow(empty), 32)
 })
 

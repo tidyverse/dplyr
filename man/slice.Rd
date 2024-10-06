@@ -89,7 +89,9 @@ reach \code{n}/\code{prop}.}
 
 \item{weight_by}{<\code{\link[rlang:args_data_masking]{data-masking}}> Sampling
 weights. This must evaluate to a vector of non-negative numbers the same
-length as the input. Weights are automatically standardised to sum to 1.}
+length as the input. Weights are automatically standardised to sum to 1.
+See the \code{Details} section for more technical details regarding these
+weights.}
 
 \item{replace}{Should sampling be performed with (\code{TRUE}) or without
 (\code{FALSE}, the default) replacement.}
@@ -123,6 +125,12 @@ each group.
 Slice does not work with relational databases because they have no
 intrinsic notion of row order. If you want to perform the equivalent
 operation, use \code{\link[=filter]{filter()}} and \code{\link[=row_number]{row_number()}}.
+
+For \code{slice_sample()}, note that the weights provided in \code{weight_by} are
+passed through to the \code{prob} argument of \code{\link[base:sample]{base::sample.int()}}. This means
+they cannot be used to reconstruct summary statistics from the underlying
+population. See \href{https://stats.stackexchange.com/q/639211/}{this discussion}
+for more details.
 }
 \section{Methods}{
 
@@ -170,9 +178,9 @@ mtcars \%>\% slice_min(tibble(cyl, mpg), n = 1)
 mtcars \%>\% slice_sample(n = 5)
 mtcars \%>\% slice_sample(n = 5, replace = TRUE)
 
-# you can optionally weight by a variable - this code weights by the
+# You can optionally weight by a variable - this code weights by the
 # physical weight of the cars, so heavy cars are more likely to get
-# selected
+# selected.
 mtcars \%>\% slice_sample(weight_by = wt, n = 5)
 
 # Group wise operation ----------------------------------------

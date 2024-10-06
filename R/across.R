@@ -4,7 +4,7 @@
 #' `across()` makes it easy to apply the same transformation to multiple
 #' columns, allowing you to use [select()] semantics inside in "data-masking"
 #' functions like [summarise()] and [mutate()]. See `vignette("colwise")` for
-#'  more details.
+#' more details.
 #'
 #' `if_any()` and `if_all()` apply the same
 #' predicate function to a selection of columns and combine the
@@ -17,6 +17,14 @@
 #'
 #' `across()` supersedes the family of "scoped variants" like
 #' `summarise_at()`, `summarise_if()`, and `summarise_all()`.
+#'
+#' @details
+#' When there are no selected columns:
+#'
+#' - `if_any()` will return `FALSE`, consistent with the behavior of
+#'   `any()` when called without inputs.
+#' - `if_all()` will return `TRUE`, consistent with the behavior of
+#'   `all()` when called without inputs.
 #'
 #' @param .cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
 #'   You can't select grouping columns because they are already automatically
@@ -133,9 +141,16 @@
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), mean, .names = "mean_{.col}"))
+#'
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd), .names = "{.col}.{.fn}"))
+#'   summarise(
+#'     across(
+#'       starts_with("Sepal"),
+#'       list(mean = mean, sd = sd),
+#'       .names = "{.col}.{.fn}"
+#'     )
+#'   )
 #'
 #' # If a named external vector is used for column selection, .names will use
 #' # those names when constructing the output names
@@ -146,7 +161,9 @@
 #' # When the list is not named, .fn is replaced by the function's position
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(across(starts_with("Sepal"), list(mean, sd), .names = "{.col}.fn{.fn}"))
+#'   summarise(
+#'     across(starts_with("Sepal"), list(mean, sd), .names = "{.col}.fn{.fn}")
+#'   )
 #'
 #' # When the functions in .fns return a data frame, you typically get a
 #' # "packed" data frame back
@@ -164,7 +181,9 @@
 #'
 #' # .unpack can utilize a glue specification if you don't like the defaults
 #' iris %>%
-#'   reframe(across(starts_with("Sepal"), quantile_df, .unpack = "{outer}.{inner}"))
+#'   reframe(
+#'     across(starts_with("Sepal"), quantile_df, .unpack = "{outer}.{inner}")
+#'   )
 #'
 #' # This is also useful inside mutate(), for example, with a multi-lag helper
 #' multilag <- function(x, lags = 1:3) {
@@ -618,9 +637,11 @@ expand_if_across <- function(quo) {
   if (is_call(call, "if_any")) {
     op <- "|"
     if_fn <- "if_any"
+    empty <- FALSE
   } else {
     op <- "&"
     if_fn <- "if_all"
+    empty <- TRUE
   }
 
   context_local("across_if_fn", if_fn)
@@ -634,9 +655,10 @@ expand_if_across <- function(quo) {
   call[[1]] <- quote(across)
   quos <- expand_across(quo_set_expr(quo, call))
 
-  # Select all rows if there are no inputs
+  # Select all rows if there are no inputs for if_all(),
+  # but select no rows if there are no inputs for if_any().
   if (!length(quos)) {
-    return(list(quo(TRUE)))
+    return(list(quo(!!empty)))
   }
 
   combine <- function(x, y) {
@@ -736,7 +758,7 @@ expand_across <- function(quo) {
 
   # Empty expansion
   if (length(vars) == 0L) {
-    return(new_expanded_quosures(list()))
+    return(list())
   }
 
   fns <- setup$fns
@@ -745,7 +767,7 @@ expand_across <- function(quo) {
   # No functions, so just return a list of symbols
   if (is.null(fns)) {
     # TODO: Deprecate and remove the `.fns = NULL` path in favor of `pick()`
-    expressions <- pmap(list(vars, names, seq_along(vars)), function(var, name, k) {
+    exprs <- pmap(list(vars, names, seq_along(vars)), function(var, name, k) {
       quo <- new_quosure(sym(var), empty_env())
       quo <- new_dplyr_quosure(
         quo,
@@ -755,9 +777,8 @@ expand_across <- function(quo) {
         column = var
       )
     })
-    names(expressions) <- names
-    expressions <- new_expanded_quosures(expressions)
-    return(expressions)
+    names(exprs) <- names
+    return(exprs)
   }
 
   n_vars <- length(vars)
@@ -766,8 +787,7 @@ expand_across <- function(quo) {
   seq_vars <- seq_len(n_vars)
   seq_fns  <- seq_len(n_fns)
 
-  expressions <- vector(mode = "list", n_vars * n_fns)
-  columns <- character(n_vars * n_fns)
+  exprs <- new_list(n_vars * n_fns, names = names)
 
   k <- 1L
   for (i in seq_vars) {
@@ -777,7 +797,7 @@ expand_across <- function(quo) {
       fn_call <- as_across_fn_call(fns[[j]], var, env, mask)
 
       name <- names[[k]]
-      expressions[[k]] <- new_dplyr_quosure(
+      exprs[[k]] <- new_dplyr_quosure(
         fn_call,
         name = name,
         is_named = TRUE,
@@ -789,12 +809,7 @@ expand_across <- function(quo) {
     }
   }
 
-  names(expressions) <- names
-  new_expanded_quosures(expressions)
-}
-
-new_expanded_quosures <- function(x) {
-  structure(x, class = "dplyr_expanded_quosures")
+  exprs
 }
 
 as_across_fn_call <- function(fn, var, env, mask) {

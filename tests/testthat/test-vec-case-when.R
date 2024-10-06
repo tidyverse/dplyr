@@ -315,6 +315,22 @@ test_that("`conditions` can be classed logicals", {
   expect_identical(vec_case_when(list(x), list(1), default = 2), c(2, 1))
 })
 
+test_that("`conditions` can't be arrays (#6862)", {
+  x <- array(TRUE, dim = c(3, 3))
+  y <- c("a", "b", "c")
+
+  expect_snapshot(error = TRUE, {
+    vec_case_when(list(x), list(y))
+  })
+
+  # Not even 1D arrays
+  x <- array(TRUE, dim = 3)
+
+  expect_snapshot(error = TRUE, {
+    vec_case_when(list(x), list(y))
+  })
+})
+
 test_that("`size` overrides the `conditions` sizes", {
   expect_snapshot(error = TRUE, {
     vec_case_when(list(TRUE), list(1), size = 5)

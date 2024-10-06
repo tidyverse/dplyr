@@ -74,6 +74,33 @@ test_that("recycles `left` and `right` to the size of `x`", {
   })
 })
 
+test_that("ptype argument works as expected with non-alphabetical ordered factors", {
+  # Create an ordered factor with non-alphabetical order
+  x <- factor(c("b", "c", "a", "d"), levels = c("d", "c", "b", "a"), ordered = TRUE)
+
+  # Test with ptype specified (uses factor order)
+  expect_identical(
+    between(x, "c", "a", ptype = x),
+    c(TRUE, TRUE, TRUE, FALSE)
+  )
+
+  # Test without ptype (uses alphabetical order)
+  expect_identical(
+    between(x, "c", "a"),
+    c(FALSE, FALSE, FALSE, FALSE)
+  )
+})
+
+test_that("ptype argument affects type casting", {
+  x <- 1:5
+  expect_identical(
+    between(x, 1.5, 3.5),
+    c(FALSE, TRUE, TRUE, FALSE, FALSE)
+  )
+  expect_snapshot(error = TRUE, {
+    between(x, 1.5, 3.5, ptype = integer())
+  })
+})
 
 # cum* --------------------------------------------------------------------
 
