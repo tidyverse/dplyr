@@ -436,8 +436,8 @@ full_join.data.frame <- function(
 #' Filtering joins filter rows from `x` based on the presence or absence
 #' of matches in `y`:
 #'
-#' * `semi_join()` return all rows from `x` with a match in `y`.
-#' * `anti_join()` return all rows from `x` with**out** a match in `y`.
+#' * `semi_join()` returns all rows from `x` with a match in `y`.
+#' * `anti_join()` returns all rows from `x` with**out** a match in `y`.
 #'
 #' @param x,y A pair of data frames, data frame extensions (e.g. a tibble), or
 #'   lazy data frames (e.g. from dbplyr or dtplyr). See *Methods*, below, for
