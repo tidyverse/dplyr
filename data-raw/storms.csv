@@ -19536,3 +19536,761 @@ Nicole,2022,11,11,0,30.1,-84,tropical storm,NA,35,992,300,0
 Nicole,2022,11,11,6,31.2,-84.6,tropical depression,NA,30,996,0,0
 Nicole,2022,11,11,12,33.2,-84.6,tropical depression,NA,25,999,0,0
 Nicole,2022,11,11,18,35.4,-83.8,other low,NA,25,1000,0,0
+Arlene,2023,5,31,18,26.4,-85.9,other low,NA,20,1009,0,0
+Arlene,2023,6,1,0,26.7,-85.7,other low,NA,20,1008,0,0
+Arlene,2023,6,1,6,27.2,-85.8,other low,NA,25,1008,0,0
+Arlene,2023,6,1,12,27.7,-86.2,tropical depression,NA,30,1007,0,0
+Arlene,2023,6,1,18,28,-86.5,tropical depression,NA,30,1007,0,0
+Arlene,2023,6,2,0,27.7,-86.5,tropical depression,NA,30,1006,0,0
+Arlene,2023,6,2,6,27.3,-86.4,tropical storm,NA,35,1004,60,0
+Arlene,2023,6,2,12,27,-86.3,tropical storm,NA,35,1002,60,0
+Arlene,2023,6,2,18,26.7,-86,tropical storm,NA,35,1000,60,0
+Arlene,2023,6,3,0,25.9,-85.7,tropical storm,NA,35,998,60,0
+Arlene,2023,6,3,6,25,-85.6,tropical depression,NA,30,999,0,0
+Arlene,2023,6,3,12,24.4,-85.3,other low,NA,25,1000,0,0
+Arlene,2023,6,3,18,23.9,-85,other low,NA,25,1001,0,0
+Arlene,2023,6,4,0,23.5,-84.1,other low,NA,25,1002,0,0
+Arlene,2023,6,4,6,23.3,-83,other low,NA,25,1002,0,0
+Bret,2023,6,19,6,10.7,-37.3,tropical depression,NA,30,1009,0,0
+Bret,2023,6,19,12,10.9,-39.1,tropical depression,NA,30,1009,0,0
+Bret,2023,6,19,18,11.1,-40.9,tropical storm,NA,35,1008,40,0
+Bret,2023,6,20,0,11.3,-42.7,tropical storm,NA,35,1008,70,0
+Bret,2023,6,20,6,11.5,-44.5,tropical storm,NA,35,1008,70,0
+Bret,2023,6,20,12,11.7,-46.3,tropical storm,NA,35,1008,90,0
+Bret,2023,6,20,18,12,-48,tropical storm,NA,40,1006,90,0
+Bret,2023,6,21,0,12.4,-49.4,tropical storm,NA,45,1004,90,0
+Bret,2023,6,21,6,12.7,-50.7,tropical storm,NA,50,1001,100,0
+Bret,2023,6,21,12,13,-52,tropical storm,NA,50,1001,110,0
+Bret,2023,6,21,18,13.3,-53.3,tropical storm,NA,55,1000,120,0
+Bret,2023,6,22,0,13.4,-54.6,tropical storm,NA,55,999,120,0
+Bret,2023,6,22,6,13.5,-55.9,tropical storm,NA,60,996,130,0
+Bret,2023,6,22,12,13.5,-57.3,tropical storm,NA,60,998,160,0
+Bret,2023,6,22,18,13.4,-58.8,tropical storm,NA,55,1000,190,0
+Bret,2023,6,23,0,13.3,-60.3,tropical storm,NA,55,1001,190,0
+Bret,2023,6,23,3,13.3,-61.2,tropical storm,NA,55,1001,190,0
+Bret,2023,6,23,6,13.3,-62,tropical storm,NA,50,1001,190,0
+Bret,2023,6,23,12,13.2,-63.8,tropical storm,NA,50,1002,200,0
+Bret,2023,6,23,18,13.1,-65.6,tropical storm,NA,45,1003,120,0
+Bret,2023,6,24,0,13,-67.4,tropical storm,NA,45,1004,90,0
+Bret,2023,6,24,6,13,-69.2,tropical storm,NA,40,1005,90,0
+Bret,2023,6,24,12,13,-70.9,tropical storm,NA,40,1007,90,0
+Cindy,2023,6,22,0,10.4,-39.9,tropical depression,NA,30,1008,0,0
+Cindy,2023,6,22,6,10.7,-41.1,tropical depression,NA,30,1008,0,0
+Cindy,2023,6,22,12,11,-42.3,tropical depression,NA,30,1008,0,0
+Cindy,2023,6,22,18,11.3,-43.5,tropical depression,NA,30,1008,0,0
+Cindy,2023,6,23,0,11.5,-44.8,tropical storm,NA,35,1007,50,0
+Cindy,2023,6,23,6,11.8,-46.1,tropical storm,NA,40,1006,50,0
+Cindy,2023,6,23,12,12.2,-47.5,tropical storm,NA,45,1005,50,0
+Cindy,2023,6,23,18,12.8,-48.8,tropical storm,NA,45,1005,50,0
+Cindy,2023,6,24,0,13.6,-50,tropical storm,NA,45,1005,50,0
+Cindy,2023,6,24,6,14.6,-51.2,tropical storm,NA,50,1004,50,0
+Cindy,2023,6,24,12,15.7,-52.5,tropical storm,NA,50,1004,80,0
+Cindy,2023,6,24,18,16.8,-53.9,tropical storm,NA,50,1005,60,0
+Cindy,2023,6,25,0,18.2,-55.2,tropical storm,NA,45,1006,60,0
+Cindy,2023,6,25,6,19.4,-56.4,tropical storm,NA,45,1007,60,0
+Cindy,2023,6,25,12,20.5,-57.6,tropical storm,NA,40,1009,60,0
+Cindy,2023,6,25,18,21.6,-58.8,tropical storm,NA,40,1010,60,0
+Cindy,2023,6,26,0,22.5,-59.9,tropical storm,NA,35,1011,60,0
+Don,2023,7,11,12,36.5,-55.5,other low,NA,25,1013,0,0
+Don,2023,7,11,18,36.6,-55,other low,NA,25,1013,0,0
+Don,2023,7,12,0,36.2,-54.4,other low,NA,25,1011,0,0
+Don,2023,7,12,6,35.3,-53.6,other low,NA,25,1009,0,0
+Don,2023,7,12,12,34,-52.6,other low,NA,25,1009,0,0
+Don,2023,7,12,18,32.9,-51.9,other low,NA,30,1008,0,0
+Don,2023,7,13,0,32,-51,other low,NA,30,1007,0,0
+Don,2023,7,13,6,31.3,-50.2,other low,NA,30,1006,0,0
+Don,2023,7,13,12,31.2,-48.7,other low,NA,35,1004,180,0
+Don,2023,7,13,18,31.7,-47.3,other low,NA,40,1003,180,0
+Don,2023,7,14,0,32.5,-46.7,subtropical storm,NA,45,1002,180,0
+Don,2023,7,14,6,32.9,-46.8,subtropical storm,NA,45,1002,120,0
+Don,2023,7,14,12,33.4,-47,subtropical storm,NA,40,1004,150,0
+Don,2023,7,14,18,33.8,-47.2,subtropical storm,NA,40,1004,150,0
+Don,2023,7,15,0,34.3,-47.2,subtropical storm,NA,40,1004,150,0
+Don,2023,7,15,6,35.3,-47.7,subtropical storm,NA,40,1005,150,0
+Don,2023,7,15,12,36.2,-48.4,subtropical storm,NA,40,1006,150,0
+Don,2023,7,15,18,37.1,-48.7,subtropical storm,NA,35,1007,150,0
+Don,2023,7,16,0,37.8,-48.8,subtropical storm,NA,35,1007,150,0
+Don,2023,7,16,6,38.4,-48.7,subtropical storm,NA,35,1007,100,0
+Don,2023,7,16,12,38.9,-48.5,subtropical depression,NA,30,1009,0,0
+Don,2023,7,16,18,39.4,-47.5,subtropical depression,NA,30,1010,0,0
+Don,2023,7,17,0,39.5,-46.4,subtropical depression,NA,30,1010,0,0
+Don,2023,7,17,6,39.3,-45,tropical depression,NA,30,1010,0,0
+Don,2023,7,17,12,38.9,-43.6,tropical depression,NA,30,1010,0,0
+Don,2023,7,17,18,38.4,-42.2,tropical depression,NA,30,1010,0,0
+Don,2023,7,18,0,37.8,-40.9,tropical storm,NA,35,1008,90,0
+Don,2023,7,18,6,36.8,-39.9,tropical storm,NA,35,1008,90,0
+Don,2023,7,18,12,36,-39.4,tropical storm,NA,35,1008,90,0
+Don,2023,7,18,18,35.3,-39.2,tropical storm,NA,35,1008,130,0
+Don,2023,7,19,0,34.6,-39.1,tropical storm,NA,35,1008,90,0
+Don,2023,7,19,6,34.2,-39.1,tropical storm,NA,35,1008,90,0
+Don,2023,7,19,12,33.9,-39.3,tropical storm,NA,35,1008,90,0
+Don,2023,7,19,18,33.8,-39.9,tropical storm,NA,40,1005,100,0
+Don,2023,7,20,0,33.8,-40.6,tropical storm,NA,45,1001,100,0
+Don,2023,7,20,6,34,-41.3,tropical storm,NA,45,1001,100,0
+Don,2023,7,20,12,34.3,-42.2,tropical storm,NA,40,1004,100,0
+Don,2023,7,20,18,34.5,-43.3,tropical storm,NA,40,1004,90,0
+Don,2023,7,21,0,34.6,-44.2,tropical storm,NA,40,1004,90,0
+Don,2023,7,21,6,35,-45.1,tropical storm,NA,40,1004,90,0
+Don,2023,7,21,12,35.4,-46,tropical storm,NA,45,1001,90,0
+Don,2023,7,21,18,36.2,-47,tropical storm,NA,45,1001,80,0
+Don,2023,7,22,0,36.9,-48.2,tropical storm,NA,45,1001,80,0
+Don,2023,7,22,6,37.7,-49.3,tropical storm,NA,45,1001,80,0
+Don,2023,7,22,12,38.5,-49.9,tropical storm,NA,55,995,80,0
+Don,2023,7,22,18,39.5,-50.1,hurricane,1,65,986,90,15
+Don,2023,7,23,0,40.7,-49.9,hurricane,1,65,986,120,15
+Don,2023,7,23,6,42,-49.4,tropical storm,NA,60,989,120,0
+Don,2023,7,23,12,43.3,-48.5,tropical storm,NA,55,992,120,0
+Don,2023,7,23,18,44.7,-47.3,tropical storm,NA,50,996,110,0
+Don,2023,7,24,0,45.9,-45.7,tropical storm,NA,45,1002,90,0
+Don,2023,7,24,6,46.7,-44.1,other low,NA,40,1005,80,0
+Don,2023,7,24,12,47.3,-41.9,other low,NA,40,1005,100,0
+Don,2023,7,24,18,47.8,-39.7,other low,NA,40,1005,60,0
+Don,2023,7,25,0,48.5,-36.8,other low,NA,35,1008,60,0
+Don,2023,7,25,6,49.1,-33.7,other low,NA,35,1008,60,0
+Don,2023,7,25,12,49.8,-29.4,other low,NA,30,1010,0,0
+Don,2023,7,25,18,50.4,-24.5,extratropical,NA,30,1010,0,0
+Gert,2023,8,19,0,14.7,-46.6,other low,NA,30,1008,0,0
+Gert,2023,8,19,6,15.4,-47.8,tropical depression,NA,30,1007,0,0
+Gert,2023,8,19,12,16.1,-48.8,tropical depression,NA,30,1006,0,0
+Gert,2023,8,19,18,16.6,-49.9,tropical depression,NA,30,1006,0,0
+Gert,2023,8,20,0,16.9,-51.1,tropical depression,NA,30,1006,0,0
+Gert,2023,8,20,6,16.8,-52.3,tropical depression,NA,30,1006,0,0
+Gert,2023,8,20,12,16.7,-53.3,tropical storm,NA,35,1005,40,0
+Gert,2023,8,20,18,16.6,-54.2,tropical storm,NA,35,1005,40,0
+Gert,2023,8,21,0,16.6,-55.1,tropical storm,NA,35,1005,60,0
+Gert,2023,8,21,6,16.6,-55.9,tropical storm,NA,35,1005,60,0
+Gert,2023,8,21,12,16.7,-56.6,tropical depression,NA,30,1006,0,0
+Gert,2023,8,21,18,16.9,-57.2,tropical depression,NA,25,1006,0,0
+Gert,2023,8,22,0,17,-57.9,tropical depression,NA,25,1006,0,0
+Gert,2023,8,22,6,17.1,-58.7,tropical depression,NA,25,1007,0,0
+Gert,2023,8,22,12,17.4,-59.5,other low,NA,25,1008,0,0
+Gert,2023,8,22,18,17.7,-60.1,other low,NA,25,1008,0,0
+Gert,2023,8,23,0,18.1,-60.2,other low,NA,25,1008,0,0
+Gert,2023,8,23,6,18.3,-59.7,other low,NA,25,1008,0,0
+Gert,2023,8,23,12,18.5,-59.2,other low,NA,25,1009,0,0
+Gert,2023,8,23,18,18.3,-59,other low,NA,25,1009,0,0
+Gert,2023,8,24,0,18.1,-58.9,other low,NA,20,1010,0,0
+Gert,2023,8,24,6,17.7,-58.7,other low,NA,20,1010,0,0
+Gert,2023,8,24,12,17.3,-58.5,other low,NA,20,1010,0,0
+Gert,2023,8,24,18,16.9,-58.6,other low,NA,20,1010,0,0
+Gert,2023,8,25,0,16.5,-58.8,other low,NA,20,1010,0,0
+Gert,2023,8,25,6,16.1,-59.1,other low,NA,20,1010,0,0
+Gert,2023,8,25,12,16,-59.3,other low,NA,20,1010,0,0
+Gert,2023,8,25,18,16,-59.5,other low,NA,20,1010,0,0
+Gert,2023,8,26,0,16.1,-59.7,other low,NA,20,1010,0,0
+Gert,2023,8,26,6,16.3,-59.8,other low,NA,25,1010,0,0
+Gert,2023,8,26,12,16.9,-59.7,disturbance,NA,25,1010,0,0
+Gert,2023,8,26,18,17.8,-59.5,disturbance,NA,25,1010,0,0
+Gert,2023,8,27,0,18.7,-59.4,disturbance,NA,25,1010,0,0
+Gert,2023,8,27,6,19.4,-59.5,disturbance,NA,25,1010,0,0
+Gert,2023,8,27,12,19.9,-59.6,disturbance,NA,25,1010,0,0
+Gert,2023,8,27,18,20.2,-59.6,disturbance,NA,25,1010,0,0
+Gert,2023,8,28,0,20.5,-59.6,disturbance,NA,25,1010,0,0
+Gert,2023,8,28,6,20.8,-59.4,disturbance,NA,25,1010,0,0
+Gert,2023,8,28,12,21.2,-59.2,disturbance,NA,25,1010,0,0
+Gert,2023,8,28,18,21.6,-59.2,disturbance,NA,25,1010,0,0
+Gert,2023,8,29,0,22.3,-59.4,disturbance,NA,25,1011,0,0
+Gert,2023,8,29,6,23,-59.6,disturbance,NA,25,1011,0,0
+Gert,2023,8,29,12,23.8,-59.6,disturbance,NA,25,1012,0,0
+Gert,2023,8,29,18,24.6,-59.6,disturbance,NA,25,1012,0,0
+Gert,2023,8,30,0,25.4,-59.3,disturbance,NA,25,1012,0,0
+Gert,2023,8,30,6,26.2,-59,disturbance,NA,25,1010,0,0
+Gert,2023,8,30,12,27,-58.7,disturbance,NA,25,1010,0,0
+Gert,2023,8,30,18,27.5,-58.5,disturbance,NA,25,1009,0,0
+Gert,2023,8,31,0,28,-58.3,other low,NA,30,1009,0,0
+Gert,2023,8,31,6,28.4,-58.1,other low,NA,30,1008,0,0
+Gert,2023,8,31,12,28.5,-57.6,other low,NA,30,1008,0,0
+Gert,2023,8,31,18,28.6,-57,tropical depression,NA,30,1007,0,0
+Gert,2023,9,1,0,28.8,-56.4,tropical depression,NA,30,1006,0,0
+Gert,2023,9,1,6,28.8,-55.7,tropical depression,NA,30,1006,0,0
+Gert,2023,9,1,12,28.4,-55.2,tropical depression,NA,30,1006,0,0
+Gert,2023,9,1,18,27.9,-54.8,tropical storm,NA,35,1005,30,0
+Gert,2023,9,2,0,27.7,-54.6,tropical storm,NA,35,1005,30,0
+Gert,2023,9,2,6,27.6,-54.4,tropical storm,NA,40,1003,60,0
+Gert,2023,9,2,12,27.7,-54.1,tropical storm,NA,45,999,60,0
+Gert,2023,9,2,18,28.1,-53.8,tropical storm,NA,45,999,70,0
+Gert,2023,9,3,0,28.6,-53.5,tropical storm,NA,50,998,70,0
+Gert,2023,9,3,6,29.3,-53,tropical storm,NA,50,998,70,0
+Gert,2023,9,3,12,30.4,-52.4,tropical storm,NA,50,998,70,0
+Gert,2023,9,3,18,31.9,-51.6,tropical storm,NA,45,999,60,0
+Gert,2023,9,4,0,33.9,-50.9,tropical storm,NA,45,1000,70,0
+Gert,2023,9,4,6,36.5,-50.7,tropical storm,NA,45,1000,70,0
+Gert,2023,9,4,12,39.4,-50.8,other low,NA,40,1001,60,0
+Emily,2023,8,18,12,15.4,-32.9,other low,NA,30,1009,0,0
+Emily,2023,8,18,18,15.5,-33.9,other low,NA,30,1008,0,0
+Emily,2023,8,19,0,15.6,-34.8,other low,NA,30,1007,0,0
+Emily,2023,8,19,6,15.8,-35.3,other low,NA,30,1006,0,0
+Emily,2023,8,19,12,16.4,-35.7,other low,NA,30,1006,0,0
+Emily,2023,8,19,18,17.2,-36.1,other low,NA,30,1006,0,0
+Emily,2023,8,20,0,18,-36.7,tropical storm,NA,35,1004,100,0
+Emily,2023,8,20,6,18.8,-37.5,tropical storm,NA,40,1001,120,0
+Emily,2023,8,20,12,19.4,-38.3,tropical storm,NA,45,998,150,0
+Emily,2023,8,20,18,20,-39,tropical storm,NA,45,998,180,0
+Emily,2023,8,21,0,20.3,-39.8,tropical storm,NA,40,1000,180,0
+Emily,2023,8,21,6,20.6,-40.6,other low,NA,35,1003,150,0
+Emily,2023,8,21,12,21,-41.4,other low,NA,35,1004,120,0
+Emily,2023,8,21,18,21.4,-42.2,other low,NA,30,1005,0,0
+Emily,2023,8,22,0,21.9,-43.1,other low,NA,30,1006,0,0
+Emily,2023,8,22,6,22.5,-44.1,other low,NA,30,1006,0,0
+Emily,2023,8,22,12,23.4,-45.1,other low,NA,30,1006,0,0
+Emily,2023,8,22,18,24.4,-46.1,other low,NA,30,1006,0,0
+Emily,2023,8,23,0,25.3,-47.2,other low,NA,35,1006,80,0
+Emily,2023,8,23,6,26.1,-48.4,other low,NA,35,1006,80,0
+Emily,2023,8,23,12,26.9,-49.2,other low,NA,35,1006,60,0
+Emily,2023,8,23,18,27.8,-49.6,other low,NA,35,1006,60,0
+Emily,2023,8,24,0,28.6,-49.6,other low,NA,35,1006,60,0
+Emily,2023,8,24,6,29.3,-49.2,other low,NA,35,1006,60,0
+Emily,2023,8,24,12,29.8,-48.9,other low,NA,35,1008,60,0
+Emily,2023,8,24,18,30.5,-48.7,other low,NA,30,1010,0,0
+Emily,2023,8,25,0,31.4,-48.6,other low,NA,30,1010,0,0
+Emily,2023,8,25,6,32.4,-48.6,other low,NA,30,1010,0,0
+Franklin,2023,8,19,18,12.8,-60.5,other low,NA,25,1006,0,0
+Franklin,2023,8,20,0,13.1,-62.1,other low,NA,25,1006,0,0
+Franklin,2023,8,20,6,13.5,-63.7,tropical depression,NA,30,1004,0,0
+Franklin,2023,8,20,12,14,-65.2,tropical storm,NA,35,1002,30,0
+Franklin,2023,8,20,18,14.5,-66.6,tropical storm,NA,40,1001,50,0
+Franklin,2023,8,21,0,14.8,-67.9,tropical storm,NA,45,999,50,0
+Franklin,2023,8,21,6,14.8,-68.8,tropical storm,NA,45,999,50,0
+Franklin,2023,8,21,12,14.6,-69.5,tropical storm,NA,45,999,50,0
+Franklin,2023,8,21,18,14.1,-70,tropical storm,NA,45,1002,100,0
+Franklin,2023,8,22,0,14,-70.4,tropical storm,NA,45,1002,100,0
+Franklin,2023,8,22,6,14.1,-70.9,tropical storm,NA,40,1002,100,0
+Franklin,2023,8,22,12,14.8,-71.1,tropical storm,NA,40,1003,100,0
+Franklin,2023,8,22,18,15.6,-71.3,tropical storm,NA,35,1003,90,0
+Franklin,2023,8,23,0,16.5,-71.4,tropical storm,NA,35,1003,90,0
+Franklin,2023,8,23,6,17.3,-71.4,tropical storm,NA,40,1003,100,0
+Franklin,2023,8,23,10,17.9,-71.2,tropical storm,NA,40,1003,100,0
+Franklin,2023,8,23,12,18.3,-71.1,tropical storm,NA,40,1005,90,0
+Franklin,2023,8,23,18,19.4,-70.8,tropical storm,NA,35,1004,90,0
+Franklin,2023,8,24,0,20.6,-70.6,tropical storm,NA,40,1005,90,0
+Franklin,2023,8,24,6,21.6,-70.5,tropical storm,NA,45,1001,90,0
+Franklin,2023,8,24,12,22,-70,tropical storm,NA,50,998,100,0
+Franklin,2023,8,24,18,22.2,-69.3,tropical storm,NA,50,1000,130,0
+Franklin,2023,8,25,0,22.4,-68.5,tropical storm,NA,50,1000,120,0
+Franklin,2023,8,25,6,22.2,-68.1,tropical storm,NA,50,1000,120,0
+Franklin,2023,8,25,12,21.9,-67.9,tropical storm,NA,45,1003,130,0
+Franklin,2023,8,25,18,21.8,-67.3,tropical storm,NA,45,1003,130,0
+Franklin,2023,8,26,0,22.2,-66.5,tropical storm,NA,50,1002,130,0
+Franklin,2023,8,26,6,22.6,-66,tropical storm,NA,55,992,160,0
+Franklin,2023,8,26,12,23.2,-66.5,hurricane,1,65,989,170,15
+Franklin,2023,8,26,18,23.5,-67.3,hurricane,1,70,982,170,20
+Franklin,2023,8,27,0,23.9,-67.9,hurricane,1,75,977,180,20
+Franklin,2023,8,27,6,24.4,-68.5,hurricane,1,75,973,180,20
+Franklin,2023,8,27,12,24.9,-69.1,hurricane,1,80,970,180,20
+Franklin,2023,8,27,18,25.5,-69.7,hurricane,1,80,967,190,30
+Franklin,2023,8,28,0,26,-70.3,hurricane,2,85,964,200,40
+Franklin,2023,8,28,6,26.7,-70.6,hurricane,3,100,951,230,40
+Franklin,2023,8,28,12,27.5,-70.9,hurricane,4,125,937,240,50
+Franklin,2023,8,28,18,28.2,-71.1,hurricane,4,125,931,240,50
+Franklin,2023,8,29,0,28.9,-71.1,hurricane,4,130,926,210,50
+Franklin,2023,8,29,6,29.7,-71,hurricane,4,120,935,210,50
+Franklin,2023,8,29,12,30.3,-70.7,hurricane,4,115,941,210,50
+Franklin,2023,8,29,18,31.1,-70.2,hurricane,3,110,947,210,50
+Franklin,2023,8,30,0,31.8,-69.5,hurricane,3,100,953,210,50
+Franklin,2023,8,30,6,32.6,-68.7,hurricane,2,95,956,250,60
+Franklin,2023,8,30,12,33.2,-67.8,hurricane,2,95,958,250,60
+Franklin,2023,8,30,18,33.9,-66.7,hurricane,2,90,960,250,60
+Franklin,2023,8,31,0,34.4,-65.2,hurricane,2,90,961,250,60
+Franklin,2023,8,31,6,34.7,-63.9,hurricane,2,85,963,250,75
+Franklin,2023,8,31,12,35.1,-62.6,hurricane,2,85,964,260,80
+Franklin,2023,8,31,18,35.6,-61.1,hurricane,1,80,969,260,80
+Franklin,2023,9,1,0,36.4,-59.7,hurricane,1,75,975,260,80
+Franklin,2023,9,1,6,37.4,-58.2,hurricane,1,70,978,300,80
+Franklin,2023,9,1,12,38.2,-56.6,hurricane,1,65,982,380,80
+Franklin,2023,9,1,18,38.8,-54.6,extratropical,NA,70,979,430,80
+Franklin,2023,9,2,0,39.6,-52,extratropical,NA,70,979,480,90
+Franklin,2023,9,2,6,41.2,-48.8,extratropical,NA,70,980,480,90
+Franklin,2023,9,2,12,43,-45.9,extratropical,NA,65,981,480,60
+Franklin,2023,9,2,18,44.8,-43.4,extratropical,NA,65,982,480,70
+Franklin,2023,9,3,0,45.8,-41,extratropical,NA,65,984,480,90
+Franklin,2023,9,3,6,46.4,-38.7,extratropical,NA,60,986,430,0
+Franklin,2023,9,3,12,47,-36.2,extratropical,NA,55,988,430,0
+Franklin,2023,9,3,18,47.7,-33.4,extratropical,NA,55,990,430,0
+Franklin,2023,9,4,0,47.8,-30.8,extratropical,NA,50,991,360,0
+Franklin,2023,9,4,6,47.5,-28.6,extratropical,NA,45,993,390,0
+Franklin,2023,9,4,12,47.1,-27.3,extratropical,NA,40,994,240,0
+Franklin,2023,9,4,18,46.7,-26.8,extratropical,NA,40,995,210,0
+Franklin,2023,9,5,0,46,-26.6,extratropical,NA,40,995,210,0
+Franklin,2023,9,5,6,44.6,-26.3,extratropical,NA,40,995,210,0
+Franklin,2023,9,5,12,42.8,-25.4,extratropical,NA,40,995,210,0
+Franklin,2023,9,5,18,41,-23.8,extratropical,NA,40,995,180,0
+Franklin,2023,9,6,0,40.1,-21.6,extratropical,NA,35,995,150,0
+Franklin,2023,9,6,6,40.1,-19.4,extratropical,NA,35,995,150,0
+Franklin,2023,9,6,12,41.3,-17.7,extratropical,NA,40,993,150,0
+Franklin,2023,9,6,18,43.3,-16.5,extratropical,NA,45,992,150,0
+Franklin,2023,9,7,0,45.4,-16,extratropical,NA,50,991,150,0
+Franklin,2023,9,7,6,46.8,-16.1,extratropical,NA,50,991,150,0
+Franklin,2023,9,7,12,47.7,-16.3,extratropical,NA,45,993,150,0
+Franklin,2023,9,7,18,48.5,-16.5,extratropical,NA,40,996,80,0
+Franklin,2023,9,8,0,48.5,-17.2,extratropical,NA,35,998,80,0
+Franklin,2023,9,8,6,48.3,-17.8,extratropical,NA,30,1001,0,0
+Franklin,2023,9,8,12,47.9,-18.5,extratropical,NA,30,1004,0,0
+Franklin,2023,9,8,18,47.2,-18.9,extratropical,NA,30,1006,0,0
+Franklin,2023,9,9,0,46.3,-19.1,extratropical,NA,30,1007,0,0
+Franklin,2023,9,9,6,45.3,-19.4,extratropical,NA,30,1007,0,0
+Franklin,2023,9,9,12,44.1,-19.8,extratropical,NA,25,1008,0,0
+Franklin,2023,9,9,18,43.1,-20.3,extratropical,NA,25,1008,0,0
+Harold,2023,8,21,12,24.7,-89.2,disturbance,NA,25,1008,0,0
+Harold,2023,8,21,18,25,-90.8,tropical depression,NA,30,1008,0,0
+Harold,2023,8,22,0,25.4,-92.4,tropical depression,NA,30,1008,0,0
+Harold,2023,8,22,6,25.8,-94.3,tropical storm,NA,40,1003,100,0
+Harold,2023,8,22,12,26.8,-96.4,tropical storm,NA,50,996,100,0
+Harold,2023,8,22,15,27.1,-97.4,tropical storm,NA,50,995,100,0
+Harold,2023,8,22,18,27.3,-98.3,tropical storm,NA,40,997,100,0
+Harold,2023,8,23,0,27.7,-100.1,tropical depression,NA,30,1002,0,0
+Harold,2023,8,23,6,28.5,-101.7,tropical depression,NA,25,1007,0,0
+Harold,2023,8,23,12,29.7,-103.3,other low,NA,20,1011,0,0
+Idalia,2023,8,26,12,20.8,-86.1,tropical depression,NA,25,1006,0,0
+Idalia,2023,8,26,18,21.3,-86.2,tropical depression,NA,25,1006,0,0
+Idalia,2023,8,27,0,21.1,-86.4,tropical depression,NA,30,1004,0,0
+Idalia,2023,8,27,6,20.5,-86.8,tropical depression,NA,30,1002,0,0
+Idalia,2023,8,27,12,19.9,-86.3,tropical storm,NA,35,999,60,0
+Idalia,2023,8,27,18,19.9,-85.8,tropical storm,NA,40,996,60,0
+Idalia,2023,8,28,0,19.8,-85.4,tropical storm,NA,45,992,80,0
+Idalia,2023,8,28,6,19.9,-85.2,tropical storm,NA,55,989,80,0
+Idalia,2023,8,28,12,20.6,-85.2,tropical storm,NA,55,989,130,0
+Idalia,2023,8,28,18,21.2,-85.2,tropical storm,NA,60,986,170,0
+Idalia,2023,8,29,0,21.8,-85.1,tropical storm,NA,60,984,180,0
+Idalia,2023,8,29,6,22.6,-85,hurricane,1,65,981,190,15
+Idalia,2023,8,29,12,23.8,-84.8,hurricane,1,70,978,200,25
+Idalia,2023,8,29,18,25.3,-84.8,hurricane,1,80,973,200,30
+Idalia,2023,8,30,0,26.9,-84.7,hurricane,2,90,965,200,30
+Idalia,2023,8,30,6,28.3,-84.5,hurricane,3,105,945,210,35
+Idalia,2023,8,30,9,29.1,-84.1,hurricane,4,115,942,210,35
+Idalia,2023,8,30,11,29.9,-83.6,hurricane,3,100,950,240,35
+Idalia,2023,8,30,12,30,-83.5,hurricane,3,100,954,240,35
+Idalia,2023,8,30,18,31.5,-82.5,tropical storm,NA,60,981,230,0
+Idalia,2023,8,31,0,32.7,-80.9,tropical storm,NA,50,985,230,0
+Idalia,2023,8,31,6,33.5,-78.9,tropical storm,NA,50,990,230,0
+Idalia,2023,8,31,12,33.7,-77,extratropical,NA,55,990,340,0
+Idalia,2023,8,31,18,33.6,-74.6,extratropical,NA,55,993,360,0
+Idalia,2023,9,1,0,33.4,-72.3,extratropical,NA,55,996,380,0
+Idalia,2023,9,1,6,32.7,-70.5,extratropical,NA,50,997,380,0
+Idalia,2023,9,1,12,32.3,-68.8,extratropical,NA,50,998,380,0
+Idalia,2023,9,1,18,32.1,-67.1,extratropical,NA,50,999,390,0
+Idalia,2023,9,2,0,31.9,-65.7,extratropical,NA,50,999,360,0
+Idalia,2023,9,2,6,31.8,-64.7,extratropical,NA,50,999,340,0
+Idalia,2023,9,2,12,31.8,-63.9,extratropical,NA,50,998,300,0
+Idalia,2023,9,2,18,31.8,-63.1,extratropical,NA,50,997,300,0
+Idalia,2023,9,3,0,32,-62.2,extratropical,NA,50,996,300,0
+Idalia,2023,9,3,6,32.5,-61.3,extratropical,NA,50,994,300,0
+Idalia,2023,9,3,12,33.4,-60.5,extratropical,NA,50,992,300,0
+Idalia,2023,9,3,18,34.9,-59.7,extratropical,NA,55,990,300,0
+Idalia,2023,9,4,0,36.2,-58.9,extratropical,NA,60,988,300,0
+Idalia,2023,9,4,6,37.6,-58,extratropical,NA,60,985,300,0
+Idalia,2023,9,4,12,39.2,-57.5,extratropical,NA,55,985,420,0
+Idalia,2023,9,4,18,40.5,-57.9,extratropical,NA,55,986,420,0
+Idalia,2023,9,5,0,41.1,-58.7,extratropical,NA,50,986,400,0
+Idalia,2023,9,5,6,41.6,-59.1,extratropical,NA,50,986,400,0
+Idalia,2023,9,5,12,42.2,-59.3,extratropical,NA,45,986,300,0
+Idalia,2023,9,5,18,42.6,-59.8,extratropical,NA,40,987,300,0
+Idalia,2023,9,6,0,42.6,-60.5,extratropical,NA,35,988,240,0
+Idalia,2023,9,6,6,42.6,-61.4,extratropical,NA,35,991,240,0
+Idalia,2023,9,6,12,42.6,-62,extratropical,NA,35,992,240,0
+Idalia,2023,9,6,18,42.6,-62.8,extratropical,NA,35,994,240,0
+Idalia,2023,9,7,0,42.9,-62.9,extratropical,NA,30,996,0,0
+Idalia,2023,9,7,6,43,-62.1,extratropical,NA,30,998,0,0
+Idalia,2023,9,7,12,43.2,-61.1,extratropical,NA,30,1000,0,0
+Idalia,2023,9,7,18,43.6,-60.1,extratropical,NA,30,1001,0,0
+Idalia,2023,9,8,0,44.3,-59.3,extratropical,NA,30,1002,0,0
+Idalia,2023,9,8,6,45.2,-58.3,extratropical,NA,30,1003,0,0
+Jose,2023,8,29,0,27.7,-51.7,tropical depression,NA,30,1014,0,0
+Jose,2023,8,29,6,27.7,-51.5,tropical depression,NA,30,1013,0,0
+Jose,2023,8,29,12,27.9,-51.5,tropical depression,NA,30,1012,0,0
+Jose,2023,8,29,18,28,-51.8,tropical depression,NA,30,1012,0,0
+Jose,2023,8,30,0,28,-52.1,tropical depression,NA,30,1011,0,0
+Jose,2023,8,30,6,28.1,-52.1,tropical depression,NA,30,1010,0,0
+Jose,2023,8,30,12,28.1,-52.1,tropical depression,NA,30,1010,0,0
+Jose,2023,8,30,18,28.2,-52.1,tropical depression,NA,30,1010,0,0
+Jose,2023,8,31,0,28.3,-52.1,tropical storm,NA,35,1009,40,0
+Jose,2023,8,31,6,28.6,-52.1,tropical storm,NA,40,1006,40,0
+Jose,2023,8,31,12,29.3,-52.1,tropical storm,NA,45,1004,30,0
+Jose,2023,8,31,18,30.4,-52.3,tropical storm,NA,50,999,50,0
+Jose,2023,9,1,0,31.6,-52.5,tropical storm,NA,55,996,50,0
+Jose,2023,9,1,6,32.9,-52.4,tropical storm,NA,55,996,50,0
+Jose,2023,9,1,12,34.9,-51.4,tropical storm,NA,50,997,40,0
+Jose,2023,9,1,18,37.4,-49.8,tropical storm,NA,50,997,60,0
+Katia,2023,8,30,0,14.9,-21.3,other low,NA,25,1008,0,0
+Katia,2023,8,30,6,15.2,-22.4,other low,NA,25,1007,0,0
+Katia,2023,8,30,12,15.4,-23.4,other low,NA,25,1007,0,0
+Katia,2023,8,30,18,15.5,-24.1,other low,NA,25,1007,0,0
+Katia,2023,8,31,0,15.8,-24.8,other low,NA,25,1007,0,0
+Katia,2023,8,31,6,16.1,-25.5,other low,NA,25,1007,0,0
+Katia,2023,8,31,12,16.5,-26.2,other low,NA,30,1006,0,0
+Katia,2023,8,31,18,17,-27,tropical depression,NA,30,1006,0,0
+Katia,2023,9,1,0,17.7,-27.6,tropical depression,NA,30,1006,0,0
+Katia,2023,9,1,6,18.5,-27.9,tropical depression,NA,30,1006,0,0
+Katia,2023,9,1,12,19.3,-28.1,tropical depression,NA,30,1006,0,0
+Katia,2023,9,1,18,20.2,-28.3,tropical depression,NA,30,1006,0,0
+Katia,2023,9,2,0,21.1,-28.5,tropical storm,NA,35,1005,40,0
+Katia,2023,9,2,6,22.3,-28.8,tropical storm,NA,40,1004,80,0
+Katia,2023,9,2,12,23.5,-29.4,tropical storm,NA,45,1000,150,0
+Katia,2023,9,2,18,24.5,-30.1,tropical storm,NA,50,998,150,0
+Katia,2023,9,3,0,25.3,-30.9,tropical storm,NA,45,1000,100,0
+Katia,2023,9,3,6,26,-31.5,tropical storm,NA,40,1002,80,0
+Katia,2023,9,3,12,26.5,-32,tropical storm,NA,35,1006,50,0
+Katia,2023,9,3,18,26.9,-32.7,tropical storm,NA,35,1006,50,0
+Katia,2023,9,4,0,27.1,-33.3,tropical depression,NA,30,1007,0,0
+Katia,2023,9,4,6,27.4,-33.6,other low,NA,30,1008,0,0
+Katia,2023,9,4,12,27.7,-34,other low,NA,30,1009,0,0
+Katia,2023,9,4,18,27.9,-34.4,other low,NA,30,1010,0,0
+Katia,2023,9,5,0,28,-34.5,other low,NA,25,1010,0,0
+Katia,2023,9,5,6,28.2,-34.6,other low,NA,25,1010,0,0
+Katia,2023,9,5,12,28.3,-34.6,other low,NA,25,1010,0,0
+Katia,2023,9,5,18,28.3,-34.2,other low,NA,25,1010,0,0
+Katia,2023,9,6,0,28,-33.7,other low,NA,25,1010,0,0
+Katia,2023,9,6,6,27.6,-33.1,other low,NA,25,1010,0,0
+Katia,2023,9,6,12,27.4,-32.2,other low,NA,25,1011,0,0
+Katia,2023,9,6,18,26.7,-31.8,other low,NA,25,1011,0,0
+Katia,2023,9,7,0,26,-31.8,other low,NA,30,1010,0,0
+Katia,2023,9,7,6,25.4,-32.2,other low,NA,30,1010,0,0
+Katia,2023,9,7,12,24.6,-32.7,other low,NA,25,1011,0,0
+Katia,2023,9,7,18,24,-33.8,other low,NA,25,1011,0,0
+Katia,2023,9,8,0,23.2,-34.8,other low,NA,25,1011,0,0
+Katia,2023,9,8,6,22.3,-36,other low,NA,25,1011,0,0
+Katia,2023,9,8,12,21.5,-37.6,other low,NA,25,1011,0,0
+Katia,2023,9,8,18,20.5,-39.2,other low,NA,25,1011,0,0
+Katia,2023,9,9,0,19.6,-40.9,other low,NA,25,1011,0,0
+Katia,2023,9,9,6,18.4,-42,other low,NA,25,1011,0,0
+Katia,2023,9,9,12,17.6,-42.9,other low,NA,25,1011,0,0
+Katia,2023,9,9,18,16.8,-43.7,other low,NA,25,1011,0,0
+Katia,2023,9,10,0,16,-44.5,other low,NA,20,1012,0,0
+Katia,2023,9,10,6,15.4,-45.5,other low,NA,20,1012,0,0
+Katia,2023,9,10,12,15,-46.3,other low,NA,20,1012,0,0
+Katia,2023,9,10,18,14.8,-46.9,other low,NA,20,1012,0,0
+Katia,2023,9,11,0,14.6,-47.4,other low,NA,20,1012,0,0
+Katia,2023,9,11,6,14.5,-47.9,other low,NA,20,1012,0,0
+Katia,2023,9,11,12,14.4,-48.1,other low,NA,20,1012,0,0
+Katia,2023,9,11,18,14.4,-48.3,other low,NA,20,1012,0,0
+Katia,2023,9,12,0,14.4,-48.3,other low,NA,20,1012,0,0
+Katia,2023,9,12,6,14.5,-48.3,other low,NA,20,1012,0,0
+Katia,2023,9,12,12,14.6,-48.2,other low,NA,20,1012,0,0
+Katia,2023,9,12,18,14.7,-48.1,other low,NA,15,1012,0,0
+Katia,2023,9,13,0,14.9,-48,other low,NA,15,1012,0,0
+Katia,2023,9,13,6,15.1,-47.8,other low,NA,15,1012,0,0
+Katia,2023,9,13,12,15,-47.6,other low,NA,15,1012,0,0
+Katia,2023,9,13,18,14.9,-47.7,other low,NA,15,1012,0,0
+Katia,2023,9,14,0,14.7,-47.8,other low,NA,15,1012,0,0
+Katia,2023,9,14,6,14.5,-48,other low,NA,15,1012,0,0
+Katia,2023,9,14,12,14.2,-48.4,other low,NA,15,1012,0,0
+Katia,2023,9,14,18,13.6,-48.8,other low,NA,15,1012,0,0
+Katia,2023,9,15,0,13,-49.2,other low,NA,15,1012,0,0
+Katia,2023,9,15,6,12.4,-49.1,other low,NA,15,1012,0,0
+Katia,2023,9,15,12,11.8,-48.8,other low,NA,15,1012,0,0
+Lee,2023,9,5,12,12.2,-39.6,tropical depression,NA,30,1008,0,0
+Lee,2023,9,5,18,12.9,-41.1,tropical storm,NA,35,1006,60,0
+Lee,2023,9,6,0,13.2,-42.5,tropical storm,NA,45,1003,80,0
+Lee,2023,9,6,6,13.5,-43.9,tropical storm,NA,55,997,110,0
+Lee,2023,9,6,12,14,-45,tropical storm,NA,60,994,130,0
+Lee,2023,9,6,18,14.6,-46.1,hurricane,1,65,991,140,15
+Lee,2023,9,7,0,15.1,-47.1,hurricane,1,70,989,140,15
+Lee,2023,9,7,6,15.6,-48.2,hurricane,1,75,986,150,15
+Lee,2023,9,7,12,16.1,-49.4,hurricane,2,85,980,190,40
+Lee,2023,9,7,18,16.6,-50.7,hurricane,3,105,961,190,50
+Lee,2023,9,8,0,17,-51.8,hurricane,4,135,933,190,60
+Lee,2023,9,8,6,17.5,-53,hurricane,5,145,926,190,70
+Lee,2023,9,8,12,17.9,-54.1,hurricane,4,135,940,190,60
+Lee,2023,9,8,18,18.5,-55.1,hurricane,4,125,941,210,60
+Lee,2023,9,9,0,19,-56,hurricane,3,105,958,220,50
+Lee,2023,9,9,6,19.5,-57,hurricane,3,100,963,220,50
+Lee,2023,9,9,12,20,-57.9,hurricane,3,100,954,220,50
+Lee,2023,9,9,18,20.4,-58.8,hurricane,2,95,958,260,55
+Lee,2023,9,10,0,20.8,-59.5,hurricane,2,85,960,260,55
+Lee,2023,9,10,6,21.2,-60.2,hurricane,2,90,960,240,65
+Lee,2023,9,10,12,21.5,-60.8,hurricane,2,95,956,240,65
+Lee,2023,9,10,18,21.9,-61.4,hurricane,3,105,954,280,80
+Lee,2023,9,11,0,22.3,-61.9,hurricane,3,105,950,280,105
+Lee,2023,9,11,6,22.8,-62.5,hurricane,3,105,950,300,105
+Lee,2023,9,11,12,23.2,-63.2,hurricane,3,105,948,300,105
+Lee,2023,9,11,18,23.5,-63.9,hurricane,3,100,948,300,110
+Lee,2023,9,12,0,23.7,-64.5,hurricane,3,100,948,300,120
+Lee,2023,9,12,6,23.9,-65.1,hurricane,3,100,948,300,120
+Lee,2023,9,12,12,24.1,-65.7,hurricane,3,100,948,330,130
+Lee,2023,9,12,18,24.5,-66.2,hurricane,3,100,946,370,160
+Lee,2023,9,13,0,24.9,-66.6,hurricane,3,100,946,370,170
+Lee,2023,9,13,6,25.3,-66.9,hurricane,3,100,948,380,170
+Lee,2023,9,13,12,26,-67.2,hurricane,2,95,950,380,160
+Lee,2023,9,13,18,26.8,-67.6,hurricane,2,90,951,410,180
+Lee,2023,9,14,0,27.6,-67.8,hurricane,2,90,951,410,170
+Lee,2023,9,14,6,28.5,-68,hurricane,2,85,953,440,160
+Lee,2023,9,14,12,29.8,-68.2,hurricane,1,80,955,440,150
+Lee,2023,9,14,18,31.1,-68.3,hurricane,1,75,955,480,160
+Lee,2023,9,15,0,32.1,-67.8,hurricane,1,75,955,480,160
+Lee,2023,9,15,6,33.6,-67.6,hurricane,1,75,957,500,160
+Lee,2023,9,15,12,35.1,-67.1,hurricane,1,75,962,500,160
+Lee,2023,9,15,18,37.1,-66.7,hurricane,1,75,962,570,180
+Lee,2023,9,16,0,38.7,-65.9,hurricane,1,75,963,600,220
+Lee,2023,9,16,6,40.9,-66,extratropical,NA,70,965,570,120
+Lee,2023,9,16,12,42.7,-66.3,extratropical,NA,65,965,420,100
+Lee,2023,9,16,18,43.8,-66.4,extratropical,NA,55,968,420,0
+Lee,2023,9,16,20,44.3,-66.3,extratropical,NA,55,970,420,0
+Lee,2023,9,17,0,44.7,-66.2,extratropical,NA,55,979,390,0
+Lee,2023,9,17,6,45.9,-64.8,extratropical,NA,50,986,360,0
+Lee,2023,9,17,12,47.3,-63,extratropical,NA,40,989,360,0
+Lee,2023,9,17,18,48.6,-60.1,extratropical,NA,40,989,360,0
+Lee,2023,9,18,0,50.7,-57.9,extratropical,NA,35,994,440,0
+Lee,2023,9,18,6,51.7,-53.2,extratropical,NA,35,994,410,0
+Lee,2023,9,18,12,52.6,-48.6,extratropical,NA,40,993,410,0
+Lee,2023,9,18,18,53,-42,extratropical,NA,40,993,410,0
+Margot,2023,9,7,12,15.5,-26,tropical depression,NA,30,1006,0,0
+Margot,2023,9,7,18,16,-27.3,tropical storm,NA,35,1005,20,0
+Margot,2023,9,8,0,16.5,-28.6,tropical storm,NA,35,1005,20,0
+Margot,2023,9,8,6,17.1,-30.1,tropical storm,NA,35,1005,20,0
+Margot,2023,9,8,12,17.8,-31.8,tropical storm,NA,35,1005,20,0
+Margot,2023,9,8,18,18.5,-33.6,tropical storm,NA,35,1005,30,0
+Margot,2023,9,9,0,19.1,-35.1,tropical storm,NA,35,1005,30,0
+Margot,2023,9,9,6,19.7,-36.4,tropical storm,NA,40,1004,40,0
+Margot,2023,9,9,12,20.2,-37.5,tropical storm,NA,40,1004,50,0
+Margot,2023,9,9,18,20.7,-38.3,tropical storm,NA,40,1004,60,0
+Margot,2023,9,10,0,21.2,-38.9,tropical storm,NA,45,1003,100,0
+Margot,2023,9,10,6,21.8,-39.4,tropical storm,NA,45,1002,110,0
+Margot,2023,9,10,12,22.5,-39.8,tropical storm,NA,45,1000,120,0
+Margot,2023,9,10,18,23.3,-40,tropical storm,NA,50,998,140,0
+Margot,2023,9,11,0,24,-40,tropical storm,NA,55,996,160,0
+Margot,2023,9,11,6,24.7,-40,tropical storm,NA,55,993,190,0
+Margot,2023,9,11,12,25.5,-40,tropical storm,NA,60,990,220,0
+Margot,2023,9,11,18,26.4,-39.9,hurricane,1,65,986,250,30
+Margot,2023,9,12,0,27.5,-39.6,hurricane,1,70,981,280,30
+Margot,2023,9,12,6,28.6,-39.4,hurricane,1,75,977,310,40
+Margot,2023,9,12,12,29.8,-39.3,hurricane,1,75,974,350,60
+Margot,2023,9,12,18,31,-39.4,hurricane,1,75,972,350,80
+Margot,2023,9,13,0,32.1,-39.6,hurricane,1,75,970,380,90
+Margot,2023,9,13,6,33,-39.9,hurricane,1,80,969,380,90
+Margot,2023,9,13,12,33.7,-40.3,hurricane,1,80,969,380,100
+Margot,2023,9,13,18,34.4,-40.6,hurricane,1,75,970,380,110
+Margot,2023,9,14,0,35.1,-40.7,hurricane,1,75,972,370,110
+Margot,2023,9,14,6,35.8,-40.5,hurricane,1,70,974,370,120
+Margot,2023,9,14,12,36.3,-40.1,hurricane,1,70,976,370,120
+Margot,2023,9,14,18,36.6,-39.6,hurricane,1,70,978,370,60
+Margot,2023,9,15,0,36.7,-39.1,hurricane,1,65,980,370,60
+Margot,2023,9,15,6,36.7,-38.6,tropical storm,NA,60,982,370,0
+Margot,2023,9,15,12,36.5,-38.1,tropical storm,NA,55,984,380,0
+Margot,2023,9,15,18,36.1,-37.8,tropical storm,NA,55,986,400,0
+Margot,2023,9,16,0,35.7,-37.8,tropical storm,NA,55,988,420,0
+Margot,2023,9,16,6,35.2,-38,tropical storm,NA,55,990,390,0
+Margot,2023,9,16,12,34.7,-38.5,tropical storm,NA,50,993,350,0
+Margot,2023,9,16,18,34.3,-39.2,tropical storm,NA,45,996,310,0
+Margot,2023,9,17,0,34,-40.1,other low,NA,40,999,250,0
+Margot,2023,9,17,6,34,-41.1,other low,NA,35,1001,210,0
+Margot,2023,9,17,12,34.3,-42,other low,NA,35,1003,150,0
+Margot,2023,9,17,18,34.7,-43,other low,NA,35,1005,150,0
+Margot,2023,9,18,0,35.3,-43.6,other low,NA,30,1006,0,0
+Margot,2023,9,18,6,36,-43.8,other low,NA,30,1007,0,0
+Margot,2023,9,18,12,36.8,-43.6,other low,NA,30,1008,0,0
+Margot,2023,9,18,18,37.8,-42.7,other low,NA,30,1009,0,0
+Nigel,2023,9,15,6,13.6,-42.2,tropical depression,NA,30,1007,0,0
+Nigel,2023,9,15,12,14.3,-43.2,tropical depression,NA,30,1007,0,0
+Nigel,2023,9,15,18,15.2,-44,tropical depression,NA,30,1007,0,0
+Nigel,2023,9,16,0,16.1,-44.8,tropical depression,NA,30,1007,0,0
+Nigel,2023,9,16,6,17.4,-45.4,tropical depression,NA,30,1007,0,0
+Nigel,2023,9,16,12,18.7,-46,tropical depression,NA,30,1006,0,0
+Nigel,2023,9,16,18,20.1,-46.7,tropical depression,NA,30,1006,0,0
+Nigel,2023,9,17,0,21.4,-47.6,tropical storm,NA,35,1005,80,0
+Nigel,2023,9,17,6,22.5,-48.3,tropical storm,NA,45,1001,160,0
+Nigel,2023,9,17,12,23.5,-48.8,tropical storm,NA,50,997,160,0
+Nigel,2023,9,17,18,24.5,-49.4,tropical storm,NA,55,994,160,0
+Nigel,2023,9,18,0,25.3,-50,tropical storm,NA,60,992,200,0
+Nigel,2023,9,18,6,26,-50.6,hurricane,1,65,987,210,20
+Nigel,2023,9,18,12,26.8,-51.1,hurricane,1,65,987,230,20
+Nigel,2023,9,18,18,27.5,-51.7,hurricane,1,70,982,250,20
+Nigel,2023,9,19,0,28.2,-52.4,hurricane,1,75,979,250,80
+Nigel,2023,9,19,6,29,-53.2,hurricane,1,75,979,250,80
+Nigel,2023,9,19,12,29.9,-54,hurricane,1,80,975,250,80
+Nigel,2023,9,19,18,31.1,-54.7,hurricane,2,85,972,270,85
+Nigel,2023,9,20,0,32.4,-55,hurricane,2,85,971,270,85
+Nigel,2023,9,20,6,33.7,-55.2,hurricane,2,85,971,260,85
+Nigel,2023,9,20,12,35.2,-54.7,hurricane,1,80,972,260,85
+Nigel,2023,9,20,18,36.7,-53.6,hurricane,1,80,972,260,85
+Nigel,2023,9,21,0,38.3,-51.6,hurricane,1,80,973,260,85
+Nigel,2023,9,21,6,40,-49.2,hurricane,1,75,975,260,80
+Nigel,2023,9,21,12,41.3,-46.3,hurricane,1,75,975,280,80
+Nigel,2023,9,21,18,42.8,-42.8,hurricane,1,70,975,340,100
+Nigel,2023,9,22,0,44.3,-38.7,hurricane,1,65,975,360,100
+Nigel,2023,9,22,6,45.4,-34.3,extratropical,NA,60,974,370,0
+Nigel,2023,9,22,12,47.2,-30.2,extratropical,NA,55,972,370,0
+Nigel,2023,9,22,18,48.9,-26.8,extratropical,NA,55,971,290,0
+Nigel,2023,9,23,0,50.9,-24,extratropical,NA,55,969,290,0
+Nigel,2023,9,23,6,53.3,-22.2,extratropical,NA,55,967,450,0
+Nigel,2023,9,23,12,55.6,-22.7,extratropical,NA,55,964,630,0
+Nigel,2023,9,23,18,57.7,-23.2,extratropical,NA,55,961,480,0
+Nigel,2023,9,24,0,58.3,-25.6,extratropical,NA,50,958,570,0
+Nigel,2023,9,24,6,57.4,-27.4,extratropical,NA,50,958,570,0
+Nigel,2023,9,24,12,56.1,-26.7,extratropical,NA,45,961,990,0
+Nigel,2023,9,24,18,56.4,-23.5,extratropical,NA,45,964,900,0
+Nigel,2023,9,25,0,58,-20.9,extratropical,NA,40,969,900,0
+Nigel,2023,9,25,6,60.1,-18.6,extratropical,NA,40,971,900,0
+Nigel,2023,9,25,12,61,-18.5,extratropical,NA,40,972,900,0
+Nigel,2023,9,25,18,61.5,-19.4,extratropical,NA,40,974,900,0
+Nigel,2023,9,26,0,61.5,-20.9,extratropical,NA,40,976,900,0
+Nigel,2023,9,26,6,61.5,-22.5,extratropical,NA,40,977,900,0
+Nigel,2023,9,26,12,61.5,-23.3,extratropical,NA,40,977,900,0
+Ophelia,2023,9,21,12,28.5,-76,extratropical,NA,30,1012,0,0
+Ophelia,2023,9,21,18,29,-75.6,extratropical,NA,30,1012,0,0
+Ophelia,2023,9,22,0,29.5,-75.3,extratropical,NA,35,1008,210,0
+Ophelia,2023,9,22,6,30.3,-75.1,extratropical,NA,40,1002,210,0
+Ophelia,2023,9,22,12,31.6,-75.5,extratropical,NA,50,996,300,0
+Ophelia,2023,9,22,18,32.7,-76.1,tropical storm,NA,60,989,340,0
+Ophelia,2023,9,23,0,33.3,-76.6,tropical storm,NA,60,983,390,0
+Ophelia,2023,9,23,6,33.8,-77.1,tropical storm,NA,60,981,390,0
+Ophelia,2023,9,23,10,34.7,-77.1,tropical storm,NA,60,981,360,0
+Ophelia,2023,9,23,12,35.1,-77.1,tropical storm,NA,50,982,350,0
+Ophelia,2023,9,23,18,36.3,-77.5,tropical storm,NA,40,997,270,0
+Ophelia,2023,9,24,0,36.8,-77.6,extratropical,NA,30,1002,0,0
+Ophelia,2023,9,24,6,37.2,-77.6,extratropical,NA,25,1006,0,0
+Ophelia,2023,9,24,12,37.9,-77.4,extratropical,NA,20,1009,0,0
+Ophelia,2023,9,24,18,38.9,-76.9,extratropical,NA,20,1010,0,0
+Philippe,2023,9,23,6,15.5,-36.6,tropical depression,NA,30,1007,0,0
+Philippe,2023,9,23,12,15.6,-38,tropical depression,NA,30,1007,0,0
+Philippe,2023,9,23,18,15.7,-39.1,tropical storm,NA,35,1005,100,0
+Philippe,2023,9,24,0,15.8,-39.8,tropical storm,NA,40,1003,100,0
+Philippe,2023,9,24,6,16,-40.5,tropical storm,NA,45,1001,100,0
+Philippe,2023,9,24,12,16.3,-41.3,tropical storm,NA,45,1000,160,0
+Philippe,2023,9,24,18,16.6,-42,tropical storm,NA,45,1000,160,0
+Philippe,2023,9,25,0,16.9,-42.9,tropical storm,NA,45,1000,140,0
+Philippe,2023,9,25,6,17.1,-43.8,tropical storm,NA,50,998,140,0
+Philippe,2023,9,25,12,17.1,-44.8,tropical storm,NA,50,998,140,0
+Philippe,2023,9,25,18,17.1,-46.2,tropical storm,NA,45,1000,150,0
+Philippe,2023,9,26,0,17.4,-47.3,tropical storm,NA,45,1001,200,0
+Philippe,2023,9,26,6,17.5,-48.5,tropical storm,NA,45,1001,200,0
+Philippe,2023,9,26,12,17.4,-49.7,tropical storm,NA,40,1003,150,0
+Philippe,2023,9,26,18,17.1,-50.8,tropical storm,NA,40,1003,170,0
+Philippe,2023,9,27,0,17.2,-51.6,tropical storm,NA,40,1003,190,0
+Philippe,2023,9,27,6,17.4,-52.3,tropical storm,NA,40,1003,170,0
+Philippe,2023,9,27,12,17.5,-53,tropical storm,NA,45,1000,150,0
+Philippe,2023,9,27,18,17.8,-53.7,tropical storm,NA,45,1000,140,0
+Philippe,2023,9,28,0,18.1,-54.3,tropical storm,NA,40,1002,130,0
+Philippe,2023,9,28,6,18.5,-54.5,tropical storm,NA,40,1002,120,0
+Philippe,2023,9,28,12,18.7,-54.7,tropical storm,NA,40,1002,120,0
+Philippe,2023,9,28,18,18.6,-54.8,tropical storm,NA,40,1002,110,0
+Philippe,2023,9,29,0,18.5,-54.9,tropical storm,NA,40,1002,110,0
+Philippe,2023,9,29,6,18.4,-55,tropical storm,NA,40,1002,110,0
+Philippe,2023,9,29,12,18.2,-55.3,tropical storm,NA,45,1002,110,0
+Philippe,2023,9,29,18,18,-55.6,tropical storm,NA,45,1002,120,0
+Philippe,2023,9,30,0,17.6,-55.7,tropical storm,NA,45,1001,120,0
+Philippe,2023,9,30,6,17.2,-55.8,tropical storm,NA,45,999,190,0
+Philippe,2023,9,30,12,16.8,-56,tropical storm,NA,45,999,190,0
+Philippe,2023,9,30,18,16.4,-56.3,tropical storm,NA,50,998,210,0
+Philippe,2023,10,1,0,16.1,-56.7,tropical storm,NA,50,998,210,0
+Philippe,2023,10,1,6,16,-57.5,tropical storm,NA,50,999,200,0
+Philippe,2023,10,1,12,16,-58.4,tropical storm,NA,45,1001,140,0
+Philippe,2023,10,1,18,16.2,-58.8,tropical storm,NA,45,1001,150,0
+Philippe,2023,10,2,0,16.5,-59,tropical storm,NA,45,999,150,0
+Philippe,2023,10,2,6,16.8,-59.7,tropical storm,NA,45,999,150,0
+Philippe,2023,10,2,12,16.9,-60.5,tropical storm,NA,45,1000,150,0
+Philippe,2023,10,2,18,17.3,-61.2,tropical storm,NA,45,1001,150,0
+Philippe,2023,10,2,22,17.6,-61.8,tropical storm,NA,45,1001,150,0
+Philippe,2023,10,3,0,17.6,-61.9,tropical storm,NA,45,1001,150,0
+Philippe,2023,10,3,6,18.1,-62.7,tropical storm,NA,45,1001,150,0
+Philippe,2023,10,3,12,18.6,-63.6,tropical storm,NA,40,1003,150,0
+Philippe,2023,10,3,18,19.1,-64.5,tropical storm,NA,40,1004,140,0
+Philippe,2023,10,4,0,19.5,-65.2,tropical storm,NA,40,1004,130,0
+Philippe,2023,10,4,6,20.2,-65.4,tropical storm,NA,40,1004,130,0
+Philippe,2023,10,4,12,21.2,-65.6,tropical storm,NA,40,1004,150,0
+Philippe,2023,10,4,18,22.2,-65.8,tropical storm,NA,35,1004,180,0
+Philippe,2023,10,5,0,23.1,-66,tropical storm,NA,35,1004,180,0
+Philippe,2023,10,5,6,24,-66.2,tropical storm,NA,40,1004,200,0
+Philippe,2023,10,5,12,25.1,-66.3,tropical storm,NA,45,1004,200,0
+Philippe,2023,10,5,18,26.4,-66.1,tropical storm,NA,45,1004,200,0
+Philippe,2023,10,6,0,27.6,-66,tropical storm,NA,45,1004,300,0
+Philippe,2023,10,6,6,28.7,-65.5,tropical storm,NA,45,1003,280,0
+Rina,2023,9,28,6,15.6,-44.5,tropical storm,NA,35,1005,60,0
+Rina,2023,9,28,12,16.9,-45.1,tropical storm,NA,35,1004,80,0
+Rina,2023,9,28,18,17.7,-45.8,tropical storm,NA,35,1004,80,0
+Rina,2023,9,29,0,18.2,-46.2,tropical storm,NA,40,1002,80,0
+Rina,2023,9,29,6,18.6,-46.4,tropical storm,NA,45,999,100,0
+Rina,2023,9,29,12,19.1,-46.7,tropical storm,NA,45,999,120,0
+Rina,2023,9,29,18,19.8,-47.5,tropical storm,NA,45,1000,130,0
+Rina,2023,9,30,0,20.2,-48.4,tropical storm,NA,45,1000,190,0
+Rina,2023,9,30,6,20.5,-49.1,tropical storm,NA,45,1000,160,0
+Rina,2023,9,30,12,21,-50,tropical storm,NA,40,1002,70,0
+Rina,2023,9,30,18,22.1,-51,tropical storm,NA,40,1004,70,0
+Rina,2023,10,1,0,23,-52.2,tropical storm,NA,35,1005,50,0
+Rina,2023,10,1,6,23.8,-53.3,tropical storm,NA,35,1005,50,0
+Rina,2023,10,1,12,24.8,-54.4,tropical storm,NA,35,1006,50,0
+Rina,2023,10,1,18,25.8,-55.3,other low,NA,30,1007,0,0
+Rina,2023,10,2,0,26.7,-55.6,other low,NA,30,1008,0,0
+Sean,2023,10,10,18,9.6,-30.2,tropical depression,NA,30,1007,0,0
+Sean,2023,10,11,0,9.8,-31.4,tropical storm,NA,35,1006,80,0
+Sean,2023,10,11,6,10.1,-32.6,tropical storm,NA,35,1006,80,0
+Sean,2023,10,11,12,10.7,-33.7,tropical storm,NA,35,1006,80,0
+Sean,2023,10,11,18,11.3,-34.7,tropical depression,NA,30,1007,0,0
+Sean,2023,10,12,0,11.8,-35.6,tropical depression,NA,30,1007,0,0
+Sean,2023,10,12,6,12.3,-36.4,tropical depression,NA,30,1007,0,0
+Sean,2023,10,12,12,12.8,-37.1,tropical storm,NA,35,1006,80,0
+Sean,2023,10,12,18,13.3,-37.8,tropical storm,NA,40,1005,80,0
+Sean,2023,10,13,0,13.7,-39,tropical storm,NA,40,1005,80,0
+Sean,2023,10,13,6,14,-40.1,tropical storm,NA,40,1005,80,0
+Sean,2023,10,13,12,14.3,-41.2,tropical storm,NA,35,1006,60,0
+Sean,2023,10,13,18,14.6,-42.2,tropical storm,NA,35,1006,60,0
+Sean,2023,10,14,0,14.9,-42.7,tropical storm,NA,35,1006,60,0
+Sean,2023,10,14,6,15.3,-43.3,tropical depression,NA,30,1007,0,0
+Sean,2023,10,14,12,15.8,-43.9,tropical depression,NA,30,1007,0,0
+Sean,2023,10,14,18,16.3,-44.5,tropical depression,NA,30,1007,0,0
+Sean,2023,10,15,0,16.8,-45.1,tropical depression,NA,30,1008,0,0
+Sean,2023,10,15,6,17.3,-45.8,tropical depression,NA,30,1009,0,0
+Sean,2023,10,15,12,17.6,-46.6,other low,NA,25,1010,0,0
+Sean,2023,10,15,18,17.9,-47.6,other low,NA,25,1010,0,0
+Sean,2023,10,16,0,18.1,-48.6,other low,NA,25,1011,0,0
+Sean,2023,10,16,6,18.2,-49.8,other low,NA,25,1011,0,0
+Sean,2023,10,16,12,18.3,-51,other low,NA,20,1011,0,0
+Sean,2023,10,16,18,18.4,-52.2,other low,NA,20,1011,0,0
+Tammy,2023,10,18,18,12.9,-51,tropical storm,NA,35,1007,120,0
+Tammy,2023,10,19,0,13,-52.5,tropical storm,NA,35,1006,120,0
+Tammy,2023,10,19,6,13.2,-54,tropical storm,NA,45,1004,120,0
+Tammy,2023,10,19,12,13.4,-55.3,tropical storm,NA,50,1004,150,0
+Tammy,2023,10,19,18,13.5,-56.4,tropical storm,NA,50,1002,160,0
+Tammy,2023,10,20,0,13.6,-57.2,tropical storm,NA,50,1001,200,0
+Tammy,2023,10,20,6,13.7,-57.9,tropical storm,NA,50,1000,200,0
+Tammy,2023,10,20,12,13.9,-58.4,tropical storm,NA,60,997,200,0
+Tammy,2023,10,20,18,14.1,-58.9,hurricane,1,65,991,190,20
+Tammy,2023,10,21,0,14.5,-59.6,hurricane,1,70,991,190,20
+Tammy,2023,10,21,6,14.9,-60.3,hurricane,1,70,991,190,20
+Tammy,2023,10,21,12,15.6,-60.6,hurricane,1,75,987,190,30
+Tammy,2023,10,21,18,16.6,-61,hurricane,1,75,987,180,30
+Tammy,2023,10,22,0,17.5,-61.7,hurricane,1,80,987,180,30
+Tammy,2023,10,22,1,17.6,-61.8,hurricane,1,80,987,180,30
+Tammy,2023,10,22,6,18,-62.2,hurricane,1,75,989,190,30
+Tammy,2023,10,22,12,18.7,-62.8,hurricane,1,75,990,190,30
+Tammy,2023,10,22,18,19.4,-63.4,hurricane,1,75,990,170,30
+Tammy,2023,10,23,0,20.2,-63.9,hurricane,1,75,992,170,30
+Tammy,2023,10,23,6,21,-64,hurricane,1,70,993,180,35
+Tammy,2023,10,23,12,21.6,-64,hurricane,1,70,993,180,35
+Tammy,2023,10,23,18,22.1,-63.8,hurricane,1,65,988,180,20
+Tammy,2023,10,24,0,22.6,-63.5,hurricane,1,65,987,190,40
+Tammy,2023,10,24,6,23.1,-63.1,hurricane,1,65,987,190,40
+Tammy,2023,10,24,12,23.6,-62.6,hurricane,1,65,987,190,40
+Tammy,2023,10,24,18,24,-62,hurricane,1,65,987,210,20
+Tammy,2023,10,25,0,24.5,-61.2,hurricane,1,75,976,230,20
+Tammy,2023,10,25,6,25.1,-60.4,hurricane,2,85,969,230,20
+Tammy,2023,10,25,12,26.1,-59.4,hurricane,2,95,965,250,20
+Tammy,2023,10,25,18,27.5,-58.3,hurricane,2,85,968,250,20
+Tammy,2023,10,26,0,29.1,-57.8,hurricane,1,80,970,300,55
+Tammy,2023,10,26,6,30,-58.3,hurricane,1,75,972,300,50
+Tammy,2023,10,26,12,30.5,-58.8,hurricane,1,70,975,300,50
+Tammy,2023,10,26,18,31,-59.5,hurricane,1,65,977,340,40
+Tammy,2023,10,27,0,31.5,-60.1,tropical storm,NA,60,980,340,0
+Tammy,2023,10,27,6,31.8,-60.6,tropical storm,NA,55,985,290,0
+Tammy,2023,10,27,12,32,-61,tropical storm,NA,55,988,260,0
+Tammy,2023,10,27,18,32.3,-61.4,tropical storm,NA,55,988,260,0
+Tammy,2023,10,28,0,32.6,-61.5,tropical storm,NA,50,991,210,0
+Tammy,2023,10,28,6,32.9,-61,tropical storm,NA,45,994,210,0
+Tammy,2023,10,28,12,33.1,-59.5,tropical storm,NA,45,995,210,0
+Tammy,2023,10,28,18,33.3,-58,tropical storm,NA,40,997,170,0
+Tammy,2023,10,29,0,32.8,-56.1,other low,NA,35,1000,80,0
+Tammy,2023,10,29,6,32.6,-54.3,other low,NA,35,1002,80,0
+Tammy,2023,10,29,12,31.8,-52.5,other low,NA,35,1002,60,0
+Tammy,2023,10,29,18,30.9,-50.9,other low,NA,35,1002,50,0
+Tammy,2023,10,30,0,29.6,-49.6,other low,NA,30,1004,0,0
+Tammy,2023,10,30,6,28.5,-49,other low,NA,30,1005,0,0
+Tammy,2023,10,30,12,27.5,-48.5,other low,NA,30,1005,0,0
+Tammy,2023,10,30,18,26.5,-48.1,other low,NA,25,1006,0,0
+Tammy,2023,10,31,0,25.6,-48.5,other low,NA,25,1006,0,0
+Tammy,2023,10,31,6,25.1,-49,other low,NA,25,1007,0,0
+Tammy,2023,10,31,12,24.9,-49.9,other low,NA,20,1008,0,0
+Tammy,2023,10,31,18,24.6,-50.6,other low,NA,20,1008,0,0
+Twenty-One,2023,10,23,12,11.4,-82.6,tropical depression,NA,25,1007,0,0
+Twenty-One,2023,10,23,18,11.5,-83.2,tropical depression,NA,25,1007,0,0
+Twenty-One,2023,10,24,0,12.2,-83.4,tropical depression,NA,25,1007,0,0
+Twenty-One,2023,10,24,1,12.4,-83.5,tropical depression,NA,25,1007,0,0
+Twenty-One,2023,10,24,6,13,-83.8,tropical depression,NA,25,1007,0,0
+Twenty-One,2023,10,24,12,13.5,-84.4,other low,NA,20,1007,0,0
