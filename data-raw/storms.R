@@ -8,7 +8,7 @@ library(tidyverse)
 
 # Read in data set so each line is a character string
 storm_file_complete <- read_file(
-  "https://www.nhc.noaa.gov/data/hurdat/hurdat2-1851-2022-050423.txt"
+  "https://www.nhc.noaa.gov/data/hurdat/hurdat2-1851-2024-040425.txt"
 )
 storm_strings <- read_lines(storm_file_complete)
 
