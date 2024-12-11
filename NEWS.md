@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `storms` has been updated to include 2023 data
+
 * `case_when()` now throws a better error if one of the conditions is an array
   (#6862, @ilovemane).
 
