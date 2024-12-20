@@ -154,11 +154,11 @@ check_filter <- function(dots, error_call = caller_env()) {
 
   for (i in which(named)) {
     quo <- dots[[i]]
-
-    # only allow named logical vectors, anything else
-    # is suspicious
     expr <- quo_get_expr(quo)
-    if (!is.logical(expr)) {
+
+    # Allow named logical vectors but catch bare
+    # logical values and anything else
+    if (!is.logical(expr) || (is.logical(expr) && length(expr) == 1)) {
       name <- names(dots)[i]
       bullets <- c(
         "We detected a named input.",
