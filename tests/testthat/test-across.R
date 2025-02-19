@@ -478,7 +478,7 @@ test_that("across() sees columns in the recursive case (#5498)", {
   )
 
   out <- df %>%
-    mutate(data = purrr::map2(data, vars, function(.x) {
+    mutate(data = purrr::map2(data, vars, function(.x, .y) {
       .x %>% mutate(across(all_of(.y), ~NA))
     }))
   exp <- tibble(
