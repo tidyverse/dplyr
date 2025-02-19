@@ -1,10 +1,9 @@
-
 as_group_map_function <- function(.f, error_call = caller_env()) {
   .f <- rlang::as_function(.f)
-  if (length(form <- formals(.f)) < 2 && ! "..." %in% names(form)){
+  if (length(form <- formals(.f)) < 2 && !"..." %in% names(form)) {
     bullets <- c(
       "`.f` must accept at least two arguments.",
-      i  = "You can use `...` to absorb unused components."
+      i = "You can use `...` to absorb unused components."
     )
     abort(bullets, call = error_call)
   }
@@ -125,9 +124,20 @@ group_map <- function(.data, .f, ..., .keep = FALSE) {
 }
 
 #' @export
-group_map.data.frame <- function(.data, .f, ..., .keep = FALSE, keep = deprecated()) {
+group_map.data.frame <- function(
+  .data,
+  .f,
+  ...,
+  .keep = FALSE,
+  keep = deprecated()
+) {
   if (!missing(keep)) {
-    lifecycle::deprecate_warn("1.0.0", "group_map(keep = )", "group_map(.keep = )", always = TRUE)
+    lifecycle::deprecate_warn(
+      "1.0.0",
+      "group_map(keep = )",
+      "group_map(.keep = )",
+      always = TRUE
+    )
     .keep <- keep
   }
   .f <- as_group_map_function(.f)
@@ -138,14 +148,17 @@ group_map.data.frame <- function(.data, .f, ..., .keep = FALSE, keep = deprecate
   } else {
     group_split(.data)
   }
-  keys  <- group_keys(.data)
+  keys <- group_keys(.data)
   group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
 
   if (length(chunks)) {
     map2(chunks, group_keys, .f, ...)
   } else {
     # calling .f with .x and .y set to prototypes
-    structure(list(), ptype = .f(attr(chunks, "ptype"), keys[integer(0L), ], ...))
+    structure(
+      list(),
+      ptype = .f(attr(chunks, "ptype"), keys[integer(0L), ], ...)
+    )
   }
 }
 
@@ -157,9 +170,20 @@ group_modify <- function(.data, .f, ..., .keep = FALSE) {
 }
 
 #' @export
-group_modify.data.frame <- function(.data, .f, ..., .keep = FALSE, keep = deprecated()) {
+group_modify.data.frame <- function(
+  .data,
+  .f,
+  ...,
+  .keep = FALSE,
+  keep = deprecated()
+) {
   if (!missing(keep)) {
-    lifecycle::deprecate_warn("1.0.0", "group_modify(keep = )", "group_modify(.keep = )", always = TRUE)
+    lifecycle::deprecate_warn(
+      "1.0.0",
+      "group_modify(keep = )",
+      "group_modify(.keep = )",
+      always = TRUE
+    )
     .keep <- keep
   }
   .f <- as_group_map_function(.f)
@@ -167,16 +191,27 @@ group_modify.data.frame <- function(.data, .f, ..., .keep = FALSE, keep = deprec
 }
 
 #' @export
-group_modify.grouped_df <- function(.data, .f, ..., .keep = FALSE, keep = deprecated()) {
+group_modify.grouped_df <- function(
+  .data,
+  .f,
+  ...,
+  .keep = FALSE,
+  keep = deprecated()
+) {
   if (!missing(keep)) {
-    lifecycle::deprecate_warn("1.0.0", "group_modify(keep = )", "group_modify(.keep = )", always = TRUE)
+    lifecycle::deprecate_warn(
+      "1.0.0",
+      "group_modify(keep = )",
+      "group_modify(.keep = )",
+      always = TRUE
+    )
     .keep <- keep
   }
   tbl_group_vars <- group_vars(.data)
   .f <- as_group_map_function(.f)
 
   error_call <- current_env()
-  fun <- function(.x, .y){
+  fun <- function(.x, .y) {
     res <- .f(.x, .y, ...)
     if (!inherits(res, "data.frame")) {
       abort("The result of `.f` must be a data frame.", call = error_call)

@@ -13,7 +13,9 @@ src_local <- function(tbl, pkg = NULL, env = NULL) {
   lifecycle::deprecate_warn("1.0.0", "src_local()", always = TRUE)
 
   if (!xor(is.null(pkg), is.null(env))) {
-    msg <- glue("Exactly one of `pkg` and `env` must be non-NULL, not {(!is.null(pkg)) + (!is.null(env))}.")
+    msg <- glue(
+      "Exactly one of `pkg` and `env` must be non-NULL, not {(!is.null(pkg)) + (!is.null(env))}."
+    )
     abort(msg)
   }
   if (!is.null(pkg)) {
@@ -48,11 +50,17 @@ tbl.src_local <- function(src, from, ...) {
 }
 
 #' @export
-copy_to.src_local <- function(dest, df, name = deparse(substitute(df)),
-                              overwrite = FALSE, ...) {
-
+copy_to.src_local <- function(
+  dest,
+  df,
+  name = deparse(substitute(df)),
+  overwrite = FALSE,
+  ...
+) {
   if (!overwrite && exists(name, envir = dest$env, inherits = FALSE)) {
-    msg <- glue("Object with `name` = {fmt_obj(name)} must not already exist, unless `overwrite` = TRUE.")
+    msg <- glue(
+      "Object with `name` = {fmt_obj(name)} must not already exist, unless `overwrite` = TRUE."
+    )
     abort(msg)
   }
 
@@ -63,7 +71,9 @@ copy_to.src_local <- function(dest, df, name = deparse(substitute(df)),
 #' @export
 format.src_local <- function(x, ...) {
   paste0(
-    "src:  ", x$name, "\n",
+    "src:  ",
+    x$name,
+    "\n",
     wrap("tbls: ", paste0(sort(src_tbls(x)), collapse = ", "))
   )
 }

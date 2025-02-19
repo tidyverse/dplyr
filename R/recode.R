@@ -211,7 +211,12 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
   }
 }
 
-find_template <- function(values, .default = NULL, .missing = NULL, error_call = caller_env()) {
+find_template <- function(
+  values,
+  .default = NULL,
+  .missing = NULL,
+  error_call = caller_env()
+) {
   x <- compact(c(values, .default, .missing))
 
   if (length(x) == 0) {
@@ -264,14 +269,27 @@ recode_default.factor <- function(x, default, out) {
 
 #' @rdname recode
 #' @export
-recode_factor <- function(.x, ..., .default = NULL, .missing = NULL,
-                          .ordered = FALSE) {
+recode_factor <- function(
+  .x,
+  ...,
+  .default = NULL,
+  .missing = NULL,
+  .ordered = FALSE
+) {
   # Superseded in dplyr 1.1.0
-  lifecycle::signal_stage("superseded", "recode_factor()", I("`case_match(.ptype = factor(levels = ))`"))
+  lifecycle::signal_stage(
+    "superseded",
+    "recode_factor()",
+    I("`case_match(.ptype = factor(levels = ))`")
+  )
   values <- list2(...)
   recoded <- recode(.x, !!!values, .default = .default, .missing = .missing)
 
-  all_levels <- unique(c(values, recode_default(.x, .default, recoded), .missing))
+  all_levels <- unique(c(
+    values,
+    recode_default(.x, .default, recoded),
+    .missing
+  ))
   recoded_levels <- if (is.factor(recoded)) levels(recoded) else unique(recoded)
   levels <- intersect(all_levels, recoded_levels)
 
@@ -281,7 +299,14 @@ recode_factor <- function(.x, ..., .default = NULL, .missing = NULL,
 # ------------------------------------------------------------------------------
 # Helpers
 
-replace_with <- function(x, i, val, name, reason = NULL, error_call = caller_env()) {
+replace_with <- function(
+  x,
+  i,
+  val,
+  name,
+  reason = NULL,
+  error_call = caller_env()
+) {
   if (is.null(val)) {
     return(x)
   }
@@ -318,15 +343,33 @@ fmt_check_length_val <- function(length_x, n, header, reason = NULL) {
     glue("{header} must be length {n}{reason} or one, not {commas(length_x)}.")
   }
 }
-check_length_val <- function(length_x, n, header, reason = NULL, error_call = caller_env()) {
+check_length_val <- function(
+  length_x,
+  n,
+  header,
+  reason = NULL,
+  error_call = caller_env()
+) {
   msg <- fmt_check_length_val(length_x, n, header, reason)
   if (length(msg)) {
     abort(msg, call = error_call)
   }
 }
 
-check_length <- function(x, template, header, reason = NULL, error_call = caller_env()) {
-  check_length_val(length(x), length(template), header, reason, error_call = error_call)
+check_length <- function(
+  x,
+  template,
+  header,
+  reason = NULL,
+  error_call = caller_env()
+) {
+  check_length_val(
+    length(x),
+    length(template),
+    header,
+    reason,
+    error_call = error_call
+  )
 }
 
 check_type <- function(x, template, header, error_call = caller_env()) {
@@ -334,7 +377,9 @@ check_type <- function(x, template, header, error_call = caller_env()) {
     return()
   }
 
-  msg <- glue("{header} must be {obj_type_friendly(template)}, not {obj_type_friendly(x)}.")
+  msg <- glue(
+    "{header} must be {obj_type_friendly(template)}, not {obj_type_friendly(x)}."
+  )
   abort(msg, call = error_call)
 }
 
@@ -349,6 +394,8 @@ check_class <- function(x, template, header, error_call = caller_env()) {
 
   exp_classes <- fmt_classes(template)
   out_classes <- fmt_classes(x)
-  msg <- glue("{header} must have class `{exp_classes}`, not class `{out_classes}`.")
+  msg <- glue(
+    "{header} must have class `{exp_classes}`, not class `{out_classes}`."
+  )
   abort(msg, call = error_call)
 }

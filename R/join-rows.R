@@ -1,16 +1,18 @@
-join_rows <- function(x_key,
-                      y_key,
-                      ...,
-                      type = c("inner", "left", "right", "full", "semi", "anti", "nest"),
-                      na_matches = "na",
-                      condition = "==",
-                      filter = "none",
-                      cross = FALSE,
-                      multiple = "all",
-                      unmatched = "drop",
-                      relationship = NULL,
-                      error_call = caller_env(),
-                      user_env = caller_env()) {
+join_rows <- function(
+  x_key,
+  y_key,
+  ...,
+  type = c("inner", "left", "right", "full", "semi", "anti", "nest"),
+  na_matches = "na",
+  condition = "==",
+  filter = "none",
+  cross = FALSE,
+  multiple = "all",
+  unmatched = "drop",
+  relationship = NULL,
+  error_call = caller_env(),
+  user_env = caller_env()
+) {
   check_dots_empty0(...)
 
   type <- arg_match0(
@@ -47,9 +49,17 @@ join_rows <- function(x_key,
   }
 
   if (is_null(relationship)) {
-    relationship <- compute_join_relationship(type, condition, cross, user_env = user_env)
+    relationship <- compute_join_relationship(
+      type,
+      condition,
+      cross,
+      user_env = user_env
+    )
   } else {
-    relationship <- check_join_relationship(relationship, error_call = error_call)
+    relationship <- check_join_relationship(
+      relationship,
+      error_call = error_call
+    )
   }
 
   incomplete <- standardise_join_incomplete(type, na_matches, x_unmatched)
@@ -74,19 +84,21 @@ join_rows <- function(x_key,
   list(x = matches$needles, y = matches$haystack)
 }
 
-dplyr_locate_matches <- function(needles,
-                                 haystack,
-                                 ...,
-                                 condition = "==",
-                                 filter = "none",
-                                 incomplete = "compare",
-                                 no_match = NA_integer_,
-                                 remaining = "drop",
-                                 multiple = "all",
-                                 relationship = "none",
-                                 needles_arg = "",
-                                 haystack_arg = "",
-                                 error_call = caller_env()) {
+dplyr_locate_matches <- function(
+  needles,
+  haystack,
+  ...,
+  condition = "==",
+  filter = "none",
+  incomplete = "compare",
+  no_match = NA_integer_,
+  remaining = "drop",
+  multiple = "all",
+  relationship = "none",
+  needles_arg = "",
+  haystack_arg = "",
+  error_call = caller_env()
+) {
   check_dots_empty0(...)
 
   withCallingHandlers(
@@ -294,7 +306,12 @@ stop_join_matches_multiple <- function(i, x_name, y_name, class, call) {
 }
 
 stop_join <- function(message = NULL, class = NULL, ..., call = caller_env()) {
-  stop_dplyr(message = message, class = c(class, "dplyr_error_join"), ..., call = call)
+  stop_dplyr(
+    message = message,
+    class = c(class, "dplyr_error_join"),
+    ...,
+    call = call
+  )
 }
 warn_join <- function(message = NULL, class = NULL, ...) {
   warn_dplyr(message = message, class = c(class, "dplyr_warning_join"), ...)
@@ -377,7 +394,10 @@ standardise_join_no_match <- function(type, x_unmatched) {
 }
 
 standardise_join_remaining <- function(type, y_unmatched) {
-  if (y_unmatched == "error" && (type == "left" || type == "inner" || type == "nest")) {
+  if (
+    y_unmatched == "error" &&
+      (type == "left" || type == "inner" || type == "nest")
+  ) {
     # Ensure that `y` can't drop rows
     "error"
   } else if (type == "right" || type == "full") {
@@ -389,7 +409,12 @@ standardise_join_remaining <- function(type, y_unmatched) {
   }
 }
 
-compute_join_relationship <- function(type, condition, cross, user_env = caller_env(2)) {
+compute_join_relationship <- function(
+  type,
+  condition,
+  cross,
+  user_env = caller_env(2)
+) {
   if (type == "nest") {
     # Not unreasonable to see a many-to-many relationship here, but it can't
     # result in a Cartesian explosion in the result so we don't check for it

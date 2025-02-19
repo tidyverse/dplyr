@@ -1,13 +1,15 @@
-vec_case_when <- function(conditions,
-                          values,
-                          ...,
-                          conditions_arg = "conditions",
-                          values_arg = "values",
-                          default = NULL,
-                          default_arg = "default",
-                          ptype = NULL,
-                          size = NULL,
-                          call = current_env()) {
+vec_case_when <- function(
+  conditions,
+  values,
+  ...,
+  conditions_arg = "conditions",
+  values_arg = "values",
+  default = NULL,
+  default_arg = "default",
+  ptype = NULL,
+  size = NULL,
+  call = current_env()
+) {
   check_dots_empty0(...)
 
   obj_check_list(conditions, arg = "conditions", call = call)
@@ -204,15 +206,12 @@ names_as_error_names <- function(names, arg = "") {
   names
 }
 
-vec_paste0 <- function (...) {
+vec_paste0 <- function(...) {
   args <- vec_recycle_common(...)
   exec(paste0, !!!args)
 }
 
-check_no_dim <- function(x,
-                         ...,
-                         arg = caller_arg(x),
-                         call = caller_env()) {
+check_no_dim <- function(x, ..., arg = caller_arg(x), call = caller_env()) {
   if (is.null(dim(x))) {
     return(invisible(NULL))
   }

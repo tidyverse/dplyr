@@ -22,7 +22,12 @@
 #' # ->
 #' vctrs::vec_c(!!!list(f1, f2))
 combine <- function(...) {
-  lifecycle::deprecate_warn("1.0.0", "combine()", "vctrs::vec_c()", always = TRUE)
+  lifecycle::deprecate_warn(
+    "1.0.0",
+    "combine()",
+    "vctrs::vec_c()",
+    always = TRUE
+  )
 
   args <- list2(...)
   if (length(args) == 1 && is.list(args[[1]])) {

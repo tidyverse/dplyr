@@ -85,7 +85,7 @@ filter_at <- function(.tbl, .vars, .vars_predicate, .preserve = FALSE) {
 
 apply_filter_syms <- function(pred, syms, tbl, error_call = caller_env()) {
   if (is_empty(syms)) {
-    msg  <- glue("`.predicate` must match at least one column.")
+    msg <- glue("`.predicate` must match at least one column.")
     abort(msg, call = error_call)
   }
   joiner <- all_exprs
@@ -99,12 +99,13 @@ apply_filter_syms <- function(pred, syms, tbl, error_call = caller_env()) {
     pred <- as_function(pred)
     pred <- map(syms, function(sym) call2(pred, sym))
   } else {
-    msg <- glue("`.vars_predicate` must be a function or a call to `all_vars()` or `any_vars()`, not {obj_type_friendly(pred)}.")
+    msg <- glue(
+      "`.vars_predicate` must be a function or a call to `all_vars()` or `any_vars()`, not {obj_type_friendly(pred)}."
+    )
     abort(msg, call = error_call)
   }
 
   joiner(!!!pred)
-
 }
 
 ## Return the union or intersection of predicate expressions.

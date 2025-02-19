@@ -31,24 +31,43 @@
 #'   mtcars,
 #'   mtcars2[rownames(mtcars), names(mtcars)]
 #' )
-all_equal <- function(target, current, ignore_col_order = TRUE,
-                      ignore_row_order = TRUE, convert = FALSE, ...) {
-
-  lifecycle::deprecate_warn("1.1.0",
+all_equal <- function(
+  target,
+  current,
+  ignore_col_order = TRUE,
+  ignore_row_order = TRUE,
+  convert = FALSE,
+  ...
+) {
+  lifecycle::deprecate_warn(
+    "1.1.0",
     "all_equal()",
     "all.equal()",
     details = "And manually order the rows/cols as needed"
   )
 
-  equal_data_frame(target, current,
+  equal_data_frame(
+    target,
+    current,
     ignore_col_order = ignore_col_order,
     ignore_row_order = ignore_row_order,
     convert = convert
   )
 }
 
-equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = TRUE, convert = FALSE) {
-  compat <- is_compatible(x, y, ignore_col_order = ignore_col_order, convert = convert)
+equal_data_frame <- function(
+  x,
+  y,
+  ignore_col_order = TRUE,
+  ignore_row_order = TRUE,
+  convert = FALSE
+) {
+  compat <- is_compatible(
+    x,
+    y,
+    ignore_col_order = ignore_col_order,
+    convert = convert
+  )
   if (!isTRUE(compat)) {
     # revert the bulleting from is_compatible()
     return(glue_collapse(compat, sep = "\n"))
@@ -65,8 +84,8 @@ equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = T
   }
 
   # suppressMessages({
-    x <- as_tibble(x, .name_repair = "universal")
-    y <- as_tibble(y, .name_repair = "universal")
+  x <- as_tibble(x, .name_repair = "universal")
+  y <- as_tibble(y, .name_repair = "universal")
   # })
 
   x_split <- dplyr_locate_sorted_groups(x)
@@ -76,12 +95,22 @@ equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = T
   msg <- ""
   if (any(wrong <- !vec_in(x_split$key, y_split$key))) {
     rows <- sort(map_int(x_split$loc[which(wrong)], function(.x) .x[1L]))
-    msg <- paste0(msg, "- Rows in x but not in y: ", glue_collapse(rows, sep = ", "), "\n")
+    msg <- paste0(
+      msg,
+      "- Rows in x but not in y: ",
+      glue_collapse(rows, sep = ", "),
+      "\n"
+    )
   }
 
   if (any(wrong <- !vec_in(y_split$key, x_split$key))) {
     rows <- sort(map_int(y_split$loc[which(wrong)], function(.x) .x[1L]))
-    msg <- paste0(msg, "- Rows in y but not in x: ", glue_collapse(rows, sep = ", "), "\n")
+    msg <- paste0(
+      msg,
+      "- Rows in y but not in x: ",
+      glue_collapse(rows, sep = ", "),
+      "\n"
+    )
   }
   if (msg != "") {
     return(msg)
@@ -90,7 +119,8 @@ equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = T
   # keys are identical, check that rows occur the same number of times
   if (any(wrong <- lengths(x_split$loc) != lengths(y_split$loc))) {
     rows <- sort(map_int(x_split$loc[which(wrong)], function(.x) .x[1L]))
-    return(paste0("- Rows with difference occurrences in x and y: ",
+    return(paste0(
+      "- Rows with difference occurrences in x and y: ",
       glue_collapse(rows, sep = ", "),
       "\n"
     ))

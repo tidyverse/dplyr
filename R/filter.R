@@ -135,11 +135,13 @@ filter.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
-filter_rows <- function(data,
-                        dots,
-                        by,
-                        error_call = caller_env(),
-                        user_env = caller_env(2)) {
+filter_rows <- function(
+  data,
+  dots,
+  by,
+  error_call = caller_env(),
+  user_env = caller_env(2)
+) {
   error_call <- dplyr_error_call(error_call)
 
   mask <- DataMask$new(data, by, "filter", error_call = error_call)
@@ -167,12 +169,11 @@ check_filter <- function(dots, error_call = caller_env()) {
       )
       abort(bullets, call = error_call)
     }
-
   }
 }
 
 filter_expand <- function(dots, mask, error_call = caller_env()) {
-  env_filter <-  env()
+  env_filter <- env()
   filter_expand_one <- function(dot, index) {
     env_filter$current_expression <- index
     dot <- expand_pick(dot, mask)
@@ -194,10 +195,12 @@ filter_expand <- function(dots, mask, error_call = caller_env()) {
   new_quosures(dots)
 }
 
-filter_eval <- function(dots,
-                        mask,
-                        error_call = caller_env(),
-                        user_env = caller_env(2)) {
+filter_eval <- function(
+  dots,
+  mask,
+  error_call = caller_env(),
+  user_env = caller_env(2)
+) {
   env_filter <- env()
   warnings_state <- env(warnings = list())
 
@@ -256,7 +259,9 @@ filter_bullets <- function(cnd, ...) {
   } else {
     input_name <- glue("..{index}${column_name}")
   }
-  glue("`{input_name}` must be a logical vector, not {obj_type_friendly(result)}.")
+  glue(
+    "`{input_name}` must be a logical vector, not {obj_type_friendly(result)}."
+  )
 }
 
 #' @export

@@ -110,8 +110,14 @@ db_create_indexes <- function(con, table, indexes = NULL, unique = FALSE, ...) {
 
 #' @name backend_dbplyr
 #' @export
-db_create_index <- function(con, table, columns, name = NULL, unique = FALSE,
-                            ...) {
+db_create_index <- function(
+  con,
+  table,
+  columns,
+  name = NULL,
+  unique = FALSE,
+  ...
+) {
   UseMethod("db_create_index")
 }
 
@@ -145,9 +151,18 @@ db_query_rows <- function(con, sql, ...) {
 
 #' @rdname backend_dbplyr
 #' @export
-sql_select <- function(con, select, from, where = NULL, group_by = NULL,
-                       having = NULL, order_by = NULL, limit = NULL,
-                       distinct = FALSE, ...) {
+sql_select <- function(
+  con,
+  select,
+  from,
+  where = NULL,
+  group_by = NULL,
+  having = NULL,
+  order_by = NULL,
+  limit = NULL,
+  distinct = FALSE,
+  ...
+) {
   UseMethod("sql_select")
 }
 

@@ -95,4 +95,3 @@ unstructure <- function(x) {
   attributes(x) <- NULL
   x
 }
-

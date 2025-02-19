@@ -279,11 +279,13 @@ print.dplyr_join_by <- function(x, ...) {
   invisible(x)
 }
 
-new_join_by <- function(exprs = list(),
-                        condition = character(),
-                        filter = character(),
-                        x = character(),
-                        y = character()) {
+new_join_by <- function(
+  exprs = list(),
+  condition = character(),
+  filter = character(),
+  x = character(),
+  y = character()
+) {
   out <- list(
     exprs = exprs,
     condition = condition,
@@ -371,10 +373,7 @@ finalise_equi_join_by <- function(x_names, y_names) {
 
 # ------------------------------------------------------------------------------
 
-join_by_common <- function(x_names,
-                           y_names,
-                           ...,
-                           error_call = caller_env()) {
+join_by_common <- function(x_names, y_names, ..., error_call = caller_env()) {
   check_dots_empty0(...)
 
   by <- intersect(x_names, y_names)
@@ -451,10 +450,10 @@ parse_join_by_expr <- function(expr, i, error_call) {
   switch(
     op,
 
-    "==" =,
-    ">=" =,
-    ">" =,
-    "<=" =,
+    "==" = ,
+    ">=" = ,
+    ">" = ,
+    "<=" = ,
     "<" = parse_join_by_binary(expr, i, error_call),
 
     "between" = parse_join_by_between(expr, i, error_call),
@@ -479,7 +478,17 @@ stop_invalid_dollar_sign <- function(expr, i, call) {
 }
 
 stop_invalid_top_expression <- function(expr, i, call) {
-  options <- c("==", ">=", ">", "<=", "<", "closest()", "between()", "overlaps()", "within()")
+  options <- c(
+    "==",
+    ">=",
+    ">",
+    "<=",
+    "<",
+    "closest()",
+    "between()",
+    "overlaps()",
+    "within()"
+  )
   options <- glue::backtick(options)
   options <- glue_collapse(options, sep = ", ", last = ", or ")
 
@@ -500,10 +509,7 @@ stop_invalid_namespaced_expression <- function(expr, i, call) {
   abort(message, call = call)
 }
 
-parse_join_by_name <- function(expr,
-                               i,
-                               default_side,
-                               error_call) {
+parse_join_by_name <- function(expr, i, default_side, error_call) {
   if (is_symbol_or_string(expr)) {
     name <- as_string(expr)
     return(list(name = name, side = default_side))
@@ -524,9 +530,7 @@ parse_join_by_name <- function(expr,
   abort(message, call = error_call)
 }
 
-parse_join_by_dollar <- function(expr,
-                                 i,
-                                 error_call) {
+parse_join_by_dollar <- function(expr, i, error_call) {
   args <- eval_join_by_dollar(expr, error_call)
 
   side <- args$side
@@ -679,9 +683,9 @@ parse_join_by_closest <- function(expr, i, error_call) {
   out <- switch(
     op,
 
-    ">=" =,
-    ">" =,
-    "<=" =,
+    ">=" = ,
+    ">" = ,
+    "<=" = ,
     "<" = parse_join_by_binary(expr_binary, i, error_call),
 
     "==" = stop_join_by_closest_equal_expression(expr, i, error_call),
@@ -888,10 +892,7 @@ eval_join_by_within <- function(expr, error_call) {
 
   eval_tidy(expr, env = env)
 }
-binding_join_by_within <- function(x_lower,
-                                   x_upper,
-                                   y_lower,
-                                   y_upper) {
+binding_join_by_within <- function(x_lower, x_upper, y_lower, y_upper) {
   error_call <- caller_env()
 
   x_lower <- enexpr(x_lower)
@@ -1003,12 +1004,14 @@ eval_join_by_overlaps <- function(expr, error_call) {
 
   eval_tidy(expr, env = env)
 }
-binding_join_by_overlaps <- function(x_lower,
-                                     x_upper,
-                                     y_lower,
-                                     y_upper,
-                                     ...,
-                                     bounds = "[]") {
+binding_join_by_overlaps <- function(
+  x_lower,
+  x_upper,
+  y_lower,
+  y_upper,
+  ...,
+  bounds = "[]"
+) {
   error_call <- caller_env()
 
   check_join_by_dots_empty(..., fn = "overlaps", call = error_call)
@@ -1057,12 +1060,14 @@ check_join_by_dots_empty <- function(..., fn, call) {
   abort(message, call = call)
 }
 
-check_missing_arg <- function(arg,
-                              arg_name,
-                              fn_name,
-                              error_call,
-                              ...,
-                              binary_op = FALSE) {
+check_missing_arg <- function(
+  arg,
+  arg_name,
+  fn_name,
+  error_call,
+  ...,
+  binary_op = FALSE
+) {
   check_dots_empty0(...)
 
   if (!is_missing(arg)) {

@@ -82,12 +82,14 @@ lead <- function(x, n = 1L, default = NULL, order_by = NULL, ...) {
   shift(x, n = -n, default = default, order_by = order_by)
 }
 
-shift <- function(x,
-                  ...,
-                  n = 1L,
-                  default = NULL,
-                  order_by = NULL,
-                  error_call = caller_env()) {
+shift <- function(
+  x,
+  ...,
+  n = 1L,
+  default = NULL,
+  order_by = NULL,
+  error_call = caller_env()
+) {
   check_dots_empty0(...)
 
   if (!is.null(order_by)) {

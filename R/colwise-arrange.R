@@ -30,13 +30,23 @@
 #' arrange_all(df, desc)
 #' # ->
 #' arrange(df, across(everything(), desc))
-arrange_all <- function(.tbl,
-                        .funs = list(),
-                        ...,
-                        .by_group = FALSE,
-                        .locale = NULL) {
+arrange_all <- function(
+  .tbl,
+  .funs = list(),
+  ...,
+  .by_group = FALSE,
+  .locale = NULL
+) {
   lifecycle::signal_stage("superseded", "arrange_all()")
-  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "arrange_all")
+  funs <- manip_all(
+    .tbl,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    .include_group_vars = TRUE,
+    ...,
+    .caller = "arrange_all"
+  )
   if (!length(funs)) {
     funs <- syms(tbl_vars(.tbl))
   }
@@ -44,14 +54,25 @@ arrange_all <- function(.tbl,
 }
 #' @rdname arrange_all
 #' @export
-arrange_at <- function(.tbl,
-                       .vars,
-                       .funs = list(),
-                       ...,
-                       .by_group = FALSE,
-                       .locale = NULL) {
+arrange_at <- function(
+  .tbl,
+  .vars,
+  .funs = list(),
+  ...,
+  .by_group = FALSE,
+  .locale = NULL
+) {
   lifecycle::signal_stage("superseded", "arrange_at()")
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "arrange_at")
+  funs <- manip_at(
+    .tbl,
+    .vars,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    .include_group_vars = TRUE,
+    ...,
+    .caller = "arrange_at"
+  )
   if (!length(funs)) {
     funs <- tbl_at_syms(.tbl, .vars, .include_group_vars = TRUE)
   }
@@ -59,14 +80,25 @@ arrange_at <- function(.tbl,
 }
 #' @rdname arrange_all
 #' @export
-arrange_if <- function(.tbl,
-                       .predicate,
-                       .funs = list(),
-                       ...,
-                       .by_group = FALSE,
-                       .locale = NULL) {
+arrange_if <- function(
+  .tbl,
+  .predicate,
+  .funs = list(),
+  ...,
+  .by_group = FALSE,
+  .locale = NULL
+) {
   lifecycle::signal_stage("superseded", "arrange_if()")
-  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "arrange_if")
+  funs <- manip_if(
+    .tbl,
+    .predicate,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    .include_group_vars = TRUE,
+    ...,
+    .caller = "arrange_if"
+  )
   if (!length(funs)) {
     funs <- tbl_if_syms(.tbl, .predicate, .include_group_vars = TRUE)
   }

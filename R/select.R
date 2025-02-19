@@ -75,7 +75,6 @@ select.data.frame <- function(.data, ...) {
   out
 }
 
-
 # Helpers -----------------------------------------------------------------
 
 ensure_group_vars <- function(loc, data, notify = TRUE) {
@@ -87,7 +86,7 @@ ensure_group_vars <- function(loc, data, notify = TRUE) {
     added_group_loc <- set_names(missing, vars)
 
     # don't add grouping variables with same name as new variable (#5841)
-    added_group_loc <- added_group_loc[! vars %in% names(loc)]
+    added_group_loc <- added_group_loc[!vars %in% names(loc)]
 
     if (length(added_group_loc) > 0 && notify) {
       inform(glue(

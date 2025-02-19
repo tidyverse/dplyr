@@ -82,7 +82,12 @@ do.grouped_df <- function(.data, ...) {
       env_bind_do_pronouns(mask, group_data)
       out <- eval_tidy(args[[1]], mask)
       out <- out[0, , drop = FALSE]
-      out <- label_output_dataframe(labels, list(list(out)), group_vars(.data), group_by_drop_default(.data))
+      out <- label_output_dataframe(
+        labels,
+        list(list(out)),
+        group_vars(.data),
+        group_by_drop_default(.data)
+      )
     }
     return(out)
   }
@@ -111,7 +116,12 @@ do.grouped_df <- function(.data, ...) {
   }
 
   if (!named) {
-    label_output_dataframe(labels, out, group_vars(.data), group_by_drop_default(.data))
+    label_output_dataframe(
+      labels,
+      out,
+      group_vars(.data),
+      group_by_drop_default(.data)
+    )
   } else {
     label_output_list(labels, out, group_vars(.data))
   }
@@ -154,7 +164,13 @@ env_bind_do_pronouns <- function(env, data) {
   bind(env, "." := data, .data = data)
 }
 
-label_output_dataframe <- function(labels, out, groups, .drop, error_call = caller_env()) {
+label_output_dataframe <- function(
+  labels,
+  out,
+  groups,
+  .drop,
+  error_call = caller_env()
+) {
   data_frame <- vapply(out[[1]], is.data.frame, logical(1))
   if (any(!data_frame)) {
     msg <- glue(
@@ -208,7 +224,6 @@ named_args <- function(args, error_call = caller_env()) {
   named != 0
 }
 
-
 #' @export
 do.rowwise_df <- function(.data, ...) {
   # Create ungroup version of data frame suitable for subsetting
@@ -242,7 +257,12 @@ do.rowwise_df <- function(.data, ...) {
   }
 
   if (!named) {
-    label_output_dataframe(NULL, out, groups(.data), group_by_drop_default(.data))
+    label_output_dataframe(
+      NULL,
+      out,
+      groups(.data),
+      group_by_drop_default(.data)
+    )
   } else {
     label_output_list(NULL, out, groups(.data))
   }

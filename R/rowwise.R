@@ -80,7 +80,6 @@ rowwise.grouped_df <- function(data, ...) {
   rowwise_df(data, group_vars(data))
 }
 
-
 # Constructor + helper ----------------------------------------------------
 
 rowwise_df <- function(data, group_vars) {

@@ -1,10 +1,12 @@
-as_fun_list <- function(.funs,
-                        .env,
-                        ...,
-                        .caller,
-                        .caller_arg = "...",
-                        error_call = caller_env(),
-                        .user_env = caller_env(2)) {
+as_fun_list <- function(
+  .funs,
+  .env,
+  ...,
+  .caller,
+  .caller_arg = "...",
+  error_call = caller_env(),
+  .user_env = caller_env(2)
+) {
   args <- list2(...)
   force(.user_env)
 
@@ -23,20 +25,25 @@ as_fun_list <- function(.funs,
     .funs <- list(.funs)
   }
 
-  if(is_character(.funs) && is_null(names(.funs)) && length(.funs) != 1L) {
+  if (is_character(.funs) && is_null(names(.funs)) && length(.funs) != 1L) {
     names(.funs) <- .funs
   }
 
-  funs <- map(.funs, function(.x){
+  funs <- map(.funs, function(.x) {
     if (is_formula(.x)) {
       if (is_quosure(.x)) {
         what <- paste0(
-          "dplyr::", .caller, "(", .caller_arg, " = ",
+          "dplyr::",
+          .caller,
+          "(",
+          .caller_arg,
+          " = ",
           "'can\\'t contain quosures')"
         )
 
         lifecycle::deprecate_warn(
-          "0.8.3", what,
+          "0.8.3",
+          what,
           details = "Please use a one-sided formula, a function, or a function name.",
           always = TRUE,
           env = .env,
@@ -66,8 +73,12 @@ as_fun_list <- function(.funs,
 }
 
 auto_name_formulas <- function(funs) {
-  where <- !have_name(funs) & map_lgl(funs, function(x) is_bare_formula(x) && is_call(f_rhs(x)))
-  names(funs)[where] <- map_chr(funs[where], function(x) as_label(f_rhs(x)[[1]]))
+  where <- !have_name(funs) &
+    map_lgl(funs, function(x) is_bare_formula(x) && is_call(f_rhs(x)))
+  names(funs)[where] <- map_chr(
+    funs[where],
+    function(x) as_label(f_rhs(x)[[1]])
+  )
   funs
 }
 
@@ -82,7 +93,9 @@ as_fun <- function(.x, .env, .args, error_call = caller_env()) {
 
   if (is_call(expr, c("function", "~"))) {
     top_level <- as_string(expr[[1]])
-    msg <- glue("`{quo_text(expr)}` must be a function name (quoted or unquoted) or an unquoted call, not `{top_level}`.")
+    msg <- glue(
+      "`{quo_text(expr)}` must be a function name (quoted or unquoted) or an unquoted call, not `{top_level}`."
+    )
     abort(msg, call = error_call)
   }
 
@@ -113,17 +126,16 @@ is_fun_list <- function(x) {
 }
 #' @export
 `[.fun_list` <- function(x, i) {
-  structure(NextMethod(),
-    class = "fun_list",
-    has_names = attr(x, "has_names")
-  )
+  structure(NextMethod(), class = "fun_list", has_names = attr(x, "has_names"))
 }
 #' @export
 print.fun_list <- function(x, ..., width = getOption("width")) {
   cat("<fun_calls>\n")
   names <- format(names(x))
 
-  code <- map_chr(x, function(x) deparse_trunc(quo_get_expr(x), width - 2 - nchar(names[1])))
+  code <- map_chr(x, function(x) {
+    deparse_trunc(quo_get_expr(x), width - 2 - nchar(names[1]))
+  })
 
   cat(paste0("$ ", names, ": ", code, collapse = "\n"))
   cat("\n")

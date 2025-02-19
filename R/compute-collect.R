@@ -70,4 +70,3 @@ compute.data.frame <- function(x, ...) {
 collapse.data.frame <- function(x, ...) {
   x
 }
-

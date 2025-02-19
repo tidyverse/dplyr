@@ -214,7 +214,16 @@ slice_tail.data.frame <- function(.data, ..., n, prop, by = NULL) {
 #'   If `FALSE`, `NA` values are sorted to the end (like in [arrange()]), so
 #'   they will only be included if there are insufficient non-missing values to
 #'   reach `n`/`prop`.
-slice_min <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
+slice_min <- function(
+  .data,
+  order_by,
+  ...,
+  n,
+  prop,
+  by = NULL,
+  with_ties = TRUE,
+  na_rm = FALSE
+) {
   check_required(order_by)
   check_dot_by_typo(...)
   check_slice_unnamed_n_prop(..., n = n, prop = prop)
@@ -225,7 +234,16 @@ slice_min <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE
 }
 
 #' @export
-slice_min.data.frame <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
+slice_min.data.frame <- function(
+  .data,
+  order_by,
+  ...,
+  n,
+  prop,
+  by = NULL,
+  with_ties = TRUE,
+  na_rm = FALSE
+) {
   check_dots_empty0(...)
 
   size <- get_slice_size(n = n, prop = prop)
@@ -254,7 +272,16 @@ slice_min.data.frame <- function(.data, order_by, ..., n, prop, by = NULL, with_
 
 #' @export
 #' @rdname slice
-slice_max <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
+slice_max <- function(
+  .data,
+  order_by,
+  ...,
+  n,
+  prop,
+  by = NULL,
+  with_ties = TRUE,
+  na_rm = FALSE
+) {
   check_required(order_by)
   check_dot_by_typo(...)
   check_slice_unnamed_n_prop(..., n = n, prop = prop)
@@ -265,7 +292,16 @@ slice_max <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE
 }
 
 #' @export
-slice_max.data.frame <- function(.data, order_by, ..., n, prop, by = NULL, with_ties = TRUE, na_rm = FALSE) {
+slice_max.data.frame <- function(
+  .data,
+  order_by,
+  ...,
+  n,
+  prop,
+  by = NULL,
+  with_ties = TRUE,
+  na_rm = FALSE
+) {
   check_dots_empty0(...)
 
   size <- get_slice_size(n = n, prop = prop)
@@ -301,7 +337,15 @@ slice_max.data.frame <- function(.data, order_by, ..., n, prop, by = NULL, with_
 #'   length as the input. Weights are automatically standardised to sum to 1.
 #'   See the `Details` section for more technical details regarding these
 #'   weights.
-slice_sample <- function(.data, ..., n, prop, by = NULL, weight_by = NULL, replace = FALSE) {
+slice_sample <- function(
+  .data,
+  ...,
+  n,
+  prop,
+  by = NULL,
+  weight_by = NULL,
+  replace = FALSE
+) {
   check_dot_by_typo(...)
   check_slice_unnamed_n_prop(..., n = n, prop = prop)
   check_bool(replace)
@@ -310,7 +354,15 @@ slice_sample <- function(.data, ..., n, prop, by = NULL, weight_by = NULL, repla
 }
 
 #' @export
-slice_sample.data.frame <- function(.data, ..., n, prop, by = NULL, weight_by = NULL, replace = FALSE) {
+slice_sample.data.frame <- function(
+  .data,
+  ...,
+  n,
+  prop,
+  by = NULL,
+  weight_by = NULL,
+  replace = FALSE
+) {
   check_dots_empty0(...)
 
   size <- get_slice_size(n = n, prop = prop, allow_outsize = replace)
@@ -335,22 +387,28 @@ slice_sample.data.frame <- function(.data, ..., n, prop, by = NULL, weight_by = 
 
 # helpers -----------------------------------------------------------------
 
-slice_rows <- function(data,
-                       dots,
-                       by,
-                       error_call = caller_env(),
-                       user_env = caller_env(2)) {
+slice_rows <- function(
+  data,
+  dots,
+  by,
+  error_call = caller_env(),
+  user_env = caller_env(2)
+) {
   error_call <- dplyr_error_call(error_call)
 
   mask <- DataMask$new(data, by, "slice", error_call = error_call)
   on.exit(mask$forget(), add = TRUE)
 
   chunks <- slice_eval(mask, dots, error_call = error_call, user_env = user_env)
-  slice_indices <- slice_combine(chunks, dots, mask = mask, error_call = error_call)
+  slice_indices <- slice_combine(
+    chunks,
+    dots,
+    mask = mask,
+    error_call = error_call
+  )
 
   vec_c(!!!slice_indices, .ptype = integer())
 }
-
 
 is_slice_call <- function(error_call) {
   is_slice <- TRUE
@@ -360,10 +418,12 @@ is_slice_call <- function(error_call) {
   is_slice
 }
 
-slice_eval <- function(mask,
-                       dots,
-                       error_call = caller_env(),
-                       user_env = caller_env(2)) {
+slice_eval <- function(
+  mask,
+  dots,
+  error_call = caller_env(),
+  user_env = caller_env(2)
+) {
   index <- 0L
   impl <- function(...) {
     n <- ...length()
@@ -439,7 +499,8 @@ slice_combine <- function(chunks, dots, mask, error_call = caller_env()) {
       grp_loc <- grp_loc[!is.na(grp_loc)]
 
       slice_indices[[group]] <- grp_loc
-    }, error = function(cnd) {
+    },
+    error = function(cnd) {
       mask$set_current_group(group)
       bullets <- c(
         "Can't compute indices.",
@@ -461,7 +522,12 @@ check_constant <- function(x, name, error_call = caller_env()) {
   })
 }
 
-check_slice_unnamed_n_prop <- function(..., n, prop, error_call = caller_env()) {
+check_slice_unnamed_n_prop <- function(
+  ...,
+  n,
+  prop,
+  error_call = caller_env()
+) {
   if (!missing(n) || !missing(prop)) {
     return(invisible())
   }
@@ -510,7 +576,12 @@ check_slice_n_prop <- function(n, prop, error_call = caller_env()) {
 }
 
 # Always returns an integer between 0 and the group size
-get_slice_size <- function(n, prop, allow_outsize = FALSE, error_call = caller_env()) {
+get_slice_size <- function(
+  n,
+  prop,
+  allow_outsize = FALSE,
+  error_call = caller_env()
+) {
   slice_input <- check_slice_n_prop(n, prop, error_call = error_call)
 
   if (slice_input$type == "n") {
@@ -557,12 +628,12 @@ sample_int <- function(n, size, replace = FALSE, wt = NULL) {
 }
 
 slice_rank_idx <- function(
-    order_by,
-    size,
-    with_ties = TRUE,
-    direction = c("asc", "desc"),
-    na_rm = FALSE,
-    call = caller_env()
+  order_by,
+  size,
+  with_ties = TRUE,
+  direction = c("asc", "desc"),
+  na_rm = FALSE,
+  call = caller_env()
 ) {
   direction <- arg_match0(
     arg = direction,

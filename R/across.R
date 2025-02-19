@@ -204,11 +204,7 @@
 #'
 #' @export
 #' @seealso [c_across()] for a function that returns a vector
-across <- function(.cols,
-                   .fns,
-                   ...,
-                   .names = NULL,
-                   .unpack = FALSE) {
+across <- function(.cols, .fns, ..., .names = NULL, .unpack = FALSE) {
   mask <- peek_mask()
   caller_env <- caller_env()
 
@@ -323,7 +319,8 @@ across <- function(.cols,
         out[[k]] <- fn(col, ...)
         k <- k + 1L
       }
-    }, error = function(cnd) {
+    },
+    error = function(cnd) {
       bullets <- c(
         glue("Can't compute column `{names[k]}`.")
       )
@@ -416,18 +413,22 @@ across_glue_mask <- function(.col, .fn, .caller_env) {
   glue_mask <- env(.caller_env, .col = .col, .fn = .fn)
   # TODO: we can make these bindings louder later
   env_bind_active(
-    glue_mask, col = function() glue_mask$.col, fn = function() glue_mask$.fn
+    glue_mask,
+    col = function() glue_mask$.col,
+    fn = function() glue_mask$.fn
   )
   glue_mask
 }
 
-across_setup <- function(cols,
-                         fns,
-                         names,
-                         .caller_env,
-                         mask,
-                         error_call = caller_env(),
-                         across_if_fn = "across") {
+across_setup <- function(
+  cols,
+  fns,
+  names,
+  .caller_env,
+  mask,
+  error_call = caller_env(),
+  across_if_fn = "across"
+) {
   cols <- enquo(cols)
 
   # `across()` is evaluated in a data mask so we need to remove the
@@ -439,7 +440,9 @@ across_setup <- function(cols,
   if (is.null(fns) && quo_is_call(cols, "~")) {
     bullets <- c(
       "Must supply a column selection.",
-      i = glue("You most likely meant: `{across_if_fn}(everything(), {as_label(cols)})`."),
+      i = glue(
+        "You most likely meant: `{across_if_fn}(everything(), {as_label(cols)})`."
+      ),
       i = "The first argument `.cols` selects a set of columns.",
       i = "The second argument `.fns` operates on each selected columns."
     )
@@ -495,9 +498,10 @@ across_setup <- function(cols,
     }
   }
 
-  glue_mask <- across_glue_mask(.caller_env,
+  glue_mask <- across_glue_mask(
+    .caller_env,
     .col = rep(names_vars, each = length(fns)),
-    .fn  = rep(names_fns , length(vars))
+    .fn = rep(names_fns, length(vars))
   )
   names <- vec_as_names(
     glue(names, .envir = glue_mask),
@@ -785,7 +789,7 @@ expand_across <- function(quo) {
   n_fns <- length(fns)
 
   seq_vars <- seq_len(n_vars)
-  seq_fns  <- seq_len(n_fns)
+  seq_fns <- seq_len(n_fns)
 
   exprs <- new_list(n_vars * n_fns, names = names)
 

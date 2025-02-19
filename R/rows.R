@@ -117,27 +117,30 @@
 #' rows_delete(data, y, by = "a", unmatched = "ignore")
 NULL
 
-
 #' @rdname rows
 #' @export
-rows_insert <- function(x,
-                        y,
-                        by = NULL,
-                        ...,
-                        conflict = c("error", "ignore"),
-                        copy = FALSE,
-                        in_place = FALSE) {
+rows_insert <- function(
+  x,
+  y,
+  by = NULL,
+  ...,
+  conflict = c("error", "ignore"),
+  copy = FALSE,
+  in_place = FALSE
+) {
   UseMethod("rows_insert")
 }
 
 #' @export
-rows_insert.data.frame <- function(x,
-                                   y,
-                                   by = NULL,
-                                   ...,
-                                   conflict = c("error", "ignore"),
-                                   copy = FALSE,
-                                   in_place = FALSE) {
+rows_insert.data.frame <- function(
+  x,
+  y,
+  by = NULL,
+  ...,
+  conflict = c("error", "ignore"),
+  copy = FALSE,
+  in_place = FALSE
+) {
   check_dots_empty()
   rows_df_in_place(in_place)
 
@@ -165,20 +168,12 @@ rows_insert.data.frame <- function(x,
 
 #' @rdname rows
 #' @export
-rows_append <- function(x,
-                        y,
-                        ...,
-                        copy = FALSE,
-                        in_place = FALSE) {
+rows_append <- function(x, y, ..., copy = FALSE, in_place = FALSE) {
   UseMethod("rows_append")
 }
 
 #' @export
-rows_append.data.frame <- function(x,
-                                   y,
-                                   ...,
-                                   copy = FALSE,
-                                   in_place = FALSE) {
+rows_append.data.frame <- function(x, y, ..., copy = FALSE, in_place = FALSE) {
   check_dots_empty()
   rows_df_in_place(in_place)
 
@@ -192,24 +187,28 @@ rows_append.data.frame <- function(x,
 
 #' @rdname rows
 #' @export
-rows_update <- function(x,
-                        y,
-                        by = NULL,
-                        ...,
-                        unmatched = c("error", "ignore"),
-                        copy = FALSE,
-                        in_place = FALSE) {
+rows_update <- function(
+  x,
+  y,
+  by = NULL,
+  ...,
+  unmatched = c("error", "ignore"),
+  copy = FALSE,
+  in_place = FALSE
+) {
   UseMethod("rows_update", x)
 }
 
 #' @export
-rows_update.data.frame <- function(x,
-                                   y,
-                                   by = NULL,
-                                   ...,
-                                   unmatched = c("error", "ignore"),
-                                   copy = FALSE,
-                                   in_place = FALSE) {
+rows_update.data.frame <- function(
+  x,
+  y,
+  by = NULL,
+  ...,
+  unmatched = c("error", "ignore"),
+  copy = FALSE,
+  in_place = FALSE
+) {
   check_dots_empty()
   rows_df_in_place(in_place)
 
@@ -261,24 +260,28 @@ rows_update.data.frame <- function(x,
 
 #' @rdname rows
 #' @export
-rows_patch <- function(x,
-                       y,
-                       by = NULL,
-                       ...,
-                       unmatched = c("error", "ignore"),
-                       copy = FALSE,
-                       in_place = FALSE) {
+rows_patch <- function(
+  x,
+  y,
+  by = NULL,
+  ...,
+  unmatched = c("error", "ignore"),
+  copy = FALSE,
+  in_place = FALSE
+) {
   UseMethod("rows_patch", x)
 }
 
 #' @export
-rows_patch.data.frame <- function(x,
-                                  y,
-                                  by = NULL,
-                                  ...,
-                                  unmatched = c("error", "ignore"),
-                                  copy = FALSE,
-                                  in_place = FALSE) {
+rows_patch.data.frame <- function(
+  x,
+  y,
+  by = NULL,
+  ...,
+  unmatched = c("error", "ignore"),
+  copy = FALSE,
+  in_place = FALSE
+) {
   check_dots_empty()
   rows_df_in_place(in_place)
 
@@ -337,22 +340,19 @@ rows_patch.data.frame <- function(x,
 
 #' @rdname rows
 #' @export
-rows_upsert <- function(x,
-                        y,
-                        by = NULL,
-                        ...,
-                        copy = FALSE,
-                        in_place = FALSE) {
+rows_upsert <- function(x, y, by = NULL, ..., copy = FALSE, in_place = FALSE) {
   UseMethod("rows_upsert", x)
 }
 
 #' @export
-rows_upsert.data.frame <- function(x,
-                                   y,
-                                   by = NULL,
-                                   ...,
-                                   copy = FALSE,
-                                   in_place = FALSE) {
+rows_upsert.data.frame <- function(
+  x,
+  y,
+  by = NULL,
+  ...,
+  copy = FALSE,
+  in_place = FALSE
+) {
   check_dots_empty()
   rows_df_in_place(in_place)
 
@@ -406,24 +406,28 @@ rows_upsert.data.frame <- function(x,
 
 #' @rdname rows
 #' @export
-rows_delete <- function(x,
-                        y,
-                        by = NULL,
-                        ...,
-                        unmatched = c("error", "ignore"),
-                        copy = FALSE,
-                        in_place = FALSE) {
+rows_delete <- function(
+  x,
+  y,
+  by = NULL,
+  ...,
+  unmatched = c("error", "ignore"),
+  copy = FALSE,
+  in_place = FALSE
+) {
   UseMethod("rows_delete", x)
 }
 
 #' @export
-rows_delete.data.frame <- function(x,
-                                   y,
-                                   by = NULL,
-                                   ...,
-                                   unmatched = c("error", "ignore"),
-                                   copy = FALSE,
-                                   in_place = FALSE) {
+rows_delete.data.frame <- function(
+  x,
+  y,
+  by = NULL,
+  ...,
+  unmatched = c("error", "ignore"),
+  copy = FALSE,
+  in_place = FALSE
+) {
   check_dots_empty()
   rows_df_in_place(in_place)
 
@@ -449,8 +453,14 @@ rows_delete.data.frame <- function(x,
 
   extra <- setdiff(names(y), names(y_key))
   if (!is_empty(extra)) {
-    message <- glue("Ignoring extra `y` columns: ", commas(tick_if_needed(extra)))
-    inform(message, class = c("dplyr_message_delete_extra_cols", "dplyr_message"))
+    message <- glue(
+      "Ignoring extra `y` columns: ",
+      commas(tick_if_needed(extra))
+    )
+    inform(
+      message,
+      class = c("dplyr_message_delete_extra_cols", "dplyr_message")
+    )
   }
 
   loc <- vec_match(x_key, y_key)
@@ -553,11 +563,13 @@ rows_check_unique <- function(x, arg, ..., error_call = caller_env()) {
   abort(message, call = error_call)
 }
 
-rows_check_y_conflict <- function(x_key,
-                                  y_key,
-                                  conflict,
-                                  ...,
-                                  error_call = caller_env()) {
+rows_check_y_conflict <- function(
+  x_key,
+  y_key,
+  conflict,
+  ...,
+  error_call = caller_env()
+) {
   check_dots_empty()
 
   conflict <- rows_check_conflict(conflict, error_call = error_call)
@@ -572,7 +584,9 @@ rows_check_y_conflict <- function(x_key,
 
       message <- c(
         "`y` can't contain keys that already exist in `x`.",
-        i = glue("The following rows in `y` have keys that already exist in `x`: {rows_matched}."),
+        i = glue(
+          "The following rows in `y` have keys that already exist in `x`: {rows_matched}."
+        ),
         i = "Use `conflict = \"ignore\"` if you want to ignore these `y` rows."
       )
 
@@ -587,11 +601,13 @@ rows_check_y_conflict <- function(x_key,
   keep
 }
 
-rows_check_y_unmatched <- function(x_key,
-                                   y_key,
-                                   unmatched,
-                                   ...,
-                                   error_call = caller_env()) {
+rows_check_y_unmatched <- function(
+  x_key,
+  y_key,
+  unmatched,
+  ...,
+  error_call = caller_env()
+) {
   check_dots_empty()
 
   unmatched <- rows_check_unmatched(unmatched, error_call = error_call)
@@ -606,7 +622,9 @@ rows_check_y_unmatched <- function(x_key,
 
       message <- c(
         "`y` must contain keys that already exist in `x`.",
-        i = glue("The following rows in `y` have keys that don't exist in `x`: {rows_unmatched}."),
+        i = glue(
+          "The following rows in `y` have keys that don't exist in `x`: {rows_unmatched}."
+        ),
         i = "Use `unmatched = \"ignore\"` if you want to ignore these `y` rows."
       )
 

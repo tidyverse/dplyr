@@ -76,9 +76,11 @@ group_labels_details <- function(keys) {
   cli::format_inline("{.code {labels}}")
 }
 
-cur_group_label <- function(type = mask_type(),
-                            id = cur_group_id(),
-                            group = cur_group()) {
+cur_group_label <- function(
+  type = mask_type(),
+  id = cur_group_id(),
+  group = cur_group()
+) {
   switch(
     type,
     ungrouped = "",
@@ -167,7 +169,11 @@ local_column <- function(x, frame = caller_env()) {
 }
 
 peek_mask <- function(call = caller_env()) {
-  context_peek("mask", "data-masking verbs like `mutate()`, `filter()`, and `group_by()`", call)
+  context_peek(
+    "mask",
+    "data-masking verbs like `mutate()`, `filter()`, and `group_by()`",
+    call
+  )
 }
 local_mask <- function(x, frame = caller_env()) {
   context_local("mask", x, frame = frame)

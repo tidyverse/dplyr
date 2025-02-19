@@ -113,14 +113,29 @@
 #' @keywords internal
 summarise_all <- function(.tbl, .funs, ...) {
   lifecycle::signal_stage("superseded", "summarise_all()")
-  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ..., .caller = "summarise_all")
+  funs <- manip_all(
+    .tbl,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    ...,
+    .caller = "summarise_all"
+  )
   summarise(.tbl, !!!funs)
 }
 #' @rdname summarise_all
 #' @export
 summarise_if <- function(.tbl, .predicate, .funs, ...) {
   lifecycle::signal_stage("superseded", "summarise_if()")
-  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ..., .caller = "summarise_if")
+  funs <- manip_if(
+    .tbl,
+    .predicate,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    ...,
+    .caller = "summarise_if"
+  )
   summarise(.tbl, !!!funs)
 }
 #' @rdname summarise_all
@@ -128,7 +143,15 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
 summarise_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   lifecycle::signal_stage("superseded", "summarise_at()")
   .vars <- check_dot_cols(.vars, .cols)
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ..., .caller = "summarise_at")
+  funs <- manip_at(
+    .tbl,
+    .vars,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    ...,
+    .caller = "summarise_at"
+  )
   summarise(.tbl, !!!funs)
 }
 
@@ -250,7 +273,14 @@ summarize_at <- summarise_at
 mutate_all <- function(.tbl, .funs, ...) {
   lifecycle::signal_stage("superseded", "mutate_all()")
   check_grouped(.tbl, "mutate", "all", alt = TRUE)
-  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ..., .caller = "mutate_all")
+  funs <- manip_all(
+    .tbl,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    ...,
+    .caller = "mutate_all"
+  )
   mutate(.tbl, !!!funs)
 }
 #' @rdname mutate_all
@@ -258,7 +288,15 @@ mutate_all <- function(.tbl, .funs, ...) {
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
   lifecycle::signal_stage("superseded", "mutate_if()")
   check_grouped(.tbl, "mutate", "if")
-  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ..., .caller = "mutate_if")
+  funs <- manip_if(
+    .tbl,
+    .predicate,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    ...,
+    .caller = "mutate_if"
+  )
   mutate(.tbl, !!!funs)
 }
 #' @rdname mutate_all
@@ -266,7 +304,16 @@ mutate_if <- function(.tbl, .predicate, .funs, ...) {
 mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   lifecycle::signal_stage("superseded", "mutate_at()")
   .vars <- check_dot_cols(.vars, .cols)
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "mutate_at")
+  funs <- manip_at(
+    .tbl,
+    .vars,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    .include_group_vars = TRUE,
+    ...,
+    .caller = "mutate_at"
+  )
   mutate(.tbl, !!!funs)
 }
 
@@ -275,7 +322,14 @@ mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
 transmute_all <- function(.tbl, .funs, ...) {
   lifecycle::signal_stage("superseded", "transmute_all()")
   check_grouped(.tbl, "transmute", "all", alt = TRUE)
-  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ..., .caller = "transmute_all")
+  funs <- manip_all(
+    .tbl,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    ...,
+    .caller = "transmute_all"
+  )
   transmute(.tbl, !!!funs)
 }
 #' @rdname mutate_all
@@ -283,7 +337,15 @@ transmute_all <- function(.tbl, .funs, ...) {
 transmute_if <- function(.tbl, .predicate, .funs, ...) {
   lifecycle::signal_stage("superseded", "transmute_if()")
   check_grouped(.tbl, "transmute", "if")
-  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ..., .caller = "transmute_if")
+  funs <- manip_if(
+    .tbl,
+    .predicate,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    ...,
+    .caller = "transmute_if"
+  )
   transmute(.tbl, !!!funs)
 }
 #' @rdname mutate_all
@@ -291,41 +353,118 @@ transmute_if <- function(.tbl, .predicate, .funs, ...) {
 transmute_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   lifecycle::signal_stage("superseded", "transmute_at()")
   .vars <- check_dot_cols(.vars, .cols)
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "transmute_at")
+  funs <- manip_at(
+    .tbl,
+    .vars,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    .include_group_vars = TRUE,
+    ...,
+    .caller = "transmute_at"
+  )
   transmute(.tbl, !!!funs)
 }
 
 # Helpers -----------------------------------------------------------------
 
-manip_all <- function(.tbl, .funs, .quo, .env, ..., .include_group_vars = FALSE, .caller, error_call = caller_env()) {
+manip_all <- function(
+  .tbl,
+  .funs,
+  .quo,
+  .env,
+  ...,
+  .include_group_vars = FALSE,
+  .caller,
+  error_call = caller_env()
+) {
   if (.include_group_vars) {
     syms <- syms(tbl_vars(.tbl))
   } else {
     syms <- syms(tbl_nongroup_vars(.tbl))
   }
-  funs <- as_fun_list(.funs, .env, ..., .caller = .caller, error_call = error_call, .user_env = caller_env(2))
+  funs <- as_fun_list(
+    .funs,
+    .env,
+    ...,
+    .caller = .caller,
+    error_call = error_call,
+    .user_env = caller_env(2)
+  )
   manip_apply_syms(funs, syms, .tbl)
 }
-manip_if <- function(.tbl, .predicate, .funs, .quo, .env, ..., .include_group_vars = FALSE, .caller, error_call = caller_env()) {
-  vars <- tbl_if_syms(.tbl, .predicate, .env, .include_group_vars = .include_group_vars, error_call = error_call)
-  funs <- as_fun_list(.funs, .env, ..., .caller = .caller, error_call = error_call, .user_env = caller_env(2))
+manip_if <- function(
+  .tbl,
+  .predicate,
+  .funs,
+  .quo,
+  .env,
+  ...,
+  .include_group_vars = FALSE,
+  .caller,
+  error_call = caller_env()
+) {
+  vars <- tbl_if_syms(
+    .tbl,
+    .predicate,
+    .env,
+    .include_group_vars = .include_group_vars,
+    error_call = error_call
+  )
+  funs <- as_fun_list(
+    .funs,
+    .env,
+    ...,
+    .caller = .caller,
+    error_call = error_call,
+    .user_env = caller_env(2)
+  )
   manip_apply_syms(funs, vars, .tbl)
 }
-manip_at <- function(.tbl, .vars, .funs, .quo, .env, ..., .include_group_vars = FALSE, .caller, error_call = caller_env()) {
-  syms <- tbl_at_syms(.tbl, .vars, .include_group_vars = .include_group_vars, error_call = error_call)
-  funs <- as_fun_list(.funs, .env, ..., .caller = .caller, error_call = error_call, .user_env = caller_env(2))
+manip_at <- function(
+  .tbl,
+  .vars,
+  .funs,
+  .quo,
+  .env,
+  ...,
+  .include_group_vars = FALSE,
+  .caller,
+  error_call = caller_env()
+) {
+  syms <- tbl_at_syms(
+    .tbl,
+    .vars,
+    .include_group_vars = .include_group_vars,
+    error_call = error_call
+  )
+  funs <- as_fun_list(
+    .funs,
+    .env,
+    ...,
+    .caller = .caller,
+    error_call = error_call,
+    .user_env = caller_env(2)
+  )
   manip_apply_syms(funs, syms, .tbl)
 }
 
 check_grouped <- function(tbl, verb, suffix, alt = FALSE) {
   if (is_grouped_df(tbl)) {
     if (alt) {
-      alt_line <- sprintf("Use `%s_at(df, vars(-group_cols()), myoperation)` to silence the message.", verb)
+      alt_line <- sprintf(
+        "Use `%s_at(df, vars(-group_cols()), myoperation)` to silence the message.",
+        verb
+      )
     } else {
       alt_line <- chr()
     }
     inform(c(
-      sprintf("`%s_%s()` ignored the following grouping variables:", verb, suffix),
+      sprintf(
+        "`%s_%s()` ignored the following grouping variables:",
+        verb,
+        suffix
+      ),
       set_names(fmt_cols(group_vars(tbl)), "*"),
       "i" = alt_line
     ))
@@ -345,7 +484,6 @@ manip_apply_syms <- function(funs, syms, tbl) {
   out <- vector("list", length(syms) * length(funs))
   dim(out) <- c(length(syms), length(funs))
   syms_position <- match(as.character(syms), tbl_vars(tbl))
-
 
   for (i in seq_along(syms)) {
     pos <- syms_position[i]

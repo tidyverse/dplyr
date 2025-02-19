@@ -130,7 +130,7 @@ ntile <- function(x = row_number(), n) {
     bins <- if_else(
       x <= larger_threshold,
       (x + (larger_size - 1L)) / larger_size,
-      (x + (- larger_threshold + smaller_size - 1L)) / smaller_size + n_larger
+      (x + (-larger_threshold + smaller_size - 1L)) / smaller_size + n_larger
     )
 
     as.integer(floor(bins))

@@ -63,9 +63,9 @@ set_universal_names <- function(x, quiet = FALSE) {
 ## makes each individual name syntactic
 ## does not enforce unique-ness
 make_syntactic <- function(name) {
-  name[is.na(name)]       <- ""
-  name[name == ""]        <- "."
-  name[name == "..."]     <- "...."
+  name[is.na(name)] <- ""
+  name[name == ""] <- "."
+  name[name == "..."] <- "...."
   name <- sub("^_", "._", name)
 
   new_name <- make.names(name)
@@ -107,7 +107,7 @@ strip_pos <- function(name) {
 }
 
 describe_repair <- function(orig_name, name) {
-  if(length(orig_name) != length(name)) {
+  if (length(orig_name) != length(name)) {
     abort(c(
       "`orig_name` and `name` have different sizes.",
       i = glue("`orig_name` is of size {length(orig_name)}."),
@@ -142,12 +142,12 @@ re_match <- function(text, pattern, perl = TRUE, ...) {
 
   match <- regexpr(pattern, text, perl = perl, ...)
 
-  start  <- as.vector(match)
+  start <- as.vector(match)
   length <- attr(match, "match.length")
-  end    <- start + length - 1L
+  end <- start + length - 1L
 
   matchstr <- substring(text, start, end)
-  matchstr[ start == -1 ] <- NA_character_
+  matchstr[start == -1] <- NA_character_
 
   res <- data.frame(
     stringsAsFactors = FALSE,
@@ -156,13 +156,12 @@ re_match <- function(text, pattern, perl = TRUE, ...) {
   )
 
   if (!is.null(attr(match, "capture.start"))) {
-
-    gstart  <- attr(match, "capture.start")
+    gstart <- attr(match, "capture.start")
     glength <- attr(match, "capture.length")
-    gend    <- gstart + glength - 1L
+    gend <- gstart + glength - 1L
 
     groupstr <- substring(text, gstart, gend)
-    groupstr[ gstart == -1 ] <- NA_character_
+    groupstr[gstart == -1] <- NA_character_
     dim(groupstr) <- dim(gstart)
 
     res <- cbind(groupstr, res, stringsAsFactors = FALSE)
@@ -183,7 +182,8 @@ bullets <- function(header, ..., .problem) {
   }
 
   paste0(
-    header, "\n",
+    header,
+    "\n",
     paste0("* ", problems, collapse = "\n")
   )
 }

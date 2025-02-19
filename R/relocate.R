@@ -67,15 +67,17 @@ relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
   out
 }
 
-eval_relocate <- function(expr,
-                          data,
-                          ...,
-                          before = NULL,
-                          after = NULL,
-                          before_arg = "before",
-                          after_arg = "after",
-                          env = caller_env(),
-                          error_call = caller_env()) {
+eval_relocate <- function(
+  expr,
+  data,
+  ...,
+  before = NULL,
+  after = NULL,
+  before_arg = "before",
+  after_arg = "after",
+  env = caller_env(),
+  error_call = caller_env()
+) {
   # `eval_relocate()` returns a named integer vector of size `ncol(data)`
   # describing how to rearrange `data`. Each location in the range
   # `seq2(1L, ncol(data))` is represented once. The names are the new names to
@@ -113,7 +115,12 @@ eval_relocate <- function(expr,
 
   if (has_before) {
     # TODO: Use `allow_rename = FALSE`. https://github.com/r-lib/tidyselect/issues/221
-    where <- tidyselect::eval_select(before, data, env = env, error_call = error_call)
+    where <- tidyselect::eval_select(
+      before,
+      data,
+      env = env,
+      error_call = error_call
+    )
     where <- unname(where)
 
     if (length(where) == 0L) {
@@ -124,7 +131,12 @@ eval_relocate <- function(expr,
     }
   } else if (has_after) {
     # TODO: Use `allow_rename = FALSE`. https://github.com/r-lib/tidyselect/issues/221
-    where <- tidyselect::eval_select(after, data, env = env, error_call = error_call)
+    where <- tidyselect::eval_select(
+      after,
+      data,
+      env = env,
+      error_call = error_call
+    )
     where <- unname(where)
 
     if (length(where) == 0L) {

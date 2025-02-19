@@ -25,7 +25,8 @@ common_by_from_vector <- function(by) {
 common_by.list <- function(by, x, y) {
   x_vars <- tbl_vars(x)
   if (!all(by$x %in% x_vars)) {
-    msg <- glue("`by` can't contain join column {missing} which is missing from LHS.",
+    msg <- glue(
+      "`by` can't contain join column {missing} which is missing from LHS.",
       missing = fmt_obj(setdiff(by$x, x_vars))
     )
     abort(msg)
@@ -33,7 +34,8 @@ common_by.list <- function(by, x, y) {
 
   y_vars <- tbl_vars(y)
   if (!all(by$y %in% y_vars)) {
-    msg <- glue("`by` can't contain join column {missing} which is missing from RHS.",
+    msg <- glue(
+      "`by` can't contain join column {missing} which is missing from RHS.",
       missing = fmt_obj(setdiff(by$y, y_vars))
     )
     abort(msg)
@@ -47,7 +49,9 @@ common_by.NULL <- function(by, x, y) {
   by <- intersect(tbl_vars(x), tbl_vars(y))
   by <- by[!is.na(by)]
   if (length(by) == 0) {
-    msg <- glue("`by` required, because the data sources have no common variables.")
+    msg <- glue(
+      "`by` required, because the data sources have no common variables."
+    )
     abort(msg)
   }
   inform(auto_by_msg(by))
@@ -70,6 +74,8 @@ auto_by_msg <- function(by) {
 
 #' @export
 common_by.default <- function(by, x, y) {
-  msg <- glue("`by` must be a (named) character vector, list, or NULL for natural joins (not recommended in production code), not {obj_type_friendly(by)}.")
+  msg <- glue(
+    "`by` must be a (named) character vector, list, or NULL for natural joins (not recommended in production code), not {obj_type_friendly(by)}."
+  )
   abort(msg)
 }

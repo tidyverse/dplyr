@@ -1,10 +1,12 @@
-join_cols <- function(x_names,
-                      y_names,
-                      by,
-                      ...,
-                      suffix = c(".x", ".y"),
-                      keep = NULL,
-                      error_call = caller_env()) {
+join_cols <- function(
+  x_names,
+  y_names,
+  by,
+  ...,
+  suffix = c(".x", ".y"),
+  keep = NULL,
+  error_call = caller_env()
+) {
   check_dots_empty0(...)
 
   if (is_false(keep) && any(by$condition != "==")) {
@@ -36,14 +38,22 @@ join_cols <- function(x_names,
     y_aux <- setdiff(y_names, c(by$x[equi], by$y[equi]))
     x_ignore <- by$x[equi]
     x_check <- !x_names %in% x_ignore
-    names(x_loc)[x_check] <- add_suffixes(x_names[x_check], c(x_ignore, y_aux), suffix$x)
+    names(x_loc)[x_check] <- add_suffixes(
+      x_names[x_check],
+      c(x_ignore, y_aux),
+      suffix$x
+    )
   } else if (is_false(keep)) {
     # In x_out, key variables need to keep the same name, and aux
     # variables need suffixes for duplicates that appear in y_out
     y_aux <- setdiff(y_names, c(by$x, by$y))
     x_ignore <- by$x
     x_check <- !x_names %in% x_ignore
-    names(x_loc)[x_check] <- add_suffixes(x_names[x_check], c(x_ignore, y_aux), suffix$x)
+    names(x_loc)[x_check] <- add_suffixes(
+      x_names[x_check],
+      c(x_ignore, y_aux),
+      suffix$x
+    )
   } else {
     # In x_out, key variables and aux variables need suffixes
     # for duplicates that appear in y_out
@@ -69,12 +79,14 @@ join_cols <- function(x_names,
   )
 }
 
-check_join_vars <- function(vars,
-                            names,
-                            condition,
-                            input,
-                            ...,
-                            error_call = caller_env()) {
+check_join_vars <- function(
+  vars,
+  names,
+  condition,
+  input,
+  ...,
+  error_call = caller_env()
+) {
   check_dots_empty0(...)
 
   if (!is.character(vars)) {
@@ -120,10 +132,7 @@ check_join_vars <- function(vars,
   }
 }
 
-check_duplicate_vars <- function(vars,
-                                 input,
-                                 ...,
-                                 error_call = caller_env()) {
+check_duplicate_vars <- function(vars, input, ..., error_call = caller_env()) {
   check_dots_empty0(...)
 
   dup <- duplicated(vars)
@@ -137,9 +146,7 @@ check_duplicate_vars <- function(vars,
   }
 }
 
-standardise_join_suffix <- function(x,
-                                    ...,
-                                    error_call = caller_env()) {
+standardise_join_suffix <- function(x, ..., error_call = caller_env()) {
   check_dots_empty0(...)
 
   if (!is.character(x) || length(x) != 2) {

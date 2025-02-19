@@ -50,13 +50,15 @@
 #' # `if_else()` is often useful for creating new columns inside of `mutate()`
 #' starwars %>%
 #'   mutate(category = if_else(height < 100, "short", "tall"), .keep = "used")
-if_else <- function(condition,
-                    true,
-                    false,
-                    missing = NULL,
-                    ...,
-                    ptype = NULL,
-                    size = NULL) {
+if_else <- function(
+  condition,
+  true,
+  false,
+  missing = NULL,
+  ...,
+  ptype = NULL,
+  size = NULL
+) {
   check_dots_empty0(...)
 
   # Assert early since we `!` the `condition`
