@@ -31,7 +31,6 @@
 ^_pkgdown\.yml$
 ^issues$
 ^CONDUCT\.md$
-^archive$
 ^\.drake$
 ^CRAN-RELEASE$
 ^\.github$
