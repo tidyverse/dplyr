@@ -115,8 +115,8 @@ node_walk_replace <- function(node, old, new) {
   }
 }
 
-cli_collapse <- function(x, last = " and ") {
-  cli::cli_vec(x, style = list("vec-last" = last))
+cli_collapse <- function(x, last = " and ", sep2 = " and ") {
+  cli::cli_vec(x, style = list("vec-last" = last, "vec-sep2" = sep2))
 }
 
 with_no_rlang_infix_labeling <- function(expr) {

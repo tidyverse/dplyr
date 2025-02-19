@@ -478,6 +478,11 @@ test_that("summarise() gives meaningful errors", {
                         summarise(a = rlang::env(a = 1))
       ))
       (expect_error(
+                      tibble(x = 1, y = c(1, 2, 2), y2 = c(1, 2, 2), z = runif(3)) %>%
+                        group_by(x, y, y2) %>%
+                        summarise(a = rlang::env(a = 1))
+      ))
+      (expect_error(
                       tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
                         rowwise() %>%
                         summarise(a = lm(y ~ x))
