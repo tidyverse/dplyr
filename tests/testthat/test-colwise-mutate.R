@@ -11,15 +11,27 @@ test_that("default names are smallest unique set", {
   df <- data.frame(x = 1:3, y = 1:3)
 
   expect_named(summarise_at(df, vars(x:y), list(mean)), c("x", "y"))
-  expect_named(summarise_at(df, vars(x), list(mean = mean, sd = sd)), c("mean", "sd"))
-  expect_named(summarise_at(df, vars(x:y), list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(
+    summarise_at(df, vars(x), list(mean = mean, sd = sd)),
+    c("mean", "sd")
+  )
+  expect_named(
+    summarise_at(df, vars(x:y), list(mean = mean, sd = sd)),
+    c("x_mean", "y_mean", "x_sd", "y_sd")
+  )
 })
 
 test_that("named arguments force complete names", {
   df <- data.frame(x = 1:3, y = 1:3)
 
-  expect_named(summarise_at(df, vars(x:y), list(mean = mean)), c("x_mean", "y_mean"))
-  expect_named(summarise_at(df, vars(x = x), list(mean = mean, sd = sd)), c("x_mean", "x_sd"))
+  expect_named(
+    summarise_at(df, vars(x:y), list(mean = mean)),
+    c("x_mean", "y_mean")
+  )
+  expect_named(
+    summarise_at(df, vars(x = x), list(mean = mean, sd = sd)),
+    c("x_mean", "x_sd")
+  )
 })
 
 expect_classes <- function(tbl, expected) {
@@ -68,13 +80,30 @@ test_that("empty selection does not select everything (#2009, #1989)", {
 test_that("predicate can be quoted", {
   expected <- mutate_if(mtcars, is_integerish, mean)
   expect_identical(mutate_if(mtcars, "is_integerish", mean), expected)
-  expect_identical(mutate_if(mtcars, ~ is_integerish(.x), mean), expected)
+  expect_identical(mutate_if(mtcars, ~is_integerish(.x), mean), expected)
 })
 
 test_that("transmute verbs do not retain original variables", {
-  expect_named(transmute_all(tibble(x = 1:3, y = 1:3), list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
-  expect_named(transmute_if(tibble(x = 1:3, y = 1:3), is_integer, list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
-  expect_named(transmute_at(tibble(x = 1:3, y = 1:3), vars(x:y), list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(
+    transmute_all(tibble(x = 1:3, y = 1:3), list(mean = mean, sd = sd)),
+    c("x_mean", "y_mean", "x_sd", "y_sd")
+  )
+  expect_named(
+    transmute_if(
+      tibble(x = 1:3, y = 1:3),
+      is_integer,
+      list(mean = mean, sd = sd)
+    ),
+    c("x_mean", "y_mean", "x_sd", "y_sd")
+  )
+  expect_named(
+    transmute_at(
+      tibble(x = 1:3, y = 1:3),
+      vars(x:y),
+      list(mean = mean, sd = sd)
+    ),
+    c("x_mean", "y_mean", "x_sd", "y_sd")
+  )
 })
 
 test_that("can rename with vars() (#2594)", {
@@ -92,11 +121,17 @@ test_that("selection works with grouped data frames (#2624)", {
 
 test_that("at selection works even if not all ops are named (#2634)", {
   df <- tibble(x = 1, y = 2)
-  expect_identical(mutate_at(df, vars(z = x, y), list(~. + 1)), tibble(x = 1, y = 3, z = 2))
+  expect_identical(
+    mutate_at(df, vars(z = x, y), list(~. + 1)),
+    tibble(x = 1, y = 3, z = 2)
+  )
 })
 
 test_that("can use a purrr-style lambda", {
-  expect_identical(summarise_at(mtcars, vars(1:2), ~ mean(.x)), summarise(mtcars, mpg = mean(mpg), cyl = mean(cyl)))
+  expect_identical(
+    summarise_at(mtcars, vars(1:2), ~mean(.x)),
+    summarise(mtcars, mpg = mean(mpg), cyl = mean(cyl))
+  )
 })
 
 test_that("mutate and transmute variants does not mutate grouping variable (#3351, #3480)", {
@@ -107,8 +142,14 @@ test_that("mutate and transmute variants does not mutate grouping variable (#335
   expect_message(expect_identical(mutate_all(tbl, sqrt), res), "ignored")
   expect_message(expect_identical(transmute_all(tbl, sqrt), res), "ignored")
 
-  expect_message(expect_identical(mutate_if(tbl, is.integer, sqrt), res), "ignored")
-  expect_message(expect_identical(transmute_if(tbl, is.integer, sqrt), res), "ignored")
+  expect_message(
+    expect_identical(mutate_if(tbl, is.integer, sqrt), res),
+    "ignored"
+  )
+  expect_message(
+    expect_identical(transmute_if(tbl, is.integer, sqrt), res),
+    "ignored"
+  )
 
   expect_identical(transmute_at(tbl, vars(-group_cols()), sqrt), res)
   expect_identical(mutate_at(tbl, vars(-group_cols()), sqrt), res)
@@ -124,7 +165,7 @@ test_that("summarise variants does not summarise grouping variable (#3351, #3480
 })
 
 test_that("summarise_at removes grouping variables (#3613)", {
-  d <- tibble( x = 1:2, y = 3:4, g = 1:2) %>% group_by(g)
+  d <- tibble(x = 1:2, y = 3:4, g = 1:2) %>% group_by(g)
   res <- d %>%
     group_by(g) %>%
     summarise_at(-1, mean)
@@ -182,13 +223,26 @@ test_that("summarise_at with multiple columns AND unnamed functions works (#4119
     summarise_at(vars(wind, pressure), list(mean, median))
 
   expect_equal(df_n_col(res), 4L)
-  expect_equal(names(res), c("wind_fn1", "pressure_fn1", "wind_fn2", "pressure_fn2"))
+  expect_equal(
+    names(res),
+    c("wind_fn1", "pressure_fn1", "wind_fn2", "pressure_fn2")
+  )
 
   res <- storms %>%
     summarise_at(vars(wind, pressure), list(n = length, mean, median))
 
   expect_equal(df_n_col(res), 6L)
-  expect_equal(names(res), c("wind_n", "pressure_n", "wind_fn1", "pressure_fn1", "wind_fn2", "pressure_fn2"))
+  expect_equal(
+    names(res),
+    c(
+      "wind_n",
+      "pressure_n",
+      "wind_fn1",
+      "pressure_fn1",
+      "wind_fn2",
+      "pressure_fn2"
+    )
+  )
 })
 
 test_that("mutate_at with multiple columns AND unnamed functions works (#4119)", {
@@ -204,27 +258,26 @@ test_that("mutate_at with multiple columns AND unnamed functions works (#4119)",
 
 test_that("colwise mutate have .data in scope of rlang lambdas (#4183)", {
   results <- list(
-    iris %>% mutate_if(is.numeric, ~ . / iris$Petal.Width),
-    iris %>% mutate_if(is.numeric, ~ . / Petal.Width),
-    iris %>% mutate_if(is.numeric, ~ . / .data$Petal.Width),
+    iris %>% mutate_if(is.numeric, ~. / iris$Petal.Width),
+    iris %>% mutate_if(is.numeric, ~. / Petal.Width),
+    iris %>% mutate_if(is.numeric, ~. / .data$Petal.Width),
 
-    iris %>% mutate_if(is.numeric, list(~ . / iris$Petal.Width )),
-    iris %>% mutate_if(is.numeric, list(~ . / Petal.Width      )),
-    iris %>% mutate_if(is.numeric, list(~ . / .data$Petal.Width)),
+    iris %>% mutate_if(is.numeric, list(~. / iris$Petal.Width)),
+    iris %>% mutate_if(is.numeric, list(~. / Petal.Width)),
+    iris %>% mutate_if(is.numeric, list(~. / .data$Petal.Width)),
 
-    iris %>% mutate_if(is.numeric, ~ .x / iris$Petal.Width),
-    iris %>% mutate_if(is.numeric, ~ .x / Petal.Width),
-    iris %>% mutate_if(is.numeric, ~ .x / .data$Petal.Width),
+    iris %>% mutate_if(is.numeric, ~.x / iris$Petal.Width),
+    iris %>% mutate_if(is.numeric, ~.x / Petal.Width),
+    iris %>% mutate_if(is.numeric, ~.x / .data$Petal.Width),
 
-    iris %>% mutate_if(is.numeric, list(~ .x / iris$Petal.Width )),
-    iris %>% mutate_if(is.numeric, list(~ .x / Petal.Width      )),
-    iris %>% mutate_if(is.numeric, list(~ .x / .data$Petal.Width))
+    iris %>% mutate_if(is.numeric, list(~.x / iris$Petal.Width)),
+    iris %>% mutate_if(is.numeric, list(~.x / Petal.Width)),
+    iris %>% mutate_if(is.numeric, list(~.x / .data$Petal.Width))
   )
 
-  for(i in 2:12) {
+  for (i in 2:12) {
     expect_equal(results[[1]], results[[i]])
   }
-
 })
 
 test_that("can choose the name of vars with multiple funs (#4180)", {
@@ -261,26 +314,24 @@ test_that("mutate_at() unquotes in lambdas (#4199)", {
 })
 
 test_that("summarise_at() can refer to local variables and columns (#4304)", {
-
   # using local here in case someone wants to run the content of the test
   # as opposed to the test_that() call
   res <- local({
     value <- 10
     expect_identical(
-      iris %>% summarise_at("Sepal.Length", ~ sum(. / value)),
+      iris %>% summarise_at("Sepal.Length", ~sum(. / value)),
       iris %>% summarise(Sepal.Length = sum(Sepal.Length / value))
     )
   })
-
 })
 
 test_that("colwise mutate handles formulas with constants (#4374)", {
   expect_identical(
-    tibble(x = 12) %>% mutate_all(~ 42),
+    tibble(x = 12) %>% mutate_all(~42),
     tibble(x = 42)
   )
   expect_identical(
-    tibble(x = 12) %>% mutate_at("x", ~ 42),
+    tibble(x = 12) %>% mutate_at("x", ~42),
     tibble(x = 42)
   )
 })
@@ -302,12 +353,20 @@ test_that("rlang lambda inherit from the data mask (#3843)", {
   res <- iris %>%
     mutate_at(
       vars(starts_with("Petal")),
-      ~ ifelse(Species == "setosa" & . < 1.5, NA, .)
+      ~ifelse(Species == "setosa" & . < 1.5, NA, .)
     )
   expected <- iris %>%
     mutate(
-      Petal.Length = ifelse(Species == "setosa" & Petal.Length < 1.5, NA, Petal.Length),
-      Petal.Width  = ifelse(Species == "setosa" & Petal.Width  < 1.5, NA, Petal.Width)
+      Petal.Length = ifelse(
+        Species == "setosa" & Petal.Length < 1.5,
+        NA,
+        Petal.Length
+      ),
+      Petal.Width = ifelse(
+        Species == "setosa" & Petal.Width < 1.5,
+        NA,
+        Petal.Width
+      )
     )
   expect_identical(res, expected)
 
@@ -315,13 +374,21 @@ test_that("rlang lambda inherit from the data mask (#3843)", {
     group_by(Species) %>%
     mutate_at(
       vars(starts_with("Petal")),
-      ~ ifelse(Species == "setosa" & . < 1.5, NA, .)
+      ~ifelse(Species == "setosa" & . < 1.5, NA, .)
     )
   expected <- iris %>%
     group_by(Species) %>%
     mutate(
-      Petal.Length = ifelse(Species == "setosa" & Petal.Length < 1.5, NA, Petal.Length),
-      Petal.Width  = ifelse(Species == "setosa" & Petal.Width  < 1.5, NA, Petal.Width)
+      Petal.Length = ifelse(
+        Species == "setosa" & Petal.Length < 1.5,
+        NA,
+        Petal.Length
+      ),
+      Petal.Width = ifelse(
+        Species == "setosa" & Petal.Width < 1.5,
+        NA,
+        Petal.Width
+      )
     )
   expect_identical(res, expected)
 })
@@ -341,23 +408,31 @@ test_that("_if isn't tripped up by columns named 'i' (#5330)", {
 test_that("colwise mutate gives meaningful error messages", {
   expect_snapshot({
     # column not found
-    (expect_error(
-      mutate_at(tibble(), "test", ~ 1)
-    ))
+    (
+      expect_error(
+        mutate_at(tibble(), "test", ~1)
+      )
+    )
 
     # not summarising grouping variables
     tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8)
     tbl <- group_by(tbl, gr1)
-    (expect_error(
-      summarise_at(tbl, vars(gr1), mean)
-    ))
+    (
+      expect_error(
+        summarise_at(tbl, vars(gr1), mean)
+      )
+    )
 
     # improper additional arguments
-    (expect_error(
-      mutate_all(mtcars, length, 0, 0)
-    ))
-    (expect_error(
-      mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE)
-    ))
+    (
+      expect_error(
+        mutate_all(mtcars, length, 0, 0)
+      )
+    )
+    (
+      expect_error(
+        mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE)
+      )
+    )
   })
 })

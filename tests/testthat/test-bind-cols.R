@@ -44,7 +44,8 @@ test_that("bind_cols() repairs names", {
     repaired <- as_tibble(
       data.frame(a = 1, b = 2, a = 1, b = 2, check.names = FALSE),
       .name_repair = "unique"
-    ), "New names"
+    ),
+    "New names"
   )
 
   expect_identical(bound, repaired)
@@ -62,13 +63,18 @@ test_that("bind_cols() unpacks tibbles", {
 })
 
 test_that("bind_cols() honours .name_repair=", {
-  expect_message(res <- bind_cols(
-    data.frame(a = 1), data.frame(a = 2)
-  ))
+  expect_message(
+    res <- bind_cols(
+      data.frame(a = 1),
+      data.frame(a = 2)
+    )
+  )
   expect_equal(res, data.frame(a...1 = 1, a...2 = 2))
 
-  expect_error(bind_cols(.name_repair = "check_unique",
-    data.frame(a = 1), data.frame(a = 2)
+  expect_error(bind_cols(
+    .name_repair = "check_unique",
+    data.frame(a = 1),
+    data.frame(a = 2)
   ))
 })
 
@@ -100,7 +106,10 @@ test_that("bind_cols() infers classes from first result (#1692)", {
   res3 <- bind_cols(d3, d1)
   expect_equal(class(res3), c("grouped_df", "tbl_df", "tbl", "data.frame"))
   expect_equal(map_int(group_rows(res3), length), c(5, 5))
-  expect_equal(class(bind_cols(d4, d1)), c("rowwise_df", "tbl_df", "tbl", "data.frame"))
+  expect_equal(
+    class(bind_cols(d4, d1)),
+    c("rowwise_df", "tbl_df", "tbl", "data.frame")
+  )
   expect_equal(class(bind_cols(d5, d1)), "data.frame")
 })
 

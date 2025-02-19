@@ -105,12 +105,22 @@ test_that("`haystacks` must be castable to `needles`", {
 
 test_that("`ptype` overrides `values` common type", {
   expect_identical(
-    vec_case_match(1:2, haystacks = list(1), values = list(0), ptype = integer()),
+    vec_case_match(
+      1:2,
+      haystacks = list(1),
+      values = list(0),
+      ptype = integer()
+    ),
     c(0L, NA)
   )
 
   expect_snapshot(error = TRUE, {
-    vec_case_match(1:2, haystacks = list(1), values = list(1.5), ptype = integer())
+    vec_case_match(
+      1:2,
+      haystacks = list(1),
+      values = list(1.5),
+      ptype = integer()
+    )
   })
 })
 
@@ -170,7 +180,11 @@ test_that("requires at least one condition", {
 
 test_that("input must be a vector", {
   expect_snapshot(error = TRUE, {
-    vec_case_match(environment(), haystacks = list(environment()), values = list(1))
+    vec_case_match(
+      environment(),
+      haystacks = list(environment()),
+      values = list(1)
+    )
   })
 })
 

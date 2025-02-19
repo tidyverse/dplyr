@@ -141,7 +141,7 @@ test_that("can pass nested quosures to case_when()", {
     foo <- mtcars$cyl[1:4]
     quos(
       !!quo(foo) == 4 ~ 1,
-      TRUE            ~ 0
+      TRUE ~ 0
     )
   })
   expect_identical(case_when(!!!fs), c(0, 0, 1, 0))
@@ -165,8 +165,8 @@ test_that("can pass unevaluated formulas to case_when()", {
 test_that("unevaluated formulas can refer to data mask", {
   fs <- exprs(
     cyl == 4 ~ 1,
-    am == 1  ~ 2,
-    TRUE     ~ 0
+    am == 1 ~ 2,
+    TRUE ~ 0
   )
   out <- mtcars[1:4, ] %>% mutate(out = case_when(!!!fs)) %>% pull()
   expect_identical(out, c(2, 2, 1, 0))
@@ -179,8 +179,8 @@ test_that("unevaluated formulas can contain quosures", {
   })
   fs <- exprs(
     cyl == !!quo ~ 1,
-    am == 1      ~ 2,
-    TRUE         ~ 0
+    am == 1 ~ 2,
+    TRUE ~ 0
   )
   out <- mtcars[1:4, ] %>% mutate(out = case_when(!!!fs)) %>% pull()
   expect_identical(out, c(2, 2, 1, 0))
@@ -191,7 +191,7 @@ test_that("NULL inputs are compacted", {
 
   bool <- FALSE
   out <- case_when(
-    x == 2           ~ TRUE,
+    x == 2 ~ TRUE,
     if (bool) x == 3 ~ NA,
     .default = FALSE
   )
@@ -199,7 +199,7 @@ test_that("NULL inputs are compacted", {
 
   bool <- TRUE
   out <- case_when(
-    x == 2           ~ TRUE,
+    x == 2 ~ TRUE,
     if (bool) x == 3 ~ NA,
     .default = FALSE
   )
@@ -269,39 +269,54 @@ test_that("throws chained errors when formula evaluation fails", {
 
 test_that("case_when() give meaningful errors", {
   expect_snapshot({
-    (expect_error(
-      case_when(
-        c(TRUE, FALSE) ~ 1:3,
-        c(FALSE, TRUE) ~ 1:2
+    (
+      expect_error(
+        case_when(
+          c(TRUE, FALSE) ~ 1:3,
+          c(FALSE, TRUE) ~ 1:2
+        )
       )
-    ))
+    )
 
-    (expect_error(
-      case_when(
-        c(TRUE, FALSE) ~ 1,
-        c(FALSE, TRUE, FALSE) ~ 2,
-        c(FALSE, TRUE, FALSE, NA) ~ 3
+    (
+      expect_error(
+        case_when(
+          c(TRUE, FALSE) ~ 1,
+          c(FALSE, TRUE, FALSE) ~ 2,
+          c(FALSE, TRUE, FALSE, NA) ~ 3
+        )
       )
-    ))
+    )
 
-    (expect_error(
-      case_when(50 ~ 1:3)
-    ))
-    (expect_error(
-      case_when(paste(50))
-    ))
-    (expect_error(
-      case_when(y ~ x, paste(50))
-    ))
-    (expect_error(
-      case_when()
-    ))
-    (expect_error(
-      case_when(NULL)
-    ))
-    (expect_error(
-      case_when(~1:2)
-    ))
+    (
+      expect_error(
+        case_when(50 ~ 1:3)
+      )
+    )
+    (
+      expect_error(
+        case_when(paste(50))
+      )
+    )
+    (
+      expect_error(
+        case_when(y ~ x, paste(50))
+      )
+    )
+    (
+      expect_error(
+        case_when()
+      )
+    )
+    (
+      expect_error(
+        case_when(NULL)
+      )
+    )
+    (
+      expect_error(
+        case_when(~1:2)
+      )
+    )
   })
-
 })

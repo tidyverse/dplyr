@@ -196,7 +196,7 @@ test_that("can collect warnings in main verbs", {
     )
 
     warnings <- last_dplyr_warnings(Inf)
-    warnings[[1]]  # filter()
+    warnings[[1]] # filter()
     warnings[[33]] # arrange()
     warnings[[65]] # mutate()
     warnings[[97]] # summarise()

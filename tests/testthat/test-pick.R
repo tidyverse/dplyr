@@ -172,14 +172,18 @@ test_that("the tidyselection and column extraction are evaluated on the current 
   out <- mutate(gdf, y = x + 1L, z = pick_wrapper(x, y))
   expect_identical(out[c("x", "y")], out$z)
 
-
   df <- tibble(x = 1)
   expect <- tibble(x = tibble(x = tibble(x = 1)), y = tibble(x = x))
 
   out <- mutate(df, x = pick(x), x = pick(x), y = pick(x))
   expect_identical(out, expect)
 
-  out <- mutate(df, x = pick_wrapper(x), x = pick_wrapper(x), y = pick_wrapper(x))
+  out <- mutate(
+    df,
+    x = pick_wrapper(x),
+    x = pick_wrapper(x),
+    y = pick_wrapper(x)
+  )
   expect_identical(out, expect)
 })
 
@@ -363,7 +367,6 @@ test_that("can `pick()` inside `reframe()`", {
   expect_identical(out$key, expect_key)
   expect_identical(out$count, expect_count)
 
-
   expect_key <- df[c(1, 4, 3, 5), c("x", "y")]
   expect_count <- c(2L, 1L, 1L, 1L)
 
@@ -413,7 +416,6 @@ test_that("uses 'current' columns of `summarize()` and `reframe()`", {
   expect_identical(out$x, expect_x)
   expect_identical(out$z, expect_z)
 
-
   # Adding in `y` forces recycling
   expect_x <- vec_rep(15L, 5)
   expect_z <- tibble(x = 15L, y = 6:10)
@@ -443,7 +445,7 @@ test_that("can select completely new columns in `summarise()`", {
 test_that("can `arrange()` with `pick()` selection", {
   df <- tibble(x = c(2, 2, 1), y = c(3, 1, 3))
 
-  expect <- df[c(3, 2, 1),]
+  expect <- df[c(3, 2, 1), ]
 
   expect_identical(arrange(df, pick(x, y)), expect)
   expect_identical(arrange(df, pick_wrapper(x, y)), expect)
@@ -470,10 +472,10 @@ test_that("can `pick()` inside `filter()`", {
   df <- tibble(x = c(1, 2, NA, 3), y = c(2, NA, 5, 3))
 
   out <- filter(df, vec_detect_complete(pick(x, y)))
-  expect_identical(out, df[c(1, 4),])
+  expect_identical(out, df[c(1, 4), ])
 
   out <- filter(df, vec_detect_complete(pick_wrapper(x, y)))
-  expect_identical(out, df[c(1, 4),])
+  expect_identical(out, df[c(1, 4), ])
 })
 
 test_that("`filter()` with `pick()` that uses invalid tidy-selection errors", {
@@ -545,7 +547,7 @@ test_that("`pick()` doesn't expand across anonymous function boundaries", {
   expect_identical(expand_pick(quo, mask), quo)
 
   # With `~` anonymous functions
-  quos <- dplyr_quosures(z = ~ pick(y, x))$z
+  quos <- dplyr_quosures(z = ~pick(y, x))$z
   expect_identical(expand_pick(quo, mask), quo)
 })
 
@@ -555,7 +557,7 @@ test_that("`pick()` expands embedded quosures", {
   mask <- DataMask$new(df, by, verb = "mutate", error_call = current_env())
 
   wrapper <- function(x) {
-    dplyr_quosures(z = dense_rank({{x}}))
+    dplyr_quosures(z = dense_rank({{ x }}))
   }
   quo <- wrapper(pick(x, y))$z
 

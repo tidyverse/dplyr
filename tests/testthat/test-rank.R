@@ -32,8 +32,8 @@ test_that("ranking functions can handle data frames", {
   expect_identical(min_rank(df), c(3L, 1L, 4L, 1L, NA, NA))
   expect_identical(dense_rank(df), c(2L, 1L, 3L, 1L, NA, NA))
 
-  expect_identical(percent_rank(df), c(2/3, 0/3, 3/3, 0/3, NA, NA))
-  expect_identical(cume_dist(df), c(3/4, 2/4, 4/4, 2/4, NA, NA))
+  expect_identical(percent_rank(df), c(2 / 3, 0 / 3, 3 / 3, 0 / 3, NA, NA))
+  expect_identical(cume_dist(df), c(3 / 4, 2 / 4, 4 / 4, 2 / 4, NA, NA))
 
   expect_identical(ntile(df, 2), c(2L, 1L, 2L, 1L, NA, NA))
   expect_identical(ntile(df, 4), c(3L, 1L, 4L, 2L, NA, NA))
@@ -111,4 +111,3 @@ test_that("ntile() validates `n`", {
     ntile(1, n = 0)
   })
 })
-

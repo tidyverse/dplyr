@@ -79,7 +79,12 @@ test_that("new_rowwise_df() does not require `group_data=`", {
 })
 
 test_that("new_rowwise_df() can add class and attributes (#5918)", {
-  df <- new_rowwise_df(tibble(x = 1:4), tibble(), class = "custom_rowwise_df", a = "b")
+  df <- new_rowwise_df(
+    tibble(x = 1:4),
+    tibble(),
+    class = "custom_rowwise_df",
+    a = "b"
+  )
   expect_s3_class(df, "custom_rowwise_df")
   expect_equal(attr(df, "a"), "b")
 })
@@ -122,18 +127,22 @@ test_that("validate_rowwise_df() gives useful errors", {
     (expect_error(validate_rowwise_df(df10)))
     (expect_error(validate_rowwise_df(df11)))
 
-    (expect_error(
-      new_rowwise_df(
-        tibble(x = 1:10),
-        tibble(".rows" := list(1:5, -1L))
+    (
+      expect_error(
+        new_rowwise_df(
+          tibble(x = 1:10),
+          tibble(".rows" := list(1:5, -1L))
+        )
       )
-    ))
+    )
 
-    (expect_error(
-      new_rowwise_df(
-        tibble(x = 1:10),
-        1:10
+    (
+      expect_error(
+        new_rowwise_df(
+          tibble(x = 1:10),
+          1:10
+        )
       )
-    ))
+    )
   })
 })

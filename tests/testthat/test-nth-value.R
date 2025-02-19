@@ -42,7 +42,10 @@ test_that("nth works with data frames and always returns a single row", {
 
   expect_identical(nth(x, 1), tibble(x = 1L, y = 4L))
   expect_identical(nth(x, 4), tibble(x = NA_integer_, y = NA_integer_))
-  expect_identical(nth(x, 4, default = tibble(x = 0, y = 0)), tibble(x = 0L, y = 0L))
+  expect_identical(
+    nth(x, 4, default = tibble(x = 0, y = 0)),
+    tibble(x = 0L, y = 0L)
+  )
 })
 
 test_that("nth works with rcrds", {

@@ -76,7 +76,11 @@ test_that("recycles `left` and `right` to the size of `x`", {
 
 test_that("ptype argument works as expected with non-alphabetical ordered factors", {
   # Create an ordered factor with non-alphabetical order
-  x <- factor(c("b", "c", "a", "d"), levels = c("d", "c", "b", "a"), ordered = TRUE)
+  x <- factor(
+    c("b", "c", "a", "d"),
+    levels = c("d", "c", "b", "a"),
+    ordered = TRUE
+  )
 
   # Test with ptype specified (uses factor order)
   expect_identical(

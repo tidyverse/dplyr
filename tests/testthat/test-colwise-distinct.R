@@ -1,6 +1,6 @@
 test_that("scoped distinct is identical to manual distinct", {
   df <- tibble(
-    x = rep(2:5, each=2),
+    x = rep(2:5, each = 2),
     y = rep(2:3, each = 4),
     z = "a"
   )
@@ -12,11 +12,11 @@ test_that("scoped distinct is identical to manual distinct", {
 
 test_that(".funs is applied to variables before getting distinct rows", {
   df <- tibble(
-    x = rep(2:5, each=2),
+    x = rep(2:5, each = 2),
     y = rep(2:3, each = 4)
   )
 
-  expect_identical(distinct_all(df, `-`), distinct(mutate_all(df,`-`), x, y))
+  expect_identical(distinct_all(df, `-`), distinct(mutate_all(df, `-`), x, y))
 })
 
 test_that("scoped distinct applies to grouping variables (#3480)", {

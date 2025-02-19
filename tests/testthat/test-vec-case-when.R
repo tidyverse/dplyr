@@ -63,7 +63,10 @@ test_that("Unused logical `NA` can still be cast to `values` ptype", {
   # Requires that casting happen before recycling, because it recycles
   # to size zero, resulting in a logical rather than an unspecified.
   expect_identical(vec_case_when(list(TRUE, FALSE), list("x", NA)), "x")
-  expect_identical(vec_case_when(list(FALSE, TRUE), list("x", NA)), NA_character_)
+  expect_identical(
+    vec_case_when(list(FALSE, TRUE), list("x", NA)),
+    NA_character_
+  )
 })
 
 test_that("`conditions` inputs can be size zero", {
@@ -194,7 +197,10 @@ test_that("`NA` is overridden by any `TRUE` values", {
 })
 
 test_that("works when there is a used `default` and no missing values", {
-  expect_identical(vec_case_when(list(c(TRUE, FALSE)), list(1), default = 3:4), c(1, 4))
+  expect_identical(
+    vec_case_when(list(c(TRUE, FALSE)), list(1), default = 3:4),
+    c(1, 4)
+  )
 })
 
 test_that("works when there are missing values but no `default`", {
@@ -407,10 +413,18 @@ test_that("named inputs show up in the error message", {
     vec_case_when(list(x = TRUE, y = c(TRUE, FALSE)), list(1, 2))
   })
   expect_snapshot(error = TRUE, {
-    vec_case_when(list(x = TRUE, y = c(TRUE, FALSE)), list(1, 2), conditions_arg = "foo")
+    vec_case_when(
+      list(x = TRUE, y = c(TRUE, FALSE)),
+      list(1, 2),
+      conditions_arg = "foo"
+    )
   })
   expect_snapshot(error = TRUE, {
-    vec_case_when(list(x = TRUE, y = c(TRUE, FALSE)), list(1, 2), conditions_arg = "")
+    vec_case_when(
+      list(x = TRUE, y = c(TRUE, FALSE)),
+      list(1, 2),
+      conditions_arg = ""
+    )
   })
 
   expect_snapshot(error = TRUE, {

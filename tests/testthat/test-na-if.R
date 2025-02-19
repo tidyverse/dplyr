@@ -43,7 +43,7 @@ test_that("works with data frames", {
 
   expect_identical(
     na_if(x, y),
-    x[c(1, NA, 3, NA),]
+    x[c(1, NA, 3, NA), ]
   )
 })
 

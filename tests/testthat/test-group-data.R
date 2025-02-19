@@ -1,4 +1,3 @@
-
 # group_data --------------------------------------------------------------
 
 test_that("group_data(<data.frame>) returns a data frame", {
@@ -91,7 +90,7 @@ test_that("group_indices() returns expected values", {
 test_that("group_indices() handles 0 rows data frames (#5541)", {
   df <- new_grouped_df(
     data.frame(x = integer(), y = integer()),
-    groups = data.frame(x=0, .rows = vctrs::list_of(1:1000))
+    groups = data.frame(x = 0, .rows = vctrs::list_of(1:1000))
   )
   expect_equal(group_indices(df), integer())
 })

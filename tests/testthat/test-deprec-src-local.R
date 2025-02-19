@@ -31,9 +31,10 @@ test_that("src_df() is deprecated / errors", {
     env <- new.env(parent = emptyenv())
     env$x <- 1
     src_env <- src_df(env = env)
-    (expect_error(
-      copy_to(src_env, tibble(x = 1), name = "x")
-    ))
+    (
+      expect_error(
+        copy_to(src_env, tibble(x = 1), name = "x")
+      )
+    )
   })
-
 })

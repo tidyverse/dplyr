@@ -171,7 +171,7 @@ test_that("add_count preserves grouping", {
   expect_equal(df %>% group_by(g) %>% add_count(), exp %>% group_by(g))
 })
 
-test_that(".drop is deprecated",  {
+test_that(".drop is deprecated", {
   local_options(lifecycle_verbosity = "warning")
 
   df <- tibble(f = factor("b", levels = c("a", "b", "c")))
