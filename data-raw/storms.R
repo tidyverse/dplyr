@@ -133,15 +133,17 @@ storms <- storms %>%
 
 # hurricane category
 storms <- storms %>%
-  mutate(category = case_when(
-    status != "hurricane" ~ NA,
-    wind >= 137 ~ 5,
-    wind >= 113 ~ 4,
-    wind >= 96 ~ 3,
-    wind >= 83 ~ 2,
-    wind >= 64 ~ 1,
-    .default = NA
-  )) %>%
+  mutate(
+    category = case_when(
+      status != "hurricane" ~ NA,
+      wind >= 137 ~ 5,
+      wind >= 113 ~ 4,
+      wind >= 96 ~ 3,
+      wind >= 83 ~ 2,
+      wind >= 64 ~ 1,
+      .default = NA
+    )
+  ) %>%
   relocate(category, .after = status)
 
 # drop storms without at least one record that is a tropical depression or higher
@@ -158,11 +160,13 @@ storms <- storms %>%
 
 # make names Title casing
 storms <- storms %>%
-  mutate(name = if_else(
-    str_sub(name, 1, 3) %in% c("AL0", "AL1"),
-    name,
-    str_to_title(name)
-  ))
+  mutate(
+    name = if_else(
+      str_sub(name, 1, 3) %in% c("AL0", "AL1"),
+      name,
+      str_to_title(name)
+    )
+  )
 
 # drop a bad data point (add more if found)
 storms <- storms %>%

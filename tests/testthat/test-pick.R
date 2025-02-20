@@ -265,12 +265,12 @@ test_that("`pick()` expansion evaluates on the full data", {
   gdf <- group_by(df, g)
 
   # Doesn't select any columns. Returns a 1 row tibble per group (#6685).
-  out <- mutate(gdf, y = pick(where(~all(.x == 0))))
+  out <- mutate(gdf, y = pick(where(~ all(.x == 0))))
   expect_identical(out$y, new_tibble(list(), nrow = 4L))
 
   # `pick()` evaluation fallback evaluates on the group specific data,
   # forcing potentially different results per group.
-  out <- mutate(gdf, z = pick_wrapper(where(~all(.x == 0))))
+  out <- mutate(gdf, z = pick_wrapper(where(~ all(.x == 0))))
   expect_named(out$z, c("x", "y"))
   expect_identical(out$z$x, c(0, 0, NA, NA))
   expect_identical(out$z$y, c(NA, NA, 0, 0))
@@ -327,7 +327,7 @@ test_that("selection on rowwise data frames uses full list-cols, but actual eval
   # Expands to `y = list(tibble(x = x))` where `x` is `1:2`, `2:4`, `5` like it
   # would be if you called that directly.
   out <- mutate(df, y = list(pick(where(is.list))))
-  expect_identical(out$y, map(df$x, ~tibble(x = .x)))
+  expect_identical(out$y, map(df$x, ~ tibble(x = .x)))
 })
 
 test_that("when expansion occurs, error labels use the pre-expansion quosure", {
@@ -547,7 +547,7 @@ test_that("`pick()` doesn't expand across anonymous function boundaries", {
   expect_identical(expand_pick(quo, mask), quo)
 
   # With `~` anonymous functions
-  quos <- dplyr_quosures(z = ~pick(y, x))$z
+  quos <- dplyr_quosures(z = ~ pick(y, x))$z
   expect_identical(expand_pick(quo, mask), quo)
 })
 

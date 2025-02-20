@@ -173,7 +173,7 @@ test_that("row_number works on 0 length columns (#3454)", {
 })
 
 test_that("filter does not alter expression (#971)", {
-  my_filter <- ~am == 1
+  my_filter <- ~ am == 1
   expect_equal(my_filter[[2]][[2]], as.name("am"))
 })
 
@@ -570,7 +570,7 @@ test_that("filter() gives useful error messages", {
 
     # across() in filter() does not warn yet
     data.frame(x = 1, y = 1) %>%
-      filter(across(everything(), ~.x > 0))
+      filter(across(everything(), ~ .x > 0))
 
     data.frame(x = 1, y = 1) %>%
       filter(data.frame(x > 0, y > 0))
@@ -637,12 +637,12 @@ test_that("filter() preserves the call stack on error (#5308)", {
 test_that("if_any() and if_all() work", {
   df <- tibble(x1 = 1:10, x2 = c(1:5, 10:6))
   expect_equal(
-    filter(df, if_all(starts_with("x"), ~. > 6)),
+    filter(df, if_all(starts_with("x"), ~ . > 6)),
     filter(df, x1 > 6 & x2 > 6)
   )
 
   expect_equal(
-    filter(df, if_any(starts_with("x"), ~. > 6)),
+    filter(df, if_any(starts_with("x"), ~ . > 6)),
     filter(df, x1 > 6 | x2 > 6)
   )
 })

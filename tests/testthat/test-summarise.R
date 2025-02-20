@@ -107,7 +107,7 @@ test_that("works with unquoted values", {
 
 test_that("formulas are evaluated in the right environment (#3019)", {
   out <- mtcars %>%
-    summarise(fn = list(rlang::as_function(~list(~foo, environment()))))
+    summarise(fn = list(rlang::as_function(~ list(~foo, environment()))))
   out <- out$fn[[1]]()
   expect_identical(environment(out[[1]]), out[[2]])
 })

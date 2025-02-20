@@ -117,7 +117,7 @@ test_that("across(.unpack =) skips unpacking non-df-cols", {
 
   df <- tibble(x = 1)
 
-  out <- mutate(df, across(x, list(fn = fn, double = ~.x * 2), .unpack = TRUE))
+  out <- mutate(df, across(x, list(fn = fn, double = ~ .x * 2), .unpack = TRUE))
 
   expect <- tibble(x = 1, x_fn_a = 1, x_fn_b = 2, x_double = 2)
 
@@ -269,13 +269,13 @@ test_that("across() gives meaningful messages", {
     (
       expect_error(
         tibble(x = 1) %>%
-          summarise(res = sum(if_all(~mean(.x))))
+          summarise(res = sum(if_all(~ mean(.x))))
       )
     )
     (
       expect_error(
         tibble(x = 1) %>%
-          summarise(res = sum(if_any(~mean(.x))))
+          summarise(res = sum(if_any(~ mean(.x))))
       )
     )
 
@@ -389,18 +389,18 @@ test_that("monitoring cache - across() internal cache key depends on all inputs"
 
 test_that("across() rejects non vectors", {
   expect_error(
-    data.frame(x = 1) %>% summarise(across(everything(), ~sym("foo")))
+    data.frame(x = 1) %>% summarise(across(everything(), ~ sym("foo")))
   )
 })
 
 test_that("across() uses tidy recycling rules", {
   expect_equal(
-    data.frame(x = 1, y = 2) %>% reframe(across(everything(), ~rep(42, .))),
+    data.frame(x = 1, y = 2) %>% reframe(across(everything(), ~ rep(42, .))),
     data.frame(x = rep(42, 2), y = rep(42, 2))
   )
 
   expect_error(
-    data.frame(x = 2, y = 3) %>% reframe(across(everything(), ~rep(42, .)))
+    data.frame(x = 2, y = 3) %>% reframe(across(everything(), ~ rep(42, .)))
   )
 })
 
@@ -459,7 +459,7 @@ test_that("across() uses environment from the current quosure (#5460)", {
   y <- "x"
   expect_equal(df %>% summarise(across(all_of(y), mean)), data.frame(x = 1))
   expect_equal(df %>% mutate(across(all_of(y), mean)), df)
-  expect_equal(df %>% filter(if_all(all_of(y), ~.x < 2)), df)
+  expect_equal(df %>% filter(if_all(all_of(y), ~ .x < 2)), df)
 
   # Inherited case
   expect_error(df %>% summarise(local(across(all_of(y), mean))))
@@ -478,9 +478,11 @@ test_that("across() sees columns in the recursive case (#5498)", {
   )
 
   out <- df %>%
-    mutate(data = purrr::map2(data, vars, function(.x, .y) {
-      .x %>% mutate(across(all_of(.y), ~NA))
-    }))
+    mutate(
+      data = purrr::map2(data, vars, function(.x, .y) {
+        .x %>% mutate(across(all_of(.y), ~ NA))
+      })
+    )
   exp <- tibble(
     vars = list("foo"),
     data = list(data.frame(foo = NA, bar = 2))
@@ -488,12 +490,14 @@ test_that("across() sees columns in the recursive case (#5498)", {
   expect_identical(out, exp)
 
   out <- df %>%
-    mutate(data = purrr::map2(data, vars, function(.x, .y) {
-      local({
-        .y <- "bar"
-        .x %>% mutate(across(all_of(.y), ~NA))
+    mutate(
+      data = purrr::map2(data, vars, function(.x, .y) {
+        local({
+          .y <- "bar"
+          .x %>% mutate(across(all_of(.y), ~ NA))
+        })
       })
-    }))
+    )
   exp <- tibble(
     vars = list("foo"),
     data = list(data.frame(foo = 1, bar = NA))
@@ -512,20 +516,20 @@ test_that("lambdas in mutate() + across() can use columns", {
   df <- tibble(x = 2, y = 4, z = 8)
   expect_identical(
     df %>% mutate(data.frame(x = x / y, y = y / y, z = z / y)),
-    df %>% mutate(across(everything(), ~.x / y))
+    df %>% mutate(across(everything(), ~ .x / y))
   )
   expect_identical(
     df %>% mutate(data.frame(x = x / y, y = y / y, z = z / y)),
-    df %>% mutate(+across(everything(), ~.x / y))
+    df %>% mutate(+across(everything(), ~ .x / y))
   )
 
   expect_identical(
     df %>% mutate(data.frame(x = x / y, y = y / y, z = z / y)),
-    df %>% mutate(across(everything(), ~.x / .data$y))
+    df %>% mutate(across(everything(), ~ .x / .data$y))
   )
   expect_identical(
     df %>% mutate(data.frame(x = x / y, y = y / y, z = z / y)),
-    df %>% mutate(+across(everything(), ~.x / .data$y))
+    df %>% mutate(+across(everything(), ~ .x / .data$y))
   )
 })
 
@@ -533,20 +537,20 @@ test_that("lambdas in summarise() + across() can use columns", {
   df <- tibble(x = 2, y = 4, z = 8)
   expect_identical(
     df %>% summarise(data.frame(x = x / y, y = y / y, z = z / y)),
-    df %>% summarise(across(everything(), ~.x / y))
+    df %>% summarise(across(everything(), ~ .x / y))
   )
   expect_identical(
     df %>% summarise(data.frame(x = x / y, y = y / y, z = z / y)),
-    df %>% summarise(+across(everything(), ~.x / y))
+    df %>% summarise(+across(everything(), ~ .x / y))
   )
 
   expect_identical(
     df %>% summarise(data.frame(x = x / y, y = y / y, z = z / y)),
-    df %>% summarise(across(everything(), ~.x / .data$y))
+    df %>% summarise(across(everything(), ~ .x / .data$y))
   )
   expect_identical(
     df %>% summarise(data.frame(x = x / y, y = y / y, z = z / y)),
-    df %>% summarise(+across(everything(), ~.x / .data$y))
+    df %>% summarise(+across(everything(), ~ .x / .data$y))
   )
 })
 
@@ -554,20 +558,20 @@ test_that("lambdas in mutate() + across() can use columns in follow up expressio
   df <- tibble(x = 2, y = 4, z = 8)
   expect_identical(
     df %>% mutate(a = 2, data.frame(x = x / y, y = y / y, z = z / y)),
-    df %>% mutate(a = 2, across(c(x, y, z), ~.x / y))
+    df %>% mutate(a = 2, across(c(x, y, z), ~ .x / y))
   )
   expect_identical(
     df %>% mutate(a = 2, data.frame(x = x / y, y = y / y, z = z / y)),
-    df %>% mutate(a = 2, +across(c(x, y, z), ~.x / y))
+    df %>% mutate(a = 2, +across(c(x, y, z), ~ .x / y))
   )
 
   expect_identical(
     df %>% mutate(a = 2, data.frame(x = x / y, y = y / y, z = z / y)),
-    df %>% mutate(a = 2, across(c(x, y, z), ~.x / .data$y))
+    df %>% mutate(a = 2, across(c(x, y, z), ~ .x / .data$y))
   )
   expect_identical(
     df %>% mutate(a = 2, data.frame(x = x / y, y = y / y, z = z / y)),
-    df %>% mutate(a = 2, +across(c(x, y, z), ~.x / .data$y))
+    df %>% mutate(a = 2, +across(c(x, y, z), ~ .x / .data$y))
   )
 })
 
@@ -575,20 +579,20 @@ test_that("lambdas in summarise() + across() can use columns in follow up expres
   df <- tibble(x = 2, y = 4, z = 8)
   expect_identical(
     df %>% summarise(a = 2, data.frame(x = x / y, y = y / y, z = z / y)),
-    df %>% summarise(a = 2, across(c(x, y, z), ~.x / y))
+    df %>% summarise(a = 2, across(c(x, y, z), ~ .x / y))
   )
   expect_identical(
     df %>% summarise(a = 2, data.frame(x = x / y, y = y / y, z = z / y)),
-    df %>% summarise(a = 2, +across(c(x, y, z), ~.x / y))
+    df %>% summarise(a = 2, +across(c(x, y, z), ~ .x / y))
   )
 
   expect_identical(
     df %>% summarise(a = 2, data.frame(x = x / y, y = y / y, z = z / y)),
-    df %>% summarise(a = 2, across(c(x, y, z), ~.x / .data$y))
+    df %>% summarise(a = 2, across(c(x, y, z), ~ .x / .data$y))
   )
   expect_identical(
     df %>% summarise(a = 2, data.frame(x = x / y, y = y / y, z = z / y)),
-    df %>% summarise(a = 2, +across(c(x, y, z), ~.x / .data$y))
+    df %>% summarise(a = 2, +across(c(x, y, z), ~ .x / .data$y))
   )
 })
 
@@ -621,8 +625,8 @@ test_that("if_any() and if_all() can be used in mutate() (#5709)", {
   d <- data.frame(x = c(1, 5, 10, 10), y = c(0, 0, 0, 10), z = c(10, 5, 1, 10))
   res <- d %>%
     mutate(
-      any = if_any(x:z, ~. > 8),
-      all = if_all(x:z, ~. > 8)
+      any = if_any(x:z, ~ . > 8),
+      all = if_all(x:z, ~ . > 8)
     )
   expect_equal(res$any, c(TRUE, FALSE, TRUE, TRUE))
   expect_equal(res$all, c(FALSE, FALSE, FALSE, TRUE))
@@ -631,8 +635,8 @@ test_that("if_any() and if_all() can be used in mutate() (#5709)", {
 test_that("across() caching not confused when used from if_any() and if_all() (#5782)", {
   res <- data.frame(x = 1:3) %>%
     mutate(
-      any = if_any(x, ~. >= 2) + if_any(x, ~. >= 3),
-      all = if_all(x, ~. >= 2) + if_all(x, ~. >= 3)
+      any = if_any(x, ~ . >= 2) + if_any(x, ~ . >= 3),
+      all = if_all(x, ~ . >= 2) + if_all(x, ~ . >= 3)
     )
   expect_equal(res$any, c(0, 1, 2))
   expect_equal(res$all, c(0, 1, 2))
@@ -657,12 +661,12 @@ test_that("if_any() and if_all() aborts when predicate mistakingly used in .cols
   df <- data.frame(x = 1:10, y = 1:10)
   expect_snapshot({
     # expanded case
-    (expect_error(filter(df, if_any(~.x > 5))))
-    (expect_error(filter(df, if_all(~.x > 5))))
+    (expect_error(filter(df, if_any(~ .x > 5))))
+    (expect_error(filter(df, if_all(~ .x > 5))))
 
     # non expanded case
-    (expect_error(filter(df, !if_any(~.x > 5))))
-    (expect_error(filter(df, !if_all(~.x > 5))))
+    (expect_error(filter(df, !if_any(~ .x > 5))))
+    (expect_error(filter(df, !if_all(~ .x > 5))))
   })
 })
 
@@ -676,7 +680,7 @@ test_that("across() correctly reset column", {
       },
       across(
         x,
-        ~{
+        ~ {
           expect_equal(cur_column(), "x")
           3
         },
@@ -688,7 +692,7 @@ test_that("across() correctly reset column", {
       },
       force(across(
         x,
-        ~{
+        ~ {
           expect_equal(cur_column(), "x")
           5
         },
@@ -711,7 +715,7 @@ test_that("across() correctly reset column", {
       # top_across()
       across(
         x,
-        ~{
+        ~ {
           expect_equal(cur_column(), "x")
           3
         },
@@ -724,7 +728,7 @@ test_that("across() correctly reset column", {
       # across()
       force(across(
         x,
-        ~{
+        ~ {
           expect_equal(cur_column(), "x")
           5
         },
@@ -771,12 +775,12 @@ test_that("group variables are in scope (#5832)", {
   exp <- gdf %>% summarise(x = f(x, z = y))
 
   expect_equal(
-    gdf %>% summarise(across(x, ~f(.x, z = y))),
+    gdf %>% summarise(across(x, ~ f(.x, z = y))),
     exp
   )
 
   expect_equal(
-    gdf %>% summarise(across(x, ~f(.x, z = y))),
+    gdf %>% summarise(across(x, ~ f(.x, z = y))),
     exp
   )
 })
@@ -802,12 +806,12 @@ test_that("across() inlines formulas", {
   out <- as_across_fn_call(lambda, quote(var), env, env)
   expect_equal(out, new_quosure(quote(fn(var)), env))
 
-  formula <- quo_eval_fns(quo(~fn(.x)), mask = env)
+  formula <- quo_eval_fns(quo(~ fn(.x)), mask = env)
   out <- as_across_fn_call(formula, quote(var), env, env)
   expect_equal(out, new_quosure(quote(fn(var)), env))
 
   # Evaluated formulas preserve their own env
-  f <- local(~fn(.x))
+  f <- local(~ fn(.x))
   fn <- quo_eval_fns(quo(!!f), mask = env)
   out <- as_across_fn_call(fn, quote(var), env, env)
   expect_equal(get_env(f), get_env(fn))
@@ -833,7 +837,7 @@ test_that("across() inlines formulas", {
   map(out, expect_rlang_lambda)
 
   # All formula-lambda arguments are interpolated
-  fn <- quo_eval_fns(quo(~list(.x, ., .x)), mask = env)
+  fn <- quo_eval_fns(quo(~ list(.x, ., .x)), mask = env)
   out <- as_across_fn_call(fn, quote(var), env, env)
   expect_equal(
     out,
@@ -848,17 +852,17 @@ test_that("inlined and non inlined lambdas work", {
   expect_equal(df %>% mutate(across(1:2, function(x) x + mean(bar))), exp)
   expect_equal(df %>% mutate((across(1:2, function(x) x + mean(bar)))), exp)
 
-  expect_equal(df %>% mutate(across(1:2, ~.x + mean(bar))), exp)
-  expect_equal(df %>% mutate((across(1:2, ~.x + mean(bar)))), exp)
+  expect_equal(df %>% mutate(across(1:2, ~ .x + mean(bar))), exp)
+  expect_equal(df %>% mutate((across(1:2, ~ .x + mean(bar)))), exp)
 
-  expect_equal(df %>% mutate(across(1:2, ~..1 + mean(bar))), exp)
-  expect_equal(df %>% mutate((across(1:2, ~..1 + mean(bar)))), exp)
+  expect_equal(df %>% mutate(across(1:2, ~ ..1 + mean(bar))), exp)
+  expect_equal(df %>% mutate((across(1:2, ~ ..1 + mean(bar)))), exp)
 
   # Message generated by base R changed
   skip_if_not_installed("base", "3.6.0")
   expect_snapshot({
-    (expect_error(df %>% mutate(across(1:2, ~.y + mean(bar)))))
-    (expect_error(df %>% mutate((across(1:2, ~.y + mean(bar))))))
+    (expect_error(df %>% mutate(across(1:2, ~ .y + mean(bar)))))
+    (expect_error(df %>% mutate((across(1:2, ~ .y + mean(bar))))))
   })
 })
 
@@ -875,8 +879,8 @@ test_that("list of lambdas work", {
     exp
   )
 
-  expect_equal(df %>% mutate(across(1:2, list(~.x + mean(bar)))), exp)
-  expect_equal(df %>% mutate((across(1:2, list(~.x + mean(bar))))), exp)
+  expect_equal(df %>% mutate(across(1:2, list(~ .x + mean(bar)))), exp)
+  expect_equal(df %>% mutate((across(1:2, list(~ .x + mean(bar))))), exp)
 })
 
 test_that("anonymous function `.fns` can access the `.data` pronoun even when not inlined", {
@@ -912,7 +916,7 @@ test_that("anonymous function `.fns` can access the `.data` pronoun even when no
 test_that("across() uses local formula environment (#5881)", {
   f <- local({
     prefix <- "foo"
-    ~paste(prefix, .x)
+    ~ paste(prefix, .x)
   })
   df <- tibble(x = "x")
   expect_equal(
@@ -929,17 +933,17 @@ test_that("across() uses local formula environment (#5881)", {
     # code is run directly without the test_that()
     prefix <- "foo"
     expect_equal(
-      mutate(df, across(x, ~paste(prefix, .x))),
+      mutate(df, across(x, ~ paste(prefix, .x))),
       tibble(x = "foo x")
     )
     expect_equal(
-      mutate(df, across(x, list(f = ~paste(prefix, .x)))),
+      mutate(df, across(x, list(f = ~ paste(prefix, .x)))),
       tibble(x = "x", x_f = "foo x")
     )
   })
 
   expect_equal(
-    data.frame(x = 1) %>% mutate(across(1, list(f = local(~. + 1)))),
+    data.frame(x = 1) %>% mutate(across(1, list(f = local(~ . + 1)))),
     data.frame(x = 1, x_f = 2)
   )
 
@@ -949,7 +953,7 @@ test_that("across() uses local formula environment (#5881)", {
         1,
         local({
           `_local_var` <- 1
-          ~. + `_local_var`
+          ~ . + `_local_var`
         })
       )),
     data.frame(x = 2)
@@ -959,7 +963,7 @@ test_that("across() uses local formula environment (#5881)", {
 test_that("unevaluated formulas (currently) fail", {
   df <- tibble(x = "x")
   expect_error(
-    mutate(df, across(x, quote(~paste("foo", .x))))
+    mutate(df, across(x, quote(~ paste("foo", .x))))
   )
 })
 
@@ -1006,21 +1010,21 @@ test_that("if_any() and if_all() expansions deal with no inputs or single inputs
 
   # No inputs
   expect_equal(
-    filter(d, if_any(starts_with("c"), ~FALSE)),
+    filter(d, if_any(starts_with("c"), ~ FALSE)),
     filter(d, FALSE)
   )
   expect_equal(
-    filter(d, if_all(starts_with("c"), ~FALSE)),
+    filter(d, if_all(starts_with("c"), ~ FALSE)),
     filter(d)
   )
 
   # Single inputs
   expect_equal(
-    filter(d, if_any(x, ~FALSE)),
+    filter(d, if_any(x, ~ FALSE)),
     filter(d, FALSE)
   )
   expect_equal(
-    filter(d, if_all(x, ~FALSE)),
+    filter(d, if_all(x, ~ FALSE)),
     filter(d, FALSE)
   )
 })
@@ -1033,7 +1037,7 @@ test_that("if_any() on zero-column selection behaves like any() (#7059)", {
   )
 
   expect_equal(
-    filter(tbl, if_any(c(), ~is.na(.x))),
+    filter(tbl, if_any(c(), ~ is.na(.x))),
     tbl[0, ]
   )
 })
@@ -1046,7 +1050,7 @@ test_that("if_all() on zero-column selection behaves like all() (#7059)", {
   )
 
   expect_equal(
-    filter(tbl, if_all(c(), ~is.na(.x))),
+    filter(tbl, if_all(c(), ~ is.na(.x))),
     tbl
   )
 })
@@ -1056,21 +1060,21 @@ test_that("if_any() and if_all() wrapped deal with no inputs or single inputs", 
 
   # No inputs
   expect_equal(
-    filter(d, (if_any(starts_with("c"), ~FALSE))),
+    filter(d, (if_any(starts_with("c"), ~ FALSE))),
     filter(d)
   )
   expect_equal(
-    filter(d, (if_all(starts_with("c"), ~FALSE))),
+    filter(d, (if_all(starts_with("c"), ~ FALSE))),
     filter(d)
   )
 
   # Single inputs
   expect_equal(
-    filter(d, (if_any(x, ~FALSE))),
+    filter(d, (if_any(x, ~ FALSE))),
     filter(d, FALSE)
   )
   expect_equal(
-    filter(d, (if_all(x, ~FALSE))),
+    filter(d, (if_all(x, ~ FALSE))),
     filter(d, FALSE)
   )
 })
@@ -1080,7 +1084,7 @@ test_that("expanded if_any() finds local data", {
   df <- data.frame(x = 1:10, y = 10:1)
 
   expect_identical(
-    filter(df, if_any(everything(), ~.x > limit)),
+    filter(df, if_any(everything(), ~ .x > limit)),
     filter(df, x > limit | y > limit)
   )
 })
@@ -1158,8 +1162,8 @@ test_that("across() can use named selections", {
 
 test_that("expr_subtitute() stops at lambdas (#5896)", {
   expect_identical(
-    expr_substitute(expr(map(.x, ~mean(.x))), quote(.x), quote(a)),
-    expr(map(a, ~mean(.x)))
+    expr_substitute(expr(map(.x, ~ mean(.x))), quote(.x), quote(a)),
+    expr(map(a, ~ mean(.x)))
   )
   expect_identical(
     expr_substitute(expr(map(.x, function(.x) mean(.x))), quote(.x), quote(a)),
@@ -1194,7 +1198,7 @@ test_that("across() predicates operate on whole data", {
   )
 
   out <- df %>%
-    mutate(across(where(~n_distinct(.x) > 1), ~.x + 10))
+    mutate(across(where(~ n_distinct(.x) > 1), ~ .x + 10))
 
   exp <- tibble(
     x = c(11, 11, 12),
@@ -1205,7 +1209,7 @@ test_that("across() predicates operate on whole data", {
 
   out <- df %>%
     group_by(g) %>%
-    mutate(across(where(~n_distinct(.x) > 1), ~.x + 10))
+    mutate(across(where(~ n_distinct(.x) > 1), ~ .x + 10))
 
   exp <- tibble(
     x = c(11, 11, 12),
@@ -1217,7 +1221,7 @@ test_that("across() predicates operate on whole data", {
 })
 
 test_that("expand_across() expands lambdas", {
-  quo <- quo(across(c(cyl, am), ~identity(.x)))
+  quo <- quo(across(c(cyl, am), ~ identity(.x)))
   quo <- new_dplyr_quosure(
     quo,
     name = quo,
@@ -1238,7 +1242,7 @@ test_that("expand_across() expands lambdas", {
 })
 
 test_that("expand_if_across() expands lambdas", {
-  quo <- quo(if_any(c(cyl, am), ~. > 4))
+  quo <- quo(if_any(c(cyl, am), ~ . > 4))
   quo <- new_dplyr_quosure(
     quo,
     name = quo,
@@ -1421,7 +1425,7 @@ test_that("across errors with non-empty dots and no `.fns` supplied (#6638)", {
 
   expect_snapshot(
     error = TRUE,
-    mutate(df, across(x, .funs = ~. * 1000))
+    mutate(df, across(x, .funs = ~ . * 1000))
   )
 })
 
@@ -1570,7 +1574,7 @@ test_that("maskable lambdas can refer to their lexical environment", {
     tibble(bar = "a OK")
   )
   expect_equal(
-    mutate(df, across(1, ~return(paste(.x, foo)))),
+    mutate(df, across(1, ~ return(paste(.x, foo)))),
     tibble(bar = "a OK")
   )
 
@@ -1580,7 +1584,7 @@ test_that("maskable lambdas can refer to their lexical environment", {
     tibble(bar = "a OK")
   )
   expect_equal(
-    mutate(df, across(1, ~paste(.x, foo))),
+    mutate(df, across(1, ~ paste(.x, foo))),
     tibble(bar = "a OK")
   )
 })

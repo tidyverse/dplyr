@@ -21,12 +21,12 @@ test_that("can select/rename with predicate", {
 
 test_that("can take list, but only containing single function", {
   expect_identical(
-    select_if(df, list(~is_integerish(.)), list(~toupper(.))),
+    select_if(df, list(~ is_integerish(.)), list(~ toupper(.))),
     set_names(df[c("x", "z")], c("X", "Z"))
   )
 
   expect_identical(
-    rename_if(df, list(~is_integerish(.)), list(~toupper(.))),
+    rename_if(df, list(~ is_integerish(.)), list(~ toupper(.))),
     set_names(df, c("X", "y", "Z"))
   )
 })
@@ -75,7 +75,7 @@ test_that("select_if() handles non-syntactic colnames", {
 test_that("select_if() handles quoted predicates", {
   expected <- select_if(mtcars, is_integerish)
   expect_identical(select_if(mtcars, "is_integerish"), expected)
-  expect_identical(select_if(mtcars, ~is_integerish(.x)), expected)
+  expect_identical(select_if(mtcars, ~ is_integerish(.x)), expected)
 })
 
 test_that("rename_all() works with grouped data (#3363)", {
@@ -166,7 +166,7 @@ test_that("select_if() and rename_if() handles logical (#4213)", {
 
 test_that("rename_at() handles empty selection (#4324)", {
   expect_identical(
-    mtcars %>% rename_at(vars(contains("fake_col")), ~paste0("NewCol.", .)),
+    mtcars %>% rename_at(vars(contains("fake_col")), ~ paste0("NewCol.", .)),
     mtcars
   )
 })
@@ -181,7 +181,7 @@ test_that("rename_all/at() call the function with simple character vector (#4459
 })
 
 test_that("select_if() discards the column when predicate gives NA (#4486)", {
-  out <- tibble(mycol = c("", "", NA)) %>% select_if(~!all(. == ""))
+  out <- tibble(mycol = c("", "", NA)) %>% select_if(~ !all(. == ""))
   expect_identical(
     out,
     tibble::new_tibble(list(), nrow = 3L)

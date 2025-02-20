@@ -89,8 +89,8 @@ test_that("can enfun() character vectors", {
 })
 
 test_that("can enfun() purrr-style lambdas", {
-  my_mean <- as_function(~mean(.x))
-  res <- enfun(~mean(.x))
+  my_mean <- as_function(~ mean(.x))
+  res <- enfun(~ mean(.x))
   expect_equal(length(res), 1L)
   expect_type(res[[1]], "closure")
 })
@@ -111,7 +111,7 @@ test_that("funs_ works", {
 
   expect_equal(
     funs(mean(.)),
-    funs_(list(~mean(.)))
+    funs_(list(~ mean(.)))
   )
 })
 
@@ -139,6 +139,6 @@ test_that("funs() give meaningful error messages", {
         mp[si]
       }))
     )
-    (expect_error(funs(~mp[.])))
+    (expect_error(funs(~ mp[.])))
   })
 })

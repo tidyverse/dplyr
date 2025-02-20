@@ -39,7 +39,7 @@ benchs <- function(libs, setup, ..., iterations = NULL) {
   })
   results <- purrr::imap(
     libs,
-    ~callr::r(f, libpath = .x) %>% mutate(version = .y)
+    ~ callr::r(f, libpath = .x) %>% mutate(version = .y)
   )
   as_tibble(vctrs::vec_rbind(!!!results))
   # %>%

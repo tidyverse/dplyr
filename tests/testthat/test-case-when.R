@@ -111,11 +111,13 @@ test_that("case_when can be used in anonymous functions (#3422)", {
 
 test_that("case_when() can be used inside mutate()", {
   out <- mtcars[1:4, ] %>%
-    mutate(out = case_when(
-      cyl == 4 ~ 1,
-      .data[["am"]] == 1 ~ 2,
-      .default = 0
-    )) %>%
+    mutate(
+      out = case_when(
+        cyl == 4 ~ 1,
+        .data[["am"]] == 1 ~ 2,
+        .default = 0
+      )
+    ) %>%
     pull()
   expect_identical(out, c(2, 2, 1, 0))
 })
@@ -315,7 +317,7 @@ test_that("case_when() give meaningful errors", {
     )
     (
       expect_error(
-        case_when(~1:2)
+        case_when(~ 1:2)
       )
     )
   })

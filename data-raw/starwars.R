@@ -111,11 +111,9 @@ starwars %>% count(sex, gender, sort = TRUE)
 
 # see https://github.com/tidyverse/dplyr/pull/6840
 starwars = starwars %>%
-  mutate(name = ifelse(
-    name == "Beru Whitesun lars",
-    "Beru Whitesun Lars",
-    name
-  ))
+  mutate(
+    name = ifelse(name == "Beru Whitesun lars", "Beru Whitesun Lars", name)
+  )
 
 # Basic checks -------------------------------------------------------------
 
@@ -129,7 +127,7 @@ starwars %>% group_by(species) %>% summarise(mass = mean(mass, na.rm = T))
 
 # Save in convenient form for diffs
 starwars %>%
-  mutate_if(is.list, ~map_chr(., paste, collapse = ", ")) %>%
+  mutate_if(is.list, ~ map_chr(., paste, collapse = ", ")) %>%
   write_csv("data-raw/starwars.csv")
 
 usethis::use_data(starwars, overwrite = TRUE)

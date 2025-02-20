@@ -80,7 +80,7 @@ test_that("empty selection does not select everything (#2009, #1989)", {
 test_that("predicate can be quoted", {
   expected <- mutate_if(mtcars, is_integerish, mean)
   expect_identical(mutate_if(mtcars, "is_integerish", mean), expected)
-  expect_identical(mutate_if(mtcars, ~is_integerish(.x), mean), expected)
+  expect_identical(mutate_if(mtcars, ~ is_integerish(.x), mean), expected)
 })
 
 test_that("transmute verbs do not retain original variables", {
@@ -122,14 +122,14 @@ test_that("selection works with grouped data frames (#2624)", {
 test_that("at selection works even if not all ops are named (#2634)", {
   df <- tibble(x = 1, y = 2)
   expect_identical(
-    mutate_at(df, vars(z = x, y), list(~. + 1)),
+    mutate_at(df, vars(z = x, y), list(~ . + 1)),
     tibble(x = 1, y = 3, z = 2)
   )
 })
 
 test_that("can use a purrr-style lambda", {
   expect_identical(
-    summarise_at(mtcars, vars(1:2), ~mean(.x)),
+    summarise_at(mtcars, vars(1:2), ~ mean(.x)),
     summarise(mtcars, mpg = mean(mpg), cyl = mean(cyl))
   )
 })
@@ -258,21 +258,21 @@ test_that("mutate_at with multiple columns AND unnamed functions works (#4119)",
 
 test_that("colwise mutate have .data in scope of rlang lambdas (#4183)", {
   results <- list(
-    iris %>% mutate_if(is.numeric, ~. / iris$Petal.Width),
-    iris %>% mutate_if(is.numeric, ~. / Petal.Width),
-    iris %>% mutate_if(is.numeric, ~. / .data$Petal.Width),
+    iris %>% mutate_if(is.numeric, ~ . / iris$Petal.Width),
+    iris %>% mutate_if(is.numeric, ~ . / Petal.Width),
+    iris %>% mutate_if(is.numeric, ~ . / .data$Petal.Width),
 
-    iris %>% mutate_if(is.numeric, list(~. / iris$Petal.Width)),
-    iris %>% mutate_if(is.numeric, list(~. / Petal.Width)),
-    iris %>% mutate_if(is.numeric, list(~. / .data$Petal.Width)),
+    iris %>% mutate_if(is.numeric, list(~ . / iris$Petal.Width)),
+    iris %>% mutate_if(is.numeric, list(~ . / Petal.Width)),
+    iris %>% mutate_if(is.numeric, list(~ . / .data$Petal.Width)),
 
-    iris %>% mutate_if(is.numeric, ~.x / iris$Petal.Width),
-    iris %>% mutate_if(is.numeric, ~.x / Petal.Width),
-    iris %>% mutate_if(is.numeric, ~.x / .data$Petal.Width),
+    iris %>% mutate_if(is.numeric, ~ .x / iris$Petal.Width),
+    iris %>% mutate_if(is.numeric, ~ .x / Petal.Width),
+    iris %>% mutate_if(is.numeric, ~ .x / .data$Petal.Width),
 
-    iris %>% mutate_if(is.numeric, list(~.x / iris$Petal.Width)),
-    iris %>% mutate_if(is.numeric, list(~.x / Petal.Width)),
-    iris %>% mutate_if(is.numeric, list(~.x / .data$Petal.Width))
+    iris %>% mutate_if(is.numeric, list(~ .x / iris$Petal.Width)),
+    iris %>% mutate_if(is.numeric, list(~ .x / Petal.Width)),
+    iris %>% mutate_if(is.numeric, list(~ .x / .data$Petal.Width))
   )
 
   for (i in 2:12) {
@@ -296,7 +296,7 @@ test_that("summarise_at() unquotes in lambda (#4287)", {
   year <- 2037
 
   expect_equal(
-    summarise_at(df, vars(-year), ~approx(x = year, y = ., xout = !!year)$y),
+    summarise_at(df, vars(-year), ~ approx(x = year, y = ., xout = !!year)$y),
     summarise(df, P = approx(x = year, y = P, xout = !!year)$y)
   )
 })
@@ -309,7 +309,7 @@ test_that("mutate_at() unquotes in lambdas (#4199)", {
 
   expect_identical(
     df %>% mutate(b = mean(!!quoname)),
-    df %>% mutate_at(vars(matches("b")), list(~mean(!!quoname)))
+    df %>% mutate_at(vars(matches("b")), list(~ mean(!!quoname)))
   )
 })
 
@@ -319,7 +319,7 @@ test_that("summarise_at() can refer to local variables and columns (#4304)", {
   res <- local({
     value <- 10
     expect_identical(
-      iris %>% summarise_at("Sepal.Length", ~sum(. / value)),
+      iris %>% summarise_at("Sepal.Length", ~ sum(. / value)),
       iris %>% summarise(Sepal.Length = sum(Sepal.Length / value))
     )
   })
@@ -327,11 +327,11 @@ test_that("summarise_at() can refer to local variables and columns (#4304)", {
 
 test_that("colwise mutate handles formulas with constants (#4374)", {
   expect_identical(
-    tibble(x = 12) %>% mutate_all(~42),
+    tibble(x = 12) %>% mutate_all(~ 42),
     tibble(x = 42)
   )
   expect_identical(
-    tibble(x = 12) %>% mutate_at("x", ~42),
+    tibble(x = 12) %>% mutate_at("x", ~ 42),
     tibble(x = 42)
   )
 })
@@ -353,7 +353,7 @@ test_that("rlang lambda inherit from the data mask (#3843)", {
   res <- iris %>%
     mutate_at(
       vars(starts_with("Petal")),
-      ~ifelse(Species == "setosa" & . < 1.5, NA, .)
+      ~ ifelse(Species == "setosa" & . < 1.5, NA, .)
     )
   expected <- iris %>%
     mutate(
@@ -374,7 +374,7 @@ test_that("rlang lambda inherit from the data mask (#3843)", {
     group_by(Species) %>%
     mutate_at(
       vars(starts_with("Petal")),
-      ~ifelse(Species == "setosa" & . < 1.5, NA, .)
+      ~ ifelse(Species == "setosa" & . < 1.5, NA, .)
     )
   expected <- iris %>%
     group_by(Species) %>%
@@ -410,7 +410,7 @@ test_that("colwise mutate gives meaningful error messages", {
     # column not found
     (
       expect_error(
-        mutate_at(tibble(), "test", ~1)
+        mutate_at(tibble(), "test", ~ 1)
       )
     )
 

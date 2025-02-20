@@ -53,7 +53,7 @@ DataMask <- R6Class(
       # reference is "fresh" and completely owned by this instance of the
       # `DataMask`. Otherwise nested `mutate()` calls can end up modifying
       # the same value (#6762).
-      private$env_current_group_info <- new_environment(data = list(
+      private$env_current_group_info <- new_environment(list(
         `dplyr:::current_group_id` = duplicate(0L),
         `dplyr:::current_group_size` = duplicate(0L)
       ))

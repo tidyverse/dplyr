@@ -40,7 +40,7 @@ test_that("filter_if and filter_all includes grouping variables (#3351, #3480)",
 test_that("can supply functions to scoped filters", {
   exp <- as.list(mtcars[c(8, 9, 21), ])
 
-  out <- mtcars %>% filter_at(c("cyl", "am"), ~.x == 4 | .x == 0)
+  out <- mtcars %>% filter_at(c("cyl", "am"), ~ .x == 4 | .x == 0)
   expect_identical(as.list(out), exp)
 
   out <- mtcars %>% filter_at(c("cyl", "am"), function(.x) .x == 4 | .x == 0)
@@ -83,6 +83,6 @@ test_that("any_exprs() creates union", {
 test_that("colwise filter() give meaningful errors", {
   expect_snapshot({
     (expect_error(filter_if(mtcars, is_character, all_vars(. > 0))))
-    (expect_error(filter_all(mtcars, list(~. > 0))))
+    (expect_error(filter_all(mtcars, list(~ . > 0))))
   })
 })

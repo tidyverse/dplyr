@@ -70,7 +70,7 @@ test_that("passes ... along", {
 test_that("can't create duplicated names", {
   df <- tibble(x = 1, y = 2)
   expect_error(
-    df %>% rename_with(~rep_along(.x, "X")),
+    df %>% rename_with(~ rep_along(.x, "X")),
     class = "vctrs_error_names"
   )
 })
