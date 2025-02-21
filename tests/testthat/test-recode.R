@@ -10,14 +10,23 @@ test_that("named substitution works", {
   x1 <- letters[1:3]
   x2 <- factor(x1)
 
-  expect_equal(recode(x1, a = "apple", .default = NA_character_), c("apple", NA, NA))
-  expect_equal(recode(x2, a = "apple", .default = NA_character_), factor(c("apple", NA, NA)))
+  expect_equal(
+    recode(x1, a = "apple", .default = NA_character_),
+    c("apple", NA, NA)
+  )
+  expect_equal(
+    recode(x2, a = "apple", .default = NA_character_),
+    factor(c("apple", NA, NA))
+  )
 })
 
 test_that("missing values replaced by missing argument", {
   expect_equal(recode(c(1, NA), "a"), c("a", NA))
   expect_equal(recode(c(1, NA), "a", .missing = "b"), c("a", "b"))
-  expect_equal(recode(c(letters[1:3], NA), .missing = "A"), c("a", "b", "c", "A"))
+  expect_equal(
+    recode(c(letters[1:3], NA), .missing = "A"),
+    c("a", "b", "c", "A")
+  )
 })
 
 test_that("unmatched value replaced by default argument", {
@@ -86,7 +95,11 @@ test_that(".dot argument works correctly (PR #2110)", {
   )
   expect_equal(
     recode_factor(x3, a = "apple", b = "banana", .default = NA_character_),
-    recode_factor(x3, .default = NA_character_, !!!list(a = "apple", b = "banana"))
+    recode_factor(
+      x3,
+      .default = NA_character_,
+      !!!list(a = "apple", b = "banana")
+    )
   )
 })
 

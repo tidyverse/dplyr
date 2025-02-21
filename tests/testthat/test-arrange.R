@@ -39,7 +39,6 @@ test_that("arrange() gives meaningful errors", {
       tibble(x = 1) %>% arrange(rep(x, 2))
     ))
   })
-
 })
 
 # column types ----------------------------------------------------------
@@ -75,7 +74,9 @@ test_that("arrange handles complex columns", {
 
 test_that("arrange handles S4 classes (#1105)", {
   TestS4 <- suppressWarnings(setClass("TestS4", contains = "integer"))
-  setMethod('[', 'TestS4', function(x, i, ...){ TestS4(unclass(x)[i, ...])  })
+  setMethod('[', 'TestS4', function(x, i, ...) {
+    TestS4(unclass(x)[i, ...])
+  })
   on.exit(removeClass("TestS4"), add = TRUE)
 
   df <- tibble(x = 1:3, y = TestS4(3:1))
@@ -109,7 +110,7 @@ test_that("`arrange()` works with `numeric_version` (#6680)", {
   x <- numeric_version(c("1.11", "1.2.3", "1.2.2"))
   df <- tibble(x = x)
 
-  expect <- df[c(3, 2, 1),]
+  expect <- df[c(3, 2, 1), ]
 
   expect_identical(arrange(df, x), expect)
 })
@@ -195,8 +196,8 @@ test_that("grouped arrange ignores group, unless requested with .by_group", {
   df <- data.frame(g = c(2, 1, 2, 1), x = 4:1)
   gf <- group_by(df, g)
 
-  expect_equal(arrange(gf, x), gf[4:1, ,])
-  expect_equal(arrange(gf, x, .by_group = TRUE), gf[c(4, 2, 3, 1), ,])
+  expect_equal(arrange(gf, x), gf[4:1, , ])
+  expect_equal(arrange(gf, x, .by_group = TRUE), gf[c(4, 2, 3, 1), , ])
 })
 
 test_that("arrange updates the grouping structure (#605)", {
@@ -236,12 +237,16 @@ test_that("arrange() works with across() and pick() cols that return multiple co
   )
 
   expect_identical(
-    arrange(df, across(c(a, b), .fns = identity), across(c(c, d), .fns = identity)),
-    df[c(3, 2, 1),]
+    arrange(
+      df,
+      across(c(a, b), .fns = identity),
+      across(c(c, d), .fns = identity)
+    ),
+    df[c(3, 2, 1), ]
   )
   expect_identical(
     arrange(df, pick(a, b), pick(c, d)),
-    df[c(3, 2, 1),]
+    df[c(3, 2, 1), ]
   )
 })
 
@@ -249,10 +254,10 @@ test_that("arrange() evaluates each pick() call on the original data (#6495)", {
   df <- tibble(x = 2:1)
 
   out <- arrange(df, TRUE, pick(everything()))
-  expect_identical(out, df[c(2, 1),])
+  expect_identical(out, df[c(2, 1), ])
 
   out <- arrange(df, NULL, pick(everything()))
-  expect_identical(out, df[c(2, 1),])
+  expect_identical(out, df[c(2, 1), ])
 })
 
 test_that("arrange() with empty dots still calls dplyr_row_slice()", {
@@ -306,7 +311,7 @@ test_that("desc() inside arrange() checks the number of arguments (#5921)", {
   })
 })
 
-test_that("arrange keeps zero length groups",{
+test_that("arrange keeps zero length groups", {
   df <- tibble(
     e = 1,
     f = factor(c(1, 1, 2, 2), levels = 1:3),
@@ -315,8 +320,8 @@ test_that("arrange keeps zero length groups",{
   )
   df <- group_by(df, e, f, g, .drop = FALSE)
 
-  expect_equal( group_size(arrange(df)), c(2, 2, 0) )
-  expect_equal( group_size(arrange(df, x)), c(2, 2, 0) )
+  expect_equal(group_size(arrange(df)), c(2, 2, 0))
+  expect_equal(group_size(arrange(df, x)), c(2, 2, 0))
 })
 
 # legacy --------------------------------------------------------------
@@ -421,7 +426,9 @@ test_that("legacy - arrange handles S4 classes (#1105)", {
   local_options(dplyr.legacy_locale = TRUE)
 
   TestS4 <- suppressWarnings(setClass("TestS4", contains = "integer"))
-  setMethod('[', 'TestS4', function(x, i, ...){ TestS4(unclass(x)[i, ...])  })
+  setMethod('[', 'TestS4', function(x, i, ...) {
+    TestS4(unclass(x)[i, ...])
+  })
   on.exit(removeClass("TestS4"), add = TRUE)
 
   df <- tibble(x = 1:3, y = TestS4(3:1))
@@ -434,7 +441,7 @@ test_that("legacy - `arrange()` works with `numeric_version` (#6680)", {
   x <- numeric_version(c("1.11", "1.2.3", "1.2.2"))
   df <- tibble(x = x)
 
-  expect <- df[c(3, 2, 1),]
+  expect <- df[c(3, 2, 1), ]
 
   expect_identical(arrange(df, x), expect)
 })
@@ -487,12 +494,16 @@ test_that("legacy - arrange() works with across() and pick() cols that return mu
   )
 
   expect_identical(
-    arrange(df, across(c(a, b), .fns = identity), across(c(c, d), .fns = identity)),
-    df[c(3, 2, 1),]
+    arrange(
+      df,
+      across(c(a, b), .fns = identity),
+      across(c(c, d), .fns = identity)
+    ),
+    df[c(3, 2, 1), ]
   )
   expect_identical(
     arrange(df, pick(a, b), pick(c, d)),
-    df[c(3, 2, 1),]
+    df[c(3, 2, 1), ]
   )
 })
 
@@ -502,8 +513,8 @@ test_that("legacy - arrange sorts missings in df-cols correctly", {
   col <- tibble(a = c(1, 1, 1), b = c(3, NA, 1))
   df <- tibble(x = col)
 
-  expect_identical(arrange(df, x), df[c(3, 1, 2),])
-  expect_identical(arrange(df, desc(x)), df[c(1, 3, 2),])
+  expect_identical(arrange(df, x), df[c(3, 1, 2), ])
+  expect_identical(arrange(df, desc(x)), df[c(1, 3, 2), ])
 })
 
 test_that("legacy - arrange with duplicates in a df-col uses a stable sort", {
@@ -524,5 +535,5 @@ test_that("legacy - arrange with doubly nested df-col doesn't infloop", {
   col <- tibble(one = one, two = two)
   df <- tibble(x = col, y = c(1, 1, 1, 1, 0))
 
-  expect_identical(arrange(df, x, y), df[c(2, 1, 3, 5, 4),])
+  expect_identical(arrange(df, x, y), df[c(2, 1, 3, 5, 4), ])
 })

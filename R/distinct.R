@@ -69,19 +69,18 @@ distinct <- function(.data, ..., .keep_all = FALSE) {
   UseMethod("distinct")
 }
 
-
-
 # Same basic philosophy as group_by_prepare(): lazy_dots comes in, list of data and
 # vars (character vector) comes out.
 #' @rdname group_by_prepare
 #' @export
-distinct_prepare <- function(.data,
-                             vars,
-                             group_vars = character(),
-                             .keep_all = FALSE,
-                             caller_env = caller_env(2),
-                             error_call = caller_env()
-                             ) {
+distinct_prepare <- function(
+  .data,
+  vars,
+  group_vars = character(),
+  .keep_all = FALSE,
+  caller_env = caller_env(2),
+  error_call = caller_env()
+) {
   stopifnot(is_quosures(vars), is.character(group_vars))
 
   # If no input, keep all variables
@@ -104,7 +103,10 @@ distinct_prepare <- function(.data,
   if (length(missing_vars) > 0) {
     bullets <- c(
       "Must use existing variables.",
-      set_names(glue("`{missing_vars}` not found in `.data`."), rep("x", length(missing_vars)))
+      set_names(
+        glue("`{missing_vars}` not found in `.data`."),
+        rep("x", length(missing_vars))
+      )
     )
     abort(bullets, call = error_call)
   }

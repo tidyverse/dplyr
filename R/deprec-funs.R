@@ -36,24 +36,31 @@
 #' # ->
 #' list(m1 = mean, m2 = "mean", m3 = ~ mean(.x, na.rm = TRUE))
 funs <- function(..., .args = list()) {
-  lifecycle::deprecate_warn("0.8.0", "funs()", always = TRUE, details = paste_line(
-    "Please use a list of either functions or lambdas: ",
-    "",
-    "  # Simple named list: ",
-    "  list(mean = mean, median = median)",
-    "",
-    "  # Auto named with `tibble::lst()`: ",
-    "  tibble::lst(mean, median)",
-    "",
-    "  # Using lambdas",
-    "  list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))"
-  ))
+  lifecycle::deprecate_warn(
+    "0.8.0",
+    "funs()",
+    always = TRUE,
+    details = paste_line(
+      "Please use a list of either functions or lambdas: ",
+      "",
+      "  # Simple named list: ",
+      "  list(mean = mean, median = median)",
+      "",
+      "  # Auto named with `tibble::lst()`: ",
+      "  tibble::lst(mean, median)",
+      "",
+      "  # Using lambdas",
+      "  list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))"
+    )
+  )
 
   dots <- enquos(...)
   default_env <- caller_env()
 
   error_call <- current_env()
-  funs <- map(dots, function(quo) as_fun(quo, default_env, .args, error_call = error_call))
+  funs <- map(dots, function(quo) {
+    as_fun(quo, default_env, .args, error_call = error_call)
+  })
   new_funs(funs)
 }
 new_funs <- function(funs) {

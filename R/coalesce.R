@@ -64,8 +64,8 @@ coalesce <- function(..., .ptype = NULL, .size = NULL) {
   names <- names_as_error_names(names)
   args <- set_names(args, names)
 
-  conditions <- map(args, ~{
-    !vec_detect_missing(.x)
+  conditions <- map(args, function(arg) {
+    !vec_detect_missing(arg)
   })
 
   vec_case_when(

@@ -37,7 +37,7 @@ test_that("rows_insert() allows you to ignore matched keys with `conflict = 'ign
 
   expect_identical(
     rows_insert(x, y, by = "a", conflict = "ignore"),
-    rows_insert(x, y[2,], by = "a")
+    rows_insert(x, y[2, ], by = "a")
   )
 })
 
@@ -346,7 +346,11 @@ test_that("rows_upsert() allows `x` keys to be duplicated (#5553)", {
 
   expect_identical(
     rows_upsert(x, y, by = "a"),
-    tibble(a = c(1, 2, 1, 3, 4), b = c(99, 3, 99, 88, 100), c = c(letters[1:4], NA))
+    tibble(
+      a = c(1, 2, 1, 3, 4),
+      b = c(99, 3, 99, 88, 100),
+      c = c(letters[1:4], NA)
+    )
   )
 })
 
@@ -417,13 +421,13 @@ test_that("rows_delete() ignores extra `y` columns, with a message", {
     out <- rows_delete(x, y)
   })
 
-  expect_identical(out, x[0,])
+  expect_identical(out, x[0, ])
 
   expect_snapshot({
     out <- rows_delete(x, y, by = "a")
   })
 
-  expect_identical(out, x[0,])
+  expect_identical(out, x[0, ])
 })
 
 test_that("rows_delete() requires `y` keys to exist in `x` by default", {
@@ -449,7 +453,7 @@ test_that("rows_delete() allows `x` keys to be duplicated (#5553)", {
 
   expect_identical(
     rows_delete(x, y, by = "a"),
-    x[2,]
+    x[2, ]
   )
 })
 
@@ -459,7 +463,7 @@ test_that("rows_delete() allows `y` keys to be duplicated (#5553)", {
 
   expect_identical(
     rows_delete(x, y, by = "a"),
-    x[c(2, 3),]
+    x[c(2, 3), ]
   )
 })
 

@@ -50,7 +50,7 @@ test_that("arrange_if arranges by grouping variable (#3351, #3480)", {
   )
 })
 
-test_that("scoped arrange respect .by_group (#3245)",{
+test_that("scoped arrange respect .by_group (#3245)", {
   d <- group_by(df, cyl)
   expect_identical(
     arrange_all(d, .by_group = TRUE),

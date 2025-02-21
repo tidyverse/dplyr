@@ -82,7 +82,11 @@ test_that("is_compatible generates useful messages for different cases", {
   expect_snapshot({
     cat(is_compatible(tibble(x = 1), 1))
     cat(is_compatible(tibble(x = 1), tibble(x = 1, y = 2)))
-    cat(is_compatible(tibble(x = 1, y = 1), tibble(y = 1, x = 1), ignore_col_order = FALSE))
+    cat(is_compatible(
+      tibble(x = 1, y = 1),
+      tibble(y = 1, x = 1),
+      ignore_col_order = FALSE
+    ))
     cat(is_compatible(tibble(x = 1), tibble(y = 1)))
     cat(is_compatible(tibble(x = 1), tibble(x = 1L), convert = FALSE))
     cat(is_compatible(tibble(x = 1), tibble(x = "a")))
@@ -135,4 +139,3 @@ test_that("setequal checks y is a data frame", {
 test_that("setequal checks for extra arguments", {
   expect_snapshot(setequal(mtcars, mtcars, z = 2), error = TRUE)
 })
-

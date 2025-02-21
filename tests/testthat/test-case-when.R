@@ -111,11 +111,13 @@ test_that("case_when can be used in anonymous functions (#3422)", {
 
 test_that("case_when() can be used inside mutate()", {
   out <- mtcars[1:4, ] %>%
-    mutate(out = case_when(
-      cyl == 4 ~ 1,
-      .data[["am"]] == 1 ~ 2,
-      .default = 0
-    )) %>%
+    mutate(
+      out = case_when(
+        cyl == 4 ~ 1,
+        .data[["am"]] == 1 ~ 2,
+        .default = 0
+      )
+    ) %>%
     pull()
   expect_identical(out, c(2, 2, 1, 0))
 })
@@ -141,7 +143,7 @@ test_that("can pass nested quosures to case_when()", {
     foo <- mtcars$cyl[1:4]
     quos(
       !!quo(foo) == 4 ~ 1,
-      TRUE            ~ 0
+      TRUE ~ 0
     )
   })
   expect_identical(case_when(!!!fs), c(0, 0, 1, 0))
@@ -165,8 +167,8 @@ test_that("can pass unevaluated formulas to case_when()", {
 test_that("unevaluated formulas can refer to data mask", {
   fs <- exprs(
     cyl == 4 ~ 1,
-    am == 1  ~ 2,
-    TRUE     ~ 0
+    am == 1 ~ 2,
+    TRUE ~ 0
   )
   out <- mtcars[1:4, ] %>% mutate(out = case_when(!!!fs)) %>% pull()
   expect_identical(out, c(2, 2, 1, 0))
@@ -179,8 +181,8 @@ test_that("unevaluated formulas can contain quosures", {
   })
   fs <- exprs(
     cyl == !!quo ~ 1,
-    am == 1      ~ 2,
-    TRUE         ~ 0
+    am == 1 ~ 2,
+    TRUE ~ 0
   )
   out <- mtcars[1:4, ] %>% mutate(out = case_when(!!!fs)) %>% pull()
   expect_identical(out, c(2, 2, 1, 0))
@@ -191,7 +193,7 @@ test_that("NULL inputs are compacted", {
 
   bool <- FALSE
   out <- case_when(
-    x == 2           ~ TRUE,
+    x == 2 ~ TRUE,
     if (bool) x == 3 ~ NA,
     .default = FALSE
   )
@@ -199,7 +201,7 @@ test_that("NULL inputs are compacted", {
 
   bool <- TRUE
   out <- case_when(
-    x == 2           ~ TRUE,
+    x == 2 ~ TRUE,
     if (bool) x == 3 ~ NA,
     .default = FALSE
   )
@@ -300,8 +302,7 @@ test_that("case_when() give meaningful errors", {
       case_when(NULL)
     ))
     (expect_error(
-      case_when(~1:2)
+      case_when(~ 1:2)
     ))
   })
-
 })

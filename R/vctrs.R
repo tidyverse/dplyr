@@ -1,4 +1,4 @@
-common_handler <- function(name){
+common_handler <- function(name) {
   function(cnd) {
     bullets <- c(
       glue("`{name}` must return compatible vectors across groups."),

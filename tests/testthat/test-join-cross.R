@@ -44,7 +44,10 @@ test_that("cross join applies `suffix`", {
   df2 <- tibble(x = 2, z = 3)
 
   expect_named(cross_join(df1, df2), c("x.x", "y", "x.y", "z"))
-  expect_named(cross_join(df1, df2, suffix = c("", "_y")), c("x", "y", "x_y", "z"))
+  expect_named(
+    cross_join(df1, df2, suffix = c("", "_y")),
+    c("x", "y", "x_y", "z")
+  )
 })
 
 test_that("cross join checks for duplicate names", {

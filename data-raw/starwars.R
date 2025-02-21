@@ -20,7 +20,6 @@ get_all <- function(url) {
 people <- get_all("https://swapi.py4e.com/api/people/?format=json")
 str(people[[1]])
 
-
 # Generate lookup tables --------------------------------------------------
 
 lookup <- function(url, name = "name") {
@@ -41,21 +40,34 @@ starships <- lookup("https://swapi.py4e.com/api/starships/?format=json")
 
 starwars <- tibble(
   name = people %>% map_chr("name"),
-  height = people %>% map_chr("height") %>% parse_integer(na = c("unknown", "none")),
+  height = people %>%
+    map_chr("height") %>%
+    parse_integer(na = c("unknown", "none")),
   mass = people %>% map_chr("mass") %>% parse_number(na = "unknown"),
   hair_color = people %>% map_chr("hair_color") %>% parse_character(na = "n/a"),
   skin_color = people %>% map_chr("skin_color"),
   eye_color = people %>% map_chr("eye_color"),
-  birth_year = people %>% map_chr("birth_year") %>% parse_number(na = "unknown"),
+  birth_year = people %>%
+    map_chr("birth_year") %>%
+    parse_number(na = "unknown"),
   sex = people %>% map_chr("gender") %>% parse_character(na = "n/a"),
   gender = NA_character_,
   homeworld = people %>% map_chr("homeworld") %>% planets[.] %>% unname(),
-  species = people %>% map("species") %>% map_chr(1, .null = NA) %>% species[.] %>% unname(),
-  films = people %>% map("films") %>% map(. %>% flatten_chr() %>% films[.] %>% unname()),
-  vehicles = people %>% map("vehicles", .default = list()) %>% map(. %>% flatten_chr() %>% vehicles[.] %>% unname()),
-  starships = people %>% map("starships", .default = list()) %>% map(. %>% flatten_chr() %>% starships[.] %>% unname())
+  species = people %>%
+    map("species") %>%
+    map_chr(1, .null = NA) %>%
+    species[.] %>%
+    unname(),
+  films = people %>%
+    map("films") %>%
+    map(. %>% flatten_chr() %>% films[.] %>% unname()),
+  vehicles = people %>%
+    map("vehicles", .default = list()) %>%
+    map(. %>% flatten_chr() %>% vehicles[.] %>% unname()),
+  starships = people %>%
+    map("starships", .default = list()) %>%
+    map(. %>% flatten_chr() %>% starships[.] %>% unname())
 )
-
 
 # Add gender --------------------------------------------------------------
 
@@ -69,16 +81,17 @@ starwars <- tibble(
 # Hutts are hermaphroditic, but identify as either male or female
 
 genders <- c(
-  "C-3PO" = "masculine",  # https://starwars.fandom.com/wiki/C-3PO
-  "BB8" = "masculine",    # https://starwars.fandom.com/wiki/BB-8
-  "IG-88" = "masculine",  # https://starwars.fandom.com/wiki/IG-88
-  "R5-D4" = "masculine",  # https://starwars.fandom.com/wiki/R5-D4
-  "R2-D2" = "masculine",  # https://starwars.fandom.com/wiki/R2-D2
-  "R4-P17" = "feminine",  # https://starwars.fandom.com/wiki/R4-P17
+  "C-3PO" = "masculine", # https://starwars.fandom.com/wiki/C-3PO
+  "BB8" = "masculine", # https://starwars.fandom.com/wiki/BB-8
+  "IG-88" = "masculine", # https://starwars.fandom.com/wiki/IG-88
+  "R5-D4" = "masculine", # https://starwars.fandom.com/wiki/R5-D4
+  "R2-D2" = "masculine", # https://starwars.fandom.com/wiki/R2-D2
+  "R4-P17" = "feminine", # https://starwars.fandom.com/wiki/R4-P17
   "Jabba Desilijic Tiure" = "masculine" # https://starwars.fandom.com/wiki/Jabba_Desilijic_Tiure
 )
 
-starwars <- mutate(starwars,
+starwars <- mutate(
+  starwars,
   sex = ifelse(sex == "hermaphrodite", "hermaphroditic", sex),
   species = ifelse(name == "R4-P17", "Droid", species), # R4-P17 is a droid
   sex = ifelse(species == "Droid", "none", sex), # Droids don't have biological sex
@@ -98,7 +111,9 @@ starwars %>% count(sex, gender, sort = TRUE)
 
 # see https://github.com/tidyverse/dplyr/pull/6840
 starwars = starwars %>%
-  mutate(name = ifelse(name == "Beru Whitesun lars", "Beru Whitesun Lars", name))
+  mutate(
+    name = ifelse(name == "Beru Whitesun lars", "Beru Whitesun Lars", name)
+  )
 
 # Basic checks -------------------------------------------------------------
 

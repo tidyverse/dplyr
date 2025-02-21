@@ -4,7 +4,8 @@ df <- data.frame(
   g = c(1, 2, 2, 3, 3, 3),
   x = 1:6,
   y = 6:1
-) %>% group_by(g)
+) %>%
+  group_by(g)
 
 test_that("unnamed results bound together by row", {
   first <- df %>% do(head(., 1))
@@ -91,10 +92,9 @@ test_that("ungrouped do evaluates args in correct environment", {
 
 test_that("can do on rowwise dataframe", {
   out <- mtcars %>% rowwise() %>% do(x = 1)
-  exp <- tibble(x =rep(list(1), nrow(mtcars))) %>% rowwise()
+  exp <- tibble(x = rep(list(1), nrow(mtcars))) %>% rowwise()
   expect_identical(out, exp)
 })
-
 
 # Zero row inputs --------------------------------------------------------------
 
@@ -181,7 +181,7 @@ test_that("handling of empty data frames in do", {
 test_that("do() does not retain .drop attribute (#4176)", {
   res <- iris %>%
     group_by(Species) %>%
-    do(data.frame(n=1))
+    do(data.frame(n = 1))
   expect_null(attr(res, ".drop", exact = TRUE))
 })
 
@@ -192,7 +192,8 @@ test_that("do() gives meaningful error messages", {
     g = c(1, 2, 2, 3, 3, 3),
     x = 1:6,
     y = 6:1
-  ) %>% group_by(g)
+  ) %>%
+    group_by(g)
 
   expect_snapshot({
     (expect_error(df %>% do(head, tail)))
@@ -205,5 +206,4 @@ test_that("do() gives meaningful error messages", {
     # can't use both named and unnamed args
     (expect_error(df %>% do(x = 1, 2)))
   })
-
 })

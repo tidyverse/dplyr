@@ -17,7 +17,11 @@ NULL
 #' @rdname deprec-context
 #' @export
 cur_data <- function() {
-  lifecycle::deprecate_soft(when = "1.1.0", what = "cur_data()", with = "pick()")
+  lifecycle::deprecate_soft(
+    when = "1.1.0",
+    what = "cur_data()",
+    with = "pick()"
+  )
   mask <- peek_mask()
   vars <- mask$current_non_group_vars()
   mask$pick_current(vars)
@@ -26,7 +30,11 @@ cur_data <- function() {
 #' @rdname deprec-context
 #' @export
 cur_data_all <- function() {
-  lifecycle::deprecate_soft(when = "1.1.0", what = "cur_data_all()", with = "pick()")
+  lifecycle::deprecate_soft(
+    when = "1.1.0",
+    what = "cur_data_all()",
+    with = "pick()"
+  )
   mask <- peek_mask()
   vars <- mask$current_vars()
   mask$pick_current(vars)

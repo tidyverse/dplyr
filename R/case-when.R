@@ -149,10 +149,7 @@
 #' starwars %>%
 #'   mutate(type = case_character_type(height, mass, species, robots = FALSE)) %>%
 #'   pull(type)
-case_when <- function(...,
-                      .default = NULL,
-                      .ptype = NULL,
-                      .size = NULL) {
+case_when <- function(..., .default = NULL, .ptype = NULL, .size = NULL) {
   args <- list2(...)
 
   args <- case_formula_evaluate(
@@ -185,10 +182,7 @@ case_when <- function(...,
   )
 }
 
-case_formula_evaluate <- function(args,
-                                  default_env,
-                                  dots_env,
-                                  error_call) {
+case_formula_evaluate <- function(args, default_env, dots_env, error_call) {
   # `case_when()`'s formula interface compacts `NULL`s
   args <- compact_null(args)
   n_args <- length(args)
@@ -268,11 +262,13 @@ case_formula_evaluate <- function(args,
   )
 }
 
-validate_and_split_formula <- function(x,
-                                       i,
-                                       default_env,
-                                       dots_env,
-                                       error_call) {
+validate_and_split_formula <- function(
+  x,
+  i,
+  default_env,
+  dots_env,
+  error_call
+) {
   if (is_quosure(x)) {
     # We specially handle quosures, assuming they hold formulas
     default_env <- quo_get_env(x)

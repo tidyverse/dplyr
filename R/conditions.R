@@ -40,12 +40,15 @@ cnd_bullet_cur_group_label <- function(what = "error") {
 
 cnd_bullet_rowwise_unlist <- function() {
   if (peek_mask()$is_rowwise()) {
-    glue_data(peek_error_context(), "Did you mean: `{error_name} = list({quo_as_label(error_quo)})` ?")
+    glue_data(
+      peek_error_context(),
+      "Did you mean: `{error_name} = list({quo_as_label(error_quo)})` ?"
+    )
   }
 }
 
 or_1 <- function(x) {
-  if(x == 1L) {
+  if (x == 1L) {
     "1"
   } else {
     glue("{x} or 1")
@@ -63,11 +66,11 @@ is_data_pronoun <- function(x) {
 }
 
 # Because as_label() strips off .data$<> and .data[[<>]]
-quo_as_label <- function(quo)  {
+quo_as_label <- function(quo) {
   expr <- quo_get_expr(quo)
   if (is_data_pronoun(expr)) {
     deparse(expr)[[1]]
-  } else{
+  } else {
     with_no_rlang_infix_labeling(as_label(expr))
   }
 }
@@ -194,7 +197,10 @@ dplyr_internal_error <- function(class = NULL, data = list()) {
   abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
 }
 dplyr_internal_signal <- function(class) {
-  signal(message = "Internal dplyr signal", class = c(class, "dplyr:::internal_signal"))
+  signal(
+    message = "Internal dplyr signal",
+    class = c(class, "dplyr:::internal_signal")
+  )
 }
 
 skip_internal_condition <- function(cnd) {
@@ -205,14 +211,16 @@ skip_internal_condition <- function(cnd) {
   }
 }
 
-dplyr_error_handler <- function(dots,
-                                mask,
-                                bullets,
-                                error_call,
-                                action = "compute",
-                                error_class = NULL,
-                                i_sym = "i",
-                                frame = caller_env()) {
+dplyr_error_handler <- function(
+  dots,
+  mask,
+  bullets,
+  error_call,
+  action = "compute",
+  error_class = NULL,
+  i_sym = "i",
+  frame = caller_env()
+) {
   force(frame)
 
   function(cnd) {
@@ -240,7 +248,6 @@ dplyr_error_handler <- function(dots,
     )
   }
 }
-
 
 # Warnings -------------------------------------------------------------
 
@@ -346,12 +353,16 @@ signal_warnings <- function(state, error_call) {
   msg <- paste_line(
     cli::format_warning(c(
       "There {cli::qty(n)} {?was/were} {n} warning{?s} in {call}.",
-      if (n > 1) "The first warning was:"
+      if (n > 1) {
+        "The first warning was:"
+      }
     )),
     paste0(prefix, cnd_message(first)),
-    if (n > 1) cli::format_warning(c(
-      i = "Run {.run dplyr::last_dplyr_warnings()} to see the {n - 1} remaining warning{?s}."
-    ))
+    if (n > 1) {
+      cli::format_warning(c(
+        i = "Run {.run dplyr::last_dplyr_warnings()} to see the {n - 1} remaining warning{?s}."
+      ))
+    }
   )
 
   warn(msg, use_cli_format = FALSE)

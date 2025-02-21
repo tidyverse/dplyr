@@ -10,7 +10,6 @@ test_that("cur_group() works", {
     gf %>% summarise(key = list(cur_group())) %>% pull(key),
     list(tibble(g = 1))
   )
-
 })
 
 test_that("cur_group() works with empty grouped data frame (#6304)", {
@@ -62,7 +61,6 @@ test_that("give useful error messages when not applicable", {
     (expect_error(cur_group_id()))
     (expect_error(cur_group_rows()))
   })
-
 })
 
 test_that("group labels are correctly formatted", {

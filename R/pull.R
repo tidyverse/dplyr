@@ -60,7 +60,9 @@ find_var <- function(expr, vars) {
   n <- length(vars)
 
   if (is.na(var) || abs(var) > n || var == 0L) {
-    abort("`var` must be a value between {-n} and {n} (excluding zero), not {var}.")
+    abort(
+      "`var` must be a value between {-n} and {n} (excluding zero), not {var}."
+    )
   }
 
   if (var < 0) {

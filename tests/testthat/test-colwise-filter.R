@@ -10,7 +10,10 @@ test_that("filter_at()", {
 })
 
 test_that("filter_all()", {
-  expect_identical(filter_all(mtcars, any_vars(. > 200))$disp, mtcars$disp[mtcars$disp > 200])
+  expect_identical(
+    filter_all(mtcars, any_vars(. > 200))$disp,
+    mtcars$disp[mtcars$disp > 200]
+  )
 })
 
 test_that("filter_at can filter by grouping variables (#3351, #3480)", {
@@ -45,10 +48,10 @@ test_that("can supply functions to scoped filters", {
 })
 
 test_that("colwise filter support .data$. in the quosure versions", {
-   expect_identical(
-     filter_if(iris, is.numeric, any_vars(.data$. > 4)),
-     filter_if(iris, is.numeric, any_vars(. > 4))
-   )
+  expect_identical(
+    filter_if(iris, is.numeric, any_vars(.data$. > 4)),
+    filter_if(iris, is.numeric, any_vars(. > 4))
+  )
 
   expect_identical(
     filter_all(select(iris, -Species), any_vars(.data$. > 4)),
@@ -60,7 +63,6 @@ test_that("colwise filter support .data$. in the quosure versions", {
     filter_at(iris, vars(contains(".")), any_vars(. > 4))
   )
 })
-
 
 test_that("all_exprs() creates intersection", {
   expect_identical(all_exprs(am == 1), quo(am == 1))

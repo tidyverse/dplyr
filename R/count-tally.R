@@ -86,7 +86,14 @@ count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
 
 #' @export
 #' @rdname count
-count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+count.data.frame <- function(
+  x,
+  ...,
+  wt = NULL,
+  sort = FALSE,
+  name = NULL,
+  .drop = group_by_drop_default(x)
+) {
   dplyr_local_error_call()
 
   if (!missing(...)) {
@@ -129,12 +136,26 @@ tally.data.frame <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 
 #' @export
 #' @rdname count
-add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+add_count <- function(
+  x,
+  ...,
+  wt = NULL,
+  sort = FALSE,
+  name = NULL,
+  .drop = deprecated()
+) {
   UseMethod("add_count")
 }
 
 #' @export
-add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+add_count.default <- function(
+  x,
+  ...,
+  wt = NULL,
+  sort = FALSE,
+  name = NULL,
+  .drop = deprecated()
+) {
   add_count_impl(
     x,
     ...,
@@ -145,9 +166,15 @@ add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .dro
   )
 }
 
-
 #' @export
-add_count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+add_count.data.frame <- function(
+  x,
+  ...,
+  wt = NULL,
+  sort = FALSE,
+  name = NULL,
+  .drop = deprecated()
+) {
   out <- add_count_impl(
     x,
     ...,
@@ -159,13 +186,15 @@ add_count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .
   dplyr_reconstruct(out, x)
 }
 
-add_count_impl <- function(x,
-                           ...,
-                           wt = NULL,
-                           sort = FALSE,
-                           name = NULL,
-                           .drop = deprecated(),
-                           error_call = caller_env()) {
+add_count_impl <- function(
+  x,
+  ...,
+  wt = NULL,
+  sort = FALSE,
+  name = NULL,
+  .drop = deprecated(),
+  error_call = caller_env()
+) {
   if (!is_missing(.drop)) {
     lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )", always = TRUE)
   }
@@ -219,10 +248,12 @@ tally_n <- function(x, wt) {
   }
 }
 
-check_n_name <- function(name,
-                         vars,
-                         arg = caller_arg(name),
-                         call = caller_env()) {
+check_n_name <- function(
+  name,
+  vars,
+  arg = caller_arg(name),
+  call = caller_env()
+) {
   if (is.null(name)) {
     name <- n_name(vars)
 

@@ -9,8 +9,14 @@ test_that("can select/rename all variables", {
 
 test_that("can select/rename with predicate", {
   expect_identical(select_if(df, is_integerish), select(df, x, z))
-  expect_identical(select_if(df, is_integerish, toupper), set_names(df[c("x", "z")], c("X", "Z")))
-  expect_identical(rename_if(df, is_integerish, toupper), set_names(df, c("X", "y", "Z")))
+  expect_identical(
+    select_if(df, is_integerish, toupper),
+    set_names(df[c("x", "z")], c("X", "Z"))
+  )
+  expect_identical(
+    rename_if(df, is_integerish, toupper),
+    set_names(df, c("X", "y", "Z"))
+  )
 })
 
 test_that("can take list, but only containing single function", {
@@ -27,8 +33,14 @@ test_that("can take list, but only containing single function", {
 
 test_that("can select/rename with vars()", {
   expect_identical(select_at(df, vars(x:y)), df[-3])
-  expect_identical(select_at(df, vars(x:y), toupper), set_names(df[-3], c("X", "Y")))
-  expect_identical(rename_at(df, vars(x:y), toupper), set_names(df, c("X", "Y", "z")))
+  expect_identical(
+    select_at(df, vars(x:y), toupper),
+    set_names(df[-3], c("X", "Y"))
+  )
+  expect_identical(
+    rename_at(df, vars(x:y), toupper),
+    set_names(df, c("X", "Y", "z"))
+  )
 })
 
 test_that("select variants can use grouping variables (#3351, #3480)", {
@@ -121,13 +133,22 @@ test_that("select_all does not change the order of columns (#3351)", {
 
 test_that("mutate_all does not change the order of columns (#3351)", {
   tbl <- group_by(tibble(x = 1:4, y = 1:4), y)
-  expect_message(expect_identical(names(mutate_all(tbl, identity)), names(tbl)), "ignored")
+  expect_message(
+    expect_identical(names(mutate_all(tbl, identity)), names(tbl)),
+    "ignored"
+  )
 
   tbl <- group_by(tibble(x = 1:4, y = 1:4), x)
-  expect_message(expect_identical(names(mutate_all(tbl, identity)), names(tbl)), "ignored")
+  expect_message(
+    expect_identical(names(mutate_all(tbl, identity)), names(tbl)),
+    "ignored"
+  )
 
   tbl <- group_by(tibble(x = 1:4, y = 1:4, z = 1:4), y)
-  expect_message(expect_identical(names(mutate_all(tbl, identity)), names(tbl)), "ignored")
+  expect_message(
+    expect_identical(names(mutate_all(tbl, identity)), names(tbl)),
+    "ignored"
+  )
 })
 
 test_that("select_if() and rename_if() handles logical (#4213)", {
@@ -141,19 +162,18 @@ test_that("select_if() and rename_if() handles logical (#4213)", {
     iris %>% rename_if(!names(.) %in% ids, toupper),
     iris %>% rename_at(setdiff(names(.), "Sepal.Length"), toupper)
   )
-
 })
 
 test_that("rename_at() handles empty selection (#4324)", {
   expect_identical(
-    mtcars %>% rename_at(vars(contains("fake_col")),~paste0("NewCol.",.)),
+    mtcars %>% rename_at(vars(contains("fake_col")), ~ paste0("NewCol.", .)),
     mtcars
   )
 })
 
 test_that("rename_all/at() call the function with simple character vector (#4459)", {
   fun <- function(x) case_when(x == 'mpg' ~ 'fuel_efficiency', .default = x)
-  out <- rename_all(mtcars,fun)
+  out <- rename_all(mtcars, fun)
   expect_equal(names(out)[1L], 'fuel_efficiency')
 
   out <- rename_at(mtcars, vars(everything()), fun)
@@ -161,7 +181,7 @@ test_that("rename_all/at() call the function with simple character vector (#4459
 })
 
 test_that("select_if() discards the column when predicate gives NA (#4486)", {
-  out <- tibble(mycol=c("","",NA)) %>% select_if(~!all(.==""))
+  out <- tibble(mycol = c("", "", NA)) %>% select_if(~ !all(. == ""))
   expect_identical(
     out,
     tibble::new_tibble(list(), nrow = 3L)
@@ -203,5 +223,4 @@ test_that("colwise select() / rename() give meaningful errors", {
       data.frame() %>% select_all(.funs = 42)
     ))
   })
-
 })

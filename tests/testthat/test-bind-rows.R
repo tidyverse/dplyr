@@ -68,7 +68,7 @@ test_that("bind_rows deduplicates row names", {
   expect_equal(rownames(out), c("a...1", "b", "a...3", "c"))
 })
 
-test_that("bind_rows respects the drop attribute of grouped df",{
+test_that("bind_rows respects the drop attribute of grouped df", {
   df <- tibble(
     e = 1,
     f = factor(c(1, 1, 2, 2), levels = 1:3),
@@ -78,7 +78,7 @@ test_that("bind_rows respects the drop attribute of grouped df",{
   df <- group_by(df, e, f, g, .drop = FALSE)
 
   gg <- bind_rows(df, df)
-  expect_equal(group_size(gg), c(4L,4L,0L))
+  expect_equal(group_size(gg), c(4L, 4L, 0L))
 })
 
 # bind_rows() magic ---------------------------------------------------
@@ -137,7 +137,7 @@ test_that("bind_rows() only flattens S3 lists that inherit from list (#3924)", {
   expect_snapshot(bind_rows(lst1), error = TRUE)
 
   lst2 <- structure(list(df, df, df), class = c("special_lst", "list"))
-  expect_equal(bind_rows(lst2), bind_rows(df,df,df))
+  expect_equal(bind_rows(lst2), bind_rows(df, df, df))
 })
 
 test_that("bind_rows() handles named list", {

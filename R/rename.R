@@ -84,7 +84,6 @@ rename_with <- function(.data, .fn, .cols = everything(), ...) {
   UseMethod("rename_with")
 }
 
-
 #' @export
 rename_with.data.frame <- function(.data, .fn, .cols = everything(), ...) {
   .fn <- as_function(.fn)

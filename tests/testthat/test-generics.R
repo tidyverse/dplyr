@@ -13,7 +13,6 @@ test_that("row_slice preserves empty groups if requested", {
   expect_equal(group_data(out)$.rows, list_of(integer(), c(1L, 2L), integer()))
 })
 
-
 # dplyr_col_modify --------------------------------------------------------
 
 test_that("empty cols returns input", {
@@ -41,7 +40,10 @@ test_that("can add, remove, and replace columns", {
   df <- data.frame(x = 1, y = 2)
   expect_equal(dplyr_col_modify(df, list(y = NULL)), data.frame(x = 1))
   expect_equal(dplyr_col_modify(df, list(y = 3)), data.frame(x = 1, y = 3))
-  expect_equal(dplyr_col_modify(df, list(z = 3)), data.frame(x = 1, y = 2, z = 3))
+  expect_equal(
+    dplyr_col_modify(df, list(z = 3)),
+    data.frame(x = 1, y = 2, z = 3)
+  )
 })
 
 test_that("doesn't expand row names", {

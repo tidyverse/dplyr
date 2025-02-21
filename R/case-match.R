@@ -122,10 +122,7 @@
 #'     ),
 #'     .keep = "used"
 #'   )
-case_match <- function(.x,
-                       ...,
-                       .default = NULL,
-                       .ptype = NULL) {
+case_match <- function(.x, ..., .default = NULL, .ptype = NULL) {
   args <- list2(...)
 
   args <- case_formula_evaluate(

@@ -1,5 +1,4 @@
-
-group_nest_impl <- function(.tbl, .key, keep = FALSE){
+group_nest_impl <- function(.tbl, .key, keep = FALSE) {
   mutate(group_keys(.tbl), !!.key := group_split(.tbl, .keep = keep))
 }
 
@@ -52,7 +51,7 @@ group_nest_impl <- function(.tbl, .key, keep = FALSE){
 #' #                  a grouping specification that uses the data mask
 #' starwars %>%
 #'   group_nest(species, homeworld)
-group_nest <- function(.tbl, ..., .key = "data", keep = FALSE){
+group_nest <- function(.tbl, ..., .key = "data", keep = FALSE) {
   lifecycle::signal_stage("experimental", "group_nest()")
   UseMethod("group_nest")
 }
@@ -69,7 +68,9 @@ group_nest.data.frame <- function(.tbl, ..., .key = "data", keep = FALSE) {
 #' @export
 group_nest.grouped_df <- function(.tbl, ..., .key = "data", keep = FALSE) {
   if (dots_n(...)) {
-    warn("... is ignored in group_nest(<grouped_df>), please use group_by(..., .add = TRUE) %>% group_nest()")
+    warn(
+      "... is ignored in group_nest(<grouped_df>), please use group_by(..., .add = TRUE) %>% group_nest()"
+    )
   }
   group_nest_impl(.tbl, .key = .key, keep = keep)
 }

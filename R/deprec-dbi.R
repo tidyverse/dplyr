@@ -36,12 +36,19 @@ NULL
 
 #' @rdname src_dbi
 #' @export
-src_mysql <- function(dbname, host = NULL, port = 0L, username = "root",
-                      password = "", ...) {
+src_mysql <- function(
+  dbname,
+  host = NULL,
+  port = 0L,
+  username = "root",
+  password = "",
+  ...
+) {
   check_dbplyr()
   check_installed("RMySQL", "to connect to MySQL/MariaDB.")
   lifecycle::deprecate_warn(
-    "1.0.0", "dplyr::src_mysql()",
+    "1.0.0",
+    "dplyr::src_mysql()",
     details = "Please use `tbl()` directly with a database connection",
     always = TRUE
   )
@@ -60,12 +67,19 @@ src_mysql <- function(dbname, host = NULL, port = 0L, username = "root",
 
 #' @rdname src_dbi
 #' @export
-src_postgres <- function(dbname = NULL, host = NULL, port = NULL,
-                         user = NULL, password = NULL, ...) {
+src_postgres <- function(
+  dbname = NULL,
+  host = NULL,
+  port = NULL,
+  user = NULL,
+  password = NULL,
+  ...
+) {
   check_dbplyr()
   check_installed("RPostgreSQL", "to connect to PostgreSQL.")
   lifecycle::deprecate_warn(
-    "1.0.0", "dplyr::src_postgres()",
+    "1.0.0",
+    "dplyr::src_postgres()",
     details = "Please use `tbl()` directly with a database connection",
     always = TRUE
   )
@@ -98,7 +112,8 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL,
 src_sqlite <- function(path, create = FALSE) {
   check_dbplyr()
   lifecycle::deprecate_warn(
-    "1.0.0", "dplyr::src_sqlite()",
+    "1.0.0",
+    "dplyr::src_sqlite()",
     details = "Please use `tbl()` directly with a database connection",
     always = TRUE
   )

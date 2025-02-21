@@ -35,5 +35,4 @@ test_that("src_df() is deprecated / errors", {
       copy_to(src_env, tibble(x = 1), name = "x")
     ))
   })
-
 })

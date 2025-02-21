@@ -25,18 +25,22 @@ bench_script <- function(file, ...) {
   callr::rscript(file, libpath = "../bench-libs/0.8.3/", ...)
 }
 
-benchs <- function(libs, setup, ..., iterations = NULL){
+benchs <- function(libs, setup, ..., iterations = NULL) {
   dots <- rlang::exprs(...)
   setup <- substitute(setup)
 
-  f <- function(){}
+  f <- function() {
+  }
   body(f) <- rlang::expr({
     library(dplyr, warn.conflicts = FALSE)
     !!setup
     bench::mark(!!!dots, check = FALSE, iterations = !!iterations) %>%
       mutate(expression = purrr::map_chr(expression, deparse))
   })
-  results <- purrr::imap(libs, ~callr::r(f, libpath = .x) %>% mutate(version = .y))
+  results <- purrr::imap(
+    libs,
+    ~ callr::r(f, libpath = .x) %>% mutate(version = .y)
+  )
   as_tibble(vctrs::vec_rbind(!!!results))
   # %>%
   #   select(expression, version, median) %>%
@@ -62,7 +66,6 @@ summarise_hybrid <- benchs(
   summarise(df, x = last(x, default = 42)),
   summarise(df, x = nth(x, n = 1L, default = 42)),
 
-
   summarise(df, x = mean(x)),
   summarise(df, x = mean(x, na.rm = TRUE)),
 
@@ -80,7 +83,6 @@ summarise_hybrid <- benchs(
 
   summarise(df, x = sum(x)),
   summarise(df, x = sum(x, na.rm = TRUE)),
-
 ) %>%
   mutate(hybrid = TRUE)
 
@@ -93,36 +95,34 @@ summarise_non_hybrid <- benchs(
   },
 
   summarise(df, n = 0 + 0),
-  summarise(df, n = 0+n()),
-  summarise(df, x = 0+n_distinct(x)),
+  summarise(df, n = 0 + n()),
+  summarise(df, x = 0 + n_distinct(x)),
 
-  summarise(df, x = 0+first(x)),
-  summarise(df, x = 0+last(x)),
-  summarise(df, x = 0+nth(x, n = 1L)),
+  summarise(df, x = 0 + first(x)),
+  summarise(df, x = 0 + last(x)),
+  summarise(df, x = 0 + nth(x, n = 1L)),
 
-  summarise(df, x = 0+first(x, default = 42)),
-  summarise(df, x = 0+last(x, default = 42)),
-  summarise(df, x = 0+nth(x, n = 1L, default = 42)),
+  summarise(df, x = 0 + first(x, default = 42)),
+  summarise(df, x = 0 + last(x, default = 42)),
+  summarise(df, x = 0 + nth(x, n = 1L, default = 42)),
 
+  summarise(df, x = 0 + mean(x)),
+  summarise(df, x = 0 + mean(x, na.rm = TRUE)),
 
-  summarise(df, x = 0+mean(x)),
-  summarise(df, x = 0+mean(x, na.rm = TRUE)),
+  summarise(df, x = 0 + sd(x)),
+  summarise(df, x = 0 + sd(x, na.rm = TRUE)),
 
-  summarise(df, x = 0+sd(x)),
-  summarise(df, x = 0+sd(x, na.rm = TRUE)),
+  summarise(df, x = 0 + var(x)),
+  summarise(df, x = 0 + var(x, na.rm = TRUE)),
 
-  summarise(df, x = 0+var(x)),
-  summarise(df, x = 0+var(x, na.rm = TRUE)),
+  summarise(df, x = 0 + min(x)),
+  summarise(df, x = 0 + min(x, na.rm = TRUE)),
 
-  summarise(df, x = 0+min(x)),
-  summarise(df, x = 0+min(x, na.rm = TRUE)),
+  summarise(df, x = 0 + max(x)),
+  summarise(df, x = 0 + max(x, na.rm = TRUE)),
 
-  summarise(df, x = 0+max(x)),
-  summarise(df, x = 0+max(x, na.rm = TRUE)),
-
-  summarise(df, x = 0+sum(x)),
-  summarise(df, x = 0+sum(x, na.rm = TRUE)),
-
+  summarise(df, x = 0 + sum(x)),
+  summarise(df, x = 0 + sum(x, na.rm = TRUE)),
 ) %>%
   mutate(hybrid = FALSE)
 
@@ -163,7 +163,6 @@ mutate_hybrid <- benchs(
   mutate(df, x = last(x, default = 42)),
   mutate(df, x = nth(x, n = 1L, default = 42)),
 
-
   mutate(df, x = mean(x)),
   mutate(df, x = mean(x, na.rm = TRUE)),
 
@@ -183,7 +182,6 @@ mutate_hybrid <- benchs(
   mutate(df, x = sum(x, na.rm = TRUE))
 ) %>%
   mutate(hybrid = TRUE)
-
 
 mutate_non_hybrid <- benchs(
   iterations = 10,
@@ -223,7 +221,6 @@ mutate_non_hybrid <- benchs(
   mutate(df, x = 0 + last(x, default = 42)),
   mutate(df, x = 0 + nth(x, n = 1L, default = 42)),
 
-
   mutate(df, x = 0 + mean(x)),
   mutate(df, x = 0 + mean(x, na.rm = TRUE)),
 
@@ -244,6 +241,9 @@ mutate_non_hybrid <- benchs(
 ) %>%
   mutate(hybrid = FALSE)
 
-results <- as_tibble(vctrs::vec_rbind(summarise_hybrid, summarise_non_hybrid, mutate_hybrid, mutate_non_hybrid))
-
-
+results <- as_tibble(vctrs::vec_rbind(
+  summarise_hybrid,
+  summarise_non_hybrid,
+  mutate_hybrid,
+  mutate_non_hybrid
+))

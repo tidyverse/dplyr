@@ -10,7 +10,6 @@ test_that("sample preserves class", {
 
 # Ungrouped --------------------------------------------------------------------
 
-
 test_that("sample respects weight", {
   df <- data.frame(x = 1:2, y = c(0, 1))
   expect_equal(sample_n(df, 1, weight = y)$x, 2)
@@ -20,12 +19,12 @@ test_that("sample respects weight", {
 test_that("slice does not evaluate the expression in empty groups (#1438)", {
   res <- mtcars %>%
     group_by(cyl) %>%
-    filter(cyl==6) %>%
+    filter(cyl == 6) %>%
     slice(1:2)
   expect_equal(nrow(res), 2L)
 
   expect_error(
-    res <- mtcars %>% group_by(cyl) %>% filter(cyl==6) %>% sample_n(size=3),
+    res <- mtcars %>% group_by(cyl) %>% filter(cyl == 6) %>% sample_n(size = 3),
     NA
   )
   expect_equal(nrow(res), 3L)
@@ -38,7 +37,7 @@ test_that("sampling grouped tbl samples each group", {
   expect_s3_class(sampled, "grouped_df")
   expect_equal(group_vars(sampled), "cyl")
   expect_equal(nrow(sampled), 6)
-  expect_equal(map_int(group_rows(sampled), length), c(2,2,2))
+  expect_equal(map_int(group_rows(sampled), length), c(2, 2, 2))
 })
 
 test_that("grouped sample respects weight", {
@@ -88,12 +87,12 @@ test_that("sample_n and sample_frac can call n() (#3413)", {
 })
 
 test_that("sample_n and sample_frac handles lazy grouped data frames (#3380)", {
-  df1 <- data.frame(x = 1:10, y = rep(1:2, each=5))
+  df1 <- data.frame(x = 1:10, y = rep(1:2, each = 5))
   df2 <- data.frame(x = 6:15, z = 1:10)
-  res <- df1 %>% group_by(y) %>% anti_join(df2, by="x") %>% sample_n(1)
+  res <- df1 %>% group_by(y) %>% anti_join(df2, by = "x") %>% sample_n(1)
   expect_equal(nrow(res), 1L)
 
-  res <- df1 %>% group_by(y) %>% anti_join(df2, by="x") %>% sample_frac(0.2)
+  res <- df1 %>% group_by(y) %>% anti_join(df2, by = "x") %>% sample_frac(0.2)
   expect_equal(nrow(res), 1L)
 })
 
@@ -145,5 +144,4 @@ test_that("sample_*() gives meaningful error messages", {
       sample_frac(df, 1, weight = y)
     ))
   })
-
 })

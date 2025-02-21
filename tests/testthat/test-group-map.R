@@ -18,7 +18,7 @@ test_that("group_map() respects empty groups", {
 
 test_that("group_map() can return arbitrary objects", {
   expect_equal(
-    group_by(mtcars, cyl) %>% group_map(~ 10),
+    group_by(mtcars, cyl) %>% group_map(~10),
     rep(list(10), 3)
   )
 })
@@ -95,7 +95,7 @@ test_that("group_modify() works with additional arguments (#4509)", {
 
   srcdata <-
     data.frame(
-      A=rep(1:2, each = 3)
+      A = rep(1:2, each = 3)
     ) %>%
     group_by(A)
   targetdata <- srcdata
@@ -109,7 +109,12 @@ test_that("group_modify() works with additional arguments (#4509)", {
 
 test_that("group_map() does not warn about .keep= for rowwise_df", {
   expect_warning(
-    data.frame(x = 1) %>% rowwise() %>% group_walk(~ {}),
+    data.frame(x = 1) %>%
+      rowwise() %>%
+      group_walk(
+        ~ {
+        }
+      ),
     NA
   )
 })
@@ -119,12 +124,13 @@ test_that("group_map() give meaningful errors", {
 
   expect_snapshot({
     # group_modify()
-    (expect_error(mtcars %>% group_by(cyl) %>% group_modify(~ data.frame(cyl = 19))))
-    (expect_error(mtcars %>% group_by(cyl) %>% group_modify(~ 10)))
+    (expect_error(
+      mtcars %>% group_by(cyl) %>% group_modify(~ data.frame(cyl = 19))
+    ))
+    (expect_error(mtcars %>% group_by(cyl) %>% group_modify(~10)))
     (expect_error(iris %>% group_by(Species) %>% group_modify(head1)))
 
     # group_map()
     (expect_error(iris %>% group_by(Species) %>% group_map(head1)))
   })
-
 })

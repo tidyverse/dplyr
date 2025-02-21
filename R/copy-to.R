@@ -27,8 +27,13 @@
 #' iris2 <- dbplyr::src_memdb() %>% copy_to(iris, overwrite = TRUE)
 #' iris2
 #' }
-copy_to <- function(dest, df, name = deparse(substitute(df)),
-                    overwrite = FALSE, ...) {
+copy_to <- function(
+  dest,
+  df,
+  name = deparse(substitute(df)),
+  overwrite = FALSE,
+  ...
+) {
   UseMethod("copy_to")
 }
 

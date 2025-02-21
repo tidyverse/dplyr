@@ -1,14 +1,16 @@
-vec_case_match <- function(needles,
-                           haystacks,
-                           values,
-                           ...,
-                           needles_arg = "needles",
-                           haystacks_arg = "haystacks",
-                           values_arg = "values",
-                           default = NULL,
-                           default_arg = "default",
-                           ptype = NULL,
-                           call = current_env()) {
+vec_case_match <- function(
+  needles,
+  haystacks,
+  values,
+  ...,
+  needles_arg = "needles",
+  haystacks_arg = "haystacks",
+  values_arg = "values",
+  default = NULL,
+  default_arg = "default",
+  ptype = NULL,
+  call = current_env()
+) {
   check_dots_empty0(...)
 
   obj_check_vector(needles, arg = needles_arg, call = call)

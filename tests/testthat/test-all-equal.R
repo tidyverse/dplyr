@@ -169,7 +169,11 @@ test_that("ignore column order", {
   local_options(lifecycle_verbosity = "quiet")
 
   expect_snapshot({
-    all_equal(tibble(a = 1, b = 2), tibble(b = 2, a = 1), ignore_col_order = FALSE)
+    all_equal(
+      tibble(a = 1, b = 2),
+      tibble(b = 2, a = 1),
+      ignore_col_order = FALSE
+    )
     all_equal(tibble(a = 1, b = 2), tibble(a = 1), ignore_col_order = FALSE)
   })
 })

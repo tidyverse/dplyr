@@ -68,7 +68,9 @@ test_that("cur_data() and cur_data_all() work sequentially", {
 test_that("mutate(=NULL) preserves correct all_vars", {
   options(lifecycle_verbosity = "quiet")
 
-  df <- data.frame(x = 1, y = 2) %>% mutate(x = NULL, vars = cur_data_all()) %>% pull()
+  df <- data.frame(x = 1, y = 2) %>%
+    mutate(x = NULL, vars = cur_data_all()) %>%
+    pull()
   expect_equal(df, tibble(y = 2))
 })
 

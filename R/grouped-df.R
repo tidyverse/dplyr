@@ -75,17 +75,20 @@ compute_groups <- function(data, vars, drop = FALSE) {
     new_rows <- expanded$rows
 
     # Make the new keys from the old keys and the new_indices
-    new_keys <- pmap(list(old_keys, new_indices, uniques), function(key, index, unique) {
-      if (is.factor(key)) {
-        if (is.ordered(key)) {
-          new_ordered(index, levels = levels(key))
+    new_keys <- pmap(
+      list(old_keys, new_indices, uniques),
+      function(key, index, unique) {
+        if (is.factor(key)) {
+          if (is.ordered(key)) {
+            new_ordered(index, levels = levels(key))
+          } else {
+            new_factor(index, levels = levels(key))
+          }
         } else {
-          new_factor(index, levels = levels(key))
+          vec_slice(unique, index)
         }
-      } else {
-        vec_slice(unique, index)
       }
-    })
+    )
     names(new_keys) <- vars
 
     groups <- tibble(!!!new_keys, ".rows" := new_rows)
@@ -200,8 +203,12 @@ tbl_sum.grouped_df <- function(x, ...) {
 }
 
 #' @export
-as.data.frame.grouped_df <- function(x, row.names = NULL,
-                                     optional = FALSE, ...) {
+as.data.frame.grouped_df <- function(
+  x,
+  row.names = NULL,
+  optional = FALSE,
+  ...
+) {
   new_data_frame(vec_data(x), n = nrow(x))
 }
 
@@ -310,4 +317,3 @@ dplyr_locate_sorted_groups <- function(x) {
 group_intersect <- function(x, new) {
   intersect(group_vars(x), names(new))
 }
-

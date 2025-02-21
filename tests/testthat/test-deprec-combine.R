@@ -104,14 +104,16 @@ test_that("combine works with NA and characters (#2203)", {
   expect_equal(works, c("a", "b", "c", NA, NA, "e"))
 })
 
-
 test_that("combine works with NA and POSIXct (#2203)", {
   withr::local_options(lifecycle_verbosity = "quiet")
 
   # NA first
   works <- combine(list(
-    NA, as.POSIXct("2010-01-01"), as.POSIXct("2010-01-02"),
-    NA, as.POSIXct("2010-01-04")
+    NA,
+    as.POSIXct("2010-01-01"),
+    as.POSIXct("2010-01-02"),
+    NA,
+    as.POSIXct("2010-01-04")
   ))
   expect_equal(
     works,
@@ -121,8 +123,10 @@ test_that("combine works with NA and POSIXct (#2203)", {
   # NA length 1
 
   works <- combine(list(
-    as.POSIXct("2010-01-01"), as.POSIXct("2010-01-02"),
-    NA, as.POSIXct("2010-01-04")
+    as.POSIXct("2010-01-01"),
+    as.POSIXct("2010-01-02"),
+    NA,
+    as.POSIXct("2010-01-04")
   ))
   expect_equal(
     works,
@@ -131,8 +135,10 @@ test_that("combine works with NA and POSIXct (#2203)", {
   )
   # NA length > 1
   works <- combine(list(
-    as.POSIXct("2010-01-01"), as.POSIXct("2010-01-02"),
-    c(NA, NA), as.POSIXct("2010-01-04")
+    as.POSIXct("2010-01-01"),
+    as.POSIXct("2010-01-02"),
+    c(NA, NA),
+    as.POSIXct("2010-01-04")
   ))
   expect_equal(
     works,
@@ -151,14 +157,18 @@ test_that("combine works with NA and Date (#2203)", {
   # NA length == 1
   expected_result <- c(as.Date(c("2010-01-01", "2010-01-02", NA, "2010-01-04")))
   works1 <- combine(list(
-    as.Date("2010-01-01"), as.Date("2010-01-02"),
-    as.Date(NA), as.Date("2010-01-04")
+    as.Date("2010-01-01"),
+    as.Date("2010-01-02"),
+    as.Date(NA),
+    as.Date("2010-01-04")
   ))
   expect_equal(works1, expected_result)
 
   works2 <- combine(list(
-    as.Date("2010-01-01"), as.Date("2010-01-02"),
-    NA, as.Date("2010-01-04")
+    as.Date("2010-01-01"),
+    as.Date("2010-01-02"),
+    NA,
+    as.Date("2010-01-04")
   ))
   expect_equal(works2, expected_result)
 
@@ -168,13 +178,13 @@ test_that("combine works with NA and Date (#2203)", {
   expect_equal(works1, expected_result)
 
   works2 <- combine(list(
-    as.Date("2010-01-01"), as.Date("2010-01-02"),
+    as.Date("2010-01-01"),
+    as.Date("2010-01-02"),
     c(NA, NA),
     as.Date("2010-01-04")
   ))
   expect_equal(works2, expected_result)
 })
-
 
 test_that("combine works with NA and complex (#2203)", {
   withr::local_options(lifecycle_verbosity = "quiet")
@@ -231,10 +241,9 @@ test_that("combine works with difftime", {
 test_that("combine uses tidy dots (#3407)", {
   withr::local_options(lifecycle_verbosity = "quiet")
 
-  chunks <- list(1,2,3)
-  expect_equal(combine(!!!chunks), c(1,2,3))
+  chunks <- list(1, 2, 3)
+  expect_equal(combine(!!!chunks), c(1, 2, 3))
 })
-
 
 # Errors ------------------------------------------------------------------
 
@@ -245,5 +254,4 @@ test_that("combine() gives meaningful error messages", {
     (expect_error(combine("a", 1)))
     (expect_error(combine(factor("a"), 1L)))
   })
-
 })

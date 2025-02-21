@@ -95,19 +95,19 @@ test_that("distinct on a dataframe or tibble with columns of type list throws an
 })
 
 test_that("distinct handles 0 columns edge case (#2954)", {
-  d <- select(data.frame(x= c(1, 1)), one_of(character(0)))
+  d <- select(data.frame(x = c(1, 1)), one_of(character(0)))
   res <- distinct(d)
   expect_equal(nrow(res), 1L)
 
   expect_equal(nrow(distinct(tibble())), 0L)
 })
 
-test_that("distinct respects order of the specified variables (#3195, #6156)",{
+test_that("distinct respects order of the specified variables (#3195, #6156)", {
   d <- data.frame(x = 1:2, y = 3:4)
   expect_named(distinct(d, y, x), c("y", "x"))
 })
 
-test_that("distinct adds grouping variables to front if missing",{
+test_that("distinct adds grouping variables to front if missing", {
   d <- data.frame(x = 1:2, y = 3:4)
   expect_named(distinct(group_by(d, y), x), c("y", "x"))
   expect_named(distinct(group_by(d, y), x, y), c("x", "y"))
@@ -115,15 +115,15 @@ test_that("distinct adds grouping variables to front if missing",{
 
 test_that("distinct() understands both NA variants (#4516)", {
   df <- data.frame(col_a = c(1, NA, NA))
-  df$col_a <- df$col_a+0
+  df$col_a <- df$col_a + 0
   df$col_a[2] <- NA_real_
   expect_equal(nrow(distinct(df)), 2L)
 
   df_1 <- data.frame(col_a = c(1, NA))
   df_2 <- data.frame(col_a = c(1, NA))
 
-  df_1$col_a <- df_1$col_a+0
-  df_2$col_a <- df_2$col_a+0
+  df_1$col_a <- df_1$col_a + 0
+  df_2$col_a <- df_2$col_a + 0
 
   df_1$col_a[2] <- NA
   expect_equal(nrow(setdiff(df_1, df_2)), 0L)
@@ -132,7 +132,7 @@ test_that("distinct() understands both NA variants (#4516)", {
 test_that("distinct() handles auto splicing", {
   expect_equal(
     iris %>% distinct(Species),
-    iris %>% distinct(data.frame(Species=Species))
+    iris %>% distinct(data.frame(Species = Species))
   )
 
   expect_equal(
@@ -141,7 +141,9 @@ test_that("distinct() handles auto splicing", {
   )
 
   expect_equal(
-    iris %>% mutate(across(starts_with("Sepal"), round)) %>% distinct(Sepal.Length, Sepal.Width),
+    iris %>%
+      mutate(across(starts_with("Sepal"), round)) %>%
+      distinct(Sepal.Length, Sepal.Width),
     iris %>% distinct(across(starts_with("Sepal"), round))
   )
 })

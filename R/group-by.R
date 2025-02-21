@@ -131,12 +131,22 @@
 #'   group_by(y, .drop = FALSE) %>%
 #'   group_rows()
 #'
-group_by <- function(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data)) {
+group_by <- function(
+  .data,
+  ...,
+  .add = FALSE,
+  .drop = group_by_drop_default(.data)
+) {
   UseMethod("group_by")
 }
 
 #' @export
-group_by.data.frame <- function(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data)) {
+group_by.data.frame <- function(
+  .data,
+  ...,
+  .add = FALSE,
+  .drop = group_by_drop_default(.data)
+) {
   groups <- group_by_prepare(
     .data,
     ...,
@@ -194,16 +204,23 @@ ungroup.data.frame <- function(x, ...) {
 #'   \item{groups}{Modified groups}
 #' @export
 #' @keywords internal
-group_by_prepare <- function(.data,
-                             ...,
-                             .add = FALSE,
-                             .dots = deprecated(),
-                             add = deprecated(),
-                             error_call = caller_env()) {
+group_by_prepare <- function(
+  .data,
+  ...,
+  .add = FALSE,
+  .dots = deprecated(),
+  add = deprecated(),
+  error_call = caller_env()
+) {
   error_call <- dplyr_error_call(error_call)
 
   if (!missing(add)) {
-    lifecycle::deprecate_warn("1.0.0", "group_by(add = )", "group_by(.add = )", always = TRUE)
+    lifecycle::deprecate_warn(
+      "1.0.0",
+      "group_by(add = )",
+      "group_by(.add = )",
+      always = TRUE
+    )
     .add <- add
   }
 
@@ -215,7 +232,11 @@ group_by_prepare <- function(.data,
   }
 
   # If any calls, use mutate to add new columns, then group by those
-  computed_columns <- add_computed_columns(.data, new_groups, error_call = error_call)
+  computed_columns <- add_computed_columns(
+    .data,
+    new_groups,
+    error_call = error_call
+  )
 
   out <- computed_columns$data
   group_names <- computed_columns$added_names
@@ -240,9 +261,7 @@ group_by_prepare <- function(.data,
   )
 }
 
-add_computed_columns <- function(.data,
-                                 vars,
-                                 error_call = caller_env()) {
+add_computed_columns <- function(.data, vars, error_call = caller_env()) {
   is_symbol <- map_lgl(vars, quo_is_variable_reference)
   needs_mutate <- have_name(vars) | !is_symbol
 
@@ -327,9 +346,12 @@ group_by_drop_default.default <- function(.tbl) {
 
 #' @export
 group_by_drop_default.grouped_df <- function(.tbl) {
-  tryCatch({
-    !identical(attr(group_data(.tbl), ".drop"), FALSE)
-  }, error = function(e){
-    TRUE
-  })
+  tryCatch(
+    {
+      !identical(attr(group_data(.tbl), ".drop"), FALSE)
+    },
+    error = function(e) {
+      TRUE
+    }
+  )
 }

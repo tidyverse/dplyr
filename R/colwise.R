@@ -147,9 +147,13 @@ print.any_vars <- function(x, ...) {
   NextMethod()
 }
 
-
 # Requires tbl_vars() method
-tbl_at_vars <- function(tbl, vars, .include_group_vars = FALSE, error_call = caller_env()) {
+tbl_at_vars <- function(
+  tbl,
+  vars,
+  .include_group_vars = FALSE,
+  error_call = caller_env()
+) {
   if (.include_group_vars) {
     tibble_vars <- tbl_vars(tbl)
   } else {
@@ -167,17 +171,36 @@ tbl_at_vars <- function(tbl, vars, .include_group_vars = FALSE, error_call = cal
     }
     out
   } else {
-    msg <- glue("`.vars` must be a character/numeric vector or a `vars()` object, not {obj_type_friendly(vars)}.")
+    msg <- glue(
+      "`.vars` must be a character/numeric vector or a `vars()` object, not {obj_type_friendly(vars)}."
+    )
     abort(msg, call = error_call)
   }
 }
-tbl_at_syms <- function(tbl, vars, .include_group_vars = FALSE, error_call = caller_env()) {
-  vars <- tbl_at_vars(tbl, vars, .include_group_vars = .include_group_vars, error_call = error_call)
+tbl_at_syms <- function(
+  tbl,
+  vars,
+  .include_group_vars = FALSE,
+  error_call = caller_env()
+) {
+  vars <- tbl_at_vars(
+    tbl,
+    vars,
+    .include_group_vars = .include_group_vars,
+    error_call = error_call
+  )
   set_names(syms(vars), names(vars))
 }
 
 # Requires tbl_vars(), `[[`() and length() methods
-tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE, error_call = caller_env()) {
+tbl_if_vars <- function(
+  .tbl,
+  .p,
+  .env,
+  ...,
+  .include_group_vars = FALSE,
+  error_call = caller_env()
+) {
   if (.include_group_vars) {
     tibble_vars <- tbl_vars(.tbl)
   } else {
@@ -190,7 +213,10 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE, error_
         "`.p` is invalid.",
         x = "`.p` should have the same size as the number of variables in the tibble.",
         i = glue("`.p` is size {length(.p)}."),
-        i = glue("The tibble has {length(tibble_vars)} columns, {including} the grouping variables.", including = if (.include_group_vars) "including" else "non including")
+        i = glue(
+          "The tibble has {length(tibble_vars)} columns, {including} the grouping variables.",
+          including = if (.include_group_vars) "including" else "non including"
+        )
       )
       abort(bullets, call = error_call)
     }
@@ -219,13 +245,17 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE, error_
     column <- pull(.tbl, tibble_vars[[.env$i]])
     cond <- eval_tidy(.p(column, ...))
     if (!is.logical(cond) || length(cond) != 1) {
-      bullets  <- c(
+      bullets <- c(
         "`.p` is invalid.",
         x = "`.p` should return a single logical.",
-        i = if(is.logical(cond)) {
-          glue("`.p` returns a size {length(cond)} <logical> for column `{tibble_vars[[i]]}`.")
+        i = if (is.logical(cond)) {
+          glue(
+            "`.p` returns a size {length(cond)} <logical> for column `{tibble_vars[[i]]}`."
+          )
         } else {
-          glue("`.p` returns a <{vec_ptype_full(cond)}> for column `{tibble_vars[[i]]}`.")
+          glue(
+            "`.p` returns a <{vec_ptype_full(cond)}> for column `{tibble_vars[[i]]}`."
+          )
         }
       )
       abort(bullets, call = error_call)
@@ -235,8 +265,22 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE, error_
 
   tibble_vars[selected]
 }
-tbl_if_syms <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE, error_call = caller_env()) {
-  syms(tbl_if_vars(.tbl, .p, .env, ..., .include_group_vars = .include_group_vars, error_call = error_call))
+tbl_if_syms <- function(
+  .tbl,
+  .p,
+  .env,
+  ...,
+  .include_group_vars = FALSE,
+  error_call = caller_env()
+) {
+  syms(tbl_if_vars(
+    .tbl,
+    .p,
+    .env,
+    ...,
+    .include_group_vars = .include_group_vars,
+    error_call = error_call
+  ))
 }
 
 #' Return a prototype of a tbl

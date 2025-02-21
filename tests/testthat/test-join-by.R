@@ -56,7 +56,7 @@ test_that("works with single arguments", {
 
 test_that("works with character strings", {
   by1 <- join_by("a", "b" == "c", closest("d" >= "e"))
-  by2 <- join_by(a, b  == c, closest(d >= e))
+  by2 <- join_by(a, b == c, closest(d >= e))
 
   expect_identical(by1$condition, by2$condition)
   expect_identical(by1$filter, by2$filter)
@@ -165,7 +165,12 @@ test_that("between / overlaps / within / closest can use named arguments", {
   expect_identical(by$y, c("d", "c"))
   expect_identical(by$condition, c("<=", ">="))
 
-  by <- join_by(overlaps(y_lower = x$c, y_upper = x$d, x_lower = y$a, x_upper = y$b))
+  by <- join_by(overlaps(
+    y_lower = x$c,
+    y_upper = x$d,
+    x_lower = y$a,
+    x_upper = y$b
+  ))
   expect_identical(by$x, c("d", "c"))
   expect_identical(by$y, c("a", "b"))
   expect_identical(by$condition, c(">=", "<="))
@@ -175,7 +180,12 @@ test_that("between / overlaps / within / closest can use named arguments", {
   expect_identical(by$y, c("c", "d"))
   expect_identical(by$condition, c(">=", "<="))
 
-  by <- join_by(within(y_lower = x$c, y_upper = x$d, x_lower = y$a, x_upper = y$b))
+  by <- join_by(within(
+    y_lower = x$c,
+    y_upper = x$d,
+    x_lower = y$a,
+    x_upper = y$b
+  ))
   expect_identical(by$x, c("c", "d"))
   expect_identical(by$y, c("a", "b"))
   expect_identical(by$condition, c("<=", ">="))
@@ -196,7 +206,7 @@ test_that("can pass `...` on to wrapped `join_by()`", {
     join_by(...)
   }
   fn2 <- function(x) {
-    fn({{x}} == y)
+    fn({{ x }} == y)
   }
 
   expect_identical(fn(x == y, a <= b), join_by(x == y, a <= b))
@@ -205,7 +215,7 @@ test_that("can pass `...` on to wrapped `join_by()`", {
 
 test_that("can wrap `join_by()` and use embracing to inject columns (#6469)", {
   fn <- function(x) {
-    join_by({{x}} == y)
+    join_by({{ x }} == y)
   }
   expect_identical(fn("foo"), join_by("foo" == y))
 
@@ -217,21 +227,21 @@ test_that("can wrap `join_by()` and use embracing to inject columns (#6469)", {
   expect_identical(fn(!!a), join_by("foo" == y))
 
   fn <- function(x, top) {
-    join_by(between({{x}}, lower, {{top}}))
+    join_by(between({{ x }}, lower, {{ top }}))
   }
   expect_identical(fn(x, y), join_by(between(x, lower, y)))
 })
 
 test_that("can wrap `join_by()` and use embracing to inject expressions", {
   fn <- function(expr) {
-    join_by({{expr}}, a <= b)
+    join_by({{ expr }}, a <= b)
   }
   expect_identical(fn(a == b), join_by(a == b, a <= b))
 })
 
 test_that("nicely catches required missing arguments when wrapped", {
   fn <- function(x, y) {
-    join_by({{x}} == {{y}})
+    join_by({{ x }} == {{ y }})
   }
   expect_snapshot(error = TRUE, fn(a))
 })
@@ -272,7 +282,7 @@ test_that("has informative error messages", {
   expect_snapshot(error = TRUE, join_by(foo(x > y)))
 
   # Improper separator
-  expect_snapshot(error = TRUE, join_by(x == y, x ^ y))
+  expect_snapshot(error = TRUE, join_by(x == y, x^y))
 
   # Improper LHS
   expect_snapshot(error = TRUE, join_by(x + 1 == y))
@@ -298,7 +308,7 @@ test_that("has informative error messages", {
   expect_snapshot(error = TRUE, join_by(x$a == z$b))
 
   # Extra cautious check for horrible usage of `$`
-  expect_snapshot(error = TRUE, join_by(`$`(x+1, y) == b))
+  expect_snapshot(error = TRUE, join_by(`$`(x + 1, y) == b))
 
   # Referencing the same table
   expect_snapshot(error = TRUE, join_by(x$a == x$b))
@@ -337,8 +347,14 @@ test_that("has informative error messages", {
   # Invalid `bounds` in `between()` and `overlaps()`
   expect_snapshot(error = TRUE, join_by(between(x, lower, upper, bounds = 1)))
   expect_snapshot(error = TRUE, join_by(between(x, lower, upper, bounds = "a")))
-  expect_snapshot(error = TRUE, join_by(overlaps(x, y, lower, upper, bounds = 1)))
-  expect_snapshot(error = TRUE, join_by(overlaps(x, y, lower, upper, bounds = "a")))
+  expect_snapshot(
+    error = TRUE,
+    join_by(overlaps(x, y, lower, upper, bounds = 1))
+  )
+  expect_snapshot(
+    error = TRUE,
+    join_by(overlaps(x, y, lower, upper, bounds = "a"))
+  )
 
   # Non-empty dots in `between()` and `overlaps()`
   expect_snapshot(error = TRUE, join_by(between(x, lower, upper, foo = 1)))

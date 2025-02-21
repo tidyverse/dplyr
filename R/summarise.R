@@ -181,7 +181,10 @@ summarise.grouped_df <- function(.data, ..., .by = NULL, .groups = NULL) {
     n <- length(group_vars)
     if (n > 1) {
       if (verbose) {
-        new_groups <- glue_collapse(paste0("'", group_vars[-n], "'"), sep = ", ")
+        new_groups <- glue_collapse(
+          paste0("'", group_vars[-n], "'"),
+          sep = ", "
+        )
         summarise_inform("has grouped output by {new_groups}")
       }
       out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
@@ -194,7 +197,7 @@ summarise.grouped_df <- function(.data, ..., .by = NULL, .groups = NULL) {
     out <- grouped_df(out, group_vars, group_by_drop_default(.data))
   } else if (identical(.groups, "rowwise")) {
     out <- rowwise_df(out, group_vars)
-  } else if(!identical(.groups, "drop")) {
+  } else if (!identical(.groups, "drop")) {
     bullets <- c(
       paste0("`.groups` can't be ", as_label(.groups)),
       i = 'Possible values are NULL (default), "drop_last", "drop", "keep", and "rowwise"'
@@ -259,92 +262,94 @@ summarise_cols <- function(data, dots, by, verb, error_call = caller_env()) {
 
   local_error_context(dots, 0L, mask = mask)
 
-  withCallingHandlers({
-    for (i in seq_along(dots)) {
-      poke_error_context(dots, i, mask = mask)
-      context_poke("column", old_current_column)
+  withCallingHandlers(
+    {
+      for (i in seq_along(dots)) {
+        poke_error_context(dots, i, mask = mask)
+        context_poke("column", old_current_column)
 
-      dot <- dots[[i]]
+        dot <- dots[[i]]
 
-      # - expand
-      dot <- expand_pick(dot, mask)
-      quosures <- expand_across(dot)
+        # - expand
+        dot <- expand_pick(dot, mask)
+        quosures <- expand_across(dot)
 
-      # - compute
-      quosures_results <- map(quosures, summarise_eval_one, mask = mask)
+        # - compute
+        quosures_results <- map(quosures, summarise_eval_one, mask = mask)
 
-      # - structure
-      for (k in seq_along(quosures)) {
-        quo <- quosures[[k]]
-        quo_data <- attr(quo, "dplyr:::data")
+        # - structure
+        for (k in seq_along(quosures)) {
+          quo <- quosures[[k]]
+          quo_data <- attr(quo, "dplyr:::data")
 
-        quo_result <- quosures_results[[k]]
-        if (is.null(quo_result)) {
-          next
-        }
-        types_k <- quo_result$types
-        chunks_k <- quo_result$chunks
-        results_k <- quo_result$results
-
-        if (!quo_data$is_named && is.data.frame(types_k)) {
-          chunks_extracted <- .Call(dplyr_extract_chunks, chunks_k, types_k)
-          types_k_names <- names(types_k)
-          for (j in seq_along(chunks_extracted)) {
-            mask$add_one(
-              name   = types_k_names[j],
-              chunks = chunks_extracted[[j]],
-              result  = results_k[[j]]
-            )
+          quo_result <- quosures_results[[k]]
+          if (is.null(quo_result)) {
+            next
           }
+          types_k <- quo_result$types
+          chunks_k <- quo_result$chunks
+          results_k <- quo_result$results
 
-          chunks <- append(chunks, chunks_extracted)
-          types <- append(types, as.list(types_k))
-          results <- append(results, results_k)
-          out_names <- c(out_names, types_k_names)
-        } else {
-          name <- dplyr_quosure_name(quo_data)
-          mask$add_one(name = name, chunks = chunks_k, result = results_k)
-          chunks <- append(chunks, list(chunks_k))
-          types <- append(types, list(types_k))
-          results <- append(results, list(results_k))
-          out_names <- c(out_names, name)
+          if (!quo_data$is_named && is.data.frame(types_k)) {
+            chunks_extracted <- .Call(dplyr_extract_chunks, chunks_k, types_k)
+            types_k_names <- names(types_k)
+            for (j in seq_along(chunks_extracted)) {
+              mask$add_one(
+                name = types_k_names[j],
+                chunks = chunks_extracted[[j]],
+                result = results_k[[j]]
+              )
+            }
+
+            chunks <- append(chunks, chunks_extracted)
+            types <- append(types, as.list(types_k))
+            results <- append(results, results_k)
+            out_names <- c(out_names, types_k_names)
+          } else {
+            name <- dplyr_quosure_name(quo_data)
+            mask$add_one(name = name, chunks = chunks_k, result = results_k)
+            chunks <- append(chunks, list(chunks_k))
+            types <- append(types, list(types_k))
+            results <- append(results, list(results_k))
+            out_names <- c(out_names, name)
+          }
         }
       }
-    }
 
-    # Recycle horizontally across sets of chunks.
-    # Modifies `chunks` and `results` in place for efficiency!
-    sizes <- .Call(`dplyr_summarise_recycle_chunks_in_place`, chunks, results)
+      # Recycle horizontally across sets of chunks.
+      # Modifies `chunks` and `results` in place for efficiency!
+      sizes <- .Call(`dplyr_summarise_recycle_chunks_in_place`, chunks, results)
 
-    # Materialize columns, regenerate any `results` that were `NULL`ed
-    # during the recycling process.
-    for (i in seq_along(chunks)) {
-      result <- results[[i]] %||% vec_c(!!!chunks[[i]], .ptype = types[[i]])
-      cols[[ out_names[i] ]] <- result
-    }
-  },
-  error = function(cnd) {
-    if (inherits(cnd, "dplyr:::summarise_incompatible_size")) {
-      action <- "recycle"
-      i <- cnd$dplyr_error_data$index
-    } else {
-      action <- "compute"
-      i <- i
-    }
-    handler <- dplyr_error_handler(
-      dots = dots,
+      # Materialize columns, regenerate any `results` that were `NULL`ed
+      # during the recycling process.
+      for (i in seq_along(chunks)) {
+        result <- results[[i]] %||% vec_c(!!!chunks[[i]], .ptype = types[[i]])
+        cols[[out_names[i]]] <- result
+      }
+    },
+    error = function(cnd) {
+      if (inherits(cnd, "dplyr:::summarise_incompatible_size")) {
+        action <- "recycle"
+        i <- cnd$dplyr_error_data$index
+      } else {
+        action <- "compute"
+        i <- i
+      }
+      handler <- dplyr_error_handler(
+        dots = dots,
+        mask = mask,
+        bullets = summarise_bullets,
+        error_call = error_call,
+        action = action
+      )
+      handler(cnd)
+    },
+    warning = dplyr_warning_handler(
+      state = warnings_state,
       mask = mask,
-      bullets = summarise_bullets,
-      error_call = error_call,
-      action = action
+      error_call = error_call
     )
-    handler(cnd)
-  },
-  warning = dplyr_warning_handler(
-    state = warnings_state,
-    mask = mask,
-    error_call = error_call
-  ))
+  )
 
   signal_warnings(warnings_state, error_call)
 
@@ -409,8 +414,8 @@ summarise_bullets <- function(cnd, ...) {
 #' @export
 `summarise_bullets.dplyr:::summarise_incompatible_size` <- function(cnd, ...) {
   expected_size <- cnd$dplyr_error_data$expected_size
-  size          <- cnd$dplyr_error_data$size
-  group         <- cnd$dplyr_error_data$group
+  size <- cnd$dplyr_error_data$size
+  group <- cnd$dplyr_error_data$group
 
   error_context <- peek_error_context()
   error_name <- ctxt_error_label(error_context)
@@ -454,12 +459,16 @@ summarise_verbose <- function(.groups, .env) {
 
 summarise_inform <- function(..., .env = parent.frame()) {
   inform(paste0(
-    "`summarise()` ", glue(..., .envir = .env), '. You can override using the `.groups` argument.'
+    "`summarise()` ",
+    glue(..., .envir = .env),
+    '. You can override using the `.groups` argument.'
   ))
 }
 
-summarise_deprecate_variable_size <- function(env = caller_env(),
-                                              user_env = caller_env(2)) {
+summarise_deprecate_variable_size <- function(
+  env = caller_env(),
+  user_env = caller_env(2)
+) {
   lifecycle::deprecate_warn(
     when = "1.1.0",
     what = I("Returning more (or less) than 1 row per `summarise()` group"),

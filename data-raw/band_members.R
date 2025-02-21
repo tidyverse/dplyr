@@ -1,5 +1,6 @@
 library(tidyverse)
 
+# fmt: skip
 band_members <- tribble(
   ~ name,    ~ band,
   "Mick",  "Stones",
@@ -9,6 +10,7 @@ band_members <- tribble(
 
 devtools::use_data(band_members)
 
+# fmt: skip
 band_instruments <- tribble(
   ~ name,   ~ plays,
   "John",  "guitar",
@@ -18,6 +20,7 @@ band_instruments <- tribble(
 
 devtools::use_data(band_instruments)
 
+# fmt: skip
 band_instruments2 <- tribble(
   ~ artist, ~ plays,
   "John",  "guitar",
