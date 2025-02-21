@@ -480,7 +480,7 @@ test_that("across() sees columns in the recursive case (#5498)", {
   out <- df %>%
     mutate(
       data = purrr::map2(data, vars, function(.x, .y) {
-        .x %>% mutate(across(all_of(.y), ~ NA))
+        .x %>% mutate(across(all_of(.y), ~NA))
       })
     )
   exp <- tibble(
@@ -494,7 +494,7 @@ test_that("across() sees columns in the recursive case (#5498)", {
       data = purrr::map2(data, vars, function(.x, .y) {
         local({
           .y <- "bar"
-          .x %>% mutate(across(all_of(.y), ~ NA))
+          .x %>% mutate(across(all_of(.y), ~NA))
         })
       })
     )
@@ -1010,21 +1010,21 @@ test_that("if_any() and if_all() expansions deal with no inputs or single inputs
 
   # No inputs
   expect_equal(
-    filter(d, if_any(starts_with("c"), ~ FALSE)),
+    filter(d, if_any(starts_with("c"), ~FALSE)),
     filter(d, FALSE)
   )
   expect_equal(
-    filter(d, if_all(starts_with("c"), ~ FALSE)),
+    filter(d, if_all(starts_with("c"), ~FALSE)),
     filter(d)
   )
 
   # Single inputs
   expect_equal(
-    filter(d, if_any(x, ~ FALSE)),
+    filter(d, if_any(x, ~FALSE)),
     filter(d, FALSE)
   )
   expect_equal(
-    filter(d, if_all(x, ~ FALSE)),
+    filter(d, if_all(x, ~FALSE)),
     filter(d, FALSE)
   )
 })
@@ -1060,21 +1060,21 @@ test_that("if_any() and if_all() wrapped deal with no inputs or single inputs", 
 
   # No inputs
   expect_equal(
-    filter(d, (if_any(starts_with("c"), ~ FALSE))),
+    filter(d, (if_any(starts_with("c"), ~FALSE))),
     filter(d)
   )
   expect_equal(
-    filter(d, (if_all(starts_with("c"), ~ FALSE))),
+    filter(d, (if_all(starts_with("c"), ~FALSE))),
     filter(d)
   )
 
   # Single inputs
   expect_equal(
-    filter(d, (if_any(x, ~ FALSE))),
+    filter(d, (if_any(x, ~FALSE))),
     filter(d, FALSE)
   )
   expect_equal(
-    filter(d, (if_all(x, ~ FALSE))),
+    filter(d, (if_all(x, ~FALSE))),
     filter(d, FALSE)
   )
 })

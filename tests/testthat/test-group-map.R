@@ -18,7 +18,7 @@ test_that("group_map() respects empty groups", {
 
 test_that("group_map() can return arbitrary objects", {
   expect_equal(
-    group_by(mtcars, cyl) %>% group_map(~ 10),
+    group_by(mtcars, cyl) %>% group_map(~10),
     rep(list(10), 3)
   )
 })
@@ -129,7 +129,7 @@ test_that("group_map() give meaningful errors", {
         mtcars %>% group_by(cyl) %>% group_modify(~ data.frame(cyl = 19))
       )
     )
-    (expect_error(mtcars %>% group_by(cyl) %>% group_modify(~ 10)))
+    (expect_error(mtcars %>% group_by(cyl) %>% group_modify(~10)))
     (expect_error(iris %>% group_by(Species) %>% group_modify(head1)))
 
     # group_map()
