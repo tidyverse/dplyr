@@ -434,139 +434,101 @@ test_that("filter() disallows arrays with >2 dimensions", {
 test_that("filter() gives useful error messages", {
   expect_snapshot({
     # wrong type
-    (
-      expect_error(
-        iris %>%
-          group_by(Species) %>%
-          filter(1:n())
-      )
-    )
-    (
-      expect_error(
-        iris %>%
-          filter(1:n())
-      )
-    )
+    (expect_error(
+      iris %>%
+        group_by(Species) %>%
+        filter(1:n())
+    ))
+    (expect_error(
+      iris %>%
+        filter(1:n())
+    ))
 
     # matrix with > 1 columns
-    (
-      expect_error(
-        filter(
-          data.frame(x = 1:2),
-          matrix(c(TRUE, FALSE, TRUE, FALSE), nrow = 2)
-        )
+    (expect_error(
+      filter(
+        data.frame(x = 1:2),
+        matrix(c(TRUE, FALSE, TRUE, FALSE), nrow = 2)
       )
-    )
+    ))
 
     # wrong size
-    (
-      expect_error(
-        iris %>%
-          group_by(Species) %>%
-          filter(c(TRUE, FALSE))
-      )
-    )
-    (
-      expect_error(
-        iris %>%
-          rowwise(Species) %>%
-          filter(c(TRUE, FALSE))
-      )
-    )
-    (
-      expect_error(
-        iris %>%
-          filter(c(TRUE, FALSE))
-      )
-    )
+    (expect_error(
+      iris %>%
+        group_by(Species) %>%
+        filter(c(TRUE, FALSE))
+    ))
+    (expect_error(
+      iris %>%
+        rowwise(Species) %>%
+        filter(c(TRUE, FALSE))
+    ))
+    (expect_error(
+      iris %>%
+        filter(c(TRUE, FALSE))
+    ))
 
     # wrong size in column
-    (
-      expect_error(
-        iris %>%
-          group_by(Species) %>%
-          filter(data.frame(c(TRUE, FALSE)))
-      )
-    )
-    (
-      expect_error(
-        iris %>%
-          rowwise() %>%
-          filter(data.frame(c(TRUE, FALSE)))
-      )
-    )
-    (
-      expect_error(
-        iris %>%
-          filter(data.frame(c(TRUE, FALSE)))
-      )
-    )
-    (
-      expect_error(
-        tibble(x = 1) %>%
-          filter(c(TRUE, TRUE))
-      )
-    )
+    (expect_error(
+      iris %>%
+        group_by(Species) %>%
+        filter(data.frame(c(TRUE, FALSE)))
+    ))
+    (expect_error(
+      iris %>%
+        rowwise() %>%
+        filter(data.frame(c(TRUE, FALSE)))
+    ))
+    (expect_error(
+      iris %>%
+        filter(data.frame(c(TRUE, FALSE)))
+    ))
+    (expect_error(
+      tibble(x = 1) %>%
+        filter(c(TRUE, TRUE))
+    ))
 
     # wrong type in column
-    (
-      expect_error(
-        iris %>%
-          group_by(Species) %>%
-          filter(data.frame(Sepal.Length > 3, 1:n()))
-      )
-    )
-    (
-      expect_error(
-        iris %>%
-          filter(data.frame(Sepal.Length > 3, 1:n()))
-      )
-    )
+    (expect_error(
+      iris %>%
+        group_by(Species) %>%
+        filter(data.frame(Sepal.Length > 3, 1:n()))
+    ))
+    (expect_error(
+      iris %>%
+        filter(data.frame(Sepal.Length > 3, 1:n()))
+    ))
 
     # evaluation error
-    (
-      expect_error(
-        mtcars %>% filter(`_x`)
-      )
-    )
-    (
-      expect_error(
-        mtcars %>%
-          group_by(cyl) %>%
-          filter(`_x`)
-      )
-    )
+    (expect_error(
+      mtcars %>% filter(`_x`)
+    ))
+    (expect_error(
+      mtcars %>%
+        group_by(cyl) %>%
+        filter(`_x`)
+    ))
 
     # named inputs
-    (
-      expect_error(
-        filter(mtcars, x = 1)
-      )
-    )
-    (
-      expect_error(
-        filter(mtcars, y > 2, z = 3)
-      )
-    )
-    (
-      expect_error(
-        filter(mtcars, TRUE, x = 1)
-      )
-    )
+    (expect_error(
+      filter(mtcars, x = 1)
+    ))
+    (expect_error(
+      filter(mtcars, y > 2, z = 3)
+    ))
+    (expect_error(
+      filter(mtcars, TRUE, x = 1)
+    ))
 
     # ts
-    (
-      expect_error(
-        filter(ts(1:10))
-      )
-    )
+    (expect_error(
+      filter(ts(1:10))
+    ))
 
     # Error that contains {
-    (
-      expect_error(
-        tibble() %>% filter(stop("{"))
-      )
-    )
+    (expect_error(
+      tibble() %>% filter(stop("{"))
+    ))
 
     # across() in filter() does not warn yet
     data.frame(x = 1, y = 1) %>%

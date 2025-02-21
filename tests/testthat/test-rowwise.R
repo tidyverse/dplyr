@@ -127,22 +127,18 @@ test_that("validate_rowwise_df() gives useful errors", {
     (expect_error(validate_rowwise_df(df10)))
     (expect_error(validate_rowwise_df(df11)))
 
-    (
-      expect_error(
-        new_rowwise_df(
-          tibble(x = 1:10),
-          tibble(".rows" := list(1:5, -1L))
-        )
+    (expect_error(
+      new_rowwise_df(
+        tibble(x = 1:10),
+        tibble(".rows" := list(1:5, -1L))
       )
-    )
+    ))
 
-    (
-      expect_error(
-        new_rowwise_df(
-          tibble(x = 1:10),
-          1:10
-        )
+    (expect_error(
+      new_rowwise_df(
+        tibble(x = 1:10),
+        1:10
       )
-    )
+    ))
   })
 })

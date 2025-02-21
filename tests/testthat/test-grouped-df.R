@@ -180,14 +180,12 @@ test_that("validate_grouped_df() gives useful errors", {
     (expect_error(validate_grouped_df(df11)))
 
     # new_grouped_df()
-    (
-      expect_error(
-        new_grouped_df(
-          tibble(x = 1:10),
-          tibble(other = list(1:2))
-        )
+    (expect_error(
+      new_grouped_df(
+        tibble(x = 1:10),
+        tibble(other = list(1:2))
       )
-    )
+    ))
     (expect_error(new_grouped_df(10)))
   })
 })

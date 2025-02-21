@@ -124,11 +124,9 @@ test_that("group_map() give meaningful errors", {
 
   expect_snapshot({
     # group_modify()
-    (
-      expect_error(
-        mtcars %>% group_by(cyl) %>% group_modify(~ data.frame(cyl = 19))
-      )
-    )
+    (expect_error(
+      mtcars %>% group_by(cyl) %>% group_modify(~ data.frame(cyl = 19))
+    ))
     (expect_error(mtcars %>% group_by(cyl) %>% group_modify(~10)))
     (expect_error(iris %>% group_by(Species) %>% group_modify(head1)))
 

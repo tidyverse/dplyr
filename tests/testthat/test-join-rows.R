@@ -164,11 +164,9 @@ test_that("join_rows() allows `unmatched` to be specified independently for inne
 
 test_that("join_rows() expects incompatible type errors to have been handled by join_cast_common()", {
   expect_snapshot({
-    (
-      expect_error(
-        join_rows(data.frame(x = 1), data.frame(x = factor("a")))
-      )
-    )
+    (expect_error(
+      join_rows(data.frame(x = 1), data.frame(x = factor("a")))
+    ))
   })
 })
 

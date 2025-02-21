@@ -517,108 +517,82 @@ test_that("summarise() gives meaningful errors", {
     expr({
       expect_snapshot({
         # unsupported type
-        (
-          expect_error(
-            tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
-              summarise(a = rlang::env(a = 1))
-          )
-        )
-        (
-          expect_error(
-            tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
-              group_by(x, y) %>%
-              summarise(a = rlang::env(a = 1))
-          )
-        )
-        (
-          expect_error(
-            tibble(x = 1, y = c(1, 2, 2), y2 = c(1, 2, 2), z = runif(3)) %>%
-              group_by(x, y, y2) %>%
-              summarise(a = rlang::env(a = 1))
-          )
-        )
-        (
-          expect_error(
-            tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
-              rowwise() %>%
-              summarise(a = lm(y ~ x))
-          )
-        )
+        (expect_error(
+          tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
+            summarise(a = rlang::env(a = 1))
+        ))
+        (expect_error(
+          tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
+            group_by(x, y) %>%
+            summarise(a = rlang::env(a = 1))
+        ))
+        (expect_error(
+          tibble(x = 1, y = c(1, 2, 2), y2 = c(1, 2, 2), z = runif(3)) %>%
+            group_by(x, y, y2) %>%
+            summarise(a = rlang::env(a = 1))
+        ))
+        (expect_error(
+          tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
+            rowwise() %>%
+            summarise(a = lm(y ~ x))
+        ))
 
         # mixed types
-        (
-          expect_error(
-            tibble(id = 1:2, a = list(1, "2")) %>%
-              group_by(id) %>%
-              summarise(a = a[[1]])
-          )
-        )
-        (
-          expect_error(
-            tibble(id = 1:2, a = list(1, "2")) %>%
-              rowwise() %>%
-              summarise(a = a[[1]])
-          )
-        )
+        (expect_error(
+          tibble(id = 1:2, a = list(1, "2")) %>%
+            group_by(id) %>%
+            summarise(a = a[[1]])
+        ))
+        (expect_error(
+          tibble(id = 1:2, a = list(1, "2")) %>%
+            rowwise() %>%
+            summarise(a = a[[1]])
+        ))
 
         # incompatible size
-        (
-          expect_error(
-            tibble(z = 1) %>%
-              summarise(x = 1:3, y = 1:2)
-          )
-        )
-        (
-          expect_error(
-            tibble(z = 1:2) %>%
-              group_by(z) %>%
-              summarise(x = 1:3, y = 1:2)
-          )
-        )
-        (
-          expect_error(
-            tibble(z = c(1, 3)) %>%
-              group_by(z) %>%
-              summarise(x = seq_len(z), y = 1:2)
-          )
-        )
+        (expect_error(
+          tibble(z = 1) %>%
+            summarise(x = 1:3, y = 1:2)
+        ))
+        (expect_error(
+          tibble(z = 1:2) %>%
+            group_by(z) %>%
+            summarise(x = 1:3, y = 1:2)
+        ))
+        (expect_error(
+          tibble(z = c(1, 3)) %>%
+            group_by(z) %>%
+            summarise(x = seq_len(z), y = 1:2)
+        ))
 
         # mixed nulls
-        (
-          expect_error(
-            data.frame(x = 1:2, g = 1:2) %>%
-              group_by(g) %>%
-              summarise(x = if (g == 1) 42)
-          )
-        )
-        (
-          expect_error(
-            data.frame(x = 1:2, g = 1:2) %>%
-              group_by(g) %>%
-              summarise(x = if (g == 2) 42)
-          )
-        )
+        (expect_error(
+          data.frame(x = 1:2, g = 1:2) %>%
+            group_by(g) %>%
+            summarise(x = if (g == 1) 42)
+        ))
+        (expect_error(
+          data.frame(x = 1:2, g = 1:2) %>%
+            group_by(g) %>%
+            summarise(x = if (g == 2) 42)
+        ))
 
         # .data pronoun
         (expect_error(summarise(tibble(a = 1), c = .data$b)))
         (expect_error(summarise(group_by(tibble(a = 1:3), a), c = .data$b)))
 
         # Duplicate column names
-        (
-          expect_error(
-            tibble(x = 1, x = 1, .name_repair = "minimal") %>% summarise(x)
-          )
-        )
+        (expect_error(
+          tibble(x = 1, x = 1, .name_repair = "minimal") %>% summarise(x)
+        ))
 
         # Not glue()ing
         (expect_error(tibble() %>% summarise(stop("{"))))
-        (
-          expect_error(
-            tibble(a = 1, b = "{value:1, unit:a}") %>%
-              group_by(b) %>%
-              summarise(a = stop("!"))
-          )
-        )
+        (expect_error(
+          tibble(a = 1, b = "{value:1, unit:a}") %>%
+            group_by(b) %>%
+            summarise(a = stop("!"))
+        ))
       })
     })
   )

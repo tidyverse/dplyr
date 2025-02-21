@@ -271,54 +271,38 @@ test_that("throws chained errors when formula evaluation fails", {
 
 test_that("case_when() give meaningful errors", {
   expect_snapshot({
-    (
-      expect_error(
-        case_when(
-          c(TRUE, FALSE) ~ 1:3,
-          c(FALSE, TRUE) ~ 1:2
-        )
+    (expect_error(
+      case_when(
+        c(TRUE, FALSE) ~ 1:3,
+        c(FALSE, TRUE) ~ 1:2
       )
-    )
+    ))
 
-    (
-      expect_error(
-        case_when(
-          c(TRUE, FALSE) ~ 1,
-          c(FALSE, TRUE, FALSE) ~ 2,
-          c(FALSE, TRUE, FALSE, NA) ~ 3
-        )
+    (expect_error(
+      case_when(
+        c(TRUE, FALSE) ~ 1,
+        c(FALSE, TRUE, FALSE) ~ 2,
+        c(FALSE, TRUE, FALSE, NA) ~ 3
       )
-    )
+    ))
 
-    (
-      expect_error(
-        case_when(50 ~ 1:3)
-      )
-    )
-    (
-      expect_error(
-        case_when(paste(50))
-      )
-    )
-    (
-      expect_error(
-        case_when(y ~ x, paste(50))
-      )
-    )
-    (
-      expect_error(
-        case_when()
-      )
-    )
-    (
-      expect_error(
-        case_when(NULL)
-      )
-    )
-    (
-      expect_error(
-        case_when(~ 1:2)
-      )
-    )
+    (expect_error(
+      case_when(50 ~ 1:3)
+    ))
+    (expect_error(
+      case_when(paste(50))
+    ))
+    (expect_error(
+      case_when(y ~ x, paste(50))
+    ))
+    (expect_error(
+      case_when()
+    ))
+    (expect_error(
+      case_when(NULL)
+    ))
+    (expect_error(
+      case_when(~ 1:2)
+    ))
   })
 })

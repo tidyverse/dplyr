@@ -408,31 +408,23 @@ test_that("_if isn't tripped up by columns named 'i' (#5330)", {
 test_that("colwise mutate gives meaningful error messages", {
   expect_snapshot({
     # column not found
-    (
-      expect_error(
-        mutate_at(tibble(), "test", ~1)
-      )
-    )
+    (expect_error(
+      mutate_at(tibble(), "test", ~1)
+    ))
 
     # not summarising grouping variables
     tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8)
     tbl <- group_by(tbl, gr1)
-    (
-      expect_error(
-        summarise_at(tbl, vars(gr1), mean)
-      )
-    )
+    (expect_error(
+      summarise_at(tbl, vars(gr1), mean)
+    ))
 
     # improper additional arguments
-    (
-      expect_error(
-        mutate_all(mtcars, length, 0, 0)
-      )
-    )
-    (
-      expect_error(
-        mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE)
-      )
-    )
+    (expect_error(
+      mutate_all(mtcars, length, 0, 0)
+    ))
+    (expect_error(
+      mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE)
+    ))
   })
 })

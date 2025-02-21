@@ -185,16 +185,12 @@ test_that("dplyr_col_select() aborts when `[` implementation is broken", {
     class = "dplyr_test_broken_operator"
   )
   expect_snapshot({
-    (
-      expect_error(
-        select(df1, 1:2)
-      )
-    )
-    (
-      expect_error(
-        select(df1, 0)
-      )
-    )
+    (expect_error(
+      select(df1, 1:2)
+    ))
+    (expect_error(
+      select(df1, 0)
+    ))
   })
   df2 <- new_tibble(
     list(x = 1),
@@ -205,24 +201,18 @@ test_that("dplyr_col_select() aborts when `[` implementation is broken", {
 
   expect_snapshot({
     # from vctrs
-    (
-      expect_error(
-        select(df1, 2)
-      )
-    )
+    (expect_error(
+      select(df1, 2)
+    ))
 
     # not returning a data frame
-    (
-      expect_error(
-        select(df1, 1)
-      )
-    )
+    (expect_error(
+      select(df1, 1)
+    ))
 
     # unexpected number of columns
-    (
-      expect_error(
-        select(df2, 1)
-      )
-    )
+    (expect_error(
+      select(df2, 1)
+    ))
   })
 })
