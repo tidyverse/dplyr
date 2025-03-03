@@ -43,4 +43,4 @@
 ^compile_commands\.json$
 ^\.cache$
 ^\.vscode$
-^air.toml$
+^[\.]?air\.toml$
