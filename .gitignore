@@ -25,3 +25,4 @@ doc
 Meta
 compile_commands.json
 .cache
+*.Rproj

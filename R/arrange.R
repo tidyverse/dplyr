@@ -59,14 +59,24 @@
 #'   help page under the `Default locale` section.
 #' @family single table verbs
 #' @examples
-#' arrange(mtcars, cyl, disp)
-#' arrange(mtcars, desc(disp))
+#' # Load the {palmerpenguins} package (R < 4.5.0)
+#' library(palmerpenguins)
 #'
-#' # grouped arrange ignores groups
-#' by_cyl <- mtcars %>% group_by(cyl)
-#' by_cyl %>% arrange(desc(wt))
+#' # Arrange by increasing order of bill depth
+#' arrange(penguins, bill_depth_mm)
+#'
+#' # Arrange by increasing order of bill depth and body mass
+#' arrange(penguins, bill_depth_mm, body_mass_g)
+#'
+#' # Arrange by increasing order of bill depth and decreasing order of body mass
+#' arrange(penguins, bill_depth_mm, desc(body_mass_g))
+#'
+#' # Grouped arrange ignores groups
+#' by_species <- penguins %>% group_by(species)
+#' by_species %>% arrange(desc(flipper_length_mm))
+
 #' # Unless you specifically ask:
-#' by_cyl %>% arrange(desc(wt), .by_group = TRUE)
+#' by_species %>% arrange(desc(flipper_length_mm), .by_group = TRUE)
 #'
 #' # use embracing when wrapping in a function;
 #' # see ?rlang::args_data_masking for more details
@@ -74,11 +84,12 @@
 #'   .data %>%
 #'     arrange({{ var }})
 #' }
-#' tidy_eval_arrange(mtcars, mpg)
+#' tidy_eval_arrange(penguins, bill_length_mm)
 #'
 #' # Use `across()` or `pick()` to select columns with tidy-select
-#' iris %>% arrange(pick(starts_with("Sepal")))
-#' iris %>% arrange(across(starts_with("Sepal"), desc))
+#' penguins %>% arrange(pick(contains("depth")))
+#' penguins %>% arrange(across(ends_with("mm"), desc))
+#'
 arrange <- function(.data, ..., .by_group = FALSE) {
   UseMethod("arrange")
 }
