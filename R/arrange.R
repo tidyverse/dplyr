@@ -63,13 +63,13 @@
 #' library(palmerpenguins)
 #'
 #' # Arrange by increasing order of bill depth
-#' arrange(penguins, bill_depth_mm)
+#' penguins %>% arrange(bill_depth_mm)
 #'
 #' # Arrange by increasing order of bill depth and body mass
-#' arrange(penguins, bill_depth_mm, body_mass_g)
+#' penguins %>% arrange(bill_depth_mm, body_mass_g)
 #'
 #' # Arrange by increasing order of bill depth and decreasing order of body mass
-#' arrange(penguins, bill_depth_mm, desc(body_mass_g))
+#' penguins %>% arrange(bill_depth_mm, desc(body_mass_g))
 #'
 #' # Grouped arrange ignores groups
 #' by_species <- penguins %>% group_by(species)
