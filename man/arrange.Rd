@@ -79,17 +79,17 @@ The following methods are currently available in loaded packages:
 }
 
 \examples{
-# Load the {palmerpenguins} package (R < 4.5.0)
-library(palmerpenguins)
+# Load the 'penguins' data set from {palmerpenguins} package (R < 4.5.0)
+data("penguins")
 
 # Arrange by increasing order of bill depth
-arrange(penguins, bill_depth_mm)
+penguins \%>\% arrange(bill_depth_mm)
 
 # Arrange by increasing order of bill depth and body mass
-arrange(penguins, bill_depth_mm, body_mass_g)
+penguins \%>\% arrange(bill_depth_mm, body_mass_g)
 
 # Arrange by increasing order of bill depth and decreasing order of body mass
-arrange(penguins, bill_depth_mm, desc(body_mass_g))
+penguins \%>\% arrange(bill_depth_mm, desc(body_mass_g))
 
 # Grouped arrange ignores groups
 by_species <- penguins \%>\% group_by(species)

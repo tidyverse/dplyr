@@ -59,8 +59,8 @@
 #'   help page under the `Default locale` section.
 #' @family single table verbs
 #' @examples
-#' # Load the {palmerpenguins} package (R < 4.5.0)
-#' library(palmerpenguins)
+#' # Load the 'penguins' data set from {palmerpenguins} package (R < 4.5.0)
+#' data("penguins")
 #'
 #' # Arrange by increasing order of bill depth
 #' penguins %>% arrange(bill_depth_mm)
