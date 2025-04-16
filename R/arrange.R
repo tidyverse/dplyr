@@ -61,13 +61,11 @@
 #' @examples
 #' data("penguins", package = "palmerpenguins")
 #'
-#' # Arrange by increasing order of bill depth
+#' # Arrange by increasing order
 #' penguins %>% arrange(bill_depth_mm)
-#'
-#' # Arrange by increasing order of bill depth and body mass
 #' penguins %>% arrange(bill_depth_mm, body_mass_g)
 #'
-#' # Arrange by increasing order of bill depth and decreasing order of body mass
+#' # Mix sorting by increasing and decreasing order
 #' penguins %>% arrange(bill_depth_mm, desc(body_mass_g))
 #'
 #' # Grouped arrange ignores groups
