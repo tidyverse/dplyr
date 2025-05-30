@@ -2627,7 +2627,7 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
   `dplyr.show_progress` (default is TRUE) so you can turn it off globally
   (@jimhester #1264, #1226).
 
-* `summarise()` handles expressions that returning heterogenous outputs,
+* `summarise()` handles expressions that returning heterogeneous outputs,
   e.g. `median()`, which that sometimes returns an integer, and other times a
   numeric (#893).
 

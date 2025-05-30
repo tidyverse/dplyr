@@ -11,7 +11,7 @@ ident(...)
 }
 \description{
 \code{ident()} takes strings and turns them as database identifiers (e.g. table
-or column names) quoting them using the identifer rules for your database.
+or column names) quoting them using the identifier rules for your database.
 \code{ident_q()} does the same, but assumes the names have already been
 quoted, preventing them from being quoted again.
 
