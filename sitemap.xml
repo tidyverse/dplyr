@@ -1,411 +1,139 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://dplyr.tidyverse.org/404.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/ISSUE_TEMPLATE.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/SUPPORT.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/base.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/colwise.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/dplyr.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/grouping.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/in-packages.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/programming.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/rowwise.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/two-table.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/articles/window-functions.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/index.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/across.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/add_rownames.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/all_equal.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/all_vars.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/args_by.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/arrange.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/arrange_all.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/auto_copy.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/backend_dbplyr.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/band_members.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/between.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/bind_cols.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/bind_rows.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/c_across.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/case_match.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/case_when.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/check_dbplyr.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/coalesce.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/combine.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/common_by.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/compute.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/consecutive_id.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/context.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/copy_to.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/count.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/cross_join.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/cumall.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/defunct.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/deprec-context.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/desc.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/dim_desc.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/distinct.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/distinct_all.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/do.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/dplyr-locale.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/dplyr-package.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/dplyr_by.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/dplyr_data_masking.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/dplyr_extending.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/explain.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/filter-joins.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/filter.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/filter_all.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/funs.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/glimpse.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/group_by.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/group_by_all.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/group_by_drop_default.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/group_by_prepare.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/group_cols.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/group_data.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/group_map.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/group_nest.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/group_split.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/group_trim.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/grouped_df.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/ident.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/if_else.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/join_by.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/last_dplyr_warnings.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/lead-lag.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/make_tbl.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/mutate-joins.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/mutate.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/mutate_all.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/n_distinct.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/na_if.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/near.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/nest_by.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/nest_join.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/new_grouped_df.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/nth.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/ntile.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/order_by.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/percent_rank.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/pick.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/progress_estimated.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/pull.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/recode.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/reframe.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/relocate.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/rename.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/row_number.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/rows.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/rowwise.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/same_src.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/sample_n.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/scoped.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/se-deprecated.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/select.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/select_all.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/setops.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/slice.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/sql.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/src.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/src_dbi.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/src_local.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/src_tbls.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/starwars.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/storms.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/summarise.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/summarise_all.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/summarise_each.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/tbl.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/tbl_df.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/tbl_ptype.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/tbl_vars.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/tidyeval-compat.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/top_n.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/transmute.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/vars.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/with_groups.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/with_order.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://dplyr.tidyverse.org/404.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/CONTRIBUTING.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/ISSUE_TEMPLATE.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/LICENSE-text.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/LICENSE.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/SUPPORT.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/articles/base.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/articles/colwise.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/articles/dplyr.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/articles/grouping.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/articles/in-packages.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/articles/index.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/articles/programming.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/articles/rowwise.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/articles/two-table.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/articles/window-functions.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/authors.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/index.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/news/index.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/across.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/add_rownames.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/all_equal.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/all_vars.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/args_by.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/arrange.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/arrange_all.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/auto_copy.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/backend_dbplyr.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/band_members.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/between.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/bind_cols.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/bind_rows.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/c_across.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/case_match.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/case_when.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/check_dbplyr.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/coalesce.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/combine.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/common_by.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/compute.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/consecutive_id.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/context.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/copy_to.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/count.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/cross_join.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/cumall.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/defunct.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/deprec-context.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/desc.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/dim_desc.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/distinct.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/distinct_all.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/do.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/dplyr-locale.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/dplyr-package.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/dplyr_by.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/dplyr_data_masking.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/dplyr_extending.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/explain.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/filter-joins.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/filter.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/filter_all.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/funs.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/glimpse.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/group_by.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/group_by_all.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/group_by_drop_default.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/group_by_prepare.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/group_cols.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/group_data.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/group_map.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/group_nest.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/group_split.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/group_trim.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/grouped_df.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/ident.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/if_else.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/index.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/join_by.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/last_dplyr_warnings.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/lead-lag.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/make_tbl.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/mutate-joins.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/mutate.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/mutate_all.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/n_distinct.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/na_if.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/near.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/nest_by.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/nest_join.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/new_grouped_df.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/nth.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/ntile.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/order_by.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/percent_rank.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/pick.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/progress_estimated.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/pull.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/recode.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/reexports.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/reframe.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/relocate.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/rename.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/row_number.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/rows.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/rowwise.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/same_src.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/sample_n.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/scoped.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/se-deprecated.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/select.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/select_all.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/setops.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/slice.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/sql.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/src.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/src_dbi.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/src_local.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/src_tbls.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/starwars.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/storms.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/summarise.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/summarise_all.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/summarise_each.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/tbl.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/tbl_df.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/tbl_ptype.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/tbl_vars.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/tidyeval-compat.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/top_n.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/transmute.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/vars.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/with_groups.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/reference/with_order.html</loc></url>
 </urlset>
+
