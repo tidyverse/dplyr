@@ -28,6 +28,7 @@ Imports:
     lifecycle (>= 1.0.3),
     magrittr (>= 1.5),
     methods,
+    palmerpenguins,
     pillar (>= 1.9.0),
     R6,
     rlang (>= 1.1.3),
