@@ -150,50 +150,92 @@
 #'   mutate(type = case_character_type(height, mass, species, robots = FALSE)) %>%
 #'   pull(type)
 case_when <- function(..., .default = NULL, .ptype = NULL, .size = NULL) {
-  args <- list2(...)
-
-  args <- case_formula_evaluate(
-    args = args,
+  case_when_with_envs(
+    dots = list2(...),
+    default = .default,
+    ptype = .ptype,
+    size = .size,
+    call = current_env(),
     default_env = caller_env(),
-    dots_env = current_env(),
-    error_call = current_env()
+    dots_env = current_env()
+  )
+}
+
+#' @export
+update_when <- function(.x, ...) {
+  obj_check_vector(.x)
+
+  default <- .x
+  ptype <- vec_ptype_finalise(vec_ptype(.x))
+  size <- vec_size(.x)
+
+  case_when_with_envs(
+    dots = list2(...),
+    default = default,
+    ptype = ptype,
+    size = size,
+    call = current_env(),
+    default_env = caller_env(),
+    dots_env = current_env()
+  )
+}
+
+case_when_with_envs <- function(
+  dots,
+  default,
+  ptype,
+  size,
+  call,
+  default_env,
+  dots_env
+) {
+  dots <- case_formula_evaluate(
+    dots = dots,
+    default_env = default_env,
+    dots_env = dots_env,
+    error_call = call
   )
 
-  conditions <- args$lhs
-  values <- args$rhs
+  conditions <- dots$lhs
+  values <- dots$rhs
 
   # `case_when()`'s formula interface finds the common size of ALL of its inputs.
   # This is what allows `TRUE ~` to work.
-  .size <- vec_size_common(!!!conditions, !!!values, .size = .size)
+  size <- vec_size_common(
+    !!!conditions,
+    !!!values,
+    .size = size,
+    .call = call
+  )
 
-  conditions <- vec_recycle_common(!!!conditions, .size = .size)
-  values <- vec_recycle_common(!!!values, .size = .size)
+  conditions <- vec_recycle_common(!!!conditions, .size = size, .call = call)
+  values <- vec_recycle_common(!!!values, .size = size, .call = call)
 
   vec_case_when(
     conditions = conditions,
     values = values,
     conditions_arg = "",
     values_arg = "",
-    default = .default,
+    default = default,
     default_arg = ".default",
-    ptype = .ptype,
-    size = .size,
-    call = current_env()
+    ptype = ptype,
+    size = size,
+    call = call
   )
 }
 
-case_formula_evaluate <- function(args, default_env, dots_env, error_call) {
+case_formula_evaluate <- function(dots, default_env, dots_env, error_call) {
   # `case_when()`'s formula interface compacts `NULL`s
-  args <- compact_null(args)
-  n_args <- length(args)
-  seq_args <- seq_len(n_args)
+  dots <- compact_null(dots)
+  n_dots <- length(dots)
+  seq_dots <- seq_len(n_dots)
 
   pairs <- map2(
-    .x = args,
-    .y = seq_args,
-    .f = function(x, i) {
+    .x = dots,
+    .y = seq_dots,
+    .f = function(dot, i) {
       validate_and_split_formula(
-        x = x,
+        dot = dot,
         i = i,
         default_env = default_env,
         dots_env = dots_env,
@@ -202,15 +244,15 @@ case_formula_evaluate <- function(args, default_env, dots_env, error_call) {
     }
   )
 
-  lhs <- vector("list", n_args)
-  rhs <- vector("list", n_args)
+  lhs <- vector("list", n_dots)
+  rhs <- vector("list", n_dots)
 
   env_error_info <- new_environment()
 
   # Using 1 call to `withCallingHandlers()` that wraps all `eval_tidy()`
   # evaluations to avoid repeated handler setup (#6674)
   withCallingHandlers(
-    for (i in seq_args) {
+    for (i in seq_dots) {
       env_error_info[["i"]] <- i
       pair <- pairs[[i]]
 
@@ -251,9 +293,9 @@ case_formula_evaluate <- function(args, default_env, dots_env, error_call) {
   # rhs_names <- map(quos_pairs, function(pair) pair$rhs)
   # rhs_names <- map_chr(rhs_names, as_label)
   # names(rhs) <- rhs_names
-  if (n_args > 0L) {
-    names(lhs) <- paste0("..", seq_args, " (left)")
-    names(rhs) <- paste0("..", seq_args, " (right)")
+  if (n_dots > 0L) {
+    names(lhs) <- paste0("..", seq_dots, " (left)")
+    names(rhs) <- paste0("..", seq_dots, " (right)")
   }
 
   list(
@@ -263,37 +305,37 @@ case_formula_evaluate <- function(args, default_env, dots_env, error_call) {
 }
 
 validate_and_split_formula <- function(
-  x,
+  dot,
   i,
   default_env,
   dots_env,
   error_call
 ) {
-  if (is_quosure(x)) {
+  if (is_quosure(dot)) {
     # We specially handle quosures, assuming they hold formulas
-    default_env <- quo_get_env(x)
-    x <- quo_get_expr(x)
+    default_env <- quo_get_env(dot)
+    dot <- quo_get_expr(dot)
   }
 
-  if (!is_formula(x, lhs = TRUE)) {
-    arg <- substitute(...(), dots_env)[[i]]
-    arg <- glue::backtick(as_label(arg))
+  if (!is_formula(dot, lhs = TRUE)) {
+    dot_expr <- substitute(...(), dots_env)[[i]]
+    dot_label <- glue::backtick(as_label(dot_expr))
 
-    if (is_formula(x)) {
+    if (is_formula(dot)) {
       type <- "a two-sided formula"
     } else {
-      type <- glue("a two-sided formula, not {obj_type_friendly(x)}")
+      type <- glue("a two-sided formula, not {obj_type_friendly(dot)}")
     }
 
-    message <- glue("Case {i} ({arg}) must be {type}.")
+    message <- glue("Case {i} ({dot_label}) must be {type}.")
     abort(message, call = error_call)
   }
 
   # Formula might be unevaluated, e.g. if it's been quosured
-  env <- f_env(x) %||% default_env
+  env <- f_env(dot) %||% default_env
 
   list(
-    lhs = new_quosure(f_lhs(x), env),
-    rhs = new_quosure(f_rhs(x), env)
+    lhs = new_quosure(f_lhs(dot), env),
+    rhs = new_quosure(f_rhs(dot), env)
   )
 }

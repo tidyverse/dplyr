@@ -130,18 +130,21 @@ case_match <- function(
   .default = NULL,
   .ptype = NULL
 ) {
-  case_match_with_call(
-    .x = .x,
-    ...,
-    .from = .from,
-    .to = .to,
-    .default = .default,
-    .ptype = .ptype
+  case_match_with_envs(
+    x = .x,
+    dots = list2(...),
+    from = .from,
+    to = .to,
+    default = .default,
+    ptype = .ptype,
+    call = current_env(),
+    default_env = caller_env(),
+    dots_env = current_env()
   )
 }
 
 #' @export
-case_update <- function(
+update_match <- function(
   .x,
   ...,
   .from = NULL,
@@ -152,59 +155,62 @@ case_update <- function(
   default <- .x
   ptype <- vec_ptype_finalise(vec_ptype(.x))
 
-  case_match_with_call(
-    .x = .x,
-    ...,
-    .from = .from,
-    .to = .to,
-    .default = default,
-    .ptype = ptype
+  case_match_with_envs(
+    x = .x,
+    dots = list2(...),
+    from = .from,
+    to = .to,
+    default = default,
+    ptype = ptype,
+    call = current_env(),
+    default_env = caller_env(),
+    dots_env = current_env()
   )
 }
 
-case_match_with_call <- function(
-  .x,
-  ...,
-  .from = NULL,
-  .to = NULL,
-  .default = NULL,
-  .ptype = NULL,
-  .call = caller_env()
+case_match_with_envs <- function(
+  x,
+  dots,
+  from,
+  to,
+  default,
+  ptype,
+  call,
+  default_env,
+  dots_env
 ) {
-  args <- list2(...)
-
-  args <- case_formula_evaluate(
-    args = args,
-    default_env = caller_env(),
-    dots_env = current_env(),
-    error_call = .call
+  dots <- case_formula_evaluate(
+    dots = dots,
+    default_env = default_env,
+    dots_env = dots_env,
+    error_call = call
   )
 
   implementation <- check_mutually_exclusive_case_match_arguments(
-    args = args,
-    from = .from,
-    to = .to,
+    dots = dots,
+    from = from,
+    to = to,
     from_arg = ".from",
     to_arg = ".to",
-    call = .call
+    call = call
   )
 
   if (implementation == "case-when") {
     result <- try_optimize_to_recode(
-      lhs = args$lhs,
-      rhs = args$rhs,
-      default = .default,
+      lhs = dots$lhs,
+      rhs = dots$rhs,
+      default = default,
       default_arg = ".default",
-      lhs_ptype = .x,
-      rhs_ptype = .ptype,
-      call = .call
+      lhs_ptype = x,
+      rhs_ptype = ptype,
+      call = call
     )
 
     if (!is.null(result)) {
       implementation <- "recode"
-      .from <- result$from
-      .to <- result$to
-      .default <- result$default
+      from <- result$from
+      to <- result$to
+      default <- result$default
     }
   }
 
@@ -212,30 +218,30 @@ case_match_with_call <- function(
     implementation,
     "case-when" = {
       case_match_using_case_when(
-        needles = .x,
-        haystacks = args$lhs,
-        values = args$rhs,
-        default = .default,
+        needles = x,
+        haystacks = dots$lhs,
+        values = dots$rhs,
+        default = default,
         needles_arg = ".x",
         haystacks_arg = "",
         values_arg = "",
         default_arg = ".default",
-        ptype = .ptype,
-        call = .call
+        ptype = ptype,
+        call = call
       )
     },
     "recode" = {
       case_match_using_recode(
-        x = .x,
-        from = .from,
-        to = .to,
-        default = .default,
+        x = x,
+        from = from,
+        to = to,
+        default = default,
         x_arg = ".x",
         from_arg = ".from",
         to_arg = ".to",
         default_arg = ".default",
-        ptype = .ptype,
-        call = .call
+        ptype = ptype,
+        call = call
       )
     }
   )
@@ -245,17 +251,14 @@ case_match_using_case_when <- function(
   needles,
   haystacks,
   values,
-  ...,
-  default = NULL,
-  needles_arg = "needles",
-  haystacks_arg = "haystacks",
-  values_arg = "values",
-  default_arg = "default",
-  ptype = NULL,
-  call = caller_env()
+  default,
+  needles_arg,
+  haystacks_arg,
+  values_arg,
+  default_arg,
+  ptype,
+  call
 ) {
-  check_dots_empty0(...)
-
   obj_check_vector(needles, arg = needles_arg, call = call)
   obj_check_list(haystacks, arg = haystacks_arg, call = call)
   list_check_all_vectors(haystacks, arg = haystacks_arg, call = call)
@@ -288,19 +291,16 @@ case_match_using_case_when <- function(
 
 case_match_using_recode <- function(
   x,
-  ...,
   from,
   to,
-  default = NULL,
-  x_arg = "x",
-  from_arg = "from",
-  to_arg = "to",
-  default_arg = "default",
-  ptype = NULL,
-  call = current_env()
+  default,
+  x_arg,
+  from_arg,
+  to_arg,
+  default_arg,
+  ptype,
+  call
 ) {
-  check_dots_empty0(...)
-
   vec_recode(
     x = x,
     from = from,
@@ -316,25 +316,25 @@ case_match_using_recode <- function(
 }
 
 check_mutually_exclusive_case_match_arguments <- function(
-  args,
+  dots,
   from,
   to,
   from_arg,
   to_arg,
   call
 ) {
-  has_args <- length(args$lhs) != 0L
+  has_dots <- length(dots$lhs) != 0L
   has_from <- !is.null(from)
   has_to <- !is.null(to)
 
-  if (has_from && has_args) {
+  if (has_from && has_dots) {
     cli::cli_abort(
       "Can't supply both {.arg {from_arg}} and {.arg ...}.",
       call = call
     )
   }
 
-  if (has_to && has_args) {
+  if (has_to && has_dots) {
     cli::cli_abort(
       "Can't supply both {.arg {to_arg}} and {.arg ...}.",
       call = call
