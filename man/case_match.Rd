@@ -4,7 +4,7 @@
 \alias{case_match}
 \title{A general vectorised \code{switch()}}
 \usage{
-case_match(.x, ..., .default = NULL, .ptype = NULL)
+case_match(.x, ..., .from = NULL, .to = NULL, .default = NULL, .ptype = NULL)
 }
 \arguments{
 \item{.x}{A vector to match against.}
