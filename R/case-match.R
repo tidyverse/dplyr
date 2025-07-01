@@ -270,6 +270,12 @@ case_match_using_case_when <- function(
     .call = call
   )
 
+  # This section computes `conditions` as a more efficient version of:
+  # `conditions <- map(haystacks, vec_in, needles = needles)`
+  #
+  # TODO: It might be even more efficient if we move it all to `vec_recode()`
+  # and have a special internal `vec_multi_in(needles, haystacks)`
+
   # Remove names for error handling at this point, no longer required,
   # and they get in the way with `list_unchop()`
   haystacks <- unname(haystacks)
