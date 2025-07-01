@@ -270,9 +270,24 @@ case_match_using_case_when <- function(
     .call = call
   )
 
-  # Could be more efficient in C. Build a dictionary on `needles`
-  # once and then reuse it with each haystack
-  conditions <- map(haystacks, vec_in, needles = needles)
+  # Remove names for error handling at this point, no longer required,
+  # and they get in the way with `list_unchop()`
+  haystacks <- unname(haystacks)
+
+  sizes <- list_sizes(haystacks)
+  cutpoints <- cumsum(sizes)
+
+  # We don't expect this to fail, we casted to a common type above
+  haystack <- list_unchop(haystacks)
+
+  loc <- vec_match(needles, haystack)
+
+  # Utilize the fact that `vec_case_when()`:
+  # - Uses the first `TRUE` value
+  # - Treats any `NA` value as `FALSE`
+  conditions <- map(cutpoints, function(cutpoint) {
+    loc <= cutpoint
+  })
 
   size <- vec_size(needles)
 
