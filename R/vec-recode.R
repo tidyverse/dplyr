@@ -127,24 +127,15 @@ vec_recode <- function(
 
   x_size <- vec_size(loc)
 
-  # TODO: Could be a little faster and more memory efficient with C.
-  # - Loop over `loc` tallying `n_missing`
-  # - Allocate `loc_for_default` and `loc_for_to` of correct sizes
-  # - Loop over `loc` again, filling `loc_for_default` and `loc_for_to`
-  # TODO: And could skip the first loop tallying `n_missing` if we had an
-  # internal version of `vec_match()` that returned the number of matches
-  # in addition to their locations.
-  loc_for_default <- vec_detect_missing(loc)
-  loc_for_to <- !loc_for_default
-
-  loc_for_default <- which(loc_for_default)
-  loc_for_to <- which(loc_for_to)
+  # TODO: `vec_locate_complete()` at C level
+  loc_match <- vec_detect_complete(loc)
+  loc_match <- which(loc_match)
 
   # Finalize `ptype`, allow `default` to participate in common type determination,
   # like in `vec_case_when()`
   everything <- list(to, default)
   names(everything) <- c(to_arg, default_arg)
-  ptype <- vec_ptype_common(!!!everything, .ptype = ptype)
+  ptype <- vec_ptype_common(!!!everything, .ptype = ptype, .call = call)
 
   to <- vec_cast(
     x = to,
@@ -154,32 +145,29 @@ vec_recode <- function(
   )
 
   if (is.null(default)) {
-    default <- vec_init(ptype)
+    default <- vec_init(ptype, n = x_size)
   } else {
-    default <- vec_cast(default, ptype)
+    default <- vec_cast(default, to = ptype, x_arg = default_arg, call = call)
+    default <- vec_recycle(
+      default,
+      size = x_size,
+      x_arg = default_arg,
+      call = call
+    )
   }
 
-  # TODO: Could use `vec_slice_unsafe()` at the C level since location
-  # vectors are created by us.
   if (vec_size(to) != 1L) {
     vec_check_size(to, size = vec_size(from), arg = to_arg, call = call)
-    loc_from_to <- vec_slice(loc, loc_for_to)
+    # TODO: `vec_slice_unsafe()` here
+    loc_from_to <- vec_slice(loc, loc_match)
     to <- vec_slice(to, loc_from_to)
   }
 
-  if (vec_size(default) != 1L) {
-    vec_check_size(default, size = x_size, arg = default_arg, call = call)
-    default <- vec_slice(default, loc_for_default)
-  }
-
-  # TODO: If `list_unchop()` got an explicit `size` argument, then
-  # we would not have to supply `default` or `use_default` at all in the
-  # `default = NULL` case, which is fairly common.
-  list_unchop(
-    list(to, default),
-    indices = list(loc_for_to, loc_for_default),
-    ptype = ptype
-  )
+  # TODO: At C level, `vec_assign()` won't make another copy of `default`
+  # unless it has to
+  # TODO: Would be really nice if a size 1 `to` could be recycled efficiently
+  # in `vec_assign()`!
+  vec_assign(default, loc_match, to)
 }
 
 # #' @rdname vec-recode-and-update
