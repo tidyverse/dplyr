@@ -155,6 +155,7 @@ case_when <- function(..., .default = NULL, .ptype = NULL, .size = NULL) {
     default = .default,
     ptype = .ptype,
     size = .size,
+    allow_named_dots = TRUE,
     call = current_env(),
     default_env = caller_env(),
     dots_env = current_env()
@@ -174,6 +175,7 @@ replace_when <- function(x, ...) {
     default = default,
     ptype = ptype,
     size = size,
+    allow_named_dots = FALSE,
     call = current_env(),
     default_env = caller_env(),
     dots_env = current_env()
@@ -185,6 +187,7 @@ case_when_with_envs <- function(
   default,
   ptype,
   size,
+  allow_named_dots,
   call,
   default_env,
   dots_env
@@ -193,7 +196,8 @@ case_when_with_envs <- function(
     dots = dots,
     default_env = default_env,
     dots_env = dots_env,
-    error_call = call
+    error_call = call,
+    allow_named_dots = allow_named_dots
   )
 
   conditions <- dots$lhs
@@ -224,7 +228,17 @@ case_when_with_envs <- function(
   )
 }
 
-case_formula_evaluate <- function(dots, default_env, dots_env, error_call) {
+case_formula_evaluate <- function(
+  dots,
+  default_env,
+  dots_env,
+  error_call,
+  allow_named_dots = FALSE
+) {
+  if (!allow_named_dots && !is_null(names(dots))) {
+    abort("`...` can't be named.", call = error_call)
+  }
+
   # `case_when()`'s formula interface compacts `NULL`s
   dots <- compact_null(dots)
   n_dots <- length(dots)

@@ -123,17 +123,16 @@
 #'     .keep = "used"
 #'   )
 case_match <- function(.x, ..., .default = NULL, .ptype = NULL) {
-  args <- list2(...)
-
-  args <- case_formula_evaluate(
-    args = args,
+  dots <- case_formula_evaluate(
+    dots = list2(...),
     default_env = caller_env(),
     dots_env = current_env(),
-    error_call = current_env()
+    error_call = current_env(),
+    allow_named_dots = TRUE
   )
 
-  haystacks <- args$lhs
-  values <- args$rhs
+  haystacks <- dots$lhs
+  values <- dots$rhs
 
   vec_case_match(
     needles = .x,

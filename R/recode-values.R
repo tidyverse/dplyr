@@ -183,15 +183,12 @@ recode_values_with_envs <- function(
   default_env,
   dots_env
 ) {
-  if (!is_null(names(dots))) {
-    abort("`...` can't be named.", call = call)
-  }
-
   dots <- case_formula_evaluate(
     dots = dots,
     default_env = default_env,
     dots_env = dots_env,
-    error_call = call
+    error_call = call,
+    allow_named_dots = FALSE
   )
 
   implementation <- check_mutually_exclusive_arguments(
