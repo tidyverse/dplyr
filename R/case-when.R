@@ -162,12 +162,12 @@ case_when <- function(..., .default = NULL, .ptype = NULL, .size = NULL) {
 }
 
 #' @export
-update_when <- function(.x, ...) {
-  obj_check_vector(.x)
+replace_when <- function(x, ...) {
+  obj_check_vector(x)
 
-  default <- .x
-  ptype <- vec_ptype_finalise(vec_ptype(.x))
-  size <- vec_size(.x)
+  default <- x
+  ptype <- vec_ptype_finalise(vec_ptype(x))
+  size <- vec_size(x)
 
   case_when_with_envs(
     dots = list2(...),
