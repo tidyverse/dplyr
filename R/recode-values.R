@@ -16,6 +16,7 @@ recode_values <- function(
   from = NULL,
   to = NULL,
   default = NULL,
+  unmatched = "default",
   ptype = NULL
 ) {
   recode_values_with_envs(
@@ -24,6 +25,7 @@ recode_values <- function(
     from = from,
     to = to,
     default = default,
+    unmatched = unmatched,
     ptype = ptype,
     call = current_env(),
     default_env = caller_env(),
@@ -50,6 +52,7 @@ replace_values <- function(
     from = from,
     to = to,
     default = default,
+    unmatched = "default",
     ptype = ptype,
     call = current_env(),
     default_env = caller_env(),
@@ -63,6 +66,7 @@ recode_values_with_envs <- function(
   from,
   to,
   default,
+  unmatched,
   ptype,
   call,
   default_env,
@@ -104,6 +108,7 @@ recode_values_with_envs <- function(
     from = from,
     to = to,
     default = default,
+    unmatched = unmatched,
     multiple_from = multiple_from,
     multiple_to = multiple_to,
     x_arg = "x",
