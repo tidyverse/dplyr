@@ -117,7 +117,7 @@ DataMask <- R6Class(
     },
 
     eval_all_filter = function(quos, env_filter) {
-      eval <- function()
+      eval <- function() {
         .Call(
           `dplyr_mask_eval_all_filter`,
           quos,
@@ -125,6 +125,7 @@ DataMask <- R6Class(
           private$size,
           env_filter
         )
+      }
       eval()
     },
 

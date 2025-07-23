@@ -6,7 +6,9 @@
     dplyr.show_progress = TRUE
   )
   toset <- !(names(op.dplyr) %in% names(op))
-  if (any(toset)) options(op.dplyr[toset])
+  if (any(toset)) {
+    options(op.dplyr[toset])
+  }
 
   .Call(dplyr_init_library, ns_dplyr, ns_env("vctrs"), ns_env("rlang"))
 

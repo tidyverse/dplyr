@@ -5,7 +5,9 @@ library(tibble)
 library(tidyr)
 library(glue)
 
-if (!dir.exists("../bench-libs")) dir.create("../bench-libs")
+if (!dir.exists("../bench-libs")) {
+  dir.create("../bench-libs")
+}
 
 if (!dir.exists("../bench-libs/0.8.3")) {
   dir.create("../bench-libs/0.8.3")
@@ -29,8 +31,7 @@ benchs <- function(libs, setup, ..., iterations = NULL) {
   dots <- rlang::exprs(...)
   setup <- substitute(setup)
 
-  f <- function() {
-  }
+  f <- function() {}
   body(f) <- rlang::expr({
     library(dplyr, warn.conflicts = FALSE)
     !!setup

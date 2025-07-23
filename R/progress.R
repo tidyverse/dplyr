@@ -85,15 +85,21 @@ Progress <- R6::R6Class(
 
     tick = function() {
       "Process one element"
-      if (self$stopped) return(self)
+      if (self$stopped) {
+        return(self)
+      }
 
-      if (self$i == self$n) abort("No more ticks.")
+      if (self$i == self$n) {
+        abort("No more ticks.")
+      }
       self$i <- self$i + 1
       self
     },
 
     stop = function() {
-      if (self$stopped) return(self)
+      if (self$stopped) {
+        return(self)
+      }
 
       self$stopped <- TRUE
       self$stop_time <- now()

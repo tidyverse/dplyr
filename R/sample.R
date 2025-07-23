@@ -170,7 +170,9 @@ sample_frac.data.frame <- function(
 # Helper functions -------------------------------------------------------------
 
 check_size <- function(size, n, replace = FALSE) {
-  if (size <= n || replace) return(invisible(size))
+  if (size <= n || replace) {
+    return(invisible(size))
+  }
 
   bullets <- c(
     glue("`size` must be less than or equal to {n} (size of data)."),
@@ -180,7 +182,9 @@ check_size <- function(size, n, replace = FALSE) {
 }
 
 check_frac <- function(size, replace = FALSE) {
-  if (size <= 1 || replace) return(invisible(size))
+  if (size <= 1 || replace) {
+    return(invisible(size))
+  }
 
   bullets <- c(
     glue("`size` of sampled fraction must be less or equal to one."),

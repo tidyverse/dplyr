@@ -112,8 +112,7 @@ test_that("group_map() does not warn about .keep= for rowwise_df", {
     data.frame(x = 1) %>%
       rowwise() %>%
       group_walk(
-        ~ {
-        }
+        ~ {}
       ),
     NA
   )
