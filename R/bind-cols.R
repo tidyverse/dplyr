@@ -30,7 +30,8 @@ bind_cols <- function(
 ) {
   dots <- list2(...)
 
-  dots <- list_flatten(dots, recursive = TRUE)
+  dots <- list_flatten(
+    dots, recursive = TRUE)
   dots <- discard(dots, is.null)
 
   # Strip names off of data frame components so that vec_cbind() unpacks them

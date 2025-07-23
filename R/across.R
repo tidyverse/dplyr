@@ -236,7 +236,8 @@ across <- function(.cols, .fns, ..., .names = NULL, .unpack = FALSE) {
     stop_input_type(.unpack, "`TRUE`, `FALSE`, or a single string")
   }
 
-  if (is_string(.unpack)) {
+  if (
+    is_string(.unpack)) {
     unpack_spec <- .unpack
     .unpack <- TRUE
   } else {
