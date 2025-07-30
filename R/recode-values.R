@@ -19,64 +19,11 @@ recode_values <- function(
   unmatched = "default",
   ptype = NULL
 ) {
-  recode_values_with_envs(
-    x = x,
-    dots = list2(...),
-    from = from,
-    to = to,
-    default = default,
-    unmatched = unmatched,
-    ptype = ptype,
-    call = current_env(),
-    default_env = caller_env(),
-    dots_env = current_env()
-  )
-}
-
-#' @export
-#' @rdname recode-and-replace-values
-replace_values <- function(
-  x,
-  ...,
-  from = NULL,
-  to = NULL
-) {
-  obj_check_vector(x)
-
-  default <- x
-  ptype <- vec_ptype_finalise(vec_ptype(x))
-
-  recode_values_with_envs(
-    x = x,
-    dots = list2(...),
-    from = from,
-    to = to,
-    default = default,
-    unmatched = "default",
-    ptype = ptype,
-    call = current_env(),
-    default_env = caller_env(),
-    dots_env = current_env()
-  )
-}
-
-recode_values_with_envs <- function(
-  x,
-  dots,
-  from,
-  to,
-  default,
-  unmatched,
-  ptype,
-  call,
-  default_env,
-  dots_env
-) {
   dots <- case_formula_evaluate(
-    dots = dots,
-    default_env = default_env,
-    dots_env = dots_env,
-    error_call = call,
+    dots = list2(...),
+    default_env = caller_env(),
+    dots_env = current_env(),
+    error_call = current_env(),
     allow_named_dots = FALSE
   )
 
@@ -86,7 +33,7 @@ recode_values_with_envs <- function(
     to = to,
     from_arg = "from",
     to_arg = "to",
-    call = call
+    call = current_env()
   )
 
   switch(
@@ -116,7 +63,59 @@ recode_values_with_envs <- function(
     to_arg = "to",
     default_arg = "default",
     ptype = ptype,
-    call = call
+    call = current_env()
+  )
+}
+
+#' @export
+#' @rdname recode-and-replace-values
+replace_values <- function(
+  x,
+  ...,
+  from = NULL,
+  to = NULL
+) {
+  dots <- case_formula_evaluate(
+    dots = list2(...),
+    default_env = caller_env(),
+    dots_env = current_env(),
+    error_call = current_env(),
+    allow_named_dots = FALSE
+  )
+
+  implementation <- check_mutually_exclusive_arguments(
+    dots = dots,
+    from = from,
+    to = to,
+    from_arg = "from",
+    to_arg = "to",
+    call = current_env()
+  )
+
+  switch(
+    implementation,
+    "vector" = {
+      multiple_from <- obj_is_list(from)
+      multiple_to <- obj_is_list(to)
+    },
+    "formula" = {
+      multiple_from <- TRUE
+      multiple_to <- TRUE
+      from <- dots$lhs
+      to <- dots$rhs
+    }
+  )
+
+  vec_replace_values(
+    x = x,
+    from = from,
+    to = to,
+    multiple_from = multiple_from,
+    multiple_to = multiple_to,
+    x_arg = "x",
+    from_arg = "from",
+    to_arg = "to",
+    call = current_env()
   )
 }
 

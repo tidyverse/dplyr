@@ -6,7 +6,15 @@
 \alias{replace_values}
 \title{Recode and replace values}
 \usage{
-recode_values(x, ..., from = NULL, to = NULL, default = NULL, ptype = NULL)
+recode_values(
+  x,
+  ...,
+  from = NULL,
+  to = NULL,
+  default = NULL,
+  unmatched = "default",
+  ptype = NULL
+)
 
 replace_values(x, ..., from = NULL, to = NULL)
 }
