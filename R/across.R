@@ -242,6 +242,7 @@ across <- function(.cols, .fns, ..., .names = NULL, .unpack = FALSE) {
   } else {
     unpack_spec <- "{outer}_{inner}"
   }
+  # an important change
 
   setup <- across_setup(
     cols = !!.cols,
