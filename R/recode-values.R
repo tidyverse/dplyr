@@ -39,12 +39,12 @@ recode_values <- function(
   switch(
     implementation,
     "vector" = {
-      multiple_from <- obj_is_list(from)
-      multiple_to <- obj_is_list(to)
+      from_as_list_of_vectors <- obj_is_list(from)
+      to_as_list_of_vectors <- obj_is_list(to)
     },
     "formula" = {
-      multiple_from <- TRUE
-      multiple_to <- TRUE
+      from_as_list_of_vectors <- TRUE
+      to_as_list_of_vectors <- TRUE
       from <- dots$lhs
       to <- dots$rhs
     }
@@ -56,8 +56,8 @@ recode_values <- function(
     to = to,
     default = default,
     unmatched = unmatched,
-    multiple_from = multiple_from,
-    multiple_to = multiple_to,
+    from_as_list_of_vectors = from_as_list_of_vectors,
+    to_as_list_of_vectors = to_as_list_of_vectors,
     x_arg = "x",
     from_arg = "from",
     to_arg = "to",
@@ -95,12 +95,12 @@ replace_values <- function(
   switch(
     implementation,
     "vector" = {
-      multiple_from <- obj_is_list(from)
-      multiple_to <- obj_is_list(to)
+      from_as_list_of_vectors <- obj_is_list(from)
+      to_as_list_of_vectors <- obj_is_list(to)
     },
     "formula" = {
-      multiple_from <- TRUE
-      multiple_to <- TRUE
+      from_as_list_of_vectors <- TRUE
+      to_as_list_of_vectors <- TRUE
       from <- dots$lhs
       to <- dots$rhs
     }
@@ -110,8 +110,8 @@ replace_values <- function(
     x = x,
     from = from,
     to = to,
-    multiple_from = multiple_from,
-    multiple_to = multiple_to,
+    from_as_list_of_vectors = from_as_list_of_vectors,
+    to_as_list_of_vectors = to_as_list_of_vectors,
     x_arg = "x",
     from_arg = "from",
     to_arg = "to",
