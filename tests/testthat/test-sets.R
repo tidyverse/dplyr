@@ -32,7 +32,7 @@ test_that("standard coercion rules are used (#799)", {
 })
 
 test_that("grouping metadata is reconstructed (#3587)", {
-  df1 <- tibble(x = 1:4, g = rep(1:2, each = 2)) %>% group_by(g)
+  df1 <- tibble(x = 1:4, g = rep(1:2, each = 2)) |> group_by(g)
   df2 <- tibble(x = 3:6, g = rep(2:3, each = 2))
 
   expect_equal(group_vars(intersect(df1, df2)), "g")

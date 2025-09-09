@@ -13,12 +13,12 @@
 #' details.
 #'
 #' @details
-#' Note that `df %>% nest_by(x, y)` is roughly equivalent to
+#' Note that `df |> nest_by(x, y)` is roughly equivalent to
 #'
 #' ```
-#' df %>%
-#'   group_by(x, y) %>%
-#'   summarise(data = list(pick(everything()))) %>%
+#' df |>
+#'   group_by(x, y) |>
+#'   summarise(data = list(pick(everything()))) |>
 #'   rowwise()
 #' ```
 #'
@@ -26,7 +26,7 @@
 #' `tidyr::unnest()` or take advantage of `reframe()`s multi-row behaviour:
 #'
 #' ```
-#' nested %>%
+#' nested |>
 #'   reframe(data)
 #' ```
 #'
@@ -59,25 +59,25 @@
 #' @export
 #' @examples
 #' # After nesting, you get one row per group
-#' iris %>% nest_by(Species)
-#' starwars %>% nest_by(species)
+#' iris |> nest_by(Species)
+#' starwars |> nest_by(species)
 #'
 #' # The output is grouped by row, which makes modelling particularly easy
-#' models <- mtcars %>%
-#'   nest_by(cyl) %>%
+#' models <- mtcars |>
+#'   nest_by(cyl) |>
 #'   mutate(model = list(lm(mpg ~ wt, data = data)))
 #' models
 #'
-#' models %>% summarise(rsq = summary(model)$r.squared)
+#' models |> summarise(rsq = summary(model)$r.squared)
 #' @examplesIf requireNamespace("broom", quietly = TRUE)
 #'
 #' # This is particularly elegant with the broom functions
-#' models %>% summarise(broom::glance(model))
-#' models %>% reframe(broom::tidy(model))
+#' models |> summarise(broom::glance(model))
+#' models |> reframe(broom::tidy(model))
 #' @examples
 #'
 #' # Note that you can also `reframe()` to unnest the data
-#' models %>% reframe(data)
+#' models |> reframe(data)
 nest_by <- function(.data, ..., .key = "data", .keep = FALSE) {
   lifecycle::signal_stage("experimental", "nest_by()")
   UseMethod("nest_by")

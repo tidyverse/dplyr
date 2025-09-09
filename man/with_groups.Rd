@@ -32,9 +32,9 @@ variables for a single operation; it is superseded in favour of using the
 df <- tibble(g = c(1, 1, 2, 2, 3), x = runif(5))
 
 # Old
-df \%>\%
+df |>
   with_groups(g, mutate, x_mean = mean(x))
 # New
-df \%>\% mutate(x_mean = mean(x), .by = g)
+df |> mutate(x_mean = mean(x), .by = g)
 }
 \keyword{internal}

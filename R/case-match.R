@@ -108,7 +108,7 @@
 #' # selected values, leaving everything else as is
 #' case_match(y, NA ~ 0, .default = y)
 #'
-#' starwars %>%
+#' starwars |>
 #'   mutate(
 #'     # Replace missings, but leave everything else alone
 #'     hair_color = case_match(hair_color, NA ~ "unknown", .default = hair_color),

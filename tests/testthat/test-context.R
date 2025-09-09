@@ -3,11 +3,11 @@ test_that("cur_group() works", {
   gf <- group_by(df, g)
 
   expect_equal(
-    df %>% summarise(key = list(cur_group())) %>% pull(key),
+    df |> summarise(key = list(cur_group())) |> pull(key),
     list(tibble(.rows = 1L))
   )
   expect_equal(
-    gf %>% summarise(key = list(cur_group())) %>% pull(key),
+    gf |> summarise(key = list(cur_group())) |> pull(key),
     list(tibble(g = 1))
   )
 })
@@ -42,12 +42,12 @@ test_that("cur_group_rows() retrieves row position in original data", {
   gf <- group_by(df, x)
 
   expect_equal(
-    df %>% summarise(x = list(cur_group_rows())) %>% pull(),
+    df |> summarise(x = list(cur_group_rows())) |> pull(),
     list(1:3)
   )
 
   expect_equal(
-    gf %>% summarise(x = list(cur_group_rows())) %>% pull(),
+    gf |> summarise(x = list(cur_group_rows())) |> pull(),
     list(2L, c(1L, 3L))
   )
 })

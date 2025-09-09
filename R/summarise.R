@@ -83,24 +83,24 @@
 #' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("summarise")}.
 #' @examples
 #' # A summary applied to ungrouped tbl returns a single row
-#' mtcars %>%
+#' mtcars |>
 #'   summarise(mean = mean(disp), n = n())
 #'
 #' # Usually, you'll want to group first
-#' mtcars %>%
-#'   group_by(cyl) %>%
+#' mtcars |>
+#'   group_by(cyl) |>
 #'   summarise(mean = mean(disp), n = n())
 #'
 #' # Each summary call removes one grouping level (since that group
 #' # is now just a single row)
-#' mtcars %>%
-#'   group_by(cyl, vs) %>%
-#'   summarise(cyl_n = n()) %>%
+#' mtcars |>
+#'   group_by(cyl, vs) |>
+#'   summarise(cyl_n = n()) |>
 #'   group_vars()
 #'
 #' # BEWARE: reusing variables may lead to unexpected results
-#' mtcars %>%
-#'   group_by(cyl) %>%
+#' mtcars |>
+#'   group_by(cyl) |>
 #'   summarise(disp = mean(disp), sd = sd(disp))
 #'
 #' # Refer to column names stored as strings with the `.data` pronoun:
@@ -111,12 +111,12 @@
 #' # In dplyr 1.1.0, returning multiple rows per group was deprecated in favor
 #' # of `reframe()`, which never messages and always returns an ungrouped
 #' # result:
-#' mtcars %>%
-#'    group_by(cyl) %>%
+#' mtcars |>
+#'    group_by(cyl) |>
 #'    summarise(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
 #' # ->
-#' mtcars %>%
-#'    group_by(cyl) %>%
+#' mtcars |>
+#'    group_by(cyl) |>
 #'    reframe(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
 summarise <- function(.data, ..., .by = NULL, .groups = NULL) {
   by <- enquo(.by)

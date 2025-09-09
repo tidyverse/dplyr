@@ -25,8 +25,8 @@ str(people[[1]])
 lookup <- function(url, name = "name") {
   all <- get_all(url)
 
-  url <- all %>% map_chr("url")
-  name <- all %>% map_chr(name)
+  url <- all |> map_chr("url")
+  name <- all |> map_chr(name)
   name[name == "unknown"] <- NA
 
   set_names(name, url)
@@ -39,34 +39,34 @@ vehicles <- lookup("https://swapi.py4e.com/api/vehicles/?format=json")
 starships <- lookup("https://swapi.py4e.com/api/starships/?format=json")
 
 starwars <- tibble(
-  name = people %>% map_chr("name"),
-  height = people %>%
-    map_chr("height") %>%
+  name = people |> map_chr("name"),
+  height = people |>
+    map_chr("height") |>
     parse_integer(na = c("unknown", "none")),
-  mass = people %>% map_chr("mass") %>% parse_number(na = "unknown"),
-  hair_color = people %>% map_chr("hair_color") %>% parse_character(na = "n/a"),
-  skin_color = people %>% map_chr("skin_color"),
-  eye_color = people %>% map_chr("eye_color"),
-  birth_year = people %>%
-    map_chr("birth_year") %>%
+  mass = people |> map_chr("mass") |> parse_number(na = "unknown"),
+  hair_color = people |> map_chr("hair_color") |> parse_character(na = "n/a"),
+  skin_color = people |> map_chr("skin_color"),
+  eye_color = people |> map_chr("eye_color"),
+  birth_year = people |>
+    map_chr("birth_year") |>
     parse_number(na = "unknown"),
-  sex = people %>% map_chr("gender") %>% parse_character(na = "n/a"),
+  sex = people |> map_chr("gender") |> parse_character(na = "n/a"),
   gender = NA_character_,
-  homeworld = people %>% map_chr("homeworld") %>% planets[.] %>% unname(),
-  species = people %>%
-    map("species") %>%
-    map_chr(1, .null = NA) %>%
-    species[.] %>%
+  homeworld = people |> map_chr("homeworld") |> planets[.] |> unname(),
+  species = people |>
+    map("species") |>
+    map_chr(1, .null = NA) |>
+    species[.] |>
     unname(),
-  films = people %>%
-    map("films") %>%
-    map(. %>% flatten_chr() %>% films[.] %>% unname()),
-  vehicles = people %>%
-    map("vehicles", .default = list()) %>%
-    map(. %>% flatten_chr() %>% vehicles[.] %>% unname()),
-  starships = people %>%
-    map("starships", .default = list()) %>%
-    map(. %>% flatten_chr() %>% starships[.] %>% unname())
+  films = people |>
+    map("films") |>
+    map(. |> flatten_chr() |> films[.] |> unname()),
+  vehicles = people |>
+    map("vehicles", .default = list()) |>
+    map(. |> flatten_chr() |> vehicles[.] |> unname()),
+  starships = people |>
+    map("starships", .default = list()) |>
+    map(. |> flatten_chr() |> starships[.] |> unname())
 )
 
 # Add gender --------------------------------------------------------------
@@ -102,32 +102,32 @@ starwars <- mutate(
   )
 )
 
-starwars %>% filter(is.na(sex)) %>% select(name, species, gender, sex)
+starwars |> filter(is.na(sex)) |> select(name, species, gender, sex)
 
-starwars %>% count(gender, sort = TRUE)
-starwars %>% count(sex, gender, sort = TRUE)
+starwars |> count(gender, sort = TRUE)
+starwars |> count(sex, gender, sort = TRUE)
 
 # Fix a typo --------------------------------------------------------------
 
 # see https://github.com/tidyverse/dplyr/pull/6840
-starwars = starwars %>%
+starwars = starwars |>
   mutate(
     name = ifelse(name == "Beru Whitesun lars", "Beru Whitesun Lars", name)
   )
 
 # Basic checks -------------------------------------------------------------
 
-starwars %>% count(species, sort = TRUE)
-starwars %>% count(homeworld, sort = TRUE)
-starwars %>% count(skin_color, sort = TRUE)
+starwars |> count(species, sort = TRUE)
+starwars |> count(homeworld, sort = TRUE)
+starwars |> count(skin_color, sort = TRUE)
 
-starwars %>% group_by(species) %>% summarise(mass = mean(mass, na.rm = T))
+starwars |> group_by(species) |> summarise(mass = mean(mass, na.rm = T))
 
 # Save --------------------------------------------------------------------
 
 # Save in convenient form for diffs
-starwars %>%
-  mutate_if(is.list, ~ map_chr(., paste, collapse = ", ")) %>%
+starwars |>
+  mutate_if(is.list, ~ map_chr(., paste, collapse = ", ")) |>
   write_csv("data-raw/starwars.csv")
 
 usethis::use_data(starwars, overwrite = TRUE)

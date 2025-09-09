@@ -18,11 +18,11 @@ header_locations <- (1:length(storm_strings))[header_locations]
 
 # Extract length of each sub-dataset
 headers <- as.list(storm_strings[header_locations])
-headers_df <- headers %>%
-  map(str_sub, start = 1, end = -2) %>% # to remove trailing comma
-  map(paste0, "\n") %>% # to trigger literal read
-  map_df(read_csv, col_names = c("id", "name", "n_obs"), col_types = "cci") %>%
-  mutate(name = recode(name, "UNNAMED" = id), skip = header_locations) %>%
+headers_df <- headers |>
+  map(str_sub, start = 1, end = -2) |> # to remove trailing comma
+  map(paste0, "\n") |> # to trigger literal read
+  map_df(read_csv, col_names = c("id", "name", "n_obs"), col_types = "cci") |>
+  mutate(name = recode(name, "UNNAMED" = id), skip = header_locations) |>
   select(id, name, skip, n_obs)
 
 column_types <- list(
@@ -57,8 +57,8 @@ for (i in 1:nrow(headers_df)) {
   row_start = headers_df[i, ]$skip + 1
   row_end = headers_df[i, ]$n_obs + row_start - 1
   # subset of rows belonging to this storm
-  data_subset = storm_strings[row_start:row_end] %>%
-    paste(collapse = "\n") %>%
+  data_subset = storm_strings[row_start:row_end] |>
+    paste(collapse = "\n") |>
     paste0("\n")
   # read it as a csv
   data_subset = read_csv(
@@ -70,9 +70,9 @@ for (i in 1:nrow(headers_df)) {
   problems()
   # name and id at the front
   data_subset$name = headers_df[i, ]$name
-  data_subset = data_subset %>% relocate(name)
+  data_subset = data_subset |> relocate(name)
   data_subset$id = headers_df[i, ]$id
-  data_subset = data_subset %>% relocate(id)
+  data_subset = data_subset |> relocate(id)
   # add to list of storms
   storm_dataframes[[i]] = data_subset
 }
@@ -81,14 +81,14 @@ for (i in 1:nrow(headers_df)) {
 library(lubridate)
 
 # combine the storms into one dataframe
-storms <- storm_dataframes %>%
+storms <- storm_dataframes |>
   bind_rows()
 
 #####################
 # format and cleanup
 
 # format the columns
-storms <- storms %>%
+storms <- storms |>
   mutate(
     date = ymd(date),
     year = year(date),
@@ -111,11 +111,11 @@ storms <- storms %>%
   )
 
 # drop rows with missing pressure record
-storms <- storms %>%
+storms <- storms |>
   filter(!is.na(pressure))
 
 # don't abrev.
-storms <- storms %>%
+storms <- storms |>
   mutate(
     status = factor(recode(
       status,
@@ -132,7 +132,7 @@ storms <- storms %>%
   )
 
 # hurricane category
-storms <- storms %>%
+storms <- storms |>
   mutate(
     category = case_when(
       status != "hurricane" ~ NA,
@@ -143,23 +143,23 @@ storms <- storms %>%
       wind >= 64 ~ 1,
       .default = NA
     )
-  ) %>%
+  ) |>
   relocate(category, .after = status)
 
 # drop storms without at least one record that is a tropical depression or higher
-storms <- storms %>%
-  group_by(year, name) %>%
+storms <- storms |>
+  group_by(year, name) |>
   filter(any(
     status %in% c("hurricane", "tropical storm", "tropical depression")
-  )) %>%
+  )) |>
   ungroup()
 
 # drop all rows that are not at least a depression
 # might want to use this filter if the file size is an issue
-# storms <- storms %>% filter(status %in% c("hurricane", "tropical storm", "tropical depression"))
+# storms <- storms |> filter(status %in% c("hurricane", "tropical storm", "tropical depression"))
 
 # make names Title casing
-storms <- storms %>%
+storms <- storms |>
   mutate(
     name = if_else(
       str_sub(name, 1, 3) %in% c("AL0", "AL1"),
@@ -169,13 +169,13 @@ storms <- storms %>%
   )
 
 # drop a bad data point (add more if found)
-storms <- storms %>%
+storms <- storms |>
   filter(!((year == 1969) & (name == "Debbie") & (long < -350)))
 
 # simplify
-storms <- storms %>%
+storms <- storms |>
   # drop historical data for simplicity and backwards compatibility
-  filter(year >= 1975) %>%
+  filter(year >= 1975) |>
   # drop some columns
   select(
     name,
@@ -194,7 +194,7 @@ storms <- storms %>%
   )
 
 # save in convenient form for diffs
-storms %>%
+storms |>
   write_csv("data-raw/storms.csv")
 
 # output for the package

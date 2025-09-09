@@ -49,19 +49,19 @@ When used on ungrouped data frames, \code{\link[=group_nest]{group_nest()}} forw
 \examples{
 
 #----- use case 1: a grouped data frame
-iris \%>\%
-  group_by(Species) \%>\%
+iris |>
+  group_by(Species) |>
   group_nest()
 
 # this can be useful if the grouped data has been altered before nesting
-iris \%>\%
-  group_by(Species) \%>\%
-  filter(Sepal.Length > mean(Sepal.Length)) \%>\%
+iris |>
+  group_by(Species) |>
+  filter(Sepal.Length > mean(Sepal.Length)) |>
   group_nest()
 
 #----- use case 2: using group_nest() on a ungrouped data frame with
 #                  a grouping specification that uses the data mask
-starwars \%>\%
+starwars |>
   group_nest(species, homeworld)
 }
 \seealso{

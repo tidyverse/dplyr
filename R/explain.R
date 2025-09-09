@@ -18,19 +18,19 @@
 #' \donttest{
 #' lahman_s <- dbplyr::lahman_sqlite()
 #' batting <- tbl(lahman_s, "Batting")
-#' batting %>% show_query()
-#' batting %>% explain()
+#' batting |> show_query()
+#' batting |> explain()
 #'
 #' # The batting database has indices on all ID variables:
 #' # SQLite automatically picks the most restrictive index
-#' batting %>% filter(lgID == "NL" & yearID == 2000L) %>% explain()
+#' batting |> filter(lgID == "NL" & yearID == 2000L) |> explain()
 #'
 #' # OR's will use multiple indexes
-#' batting %>% filter(lgID == "NL" | yearID == 2000) %>% explain()
+#' batting |> filter(lgID == "NL" | yearID == 2000) |> explain()
 #'
 #' # Joins will use indexes in both tables
 #' teams <- tbl(lahman_s, "Teams")
-#' batting %>% left_join(teams, c("yearID", "teamID")) %>% explain()
+#' batting |> left_join(teams, c("yearID", "teamID")) |> explain()
 #' }
 explain <- function(x, ...) {
   UseMethod("explain")

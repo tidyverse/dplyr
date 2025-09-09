@@ -2,10 +2,10 @@
 #'
 #' @description
 #' `count()` lets you quickly count the unique values of one or more variables:
-#' `df %>% count(a, b)` is roughly equivalent to
-#' `df %>% group_by(a, b) %>% summarise(n = n())`.
+#' `df |> count(a, b)` is roughly equivalent to
+#' `df |> group_by(a, b) |> summarise(n = n())`.
 #' `count()` is paired with `tally()`, a lower-level helper that is equivalent
-#' to `df %>% summarise(n = n())`. Supply `wt` to perform weighted counts,
+#' to `df |> summarise(n = n())`. Supply `wt` to perform weighted counts,
 #' switching the summary from `n = n()` to `n = sum(wt)`.
 #'
 #' `add_count()` and `add_tally()` are equivalents to `count()` and `tally()`
@@ -42,10 +42,10 @@
 #' @examples
 #' # count() is a convenient way to get a sense of the distribution of
 #' # values in a dataset
-#' starwars %>% count(species)
-#' starwars %>% count(species, sort = TRUE)
-#' starwars %>% count(sex, gender, sort = TRUE)
-#' starwars %>% count(birth_decade = round(birth_year, -1))
+#' starwars |> count(species)
+#' starwars |> count(species, sort = TRUE)
+#' starwars |> count(sex, gender, sort = TRUE)
+#' starwars |> count(birth_decade = round(birth_year, -1))
 #'
 #' # use the `wt` argument to perform a weighted count. This is useful
 #' # when the data has already been aggregated once
@@ -56,9 +56,9 @@
 #'   "Susan",  "female",      4
 #' )
 #' # counts rows:
-#' df %>% count(gender)
+#' df |> count(gender)
 #' # counts runs:
-#' df %>% count(gender, wt = runs)
+#' df |> count(gender, wt = runs)
 #'
 #' # When factors are involved, `.drop = FALSE` can be used to retain factor
 #' # levels that don't appear in the data
@@ -66,20 +66,20 @@
 #'   id = 1:5,
 #'   type = factor(c("a", "c", "a", NA, "a"), levels = c("a", "b", "c"))
 #' )
-#' df2 %>% count(type)
-#' df2 %>% count(type, .drop = FALSE)
+#' df2 |> count(type)
+#' df2 |> count(type, .drop = FALSE)
 #'
 #' # Or, using `group_by()`:
-#' df2 %>% group_by(type, .drop = FALSE) %>% count()
+#' df2 |> group_by(type, .drop = FALSE) |> count()
 #'
 #' # tally() is a lower-level function that assumes you've done the grouping
-#' starwars %>% tally()
-#' starwars %>% group_by(species) %>% tally()
+#' starwars |> tally()
+#' starwars |> group_by(species) |> tally()
 #'
 #' # both count() and tally() have add_ variants that work like
 #' # mutate() instead of summarise
-#' df %>% add_count(gender, wt = runs)
-#' df %>% add_tally(wt = runs)
+#' df |> add_count(gender, wt = runs)
+#' df |> add_tally(wt = runs)
 count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
   UseMethod("count")
 }

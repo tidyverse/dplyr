@@ -84,20 +84,20 @@
 #'
 #' ```{r}
 #' gdf <-
-#'   tibble(g = c(1, 1, 2, 3), v1 = 10:13, v2 = 20:23) %>%
+#'   tibble(g = c(1, 1, 2, 3), v1 = 10:13, v2 = 20:23) |>
 #'   group_by(g)
 #'
 #' set.seed(1)
 #'
 #' # Outside: 1 normal variate
 #' n <- rnorm(1)
-#' gdf %>% mutate(across(v1:v2, ~ .x + n))
+#' gdf |> mutate(across(v1:v2, ~ .x + n))
 #'
 #' # Inside a verb: 3 normal variates (ngroup)
-#' gdf %>% mutate(n = rnorm(1), across(v1:v2, ~ .x + n))
+#' gdf |> mutate(n = rnorm(1), across(v1:v2, ~ .x + n))
 #'
 #' # Inside `across()`: 6 normal variates (ncol * ngroup)
-#' gdf %>% mutate(across(v1:v2, ~ .x + rnorm(1)))
+#' gdf |> mutate(across(v1:v2, ~ .x + rnorm(1)))
 #' ```
 #'
 #' @examples
@@ -107,43 +107,43 @@
 #' # across() -----------------------------------------------------------------
 #' # Different ways to select the same set of columns
 #' # See <https://tidyselect.r-lib.org/articles/syntax.html> for details
-#' iris %>%
+#' iris |>
 #'   mutate(across(c(Sepal.Length, Sepal.Width), round))
-#' iris %>%
+#' iris |>
 #'   mutate(across(c(1, 2), round))
-#' iris %>%
+#' iris |>
 #'   mutate(across(1:Sepal.Width, round))
-#' iris %>%
+#' iris |>
 #'   mutate(across(where(is.double) & !c(Petal.Length, Petal.Width), round))
 #'
 #' # Using an external vector of names
 #' cols <- c("Sepal.Length", "Petal.Width")
-#' iris %>%
+#' iris |>
 #'   mutate(across(all_of(cols), round))
 #'
 #' # If the external vector is named, the output columns will be named according
 #' # to those names
 #' names(cols) <- tolower(cols)
-#' iris %>%
+#' iris |>
 #'   mutate(across(all_of(cols), round))
 #'
 #' # A purrr-style formula
-#' iris %>%
-#'   group_by(Species) %>%
+#' iris |>
+#'   group_by(Species) |>
 #'   summarise(across(starts_with("Sepal"), ~ mean(.x, na.rm = TRUE)))
 #'
 #' # A named list of functions
-#' iris %>%
-#'   group_by(Species) %>%
+#' iris |>
+#'   group_by(Species) |>
 #'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd)))
 #'
 #' # Use the .names argument to control the output names
-#' iris %>%
-#'   group_by(Species) %>%
+#' iris |>
+#'   group_by(Species) |>
 #'   summarise(across(starts_with("Sepal"), mean, .names = "mean_{.col}"))
 #'
-#' iris %>%
-#'   group_by(Species) %>%
+#' iris |>
+#'   group_by(Species) |>
 #'   summarise(
 #'     across(
 #'       starts_with("Sepal"),
@@ -154,13 +154,13 @@
 #'
 #' # If a named external vector is used for column selection, .names will use
 #' # those names when constructing the output names
-#' iris %>%
-#'   group_by(Species) %>%
+#' iris |>
+#'   group_by(Species) |>
 #'   summarise(across(all_of(cols), mean, .names = "mean_{.col}"))
 #'
 #' # When the list is not named, .fn is replaced by the function's position
-#' iris %>%
-#'   group_by(Species) %>%
+#' iris |>
+#'   group_by(Species) |>
 #'   summarise(
 #'     across(starts_with("Sepal"), list(mean, sd), .names = "{.col}.fn{.fn}")
 #'   )
@@ -171,16 +171,16 @@
 #'   tibble(quantile = probs, value = quantile(x, probs))
 #' }
 #'
-#' iris %>%
+#' iris |>
 #'   reframe(across(starts_with("Sepal"), quantile_df))
 #'
 #' # Use .unpack to automatically expand these packed data frames into their
 #' # individual columns
-#' iris %>%
+#' iris |>
 #'   reframe(across(starts_with("Sepal"), quantile_df, .unpack = TRUE))
 #'
 #' # .unpack can utilize a glue specification if you don't like the defaults
-#' iris %>%
+#' iris |>
 #'   reframe(
 #'     across(starts_with("Sepal"), quantile_df, .unpack = "{outer}.{inner}")
 #'   )
@@ -191,15 +191,15 @@
 #'   purrr::map_dfr(lags, lag, x = x)
 #' }
 #'
-#' iris %>%
-#'   group_by(Species) %>%
-#'   mutate(across(starts_with("Sepal"), multilag, .unpack = TRUE)) %>%
+#' iris |>
+#'   group_by(Species) |>
+#'   mutate(across(starts_with("Sepal"), multilag, .unpack = TRUE)) |>
 #'   select(Species, starts_with("Sepal"))
 #'
 #' # if_any() and if_all() ----------------------------------------------------
-#' iris %>%
+#' iris |>
 #'   filter(if_any(ends_with("Width"), ~ . > 4))
-#' iris %>%
+#' iris |>
 #'   filter(if_all(ends_with("Width"), ~ . > 2))
 #'
 #' @export
@@ -388,8 +388,8 @@ if_across <- function(op, df) {
 #' @export
 #' @examples
 #' df <- tibble(id = 1:4, w = runif(4), x = runif(4), y = runif(4), z = runif(4))
-#' df %>%
-#'   rowwise() %>%
+#' df |>
+#'   rowwise() |>
 #'   mutate(
 #'     sum = sum(c_across(w:z)),
 #'     sd = sd(c_across(w:z))

@@ -48,18 +48,18 @@ grouped data particularly elegant. See \code{vignette("rowwise")} for more
 details.
 }
 \details{
-Note that \code{df \%>\% nest_by(x, y)} is roughly equivalent to
+Note that \code{df |> nest_by(x, y)} is roughly equivalent to
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{df \%>\%
-  group_by(x, y) \%>\%
-  summarise(data = list(pick(everything()))) \%>\%
+\if{html}{\out{<div class="sourceCode">}}\preformatted{df |>
+  group_by(x, y) |>
+  summarise(data = list(pick(everything()))) |>
   rowwise()
 }\if{html}{\out{</div>}}
 
 If you want to unnest a nested data frame, you can either use
 \code{tidyr::unnest()} or take advantage of \code{reframe()}s multi-row behaviour:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{nested \%>\%
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nested |>
   reframe(data)
 }\if{html}{\out{</div>}}
 }
@@ -81,24 +81,24 @@ The following methods are currently available in loaded packages:
 
 \examples{
 # After nesting, you get one row per group
-iris \%>\% nest_by(Species)
-starwars \%>\% nest_by(species)
+iris |> nest_by(Species)
+starwars |> nest_by(species)
 
 # The output is grouped by row, which makes modelling particularly easy
-models <- mtcars \%>\%
-  nest_by(cyl) \%>\%
+models <- mtcars |>
+  nest_by(cyl) |>
   mutate(model = list(lm(mpg ~ wt, data = data)))
 models
 
-models \%>\% summarise(rsq = summary(model)$r.squared)
-\dontshow{if (requireNamespace("broom", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+models |> summarise(rsq = summary(model)$r.squared)
+\dontshow{if (requireNamespace("broom", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 
 # This is particularly elegant with the broom functions
-models \%>\% summarise(broom::glance(model))
-models \%>\% reframe(broom::tidy(model))
+models |> summarise(broom::glance(model))
+models |> reframe(broom::tidy(model))
 \dontshow{\}) # examplesIf}
 
 # Note that you can also `reframe()` to unnest the data
-models \%>\% reframe(data)
+models |> reframe(data)
 }
 \keyword{internal}

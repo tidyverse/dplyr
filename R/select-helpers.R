@@ -10,13 +10,13 @@
 #'   variables outside selection contexts.
 #'
 #' @examples
-#' gdf <- iris %>% group_by(Species)
-#' gdf %>% select(group_cols())
+#' gdf <- iris |> group_by(Species)
+#' gdf |> select(group_cols())
 #'
 #' # Remove the grouping variables from mutate selections:
-#' gdf %>% mutate_at(vars(-group_cols()), `/`, 100)
+#' gdf |> mutate_at(vars(-group_cols()), `/`, 100)
 #' # -> No longer necessary with across()
-#' gdf %>% mutate(across(everything(), ~ . / 100))
+#' gdf |> mutate(across(everything(), ~ . / 100))
 #' @export
 group_cols <- function(vars = NULL, data = NULL) {
   # So group_cols() continues to work in _at() helpers.

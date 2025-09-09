@@ -1,7 +1,7 @@
 ---
 title: "Programming with dplyr"
 description: >
-  Most dplyr verbs use "tidy evaluation", a special type of non-standard 
+  Most dplyr verbs use "tidy evaluation", a special type of non-standard
   evaluation. In this vignette, you'll learn the two basic forms, data masking
   and tidy selection, and how you can program with them using either functions
   or for loops.
@@ -56,7 +56,7 @@ starwars[starwars$homeworld == "Naboo" & starwars$species == "Human", ,]
 The dplyr equivalent of this code is more concise because data masking allows you to need to type `starwars` once:
 
 ```{r, results = FALSE}
-starwars %>% filter(homeworld == "Naboo", species == "Human")
+starwars |> filter(homeworld == "Naboo", species == "Human")
 ```
 
 ### Data- and env-variables
@@ -98,11 +98,11 @@ There are two main cases:
 
     ```{r, results = FALSE}
     var_summary <- function(data, var) {
-      data %>%
+      data |>
         summarise(n = n(), min = min({{ var }}), max = max({{ var }}))
     }
-    mtcars %>% 
-      group_by(cyl) %>% 
+    mtcars |>
+      group_by(cyl) |>
       var_summary(mpg)
     ```
 
@@ -112,7 +112,7 @@ There are two main cases:
 
     ```{r, results = FALSE}
     for (var in names(mtcars)) {
-      mtcars %>% count(.data[[var]]) %>% print()
+      mtcars |> count(.data[[var]]) |> print()
     }
     ```
 
@@ -179,10 +179,10 @@ Again, there are two forms of indirection:
 
     ```{r, results = FALSE}
     summarise_mean <- function(data, vars) {
-      data %>% summarise(n = n(), across({{ vars }}, mean))
+      data |> summarise(n = n(), across({{ vars }}, mean))
     }
-    mtcars %>% 
-      group_by(cyl) %>% 
+    mtcars |>
+      group_by(cyl) |>
       summarise_mean(where(is.numeric))
     ```
 
@@ -192,8 +192,8 @@ Again, there are two forms of indirection:
 
     ```{r, results = FALSE}
     vars <- c("mpg", "vs")
-    mtcars %>% select(all_of(vars))
-    mtcars %>% select(!all_of(vars))
+    mtcars |> select(all_of(vars))
+    mtcars |> select(!all_of(vars))
     ```
 
 ## How-tos
@@ -218,8 +218,8 @@ If you want the user to supply an expression that's passed onto an argument whic
 
 ```{r}
 my_summarise <- function(data, group_var) {
-  data %>%
-    group_by({{ group_var }}) %>%
+  data |>
+    group_by({{ group_var }}) |>
     summarise(mean = mean(mass))
 }
 ```
@@ -228,7 +228,7 @@ This generalises in a straightforward way if you want to use one user-supplied e
 
 ```{r}
 my_summarise2 <- function(data, expr) {
-  data %>% summarise(
+  data |> summarise(
     mean = mean({{ expr }}),
     sum = sum({{ expr }}),
     n = n()
@@ -240,7 +240,7 @@ If you want the user to provide multiple expressions, embrace each of them:
 
 ```{r}
 my_summarise3 <- function(data, mean_var, sd_var) {
-  data %>% 
+  data |>
     summarise(mean = mean({{ mean_var }}), sd = sd({{ sd_var }}))
 }
 ```
@@ -249,16 +249,16 @@ If you want to use the name of a variable in the output, you can embrace the var
 
 ```{r}
 my_summarise4 <- function(data, expr) {
-  data %>% summarise(
+  data |> summarise(
     "mean_{{expr}}" := mean({{ expr }}),
     "sum_{{expr}}" := sum({{ expr }}),
     "n_{{expr}}" := n()
   )
 }
 my_summarise5 <- function(data, mean_var, sd_var) {
-  data %>% 
+  data |>
     summarise(
-      "mean_{{mean_var}}" := mean({{ mean_var }}), 
+      "mean_{{mean_var}}" := mean({{ mean_var }}),
       "sd_{{sd_var}}" := sd({{ sd_var }})
     )
 }
@@ -271,13 +271,13 @@ This is most often useful when you want to give the user full control over a sin
 
 ```{r}
 my_summarise <- function(.data, ...) {
-  .data %>%
-    group_by(...) %>%
+  .data |>
+    group_by(...) |>
     summarise(mass = mean(mass, na.rm = TRUE), height = mean(height, na.rm = TRUE))
 }
 
-starwars %>% my_summarise(homeworld)
-starwars %>% my_summarise(sex, gender)
+starwars |> my_summarise(homeworld)
+starwars |> my_summarise(sex, gender)
 ```
 
 When you use `...` in this way, make sure that any other arguments start with `.` to reduce the chances of argument clashes; see <https://design.tidyverse.org/dots-prefix.html> for more details.
@@ -307,12 +307,12 @@ df <- tibble(
   y = rnorm(30)
 )
 
-df %>%
-  group_by(grp) %>%
+df |>
+  group_by(grp) |>
   summarise(quantile_df(x, probs = .5))
 
-df %>%
-  group_by(grp) %>%
+df |>
+  group_by(grp) |>
   summarise(across(x:y, ~ quantile_df(.x, probs = .5), .unpack = TRUE))
 ```
 
@@ -321,8 +321,8 @@ Notice that we set `.unpack = TRUE` inside `across()`. This tells `across()` to 
 If your function returns multiple _rows_ per group, then you'll need to switch from `summarise()` to `reframe()`. `summarise()` is restricted to returning 1 row summaries per group, but `reframe()` lifts this restriction:
 
 ```{r}
-df %>%
-  group_by(grp) %>%
+df |>
+  group_by(grp) |>
   reframe(across(x:y, quantile_df, .unpack = TRUE))
 ```
 
@@ -332,11 +332,11 @@ If you want the user to provide a set of data-variables that are then transforme
 
 ```{r}
 my_summarise <- function(data, summary_vars) {
-  data %>%
+  data |>
     summarise(across({{ summary_vars }}, ~ mean(., na.rm = TRUE)))
 }
-starwars %>% 
-  group_by(species) %>% 
+starwars |>
+  group_by(species) |>
   my_summarise(c(mass, height))
 ```
 
@@ -344,8 +344,8 @@ You can use this same idea for multiple sets of input data-variables:
 
 ```{r}
 my_summarise <- function(data, group_var, summarise_var) {
-  data %>%
-    group_by(pick({{ group_var }})) %>% 
+  data |>
+    group_by(pick({{ group_var }})) |>
     summarise(across({{ summarise_var }}, mean))
 }
 ```
@@ -354,8 +354,8 @@ Use the `.names` argument to `across()` to control the names of the output.
 
 ```{r}
 my_summarise <- function(data, group_var, summarise_var) {
-  data %>%
-    group_by(pick({{ group_var }})) %>% 
+  data |>
+    group_by(pick({{ group_var }})) |>
     summarise(across({{ summarise_var }}, mean, .names = "mean_{.col}"))
 }
 ```
@@ -366,15 +366,15 @@ If you have a character vector of variable names, and want to operate on them wi
 
 ```{r, results = FALSE}
 for (var in names(mtcars)) {
-  mtcars %>% count(.data[[var]]) %>% print()
+  mtcars |> count(.data[[var]]) |> print()
 }
 ```
 
 This same technique works with for loop alternatives like the base R `apply()` family and the purrr `map()` family:
 
 ```{r, results = FALSE}
-mtcars %>% 
-  names() %>% 
+mtcars |>
+  names() |>
   purrr::map(~ count(mtcars, .data[[.x]]))
 ```
 

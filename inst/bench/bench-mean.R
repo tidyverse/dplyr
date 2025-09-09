@@ -12,10 +12,10 @@ bench_mean <- function(n = 1e6, ngroups = 1000) {
     library(purrr)
     library(vctrs)
 
-    df <- tibble(x = rnorm(n), g = sample(rep(1:ngroups, n / ngroups))) %>%
+    df <- tibble(x = rnorm(n), g = sample(rep(1:ngroups, n / ngroups))) |>
       group_by(g)
-    bench::mark(summarise(df, a = length(x))) %>%
-      mutate(branch = "main", fun = "length", n = n, ngroups = ngroups) %>%
+    bench::mark(summarise(df, a = length(x))) |>
+      mutate(branch = "main", fun = "length", n = n, ngroups = ngroups) |>
       select(branch, fun, n, ngroups, min:last_col())
   })
 
@@ -24,15 +24,15 @@ bench_mean <- function(n = 1e6, ngroups = 1000) {
     library(purrr)
     library(vctrs)
 
-    df <- tibble(x = rnorm(n), g = sample(rep(1:ngroups, n / ngroups))) %>%
+    df <- tibble(x = rnorm(n), g = sample(rep(1:ngroups, n / ngroups))) |>
       group_by(g)
-    bench::mark(summarise(df, a = .Internal(mean(x)))) %>%
+    bench::mark(summarise(df, a = .Internal(mean(x)))) |>
       mutate(
         branch = "main",
         fun = ".Internal(mean(.))",
         n = n,
         ngroups = ngroups
-      ) %>%
+      ) |>
       select(branch, fun, n, ngroups, min:last_col())
   })
 
@@ -41,10 +41,10 @@ bench_mean <- function(n = 1e6, ngroups = 1000) {
     library(purrr)
     library(vctrs)
 
-    df <- tibble(x = rnorm(n), g = sample(rep(1:ngroups, n / ngroups))) %>%
+    df <- tibble(x = rnorm(n), g = sample(rep(1:ngroups, n / ngroups))) |>
       group_by(g)
-    bench::mark(summarise(df, a = mean(x))) %>%
-      mutate(branch = "main", fun = "mean(.)", n = n, ngroups = ngroups) %>%
+    bench::mark(summarise(df, a = mean(x))) |>
+      mutate(branch = "main", fun = "mean(.)", n = n, ngroups = ngroups) |>
       select(branch, fun, n, ngroups, min:last_col())
   })
 
@@ -56,15 +56,15 @@ bench_mean <- function(n = 1e6, ngroups = 1000) {
       library(purrr)
       library(vctrs)
 
-      df <- tibble(x = rnorm(n), g = sample(rep(1:ngroups, n / ngroups))) %>%
+      df <- tibble(x = rnorm(n), g = sample(rep(1:ngroups, n / ngroups))) |>
         group_by(g)
-      bench::mark(summarise(df, a = .Internal(mean(x)))) %>%
+      bench::mark(summarise(df, a = .Internal(mean(x)))) |>
         mutate(
           branch = "0.8.3",
           fun = ".Internal(mean(.))",
           n = n,
           ngroups = ngroups
-        ) %>%
+        ) |>
         select(branch, fun, n, ngroups, min:last_col())
     }
   )
@@ -77,15 +77,15 @@ bench_mean <- function(n = 1e6, ngroups = 1000) {
       library(purrr)
       library(vctrs)
 
-      df <- tibble(x = rnorm(n), g = sample(rep(1:ngroups, n / ngroups))) %>%
+      df <- tibble(x = rnorm(n), g = sample(rep(1:ngroups, n / ngroups))) |>
         group_by(g)
-      bench::mark(summarise(df, a = mean(x))) %>%
+      bench::mark(summarise(df, a = mean(x))) |>
         mutate(
           branch = "0.8.3",
           fun = "hybrid mean(.)",
           n = n,
           ngroups = ngroups
-        ) %>%
+        ) |>
         select(branch, fun, n, ngroups, min:last_col())
     }
   )
@@ -100,10 +100,10 @@ bench_mean <- function(n = 1e6, ngroups = 1000) {
 
       mean2 <- function(x, ...) UseMethod("mean")
 
-      df <- tibble(x = rnorm(n), g = sample(rep(1:ngroups, n / ngroups))) %>%
+      df <- tibble(x = rnorm(n), g = sample(rep(1:ngroups, n / ngroups))) |>
         group_by(g)
-      bench::mark(summarise(df, a = mean2(x))) %>%
-        mutate(branch = "0.8.3", fun = "mean2(.)", n = n, ngroups = ngroups) %>%
+      bench::mark(summarise(df, a = mean2(x))) |>
+        mutate(branch = "0.8.3", fun = "mean2(.)", n = n, ngroups = ngroups) |>
         select(branch, fun, n, ngroups, min:last_col())
     }
   )
@@ -115,7 +115,7 @@ bench_mean <- function(n = 1e6, ngroups = 1000) {
     released_internal,
     released_hybrid_mean,
     released_nonhybrid_mean
-  )) %>%
+  )) |>
     select(branch:ngroups, median, mem_alloc, n_gc)
 }
 

@@ -19,20 +19,20 @@
 #' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("pull")}.
 #' @export
 #' @examples
-#' mtcars %>% pull(-1)
-#' mtcars %>% pull(1)
-#' mtcars %>% pull(cyl)
+#' mtcars |> pull(-1)
+#' mtcars |> pull(1)
+#' mtcars |> pull(cyl)
 #' @examplesIf requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)
 #'
 #' # Also works for remote sources
 #' df <- dbplyr::memdb_frame(x = 1:10, y = 10:1, .name = "pull-ex")
-#' df %>%
-#'   mutate(z = x * y) %>%
+#' df |>
+#'   mutate(z = x * y) |>
 #'   pull()
 #' @examples
 #'
 #' # Pull a named vector
-#' starwars %>% pull(height, name)
+#' starwars |> pull(height, name)
 pull <- function(.data, var = -1, name = NULL, ...) {
   check_dots_used()
   UseMethod("pull")

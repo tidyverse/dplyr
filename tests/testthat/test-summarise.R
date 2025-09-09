@@ -9,19 +9,19 @@ test_that("inputs are recycled (deprecated in 1.1.0)", {
   local_options(lifecycle_verbosity = "quiet")
 
   expect_equal(
-    tibble() %>% summarise(x = 1, y = 1:3, z = 1),
+    tibble() |> summarise(x = 1, y = 1:3, z = 1),
     tibble(x = 1, y = 1:3, z = 1)
   )
 
   gf <- group_by(tibble(a = 1:2), a)
   expect_equal(
-    gf %>% summarise(x = 1, y = 1:3, z = 1),
-    tibble(a = rep(1:2, each = 3), x = 1, y = c(1:3, 1:3), z = 1) %>%
+    gf |> summarise(x = 1, y = 1:3, z = 1),
+    tibble(a = rep(1:2, each = 3), x = 1, y = c(1:3, 1:3), z = 1) |>
       group_by(a)
   )
   expect_equal(
-    gf %>% summarise(x = seq_len(a), y = 1),
-    tibble(a = c(1L, 2L, 2L), x = c(1L, 1L, 2L), y = 1) %>% group_by(a)
+    gf |> summarise(x = seq_len(a), y = 1),
+    tibble(a = c(1L, 2L, 2L), x = c(1L, 1L, 2L), y = 1) |> group_by(a)
   )
 })
 
@@ -41,11 +41,11 @@ test_that("works with grouped empty data frames", {
   df <- tibble(x = integer())
 
   expect_equal(
-    df %>% group_by(x) %>% summarise(y = 1L),
+    df |> group_by(x) |> summarise(y = 1L),
     tibble(x = integer(), y = integer())
   )
   expect_equal(
-    df %>% rowwise(x) %>% summarise(y = 1L),
+    df |> rowwise(x) |> summarise(y = 1L),
     group_by(tibble(x = integer(), y = integer()), x)
   )
 })
@@ -67,10 +67,10 @@ test_that("doesn't preserve attributes", {
     meta = "this is important"
   )
 
-  out <- df %>% summarise(n = n())
+  out <- df |> summarise(n = n())
   expect_null(attr(out, "res"))
 
-  out <- df %>% group_by(g1) %>% summarise(n = n())
+  out <- df |> group_by(g1) |> summarise(n = n())
   expect_null(attr(out, "res"))
 })
 
@@ -79,23 +79,23 @@ test_that("strips off subclass", {
   # "fundamentally a new data frame"
 
   df <- new_data_frame(list(a = 1), class = "myclass")
-  out <- df %>% summarise(n = n())
+  out <- df |> summarise(n = n())
   expect_s3_class(out, "data.frame", exact = TRUE)
-  out <- df %>% summarise(.by = a, n = n())
+  out <- df |> summarise(.by = a, n = n())
   expect_s3_class(out, "data.frame", exact = TRUE)
 
   df <- new_tibble(list(a = 1), class = "myclass")
-  out <- df %>% summarise(n = n())
+  out <- df |> summarise(n = n())
   expect_s3_class(out, class(tibble()), exact = TRUE)
-  out <- df %>% summarise(.by = a, n = n())
+  out <- df |> summarise(.by = a, n = n())
   expect_s3_class(out, class(tibble()), exact = TRUE)
 
   gdf <- group_by(tibble(a = 1), a)
   df <- gdf
   class(df) <- c("myclass", class(gdf))
-  out <- df %>% summarise(n = n(), .groups = "drop")
+  out <- df |> summarise(n = n(), .groups = "drop")
   expect_s3_class(out, class(tibble()), exact = TRUE)
-  out <- df %>% summarise(n = n(), .groups = "keep")
+  out <- df |> summarise(n = n(), .groups = "keep")
   expect_s3_class(out, class(gdf), exact = TRUE)
 })
 
@@ -106,7 +106,7 @@ test_that("works with unquoted values", {
 })
 
 test_that("formulas are evaluated in the right environment (#3019)", {
-  out <- mtcars %>%
+  out <- mtcars |>
     summarise(fn = list(rlang::as_function(~ list(~foo, environment()))))
   out <- out$fn[[1]]()
   expect_identical(environment(out[[1]]), out[[2]])
@@ -114,38 +114,38 @@ test_that("formulas are evaluated in the right environment (#3019)", {
 
 test_that("unnamed data frame results with 0 columns are ignored (#5084)", {
   df1 <- tibble(x = 1:2)
-  expect_equal(df1 %>% group_by(x) %>% summarise(data.frame()), df1)
+  expect_equal(df1 |> group_by(x) |> summarise(data.frame()), df1)
   expect_equal(
-    df1 %>% group_by(x) %>% summarise(data.frame(), y = 65),
+    df1 |> group_by(x) |> summarise(data.frame(), y = 65),
     mutate(df1, y = 65)
   )
   expect_equal(
-    df1 %>% group_by(x) %>% summarise(y = 65, data.frame()),
+    df1 |> group_by(x) |> summarise(y = 65, data.frame()),
     mutate(df1, y = 65)
   )
 
   df2 <- tibble(x = 1:2, y = 3:4)
-  expect_equal(df2 %>% group_by(x) %>% summarise(data.frame()), df1)
+  expect_equal(df2 |> group_by(x) |> summarise(data.frame()), df1)
   expect_equal(
-    df2 %>% group_by(x) %>% summarise(data.frame(), z = 98),
+    df2 |> group_by(x) |> summarise(data.frame(), z = 98),
     mutate(df1, z = 98)
   )
   expect_equal(
-    df2 %>% group_by(x) %>% summarise(z = 98, data.frame()),
+    df2 |> group_by(x) |> summarise(z = 98, data.frame()),
     mutate(df1, z = 98)
   )
 
   # This includes unnamed data frames that have 0 columns but >0 rows.
   # Noted when working on (#6509).
   empty3 <- new_tibble(list(), nrow = 3L)
-  expect_equal(df1 %>% summarise(empty3), new_tibble(list(), nrow = 1L))
+  expect_equal(df1 |> summarise(empty3), new_tibble(list(), nrow = 1L))
   expect_equal(
-    df1 %>% summarise(empty3, y = mean(x)),
-    df1 %>% summarise(y = mean(x))
+    df1 |> summarise(empty3, y = mean(x)),
+    df1 |> summarise(y = mean(x))
   )
-  expect_equal(df1 %>% group_by(x) %>% summarise(empty3), df1)
+  expect_equal(df1 |> group_by(x) |> summarise(empty3), df1)
   expect_equal(
-    df1 %>% group_by(x) %>% summarise(empty3, y = x + 1),
+    df1 |> group_by(x) |> summarise(empty3, y = x + 1),
     mutate(df1, y = x + 1)
   )
 })
@@ -254,14 +254,14 @@ test_that("summarise() correctly auto-names expressions (#6741)", {
 
 test_that("peels off a single layer of grouping", {
   df <- tibble(x = rep(1:4, each = 4), y = rep(1:2, each = 8), z = runif(16))
-  gf <- df %>% group_by(x, y)
+  gf <- df |> group_by(x, y)
   expect_equal(group_vars(summarise(gf)), "x")
   expect_equal(group_vars(summarise(summarise(gf))), character())
 })
 
 test_that("correctly reconstructs groups", {
-  d <- tibble(x = 1:4, g1 = rep(1:2, 2), g2 = 1:4) %>%
-    group_by(g1, g2) %>%
+  d <- tibble(x = 1:4, g1 = rep(1:2, 2), g2 = 1:4) |>
+    group_by(g1, g2) |>
     summarise(x = x + 1)
   expect_equal(group_rows(d), list_of(1:2, 3:4))
 })
@@ -290,8 +290,8 @@ test_that("summarise returns a row for zero length groups", {
 test_that("summarise respects zero-length groups (#341)", {
   df <- tibble(x = factor(rep(1:3, each = 10), levels = 1:4))
 
-  out <- df %>%
-    group_by(x, .drop = FALSE) %>%
+  out <- df |>
+    group_by(x, .drop = FALSE) |>
     summarise(n = n())
 
   expect_equal(out$n, c(10L, 10L, 10L, 0L))
@@ -300,19 +300,19 @@ test_that("summarise respects zero-length groups (#341)", {
 # vector types ----------------------------------------------------------
 
 test_that("summarise allows names (#2675)", {
-  data <- tibble(a = 1:3) %>% summarise(b = c("1" = a[[1]]))
+  data <- tibble(a = 1:3) |> summarise(b = c("1" = a[[1]]))
   expect_equal(names(data$b), "1")
 
-  data <- tibble(a = 1:3) %>% rowwise() %>% summarise(b = setNames(nm = a))
+  data <- tibble(a = 1:3) |> rowwise() |> summarise(b = setNames(nm = a))
   expect_equal(names(data$b), c("1", "2", "3"))
 
-  data <- tibble(a = c(1, 1, 2)) %>%
-    group_by(a) %>%
+  data <- tibble(a = c(1, 1, 2)) |>
+    group_by(a) |>
     summarise(b = setNames(nm = a[[1]]))
   expect_equal(names(data$b), c("1", "2"))
 
-  res <- data.frame(x = c(1:3), y = letters[1:3]) %>%
-    group_by(y) %>%
+  res <- data.frame(x = c(1:3), y = letters[1:3]) |>
+    group_by(y) |>
     summarise(
       a = length(x),
       b = quantile(x, 0.5)
@@ -322,12 +322,12 @@ test_that("summarise allows names (#2675)", {
 
 test_that("summarise handles list output columns (#832)", {
   df <- tibble(x = 1:10, g = rep(1:2, each = 5))
-  res <- df %>% group_by(g) %>% summarise(y = list(x))
+  res <- df |> group_by(g) |> summarise(y = list(x))
   expect_equal(res$y[[1]], 1:5)
 
   # preserving names
   d <- tibble(x = rep(1:3, 1:3), y = 1:6, names = letters[1:6])
-  res <- d %>% group_by(x) %>% summarise(y = list(setNames(y, names)))
+  res <- d |> group_by(x) |> summarise(y = list(setNames(y, names)))
   expect_equal(names(res$y[[1]]), letters[[1]])
 })
 
@@ -356,11 +356,11 @@ test_that("named tibbles are packed (#2326)", {
 
 test_that("summarise(.groups=) in global environment", {
   expect_message(eval_bare(
-    expr(data.frame(x = 1, y = 2) %>% group_by(x, y) %>% summarise()),
+    expr(data.frame(x = 1, y = 2) |> group_by(x, y) |> summarise()),
     env(global_env())
   ))
   expect_message(eval_bare(
-    expr(data.frame(x = 1, y = 2) %>% rowwise(x, y) %>% summarise()),
+    expr(data.frame(x = 1, y = 2) |> rowwise(x, y) |> summarise()),
     env(global_env())
   ))
 })
@@ -368,25 +368,25 @@ test_that("summarise(.groups=) in global environment", {
 test_that("summarise(.groups=)", {
   df <- data.frame(x = 1, y = 2)
   expect_equal(
-    df %>% summarise(z = 3, .groups = "rowwise"),
+    df |> summarise(z = 3, .groups = "rowwise"),
     rowwise(data.frame(z = 3))
   )
 
-  gf <- df %>% group_by(x, y)
-  expect_equal(gf %>% summarise() %>% group_vars(), "x")
-  expect_equal(gf %>% summarise(.groups = "drop_last") %>% group_vars(), "x")
-  expect_equal(gf %>% summarise(.groups = "drop") %>% group_vars(), character())
-  expect_equal(gf %>% summarise(.groups = "keep") %>% group_vars(), c("x", "y"))
+  gf <- df |> group_by(x, y)
+  expect_equal(gf |> summarise() |> group_vars(), "x")
+  expect_equal(gf |> summarise(.groups = "drop_last") |> group_vars(), "x")
+  expect_equal(gf |> summarise(.groups = "drop") |> group_vars(), character())
+  expect_equal(gf |> summarise(.groups = "keep") |> group_vars(), c("x", "y"))
 
-  rf <- df %>% rowwise(x, y)
-  expect_equal(rf %>% summarise(.groups = "drop") %>% group_vars(), character())
-  expect_equal(rf %>% summarise(.groups = "keep") %>% group_vars(), c("x", "y"))
+  rf <- df |> rowwise(x, y)
+  expect_equal(rf |> summarise(.groups = "drop") |> group_vars(), character())
+  expect_equal(rf |> summarise(.groups = "keep") |> group_vars(), c("x", "y"))
 })
 
 test_that("summarise() casts data frame results to common type (#5646)", {
-  df <- data.frame(x = 1:2, g = 1:2) %>% group_by(g)
+  df <- data.frame(x = 1:2, g = 1:2) |> group_by(g)
 
-  res <- df %>%
+  res <- df |>
     summarise(
       if (g == 1) data.frame(y = 1) else data.frame(y = 1, z = 2),
       .groups = "drop"
@@ -395,7 +395,7 @@ test_that("summarise() casts data frame results to common type (#5646)", {
 })
 
 test_that("summarise() silently skips when all results are NULL (#5708)", {
-  df <- data.frame(x = 1:2, g = 1:2) %>% group_by(g)
+  df <- data.frame(x = 1:2, g = 1:2) |> group_by(g)
 
   expect_equal(summarise(df, x = NULL), summarise(df))
   expect_error(summarise(df, x = if (g == 1) 42))
@@ -505,9 +505,9 @@ test_that("summarise() gives meaningful errors", {
     expr({
       expect_snapshot({
         # Messages about .groups=
-        tibble(x = 1, y = 2) %>% group_by(x, y) %>% summarise()
-        tibble(x = 1, y = 2) %>% rowwise(x, y) %>% summarise()
-        tibble(x = 1, y = 2) %>% rowwise() %>% summarise()
+        tibble(x = 1, y = 2) |> group_by(x, y) |> summarise()
+        tibble(x = 1, y = 2) |> rowwise(x, y) |> summarise()
+        tibble(x = 1, y = 2) |> rowwise() |> summarise()
       })
     })
   )
@@ -518,62 +518,62 @@ test_that("summarise() gives meaningful errors", {
       expect_snapshot({
         # unsupported type
         (expect_error(
-          tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
+          tibble(x = 1, y = c(1, 2, 2), z = runif(3)) |>
             summarise(a = rlang::env(a = 1))
         ))
         (expect_error(
-          tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
-            group_by(x, y) %>%
+          tibble(x = 1, y = c(1, 2, 2), z = runif(3)) |>
+            group_by(x, y) |>
             summarise(a = rlang::env(a = 1))
         ))
         (expect_error(
-          tibble(x = 1, y = c(1, 2, 2), y2 = c(1, 2, 2), z = runif(3)) %>%
-            group_by(x, y, y2) %>%
+          tibble(x = 1, y = c(1, 2, 2), y2 = c(1, 2, 2), z = runif(3)) |>
+            group_by(x, y, y2) |>
             summarise(a = rlang::env(a = 1))
         ))
         (expect_error(
-          tibble(x = 1, y = c(1, 2, 2), z = runif(3)) %>%
-            rowwise() %>%
+          tibble(x = 1, y = c(1, 2, 2), z = runif(3)) |>
+            rowwise() |>
             summarise(a = lm(y ~ x))
         ))
 
         # mixed types
         (expect_error(
-          tibble(id = 1:2, a = list(1, "2")) %>%
-            group_by(id) %>%
+          tibble(id = 1:2, a = list(1, "2")) |>
+            group_by(id) |>
             summarise(a = a[[1]])
         ))
         (expect_error(
-          tibble(id = 1:2, a = list(1, "2")) %>%
-            rowwise() %>%
+          tibble(id = 1:2, a = list(1, "2")) |>
+            rowwise() |>
             summarise(a = a[[1]])
         ))
 
         # incompatible size
         (expect_error(
-          tibble(z = 1) %>%
+          tibble(z = 1) |>
             summarise(x = 1:3, y = 1:2)
         ))
         (expect_error(
-          tibble(z = 1:2) %>%
-            group_by(z) %>%
+          tibble(z = 1:2) |>
+            group_by(z) |>
             summarise(x = 1:3, y = 1:2)
         ))
         (expect_error(
-          tibble(z = c(1, 3)) %>%
-            group_by(z) %>%
+          tibble(z = c(1, 3)) |>
+            group_by(z) |>
             summarise(x = seq_len(z), y = 1:2)
         ))
 
         # mixed nulls
         (expect_error(
-          data.frame(x = 1:2, g = 1:2) %>%
-            group_by(g) %>%
+          data.frame(x = 1:2, g = 1:2) |>
+            group_by(g) |>
             summarise(x = if (g == 1) 42)
         ))
         (expect_error(
-          data.frame(x = 1:2, g = 1:2) %>%
-            group_by(g) %>%
+          data.frame(x = 1:2, g = 1:2) |>
+            group_by(g) |>
             summarise(x = if (g == 2) 42)
         ))
 
@@ -583,14 +583,14 @@ test_that("summarise() gives meaningful errors", {
 
         # Duplicate column names
         (expect_error(
-          tibble(x = 1, x = 1, .name_repair = "minimal") %>% summarise(x)
+          tibble(x = 1, x = 1, .name_repair = "minimal") |> summarise(x)
         ))
 
         # Not glue()ing
-        (expect_error(tibble() %>% summarise(stop("{"))))
+        (expect_error(tibble() |> summarise(stop("{"))))
         (expect_error(
-          tibble(a = 1, b = "{value:1, unit:a}") %>%
-            group_by(b) %>%
+          tibble(a = 1, b = "{value:1, unit:a}") |>
+            group_by(b) |>
             summarise(a = stop("!"))
         ))
       })

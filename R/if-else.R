@@ -48,7 +48,7 @@
 #' if_else(x %in% c("a", "b", "c"), x, NA)
 #'
 #' # `if_else()` is often useful for creating new columns inside of `mutate()`
-#' starwars %>%
+#' starwars |>
 #'   mutate(category = if_else(height < 100, "short", "tall"), .keep = "used")
 if_else <- function(
   condition,

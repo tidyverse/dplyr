@@ -53,19 +53,19 @@ test_that("group_split.grouped_df() works", {
   iris <- as_tibble(iris)
 
   expect_identical(
-    iris %>% group_by(Species) %>% group_split(),
-    iris %>% group_split(Species)
+    iris |> group_by(Species) |> group_split(),
+    iris |> group_split(Species)
   )
 })
 
 test_that("group_split / bind_rows round trip", {
-  setosa <- iris %>% filter(Species == "setosa") %>% as_tibble()
+  setosa <- iris |> filter(Species == "setosa") |> as_tibble()
 
-  chunks <- setosa %>% group_split(Species)
+  chunks <- setosa |> group_split(Species)
   expect_identical(length(chunks), 1L)
   expect_identical(bind_rows(chunks), setosa)
 
-  chunks <- setosa %>% group_split(Species, .drop = FALSE)
+  chunks <- setosa |> group_split(Species, .drop = FALSE)
   expect_identical(length(chunks), 3L)
   expect_identical(bind_rows(chunks), setosa)
 })
@@ -90,7 +90,7 @@ test_that("group_split(keep=FALSE) does not try to remove virtual grouping colum
 })
 
 test_that("group_split() respects .drop", {
-  chunks <- tibble(f = factor("b", levels = c("a", "b", "c"))) %>%
+  chunks <- tibble(f = factor("b", levels = c("a", "b", "c"))) |>
     group_split(f, .drop = TRUE)
   expect_identical(length(chunks), 1L)
 })

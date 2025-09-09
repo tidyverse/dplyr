@@ -41,7 +41,7 @@
 # filter() gives useful error messages
 
     Code
-      (expect_error(iris %>% group_by(Species) %>% filter(1:n())))
+      (expect_error(filter(group_by(iris, Species), 1:n())))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -50,7 +50,7 @@
       Caused by error:
       ! `..1` must be a logical vector, not an integer vector.
     Code
-      (expect_error(iris %>% filter(1:n())))
+      (expect_error(filter(iris, 1:n())))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -67,7 +67,7 @@
       Caused by error:
       ! `..1` must be a logical vector, not a logical matrix.
     Code
-      (expect_error(iris %>% group_by(Species) %>% filter(c(TRUE, FALSE))))
+      (expect_error(filter(group_by(iris, Species), c(TRUE, FALSE))))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -76,7 +76,7 @@
       Caused by error:
       ! `..1` must be of size 50 or 1, not size 2.
     Code
-      (expect_error(iris %>% rowwise(Species) %>% filter(c(TRUE, FALSE))))
+      (expect_error(filter(rowwise(iris, Species), c(TRUE, FALSE))))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -85,7 +85,7 @@
       Caused by error:
       ! `..1` must be of size 1, not size 2.
     Code
-      (expect_error(iris %>% filter(c(TRUE, FALSE))))
+      (expect_error(filter(iris, c(TRUE, FALSE))))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -93,8 +93,7 @@
       Caused by error:
       ! `..1` must be of size 150 or 1, not size 2.
     Code
-      (expect_error(iris %>% group_by(Species) %>% filter(data.frame(c(TRUE, FALSE))))
-      )
+      (expect_error(filter(group_by(iris, Species), data.frame(c(TRUE, FALSE)))))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -103,7 +102,7 @@
       Caused by error:
       ! `..1` must be of size 50 or 1, not size 2.
     Code
-      (expect_error(iris %>% rowwise() %>% filter(data.frame(c(TRUE, FALSE)))))
+      (expect_error(filter(rowwise(iris), data.frame(c(TRUE, FALSE)))))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -112,7 +111,7 @@
       Caused by error:
       ! `..1` must be of size 1, not size 2.
     Code
-      (expect_error(iris %>% filter(data.frame(c(TRUE, FALSE)))))
+      (expect_error(filter(iris, data.frame(c(TRUE, FALSE)))))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -120,7 +119,7 @@
       Caused by error:
       ! `..1` must be of size 150 or 1, not size 2.
     Code
-      (expect_error(tibble(x = 1) %>% filter(c(TRUE, TRUE))))
+      (expect_error(filter(tibble(x = 1), c(TRUE, TRUE))))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -128,8 +127,8 @@
       Caused by error:
       ! `..1` must be of size 1, not size 2.
     Code
-      (expect_error(iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3,
-      1:n()))))
+      (expect_error(filter(group_by(iris, Species), data.frame(Sepal.Length > 3, 1:n())))
+      )
     Condition
       Warning:
       Returning data frames from `filter()` expressions was deprecated in dplyr 1.0.8.
@@ -142,7 +141,7 @@
       Caused by error:
       ! `..1$X1.n..` must be a logical vector, not an integer vector.
     Code
-      (expect_error(iris %>% filter(data.frame(Sepal.Length > 3, 1:n()))))
+      (expect_error(filter(iris, data.frame(Sepal.Length > 3, 1:n()))))
     Condition
       Warning:
       Returning data frames from `filter()` expressions was deprecated in dplyr 1.0.8.
@@ -154,7 +153,7 @@
       Caused by error:
       ! `..1$X1.n..` must be a logical vector, not an integer vector.
     Code
-      (expect_error(mtcars %>% filter(`_x`)))
+      (expect_error(filter(mtcars, `_x`)))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -162,7 +161,7 @@
       Caused by error:
       ! object '_x' not found
     Code
-      (expect_error(mtcars %>% group_by(cyl) %>% filter(`_x`)))
+      (expect_error(filter(group_by(mtcars, cyl), `_x`)))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -203,7 +202,7 @@
       x `.data` is a <ts> object, not a data source.
       i Did you want to use `stats::filter()`?
     Code
-      (expect_error(tibble() %>% filter(stop("{"))))
+      (expect_error(filter(tibble(), stop("{"))))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -211,7 +210,7 @@
       Caused by error:
       ! {
     Code
-      data.frame(x = 1, y = 1) %>% filter(across(everything(), ~ .x > 0))
+      filter(data.frame(x = 1, y = 1), across(everything(), ~ .x > 0))
     Condition
       Warning:
       Using `across()` in `filter()` was deprecated in dplyr 1.0.8.
@@ -220,7 +219,7 @@
         x y
       1 1 1
     Code
-      data.frame(x = 1, y = 1) %>% filter(data.frame(x > 0, y > 0))
+      filter(data.frame(x = 1, y = 1), data.frame(x > 0, y > 0))
     Condition
       Warning:
       Returning data frames from `filter()` expressions was deprecated in dplyr 1.0.8.

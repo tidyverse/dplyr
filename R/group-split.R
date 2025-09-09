@@ -37,7 +37,7 @@
 #' @family grouping functions
 #' @export
 #' @examples
-#' ir <- iris %>% group_by(Species)
+#' ir <- iris |> group_by(Species)
 #'
 #' group_split(ir)
 #' group_keys(ir)
@@ -75,7 +75,7 @@ group_split.rowwise_df <- function(
 ) {
   if (dots_n(...)) {
     warn(
-      "... is ignored in group_split(<rowwise_df>), please use as_tibble() %>% group_split(...)"
+      "... is ignored in group_split(<rowwise_df>), please use as_tibble() |> group_split(...)"
     )
   }
   if (!missing(keep)) {
@@ -112,7 +112,7 @@ group_split.grouped_df <- function(
   }
   if (dots_n(...)) {
     warn(
-      "... is ignored in group_split(<grouped_df>), please use group_by(..., .add = TRUE) %>% group_split()"
+      "... is ignored in group_split(<grouped_df>), please use group_by(..., .add = TRUE) |> group_split()"
     )
   }
 

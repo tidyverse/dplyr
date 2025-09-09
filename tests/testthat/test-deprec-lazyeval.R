@@ -132,18 +132,18 @@ test_that("distinct_() works", {
   )
 
   expect_equal(
-    distinct_(df %>% group_by(b), ~a, .dots = NULL),
-    distinct(df %>% group_by(b), a)
+    distinct_(df |> group_by(b), ~a, .dots = NULL),
+    distinct(df |> group_by(b), a)
   )
 
   expect_equal(
-    distinct_(df %>% group_by(b), .dots = list(quote(a))),
-    distinct(df %>% group_by(b), a)
+    distinct_(df |> group_by(b), .dots = list(quote(a))),
+    distinct(df |> group_by(b), a)
   )
 
   expect_equal(
-    distinct_(df %>% group_by(b), .dots = list(~a)),
-    distinct(df %>% group_by(b), a)
+    distinct_(df |> group_by(b), .dots = list(~a)),
+    distinct(df |> group_by(b), a)
   )
 })
 
@@ -172,18 +172,18 @@ test_that("do_() works", {
   )
 
   expect_equal(
-    do_(df %>% group_by(b), ~ tibble(-.$a)),
-    do(df %>% group_by(b), tibble(-.$a))
+    do_(df |> group_by(b), ~ tibble(-.$a)),
+    do(df |> group_by(b), tibble(-.$a))
   )
 
   expect_equal(
-    do_(df %>% group_by(b), .dots = list(quote(dplyr::tibble(-.$a)))),
-    do(df %>% group_by(b), tibble(-.$a))
+    do_(df |> group_by(b), .dots = list(quote(dplyr::tibble(-.$a)))),
+    do(df |> group_by(b), tibble(-.$a))
   )
 
   expect_equal(
-    do_(df %>% group_by(b), .dots = list(~ dplyr::tibble(-.$a))),
-    do(df %>% group_by(b), tibble(-.$a))
+    do_(df |> group_by(b), .dots = list(~ dplyr::tibble(-.$a))),
+    do(df |> group_by(b), tibble(-.$a))
   )
 })
 
@@ -364,18 +364,18 @@ test_that("summarise_() works", {
   )
 
   expect_equal(
-    summarise_(df %>% group_by(b), a = ~ mean(a)),
-    summarise(df %>% group_by(b), a = mean(a))
+    summarise_(df |> group_by(b), a = ~ mean(a)),
+    summarise(df |> group_by(b), a = mean(a))
   )
 
   expect_equal(
-    summarise_(df %>% group_by(b), .dots = list(a = quote(mean(a)))),
-    summarise(df %>% group_by(b), a = mean(a))
+    summarise_(df |> group_by(b), .dots = list(a = quote(mean(a)))),
+    summarise(df |> group_by(b), a = mean(a))
   )
 
   expect_equal(
-    summarise_(df %>% group_by(b), .dots = list(a = ~ mean(a))),
-    summarise(df %>% group_by(b), a = mean(a))
+    summarise_(df |> group_by(b), .dots = list(a = ~ mean(a))),
+    summarise(df |> group_by(b), a = mean(a))
   )
 })
 
@@ -398,18 +398,18 @@ test_that("summarize_() works", {
   )
 
   expect_equal(
-    summarize_(df %>% group_by(b), a = ~ mean(a)),
-    summarize(df %>% group_by(b), a = mean(a))
+    summarize_(df |> group_by(b), a = ~ mean(a)),
+    summarize(df |> group_by(b), a = mean(a))
   )
 
   expect_equal(
-    summarize_(df %>% group_by(b), .dots = list(a = quote(mean(a)))),
-    summarize(df %>% group_by(b), a = mean(a))
+    summarize_(df |> group_by(b), .dots = list(a = quote(mean(a)))),
+    summarize(df |> group_by(b), a = mean(a))
   )
 
   expect_equal(
-    summarize_(df %>% group_by(b), .dots = list(a = ~ mean(a))),
-    summarize(df %>% group_by(b), a = mean(a))
+    summarize_(df |> group_by(b), .dots = list(a = ~ mean(a))),
+    summarize(df |> group_by(b), a = mean(a))
   )
 })
 

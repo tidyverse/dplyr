@@ -105,7 +105,7 @@ iris <- as_tibble(iris)
 
 Select variables by name:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{starwars \%>\% select(height)
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{starwars |> select(height)
 #> # A tibble: 87 x 1
 #>   height
 #>    <int>
@@ -115,7 +115,7 @@ Select variables by name:
 #> 4    202
 #> # i 83 more rows
 
-iris \%>\% pivot_longer(Sepal.Length)
+iris |> pivot_longer(Sepal.Length)
 #> # A tibble: 150 x 6
 #>   Sepal.Width Petal.Length Petal.Width Species name         value
 #>         <dbl>        <dbl>       <dbl> <fct>   <chr>        <dbl>
@@ -129,7 +129,7 @@ iris \%>\% pivot_longer(Sepal.Length)
 Select multiple variables by separating them with commas. Note how
 the order of columns is determined by the order of inputs:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{starwars \%>\% select(homeworld, height, mass)
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{starwars |> select(homeworld, height, mass)
 #> # A tibble: 87 x 3
 #>   homeworld height  mass
 #>   <chr>      <int> <dbl>
@@ -143,7 +143,7 @@ the order of columns is determined by the order of inputs:
 Functions like \code{tidyr::pivot_longer()} don't take variables with
 dots. In this case use \code{c()} to select multiple variables:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{iris \%>\% pivot_longer(c(Sepal.Length, Petal.Length))
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{iris |> pivot_longer(c(Sepal.Length, Petal.Length))
 #> # A tibble: 300 x 5
 #>   Sepal.Width Petal.Width Species name         value
 #>         <dbl>       <dbl> <fct>   <chr>        <dbl>
@@ -157,7 +157,7 @@ dots. In this case use \code{c()} to select multiple variables:
 
 The \code{:} operator selects a range of consecutive variables:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{starwars \%>\% select(name:mass)
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{starwars |> select(name:mass)
 #> # A tibble: 87 x 3
 #>   name           height  mass
 #>   <chr>           <int> <dbl>
@@ -170,7 +170,7 @@ The \code{:} operator selects a range of consecutive variables:
 
 The \code{!} operator negates a selection:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{starwars \%>\% select(!(name:mass))
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{starwars |> select(!(name:mass))
 #> # A tibble: 87 x 11
 #>   hair_color skin_color  eye_color birth_year sex   gender    homeworld species
 #>   <chr>      <chr>       <chr>          <dbl> <chr> <chr>     <chr>     <chr>  
@@ -181,7 +181,7 @@ The \code{!} operator negates a selection:
 #> # i 83 more rows
 #> # i 3 more variables: films <list>, vehicles <list>, starships <list>
 
-iris \%>\% select(!c(Sepal.Length, Petal.Length))
+iris |> select(!c(Sepal.Length, Petal.Length))
 #> # A tibble: 150 x 3
 #>   Sepal.Width Petal.Width Species
 #>         <dbl>       <dbl> <fct>  
@@ -191,7 +191,7 @@ iris \%>\% select(!c(Sepal.Length, Petal.Length))
 #> 4         3.1         0.2 setosa 
 #> # i 146 more rows
 
-iris \%>\% select(!ends_with("Width"))
+iris |> select(!ends_with("Width"))
 #> # A tibble: 150 x 3
 #>   Sepal.Length Petal.Length Species
 #>          <dbl>        <dbl> <fct>  
@@ -204,7 +204,7 @@ iris \%>\% select(!ends_with("Width"))
 
 \code{&} and \code{|} take the intersection or the union of two selections:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{iris \%>\% select(starts_with("Petal") & ends_with("Width"))
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{iris |> select(starts_with("Petal") & ends_with("Width"))
 #> # A tibble: 150 x 1
 #>   Petal.Width
 #>         <dbl>
@@ -214,7 +214,7 @@ iris \%>\% select(!ends_with("Width"))
 #> 4         0.2
 #> # i 146 more rows
 
-iris \%>\% select(starts_with("Petal") | ends_with("Width"))
+iris |> select(starts_with("Petal") | ends_with("Width"))
 #> # A tibble: 150 x 3
 #>   Petal.Length Petal.Width Sepal.Width
 #>          <dbl>       <dbl>       <dbl>
@@ -228,7 +228,7 @@ iris \%>\% select(starts_with("Petal") | ends_with("Width"))
 To take the difference between two selections, combine the \code{&} and
 \code{!} operators:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{iris \%>\% select(starts_with("Petal") & !ends_with("Width"))
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{iris |> select(starts_with("Petal") & !ends_with("Width"))
 #> # A tibble: 150 x 1
 #>   Petal.Length
 #>          <dbl>

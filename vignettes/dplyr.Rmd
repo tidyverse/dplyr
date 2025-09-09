@@ -2,8 +2,8 @@
 title: "Introduction to dplyr"
 output: rmarkdown::html_vignette
 description: >
-  Start here if this is your first time using dplyr. You'll learn the basic   
-  philosophy, the most important data manipulation verbs, and the pipe, `%>%`, 
+  Start here if this is your first time using dplyr. You'll learn the basic
+  philosophy, the most important data manipulation verbs, and the pipe, `|>`,
   which allows you to combine multiple verbs together to solve real problems.
 vignette: >
   %\VignetteIndexEntry{Introduction to dplyr}
@@ -28,10 +28,10 @@ When working with data you must:
 
 The dplyr package makes these steps fast and easy:
 
-* By constraining your options, it helps you think about your data manipulation 
+* By constraining your options, it helps you think about your data manipulation
   challenges.
 
-* It provides simple "verbs", functions that correspond to the most common data 
+* It provides simple "verbs", functions that correspond to the most common data
   manipulation tasks, to help you translate your thoughts into code.
 
 * It uses efficient backends, so you spend less time waiting for the computer.
@@ -57,7 +57,7 @@ dplyr aims to provide a function for each basic verb of data manipulation. These
   * `filter()` chooses rows based on column values.
   * `slice()` chooses rows based on location.
   * `arrange()` changes the order of the rows.
-  
+
 * Columns:
   * `select()` changes whether or not a column is included.
   * `rename()` changes the name of columns.
@@ -66,10 +66,10 @@ dplyr aims to provide a function for each basic verb of data manipulation. These
 
 * Groups of rows:
   * `summarise()` collapses a group into a single row.
-  
+
 ### The pipe
 
-All of the dplyr functions take a data frame (or tibble) as the first argument. Rather than forcing the user to either save intermediate objects or nest functions, dplyr provides the `%>%` operator from magrittr. `x %>% f(y)` turns into `f(x, y)` so the result from one step is then "piped" into the next step. You can use the pipe to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as "then"). 
+All of the dplyr functions take a data frame (or tibble) as the first argument. Rather than forcing the user to either save intermediate objects or nest functions, dplyr provides the `|>` operator from magrittr. `x |> f(y)` turns into `f(x, y)` so the result from one step is then "piped" into the next step. You can use the pipe to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as "then").
 
 ### Filter rows with `filter()`
 
@@ -78,7 +78,7 @@ All of the dplyr functions take a data frame (or tibble) as the first argument. 
 For example, we can select all character with light skin color and brown eyes with:
 
 ```{r}
-starwars %>% filter(skin_color == "light", eye_color == "brown")
+starwars |> filter(skin_color == "light", eye_color == "brown")
 ```
 
 This is roughly equivalent to this base R code:
@@ -92,22 +92,22 @@ starwars[starwars$skin_color == "light" & starwars$eye_color == "brown", ]
 `arrange()` works similarly to `filter()` except that instead of filtering or selecting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by. If you provide more than one column name, each additional column will be used to break ties in the values of preceding columns:
 
 ```{r}
-starwars %>% arrange(height, mass)
+starwars |> arrange(height, mass)
 ```
 
 Use `desc()` to order a column in descending order:
 
 ```{r}
-starwars %>% arrange(desc(height))
+starwars |> arrange(desc(height))
 ```
 
 ###  Choose rows using their position with `slice()`
 
-`slice()` lets you index rows by their (integer) locations. It allows you to select, remove, and duplicate rows. 
+`slice()` lets you index rows by their (integer) locations. It allows you to select, remove, and duplicate rows.
 
 We can get characters from row numbers 5 through 10.
 ```{r}
-starwars %>% slice(5:10)
+starwars |> slice(5:10)
 ```
 
 It is accompanied by a number of helpers for common use cases:
@@ -115,22 +115,22 @@ It is accompanied by a number of helpers for common use cases:
 * `slice_head()` and `slice_tail()` select the first or last rows.
 
 ```{r}
-starwars %>% slice_head(n = 3)
+starwars |> slice_head(n = 3)
 ```
 
 * `slice_sample()` randomly selects rows. Use the option prop to choose a certain proportion of the cases.
 
 ```{r}
-starwars %>% slice_sample(n = 5)
-starwars %>% slice_sample(prop = 0.1)
+starwars |> slice_sample(n = 5)
+starwars |> slice_sample(prop = 0.1)
 ```
 Use `replace = TRUE` to perform a bootstrap sample. If needed, you can weight the sample with the `weight` argument.
 
 * `slice_min()` and `slice_max()` select rows with highest or lowest values of a variable. Note that we first must choose  only the values which are not NA.
 
 ```{r}
-starwars %>%
-  filter(!is.na(height)) %>%
+starwars |>
+  filter(!is.na(height)) |>
   slice_max(height, n = 3)
 ```
 
@@ -140,13 +140,13 @@ Often you work with large datasets with many columns but only a few are actually
 
 ```{r}
 # Select columns by name
-starwars %>% select(hair_color, skin_color, eye_color)
+starwars |> select(hair_color, skin_color, eye_color)
 # Select all columns between hair_color and eye_color (inclusive)
-starwars %>% select(hair_color:eye_color)
+starwars |> select(hair_color:eye_color)
 # Select all columns except those from hair_color to eye_color (inclusive)
-starwars %>% select(!(hair_color:eye_color))
+starwars |> select(!(hair_color:eye_color))
 # Select all columns ending with color
-starwars %>% select(ends_with("color"))
+starwars |> select(ends_with("color"))
 ```
 
 There are a number of helper functions you can use within `select()`, like `starts_with()`, `ends_with()`, `matches()` and `contains()`. These let you quickly match larger blocks of variables that meet some criterion. See `?select` for more details.
@@ -154,13 +154,13 @@ There are a number of helper functions you can use within `select()`, like `star
 You can rename variables with `select()` by using named arguments:
 
 ```{r}
-starwars %>% select(home_world = homeworld)
+starwars |> select(home_world = homeworld)
 ```
 
 But because `select()` drops all the variables not explicitly mentioned, it's not that useful. Instead, use `rename()`:
 
 ```{r}
-starwars %>% rename(home_world = homeworld)
+starwars |> rename(home_world = homeworld)
 ```
 
 ### Add new columns with `mutate()`
@@ -168,32 +168,32 @@ starwars %>% rename(home_world = homeworld)
 Besides selecting sets of existing columns, it's often useful to add new columns that are functions of existing columns. This is the job of `mutate()`:
 
 ```{r}
-starwars %>% mutate(height_m = height / 100)
+starwars |> mutate(height_m = height / 100)
 ```
 
 We can't see the height in meters we just calculated, but we can fix that using a select command.
 
 ```{r}
-starwars %>%
-  mutate(height_m = height / 100) %>%
+starwars |>
+  mutate(height_m = height / 100) |>
   select(height_m, height, everything())
 ```
 
 `dplyr::mutate()` is similar to the base `transform()`, but allows you to refer to columns that you've just created:
 
 ```{r}
-starwars %>%
+starwars |>
   mutate(
     height_m = height / 100,
     BMI = mass / (height_m^2)
-  ) %>%
+  ) |>
   select(BMI, everything())
 ```
 
 If you only want to keep the new variables, use `.keep = "none"`:
 
 ```{r}
-starwars %>%
+starwars |>
   mutate(
     height_m = height / 100,
     BMI = mass / (height_m^2),
@@ -206,7 +206,7 @@ starwars %>%
 Use a similar syntax as `select()` to move blocks of columns at once
 
 ```{r}
-starwars %>% relocate(sex:homeworld, .before = height)
+starwars |> relocate(sex:homeworld, .before = height)
 ```
 
 
@@ -215,7 +215,7 @@ starwars %>% relocate(sex:homeworld, .before = height)
 The last verb is `summarise()`. It collapses a data frame to a single row.
 
 ```{r}
-starwars %>% summarise(height = mean(height, na.rm = TRUE))
+starwars |> summarise(height = mean(height, na.rm = TRUE))
 ```
 
 It's not that useful until we learn the `group_by()` verb below.
@@ -232,11 +232,11 @@ You may have noticed that the syntax and function of all these verbs are very si
 
 * The result is a new data frame
 
-Together these properties make it easy to chain together multiple simple steps to achieve a complex result. 
+Together these properties make it easy to chain together multiple simple steps to achieve a complex result.
 
-These five functions provide the basis of a language of data manipulation. At the most basic level, you can only alter a tidy data frame in five useful ways: you can reorder the rows (`arrange()`), pick observations and variables of interest (`filter()` and `select()`), add new variables that are functions of existing variables (`mutate()`), or collapse many values to a summary (`summarise()`). 
+These five functions provide the basis of a language of data manipulation. At the most basic level, you can only alter a tidy data frame in five useful ways: you can reorder the rows (`arrange()`), pick observations and variables of interest (`filter()` and `select()`), add new variables that are functions of existing variables (`mutate()`), or collapse many values to a summary (`summarise()`).
 
-## Combining functions with `%>%` 
+## Combining functions with `|>`
 
 The dplyr API is functional in the sense that function calls don't have side-effects. You must always save their results. This doesn't lead to particularly elegant code, especially if you want to do many operations at once. You either have to do it step-by-step:
 
@@ -262,12 +262,12 @@ summarise(
 )
 ```
 
-This is difficult to read because the order of the operations is from inside to out. Thus, the arguments are a long way away from the function. To get around this problem, dplyr provides the `%>%` operator from magrittr. `x %>% f(y)` turns into `f(x, y)` so you can use it to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as "then"):
+This is difficult to read because the order of the operations is from inside to out. Thus, the arguments are a long way away from the function. To get around this problem, dplyr provides the `|>` operator from magrittr. `x |> f(y)` turns into `f(x, y)` so you can use it to rewrite multiple operations that you can read left-to-right, top-to-bottom (reading the pipe operator as "then"):
 
 ```{r, eval = FALSE}
-starwars %>%
-  group_by(species, sex) %>%
-  select(height, mass) %>%
+starwars |>
+  group_by(species, sex) |>
+  select(height, mass) |>
   summarise(
     height = mean(height, na.rm = TRUE),
     mass = mean(mass, na.rm = TRUE)
@@ -278,7 +278,7 @@ starwars %>%
 
 The dplyr verbs can be classified by the type of operations they
 accomplish (we sometimes speak of their **semantics**, i.e., their
-meaning). It's helpful to have a good grasp of the difference between 
+meaning). It's helpful to have a good grasp of the difference between
 select and mutate operations.
 
 ### Selecting operations
@@ -345,11 +345,11 @@ select(starwars, all_of(vars), "mass")
 
 Mutate semantics are quite different from selection semantics. Whereas
 `select()` expects column names or positions, `mutate()` expects
-*column vectors*. 
+*column vectors*.
 We will set up a smaller tibble to use for our examples.
 
 ```{r}
-df <- starwars %>% select(name, height, mass)
+df <- starwars |> select(name, height, mass)
 ```
 
 When we use `select()`, the bare column names stand for their own

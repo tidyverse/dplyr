@@ -639,8 +639,8 @@ test_that("joins x preserve type of x", {
 })
 
 test_that("joins preserve groups", {
-  gf1 <- tibble(a = 1:3) %>% group_by(a)
-  gf2 <- tibble(a = rep(1:4, 2), b = 1) %>% group_by(b)
+  gf1 <- tibble(a = 1:3) |> group_by(a)
+  gf2 <- tibble(a = rep(1:4, 2), b = 1) |> group_by(b)
 
   i <- count_regroups(out <- inner_join(gf1, gf2, by = "a"))
   expect_equal(i, 1L)
@@ -658,10 +658,10 @@ test_that("joins preserve groups", {
 })
 
 test_that("joins respect zero length groups", {
-  df1 <- tibble(f = factor(c(1, 1, 2, 2), levels = 1:3), x = c(1, 2, 1, 4)) %>%
+  df1 <- tibble(f = factor(c(1, 1, 2, 2), levels = 1:3), x = c(1, 2, 1, 4)) |>
     group_by(f)
 
-  df2 <- tibble(f = factor(c(2, 2, 3, 3), levels = 1:3), y = c(1, 2, 3, 4)) %>%
+  df2 <- tibble(f = factor(c(2, 2, 3, 3), levels = 1:3), y = c(1, 2, 3, 4)) |>
     group_by(f)
 
   expect_equal(
@@ -682,9 +682,9 @@ test_that("joins respect zero length groups", {
     c(4)
   )
 
-  df1 <- tibble(f = factor(c(1, 1, 2, 2), levels = 1:3), x = c(1, 2, 1, 4)) %>%
+  df1 <- tibble(f = factor(c(1, 1, 2, 2), levels = 1:3), x = c(1, 2, 1, 4)) |>
     group_by(f, .drop = FALSE)
-  df2 <- tibble(f = factor(c(2, 2, 3, 3), levels = 1:3), y = c(1, 2, 3, 4)) %>%
+  df2 <- tibble(f = factor(c(2, 2, 3, 3), levels = 1:3), y = c(1, 2, 3, 4)) |>
     group_by(f, .drop = FALSE)
 
   expect_equal(
@@ -707,7 +707,7 @@ test_that("joins respect zero length groups", {
 })
 
 test_that("group column names reflect renamed duplicate columns (#2330)", {
-  df1 <- tibble(x = 1:5, y = 1:5) %>% group_by(x, y)
+  df1 <- tibble(x = 1:5, y = 1:5) |> group_by(x, y)
   df2 <- tibble(x = 1:5, y = 1:5)
 
   out <- inner_join(df1, df2, by = "x")

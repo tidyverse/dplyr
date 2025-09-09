@@ -17,7 +17,7 @@ test_that("filter_all()", {
 })
 
 test_that("filter_at can filter by grouping variables (#3351, #3480)", {
-  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) |>
     group_by(gr1)
 
   expect_identical(
@@ -27,7 +27,7 @@ test_that("filter_at can filter by grouping variables (#3351, #3480)", {
 })
 
 test_that("filter_if and filter_all includes grouping variables (#3351, #3480)", {
-  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) |>
     group_by(gr1)
 
   res <- filter_all(tbl, all_vars(. > 1))
@@ -40,10 +40,10 @@ test_that("filter_if and filter_all includes grouping variables (#3351, #3480)",
 test_that("can supply functions to scoped filters", {
   exp <- as.list(mtcars[c(8, 9, 21), ])
 
-  out <- mtcars %>% filter_at(c("cyl", "am"), ~ .x == 4 | .x == 0)
+  out <- mtcars |> filter_at(c("cyl", "am"), ~ .x == 4 | .x == 0)
   expect_identical(as.list(out), exp)
 
-  out <- mtcars %>% filter_at(c("cyl", "am"), function(.x) .x == 4 | .x == 0)
+  out <- mtcars |> filter_at(c("cyl", "am"), function(.x) .x == 4 | .x == 0)
   expect_identical(as.list(out), exp)
 })
 

@@ -1,5 +1,5 @@
 test_that("non-syntactic grouping variable is preserved (#1138)", {
-  df <- tibble(`a b` = 1L) %>% group_by(`a b`) %>% transmute()
+  df <- tibble(`a b` = 1L) |> group_by(`a b`) |> transmute()
   expect_named(df, "a b")
 })
 
@@ -22,8 +22,8 @@ test_that("transmute with no args returns grouping vars", {
   df <- tibble(x = 1, y = 2)
   gf <- group_by(df, x)
 
-  expect_equal(df %>% transmute(), df[integer()])
-  expect_equal(gf %>% transmute(), gf[1L])
+  expect_equal(df |> transmute(), df[integer()])
+  expect_equal(gf |> transmute(), gf[1L])
 })
 
 # transmute variables -----------------------------------------------
@@ -66,8 +66,8 @@ test_that("transmute() does not warn when a variable is removed with = NULL (#46
 
 test_that("transmute() can handle auto splicing", {
   expect_equal(
-    iris %>% transmute(tibble(Sepal.Length, Sepal.Width)),
-    iris %>% select(Sepal.Length, Sepal.Width)
+    iris |> transmute(tibble(Sepal.Length, Sepal.Width)),
+    iris |> select(Sepal.Length, Sepal.Width)
   )
 })
 

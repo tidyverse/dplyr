@@ -356,7 +356,7 @@ test_that("slice_helpers do call slice() and benefit from dispatch (#6084)", {
     }
   )
 
-  nf <- tibble(x = 1:10, g = rep(1:2, each = 5)) %>% group_by(g)
+  nf <- tibble(x = 1:10, g = rep(1:2, each = 5)) |> group_by(g)
   class(nf) <- c("noisy", class(nf))
 
   expect_warning(slice(nf, 1:2), "noisy")

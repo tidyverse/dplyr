@@ -8,7 +8,7 @@ test_that("restores original class", {
 
 test_that(".groups = NULL ungroups", {
   gf <- group_by(tibble(x = 1:2), x)
-  out <- gf %>% with_groups(NULL, mutate, y = mean(x))
+  out <- gf |> with_groups(NULL, mutate, y = mean(x))
   expect_equal(out$y, c(1.5, 1.5))
 })
 

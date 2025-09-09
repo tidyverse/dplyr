@@ -76,14 +76,14 @@ selection is \strong{implicit} (\code{all} and \code{if} selections) or
 \code{summarise_at()} are always an error. Add \code{-group_cols()} to the
 \code{\link[=vars]{vars()}} selection to avoid this:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{data \%>\%
+\if{html}{\out{<div class="sourceCode">}}\preformatted{data |>
   summarise_at(vars(-group_cols(), ...), myoperation)
 }\if{html}{\out{</div>}}
 
 Or remove \code{group_vars()} from the character vector of column names:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{nms <- setdiff(nms, group_vars(data))
-data \%>\% summarise_at(nms, myoperation)
+data |> summarise_at(nms, myoperation)
 }\if{html}{\out{</div>}}
 \item Grouping variables covered by implicit selections are silently
 ignored by \code{summarise_all()} and \code{summarise_if()}.
@@ -119,37 +119,37 @@ Name collisions in the new columns are disambiguated using a unique suffix.
 
 \examples{
 # The _at() variants directly support strings:
-starwars \%>\%
+starwars |>
   summarise_at(c("height", "mass"), mean, na.rm = TRUE)
 # ->
-starwars \%>\% summarise(across(c("height", "mass"), ~ mean(.x, na.rm = TRUE)))
+starwars |> summarise(across(c("height", "mass"), ~ mean(.x, na.rm = TRUE)))
 
 # You can also supply selection helpers to _at() functions but you have
 # to quote them with vars():
-starwars \%>\%
+starwars |>
   summarise_at(vars(height:mass), mean, na.rm = TRUE)
 # ->
-starwars \%>\%
+starwars |>
   summarise(across(height:mass, ~ mean(.x, na.rm = TRUE)))
 
 # The _if() variants apply a predicate function (a function that
 # returns TRUE or FALSE) to determine the relevant subset of
 # columns. Here we apply mean() to the numeric columns:
-starwars \%>\%
+starwars |>
   summarise_if(is.numeric, mean, na.rm = TRUE)
-starwars \%>\%
+starwars |>
   summarise(across(where(is.numeric), ~ mean(.x, na.rm = TRUE)))
 
-by_species <- iris \%>\%
+by_species <- iris |>
   group_by(Species)
 
 # If you want to apply multiple transformations, pass a list of
 # functions. When there are multiple functions, they create new
 # variables instead of modifying the variables in place:
-by_species \%>\%
+by_species |>
   summarise_all(list(min, max))
 # ->
-by_species \%>\%
+by_species |>
   summarise(across(everything(), list(min = min, max = max)))
 }
 \seealso{

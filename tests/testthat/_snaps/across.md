@@ -74,7 +74,7 @@
 # across() gives meaningful messages
 
     Code
-      (expect_error(tibble(x = 1) %>% summarise(across(where(is.numeric), 42))))
+      (expect_error(summarise(tibble(x = 1), across(where(is.numeric), 42))))
     Output
       <error/rlang_error>
       Error in `summarise()`:
@@ -82,7 +82,7 @@
       Caused by error in `across()`:
       ! `.fns` must be a function, a formula, or a list of functions/formulas.
     Code
-      (expect_error(tibble(x = 1) %>% summarise(across(y, mean))))
+      (expect_error(summarise(tibble(x = 1), across(y, mean))))
     Output
       <error/rlang_error>
       Error in `summarise()`:
@@ -91,7 +91,7 @@
       ! Can't select columns that don't exist.
       x Column `y` doesn't exist.
     Code
-      (expect_error(tibble(x = 1) %>% summarise(res = across(where(is.numeric), 42))))
+      (expect_error(summarise(tibble(x = 1), res = across(where(is.numeric), 42))))
     Output
       <error/rlang_error>
       Error in `summarise()`:
@@ -99,7 +99,7 @@
       Caused by error in `across()`:
       ! `.fns` must be a function, a formula, or a list of functions/formulas.
     Code
-      (expect_error(tibble(x = 1) %>% summarise(z = across(y, mean))))
+      (expect_error(summarise(tibble(x = 1), z = across(y, mean))))
     Output
       <error/rlang_error>
       Error in `summarise()`:
@@ -108,8 +108,8 @@
       ! Can't select columns that don't exist.
       x Column `y` doesn't exist.
     Code
-      (expect_error(tibble(x = 1) %>% summarise(res = sum(if_any(where(is.numeric),
-      42)))))
+      (expect_error(summarise(tibble(x = 1), res = sum(if_any(where(is.numeric), 42))))
+      )
     Output
       <error/rlang_error>
       Error in `summarise()`:
@@ -117,7 +117,7 @@
       Caused by error in `if_any()`:
       ! `.fns` must be a function, a formula, or a list of functions/formulas.
     Code
-      (expect_error(tibble(x = 1) %>% summarise(res = sum(if_all(~ mean(.x))))))
+      (expect_error(summarise(tibble(x = 1), res = sum(if_all(~ mean(.x))))))
     Output
       <error/rlang_error>
       Error in `summarise()`:
@@ -128,7 +128,7 @@
       i The first argument `.cols` selects a set of columns.
       i The second argument `.fns` operates on each selected columns.
     Code
-      (expect_error(tibble(x = 1) %>% summarise(res = sum(if_any(~ mean(.x))))))
+      (expect_error(summarise(tibble(x = 1), res = sum(if_any(~ mean(.x))))))
     Output
       <error/rlang_error>
       Error in `summarise()`:
@@ -158,7 +158,7 @@
           42
         }
       })
-      (expect_error(tibble(x = 1:10, y = 11:20) %>% summarise(across(everything(),
+      (expect_error(summarise(tibble(x = 1:10, y = 11:20), across(everything(),
       error_fn))))
     Output
       <error/rlang_error>
@@ -169,8 +169,8 @@
       Caused by error in `error_fn()`:
       ! too small
     Code
-      (expect_error(tibble(x = 1:10, y = 11:20) %>% mutate(across(everything(),
-      error_fn))))
+      (expect_error(mutate(tibble(x = 1:10, y = 11:20), across(everything(), error_fn)))
+      )
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
@@ -180,7 +180,7 @@
       Caused by error in `error_fn()`:
       ! too small
     Code
-      (expect_error(tibble(x = 1:10, y = 11:20) %>% summarise(force(across(everything(),
+      (expect_error(summarise(tibble(x = 1:10, y = 11:20), force(across(everything(),
       error_fn)))))
     Output
       <error/rlang_error>
@@ -191,7 +191,7 @@
       Caused by error in `error_fn()`:
       ! too small
     Code
-      (expect_error(tibble(x = 1:10, y = 11:20) %>% mutate(force(across(everything(),
+      (expect_error(mutate(tibble(x = 1:10, y = 11:20), force(across(everything(),
       error_fn)))))
     Output
       <error/dplyr:::mutate_error>
@@ -202,8 +202,8 @@
       Caused by error in `error_fn()`:
       ! too small
     Code
-      (expect_error(tibble(x = 1) %>% summarise(across(everything(), list(f = mean,
-        f = mean)))))
+      (expect_error(summarise(tibble(x = 1), across(everything(), list(f = mean, f = mean))))
+      )
     Output
       <error/rlang_error>
       Error in `summarise()`:
@@ -263,7 +263,7 @@
 # inlined and non inlined lambdas work
 
     Code
-      (expect_error(df %>% mutate(across(1:2, ~ .y + mean(bar)))))
+      (expect_error(mutate(df, across(1:2, ~ .y + mean(bar)))))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:
@@ -273,7 +273,7 @@
       Caused by error:
       ! the ... list contains fewer than 2 elements
     Code
-      (expect_error(df %>% mutate((across(1:2, ~ .y + mean(bar))))))
+      (expect_error(mutate(df, (across(1:2, ~ .y + mean(bar))))))
     Output
       <error/dplyr:::mutate_error>
       Error in `mutate()`:

@@ -83,22 +83,22 @@ arrange(mtcars, cyl, disp)
 arrange(mtcars, desc(disp))
 
 # grouped arrange ignores groups
-by_cyl <- mtcars \%>\% group_by(cyl)
-by_cyl \%>\% arrange(desc(wt))
+by_cyl <- mtcars |> group_by(cyl)
+by_cyl |> arrange(desc(wt))
 # Unless you specifically ask:
-by_cyl \%>\% arrange(desc(wt), .by_group = TRUE)
+by_cyl |> arrange(desc(wt), .by_group = TRUE)
 
 # use embracing when wrapping in a function;
 # see ?rlang::args_data_masking for more details
 tidy_eval_arrange <- function(.data, var) {
-  .data \%>\%
+  .data |>
     arrange({{ var }})
 }
 tidy_eval_arrange(mtcars, mpg)
 
 # Use `across()` or `pick()` to select columns with tidy-select
-iris \%>\% arrange(pick(starts_with("Sepal")))
-iris \%>\% arrange(across(starts_with("Sepal"), desc))
+iris |> arrange(pick(starts_with("Sepal")))
+iris |> arrange(across(starts_with("Sepal"), desc))
 }
 \seealso{
 Other single table verbs: 

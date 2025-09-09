@@ -109,8 +109,8 @@ case_when(
 # `case_when()` is particularly useful inside `mutate()` when you want to
 # create a new variable that relies on a complex combination of existing
 # variables
-starwars \%>\%
-  select(name:mass, gender, species) \%>\%
+starwars |>
+  select(name:mass, gender, species) |>
   mutate(
     type = case_when(
       height > 200 | mass > 200 ~ "large",
@@ -135,8 +135,8 @@ case_character_type(150, 250, "Droid")
 case_character_type(150, 150, "Droid")
 
 # Such functions can be used inside `mutate()` as well:
-starwars \%>\%
-  mutate(type = case_character_type(height, mass, species)) \%>\%
+starwars |>
+  mutate(type = case_character_type(height, mass, species)) |>
   pull(type)
 
 # `case_when()` ignores `NULL` inputs. This is useful when you'd
@@ -151,8 +151,8 @@ case_character_type <- function(height, mass, species, robots = TRUE) {
   )
 }
 
-starwars \%>\%
-  mutate(type = case_character_type(height, mass, species, robots = FALSE)) \%>\%
+starwars |>
+  mutate(type = case_character_type(height, mass, species, robots = FALSE)) |>
   pull(type)
 }
 \seealso{
