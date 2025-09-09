@@ -253,7 +253,7 @@ test_that("invalid type errors are correct (#6261) (#6206)", {
 
 test_that("`NULL` formula element throws meaningful error", {
   expect_snapshot(error = TRUE, {
-    case_when(1 ~ NULL)
+    case_when(TRUE ~ NULL)
   })
   expect_snapshot(error = TRUE, {
     case_when(NULL ~ 1)

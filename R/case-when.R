@@ -203,8 +203,44 @@ case_when_with_envs <- function(
   conditions <- dots$lhs
   values <- dots$rhs
 
-  # `case_when()`'s formula interface finds the common size of ALL of its inputs.
-  # This is what allows `TRUE ~` to work.
+  n_conditions <- length(conditions)
+
+  # `list_combine()` allows empty lists, but `case_when()` doesn't.
+  # This check is done after `NULL` `dots` are removed.
+  if (n_conditions == 0L) {
+    abort("At least one condition must be supplied.", call = call)
+  }
+
+  # Expect that `case_formula_evaluate()` named these nicely
+  condition_names <- names(conditions)
+
+  # `list_combine()` allows integer indices, but we want `conditions` to all be
+  # logical
+  for (i in seq_along(conditions)) {
+    condition <- conditions[[i]]
+    condition_name <- condition_names[[i]]
+
+    check_logical(condition, arg = condition_name, call = call)
+
+    # We want to enforce that `condition` isn't an array, but for historical
+    # reasons we allow it to be a 1D array
+    condition_dim <- dim(condition)
+    if (!is.null(condition_dim)) {
+      if (length(condition_dim) == 1L) {
+        dim(condition) <- NULL
+        conditions[[i]] <- condition
+      } else {
+        check_no_dim(condition, arg = condition_name, call = call)
+      }
+    }
+  }
+
+  # `list_combine()` allows `NULL` `values`, but `case_when()` doesn't
+  list_check_all_vectors(values, arg = "", call = call)
+
+  # `case_when()`'s formula interface finds the common size of ALL of its
+  # inputs. This is what allows `TRUE ~` to work. Notably the `.default` isn't
+  # included in this weird common size determination.
   size <- vec_size_common(
     !!!conditions,
     !!!values,
@@ -212,19 +248,24 @@ case_when_with_envs <- function(
     .call = call
   )
 
+  # `list_combine()` requires that all `conditions` are the same size.
+  # `values` are recycled efficiently internally so we don't recycle them here.
   conditions <- vec_recycle_common(!!!conditions, .size = size, .call = call)
-  values <- vec_recycle_common(!!!values, .size = size, .call = call)
 
-  vec_case_when(
-    conditions = conditions,
-    values = values,
-    conditions_arg = "",
-    values_arg = "",
-    default = default,
-    default_arg = ".default",
-    ptype = ptype,
+  vctrs:::list_combine(
+    x = values,
+    indices = conditions,
     size = size,
-    call = call
+    default = default,
+    unmatched = "default",
+    multiple = "first",
+    slice_x = TRUE,
+    ptype = ptype,
+    name_spec = "inner",
+    x_arg = "",
+    indices_arg = "",
+    default_arg = ".default",
+    error_call = call
   )
 }
 

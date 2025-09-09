@@ -4,7 +4,7 @@
       case_when(FALSE ~ 1L, .default = 2:5)
     Condition
       Error in `case_when()`:
-      ! `.default` must have size 1, not size 4.
+      ! Can't recycle `.default` (size 4) to size 1.
 
 # `.default` is part of common type computation
 
@@ -12,7 +12,7 @@
       case_when(TRUE ~ 1L, .default = "x")
     Condition
       Error in `case_when()`:
-      ! Can't combine `..1 (right)` <integer> and `.default` <character>.
+      ! Can't combine <integer> and `.default` <character>.
 
 # passes through `.size` correctly
 
@@ -33,7 +33,7 @@
 # `NULL` formula element throws meaningful error
 
     Code
-      case_when(1 ~ NULL)
+      case_when(TRUE ~ NULL)
     Condition
       Error in `case_when()`:
       ! `..1 (right)` must be a vector, not `NULL`.
@@ -86,7 +86,7 @@
     Output
       <error/rlang_error>
       Error in `case_when()`:
-      ! `..1 (left)` must be a logical vector, not a double vector.
+      ! `..1 (left)` must be a logical vector, not the number 50.
     Code
       (expect_error(case_when(paste(50))))
     Output
