@@ -65,8 +65,8 @@ expenses
 
 Imagine that you wanted to compute the average cost per region.
 You'd probably write something like this:
-expenses %&amp;gt;%
-  group_by(region) %&amp;gt;%
+expenses |&amp;gt;
+  group_by(region) |&amp;gt;
   summarise(cost = mean(cost))
 #&amp;gt; # A tibble: 2 x 2
 #&amp;gt;   region  cost
@@ -75,7 +75,7 @@ expenses %&amp;gt;%
 #&amp;gt; 2 B       10.5
 
 Instead, you can now specify the grouping inline within the verb:
-expenses %&amp;gt;%
+expenses |&amp;gt;
   summarise(cost = mean(cost), .by = region)
 #&amp;gt; # A tibble: 2 x 2
 #&amp;gt;   region  cost
@@ -84,7 +84,7 @@ expenses %&amp;gt;%
 #&amp;gt; 2 B       10.5
 
 .by applies to a single operation, meaning that since expenses was an ungrouped data frame, the result after applying .by will also always be an ungrouped data frame, regardless of the number of grouping columns.
-expenses %&amp;gt;%
+expenses |&amp;gt;
   summarise(cost = mean(cost), .by = c(id, region))
 #&amp;gt; # A tibble: 5 x 3
 #&amp;gt;      id region  cost
@@ -95,9 +95,9 @@ expenses %&amp;gt;%
 #&amp;gt; 4     1 B          9
 #&amp;gt; 5     3 A          6
 
-Compare that with group_by() %&amp;gt;% summarise(), where summarise() generally peels off 1 layer of grouping by default, typically with a message that it is doing so:
-expenses %&amp;gt;%
-  group_by(id, region) %&amp;gt;%
+Compare that with group_by() |&amp;gt; summarise(), where summarise() generally peels off 1 layer of grouping by default, typically with a message that it is doing so:
+expenses |&amp;gt;
+  group_by(id, region) |&amp;gt;
   summarise(cost = mean(cost))
 #&amp;gt; `summarise()` has grouped output by 'id'. You can override using the `.groups`
 #&amp;gt; argument.
@@ -116,15 +116,15 @@ Note that with .by we specified multiple columns to group by using the tidy-sele
 If you have a character vector of column names you'd like to group by, you can do so with .by = all_of(my_cols).
 It will group by the columns in the order they were provided.
 To prevent surprising results, you can't use .by on an existing grouped data frame:
-expenses %&amp;gt;%
-  group_by(id) %&amp;gt;%
+expenses |&amp;gt;
+  group_by(id) |&amp;gt;
   summarise(cost = mean(cost), .by = c(id, region))
 #&amp;gt; Error in `summarise()`:
 #&amp;gt; ! Can't supply `.by` when `.data` is a grouped data frame.
 
 So far we've focused on the usage of .by with summarise(), but .by works with a number of other dplyr verbs.
 For example, you could append the mean cost per region onto the original data frame as a new column rather than computing a summary:
-expenses %&amp;gt;%
+expenses |&amp;gt;
   mutate(cost_by_region = mean(cost), .by = region)
 #&amp;gt; # A tibble: 7 x 4
 #&amp;gt;      id region  cost cost_by_region
@@ -139,7 +139,7 @@ expenses %&amp;gt;%
 
 Or you could slice out the maximum cost per combination of id and region:
 # Note that the argument is named `by` in `slice_max()`
-expenses %&amp;gt;%
+expenses |&amp;gt;
   slice_max(cost, n = 1, by = c(id, region))
 #&amp;gt; # A tibble: 5 x 3
 #&amp;gt;      id region  cost
@@ -164,7 +164,7 @@ df &amp;lt;- tibble(
 )
 
 # Uses ordering by &quot;first appearance&quot; in the original data
-df %&amp;gt;%
+df |&amp;gt;
   summarise(average_temp = mean(temp), .by = month)
 #&amp;gt; # A tibble: 3 x 2
 #&amp;gt;   month average_temp
@@ -174,8 +174,8 @@ df %&amp;gt;%
 #&amp;gt; 3 mar           40
 
 # Sorts in ascending order
-df %&amp;gt;%
-  group_by(month) %&amp;gt;%
+df |&amp;gt;
+  group_by(month) |&amp;gt;
   summarise(average_temp = mean(temp))
 #&amp;gt; # A tibble: 3 x 2
 #&amp;gt;   month average_temp
@@ -269,8 +269,8 @@ expenses
 
 Imagine that you wanted to compute the average cost per region.
 You'd probably write something like this:
-expenses %&amp;gt;%
-  group_by(region) %&amp;gt;%
+expenses |&amp;gt;
+  group_by(region) |&amp;gt;
   summarise(cost = mean(cost))
 #&amp;gt; # A tibble: 2 x 2
 #&amp;gt;   region  cost
@@ -279,7 +279,7 @@ expenses %&amp;gt;%
 #&amp;gt; 2 B       10.5
 
 Instead, you can now specify the grouping inline within the verb:
-expenses %&amp;gt;%
+expenses |&amp;gt;
   summarise(cost = mean(cost), .by = region)
 #&amp;gt; # A tibble: 2 x 2
 #&amp;gt;   region  cost
@@ -288,7 +288,7 @@ expenses %&amp;gt;%
 #&amp;gt; 2 B       10.5
 
 .by applies to a single operation, meaning that since expenses was an ungrouped data frame, the result after applying .by will also always be an ungrouped data frame, regardless of the number of grouping columns.
-expenses %&amp;gt;%
+expenses |&amp;gt;
   summarise(cost = mean(cost), .by = c(id, region))
 #&amp;gt; # A tibble: 5 x 3
 #&amp;gt;      id region  cost
@@ -299,9 +299,9 @@ expenses %&amp;gt;%
 #&amp;gt; 4     1 B          9
 #&amp;gt; 5     3 A          6
 
-Compare that with group_by() %&amp;gt;% summarise(), where summarise() generally peels off 1 layer of grouping by default, typically with a message that it is doing so:
-expenses %&amp;gt;%
-  group_by(id, region) %&amp;gt;%
+Compare that with group_by() |&amp;gt; summarise(), where summarise() generally peels off 1 layer of grouping by default, typically with a message that it is doing so:
+expenses |&amp;gt;
+  group_by(id, region) |&amp;gt;
   summarise(cost = mean(cost))
 #&amp;gt; `summarise()` has grouped output by 'id'. You can override using the `.groups`
 #&amp;gt; argument.
@@ -320,15 +320,15 @@ Note that with .by we specified multiple columns to group by using the tidy-sele
 If you have a character vector of column names you'd like to group by, you can do so with .by = all_of(my_cols).
 It will group by the columns in the order they were provided.
 To prevent surprising results, you can't use .by on an existing grouped data frame:
-expenses %&amp;gt;%
-  group_by(id) %&amp;gt;%
+expenses |&amp;gt;
+  group_by(id) |&amp;gt;
   summarise(cost = mean(cost), .by = c(id, region))
 #&amp;gt; Error in `summarise()`:
 #&amp;gt; ! Can't supply `.by` when `.data` is a grouped data frame.
 
 So far we've focused on the usage of .by with summarise(), but .by works with a number of other dplyr verbs.
 For example, you could append the mean cost per region onto the original data frame as a new column rather than computing a summary:
-expenses %&amp;gt;%
+expenses |&amp;gt;
   mutate(cost_by_region = mean(cost), .by = region)
 #&amp;gt; # A tibble: 7 x 4
 #&amp;gt;      id region  cost cost_by_region
@@ -343,7 +343,7 @@ expenses %&amp;gt;%
 
 Or you could slice out the maximum cost per combination of id and region:
 # Note that the argument is named `by` in `slice_max()`
-expenses %&amp;gt;%
+expenses |&amp;gt;
   slice_max(cost, n = 1, by = c(id, region))
 #&amp;gt; # A tibble: 5 x 3
 #&amp;gt;      id region  cost
@@ -368,7 +368,7 @@ df &amp;lt;- tibble(
 )
 
 # Uses ordering by &quot;first appearance&quot; in the original data
-df %&amp;gt;%
+df |&amp;gt;
   summarise(average_temp = mean(temp), .by = month)
 #&amp;gt; # A tibble: 3 x 2
 #&amp;gt;   month average_temp
@@ -378,8 +378,8 @@ df %&amp;gt;%
 #&amp;gt; 3 mar           40
 
 # Sorts in ascending order
-df %&amp;gt;%
-  group_by(month) %&amp;gt;%
+df |&amp;gt;
+  group_by(month) |&amp;gt;
   summarise(average_temp = mean(temp))
 #&amp;gt; # A tibble: 3 x 2
 #&amp;gt;   month average_temp
@@ -518,8 +518,8 @@ This is a purely technical difference.</p>
 <span><span class="co">#&gt; 7     3 A          6</span></span></code></pre><p></p></div>
 <p>Imagine that you wanted to compute the average cost per region.
 You'd probably write something like this:</p>
-<p></p><div class="sourceCode r"><pre><code><span><span class="va">expenses</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">region</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">expenses</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">region</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>cost <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">cost</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 2 x 2</span></span>
 <span><span class="co">#&gt;   region  cost</span></span>
@@ -527,7 +527,7 @@ You'd probably write something like this:</p>
 <span><span class="co">#&gt; 1 A       15.2</span></span>
 <span><span class="co">#&gt; 2 B       10.5</span></span></code></pre><p></p></div>
 <p>Instead, you can now specify the grouping <em>inline</em> within the verb:</p>
-<p></p><div class="sourceCode r"><pre><code><span><span class="va">expenses</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">expenses</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>cost <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">cost</span><span class="op">)</span>, .by <span class="op">=</span> <span class="va">region</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 2 x 2</span></span>
 <span><span class="co">#&gt;   region  cost</span></span>
@@ -535,7 +535,7 @@ You'd probably write something like this:</p>
 <span><span class="co">#&gt; 1 A       15.2</span></span>
 <span><span class="co">#&gt; 2 B       10.5</span></span></code></pre><p></p></div>
 <p><code>.by</code> applies to a single operation, meaning that since <code>expenses</code> was an ungrouped data frame, the result after applying <code>.by</code> will also always be an ungrouped data frame, regardless of the number of grouping columns.</p>
-<p></p><div class="sourceCode r"><pre><code><span><span class="va">expenses</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">expenses</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>cost <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">cost</span><span class="op">)</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">region</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 5 x 3</span></span>
 <span><span class="co">#&gt;      id region  cost</span></span>
@@ -545,9 +545,9 @@ You'd probably write something like this:</p>
 <span><span class="co">#&gt; 3     3 B         12</span></span>
 <span><span class="co">#&gt; 4     1 B          9</span></span>
 <span><span class="co">#&gt; 5     3 A          6</span></span></code></pre><p></p></div>
-<p>Compare that with <code>group_by() %&gt;% summarise()</code>, where <code><a href="summarise.html">summarise()</a></code> generally peels off 1 layer of grouping by default, typically with a message that it is doing so:</p>
-<p></p><div class="sourceCode r"><pre><code><span><span class="va">expenses</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">region</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<p>Compare that with <code>group_by() |&gt; summarise()</code>, where <code><a href="summarise.html">summarise()</a></code> generally peels off 1 layer of grouping by default, typically with a message that it is doing so:</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">expenses</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">region</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>cost <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">cost</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `summarise()` has grouped output by 'id'. You can override using the `.groups`</span></span>
 <span><span class="co">#&gt; argument.</span></span>
@@ -565,14 +565,14 @@ You'd probably write something like this:</p>
 If you have a character vector of column names you'd like to group by, you can do so with <code>.by = all_of(my_cols)</code>.
 It will group by the columns in the order they were provided.</p>
 <p>To prevent surprising results, you can't use <code>.by</code> on an existing grouped data frame:</p>
-<p></p><div class="sourceCode r"><pre><code><span><span class="va">expenses</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">expenses</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>cost <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">cost</span><span class="op">)</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">region</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Error in `summarise()`:</span></span>
 <span><span class="co">#&gt; ! Can't supply `.by` when `.data` is a grouped data frame.</span></span></code></pre><p></p></div>
 <p>So far we've focused on the usage of <code>.by</code> with <code><a href="summarise.html">summarise()</a></code>, but <code>.by</code> works with a number of other dplyr verbs.
 For example, you could append the mean cost per region onto the original data frame as a new column rather than computing a summary:</p>
-<p></p><div class="sourceCode r"><pre><code><span><span class="va">expenses</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">expenses</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>cost_by_region <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">cost</span><span class="op">)</span>, .by <span class="op">=</span> <span class="va">region</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 7 x 4</span></span>
 <span><span class="co">#&gt;      id region  cost cost_by_region</span></span>
@@ -586,7 +586,7 @@ For example, you could append the mean cost per region onto the original data fr
 <span><span class="co">#&gt; 7     3 A          6           15.2</span></span></code></pre><p></p></div>
 <p>Or you could slice out the maximum cost per combination of id and region:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="co"># Note that the argument is named `by` in `slice_max()`</span></span>
-<span><span class="va">expenses</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">expenses</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/slice.html">slice_max</a></span><span class="op">(</span><span class="va">cost</span>, n <span class="op">=</span> <span class="fl">1</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">region</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 5 x 3</span></span>
 <span><span class="co">#&gt;      id region  cost</span></span>
@@ -610,7 +610,7 @@ This is different from <code><a href="group_by.html">group_by()</a></code>, whic
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Uses ordering by "first appearance" in the original data</span></span>
-<span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>average_temp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">temp</span><span class="op">)</span>, .by <span class="op">=</span> <span class="va">month</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 3 x 2</span></span>
 <span><span class="co">#&gt;   month average_temp</span></span>
@@ -620,8 +620,8 @@ This is different from <code><a href="group_by.html">group_by()</a></code>, whic
 <span><span class="co">#&gt; 3 mar           40</span></span>
 <span></span>
 <span><span class="co"># Sorts in ascending order</span></span>
-<span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">month</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">month</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>average_temp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">temp</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 3 x 2</span></span>
 <span><span class="co">#&gt;   month average_temp</span></span>

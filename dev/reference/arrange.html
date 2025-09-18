@@ -304,8 +304,8 @@ dplyr (<code>data.frame</code>)
 <span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla         1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># grouped arrange ignores groups</span></span></span>
-<span class="r-in"><span><span class="va">by_cyl</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">by_cyl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">arrange</span><span class="op">(</span><span class="fu"><a href="desc.html">desc</a></span><span class="op">(</span><span class="va">wt</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">by_cyl</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op">|&gt;</span> <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">by_cyl</span> <span class="op">|&gt;</span> <span class="fu">arrange</span><span class="op">(</span><span class="fu"><a href="desc.html">desc</a></span><span class="op">(</span><span class="va">wt</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 32 × 11</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   cyl [3]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
@@ -322,7 +322,7 @@ dplyr (<code>data.frame</code>)
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>  15       8  301    335  3.54  3.57  14.6     0     1     5     8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 22 more rows</span></span>
 <span class="r-in"><span><span class="co"># Unless you specifically ask:</span></span></span>
-<span class="r-in"><span><span class="va">by_cyl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">arrange</span><span class="op">(</span><span class="fu"><a href="desc.html">desc</a></span><span class="op">(</span><span class="va">wt</span><span class="op">)</span>, .by_group <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">by_cyl</span> <span class="op">|&gt;</span> <span class="fu">arrange</span><span class="op">(</span><span class="fu"><a href="desc.html">desc</a></span><span class="op">(</span><span class="va">wt</span><span class="op">)</span>, .by_group <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 32 × 11</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   cyl [3]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
@@ -342,7 +342,7 @@ dplyr (<code>data.frame</code>)
 <span class="r-in"><span><span class="co"># use embracing when wrapping in a function;</span></span></span>
 <span class="r-in"><span><span class="co"># see ?rlang::args_data_masking for more details</span></span></span>
 <span class="r-in"><span><span class="va">tidy_eval_arrange</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.data</span>, <span class="va">var</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="va">.data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="va">.data</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>    <span class="fu">arrange</span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="fu">tidy_eval_arrange</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">mpg</span><span class="op">)</span></span></span>
@@ -414,7 +414,7 @@ dplyr (<code>data.frame</code>)
 <span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla         1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use `across()` or `pick()` to select columns with tidy-select</span></span></span>
-<span class="r-in"><span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">arrange</span><span class="op">(</span><span class="fu"><a href="pick.html">pick</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Sepal"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">iris</span> <span class="op">|&gt;</span> <span class="fu">arrange</span><span class="op">(</span><span class="fu"><a href="pick.html">pick</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Sepal"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Sepal.Length Sepal.Width Petal.Length Petal.Width    Species</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            4.3         3.0          1.1         0.1     setosa</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2            4.4         2.9          1.4         0.2     setosa</span>
@@ -566,7 +566,7 @@ dplyr (<code>data.frame</code>)
 <span class="r-out co"><span class="r-pr">#&gt;</span> 148          7.7         3.0          6.1         2.3  virginica</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 149          7.7         3.8          6.7         2.2  virginica</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 150          7.9         3.8          6.4         2.0  virginica</span>
-<span class="r-in"><span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">arrange</span><span class="op">(</span><span class="fu"><a href="across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Sepal"</span><span class="op">)</span>, <span class="va">desc</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">iris</span> <span class="op">|&gt;</span> <span class="fu">arrange</span><span class="op">(</span><span class="fu"><a href="across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Sepal"</span><span class="op">)</span>, <span class="va">desc</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Sepal.Length Sepal.Width Petal.Length Petal.Width    Species</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            7.9         3.8          6.4         2.0  virginica</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2            7.7         3.8          6.7         2.2  virginica</span>

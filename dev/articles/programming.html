@@ -18,9 +18,9 @@
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Programming with dplyr">
-<meta name="description" content="Most dplyr verbs use &quot;tidy evaluation&quot;, a special type of non-standard  evaluation. In this vignette, you'll learn the two basic forms, data masking and tidy selection, and how you can program with them using either functions or for loops.
+<meta name="description" content="Most dplyr verbs use &quot;tidy evaluation&quot;, a special type of non-standard evaluation. In this vignette, you'll learn the two basic forms, data masking and tidy selection, and how you can program with them using either functions or for loops.
 ">
-<meta property="og:description" content="Most dplyr verbs use &quot;tidy evaluation&quot;, a special type of non-standard  evaluation. In this vignette, you'll learn the two basic forms, data masking and tidy selection, and how you can program with them using either functions or for loops.
+<meta property="og:description" content="Most dplyr verbs use &quot;tidy evaluation&quot;, a special type of non-standard evaluation. In this vignette, you'll learn the two basic forms, data masking and tidy selection, and how you can program with them using either functions or for loops.
 ">
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png">
 <meta name="robots" content="noindex">
@@ -157,7 +157,7 @@ the data frame many times:</p>
 <p>The dplyr equivalent of this code is more concise because data
 masking allows you to need to type <code>starwars</code> once:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">homeworld</span> <span class="op">==</span> <span class="st">"Naboo"</span>, <span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">homeworld</span> <span class="op">==</span> <span class="st">"Naboo"</span>, <span class="va">species</span> <span class="op">==</span> <span class="st">"Human"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="data--and-env-variables">Data- and env-variables<a class="anchor" aria-label="anchor" href="#data--and-env-variables"></a>
 </h3>
@@ -217,11 +217,11 @@ a variable, as well as the number of observations that were
 summarised:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">var_summary</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">var</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">data</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, min <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>, max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
-<span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">mtcars</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">var_summary</span><span class="op">(</span><span class="va">mpg</span><span class="op">)</span></span></code></pre></div>
 </li>
 <li>
@@ -232,7 +232,7 @@ like <code>summarise(df, mean = mean(.data[[var]]))</code>.</p>
 unique values in each variable of <code>mtcars</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">var</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/count.html">count</a></span><span class="op">(</span><span class="va">.data</span><span class="op">[[</span><span class="va">var</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="va">mtcars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/count.html">count</a></span><span class="op">(</span><span class="va">.data</span><span class="op">[[</span><span class="va">var</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>Note that <code>.data</code> is not a data frame; it’s a special
 construct, a pronoun, that allows you to access the current variables
@@ -322,10 +322,10 @@ braces.</p>
 of all variables selected by the user:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">summarise_mean</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">vars</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">vars</span> <span class="op">}</span><span class="op">}</span>, <span class="va">mean</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">vars</span> <span class="op">}</span><span class="op">}</span>, <span class="va">mean</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
-<span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">mtcars</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">summarise_mean</span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/where.html" class="external-link">where</a></span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </li>
 <li>
@@ -338,8 +338,8 @@ variables found in a character vector; then <code>!</code> plus
 in a character vector:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mpg"</span>, <span class="st">"vs"</span><span class="op">)</span></span>
-<span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">mtcars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">mtcars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of</a></span><span class="op">(</span><span class="va">vars</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </li>
 </ul>
 </div>
@@ -370,15 +370,15 @@ argument which uses data masking or tidy select, embrace the
 argument:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_summarise</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">group_var</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">group_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">data</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">group_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>This generalises in a straightforward way if you want to use one
 user-supplied expression in multiple places:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_summarise2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">expr</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>  <span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span></span>
 <span>    mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
 <span>    sum <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
 <span>    n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -388,7 +388,7 @@ user-supplied expression in multiple places:</p>
 them:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_summarise3</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">mean_var</span>, <span class="va">sd_var</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="va">data</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">mean_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">sd_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>If you want to use the name of a variable in the output, you can
@@ -396,16 +396,16 @@ embrace the variable name on the left-hand side of <code>:=</code> with
 <code>{{</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_summarise4</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">expr</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>  <span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span></span>
 <span>    <span class="st">"mean_{{expr}}"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
 <span>    <span class="st">"sum_{{expr}}"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">expr</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
 <span>    <span class="st">"n_{{expr}}"</span> <span class="op">:=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="va">my_summarise5</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">mean_var</span>, <span class="va">sd_var</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="va">data</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span></span>
-<span>      <span class="st">"mean_{{mean_var}}"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">mean_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>, </span>
+<span>      <span class="st">"mean_{{mean_var}}"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">mean_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
 <span>      <span class="st">"sd_{{sd_var}}"</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">sd_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
@@ -419,12 +419,12 @@ the user full control over a single part of the pipeline, like a
 <code><a href="../reference/group_by.html">group_by()</a></code> or a <code><a href="../reference/mutate.html">mutate()</a></code>.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_summarise</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.data</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">.data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">.data</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>mass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mass</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">height</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
-<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">my_summarise</span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span></span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu">my_summarise</span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 49 × 3</span></span></span>
 <span><span class="co">#&gt;   homeworld    mass height</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -433,7 +433,7 @@ the user full control over a single part of the pipeline, like a
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Bespin         79   175 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Bestine IV    110   180 </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 45 more rows</span></span></span>
-<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">my_summarise</span><span class="op">(</span><span class="va">sex</span>, <span class="va">gender</span><span class="op">)</span></span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu">my_summarise</span><span class="op">(</span><span class="va">sex</span>, <span class="va">gender</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `summarise()` has grouped output by 'sex'. You can override using the</span></span>
 <span><span class="co">#&gt; `.groups` argument.</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
@@ -481,8 +481,8 @@ returning a data frame:</p>
 <span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">grp</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">grp</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu">quantile_df</span><span class="op">(</span><span class="va">x</span>, probs <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
 <span><span class="co">#&gt;     grp   val quant</span></span>
@@ -491,8 +491,8 @@ returning a data frame:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2 0.541   0.5</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3 0.456   0.5</span></span>
 <span></span>
-<span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">grp</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">grp</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="va">x</span><span class="op">:</span><span class="va">y</span>, <span class="op">~</span> <span class="fu">quantile_df</span><span class="op">(</span><span class="va">.x</span>, probs <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span>, .unpack <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 5</span></span></span>
 <span><span class="co">#&gt;     grp x_val x_quant   y_val y_quant</span></span>
@@ -513,8 +513,8 @@ you’ll need to switch from <code><a href="../reference/summarise.html">summari
 returning 1 row summaries per group, but <code><a href="../reference/reframe.html">reframe()</a></code> lifts
 this restriction:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">grp</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">grp</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/reframe.html">reframe</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="va">x</span><span class="op">:</span><span class="va">y</span>, <span class="va">quantile_df</span>, .unpack <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 5</span></span></span>
 <span><span class="co">#&gt;     grp x_val x_quant  y_val y_quant</span></span>
@@ -532,11 +532,11 @@ this restriction:</p>
 transformed, use <code><a href="../reference/across.html">across()</a></code> and <code><a href="../reference/pick.html">pick()</a></code>:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_summarise</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">summary_vars</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">data</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">summary_vars</span> <span class="op">}</span><span class="op">}</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">.</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
-<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">my_summarise</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">mass</span>, <span class="va">height</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 38 × 3</span></span></span>
 <span><span class="co">#&gt;   species   mass height</span></span>
@@ -550,16 +550,16 @@ transformed, use <code><a href="../reference/across.html">across()</a></code> an
 data-variables:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_summarise</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">group_var</span>, <span class="va">summarise_var</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="fu"><a href="../reference/pick.html">pick</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">group_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="va">data</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="fu"><a href="../reference/pick.html">pick</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">group_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">summarise_var</span> <span class="op">}</span><span class="op">}</span>, <span class="va">mean</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>Use the <code>.names</code> argument to <code><a href="../reference/across.html">across()</a></code> to
 control the names of the output.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_summarise</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">group_var</span>, <span class="va">summarise_var</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="fu"><a href="../reference/pick.html">pick</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">group_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="va">data</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="fu"><a href="../reference/pick.html">pick</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">group_var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">summarise_var</span> <span class="op">}</span><span class="op">}</span>, <span class="va">mean</span>, .names <span class="op">=</span> <span class="st">"mean_{.col}"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 </div>
@@ -571,13 +571,13 @@ on them with a for loop, index into the special <code>.data</code>
 pronoun:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">var</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/count.html">count</a></span><span class="op">(</span><span class="va">.data</span><span class="op">[[</span><span class="va">var</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="va">mtcars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/count.html">count</a></span><span class="op">(</span><span class="va">.data</span><span class="op">[[</span><span class="va">var</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>This same technique works with for loop alternatives like the base R
 <code><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply()</a></code> family and the purrr <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map()</a></code> family:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="../reference/count.html">count</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">.data</span><span class="op">[[</span><span class="va">.x</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>(Note that the <code>x</code> in <code>.data[[x]]</code> is always
 treated as an env-variable; it will never come from the data.)</p>

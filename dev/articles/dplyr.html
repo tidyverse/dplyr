@@ -18,9 +18,9 @@
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to dplyr">
-<meta name="description" content="Start here if this is your first time using dplyr. You'll learn the basic    philosophy, the most important data manipulation verbs, and the pipe, `%&gt;%`,  which allows you to combine multiple verbs together to solve real problems.
+<meta name="description" content="Start here if this is your first time using dplyr. You'll learn the basic philosophy, the most important data manipulation verbs, and the pipe, `|&gt;`, which allows you to combine multiple verbs together to solve real problems.
 ">
-<meta property="og:description" content="Start here if this is your first time using dplyr. You'll learn the basic    philosophy, the most important data manipulation verbs, and the pipe, `%&gt;%`,  which allows you to combine multiple verbs together to solve real problems.
+<meta property="og:description" content="Start here if this is your first time using dplyr. You'll learn the basic philosophy, the most important data manipulation verbs, and the pipe, `|&gt;`, which allows you to combine multiple verbs together to solve real problems.
 ">
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png">
 <meta name="robots" content="noindex">
@@ -192,8 +192,8 @@ columns.</li>
 </h3>
 <p>All of the dplyr functions take a data frame (or tibble) as the first
 argument. Rather than forcing the user to either save intermediate
-objects or nest functions, dplyr provides the <code>%&gt;%</code>
-operator from magrittr. <code>x %&gt;% f(y)</code> turns into
+objects or nest functions, dplyr provides the <code>|&gt;</code>
+operator from magrittr. <code>x |&gt; f(y)</code> turns into
 <code>f(x, y)</code> so the result from one step is then “piped” into
 the next step. You can use the pipe to rewrite multiple operations that
 you can read left-to-right, top-to-bottom (reading the pipe operator as
@@ -210,7 +210,7 @@ that data frame, selecting rows where the expression is
 <p>For example, we can select all character with light skin color and
 brown eyes with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">skin_color</span> <span class="op">==</span> <span class="st">"light"</span>, <span class="va">eye_color</span> <span class="op">==</span> <span class="st">"brown"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">skin_color</span> <span class="op">==</span> <span class="st">"light"</span>, <span class="va">eye_color</span> <span class="op">==</span> <span class="st">"brown"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7 × 14</span></span></span>
 <span><span class="co">#&gt;   name    height  mass hair_color skin_color eye_color birth_year sex  </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
@@ -235,7 +235,7 @@ expressions) to order by. If you provide more than one column name, each
 additional column will be used to break ties in the values of preceding
 columns:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">height</span>, <span class="va">mass</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">height</span>, <span class="va">mass</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 14</span></span></span>
 <span><span class="co">#&gt;   name    height  mass hair_color skin_color eye_color birth_year sex  </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
@@ -248,7 +248,7 @@ columns:</p>
 <span><span class="co">#&gt; <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></span></code></pre></div>
 <p>Use <code><a href="../reference/desc.html">desc()</a></code> to order a column in descending order:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 14</span></span></span>
 <span><span class="co">#&gt;   name    height  mass hair_color skin_color eye_color birth_year sex  </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
@@ -267,7 +267,7 @@ columns:</p>
 locations. It allows you to select, remove, and duplicate rows.</p>
 <p>We can get characters from row numbers 5 through 10.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/slice.html">slice</a></span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/slice.html">slice</a></span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 14</span></span></span>
 <span><span class="co">#&gt;   name    height  mass hair_color skin_color eye_color birth_year sex  </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
@@ -285,7 +285,7 @@ locations. It allows you to select, remove, and duplicate rows.</p>
 first or last rows.</li>
 </ul>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/slice.html">slice_head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/slice.html">slice_head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 14</span></span></span>
 <span><span class="co">#&gt;   name    height  mass hair_color skin_color eye_color birth_year sex  </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
@@ -300,7 +300,7 @@ first or last rows.</li>
 prop to choose a certain proportion of the cases.</li>
 </ul>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/slice.html">slice_sample</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/slice.html">slice_sample</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 14</span></span></span>
 <span><span class="co">#&gt;   name    height  mass hair_color skin_color eye_color birth_year sex  </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
@@ -311,7 +311,7 @@ prop to choose a certain proportion of the cases.</li>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more row</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></span>
-<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/slice.html">slice_sample</a></span><span class="op">(</span>prop <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/slice.html">slice_sample</a></span><span class="op">(</span>prop <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 × 14</span></span></span>
 <span><span class="co">#&gt;   name    height  mass hair_color skin_color eye_color birth_year sex  </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
@@ -332,8 +332,8 @@ with highest or lowest values of a variable. Note that we first must
 choose only the values which are not NA.</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/slice.html">slice_max</a></span><span class="op">(</span><span class="va">height</span>, n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 14</span></span></span>
 <span><span class="co">#&gt;   name    height  mass hair_color skin_color eye_color birth_year sex  </span></span>
@@ -353,7 +353,7 @@ rapidly zoom in on a useful subset using operations that usually only
 work on numeric variable positions:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Select columns by name</span></span>
-<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">hair_color</span>, <span class="va">skin_color</span>, <span class="va">eye_color</span><span class="op">)</span></span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">hair_color</span>, <span class="va">skin_color</span>, <span class="va">eye_color</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 3</span></span></span>
 <span><span class="co">#&gt;   hair_color skin_color  eye_color</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
@@ -363,7 +363,7 @@ work on numeric variable positions:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> none       white       yellow   </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 83 more rows</span></span></span>
 <span><span class="co"># Select all columns between hair_color and eye_color (inclusive)</span></span>
-<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">hair_color</span><span class="op">:</span><span class="va">eye_color</span><span class="op">)</span></span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">hair_color</span><span class="op">:</span><span class="va">eye_color</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 3</span></span></span>
 <span><span class="co">#&gt;   hair_color skin_color  eye_color</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
@@ -373,7 +373,7 @@ work on numeric variable positions:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> none       white       yellow   </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 83 more rows</span></span></span>
 <span><span class="co"># Select all columns except those from hair_color to eye_color (inclusive)</span></span>
-<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="va">hair_color</span><span class="op">:</span><span class="va">eye_color</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="va">hair_color</span><span class="op">:</span><span class="va">eye_color</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 11</span></span></span>
 <span><span class="co">#&gt;   name     height  mass birth_year sex   gender homeworld species films</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lis&gt;</span></span></span>
@@ -384,7 +384,7 @@ work on numeric variable positions:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 83 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></span>
 <span><span class="co"># Select all columns ending with color</span></span>
-<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">ends_with</a></span><span class="op">(</span><span class="st">"color"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">ends_with</a></span><span class="op">(</span><span class="st">"color"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 3</span></span></span>
 <span><span class="co">#&gt;   hair_color skin_color  eye_color</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
@@ -402,7 +402,7 @@ details.</p>
 <p>You can rename variables with <code><a href="../reference/select.html">select()</a></code> by using named
 arguments:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span>home_world <span class="op">=</span> <span class="va">homeworld</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span>home_world <span class="op">=</span> <span class="va">homeworld</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 1</span></span></span>
 <span><span class="co">#&gt;   home_world</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
@@ -415,7 +415,7 @@ arguments:</p>
 explicitly mentioned, it’s not that useful. Instead, use
 <code><a href="../reference/rename.html">rename()</a></code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/rename.html">rename</a></span><span class="op">(</span>home_world <span class="op">=</span> <span class="va">homeworld</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/rename.html">rename</a></span><span class="op">(</span>home_world <span class="op">=</span> <span class="va">homeworld</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 14</span></span></span>
 <span><span class="co">#&gt;   name    height  mass hair_color skin_color eye_color birth_year sex  </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
@@ -434,7 +434,7 @@ explicitly mentioned, it’s not that useful. Instead, use
 new columns that are functions of existing columns. This is the job of
 <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>height_m <span class="op">=</span> <span class="va">height</span> <span class="op">/</span> <span class="fl">100</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>height_m <span class="op">=</span> <span class="va">height</span> <span class="op">/</span> <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 15</span></span></span>
 <span><span class="co">#&gt;   name    height  mass hair_color skin_color eye_color birth_year sex  </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
@@ -448,8 +448,8 @@ new columns that are functions of existing columns. This is the job of
 <p>We can’t see the height in meters we just calculated, but we can fix
 that using a select command.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>height_m <span class="op">=</span> <span class="va">height</span> <span class="op">/</span> <span class="fl">100</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>height_m <span class="op">=</span> <span class="va">height</span> <span class="op">/</span> <span class="fl">100</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">height_m</span>, <span class="va">height</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 15</span></span></span>
 <span><span class="co">#&gt;   height_m height name            mass hair_color skin_color  eye_color</span></span>
@@ -466,11 +466,11 @@ that using a select command.</p>
 <code><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform()</a></code>, but allows you to refer to columns that you’ve
 just created:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span></span>
 <span>    height_m <span class="op">=</span> <span class="va">height</span> <span class="op">/</span> <span class="fl">100</span>,</span>
 <span>    BMI <span class="op">=</span> <span class="va">mass</span> <span class="op">/</span> <span class="op">(</span><span class="va">height_m</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">BMI</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 16</span></span></span>
 <span><span class="co">#&gt;     BMI name    height  mass hair_color skin_color eye_color birth_year</span></span>
@@ -486,7 +486,7 @@ just created:</p>
 <p>If you only want to keep the new variables, use
 <code>.keep = "none"</code>:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span></span>
 <span>    height_m <span class="op">=</span> <span class="va">height</span> <span class="op">/</span> <span class="fl">100</span>,</span>
 <span>    BMI <span class="op">=</span> <span class="va">mass</span> <span class="op">/</span> <span class="op">(</span><span class="va">height_m</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>,</span>
@@ -507,7 +507,7 @@ just created:</p>
 <p>Use a similar syntax as <code><a href="../reference/select.html">select()</a></code> to move blocks of
 columns at once</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">sex</span><span class="op">:</span><span class="va">homeworld</span>, .before <span class="op">=</span> <span class="va">height</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">sex</span><span class="op">:</span><span class="va">homeworld</span>, .before <span class="op">=</span> <span class="va">height</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 14</span></span></span>
 <span><span class="co">#&gt;   name        sex   gender homeworld height  mass hair_color skin_color</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
@@ -525,7 +525,7 @@ columns at once</p>
 <p>The last verb is <code><a href="../reference/summarise.html">summarise()</a></code>. It collapses a data frame
 to a single row.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">height</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">height</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 1</span></span></span>
 <span><span class="co">#&gt;   height</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -557,7 +557,7 @@ collapse many values to a summary (<code><a href="../reference/summarise.html">s
 </div>
 </div>
 <div class="section level2">
-<h2 id="combining-functions-with">Combining functions with <code>%&gt;%</code><a class="anchor" aria-label="anchor" href="#combining-functions-with"></a>
+<h2 id="combining-functions-with">Combining functions with <code>|&gt;</code><a class="anchor" aria-label="anchor" href="#combining-functions-with"></a>
 </h2>
 <p>The dplyr API is functional in the sense that function calls don’t
 have side-effects. You must always save their results. This doesn’t lead
@@ -596,14 +596,14 @@ wrap the function calls inside each other:</p>
 <p>This is difficult to read because the order of the operations is from
 inside to out. Thus, the arguments are a long way away from the
 function. To get around this problem, dplyr provides the
-<code>%&gt;%</code> operator from magrittr. <code>x %&gt;% f(y)</code>
+<code>|&gt;</code> operator from magrittr. <code>x |&gt; f(y)</code>
 turns into <code>f(x, y)</code> so you can use it to rewrite multiple
 operations that you can read left-to-right, top-to-bottom (reading the
 pipe operator as “then”):</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">sex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">height</span>, <span class="va">mass</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">sex</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">height</span>, <span class="va">mass</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span></span>
 <span>    height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">height</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    mass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mass</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -720,7 +720,7 @@ Whereas <code><a href="../reference/select.html">select()</a></code> expects col
 <code><a href="../reference/mutate.html">mutate()</a></code> expects <em>column vectors</em>. We will set up a
 smaller tibble to use for our examples.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">height</span>, <span class="va">mass</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">height</span>, <span class="va">mass</span><span class="op">)</span></span></code></pre></div>
 <p>When we use <code><a href="../reference/select.html">select()</a></code>, the bare column names stand for
 their own positions in the tibble. For <code><a href="../reference/mutate.html">mutate()</a></code> on the
 other hand, column symbols represent the actual column vectors stored in

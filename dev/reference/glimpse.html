@@ -113,8 +113,8 @@ used within a data pipeline.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Note that original x is (invisibly) returned, allowing `glimpse()` to be</span></span></span>
 <span class="r-in"><span><span class="co"># used within a pipeline.</span></span></span>
-<span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu">glimpse</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">mtcars</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">glimpse</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="select.html">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 32</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 11</span>

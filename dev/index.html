@@ -156,11 +156,11 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/filter.html">filter</a></span><span class="op">(</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Droid"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 6 × 14</span></span>
-<span><span class="co">#&gt;   name   height  mass hair_color skin_color  eye_color birth_year sex   gender  </span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   </span></span>
+<span><span class="co">#&gt;   name   height  mass hair_color skin_color  eye_color birth_year sex   gender</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;</span></span>
 <span><span class="co">#&gt; 1 C-3PO     167    75 &lt;NA&gt;       gold        yellow           112 none  masculi…</span></span>
 <span><span class="co">#&gt; 2 R2-D2      96    32 &lt;NA&gt;       white, blue red               33 none  masculi…</span></span>
 <span><span class="co">#&gt; 3 R5-D4      97    32 &lt;NA&gt;       white, red  red               NA none  masculi…</span></span>
@@ -170,20 +170,20 @@
 <span><span class="co">#&gt; # ℹ 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span></span>
 <span><span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span></span>
 <span></span>
-<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">ends_with</a></span><span class="op">(</span><span class="st">"color"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 87 × 4</span></span>
 <span><span class="co">#&gt;   name           hair_color skin_color  eye_color</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></span>
-<span><span class="co">#&gt; 1 Luke Skywalker blond      fair        blue     </span></span>
-<span><span class="co">#&gt; 2 C-3PO          &lt;NA&gt;       gold        yellow   </span></span>
-<span><span class="co">#&gt; 3 R2-D2          &lt;NA&gt;       white, blue red      </span></span>
-<span><span class="co">#&gt; 4 Darth Vader    none       white       yellow   </span></span>
-<span><span class="co">#&gt; 5 Leia Organa    brown      light       brown    </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 Luke Skywalker blond      fair        blue</span></span>
+<span><span class="co">#&gt; 2 C-3PO          &lt;NA&gt;       gold        yellow</span></span>
+<span><span class="co">#&gt; 3 R2-D2          &lt;NA&gt;       white, blue red</span></span>
+<span><span class="co">#&gt; 4 Darth Vader    none       white       yellow</span></span>
+<span><span class="co">#&gt; 5 Leia Organa    brown      light       brown</span></span>
 <span><span class="co">#&gt; # ℹ 82 more rows</span></span>
 <span></span>
-<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">name</span>, bmi <span class="op">=</span> <span class="va">mass</span> <span class="op">/</span> <span class="op">(</span><span class="op">(</span><span class="va">height</span> <span class="op">/</span> <span class="fl">100</span><span class="op">)</span>  <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">name</span>, bmi <span class="op">=</span> <span class="va">mass</span> <span class="op">/</span> <span class="op">(</span><span class="op">(</span><span class="va">height</span> <span class="op">/</span> <span class="fl">100</span><span class="op">)</span>  <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span><span class="op">:</span><span class="va">mass</span>, <span class="va">bmi</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 87 × 4</span></span>
 <span><span class="co">#&gt;   name           height  mass   bmi</span></span>
@@ -195,11 +195,11 @@
 <span><span class="co">#&gt; 5 Leia Organa       150    49  21.8</span></span>
 <span><span class="co">#&gt; # ℹ 82 more rows</span></span>
 <span></span>
-<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 87 × 14</span></span>
 <span><span class="co">#&gt;   name      height  mass hair_color skin_color eye_color birth_year sex   gender</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;</span></span>
 <span><span class="co">#&gt; 1 Jabba De…    175  1358 &lt;NA&gt;       green-tan… orange         600   herm… mascu…</span></span>
 <span><span class="co">#&gt; 2 Grievous     216   159 none       brown, wh… green, y…       NA   male  mascu…</span></span>
 <span><span class="co">#&gt; 3 IG-88        200   140 none       metal      red             15   none  mascu…</span></span>
@@ -209,12 +209,12 @@
 <span><span class="co">#&gt; # ℹ 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span></span>
 <span><span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span></span>
 <span></span>
-<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/summarise.html">summarise</a></span><span class="op">(</span></span>
 <span>    n <span class="op">=</span> <span class="fu"><a href="reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    mass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mass</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/filter.html">filter</a></span><span class="op">(</span></span>
 <span>    <span class="va">n</span> <span class="op">&gt;</span> <span class="fl">1</span>,</span>
 <span>    <span class="va">mass</span> <span class="op">&gt;</span> <span class="fl">50</span></span>
@@ -223,9 +223,9 @@
 <span><span class="co">#&gt;   species      n  mass</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;</span></span>
 <span><span class="co">#&gt; 1 Droid        6  69.8</span></span>
-<span><span class="co">#&gt; 2 Gungan       3  74  </span></span>
+<span><span class="co">#&gt; 2 Gungan       3  74</span></span>
 <span><span class="co">#&gt; 3 Human       35  81.3</span></span>
-<span><span class="co">#&gt; 4 Kaminoan     2  88  </span></span>
+<span><span class="co">#&gt; 4 Kaminoan     2  88</span></span>
 <span><span class="co">#&gt; 5 Mirialan     2  53.1</span></span>
 <span><span class="co">#&gt; # ℹ 4 more rows</span></span></code></pre></div>
 </div>

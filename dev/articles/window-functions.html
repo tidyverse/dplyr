@@ -116,15 +116,15 @@ offsets, like <code><a href="../reference/lead-lag.html">lead()</a></code> and <
 <p>In this vignette, we’ll use a small sample of the Lahman batting
 dataset, including the players that have won an award.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://CRAN.R-project.org/package=Lahman" class="external-link">Lahman</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://cdalzell.github.io/Lahman/" class="external-link">Lahman</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">batting</span> <span class="op">&lt;-</span> <span class="fu">Lahman</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/Lahman/man/Batting.html" class="external-link">Batting</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">playerID</span>, <span class="va">yearID</span>, <span class="va">teamID</span>, <span class="va">G</span>, <span class="va">AB</span><span class="op">:</span><span class="va">H</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">playerID</span>, <span class="va">yearID</span>, <span class="va">teamID</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/filter-joins.html">semi_join</a></span><span class="op">(</span><span class="fu">Lahman</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/Lahman/man/AwardsPlayers.html" class="external-link">AwardsPlayers</a></span>, by <span class="op">=</span> <span class="st">"playerID"</span><span class="op">)</span></span>
+<span><span class="va">batting</span> <span class="op">&lt;-</span> <span class="fu">Lahman</span><span class="fu">::</span><span class="va"><a href="http://cdalzell.github.io/Lahman/reference/Batting.html" class="external-link">Batting</a></span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">playerID</span>, <span class="va">yearID</span>, <span class="va">teamID</span>, <span class="va">G</span>, <span class="va">AB</span><span class="op">:</span><span class="va">H</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">playerID</span>, <span class="va">yearID</span>, <span class="va">teamID</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/filter-joins.html">semi_join</a></span><span class="op">(</span><span class="fu">Lahman</span><span class="fu">::</span><span class="va"><a href="http://cdalzell.github.io/Lahman/reference/AwardsPlayers.html" class="external-link">AwardsPlayers</a></span>, by <span class="op">=</span> <span class="st">"playerID"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">players</span> <span class="op">&lt;-</span> <span class="va">batting</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">playerID</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">players</span> <span class="op">&lt;-</span> <span class="va">batting</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">playerID</span><span class="op">)</span></span></code></pre></div>
 <p>Window functions are used in conjunction with <code><a href="../reference/mutate.html">mutate()</a></code>
 and <code><a href="../reference/filter.html">filter()</a></code> to solve a wide range of problems. Here’s a
 selection:</p>
@@ -212,15 +212,15 @@ equal to the current value.</p>
 records within each group. For example:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">players</span>, <span class="fu"><a href="../reference/percent_rank.html">cume_dist</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">0.1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,110 × 7</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   playerID [1,014]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,604 × 7</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   playerID [1,487]</span></span></span>
 <span><span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> aaronha01   <span style="text-decoration: underline;">1</span>963 ML1      161   631   121   201</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> aaronha01   <span style="text-decoration: underline;">1</span>968 ATL      160   606    84   174</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> abbotji01   <span style="text-decoration: underline;">1</span>991 CAL       34     0     0     0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> abernte02   <span style="text-decoration: underline;">1</span>965 CHN       84    18     1     3</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,106 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> aasedo01    <span style="text-decoration: underline;">1</span>986 BAL       66     0     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> abbotji01   <span style="text-decoration: underline;">1</span>991 CAL       34     0     0     0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,600 more rows</span></span></span></code></pre></div>
 <p>Finally, <code><a href="../reference/ntile.html">ntile()</a></code> divides the data up into <code>n</code>
 evenly sized buckets. It’s a coarse ranking, and it can be used in with
 <code><a href="../reference/mutate.html">mutate()</a></code> to divide the data into buckets for further
@@ -237,10 +237,10 @@ number of games within each group.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 2</span></span></span>
 <span><span class="co">#&gt;   quartile `mean(G)`</span></span>
 <span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        1      22.9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>        2      92.0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>        3     251. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>        4     952.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        1      18.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>        2      70.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>        3     191. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>        4     764.</span></span></code></pre></div>
 <p>All ranking functions rank from lowest to highest so that small input
 values get small ranks. Use <code><a href="../reference/desc.html">desc()</a></code> to rank from highest to
 lowest.</p>
@@ -368,27 +368,27 @@ compute the “career year”, the number of years a player has played since
 they entered the league:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">players</span>, career_year <span class="op">=</span> <span class="va">yearID</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">yearID</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 21,314 × 8</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   playerID [1,485]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 32,112 × 8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   playerID [2,466]</span></span></span>
 <span><span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H career_year</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> aaronha01   <span style="text-decoration: underline;">1</span>954 ML1      122   468    58   131           1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> aaronha01   <span style="text-decoration: underline;">1</span>955 ML1      153   602   105   189           2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> aaronha01   <span style="text-decoration: underline;">1</span>956 ML1      153   609   106   200           3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> aaronha01   <span style="text-decoration: underline;">1</span>957 ML1      151   615   118   198           4</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 21,310 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 32,108 more rows</span></span></span></code></pre></div>
 <p>Or, as in the introductory example, we could compute a z-score:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">players</span>, G_z <span class="op">=</span> <span class="op">(</span><span class="va">G</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 21,314 × 8</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   playerID [1,485]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 32,112 × 8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   playerID [2,466]</span></span></span>
 <span><span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H    G_z</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> aaronha01   <span style="text-decoration: underline;">1</span>954 ML1      122   468    58   131 -<span style="color: #BB0000;">1.16</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> aaronha01   <span style="text-decoration: underline;">1</span>955 ML1      153   602   105   189  0.519</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> aaronha01   <span style="text-decoration: underline;">1</span>956 ML1      153   609   106   200  0.519</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> aaronha01   <span style="text-decoration: underline;">1</span>957 ML1      151   615   118   198  0.411</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 21,310 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 32,108 more rows</span></span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

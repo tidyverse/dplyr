@@ -189,7 +189,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>)
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># `reframe()` allows you to apply functions that return</span></span></span>
 <span class="r-in"><span><span class="co"># an arbitrary number of rows</span></span></span>
-<span class="r-in"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">df</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">reframe</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="setops.html">intersect</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">table</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   x    </span>
@@ -201,7 +201,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>)
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Functions are applied per group, and each group can return a</span></span></span>
 <span class="r-in"><span><span class="co"># different number of rows.</span></span></span>
-<span class="r-in"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">df</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">reframe</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="setops.html">intersect</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">table</span><span class="op">)</span>, .by <span class="op">=</span> <span class="va">g</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       g x    </span>
@@ -213,8 +213,8 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>)
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     2 a    </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The output is always ungrouped, even when using `group_by()`</span></span></span>
-<span class="r-in"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">df</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">reframe</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="setops.html">intersect</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">table</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       g x    </span>
@@ -243,7 +243,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>)
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>  13.5  0.5 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>  15.8  0.75</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">starwars</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">reframe</span><span class="op">(</span><span class="fu">quantile_df</span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     val quant</span>
@@ -252,7 +252,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>)
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>   180  0.5 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>   191  0.75</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">starwars</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">reframe</span><span class="op">(</span><span class="fu">quantile_df</span><span class="op">(</span><span class="va">height</span><span class="op">)</span>, .by <span class="op">=</span> <span class="va">homeworld</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 147 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    homeworld   val quant</span>
@@ -269,7 +269,7 @@ dbplyr (<code>tbl_lazy</code>), dplyr (<code>data.frame</code>)
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Stewjon    182   0.25</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 137 more rows</span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">starwars</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">reframe</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">height</span>, <span class="va">mass</span><span class="op">)</span>, <span class="va">quantile_df</span>, .unpack <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    .by <span class="op">=</span> <span class="va">homeworld</span></span></span>
