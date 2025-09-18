@@ -52,7 +52,7 @@ test_that("group_rows() and group_keys() partition group_data()", {
 test_that("group_keys(...) is deprecated", {
   df <- tibble(x = 1, y = 2)
 
-  expect_warning(out <- df %>% group_keys(x), "deprecated")
+  expect_warning(out <- df |> group_keys(x), "deprecated")
   expect_equal(out, tibble(x = 1))
 })
 
@@ -68,14 +68,14 @@ test_that("group_indices(...) is deprecated", {
   rlang::local_options(lifecycle_verbosity = "error")
 
   df <- tibble(x = 1, y = 2)
-  expect_error(df %>% group_indices(x), "deprecated")
+  expect_error(df |> group_indices(x), "deprecated")
 })
 
 test_that("group_indices(...) still works though", {
   rlang::local_options(lifecycle_verbosity = "quiet")
 
   df <- tibble(x = 1, y = 2)
-  out <- df %>% group_indices(x)
+  out <- df |> group_indices(x)
   expect_equal(out, 1)
 })
 
@@ -111,7 +111,7 @@ test_that("rowwise data has one group for each group", {
 })
 
 test_that("group_size correct for grouped data", {
-  df <- tibble(x = rep(1:3, each = 10), y = rep(1:6, each = 5)) %>% group_by(x)
+  df <- tibble(x = rep(1:3, each = 10), y = rep(1:6, each = 5)) |> group_by(x)
   expect_equal(n_groups(df), 3L)
   expect_equal(group_size(df), rep(10, 3))
 })
@@ -119,6 +119,6 @@ test_that("group_size correct for grouped data", {
 # n_groups ----------------------------------------------------------------
 
 test_that("n_groups respects zero-length groups (#341)", {
-  df <- tibble(x = factor(1:3, levels = 1:4)) %>% group_by(x, .drop = FALSE)
+  df <- tibble(x = factor(1:3, levels = 1:4)) |> group_by(x, .drop = FALSE)
   expect_equal(n_groups(df), 4)
 })

@@ -72,12 +72,12 @@ yield different results on grouped tibbles. This will be the case
 as soon as an aggregating, lagging, or ranking function is
 involved. Compare this ungrouped filtering:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{starwars \%>\% filter(mass > mean(mass, na.rm = TRUE))
+\if{html}{\out{<div class="sourceCode">}}\preformatted{starwars |> filter(mass > mean(mass, na.rm = TRUE))
 }\if{html}{\out{</div>}}
 
 With the grouped equivalent:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{starwars \%>\% group_by(gender) \%>\% filter(mass > mean(mass, na.rm = TRUE))
+\if{html}{\out{<div class="sourceCode">}}\preformatted{starwars |> group_by(gender) |> filter(mass > mean(mass, na.rm = TRUE))
 }\if{html}{\out{</div>}}
 
 In the ungrouped version, \code{filter()} compares the value of \code{mass} in each row to
@@ -115,17 +115,17 @@ filter(starwars, hair_color == "none", eye_color == "black")
 #
 # The following filters rows where `mass` is greater than the
 # global average:
-starwars \%>\% filter(mass > mean(mass, na.rm = TRUE))
+starwars |> filter(mass > mean(mass, na.rm = TRUE))
 
 # Whereas this keeps rows with `mass` greater than the gender
 # average:
-starwars \%>\% group_by(gender) \%>\% filter(mass > mean(mass, na.rm = TRUE))
+starwars |> group_by(gender) |> filter(mass > mean(mass, na.rm = TRUE))
 
 
 # To refer to column names that are stored as strings, use the `.data` pronoun:
 vars <- c("mass", "height")
 cond <- c(80, 150)
-starwars \%>\%
+starwars |>
   filter(
     .data[[vars[[1]]]] > cond[[1]],
     .data[[vars[[2]]]] > cond[[2]]

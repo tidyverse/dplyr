@@ -18,7 +18,7 @@ these functions generate the code you need to work with both dplyr 0.5.0
 dplyr 0.7.0.
 }
 \examples{
-\dontshow{if (requireNamespace("dbplyr", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("dbplyr", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 wrap_dbplyr_obj("build_sql")
 wrap_dbplyr_obj("base_agg")
 \dontshow{\}) # examplesIf}

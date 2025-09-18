@@ -39,7 +39,7 @@ The following methods are currently available in loaded packages:
 
 \examples{
 \dontrun{
-iris2 <- dbplyr::src_memdb() \%>\% copy_to(iris, overwrite = TRUE)
+iris2 <- dbplyr::src_memdb() |> copy_to(iris, overwrite = TRUE)
 iris2
 }
 }

@@ -103,21 +103,21 @@ test_that("zero-length conditions and values (#3041)", {
 })
 
 test_that("case_when can be used in anonymous functions (#3422)", {
-  res <- tibble(a = 1:3) %>%
-    mutate(b = (function(x) case_when(x < 2 ~ TRUE, .default = FALSE))(a)) %>%
+  res <- tibble(a = 1:3) |>
+    mutate(b = (function(x) case_when(x < 2 ~ TRUE, .default = FALSE))(a)) |>
     pull()
   expect_equal(res, c(TRUE, FALSE, FALSE))
 })
 
 test_that("case_when() can be used inside mutate()", {
-  out <- mtcars[1:4, ] %>%
+  out <- mtcars[1:4, ] |>
     mutate(
       out = case_when(
         cyl == 4 ~ 1,
         .data[["am"]] == 1 ~ 2,
         .default = 0
       )
-    ) %>%
+    ) |>
     pull()
   expect_identical(out, c(2, 2, 1, 0))
 })
@@ -170,7 +170,7 @@ test_that("unevaluated formulas can refer to data mask", {
     am == 1 ~ 2,
     TRUE ~ 0
   )
-  out <- mtcars[1:4, ] %>% mutate(out = case_when(!!!fs)) %>% pull()
+  out <- mtcars[1:4, ] |> mutate(out = case_when(!!!fs)) |> pull()
   expect_identical(out, c(2, 2, 1, 0))
 })
 
@@ -184,7 +184,7 @@ test_that("unevaluated formulas can contain quosures", {
     am == 1 ~ 2,
     TRUE ~ 0
   )
-  out <- mtcars[1:4, ] %>% mutate(out = case_when(!!!fs)) %>% pull()
+  out <- mtcars[1:4, ] |> mutate(out = case_when(!!!fs)) |> pull()
   expect_identical(out, c(2, 2, 1, 0))
 })
 

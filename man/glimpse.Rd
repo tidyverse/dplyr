@@ -24,8 +24,8 @@ glimpse(mtcars)
 
 # Note that original x is (invisibly) returned, allowing `glimpse()` to be
 # used within a pipeline.
-mtcars \%>\%
-  glimpse() \%>\%
+mtcars |>
+  glimpse() |>
   select(1:3)
 
 glimpse(starwars)

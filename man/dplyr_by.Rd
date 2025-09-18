@@ -70,8 +70,8 @@ expenses
 Imagine that you wanted to compute the average cost per region.
 You'd probably write something like this:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses \%>\%
-  group_by(region) \%>\%
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses |>
+  group_by(region) |>
   summarise(cost = mean(cost))
 #> # A tibble: 2 x 2
 #>   region  cost
@@ -82,7 +82,7 @@ You'd probably write something like this:
 
 Instead, you can now specify the grouping \emph{inline} within the verb:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses \%>\%
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses |>
   summarise(cost = mean(cost), .by = region)
 #> # A tibble: 2 x 2
 #>   region  cost
@@ -93,7 +93,7 @@ Instead, you can now specify the grouping \emph{inline} within the verb:
 
 \code{.by} applies to a single operation, meaning that since \code{expenses} was an ungrouped data frame, the result after applying \code{.by} will also always be an ungrouped data frame, regardless of the number of grouping columns.
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses \%>\%
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses |>
   summarise(cost = mean(cost), .by = c(id, region))
 #> # A tibble: 5 x 3
 #>      id region  cost
@@ -105,10 +105,10 @@ Instead, you can now specify the grouping \emph{inline} within the verb:
 #> 5     3 A          6
 }\if{html}{\out{</div>}}
 
-Compare that with \code{group_by() \%>\% summarise()}, where \code{summarise()} generally peels off 1 layer of grouping by default, typically with a message that it is doing so:
+Compare that with \code{group_by() |> summarise()}, where \code{summarise()} generally peels off 1 layer of grouping by default, typically with a message that it is doing so:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses \%>\%
-  group_by(id, region) \%>\%
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses |>
+  group_by(id, region) |>
   summarise(cost = mean(cost))
 #> `summarise()` has grouped output by 'id'. You can override using the `.groups`
 #> argument.
@@ -131,8 +131,8 @@ It will group by the columns in the order they were provided.
 
 To prevent surprising results, you can't use \code{.by} on an existing grouped data frame:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses \%>\% 
-  group_by(id) \%>\%
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses |>
+  group_by(id) |>
   summarise(cost = mean(cost), .by = c(id, region))
 #> Error in `summarise()`:
 #> ! Can't supply `.by` when `.data` is a grouped data frame.
@@ -141,7 +141,7 @@ To prevent surprising results, you can't use \code{.by} on an existing grouped d
 So far we've focused on the usage of \code{.by} with \code{summarise()}, but \code{.by} works with a number of other dplyr verbs.
 For example, you could append the mean cost per region onto the original data frame as a new column rather than computing a summary:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses \%>\%
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses |>
   mutate(cost_by_region = mean(cost), .by = region)
 #> # A tibble: 7 x 4
 #>      id region  cost cost_by_region
@@ -158,7 +158,7 @@ For example, you could append the mean cost per region onto the original data fr
 Or you could slice out the maximum cost per combination of id and region:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{# Note that the argument is named `by` in `slice_max()`
-expenses \%>\%
+expenses |>
   slice_max(cost, n = 1, by = c(id, region))
 #> # A tibble: 5 x 3
 #>      id region  cost
@@ -182,7 +182,7 @@ This is different from \code{group_by()}, which has always sorted the group keys
 )
 
 # Uses ordering by "first appearance" in the original data
-df \%>\%
+df |>
   summarise(average_temp = mean(temp), .by = month)
 #> # A tibble: 3 x 2
 #>   month average_temp
@@ -192,8 +192,8 @@ df \%>\%
 #> 3 mar           40
 
 # Sorts in ascending order
-df \%>\%
-  group_by(month) \%>\%
+df |>
+  group_by(month) |>
   summarise(average_temp = mean(temp))
 #> # A tibble: 3 x 2
 #>   month average_temp

@@ -44,13 +44,13 @@ na_if(z, NaN)
 
 # `na_if()` is particularly useful inside `mutate()`,
 # and is meant for use with vectors rather than entire data frames
-starwars \%>\%
-  select(name, eye_color) \%>\%
+starwars |>
+  select(name, eye_color) |>
   mutate(eye_color = na_if(eye_color, "unknown"))
 
 # `na_if()` can also be used with `mutate()` and `across()`
 # to alter multiple columns
-starwars \%>\%
+starwars |>
    mutate(across(where(is.character), ~na_if(., "unknown")))
 }
 \seealso{

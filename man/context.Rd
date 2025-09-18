@@ -56,13 +56,13 @@ df <- tibble(
   x = runif(6),
   y = runif(6)
 )
-gf <- df \%>\% group_by(g)
+gf <- df |> group_by(g)
 
-gf \%>\% summarise(n = n())
+gf |> summarise(n = n())
 
-gf \%>\% mutate(id = cur_group_id())
-gf \%>\% reframe(row = cur_group_rows())
-gf \%>\% summarise(data = list(cur_group()))
+gf |> mutate(id = cur_group_id())
+gf |> reframe(row = cur_group_rows())
+gf |> summarise(data = list(cur_group()))
 
-gf \%>\% mutate(across(everything(), ~ paste(cur_column(), round(.x, 2))))
+gf |> mutate(across(everything(), ~ paste(cur_column(), round(.x, 2))))
 }

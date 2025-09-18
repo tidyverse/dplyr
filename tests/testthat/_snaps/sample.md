@@ -2,7 +2,7 @@
 
     Code
       df2 <- tibble(x = rep(1:2, 100), y = rep(c(0, 1), 100), g = rep(1:2, each = 100))
-      grp <- df2 %>% group_by(g)
+      grp <- group_by(df2, g)
       (expect_error(sample_n(grp, nrow(df2) / 2, weight = y)))
     Output
       <error/rlang_error>
@@ -21,7 +21,7 @@
       Caused by error in `sample.int()`:
       ! too few positive probabilities
     Code
-      (expect_error(mtcars %>% group_by(cyl) %>% sample_n(10)))
+      (expect_error(sample_n(group_by(mtcars, cyl), 10)))
     Output
       <error/rlang_error>
       Error in `sample_n()`:
@@ -62,7 +62,7 @@
       ! `size` of sampled fraction must be less or equal to one.
       i set `replace = TRUE` to use sampling with replacement.
     Code
-      (expect_error(sample_frac(df %>% group_by(y), 2)))
+      (expect_error(sample_frac(group_by(df, y), 2)))
     Output
       <error/rlang_error>
       Error in `sample_frac()`:

@@ -35,16 +35,16 @@ benchs <- function(libs, setup, ..., iterations = NULL) {
   body(f) <- rlang::expr({
     library(dplyr, warn.conflicts = FALSE)
     !!setup
-    bench::mark(!!!dots, check = FALSE, iterations = !!iterations) %>%
+    bench::mark(!!!dots, check = FALSE, iterations = !!iterations) |>
       mutate(expression = purrr::map_chr(expression, deparse))
   })
   results <- purrr::imap(
     libs,
-    ~ callr::r(f, libpath = .x) %>% mutate(version = .y)
+    ~ callr::r(f, libpath = .x) |> mutate(version = .y)
   )
   as_tibble(vctrs::vec_rbind(!!!results))
-  # %>%
-  #   select(expression, version, median) %>%
+  # |>
+  #   select(expression, version, median) |>
   #   pivot_wider(names_from = version, values_from = median)
 }
 
@@ -53,7 +53,7 @@ summarise_hybrid <- benchs(
   libs = libs,
 
   setup = {
-    df <- tibble(x = rnorm(1e5), g = sample(rep(1:1e3, 100))) %>% group_by(g)
+    df <- tibble(x = rnorm(1e5), g = sample(rep(1:1e3, 100))) |> group_by(g)
   },
 
   summarise(df, n = n()),
@@ -84,7 +84,7 @@ summarise_hybrid <- benchs(
 
   summarise(df, x = sum(x)),
   summarise(df, x = sum(x, na.rm = TRUE)),
-) %>%
+) |>
   mutate(hybrid = TRUE)
 
 summarise_non_hybrid <- benchs(
@@ -92,7 +92,7 @@ summarise_non_hybrid <- benchs(
   libs = libs,
 
   setup = {
-    df <- tibble(x = rnorm(1e4), g = sample(rep(1:1e2, 100))) %>% group_by(g)
+    df <- tibble(x = rnorm(1e4), g = sample(rep(1:1e2, 100))) |> group_by(g)
   },
 
   summarise(df, n = 0 + 0),
@@ -124,7 +124,7 @@ summarise_non_hybrid <- benchs(
 
   summarise(df, x = 0 + sum(x)),
   summarise(df, x = 0 + sum(x, na.rm = TRUE)),
-) %>%
+) |>
   mutate(hybrid = FALSE)
 
 mutate_hybrid <- benchs(
@@ -132,7 +132,7 @@ mutate_hybrid <- benchs(
   libs = libs,
 
   setup = {
-    df <- tibble(x = rnorm(1e4), g = sample(rep(1:1e2, 100))) %>% group_by(g)
+    df <- tibble(x = rnorm(1e4), g = sample(rep(1:1e2, 100))) |> group_by(g)
   },
 
   # window
@@ -181,7 +181,7 @@ mutate_hybrid <- benchs(
 
   mutate(df, x = sum(x)),
   mutate(df, x = sum(x, na.rm = TRUE))
-) %>%
+) |>
   mutate(hybrid = TRUE)
 
 mutate_non_hybrid <- benchs(
@@ -189,7 +189,7 @@ mutate_non_hybrid <- benchs(
   libs = libs,
 
   setup = {
-    df <- tibble(x = rnorm(1e4), g = sample(rep(1:1e2, 100))) %>% group_by(g)
+    df <- tibble(x = rnorm(1e4), g = sample(rep(1:1e2, 100))) |> group_by(g)
   },
 
   # window
@@ -239,7 +239,7 @@ mutate_non_hybrid <- benchs(
 
   mutate(df, x = 0 + sum(x)),
   mutate(df, x = 0 + sum(x, na.rm = TRUE))
-) %>%
+) |>
   mutate(hybrid = FALSE)
 
 results <- as_tibble(vctrs::vec_rbind(

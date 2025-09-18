@@ -91,11 +91,11 @@ pak::pak("tidyverse/dplyr")
 ``` r
 library(dplyr)
 
-starwars %>% 
+starwars |>
   filter(species == "Droid")
 #> # A tibble: 6 × 14
-#>   name   height  mass hair_color skin_color  eye_color birth_year sex   gender  
-#>   <chr>   <int> <dbl> <chr>      <chr>       <chr>          <dbl> <chr> <chr>   
+#>   name   height  mass hair_color skin_color  eye_color birth_year sex   gender
+#>   <chr>   <int> <dbl> <chr>      <chr>       <chr>          <dbl> <chr> <chr>
 #> 1 C-3PO     167    75 <NA>       gold        yellow           112 none  masculi…
 #> 2 R2-D2      96    32 <NA>       white, blue red               33 none  masculi…
 #> 3 R5-D4      97    32 <NA>       white, red  red               NA none  masculi…
@@ -105,20 +105,20 @@ starwars %>%
 #> # ℹ 5 more variables: homeworld <chr>, species <chr>, films <list>,
 #> #   vehicles <list>, starships <list>
 
-starwars %>% 
+starwars |>
   select(name, ends_with("color"))
 #> # A tibble: 87 × 4
 #>   name           hair_color skin_color  eye_color
-#>   <chr>          <chr>      <chr>       <chr>    
-#> 1 Luke Skywalker blond      fair        blue     
-#> 2 C-3PO          <NA>       gold        yellow   
-#> 3 R2-D2          <NA>       white, blue red      
-#> 4 Darth Vader    none       white       yellow   
-#> 5 Leia Organa    brown      light       brown    
+#>   <chr>          <chr>      <chr>       <chr>
+#> 1 Luke Skywalker blond      fair        blue
+#> 2 C-3PO          <NA>       gold        yellow
+#> 3 R2-D2          <NA>       white, blue red
+#> 4 Darth Vader    none       white       yellow
+#> 5 Leia Organa    brown      light       brown
 #> # ℹ 82 more rows
 
-starwars %>% 
-  mutate(name, bmi = mass / ((height / 100)  ^ 2)) %>%
+starwars |>
+  mutate(name, bmi = mass / ((height / 100)  ^ 2)) |>
   select(name:mass, bmi)
 #> # A tibble: 87 × 4
 #>   name           height  mass   bmi
@@ -130,11 +130,11 @@ starwars %>%
 #> 5 Leia Organa       150    49  21.8
 #> # ℹ 82 more rows
 
-starwars %>% 
+starwars |>
   arrange(desc(mass))
 #> # A tibble: 87 × 14
 #>   name      height  mass hair_color skin_color eye_color birth_year sex   gender
-#>   <chr>      <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> <chr> 
+#>   <chr>      <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> <chr>
 #> 1 Jabba De…    175  1358 <NA>       green-tan… orange         600   herm… mascu…
 #> 2 Grievous     216   159 none       brown, wh… green, y…       NA   male  mascu…
 #> 3 IG-88        200   140 none       metal      red             15   none  mascu…
@@ -144,12 +144,12 @@ starwars %>%
 #> # ℹ 5 more variables: homeworld <chr>, species <chr>, films <list>,
 #> #   vehicles <list>, starships <list>
 
-starwars %>%
-  group_by(species) %>%
+starwars |>
+  group_by(species) |>
   summarise(
     n = n(),
     mass = mean(mass, na.rm = TRUE)
-  ) %>%
+  ) |>
   filter(
     n > 1,
     mass > 50
@@ -158,9 +158,9 @@ starwars %>%
 #>   species      n  mass
 #>   <chr>    <int> <dbl>
 #> 1 Droid        6  69.8
-#> 2 Gungan       3  74  
+#> 2 Gungan       3  74
 #> 3 Human       35  81.3
-#> 4 Kaminoan     2  88  
+#> 4 Kaminoan     2  88
 #> 5 Mirialan     2  53.1
 #> # ℹ 4 more rows
 ```

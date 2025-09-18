@@ -48,7 +48,7 @@ future.
 }
 
 \examples{
-ir <- iris \%>\% group_by(Species)
+ir <- iris |> group_by(Species)
 
 group_split(ir)
 group_keys(ir)

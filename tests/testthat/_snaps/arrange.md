@@ -1,13 +1,13 @@
 # arrange() gives meaningful errors
 
     Code
-      (expect_error(tibble(x = 1, x = 1, .name_repair = "minimal") %>% arrange(x)))
+      (expect_error(arrange(tibble(x = 1, x = 1, .name_repair = "minimal"), x)))
     Output
       <error/rlang_error>
       Error in `arrange()`:
       ! Can't transform a data frame with duplicate names.
     Code
-      (expect_error(tibble(x = 1) %>% arrange(y)))
+      (expect_error(arrange(tibble(x = 1), y)))
     Output
       <error/dplyr:::mutate_error>
       Error in `arrange()`:
@@ -15,7 +15,7 @@
       Caused by error:
       ! object 'y' not found
     Code
-      (expect_error(tibble(x = 1) %>% arrange(rep(x, 2))))
+      (expect_error(arrange(tibble(x = 1), rep(x, 2))))
     Output
       <error/dplyr:::mutate_error>
       Error in `arrange()`:

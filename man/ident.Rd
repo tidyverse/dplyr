@@ -21,7 +21,7 @@ quoted for some other reason, use \code{I()}.
 }
 \examples{
 # Identifiers are escaped with "
-\dontshow{if (requireNamespace("dbplyr", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("dbplyr", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 ident("x")
 \dontshow{\}) # examplesIf}
 }

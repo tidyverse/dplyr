@@ -47,7 +47,7 @@ Setting \code{.locale} will override any usage of \code{dplyr.legacy_locale}.
 }
 }
 \examples{
-\dontshow{if (dplyr:::has_minimum_stringi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (dplyr:::has_minimum_stringi()) withAutoprint(\{ # examplesIf}
 df <- tibble(x = c("a", "b", "C", "B", "c"))
 df
 

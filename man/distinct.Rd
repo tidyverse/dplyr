@@ -74,12 +74,12 @@ df <- tibble(
   x = c(1, 1, 2, 1, 2),
   y = c(3, 2, 1, 3, 1)
 )
-df <- df \%>\% group_by(g)
+df <- df |> group_by(g)
 
 # With grouped data frames, distinctness is computed within each group
-df \%>\% distinct(x)
+df |> distinct(x)
 
 # When `...` are omitted, `distinct()` still computes distinctness using
 # all variables in the data frame
-df \%>\% distinct()
+df |> distinct()
 }

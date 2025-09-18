@@ -26,33 +26,33 @@ and \code{\link[=pick]{pick()}} (which allows you to access the data for the "cu
 \examples{
 # do() with unnamed arguments becomes reframe() or summarise()
 # . becomes pick()
-by_cyl <- mtcars \%>\% group_by(cyl)
-by_cyl \%>\% do(head(., 2))
+by_cyl <- mtcars |> group_by(cyl)
+by_cyl |> do(head(., 2))
 # ->
-by_cyl \%>\% reframe(head(pick(everything()), 2))
-by_cyl \%>\% slice_head(n = 2)
+by_cyl |> reframe(head(pick(everything()), 2))
+by_cyl |> slice_head(n = 2)
 
 # Can refer to variables directly
-by_cyl \%>\% do(mean = mean(.$vs))
+by_cyl |> do(mean = mean(.$vs))
 # ->
-by_cyl \%>\% summarise(mean = mean(vs))
+by_cyl |> summarise(mean = mean(vs))
 
 # do() with named arguments becomes nest_by() + mutate() & list()
-models <- by_cyl \%>\% do(mod = lm(mpg ~ disp, data = .))
+models <- by_cyl |> do(mod = lm(mpg ~ disp, data = .))
 # ->
-models <- mtcars \%>\%
-  nest_by(cyl) \%>\%
+models <- mtcars |>
+  nest_by(cyl) |>
   mutate(mod = list(lm(mpg ~ disp, data = data)))
-models \%>\% summarise(rsq = summary(mod)$r.squared)
+models |> summarise(rsq = summary(mod)$r.squared)
 
 # use broom to turn models into data
-models \%>\% do(data.frame(
+models |> do(data.frame(
   var = names(coef(.$mod)),
   coef(summary(.$mod)))
 )
-\dontshow{if (requireNamespace("broom", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("broom", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # ->
-models \%>\% reframe(broom::tidy(mod))
+models |> reframe(broom::tidy(mod))
 \dontshow{\}) # examplesIf}
 }
 \keyword{internal}

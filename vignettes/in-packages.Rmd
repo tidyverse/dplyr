@@ -52,10 +52,10 @@ If you're writing a package and you have a function that uses data masking or ti
 
 ```{r}
 my_summary_function <- function(data) {
-  data %>% 
-    select(grp, x, y) %>% 
-    filter(x > 0) %>% 
-    group_by(grp) %>% 
+  data |>
+    select(grp, x, y) |>
+    filter(x > 0) |>
+    group_by(grp) |>
     summarise(y = mean(y), n = n())
 }
 ```
@@ -77,10 +77,10 @@ That yields:
 ```{r}
 #' @importFrom rlang .data
 my_summary_function <- function(data) {
-  data %>% 
-    select("grp", "x", "y") %>% 
-    filter(.data$x > 0) %>% 
-    group_by(.data$grp) %>% 
+  data |>
+    select("grp", "x", "y") |>
+    filter(.data$x > 0) |>
+    group_by(.data$grp) |>
     summarise(y = mean(.data$y), n = n())
 }
 ```
@@ -179,24 +179,24 @@ These have all been replaced by using `mutate()` or `summarise()` in combination
 If you used `mutate_all()` or `mutate_each()` without supplying a selection, you should update to use `across(everything())`:
 
 ```{r, eval=FALSE}
-starwars %>% mutate_each(funs(as.character))
-starwars %>% mutate_all(funs(as.character))
-starwars %>% mutate(across(everything(), as.character))
+starwars |> mutate_each(funs(as.character))
+starwars |> mutate_all(funs(as.character))
+starwars |> mutate(across(everything(), as.character))
 ```
 
 If you provided a selection through `mutate_at()` or `mutate_each()`, then you can switch to `across()` with a selection:
 
 ```{r, eval = FALSE}
-starwars %>% mutate_each(funs(as.character), height, mass)
-starwars %>% mutate_at(vars(height, mass), as.character)
-starwars %>% mutate(across(c(height, mass), as.character))
+starwars |> mutate_each(funs(as.character), height, mass)
+starwars |> mutate_at(vars(height, mass), as.character)
+starwars |> mutate(across(c(height, mass), as.character))
 ```
 
 If you used predicates with `mutate_if()`, you can switch to using `across()` in combination with `where()`:
 
 ```{r, eval=FALSE}
-starwars %>% mutate_if(is.factor, as.character)
-starwars %>% mutate(across(where(is.factor), as.character))
+starwars |> mutate_if(is.factor, as.character)
+starwars |> mutate(across(where(is.factor), as.character))
 ```
 
 ## Data frame subclasses

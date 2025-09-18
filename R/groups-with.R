@@ -23,10 +23,10 @@
 #' df <- tibble(g = c(1, 1, 2, 2, 3), x = runif(5))
 #'
 #' # Old
-#' df %>%
+#' df |>
 #'   with_groups(g, mutate, x_mean = mean(x))
 #' # New
-#' df %>% mutate(x_mean = mean(x), .by = g)
+#' df |> mutate(x_mean = mean(x), .by = g)
 with_groups <- function(.data, .groups, .f, ...) {
   lifecycle::signal_stage("experimental", "with_groups()")
   loc <- tidyselect::eval_select(enquo(.groups), data = tbl_ptype(.data))

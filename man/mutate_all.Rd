@@ -74,13 +74,13 @@ selection is \strong{implicit} (\code{all} and \code{if} selections) or
 \code{mutate_at()} and \code{transmute_at()} are always an error. Add
 \code{-group_cols()} to the \code{\link[=vars]{vars()}} selection to avoid this:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{data \%>\% mutate_at(vars(-group_cols(), ...), myoperation)
+\if{html}{\out{<div class="sourceCode">}}\preformatted{data |> mutate_at(vars(-group_cols(), ...), myoperation)
 }\if{html}{\out{</div>}}
 
 Or remove \code{group_vars()} from the character vector of column names:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{nms <- setdiff(nms, group_vars(data))
-data \%>\% mutate_at(vars, myoperation)
+data |> mutate_at(vars, myoperation)
 }\if{html}{\out{</div>}}
 \item Grouping variables covered by implicit selections are ignored by
 \code{mutate_all()}, \code{transmute_all()}, \code{mutate_if()}, and
@@ -122,52 +122,52 @@ iris <- as_tibble(iris)
 # purrr-style. The _at() variants directly support strings. Here
 # we'll scale the variables `height` and `mass`:
 scale2 <- function(x, na.rm = FALSE) (x - mean(x, na.rm = na.rm)) / sd(x, na.rm)
-starwars \%>\% mutate_at(c("height", "mass"), scale2)
+starwars |> mutate_at(c("height", "mass"), scale2)
 # ->
-starwars \%>\% mutate(across(c("height", "mass"), scale2))
+starwars |> mutate(across(c("height", "mass"), scale2))
 
 # You can pass additional arguments to the function:
-starwars \%>\% mutate_at(c("height", "mass"), scale2, na.rm = TRUE)
-starwars \%>\% mutate_at(c("height", "mass"), ~scale2(., na.rm = TRUE))
+starwars |> mutate_at(c("height", "mass"), scale2, na.rm = TRUE)
+starwars |> mutate_at(c("height", "mass"), ~scale2(., na.rm = TRUE))
 # ->
-starwars \%>\% mutate(across(c("height", "mass"), ~ scale2(.x, na.rm = TRUE)))
+starwars |> mutate(across(c("height", "mass"), ~ scale2(.x, na.rm = TRUE)))
 
 # You can also supply selection helpers to _at() functions but you have
 # to quote them with vars():
-iris \%>\% mutate_at(vars(matches("Sepal")), log)
-iris \%>\% mutate(across(matches("Sepal"), log))
+iris |> mutate_at(vars(matches("Sepal")), log)
+iris |> mutate(across(matches("Sepal"), log))
 
 # The _if() variants apply a predicate function (a function that
 # returns TRUE or FALSE) to determine the relevant subset of
 # columns. Here we divide all the numeric columns by 100:
-starwars \%>\% mutate_if(is.numeric, scale2, na.rm = TRUE)
-starwars \%>\% mutate(across(where(is.numeric), ~ scale2(.x, na.rm = TRUE)))
+starwars |> mutate_if(is.numeric, scale2, na.rm = TRUE)
+starwars |> mutate(across(where(is.numeric), ~ scale2(.x, na.rm = TRUE)))
 
 # mutate_if() is particularly useful for transforming variables from
 # one type to another
-iris \%>\% mutate_if(is.factor, as.character)
-iris \%>\% mutate_if(is.double, as.integer)
+iris |> mutate_if(is.factor, as.character)
+iris |> mutate_if(is.double, as.integer)
 # ->
-iris \%>\% mutate(across(where(is.factor), as.character))
-iris \%>\% mutate(across(where(is.double), as.integer))
+iris |> mutate(across(where(is.factor), as.character))
+iris |> mutate(across(where(is.double), as.integer))
 
 # Multiple transformations ----------------------------------------
 
 # If you want to apply multiple transformations, pass a list of
 # functions. When there are multiple functions, they create new
 # variables instead of modifying the variables in place:
-iris \%>\% mutate_if(is.numeric, list(scale2, log))
-iris \%>\% mutate_if(is.numeric, list(~scale2(.), ~log(.)))
-iris \%>\% mutate_if(is.numeric, list(scale = scale2, log = log))
+iris |> mutate_if(is.numeric, list(scale2, log))
+iris |> mutate_if(is.numeric, list(~scale2(.), ~log(.)))
+iris |> mutate_if(is.numeric, list(scale = scale2, log = log))
 # ->
-iris \%>\%
-  as_tibble() \%>\%
+iris |>
+  as_tibble() |>
   mutate(across(where(is.numeric), list(scale = scale2, log = log)))
 
 # When there's only one function in the list, it modifies existing
 # variables in place. Give it a name to instead create new variables:
-iris \%>\% mutate_if(is.numeric, list(scale2))
-iris \%>\% mutate_if(is.numeric, list(scale = scale2))
+iris |> mutate_if(is.numeric, list(scale2))
+iris |> mutate_if(is.numeric, list(scale = scale2))
 }
 \seealso{
 \link[=scoped]{The other scoped verbs}, \code{\link[=vars]{vars()}}

@@ -64,7 +64,7 @@ nth(x, -2)
 
 # `first()` and `last()` are often useful in `summarise()`
 df <- tibble(x = x, y = y)
-df \%>\%
+df |>
   summarise(
     across(x:y, first, .names = "{col}_first"),
     y_last = last(y)

@@ -118,13 +118,13 @@ get_plan <- function() {
   }
 
   plan_available <-
-    deps %>%
-    enframe() %>%
+    deps |>
+    enframe() |>
     transmute(
       target = glue("av_{name}"),
       call = map(name, make_subset_available)
-    ) %>%
-    deframe() %>%
+    ) |>
+    deframe() |>
     drake_plan(list = .)
 
   make_download <- function(pkg, my_pkgs) {
@@ -138,13 +138,13 @@ get_plan <- function() {
   }
 
   plan_download <-
-    deps %>%
-    enframe() %>%
+    deps |>
+    enframe() |>
     transmute(
       target = glue("d_{name}"),
       call = map(name, make_download, c(get_this_pkg(), deps[[get_this_pkg()]]))
-    ) %>%
-    deframe() %>%
+    ) |>
+    deframe() |>
     drake_plan(list = .)
 
   make_install <- function(pkg, dep_list) {
@@ -158,15 +158,15 @@ get_plan <- function() {
   }
 
   plan_install <-
-    deps %>%
-    enframe() %>%
-    mutate(target = glue("i_{name}")) %>%
+    deps |>
+    enframe() |>
+    mutate(target = glue("i_{name}")) |>
     mutate(
       dep_list = map(value, create_dep_list, readd(base_pkgs)),
       call = map2(name, dep_list, make_install)
-    ) %>%
-    select(target, call) %>%
-    deframe() %>%
+    ) |>
+    select(target, call) |>
+    deframe() |>
     drake_plan(list = .)
 
   plan_base_libs <- drake_plan(
@@ -178,8 +178,8 @@ get_plan <- function() {
     lib <- enexpr(lib)
 
     req_pkgs <- first_level_deps[[pkg]]
-    req_pkgs_deps <- deps[c(pkg, req_pkgs)] %>% unname() %>% unlist() %>% unique()
-    all_deps <- c(req_pkgs, req_pkgs_deps) %>% unique()
+    req_pkgs_deps <- deps[c(pkg, req_pkgs)] |> unname() |> unlist() |> unique()
+    all_deps <- c(req_pkgs, req_pkgs_deps) |> unique()
 
     i_deps <- create_dep_list(all_deps, base_pkgs)
     d_dep <- sym(glue("d_{pkg}"))
@@ -188,18 +188,18 @@ get_plan <- function() {
   }
 
   plan_check <-
-    readd(revdeps) %>%
-    enframe() %>%
+    readd(revdeps) |>
+    enframe() |>
     mutate(
       old = map(value, make_check, old_lib, readd(deps), readd(first_level_deps), readd(base_pkgs)),
       new = map(value, make_check, new_lib, readd(deps), readd(first_level_deps), readd(base_pkgs))
-    ) %>%
-    gather(kind, call, old, new) %>%
+    ) |>
+    gather(kind, call, old, new) |>
     transmute(
       target = glue("c_{value}_{kind}"),
       call
-    ) %>%
-    deframe() %>%
+    ) |>
+    deframe() |>
     drake_plan(list = .)
 
   make_compare <- function(pkg) {
@@ -209,13 +209,13 @@ get_plan <- function() {
   }
 
   plan_compare <-
-    readd(revdeps) %>%
-    enframe() %>%
+    readd(revdeps) |>
+    enframe() |>
     transmute(
       target = glue("c_{value}"),
       call = map(value, make_compare)
-    ) %>%
-    deframe() %>%
+    ) |>
+    deframe() |>
     drake_plan(list = .)
 
   make_compare_all <- function(pkg) {
@@ -225,13 +225,13 @@ get_plan <- function() {
   }
 
   plan_compare_all <-
-    readd(revdeps) %>%
-    enframe() %>%
+    readd(revdeps) |>
+    enframe() |>
     summarize(
       target = "compare_all",
       call = list(make_compare_all(value))
-    ) %>%
-    deframe() %>%
+    ) |>
+    deframe() |>
     drake_plan(list = .)
 
   #future::plan(future.callr::callr)

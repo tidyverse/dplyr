@@ -43,8 +43,8 @@
 #' # Show a few recent storm paths
 #' if (requireNamespace("ggplot2", quietly = TRUE)) {
 #'   library(ggplot2)
-#'   storms %>%
-#'     filter(year >= 2000) %>%
+#'   storms |>
+#'     filter(year >= 2000) |>
 #'     ggplot(aes(long, lat, color = paste(year, name))) +
 #'     geom_path(show.legend = FALSE) +
 #'     facet_wrap(~year)

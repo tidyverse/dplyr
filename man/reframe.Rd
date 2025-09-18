@@ -88,17 +88,17 @@ df <- tibble(
 
 # `reframe()` allows you to apply functions that return
 # an arbitrary number of rows
-df \%>\%
+df |>
   reframe(x = intersect(x, table))
 
 # Functions are applied per group, and each group can return a
 # different number of rows.
-df \%>\%
+df |>
   reframe(x = intersect(x, table), .by = g)
 
 # The output is always ungrouped, even when using `group_by()`
-df \%>\%
-  group_by(g) \%>\%
+df |>
+  group_by(g) |>
   reframe(x = intersect(x, table))
 
 # You can add multiple columns at once using a single expression by returning
@@ -113,13 +113,13 @@ quantile_df <- function(x, probs = c(0.25, 0.5, 0.75)) {
 x <- c(10, 15, 18, 12)
 quantile_df(x)
 
-starwars \%>\%
+starwars |>
   reframe(quantile_df(height))
 
-starwars \%>\%
+starwars |>
   reframe(quantile_df(height), .by = homeworld)
 
-starwars \%>\%
+starwars |>
   reframe(
     across(c(height, mass), quantile_df, .unpack = TRUE),
     .by = homeworld
