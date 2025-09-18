@@ -1,5 +1,11 @@
 # dplyr (development version)
 
+* The base pipe is now used throughout the documentation (#7711).
+
+* R >=4.1.0 is now required, in line with the [tidyverse
+  standard](https://www.tidyverse.org/blog/2019/04/r-version-support/) of
+  supporting the previous 5 minor releases of R (#7711).
+
 * `case_when()` now throws a better error if one of the conditions is an array
   (#6862, @ilovemane).
 
@@ -12,8 +18,6 @@
 
 * Fixed an issue where duckplyr's ALTREP data frames were being materialized
   early due to internal usage of `ncol()` (#7049).
-
-* R >=3.6.0 is now explicitly required (#7026).
 
 * `if_any()` and `if_all()` are now fully consistent with `any()` and `all()`.
   In particular, when called with empty inputs `if_any()` returns `FALSE` and
