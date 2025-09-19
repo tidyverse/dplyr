@@ -124,14 +124,13 @@ starwars |> slice_head(n = 3)
 starwars |> slice_sample(n = 5)
 starwars |> slice_sample(prop = 0.1)
 ```
+
 Use `replace = TRUE` to perform a bootstrap sample. If needed, you can weight the sample with the `weight` argument.
 
-* `slice_min()` and `slice_max()` select rows with highest or lowest values of a variable. Note that we first must choose  only the values which are not NA.
+* `slice_min()` and `slice_max()` select the rows with the smallest or largest values of the selected column. By default, they return a single minimum or maximum, but you can supply `n` to control how many rows remain.
 
 ```{r}
-starwars |>
-  filter(!is.na(height)) |>
-  slice_max(height, n = 3)
+starwars |> slice_max(height, n = 3)
 ```
 
 ### Select columns with `select()`
