@@ -279,7 +279,23 @@ the order of columns is determined by the order of inputs:</p>
 <span><span class="co">#&gt; 2          4.9          1.4</span></span>
 <span><span class="co">#&gt; 3          4.7          1.3</span></span>
 <span><span class="co">#&gt; 4          4.6          1.5</span></span>
-<span><span class="co">#&gt; # i 146 more rows</span></span></code></pre><p></p></div><div class="section">
+<span><span class="co">#&gt; # i 146 more rows</span></span></code></pre><p></p></div>
+<p>If you use a named vector to select columns, the output will have
+its columns renamed:</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">selection</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  new_homeworld <span class="op">=</span> <span class="st">"homeworld"</span>,</span>
+<span>  new_height <span class="op">=</span> <span class="st">"height"</span>,</span>
+<span>  new_mass <span class="op">=</span> <span class="st">"mass"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of</a></span><span class="op">(</span><span class="va">selection</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 87 x 3</span></span>
+<span><span class="co">#&gt;   new_homeworld new_height new_mass</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;              &lt;int&gt;    &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 Tatooine             172       77</span></span>
+<span><span class="co">#&gt; 2 Tatooine             167       75</span></span>
+<span><span class="co">#&gt; 3 Naboo                 96       32</span></span>
+<span><span class="co">#&gt; 4 Tatooine             202      136</span></span>
+<span><span class="co">#&gt; # i 83 more rows</span></span></code></pre><p></p></div><div class="section">
 <h3 id="operators-">Operators:<a class="anchor" aria-label="anchor" href="#operators-"></a></h3>
 
 
