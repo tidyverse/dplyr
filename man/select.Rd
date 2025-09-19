@@ -94,7 +94,7 @@ Here we show the usage for the basic selection operators. See the
 specific help pages to learn about helpers like \code{\link[=starts_with]{starts_with()}}.
 
 The selection language can be used in functions like
-\code{dplyr::select()} or \code{tidyr::pivot_longer()}. Let's first attach
+\code{dplyr::select()}. Let's first attach
 the tidyverse:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{library(tidyverse)
@@ -115,14 +115,14 @@ Select variables by name:
 #> 4    202
 #> # i 83 more rows
 
-iris |> pivot_longer(Sepal.Length)
-#> # A tibble: 150 x 6
-#>   Sepal.Width Petal.Length Petal.Width Species name         value
-#>         <dbl>        <dbl>       <dbl> <fct>   <chr>        <dbl>
-#> 1         3.5          1.4         0.2 setosa  Sepal.Length   5.1
-#> 2         3            1.4         0.2 setosa  Sepal.Length   4.9
-#> 3         3.2          1.3         0.2 setosa  Sepal.Length   4.7
-#> 4         3.1          1.5         0.2 setosa  Sepal.Length   4.6
+iris |> select(Sepal.Length)
+#> # A tibble: 150 x 1
+#>   Sepal.Length
+#>          <dbl>
+#> 1          5.1
+#> 2          4.9
+#> 3          4.7
+#> 4          4.6
 #> # i 146 more rows
 }\if{html}{\out{</div>}}
 
@@ -138,20 +138,16 @@ the order of columns is determined by the order of inputs:
 #> 3 Naboo         96    32
 #> 4 Tatooine     202   136
 #> # i 83 more rows
-}\if{html}{\out{</div>}}
 
-Functions like \code{tidyr::pivot_longer()} don't take variables with
-dots. In this case use \code{c()} to select multiple variables:
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{iris |> pivot_longer(c(Sepal.Length, Petal.Length))
-#> # A tibble: 300 x 5
-#>   Sepal.Width Petal.Width Species name         value
-#>         <dbl>       <dbl> <fct>   <chr>        <dbl>
-#> 1         3.5         0.2 setosa  Sepal.Length   5.1
-#> 2         3.5         0.2 setosa  Petal.Length   1.4
-#> 3         3           0.2 setosa  Sepal.Length   4.9
-#> 4         3           0.2 setosa  Petal.Length   1.4
-#> # i 296 more rows
+iris |> select(Sepal.Length, Petal.Length)
+#> # A tibble: 150 x 2
+#>   Sepal.Length Petal.Length
+#>          <dbl>        <dbl>
+#> 1          5.1          1.4
+#> 2          4.9          1.4
+#> 3          4.7          1.3
+#> 4          4.6          1.5
+#> # i 146 more rows
 }\if{html}{\out{</div>}}
 \subsection{Operators:}{
 
