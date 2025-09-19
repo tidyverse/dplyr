@@ -177,9 +177,9 @@ mtcars |> slice_min(tibble(cyl, mpg), n = 1)
 # slice_sample() allows you to random select with or without replacement
 mtcars |> slice_sample(n = 5)
 mtcars |> slice_sample(n = 5, replace = TRUE)
-#################################################
-#reorder rows without replacing in each group of cyl
-mtcars \%>\% slice_sample(n = nrow(mtcars), replace = FALSE, by = "cyl")
+
+# slice_sample() can be used to shuffle rows with `prop = 1`
+mtcars \%>\% slice_sample(prop = 1)
 
 # You can optionally weight by a variable - this code weights by the
 # physical weight of the cars, so heavy cars are more likely to get
