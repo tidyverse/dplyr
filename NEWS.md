@@ -3,6 +3,8 @@
 * `bind_rows()` now replaces empty (or NA) element names in a list with its
    numeric index while preserving present names  (#7719, @Meghansaha).
    
+* New `slice_sample()` example showing how to use it to shuffle rows (#7707, @Hzanib).
+
 * Updated `across()` examples to include an example using `everything()` (#7621, @JBrandenburg02).
 
 * Clarified how `slice_min()` and `slice_max()` work in the introduction vignette (#7717, @ccani007).

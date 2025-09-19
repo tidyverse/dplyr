@@ -99,6 +99,9 @@
 #' mtcars |> slice_sample(n = 5)
 #' mtcars |> slice_sample(n = 5, replace = TRUE)
 #'
+#' # slice_sample() can be used to shuffle rows with `prop = 1`
+#' mtcars |> slice_sample(prop = 1)
+#'
 #' # You can optionally weight by a variable - this code weights by the
 #' # physical weight of the cars, so heavy cars are more likely to get
 #' # selected.
