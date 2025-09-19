@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* `bind_rows()` now replaces empty (or NA) element names in a list with it's
+   numeric index while preserving present names  (#7719, @Meghansaha).
+
 * Clarified how `slice_min()` and `slice_max()` work in the introduction vignette (#7717, @ccani007).
 
 * `reframe()` has moved from experimental to stable (#7713, @VisruthSK).
