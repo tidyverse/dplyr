@@ -1,6 +1,6 @@
 # dplyr (development version)
 
-* `reframe()` has moved from experimental to stable.
+* `reframe()` has moved from experimental to stable (#7713, @VisruthSK).
 
 * The base pipe is now used throughout the documentation (#7711).
 
