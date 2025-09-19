@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* Clarified how `slice_min()` and `slice_max()` work in the introduction vignette (#7717, @ccani007).
+
 * `reframe()` has moved from experimental to stable (#7713, @VisruthSK).
 
 * The base pipe is now used throughout the documentation (#7711).
