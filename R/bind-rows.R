@@ -65,7 +65,9 @@ bind_rows <- function(..., .id = NULL) {
     check_string(.id)
 
     if (!is_named(dots)) {
-      names(dots) <- seq_along(dots)
+      vec_present_names <- rlang::have_name(dots)
+      vec_missing_indices <- which(vec_present_names == FALSE)
+      names(dots)[vec_missing_indices] <- vec_missing_indices
     }
   } else {
     # Don't let `vec_rbind(.id = NULL)` promote input names to row names

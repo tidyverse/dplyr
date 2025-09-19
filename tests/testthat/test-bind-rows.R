@@ -145,6 +145,17 @@ test_that("bind_rows() handles named list", {
   expect_equal(bind_rows(x), tibble(x = 1, y = 2, z = 3))
 })
 
+test_that("bind_rows() handles empty names in a list", {
+  x <- lapply(1:5, function(x) mtcars)
+  names(x) = paste0("id_", 1:5)
+  names(x)[c(3, 5)] = NA_character_
+  x <- bind_rows(x, .id = "id")
+  x_ids <- x$id |> unique()
+
+  # If names are missing, bind_rows will replace with index#
+  expect_equal(x_ids, c("id_1", "id_2", "3", "id_4", "5"))
+})
+
 test_that("bind_rows() validates lists (#5417)", {
   out <- bind_rows(list(x = 1), list(x = 1, y = 1:2))
   expect_equal(out, tibble(x = c(1, 1, 1), y = c(NA, 1:2)))
