@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `reframe()` has moved from experimental to stable.
+
 * The base pipe is now used throughout the documentation (#7711).
 
 * R >=4.1.0 is now required, in line with the [tidyverse
@@ -22,8 +24,6 @@
 * `if_any()` and `if_all()` are now fully consistent with `any()` and `all()`.
   In particular, when called with empty inputs `if_any()` returns `FALSE` and
   `if_all()` returns `TRUE` (#7059, @jrwinget).
-
-* `reframe()` has moved from experimental to stable.
 
 # dplyr 1.1.4
 
