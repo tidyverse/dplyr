@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* Updated `across()` examples to include an example using `everything()` (#7621, @JBrandenburg02).
+
 * Clarified how `slice_min()` and `slice_max()` work in the introduction vignette (#7717, @ccani007).
 
 * `reframe()` has moved from experimental to stable (#7713, @VisruthSK).
