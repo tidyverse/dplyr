@@ -105,6 +105,10 @@
 #' iris <- as_tibble(iris)
 #'
 #' # across() -----------------------------------------------------------------
+#' # Using everything() to apply the same function to all columns
+#' iris |>
+#'   mutate(across(everything(), as.character))
+#'
 #' # Different ways to select the same set of columns
 #' # See <https://tidyselect.r-lib.org/articles/syntax.html> for details
 #' iris |>
