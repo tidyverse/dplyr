@@ -34,6 +34,18 @@ starwars |> select(homeworld, height, mass)
 iris |> select(Sepal.Length, Petal.Length)
 ```
 
+If you use a named vector to select columns, the output will have
+its columns renamed:
+
+```{r}
+selection <- c(
+  new_homeworld = "homeworld",
+  new_height = "height",
+  new_mass = "mass"
+)
+starwars |> select(all_of(selection))
+```
+
 ## Operators:
 
 The `:` operator selects a range of consecutive variables:

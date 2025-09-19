@@ -149,6 +149,25 @@ iris |> select(Sepal.Length, Petal.Length)
 #> 4          4.6          1.5
 #> # i 146 more rows
 }\if{html}{\out{</div>}}
+
+If you use a named vector to select columns, the output will have
+its columns renamed:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{selection <- c(
+  new_homeworld = "homeworld",
+  new_height = "height",
+  new_mass = "mass"
+)
+starwars |> select(all_of(selection))
+#> # A tibble: 87 x 3
+#>   new_homeworld new_height new_mass
+#>   <chr>              <int>    <dbl>
+#> 1 Tatooine             172       77
+#> 2 Tatooine             167       75
+#> 3 Naboo                 96       32
+#> 4 Tatooine             202      136
+#> # i 83 more rows
+}\if{html}{\out{</div>}}
 \subsection{Operators:}{
 
 The \code{:} operator selects a range of consecutive variables:
