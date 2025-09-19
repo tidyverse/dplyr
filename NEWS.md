@@ -23,6 +23,8 @@
   In particular, when called with empty inputs `if_any()` returns `FALSE` and
   `if_all()` returns `TRUE` (#7059, @jrwinget).
 
+* `reframe()` has moved from experimental to stable.
+
 # dplyr 1.1.4
 
 * `join_by()` now allows its helper functions to be namespaced with `dplyr::`,

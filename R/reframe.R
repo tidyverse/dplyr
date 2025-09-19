@@ -1,7 +1,6 @@
 #' Transform each group to an arbitrary number of rows
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
 #'
 #' While [summarise()] requires that each argument returns a single value, and
 #' [mutate()] requires that each argument returns the same number of rows as the
