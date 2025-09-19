@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `reframe()` has moved from experimental to stable (#7713, @VisruthSK).
+
 * The base pipe is now used throughout the documentation (#7711).
 
 * R >=4.1.0 is now required, in line with the [tidyverse

@@ -36,8 +36,6 @@ fundamentally creates a new data frame.
 }
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
 While \code{\link[=summarise]{summarise()}} requires that each argument returns a single value, and
 \code{\link[=mutate]{mutate()}} requires that each argument returns the same number of rows as the
 input, \code{reframe()} is a more general workhorse with no requirements on the
