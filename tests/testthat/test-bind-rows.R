@@ -145,7 +145,7 @@ test_that("bind_rows() handles named list", {
   expect_equal(bind_rows(x), tibble(x = 1, y = 2, z = 3))
 })
 
-test_that("bind_rows() handles empty names in a list", {
+test_that("bind_rows() handles empty names in a list (#7100)", {
   x <- rep(list(data.frame(x = 1)), times = 5)
   names(x) <- paste0("id_", 1:5)
   names(x)[c(3, 5)] <- NA_character_
