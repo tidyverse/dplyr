@@ -233,7 +233,7 @@ dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/select.tbl_lazy.ht
 <p>Here we show the usage for the basic selection operators. See the
 specific help pages to learn about helpers like <code><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with()</a></code>.</p>
 <p>The selection language can be used in functions like
-<code>dplyr::select()</code> or <code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">tidyr::pivot_longer()</a></code>. Let's first attach
+<code>dplyr::select()</code>. Let's first attach
 the tidyverse:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span></span>
@@ -250,14 +250,14 @@ the tidyverse:</p>
 <span><span class="co">#&gt; 4    202</span></span>
 <span><span class="co">#&gt; # i 83 more rows</span></span>
 <span></span>
-<span><span class="va">iris</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 150 x 6</span></span>
-<span><span class="co">#&gt;   Sepal.Width Petal.Length Petal.Width Species name         value</span></span>
-<span><span class="co">#&gt;         &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;   &lt;chr&gt;        &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1         3.5          1.4         0.2 setosa  Sepal.Length   5.1</span></span>
-<span><span class="co">#&gt; 2         3            1.4         0.2 setosa  Sepal.Length   4.9</span></span>
-<span><span class="co">#&gt; 3         3.2          1.3         0.2 setosa  Sepal.Length   4.7</span></span>
-<span><span class="co">#&gt; 4         3.1          1.5         0.2 setosa  Sepal.Length   4.6</span></span>
+<span><span class="va">iris</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">Sepal.Length</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 150 x 1</span></span>
+<span><span class="co">#&gt;   Sepal.Length</span></span>
+<span><span class="co">#&gt;          &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1          5.1</span></span>
+<span><span class="co">#&gt; 2          4.9</span></span>
+<span><span class="co">#&gt; 3          4.7</span></span>
+<span><span class="co">#&gt; 4          4.6</span></span>
 <span><span class="co">#&gt; # i 146 more rows</span></span></code></pre><p></p></div>
 <p>Select multiple variables by separating them with commas. Note how
 the order of columns is determined by the order of inputs:</p>
@@ -269,18 +269,17 @@ the order of columns is determined by the order of inputs:</p>
 <span><span class="co">#&gt; 2 Tatooine     167    75</span></span>
 <span><span class="co">#&gt; 3 Naboo         96    32</span></span>
 <span><span class="co">#&gt; 4 Tatooine     202   136</span></span>
-<span><span class="co">#&gt; # i 83 more rows</span></span></code></pre><p></p></div>
-<p>Functions like <code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">tidyr::pivot_longer()</a></code> don't take variables with
-dots. In this case use <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> to select multiple variables:</p>
-<p></p><div class="sourceCode r"><pre><code><span><span class="va">iris</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Sepal.Length</span>, <span class="va">Petal.Length</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 300 x 5</span></span>
-<span><span class="co">#&gt;   Sepal.Width Petal.Width Species name         value</span></span>
-<span><span class="co">#&gt;         &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;   &lt;chr&gt;        &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1         3.5         0.2 setosa  Sepal.Length   5.1</span></span>
-<span><span class="co">#&gt; 2         3.5         0.2 setosa  Petal.Length   1.4</span></span>
-<span><span class="co">#&gt; 3         3           0.2 setosa  Sepal.Length   4.9</span></span>
-<span><span class="co">#&gt; 4         3           0.2 setosa  Petal.Length   1.4</span></span>
-<span><span class="co">#&gt; # i 296 more rows</span></span></code></pre><p></p></div><div class="section">
+<span><span class="co">#&gt; # i 83 more rows</span></span>
+<span></span>
+<span><span class="va">iris</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">Sepal.Length</span>, <span class="va">Petal.Length</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 150 x 2</span></span>
+<span><span class="co">#&gt;   Sepal.Length Petal.Length</span></span>
+<span><span class="co">#&gt;          &lt;dbl&gt;        &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1          5.1          1.4</span></span>
+<span><span class="co">#&gt; 2          4.9          1.4</span></span>
+<span><span class="co">#&gt; 3          4.7          1.3</span></span>
+<span><span class="co">#&gt; 4          4.6          1.5</span></span>
+<span><span class="co">#&gt; # i 146 more rows</span></span></code></pre><p></p></div><div class="section">
 <h3 id="operators-">Operators:<a class="anchor" aria-label="anchor" href="#operators-"></a></h3>
 
 
