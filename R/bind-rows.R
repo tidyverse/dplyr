@@ -65,7 +65,11 @@ bind_rows <- function(..., .id = NULL) {
     check_string(.id)
 
     if (!is_named(dots)) {
-      names(dots) <- seq_along(dots)
+      # Replace `NA` or `""` names with their index,
+      # but leave existing names in place (#7100)
+      dots_with_names <- have_name(dots)
+      dots_without_names <- which(!dots_with_names)
+      names(dots)[dots_without_names] <- as.character(dots_without_names)
     }
   } else {
     # Don't let `vec_rbind(.id = NULL)` promote input names to row names

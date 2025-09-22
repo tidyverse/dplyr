@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `bind_rows()` now replaces empty (or `NA`) element names in a list with its numeric index while preserving existing names (#7719, @Meghansaha).
+
 * New `slice_sample()` example showing how to use it to shuffle rows (#7707, @Hzanib).
 
 * Updated `across()` examples to include an example using `everything()` (#7621, @JBrandenburg02).
