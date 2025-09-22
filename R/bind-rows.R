@@ -67,7 +67,7 @@ bind_rows <- function(..., .id = NULL) {
     if (!is_named(dots)) {
       # Replace `NA` or `""` names with their index,
       # but leave existing names in place (#7100)
-      dots_with_names <- rlang::have_name(dots)
+      dots_with_names <- have_name(dots)
       dots_without_names <- which(!dots_with_names)
       names(dots)[dots_without_names] <- as.character(dots_without_names)
     }
