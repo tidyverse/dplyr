@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `if_else()` has gotten significantly faster and uses much less memory due to a rewrite in C via `vctrs::vec_if_else()` (#7723).
+
 * Passing `size` to `if_else()` is now deprecated. The output size is always taken from the `condition` (#7722).
 
 * `bind_rows()` now replaces empty (or `NA`) element names in a list with its numeric index while preserving existing names (#7719, @Meghansaha).
