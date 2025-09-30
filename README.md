@@ -9,7 +9,7 @@
 status](https://www.r-pkg.org/badges/version/dplyr)](https://cran.r-project.org/package=dplyr)
 [![R-CMD-check](https://github.com/tidyverse/dplyr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidyverse/dplyr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/tidyverse/dplyr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidyverse/dplyr?branch=main)
+coverage](https://codecov.io/gh/tidyverse/dplyr/graph/badge.svg)](https://app.codecov.io/gh/tidyverse/dplyr)
 <!-- badges: end -->
 
 ## Overview
@@ -118,7 +118,7 @@ starwars |>
 #> # ℹ 82 more rows
 
 starwars |>
-  mutate(name, bmi = mass / ((height / 100)  ^ 2)) |>
+  mutate(name, bmi = mass / ((height / 100)^2)) |>
   select(name:mass, bmi)
 #> # A tibble: 87 × 4
 #>   name           height  mass   bmi
