@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* Passing `size` to `if_else()` is now deprecated. The output size is always taken from the `condition` (#7722).
+
 * `bind_rows()` now replaces empty (or `NA`) element names in a list with its numeric index while preserving existing names (#7719, @Meghansaha).
 
 * New `slice_sample()` example showing how to use it to shuffle rows (#7707, @Hzanib).
