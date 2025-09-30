@@ -12,7 +12,7 @@
       if_else(TRUE, 1, 2, missing = "x")
     Condition
       Error in `if_else()`:
-      ! Can't combine `missing` <character> and <double>.
+      ! Can't combine `true` <double> and `missing` <character>.
 
 # `condition` must be logical (and isn't cast to logical!)
 
