@@ -12,7 +12,7 @@
       if_else(TRUE, 1, 2, missing = "x")
     Condition
       Error in `if_else()`:
-      ! Can't combine `true` <double> and `missing` <character>.
+      ! Can't combine `missing` <character> and <double>.
 
 # `condition` must be logical (and isn't cast to logical!)
 
@@ -28,7 +28,7 @@
       if_else(x < 2, bad, x)
     Condition
       Error in `if_else()`:
-      ! `true` must have size 3, not size 2.
+      ! Can't recycle `true` (size 2) to size 3.
 
 ---
 
@@ -36,7 +36,7 @@
       if_else(x < 2, x, bad)
     Condition
       Error in `if_else()`:
-      ! `false` must have size 3, not size 2.
+      ! Can't recycle `false` (size 2) to size 3.
 
 ---
 
@@ -44,7 +44,7 @@
       if_else(x < 2, x, x, missing = bad)
     Condition
       Error in `if_else()`:
-      ! `missing` must have size 3, not size 2.
+      ! Can't recycle `missing` (size 2) to size 3.
 
 # must have empty dots
 
