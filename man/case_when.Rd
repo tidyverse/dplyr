@@ -15,10 +15,10 @@ The LHS inputs must evaluate to logical vectors.
 
 The RHS inputs will be coerced to their common type.
 
-All inputs will be recycled to their common size. That said, we encourage
-all LHS inputs to be the same size. Recycling is mainly useful for RHS
-inputs, where you might supply a size 1 input that will be recycled to the
-size of the LHS inputs.
+For historical reasons, all LHS inputs will be recycled to their common
+size. That said, we encourage all LHS inputs to be the same size, which you
+can optionally enforce with \code{.size}. All RHS inputs will be recycled to the
+common size of the LHS inputs.
 
 \code{NULL} inputs are ignored.}
 
@@ -26,7 +26,7 @@ size of the LHS inputs.
 \code{FALSE} or \code{NA}.
 
 \code{.default} must be size 1 or the same size as the common size computed
-from \code{...}.
+from the LHS inputs.
 
 \code{.default} participates in the computation of the common type with the RHS
 inputs.
@@ -44,12 +44,14 @@ If \code{NULL}, the default, a missing value will be used.}
 supplied, this overrides the common type of the RHS inputs.}
 
 \item{.size}{An optional size declaring the desired output size. If supplied,
-this overrides the common size computed from \code{...}.}
+this overrides the common size computed from the LHS inputs.}
 }
 \value{
-A vector with the same size as the common size computed from the
-inputs in \code{...} and the same type as the common type of the RHS inputs
-in \code{...}.
+A vector
+\itemize{
+\item The size of the vector is the common size of the LHS inputs, or \code{.size}.
+\item The type of the vector is the common type of the RHS inputs, or \code{.ptype}.
+}
 }
 \description{
 This function allows you to vectorise multiple \code{\link[=if_else]{if_else()}} statements. Each

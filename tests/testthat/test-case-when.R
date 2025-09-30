@@ -68,40 +68,6 @@ test_that("any `TRUE` overrides an `NA`", {
   )
 })
 
-test_that("atomic conditions (#2909)", {
-  expect_equal(
-    case_when(
-      TRUE ~ 1:3,
-      FALSE ~ 4:6
-    ),
-    1:3
-  )
-  expect_equal(
-    case_when(
-      NA ~ 1:3,
-      TRUE ~ 4:6
-    ),
-    4:6
-  )
-})
-
-test_that("zero-length conditions and values (#3041)", {
-  expect_equal(
-    case_when(
-      TRUE ~ integer(),
-      FALSE ~ integer()
-    ),
-    integer()
-  )
-  expect_equal(
-    case_when(
-      logical() ~ 1,
-      logical() ~ 2
-    ),
-    numeric()
-  )
-})
-
 test_that("case_when can be used in anonymous functions (#3422)", {
   res <- tibble(a = 1:3) |>
     mutate(b = (function(x) case_when(x < 2 ~ TRUE, .default = FALSE))(a)) |>
@@ -210,8 +176,10 @@ test_that("NULL inputs are compacted", {
 
 test_that("passes through `.default` correctly", {
   expect_identical(case_when(FALSE ~ 1, .default = 2), 2)
-  expect_identical(case_when(FALSE ~ 1:5, .default = 2), rep(2, 5))
-  expect_identical(case_when(FALSE ~ 1:5, .default = 2:6), 2:6)
+  expect_identical(
+    case_when(c(TRUE, FALSE, TRUE, FALSE, TRUE) ~ 1:5, .default = 2),
+    c(1, 2, 3, 2, 5)
+  )
 })
 
 test_that("`.default` isn't part of recycling", {
@@ -267,6 +235,51 @@ test_that("throws chained errors when formula evaluation fails", {
   expect_snapshot(error = TRUE, {
     case_when(1 ~ 2, stop("oh no!") ~ 4)
   })
+})
+
+test_that("only LHS sizes are consulted to compute the output size (#7082)", {
+  # Motivating example from #7082. We want this case to fail. LHS common size is
+  # 1. RHS inputs must recycle to this size. If both the LHS and RHS inputs were
+  # consulted to compute a common size of 0, this would incorrectly return
+  # `character()`, which is a silent confusing failure.
+  expect_snapshot(error = TRUE, {
+    x <- 1
+    case_when(
+      x == 1 ~ "a",
+      x == 2 ~ character(),
+      .default = "other"
+    )
+  })
+
+  # The following all used to work but we believe they are not good
+  # examples of how to use `case_when()`, and are not worth supporting if it
+  # means that the actual bug captured above silently slips through
+
+  # Used to return `1:3` and `4:6` respectively (#2909)
+  # This could only practically affect you if you are using `case_when()` like
+  # a very weird if/else, which we do not encourage.
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE ~ 1:3, FALSE ~ 4:6)
+  })
+  expect_snapshot(error = TRUE, {
+    case_when(NA ~ 1:3, TRUE ~ 4:6)
+  })
+  expect_snapshot(error = TRUE, {
+    # In theory a user could have done something very weird like this
+    x <- 1:3
+    my_scalar_condition <- is.double(x)
+    case_when(my_scalar_condition ~ x, TRUE ~ 4:6)
+  })
+
+  # Used to return `integer()` (#3041).
+  # If you go back and look at #3041, it was an issue about the case where all
+  # LHS inputs have size 0 and all RHS inputs have size 1. That still works as
+  # expected. This extra test of LHS inputs having size 1 and RHS inputs having
+  # size 0 was not something the user wanted, and does not make sense to us.
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE ~ integer(), FALSE ~ integer())
+  })
+  expect_identical(case_when(logical() ~ 1, logical() ~ 2), numeric())
 })
 
 test_that("case_when() give meaningful errors", {

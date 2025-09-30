@@ -20,7 +20,7 @@
       case_when(TRUE ~ 1:2, .size = 3)
     Condition
       Error in `case_when()`:
-      ! Can't recycle `..1 (right)` (size 2) to size 3.
+      ! `..1 (right)` must have size 3, not size 2.
 
 # invalid type errors are correct (#6261) (#6206)
 
@@ -66,14 +66,57 @@
       Caused by error:
       ! oh no!
 
+# only LHS sizes are consulted to compute the output size (#7082)
+
+    Code
+      x <- 1
+      case_when(x == 1 ~ "a", x == 2 ~ character(), .default = "other")
+    Condition
+      Error in `case_when()`:
+      ! `..2 (right)` must have size 1, not size 0.
+
+---
+
+    Code
+      case_when(TRUE ~ 1:3, FALSE ~ 4:6)
+    Condition
+      Error in `case_when()`:
+      ! `..1 (right)` must have size 1, not size 3.
+
+---
+
+    Code
+      case_when(NA ~ 1:3, TRUE ~ 4:6)
+    Condition
+      Error in `case_when()`:
+      ! `..1 (right)` must have size 1, not size 3.
+
+---
+
+    Code
+      x <- 1:3
+      my_scalar_condition <- is.double(x)
+      case_when(my_scalar_condition ~ x, TRUE ~ 4:6)
+    Condition
+      Error in `case_when()`:
+      ! `..1 (right)` must have size 1, not size 3.
+
+---
+
+    Code
+      case_when(TRUE ~ integer(), FALSE ~ integer())
+    Condition
+      Error in `case_when()`:
+      ! `..1 (right)` must have size 1, not size 0.
+
 # case_when() give meaningful errors
 
     Code
       (expect_error(case_when(c(TRUE, FALSE) ~ 1:3, c(FALSE, TRUE) ~ 1:2)))
     Output
-      <error/vctrs_error_incompatible_size>
+      <error/vctrs_error_assert_size>
       Error in `case_when()`:
-      ! Can't recycle `..1 (left)` (size 2) to match `..1 (right)` (size 3).
+      ! `..1 (right)` must have size 2, not size 3.
     Code
       (expect_error(case_when(c(TRUE, FALSE) ~ 1, c(FALSE, TRUE, FALSE) ~ 2, c(FALSE,
         TRUE, FALSE, NA) ~ 3)))
@@ -86,7 +129,7 @@
     Output
       <error/rlang_error>
       Error in `case_when()`:
-      ! `..1 (left)` must be a logical vector, not a double vector.
+      ! `..1 (left)` must be a logical vector, not the number 50.
     Code
       (expect_error(case_when(paste(50))))
     Output

@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `case_when()` now determines the output size from only the LHS inputs, rather than from both the LHS and RHS inputs. This allows the legacy behavior of `TRUE ~` to continue to work, while improving `case_when()`'s safety by guarding against some silent confusing failure cases (#7082).
+
 * The following vector functions have gotten significantly faster and use much less memory due to a rewrite in C via vctrs (#7723):
 
   * `if_else()`

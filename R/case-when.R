@@ -16,10 +16,10 @@
 #'
 #'   The RHS inputs will be coerced to their common type.
 #'
-#'   All inputs will be recycled to their common size. That said, we encourage
-#'   all LHS inputs to be the same size. Recycling is mainly useful for RHS
-#'   inputs, where you might supply a size 1 input that will be recycled to the
-#'   size of the LHS inputs.
+#'   For historical reasons, all LHS inputs will be recycled to their common
+#'   size. That said, we encourage all LHS inputs to be the same size, which you
+#'   can optionally enforce with `.size`. All RHS inputs will be recycled to the
+#'   common size of the LHS inputs.
 #'
 #'   `NULL` inputs are ignored.
 #'
@@ -27,7 +27,7 @@
 #'   `FALSE` or `NA`.
 #'
 #'   `.default` must be size 1 or the same size as the common size computed
-#'   from `...`.
+#'   from the LHS inputs.
 #'
 #'   `.default` participates in the computation of the common type with the RHS
 #'   inputs.
@@ -45,11 +45,12 @@
 #'   supplied, this overrides the common type of the RHS inputs.
 #'
 #' @param .size An optional size declaring the desired output size. If supplied,
-#'   this overrides the common size computed from `...`.
+#'   this overrides the common size computed from the LHS inputs.
 #'
-#' @return A vector with the same size as the common size computed from the
-#'   inputs in `...` and the same type as the common type of the RHS inputs
-#'   in `...`.
+#' @return A vector
+#'
+#'   - The size of the vector is the common size of the LHS inputs, or `.size`.
+#'   - The type of the vector is the common type of the RHS inputs, or `.ptype`.
 #'
 #' @seealso [case_match()]
 #'
@@ -162,12 +163,18 @@ case_when <- function(..., .default = NULL, .ptype = NULL, .size = NULL) {
   conditions <- args$lhs
   values <- args$rhs
 
-  # `case_when()`'s formula interface finds the common size of ALL of its inputs.
-  # This is what allows `TRUE ~` to work.
-  .size <- vec_size_common(!!!conditions, !!!values, .size = .size)
-
+  # Unfortunate historical behavior patch:
+  #
+  # `case_when()`'s formula interface finds the common size of all LHS inputs.
+  # This is what allows `TRUE ~` to work. Unfortunately, this has caused a lot
+  # of confusion over the years when `TRUE ~` isn't involved (#7082) and we wish
+  # that we could enforce that all LHS inputs must be the same size (without
+  # recycling).
+  #
+  # Additionally, for `case_when()`, the LHS common size is the size that each
+  # RHS value must recycle to.
+  .size <- vec_size_common(!!!conditions, .size = .size)
   conditions <- vec_recycle_common(!!!conditions, .size = .size)
-  values <- vec_recycle_common(!!!values, .size = .size)
 
   vec_case_when(
     conditions = conditions,
