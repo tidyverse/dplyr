@@ -23,8 +23,9 @@
 #' @param ptype An optional prototype declaring the desired output type. If
 #'   supplied, this overrides the common type of `true`, `false`, and `missing`.
 #'
-#' @param size An optional size declaring the desired output size. If supplied,
-#'   this overrides the size of `condition`.
+#' @param size `r lifecycle::badge("deprecated")`
+#'
+#'   Output size is always taken from `condition`.
 #'
 #' @return
 #' A vector with the same size as `condition` and the same type as the common
@@ -57,9 +58,13 @@ if_else <- function(
   missing = NULL,
   ...,
   ptype = NULL,
-  size = NULL
+  size = deprecated()
 ) {
   check_dots_empty0(...)
+
+  if (!is_missing(size)) {
+    lifecycle::deprecate_warn("1.2.0", "if_else(size = )")
+  }
 
   # Assert early since we `!` the `condition`
   check_logical(condition)
@@ -81,7 +86,6 @@ if_else <- function(
     default = missing,
     default_arg = "missing",
     ptype = ptype,
-    size = size,
     call = current_env()
   )
 }
