@@ -35,6 +35,8 @@
 #' `FALSE`, the matching values from `false`, and where it is `NA`, the matching
 #' values from `missing`, if provided, otherwise a missing value will be used.
 #'
+#' @seealso [vctrs::vec_if_else()]
+#'
 #' @export
 #' @examples
 #' x <- c(-5:5, NA)
@@ -66,26 +68,12 @@ if_else <- function(
     lifecycle::deprecate_warn("1.2.0", "if_else(size = )")
   }
 
-  # Assert early since we `!` the `condition`
-  check_logical(condition)
-
-  conditions <- list(
+  vec_if_else(
     condition = condition,
-    !condition
-  )
-  values <- list(
     true = true,
-    false = false
-  )
-
-  vec_case_when(
-    conditions = conditions,
-    values = values,
-    conditions_arg = "",
-    values_arg = "",
-    default = missing,
-    default_arg = "missing",
+    false = false,
+    missing = missing,
     ptype = ptype,
-    call = current_env()
+    error_call = current_env()
   )
 }

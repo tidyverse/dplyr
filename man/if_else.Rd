@@ -67,3 +67,6 @@ if_else(x \%in\% c("a", "b", "c"), x, NA)
 starwars |>
   mutate(category = if_else(height < 100, "short", "tall"), .keep = "used")
 }
+\seealso{
+\code{\link[vctrs:vec_if_else]{vctrs::vec_if_else()}}
+}

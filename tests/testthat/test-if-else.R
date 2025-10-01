@@ -74,6 +74,14 @@ test_that("`condition` must be logical (and isn't cast to logical!)", {
   })
 })
 
+test_that("`condition` can't be an array (#7723)", {
+  expect_snapshot(error = TRUE, {
+    # TODO: Error message will improve with
+    # https://github.com/r-lib/rlang/pull/1832
+    if_else(array(TRUE), 1, 2)
+  })
+})
+
 test_that("`true`, `false`, and `missing` must recycle to the size of `condition`", {
   x <- 1:3
   bad <- 1:2
