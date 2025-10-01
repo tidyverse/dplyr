@@ -66,11 +66,11 @@
       ! Can't convert from `false` <double> to <integer> due to loss of precision.
       * Locations: 1
 
-# `size` overrides the `condition` size
+# `size` is deprecated
 
     Code
-      if_else(TRUE, 1, 2, size = 2)
+      x <- if_else(c(TRUE, FALSE), 1, 2, size = 2)
     Condition
-      Error in `if_else()`:
-      ! `condition` must have size 2, not size 1.
+      Warning:
+      The `size` argument of `if_else()` is deprecated as of dplyr 1.2.0.
 
