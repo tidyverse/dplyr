@@ -74,7 +74,15 @@ into account when determining what the output type should be.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">if_else</span><span class="op">(</span><span class="va">condition</span>, <span class="va">true</span>, <span class="va">false</span>, missing <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span>, ptype <span class="op">=</span> <span class="cn">NULL</span>, size <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">if_else</span><span class="op">(</span></span>
+<span>  <span class="va">condition</span>,</span>
+<span>  <span class="va">true</span>,</span>
+<span>  <span class="va">false</span>,</span>
+<span>  missing <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  ptype <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  size <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -108,8 +116,8 @@ supplied, this overrides the common type of <code>true</code>, <code>false</code
 
 
 <dt id="arg-size">size<a class="anchor" aria-label="anchor" href="#arg-size"></a></dt>
-<dd><p>An optional size declaring the desired output size. If supplied,
-this overrides the size of <code>condition</code>.</p></dd>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a></p>
+<p>Output size is always taken from <code>condition</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
