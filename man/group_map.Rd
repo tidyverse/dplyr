@@ -75,7 +75,7 @@ mtcars |>
 mtcars |>
   group_by(cyl) |>
   group_modify(~ head(.x, 2L))
-\dontshow{if (requireNamespace("broom", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (requireNamespace("broom", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 # a list of tibbles
 iris |>

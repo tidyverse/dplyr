@@ -91,7 +91,7 @@ models <- mtcars |>
 models
 
 models |> summarise(rsq = summary(model)$r.squared)
-\dontshow{if (requireNamespace("broom", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (requireNamespace("broom", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 # This is particularly elegant with the broom functions
 models |> summarise(broom::glance(model))

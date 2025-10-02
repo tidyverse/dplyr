@@ -63,7 +63,7 @@ directly on an \code{DBIConnection}. See \url{https://dbplyr.tidyverse.org/} for
 more details.
 }
 \examples{
-\dontshow{if (requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
 copy_to(con, mtcars)
 
