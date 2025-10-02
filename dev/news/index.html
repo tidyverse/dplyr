@@ -87,8 +87,9 @@
 <p>The recycling behavior that allows this style of <code><a href="../reference/case_when.html">case_when()</a></code> to work is unsafe, and can result in silent bugs that we’d like to guard against with an error in the future (<a href="https://github.com/tidyverse/dplyr/issues/7082" class="external-link">#7082</a>).</p>
 </li>
 <li>
-<p>The following vector functions have gotten significantly faster and use much less memory due to a rewrite in C via vctrs (<a href="https://github.com/tidyverse/dplyr/issues/7723" class="external-link">#7723</a>):</p>
+<p>The following vector functions have gotten significantly faster and use much less memory due to a rewrite in C via vctrs (<a href="https://github.com/tidyverse/dplyr/issues/7723" class="external-link">#7723</a>, <a href="https://github.com/tidyverse/dplyr/issues/7725" class="external-link">#7725</a>, <a href="https://github.com/tidyverse/dplyr/issues/7727" class="external-link">#7727</a>):</p>
 <ul><li><code><a href="../reference/if_else.html">if_else()</a></code></li>
+<li><code><a href="../reference/case_when.html">case_when()</a></code></li>
 <li><code><a href="../reference/coalesce.html">coalesce()</a></code></li>
 </ul></li>
 <li><p><code><a href="../reference/if_else.html">if_else()</a></code> no longer allows <code>condition</code> to be a logical array. It must be a logical vector with no <code>dim</code> attribute (<a href="https://github.com/tidyverse/dplyr/issues/7723" class="external-link">#7723</a>).</p></li>
