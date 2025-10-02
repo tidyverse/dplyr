@@ -160,27 +160,27 @@ case_when <- function(..., .default = NULL, .ptype = NULL, .size = NULL) {
     error_call = current_env()
   )
 
-  cases <- args$lhs
+  conditions <- args$lhs
   values <- args$rhs
 
   .size <- case_when_size_common(
-    cases = cases,
+    conditions = conditions,
     values = values,
     size = .size
   )
 
-  # Only recycle `cases`. Expect that `vec_case_when()` requires all `cases` to
-  # be the same size, but can efficiently recycle `values` at the C level
-  # without extra allocations.
-  cases <- vec_recycle_common(!!!cases, .size = .size)
+  # Only recycle `conditions`. Expect that `vec_case_when()` requires all
+  # `conditions` to be the same size, but can efficiently recycle `values` at
+  # the C level without extra allocations.
+  conditions <- vec_recycle_common(!!!conditions, .size = .size)
 
   vec_case_when(
-    cases = cases,
+    conditions = conditions,
     values = values,
     default = .default,
     ptype = .ptype,
     size = .size,
-    cases_arg = "",
+    conditions_arg = "",
     values_arg = "",
     default_arg = ".default",
     error_call = current_env()
@@ -210,26 +210,26 @@ case_when <- function(..., .default = NULL, .ptype = NULL, .size = NULL) {
 #
 # There are four cases to consider:
 #
-# 1. `size_cases == 1, size_values == 1`
+# 1. `size_conditions == 1, size_values == 1`
 #
 #    Fine, use size 1
 #
-# 2. `size_cases == 1, size_values != 1`
+# 2. `size_conditions == 1, size_values != 1`
 #
 #    Use `size_values` for historical reasons, but warn against this. This is
 #    people doing off-label usage of `case_when()` when they should be using a
 #    series of if statements.
 #
-# 3. `size_cases != 1, size_values == 1`
+# 3. `size_conditions != 1, size_values == 1`
 #
-#    Fine, use `size_cases`
+#    Fine, use `size_conditions`
 #
-# 4. `size_cases != 1, size_values != 1`
+# 4. `size_conditions != 1, size_values != 1`
 #
-#    If `size_cases == size_values`, good to go, else throw an error by
+#    If `size_conditions == size_values`, good to go, else throw an error by
 #    recalling `vec_size_common()` with all inputs.
 case_when_size_common <- function(
-  cases,
+  conditions,
   values,
   size,
   ...,
@@ -238,8 +238,8 @@ case_when_size_common <- function(
 ) {
   # These error if there are any size incompatibilites within LHS and RHS inputs,
   # but not across LHS and RHS inputs
-  size_cases <- vec_size_common(
-    !!!cases,
+  size_conditions <- vec_size_common(
+    !!!conditions,
     .size = size,
     .call = error_call
   )
@@ -249,11 +249,11 @@ case_when_size_common <- function(
     .call = error_call
   )
 
-  if (size_cases == 1L && size_values == 1L) {
+  if (size_conditions == 1L && size_values == 1L) {
     return(1L)
   }
 
-  if (size_cases == 1L && size_values != 1L) {
+  if (size_conditions == 1L && size_values != 1L) {
     warn_case_when_scalar_lhs_vector_rhs(
       env = error_call,
       user_env = user_env
@@ -261,18 +261,18 @@ case_when_size_common <- function(
     return(size_values)
   }
 
-  if (size_cases != 1L && size_values == 1L) {
-    return(size_cases)
+  if (size_conditions != 1L && size_values == 1L) {
+    return(size_conditions)
   }
 
-  if (size_cases != 1L && size_values != 1L) {
-    if (size_cases == size_values) {
-      return(size_cases)
+  if (size_conditions != 1L && size_values != 1L) {
+    if (size_conditions == size_values) {
+      return(size_conditions)
     }
 
     # Errors
     vec_size_common(
-      !!!cases,
+      !!!conditions,
       !!!values,
       .size = size,
       .call = error_call

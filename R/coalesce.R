@@ -73,12 +73,12 @@ coalesce <- function(..., .ptype = NULL, .size = NULL) {
   values <- args$values
   default <- args$default
 
-  cases <- map(values, function(value) {
+  conditions <- map(values, function(value) {
     !vec_detect_missing(value)
   })
 
   vec_case_when(
-    cases = cases,
+    conditions = conditions,
     values = values,
     default = default,
     ptype = .ptype,

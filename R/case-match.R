@@ -175,17 +175,17 @@ vec_case_match <- function(
     .call = call
   )
 
-  cases <- map(haystacks, vec_in, needles = needles)
+  conditions <- map(haystacks, vec_in, needles = needles)
 
   size <- vec_size(needles)
 
   vec_case_when(
-    cases = cases,
+    conditions = conditions,
     values = values,
     default = default,
     ptype = ptype,
     size = size,
-    cases_arg = "",
+    conditions_arg = "",
     values_arg = values_arg,
     default_arg = default_arg,
     error_call = call
