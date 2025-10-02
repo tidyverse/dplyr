@@ -68,40 +68,6 @@ test_that("any `TRUE` overrides an `NA`", {
   )
 })
 
-test_that("atomic conditions (#2909)", {
-  expect_equal(
-    case_when(
-      TRUE ~ 1:3,
-      FALSE ~ 4:6
-    ),
-    1:3
-  )
-  expect_equal(
-    case_when(
-      NA ~ 1:3,
-      TRUE ~ 4:6
-    ),
-    4:6
-  )
-})
-
-test_that("zero-length conditions and values (#3041)", {
-  expect_equal(
-    case_when(
-      TRUE ~ integer(),
-      FALSE ~ integer()
-    ),
-    integer()
-  )
-  expect_equal(
-    case_when(
-      logical() ~ 1,
-      logical() ~ 2
-    ),
-    numeric()
-  )
-})
-
 test_that("case_when can be used in anonymous functions (#3422)", {
   res <- tibble(a = 1:3) |>
     mutate(b = (function(x) case_when(x < 2 ~ TRUE, .default = FALSE))(a)) |>
@@ -210,8 +176,10 @@ test_that("NULL inputs are compacted", {
 
 test_that("passes through `.default` correctly", {
   expect_identical(case_when(FALSE ~ 1, .default = 2), 2)
-  expect_identical(case_when(FALSE ~ 1:5, .default = 2), rep(2, 5))
-  expect_identical(case_when(FALSE ~ 1:5, .default = 2:6), 2:6)
+  expect_identical(
+    case_when(c(TRUE, FALSE, TRUE, FALSE, TRUE) ~ 1:5, .default = 2),
+    c(1, 2, 3, 2, 5)
+  )
 })
 
 test_that("`.default` isn't part of recycling", {
@@ -253,6 +221,7 @@ test_that("invalid type errors are correct (#6261) (#6206)", {
 
 test_that("`NULL` formula element throws meaningful error", {
   expect_snapshot(error = TRUE, {
+    # This also triggers the scalar LHS vector RHS warning
     case_when(1 ~ NULL)
   })
   expect_snapshot(error = TRUE, {
@@ -287,7 +256,7 @@ test_that("case_when() give meaningful errors", {
     ))
 
     (expect_error(
-      case_when(50 ~ 1:3)
+      case_when(51:53 ~ 1:3)
     ))
     (expect_error(
       case_when(paste(50))
@@ -305,4 +274,69 @@ test_that("case_when() give meaningful errors", {
       case_when(~ 1:2)
     ))
   })
+})
+
+# Deprecated --------------------------------------------------------------
+
+test_that("Using scalar LHS with vector RHS is deprecated (#7082)", {
+  # In many packages, people use `case_when()` when they should be using a
+  # series of if statements. We try to warn when we detect this.
+  expect_snapshot({
+    # Columns
+    x <- 1:5
+    y <- 6:10
+
+    # Scalars
+    code <- 1L
+    sex <- "M"
+
+    # This is really a series of if statements.
+    # This is highly inefficient because each scalar LHS is recycled to size 5.
+    expect_identical(
+      case_when(
+        code == 1L && sex == "M" ~ x,
+        code == 1L && sex == "F" ~ y,
+        code == 1L && sex == "M" ~ x + 1L,
+        .default = 0L
+      ),
+      x
+    )
+  })
+
+  # Motivating example of a silent bug that results from allowing this kind of
+  # common size determination (#7082). We ideally want this case to fail. LHS
+  # common size is 1 and RHS inputs ideally should be forced to recycle to this
+  # size. Since both the LHS and RHS inputs are consulted to compute a common
+  # size of 0, this incorrectly returns `character()`, but we at least warn the
+  # user that something is fishy here, and hopefully they take a closer look and
+  # catch their error.
+  expect_snapshot({
+    x <- 1
+    case_when(
+      x == 1 ~ "a",
+      x == 2 ~ character(),
+      .default = "other"
+    )
+  })
+
+  # Now confirm that the other 3 possible combinations don't warn!
+
+  # size 1 LHS, size 1 RHS
+  expect_identical(
+    expect_no_warning(case_when(TRUE ~ "a", FALSE ~ "b")),
+    "a"
+  )
+  # size >1 LHS, size 1 RHS
+  expect_identical(
+    expect_no_warning(case_when(c(TRUE, FALSE) ~ "a", c(FALSE, TRUE) ~ "b")),
+    c("a", "b")
+  )
+  # size >1 LHS, size >1 RHS
+  expect_identical(
+    expect_no_warning(case_when(
+      c(TRUE, FALSE) ~ c("a", "b"),
+      c(FALSE, TRUE) ~ c("c", "d")
+    )),
+    c("a", "d")
+  )
 })

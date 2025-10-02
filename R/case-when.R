@@ -16,10 +16,10 @@
 #'
 #'   The RHS inputs will be coerced to their common type.
 #'
-#'   All inputs will be recycled to their common size. That said, we encourage
-#'   all LHS inputs to be the same size. Recycling is mainly useful for RHS
-#'   inputs, where you might supply a size 1 input that will be recycled to the
-#'   size of the LHS inputs.
+#'   For historical reasons, all LHS inputs will be recycled to their common
+#'   size. That said, we encourage all LHS inputs to be the same size, which you
+#'   can optionally enforce with `.size`. All RHS inputs will be recycled to the
+#'   common size of the LHS inputs.
 #'
 #'   `NULL` inputs are ignored.
 #'
@@ -27,7 +27,7 @@
 #'   `FALSE` or `NA`.
 #'
 #'   `.default` must be size 1 or the same size as the common size computed
-#'   from `...`.
+#'   from the LHS inputs.
 #'
 #'   `.default` participates in the computation of the common type with the RHS
 #'   inputs.
@@ -45,11 +45,12 @@
 #'   supplied, this overrides the common type of the RHS inputs.
 #'
 #' @param .size An optional size declaring the desired output size. If supplied,
-#'   this overrides the common size computed from `...`.
+#'   this overrides the common size computed from the LHS inputs.
 #'
-#' @return A vector with the same size as the common size computed from the
-#'   inputs in `...` and the same type as the common type of the RHS inputs
-#'   in `...`.
+#' @return A vector
+#'
+#'   - The size of the vector is the common size of the LHS inputs, or `.size`.
+#'   - The type of the vector is the common type of the RHS inputs, or `.ptype`.
 #'
 #' @seealso [case_match()]
 #'
@@ -162,12 +163,16 @@ case_when <- function(..., .default = NULL, .ptype = NULL, .size = NULL) {
   conditions <- args$lhs
   values <- args$rhs
 
-  # `case_when()`'s formula interface finds the common size of ALL of its inputs.
-  # This is what allows `TRUE ~` to work.
-  .size <- vec_size_common(!!!conditions, !!!values, .size = .size)
+  .size <- case_when_size_common(
+    conditions = conditions,
+    values = values,
+    size = .size
+  )
 
+  # Only recycle `conditions`. Expect that `vec_case_when()` requires all
+  # `conditions` to be the same size, but can efficiently recycle `values`
+  # at the C level without extra allocations.
   conditions <- vec_recycle_common(!!!conditions, .size = .size)
-  values <- vec_recycle_common(!!!values, .size = .size)
 
   vec_case_when(
     conditions = conditions,
@@ -180,6 +185,148 @@ case_when <- function(..., .default = NULL, .ptype = NULL, .size = NULL) {
     size = .size,
     call = current_env()
   )
+}
+
+# Size common computation for `case_when()`
+#
+# `case_when()`'s formula interface historically finds the common size of ALL
+# inputs. This is not good, ideally it would force all LHS inputs to have the
+# same size (with no recycling), and then recycle all RHS inputs to that size
+# inferred from the LHS. That is how `vec_case_when()` works.
+#
+# We can't change this easily for two reasons:
+#
+# - `TRUE ~` must continue to work for legacy reasons, so at the very least all
+#   LHS inputs must be recycled against each other. We are okay with this.
+#
+# - Many packages (60+) use `case_when()` with scalar LHSs but vector RHSs,
+#   requiring that all inputs by recycled against each other. This usage should
+#   be replaced with a series of if statements. This is a highly inefficient use
+#   of `case_when()` because each scalar LHS has to be recycled to the size
+#   determined from the RHS, which is a big waste of memory and time. This
+#   behavior can also allow real bugs to slip through silently (#7082), which is
+#   bad. To combat this case, we specially detect this and throw a deprecation
+#   warning.
+#
+# There are four cases to consider:
+#
+# 1. `size_conditions == 1, size_values == 1`
+#
+#    Fine, use size 1
+#
+# 2. `size_conditions == 1, size_values != 1`
+#
+#    Use `size_values` for historical reasons, but warn against this. This is
+#    people doing off-label usage of `case_when()` when they should be using a
+#    series of if statements.
+#
+# 3. `size_conditions != 1, size_values == 1`
+#
+#    Fine, use `size_conditions`
+#
+# 4. `size_conditions != 1, size_values != 1`
+#
+#    If `size_conditions == size_values`, good to go, else throw an error by
+#    recalling `vec_size_common()` with all inputs.
+case_when_size_common <- function(
+  conditions,
+  values,
+  size,
+  ...,
+  user_env = caller_env(2),
+  error_call = caller_env()
+) {
+  # These error if there are any size incompatibilites within LHS and RHS inputs,
+  # but not across LHS and RHS inputs
+  size_conditions <- vec_size_common(
+    !!!conditions,
+    .size = size,
+    .call = error_call
+  )
+  size_values <- vec_size_common(
+    !!!values,
+    .size = size,
+    .call = error_call
+  )
+
+  if (size_conditions == 1L && size_values == 1L) {
+    return(1L)
+  }
+
+  if (size_conditions == 1L && size_values != 1L) {
+    warn_case_when_scalar_lhs_vector_rhs(
+      env = error_call,
+      user_env = user_env
+    )
+    return(size_values)
+  }
+
+  if (size_conditions != 1L && size_values == 1L) {
+    return(size_conditions)
+  }
+
+  if (size_conditions != 1L && size_values != 1L) {
+    if (size_conditions == size_values) {
+      return(size_conditions)
+    }
+
+    # Errors
+    vec_size_common(
+      !!!conditions,
+      !!!values,
+      .size = size,
+      .call = error_call
+    )
+
+    abort("`vec_size_common()` should have errored.", .internal = TRUE)
+  }
+
+  abort("All cases should have been covered.", .internal = TRUE)
+}
+
+warn_case_when_scalar_lhs_vector_rhs <- function(
+  env,
+  user_env
+) {
+  what <- I(
+    "Calling `case_when()` with size 1 LHS inputs and size >1 RHS inputs"
+  )
+
+  details <- no_cli_wrapping(paste(
+    sep = "\n",
+    "This `case_when()` statement can result in subtle silent bugs and is very inefficient.",
+    "",
+    "  Please use a series of if statements instead:",
+    "",
+    "  ```",
+    "  # Previously",
+    "  case_when(scalar_lhs1 ~ rhs1, scalar_lhs2 ~ rhs2, .default = default)",
+    "",
+    "  # Now",
+    "  if (scalar_lhs1) {",
+    "    rhs1",
+    "  } else if (scalar_lhs2) {",
+    "    rhs2",
+    "  } else {",
+    "    default",
+    "  }",
+    "  ```"
+  ))
+
+  lifecycle::deprecate_soft(
+    when = "1.2.0",
+    what = what,
+    details = details,
+    env = env,
+    user_env = user_env
+  )
+}
+
+# Suppress cli wrapping https://cli.r-lib.org/reference/inline-markup.html#wrapping
+no_cli_wrapping <- function(x) {
+  x <- gsub(" ", "\u00a0", x, fixed = TRUE)
+  x <- gsub("\n", "\f", x, fixed = TRUE)
+  x
 }
 
 case_formula_evaluate <- function(args, default_env, dots_env, error_call) {
