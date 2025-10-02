@@ -76,8 +76,6 @@ test_that("`condition` must be logical (and isn't cast to logical!)", {
 
 test_that("`condition` can't be an array (#7723)", {
   expect_snapshot(error = TRUE, {
-    # TODO: Error message will improve with
-    # https://github.com/r-lib/rlang/pull/1832
     if_else(array(TRUE), 1, 2)
   })
 })

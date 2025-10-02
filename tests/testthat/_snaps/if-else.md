@@ -28,7 +28,7 @@
       if_else(array(TRUE), 1, 2)
     Condition
       Error in `if_else()`:
-      ! `condition` must be a logical vector, not a logical vector.
+      ! `condition` must be a logical vector, not a logical 1D array.
 
 # `true`, `false`, and `missing` must recycle to the size of `condition`
 
