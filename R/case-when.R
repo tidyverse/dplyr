@@ -170,20 +170,20 @@ case_when <- function(..., .default = NULL, .ptype = NULL, .size = NULL) {
   )
 
   # Only recycle `conditions`. Expect that `vec_case_when()` requires all
-  # `conditions` to be the same size, but can efficiently recycle `values`
-  # at the C level without extra allocations.
+  # `conditions` to be the same size, but can efficiently recycle `values` at
+  # the C level without extra allocations.
   conditions <- vec_recycle_common(!!!conditions, .size = .size)
 
   vec_case_when(
     conditions = conditions,
     values = values,
-    conditions_arg = "",
-    values_arg = "",
     default = .default,
-    default_arg = ".default",
     ptype = .ptype,
     size = .size,
-    call = current_env()
+    conditions_arg = "",
+    values_arg = "",
+    default_arg = ".default",
+    error_call = current_env()
   )
 }
 
@@ -334,6 +334,10 @@ case_formula_evaluate <- function(args, default_env, dots_env, error_call) {
   args <- compact_null(args)
   n_args <- length(args)
   seq_args <- seq_len(n_args)
+
+  if (n_args == 0L) {
+    abort("At least one condition must be supplied.", call = error_call)
+  }
 
   pairs <- map2(
     .x = args,

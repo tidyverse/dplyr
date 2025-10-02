@@ -29,9 +29,10 @@
 
   The recycling behavior that allows this style of `case_when()` to work is unsafe, and can result in silent bugs that we'd like to guard against with an error in the future (#7082).
 
-* The following vector functions have gotten significantly faster and use much less memory due to a rewrite in C via vctrs (#7723):
+* The following vector functions have gotten significantly faster and use much less memory due to a rewrite in C via vctrs (#7723, #7725, #7727):
 
   * `if_else()`
+  * `case_when()`
   * `coalesce()`
 
 * `if_else()` no longer allows `condition` to be a logical array. It must be a logical vector with no `dim` attribute (#7723).

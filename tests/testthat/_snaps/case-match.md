@@ -14,14 +14,6 @@
       Error in `case_match()`:
       ! At least one condition must be supplied.
 
----
-
-    Code
-      vec_case_match(1, haystacks = list(), values = list())
-    Condition
-      Error in `vec_case_match()`:
-      ! At least one condition must be supplied.
-
 # `.default` is part of common type computation
 
     Code

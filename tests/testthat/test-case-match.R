@@ -244,12 +244,6 @@ test_that("size of `needles` is maintained", {
   })
 })
 
-test_that("requires at least one condition", {
-  expect_snapshot(error = TRUE, {
-    vec_case_match(1, haystacks = list(), values = list())
-  })
-})
-
 test_that("input must be a vector", {
   expect_snapshot(error = TRUE, {
     vec_case_match(

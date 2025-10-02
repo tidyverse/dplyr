@@ -8,6 +8,11 @@ paste_line <- function(...) {
   paste(chr(...), collapse = "\n")
 }
 
+vec_paste0 <- function(...) {
+  args <- vec_recycle_common(...)
+  exec(paste0, !!!args)
+}
+
 # Until vctrs::new_data_frame() forwards row names automatically
 dplyr_new_data_frame <- function(
   x = data.frame(),

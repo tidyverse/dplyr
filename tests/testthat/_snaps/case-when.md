@@ -1,10 +1,50 @@
+# case_when() conditions must be logical (and aren't cast to logical!)
+
+    Code
+      case_when(1 ~ 2)
+    Condition
+      Error in `case_when()`:
+      ! `..1 (left)` must be a logical vector, not the number 1.
+
+---
+
+    Code
+      case_when(TRUE ~ 2, 3.5 ~ 4)
+    Condition
+      Error in `case_when()`:
+      ! `..2 (left)` must be a logical vector, not the number 3.5.
+
+# case_when() does not accept classed logical conditions
+
+    Code
+      case_when(x ~ 1)
+    Condition
+      Error in `case_when()`:
+      ! `..1 (left)` must be a logical vector, not a <my_logical> object.
+
+# case_when() logical conditions can't be arrays (#6862)
+
+    Code
+      case_when(x ~ y)
+    Condition
+      Error in `case_when()`:
+      ! `..1 (left)` must be a logical vector, not a logical matrix.
+
+---
+
+    Code
+      case_when(x ~ y)
+    Condition
+      Error in `case_when()`:
+      ! `..1 (left)` must be a logical vector, not a logical 1D array.
+
 # `.default` isn't part of recycling
 
     Code
       case_when(FALSE ~ 1L, .default = 2:5)
     Condition
       Error in `case_when()`:
-      ! `.default` must have size 1, not size 4.
+      ! Can't recycle `.default` (size 4) to size 1.
 
 # `.default` is part of common type computation
 
@@ -12,7 +52,7 @@
       case_when(TRUE ~ 1L, .default = "x")
     Condition
       Error in `case_when()`:
-      ! Can't combine `..1 (right)` <integer> and `.default` <character>.
+      ! Can't combine <integer> and `.default` <character>.
 
 # passes through `.size` correctly
 
@@ -20,7 +60,7 @@
       case_when(TRUE ~ 1:2, .size = 3)
     Condition
       Error in `case_when()`:
-      ! `..1 (right)` must have size 3, not size 2.
+      ! Can't recycle `..1 (right)` (size 2) to size 3.
 
 # invalid type errors are correct (#6261) (#6206)
 
@@ -33,7 +73,7 @@
 # `NULL` formula element throws meaningful error
 
     Code
-      case_when(1 ~ NULL)
+      case_when(TRUE ~ NULL)
     Condition
       Warning:
       Calling `case_when()` with size 1 LHS inputs and size >1 RHS inputs was deprecated in dplyr 1.2.0.
