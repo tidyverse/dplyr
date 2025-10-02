@@ -88,9 +88,43 @@ test_that("case_when() can be used inside mutate()", {
   expect_identical(out, c(2, 2, 1, 0))
 })
 
-test_that("case_when() accepts logical conditions with attributes (#6678)", {
+test_that("case_when() conditions must be logical (and aren't cast to logical!)", {
+  expect_snapshot(error = TRUE, {
+    case_when(1 ~ 2)
+  })
+  # Make sure input numbering is right in the error message!
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE ~ 2, 3.5 ~ 4)
+  })
+})
+
+test_that("case_when() accepts logical condition vectors with attributes (#6678)", {
   x <- structure(c(FALSE, TRUE), label = "foo")
   expect_identical(case_when(x ~ 1, .default = 2), c(2, 1))
+})
+
+test_that("case_when() does not accept classed logical conditions", {
+  # From a vctrs perspective, these aren't "logical condition indices"
+  x <- structure(c(FALSE, TRUE), class = "my_logical")
+  expect_snapshot(error = TRUE, {
+    case_when(x ~ 1)
+  })
+})
+
+test_that("case_when() logical conditions can't be arrays (#6862)", {
+  x <- array(TRUE, dim = c(3, 3))
+  y <- c("a", "b", "c")
+
+  expect_snapshot(error = TRUE, {
+    case_when(x ~ y)
+  })
+
+  # Not even 1D arrays
+  x <- array(TRUE, dim = 3)
+
+  expect_snapshot(error = TRUE, {
+    case_when(x ~ y)
+  })
 })
 
 test_that("can pass quosures to case_when()", {
@@ -222,7 +256,7 @@ test_that("invalid type errors are correct (#6261) (#6206)", {
 test_that("`NULL` formula element throws meaningful error", {
   expect_snapshot(error = TRUE, {
     # This also triggers the scalar LHS vector RHS warning
-    case_when(1 ~ NULL)
+    case_when(TRUE ~ NULL)
   })
   expect_snapshot(error = TRUE, {
     case_when(NULL ~ 1)

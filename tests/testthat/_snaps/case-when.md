@@ -1,3 +1,43 @@
+# case_when() conditions must be logical (and aren't cast to logical!)
+
+    Code
+      case_when(1 ~ 2)
+    Condition
+      Error in `case_when()`:
+      ! `..1 (left)` must be a logical vector, not the number 1.
+
+---
+
+    Code
+      case_when(TRUE ~ 2, 3.5 ~ 4)
+    Condition
+      Error in `case_when()`:
+      ! `..2 (left)` must be a logical vector, not the number 3.5.
+
+# case_when() does not accept classed logical conditions
+
+    Code
+      case_when(x ~ 1)
+    Condition
+      Error in `case_when()`:
+      ! `..1 (left)` must be a logical vector, not a <my_logical> object.
+
+# case_when() logical conditions can't be arrays (#6862)
+
+    Code
+      case_when(x ~ y)
+    Condition
+      Error in `case_when()`:
+      ! `..1 (left)` must be a logical vector, not a logical matrix.
+
+---
+
+    Code
+      case_when(x ~ y)
+    Condition
+      Error in `case_when()`:
+      ! `..1 (left)` must be a logical vector, not a logical 1D array.
+
 # `.default` isn't part of recycling
 
     Code
@@ -33,7 +73,7 @@
 # `NULL` formula element throws meaningful error
 
     Code
-      case_when(1 ~ NULL)
+      case_when(TRUE ~ NULL)
     Condition
       Warning:
       Calling `case_when()` with size 1 LHS inputs and size >1 RHS inputs was deprecated in dplyr 1.2.0.
@@ -63,7 +103,7 @@
       case_when(NULL ~ 1)
     Condition
       Error in `case_when()`:
-      ! `..1 (left)` must be a vector, not `NULL`.
+      ! `..1 (left)` must be a logical vector, not `NULL`.
 
 # throws chained errors when formula evaluation fails
 
