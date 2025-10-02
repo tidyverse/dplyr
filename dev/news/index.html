@@ -60,8 +60,12 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
-<ul><li><p><code><a href="../reference/if_else.html">if_else()</a></code> no longer allows <code>condition</code> to be a logical array. It must be a logical vector with no <code>dim</code> attribute (<a href="https://github.com/tidyverse/dplyr/issues/7723" class="external-link">#7723</a>).</p></li>
-<li><p><code><a href="../reference/if_else.html">if_else()</a></code> has gotten significantly faster and uses much less memory due to a rewrite in C via <code><a href="https://vctrs.r-lib.org/reference/vec_if_else.html" class="external-link">vctrs::vec_if_else()</a></code> (<a href="https://github.com/tidyverse/dplyr/issues/7723" class="external-link">#7723</a>).</p></li>
+<ul><li>
+<p>The following vector functions have gotten significantly faster and use much less memory due to a rewrite in C via vctrs (<a href="https://github.com/tidyverse/dplyr/issues/7723" class="external-link">#7723</a>):</p>
+<ul><li><code><a href="../reference/if_else.html">if_else()</a></code></li>
+<li><code><a href="../reference/coalesce.html">coalesce()</a></code></li>
+</ul></li>
+<li><p><code><a href="../reference/if_else.html">if_else()</a></code> no longer allows <code>condition</code> to be a logical array. It must be a logical vector with no <code>dim</code> attribute (<a href="https://github.com/tidyverse/dplyr/issues/7723" class="external-link">#7723</a>).</p></li>
 <li><p>Passing <code>size</code> to <code><a href="../reference/if_else.html">if_else()</a></code> is now deprecated. The output size is always taken from the <code>condition</code> (<a href="https://github.com/tidyverse/dplyr/issues/7722" class="external-link">#7722</a>).</p></li>
 <li><p><code><a href="../reference/bind_rows.html">bind_rows()</a></code> now replaces empty (or <code>NA</code>) element names in a list with its numeric index while preserving existing names (<a href="https://github.com/tidyverse/dplyr/issues/7719" class="external-link">#7719</a>, <a href="https://github.com/Meghansaha" class="external-link">@Meghansaha</a>).</p></li>
 <li><p>New <code><a href="../reference/slice.html">slice_sample()</a></code> example showing how to use it to shuffle rows (<a href="https://github.com/tidyverse/dplyr/issues/7707" class="external-link">#7707</a>, <a href="https://github.com/Hzanib" class="external-link">@Hzanib</a>).</p></li>
