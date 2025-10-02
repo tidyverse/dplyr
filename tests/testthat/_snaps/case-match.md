@@ -4,7 +4,7 @@
       case_match(1)
     Condition
       Error in `case_match()`:
-      ! At least one condition must be supplied.
+      ! `...` can't be empty.
 
 ---
 
@@ -12,7 +12,7 @@
       case_match(1, NULL)
     Condition
       Error in `case_match()`:
-      ! At least one condition must be supplied.
+      ! `...` can't be empty.
 
 # `.default` is part of common type computation
 

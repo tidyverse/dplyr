@@ -163,13 +163,13 @@
     Output
       <error/rlang_error>
       Error in `case_when()`:
-      ! At least one condition must be supplied.
+      ! `...` can't be empty.
     Code
       (expect_error(case_when(NULL)))
     Output
       <error/rlang_error>
       Error in `case_when()`:
-      ! At least one condition must be supplied.
+      ! `...` can't be empty.
     Code
       (expect_error(case_when(~ 1:2)))
     Output
@@ -234,4 +234,39 @@
         ```
     Output
       character(0)
+
+# replace_when() allows vector RHS of the same size as `x`
+
+    Code
+      replace_when(x, x == 1 ~ 1:3)
+    Condition
+      Error in `replace_when()`:
+      ! Can't recycle `..1 (right)` (size 3) to size 6.
+
+# replace_when() does not recycle LHS values
+
+    Code
+      replace_when(x, TRUE ~ 0)
+    Condition
+      Error in `replace_when()`:
+      ! `..1 (left)` must have size 3, not size 1.
+
+# replace_when() retains the type of `x`
+
+    Code
+      replace_when(x, x == "a" ~ "d")
+    Condition
+      Error in `replace_when()`:
+      ! Can't convert from `..1 (right)` <character> to <factor<af15a>> due to loss of generality.
+      * Locations: 1
+
+# replace_when() does not allow named `...`
+
+    Code
+      replace_when(1, foo = TRUE ~ 2)
+    Condition
+      Error in `replace_when()`:
+      ! Arguments in `...` must be passed by position, not name.
+      x Problematic argument:
+      * foo = TRUE ~ 2
 
