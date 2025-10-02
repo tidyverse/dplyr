@@ -90,10 +90,10 @@ formulas. The left hand side (LHS) determines which values match this case.
 The right hand side (RHS) provides the replacement value.</p>
 <p>The LHS inputs must evaluate to logical vectors.</p>
 <p>The RHS inputs will be coerced to their common type.</p>
-<p>All inputs will be recycled to their common size. That said, we encourage
-all LHS inputs to be the same size. Recycling is mainly useful for RHS
-inputs, where you might supply a size 1 input that will be recycled to the
-size of the LHS inputs.</p>
+<p>For historical reasons, all LHS inputs will be recycled to their common
+size. That said, we encourage all LHS inputs to be the same size, which you
+can optionally enforce with <code>.size</code>. All RHS inputs will be recycled to the
+common size of the LHS inputs.</p>
 <p><code>NULL</code> inputs are ignored.</p></dd>
 
 
@@ -101,7 +101,7 @@ size of the LHS inputs.</p>
 <dd><p>The value used when all of the LHS inputs return either
 <code>FALSE</code> or <code>NA</code>.</p>
 <p><code>.default</code> must be size 1 or the same size as the common size computed
-from <code>...</code>.</p>
+from the LHS inputs.</p>
 <p><code>.default</code> participates in the computation of the common type with the RHS
 inputs.</p>
 <p><code>NA</code> values in the LHS conditions are treated like <code>FALSE</code>, meaning that
@@ -120,15 +120,14 @@ supplied, this overrides the common type of the RHS inputs.</p></dd>
 
 <dt id="arg--size">.size<a class="anchor" aria-label="anchor" href="#arg--size"></a></dt>
 <dd><p>An optional size declaring the desired output size. If supplied,
-this overrides the common size computed from <code>...</code>.</p></dd>
+this overrides the common size computed from the LHS inputs.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A vector with the same size as the common size computed from the
-inputs in <code>...</code> and the same type as the common type of the RHS inputs
-in <code>...</code>.</p>
-    </div>
+    <p>A vector</p><ul><li><p>The size of the vector is the common size of the LHS inputs, or <code>.size</code>.</p></li>
+<li><p>The type of the vector is the common type of the RHS inputs, or <code>.ptype</code>.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="case_match.html">case_match()</a></code></p></div>
