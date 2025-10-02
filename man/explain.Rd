@@ -31,7 +31,7 @@ diagnosing performance problems.
 }
 
 \examples{
-\dontshow{if (requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 \donttest{
 lahman_s <- dbplyr::lahman_sqlite()
 batting <- tbl(lahman_s, "Batting")
