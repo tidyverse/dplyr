@@ -1,8 +1,11 @@
 # dplyr (development version)
 
-* `if_else()` no longer allows `condition` to be a logical array. It must be a logical vector with no `dim` attribute (#7723).
+* The following vector functions have gotten significantly faster and use much less memory due to a rewrite in C via vctrs (#7723):
 
-* `if_else()` has gotten significantly faster and uses much less memory due to a rewrite in C via `vctrs::vec_if_else()` (#7723).
+  * `if_else()`
+  * `coalesce()`
+
+* `if_else()` no longer allows `condition` to be a logical array. It must be a logical vector with no `dim` attribute (#7723).
 
 * Passing `size` to `if_else()` is now deprecated. The output size is always taken from the `condition` (#7722).
 
