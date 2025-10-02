@@ -77,7 +77,7 @@ coalesce <- function(..., .ptype = NULL, .size = NULL) {
     !vec_detect_missing(value)
   })
 
-  vctrs::vec_case_when(
+  vec_case_when(
     cases = cases,
     values = values,
     default = default,

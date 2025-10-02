@@ -4,7 +4,7 @@
       case_when(FALSE ~ 1L, .default = 2:5)
     Condition
       Error in `case_when()`:
-      ! `.default` must have size 1, not size 4.
+      ! Can't recycle `.default` (size 4) to size 1.
 
 # `.default` is part of common type computation
 
@@ -12,7 +12,7 @@
       case_when(TRUE ~ 1L, .default = "x")
     Condition
       Error in `case_when()`:
-      ! Can't combine `..1 (right)` <integer> and `.default` <character>.
+      ! Can't combine <integer> and `.default` <character>.
 
 # passes through `.size` correctly
 
@@ -20,7 +20,7 @@
       case_when(TRUE ~ 1:2, .size = 3)
     Condition
       Error in `case_when()`:
-      ! `..1 (right)` must have size 3, not size 2.
+      ! Can't recycle `..1 (right)` (size 2) to size 3.
 
 # invalid type errors are correct (#6261) (#6206)
 
@@ -63,7 +63,7 @@
       case_when(NULL ~ 1)
     Condition
       Error in `case_when()`:
-      ! `..1 (left)` must be a logical vector, not `NULL`.
+      ! `..1 (left)` must be a vector, not `NULL`.
 
 # throws chained errors when formula evaluation fails
 
