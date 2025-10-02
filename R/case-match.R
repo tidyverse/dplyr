@@ -125,8 +125,13 @@
 case_match <- function(.x, ..., .default = NULL, .ptype = NULL) {
   args <- list2(...)
 
-  args <- case_formula_evaluate(
+  # Historically it did not, even though in practice it could,
+  # like `replace_when()` and `replace_values()`.
+  allow_zero_conditions <- FALSE
+
+  args <- eval_formulas(
     args = args,
+    allow_zero_conditions = allow_zero_conditions,
     default_env = caller_env(),
     dots_env = current_env(),
     error_call = current_env()
