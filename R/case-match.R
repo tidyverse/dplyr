@@ -168,6 +168,12 @@ vec_case_match <- function(
   obj_check_list(haystacks, arg = haystacks_arg, call = call)
   list_check_all_vectors(haystacks, arg = haystacks_arg, call = call)
 
+  if (length(haystacks) == 0L) {
+    # `case_match()` is like `case_when()` and doesn't allow empty `...`,
+    # even though `vec_case_when()` is well defined for this case.
+    abort("At least one condition must be supplied.", call = call)
+  }
+
   haystacks <- vec_cast_common(
     !!!haystacks,
     .to = needles,
@@ -175,19 +181,19 @@ vec_case_match <- function(
     .call = call
   )
 
-  conditions <- map(haystacks, vec_in, needles = needles)
+  cases <- map(haystacks, vec_in, needles = needles)
 
   size <- vec_size(needles)
 
-  vec_case_when(
-    conditions = conditions,
+  vctrs::vec_case_when(
+    cases = cases,
     values = values,
-    conditions_arg = "",
-    values_arg = values_arg,
     default = default,
-    default_arg = default_arg,
     ptype = ptype,
     size = size,
-    call = call
+    cases_arg = "",
+    values_arg = values_arg,
+    default_arg = default_arg,
+    error_call = call
   )
 }

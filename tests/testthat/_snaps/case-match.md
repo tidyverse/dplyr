@@ -28,7 +28,7 @@
       case_match(1, 1 ~ 1L, .default = "x")
     Condition
       Error in `case_match()`:
-      ! Can't combine `..1 (right)` <integer> and `.default` <character>.
+      ! Can't combine <integer> and `.default` <character>.
 
 # `NULL` formula element throws meaningful error
 
@@ -124,7 +124,7 @@
       vec_case_match(1, haystacks = list(1), values = list(1:2))
     Condition
       Error in `vec_case_match()`:
-      ! `values[[1]]` must have size 1, not size 2.
+      ! Can't recycle `values[[1]]` (size 2) to size 1.
 
 # input must be a vector
 
