@@ -1,5 +1,16 @@
 # dplyr (development version)
 
+* `case_when()` is now part of a family of 4 related functions, 3 of which are new:
+
+  * Use `case_when()` to create a new vector based on logical conditions.
+  * Use `replace_when()` to update an existing vector based on logical conditions.
+  * Use `recode_values()` to create a new vector by mapping old values to new values.
+  * Use `replace_values()` to update an existing vector by mapping old values to new values.
+
+  We are particularly excited about `recode_values()`, which allows you to easily incorporate a lookup table, and serves as a more holistic replacement for both `case_match()` and `recode()`.
+
+  This work is a result of [Tidyup 7: Recoding and replacing values in the tidyverse](https://github.com/tidyverse/tidyups/blob/main/007-tidyverse-recoding-and-replacing.md), with a lot of great [feedback](https://github.com/tidyverse/tidyups/pull/29) from the community (#7728).
+
 * In `case_when()`, supplying all size 1 LHS inputs along with a size >1 RHS input is now soft-deprecated. This is an improper usage of `case_when()` that should instead be a series of if statements, like:
 
   ```
