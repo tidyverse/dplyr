@@ -11,7 +11,7 @@
 
   `recode_values()` and `replace_values()` have the familiar `case_when()`-style formula interface for easy interactive use, but also have `from` and `to` arguments as a way for you to incorporate a pre-built lookup table, making them more holistic replacements for both `case_match()` and `recode()`.
 
-  This work is a result of [Tidyup 7: Recoding and replacing values in the tidyverse](https://github.com/tidyverse/tidyups/blob/main/007-tidyverse-recoding-and-replacing.md), with a lot of great [feedback](https://github.com/tidyverse/tidyups/pull/29) from the community (#7728).
+  This work is a result of [Tidyup 7: Recoding and replacing values in the tidyverse](https://github.com/tidyverse/tidyups/blob/main/007-tidyverse-recoding-and-replacing.md), with a lot of great [feedback](https://github.com/tidyverse/tidyups/pull/29) from the community (#7728, #7729).
 
 * In `case_when()`, supplying all size 1 LHS inputs along with a size >1 RHS input is now soft-deprecated. This is an improper usage of `case_when()` that should instead be a series of if statements, like:
 

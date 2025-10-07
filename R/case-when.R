@@ -74,6 +74,8 @@
 #' For `replace_when()`, an updated version of `x`, with the same size, type,
 #' and names as `x`.
 #'
+#' @seealso [recode_values()]
+#'
 #' @name case-and-replace-when
 #'
 #' @examples

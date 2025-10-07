@@ -91,6 +91,7 @@ reference:
   - between
   - case_match
   - case_when
+  - recode_values
   - coalesce
   - consecutive_id
   - cumany
