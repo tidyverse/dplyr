@@ -107,12 +107,12 @@ test_that("rbind() works with rowwise data frames by calling bind_rows() (r-lib/
 
   # With bare tibble
   y <- tibble(a = 5:6)
-  out <- rbind(x, z)
+  out <- rbind(x, y)
   expect_identical(out, rowwise(tibble(a = c(1:2, 5:6))))
 
   # With grouped_df
   y <- group_by(tibble(a = 5:6), a)
-  out <- rbind(x, z)
+  out <- rbind(x, y)
   expect_identical(out, rowwise(tibble(a = c(1:2, 5:6))))
 })
 
