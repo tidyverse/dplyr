@@ -438,11 +438,11 @@ test_that("replace_when() retains names of `x`, consistent with `base::replace()
   x <- c(a = 1, b = 2, c = 3)
 
   expect_identical(
-    x |>
-      replace_when(
-        x == 1 ~ 0,
-        x == 3 ~ c(z = 4)
-      ),
+    replace_when(
+      x,
+      x == 1 ~ 0,
+      x == 3 ~ c(z = 4)
+    ),
     c(a = 0, b = 2, c = 4)
   )
 
@@ -450,11 +450,11 @@ test_that("replace_when() retains names of `x`, consistent with `base::replace()
   x <- c(1, 2, 3)
 
   expect_identical(
-    x |>
-      replace_when(
-        x == 1 ~ c(a = 0),
-        x == 3 ~ c(b = 4)
-      ),
+    replace_when(
+      x,
+      x == 1 ~ c(a = 0),
+      x == 3 ~ c(b = 4)
+    ),
     c(0, 2, 4)
   )
 })
