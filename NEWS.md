@@ -4,8 +4,8 @@
 
   * Use `case_when()` to create a new vector based on logical conditions.
   * Use `replace_when()` to update an existing vector based on logical conditions.
-  * Use `recode_values()` to create a new vector by mapping old values to new values.
-  * Use `replace_values()` to update an existing vector by mapping old values to new values.
+  * Use `recode_values()` to create a new vector by mapping all old values to new values.
+  * Use `replace_values()` to update an existing vector by mapping some old values to new values.
 
   `replace_when()` is particularly useful for conditionally mutating rows within one or more columns, and can be thought of as an enhanced version of `base::replace()`.
 
