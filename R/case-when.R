@@ -7,28 +7,18 @@
 #'
 #' - Use `case_when()` when creating an entirely new vector.
 #'
-#' - Use `replace_when()` when updating an existing vector.
+#' - Use `replace_when()` when partially updating an existing vector.
 #'
-#' If no cases match, then for `case_when()` a `.default` is used as a final
-#' "else" statement, and for `replace_when()` the original values from `x` are
-#' retained.
+#' If you are just replacing a few values within an existing vector, then
+#' `replace_when()` is always a better choice because it is type stable, size
+#' stable, pipes better, and better expresses intent.
 #'
-#' `case_when()` is an R equivalent of the SQL "searched" `CASE WHEN` statement.
+#' A major difference between the two functions is what happens when no cases
+#' match:
 #'
-#' @section Connection between `case_when()` and `replace_when()`:
+#' - `case_when()` falls through to a `.default` as a final "else" statement.
 #'
-#' The following two statements produce identical `result`s:
-#'
-#' ```r
-#' result <- replace_when(x, lhs ~ rhs)
-#'
-#' result <- case_when(lhs ~ rhs, .default = x, .ptype = x, .size = vec_size(x))
-#' result <- vec_set_names(result, vec_names(x))
-#' ```
-#'
-#' If you are replacing a few values within an existing vector, then
-#' `replace_when()` is always a better choice because it is type stable and size
-#' stable on `x`, pipes better, and better expresses intent.
+#' - `replace_when()` retains the original values from `x`.
 #'
 #' @param x A vector.
 #'
@@ -38,46 +28,30 @@
 #'
 #'   For `case_when()`:
 #'
-#'   - The LHS inputs must be logical vectors.
+#'   - The LHS inputs must be logical vectors. For backwards compatibility,
+#'     scalars are [recycled][vctrs::theory-faq-recycling], but we no longer
+#'     recommend supplying scalars.
 #'
 #'   - The RHS inputs will be [cast][vctrs::theory-faq-coercion] to their common
-#'     type, or to `.ptype` if provided.
-#'
-#'   - The LHS inputs will be [recycled][vctrs::theory-faq-recycling] to their
-#'     common size, for historical reasons. That said, we encourage all LHS
-#'     inputs to be the same size, which you can optionally enforce with
-#'     `.size`.
-#'
-#'   - The RHS inputs will be [recycled][vctrs::theory-faq-recycling] to the
-#'     common size of the LHS inputs.
+#'     type, and will be [recycled][vctrs::theory-faq-recycling] to the common
+#'     size of the LHS inputs.
 #'
 #'   For `replace_when()`:
 #'
-#'   - The LHS inputs must be logical vectors.
+#'   - The LHS inputs must be logical vectors the same size as `x`.
 #'
 #'   - The RHS inputs will be [cast][vctrs::theory-faq-coercion] to the type of
-#'     `x`.
-#'
-#'   - The LHS inputs must be the same size as `x`.
-#'
-#'   - The RHS inputs will be [recycled][vctrs::theory-faq-recycling] to the
-#'     same size as `x`.
+#'     `x` and [recycled][vctrs::theory-faq-recycling] to the size of `x`.
 #'
 #'   `NULL` inputs are ignored.
 #'
 #' @param .default The value used when all of the LHS inputs return either
 #'   `FALSE` or `NA`.
 #'
-#'   If provided, `.default`:
+#'   - If `NULL`, the default, a missing value will be used.
 #'
-#'   - Will participate in the computation of the common type with the RHS
-#'    inputs, and will be [cast][vctrs::theory-faq-coercion] to that common
-#'    type.
-#'
-#'   - Will be [recycled][vctrs::theory-faq-recycling] to the common size of the
-#'     LHS inputs.
-#'
-#'   If `NULL`, the default, a missing value will be used.
+#'   - If provided, `.default` will follow the same type and size rules as the
+#'     RHS inputs.
 #'
 #'   `NA` values in the LHS conditions are treated like `FALSE`, meaning that
 #'   the result at those locations will be assigned the `.default` value. To
@@ -93,24 +67,12 @@
 #'   this overrides the common size computed from the LHS inputs.
 #'
 #' @returns
+#' For `case_when()`, a new vector where the size is the common size of the LHS
+#' inputs, the type is the common type of the RHS inputs, and the names
+#' correspond to the names of the RHS elements used in the result.
 #'
-#'   For `case_when()`, a new vector:
-#'
-#'   - The size is the common size of the LHS inputs, or `.size`.
-#'
-#'   - The type is the common type of the RHS inputs, or `.ptype`.
-#'
-#'   - The names correspond to the names of the RHS input elements that are used
-#'     in the result.
-#'
-#'   For `replace_when()`, an updated version of `x`:
-#'
-#'   - The size is the same size as `x`.
-#'
-#'   - The type is the same type as `x`.
-#'
-#'   - The names are the same names as `x`, regardless of any replacements,
-#'     consistent with [base::replace()] and \code{base::`[<-`}.
+#' For `replace_when()`, an updated version of `x`, with the same size, type,
+#' and names as `x`.
 #'
 #' @name case-and-replace-when
 #'
@@ -120,7 +82,7 @@
 #'   x %% 35 == 0 ~ "fizz buzz",
 #'   x %% 5 == 0 ~ "fizz",
 #'   x %% 7 == 0 ~ "buzz",
-#'   .default = "unmatched"
+#'   .default = as.character(x)
 #' )
 #'
 #' # Like an if statement, the arguments are evaluated in order, so you must
@@ -129,7 +91,7 @@
 #'   x %% 5 == 0 ~ "fizz",
 #'   x %% 7 == 0 ~ "buzz",
 #'   x %% 35 == 0 ~ "fizz buzz",
-#'   .default = "unmatched"
+#'   .default = as.character(x)
 #' )
 #'
 #' # If none of the cases match and no `.default` is supplied, NA is used:
@@ -149,7 +111,7 @@
 #'   x %% 5 == 0 ~ "fizz",
 #'   x %% 7 == 0 ~ "buzz",
 #'   is.na(x) ~ "nope",
-#'   .default = "unmatched"
+#'   .default = as.character(x)
 #' )
 #'
 #' # `replace_when()` is useful when you're updating an existing vector,
@@ -169,7 +131,7 @@
 #' # automatically cast it to the factor type of `type` for us.
 #' pets |>
 #'   mutate(
-#'     type = type |> replace_when(type == "dog" & age <= 2 ~ "puppy")
+#'     type = replace_when(type, type == "dog" & age <= 2 ~ "puppy")
 #'   )
 #'
 #' # Compare that with this `case_when()` call, which loses the factor class.

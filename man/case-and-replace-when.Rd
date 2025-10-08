@@ -17,42 +17,30 @@ The right hand side (RHS) provides the replacement value.
 
 For \code{case_when()}:
 \itemize{
-\item The LHS inputs must be logical vectors.
+\item The LHS inputs must be logical vectors. For backwards compatibility,
+scalars are \link[vctrs:theory-faq-recycling]{recycled}, but we no longer
+recommend supplying scalars.
 \item The RHS inputs will be \link[vctrs:theory-faq-coercion]{cast} to their common
-type, or to \code{.ptype} if provided.
-\item The LHS inputs will be \link[vctrs:theory-faq-recycling]{recycled} to their
-common size, for historical reasons. That said, we encourage all LHS
-inputs to be the same size, which you can optionally enforce with
-\code{.size}.
-\item The RHS inputs will be \link[vctrs:theory-faq-recycling]{recycled} to the
-common size of the LHS inputs.
+type, and will be \link[vctrs:theory-faq-recycling]{recycled} to the common
+size of the LHS inputs.
 }
 
 For \code{replace_when()}:
 \itemize{
-\item The LHS inputs must be logical vectors.
+\item The LHS inputs must be logical vectors the same size as \code{x}.
 \item The RHS inputs will be \link[vctrs:theory-faq-coercion]{cast} to the type of
-\code{x}.
-\item The LHS inputs must be the same size as \code{x}.
-\item The RHS inputs will be \link[vctrs:theory-faq-recycling]{recycled} to the
-same size as \code{x}.
+\code{x} and \link[vctrs:theory-faq-recycling]{recycled} to the size of \code{x}.
 }
 
 \code{NULL} inputs are ignored.}
 
 \item{.default}{The value used when all of the LHS inputs return either
 \code{FALSE} or \code{NA}.
-
-If provided, \code{.default}:
 \itemize{
-\item Will participate in the computation of the common type with the RHS
-inputs, and will be \link[vctrs:theory-faq-coercion]{cast} to that common
-type.
-\item Will be \link[vctrs:theory-faq-recycling]{recycled} to the common size of the
-LHS inputs.
+\item If \code{NULL}, the default, a missing value will be used.
+\item If provided, \code{.default} will follow the same type and size rules as the
+RHS inputs.
 }
-
-If \code{NULL}, the default, a missing value will be used.
 
 \code{NA} values in the LHS conditions are treated like \code{FALSE}, meaning that
 the result at those locations will be assigned the \code{.default} value. To
@@ -70,21 +58,12 @@ this overrides the common size computed from the LHS inputs.}
 \item{x}{A vector.}
 }
 \value{
-For \code{case_when()}, a new vector:
-\itemize{
-\item The size is the common size of the LHS inputs, or \code{.size}.
-\item The type is the common type of the RHS inputs, or \code{.ptype}.
-\item The names correspond to the names of the RHS input elements that are used
-in the result.
-}
+For \code{case_when()}, a new vector where the size is the common size of the LHS
+inputs, the type is the common type of the RHS inputs, and the names
+correspond to the names of the RHS elements used in the result.
 
-For \code{replace_when()}, an updated version of \code{x}:
-\itemize{
-\item The size is the same size as \code{x}.
-\item The type is the same type as \code{x}.
-\item The names are the same names as \code{x}, regardless of any replacements,
-consistent with \code{\link[base:replace]{base::replace()}} and \code{base::`[<-`}.
-}
+For \code{replace_when()}, an updated version of \code{x}, with the same size, type,
+and names as \code{x}.
 }
 \description{
 \code{case_when()} and \code{replace_when()} are two forms of vectorized \code{\link[=if_else]{if_else()}}.
@@ -92,38 +71,27 @@ They work by evaluating each case sequentially and using the first match for
 each element to determine the corresponding value in the output vector.
 \itemize{
 \item Use \code{case_when()} when creating an entirely new vector.
-\item Use \code{replace_when()} when updating an existing vector.
+\item Use \code{replace_when()} when partially updating an existing vector.
 }
 
-If no cases match, then for \code{case_when()} a \code{.default} is used as a final
-"else" statement, and for \code{replace_when()} the original values from \code{x} are
-retained.
+If you are just replacing a few values within an existing vector, then
+\code{replace_when()} is always a better choice because it is type stable, size
+stable, pipes better, and better expresses intent.
 
-\code{case_when()} is an R equivalent of the SQL "searched" \verb{CASE WHEN} statement.
+A major difference between the two functions is what happens when no cases
+match:
+\itemize{
+\item \code{case_when()} falls through to a \code{.default} as a final "else" statement.
+\item \code{replace_when()} retains the original values from \code{x}.
 }
-\section{Connection between \code{case_when()} and \code{replace_when()}}{
-
-
-The following two statements produce identical \code{result}s:
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{result <- replace_when(x, lhs ~ rhs)
-
-result <- case_when(lhs ~ rhs, .default = x, .ptype = x, .size = vec_size(x))
-result <- vec_set_names(result, vec_names(x))
-}\if{html}{\out{</div>}}
-
-If you are replacing a few values within an existing vector, then
-\code{replace_when()} is always a better choice because it is type stable and size
-stable on \code{x}, pipes better, and better expresses intent.
 }
-
 \examples{
 x <- 1:70
 case_when(
   x \%\% 35 == 0 ~ "fizz buzz",
   x \%\% 5 == 0 ~ "fizz",
   x \%\% 7 == 0 ~ "buzz",
-  .default = "unmatched"
+  .default = as.character(x)
 )
 
 # Like an if statement, the arguments are evaluated in order, so you must
@@ -132,7 +100,7 @@ case_when(
   x \%\% 5 == 0 ~ "fizz",
   x \%\% 7 == 0 ~ "buzz",
   x \%\% 35 == 0 ~ "fizz buzz",
-  .default = "unmatched"
+  .default = as.character(x)
 )
 
 # If none of the cases match and no `.default` is supplied, NA is used:
@@ -152,7 +120,7 @@ case_when(
   x \%\% 5 == 0 ~ "fizz",
   x \%\% 7 == 0 ~ "buzz",
   is.na(x) ~ "nope",
-  .default = "unmatched"
+  .default = as.character(x)
 )
 
 # `replace_when()` is useful when you're updating an existing vector,
@@ -172,7 +140,7 @@ pets <- tibble(
 # automatically cast it to the factor type of `type` for us.
 pets |>
   mutate(
-    type = type |> replace_when(type == "dog" & age <= 2 ~ "puppy")
+    type = replace_when(type, type == "dog" & age <= 2 ~ "puppy")
   )
 
 # Compare that with this `case_when()` call, which loses the factor class.
