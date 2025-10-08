@@ -123,8 +123,10 @@
 #'     .keep = "used"
 #'   )
 case_match <- function(.x, ..., .default = NULL, .ptype = NULL) {
-  # Historically it did not allow this, even though in practice it could allow
-  # empty dots to be a no-op, like `replace_when()` and `replace_values()`.
+  # Matching historical behavior of `case_match()`, which was to work like
+  # `case_when()` and not allow empty `...`. Newer `replace_when()` and
+  # `replace_values()` are a no-op for this case, but we superseded
+  # `case_match()` at that time so it never moved to the new behavior.
   allow_empty_dots <- FALSE
 
   args <- eval_formulas(
