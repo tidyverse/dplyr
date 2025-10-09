@@ -104,7 +104,7 @@ better expresses intent.
 A major difference between the two functions is what happens when no cases
 match:
 \itemize{
-\item \code{recode_values()} falls through to a \code{.default}.
+\item \code{recode_values()} falls through to a \code{default}.
 \item \code{replace_values()} retains the original values from \code{x}.
 }
 

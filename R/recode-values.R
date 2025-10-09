@@ -17,7 +17,7 @@
 #' A major difference between the two functions is what happens when no cases
 #' match:
 #'
-#' - `recode_values()` falls through to a `.default`.
+#' - `recode_values()` falls through to a `default`.
 #'
 #' - `replace_values()` retains the original values from `x`.
 #'
