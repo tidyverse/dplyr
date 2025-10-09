@@ -74,6 +74,8 @@
 #' For `replace_when()`, an updated version of `x`, with the same size, type,
 #' and names as `x`.
 #'
+#' @seealso [recode_values()], [vctrs::vec_case_when()]
+#'
 #' @name case-and-replace-when
 #'
 #' @examples
@@ -514,7 +516,7 @@ validate_and_split_formula <- function(
     arg <- glue::backtick(as_label(arg))
 
     if (is_formula(x)) {
-      type <- "a two-sided formula"
+      type <- "a two-sided formula, not a one-sided formula"
     } else {
       type <- glue("a two-sided formula, not {obj_type_friendly(x)}")
     }
