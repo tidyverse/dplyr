@@ -1,70 +1,35 @@
 #' Recode and replace values
 #'
 #' @description
-#' `recode_values()` and `replace_values()` are two ways to map old values to
-#' new values. They work by matching values against `x` and using the first
+#' `recode_values()` and `replace_values()` provide two ways to map old values
+#' to new values. They work by matching values against `x` and using the first
 #' match to determine the corresponding value in the output vector. You can also
 #' think of these functions as a way to use a lookup table to recode a vector.
 #'
 #' - Use `recode_values()` when creating an entirely new vector.
 #'
-#' - Use `replace_values()` when updating an existing vector.
+#' - Use `replace_values()` when partially updating an existing vector.
 #'
-#' If no values match, then for `recode_values()` a `default` is used in
-#' unmatched locations, and for `replace_values()` the original values from `x`
-#' are retained.
+#' If you are just replacing a few values within an existing vector, then
+#' `replace_values()` is always a better choice because it is type stable and
+#' better expresses intent.
+#'
+#' A major difference between the two functions is what happens when no cases
+#' match:
+#'
+#' - `recode_values()` falls through to a `.default`.
+#'
+#' - `replace_values()` retains the original values from `x`.
 #'
 #' These functions have two mutually exclusive ways to use them:
 #'
 #' - A formula-based approach, i.e. `recode_values(x, from1 ~ to1, from2 ~
-#'   to2)`, similar to [case_when()], which is tailored for interactive usage.
+#'   to2)`, similar to [case_when()], which is useful when you have a small
+#'   number of cases.
 #'
 #' - A vector-based approach, i.e. `recode_values(x, from = from, to = to)`,
-#'   which is tailored for programmatic usage. This is particularly useful when
-#'   you have a pre-built lookup table.
-#'
-#' @section Connection between `recode_values()` and `case_when()`:
-#'
-#' While [case_when()] is a general vectorized [if_else()] that uses logical
-#' expressions, `recode_values()` is a general vectorized [switch()] that uses
-#' values. The following two statements are roughly equivalent:
-#'
-#' ```
-#' case_when(
-#'   x %in% c("a", "b") ~ 1,
-#'   x %in% "c" ~ 2,
-#'   x %in% c("d", "e") ~ 3
-#' )
-#'
-#' x |>
-#'   recode_values(
-#'     c("a", "b") ~ 1,
-#'     "c" ~ 2,
-#'     c("d", "e") ~ 3
-#'   )
-#' ```
-#'
-#' For large inputs `recode_values()` is going to be much faster than
-#' the equivalent `case_when()` statement.
-#'
-#' In the SQL world, `case_when()` is an R equivalent of the SQL "searched"
-#' `CASE WHEN` statement, and `recode_values()` is an R equivalent of the SQL
-#' "simple" `CASE WHEN` statement.
-#'
-#' @section Connection between `recode_values()` and `replace_values()`:
-#'
-#' The following two statements produce identical `result`s:
-#'
-#' ```r
-#' result <- replace_values(x, lhs ~ rhs)
-#'
-#' result <- recode_values(x, lhs ~ rhs, default = x, ptype = x)
-#' result <- vec_set_names(result, vec_names(x))
-#' ```
-#'
-#' If you are replacing a few values within an existing vector, then
-#' `replace_values()` is always a better choice because it is type stable on
-#' `x`, pipes better, and better expresses intent.
+#'   which is useful when you have a pre-built lookup table (which may come
+#'   from an external source, like a CSV file).
 #'
 #' @param x A vector.
 #'
@@ -72,18 +37,14 @@
 #'   formulas. The left hand side (LHS) determines which values match this case.
 #'   The right hand side (RHS) provides the replacement value.
 #'
-#'   - The LHS inputs will be [cast][vctrs::theory-faq-coercion] to the type of
-#'     `x`.
-#'
-#'   - The LHS inputs can be of any size.
-#'
-#'   - For `recode_values()`, the RHS inputs will be
-#'     [cast][vctrs::theory-faq-coercion] to their common type, or to `ptype` if
-#'     provided. For `replace_values()`, RHS inputs will be
+#'   - The LHS inputs can be any size, but will be
 #'     [cast][vctrs::theory-faq-coercion] to the type of `x`.
 #'
 #'   - The RHS inputs will be [recycled][vctrs::theory-faq-recycling] to the
-#'     same size as `x`.
+#'     same size as `x`. For `recode_values()` they will be
+#'     [cast][vctrs::theory-faq-coercion] to their common type, and for
+#'     `replace_values()` they will be [cast][vctrs::theory-faq-coercion] to the
+#'     type of `x`.
 #'
 #'   `NULL` inputs are ignored.
 #'
@@ -91,27 +52,19 @@
 #'
 #' @param from Values to look up in `x` and map to values in `to`.
 #'
-#'   - May be a vector of any size, which will be
-#'     [cast][vctrs::theory-faq-coercion] to the type of `x`.
-#'
-#'   - For more advanced usage, may be a list of vectors of any size, each of
-#'     which will individually be [cast][vctrs::theory-faq-coercion] to the type
-#'     of `x`.
+#'   Typically this is a single vector of any size that is
+#'   [cast][vctrs::theory-faq-coercion] to the type of `x`. For more advanced
+#'   usage, this can be a list of vectors of any size each of which are
+#'   [cast][vctrs::theory-faq-coercion] to the type of `x`.
 #'
 #'   Mutually exclusive with `...`.
 #'
 #' @param to Values that `from` map to.
 #'
-#'   - May be a vector that is [recycled][vctrs::theory-faq-recycling] to the
-#'     size of `from`.
-#'
-#'   - For more advanced usage, may be a list of vectors, each of which will be
-#'     [recycled][vctrs::theory-faq-recycling] to the size of `x`. The list
-#'     itself will be [recycled][vctrs::theory-faq-recycling] to the size of
-#'     `from`.
-#'
-#'   Will be [cast][vctrs::theory-faq-coercion] to the common type of `to`
-#'   and `default`, unless overridden by `ptype`.
+#'   Typically this is a single vector that is
+#'   [recycled][vctrs::theory-faq-recycling] to the size of `from`. For more
+#'   advanced usage, this can be a list of vectors each of which are
+#'   [recycled][vctrs::theory-faq-recycling] to the size of `x`.
 #'
 #'   Mutually exclusive with `...`.
 #'
@@ -120,7 +73,8 @@
 #'
 #'   By default, a missing value is used as the default value.
 #'
-#'   If supplied, `default` must be size 1 or the same size as `x`.
+#'   If supplied, will be [recycled][vctrs::theory-faq-recycling] to the size of
+#'   `x`.
 #'
 #'   Can only be set when `unmatched = "default"`.
 #'
@@ -155,33 +109,33 @@
 #' # `recode_values()` is useful for fully recoding from one set of values to
 #' # another, creating an entirely new vector in the process. Note that any
 #' # unmatched values result in `NA`, or a `default` value.
-#' x |>
-#'   recode_values(
-#'     "NC" ~ "North Carolina",
-#'     "NYC" ~ "New York",
-#'     "CA" ~ "California"
-#'   )
+#' recode_values(
+#'   x,
+#'   "NC" ~ "North Carolina",
+#'   "NYC" ~ "New York",
+#'   "CA" ~ "California"
+#' )
 #'
-#' x |>
-#'   recode_values(
-#'     "NC" ~ "North Carolina",
-#'     "NYC" ~ "New York",
-#'     "CA" ~ "California",
-#'     default = "<not recorded>"
-#'   )
+#' recode_values(
+#'   x,
+#'   "NC" ~ "North Carolina",
+#'   "NYC" ~ "New York",
+#'   "CA" ~ "California",
+#'   default = "<not recorded>"
+#' )
 #'
 #' # `replace_values()` is useful for updating an existing vector, tweaking a
 #' # few values along the way
-#' x |> replace_values("NYC" ~ "NY")
+#' replace_values(x, "NYC" ~ "NY")
 #'
 #' # `replace_values()` is particularly nice for replacing `NA`s with values...
-#' x |> replace_values(NA ~ "Unknown (NA)")
+#' replace_values(x, NA ~ "Unknown (NA)")
 #' # ...or values with `NA`s
-#' x |> replace_values("Unknown" ~ NA)
+#' replace_values(x, "Unknown" ~ NA)
 #'
 #' # Multiple values can be grouped within a single left-hand side to normalize
 #' # all problematic values at once
-#' x |> replace_values(c(NA, "Unknown") ~ "<not recorded>")
+#' replace_values(x, c(NA, "Unknown") ~ "<not recorded>")
 #'
 #' # ---------------------------------------------------------------------------
 #' # Lookup tables
@@ -236,13 +190,7 @@
 #' )
 #'
 #' data |>
-#'   mutate(
-#'     score = score |>
-#'       recode_values(
-#'         from = pull(likert, from),
-#'         to = pull(likert, to)
-#'       )
-#'   )
+#'   mutate(score = recode_values(score, from = likert$from, to = likert$to))
 #'
 #' # The `unmatched` argument allows you to assert that you believe that you've
 #' # recoded all of the cases and will error if you've missed one, adding an
@@ -251,9 +199,9 @@
 #'
 #' try({
 #'   recode_values(
-#'     pull(data_with_zero, score),
-#'     from = pull(likert, from),
-#'     to = pull(likert, to),
+#'     data_with_zero$score,
+#'     from = likert$from,
+#'     to = likert$to,
 #'     unmatched = "error"
 #'   )
 #' })
@@ -264,9 +212,9 @@
 #'
 #' try({
 #'   recode_values(
-#'     pull(data_with_missing, score),
-#'     from = pull(likert, from),
-#'     to = pull(likert, to),
+#'     data_with_missing$score,
+#'     from = likert$from,
+#'     to = likert$to,
 #'     unmatched = "error"
 #'   )
 #' })
@@ -274,9 +222,9 @@
 #' likert <- add_row(likert, from = NA, to = NA)
 #'
 #' recode_values(
-#'   pull(data_with_missing, score),
-#'   from = pull(likert, from),
-#'   to = pull(likert, to),
+#'   data_with_missing$score,
+#'   from = likert$from,
+#'   to = likert$to,
 #'   unmatched = "error"
 #' )
 #'
@@ -285,18 +233,16 @@
 #'
 #' # In some cases, your mapping may collapse multiple groups together into a
 #' # single value. For example, here we'd like to standardize the school names.
-#' schools <- tibble(
-#'   name = c(
-#'     "UNC",
-#'     "Chapel Hill",
-#'     NA,
-#'     "Duke",
-#'     "Duke University",
-#'     "UNC",
-#'     "NC State",
-#'     "ECU",
-#'     "East Carolina"
-#'   )
+#' schools <- c(
+#'   "UNC",
+#'   "Chapel Hill",
+#'   NA,
+#'   "Duke",
+#'   "Duke University",
+#'   "UNC",
+#'   "NC State",
+#'   "ECU",
+#'   "East Carolina"
 #' )
 #'
 #' # This `tribble()` is more complex than it may appear, it actually
@@ -311,35 +257,29 @@
 #' )
 #'
 #' standardized
-#' pull(standardized, from)
+#' standardized$from
 #'
 #' # `recode_values()` treats a list `from` value as a list of vectors, where
 #' # any match within one of the vectors is mapped to its corresponding `to`
 #' # value
-#' schools |>
-#'   mutate(
-#'     name = name |>
-#'       recode_values(
-#'         from = pull(standardized, from),
-#'         to = pull(standardized, to),
-#'         unmatched = "error"
-#'       )
-#'   )
+#' recode_values(
+#'   schools,
+#'   from = standardized$from,
+#'   to = standardized$to,
+#'   unmatched = "error"
+#' )
 #'
 #' # This formula based approach is equivalent, but the lookup based approach is
-#' # nicer because the lookup table can be defined outside the `mutate()` call
-#' schools |>
-#'   mutate(
-#'     name = name |>
-#'       recode_values(
-#'         c("UNC", "Chapel Hill") ~ "UNC",
-#'         c("Duke", "Duke University") ~ "Duke",
-#'         c("NC State") ~ "NC State",
-#'         c("ECU", "East Carolina") ~ "ECU",
-#'         NA ~ NA,
-#'         unmatched = "error"
-#'       )
-#'   )
+#' # nicer because the lookup table can be defined separately
+#' recode_values(
+#'   schools,
+#'   c("UNC", "Chapel Hill") ~ "UNC",
+#'   c("Duke", "Duke University") ~ "Duke",
+#'   c("NC State") ~ "NC State",
+#'   c("ECU", "East Carolina") ~ "ECU",
+#'   NA ~ NA,
+#'   unmatched = "error"
+#' )
 NULL
 
 #' @rdname recode-and-replace-values

@@ -25,15 +25,13 @@ replace_values(x, ..., from = NULL, to = NULL)
 formulas. The left hand side (LHS) determines which values match this case.
 The right hand side (RHS) provides the replacement value.
 \itemize{
-\item The LHS inputs will be \link[vctrs:theory-faq-coercion]{cast} to the type of
-\code{x}.
-\item The LHS inputs can be of any size.
-\item For \code{recode_values()}, the RHS inputs will be
-\link[vctrs:theory-faq-coercion]{cast} to their common type, or to \code{ptype} if
-provided. For \code{replace_values()}, RHS inputs will be
+\item The LHS inputs can be any size, but will be
 \link[vctrs:theory-faq-coercion]{cast} to the type of \code{x}.
 \item The RHS inputs will be \link[vctrs:theory-faq-recycling]{recycled} to the
-same size as \code{x}.
+same size as \code{x}. For \code{recode_values()} they will be
+\link[vctrs:theory-faq-coercion]{cast} to their common type, and for
+\code{replace_values()} they will be \link[vctrs:theory-faq-coercion]{cast} to the
+type of \code{x}.
 }
 
 \code{NULL} inputs are ignored.
@@ -41,28 +39,20 @@ same size as \code{x}.
 Mutually exclusive with \code{from} and \code{to}.}
 
 \item{from}{Values to look up in \code{x} and map to values in \code{to}.
-\itemize{
-\item May be a vector of any size, which will be
+
+Typically this is a single vector of any size that is
+\link[vctrs:theory-faq-coercion]{cast} to the type of \code{x}. For more advanced
+usage, this can be a list of vectors of any size each of which are
 \link[vctrs:theory-faq-coercion]{cast} to the type of \code{x}.
-\item For more advanced usage, may be a list of vectors of any size, each of
-which will individually be \link[vctrs:theory-faq-coercion]{cast} to the type
-of \code{x}.
-}
 
 Mutually exclusive with \code{...}.}
 
 \item{to}{Values that \code{from} map to.
-\itemize{
-\item May be a vector that is \link[vctrs:theory-faq-recycling]{recycled} to the
-size of \code{from}.
-\item For more advanced usage, may be a list of vectors, each of which will be
-\link[vctrs:theory-faq-recycling]{recycled} to the size of \code{x}. The list
-itself will be \link[vctrs:theory-faq-recycling]{recycled} to the size of
-\code{from}.
-}
 
-Will be \link[vctrs:theory-faq-coercion]{cast} to the common type of \code{to}
-and \code{default}, unless overridden by \code{ptype}.
+Typically this is a single vector that is
+\link[vctrs:theory-faq-recycling]{recycled} to the size of \code{from}. For more
+advanced usage, this can be a list of vectors each of which are
+\link[vctrs:theory-faq-recycling]{recycled} to the size of \code{x}.
 
 Mutually exclusive with \code{...}.}
 
@@ -71,7 +61,8 @@ that is unmatched by a value in \code{from}.
 
 By default, a missing value is used as the default value.
 
-If supplied, \code{default} must be size 1 or the same size as \code{x}.
+If supplied, will be \link[vctrs:theory-faq-recycling]{recycled} to the size of
+\code{x}.
 
 Can only be set when \code{unmatched = "default"}.}
 
@@ -97,105 +88,68 @@ as \code{x}. The names of the output will be the same as the names of \code{x}.
 }
 }
 \description{
-\code{recode_values()} and \code{replace_values()} are two ways to map old values to
-new values. They work by matching values against \code{x} and using the first
+\code{recode_values()} and \code{replace_values()} provide two ways to map old values
+to new values. They work by matching values against \code{x} and using the first
 match to determine the corresponding value in the output vector. You can also
 think of these functions as a way to use a lookup table to recode a vector.
 \itemize{
 \item Use \code{recode_values()} when creating an entirely new vector.
-\item Use \code{replace_values()} when updating an existing vector.
+\item Use \code{replace_values()} when partially updating an existing vector.
 }
 
-If no values match, then for \code{recode_values()} a \code{default} is used in
-unmatched locations, and for \code{replace_values()} the original values from \code{x}
-are retained.
+If you are just replacing a few values within an existing vector, then
+\code{replace_values()} is always a better choice because it is type stable and
+better expresses intent.
+
+A major difference between the two functions is what happens when no cases
+match:
+\itemize{
+\item \code{recode_values()} falls through to a \code{.default}.
+\item \code{replace_values()} retains the original values from \code{x}.
+}
 
 These functions have two mutually exclusive ways to use them:
 \itemize{
-\item A formula-based approach, i.e. \code{recode_values(x, from1 ~ to1, from2 ~ to2)}, similar to \code{\link[=case_when]{case_when()}}, which is tailored for interactive usage.
+\item A formula-based approach, i.e. \code{recode_values(x, from1 ~ to1, from2 ~ to2)}, similar to \code{\link[=case_when]{case_when()}}, which is useful when you have a small
+number of cases.
 \item A vector-based approach, i.e. \code{recode_values(x, from = from, to = to)},
-which is tailored for programmatic usage. This is particularly useful when
-you have a pre-built lookup table.
+which is useful when you have a pre-built lookup table (which may come
+from an external source, like a CSV file).
 }
 }
-\section{Connection between \code{recode_values()} and \code{case_when()}}{
-
-
-While \code{\link[=case_when]{case_when()}} is a general vectorized \code{\link[=if_else]{if_else()}} that uses logical
-expressions, \code{recode_values()} is a general vectorized \code{\link[=switch]{switch()}} that uses
-values. The following two statements are roughly equivalent:
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{case_when(
-  x \%in\% c("a", "b") ~ 1,
-  x \%in\% "c" ~ 2,
-  x \%in\% c("d", "e") ~ 3
-)
-
-x |>
-  recode_values(
-    c("a", "b") ~ 1,
-    "c" ~ 2,
-    c("d", "e") ~ 3
-  )
-}\if{html}{\out{</div>}}
-
-For large inputs \code{recode_values()} is going to be much faster than
-the equivalent \code{case_when()} statement.
-
-In the SQL world, \code{case_when()} is an R equivalent of the SQL "searched"
-\verb{CASE WHEN} statement, and \code{recode_values()} is an R equivalent of the SQL
-"simple" \verb{CASE WHEN} statement.
-}
-
-\section{Connection between \code{recode_values()} and \code{replace_values()}}{
-
-
-The following two statements produce identical \code{result}s:
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{result <- replace_values(x, lhs ~ rhs)
-
-result <- recode_values(x, lhs ~ rhs, default = x, ptype = x)
-result <- vec_set_names(result, vec_names(x))
-}\if{html}{\out{</div>}}
-
-If you are replacing a few values within an existing vector, then
-\code{replace_values()} is always a better choice because it is type stable on
-\code{x}, pipes better, and better expresses intent.
-}
-
 \examples{
 x <- c("NC", "NYC", "CA", NA, "NYC", "Unknown")
 
 # `recode_values()` is useful for fully recoding from one set of values to
 # another, creating an entirely new vector in the process. Note that any
 # unmatched values result in `NA`, or a `default` value.
-x |>
-  recode_values(
-    "NC" ~ "North Carolina",
-    "NYC" ~ "New York",
-    "CA" ~ "California"
-  )
+recode_values(
+  x,
+  "NC" ~ "North Carolina",
+  "NYC" ~ "New York",
+  "CA" ~ "California"
+)
 
-x |>
-  recode_values(
-    "NC" ~ "North Carolina",
-    "NYC" ~ "New York",
-    "CA" ~ "California",
-    default = "<not recorded>"
-  )
+recode_values(
+  x,
+  "NC" ~ "North Carolina",
+  "NYC" ~ "New York",
+  "CA" ~ "California",
+  default = "<not recorded>"
+)
 
 # `replace_values()` is useful for updating an existing vector, tweaking a
 # few values along the way
-x |> replace_values("NYC" ~ "NY")
+replace_values(x, "NYC" ~ "NY")
 
 # `replace_values()` is particularly nice for replacing `NA`s with values...
-x |> replace_values(NA ~ "Unknown (NA)")
+replace_values(x, NA ~ "Unknown (NA)")
 # ...or values with `NA`s
-x |> replace_values("Unknown" ~ NA)
+replace_values(x, "Unknown" ~ NA)
 
 # Multiple values can be grouped within a single left-hand side to normalize
 # all problematic values at once
-x |> replace_values(c(NA, "Unknown") ~ "<not recorded>")
+replace_values(x, c(NA, "Unknown") ~ "<not recorded>")
 
 # ---------------------------------------------------------------------------
 # Lookup tables
@@ -250,13 +204,7 @@ likert <- tribble(
 )
 
 data |>
-  mutate(
-    score = score |>
-      recode_values(
-        from = pull(likert, from),
-        to = pull(likert, to)
-      )
-  )
+  mutate(score = recode_values(score, from = likert$from, to = likert$to))
 
 # The `unmatched` argument allows you to assert that you believe that you've
 # recoded all of the cases and will error if you've missed one, adding an
@@ -265,9 +213,9 @@ data_with_zero <- add_row(data, score = 0)
 
 try({
   recode_values(
-    pull(data_with_zero, score),
-    from = pull(likert, from),
-    to = pull(likert, to),
+    data_with_zero$score,
+    from = likert$from,
+    to = likert$to,
     unmatched = "error"
   )
 })
@@ -278,9 +226,9 @@ data_with_missing <- add_row(data, score = NA)
 
 try({
   recode_values(
-    pull(data_with_missing, score),
-    from = pull(likert, from),
-    to = pull(likert, to),
+    data_with_missing$score,
+    from = likert$from,
+    to = likert$to,
     unmatched = "error"
   )
 })
@@ -288,9 +236,9 @@ try({
 likert <- add_row(likert, from = NA, to = NA)
 
 recode_values(
-  pull(data_with_missing, score),
-  from = pull(likert, from),
-  to = pull(likert, to),
+  data_with_missing$score,
+  from = likert$from,
+  to = likert$to,
   unmatched = "error"
 )
 
@@ -299,18 +247,16 @@ recode_values(
 
 # In some cases, your mapping may collapse multiple groups together into a
 # single value. For example, here we'd like to standardize the school names.
-schools <- tibble(
-  name = c(
-    "UNC",
-    "Chapel Hill",
-    NA,
-    "Duke",
-    "Duke University",
-    "UNC",
-    "NC State",
-    "ECU",
-    "East Carolina"
-  )
+schools <- c(
+  "UNC",
+  "Chapel Hill",
+  NA,
+  "Duke",
+  "Duke University",
+  "UNC",
+  "NC State",
+  "ECU",
+  "East Carolina"
 )
 
 # This `tribble()` is more complex than it may appear, it actually
@@ -325,35 +271,29 @@ standardized <- tribble(
 )
 
 standardized
-pull(standardized, from)
+standardized$from
 
 # `recode_values()` treats a list `from` value as a list of vectors, where
 # any match within one of the vectors is mapped to its corresponding `to`
 # value
-schools |>
-  mutate(
-    name = name |>
-      recode_values(
-        from = pull(standardized, from),
-        to = pull(standardized, to),
-        unmatched = "error"
-      )
-  )
+recode_values(
+  schools,
+  from = standardized$from,
+  to = standardized$to,
+  unmatched = "error"
+)
 
 # This formula based approach is equivalent, but the lookup based approach is
-# nicer because the lookup table can be defined outside the `mutate()` call
-schools |>
-  mutate(
-    name = name |>
-      recode_values(
-        c("UNC", "Chapel Hill") ~ "UNC",
-        c("Duke", "Duke University") ~ "Duke",
-        c("NC State") ~ "NC State",
-        c("ECU", "East Carolina") ~ "ECU",
-        NA ~ NA,
-        unmatched = "error"
-      )
-  )
+# nicer because the lookup table can be defined separately
+recode_values(
+  schools,
+  c("UNC", "Chapel Hill") ~ "UNC",
+  c("Duke", "Duke University") ~ "Duke",
+  c("NC State") ~ "NC State",
+  c("ECU", "East Carolina") ~ "ECU",
+  NA ~ NA,
+  unmatched = "error"
+)
 }
 \seealso{
 \code{\link[=case_when]{case_when()}}
