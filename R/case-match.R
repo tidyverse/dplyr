@@ -123,15 +123,16 @@
 #'     .keep = "used"
 #'   )
 case_match <- function(.x, ..., .default = NULL, .ptype = NULL) {
-  args <- list2(...)
+  # Matching historical behavior of `case_match()`, which was to work like
+  # `case_when()` and not allow empty `...`. Newer `replace_when()` and
+  # `replace_values()` are a no-op for this case, but we superseded
+  # `case_match()` at that time so it never moved to the new behavior.
+  allow_empty_dots <- FALSE
 
-  args <- case_formula_evaluate(
-    args = args,
-    default_env = caller_env(),
-    dots_env = current_env(),
-    error_call = current_env()
+  args <- eval_formulas(
+    ...,
+    allow_empty_dots = allow_empty_dots
   )
-
   haystacks <- args$lhs
   values <- args$rhs
 

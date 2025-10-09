@@ -1,36 +1,57 @@
 #' A general vectorised if-else
 #'
 #' @description
-#' This function allows you to vectorise multiple [if_else()] statements. Each
-#' case is evaluated sequentially and the first match for each element
-#' determines the corresponding value in the output vector. If no cases match,
-#' the `.default` is used as a final "else" statment.
+#' `case_when()` and `replace_when()` are two forms of vectorized [if_else()].
+#' They work by evaluating each case sequentially and using the first match for
+#' each element to determine the corresponding value in the output vector.
 #'
-#' `case_when()` is an R equivalent of the SQL "searched" `CASE WHEN` statement.
+#' - Use `case_when()` when creating an entirely new vector.
+#'
+#' - Use `replace_when()` when partially updating an existing vector.
+#'
+#' If you are just replacing a few values within an existing vector, then
+#' `replace_when()` is always a better choice because it is type stable, size
+#' stable, pipes better, and better expresses intent.
+#'
+#' A major difference between the two functions is what happens when no cases
+#' match:
+#'
+#' - `case_when()` falls through to a `.default` as a final "else" statement.
+#'
+#' - `replace_when()` retains the original values from `x`.
+#'
+#' @param x A vector.
 #'
 #' @param ... <[`dynamic-dots`][rlang::dyn-dots]> A sequence of two-sided
 #'   formulas. The left hand side (LHS) determines which values match this case.
 #'   The right hand side (RHS) provides the replacement value.
 #'
-#'   The LHS inputs must evaluate to logical vectors.
+#'   For `case_when()`:
 #'
-#'   The RHS inputs will be coerced to their common type.
+#'   - The LHS inputs must be logical vectors. For backwards compatibility,
+#'     scalars are [recycled][vctrs::theory-faq-recycling], but we no longer
+#'     recommend supplying scalars.
 #'
-#'   For historical reasons, all LHS inputs will be recycled to their common
-#'   size. That said, we encourage all LHS inputs to be the same size, which you
-#'   can optionally enforce with `.size`. All RHS inputs will be recycled to the
-#'   common size of the LHS inputs.
+#'   - The RHS inputs will be [cast][vctrs::theory-faq-coercion] to their common
+#'     type, and will be [recycled][vctrs::theory-faq-recycling] to the common
+#'     size of the LHS inputs.
+#'
+#'   For `replace_when()`:
+#'
+#'   - The LHS inputs must be logical vectors the same size as `x`.
+#'
+#'   - The RHS inputs will be [cast][vctrs::theory-faq-coercion] to the type of
+#'     `x` and [recycled][vctrs::theory-faq-recycling] to the size of `x`.
 #'
 #'   `NULL` inputs are ignored.
 #'
 #' @param .default The value used when all of the LHS inputs return either
 #'   `FALSE` or `NA`.
 #'
-#'   `.default` must be size 1 or the same size as the common size computed
-#'   from the LHS inputs.
+#'   - If `NULL`, the default, a missing value will be used.
 #'
-#'   `.default` participates in the computation of the common type with the RHS
-#'   inputs.
+#'   - If provided, `.default` will follow the same type and size rules as the
+#'     RHS inputs.
 #'
 #'   `NA` values in the LHS conditions are treated like `FALSE`, meaning that
 #'   the result at those locations will be assigned the `.default` value. To
@@ -39,22 +60,22 @@
 #'   `.default`. This typically involves some variation of `is.na(x) ~ value`
 #'   tailored to your usage of `case_when()`.
 #'
-#'   If `NULL`, the default, a missing value will be used.
-#'
 #' @param .ptype An optional prototype declaring the desired output type. If
 #'   supplied, this overrides the common type of the RHS inputs.
 #'
 #' @param .size An optional size declaring the desired output size. If supplied,
 #'   this overrides the common size computed from the LHS inputs.
 #'
-#' @return A vector
+#' @returns
+#' For `case_when()`, a new vector where the size is the common size of the LHS
+#' inputs, the type is the common type of the RHS inputs, and the names
+#' correspond to the names of the RHS elements used in the result.
 #'
-#'   - The size of the vector is the common size of the LHS inputs, or `.size`.
-#'   - The type of the vector is the common type of the RHS inputs, or `.ptype`.
+#' For `replace_when()`, an updated version of `x`, with the same size, type,
+#' and names as `x`.
 #'
-#' @seealso [case_match()]
+#' @name case-and-replace-when
 #'
-#' @export
 #' @examples
 #' x <- 1:70
 #' case_when(
@@ -67,8 +88,8 @@
 #' # Like an if statement, the arguments are evaluated in order, so you must
 #' # proceed from the most specific to the most general. This won't work:
 #' case_when(
-#'   x %%  5 == 0 ~ "fizz",
-#'   x %%  7 == 0 ~ "buzz",
+#'   x %% 5 == 0 ~ "fizz",
+#'   x %% 7 == 0 ~ "buzz",
 #'   x %% 35 == 0 ~ "fizz buzz",
 #'   .default = as.character(x)
 #' )
@@ -77,7 +98,7 @@
 #' case_when(
 #'   x %% 35 == 0 ~ "fizz buzz",
 #'   x %% 5 == 0 ~ "fizz",
-#'   x %% 7 == 0 ~ "buzz",
+#'   x %% 7 == 0 ~ "buzz"
 #' )
 #'
 #' # Note that `NA` values on the LHS are treated like `FALSE` and will be
@@ -93,16 +114,42 @@
 #'   .default = as.character(x)
 #' )
 #'
-#' # `case_when()` evaluates all RHS expressions, and then constructs its
-#' # result by extracting the selected (via the LHS expressions) parts.
-#' # In particular `NaN`s are produced in this case:
-#' y <- seq(-2, 2, by = .5)
-#' case_when(
-#'   y >= 0 ~ sqrt(y),
-#'   .default = y
+#' # `replace_when()` is useful when you're updating an existing vector,
+#' # rather than creating an entirely new one. Note the so-far unused "puppy"
+#' # factor level:
+#' pets <- tibble(
+#'   name = c("Max", "Bella", "Chuck", "Luna", "Cooper"),
+#'   type = factor(
+#'     c("dog", "dog", "cat", "dog", "cat"),
+#'     levels = c("dog", "cat", "puppy")
+#'   ),
+#'   age = c(1, 3, 5, 2, 4)
 #' )
 #'
-#' # `case_when()` is particularly useful inside `mutate()` when you want to
+#' # We can replace some values with `"puppy"` based on arbitrary conditions.
+#' # Even though we are using a character `"puppy"` value, `replace_when()` will
+#' # automatically cast it to the factor type of `type` for us.
+#' pets |>
+#'   mutate(
+#'     type = replace_when(type, type == "dog" & age <= 2 ~ "puppy")
+#'   )
+#'
+#' # Compare that with this `case_when()` call, which loses the factor class.
+#' # It's always better to use `replace_when()` when updating a few values in
+#' # an existing vector!
+#' pets |>
+#'   mutate(
+#'     type = case_when(type == "dog" & age <= 2 ~ "puppy", .default = type)
+#'   )
+#'
+#' # `case_when()` and `replace_when()` evaluate all RHS expressions, and then
+#' # construct their result by extracting the selected (via the LHS expressions)
+#' # parts. For example, `NaN`s are produced here because `sqrt(y)` is evaluated
+#' # on all of `y`, not just where `y >= 0`.
+#' y <- seq(-2, 2, by = .5)
+#' replace_when(y, y >= 0 ~ sqrt(y))
+#'
+#' # These functions are particularly useful inside `mutate()` when you want to
 #' # create a new variable that relies on a complex combination of existing
 #' # variables
 #' starwars |>
@@ -115,9 +162,8 @@
 #'     )
 #'   )
 #'
-#'
 #' # `case_when()` is not a tidy eval function. If you'd like to reuse
-#' # the same patterns, extract the `case_when()` call in a normal
+#' # the same patterns, extract the `case_when()` call into a normal
 #' # function:
 #' case_character_type <- function(height, mass, species) {
 #'   case_when(
@@ -150,16 +196,26 @@
 #' starwars |>
 #'   mutate(type = case_character_type(height, mass, species, robots = FALSE)) |>
 #'   pull(type)
+#'
+#' # `replace_when()` can also be used in combination with `pick()` to
+#' # conditionally mutate rows within multiple columns using a single condition.
+#' # Here `replace_when()` returns a data frame with new `species` and `name`
+#' # columns, which `mutate()` then automatically unpacks.
+#' starwars |>
+#'   select(homeworld, species, name) |>
+#'   mutate(replace_when(
+#'     pick(species, name),
+#'     homeworld == "Tatooine" ~ tibble(
+#'       species = "Tatooinese",
+#'       name = paste(name, "(Tatooine)")
+#'     )
+#'   ))
+NULL
+
+#' @rdname case-and-replace-when
+#' @export
 case_when <- function(..., .default = NULL, .ptype = NULL, .size = NULL) {
-  args <- list2(...)
-
-  args <- case_formula_evaluate(
-    args = args,
-    default_env = caller_env(),
-    dots_env = current_env(),
-    error_call = current_env()
-  )
-
+  args <- eval_formulas(..., allow_empty_dots = FALSE)
   conditions <- args$lhs
   values <- args$rhs
 
@@ -183,6 +239,26 @@ case_when <- function(..., .default = NULL, .ptype = NULL, .size = NULL) {
     conditions_arg = "",
     values_arg = "",
     default_arg = ".default",
+    error_call = current_env()
+  )
+}
+
+#' @rdname case-and-replace-when
+#' @export
+replace_when <- function(x, ...) {
+  check_dots_unnamed()
+
+  args <- eval_formulas(..., allow_empty_dots = TRUE)
+  conditions <- args$lhs
+  values <- args$rhs
+
+  vec_replace_when(
+    x = x,
+    conditions = conditions,
+    values = values,
+    x_arg = "x",
+    conditions_arg = "",
+    values_arg = "",
     error_call = current_env()
   )
 }
@@ -329,47 +405,54 @@ no_cli_wrapping <- function(x) {
   x
 }
 
-case_formula_evaluate <- function(args, default_env, dots_env, error_call) {
-  # `case_when()`'s formula interface compacts `NULL`s
-  args <- compact_null(args)
-  n_args <- length(args)
-  seq_args <- seq_len(n_args)
+eval_formulas <- function(
+  ...,
+  allow_empty_dots,
+  dots_env = current_env(),
+  user_env = caller_env(2),
+  error_call = caller_env()
+) {
+  dots <- list2(...)
+  # `NULL`s are compacted out
+  dots <- compact_null(dots)
+  n_dots <- length(dots)
+  seq_dots <- seq_len(n_dots)
 
-  if (n_args == 0L) {
-    abort("At least one condition must be supplied.", call = error_call)
+  if (!allow_empty_dots && n_dots == 0L) {
+    abort("`...` can't be empty.", call = error_call)
   }
 
   pairs <- map2(
-    .x = args,
-    .y = seq_args,
+    .x = dots,
+    .y = seq_dots,
     .f = function(x, i) {
       validate_and_split_formula(
         x = x,
         i = i,
-        default_env = default_env,
         dots_env = dots_env,
+        user_env = user_env,
         error_call = error_call
       )
     }
   )
 
-  lhs <- vector("list", n_args)
-  rhs <- vector("list", n_args)
+  lhs <- vector("list", n_dots)
+  rhs <- vector("list", n_dots)
 
   env_error_info <- new_environment()
 
   # Using 1 call to `withCallingHandlers()` that wraps all `eval_tidy()`
   # evaluations to avoid repeated handler setup (#6674)
   withCallingHandlers(
-    for (i in seq_args) {
+    for (i in seq_dots) {
       env_error_info[["i"]] <- i
       pair <- pairs[[i]]
 
       env_error_info[["side"]] <- "left"
-      elt_lhs <- eval_tidy(pair$lhs, env = default_env)
+      elt_lhs <- eval_tidy(pair$lhs, env = user_env)
 
       env_error_info[["side"]] <- "right"
-      elt_rhs <- eval_tidy(pair$rhs, env = default_env)
+      elt_rhs <- eval_tidy(pair$rhs, env = user_env)
 
       if (!is.null(elt_lhs)) {
         lhs[[i]] <- elt_lhs
@@ -402,9 +485,9 @@ case_formula_evaluate <- function(args, default_env, dots_env, error_call) {
   # rhs_names <- map(quos_pairs, function(pair) pair$rhs)
   # rhs_names <- map_chr(rhs_names, as_label)
   # names(rhs) <- rhs_names
-  if (n_args > 0L) {
-    names(lhs) <- paste0("..", seq_args, " (left)")
-    names(rhs) <- paste0("..", seq_args, " (right)")
+  if (n_dots > 0L) {
+    names(lhs) <- paste0("..", seq_dots, " (left)")
+    names(rhs) <- paste0("..", seq_dots, " (right)")
   }
 
   list(
@@ -416,13 +499,13 @@ case_formula_evaluate <- function(args, default_env, dots_env, error_call) {
 validate_and_split_formula <- function(
   x,
   i,
-  default_env,
   dots_env,
+  user_env,
   error_call
 ) {
   if (is_quosure(x)) {
     # We specially handle quosures, assuming they hold formulas
-    default_env <- quo_get_env(x)
+    user_env <- quo_get_env(x)
     x <- quo_get_expr(x)
   }
 
@@ -441,7 +524,7 @@ validate_and_split_formula <- function(
   }
 
   # Formula might be unevaluated, e.g. if it's been quosured
-  env <- f_env(x) %||% default_env
+  env <- f_env(x) %||% user_env
 
   list(
     lhs = new_quosure(f_lhs(x), env),

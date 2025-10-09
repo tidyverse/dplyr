@@ -1,3 +1,5 @@
+# `case_when()` ----------------------------------------------------------------
+
 test_that("matches values in order", {
   x <- 1:3
   expect_equal(
@@ -245,7 +247,7 @@ test_that("passes through `.size` correctly", {
   })
 })
 
-# Errors ------------------------------------------------------------------
+# `case_when()` errors ---------------------------------------------------------
 
 test_that("invalid type errors are correct (#6261) (#6206)", {
   expect_snapshot(error = TRUE, {
@@ -310,7 +312,7 @@ test_that("case_when() give meaningful errors", {
   })
 })
 
-# Deprecated --------------------------------------------------------------
+# `case_when()` deprecated -----------------------------------------------------
 
 test_that("Using scalar LHS with vector RHS is deprecated (#7082)", {
   # In many packages, people use `case_when()` when they should be using a
@@ -372,5 +374,129 @@ test_that("Using scalar LHS with vector RHS is deprecated (#7082)", {
       c(FALSE, TRUE) ~ c("c", "d")
     )),
     c("a", "d")
+  )
+})
+
+# `replace_when()` -------------------------------------------------------------
+
+test_that("replace_when() recycles scalar RHS", {
+  x <- c(1, 2, 3, 1, 2, 3)
+
+  expect_identical(
+    replace_when(x, x == 1 ~ 0, x == 3 ~ 4),
+    c(0, 2, 4, 0, 2, 4)
+  )
+})
+
+test_that("replace_when() allows vector RHS of the same size as `x`", {
+  x <- c(1, 2, 3, 1, 2, 3)
+  y <- seq_along(x)
+
+  expect_identical(
+    replace_when(x, x == 1 ~ 0, x == 3 ~ y),
+    c(0, 2, 3, 0, 2, 6)
+  )
+
+  expect_snapshot(error = TRUE, {
+    replace_when(x, x == 1 ~ 1:3)
+  })
+})
+
+test_that("replace_when() does not recycle LHS values", {
+  # Unlike `case_when()` we get to do this right!
+  x <- c(1, 2, 3)
+
+  expect_snapshot(error = TRUE, {
+    replace_when(x, TRUE ~ 0)
+  })
+})
+
+test_that("replace_when() retains the type of `x`", {
+  x <- c(1L, 2L)
+
+  # Not going towards common type of double
+  expect_identical(
+    replace_when(x, x == 1L ~ 0),
+    c(0L, 2L)
+  )
+
+  x <- factor(c("a", "b", "c"))
+
+  # Note common type would be character
+  expect_identical(
+    replace_when(x, x == "a" ~ "c"),
+    factor(c("c", "b", "c"), levels = c("a", "b", "c"))
+  )
+
+  # Can't cast to unknown level
+  expect_snapshot(error = TRUE, {
+    replace_when(x, x == "a" ~ "d")
+  })
+})
+
+test_that("replace_when() retains names of `x`, consistent with `base::replace()`", {
+  x <- c(a = 1, b = 2, c = 3)
+
+  expect_identical(
+    replace_when(
+      x,
+      x == 1 ~ 0,
+      x == 3 ~ c(z = 4)
+    ),
+    c(a = 0, b = 2, c = 4)
+  )
+
+  # `x` does not become named if RHS inputs are named
+  x <- c(1, 2, 3)
+
+  expect_identical(
+    replace_when(
+      x,
+      x == 1 ~ c(a = 0),
+      x == 3 ~ c(b = 4)
+    ),
+    c(0, 2, 4)
+  )
+})
+
+test_that("replace_when() does not allow named `...`", {
+  # Purposefully stricter than `case_when()`
+  expect_snapshot(error = TRUE, {
+    replace_when(1, foo = TRUE ~ 2)
+  })
+})
+
+test_that("replace_when() compacts `NULL` inputs", {
+  expect_identical(
+    replace_when(1, NULL, TRUE ~ 2, NULL),
+    2
+  )
+})
+
+test_that("replace_when() is a no-op with zero conditions", {
+  # Unlike `case_when()`, where when zero conditions are supplied
+  # we don't know what kind of vector to build (and we refuse to
+  # build an `unspecified` vector, unlike `vec_case_when()`)
+  expect_identical(replace_when(1), 1)
+  expect_identical(replace_when(1, NULL), 1)
+})
+
+test_that("replace_when() works with data frames", {
+  x <- tibble(a = c(1, 2, 3, 1), b = c(2, 3, 4, 2))
+
+  expect_identical(
+    replace_when(
+      x,
+      vec_equal(x, tibble(a = 1, b = 2)) ~ NA
+    ),
+    vec_assign(x, c(1, 4), NA)
+  )
+
+  expect_identical(
+    replace_when(
+      x,
+      vec_equal(x, tibble(a = 1, b = 2)) ~ tibble(a = 0, b = -1)
+    ),
+    vec_assign(x, c(1, 4), tibble(a = 0, b = -1))
   )
 })
