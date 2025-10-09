@@ -403,7 +403,7 @@ eval_formulas_or_from_and_to <- function(
 }
 
 determine_implementation <- function(..., from, to, error_call) {
-  has_dots <- dots_n(...) != 0L
+  has_dots <- !missing(...)
   has_from <- !is.null(from)
   has_to <- !is.null(to)
 
@@ -426,21 +426,19 @@ determine_implementation <- function(..., from, to, error_call) {
     return("dots")
   }
 
-  # Supplied both `from` and `to`
-  if (has_from && has_to) {
+  # Supplied `from` and `to`
+  if (has_from || has_to) {
+    if (!has_from || !has_to) {
+      cli::cli_abort(
+        "Must supply both {.arg from} and {.arg to}.",
+        call = error_call
+      )
+    }
+
     return("from-to")
   }
 
-  # Supplied one of `from` or `to`
-  if (has_from || has_to) {
-    cli::cli_abort(
-      "Must supply both {.arg from} and {.arg to}.",
-      call = error_call
-    )
-  }
-
-  # Empty call to `recode_values()` or `replace_values()` with no `...`
-  # or `from/to` specified. Let this use `...`, and then `recode_values()`
-  # will error and `replace_values()` will be a no-op
+  # Supplied nothing. We use `"dots"` here which lets `recode_values()` error
+  # and `replace_values()` be a no-op.
   "dots"
 }
