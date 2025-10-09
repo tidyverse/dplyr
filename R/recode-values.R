@@ -99,7 +99,7 @@
 #' - For `replace_values()`, the type of the output will have the same type
 #'   as `x`. The names of the output will be the same as the names of `x`.
 #'
-#' @seealso [case_when()]
+#' @seealso [case_when()], [vctrs::vec_recode_values()]
 #'
 #' @name recode-and-replace-values
 #'

@@ -221,5 +221,5 @@ starwars |>
   ))
 }
 \seealso{
-\code{\link[=recode_values]{recode_values()}}
+\code{\link[=recode_values]{recode_values()}}, \code{\link[vctrs:vec-case-and-replace]{vctrs::vec_case_when()}}
 }

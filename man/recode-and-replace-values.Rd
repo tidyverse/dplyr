@@ -296,5 +296,5 @@ recode_values(
 )
 }
 \seealso{
-\code{\link[=case_when]{case_when()}}
+\code{\link[=case_when]{case_when()}}, \code{\link[vctrs:vec-recode-and-replace]{vctrs::vec_recode_values()}}
 }
