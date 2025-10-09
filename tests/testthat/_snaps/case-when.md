@@ -175,7 +175,7 @@
     Output
       <error/rlang_error>
       Error in `case_when()`:
-      ! Case 1 (`~1:2`) must be a two-sided formula.
+      ! Case 1 (`~1:2`) must be a two-sided formula, not a one-sided formula.
 
 # Using scalar LHS with vector RHS is deprecated (#7082)
 

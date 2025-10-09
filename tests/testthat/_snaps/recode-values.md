@@ -131,7 +131,7 @@
       recode_values(1, 1 ~ 1, ~2)
     Condition
       Error in `recode_values()`:
-      ! Case 2 (`~2`) must be a two-sided formula.
+      ! Case 2 (`~2`) must be a two-sided formula, not a one-sided formula.
 
 ---
 
@@ -139,7 +139,7 @@
       replace_values(1, 1 ~ 1, ~2)
     Condition
       Error in `replace_values()`:
-      ! Case 2 (`~2`) must be a two-sided formula.
+      ! Case 2 (`~2`) must be a two-sided formula, not a one-sided formula.
 
 # throws correct errors based on all combinations of `...` and `from` and `to`
 
