@@ -171,3 +171,8 @@ as_tibble.rowwise_df <- function(x, ...) {
 
   rowwise_df(data, group_vars)
 }
+
+#' @export
+rbind.rowwise_df <- function(...) {
+  bind_rows(...)
+}

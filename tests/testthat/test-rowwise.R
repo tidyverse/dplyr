@@ -89,6 +89,33 @@ test_that("new_rowwise_df() can add class and attributes (#5918)", {
   expect_equal(attr(df, "a"), "b")
 })
 
+test_that("rbind() works with rowwise data frames by calling bind_rows() (r-lib/vctrs#1935)", {
+  x <- rowwise(tibble(a = 1:2))
+
+  y <- rowwise(tibble(a = 3:4))
+  out <- rbind(x, y)
+  expect_identical(out, rowwise(tibble(a = c(1:2, 3:4))))
+
+  # Important that `.rows` is recreated, not copied over from `x` (r-lib/vctrs#1935)
+  expect_identical(
+    group_data(out),
+    new_tibble(list(.rows = list_of(1L, 2L, 3L, 4L)))
+  )
+
+  # `bind_rows()` returns an object with the class of the first input,
+  # which is roughly how `rbind()` also works
+
+  # With bare tibble
+  y <- tibble(a = 5:6)
+  out <- rbind(x, y)
+  expect_identical(out, rowwise(tibble(a = c(1:2, 5:6))))
+
+  # With grouped_df
+  y <- group_by(tibble(a = 5:6), a)
+  out <- rbind(x, y)
+  expect_identical(out, rowwise(tibble(a = c(1:2, 5:6))))
+})
+
 test_that("validate_rowwise_df() gives useful errors", {
   df1 <- rowwise(tibble(x = 1:4, g = rep(1:2, each = 2)), g)
   groups <- attr(df1, "groups")
