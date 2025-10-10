@@ -104,7 +104,13 @@ match:</p><ul><li><p><code>case_when()</code> falls through to a <code>.default<
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">case_when</span><span class="op">(</span><span class="va">...</span>, .default <span class="op">=</span> <span class="cn">NULL</span>, .ptype <span class="op">=</span> <span class="cn">NULL</span>, .size <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">case_when</span><span class="op">(</span></span>
+<span>  <span class="va">...</span>,</span>
+<span>  .default <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .unmatched <span class="op">=</span> <span class="st">"default"</span>,</span>
+<span>  .ptype <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  .size <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">replace_when</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -140,6 +146,13 @@ handle missing values in the conditions differently, you must explicitly
 catch them with another condition before they fall through to the
 <code>.default</code>. This typically involves some variation of <code>is.na(x) ~ value</code>
 tailored to your usage of <code>case_when()</code>.</p></dd>
+
+
+<dt id="arg--unmatched">.unmatched<a class="anchor" aria-label="anchor" href="#arg--unmatched"></a></dt>
+<dd><p>Handling of unmatched locations.</p>
+<p>One of:</p><ul><li><p><code>"default"</code> to use <code>.default</code> in unmatched locations.</p></li>
+<li><p><code>"error"</code> to error when there are unmatched locations.</p></li>
+</ul></dd>
 
 
 <dt id="arg--ptype">.ptype<a class="anchor" aria-label="anchor" href="#arg--ptype"></a></dt>
@@ -257,6 +270,65 @@ and names as <code>x</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [56] "buzz"      "57"        "58"        "59"        "fizz"     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [61] "61"        "62"        "buzz"      "64"        "fizz"     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [66] "66"        "67"        "68"        "69"        "fizz buzz"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># If you believe that you've covered every possible case, then set</span></span></span>
+<span class="r-in"><span><span class="co"># `.unmatched = "error"` rather than supplying a `.default`. This adds an</span></span></span>
+<span class="r-in"><span><span class="co"># extra layer of safety to `case_when()` and is particularly useful when you</span></span></span>
+<span class="r-in"><span><span class="co"># have a series of complex expressions!</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Oops, we forgot to handle `50`</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">case_when</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">10</span> <span class="op">~</span> <span class="st">"ten"</span>,</span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">20</span> <span class="op">~</span> <span class="st">"twenty"</span>,</span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">30</span> <span class="op">~</span> <span class="st">"thirty"</span>,</span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">40</span> <span class="op">~</span> <span class="st">"forty"</span>,</span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">50</span> <span class="op">~</span> <span class="st">"fifty"</span>,</span></span>
+<span class="r-in"><span>  .unmatched <span class="op">=</span> <span class="st">"error"</span></span></span>
+<span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in case_when(x &lt; 10 ~ "ten", x &lt; 20 ~ "twenty", x &lt; 30 ~ "thirty",  : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Each location must be matched.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Location 31 is unmatched.</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">case_when</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">10</span> <span class="op">~</span> <span class="st">"ten"</span>,</span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">20</span> <span class="op">~</span> <span class="st">"twenty"</span>,</span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">30</span> <span class="op">~</span> <span class="st">"thirty"</span>,</span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">40</span> <span class="op">~</span> <span class="st">"forty"</span>,</span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;=</span> <span class="fl">50</span> <span class="op">~</span> <span class="st">"fifty"</span>,</span></span>
+<span class="r-in"><span>  .unmatched <span class="op">=</span> <span class="st">"error"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "forty"  "twenty" "twenty" "ten"    "fifty"  "fifty"  "forty" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "fifty"  "thirty" "thirty" "thirty" "ten"    "fifty"  "thirty"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15] "ten"    "thirty" "ten"    "fifty"  "ten"    "twenty" "forty" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22] "twenty" "ten"    "fifty"  "twenty" "twenty" "forty"  "thirty"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29] "twenty" "fifty"  "fifty"  "twenty" "thirty" "forty"  "forty" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36] "thirty" "twenty" "fifty"  "thirty" "forty"  "forty"  "forty" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [43] "fifty"  "ten"    "ten"    "ten"    "thirty" "fifty"  "twenty"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [50] "forty" </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Note that `NA` is considered unmatched and must be handled with its own</span></span></span>
+<span class="r-in"><span><span class="co"># explicit case, even if that case just propagates the missing value!</span></span></span>
+<span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">5</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">case_when</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">10</span> <span class="op">~</span> <span class="st">"ten"</span>,</span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">20</span> <span class="op">~</span> <span class="st">"twenty"</span>,</span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">30</span> <span class="op">~</span> <span class="st">"thirty"</span>,</span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">40</span> <span class="op">~</span> <span class="st">"forty"</span>,</span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;=</span> <span class="fl">50</span> <span class="op">~</span> <span class="st">"fifty"</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="cn">NA</span>,</span></span>
+<span class="r-in"><span>  .unmatched <span class="op">=</span> <span class="st">"error"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "forty"  NA       "twenty" "ten"    NA       "fifty"  "forty" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "fifty"  "thirty" "thirty" "thirty" "ten"    "fifty"  "thirty"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15] "ten"    "thirty" "ten"    "fifty"  "ten"    "twenty" "forty" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22] "twenty" "ten"    "fifty"  "twenty" "twenty" "forty"  "thirty"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29] "twenty" "fifty"  "fifty"  "twenty" "thirty" "forty"  "forty" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36] "thirty" "twenty" "fifty"  "thirty" "forty"  "forty"  "forty" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [43] "fifty"  "ten"    "ten"    "ten"    "thirty" "fifty"  "twenty"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [50] "forty" </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># `replace_when()` is useful when you're updating an existing vector,</span></span></span>
 <span class="r-in"><span><span class="co"># rather than creating an entirely new one. Note the so-far unused "puppy"</span></span></span>
