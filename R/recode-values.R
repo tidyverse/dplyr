@@ -305,6 +305,8 @@ recode_values <- function(
   to <- args$to
   from_as_list_of_vectors <- args$from_as_list_of_vectors
   to_as_list_of_vectors <- args$to_as_list_of_vectors
+  from_arg <- args$from_arg
+  to_arg <- args$to_arg
 
   vec_recode_values(
     x = x,
@@ -316,8 +318,8 @@ recode_values <- function(
     to_as_list_of_vectors = to_as_list_of_vectors,
     ptype = ptype,
     x_arg = "x",
-    from_arg = "from",
-    to_arg = "to",
+    from_arg = from_arg,
+    to_arg = to_arg,
     default_arg = "default",
     error_call = current_env()
   )
@@ -343,6 +345,8 @@ replace_values <- function(
   to <- args$to
   from_as_list_of_vectors <- args$from_as_list_of_vectors
   to_as_list_of_vectors <- args$to_as_list_of_vectors
+  from_arg <- args$from_arg
+  to_arg <- args$to_arg
 
   vec_replace_values(
     x = x,
@@ -351,8 +355,8 @@ replace_values <- function(
     from_as_list_of_vectors = from_as_list_of_vectors,
     to_as_list_of_vectors = to_as_list_of_vectors,
     x_arg = "x",
-    from_arg = "from",
-    to_arg = "to",
+    from_arg = from_arg,
+    to_arg = to_arg,
     error_call = current_env()
   )
 }
@@ -377,6 +381,8 @@ eval_formulas_or_from_and_to <- function(
     "dots" = {
       from_as_list_of_vectors <- TRUE
       to_as_list_of_vectors <- TRUE
+      from_arg <- ""
+      to_arg <- ""
 
       args <- eval_formulas(
         ...,
@@ -390,6 +396,8 @@ eval_formulas_or_from_and_to <- function(
     "from-to" = {
       from_as_list_of_vectors <- obj_is_list(from)
       to_as_list_of_vectors <- obj_is_list(to)
+      from_arg <- "from"
+      to_arg <- "to"
     },
     abort("Unreachable", .internal = TRUE)
   )
@@ -398,7 +406,9 @@ eval_formulas_or_from_and_to <- function(
     from = from,
     to = to,
     from_as_list_of_vectors = from_as_list_of_vectors,
-    to_as_list_of_vectors = to_as_list_of_vectors
+    to_as_list_of_vectors = to_as_list_of_vectors,
+    from_arg = from_arg,
+    to_arg = to_arg
   )
 }
 

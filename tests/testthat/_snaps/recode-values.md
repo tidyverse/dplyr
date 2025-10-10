@@ -34,6 +34,22 @@
 # respects `ptype`
 
     Code
+      recode_values(1, 1 ~ 0L, ptype = character())
+    Condition
+      Error in `recode_values()`:
+      ! Can't convert `..1 (right)` <integer> to <character>.
+
+---
+
+    Code
+      recode_values(1, 1 ~ "x", NULL, 2 ~ 0L, ptype = character())
+    Condition
+      Error in `recode_values()`:
+      ! Can't convert `..2 (right)` <integer> to <character>.
+
+---
+
+    Code
       recode_values(1, from = 1, to = 0L, ptype = character())
     Condition
       Error in `recode_values()`:
@@ -50,6 +66,15 @@
 # `replace_values()` is type stable on `x`
 
     Code
+      replace_values(x, "c" ~ "b")
+    Condition
+      Error in `replace_values()`:
+      ! Can't convert from `..1 (left)` <character> to <factor<38051>> due to loss of generality.
+      * Locations: 1
+
+---
+
+    Code
       replace_values(x, from = "c", to = "b")
     Condition
       Error in `replace_values()`:
@@ -59,10 +84,28 @@
 ---
 
     Code
+      replace_values(x, "a" ~ "c")
+    Condition
+      Error in `replace_values()`:
+      ! Can't convert from `..1 (right)` <character> to <factor<38051>> due to loss of generality.
+      * Locations: 1
+
+---
+
+    Code
       replace_values(x, from = "a", to = "c")
     Condition
       Error in `replace_values()`:
       ! Can't convert from `to` <character> to <factor<38051>> due to loss of generality.
+      * Locations: 1
+
+---
+
+    Code
+      replace_values(x, "a" ~ "b", NULL, "b" ~ "c")
+    Condition
+      Error in `replace_values()`:
+      ! Can't convert from `..2 (right)` <character> to <factor<38051>> due to loss of generality.
       * Locations: 1
 
 # `default` is part of `ptype` determination
