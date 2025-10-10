@@ -48,8 +48,8 @@ in \code{...}. The levels in \code{.default} and \code{.missing} come last.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
-\code{recode()} is superseded in favor of \code{\link[=case_match]{case_match()}}, which handles the most
-important cases of \code{recode()} with a more elegant interface.
+\code{recode()} is superseded in favor of \code{\link[=recode_values]{recode_values()}} and
+\code{\link[=replace_values]{replace_values()}}, which are more general and have a much better interface.
 \code{recode_factor()} is also superseded, however, its direct replacement is not
 currently available but will eventually live in
 \href{https://forcats.tidyverse.org/}{forcats}. For creating new variables based
@@ -65,64 +65,124 @@ values. Alternatively, you can use \code{recode_factor()}, which will change the
 order of levels to match the order of replacements.
 }
 \examples{
-char_vec <- sample(c("a", "b", "c"), 10, replace = TRUE)
+set.seed(1234)
 
-# `recode()` is superseded by `case_match()`
-recode(char_vec, a = "Apple", b = "Banana")
-case_match(char_vec, "a" ~ "Apple", "b" ~ "Banana", .default = char_vec)
+x <- sample(c("a", "b", "c"), 10, replace = TRUE)
 
-# With `case_match()`, you don't need typed missings like `NA_character_`
-recode(char_vec, a = "Apple", b = "Banana", .default = NA_character_)
-case_match(char_vec, "a" ~ "Apple", "b" ~ "Banana", .default = NA)
+# `recode()` is superseded by `recode_values()` and `replace_values()`
 
-# Throws an error as `NA` is logical, not character.
-try(recode(char_vec, a = "Apple", b = "Banana", .default = NA))
+# If you are fully recoding a vector use `recode_values()`
+recode(x, a = "Apple", b = "Banana", .default = NA_character_)
+recode_values(x, "a" ~ "Apple", "b" ~ "Banana")
 
-# `case_match()` is easier to use with numeric vectors, because you don't
+# With a default
+recode(x, a = "Apple", b = "Banana", .default = "unknown")
+recode_values(x, "a" ~ "Apple", "b" ~ "Banana", default = "unknown")
+
+# If you are partially updating a vector and want to retain the original
+# vector's values in locations you don't make a replacement, use
+# `replace_values()`
+recode(x, a = "Apple", b = "Banana")
+replace_values(x, "a" ~ "Apple", "b" ~ "Banana")
+
+# `replace_values()` is easier to use with numeric vectors, because you don't
 # need to turn the numeric values into names
-num_vec <- c(1:4, NA)
-recode(num_vec, `2` = 20L, `4` = 40L)
-case_match(num_vec, 2 ~ 20, 4 ~ 40, .default = num_vec)
+y <- c(1:4, NA)
+recode(y, `2` = 20L, `4` = 40L)
+replace_values(y, 2 ~ 20L, 4 ~ 40L)
 
-# `case_match()` doesn't have the ability to match by position like
-# `recode()` does with numeric vectors
-recode(num_vec, "a", "b", "c", "d")
-recode(c(1,5,3), "a", "b", "c", "d", .default = "nothing")
+# `recode()` is particularly confusing because it tries to handle both
+# full recodings to new vector types and partial updating of an existing
+# vector. With the above example, using doubles (20) rather than integers
+# (20L) results in a warning from `recode()`, because it thinks you are
+# doing a full recode and missed a case. `replace_values()` is type stable
+# on `y` and will instead coerce the double values to integer.
+recode(y, `2` = 20, `4` = 40)
+replace_values(y, 2 ~ 20, 4 ~ 40)
 
-# For `case_match()`, incompatible types are an error rather than a warning
-recode(num_vec, `2` = "b", `4` = "d")
-try(case_match(num_vec, 2 ~ "b", 4 ~ "d", .default = num_vec))
+# This also makes `replace_values()` much safer. If you provide
+# incompatible types, it will error.
+recode(y, `2` = "20", `4` = "40")
+try(replace_values(y, 2 ~ "20", 4 ~ "40"))
+
+# If you were trying to fully recode the vector and want a different output
+# type, use `recode_values()`
+recode_values(y, 2 ~ "20", 4 ~ "40")
+
+# And if you want to ensure you don't miss a case, use `unmatched`, which
+# errors rather than warns
+try(recode_values(y, 2 ~ "20", 4 ~ "40", unmatched = "error"))
+
+# ---------------------------------------------------------------------------
+# Lookup tables
+
+# If you were splicing an external lookup vector into `recode()`, you can
+# instead use the `from` and `to` arguments of `recode_values()`
+x <- c("a", "b", "a", "c", "d", "c")
+
+lookup <- c(
+  "a" = "A",
+  "b" = "B",
+  "c" = "C",
+  "d" = "D"
+)
+
+recode(x, !!!lookup)
+recode_values(x, from = names(lookup), to = unname(lookup))
+
+# `recode_values()` is much more flexible here because the lookup table
+# isn't restricted to just character values. We recommend using `tribble()`
+# to build your lookup tables.
+lookup <- tribble(
+  ~from, ~to,
+  "a", 1,
+  "b", 2,
+  "c", 3,
+  "d", 4
+)
+
+recode_values(x, from = lookup$from, to = lookup$to)
+
+# ---------------------------------------------------------------------------
+# Factors
 
 # The factor method of `recode()` can generally be replaced with
 # `forcats::fct_recode()`
-factor_vec <- factor(c("a", "b", "c"))
-recode(factor_vec, a = "Apple")
+x <- factor(c("a", "b", "c"))
+recode(x, a = "Apple")
+# forcats::fct_recode(x, "Apple" = "a")
 
 # `recode_factor()` does not currently have a direct replacement, but we
-# plan to add one to forcats. In the meantime, you can use the `.ptype`
-# argument to `case_match()`.
+# plan to add one to forcats. In the meantime, use a lookup table that
+# recodes every case, and then convert the `to` column to a factor. If you
+# define your lookup table in your preferred level order, then the conversion
+# to factor is straightforward!
+y <- c(3, 4, 1, 2, 4, NA)
+
 recode_factor(
-  num_vec,
-  `1` = "z",
-  `2` = "y",
-  `3` = "x",
-  .default = "D",
+  y,
+  `1` = "a",
+  `2` = "b",
+  `3` = "c",
+  `4` = "d",
   .missing = "M"
 )
-case_match(
-  num_vec,
-  1 ~ "z",
-  2 ~ "y",
-  3 ~ "x",
-  NA ~ "M",
-  .default = "D",
-  .ptype = factor(levels = c("z", "y", "x", "D", "M"))
+
+lookup <- tribble(
+  ~from, ~to,
+  1, "a",
+  2, "b",
+  3, "c",
+  4, "d",
+  NA, "M"
 )
+# `factor()` generates levels by sorting the unique values of `to`, which we
+# don't want, so we supply `levels = to` directly. Alternatively, use
+# `forcats::fct(to)`, which generates levels in order of appearance.
+lookup <- mutate(lookup, to = factor(to, levels = to))
+
+recode_values(y, from = lookup$from, to = lookup$to)
 }
 \seealso{
-\code{\link[=na_if]{na_if()}} to replace specified values with a \code{NA}.
-
-\code{\link[=coalesce]{coalesce()}} to replace missing values with a specified value.
-
-\code{\link[tidyr:replace_na]{tidyr::replace_na()}} to replace \code{NA} with a value.
+\code{\link[=recode_values]{recode_values()}}
 }

@@ -105,7 +105,6 @@ reference:
   - ntile
   - order_by
   - percent_rank
-  - recode
   - row_number
 
 - title: Built in datasets
@@ -137,6 +136,7 @@ reference:
   - all_vars
   - vars
   - with_groups
+  - recode
 
 - title: Remote tables
   contents:

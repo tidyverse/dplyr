@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* The superseded `recode()` now has updated documentation showing how to migrate to `recode_values()` and `replace_values()`.
+
 * `case_when()` is now part of a family of 4 related functions, 3 of which are new:
 
   * Use `case_when()` to create a new vector based on logical conditions.
