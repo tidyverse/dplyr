@@ -67,8 +67,8 @@
     Code
       case_when(TRUE ~ 1, .default = 1, .unmatched = "error")
     Condition
-      Error in `vec_case_when()`:
-      ! Can't set `default` when `unmatched = "error"`.
+      Error in `case_when()`:
+      ! Can't set `.default` when `unmatched = "error"`.
 
 # `.unmatched` is validated
 
@@ -76,7 +76,15 @@
       case_when(TRUE ~ 1, .unmatched = "foo")
     Condition
       Error in `case_when()`:
-      ! `unmatched` must be either "default" or "error".
+      ! `unmatched` must be either "default" or "error", not "foo".
+
+---
+
+    Code
+      case_when(TRUE ~ 1, .unmatched = 1)
+    Condition
+      Error in `case_when()`:
+      ! `unmatched` must be a string, not the number 1.
 
 # `.unmatched` treats `FALSE` like an unmatched location
 

@@ -248,13 +248,6 @@ test_that("passes through `.size` correctly", {
 })
 
 test_that("can't supply `.default` and `.unmatched`", {
-  # TODO: Should probably use `default_arg` and `error_call` to at least say:
-  #
-  # ```
-  # Error in `case_when()`:
-  # `Can't set `.default` when `unmatched = "error"`.`
-  # ```
-  #
   # Probably overkill to add `unmatched_arg` just to get `.unmatched` instead
   # of `unmatched`.
   expect_snapshot(error = TRUE, {
@@ -267,6 +260,9 @@ test_that("`.unmatched` is validated", {
   # `.unmatched` instead of `unmatched`
   expect_snapshot(error = TRUE, {
     case_when(TRUE ~ 1, .unmatched = "foo")
+  })
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE ~ 1, .unmatched = 1)
   })
 })
 
