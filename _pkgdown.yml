@@ -89,7 +89,6 @@ reference:
     not data frames.
   contents:
   - between
-  - case_match
   - case_when
   - recode_values
   - coalesce
@@ -137,6 +136,7 @@ reference:
   - vars
   - with_groups
   - recode
+  - case_match
 
 - title: Remote tables
   contents:
