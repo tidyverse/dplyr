@@ -182,6 +182,15 @@ test_that("respects `ptype`", {
   )
 
   expect_snapshot(error = TRUE, {
+    recode_values(1, 1 ~ 0L, ptype = character())
+  })
+  # TODO: This index is incorrect. Should say `..3 (right)` not `..2 (right)`.
+  # `NULL` handling is wrong in `eval_formulas()`.
+  expect_snapshot(error = TRUE, {
+    recode_values(1, 1 ~ "x", NULL, 2 ~ 0L, ptype = character())
+  })
+
+  expect_snapshot(error = TRUE, {
     recode_values(1, from = 1, to = 0L, ptype = character())
   })
   expect_snapshot(error = TRUE, {
@@ -203,11 +212,25 @@ test_that("`replace_values()` is type stable on `x`", {
     replace_values(x, from = "a", to = "b"),
     factor(c("b", "b"), levels = c("a", "b"))
   )
+
+  expect_snapshot(error = TRUE, {
+    replace_values(x, "c" ~ "b")
+  })
   expect_snapshot(error = TRUE, {
     replace_values(x, from = "c", to = "b")
   })
+
+  expect_snapshot(error = TRUE, {
+    replace_values(x, "a" ~ "c")
+  })
   expect_snapshot(error = TRUE, {
     replace_values(x, from = "a", to = "c")
+  })
+
+  # TODO: This index is incorrect. Should say `..3 (right)` not `..2 (right)`.
+  # `NULL` handling is wrong in `eval_formulas()`.
+  expect_snapshot(error = TRUE, {
+    replace_values(x, "a" ~ "b", NULL, "b" ~ "c")
   })
 })
 
