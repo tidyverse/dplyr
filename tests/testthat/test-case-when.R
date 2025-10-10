@@ -247,6 +247,74 @@ test_that("passes through `.size` correctly", {
   })
 })
 
+test_that("can't supply `.default` and `.unmatched`", {
+  # Probably overkill to add `unmatched_arg` just to get `.unmatched` instead
+  # of `unmatched`.
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE ~ 1, .default = 1, .unmatched = "error")
+  })
+})
+
+test_that("`.unmatched` is validated", {
+  # Probably overkill to add `unmatched_arg` to `vec_case_when()` just to get
+  # `.unmatched` instead of `unmatched`
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE ~ 1, .unmatched = "foo")
+  })
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE ~ 1, .unmatched = 1)
+  })
+})
+
+test_that("`.unmatched` treats `FALSE` like an unmatched location", {
+  expect_snapshot(error = TRUE, {
+    case_when(
+      c(TRUE, FALSE, TRUE) ~ 1,
+      .unmatched = "error"
+    )
+  })
+})
+
+test_that("`.unmatched` treats `NA` like an unmatched location", {
+  expect_snapshot(error = TRUE, {
+    case_when(
+      c(TRUE, NA, TRUE) ~ 1,
+      .unmatched = "error"
+    )
+  })
+})
+
+test_that("`.unmatched` errors pluralize well", {
+  # One location
+  x <- letters[1:5]
+  expect_snapshot(error = TRUE, {
+    case_when(
+      x == "a" ~ 1,
+      x == "b" ~ 2,
+      x == "c" ~ 3,
+      x == "e" ~ 4,
+      .unmatched = "error"
+    )
+  })
+
+  # Two locations
+  x <- letters[1:5]
+  expect_snapshot(error = TRUE, {
+    case_when(
+      x == "a" ~ 1,
+      x == "c" ~ 2,
+      x == "e" ~ 3,
+      .unmatched = "error"
+    )
+  })
+
+  # Many locations
+  x <- 1:100
+  expect_snapshot(error = TRUE, {
+    case_when(x == 1 ~ "a", .unmatched = "error")
+  })
+})
+
 # `case_when()` errors ---------------------------------------------------------
 
 test_that("invalid type errors are correct (#6261) (#6206)", {

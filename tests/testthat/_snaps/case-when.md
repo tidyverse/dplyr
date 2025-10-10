@@ -62,6 +62,75 @@
       Error in `case_when()`:
       ! Can't recycle `..1 (right)` (size 2) to size 3.
 
+# can't supply `.default` and `.unmatched`
+
+    Code
+      case_when(TRUE ~ 1, .default = 1, .unmatched = "error")
+    Condition
+      Error in `case_when()`:
+      ! Can't set `.default` when `unmatched = "error"`.
+
+# `.unmatched` is validated
+
+    Code
+      case_when(TRUE ~ 1, .unmatched = "foo")
+    Condition
+      Error in `case_when()`:
+      ! `unmatched` must be either "default" or "error", not "foo".
+
+---
+
+    Code
+      case_when(TRUE ~ 1, .unmatched = 1)
+    Condition
+      Error in `case_when()`:
+      ! `unmatched` must be a string, not the number 1.
+
+# `.unmatched` treats `FALSE` like an unmatched location
+
+    Code
+      case_when(c(TRUE, FALSE, TRUE) ~ 1, .unmatched = "error")
+    Condition
+      Error in `case_when()`:
+      ! Each location must be matched.
+      x Location 2 is unmatched.
+
+# `.unmatched` treats `NA` like an unmatched location
+
+    Code
+      case_when(c(TRUE, NA, TRUE) ~ 1, .unmatched = "error")
+    Condition
+      Error in `case_when()`:
+      ! Each location must be matched.
+      x Location 2 is unmatched.
+
+# `.unmatched` errors pluralize well
+
+    Code
+      case_when(x == "a" ~ 1, x == "b" ~ 2, x == "c" ~ 3, x == "e" ~ 4, .unmatched = "error")
+    Condition
+      Error in `case_when()`:
+      ! Each location must be matched.
+      x Location 4 is unmatched.
+
+---
+
+    Code
+      case_when(x == "a" ~ 1, x == "c" ~ 2, x == "e" ~ 3, .unmatched = "error")
+    Condition
+      Error in `case_when()`:
+      ! Each location must be matched.
+      x Locations 2 and 4 are unmatched.
+
+---
+
+    Code
+      case_when(x == 1 ~ "a", .unmatched = "error")
+    Condition
+      Error in `case_when()`:
+      ! Each location must be matched.
+      x Locations 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, ..., 99, and 100 are unmatched.
+
 # invalid type errors are correct (#6261) (#6206)
 
     Code

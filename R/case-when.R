@@ -60,6 +60,14 @@
 #'   `.default`. This typically involves some variation of `is.na(x) ~ value`
 #'   tailored to your usage of `case_when()`.
 #'
+#' @param .unmatched Handling of unmatched locations.
+#'
+#'   One of:
+#'
+#'   - `"default"` to use `.default` in unmatched locations.
+#'
+#'   - `"error"` to error when there are unmatched locations.
+#'
 #' @param .ptype An optional prototype declaring the desired output type. If
 #'   supplied, this overrides the common type of the RHS inputs.
 #'
@@ -114,6 +122,46 @@
 #'   x %% 7 == 0 ~ "buzz",
 #'   is.na(x) ~ "nope",
 #'   .default = as.character(x)
+#' )
+#'
+#' # If you believe that you've covered every possible case, then set
+#' # `.unmatched = "error"` rather than supplying a `.default`. This adds an
+#' # extra layer of safety to `case_when()` and is particularly useful when you
+#' # have a series of complex expressions!
+#' set.seed(123)
+#' x <- sample(50)
+#'
+#' # Oops, we forgot to handle `50`
+#' try(case_when(
+#'   x < 10 ~ "ten",
+#'   x < 20 ~ "twenty",
+#'   x < 30 ~ "thirty",
+#'   x < 40 ~ "forty",
+#'   x < 50 ~ "fifty",
+#'   .unmatched = "error"
+#' ))
+#'
+#' case_when(
+#'   x < 10 ~ "ten",
+#'   x < 20 ~ "twenty",
+#'   x < 30 ~ "thirty",
+#'   x < 40 ~ "forty",
+#'   x <= 50 ~ "fifty",
+#'   .unmatched = "error"
+#' )
+#'
+#' # Note that `NA` is considered unmatched and must be handled with its own
+#' # explicit case, even if that case just propagates the missing value!
+#' x[c(2, 5)] <- NA
+#'
+#' case_when(
+#'   x < 10 ~ "ten",
+#'   x < 20 ~ "twenty",
+#'   x < 30 ~ "thirty",
+#'   x < 40 ~ "forty",
+#'   x <= 50 ~ "fifty",
+#'   is.na(x) ~ NA,
+#'   .unmatched = "error"
 #' )
 #'
 #' # `replace_when()` is useful when you're updating an existing vector,
@@ -216,7 +264,13 @@ NULL
 
 #' @rdname case-and-replace-when
 #' @export
-case_when <- function(..., .default = NULL, .ptype = NULL, .size = NULL) {
+case_when <- function(
+  ...,
+  .default = NULL,
+  .unmatched = "default",
+  .ptype = NULL,
+  .size = NULL
+) {
   args <- eval_formulas(..., allow_empty_dots = FALSE)
   conditions <- args$lhs
   values <- args$rhs
@@ -236,6 +290,7 @@ case_when <- function(..., .default = NULL, .ptype = NULL, .size = NULL) {
     conditions = conditions,
     values = values,
     default = .default,
+    unmatched = .unmatched,
     ptype = .ptype,
     size = .size,
     conditions_arg = "",
