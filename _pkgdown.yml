@@ -89,7 +89,6 @@ reference:
     not data frames.
   contents:
   - between
-  - case_match
   - case_when
   - recode_values
   - coalesce
@@ -129,14 +128,15 @@ reference:
     to be superior, but we don't want to force you to change until you're
     ready, so the existing functions will stay around for several years.
   contents:
-  - sample_frac
-  - top_n
-  - scoped
-  - ends_with("_at")
   - all_vars
+  - case_match
+  - recode
+  - sample_frac
+  - scoped
+  - top_n
   - vars
   - with_groups
-  - recode
+  - ends_with("_at")
 
 - title: Remote tables
   contents:

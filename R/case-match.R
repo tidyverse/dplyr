@@ -1,33 +1,18 @@
 #' A general vectorised `switch()`
 #'
 #' @description
+#' `r lifecycle::badge("superseded")`
+#'
+#' `case_match()` is superseded by [recode_values()] and [replace_values()],
+#' which are more powerful, have more intuitive names, and have better safety.
+#' In addition to the familiar two-sided formula interface, these functions also
+#' have `from` and `to` arguments which allow you to incorporate a lookup table
+#' into the recoding process.
+#'
 #' This function allows you to vectorise multiple [switch()] statements. Each
 #' case is evaluated sequentially and the first match for each element
 #' determines the corresponding value in the output vector. If no cases match,
 #' the `.default` is used.
-#'
-#' `case_match()` is an R equivalent of the SQL "simple" `CASE WHEN` statement.
-#'
-#' ## Connection to `case_when()`
-#'
-#' While [case_when()] uses logical expressions on the left-hand side of the
-#' formula, `case_match()` uses values to match against `.x` with. The following
-#' two statements are roughly equivalent:
-#'
-#' ```
-#' case_when(
-#'   x %in% c("a", "b") ~ 1,
-#'   x %in% "c" ~ 2,
-#'   x %in% c("d", "e") ~ 3
-#' )
-#'
-#' case_match(
-#'   x,
-#'   c("a", "b") ~ 1,
-#'   "c" ~ 2,
-#'   c("d", "e") ~ 3
-#' )
-#' ```
 #'
 #' @param .x A vector to match against.
 #'
@@ -58,14 +43,14 @@
 #' A vector with the same size as `.x` and the same type as the common type of
 #' the RHS inputs and `.default` (if not overridden by `.ptype`).
 #'
-#' @seealso [case_when()]
-#'
 #' @export
 #' @examples
+#' # `case_match()` has been superseded by `recode_values()` and
+#' # `replace_values()`
+#'
 #' x <- c("a", "b", "a", "d", "b", NA, "c", "e")
 #'
-#' # `case_match()` acts like a vectorized `switch()`.
-#' # Unmatched values "fall through" as a missing value.
+#' # `recode_values()` is a 1:1 replacement for `case_match()`
 #' case_match(
 #'   x,
 #'   "a" ~ 1,
@@ -73,29 +58,42 @@
 #'   "c" ~ 3,
 #'   "d" ~ 4
 #' )
+#' recode_values(
+#'   x,
+#'   "a" ~ 1,
+#'   "b" ~ 2,
+#'   "c" ~ 3,
+#'   "d" ~ 4
+#' )
 #'
-#' # Missing values can be matched exactly, and `.default` can be used to
-#' # control the value used for unmatched values of `.x`
-#' case_match(
+#' # `recode_values()` has an additional `unmatched` argument to help you catch
+#' # missed mappings
+#' try(recode_values(
 #'   x,
 #'   "a" ~ 1,
 #'   "b" ~ 2,
 #'   "c" ~ 3,
 #'   "d" ~ 4,
-#'   NA ~ 0,
-#'   .default = 100
+#'   unmatched = "error"
+#' ))
+#'
+#' # `recode_values()` also has additional `from` and `to` arguments, which are
+#' # useful when your lookup table is defined elsewhere (for example, it could
+#' # be read in from a CSV file). This is very difficult to do with
+#' # `case_match()`!
+#' lookup <- tribble(
+#'   ~from, ~to,
+#'   "a", 1,
+#'   "b", 2,
+#'   "c", 3,
+#'   "d", 4
 #' )
 #'
-#' # Input values can be grouped into the same expression to map them to the
-#' # same output value
-#' case_match(
-#'   x,
-#'   c("a", "b") ~ "low",
-#'   c("c", "d", "e") ~ "high"
-#' )
+#' recode_values(x, from = lookup$from, to = lookup$to)
 #'
-#' # `case_match()` isn't limited to character input:
-#' y <- c(1, 2, 1, 3, 1, NA, 2, 4)
+#' # Both `case_match()` and `recode_values()` work with more than just
+#' # character inputs:
+#' y <- as.integer(c(1, 2, 1, 3, 1, NA, 2, 4))
 #'
 #' case_match(
 #'   y,
@@ -103,16 +101,40 @@
 #'   c(2, 4) ~ "even",
 #'   .default = "missing"
 #' )
+#' recode_values(
+#'   y,
+#'   c(1, 3) ~ "odd",
+#'   c(2, 4) ~ "even",
+#'   default = "missing"
+#' )
 #'
-#' # Setting `.default` to the original vector is a useful way to replace
-#' # selected values, leaving everything else as is
+#' # Or with a lookup table
+#' lookup <- tribble(
+#'   ~from,   ~to,
+#'   c(1, 3), "odd",
+#'   c(2, 4), "even"
+#' )
+#' recode_values(y, from = lookup$from, to = lookup$to, default = "missing")
+#'
+#' # `replace_values()` is a convenient way to replace selected values, leaving
+#' # everything else as is. It's similar to `case_match(y, .default = y)`.
+#' replace_values(y, NA ~ 0)
 #' case_match(y, NA ~ 0, .default = y)
 #'
+#' # Notably, `replace_values()` is type stable, which means that `y` can't
+#' # change types out from under you, unlike with `case_match()`!
+#' typeof(y)
+#' typeof(replace_values(y, NA ~ 0))
+#' typeof(case_match(y, NA ~ 0, .default = y))
+#'
+#' # We believe that `replace_values()` better expresses intent when doing a
+#' # partial replacement. Compare these two `mutate()` calls, each with the
+#' # goals of:
+#' # - Replace missings in `hair_color`
+#' # - Replace some of the `species`
 #' starwars |>
 #'   mutate(
-#'     # Replace missings, but leave everything else alone
 #'     hair_color = case_match(hair_color, NA ~ "unknown", .default = hair_color),
-#'     # Replace some, but not all, of the species
 #'     species = case_match(
 #'       species,
 #'       "Human" ~ "Humanoid",
@@ -122,7 +144,24 @@
 #'     ),
 #'     .keep = "used"
 #'   )
+#'
+#' updates <- tribble(
+#'   ~from,                ~to,
+#'   "Human",              "Humanoid",
+#'   "Droid",              "Robot",
+#'   c("Wookiee", "Ewok"), "Hairy"
+#' )
+#'
+#' starwars |>
+#'   mutate(
+#'     hair_color = replace_values(hair_color, NA ~ "unknown"),
+#'     species = replace_values(species, from = updates$from, to = updates$to),
+#'     .keep = "used"
+#'   )
 case_match <- function(.x, ..., .default = NULL, .ptype = NULL) {
+  # Superseded in dplyr 1.2.0
+  lifecycle::signal_stage("superseded", "case_match()", "recode_values()")
+
   # Matching historical behavior of `case_match()`, which was to work like
   # `case_when()` and not allow empty `...`. Newer `replace_when()` and
   # `replace_values()` are a no-op for this case, but we superseded

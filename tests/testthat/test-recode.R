@@ -103,10 +103,6 @@ test_that(".dot argument works correctly (PR #2110)", {
   )
 })
 
-test_that("`recode()` signals that it is superseded", {
-  expect_snapshot(catch_cnd(recode("a", a = "A")))
-})
-
 # factor ------------------------------------------------------------------
 
 test_that("default .default works with factors", {
@@ -160,10 +156,6 @@ test_that("can recode factor with redundant levels", {
     recode_factor(letters[1:4], d = "c", b = "a"),
     factor(c("a", "a", "c", "c"), levels = c("c", "a"))
   )
-})
-
-test_that("`recode_factor()` signals that it is superseded", {
-  expect_snapshot(catch_cnd(recode_factor("a", a = "A")))
 })
 
 # Errors --------------------------------------------

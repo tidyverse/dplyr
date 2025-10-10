@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `case_match()` is now superseded by `recode_values()` and `replace_values()`.
+
 * The superseded `recode()` now has updated documentation showing how to migrate to `recode_values()` and `replace_values()`.
 
 * `case_when()` is now part of a family of 4 related functions, 3 of which are new:
