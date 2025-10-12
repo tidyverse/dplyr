@@ -470,22 +470,31 @@ eval_formulas <- function(
   error_call = caller_env()
 ) {
   dots <- list2(...)
-  # `NULL`s are compacted out
-  dots <- compact_null(dots)
-  n_dots <- length(dots)
-  seq_dots <- seq_len(n_dots)
 
-  if (!allow_empty_dots && n_dots == 0L) {
+  # Store index computed before dropping `NULL` so error indices are correct
+  indices <- seq_along(dots)
+
+  # Drop `NULL`s
+  if (vec_any_missing(dots)) {
+    not_missing <- !vec_detect_missing(dots)
+    dots <- vec_slice(dots, not_missing)
+    indices <- vec_slice(indices, not_missing)
+  }
+
+  dots_size <- length(dots)
+  dots_seq <- seq_len(dots_size)
+
+  if (!allow_empty_dots && dots_size == 0L) {
     abort("`...` can't be empty.", call = error_call)
   }
 
   pairs <- map2(
     .x = dots,
-    .y = seq_dots,
-    .f = function(x, i) {
+    .y = indices,
+    .f = function(dot, index) {
       validate_and_split_formula(
-        x = x,
-        i = i,
+        dot = dot,
+        index = index,
         dots_env = dots_env,
         user_env = user_env,
         error_call = error_call
@@ -493,16 +502,16 @@ eval_formulas <- function(
     }
   )
 
-  lhs <- vector("list", n_dots)
-  rhs <- vector("list", n_dots)
+  lhs <- vector("list", dots_size)
+  rhs <- vector("list", dots_size)
 
   env_error_info <- new_environment()
 
   # Using 1 call to `withCallingHandlers()` that wraps all `eval_tidy()`
   # evaluations to avoid repeated handler setup (#6674)
   withCallingHandlers(
-    for (i in seq_dots) {
-      env_error_info[["i"]] <- i
+    for (i in dots_seq) {
+      env_error_info[["index"]] <- indices[[i]]
       pair <- pairs[[i]]
 
       env_error_info[["side"]] <- "left"
@@ -521,7 +530,7 @@ eval_formulas <- function(
     error = function(cnd) {
       message <- glue::glue_data(
         env_error_info,
-        "Failed to evaluate the {side}-hand side of formula {i}."
+        "Failed to evaluate the {side}-hand side of formula {index}."
       )
       abort(message, parent = cnd, call = error_call)
     }
@@ -542,9 +551,9 @@ eval_formulas <- function(
   # rhs_names <- map(quos_pairs, function(pair) pair$rhs)
   # rhs_names <- map_chr(rhs_names, as_label)
   # names(rhs) <- rhs_names
-  if (n_dots > 0L) {
-    names(lhs) <- paste0("..", seq_dots, " (left)")
-    names(rhs) <- paste0("..", seq_dots, " (right)")
+  if (dots_size > 0L) {
+    names(lhs) <- paste0("..", indices, " (left)")
+    names(rhs) <- paste0("..", indices, " (right)")
   }
 
   list(
@@ -554,37 +563,37 @@ eval_formulas <- function(
 }
 
 validate_and_split_formula <- function(
-  x,
-  i,
+  dot,
+  index,
   dots_env,
   user_env,
   error_call
 ) {
-  if (is_quosure(x)) {
+  if (is_quosure(dot)) {
     # We specially handle quosures, assuming they hold formulas
-    user_env <- quo_get_env(x)
-    x <- quo_get_expr(x)
+    user_env <- quo_get_env(dot)
+    dot <- quo_get_expr(dot)
   }
 
-  if (!is_formula(x, lhs = TRUE)) {
-    arg <- substitute(...(), dots_env)[[i]]
+  if (!is_formula(dot, lhs = TRUE)) {
+    arg <- substitute(...(), dots_env)[[index]]
     arg <- glue::backtick(as_label(arg))
 
-    if (is_formula(x)) {
+    if (is_formula(dot)) {
       type <- "a two-sided formula, not a one-sided formula"
     } else {
-      type <- glue("a two-sided formula, not {obj_type_friendly(x)}")
+      type <- glue("a two-sided formula, not {obj_type_friendly(dot)}")
     }
 
-    message <- glue("Case {i} ({arg}) must be {type}.")
+    message <- glue("Case {index} ({arg}) must be {type}.")
     abort(message, call = error_call)
   }
 
   # Formula might be unevaluated, e.g. if it's been quosured
-  env <- f_env(x) %||% user_env
+  env <- f_env(dot) %||% user_env
 
   list(
-    lhs = new_quosure(f_lhs(x), env),
-    rhs = new_quosure(f_rhs(x), env)
+    lhs = new_quosure(f_lhs(dot), env),
+    rhs = new_quosure(f_rhs(dot), env)
   )
 }
