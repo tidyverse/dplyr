@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `case_when()` now throws correctly indexed errors when `NULL`s are supplied in `...` (#7739).
+
 * `case_when()` has gained a new `.unmatched` argument. For extra safety, set `.unmatched = "error"` rather than providing a `.default` when you believe that you've handled every possible case, and it will error if a case is left unhandled. The new `recode_values()` also has this argument (#7653).
 
 * New `rbind()` method for `rowwise_df` to avoid creating corrupt rowwise data frames (r-lib/vctrs#1935).

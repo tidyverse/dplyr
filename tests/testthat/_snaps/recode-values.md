@@ -45,7 +45,7 @@
       recode_values(1, 1 ~ "x", NULL, 2 ~ 0L, ptype = character())
     Condition
       Error in `recode_values()`:
-      ! Can't convert `..2 (right)` <integer> to <character>.
+      ! Can't convert `..3 (right)` <integer> to <character>.
 
 ---
 
@@ -105,7 +105,7 @@
       replace_values(x, "a" ~ "b", NULL, "b" ~ "c")
     Condition
       Error in `replace_values()`:
-      ! Can't convert from `..2 (right)` <character> to <factor<38051>> due to loss of generality.
+      ! Can't convert from `..3 (right)` <character> to <factor<38051>> due to loss of generality.
       * Locations: 1
 
 # `default` is part of `ptype` determination

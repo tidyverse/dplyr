@@ -54,6 +54,24 @@
       Error in `case_when()`:
       ! Can't combine <integer> and `.default` <character>.
 
+# passes through `.ptype` correctly
+
+    Code
+      case_when(TRUE ~ 1, FALSE ~ 1.5, .ptype = integer())
+    Condition
+      Error in `case_when()`:
+      ! Can't convert from `..2 (right)` <double> to <integer> due to loss of precision.
+      * Locations: 1
+
+---
+
+    Code
+      case_when(TRUE ~ 1, NULL, FALSE ~ 1.5, .ptype = integer())
+    Condition
+      Error in `case_when()`:
+      ! Can't convert from `..3 (right)` <double> to <integer> due to loss of precision.
+      * Locations: 1
+
 # passes through `.size` correctly
 
     Code
@@ -61,6 +79,14 @@
     Condition
       Error in `case_when()`:
       ! Can't recycle `..1 (right)` (size 2) to size 3.
+
+---
+
+    Code
+      case_when(TRUE ~ 1:3, NULL, TRUE ~ 1:2, .size = 3)
+    Condition
+      Error in `case_when()`:
+      ! Can't recycle `..3 (right)` (size 2) to size 3.
 
 # can't supply `.default` and `.unmatched`
 
@@ -320,6 +346,14 @@
       Error in `replace_when()`:
       ! `..1 (left)` must have size 3, not size 1.
 
+---
+
+    Code
+      replace_when(x, c(TRUE, TRUE, TRUE) ~ 0, NULL, TRUE ~ 0)
+    Condition
+      Error in `replace_when()`:
+      ! `..3 (left)` must have size 3, not size 1.
+
 # replace_when() retains the type of `x`
 
     Code
@@ -327,6 +361,15 @@
     Condition
       Error in `replace_when()`:
       ! Can't convert from `..1 (right)` <character> to <factor<af15a>> due to loss of generality.
+      * Locations: 1
+
+---
+
+    Code
+      replace_when(x, x == "a" ~ "b", NULL, x == "b" ~ "d")
+    Condition
+      Error in `replace_when()`:
+      ! Can't convert from `..3 (right)` <character> to <factor<af15a>> due to loss of generality.
       * Locations: 1
 
 # replace_when() does not allow named `...`

@@ -237,6 +237,14 @@ test_that("`.default` is part of common type computation", {
 
 test_that("passes through `.ptype` correctly", {
   expect_identical(case_when(TRUE ~ 1, .ptype = integer()), 1L)
+
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE ~ 1, FALSE ~ 1.5, .ptype = integer())
+  })
+  # Error index is right when `NULL` is involved
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE ~ 1, NULL, FALSE ~ 1.5, .ptype = integer())
+  })
 })
 
 test_that("passes through `.size` correctly", {
@@ -244,6 +252,10 @@ test_that("passes through `.size` correctly", {
 
   expect_snapshot(error = TRUE, {
     case_when(TRUE ~ 1:2, .size = 3)
+  })
+  # Error index is right when `NULL` is involved
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE ~ 1:3, NULL, TRUE ~ 1:2, .size = 3)
   })
 })
 
@@ -477,6 +489,11 @@ test_that("replace_when() does not recycle LHS values", {
   expect_snapshot(error = TRUE, {
     replace_when(x, TRUE ~ 0)
   })
+
+  # Error index is right when `NULL` is involved
+  expect_snapshot(error = TRUE, {
+    replace_when(x, c(TRUE, TRUE, TRUE) ~ 0, NULL, TRUE ~ 0)
+  })
 })
 
 test_that("replace_when() retains the type of `x`", {
@@ -499,6 +516,10 @@ test_that("replace_when() retains the type of `x`", {
   # Can't cast to unknown level
   expect_snapshot(error = TRUE, {
     replace_when(x, x == "a" ~ "d")
+  })
+  # Error index is right when `NULL` is involved
+  expect_snapshot(error = TRUE, {
+    replace_when(x, x == "a" ~ "b", NULL, x == "b" ~ "d")
   })
 })
 
