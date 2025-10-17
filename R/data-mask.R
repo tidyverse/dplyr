@@ -104,6 +104,13 @@ DataMask <- R6Class(
     },
 
     eval_all_summarise = function(quo) {
+      # Optimize count()
+      if (identical(quo_get_expr(quo), expr(n()))) {
+        if (identical(eval(expr(n), quo_get_env(quo)), expr(n()))) {
+          return(lengths(private$rows))
+        }
+      }
+
       # Wrap in a function called `eval()` so that rlang ignores the
       # call in error messages. This only concerns errors that occur
       # directly in `quo`.
