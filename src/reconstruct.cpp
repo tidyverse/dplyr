@@ -40,10 +40,10 @@ SEXP ffi_dplyr_reconstruct(SEXP data, SEXP template_) {
   if (TYPEOF(template_) != VECSXP) {
     Rf_errorcall(R_NilValue, "Internal error: `template` must be a list.");
   }
-  if (!OBJECT(data)) {
+  if (!Rf_isObject(data)) {
     Rf_errorcall(R_NilValue, "Internal error: `data` must be an object.");
   }
-  if (!OBJECT(template_)) {
+  if (!Rf_isObject(template_)) {
     Rf_errorcall(R_NilValue, "Internal error: `template` must be an object.");
   }
 
