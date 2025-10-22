@@ -1,18 +1,12 @@
 #include "dplyr.h"
-
-SEXP as_utf8(SEXP s) {
-  if (!IS_UTF8(s) && !IS_ASCII(s)) {
-    s = Rf_mkCharCE(Rf_translateCharUTF8(s), CE_UTF8);
-  }
-  return s;
-}
+#include "utils.h"
 
 R_xlen_t find_first(SEXP haystack, SEXP needle) {
-  SEXP needle_utf8 = PROTECT(as_utf8(needle));
+  SEXP needle_utf8 = PROTECT(str_as_utf8(needle));
   R_xlen_t n = XLENGTH(haystack);
   R_xlen_t i_name = 0;
   for (; i_name < n; i_name++) {
-    if (needle_utf8 == as_utf8(STRING_ELT(haystack, i_name))) break;
+    if (needle_utf8 == str_as_utf8(STRING_ELT(haystack, i_name))) break;
   }
   UNPROTECT(1);
   return i_name;

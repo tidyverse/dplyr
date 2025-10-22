@@ -7,12 +7,6 @@
 #include <R_ext/Rdynload.h>
 #include <Rversion.h>
 
-#define UTF8_MASK (1<<3)
-#define ASCII_MASK (1<<6)
-
-#define IS_ASCII(x) (LEVELS(x) & ASCII_MASK)
-#define IS_UTF8(x) (LEVELS(x) & UTF8_MASK)
-
 #if (R_VERSION < R_Version(3, 5, 0))
 # define LOGICAL_RO(x) ((const int*) LOGICAL(x))
 # define INTEGER_RO(x) ((const int*) INTEGER(x))
