@@ -17,7 +17,9 @@
 # define DATAPTR_RO(x) ((const void*) STRING_PTR(x))
 #endif
 
-#define VECTOR_PTR_RO(x) ((const SEXP*) DATAPTR_RO(x))
+#if (R_VERSION < R_Version(4, 5, 0))
+# define VECTOR_PTR_RO(x) ((const SEXP*) DATAPTR_RO(x))
+#endif
 
 namespace dplyr {
 
