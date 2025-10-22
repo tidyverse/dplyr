@@ -106,10 +106,7 @@ SEXP ffi_dplyr_reconstruct(SEXP data, SEXP template_) {
     Rf_errorcall(R_NilValue, "Internal error: `template` must have a `row.names` attribute.");
   }
 
-  // Make an ALTREP wrapper if possible, since the underlying data doesn't change.
-  // Won't actually make an ALTREP wrapper unless there are >64 columns
-  // (internally controlled by R).
-  data = PROTECT(R_shallow_duplicate_attr(data));
+  data = PROTECT(Rf_shallow_duplicate(data));
 
   SET_ATTRIB(data, attributes);
 
