@@ -59,9 +59,9 @@ Suggests:
     withr
 VignetteBuilder:
     knitr
+Config/build/compilation-database: true
 Config/Needs/website: tidyverse, shiny, pkgdown, tidyverse/tidytemplate
 Config/testthat/edition: 3
-Config/build/compilation-database: true
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
