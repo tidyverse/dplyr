@@ -109,11 +109,7 @@ SEXP ffi_dplyr_reconstruct(SEXP data, SEXP template_) {
   // Make an ALTREP wrapper if possible, since the underlying data doesn't change.
   // Won't actually make an ALTREP wrapper unless there are >64 columns
   // (internally controlled by R).
-#if R_VERSION >= R_Version(3, 6, 0)
   data = PROTECT(R_shallow_duplicate_attr(data));
-#else
-  data = PROTECT(Rf_shallow_duplicate(data));
-#endif
 
   SET_ATTRIB(data, attributes);
 
