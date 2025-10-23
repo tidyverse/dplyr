@@ -69,6 +69,8 @@ coalesce(!!!vecs)
 \seealso{
 \itemize{
 \item \code{\link[=na_if]{na_if()}} to replace a specified value with \code{NA}.
-\item \code{\link[=replace_values]{replace_values()}} for making arbitrary replacements.
+\item \code{\link[=replace_values]{replace_values()}} for making arbitrary replacements by value.
+\item \code{\link[=replace_when]{replace_when()}} for making arbitrary replacements using logical
+conditions.
 }
 }

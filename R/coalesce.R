@@ -23,7 +23,10 @@
 #'
 #'   - [na_if()] to replace a specified value with `NA`.
 #'
-#'   - [replace_values()] for making arbitrary replacements.
+#'   - [replace_values()] for making arbitrary replacements by value.
+#'
+#'   - [replace_when()] for making arbitrary replacements using logical
+#'     conditions.
 #'
 #' @export
 #' @examples

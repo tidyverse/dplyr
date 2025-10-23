@@ -20,7 +20,10 @@
 #'
 #'   - [coalesce()] to replace `NA`s with the first non-missing value.
 #'
-#'   - [replace_values()] for making arbitrary replacements.
+#'   - [replace_values()] for making arbitrary replacements by value.
+#'
+#'   - [replace_when()] for making arbitrary replacements using logical
+#'     conditions.
 #'
 #' @export
 #' @examples
@@ -45,8 +48,11 @@
 #' replace_values(x, c(0, -1, -99) ~ NA)
 #' na_if(na_if(na_if(x, 0), -1), -99)
 #'
-#' # If you'd like to replace `NA` with some other value, again use
-#' # `replace_values()`
+#' # If you'd like to replace values that match a logical condition with `NA`,
+#' # use `replace_when()`
+#' replace_when(x, x < 0 ~ NA)
+#'
+#' # If you'd like to replace `NA` with some other value, use `replace_values()`
 #' x <- c(NA, 5, 2, NA, 0, 3)
 #' replace_values(x, NA ~ 0)
 #'
