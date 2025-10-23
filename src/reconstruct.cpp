@@ -40,10 +40,10 @@ SEXP ffi_dplyr_reconstruct(SEXP data, SEXP template_) {
   if (TYPEOF(template_) != VECSXP) {
     Rf_errorcall(R_NilValue, "Internal error: `template` must be a list.");
   }
-  if (!OBJECT(data)) {
+  if (!Rf_isObject(data)) {
     Rf_errorcall(R_NilValue, "Internal error: `data` must be an object.");
   }
-  if (!OBJECT(template_)) {
+  if (!Rf_isObject(template_)) {
     Rf_errorcall(R_NilValue, "Internal error: `template` must be an object.");
   }
 
@@ -106,14 +106,7 @@ SEXP ffi_dplyr_reconstruct(SEXP data, SEXP template_) {
     Rf_errorcall(R_NilValue, "Internal error: `template` must have a `row.names` attribute.");
   }
 
-  // Make an ALTREP wrapper if possible, since the underlying data doesn't change.
-  // Won't actually make an ALTREP wrapper unless there are >64 columns
-  // (internally controlled by R).
-#if R_VERSION >= R_Version(3, 6, 0)
-  data = PROTECT(R_shallow_duplicate_attr(data));
-#else
   data = PROTECT(Rf_shallow_duplicate(data));
-#endif
 
   SET_ATTRIB(data, attributes);
 

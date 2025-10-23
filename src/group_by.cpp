@@ -354,8 +354,8 @@ SEXP dplyr_validate_rowwise_df(SEXP df) {
   if (TYPEOF(dot_rows) != VECSXP) {
     ok = false;
   }
-  const SEXP* p_dot_rows = VECTOR_PTR_RO(dot_rows);
   if (ok) {
+    const SEXP* p_dot_rows = VECTOR_PTR_RO(dot_rows);
     for (R_xlen_t i = 0; i < nr && ok; i++) {
       SEXP rows_i = p_dot_rows[i];
       ok = TYPEOF(rows_i) == INTSXP && XLENGTH(rows_i) == 1 && INTEGER(rows_i)[0] != (i + 1);
