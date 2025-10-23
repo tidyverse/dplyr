@@ -102,19 +102,53 @@ size of the vectors in <code>...</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="na_if.html">na_if()</a></code> to replace specified values with an <code>NA</code>.
-<code><a href="https://tidyr.tidyverse.org/reference/replace_na.html" class="external-link">tidyr::replace_na()</a></code> to replace <code>NA</code> with a value.</p></div>
+    <div class="dont-index">
+<ul><li><p><code><a href="na_if.html">na_if()</a></code> to replace a specified value with <code>NA</code>.</p></li>
+<li><p><code><a href="recode-and-replace-values.html">replace_values()</a></code> for making arbitrary replacements by value.</p></li>
+<li><p><code><a href="case-and-replace-when.html">replace_when()</a></code> for making arbitrary replacements using logical
+conditions.</p></li>
+</ul></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Use a single value to replace all missing values</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Replace missing values with a single value</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">coalesce</span><span class="op">(</span><span class="va">x</span>, <span class="fl">0L</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 0 5 0 3 2 4 0</span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Or replace missing values with the corresponding non-missing value in</span></span></span>
+<span class="r-in"><span><span class="co"># another vector</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">5</span>, <span class="cn">NA</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="cn">NA</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">coalesce</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  1  2  3  4  5 NA</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># For cases like these where your replacement is a single value or a single</span></span></span>
+<span class="r-in"><span><span class="co"># vector, `replace_values()` works just as well</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="recode-and-replace-values.html">replace_values</a></span><span class="op">(</span><span class="va">x</span>, <span class="cn">NA</span> <span class="op">~</span> <span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2 0 0 5 0</span>
+<span class="r-in"><span><span class="fu">coalesce</span><span class="op">(</span><span class="va">x</span>, <span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2 0 0 5 0</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="recode-and-replace-values.html">replace_values</a></span><span class="op">(</span><span class="va">x</span>, <span class="cn">NA</span> <span class="op">~</span> <span class="va">y</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  1  2  3  4  5 NA</span>
+<span class="r-in"><span><span class="fu">coalesce</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  1  2  3  4  5 NA</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># `coalesce()` really shines when you have &gt;2 vectors to coalesce with</span></span></span>
+<span class="r-in"><span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">coalesce</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">z</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2 3 4 5 6</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># If you're looking to replace values with `NA`, rather than replacing `NA`</span></span></span>
+<span class="r-in"><span><span class="co"># with a value, then use `replace_values()`</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="op">-</span><span class="fl">99</span>, <span class="fl">8</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="recode-and-replace-values.html">replace_values</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">99</span><span class="op">)</span> <span class="op">~</span> <span class="cn">NA</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0 NA  5 NA  8</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The equivalent to a missing value in a list is `NULL`</span></span></span>
-<span class="r-in"><span><span class="fu">coalesce</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="cn">NULL</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">coalesce</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="cn">NULL</span>, <span class="cn">NA</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -122,16 +156,13 @@ size of the vectors in <code>...</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Or generate a complete vector from partially missing pieces</span></span></span>
-<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">coalesce</span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2 3 4 5</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Supply lists by splicing them into dots:</span></span></span>
+<span class="r-in"><span><span class="co"># Supply lists of vectors by splicing them into dots</span></span></span>
 <span class="r-in"><span><span class="va">vecs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">5</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span></span></span>
