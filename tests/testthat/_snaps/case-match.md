@@ -29,6 +29,7 @@
     Condition
       Error in `case_match()`:
       ! `..1 (right)` must be a vector, not `NULL`.
+      i Read our FAQ about scalar types (`?vctrs::faq_error_scalar_type`) to learn more.
 
 ---
 
@@ -37,6 +38,7 @@
     Condition
       Error in `case_match()`:
       ! `..1 (left)` must be a vector, not `NULL`.
+      i Read our FAQ about scalar types (`?vctrs::faq_error_scalar_type`) to learn more.
 
 # throws chained errors when formula evaluation fails
 
@@ -93,6 +95,7 @@
     Condition
       Error in `vec_case_match()`:
       ! `haystacks[[2]]` must be a vector, not `NULL`.
+      i Read our FAQ about scalar types (`?vctrs::faq_error_scalar_type`) to learn more.
 
 ---
 
@@ -101,6 +104,7 @@
     Condition
       Error in `vec_case_match()`:
       ! `haystacks[[2]]` must be a vector, not `NULL`.
+      i Read our FAQ about scalar types (`?vctrs::faq_error_scalar_type`) to learn more.
 
 ---
 
@@ -109,6 +113,7 @@
     Condition
       Error in `vec_case_match()`:
       ! `values[[2]]` must be a vector, not `NULL`.
+      i Read our FAQ about scalar types (`?vctrs::faq_error_scalar_type`) to learn more.
 
 # size of `needles` is maintained
 
@@ -125,6 +130,7 @@
     Condition
       Error in `vec_case_match()`:
       ! `needles` must be a vector, not an environment.
+      i Read our FAQ about scalar types (`?vctrs::faq_error_scalar_type`) to learn more.
 
 # `haystacks` must be a list
 
@@ -150,6 +156,7 @@
     Condition
       Error in `vec_case_match()`:
       ! `foo` must be a vector, not an environment.
+      i Read our FAQ about scalar types (`?vctrs::faq_error_scalar_type`) to learn more.
 
 ---
 
@@ -159,6 +166,7 @@
     Condition
       Error in `vec_case_match()`:
       ! Input must be a vector, not an environment.
+      i Read our FAQ about scalar types (`?vctrs::faq_error_scalar_type`) to learn more.
 
 # `haystacks_arg` is respected
 

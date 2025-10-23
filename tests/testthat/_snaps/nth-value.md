@@ -61,6 +61,7 @@
     Condition
       Error in `vec_size()`:
       ! `x` must be a vector, not an environment.
+      i Read our FAQ about scalar types (`?vctrs::faq_error_scalar_type`) to learn more.
 
 # `order_by` must be the same size as `x`
 

@@ -191,6 +191,7 @@
         ```
       Error in `case_when()`:
       ! `..1 (right)` must be a vector, not `NULL`.
+      i Read our FAQ about scalar types (`?vctrs::faq_error_scalar_type`) to learn more.
 
 ---
 
