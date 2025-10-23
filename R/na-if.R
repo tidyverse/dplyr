@@ -43,9 +43,12 @@
 #' )
 #'
 #' # If you have multiple problematic values that you'd like to replace with
-#' # `NA`, then `replace_values()` is a better choice than nested `na_if()`s
+#' # `NA`, then `replace_values()` is a better choice than `na_if()`
 #' x <- c(-99, 1, 4, 0, -99, 5, -1, 0, 5)
 #' replace_values(x, c(0, -1, -99) ~ NA)
+#'
+#' # You'd have to nest `na_if()`s to achieve this
+#' try(na_if(x, c(0, -1, -99)))
 #' na_if(na_if(na_if(x, 0), -1), -99)
 #'
 #' # If you'd like to replace values that match a logical condition with `NA`,
