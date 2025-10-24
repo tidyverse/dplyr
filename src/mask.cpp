@@ -2,11 +2,11 @@
 #include "utils.h"
 
 R_xlen_t find_first(SEXP haystack, SEXP needle) {
-  SEXP needle_utf8 = PROTECT(str_as_utf8(needle));
+  SEXP needle_utf8 = PROTECT(string_as_utf8(needle));
   R_xlen_t n = XLENGTH(haystack);
   R_xlen_t i_name = 0;
   for (; i_name < n; i_name++) {
-    if (needle_utf8 == str_as_utf8(STRING_ELT(haystack, i_name))) break;
+    if (needle_utf8 == string_as_utf8(STRING_ELT(haystack, i_name))) break;
   }
   UNPROTECT(1);
   return i_name;
