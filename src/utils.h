@@ -20,11 +20,7 @@ static inline bool string_is_ascii_or_utf8(SEXP x) {
 }
 
 static inline SEXP string_as_utf8(SEXP x) {
-  if (string_is_ascii_or_utf8(x)) {
-    return x;
-  } else {
-    return Rf_mkCharCE(Rf_translateCharUTF8(x), CE_UTF8);
-  }
+  return Rf_mkCharCE(Rf_translateCharUTF8(x), CE_UTF8);
 }
 
 #endif
