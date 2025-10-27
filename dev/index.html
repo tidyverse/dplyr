@@ -120,10 +120,9 @@
 <p>In addition to data frames/tibbles, dplyr makes working with other computational backends accessible and efficient. Below is a list of alternative backends:</p>
 <ul>
 <li><p><a href="https://arrow.apache.org/docs/r/" class="external-link">arrow</a> for larger-than-memory datasets, including on remote cloud storage like AWS S3, using the Apache Arrow C++ engine, <a href="https://arrow.apache.org/docs/cpp/streaming_execution.html" class="external-link">Acero</a>.</p></li>
-<li><p><a href="https://dtplyr.tidyverse.org/" class="external-link">dtplyr</a> for large, in-memory datasets. Translates your dplyr code to high performance <a href="https://rdatatable.gitlab.io/data.table/" class="external-link">data.table</a> code.</p></li>
 <li><p><a href="https://dbplyr.tidyverse.org/" class="external-link">dbplyr</a> for data stored in a relational database. Translates your dplyr code to SQL.</p></li>
-<li><p><a href="https://tidyverse.github.io/duckplyr/" class="external-link">duckplyr</a> for using <a href="https://duckdb.org" class="external-link">duckdb</a> on large, in-memory datasets with zero extra copies. Translates your dplyr code to high performance duckdb queries with an automatic R fallback when translation isn’t possible.</p></li>
-<li><p><a href="https://duckdb.org/docs/api/r" class="external-link">duckdb</a> for large datasets that are still small enough to fit on your computer.</p></li>
+<li><p><a href="https://dtplyr.tidyverse.org/" class="external-link">dtplyr</a> for large, in-memory datasets. Translates your dplyr code to high performance <a href="https://rdatatable.gitlab.io/data.table/" class="external-link">data.table</a> code.</p></li>
+<li><p><a href="https://duckplyr.tidyverse.org/" class="external-link">duckplyr</a> for large, in-memory datasets. Translates your dplyr code to high performance <a href="https://duckdb.org" class="external-link">duckdb</a> queries with zero extra copies and an automatic R fallback when translation isn’t possible.</p></li>
 <li><p><a href="https://spark.rstudio.com" class="external-link">sparklyr</a> for very large datasets stored in <a href="https://spark.apache.org" class="external-link">Apache Spark</a>.</p></li>
 </ul>
 </div>
@@ -159,8 +158,8 @@
 <span><span class="va">starwars</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/filter.html">filter</a></span><span class="op">(</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Droid"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 6 × 14</span></span>
-<span><span class="co">#&gt;   name   height  mass hair_color skin_color  eye_color birth_year sex   gender</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;</span></span>
+<span><span class="co">#&gt;   name   height  mass hair_color skin_color  eye_color birth_year sex   gender  </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   </span></span>
 <span><span class="co">#&gt; 1 C-3PO     167    75 &lt;NA&gt;       gold        yellow           112 none  masculi…</span></span>
 <span><span class="co">#&gt; 2 R2-D2      96    32 &lt;NA&gt;       white, blue red               33 none  masculi…</span></span>
 <span><span class="co">#&gt; 3 R5-D4      97    32 &lt;NA&gt;       white, red  red               NA none  masculi…</span></span>
@@ -174,12 +173,12 @@
 <span>  <span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">ends_with</a></span><span class="op">(</span><span class="st">"color"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 87 × 4</span></span>
 <span><span class="co">#&gt;   name           hair_color skin_color  eye_color</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;</span></span>
-<span><span class="co">#&gt; 1 Luke Skywalker blond      fair        blue</span></span>
-<span><span class="co">#&gt; 2 C-3PO          &lt;NA&gt;       gold        yellow</span></span>
-<span><span class="co">#&gt; 3 R2-D2          &lt;NA&gt;       white, blue red</span></span>
-<span><span class="co">#&gt; 4 Darth Vader    none       white       yellow</span></span>
-<span><span class="co">#&gt; 5 Leia Organa    brown      light       brown</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></span>
+<span><span class="co">#&gt; 1 Luke Skywalker blond      fair        blue     </span></span>
+<span><span class="co">#&gt; 2 C-3PO          &lt;NA&gt;       gold        yellow   </span></span>
+<span><span class="co">#&gt; 3 R2-D2          &lt;NA&gt;       white, blue red      </span></span>
+<span><span class="co">#&gt; 4 Darth Vader    none       white       yellow   </span></span>
+<span><span class="co">#&gt; 5 Leia Organa    brown      light       brown    </span></span>
 <span><span class="co">#&gt; # ℹ 82 more rows</span></span>
 <span></span>
 <span><span class="va">starwars</span> <span class="op">|&gt;</span></span>
@@ -199,7 +198,7 @@
 <span>  <span class="fu"><a href="reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 87 × 14</span></span>
 <span><span class="co">#&gt;   name      height  mass hair_color skin_color eye_color birth_year sex   gender</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span></span>
 <span><span class="co">#&gt; 1 Jabba De…    175  1358 &lt;NA&gt;       green-tan… orange         600   herm… mascu…</span></span>
 <span><span class="co">#&gt; 2 Grievous     216   159 none       brown, wh… green, y…       NA   male  mascu…</span></span>
 <span><span class="co">#&gt; 3 IG-88        200   140 none       metal      red             15   none  mascu…</span></span>
@@ -223,9 +222,9 @@
 <span><span class="co">#&gt;   species      n  mass</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;</span></span>
 <span><span class="co">#&gt; 1 Droid        6  69.8</span></span>
-<span><span class="co">#&gt; 2 Gungan       3  74</span></span>
+<span><span class="co">#&gt; 2 Gungan       3  74  </span></span>
 <span><span class="co">#&gt; 3 Human       35  81.3</span></span>
-<span><span class="co">#&gt; 4 Kaminoan     2  88</span></span>
+<span><span class="co">#&gt; 4 Kaminoan     2  88  </span></span>
 <span><span class="co">#&gt; 5 Mirialan     2  53.1</span></span>
 <span><span class="co">#&gt; # ℹ 4 more rows</span></span></code></pre></div>
 </div>
