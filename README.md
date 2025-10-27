@@ -44,20 +44,17 @@ alternative backends:
   Apache Arrow C++ engine,
   [Acero](https://arrow.apache.org/docs/cpp/streaming_execution.html).
 
+- [dbplyr](https://dbplyr.tidyverse.org/) for data stored in a
+  relational database. Translates your dplyr code to SQL.
+
 - [dtplyr](https://dtplyr.tidyverse.org/) for large, in-memory datasets.
   Translates your dplyr code to high performance
   [data.table](https://rdatatable.gitlab.io/data.table/) code.
 
-- [dbplyr](https://dbplyr.tidyverse.org/) for data stored in a
-  relational database. Translates your dplyr code to SQL.
-
-- [duckplyr](https://tidyverse.github.io/duckplyr/) for using
-  [duckdb](https://duckdb.org) on large, in-memory datasets with zero
-  extra copies. Translates your dplyr code to high performance duckdb
-  queries with an automatic R fallback when translation isn’t possible.
-
-- [duckdb](https://duckdb.org/docs/api/r) for large datasets that are
-  still small enough to fit on your computer.
+- [duckplyr](https://duckplyr.tidyverse.org/) for large, in-memory
+  datasets. Translates your dplyr code to high performance
+  [duckdb](https://duckdb.org) queries with zero extra copies and an
+  automatic R fallback when translation isn’t possible.
 
 - [sparklyr](https://spark.rstudio.com) for very large datasets stored
   in [Apache Spark](https://spark.apache.org).
@@ -94,8 +91,8 @@ library(dplyr)
 starwars |>
   filter(species == "Droid")
 #> # A tibble: 6 × 14
-#>   name   height  mass hair_color skin_color  eye_color birth_year sex   gender
-#>   <chr>   <int> <dbl> <chr>      <chr>       <chr>          <dbl> <chr> <chr>
+#>   name   height  mass hair_color skin_color  eye_color birth_year sex   gender  
+#>   <chr>   <int> <dbl> <chr>      <chr>       <chr>          <dbl> <chr> <chr>   
 #> 1 C-3PO     167    75 <NA>       gold        yellow           112 none  masculi…
 #> 2 R2-D2      96    32 <NA>       white, blue red               33 none  masculi…
 #> 3 R5-D4      97    32 <NA>       white, red  red               NA none  masculi…
@@ -109,12 +106,12 @@ starwars |>
   select(name, ends_with("color"))
 #> # A tibble: 87 × 4
 #>   name           hair_color skin_color  eye_color
-#>   <chr>          <chr>      <chr>       <chr>
-#> 1 Luke Skywalker blond      fair        blue
-#> 2 C-3PO          <NA>       gold        yellow
-#> 3 R2-D2          <NA>       white, blue red
-#> 4 Darth Vader    none       white       yellow
-#> 5 Leia Organa    brown      light       brown
+#>   <chr>          <chr>      <chr>       <chr>    
+#> 1 Luke Skywalker blond      fair        blue     
+#> 2 C-3PO          <NA>       gold        yellow   
+#> 3 R2-D2          <NA>       white, blue red      
+#> 4 Darth Vader    none       white       yellow   
+#> 5 Leia Organa    brown      light       brown    
 #> # ℹ 82 more rows
 
 starwars |>
@@ -134,7 +131,7 @@ starwars |>
   arrange(desc(mass))
 #> # A tibble: 87 × 14
 #>   name      height  mass hair_color skin_color eye_color birth_year sex   gender
-#>   <chr>      <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> <chr>
+#>   <chr>      <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> <chr> 
 #> 1 Jabba De…    175  1358 <NA>       green-tan… orange         600   herm… mascu…
 #> 2 Grievous     216   159 none       brown, wh… green, y…       NA   male  mascu…
 #> 3 IG-88        200   140 none       metal      red             15   none  mascu…
@@ -158,9 +155,9 @@ starwars |>
 #>   species      n  mass
 #>   <chr>    <int> <dbl>
 #> 1 Droid        6  69.8
-#> 2 Gungan       3  74
+#> 2 Gungan       3  74  
 #> 3 Human       35  81.3
-#> 4 Kaminoan     2  88
+#> 4 Kaminoan     2  88  
 #> 5 Mirialan     2  53.1
 #> # ℹ 4 more rows
 ```
