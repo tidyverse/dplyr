@@ -4,10 +4,12 @@
     "allow": [
       "Bash(find:*)",
       "Bash(R:*)",
+      "Bash(Rscript:*)",
       "Bash(air format:*)",
       "Edit(R/**)",
       "Edit(tests/**)",
-      "Edit(vignettes/**)"
+      "Edit(vignettes/**)",
+      "Edit(NEWS.md)"
     ],
     "deny": []
   }

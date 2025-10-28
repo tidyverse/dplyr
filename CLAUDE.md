@@ -31,6 +31,7 @@ dplyr is a tidyverse R package providing a grammar of data manipulation.
 - Run `pkgdown::check_pkgdown()` to check that all topics are included in the reference index
 - Use sentence case for all headings
 - Any user facing changes should be briefly described in a bullet point at the top of `NEWS.md`, following the tidyverse style guide (https://style.tidyverse.org/news.html)
+- Any bullets added to `NEWS.md` should always be placed at the top, just under `# {package} (development version)`
 
 ### Code style
 
