@@ -213,7 +213,7 @@
       filter(df, pick(x, y)$x)
     Condition
       Error in `filter()`:
-      i In argument: `asNamespace("dplyr")$dplyr_pick_tibble(x = x, y = y)$x`.
+      i In argument: `pick(x, y)$x`.
       Caused by error:
       ! `..1` must be a logical vector, not a double vector.
 

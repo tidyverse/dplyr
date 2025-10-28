@@ -21,3 +21,50 @@ dplyr_vec_ptype_common <- function(chunks, name) {
     error = common_handler(name)
   )
 }
+
+# Version of `vec_size_common()` that takes a list.
+# Useful for delaying `!!!` when used within an `expr()` call.
+dplyr_list_size_common <- function(
+  x,
+  ...,
+  size = NULL,
+  absent = 0L,
+  call = caller_env()
+) {
+  check_dots_empty0(...)
+  vec_size_common(!!!x, .size = size, .absent = absent, .call = call)
+}
+
+# Version of `vec_recycle_common()` that takes a list.
+# Useful for delaying `!!!` when used within an `expr()` call.
+dplyr_list_recycle_common <- function(
+  x,
+  ...,
+  size = NULL,
+  call = caller_env()
+) {
+  check_dots_empty0(...)
+  vec_recycle_common(!!!x, .size = size, .call = call)
+}
+
+dplyr_list_pall <- function(
+  x,
+  ...,
+  missing = NA,
+  size = NULL,
+  error_call = caller_env()
+) {
+  check_dots_empty0(...)
+  vec_pall(!!!x, .missing = missing, .size = size, .error_call = error_call)
+}
+
+dplyr_list_pany <- function(
+  x,
+  ...,
+  missing = NA,
+  size = NULL,
+  error_call = caller_env()
+) {
+  check_dots_empty0(...)
+  vec_pany(!!!x, .missing = missing, .size = size, .error_call = error_call)
+}

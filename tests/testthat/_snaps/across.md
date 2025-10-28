@@ -295,6 +295,459 @@
       Caused by error:
       ! Can't subset `.data` outside of a data mask context.
 
+# `across()` recycle `.fns` results to common size
+
+    Code
+      mutate(df, across(c(x, y), fn))
+    Condition
+      Error in `mutate()`:
+      i In argument: `across(c(x, y), fn)`.
+      Caused by error in `across()`:
+      ! Can't compute column `x`.
+      Caused by error in `dplyr_internal_error()`:
+
+---
+
+    Code
+      mutate(df, (across(c(x, y), fn)))
+    Condition
+      Error in `mutate()`:
+      i In argument: `(across(c(x, y), fn))`.
+      Caused by error:
+      ! `(across(c(x, y), fn))` must be size 3 or 1, not 2.
+
+# `if_any()` and `if_all()` have consistent behavior across `filter()` and `mutate()`
+
+    Code
+      filter(df, if_any(y))
+    Condition
+      Error in `filter()`:
+      i In argument: `if_any(y)`.
+      Caused by error in `if_any()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, (if_any(y)))
+    Condition
+      Error in `filter()`:
+      i In argument: `(if_any(y))`.
+      Caused by error in `if_any()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      mutate(df, a = if_any(y))
+    Condition
+      Error in `mutate()`:
+      i In argument: `a = if_any(y)`.
+      Caused by error in `if_any()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, if_any(y, identity))
+    Condition
+      Error in `filter()`:
+      i In argument: `if_any(y, identity)`.
+      Caused by error in `if_any()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, (if_any(y, identity)))
+    Condition
+      Error in `filter()`:
+      i In argument: `(if_any(y, identity))`.
+      Caused by error in `if_any()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      mutate(df, a = if_any(y, identity))
+    Condition
+      Error in `mutate()`:
+      i In argument: `a = if_any(y, identity)`.
+      Caused by error in `if_any()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, if_all(y))
+    Condition
+      Error in `filter()`:
+      i In argument: `if_all(y)`.
+      Caused by error in `if_all()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, (if_all(y)))
+    Condition
+      Error in `filter()`:
+      i In argument: `(if_all(y))`.
+      Caused by error in `if_all()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      mutate(df, a = if_all(y))
+    Condition
+      Error in `mutate()`:
+      i In argument: `a = if_all(y)`.
+      Caused by error in `if_all()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, if_all(y, identity))
+    Condition
+      Error in `filter()`:
+      i In argument: `if_all(y, identity)`.
+      Caused by error in `if_all()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, (if_all(y, identity)))
+    Condition
+      Error in `filter()`:
+      i In argument: `(if_all(y, identity))`.
+      Caused by error in `if_all()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      mutate(df, a = if_all(y, identity))
+    Condition
+      Error in `mutate()`:
+      i In argument: `a = if_all(y, identity)`.
+      Caused by error in `if_all()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, if_any(c(y, z)))
+    Condition
+      Error in `filter()`:
+      i In argument: `if_any(c(y, z))`.
+      Caused by error in `if_any()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, (if_any(c(y, z))))
+    Condition
+      Error in `filter()`:
+      i In argument: `(if_any(c(y, z)))`.
+      Caused by error in `if_any()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      mutate(df, a = if_any(c(y, z)))
+    Condition
+      Error in `mutate()`:
+      i In argument: `a = if_any(c(y, z))`.
+      Caused by error in `if_any()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, if_any(c(y, z), identity))
+    Condition
+      Error in `filter()`:
+      i In argument: `if_any(c(y, z), identity)`.
+      Caused by error in `if_any()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, (if_any(c(y, z), identity)))
+    Condition
+      Error in `filter()`:
+      i In argument: `(if_any(c(y, z), identity))`.
+      Caused by error in `if_any()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      mutate(df, a = if_any(c(y, z), identity))
+    Condition
+      Error in `mutate()`:
+      i In argument: `a = if_any(c(y, z), identity)`.
+      Caused by error in `if_any()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, if_all(c(y, z)))
+    Condition
+      Error in `filter()`:
+      i In argument: `if_all(c(y, z))`.
+      Caused by error in `if_all()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, (if_all(c(y, z))))
+    Condition
+      Error in `filter()`:
+      i In argument: `(if_all(c(y, z)))`.
+      Caused by error in `if_all()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      mutate(df, a = if_all(c(y, z)))
+    Condition
+      Error in `mutate()`:
+      i In argument: `a = if_all(c(y, z))`.
+      Caused by error in `if_all()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, if_all(c(y, z), identity))
+    Condition
+      Error in `filter()`:
+      i In argument: `if_all(c(y, z), identity)`.
+      Caused by error in `if_all()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, (if_all(c(y, z), identity)))
+    Condition
+      Error in `filter()`:
+      i In argument: `(if_all(c(y, z), identity))`.
+      Caused by error in `if_all()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      mutate(df, a = if_all(c(y, z), identity))
+    Condition
+      Error in `mutate()`:
+      i In argument: `a = if_all(c(y, z), identity)`.
+      Caused by error in `if_all()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, if_any(c(y, z)), .by = g)
+    Condition
+      Error in `filter()`:
+      i In argument: `if_any(c(y, z))`.
+      i In group 1: `g = "a"`.
+      Caused by error in `if_any()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, (if_any(c(y, z))), .by = g)
+    Condition
+      Error in `filter()`:
+      i In argument: `(if_any(c(y, z)))`.
+      i In group 1: `g = "a"`.
+      Caused by error in `if_any()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      mutate(df, a = if_any(c(y, z)), .by = g)
+    Condition
+      Error in `mutate()`:
+      i In argument: `a = if_any(c(y, z))`.
+      i In group 1: `g = "a"`.
+      Caused by error in `if_any()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, if_any(c(y, z), identity), .by = g)
+    Condition
+      Error in `filter()`:
+      i In argument: `if_any(c(y, z), identity)`.
+      i In group 1: `g = "a"`.
+      Caused by error in `if_any()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, (if_any(c(y, z), identity)), .by = g)
+    Condition
+      Error in `filter()`:
+      i In argument: `(if_any(c(y, z), identity))`.
+      i In group 1: `g = "a"`.
+      Caused by error in `if_any()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      mutate(df, a = if_any(c(y, z), identity), .by = g)
+    Condition
+      Error in `mutate()`:
+      i In argument: `a = if_any(c(y, z), identity)`.
+      i In group 1: `g = "a"`.
+      Caused by error in `if_any()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, if_all(c(y, z)), .by = g)
+    Condition
+      Error in `filter()`:
+      i In argument: `if_all(c(y, z))`.
+      i In group 1: `g = "a"`.
+      Caused by error in `if_all()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, (if_all(c(y, z))), .by = g)
+    Condition
+      Error in `filter()`:
+      i In argument: `(if_all(c(y, z)))`.
+      i In group 1: `g = "a"`.
+      Caused by error in `if_all()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      mutate(df, a = if_all(c(y, z)), .by = g)
+    Condition
+      Error in `mutate()`:
+      i In argument: `a = if_all(c(y, z))`.
+      i In group 1: `g = "a"`.
+      Caused by error in `if_all()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, if_all(c(y, z), identity), .by = g)
+    Condition
+      Error in `filter()`:
+      i In argument: `if_all(c(y, z), identity)`.
+      i In group 1: `g = "a"`.
+      Caused by error in `if_all()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      filter(df, (if_all(c(y, z), identity)), .by = g)
+    Condition
+      Error in `filter()`:
+      i In argument: `(if_all(c(y, z), identity))`.
+      i In group 1: `g = "a"`.
+      Caused by error in `if_all()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+---
+
+    Code
+      mutate(df, a = if_all(c(y, z), identity), .by = g)
+    Condition
+      Error in `mutate()`:
+      i In argument: `a = if_all(c(y, z), identity)`.
+      i In group 1: `g = "a"`.
+      Caused by error in `if_all()`:
+      ! `y` must be a logical vector, not an integer vector.
+
+# `if_any()` and `if_all()` recycle `.fns` results to common size
+
+    Code
+      filter(df, if_any(c(x, y), fn))
+    Condition
+      Error in `filter()`:
+      i In argument: `if_any(c(x, y), fn)`.
+      Caused by error:
+      ! `..1` must be of size 3 or 1, not size 2.
+
+---
+
+    Code
+      filter(df, (if_any(c(x, y), fn)))
+    Condition
+      Error in `filter()`:
+      i In argument: `(if_any(c(x, y), fn))`.
+      Caused by error:
+      ! `..1` must be of size 3 or 1, not size 2.
+
+---
+
+    Code
+      mutate(df, a = if_any(c(x, y), fn))
+    Condition
+      Error in `mutate()`:
+      i In argument: `a = if_any(c(x, y), fn)`.
+      Caused by error:
+      ! `a` must be size 3 or 1, not 2.
+
+---
+
+    Code
+      filter(df, if_all(c(x, y), fn))
+    Condition
+      Error in `filter()`:
+      i In argument: `if_all(c(x, y), fn)`.
+      Caused by error:
+      ! `..1` must be of size 3 or 1, not size 2.
+
+---
+
+    Code
+      filter(df, (if_all(c(x, y), fn)))
+    Condition
+      Error in `filter()`:
+      i In argument: `(if_all(c(x, y), fn))`.
+      Caused by error:
+      ! `..1` must be of size 3 or 1, not size 2.
+
+---
+
+    Code
+      mutate(df, a = if_all(c(x, y), fn))
+    Condition
+      Error in `mutate()`:
+      i In argument: `a = if_all(c(x, y), fn)`.
+      Caused by error:
+      ! `a` must be size 3 or 1, not 2.
+
 # can't rename during selection (#6522)
 
     Code
