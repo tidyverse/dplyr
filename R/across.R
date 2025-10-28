@@ -26,10 +26,6 @@
 #' - `if_all()` will return `TRUE`, consistent with the behavior of
 #'   `all()` when called without inputs.
 #'
-#' When a single column is provided, both `if_any()` and `if_all()` will
-#' convert the column to a logical vector, ensuring consistent behavior with
-#' the multiple-column case.
-#'
 #' @param .cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
 #'   You can't select grouping columns because they are already automatically
 #'   handled by the verb (i.e. [summarise()] or [mutate()]).
@@ -353,41 +349,33 @@ across <- function(.cols, .fns, ..., .names = NULL, .unpack = FALSE) {
 if_any <- function(.cols, .fns, ..., .names = NULL) {
   context_local("across_if_fn", "if_any")
   context_local("across_frame", current_env())
-  if_across(`|`, across({{ .cols }}, .fns, ..., .names = .names))
+  if_across("any", across({{ .cols }}, .fns, ..., .names = .names))
 }
 #' @rdname across
 #' @export
 if_all <- function(.cols, .fns, ..., .names = NULL) {
   context_local("across_if_fn", "if_all")
   context_local("across_frame", current_env())
-  if_across(`&`, across({{ .cols }}, .fns, ..., .names = .names))
+  if_across("all", across({{ .cols }}, .fns, ..., .names = .names))
 }
 
-if_across <- function(op, df) {
-  n <- nrow(df)
+if_across <- function(variant, df) {
+  switch(
+    variant,
+    any = {
+      op <- `|`
+      init <- FALSE
+    },
+    all = {
+      op <- `&`
+      init <- TRUE
+    },
+    abort("Unreachable", .internal = TRUE)
+  )
 
-  if (!length(df)) {
-    # Return FALSE for if_any() (which uses `|`)
-    # Return TRUE for if_all() (which uses `&`)
-    return(identical(op, `&`))
-  }
+  init <- vec_rep(init, times = vec_size(df))
 
-  if (length(df) == 1) {
-    # For a single column, ensure we convert to a logical value
-    # Apply the identity function with the appropriate operator
-    # For if_any(), this is equivalent to `||(col, FALSE)`
-    # For if_all(), this is equivalent to `&&(col, TRUE)`
-    return(op(df[[1]], identical(op, `&`)))
-  }
-
-  combine <- function(x, y) {
-    if (is_null(x)) {
-      y
-    } else {
-      op(x, y)
-    }
-  }
-  reduce(df, combine, .init = NULL)
+  reduce(df, op, .init = init)
 }
 
 #' Combine values from multiple columns

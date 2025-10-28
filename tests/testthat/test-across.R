@@ -634,6 +634,9 @@ test_that("if_any() and if_all() respect filter()-like NA handling", {
 })
 
 test_that("if_any() and if_all() work correctly with single column inputs (#7746)", {
+  # TODO: Still need to fix up this one
+  # TODO: Still need to compare to `expand_if_across()` inlining behavior
+
   # Test data
   df <- tibble(
     col_a = c(5, 12, 8),
@@ -1044,21 +1047,26 @@ test_that("if_any() on zero-column selection behaves like any() (#7059, #7077)",
     y = c(1, 4, 2, 4, 9),
   )
 
-  # Test behavior in filter() - should return no rows
   expect_equal(
-    filter(tbl, if_any(c(), ~ is.na(.x))),
-    tbl[0, ]
+    filter(tbl, if_any(c(), ~FALSE)),
+    filter(tbl, FALSE)
+  )
+  expect_equal(
+    filter(tbl, if_any(c(), ~TRUE)),
+    filter(tbl, FALSE)
   )
 
-  # Test behavior in mutate() - should return all FALSE
-  result <- mutate(tbl, z = if_any(c(), ~ is.na(.x)))
   expect_equal(
-    result$z,
+    pull(mutate(tbl, z = if_any(c(), ~FALSE)), z),
+    rep(FALSE, nrow(tbl))
+  )
+  expect_equal(
+    pull(mutate(tbl, z = if_any(c(), ~TRUE)), z),
     rep(FALSE, nrow(tbl))
   )
 })
 
-test_that("if_all() on zero-column selection behaves like all() (#7059)", {
+test_that("if_all() on zero-column selection behaves like all() (#7059, #7077)", {
   tbl <- tibble(
     x1 = 1:5,
     x2 = c(-1, 4, 5, 4, 1),
@@ -1066,8 +1074,21 @@ test_that("if_all() on zero-column selection behaves like all() (#7059)", {
   )
 
   expect_equal(
-    filter(tbl, if_all(c(), ~ is.na(.x))),
-    tbl
+    filter(tbl, if_all(c(), ~FALSE)),
+    filter(tbl, TRUE)
+  )
+  expect_equal(
+    filter(tbl, if_all(c(), ~TRUE)),
+    filter(tbl, TRUE)
+  )
+
+  expect_equal(
+    pull(mutate(tbl, z = if_all(c(), ~FALSE)), z),
+    rep(TRUE, nrow(tbl))
+  )
+  expect_equal(
+    pull(mutate(tbl, z = if_all(c(), ~TRUE)), z),
+    rep(TRUE, nrow(tbl))
   )
 })
 
@@ -1077,11 +1098,11 @@ test_that("if_any() and if_all() wrapped deal with no inputs or single inputs", 
   # No inputs
   expect_equal(
     filter(d, (if_any(starts_with("c"), ~FALSE))),
-    filter(d, FALSE) # Changed from filter(d) to filter(d, FALSE)
+    filter(d, FALSE)
   )
   expect_equal(
     filter(d, (if_all(starts_with("c"), ~FALSE))),
-    filter(d)
+    filter(d, TRUE)
   )
 
   # Single inputs
@@ -1092,6 +1113,14 @@ test_that("if_any() and if_all() wrapped deal with no inputs or single inputs", 
   expect_equal(
     filter(d, (if_all(x, ~FALSE))),
     filter(d, FALSE)
+  )
+  expect_equal(
+    filter(d, (if_any(x, ~TRUE))),
+    filter(d, TRUE)
+  )
+  expect_equal(
+    filter(d, (if_all(x, ~TRUE))),
+    filter(d, TRUE)
   )
 })
 
