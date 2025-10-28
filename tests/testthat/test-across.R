@@ -633,6 +633,38 @@ test_that("if_any() and if_all() respect filter()-like NA handling", {
   )
 })
 
+test_that("if_any() and if_all() work correctly with single column inputs (#7746)", {
+  # Test data
+  df <- tibble(
+    col_a = c(5, 12, 8),
+    col_b = c(7, 3, 15)
+  )
+
+  # Test with a single column and no function - should return a logical vector, not the column itself
+  result1 <- mutate(df, single_any = if_any(col_a))
+  expect_type(result1$single_any, "logical")
+  expect_equal(result1$single_any, df$col_a > 0)
+
+  result2 <- mutate(df, single_all = if_all(col_a))
+  expect_type(result2$single_all, "logical")
+  expect_equal(result2$single_all, df$col_a > 0)
+
+  # Test with a single column and a function
+  result3 <- mutate(df, big_any = if_any(col_a, ~ .x > 10))
+  expect_equal(result3$big_any, c(FALSE, TRUE, FALSE))
+
+  result4 <- mutate(df, big_all = if_all(col_a, ~ .x > 10))
+  expect_equal(result4$big_all, c(FALSE, TRUE, FALSE))
+
+  # Compare with multiple columns behavior for consistency
+  result_multi_any <- mutate(df, multi_any = if_any(c(col_a, col_b), ~ .x > 10))
+  expect_equal(result_multi_any$multi_any, c(FALSE, TRUE, TRUE))
+
+  result_multi_all <- mutate(df, multi_all = if_all(c(col_a, col_b), ~ .x > 10))
+  # The third row has col_a=8, col_b=15, so only col_b > 10
+  expect_equal(result_multi_all$multi_all, c(FALSE, FALSE, FALSE))
+})
+
 test_that("if_any() and if_all() aborts when predicate mistakingly used in .cols= (#5732)", {
   df <- data.frame(x = 1:10, y = 1:10)
   expect_snapshot({
@@ -1005,16 +1037,24 @@ test_that("if_any() and if_all() expansions deal with no inputs or single inputs
   )
 })
 
-test_that("if_any() on zero-column selection behaves like any() (#7059)", {
+test_that("if_any() on zero-column selection behaves like any() (#7059, #7077)", {
   tbl <- tibble(
     x1 = 1:5,
     x2 = c(-1, 4, 5, 4, 1),
     y = c(1, 4, 2, 4, 9),
   )
 
+  # Test behavior in filter() - should return no rows
   expect_equal(
     filter(tbl, if_any(c(), ~ is.na(.x))),
     tbl[0, ]
+  )
+
+  # Test behavior in mutate() - should return all FALSE
+  result <- mutate(tbl, z = if_any(c(), ~ is.na(.x)))
+  expect_equal(
+    result$z,
+    rep(FALSE, nrow(tbl))
   )
 })
 
@@ -1037,7 +1077,7 @@ test_that("if_any() and if_all() wrapped deal with no inputs or single inputs", 
   # No inputs
   expect_equal(
     filter(d, (if_any(starts_with("c"), ~FALSE))),
-    filter(d)
+    filter(d, FALSE) # Changed from filter(d) to filter(d, FALSE)
   )
   expect_equal(
     filter(d, (if_all(starts_with("c"), ~FALSE))),

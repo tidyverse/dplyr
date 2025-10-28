@@ -8,6 +8,10 @@
 
 * `case_when()` now throws correctly indexed errors when `NULL`s are supplied in `...` (#7739).
 
+* Fixed inconsistent behavior in `if_any()` when called with no inputs: it now correctly returns `FALSE` in all contexts, matching the behavior of `any()` (#7077).
+
+* Fixed behavior of `if_any()` and `if_all()` when called with a single column input: they now properly return logical vectors rather than the column itself (#7746).
+
 * `case_when()` has gained a new `.unmatched` argument. For extra safety, set `.unmatched = "error"` rather than providing a `.default` when you believe that you've handled every possible case, and it will error if a case is left unhandled. The new `recode_values()` also has this argument (#7653).
 
 * New `rbind()` method for `rowwise_df` to avoid creating corrupt rowwise data frames (r-lib/vctrs#1935).

@@ -26,6 +26,10 @@
 #' - `if_all()` will return `TRUE`, consistent with the behavior of
 #'   `all()` when called without inputs.
 #'
+#' When a single column is provided, both `if_any()` and `if_all()` will
+#' convert the column to a logical vector, ensuring consistent behavior with
+#' the multiple-column case.
+#'
 #' @param .cols <[`tidy-select`][dplyr_tidy_select]> Columns to transform.
 #'   You can't select grouping columns because they are already automatically
 #'   handled by the verb (i.e. [summarise()] or [mutate()]).
@@ -363,7 +367,17 @@ if_across <- function(op, df) {
   n <- nrow(df)
 
   if (!length(df)) {
-    return(TRUE)
+    # Return FALSE for if_any() (which uses `|`)
+    # Return TRUE for if_all() (which uses `&`)
+    return(identical(op, `&`))
+  }
+
+  if (length(df) == 1) {
+    # For a single column, ensure we convert to a logical value
+    # Apply the identity function with the appropriate operator
+    # For if_any(), this is equivalent to `||(col, FALSE)`
+    # For if_all(), this is equivalent to `&&(col, TRUE)`
+    return(op(df[[1]], identical(op, `&`)))
   }
 
   combine <- function(x, y) {
