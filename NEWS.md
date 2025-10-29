@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* Empty `rowwise()` list-column elements now resolve to `logical()` rather than a random logical of length 1 (#7710).
+
 * Progress towards making dplyr conformant with the public C API of R (#7741).
 
 * `case_when()` now throws correctly indexed errors when `NULL`s are supplied in `...` (#7739).
