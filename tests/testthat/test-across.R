@@ -580,23 +580,6 @@ test_that("functions defined inline can use columns (#5734)", {
   )
 })
 
-test_that("if_any() and if_all() do not enforce logical", {
-  # We used to coerce to logical using vctrs. Now we use base
-  # semantics because we expand `if_all(x:y)` to `x & y`.
-  d <- data.frame(x = 10, y = 10)
-  expect_equal(filter(d, if_all(x:y, identity)), d)
-  expect_equal(filter(d, if_any(x:y, identity)), d)
-
-  expect_equal(
-    mutate(d, ok = if_any(x:y, identity)),
-    mutate(d, ok = TRUE)
-  )
-  expect_equal(
-    mutate(d, ok = if_all(x:y, identity)),
-    mutate(d, ok = TRUE)
-  )
-})
-
 test_that("if_any() and if_all() can be used in mutate() (#5709)", {
   d <- data.frame(x = c(1, 5, 10, 10), y = c(0, 0, 0, 10), z = c(10, 5, 1, 10))
   res <- d |>
@@ -631,41 +614,6 @@ test_that("if_any() and if_all() respect filter()-like NA handling", {
     filter(df, x | y),
     filter(df, if_any(c(x, y), identity))
   )
-})
-
-test_that("if_any() and if_all() work correctly with single column inputs (#7746)", {
-  # TODO: Still need to fix up this one
-  # TODO: Still need to compare to `expand_if_across()` inlining behavior
-
-  # Test data
-  df <- tibble(
-    col_a = c(5, 12, 8),
-    col_b = c(7, 3, 15)
-  )
-
-  # Test with a single column and no function - should return a logical vector, not the column itself
-  result1 <- mutate(df, single_any = if_any(col_a))
-  expect_type(result1$single_any, "logical")
-  expect_equal(result1$single_any, df$col_a > 0)
-
-  result2 <- mutate(df, single_all = if_all(col_a))
-  expect_type(result2$single_all, "logical")
-  expect_equal(result2$single_all, df$col_a > 0)
-
-  # Test with a single column and a function
-  result3 <- mutate(df, big_any = if_any(col_a, ~ .x > 10))
-  expect_equal(result3$big_any, c(FALSE, TRUE, FALSE))
-
-  result4 <- mutate(df, big_all = if_all(col_a, ~ .x > 10))
-  expect_equal(result4$big_all, c(FALSE, TRUE, FALSE))
-
-  # Compare with multiple columns behavior for consistency
-  result_multi_any <- mutate(df, multi_any = if_any(c(col_a, col_b), ~ .x > 10))
-  expect_equal(result_multi_any$multi_any, c(FALSE, TRUE, TRUE))
-
-  result_multi_all <- mutate(df, multi_all = if_all(c(col_a, col_b), ~ .x > 10))
-  # The third row has col_a=8, col_b=15, so only col_b > 10
-  expect_equal(result_multi_all$multi_all, c(FALSE, FALSE, FALSE))
 })
 
 test_that("if_any() and if_all() aborts when predicate mistakingly used in .cols= (#5732)", {
@@ -1298,10 +1246,9 @@ test_that("expand_if_across() expands lambdas", {
   by <- compute_by(by = NULL, data = mtcars, error_call = call("caller"))
   DataMask$new(mtcars, by, "mutate", call("caller"))
 
-  expect_equal(
-    map(expand_if_across(quo), quo_squash),
-    alist(`|`(cyl > 4, am > 4))
-  )
+  expect_snapshot({
+    quo_squash(expand_if_across(quo))
+  })
 })
 
 test_that("rowwise() preserves list-cols iff no `.fns` (#5951, #6264)", {
@@ -1323,6 +1270,431 @@ test_that("rowwise() preserves list-cols iff no `.fns` (#5951, #6264)", {
       tibble(x = list(3:5))
     )
   )
+})
+
+test_that("`across()` recycle `.fns` results to common size", {
+  df <- tibble(
+    x = c(TRUE, FALSE, TRUE),
+    y = c(1L, 2L, 3L)
+  )
+
+  # The `.fns` results are recycled within just the `across()` inputs first, not
+  # immediately to the whole group size. The returned data frame from `across()`
+  # is what is then recycled to the whole group size.
+
+  fn <- function(x) {
+    if (is.logical(x)) {
+      x
+    } else {
+      TRUE
+    }
+  }
+
+  expect_identical(
+    mutate(df, across(c(x, y), fn)),
+    tibble(x = df$x, y = rep(TRUE, times = nrow(df)))
+  )
+  expect_identical(
+    mutate(df, (across(c(x, y), fn))),
+    tibble(x = df$x, y = rep(TRUE, times = nrow(df)))
+  )
+
+  # Not forcing the result of `.fns` to immediately recycle to the group size is
+  # useful for niche cases where you want to compute something with `across()`
+  # but it isn't actually what you return
+
+  fn <- function(x) {
+    c(mean(x), median(x))
+  }
+
+  expect_identical(
+    mutate(df, {
+      # Maybe your `across()` call returns something of length 2
+      values <- across(c(x, y), fn)
+      # But then you manipulate it to return something compatible with the group size
+      new_tibble(map(values, max))
+    }),
+    tibble(x = c(1, 1, 1), y = c(2, 2, 2))
+  )
+
+  # Unrecyclable
+  expect_snapshot(error = TRUE, {
+    # TODO: This error is bad
+    mutate(df, across(c(x, y), fn))
+  })
+  expect_snapshot(error = TRUE, {
+    mutate(df, (across(c(x, y), fn)))
+  })
+})
+
+test_that("`if_any()` and `if_all()` have consistent behavior across `filter()` and `mutate()`", {
+  # Tests a full suite comparing:
+  # - `filter()` vs `mutate()`
+  # - `filter()`'s evaluation vs expansion models
+  # - With and without `.fns`
+
+  # `w` and `x` cover all combinations of `|` and `&`
+  df <- data.frame(
+    w = c(TRUE, FALSE, NA, TRUE, FALSE, TRUE, FALSE, NA, NA),
+    x = c(TRUE, FALSE, NA, FALSE, TRUE, NA, NA, TRUE, FALSE),
+    y = 1:9,
+    z = 10:18,
+    g = c("a", "b", "a", "b", "b", "a", "c", "a", "a")
+  )
+
+  # Zero inputs
+
+  expect_identical(
+    filter(df, if_any(c())),
+    filter(df, FALSE)
+  )
+  expect_identical(
+    filter(df, (if_any(c()))),
+    filter(df, FALSE)
+  )
+  expect_identical(
+    mutate(df, a = if_any(c())),
+    mutate(df, a = FALSE)
+  )
+
+  expect_identical(
+    filter(df, if_any(c(), identity)),
+    filter(df, FALSE)
+  )
+  expect_identical(
+    filter(df, (if_any(c(), identity))),
+    filter(df, FALSE)
+  )
+  expect_identical(
+    mutate(df, a = if_any(c(), identity)),
+    mutate(df, a = FALSE)
+  )
+
+  expect_identical(
+    filter(df, if_all(c())),
+    filter(df, TRUE)
+  )
+  expect_identical(
+    filter(df, (if_all(c()))),
+    filter(df, TRUE)
+  )
+  expect_identical(
+    mutate(df, a = if_all(c())),
+    mutate(df, a = TRUE)
+  )
+
+  expect_identical(
+    filter(df, if_all(c(), identity)),
+    filter(df, TRUE)
+  )
+  expect_identical(
+    filter(df, (if_all(c(), identity))),
+    filter(df, TRUE)
+  )
+  expect_identical(
+    mutate(df, a = if_all(c(), identity)),
+    mutate(df, a = TRUE)
+  )
+
+  # One input
+
+  expect_identical(
+    filter(df, if_any(w)),
+    filter(df, w)
+  )
+  expect_identical(
+    filter(df, (if_any(w))),
+    filter(df, w)
+  )
+  expect_identical(
+    mutate(df, a = if_any(w)),
+    mutate(df, a = w)
+  )
+
+  expect_identical(
+    filter(df, if_any(w, identity)),
+    filter(df, w)
+  )
+  expect_identical(
+    filter(df, (if_any(w, identity))),
+    filter(df, w)
+  )
+  expect_identical(
+    mutate(df, a = if_any(w, identity)),
+    mutate(df, a = w)
+  )
+
+  expect_identical(
+    filter(df, if_all(w)),
+    filter(df, w)
+  )
+  expect_identical(
+    filter(df, (if_all(w))),
+    filter(df, w)
+  )
+  expect_identical(
+    mutate(df, a = if_all(w)),
+    mutate(df, a = w)
+  )
+
+  expect_identical(
+    filter(df, if_all(w, identity)),
+    filter(df, w)
+  )
+  expect_identical(
+    filter(df, (if_all(w, identity))),
+    filter(df, w)
+  )
+  expect_identical(
+    mutate(df, a = if_all(w, identity)),
+    mutate(df, a = w)
+  )
+
+  # Two inputs
+
+  expect_identical(
+    filter(df, if_any(c(w, x))),
+    filter(df, w | x)
+  )
+  expect_identical(
+    filter(df, (if_any(c(w, x)))),
+    filter(df, w | x)
+  )
+  expect_identical(
+    mutate(df, a = if_any(c(w, x))),
+    mutate(df, a = w | x)
+  )
+
+  expect_identical(
+    filter(df, if_any(c(w, x), identity)),
+    filter(df, w | x)
+  )
+  expect_identical(
+    filter(df, (if_any(c(w, x), identity))),
+    filter(df, w | x)
+  )
+  expect_identical(
+    mutate(df, a = if_any(c(w, x), identity)),
+    mutate(df, a = w | x)
+  )
+
+  expect_identical(
+    filter(df, if_all(c(w, x))),
+    filter(df, w & x)
+  )
+  expect_identical(
+    filter(df, (if_all(c(w, x)))),
+    filter(df, w & x)
+  )
+  expect_identical(
+    mutate(df, a = if_all(c(w, x))),
+    mutate(df, a = w & x)
+  )
+
+  expect_identical(
+    filter(df, if_all(c(w, x), identity)),
+    filter(df, w & x)
+  )
+  expect_identical(
+    filter(df, (if_all(c(w, x), identity))),
+    filter(df, w & x)
+  )
+  expect_identical(
+    mutate(df, a = if_all(c(w, x), identity)),
+    mutate(df, a = w & x)
+  )
+
+  # Two inputs (grouped)
+
+  expect_identical(
+    filter(df, if_any(c(w, x)), .by = g),
+    filter(df, w | x, .by = g)
+  )
+  expect_identical(
+    filter(df, (if_any(c(w, x))), .by = g),
+    filter(df, w | x, .by = g)
+  )
+  expect_identical(
+    mutate(df, a = if_any(c(w, x)), .by = g),
+    mutate(df, a = w | x, .by = g)
+  )
+
+  expect_identical(
+    filter(df, if_any(c(w, x), identity), .by = g),
+    filter(df, w | x, .by = g)
+  )
+  expect_identical(
+    filter(df, (if_any(c(w, x), identity)), .by = g),
+    filter(df, w | x, .by = g)
+  )
+  expect_identical(
+    mutate(df, a = if_any(c(w, x), identity), .by = g),
+    mutate(df, a = w | x, .by = g)
+  )
+
+  expect_identical(
+    filter(df, if_all(c(w, x)), .by = g),
+    filter(df, w & x, .by = g)
+  )
+  expect_identical(
+    filter(df, (if_all(c(w, x))), .by = g),
+    filter(df, w & x, .by = g)
+  )
+  expect_identical(
+    mutate(df, a = if_all(c(w, x)), .by = g),
+    mutate(df, a = w & x, .by = g)
+  )
+
+  expect_identical(
+    filter(df, if_all(c(w, x), identity), .by = g),
+    filter(df, w & x, .by = g)
+  )
+  expect_identical(
+    filter(df, (if_all(c(w, x), identity)), .by = g),
+    filter(df, w & x, .by = g)
+  )
+  expect_identical(
+    mutate(df, a = if_all(c(w, x), identity), .by = g),
+    mutate(df, a = w & x, .by = g)
+  )
+
+  # One non-logical input (all error)
+
+  expect_snapshot(error = TRUE, filter(df, if_any(y)))
+  expect_snapshot(error = TRUE, filter(df, (if_any(y))))
+  expect_snapshot(error = TRUE, mutate(df, a = if_any(y)))
+
+  expect_snapshot(error = TRUE, filter(df, if_any(y, identity)))
+  expect_snapshot(error = TRUE, filter(df, (if_any(y, identity))))
+  expect_snapshot(error = TRUE, mutate(df, a = if_any(y, identity)))
+
+  expect_snapshot(error = TRUE, filter(df, if_all(y)))
+  expect_snapshot(error = TRUE, filter(df, (if_all(y))))
+  expect_snapshot(error = TRUE, mutate(df, a = if_all(y)))
+
+  expect_snapshot(error = TRUE, filter(df, if_all(y, identity)))
+  expect_snapshot(error = TRUE, filter(df, (if_all(y, identity))))
+  expect_snapshot(error = TRUE, mutate(df, a = if_all(y, identity)))
+
+  # Two non-logical inputs (all error)
+
+  expect_snapshot(error = TRUE, filter(df, if_any(c(y, z))))
+  expect_snapshot(error = TRUE, filter(df, (if_any(c(y, z)))))
+  expect_snapshot(error = TRUE, mutate(df, a = if_any(c(y, z))))
+
+  expect_snapshot(error = TRUE, filter(df, if_any(c(y, z), identity)))
+  expect_snapshot(error = TRUE, filter(df, (if_any(c(y, z), identity))))
+  expect_snapshot(error = TRUE, mutate(df, a = if_any(c(y, z), identity)))
+
+  expect_snapshot(error = TRUE, filter(df, if_all(c(y, z))))
+  expect_snapshot(error = TRUE, filter(df, (if_all(c(y, z)))))
+  expect_snapshot(error = TRUE, mutate(df, a = if_all(c(y, z))))
+
+  expect_snapshot(error = TRUE, filter(df, if_all(c(y, z), identity)))
+  expect_snapshot(error = TRUE, filter(df, (if_all(c(y, z), identity))))
+  expect_snapshot(error = TRUE, mutate(df, a = if_all(c(y, z), identity)))
+
+  # Two non-logical inputs (grouped) (all error)
+
+  expect_snapshot(error = TRUE, {
+    filter(df, if_any(c(y, z)), .by = g)
+  })
+  expect_snapshot(error = TRUE, {
+    filter(df, (if_any(c(y, z))), .by = g)
+  })
+  expect_snapshot(error = TRUE, {
+    mutate(df, a = if_any(c(y, z)), .by = g)
+  })
+
+  expect_snapshot(error = TRUE, {
+    filter(df, if_any(c(y, z), identity), .by = g)
+  })
+  expect_snapshot(error = TRUE, {
+    filter(df, (if_any(c(y, z), identity)), .by = g)
+  })
+  expect_snapshot(error = TRUE, {
+    mutate(df, a = if_any(c(y, z), identity), .by = g)
+  })
+
+  expect_snapshot(error = TRUE, {
+    filter(df, if_all(c(y, z)), .by = g)
+  })
+  expect_snapshot(error = TRUE, {
+    filter(df, (if_all(c(y, z))), .by = g)
+  })
+  expect_snapshot(error = TRUE, {
+    mutate(df, a = if_all(c(y, z)), .by = g)
+  })
+
+  expect_snapshot(error = TRUE, {
+    filter(df, if_all(c(y, z), identity), .by = g)
+  })
+  expect_snapshot(error = TRUE, {
+    filter(df, (if_all(c(y, z), identity)), .by = g)
+  })
+  expect_snapshot(error = TRUE, {
+    mutate(df, a = if_all(c(y, z), identity), .by = g)
+  })
+})
+
+test_that("`if_any()` and `if_all()` recycle `.fns` results to common size", {
+  df <- data.frame(
+    x = c(TRUE, FALSE, NA),
+    y = c(1L, 2L, 3L)
+  )
+
+  # `.fns` results recycle. Both `across()` and `if_any()`/`if_all()` recycle to
+  # a common size amongst their inputs (here, size 1), then that data frame is
+  # recycled to the group size.
+
+  fn <- function(x) {
+    if (is.logical(x)) {
+      c(TRUE, FALSE, TRUE)
+    } else {
+      TRUE
+    }
+  }
+
+  expect_identical(
+    filter(df, if_any(c(x, y), fn)),
+    filter(df, TRUE)
+  )
+  expect_identical(
+    filter(df, (if_any(c(x, y), fn))),
+    filter(df, TRUE)
+  )
+  expect_identical(
+    mutate(df, a = if_any(c(x, y), fn)),
+    mutate(df, a = TRUE)
+  )
+
+  expect_identical(
+    filter(df, if_all(c(x, y), fn)),
+    filter(df, c(TRUE, FALSE, TRUE))
+  )
+  expect_identical(
+    filter(df, (if_all(c(x, y), fn))),
+    filter(df, c(TRUE, FALSE, TRUE))
+  )
+  expect_identical(
+    mutate(df, a = if_all(c(x, y), fn)),
+    mutate(df, a = c(TRUE, FALSE, TRUE))
+  )
+
+  # Unrecyclable (all error, can't recycle to group size)
+  # It is correct that these show `..1` in the error for `filter()`. The error
+  # is about recycling of the result of `if_any()`, i.e. the data frame in the
+  # 1st argument slot.
+
+  fn <- function(x) c(TRUE, FALSE)
+
+  expect_snapshot(error = TRUE, filter(df, if_any(c(x, y), fn)))
+  expect_snapshot(error = TRUE, filter(df, (if_any(c(x, y), fn))))
+  expect_snapshot(error = TRUE, mutate(df, a = if_any(c(x, y), fn)))
+
+  expect_snapshot(error = TRUE, filter(df, if_all(c(x, y), fn)))
+  expect_snapshot(error = TRUE, filter(df, (if_all(c(x, y), fn))))
+  expect_snapshot(error = TRUE, mutate(df, a = if_all(c(x, y), fn)))
 })
 
 # c_across ----------------------------------------------------------------

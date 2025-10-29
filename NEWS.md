@@ -1,8 +1,12 @@
 # dplyr (development version)
 
-* `if_any()` now correctly returns `FALSE` when called without inputs, matching the behavior of `any()` (#7077).
+* `if_any()` and `if_all()` are now more consistent in all use cases (#7059, #7077, #7746, @jrwinget). In particular:
 
-* `if_any()` and `if_all()` now properly return logical vectors rather than the column itself when called with a single input (#7746).
+  * When called with zero inputs, `if_any()` returns `FALSE` and `if_all()` returns `TRUE`.
+
+  * When called with one input, both now return logical vectors rather than the original column.
+
+  * The result of applying `.fns` now must be a logical vector.
 
 * Empty `rowwise()` list-column elements now resolve to `logical()` rather than a random logical of length 1 (#7710).
 
@@ -100,10 +104,6 @@
 
 * Fixed an issue where duckplyr's ALTREP data frames were being materialized
   early due to internal usage of `ncol()` (#7049).
-
-* `if_any()` and `if_all()` are now fully consistent with `any()` and `all()`.
-  In particular, when called with empty inputs `if_any()` returns `FALSE` and
-  `if_all()` returns `TRUE` (#7059, @jrwinget).
 
 # dplyr 1.1.4
 
