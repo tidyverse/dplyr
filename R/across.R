@@ -711,9 +711,8 @@ expand_if_across <- function(quo) {
   quos <- expand_across(quo_set_expr(quo, call))
 
   expr <- expr({
-    ns <- asNamespace("dplyr")
-
     x <- list(!!!quos)
+    ns <- asNamespace("dplyr")
 
     # In the evaluation path, `across()` automatically recycles to common size,
     # so we must here as well for compatibility. `across()` also returns a 0
