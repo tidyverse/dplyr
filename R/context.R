@@ -120,7 +120,7 @@ cnd_data <- function(cnd, ctxt, mask, call) {
   list(
     cnd = cnd,
     name = ctxt$error_name,
-    quo = ctxt$error_quo,
+    expr = ctxt$error_expr,
     type = mask_type,
     has_group_data = has_group_data,
     group_data = group_data,
