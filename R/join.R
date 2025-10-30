@@ -949,7 +949,7 @@ is_cross_by <- function(x) {
 }
 
 warn_join_cross_by <- function(env = caller_env(), user_env = caller_env(2)) {
-  lifecycle::deprecate_soft(
+  lifecycle::deprecate_warn(
     when = "1.1.0",
     what = I("Using `by = character()` to perform a cross join"),
     with = "cross_join()",
