@@ -332,6 +332,14 @@ test_that("mutate preserves class of zero-row rowwise (#4224, #6303)", {
   out <- mutate(rf, x2 = identity(x), x3 = x)
   expect_equal(out$x2, logical())
   expect_equal(out$x3, logical())
+
+  # with the empty list case, `x` is `logical()`, not a random logical of length
+  # 1 that happens to get recycled to length 0 (#7710)
+  rf <- rowwise(tibble(x = list()))
+  out <- mutate(rf, x2 = {
+    expect_identical(x, logical())
+    x
+  })
 })
 
 test_that("mutate works on empty data frames (#1142)", {
