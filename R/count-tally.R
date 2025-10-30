@@ -102,7 +102,8 @@ count.data.frame <- function(
     out <- x
   }
 
-  out <- tally(out, wt = !!enquo(wt), sort = sort, name = name)
+  wt <- compat_wt(enquo(wt))
+  out <- tally(out, wt = !!wt, sort = sort, name = name)
 
   # Ensure grouping is transient
   out <- dplyr_reconstruct(out, x)
@@ -122,7 +123,8 @@ tally.data.frame <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 
   dplyr_local_error_call()
 
-  n <- tally_n(x, {{ wt }})
+  wt <- compat_wt(enquo(wt))
+  n <- tally_n(x, wt)
 
   local_options(dplyr.summarise.inform = FALSE)
   out <- summarise(x, !!name := !!n)
@@ -193,7 +195,8 @@ add_count_impl <- function(
   sort = FALSE,
   name = NULL,
   .drop = deprecated(),
-  error_call = caller_env()
+  error_call = caller_env(),
+  user_env = caller_env(2)
 ) {
   if (!is_missing(.drop)) {
     lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )", always = TRUE)
@@ -207,7 +210,8 @@ add_count_impl <- function(
     out <- x
   }
 
-  add_tally(out, wt = {{ wt }}, sort = sort, name = name)
+  wt <- compat_wt(enquo(wt), env = error_call, user_env = user_env)
+  add_tally(out, wt = !!wt, sort = sort, name = name)
 }
 
 #' @rdname count
@@ -217,7 +221,8 @@ add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 
   dplyr_local_error_call()
 
-  n <- tally_n(x, {{ wt }})
+  wt <- compat_wt(enquo(wt))
+  n <- tally_n(x, wt)
   out <- mutate(x, !!name := !!n)
 
   if (sort) {
@@ -230,22 +235,29 @@ add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 # Helpers -----------------------------------------------------------------
 
 tally_n <- function(x, wt) {
-  wt <- enquo(wt)
-
-  if (is_call(quo_get_expr(wt), "n", n = 0)) {
-    # Provided only by dplyr 1.0.0. See #5349 for discussion.
-    warn(c(
-      "`wt = n()` is deprecated",
-      i = "You can now omit the `wt` argument"
-    ))
-    wt <- quo(NULL)
-  }
-
   if (quo_is_null(wt)) {
     expr(n())
   } else {
     expr(sum(!!wt, na.rm = TRUE))
   }
+}
+
+compat_wt <- function(wt, env = caller_env(), user_env = caller_env(2)) {
+  if (!is_call(quo_get_expr(wt), "n", n = 0)) {
+    return(wt)
+  }
+
+  # Provided only by dplyr 1.0.0. See #5349 for discussion.
+  lifecycle::deprecate_warn(
+    when = "1.0.1",
+    what = I("`wt = n()`"),
+    details = "You can now omit the `wt` argument.",
+    env = env,
+    user_env = user_env,
+    always = TRUE
+  )
+
+  quo(NULL)
 }
 
 check_n_name <- function(
