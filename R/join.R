@@ -701,7 +701,12 @@ join_mutate <- function(
 ) {
   check_dots_empty0(...)
 
-  na_matches <- check_na_matches(na_matches, error_call = error_call)
+  na_matches <- check_na_matches(
+    na_matches,
+    error_call = error_call,
+    user_env = user_env
+  )
+
   check_keep(keep, error_call = error_call)
 
   x_names <- tbl_vars(x)
@@ -809,7 +814,11 @@ join_filter <- function(
 ) {
   check_dots_empty0(...)
 
-  na_matches <- check_na_matches(na_matches, error_call = error_call)
+  na_matches <- check_na_matches(
+    na_matches,
+    error_call = error_call,
+    user_env = user_env
+  )
 
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
@@ -881,14 +890,24 @@ join_filter <- function(
   dplyr_row_slice(x, idx)
 }
 
-check_na_matches <- function(na_matches, ..., error_call = caller_env()) {
+check_na_matches <- function(
+  na_matches,
+  ...,
+  error_call = caller_env(),
+  user_env = caller_env(2)
+) {
   if (isNamespaceLoaded("pkgconfig")) {
     conf <- asNamespace("pkgconfig")$get_config("dplyr::na_matches")
     if (!is.null(conf)) {
-      warn(c(
-        "`dplyr::na_matches` pkgconfig options is now ignored.",
-        "Please set `na_matches` directly."
-      ))
+      # No tests for this, don't want to deal with pkgconfig
+      lifecycle::deprecate_warn(
+        when = "1.0.0",
+        what = I("Use of `dplyr::na_matches` pkgconfig options"),
+        details = "Please set `na_matches` directly.",
+        always = TRUE,
+        env = error_call,
+        user_env = user_env
+      )
     }
   }
 
