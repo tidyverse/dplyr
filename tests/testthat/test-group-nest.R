@@ -47,8 +47,10 @@ test_that("group_nest() works on grouped data frames", {
   expect_equal(names(bind_rows(!!!res$data)), names(starwars))
 })
 
-test_that("group_nest.grouped_df() warns about ...", {
-  expect_warning(group_nest(group_by(mtcars, cyl), cyl))
+test_that("group_nest.grouped_df() warns about `...`", {
+  expect_snapshot({
+    group_nest(group_by(mtcars, cyl), cyl)
+  })
 })
 
 test_that("group_nest() works if no grouping column", {

@@ -41,12 +41,16 @@ test_that("group_split() respects empty groups", {
   expect_identical(res, list_of(tbl[1:2, ], tbl[3:4, ], tbl[integer(), ]))
 })
 
-test_that("group_split.grouped_df() warns about ...", {
-  expect_warning(group_split(group_by(mtcars, cyl), cyl))
+test_that("group_split.grouped_df() warns about `...`", {
+  expect_snapshot({
+    out <- group_split(group_by(mtcars, cyl), cyl)
+  })
 })
 
-test_that("group_split.rowwise_df() warns about ...", {
-  expect_warning(group_split(rowwise(mtcars), cyl))
+test_that("group_split.rowwise_df() warns about `...`", {
+  expect_snapshot({
+    out <- group_split(rowwise(mtcars), cyl)
+  })
 })
 
 test_that("group_split.grouped_df() works", {

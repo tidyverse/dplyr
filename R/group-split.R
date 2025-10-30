@@ -74,8 +74,10 @@ group_split.rowwise_df <- function(
   keep = deprecated()
 ) {
   if (dots_n(...)) {
-    warn(
-      "... is ignored in group_split(<rowwise_df>), please use as_tibble() |> group_split(...)"
+    warn_ignores_dots(
+      "group_split",
+      "rowwise_df",
+      "as_tibble() |> group_split(...)"
     )
   }
   if (!missing(keep)) {
@@ -111,8 +113,10 @@ group_split.grouped_df <- function(
     .keep <- keep
   }
   if (dots_n(...)) {
-    warn(
-      "... is ignored in group_split(<grouped_df>), please use group_by(..., .add = TRUE) |> group_split()"
+    warn_ignores_dots(
+      "group_split",
+      "grouped_df",
+      "group_by(..., .add = TRUE) |> group_split()"
     )
   }
 

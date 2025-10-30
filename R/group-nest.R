@@ -68,9 +68,18 @@ group_nest.data.frame <- function(.tbl, ..., .key = "data", keep = FALSE) {
 #' @export
 group_nest.grouped_df <- function(.tbl, ..., .key = "data", keep = FALSE) {
   if (dots_n(...)) {
-    warn(
-      "... is ignored in group_nest(<grouped_df>), please use group_by(..., .add = TRUE) |> group_nest()"
+    warn_ignores_dots(
+      "group_nest",
+      "grouped_df",
+      "group_by(..., .add = TRUE) |> group_nest()"
     )
   }
   group_nest_impl(.tbl, .key = .key, keep = keep)
+}
+
+# This is not a deprecation warning, just giving advice
+warn_ignores_dots <- function(fn, class, with) {
+  cli::cli_warn(
+    "Calling {.fn {fn}} on a {.cls {class}} ignores `...`. Please use {.code {with}}."
+  )
 }
