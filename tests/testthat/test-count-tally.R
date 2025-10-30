@@ -182,11 +182,12 @@ test_that("add_count preserves grouping", {
   expect_equal(df |> group_by(g) |> add_count(), exp |> group_by(g))
 })
 
-test_that(".drop is deprecated", {
-  local_options(lifecycle_verbosity = "warning")
-
+test_that("`.drop` is defunct", {
   df <- tibble(f = factor("b", levels = c("a", "b", "c")))
-  expect_warning(out <- add_count(df, f, .drop = FALSE), "deprecated")
+
+  expect_snapshot(error = TRUE, {
+    add_count(df, f, .drop = FALSE)
+  })
 })
 
 test_that("add_count() `wt = n()` is deprecated", {

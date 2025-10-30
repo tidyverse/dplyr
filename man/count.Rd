@@ -53,7 +53,7 @@ on to \code{\link[=group_by]{group_by()}}.
 For \code{count()}: if \code{FALSE} will include counts for empty groups (i.e. for
 levels of factors that don't exist in the data).
 
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} For \code{add_count()}: deprecated since it
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}} For \code{add_count()}: defunct since it
 can't actually affect the output.}
 }
 \value{

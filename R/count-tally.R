@@ -33,7 +33,7 @@
 #'   For `count()`: if `FALSE` will include counts for empty groups (i.e. for
 #'   levels of factors that don't exist in the data).
 #'
-#'  `r lifecycle::badge("deprecated")` For `add_count()`: deprecated since it
+#'  `r lifecycle::badge("defunct")` For `add_count()`: defunct since it
 #'  can't actually affect the output.
 #' @return
 #' An object of the same type as `.data`. `count()` and `add_count()`
@@ -199,7 +199,7 @@ add_count_impl <- function(
   user_env = caller_env(2)
 ) {
   if (!is_missing(.drop)) {
-    lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )", always = TRUE)
+    lifecycle::deprecate_stop("1.0.0", "add_count(.drop = )", env = error_call)
   }
 
   dplyr_local_error_call(error_call)

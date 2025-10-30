@@ -102,6 +102,14 @@
         <int>
       1     5
 
+# `.drop` is defunct
+
+    Code
+      add_count(df, f, .drop = FALSE)
+    Condition
+      Error:
+      ! The `.drop` argument of `add_count()` was deprecated in dplyr 1.0.0 and is now defunct.
+
 # add_count() `wt = n()` is deprecated
 
     Code
