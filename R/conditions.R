@@ -42,7 +42,7 @@ cnd_bullet_rowwise_unlist <- function() {
   if (peek_mask()$is_rowwise()) {
     glue_data(
       peek_error_context(),
-      "Did you mean: `{error_name} = list({quo_as_label(error_quo)})` ?"
+      "Did you mean: `{error_name} = list({expr_as_label(error_expr)})` ?"
     )
   }
 }
@@ -66,8 +66,7 @@ is_data_pronoun <- function(x) {
 }
 
 # Because as_label() strips off .data$<> and .data[[<>]]
-quo_as_label <- function(quo) {
-  expr <- quo_get_expr(quo)
+expr_as_label <- function(expr) {
   if (is_data_pronoun(expr)) {
     deparse(expr)[[1]]
   } else {
@@ -87,15 +86,17 @@ new_error_context <- function(dots, i, mask) {
   if (!length(dots) || i == 0L) {
     env(
       error_name = "",
-      error_quo = NULL,
+      error_expr = NULL,
       mask = mask
     )
   } else {
-    # Saving the quosure rather than the result of `quo_as_label()` to avoid
-    # slow label creation unless required
+    # Saving the expression rather than the result of `expr_as_label()` to avoid
+    # slow label creation unless required. Not saving the quosure itself because
+    # carrying around its environment past the scope of a dplyr verb's lifetime
+    # can be very expensive (#7649)!
     env(
       error_name = names(dots)[[i]],
-      error_quo = dots[[i]],
+      error_expr = quo_get_expr(dots[[i]]),
       mask = mask
     )
   }
@@ -120,24 +121,24 @@ mask_type <- function(mask = peek_mask()) {
 }
 
 ctxt_error_label <- function(ctxt = peek_error_context()) {
-  error_label(ctxt$error_name, ctxt$error_quo)
+  error_label(ctxt$error_name, ctxt$error_expr)
 }
-error_label <- function(name, quo) {
+error_label <- function(name, expr) {
   if (is_null(name) || !nzchar(name)) {
-    quo_as_label(quo)
+    expr_as_label(expr)
   } else {
     name
   }
 }
 
 ctxt_error_label_named <- function(ctxt = peek_error_context()) {
-  error_label_named(ctxt$error_name, ctxt$error_quo)
+  error_label_named(ctxt$error_name, ctxt$error_expr)
 }
-error_label_named <- function(name, quo) {
+error_label_named <- function(name, expr) {
   if (is_null(name) || !nzchar(name)) {
-    quo_as_label(quo)
+    expr_as_label(expr)
   } else {
-    paste0(name, " = ", quo_as_label(quo))
+    paste0(name, " = ", expr_as_label(expr))
   }
 }
 
@@ -379,7 +380,7 @@ new_dplyr_warning <- function(data) {
     group_label <- ""
   }
 
-  label <- error_label_named(data$name, data$quo)
+  label <- error_label_named(data$name, data$expr)
 
   msg <- c(
     "i" = glue::glue("In argument: `{label}`."),
