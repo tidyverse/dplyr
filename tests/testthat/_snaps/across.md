@@ -295,19 +295,6 @@
       Caused by error:
       ! Can't subset `.data` outside of a data mask context.
 
-# expand_if_across() expands lambdas
-
-    Code
-      quo_squash(expand_if_across(quo))
-    Output
-      {
-          x <- list(cyl = cyl > 4, am = am > 4)
-          ns <- asNamespace("dplyr")
-          size <- ns[["dplyr_list_size_common"]](x, absent = 1L, call = call("if_any"))
-          x <- ns[["dplyr_list_recycle_common"]](x, size = size, call = call("if_any"))
-          ns[["dplyr_list_pany"]](x, size = size, error_call = call("if_any"))
-      }
-
 # `across()` recycle `.fns` results to common size
 
     Code

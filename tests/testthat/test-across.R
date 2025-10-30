@@ -1246,9 +1246,17 @@ test_that("expand_if_across() expands lambdas", {
   by <- compute_by(by = NULL, data = mtcars, error_call = call("caller"))
   DataMask$new(mtcars, by, "mutate", call("caller"))
 
-  expect_snapshot({
-    quo_squash(expand_if_across(quo))
-  })
+  quo <- expand_if_across(quo)
+
+  # We just need to look for something we know we insert into the expression.
+  # `expect_snapshot()` doesn't seem to play nicely with covr on CI here, the
+  # expression captured seems to contain `covr:::count()` calls.
+  expect_true(
+    grepl(
+      "asNamespace",
+      paste0(expr_deparse(quo_squash(quo)), collapse = " ")
+    )
+  )
 })
 
 test_that("rowwise() preserves list-cols iff no `.fns` (#5951, #6264)", {
