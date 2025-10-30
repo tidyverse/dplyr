@@ -147,8 +147,16 @@ filter_rows <- function(
   mask <- DataMask$new(data, by, "filter", error_call = error_call)
   on.exit(mask$forget(), add = TRUE)
 
-  dots <- filter_expand(dots, mask = mask, error_call = error_call)
-  filter_eval(dots, mask = mask, error_call = error_call, user_env = user_env)
+  # 1:1 mapping between `dots` and `dots_expanded`
+  dots_expanded <- filter_expand(dots, mask = mask, error_call = error_call)
+
+  filter_eval(
+    dots = dots,
+    dots_expanded = dots_expanded,
+    mask = mask,
+    error_call = error_call,
+    user_env = user_env
+  )
 }
 
 check_filter <- function(dots, error_call = caller_env()) {
@@ -174,6 +182,7 @@ check_filter <- function(dots, error_call = caller_env()) {
 
 filter_expand <- function(dots, mask, error_call = caller_env()) {
   env_filter <- env()
+
   filter_expand_one <- function(dot, index) {
     env_filter$current_expression <- index
     dot <- expand_pick(dot, mask)
@@ -190,13 +199,15 @@ filter_expand <- function(dots, mask, error_call = caller_env()) {
     }
   )
 
-  dots <- list_flatten(dots)
-
   new_quosures(dots)
 }
 
+# We evaluate `dots_expanded` but report errors relative to `dots` so that
+# we show "In argument: `if_any(c(x, y), is.na)`" rather than its expanded form.
+# This works because `dots` and `dots_expanded` have a 1:1 mapping.
 filter_eval <- function(
   dots,
+  dots_expanded,
   mask,
   error_call = caller_env(),
   user_env = caller_env(2)
@@ -218,7 +229,7 @@ filter_eval <- function(
   )
 
   out <- withCallingHandlers(
-    mask$eval_all_filter(dots, env_filter),
+    mask$eval_all_filter(dots_expanded, env_filter),
     error = dplyr_error_handler(
       dots = dots,
       mask = mask,
