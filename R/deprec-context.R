@@ -17,7 +17,7 @@ NULL
 #' @rdname deprec-context
 #' @export
 cur_data <- function() {
-  lifecycle::deprecate_soft(
+  lifecycle::deprecate_warn(
     when = "1.1.0",
     what = "cur_data()",
     with = "pick()"
@@ -30,7 +30,7 @@ cur_data <- function() {
 #' @rdname deprec-context
 #' @export
 cur_data_all <- function() {
-  lifecycle::deprecate_soft(
+  lifecycle::deprecate_warn(
     when = "1.1.0",
     what = "cur_data_all()",
     with = "pick()"
