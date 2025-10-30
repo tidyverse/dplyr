@@ -41,6 +41,8 @@ as_fun_list <- function(
           "'can\\'t contain quosures')"
         )
 
+        # Only used in superceded functions, so advancing to `deprecate_stop()`
+        # doesn't feel worth it
         lifecycle::deprecate_warn(
           "0.8.3",
           what,
