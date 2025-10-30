@@ -137,6 +137,25 @@ case_when(
   .default = as.character(x)
 )
 
+# `case_when()` is not a replacement for basic if/else control flow. When
+# you have a single scalar condition, using if/else is faster, simpler to
+# reason about, and is lazy on the branch that isn't run. For example, this
+# seems to work:
+x <- "value"
+case_when(is.character(x) ~ x, .default = "not-a-character")
+
+# Until `x` is a non-character type
+x <- 1
+try(case_when(is.character(x) ~ x, .default = "not-a-character"))
+
+# Instead, you should use if/else
+if (is.character(x)) {
+  y <- x
+} else {
+  y <- "not-a-character"
+}
+y
+
 # If you believe that you've covered every possible case, then set
 # `.unmatched = "error"` rather than supplying a `.default`. This adds an
 # extra layer of safety to `case_when()` and is particularly useful when you
