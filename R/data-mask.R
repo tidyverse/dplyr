@@ -99,8 +99,18 @@ DataMask <- R6Class(
       private$chops[[name]]
     },
 
-    eval_all = function(quo) {
-      .Call(`dplyr_mask_eval_all`, quo, private)
+    eval_quo = function(quo) {
+      eval <- function() {
+        .Call(`dplyr_mask_eval_quo`, quo, private)
+      }
+      eval()
+    },
+
+    eval_quos = function(quos, quo_index) {
+      eval <- function() {
+        .Call(`dplyr_mask_eval_quos`, quos, private, quo_index)
+      }
+      eval()
     },
 
     eval_all_summarise = function(quo) {

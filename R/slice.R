@@ -461,7 +461,7 @@ slice_eval <- function(
   }
 
   withCallingHandlers(
-    mask$eval_all(quo(impl(!!!dots))),
+    mask$eval_quo(quo(impl(!!!dots))),
     error = function(cnd) {
       if (inherits(cnd, "vctrs_error_subscript")) {
         action <- "process"
