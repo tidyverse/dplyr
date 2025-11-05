@@ -3,25 +3,24 @@ NULL
 
 #' @rdname retain-exclude
 #' @export
-retain <- function(.data, ..., .by = NULL, .missing = FALSE) {
+retain <- function(.data, ..., .by = NULL) {
   check_by_typo(...)
   UseMethod("retain")
 }
 
 #' @rdname retain-exclude
 #' @export
-exclude <- function(.data, ..., .by = NULL, .missing = FALSE) {
+exclude <- function(.data, ..., .by = NULL) {
   check_by_typo(...)
   UseMethod("exclude")
 }
 
 #' @export
-retain.data.frame <- function(.data, ..., .by = NULL, .missing = FALSE) {
+retain.data.frame <- function(.data, ..., .by = NULL) {
   retain_impl(
     data = .data,
     ...,
     by = {{ .by }},
-    missing = .missing,
     invert = FALSE,
     verb = "retain",
     error_call = current_env()
@@ -29,12 +28,11 @@ retain.data.frame <- function(.data, ..., .by = NULL, .missing = FALSE) {
 }
 
 #' @export
-exclude.data.frame <- function(.data, ..., .by = NULL, .missing = FALSE) {
+exclude.data.frame <- function(.data, ..., .by = NULL) {
   retain_impl(
     data = .data,
     ...,
     by = {{ .by }},
-    missing = .missing,
     invert = TRUE,
     verb = "exclude",
     error_call = current_env()
@@ -45,13 +43,11 @@ retain_impl <- function(
   data,
   ...,
   by,
-  missing,
   invert,
   verb,
   error_call
 ) {
   check_dots_unnamed(call = error_call)
-  check_bool(missing, arg = ".missing", call = error_call)
 
   by <- compute_by(
     by = {{ by }},
@@ -67,7 +63,6 @@ retain_impl <- function(
     data = data,
     dots = dots,
     by = by,
-    missing = missing,
     invert = invert,
     verb = verb,
     error_call = error_call
@@ -85,7 +80,6 @@ retain_rows <- function(
   data,
   dots,
   by,
-  missing,
   invert,
   verb,
   error_call
@@ -120,7 +114,7 @@ retain_rows <- function(
 
   condition <- list_pall(
     conditions,
-    missing = missing,
+    missing = FALSE,
     size = size
   )
 
