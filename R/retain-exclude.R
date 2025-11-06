@@ -1,40 +1,17 @@
-#' @name retain-exclude
-NULL
-
-#' @rdname retain-exclude
 #' @export
-retain <- function(.data, ..., .by = NULL) {
+filter_out <- function(.data, ..., .by = NULL) {
   check_by_typo(...)
-  UseMethod("retain")
-}
-
-#' @rdname retain-exclude
-#' @export
-exclude <- function(.data, ..., .by = NULL) {
-  check_by_typo(...)
-  UseMethod("exclude")
+  UseMethod("filter_out")
 }
 
 #' @export
-retain.data.frame <- function(.data, ..., .by = NULL) {
-  retain_impl(
-    data = .data,
-    ...,
-    by = {{ .by }},
-    invert = FALSE,
-    verb = "retain",
-    error_call = current_env()
-  )
-}
-
-#' @export
-exclude.data.frame <- function(.data, ..., .by = NULL) {
+filter_out.data.frame <- function(.data, ..., .by = NULL) {
   retain_impl(
     data = .data,
     ...,
     by = {{ .by }},
     invert = TRUE,
-    verb = "exclude",
+    verb = "filter_out",
     error_call = current_env()
   )
 }
