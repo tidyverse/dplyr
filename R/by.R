@@ -2,7 +2,7 @@
 #'
 #' Use `@inheritParams args_by` to consistently document `.by`.
 #'
-#' @param .by `r lifecycle::badge("experimental")`
+#' @param .by
 #'
 #'   <[`tidy-select`][dplyr_tidy_select]> Optionally, a selection of columns to
 #'   group by for just this operation, functioning as an alternative to [group_by()]. For

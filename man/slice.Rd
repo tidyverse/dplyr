@@ -53,9 +53,7 @@ Indices beyond the number of rows in the input are silently ignored.
 
 For \verb{slice_*()}, these arguments are passed on to methods.}
 
-\item{.by, by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
-<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
+\item{.by, by}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
 group by for just this operation, functioning as an alternative to \code{\link[=group_by]{group_by()}}. For
 details and examples, see \link[=dplyr_by]{?dplyr_by}.}
 
