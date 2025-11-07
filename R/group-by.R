@@ -16,10 +16,6 @@
 #' @param .add When `FALSE`, the default, `group_by()` will
 #'   override existing groups. To add to the existing groups, use
 #'   `.add = TRUE`.
-#'
-#'   This argument was previously called `add`, but that prevented
-#'   creating a new grouping variable called `add`, and conflicts with
-#'   our naming conventions.
 #' @param .drop Drop groups formed by factor levels that don't appear in the
 #'   data? The default is `TRUE` except when `.data` has been previously
 #'   grouped with `.drop = FALSE`. See [group_by_drop_default()] for details.
@@ -215,13 +211,7 @@ group_by_prepare <- function(
   error_call <- dplyr_error_call(error_call)
 
   if (!missing(add)) {
-    lifecycle::deprecate_warn(
-      "1.0.0",
-      "group_by(add = )",
-      "group_by(.add = )",
-      always = TRUE
-    )
-    .add <- add
+    lifecycle::deprecate_stop("1.0.0", "group_by(add = )", "group_by(.add = )")
   }
 
   new_groups <- enquos(..., .ignore_empty = "all")

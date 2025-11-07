@@ -55,3 +55,21 @@
       Caused by error:
       ! object 'a' not found
 
+# group_by(add =) is defunct
+
+    Code
+      group_by(df, x, add = TRUE)
+    Condition
+      Error:
+      ! The `add` argument of `group_by()` was deprecated in dplyr 1.0.0 and is now defunct.
+      i Please use the `.add` argument instead.
+
+# group_by_prepare(add =) is defunct
+
+    Code
+      group_by_prepare(df, x, add = TRUE)
+    Condition
+      Error:
+      ! The `add` argument of `group_by()` was deprecated in dplyr 1.0.0 and is now defunct.
+      i Please use the `.add` argument instead.
+
