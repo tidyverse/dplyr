@@ -279,7 +279,8 @@ warn_filter_one_column_matrix <- function(env, user_env) {
     what = I("Using one column matrices in `filter()`"),
     with = I("one dimensional logical vectors"),
     env = env,
-    user_env = user_env
+    user_env = user_env,
+    always = TRUE
   )
 }
 
