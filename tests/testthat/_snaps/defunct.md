@@ -79,4 +79,22 @@
       Error:
       ! `combine()` was deprecated in dplyr 1.0.0 and is now defunct.
       i Please use `vctrs::vec_c()` instead.
+    Code
+      src_mysql()
+    Condition
+      Error:
+      ! `src_mysql()` was deprecated in dplyr 1.0.0 and is now defunct.
+      i Please use `tbl()` directly with a database connection
+    Code
+      src_postgres()
+    Condition
+      Error:
+      ! `src_postgres()` was deprecated in dplyr 1.0.0 and is now defunct.
+      i Please use `tbl()` directly with a database connection
+    Code
+      src_sqlite()
+    Condition
+      Error:
+      ! `src_sqlite()` was deprecated in dplyr 1.0.0 and is now defunct.
+      i Please use `tbl()` directly with a database connection
 

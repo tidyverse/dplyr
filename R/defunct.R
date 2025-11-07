@@ -132,3 +132,47 @@ changes <- function(x, y) {
 combine <- function(...) {
   lifecycle::deprecate_stop("1.0.0", "combine()", "vctrs::vec_c()")
 }
+
+#' @export
+#' @rdname defunct
+src_mysql <- function(
+  dbname,
+  host = NULL,
+  port = 0L,
+  username = "root",
+  password = "",
+  ...
+) {
+  lifecycle::deprecate_stop(
+    "1.0.0",
+    "src_mysql()",
+    details = "Please use `tbl()` directly with a database connection"
+  )
+}
+
+#' @export
+#' @rdname defunct
+src_postgres <- function(
+  dbname = NULL,
+  host = NULL,
+  port = NULL,
+  user = NULL,
+  password = NULL,
+  ...
+) {
+  lifecycle::deprecate_stop(
+    "1.0.0",
+    "src_postgres()",
+    details = "Please use `tbl()` directly with a database connection"
+  )
+}
+
+#' @export
+#' @rdname defunct
+src_sqlite <- function(path, create = FALSE) {
+  lifecycle::deprecate_stop(
+    "1.0.0",
+    "src_sqlite()",
+    details = "Please use `tbl()` directly with a database connection"
+  )
+}

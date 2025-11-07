@@ -19,5 +19,9 @@ test_that("generate informative errors", {
     changes()
 
     combine()
+
+    src_mysql()
+    src_postgres()
+    src_sqlite()
   })
 })

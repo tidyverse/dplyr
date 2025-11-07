@@ -16,6 +16,9 @@
 \alias{location}
 \alias{changes}
 \alias{combine}
+\alias{src_mysql}
+\alias{src_postgres}
+\alias{src_sqlite}
 \title{Defunct functions}
 \usage{
 # Deprecated in 0.5.0 -------------------------------------
@@ -53,6 +56,26 @@ location(df)
 changes(x, y)
 
 combine(...)
+
+src_mysql(
+  dbname,
+  host = NULL,
+  port = 0L,
+  username = "root",
+  password = "",
+  ...
+)
+
+src_postgres(
+  dbname = NULL,
+  host = NULL,
+  port = NULL,
+  user = NULL,
+  password = NULL,
+  ...
+)
+
+src_sqlite(path, create = FALSE)
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}
