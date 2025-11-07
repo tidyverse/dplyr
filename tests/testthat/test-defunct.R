@@ -17,5 +17,7 @@ test_that("generate informative errors", {
 
     location()
     changes()
+
+    combine()
   })
 })

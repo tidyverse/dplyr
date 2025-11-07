@@ -15,6 +15,7 @@
 \alias{eval_tbls2}
 \alias{location}
 \alias{changes}
+\alias{combine}
 \title{Defunct functions}
 \usage{
 # Deprecated in 0.5.0 -------------------------------------
@@ -50,6 +51,8 @@ eval_tbls2(tbls_x, tbls_y, op)
 location(df)
 
 changes(x, y)
+
+combine(...)
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}

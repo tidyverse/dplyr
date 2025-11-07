@@ -126,3 +126,9 @@ location <- function(df) {
 changes <- function(x, y) {
   lifecycle::deprecate_stop("1.0.0", "changes()", "lobstr::ref()")
 }
+
+#' @export
+#' @rdname defunct
+combine <- function(...) {
+  lifecycle::deprecate_stop("1.0.0", "combine()", "vctrs::vec_c()")
+}

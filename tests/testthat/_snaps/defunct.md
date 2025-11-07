@@ -73,4 +73,10 @@
       Error:
       ! `changes()` was deprecated in dplyr 1.0.0 and is now defunct.
       i Please use `lobstr::ref()` instead.
+    Code
+      combine()
+    Condition
+      Error:
+      ! `combine()` was deprecated in dplyr 1.0.0 and is now defunct.
+      i Please use `vctrs::vec_c()` instead.
 
