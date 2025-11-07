@@ -188,3 +188,25 @@ src_local <- function(tbl, pkg = NULL, env = NULL) {
 src_df <- function(pkg = NULL, env = NULL) {
   lifecycle::deprecate_stop("1.0.0", "src_df()")
 }
+
+#' @export
+#' @rdname defunct
+tbl_df <- function(data) {
+  lifecycle::deprecate_stop("1.0.0", "tbl_df()", "tibble::as_tibble()")
+}
+
+#' @export
+#' @rdname defunct
+as.tbl <- function(x, ...) {
+  lifecycle::deprecate_stop("1.0.0", "as.tbl()", "tibble::as_tibble()")
+}
+
+#' @export
+#' @rdname defunct
+add_rownames <- function(df, var = "rowname") {
+  lifecycle::deprecate_stop(
+    "1.0.0",
+    "add_rownames()",
+    "tibble::rownames_to_column()"
+  )
+}

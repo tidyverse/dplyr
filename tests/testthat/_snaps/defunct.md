@@ -107,4 +107,22 @@
     Condition
       Error:
       ! `src_df()` was deprecated in dplyr 1.0.0 and is now defunct.
+    Code
+      tbl_df()
+    Condition
+      Error:
+      ! `tbl_df()` was deprecated in dplyr 1.0.0 and is now defunct.
+      i Please use `tibble::as_tibble()` instead.
+    Code
+      as.tbl()
+    Condition
+      Error:
+      ! `as.tbl()` was deprecated in dplyr 1.0.0 and is now defunct.
+      i Please use `tibble::as_tibble()` instead.
+    Code
+      add_rownames()
+    Condition
+      Error:
+      ! `add_rownames()` was deprecated in dplyr 1.0.0 and is now defunct.
+      i Please use `tibble::rownames_to_column()` instead.
 

@@ -26,5 +26,9 @@ test_that("generate informative errors", {
 
     src_local()
     src_df()
+
+    tbl_df()
+    as.tbl()
+    add_rownames()
   })
 })

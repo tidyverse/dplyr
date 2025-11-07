@@ -21,6 +21,9 @@
 \alias{src_sqlite}
 \alias{src_local}
 \alias{src_df}
+\alias{tbl_df}
+\alias{as.tbl}
+\alias{add_rownames}
 \title{Defunct functions}
 \usage{
 # Deprecated in 0.5.0 -------------------------------------
@@ -82,6 +85,12 @@ src_sqlite(path, create = FALSE)
 src_local(tbl, pkg = NULL, env = NULL)
 
 src_df(pkg = NULL, env = NULL)
+
+tbl_df(data)
+
+as.tbl(x, ...)
+
+add_rownames(df, var = "rowname")
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}
