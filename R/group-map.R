@@ -132,14 +132,13 @@ group_map.data.frame <- function(
   keep = deprecated()
 ) {
   if (!missing(keep)) {
-    lifecycle::deprecate_warn(
+    lifecycle::deprecate_stop(
       "1.0.0",
       "group_map(keep = )",
-      "group_map(.keep = )",
-      always = TRUE
+      "group_map(.keep = )"
     )
-    .keep <- keep
   }
+
   .f <- as_group_map_function(.f)
 
   # call the function on each group
@@ -178,13 +177,11 @@ group_modify.data.frame <- function(
   keep = deprecated()
 ) {
   if (!missing(keep)) {
-    lifecycle::deprecate_warn(
+    lifecycle::deprecate_stop(
       "1.0.0",
       "group_modify(keep = )",
-      "group_modify(.keep = )",
-      always = TRUE
+      "group_modify(.keep = )"
     )
-    .keep <- keep
   }
   .f <- as_group_map_function(.f)
   .f(.data, group_keys(.data), ...)
@@ -199,14 +196,13 @@ group_modify.grouped_df <- function(
   keep = deprecated()
 ) {
   if (!missing(keep)) {
-    lifecycle::deprecate_warn(
+    lifecycle::deprecate_stop(
       "1.0.0",
       "group_modify(keep = )",
-      "group_modify(.keep = )",
-      always = TRUE
+      "group_modify(.keep = )"
     )
-    .keep <- keep
   }
+
   tbl_group_vars <- group_vars(.data)
   .f <- as_group_map_function(.f)
 
