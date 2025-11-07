@@ -213,13 +213,11 @@ group_by_prepare <- function(
   if (!missing(add)) {
     lifecycle::deprecate_stop("1.0.0", "group_by(add = )", "group_by(.add = )")
   }
+  if (!missing(.dots)) {
+    lifecycle::deprecate_stop("1.0.0", "group_by(.dots = )")
+  }
 
   new_groups <- enquos(..., .ignore_empty = "all")
-  if (!missing(.dots)) {
-    # Used by dbplyr 1.4.2 so can't aggressively deprecate
-    lifecycle::deprecate_warn("1.0.0", "group_by(.dots = )", always = TRUE)
-    new_groups <- c(new_groups, compat_lazy_dots(.dots, env = caller_env(2)))
-  }
 
   # If any calls, use mutate to add new columns, then group by those
   computed_columns <- add_computed_columns(

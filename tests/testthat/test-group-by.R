@@ -120,13 +120,6 @@ test_that("can't rename while partially `ungroup()`-ing (#6606)", {
   })
 })
 
-test_that(".dots is soft deprecated", {
-  rlang::local_options(lifecycle_verbosity = "warning")
-
-  df <- tibble(x = 1, y = 1)
-  expect_warning(gf <- group_by(df, .dots = "x"), "deprecated")
-})
-
 # Test full range of variable types --------------------------------------------
 
 test_that("local group_by preserves variable types", {
@@ -690,5 +683,25 @@ test_that("group_by_prepare(add =) is defunct", {
   # that is where it came from
   expect_snapshot(error = TRUE, {
     group_by_prepare(df, x, add = TRUE)
+  })
+})
+
+test_that("group_by(.dots =) is defunct", {
+  # While it was being deprecated, it was getting passed through the `...`
+  # down to `group_by_prepare()`.
+  df <- tibble(x = 1, y = 1)
+
+  expect_snapshot(error = TRUE, {
+    group_by(df, .dots = "x")
+  })
+})
+
+test_that("group_by_prepare(.dots =) is defunct", {
+  df <- tibble(x = 1, y = 1)
+
+  # We let this say `group_by()` in the error because it is more likely that
+  # that is where it came from
+  expect_snapshot(error = TRUE, {
+    group_by_prepare(df, .dots = "x")
   })
 })
