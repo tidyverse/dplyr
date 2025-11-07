@@ -101,6 +101,60 @@
   In particular, when called with empty inputs `if_any()` returns `FALSE` and
   `if_all()` returns `TRUE` (#7059, @jrwinget).
 
+## Lifecycle changes
+
+### Breaking changes
+
+* The following were already deprecated, and are now defunct:
+
+  * `combine()`
+
+  * `src_mysql()`, `src_postgres()`, `src_sqlite()`, `src_local()`, and `src_df()`
+
+  * `tbl_df()`, `as.tbl()`, and `add_rownames()`
+
+  * The `.drop` argument of `add_count()`
+
+  * The `add` argument of `group_by()` and `group_by_prepare()`. The `.add` argument is used instead.
+
+  * The `.dots` argument of `group_by()` and `group_by_prepare()`
+
+  * The `...` argument of `group_keys()` and `group_indices()`
+
+  * The `keep` argument of `group_map()`, `group_modify()`, and `group_split()`
+
+  * `multiple = NULL / "error" / "warning"` in joins
+
+  * The `vars` argument of `group_cols()`
+
+### Newly deprecated
+
+* The following were already deprecated, and now warn unconditionally if used:
+
+  * `all_equal()`
+
+  * `progress_estimated()`
+
+  * `filter()` with a 1 column matrix
+
+  * `slice()` with a 1 column matrix
+
+  * Not supplying the `.cols` argument of `across()`
+
+  * `group_indices()` with no arguments
+
+* The following were already soft-deprecated, and now warn unconditionally once per session if used:
+
+  * `cur_data()` and `cur_data_all()`
+
+  * The `...` argument of `across()`
+
+  * Using `by = character()` to perform a cross join
+
+### Newly stable
+
+* `.by` has moved from experimental to stable (#7762).
+
 # dplyr 1.1.4
 
 * `join_by()` now allows its helper functions to be namespaced with `dplyr::`,
