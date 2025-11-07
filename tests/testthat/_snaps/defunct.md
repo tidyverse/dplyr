@@ -97,4 +97,14 @@
       Error:
       ! `src_sqlite()` was deprecated in dplyr 1.0.0 and is now defunct.
       i Please use `tbl()` directly with a database connection
+    Code
+      src_local()
+    Condition
+      Error:
+      ! `src_local()` was deprecated in dplyr 1.0.0 and is now defunct.
+    Code
+      src_df()
+    Condition
+      Error:
+      ! `src_df()` was deprecated in dplyr 1.0.0 and is now defunct.
 

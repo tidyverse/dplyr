@@ -19,6 +19,8 @@
 \alias{src_mysql}
 \alias{src_postgres}
 \alias{src_sqlite}
+\alias{src_local}
+\alias{src_df}
 \title{Defunct functions}
 \usage{
 # Deprecated in 0.5.0 -------------------------------------
@@ -76,6 +78,10 @@ src_postgres(
 )
 
 src_sqlite(path, create = FALSE)
+
+src_local(tbl, pkg = NULL, env = NULL)
+
+src_df(pkg = NULL, env = NULL)
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}

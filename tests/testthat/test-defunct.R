@@ -23,5 +23,8 @@ test_that("generate informative errors", {
     src_mysql()
     src_postgres()
     src_sqlite()
+
+    src_local()
+    src_df()
   })
 })

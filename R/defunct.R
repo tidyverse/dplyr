@@ -176,3 +176,15 @@ src_sqlite <- function(path, create = FALSE) {
     details = "Please use `tbl()` directly with a database connection"
   )
 }
+
+#' @export
+#' @rdname defunct
+src_local <- function(tbl, pkg = NULL, env = NULL) {
+  lifecycle::deprecate_stop("1.0.0", "src_local()")
+}
+
+#' @export
+#' @rdname defunct
+src_df <- function(pkg = NULL, env = NULL) {
+  lifecycle::deprecate_stop("1.0.0", "src_df()")
+}
