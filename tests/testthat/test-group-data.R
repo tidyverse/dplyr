@@ -61,7 +61,11 @@ test_that("group_keys(...) is defunct", {
 
 test_that("no arg group_indices() is deprecated", {
   df <- tibble(x = 1)
-  expect_warning(out <- summarise(df, id = group_indices()), "deprecated")
+
+  expect_snapshot({
+    out <- summarise(df, id = group_indices())
+  })
+
   expect_equal(out, tibble(id = 1))
 })
 

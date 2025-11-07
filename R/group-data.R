@@ -120,8 +120,9 @@ group_indices <- function(.data, ...) {
   if (nargs() == 0) {
     lifecycle::deprecate_warn(
       "1.0.0",
-      "group_indices()",
-      "cur_group_id()"
+      I("`group_indices()` with no arguments"),
+      "cur_group_id()",
+      always = TRUE
     )
     return(cur_group_id())
   }
