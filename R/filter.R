@@ -285,6 +285,7 @@ warn_filter_one_column_matrix <- function(env, user_env) {
 }
 
 warn_filter_across <- function(env, user_env) {
+  # TODO: https://github.com/tidyverse/dplyr/issues/7758
   lifecycle::deprecate_warn(
     when = "1.0.8",
     what = I("Using `across()` in `filter()`"),
@@ -296,6 +297,7 @@ warn_filter_across <- function(env, user_env) {
 }
 
 warn_filter_data_frame <- function(env, user_env) {
+  # TODO: https://github.com/tidyverse/dplyr/issues/7758
   lifecycle::deprecate_warn(
     when = "1.0.8",
     what = I("Returning data frames from `filter()` expressions"),
