@@ -42,8 +42,12 @@
 #' for (i in 1:10) p$pause(0.5)$tick()$print()
 #' }
 progress_estimated <- function(n, min_time = 0) {
-  # Before 1.1.0 was soft deprecated; so doesn't get always = TRUE until 1.2.0
-  lifecycle::deprecate_warn("1.0.0", "dplyr::progress_estimated()")
+  # Moved to `always = TRUE` in 1.2.0
+  lifecycle::deprecate_warn(
+    "1.0.0",
+    "dplyr::progress_estimated()",
+    always = TRUE
+  )
 
   Progress$new(n, min_time = min_time)
 }
