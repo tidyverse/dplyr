@@ -5,7 +5,7 @@
 #'
 #' @param data For advanced use only. The default `NULL` automatically
 #'   finds the "current" data frames.
-#' @param vars Deprecated; please use data instead.
+#' @param vars `r lifecycle::badge("defunct")`
 #' @seealso [groups()] and [group_vars()] for retrieving the grouping
 #'   variables outside selection contexts.
 #'
@@ -31,15 +31,15 @@ group_cols <- function(vars = NULL, data = NULL) {
 
 group_cols_legacy <- function(vars = NULL) {
   if (!is.null(vars)) {
-    lifecycle::deprecate_warn(
+    lifecycle::deprecate_stop(
       "1.0.0",
       "group_cols(vars = )",
-      details = "Use `data` with entire dataframe instead",
-      always = TRUE
+      details = "Use `data` with entire dataframe instead"
     )
   }
 
-  vars <- vars %||% tidyselect::peek_vars()
+  vars <- tidyselect::peek_vars()
+
   if (is_sel_vars(vars)) {
     matches <- match(vars %@% groups, vars)
     if (anyNA(matches)) {
