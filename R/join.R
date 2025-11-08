@@ -927,6 +927,8 @@ is_cross_by <- function(x) {
 }
 
 warn_join_cross_by <- function(env = caller_env(), user_env = caller_env(2)) {
+  # Also remove `join_rows(cross =)` and `is_cross_by()` once we remove support
+  # for this
   lifecycle::deprecate_warn(
     when = "1.1.0",
     what = I("Using `by = character()` to perform a cross join"),
