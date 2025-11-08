@@ -354,31 +354,6 @@
       i 50000005000000 rows would be returned. 2147483647 rows is the maximum number allowed.
       i Double check your join keys. This error commonly occurs due to a missing join key, or an improperly specified join condition.
 
-# `multiple = NULL` is deprecated and results in `'all'` (#6731)
-
-    Code
-      out <- join_rows(df1, df2, multiple = NULL)
-    Condition
-      Warning:
-      Specifying `multiple = NULL` was deprecated in dplyr 1.1.1.
-      i Please use `multiple = "all"` instead.
-
----
-
-    Code
-      left_join(df1, df2, by = join_by(x), multiple = NULL)
-    Condition
-      Warning:
-      Specifying `multiple = NULL` was deprecated in dplyr 1.1.1.
-      i Please use `multiple = "all"` instead.
-    Output
-      # A tibble: 3 x 1
-            x
-        <dbl>
-      1     1
-      2     2
-      3     2
-
 # `multiple = 'error'` is deprecated (#6731)
 
     Code
