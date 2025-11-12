@@ -43,10 +43,6 @@ SEXP str_as_symbol(SEXP str) {
   return rlang_api().str_as_symbol(str);
 }
 
-SEXP quo_get_expr(SEXP quo) {
-  return rlang_api().quo_get_expr(quo);
-}
-
 void env_unbind(SEXP env, SEXP sym) {
   rlang_api().env_unbind(env, sym);
 }

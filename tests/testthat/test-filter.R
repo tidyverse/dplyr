@@ -468,37 +468,6 @@ test_that("filter() gives useful error messages", {
         filter(c(TRUE, FALSE))
     ))
 
-    # wrong size in column
-    (expect_error(
-      iris |>
-        group_by(Species) |>
-        filter(data.frame(c(TRUE, FALSE)))
-    ))
-    (expect_error(
-      iris |>
-        rowwise() |>
-        filter(data.frame(c(TRUE, FALSE)))
-    ))
-    (expect_error(
-      iris |>
-        filter(data.frame(c(TRUE, FALSE)))
-    ))
-    (expect_error(
-      tibble(x = 1) |>
-        filter(c(TRUE, TRUE))
-    ))
-
-    # wrong type in column
-    (expect_error(
-      iris |>
-        group_by(Species) |>
-        filter(data.frame(Sepal.Length > 3, 1:n()))
-    ))
-    (expect_error(
-      iris |>
-        filter(data.frame(Sepal.Length > 3, 1:n()))
-    ))
-
     # evaluation error
     (expect_error(
       mtcars |> filter(`_x`)
@@ -529,13 +498,34 @@ test_that("filter() gives useful error messages", {
     (expect_error(
       tibble() |> filter(stop("{"))
     ))
+  })
+})
 
-    # across() in filter() does not warn yet
-    data.frame(x = 1, y = 1) |>
-      filter(across(everything(), ~ .x > 0))
+test_that("Using data frames in `filter()` is defunct (#7758)", {
+  df <- data.frame(x = 1, y = 1)
+  gdf <- group_by(df, x)
+  rdf <- rowwise(df, x)
 
-    data.frame(x = 1, y = 1) |>
-      filter(data.frame(x > 0, y > 0))
+  # Use `if_any()` or `if_all()`, not `across()`
+  expect_snapshot(error = TRUE, {
+    filter(df, across(everything(), ~ .x > 0))
+  })
+  expect_snapshot(error = TRUE, {
+    filter(gdf, across(everything(), ~ .x > 0))
+  })
+  expect_snapshot(error = TRUE, {
+    filter(rdf, across(everything(), ~ .x > 0))
+  })
+
+  # Can't filter with a data frame of logicals (same as the `across()` case)
+  expect_snapshot(error = TRUE, {
+    filter(df, tibble(x > 0, y > 0))
+  })
+  expect_snapshot(error = TRUE, {
+    filter(gdf, tibble(x > 0, y > 0))
+  })
+  expect_snapshot(error = TRUE, {
+    filter(rdf, tibble(x > 0, y > 0))
   })
 })
 

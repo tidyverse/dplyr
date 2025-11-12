@@ -231,12 +231,6 @@ filter_eval <- function(
     },
     `dplyr:::signal_filter_one_column_matrix` = function(e) {
       warn_filter_one_column_matrix(env = error_call, user_env = user_env)
-    },
-    `dplyr:::signal_filter_across` = function(e) {
-      warn_filter_across(env = error_call, user_env = user_env)
-    },
-    `dplyr:::signal_filter_data_frame` = function(e) {
-      warn_filter_data_frame(env = error_call, user_env = user_env)
     }
   )
 
@@ -281,29 +275,5 @@ warn_filter_one_column_matrix <- function(env, user_env) {
     env = env,
     user_env = user_env,
     always = TRUE
-  )
-}
-
-warn_filter_across <- function(env, user_env) {
-  # TODO: https://github.com/tidyverse/dplyr/issues/7758
-  lifecycle::deprecate_warn(
-    when = "1.0.8",
-    what = I("Using `across()` in `filter()`"),
-    with = I("`if_any()` or `if_all()`"),
-    always = TRUE,
-    env = env,
-    user_env = user_env
-  )
-}
-
-warn_filter_data_frame <- function(env, user_env) {
-  # TODO: https://github.com/tidyverse/dplyr/issues/7758
-  lifecycle::deprecate_warn(
-    when = "1.0.8",
-    what = I("Returning data frames from `filter()` expressions"),
-    with = I("`if_any()` or `if_all()`"),
-    always = TRUE,
-    env = env,
-    user_env = user_env
   )
 }
