@@ -103,3 +103,23 @@
       Error in `grouped_df()`:
       ! `vars` must be a character vector.
 
+# using the deprecated global option `dplyr.legacy_locale` forces the system locale
+
+    Code
+      result <- compute_groups(df, "x")
+    Condition
+      Warning:
+      `options(dplyr.legacy_locale =)` was deprecated in dplyr 1.2.0.
+      i If needed for `arrange()`, use `arrange(.locale =)` instead.
+      i If needed for `group_by() |> summarise()`, follow up with an additional `arrange(.locale =)` call.
+
+---
+
+    Code
+      result <- group_by(df, x)
+    Condition
+      Warning:
+      `options(dplyr.legacy_locale =)` was deprecated in dplyr 1.2.0.
+      i If needed for `arrange()`, use `arrange(.locale =)` instead.
+      i If needed for `group_by() |> summarise()`, follow up with an additional `arrange(.locale =)` call.
+

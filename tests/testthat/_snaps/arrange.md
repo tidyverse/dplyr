@@ -65,3 +65,13 @@
       Error in `arrange()`:
       ! `desc()` must be called with exactly one argument.
 
+# legacy - using the deprecated global option `dplyr.legacy_locale` forces the system locale
+
+    Code
+      out <- arrange(df, x)$x
+    Condition
+      Warning:
+      `options(dplyr.legacy_locale =)` was deprecated in dplyr 1.2.0.
+      i If needed for `arrange()`, use `arrange(.locale =)` instead.
+      i If needed for `group_by() |> summarise()`, follow up with an additional `arrange(.locale =)` call.
+

@@ -76,13 +76,12 @@ This is often useful as a preliminary step before generating content intended
 for humans, such as an HTML table.
 \subsection{Legacy behavior}{
 
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 Prior to dplyr 1.1.0, character vector grouping columns were ordered in the
-system locale. If you need to temporarily revert to this behavior, you can
-set the global option \code{dplyr.legacy_locale} to \code{TRUE}, but this should be
-used sparingly and you should expect this option to be removed in a future
-version of dplyr. It is better to update existing code to explicitly call
-\code{arrange(.locale = )} instead. Note that setting \code{dplyr.legacy_locale} will
-also force calls to \code{\link[=arrange]{arrange()}} to use the system locale.
+system locale. Setting the global option \code{dplyr.legacy_locale} to \code{TRUE}
+retains this legacy behavior, but this has been deprecated. Update existing
+code to explicitly call \code{arrange(.locale = )} instead.
 }
 }
 
