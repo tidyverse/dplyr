@@ -1,0 +1,52 @@
+# Generate a unique identifier for consecutive combinations
+
+`consecutive_id()` generates a unique identifier that increments every
+time a variable (or combination of variables) changes. Inspired by
+[`data.table::rleid()`](https://rdatatable.gitlab.io/data.table/reference/rleid.html).
+
+## Usage
+
+``` r
+consecutive_id(...)
+```
+
+## Arguments
+
+- ...:
+
+  Unnamed vectors. If multiple vectors are supplied, then they should
+  have the same length.
+
+## Value
+
+A numeric vector the same length as the longest element of `...`.
+
+## Examples
+
+``` r
+consecutive_id(c(TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, NA, NA))
+#> [1] 1 1 2 2 3 4 5 5
+consecutive_id(c(1, 1, 1, 2, 1, 1, 2, 2))
+#> [1] 1 1 1 2 3 3 4 4
+
+df <- data.frame(x = c(0, 0, 1, 0), y = c(2, 2, 2, 2))
+df |> group_by(x, y) |> summarise(n = n())
+#> `summarise()` has grouped output by 'x'. You can override using the
+#> `.groups` argument.
+#> # A tibble: 2 × 3
+#> # Groups:   x [2]
+#>       x     y     n
+#>   <dbl> <dbl> <int>
+#> 1     0     2     3
+#> 2     1     2     1
+df |> group_by(id = consecutive_id(x, y), x, y) |> summarise(n = n())
+#> `summarise()` has grouped output by 'id', 'x'. You can override using
+#> the `.groups` argument.
+#> # A tibble: 3 × 4
+#> # Groups:   id, x [3]
+#>      id     x     y     n
+#>   <int> <dbl> <dbl> <int>
+#> 1     1     0     2     2
+#> 2     2     1     2     1
+#> 3     3     0     2     1
+```

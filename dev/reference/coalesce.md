@@ -1,0 +1,109 @@
+# Find the first non-missing element
+
+Given a set of vectors, `coalesce()` finds the first non-missing value
+at each position. It's inspired by the SQL `COALESCE` function which
+does the same thing for SQL `NULL`s.
+
+## Usage
+
+``` r
+coalesce(..., .ptype = NULL, .size = NULL)
+```
+
+## Arguments
+
+- ...:
+
+  \<[`dynamic-dots`](https://rlang.r-lib.org/reference/dyn-dots.html)\>
+
+  One or more vectors. These will be
+  [recycled](https://vctrs.r-lib.org/reference/theory-faq-recycling.html)
+  against each other, and will be cast to their common type.
+
+- .ptype:
+
+  An optional prototype declaring the desired output type. If supplied,
+  this overrides the common type of the vectors in `...`.
+
+- .size:
+
+  An optional size declaring the desired output size. If supplied, this
+  overrides the common size of the vectors in `...`.
+
+## Value
+
+A vector with the same type and size as the common type and common size
+of the vectors in `...`.
+
+## See also
+
+- [`na_if()`](https://dplyr.tidyverse.org/dev/reference/na_if.md) to
+  replace a specified value with `NA`.
+
+- [`replace_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md)
+  for making arbitrary replacements by value.
+
+- [`replace_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md)
+  for making arbitrary replacements using logical conditions.
+
+## Examples
+
+``` r
+# Replace missing values with a single value
+x <- sample(c(1:5, NA, NA, NA))
+coalesce(x, 0L)
+#> [1] 1 0 5 0 3 2 4 0
+
+# Or replace missing values with the corresponding non-missing value in
+# another vector
+x <- c(1, 2, NA, NA, 5, NA)
+y <- c(NA, NA, 3, 4, 5, NA)
+coalesce(x, y)
+#> [1]  1  2  3  4  5 NA
+
+# For cases like these where your replacement is a single value or a single
+# vector, `replace_values()` works just as well
+replace_values(x, NA ~ 0)
+#> [1] 1 2 0 0 5 0
+coalesce(x, 0)
+#> [1] 1 2 0 0 5 0
+
+replace_values(x, NA ~ y)
+#> [1]  1  2  3  4  5 NA
+coalesce(x, y)
+#> [1]  1  2  3  4  5 NA
+
+# `coalesce()` really shines when you have >2 vectors to coalesce with
+z <- c(NA, 2, 3, 4, 5, 6)
+coalesce(x, y, z)
+#> [1] 1 2 3 4 5 6
+
+# If you're looking to replace values with `NA`, rather than replacing `NA`
+# with a value, then use `replace_values()`
+x <- c(0, -1, 5, -99, 8)
+replace_values(x, c(-1, -99) ~ NA)
+#> [1]  0 NA  5 NA  8
+
+# The equivalent to a missing value in a list is `NULL`
+coalesce(list(1, 2, NULL, NA), list(0))
+#> [[1]]
+#> [1] 1
+#> 
+#> [[2]]
+#> [1] 2
+#> 
+#> [[3]]
+#> [1] 0
+#> 
+#> [[4]]
+#> [1] NA
+#> 
+
+# Supply lists of vectors by splicing them into dots
+vecs <- list(
+  c(1, 2, NA, NA, 5),
+  c(NA, NA, 3, 4, 5)
+)
+coalesce(!!!vecs)
+#> [1] 1 2 3 4 5
+```
