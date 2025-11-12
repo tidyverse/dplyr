@@ -25,16 +25,6 @@ join_rows <- function(
   x_unmatched <- unmatched$x
   y_unmatched <- unmatched$y
 
-  # TODO: Remove this when `multiple = NULL / "error" / "warning"` is defunct
-  if (is_null(multiple)) {
-    warn_join_multiple_null(user_env = user_env)
-    multiple <- "all"
-  } else if (is_string(multiple, "error")) {
-    warn_join_multiple("error", user_env = user_env)
-  } else if (is_string(multiple, "warning")) {
-    warn_join_multiple("warning", user_env = user_env)
-  }
-
   if (cross) {
     # TODO: Remove this section when `by = character()` is defunct
 
@@ -460,32 +450,6 @@ check_join_relationship <- function(relationship, error_call = caller_env()) {
     arg = relationship,
     values = c("one-to-one", "one-to-many", "many-to-one", "many-to-many"),
     error_call = error_call
-  )
-}
-
-# ------------------------------------------------------------------------------
-
-warn_join_multiple <- function(what, user_env = caller_env(2)) {
-  what <- glue::glue('Specifying `multiple = "{what}"`')
-
-  lifecycle::deprecate_warn(
-    when = "1.1.1",
-    what = I(what),
-    with = I('`relationship = "many-to-one"`'),
-    user_env = user_env,
-    always = TRUE
-  )
-}
-
-warn_join_multiple_null <- function(user_env = caller_env(2)) {
-  # Only really needed in case people wrapped `left_join()` and friends and
-  # passed the old default of `NULL` through
-  lifecycle::deprecate_warn(
-    when = "1.1.1",
-    what = I("Specifying `multiple = NULL`"),
-    with = I('`multiple = "all"`'),
-    user_env = user_env,
-    always = TRUE
   )
 }
 

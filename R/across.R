@@ -267,7 +267,7 @@ across <- function(.cols, .fns, ..., .names = NULL, .unpack = FALSE) {
       " " = "# Now",
       " " = "across(a:b, \\(x) mean(x, na.rm = TRUE))"
     )
-    lifecycle::deprecate_soft(
+    lifecycle::deprecate_warn(
       when = "1.1.0",
       what = "across(...)",
       details = details
@@ -860,7 +860,8 @@ across_missing_cols_deprecate_warn <- function() {
     when = "1.1.0",
     what = I(glue("Using `{across_if_fn}()` without supplying `.cols`")),
     details = "Please supply `.cols` instead.",
-    user_env = user_env
+    user_env = user_env,
+    always = TRUE
   )
 }
 
@@ -869,7 +870,8 @@ c_across_missing_cols_deprecate_warn <- function(user_env = caller_env(2)) {
     when = "1.1.0",
     what = I("Using `c_across()` without supplying `cols`"),
     details = "Please supply `cols` instead.",
-    user_env = user_env
+    user_env = user_env,
+    always = TRUE
   )
 }
 

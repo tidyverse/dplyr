@@ -29,8 +29,7 @@
 #' group.
 #' @param .data,.tbl,x A data frame or extension (like a tibble or grouped
 #'   tibble).
-#' @param ... Use of `...` is now deprecated; please use `group_by()` first
-#'   instead.
+#' @param ... Unused.
 #' @keywords internal
 #' @examples
 #' df <- tibble(x = c(1,1,2,2))
@@ -95,13 +94,11 @@ group_keys <- function(.tbl, ...) {
 #' @export
 group_keys.data.frame <- function(.tbl, ...) {
   if (dots_n(...) > 0) {
-    lifecycle::deprecate_warn(
+    lifecycle::deprecate_stop(
       "1.0.0",
       "group_keys(... = )",
-      details = "Please `group_by()` first",
-      always = TRUE
+      details = "Please `group_by()` first"
     )
-    .tbl <- group_by(.tbl, ...)
   }
   out <- group_data(.tbl)
   group_keys0(out)
@@ -123,7 +120,7 @@ group_indices <- function(.data, ...) {
   if (nargs() == 0) {
     lifecycle::deprecate_warn(
       "1.0.0",
-      "group_indices()",
+      I("`group_indices()` with no arguments"),
       "cur_group_id()",
       always = TRUE
     )
@@ -135,11 +132,10 @@ group_indices <- function(.data, ...) {
 #' @export
 group_indices.data.frame <- function(.data, ...) {
   if (dots_n(...) > 0) {
-    lifecycle::deprecate_warn(
+    lifecycle::deprecate_stop(
       "1.0.0",
       "group_indices(... = )",
-      details = "Please `group_by()` first",
-      always = TRUE
+      details = "Please `group_by()` first"
     )
     .data <- group_by(.data, ...)
   }

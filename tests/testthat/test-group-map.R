@@ -133,3 +133,22 @@ test_that("group_map() give meaningful errors", {
     (expect_error(iris |> group_by(Species) |> group_map(head1)))
   })
 })
+
+test_that("`keep =` is defunct", {
+  df <- tibble(x = 1)
+  gdf <- group_by(df, x)
+
+  expect_snapshot(error = TRUE, {
+    group_map(df, keep = TRUE)
+  })
+  expect_snapshot(error = TRUE, {
+    group_map(gdf, keep = TRUE)
+  })
+
+  expect_snapshot(error = TRUE, {
+    group_modify(df, keep = TRUE)
+  })
+  expect_snapshot(error = TRUE, {
+    group_modify(gdf, keep = TRUE)
+  })
+})

@@ -1,16 +1,10 @@
-test_that("cur_data() is soft deprecated", {
-  options(lifecycle_verbosity = "warning")
-
+test_that("cur_data() is deprecated", {
   df <- tibble(x = 1)
-
   expect_snapshot(mutate(df, y = cur_data()))
 })
 
-test_that("cur_data_all() is soft deprecated", {
-  options(lifecycle_verbosity = "warning")
-
+test_that("cur_data_all() is deprecated", {
   df <- tibble(x = 1)
-
   expect_snapshot(mutate(df, y = cur_data_all()))
 })
 

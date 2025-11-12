@@ -442,7 +442,8 @@ slice_eval <- function(
           when = "1.1.0",
           what = I("Slicing with a 1-column matrix"),
           env = error_call,
-          user_env = user_env
+          user_env = user_env,
+          always = TRUE
         )
         slice_idx <- slice_idx[, 1]
       }

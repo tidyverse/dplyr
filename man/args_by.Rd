@@ -4,9 +4,7 @@
 \alias{args_by}
 \title{Helper for consistent documentation of \code{.by}}
 \arguments{
-\item{.by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
-<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
+\item{.by}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
 group by for just this operation, functioning as an alternative to \code{\link[=group_by]{group_by()}}. For
 details and examples, see \link[=dplyr_by]{?dplyr_by}.}
 }

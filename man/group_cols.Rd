@@ -7,7 +7,7 @@
 group_cols(vars = NULL, data = NULL)
 }
 \arguments{
-\item{vars}{Deprecated; please use data instead.}
+\item{vars}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}}
 
 \item{data}{For advanced use only. The default \code{NULL} automatically
 finds the "current" data frames.}

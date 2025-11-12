@@ -703,8 +703,7 @@ join_mutate <- function(
 
   na_matches <- check_na_matches(
     na_matches,
-    error_call = error_call,
-    user_env = user_env
+    error_call = error_call
   )
 
   check_keep(keep, error_call = error_call)
@@ -816,8 +815,7 @@ join_filter <- function(
 
   na_matches <- check_na_matches(
     na_matches,
-    error_call = error_call,
-    user_env = user_env
+    error_call = error_call
   )
 
   x_names <- tbl_vars(x)
@@ -890,27 +888,7 @@ join_filter <- function(
   dplyr_row_slice(x, idx)
 }
 
-check_na_matches <- function(
-  na_matches,
-  ...,
-  error_call = caller_env(),
-  user_env = caller_env(2)
-) {
-  if (isNamespaceLoaded("pkgconfig")) {
-    conf <- asNamespace("pkgconfig")$get_config("dplyr::na_matches")
-    if (!is.null(conf)) {
-      # No tests for this, don't want to deal with pkgconfig
-      lifecycle::deprecate_warn(
-        when = "1.0.0",
-        what = I("Use of `dplyr::na_matches` pkgconfig options"),
-        details = "Please set `na_matches` directly.",
-        always = TRUE,
-        env = error_call,
-        user_env = user_env
-      )
-    }
-  }
-
+check_na_matches <- function(na_matches, ..., error_call = caller_env()) {
   arg_match0(
     arg = na_matches,
     values = c("na", "never"),
@@ -949,7 +927,9 @@ is_cross_by <- function(x) {
 }
 
 warn_join_cross_by <- function(env = caller_env(), user_env = caller_env(2)) {
-  lifecycle::deprecate_soft(
+  # Also remove `join_rows(cross =)` and `is_cross_by()` once we remove support
+  # for this
+  lifecycle::deprecate_warn(
     when = "1.1.0",
     what = I("Using `by = character()` to perform a cross join"),
     with = "cross_join()",

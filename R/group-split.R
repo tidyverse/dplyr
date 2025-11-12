@@ -54,13 +54,11 @@ group_split.data.frame <- function(
   keep = deprecated()
 ) {
   if (!missing(keep)) {
-    lifecycle::deprecate_warn(
+    lifecycle::deprecate_stop(
       "1.0.0",
       "group_split(keep = )",
-      "group_split(.keep = )",
-      always = TRUE
+      "group_split(.keep = )"
     )
-    .keep <- keep
   }
   data <- group_by(.tbl, ...)
   group_split_impl(data, .keep = .keep)
@@ -73,21 +71,19 @@ group_split.rowwise_df <- function(
   .keep = TRUE,
   keep = deprecated()
 ) {
+  if (!missing(keep)) {
+    lifecycle::deprecate_stop(
+      "1.0.0",
+      "group_split(keep = )",
+      "group_split(.keep = )"
+    )
+  }
   if (dots_n(...)) {
     warn_ignores_dots(
       "group_split",
       "rowwise_df",
       "as_tibble() |> group_split(...)"
     )
-  }
-  if (!missing(keep)) {
-    lifecycle::deprecate_warn(
-      "1.0.0",
-      "group_split(keep = )",
-      "group_split(.keep = )",
-      always = TRUE
-    )
-    .keep <- keep
   }
   if (!missing(.keep)) {
     warn(".keep is ignored in group_split(<rowwise_df>)")
@@ -104,13 +100,11 @@ group_split.grouped_df <- function(
   keep = deprecated()
 ) {
   if (!missing(keep)) {
-    lifecycle::deprecate_warn(
+    lifecycle::deprecate_stop(
       "1.0.0",
       "group_split(keep = )",
-      "group_split(.keep = )",
-      always = TRUE
+      "group_split(.keep = )"
     )
-    .keep <- keep
   }
   if (dots_n(...)) {
     warn_ignores_dots(

@@ -43,7 +43,8 @@ all_equal <- function(
     "1.1.0",
     "all_equal()",
     "all.equal()",
-    details = "And manually order the rows/cols as needed"
+    details = "And manually order the rows/cols as needed",
+    always = TRUE
   )
 
   equal_data_frame(

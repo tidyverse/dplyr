@@ -49,34 +49,32 @@ test_that("group_rows() and group_keys() partition group_data()", {
   expect_equal(group_rows(gf), gd[[3]])
 })
 
-test_that("group_keys(...) is deprecated", {
+test_that("group_keys(...) is defunct", {
   df <- tibble(x = 1, y = 2)
 
-  expect_warning(out <- df |> group_keys(x), "deprecated")
-  expect_equal(out, tibble(x = 1))
+  expect_snapshot(error = TRUE, {
+    group_keys(df, x)
+  })
 })
 
 # group_indices() ---------------------------------------------------------
 
 test_that("no arg group_indices() is deprecated", {
   df <- tibble(x = 1)
-  expect_warning(out <- summarise(df, id = group_indices()), "deprecated")
+
+  expect_snapshot({
+    out <- summarise(df, id = group_indices())
+  })
+
   expect_equal(out, tibble(id = 1))
 })
 
 test_that("group_indices(...) is deprecated", {
-  rlang::local_options(lifecycle_verbosity = "error")
-
   df <- tibble(x = 1, y = 2)
-  expect_error(df |> group_indices(x), "deprecated")
-})
 
-test_that("group_indices(...) still works though", {
-  rlang::local_options(lifecycle_verbosity = "quiet")
-
-  df <- tibble(x = 1, y = 2)
-  out <- df |> group_indices(x)
-  expect_equal(out, 1)
+  expect_snapshot(error = TRUE, {
+    group_indices(df, x)
+  })
 })
 
 test_that("group_indices() returns expected values", {

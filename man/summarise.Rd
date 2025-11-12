@@ -26,9 +26,7 @@ The value can be:
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Returning values with size 0 or >1 was
 deprecated as of 1.1.0. Please use \code{\link[=reframe]{reframe()}} for this instead.}
 
-\item{.by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
-<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
+\item{.by}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
 group by for just this operation, functioning as an alternative to \code{\link[=group_by]{group_by()}}. For
 details and examples, see \link[=dplyr_by]{?dplyr_by}.}
 

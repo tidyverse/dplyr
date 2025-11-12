@@ -1,4 +1,4 @@
-# cur_data() is soft deprecated
+# cur_data() is deprecated
 
     Code
       mutate(df, y = cur_data())
@@ -15,7 +15,7 @@
         <dbl> <dbl>
       1     1     1
 
-# cur_data_all() is soft deprecated
+# cur_data_all() is deprecated
 
     Code
       mutate(df, y = cur_data_all())

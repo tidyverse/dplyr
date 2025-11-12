@@ -66,18 +66,6 @@ test_that("group_by(<grouped df>, <computation>) computes the expressions on the
   expect_equal(group_vars(out), c("g", "big"))
 })
 
-test_that("add = TRUE is deprecated", {
-  rlang::local_options(lifecycle_verbosity = "warning")
-
-  df <- tibble(x = 1, y = 2)
-
-  expect_warning(
-    out <- df |> group_by(x) |> group_by(y, add = TRUE),
-    "deprecated"
-  )
-  expect_equal(group_vars(out), c("x", "y"))
-})
-
 test_that("joins preserve grouping", {
   df <- data.frame(x = rep(1:2, each = 4), y = rep(1:4, each = 2))
   g <- group_by(df, x)
@@ -130,13 +118,6 @@ test_that("can't rename while partially `ungroup()`-ing (#6606)", {
   expect_snapshot(error = TRUE, {
     ungroup(gdf, g2 = g)
   })
-})
-
-test_that(".dots is soft deprecated", {
-  rlang::local_options(lifecycle_verbosity = "warning")
-
-  df <- tibble(x = 1, y = 1)
-  expect_warning(gf <- group_by(df, .dots = "x"), "deprecated")
 })
 
 # Test full range of variable types --------------------------------------------
@@ -680,5 +661,47 @@ test_that("group_by() and ungroup() give meaningful error messages", {
     (expect_error(df |> group_by(x, y) |> ungroup(z)))
 
     (expect_error(df |> group_by(z = a + 1)))
+  })
+})
+
+# Deprecation -------------------------------------------------------------
+
+test_that("group_by(add =) is defunct", {
+  # While it was being deprecated, it was getting passed through the `...`
+  # down to `group_by_prepare()`.
+  df <- tibble(x = 1, y = 2)
+
+  expect_snapshot(error = TRUE, {
+    group_by(df, x, add = TRUE)
+  })
+})
+
+test_that("group_by_prepare(add =) is defunct", {
+  df <- tibble(x = 1, y = 2)
+
+  # We let this say `group_by()` in the error because it is more likely that
+  # that is where it came from
+  expect_snapshot(error = TRUE, {
+    group_by_prepare(df, x, add = TRUE)
+  })
+})
+
+test_that("group_by(.dots =) is defunct", {
+  # While it was being deprecated, it was getting passed through the `...`
+  # down to `group_by_prepare()`.
+  df <- tibble(x = 1, y = 1)
+
+  expect_snapshot(error = TRUE, {
+    group_by(df, .dots = "x")
+  })
+})
+
+test_that("group_by_prepare(.dots =) is defunct", {
+  df <- tibble(x = 1, y = 1)
+
+  # We let this say `group_by()` in the error because it is more likely that
+  # that is where it came from
+  expect_snapshot(error = TRUE, {
+    group_by_prepare(df, .dots = "x")
   })
 })

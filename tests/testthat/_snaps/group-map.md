@@ -27,3 +27,39 @@
       ! `.f` must accept at least two arguments.
       i You can use `...` to absorb unused components.
 
+# `keep =` is defunct
+
+    Code
+      group_map(df, keep = TRUE)
+    Condition
+      Error:
+      ! The `keep` argument of `group_map()` was deprecated in dplyr 1.0.0 and is now defunct.
+      i Please use the `.keep` argument instead.
+
+---
+
+    Code
+      group_map(gdf, keep = TRUE)
+    Condition
+      Error:
+      ! The `keep` argument of `group_map()` was deprecated in dplyr 1.0.0 and is now defunct.
+      i Please use the `.keep` argument instead.
+
+---
+
+    Code
+      group_modify(df, keep = TRUE)
+    Condition
+      Error:
+      ! The `keep` argument of `group_modify()` was deprecated in dplyr 1.0.0 and is now defunct.
+      i Please use the `.keep` argument instead.
+
+---
+
+    Code
+      group_modify(gdf, keep = TRUE)
+    Condition
+      Error:
+      ! The `keep` argument of `group_modify()` was deprecated in dplyr 1.0.0 and is now defunct.
+      i Please use the `.keep` argument instead.
+
