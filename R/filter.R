@@ -244,17 +244,11 @@ filter_bullets <- function(cnd, ...) {
 
 #' @export
 `filter_bullets.dplyr:::filter_incompatible_type` <- function(cnd, ...) {
-  column_name <- cnd$dplyr_error_data$column_name
   index <- cnd$dplyr_error_data$index
   result <- cnd$dplyr_error_data$result
 
-  if (is.null(column_name)) {
-    input_name <- glue("..{index}")
-  } else {
-    input_name <- glue("..{index}${column_name}")
-  }
   glue(
-    "`{input_name}` must be a logical vector, not {obj_type_friendly(result)}."
+    "`..{index}` must be a logical vector, not {obj_type_friendly(result)}."
   )
 }
 

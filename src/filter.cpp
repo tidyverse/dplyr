@@ -17,12 +17,10 @@ void stop_filter_incompatible_size(R_xlen_t i,
 static inline
 void stop_filter_incompatible_type(R_xlen_t i,
                                    SEXP quos,
-                                   SEXP column_name,
                                    SEXP result){
-  DPLYR_ERROR_INIT(3);
+  DPLYR_ERROR_INIT(2);
   DPLYR_ERROR_SET(0, "index", Rf_ScalarInteger(i + 1));
-  DPLYR_ERROR_SET(1, "column_name", column_name);
-  DPLYR_ERROR_SET(2, "result", result);
+  DPLYR_ERROR_SET(1, "result", result);
   DPLYR_ERROR_THROW("dplyr:::filter_incompatible_type");
 }
 
@@ -132,7 +130,7 @@ SEXP eval_filter_one(SEXP quos,
     if (filter_is_valid_lgl(res, first)) {
       filter_lgl_reduce(res, n, p_reduced);
     } else {
-      dplyr::stop_filter_incompatible_type(i, quos, R_NilValue, res);
+      dplyr::stop_filter_incompatible_type(i, quos, res);
     }
 
     UNPROTECT(2);
