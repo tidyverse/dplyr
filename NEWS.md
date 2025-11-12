@@ -107,49 +107,53 @@
 
 * The following were already deprecated, and are now defunct:
 
-  * `combine()`
+  * `combine()`. Deprecated in 1.0.0, use `c()` or `vctrs::vec_c()` instead.
 
-  * `src_mysql()`, `src_postgres()`, `src_sqlite()`, `src_local()`, and `src_df()`
+  * `src_mysql()`, `src_postgres()`, `src_sqlite()`, `src_local()`, and `src_df()`. Deprecated in 1.0.0, use `tbl()` instead.
 
-  * `tbl_df()`, `as.tbl()`, and `add_rownames()`
+  * `tbl_df()` and `as.tbl()`. Deprecated in 1.0.0, use `tibble::as_tibble()` instead.
 
-  * The `.drop` argument of `add_count()`
+  * `add_rownames()`. Deprecated in 1.0.0, use `tibble::rownames_to_column()` instead.
 
-  * The `add` argument of `group_by()` and `group_by_prepare()`. The `.add` argument is used instead.
+  * The `.drop` argument of `add_count()`. Deprecated in 1.0.0, had no effect.
 
-  * The `.dots` argument of `group_by()` and `group_by_prepare()`
+  * The `add` argument of `group_by()` and `group_by_prepare()`. Deprecated in 1.0.0, use `.add` instead.
 
-  * The `...` argument of `group_keys()` and `group_indices()`
+  * The `.dots` argument of `group_by()` and `group_by_prepare()`. Deprecated in 1.0.0.
 
-  * The `keep` argument of `group_map()`, `group_modify()`, and `group_split()`
+  * The `...` argument of `group_keys()` and `group_indices()`. Deprecated in 1.0.0, use `group_by()` first.
 
-  * `multiple = NULL / "error" / "warning"` in joins
+  * The `keep` argument of `group_map()`, `group_modify()`, and `group_split()`. Deprecated in 1.0.0, use `.keep` instead.
 
-  * The `vars` argument of `group_cols()`
+  * `multiple = NULL` in joins. Deprecated in 1.1.1, use `multiple = "all"` instead.
+
+  * `multiple = "error" / "warning"` in joins. Deprecated in 1.1.1, use `relationship = "many-to-one"` instead.
+
+  * The `vars` argument of `group_cols()`. Deprecated in 1.0.0.
 
 ### Newly deprecated
 
 * The following were already deprecated, and now warn unconditionally if used:
 
-  * `all_equal()`
+  * `all_equal()`. Deprecated in 1.1.0, use `all.equal()` instead.
 
-  * `progress_estimated()`
+  * `progress_estimated()`. Deprecated in 1.0.0.
 
-  * `filter()` with a 1 column matrix
+  * `filter()` with a 1 column matrix. Deprecated in 1.1.0, use a vector instead.
 
-  * `slice()` with a 1 column matrix
+  * `slice()` with a 1 column matrix. Deprecated in 1.1.0, use a vector instead.
 
-  * Not supplying the `.cols` argument of `across()`
+  * Not supplying the `.cols` argument of `across()`. Deprecated in 1.1.0.
 
-  * `group_indices()` with no arguments
+  * `group_indices()` with no arguments. Deprecated in 1.0.0, use `cur_group_id()` instead.
 
 * The following were already soft-deprecated, and now warn unconditionally once per session if used:
 
-  * `cur_data()` and `cur_data_all()`
+  * `cur_data()` and `cur_data_all()`. Deprecated in 1.1.0, use `pick()` instead.
 
-  * The `...` argument of `across()`
+  * The `...` argument of `across()`. Deprecated in 1.1.0, use an anonymous function instead.
 
-  * Using `by = character()` to perform a cross join
+  * Using `by = character()` to perform a cross join. Deprecated in 1.1.0, use `cross_join()` instead.
 
 ### Newly stable
 
