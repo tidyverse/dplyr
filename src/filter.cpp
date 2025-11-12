@@ -17,12 +17,10 @@ void stop_filter_incompatible_size(R_xlen_t i,
 static inline
 void stop_filter_incompatible_type(R_xlen_t i,
                                    SEXP quos,
-                                   SEXP column_name,
                                    SEXP result){
-  DPLYR_ERROR_INIT(3);
+  DPLYR_ERROR_INIT(2);
   DPLYR_ERROR_SET(0, "index", Rf_ScalarInteger(i + 1));
-  DPLYR_ERROR_SET(1, "column_name", column_name);
-  DPLYR_ERROR_SET(2, "result", result);
+  DPLYR_ERROR_SET(1, "result", result);
   DPLYR_ERROR_THROW("dplyr:::filter_incompatible_type");
 }
 
@@ -36,14 +34,6 @@ void signal_filter(const char* cls) {
 static
 void signal_filter_one_column_matrix() {
   signal_filter("dplyr:::signal_filter_one_column_matrix");
-}
-static
-void signal_filter_across() {
-  signal_filter("dplyr:::signal_filter_across");
-}
-static
-void signal_filter_data_frame() {
-  signal_filter("dplyr:::signal_filter_data_frame");
 }
 
 }
@@ -105,41 +95,6 @@ bool filter_is_valid_lgl(SEXP x, bool first) {
   return false;
 }
 
-static inline
-void filter_df_reduce(SEXP x,
-                      R_xlen_t n,
-                      bool first,
-                      R_xlen_t i_quo,
-                      SEXP quos,
-                      int* p_reduced) {
-  if (first) {
-    SEXP expr = rlang::quo_get_expr(VECTOR_ELT(quos, i_quo));
-    const bool across = TYPEOF(expr) == LANGSXP && CAR(expr) == dplyr::symbols::across;
-
-    if (across) {
-      dplyr::signal_filter_across();
-    } else {
-      dplyr::signal_filter_data_frame();
-    }
-  }
-
-  const SEXP* p_x = VECTOR_PTR_RO(x);
-  const R_xlen_t n_col = Rf_xlength(x);
-
-  for (R_xlen_t i = 0; i < n_col; ++i) {
-    SEXP col = p_x[i];
-
-    if (!filter_is_valid_lgl(col, first)) {
-      SEXP names = PROTECT(Rf_getAttrib(x, R_NamesSymbol));
-      SEXP name = PROTECT(Rf_ScalarString(STRING_ELT(names, i)));
-      dplyr::stop_filter_incompatible_type(i_quo, quos, name, col);
-      UNPROTECT(2);
-    }
-
-    filter_lgl_reduce(col, n, p_reduced);
-  }
-}
-
 static
 SEXP eval_filter_one(SEXP quos,
                      SEXP mask,
@@ -174,10 +129,8 @@ SEXP eval_filter_one(SEXP quos,
 
     if (filter_is_valid_lgl(res, first)) {
       filter_lgl_reduce(res, n, p_reduced);
-    } else if (Rf_inherits(res, "data.frame")) {
-      filter_df_reduce(res, n, first, i, quos, p_reduced);
     } else {
-      dplyr::stop_filter_incompatible_type(i, quos, R_NilValue, res);
+      dplyr::stop_filter_incompatible_type(i, quos, res);
     }
 
     UNPROTECT(2);

@@ -125,6 +125,8 @@
 
   * The `keep` argument of `group_map()`, `group_modify()`, and `group_split()`. Deprecated in 1.0.0, use `.keep` instead.
 
+  * Using `across()` and data frames in `filter()`. Deprecated in 1.0.8, use `if_any()` or `if_all()` instead.
+
   * `multiple = NULL` in joins. Deprecated in 1.1.1, use `multiple = "all"` instead.
 
   * `multiple = "error" / "warning"` in joins. Deprecated in 1.1.1, use `relationship = "many-to-one"` instead.
