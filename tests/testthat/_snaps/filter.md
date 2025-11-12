@@ -159,6 +159,7 @@
       i In argument: `across(everything(), ~.x > 0)`.
       Caused by error:
       ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
+      i If you used `across()` to generate this data frame, please use `if_any()` or `if_all()` instead.
 
 ---
 
@@ -170,6 +171,7 @@
       i In group 1: `x = 1`.
       Caused by error:
       ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
+      i If you used `across()` to generate this data frame, please use `if_any()` or `if_all()` instead.
 
 ---
 
@@ -181,6 +183,7 @@
       i In row 1.
       Caused by error:
       ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
+      i If you used `across()` to generate this data frame, please use `if_any()` or `if_all()` instead.
 
 ---
 
@@ -191,6 +194,7 @@
       i In argument: `tibble(x > 0, y > 0)`.
       Caused by error:
       ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
+      i If you used `across()` to generate this data frame, please use `if_any()` or `if_all()` instead.
 
 ---
 
@@ -202,6 +206,7 @@
       i In group 1: `x = 1`.
       Caused by error:
       ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
+      i If you used `across()` to generate this data frame, please use `if_any()` or `if_all()` instead.
 
 ---
 
@@ -213,6 +218,7 @@
       i In row 1.
       Caused by error:
       ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
+      i If you used `across()` to generate this data frame, please use `if_any()` or `if_all()` instead.
 
 # `filter()` doesn't allow data frames with missing or empty names (#6758)
 

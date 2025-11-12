@@ -247,9 +247,22 @@ filter_bullets <- function(cnd, ...) {
   index <- cnd$dplyr_error_data$index
   result <- cnd$dplyr_error_data$result
 
-  glue(
+  bullets <- cli::format_inline(
     "`..{index}` must be a logical vector, not {obj_type_friendly(result)}."
   )
+
+  if (is.data.frame(result)) {
+    # Provide some extra advice for people who try and use `across()` inside
+    # of `filter()`
+    bullets <- c(
+      bullets,
+      i = cli::format_inline(
+        "If you used {.fn across} to generate this data frame, please use {.fn if_any} or {.fn if_all} instead."
+      )
+    )
+  }
+
+  bullets
 }
 
 #' @export
