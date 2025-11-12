@@ -278,6 +278,15 @@
     [`group_split()`](https://dplyr.tidyverse.org/dev/reference/group_split.md).
     Deprecated in 1.0.0, use `.keep` instead.
 
+  - Using
+    [`across()`](https://dplyr.tidyverse.org/dev/reference/across.md)
+    and data frames in
+    [`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md).
+    Deprecated in 1.0.8, use
+    [`if_any()`](https://dplyr.tidyverse.org/dev/reference/across.md) or
+    [`if_all()`](https://dplyr.tidyverse.org/dev/reference/across.md)
+    instead.
+
   - `multiple = NULL` in joins. Deprecated in 1.1.1, use
     `multiple = "all"` instead.
 
