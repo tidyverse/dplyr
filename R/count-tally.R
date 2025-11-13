@@ -236,9 +236,9 @@ add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 
 tally_n <- function(x, wt) {
   if (quo_is_null(wt)) {
-    expr(n())
+    new_quosure(expr(n()), asNamespace("dplyr"))
   } else {
-    expr(sum(!!wt, na.rm = TRUE))
+    new_quosure(expr(sum(!!wt, na.rm = TRUE)), quo_get_env(wt))
   }
 }
 
