@@ -13,13 +13,30 @@ void stop_summarise_mixed_null() {
   DPLYR_ERROR_THROW("dplyr:::summarise_mixed_null");
 }
 
-void stop_summarise_incompatible_size(int index_group, int index_expression, int expected_size, int size) {
-  DPLYR_ERROR_INIT(4);
-    DPLYR_ERROR_SET(0, "group", Rf_ScalarInteger(index_group + 1));
-    DPLYR_ERROR_SET(1, "index", Rf_ScalarInteger(index_expression + 1));
-    DPLYR_ERROR_SET(2, "expected_size", Rf_ScalarInteger(expected_size));
-    DPLYR_ERROR_SET(3, "size", Rf_ScalarInteger(size));
+void stop_summarise_incompatible_size(
+  int index_expression,
+  int index_group,
+  int actual_size
+) {
+  DPLYR_ERROR_INIT(3);
+  DPLYR_ERROR_SET(0, "index_expression", Rf_ScalarInteger(index_expression + 1));
+  DPLYR_ERROR_SET(1, "index_group", Rf_ScalarInteger(index_group + 1));
+  DPLYR_ERROR_SET(2, "actual_size", Rf_ScalarInteger(actual_size));
   DPLYR_ERROR_THROW("dplyr:::summarise_incompatible_size");
+}
+
+void stop_reframe_incompatible_size(
+  int index_expression,
+  int index_group,
+  int actual_size,
+  int expected_size
+) {
+  DPLYR_ERROR_INIT(4);
+  DPLYR_ERROR_SET(0, "index_expression", Rf_ScalarInteger(index_expression + 1));
+  DPLYR_ERROR_SET(1, "index_group", Rf_ScalarInteger(index_group + 1));
+  DPLYR_ERROR_SET(2, "actual_size", Rf_ScalarInteger(actual_size));
+  DPLYR_ERROR_SET(3, "expected_size", Rf_ScalarInteger(expected_size));
+  DPLYR_ERROR_THROW("dplyr:::reframe_incompatible_size");
 }
 
 }
@@ -67,7 +84,35 @@ SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private) {
   return chunks;
 }
 
-SEXP dplyr_summarise_recycle_chunks_in_place(SEXP list_of_chunks, SEXP list_of_result) {
+SEXP dplyr_summarise_check_all_size_one(SEXP list_of_chunks) {
+  if (TYPEOF(list_of_chunks) != VECSXP) {
+    Rf_errorcall(R_NilValue, "Internal error: `list_of_chunks` must be a list.");
+  }
+
+  const R_xlen_t n_list_of_chunks = Rf_xlength(list_of_chunks);
+  const SEXP* v_list_of_chunks = VECTOR_PTR_RO(list_of_chunks);
+
+  for (R_xlen_t i = 0; i < n_list_of_chunks; ++i) {
+    // This expression's results across all groups
+    SEXP chunks = v_list_of_chunks[i];
+    const SEXP* v_chunks = VECTOR_PTR_RO(chunks);
+    const R_xlen_t n_chunks = Rf_xlength(chunks);
+
+    for (R_xlen_t j = 0; j < n_chunks; ++j) {
+      // This group's result for this expression
+      SEXP chunk = v_chunks[j];
+      const R_xlen_t chunk_size = vctrs::short_vec_size(chunk);
+
+      if (chunk_size != 1) {
+        dplyr::stop_summarise_incompatible_size(i, j, chunk_size);
+      }
+    }
+  }
+
+  return R_NilValue;
+}
+
+SEXP dplyr_reframe_recycle_horizontally_in_place(SEXP list_of_chunks, SEXP list_of_result) {
   // - `list_of_chunks` will be modified in place by recycling each chunk
   //   to its common size as necessary.
   // - `list_of_result` will be modified in place if any chunks that originally
@@ -124,7 +169,7 @@ SEXP dplyr_summarise_recycle_chunks_in_place(SEXP list_of_chunks, SEXP list_of_r
         // v_sizes[j] is correct
         any_need_recycling = true;
       } else {
-        dplyr::stop_summarise_incompatible_size(j, i, out_size, elt_size);
+        dplyr::stop_reframe_incompatible_size(i, j, elt_size, out_size);
       }
     }
   }
@@ -186,5 +231,3 @@ SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype) {
   UNPROTECT(1);
   return out;
 }
-
-

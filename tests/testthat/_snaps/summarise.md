@@ -169,36 +169,6 @@
       Caused by error:
       ! `a` must return compatible vectors across groups.
     Code
-      (expect_error(summarise(tibble(z = 1), x = 1:3, y = 1:2)))
-    Output
-      <error/rlang_error>
-      Error in `summarise()`:
-      ! Can't recycle `y = 1:2`.
-      Caused by error:
-      ! `y` must be size 3 or 1, not 2.
-      i An earlier column had size 3.
-    Code
-      (expect_error(summarise(group_by(tibble(z = 1:2), z), x = 1:3, y = 1:2)))
-    Output
-      <error/rlang_error>
-      Error in `summarise()`:
-      ! Can't recycle `y = 1:2`.
-      i In group 1: `z = 1`.
-      Caused by error:
-      ! `y` must be size 3 or 1, not 2.
-      i An earlier column had size 3.
-    Code
-      (expect_error(summarise(group_by(tibble(z = c(1, 3)), z), x = seq_len(z), y = 1:
-        2)))
-    Output
-      <error/rlang_error>
-      Error in `summarise()`:
-      ! Can't recycle `y = 1:2`.
-      i In group 2: `z = 3`.
-      Caused by error:
-      ! `y` must be size 3 or 1, not 2.
-      i An earlier column had size 3.
-    Code
       (expect_error(summarise(group_by(data.frame(x = 1:2, g = 1:2), g), x = if (g ==
         1) 42)))
     Output
@@ -262,43 +232,87 @@
       Caused by error:
       ! !
 
-# non-summary results are deprecated in favor of `reframe()` (#6382)
+# non-summary results are defunct in favor of `reframe()` (#6382, #7761)
 
     Code
       out <- summarise(df, x = which(x < 3))
     Condition
-      Warning:
-      Returning more (or less) than 1 row per `summarise()` group was deprecated in dplyr 1.1.0.
-      i Please use `reframe()` instead.
-      i When switching from `summarise()` to `reframe()`, remember that `reframe()` always returns an ungrouped data frame and adjust accordingly.
+      Error in `summarise()`:
+      i In argument: `x = which(x < 3)`.
+      Caused by error:
+      ! `x` must be size 1, not 2.
+      i To return more or less than 1 row per group, use `reframe()`.
 
 ---
 
     Code
       out <- summarise(df, x = which(x < 3), .by = g)
     Condition
-      Warning:
-      Returning more (or less) than 1 row per `summarise()` group was deprecated in dplyr 1.1.0.
-      i Please use `reframe()` instead.
-      i When switching from `summarise()` to `reframe()`, remember that `reframe()` always returns an ungrouped data frame and adjust accordingly.
+      Error in `summarise()`:
+      i In argument: `x = which(x < 3)`.
+      i In group 1: `g = 1`.
+      Caused by error:
+      ! `x` must be size 1, not 2.
+      i To return more or less than 1 row per group, use `reframe()`.
 
 ---
 
     Code
       out <- summarise(gdf, x = which(x < 3))
     Condition
-      Warning:
-      Returning more (or less) than 1 row per `summarise()` group was deprecated in dplyr 1.1.0.
-      i Please use `reframe()` instead.
-      i When switching from `summarise()` to `reframe()`, remember that `reframe()` always returns an ungrouped data frame and adjust accordingly.
+      Error in `summarise()`:
+      i In argument: `x = which(x < 3)`.
+      i In group 1: `g = 1`.
+      Caused by error:
+      ! `x` must be size 1, not 2.
+      i To return more or less than 1 row per group, use `reframe()`.
 
 ---
 
     Code
       out <- summarise(rdf, x = which(x < 3))
     Condition
-      Warning:
-      Returning more (or less) than 1 row per `summarise()` group was deprecated in dplyr 1.1.0.
-      i Please use `reframe()` instead.
-      i When switching from `summarise()` to `reframe()`, remember that `reframe()` always returns an ungrouped data frame and adjust accordingly.
+      Error in `summarise()`:
+      i In argument: `x = which(x < 3)`.
+      i In row 3.
+      Caused by error:
+      ! `x` must be size 1, not 0.
+      i To return more or less than 1 row per group, use `reframe()`.
+
+---
+
+    Code
+      summarise(tibble(), x = 1, y = 1:3, z = 1)
+    Condition
+      Error in `summarise()`:
+      i In argument: `y = 1:3`.
+      Caused by error:
+      ! `y` must be size 1, not 3.
+      i To return more or less than 1 row per group, use `reframe()`.
+
+---
+
+    Code
+      gf <- group_by(tibble(a = 1:2), a)
+      summarise(gf, x = 1, y = 1:3, z = 1)
+    Condition
+      Error in `summarise()`:
+      i In argument: `y = 1:3`.
+      i In group 1: `a = 1`.
+      Caused by error:
+      ! `y` must be size 1, not 3.
+      i To return more or less than 1 row per group, use `reframe()`.
+
+---
+
+    Code
+      gf <- group_by(tibble(a = 1:2), a)
+      summarise(gf, x = seq_len(a), y = 1)
+    Condition
+      Error in `summarise()`:
+      i In argument: `x = seq_len(a)`.
+      i In group 2: `a = 2`.
+      Caused by error:
+      ! `x` must be size 1, not 2.
+      i To return more or less than 1 row per group, use `reframe()`.
 

@@ -234,8 +234,9 @@ dplyr_error_handler <- function(
     }
 
     # FIXME: Must be after calling `bullets()` because the
-    # `dplyr:::summarise_incompatible_size` method sets the correct
-    # group by side effect
+    # `dplyr:::summarise_incompatible_size` and
+    # `dplyr:::reframe_incompatible_size` methods set the correct group by side
+    # effect
     message <- c(
       cnd_bullet_header(action),
       "i" = if (has_active_group_context(mask)) cnd_bullet_cur_group_label()

@@ -127,6 +127,8 @@
 
   * Using `across()` and data frames in `filter()`. Deprecated in 1.0.8, use `if_any()` or `if_all()` instead.
 
+  * Returning more or less than 1 row per group in `summarise()`. Deprecated in 1.1.0, use `reframe()` instead.
+
   * `multiple = NULL` in joins. Deprecated in 1.1.1, use `multiple = "all"` instead.
 
   * `multiple = "error" / "warning"` in joins. Deprecated in 1.1.1, use `relationship = "many-to-one"` instead.

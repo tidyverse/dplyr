@@ -31,40 +31,32 @@
 #' results, consider using new names for your summary variables, especially when
 #' creating multiple summaries.
 #'
-#' @export
 #' @inheritParams arrange
 #' @inheritParams args_by
+#'
 #' @param ... <[`data-masking`][rlang::args_data_masking]> Name-value pairs of
 #'   summary functions. The name will be the name of the variable in the result.
 #'
 #'   The value can be:
 #'   * A vector of length 1, e.g. `min(x)`, `n()`, or `sum(is.na(y))`.
-#'   * A data frame, to add multiple columns from a single expression.
+#'   * A data frame with 1 row, to add multiple columns from a single expression.
 #'
-#'   `r lifecycle::badge("deprecated")` Returning values with size 0 or >1 was
-#'   deprecated as of 1.1.0. Please use [reframe()] for this instead.
 #' @param .groups `r lifecycle::badge("experimental")` Grouping structure of the
 #'   result.
 #'
-#'   * "drop_last": dropping the last level of grouping. This was the
+#'   * `"drop_last"`: drops the last level of grouping. This was the
 #'   only supported option before version 1.0.0.
-#'   * "drop": All levels of grouping are dropped.
-#'   * "keep": Same grouping structure as `.data`.
-#'   * "rowwise": Each row is its own group.
+#'   * `"drop"`: All levels of grouping are dropped.
+#'   * `"keep"`: Same grouping structure as `.data`.
+#'   * `"rowwise"`: Each row is its own group.
 #'
-#'   When `.groups` is not specified, it is chosen
-#'   based on the number of rows of the results:
-#'   * If all the results have 1 row, you get "drop_last".
-#'   * If the number of rows varies, you get "keep" (note that returning a
-#'     variable number of rows was deprecated in favor of [reframe()], which
-#'     also unconditionally drops all levels of grouping).
+#'   When `.groups` is not specified, it is set to `"drop_last"` for a grouped
+#'   data frame, and `"keep"` for a rowwise data frame. In addition, a message
+#'   informs you of how the result will be grouped unless the result is
+#'   ungrouped, the option `"dplyr.summarise.inform"` is set to `FALSE`, or when
+#'   `summarise()` is called from a function in a package.
 #'
-#'   In addition, a message informs you of that choice, unless the result is ungrouped,
-#'   the option "dplyr.summarise.inform" is set to `FALSE`,
-#'   or when `summarise()` is called from a function in a package.
-#'
-#' @family single table verbs
-#' @return
+#' @returns
 #' An object _usually_ of the same type as `.data`.
 #'
 #' * The rows come from the underlying [group_keys()].
@@ -74,6 +66,7 @@
 #'   output may be another [grouped_df], a [tibble] or a [rowwise] data frame.
 #' * Data frame attributes are **not** preserved, because `summarise()`
 #'   fundamentally creates a new data frame.
+#'
 #' @section Methods:
 #' This function is a **generic**, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
@@ -81,6 +74,9 @@
 #'
 #' The following methods are currently available in loaded packages:
 #' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("summarise")}.
+#'
+#' @family single table verbs
+#' @export
 #' @examples
 #' # A summary applied to ungrouped tbl returns a single row
 #' mtcars |>
@@ -107,17 +103,6 @@
 #' var <- "mass"
 #' summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
 #' # Learn more in ?rlang::args_data_masking
-#'
-#' # In dplyr 1.1.0, returning multiple rows per group was deprecated in favor
-#' # of `reframe()`, which never messages and always returns an ungrouped
-#' # result:
-#' mtcars |>
-#'    group_by(cyl) |>
-#'    summarise(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
-#' # ->
-#' mtcars |>
-#'    group_by(cyl) |>
-#'    reframe(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
 summarise <- function(.data, ..., .by = NULL, .groups = NULL) {
   by <- enquo(.by)
 
@@ -137,10 +122,6 @@ summarise.data.frame <- function(.data, ..., .by = NULL, .groups = NULL) {
 
   cols <- summarise_cols(.data, dplyr_quosures(...), by, "summarise")
   out <- summarise_build(by, cols)
-
-  if (!cols$all_one) {
-    summarise_deprecate_variable_size()
-  }
 
   if (!is_tibble(.data)) {
     # The `by` group data we build from is always a tibble,
@@ -164,16 +145,8 @@ summarise.grouped_df <- function(.data, ..., .by = NULL, .groups = NULL) {
   out <- summarise_build(by, cols)
   verbose <- summarise_verbose(.groups, caller_env())
 
-  if (!cols$all_one) {
-    summarise_deprecate_variable_size()
-  }
-
   if (is.null(.groups)) {
-    if (cols$all_one) {
-      .groups <- "drop_last"
-    } else {
-      .groups <- "keep"
-    }
+    .groups <- "drop_last"
   }
 
   group_vars <- by$names
@@ -217,12 +190,12 @@ summarise.rowwise_df <- function(.data, ..., .by = NULL, .groups = NULL) {
   out <- summarise_build(by, cols)
   verbose <- summarise_verbose(.groups, caller_env())
 
-  if (!cols$all_one) {
-    summarise_deprecate_variable_size()
+  if (is.null(.groups)) {
+    .groups <- "keep"
   }
 
   group_vars <- by$names
-  if (is.null(.groups) || identical(.groups, "keep")) {
+  if (identical(.groups, "keep")) {
     if (verbose && length(group_vars)) {
       new_groups <- glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
       summarise_inform("has grouped output by {new_groups}")
@@ -252,12 +225,9 @@ summarise_cols <- function(data, dots, by, verb, error_call = caller_env()) {
 
   warnings_state <- env(warnings = list())
 
-  cols <- list()
-
-  sizes <- 1L
   chunks <- list()
-  results <- list()
   types <- list()
+  results <- list()
   out_names <- character()
 
   local_error_context(dots, 0L, mask = mask)
@@ -316,21 +286,35 @@ summarise_cols <- function(data, dots, by, verb, error_call = caller_env()) {
         }
       }
 
-      # Recycle horizontally across sets of chunks.
-      # Modifies `chunks` and `results` in place for efficiency!
-      sizes <- .Call(`dplyr_summarise_recycle_chunks_in_place`, chunks, results)
+      if (verb == "summarise") {
+        # For `summarise()`, check that all chunks are size 1.
+        .Call(`dplyr_summarise_check_all_size_one`, chunks)
+        sizes <- NULL
+      } else {
+        # For `reframe()`, recycle horizontally across sets of chunks.
+        # Modifies `chunks` and `results` in place for efficiency!
+        sizes <- .Call(
+          `dplyr_reframe_recycle_horizontally_in_place`,
+          chunks,
+          results
+        )
 
-      # Materialize columns, regenerate any `results` that were `NULL`ed
-      # during the recycling process.
-      for (i in seq_along(chunks)) {
-        result <- results[[i]] %||% vec_c(!!!chunks[[i]], .ptype = types[[i]])
-        cols[[out_names[i]]] <- result
+        # Regenerate any `results` that were `NULL`ed in place during the
+        # recycling process due to recycling of `chunks` changing the size
+        for (i in seq_along(chunks)) {
+          if (is.null(results[[i]])) {
+            results[[i]] <- vec_c(!!!chunks[[i]], .ptype = types[[i]])
+          }
+        }
       }
     },
     error = function(cnd) {
-      if (inherits(cnd, "dplyr:::summarise_incompatible_size")) {
+      if (inherits(cnd, "dplyr:::reframe_incompatible_size")) {
         action <- "recycle"
-        i <- cnd$dplyr_error_data$index
+        i <- cnd$dplyr_error_data$index_expression
+      } else if (inherits(cnd, "dplyr:::summarise_incompatible_size")) {
+        action <- "compute"
+        i <- cnd$dplyr_error_data$index_expression
       } else {
         action <- "compute"
         i <- i
@@ -351,9 +335,16 @@ summarise_cols <- function(data, dots, by, verb, error_call = caller_env()) {
     )
   )
 
+  # Build output `cols`, assigning by name so `summarise(df, a = expr, a = expr)`
+  # only retains the 2nd assignment
+  cols <- list()
+  for (i in seq_along(results)) {
+    cols[[out_names[i]]] <- results[[i]]
+  }
+
   signal_warnings(warnings_state, error_call)
 
-  list(new = cols, sizes = sizes, all_one = all(sizes == 1L))
+  list(new = cols, sizes = sizes)
 }
 
 summarise_eval_one <- function(quo, mask) {
@@ -391,7 +382,8 @@ summarise_eval_one <- function(quo, mask) {
 
 summarise_build <- function(by, cols) {
   out <- group_keys0(by$data)
-  if (!cols$all_one) {
+  if (!is_null(cols$sizes)) {
+    # Repeat keys for `reframe()`
     out <- vec_rep_each(out, cols$sizes)
   }
   dplyr_col_modify(out, cols$new)
@@ -413,20 +405,46 @@ summarise_bullets <- function(cnd, ...) {
 
 #' @export
 `summarise_bullets.dplyr:::summarise_incompatible_size` <- function(cnd, ...) {
-  expected_size <- cnd$dplyr_error_data$expected_size
-  size <- cnd$dplyr_error_data$size
-  group <- cnd$dplyr_error_data$group
+  index_group <- cnd$dplyr_error_data$index_group
+  actual_size <- cnd$dplyr_error_data$actual_size
 
   error_context <- peek_error_context()
   error_name <- ctxt_error_label(error_context)
 
   # FIXME: So that cnd_bullet_cur_group_label() correctly reports the
   # faulty group
-  peek_mask()$set_current_group(group)
+  peek_mask()$set_current_group(index_group)
 
   c(
-    glue("`{error_name}` must be size {or_1(expected_size)}, not {size}."),
-    i = glue("An earlier column had size {expected_size}.")
+    cli::format_inline(
+      "{.code {error_name}} must be size 1, not {actual_size}."
+    ),
+    i = cli::format_inline(
+      "To return more or less than 1 row per group, use {.fn reframe}."
+    )
+  )
+}
+
+#' @export
+`summarise_bullets.dplyr:::reframe_incompatible_size` <- function(cnd, ...) {
+  index_group <- cnd$dplyr_error_data$index_group
+  actual_size <- cnd$dplyr_error_data$actual_size
+  expected_size <- cnd$dplyr_error_data$expected_size
+
+  error_context <- peek_error_context()
+  error_name <- ctxt_error_label(error_context)
+
+  # FIXME: So that cnd_bullet_cur_group_label() correctly reports the
+  # faulty group
+  peek_mask()$set_current_group(index_group)
+
+  c(
+    cli::format_inline(
+      "{.code {error_name}} must be size {or_1(expected_size)}, not {actual_size}."
+    ),
+    i = cli::format_inline(
+      "An earlier column had size {expected_size}."
+    )
   )
 }
 
@@ -463,22 +481,4 @@ summarise_inform <- function(..., .env = parent.frame()) {
     glue(..., .envir = .env),
     '. You can override using the `.groups` argument.'
   ))
-}
-
-summarise_deprecate_variable_size <- function(
-  env = caller_env(),
-  user_env = caller_env(2)
-) {
-  lifecycle::deprecate_warn(
-    when = "1.1.0",
-    what = I("Returning more (or less) than 1 row per `summarise()` group"),
-    with = "reframe()",
-    details = paste0(
-      "When switching from `summarise()` to `reframe()`, remember that ",
-      "`reframe()` always returns an ungrouped data frame and adjust accordingly."
-    ),
-    env = env,
-    user_env = user_env,
-    always = TRUE
-  )
 }
