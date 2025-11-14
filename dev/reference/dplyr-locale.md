@@ -8,7 +8,7 @@ ordering character vectors.
 
 The default locale used by
 [`arrange()`](https://dplyr.tidyverse.org/dev/reference/arrange.md) is
-the C locale. This is used when `.locale = NULL` unless the
+the C locale. This is used when `.locale = NULL` unless the deprecated
 `dplyr.legacy_locale` global option is set to `TRUE`. You can also force
 the C locale to be used unconditionally with `.locale = "C"`.
 
@@ -35,17 +35,20 @@ you utilize this in a package, then stringi should be placed in
 
 ### Legacy behavior
 
-Prior to dplyr 1.1.0, character columns were ordered in the system
-locale. If you need to temporarily revert to this behavior, you can set
-the global option `dplyr.legacy_locale` to `TRUE`, but this should be
-used sparingly and you should expect this option to be removed in a
-future version of dplyr. It is better to update existing code to
-explicitly use `.locale` instead. Note that setting
-`dplyr.legacy_locale` will also force calls to
-[`group_by()`](https://dplyr.tidyverse.org/dev/reference/group_by.md) to
-use the system locale when internally ordering the groups.
+**\[deprecated\]**
 
-Setting `.locale` will override any usage of `dplyr.legacy_locale`.
+Prior to dplyr 1.1.0, character columns were ordered in the system
+locale. Setting the global option `dplyr.legacy_locale` to `TRUE`
+retains this legacy behavior, but this has been deprecated. Update
+existing code to explicitly call `arrange(.locale = )` instead. Run
+`Sys.getlocale("LC_COLLATE")` to determine your system locale, and
+compare that against the list in
+[`stringi::stri_locale_list()`](https://rdrr.io/pkg/stringi/man/stri_locale_list.html)
+to find an appropriate value for `.locale`, i.e. for American English,
+`"en_US"`.
+
+Setting `.locale` directly will override any usage of
+`dplyr.legacy_locale`.
 
 ## Examples
 
@@ -108,21 +111,6 @@ arrange(df, x, .locale = "en")
 
 # Using `"da"` for Danish ordering gives the expected result
 arrange(df, x, .locale = "da")
-#> # A tibble: 4 × 1
-#>   x    
-#>   <chr>
-#> 1 o    
-#> 2 p    
-#> 3 z    
-#> 4 ø    
-
-# If you need the legacy behavior of `arrange()`, which respected the
-# system locale, then you can set the global option `dplyr.legacy_locale`,
-# but expect this to be removed in the future. We recommend that you use
-# the `.locale` argument instead.
-rlang::with_options(dplyr.legacy_locale = TRUE, {
-  arrange(df, x)
-})
 #> # A tibble: 4 × 1
 #>   x    
 #>   <chr>

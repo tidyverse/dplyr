@@ -163,6 +163,10 @@
 <li><p>The <code>...</code> argument of <code><a href="../reference/across.html">across()</a></code>. Deprecated in 1.1.0, use an anonymous function instead.</p></li>
 <li><p>Using <code>by = character()</code> to perform a cross join. Deprecated in 1.1.0, use <code><a href="../reference/cross_join.html">cross_join()</a></code> instead.</p></li>
 </ul></li>
+<li>
+<p>The following are newly deprecated:</p>
+<ul><li>The <code>dplyr.legacy_locale</code> global option. If you used this to affect the ordering of <code><a href="../reference/arrange.html">arrange()</a></code>, use <code>arrange(.locale =)</code> instead. If you used this to affect the ordering of <code>group_by() |&gt; summarise()</code>, follow up with an additional call to <code>arrange(.locale =)</code> instead (<a href="https://github.com/tidyverse/dplyr/issues/7760" class="external-link">#7760</a>).</li>
+</ul></li>
 </ul></div>
 <div class="section level4">
 <h4 id="newly-stable-development-version">Newly stable<a class="anchor" aria-label="anchor" href="#newly-stable-development-version"></a></h4>

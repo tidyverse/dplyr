@@ -41,7 +41,7 @@ arrange(.data, ..., .by_group = FALSE, .locale = NULL)
 
   The locale to sort character vectors in.
 
-  - If `NULL`, the default, uses the `"C"` locale unless the
+  - If `NULL`, the default, uses the `"C"` locale unless the deprecated
     `dplyr.legacy_locale` global option escape hatch is active. See the
     [dplyr-locale](https://dplyr.tidyverse.org/dev/reference/dplyr-locale.md)
     help page for more details.

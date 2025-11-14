@@ -349,6 +349,16 @@
     [`cross_join()`](https://dplyr.tidyverse.org/dev/reference/cross_join.md)
     instead.
 
+- The following are newly deprecated:
+
+  - The `dplyr.legacy_locale` global option. If you used this to affect
+    the ordering of
+    [`arrange()`](https://dplyr.tidyverse.org/dev/reference/arrange.md),
+    use `arrange(.locale =)` instead. If you used this to affect the
+    ordering of `group_by() |> summarise()`, follow up with an
+    additional call to `arrange(.locale =)` instead
+    ([\#7760](https://github.com/tidyverse/dplyr/issues/7760)).
+
 #### Newly stable
 
 - `.by` has moved from experimental to stable
