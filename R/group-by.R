@@ -60,7 +60,10 @@
 #' Prior to dplyr 1.1.0, character vector grouping columns were ordered in the
 #' system locale. Setting the global option `dplyr.legacy_locale` to `TRUE`
 #' retains this legacy behavior, but this has been deprecated. Update existing
-#' code to explicitly call `arrange(.locale = )` instead.
+#' code to explicitly call `arrange(.locale = )` instead. Run
+#' `Sys.getlocale("LC_COLLATE")` to determine your system locale, and compare
+#' that against the list in [stringi::stri_locale_list()] to find an appropriate
+#' value for `.locale`, i.e. for American English, `"en_US"`.
 #'
 #' @export
 #' @examples

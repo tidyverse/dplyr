@@ -36,7 +36,10 @@
 #' Prior to dplyr 1.1.0, character columns were ordered in the system locale.
 #' Setting the global option `dplyr.legacy_locale` to `TRUE` retains this legacy
 #' behavior, but this has been deprecated. Update existing code to explicitly
-#' call `arrange(.locale = )` instead.
+#' call `arrange(.locale = )` instead. Run `Sys.getlocale("LC_COLLATE")` to
+#' determine your system locale, and compare that against the list in
+#' [stringi::stri_locale_list()] to find an appropriate value for `.locale`,
+#' i.e. for American English, `"en_US"`.
 #'
 #' Setting `.locale` directly will override any usage of `dplyr.legacy_locale`.
 #'
@@ -88,7 +91,11 @@ dplyr_legacy_locale <- function() {
     what = I("`options(dplyr.legacy_locale =)`"),
     details = c(
       i = "If needed for `arrange()`, use `arrange(.locale =)` instead.",
-      i = "If needed for `group_by() |> summarise()`, follow up with an additional `arrange(.locale =)` call."
+      i = "If needed for `group_by() |> summarise()`, follow up with an additional `arrange(.locale =)` call.",
+      i = cli::format_inline(paste0(
+        "Use {.run Sys.getlocale(\"LC_COLLATE\")} to determine your system locale, ",
+        "and compare against {.run stringi::stri_locale_list()} to determine the `.locale` value to use."
+      ))
     ),
     user_env = globalenv()
   )

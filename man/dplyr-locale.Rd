@@ -40,7 +40,10 @@ utilize this in a package, then stringi should be placed in \code{Imports}.
 Prior to dplyr 1.1.0, character columns were ordered in the system locale.
 Setting the global option \code{dplyr.legacy_locale} to \code{TRUE} retains this legacy
 behavior, but this has been deprecated. Update existing code to explicitly
-call \code{arrange(.locale = )} instead.
+call \code{arrange(.locale = )} instead. Run \code{Sys.getlocale("LC_COLLATE")} to
+determine your system locale, and compare that against the list in
+\code{\link[stringi:stri_locale_list]{stringi::stri_locale_list()}} to find an appropriate value for \code{.locale},
+i.e. for American English, \code{"en_US"}.
 
 Setting \code{.locale} directly will override any usage of \code{dplyr.legacy_locale}.
 }
