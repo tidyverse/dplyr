@@ -211,13 +211,25 @@ test_that("groups are ordered in the C locale", {
   expect_identical(result$x, c("A", "Z", "a", "b"))
 })
 
-test_that("using the global option `dplyr.legacy_locale` forces the system locale", {
+test_that("using the deprecated global option `dplyr.legacy_locale` forces the system locale", {
   skip_if_not(has_collate_locale("en_US"), message = "Can't use 'en_US' locale")
 
   local_options(dplyr.legacy_locale = TRUE)
   withr::local_collate("en_US")
 
   df <- tibble(x = c("a", "A", "Z", "b"))
-  result <- compute_groups(df, "x")
+
+  # Should get deprecation warning about `dplyr.legacy_locale`
+  expect_snapshot({
+    result <- compute_groups(df, "x")
+  })
+
   expect_identical(result$x, c("a", "A", "b", "Z"))
+
+  # Confirming that the deprecation warning also shows up in `group_by()` itself
+  expect_snapshot({
+    result <- group_by(df, x)
+  })
+
+  expect_identical(group_data(result)$x, c("a", "A", "b", "Z"))
 })

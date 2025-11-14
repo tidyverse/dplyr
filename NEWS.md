@@ -159,6 +159,10 @@
 
   * Using `by = character()` to perform a cross join. Deprecated in 1.1.0, use `cross_join()` instead.
 
+* The following are newly deprecated:
+
+  * The `dplyr.legacy_locale` global option. If you used this to affect the ordering of `arrange()`, use `arrange(.locale =)` instead. If you used this to affect the ordering of `group_by() |> summarise()`, follow up with an additional call to `arrange(.locale =)` instead (#7760).
+
 ### Newly stable
 
 * `.by` has moved from experimental to stable (#7762).

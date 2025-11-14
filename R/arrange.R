@@ -41,7 +41,7 @@
 #'   grouped data frames only.
 #' @param .locale The locale to sort character vectors in.
 #'
-#'   - If `NULL`, the default, uses the `"C"` locale unless the
+#'   - If `NULL`, the default, uses the `"C"` locale unless the deprecated
 #'     `dplyr.legacy_locale` global option escape hatch is active. See the
 #'     [dplyr-locale] help page for more details.
 #'

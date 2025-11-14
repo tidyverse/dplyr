@@ -32,7 +32,7 @@ grouped data frames only.}
 
 \item{.locale}{The locale to sort character vectors in.
 \itemize{
-\item If \code{NULL}, the default, uses the \code{"C"} locale unless the
+\item If \code{NULL}, the default, uses the \code{"C"} locale unless the deprecated
 \code{dplyr.legacy_locale} global option escape hatch is active. See the
 \link{dplyr-locale} help page for more details.
 \item If a single string from \code{\link[stringi:stri_locale_list]{stringi::stri_locale_list()}} is supplied, then
