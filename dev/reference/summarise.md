@@ -36,12 +36,8 @@ summarize(.data, ..., .by = NULL, .groups = NULL)
     [`n()`](https://dplyr.tidyverse.org/dev/reference/context.md), or
     `sum(is.na(y))`.
 
-  - A data frame, to add multiple columns from a single expression.
-
-  **\[deprecated\]** Returning values with size 0 or \>1 was deprecated
-  as of 1.1.0. Please use
-  [`reframe()`](https://dplyr.tidyverse.org/dev/reference/reframe.md)
-  for this instead.
+  - A data frame with 1 row, to add multiple columns from a single
+    expression.
 
 - .by:
 
@@ -56,28 +52,21 @@ summarize(.data, ..., .by = NULL, .groups = NULL)
 
   **\[experimental\]** Grouping structure of the result.
 
-  - "drop_last": dropping the last level of grouping. This was the only
+  - `"drop_last"`: drops the last level of grouping. This was the only
     supported option before version 1.0.0.
 
-  - "drop": All levels of grouping are dropped.
+  - `"drop"`: All levels of grouping are dropped.
 
-  - "keep": Same grouping structure as `.data`.
+  - `"keep"`: Same grouping structure as `.data`.
 
-  - "rowwise": Each row is its own group.
+  - `"rowwise"`: Each row is its own group.
 
-  When `.groups` is not specified, it is chosen based on the number of
-  rows of the results:
-
-  - If all the results have 1 row, you get "drop_last".
-
-  - If the number of rows varies, you get "keep" (note that returning a
-    variable number of rows was deprecated in favor of
-    [`reframe()`](https://dplyr.tidyverse.org/dev/reference/reframe.md),
-    which also unconditionally drops all levels of grouping).
-
-  In addition, a message informs you of that choice, unless the result
-  is ungrouped, the option "dplyr.summarise.inform" is set to `FALSE`,
-  or when `summarise()` is called from a function in a package.
+  When `.groups` is not specified, it is set to `"drop_last"` for a
+  grouped data frame, and `"keep"` for a rowwise data frame. In
+  addition, a message informs you of how the result will be grouped
+  unless the result is ungrouped, the option `"dplyr.summarise.inform"`
+  is set to `FALSE`, or when `summarise()` is called from a function in
+  a package.
 
 ## Value
 
@@ -206,42 +195,4 @@ summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
 #>   <dbl>
 #> 1  97.3
 # Learn more in ?rlang::args_data_masking
-
-# In dplyr 1.1.0, returning multiple rows per group was deprecated in favor
-# of `reframe()`, which never messages and always returns an ungrouped
-# result:
-mtcars |>
-   group_by(cyl) |>
-   summarise(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
-#> Warning: Returning more (or less) than 1 row per `summarise()` group was
-#> deprecated in dplyr 1.1.0.
-#> ℹ Please use `reframe()` instead.
-#> ℹ When switching from `summarise()` to `reframe()`, remember that
-#>   `reframe()` always returns an ungrouped data frame and adjust
-#>   accordingly.
-#> `summarise()` has grouped output by 'cyl'. You can override using the
-#> `.groups` argument.
-#> # A tibble: 6 × 3
-#> # Groups:   cyl [3]
-#>     cyl    qs  prob
-#>   <dbl> <dbl> <dbl>
-#> 1     4  78.8  0.25
-#> 2     4 121.   0.75
-#> 3     6 160    0.25
-#> 4     6 196.   0.75
-#> 5     8 302.   0.25
-#> 6     8 390    0.75
-# ->
-mtcars |>
-   group_by(cyl) |>
-   reframe(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
-#> # A tibble: 6 × 3
-#>     cyl    qs  prob
-#>   <dbl> <dbl> <dbl>
-#> 1     4  78.8  0.25
-#> 2     4 121.   0.75
-#> 3     6 160    0.25
-#> 4     6 196.   0.75
-#> 5     8 302.   0.25
-#> 6     8 390    0.75
 ```

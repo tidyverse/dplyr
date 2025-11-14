@@ -99,9 +99,8 @@ more details.</p></dd>
 <dd><p>&lt;<code><a href="https://rlang.r-lib.org/reference/args_data_masking.html" class="external-link">data-masking</a></code>&gt; Name-value pairs of
 summary functions. The name will be the name of the variable in the result.</p>
 <p>The value can be:</p><ul><li><p>A vector of length 1, e.g. <code>min(x)</code>, <code><a href="context.html">n()</a></code>, or <code>sum(is.na(y))</code>.</p></li>
-<li><p>A data frame, to add multiple columns from a single expression.</p></li>
-</ul><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Returning values with size 0 or &gt;1 was
-deprecated as of 1.1.0. Please use <code><a href="reframe.html">reframe()</a></code> for this instead.</p></dd>
+<li><p>A data frame with 1 row, to add multiple columns from a single expression.</p></li>
+</ul></dd>
 
 
 <dt id="arg--by">.by<a class="anchor" aria-label="anchor" href="#arg--by"></a></dt>
@@ -112,19 +111,16 @@ details and examples, see <a href="dplyr_by.html">?dplyr_by</a>.</p></dd>
 
 <dt id="arg--groups">.groups<a class="anchor" aria-label="anchor" href="#arg--groups"></a></dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a> Grouping structure of the
-result.</p><ul><li><p>"drop_last": dropping the last level of grouping. This was the
+result.</p><ul><li><p><code>"drop_last"</code>: drops the last level of grouping. This was the
 only supported option before version 1.0.0.</p></li>
-<li><p>"drop": All levels of grouping are dropped.</p></li>
-<li><p>"keep": Same grouping structure as <code>.data</code>.</p></li>
-<li><p>"rowwise": Each row is its own group.</p></li>
-</ul><p>When <code>.groups</code> is not specified, it is chosen
-based on the number of rows of the results:</p><ul><li><p>If all the results have 1 row, you get "drop_last".</p></li>
-<li><p>If the number of rows varies, you get "keep" (note that returning a
-variable number of rows was deprecated in favor of <code><a href="reframe.html">reframe()</a></code>, which
-also unconditionally drops all levels of grouping).</p></li>
-</ul><p>In addition, a message informs you of that choice, unless the result is ungrouped,
-the option "dplyr.summarise.inform" is set to <code>FALSE</code>,
-or when <code>summarise()</code> is called from a function in a package.</p></dd>
+<li><p><code>"drop"</code>: All levels of grouping are dropped.</p></li>
+<li><p><code>"keep"</code>: Same grouping structure as <code>.data</code>.</p></li>
+<li><p><code>"rowwise"</code>: Each row is its own group.</p></li>
+</ul><p>When <code>.groups</code> is not specified, it is set to <code>"drop_last"</code> for a grouped
+data frame, and <code>"keep"</code> for a rowwise data frame. In addition, a message
+informs you of how the result will be grouped unless the result is
+ungrouped, the option <code>"dplyr.summarise.inform"</code> is set to <code>FALSE</code>, or when
+<code>summarise()</code> is called from a function in a package.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -234,44 +230,6 @@ dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/summarise.tbl_lazy
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  97.3</span>
 <span class="r-in"><span><span class="co"># Learn more in ?rlang::args_data_masking</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># In dplyr 1.1.0, returning multiple rows per group was deprecated in favor</span></span></span>
-<span class="r-in"><span><span class="co"># of `reframe()`, which never messages and always returns an ungrouped</span></span></span>
-<span class="r-in"><span><span class="co"># result:</span></span></span>
-<span class="r-in"><span><span class="va">mtcars</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>   <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>   <span class="fu">summarise</span><span class="op">(</span>qs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">disp</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Returning more (or less) than 1 row per `summarise()` group was</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> deprecated in dplyr 1.1.0.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `reframe()` instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> When switching from `summarise()` to `reframe()`, remember that</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>   `reframe()` always returns an ungrouped data frame and adjust</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>   accordingly.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `summarise()` has grouped output by 'cyl'. You can override using the</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `.groups` argument.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   cyl [3]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     cyl    qs  prob</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     4  78.8  0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     4 121.   0.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     6 160    0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     6 196.   0.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     8 302.   0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>     8 390    0.75</span>
-<span class="r-in"><span><span class="co"># -&gt;</span></span></span>
-<span class="r-in"><span><span class="va">mtcars</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>   <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>   <span class="fu"><a href="reframe.html">reframe</a></span><span class="op">(</span>qs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">disp</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     cyl    qs  prob</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     4  78.8  0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     4 121.   0.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     6 160    0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     6 196.   0.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     8 302.   0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>     8 390    0.75</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

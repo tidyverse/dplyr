@@ -287,6 +287,12 @@
     [`if_all()`](https://dplyr.tidyverse.org/dev/reference/across.md)
     instead.
 
+  - Returning more or less than 1 row per group in
+    [`summarise()`](https://dplyr.tidyverse.org/dev/reference/summarise.md).
+    Deprecated in 1.1.0, use
+    [`reframe()`](https://dplyr.tidyverse.org/dev/reference/reframe.md)
+    instead.
+
   - `multiple = NULL` in joins. Deprecated in 1.1.1, use
     `multiple = "all"` instead.
 
