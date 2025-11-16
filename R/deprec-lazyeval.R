@@ -25,20 +25,12 @@
 #' @keywords internal
 NULL
 
-lazy_deprec <- function(
-  fun,
-  hint = TRUE,
-  env = caller_env(),
-  user_env = caller_env(2)
-) {
-  lifecycle::deprecate_warn(
+lazy_deprec <- function(fun, hint = TRUE) {
+  lifecycle::deprecate_stop(
     when = "0.7.0",
     what = paste0(fun, "_()"),
     with = paste0(fun, "()"),
-    details = if (hint) "See vignette('programming') for more help",
-    env = env,
-    user_env = user_env,
-    always = TRUE
+    details = if (hint) "See vignette('programming') for more help"
   )
 }
 
@@ -301,11 +293,10 @@ rename_.grouped_df <- function(.data, ..., .dots = list()) {
 #' @export
 #' @rdname se-deprecated
 rename_vars_ <- function(vars, args) {
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     "0.7.0",
     "rename_vars_()",
-    "tidyselect::vars_rename()",
-    always = TRUE
+    "tidyselect::vars_rename()"
   )
   args <- compat_lazy_dots(args, caller_env())
   tidyselect::vars_rename(vars, !!!args)
@@ -333,11 +324,10 @@ select_.grouped_df <- function(.data, ..., .dots = list()) {
 #'   include/exclude.
 #' @export
 select_vars_ <- function(vars, args, include = chr(), exclude = chr()) {
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     "0.7.0",
     "select_vars_()",
-    "tidyselect::vars_select()",
-    always = TRUE
+    "tidyselect::vars_select()"
   )
   args <- compat_lazy_dots(args, caller_env())
   tidyselect::vars_select(vars, !!!args, .include = include, .exclude = exclude)
@@ -391,91 +381,37 @@ summarize_ <- summarise_
 #' @keywords internal
 #' @export
 summarise_each <- function(tbl, funs, ...) {
-  summarise_each_impl(tbl, funs, enquos(...), "summarise_each")
+  summarise_each_impl("summarise_each")
 }
 #' @export
 #' @rdname summarise_each
 summarise_each_ <- function(tbl, funs, vars) {
-  summarise_each_impl(tbl, funs, vars, "summarise_each_")
+  summarise_each_impl("summarise_each_")
 }
-summarise_each_impl <- function(
-  tbl,
-  funs,
-  vars,
-  name,
-  env = caller_env(),
-  user_env = caller_env(2)
-) {
-  what <- paste0(name, "()")
-
-  lifecycle::deprecate_warn(
+summarise_each_impl <- function(name) {
+  lifecycle::deprecate_stop(
     when = "0.7.0",
-    what = what,
-    with = "across()",
-    always = TRUE,
-    env = env,
-    user_env = user_env
+    what = paste0(name, "()"),
+    with = "across()"
   )
-
-  if (is_empty(vars)) {
-    vars <- tbl_nongroup_vars(tbl)
-  } else {
-    vars <- compat_lazy_dots(vars, user_env)
-    vars <- tidyselect::vars_select(tbl_nongroup_vars(tbl), !!!vars)
-    if (length(vars) == 1 && names(vars) == as_string(vars)) {
-      vars <- unname(vars)
-    }
-  }
-  if (is_character(funs)) {
-    funs <- funs_(funs)
-  }
-  funs <- manip_at(tbl, vars, funs, enquo(funs), user_env, .caller = name)
-  summarise(tbl, !!!funs)
 }
 
 #' @export
 #' @rdname summarise_each
 mutate_each <- function(tbl, funs, ...) {
-  if (is_character(funs)) {
-    funs <- funs_(funs)
-  }
-  mutate_each_impl(tbl, funs, enquos(...), "mutate_each")
+  mutate_each_impl("mutate_each")
 }
 #' @export
 #' @rdname summarise_each
 mutate_each_ <- function(tbl, funs, vars) {
-  mutate_each_impl(tbl, funs, vars, "mutate_each_")
+  mutate_each_impl("mutate_each_")
 }
-mutate_each_impl <- function(
-  tbl,
-  funs,
-  vars,
-  name,
-  env = caller_env(),
-  user_env = caller_env(2)
-) {
-  what <- paste0(name, "()")
-
-  lifecycle::deprecate_warn(
+mutate_each_impl <- function(name) {
+  lifecycle::deprecate_stop(
     when = "0.7.0",
-    what = what,
-    with = "across()",
-    always = TRUE,
-    env = env,
-    user_env = user_env
+    what = paste0(name, "()"),
+    with = "across()"
   )
-
-  if (is_empty(vars)) {
-    vars <- tbl_nongroup_vars(tbl)
-  } else {
-    vars <- compat_lazy_dots(vars, user_env)
-    vars <- tidyselect::vars_select(tbl_nongroup_vars(tbl), !!!vars)
-    if (length(vars) == 1 && names(vars) == as_string(vars)) {
-      vars <- unname(vars)
-    }
-  }
-  funs <- manip_at(tbl, vars, funs, enquo(funs), user_env, .caller = name)
-  mutate(tbl, !!!funs)
 }
 
 #' @rdname summarise_each
