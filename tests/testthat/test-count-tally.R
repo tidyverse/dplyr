@@ -59,19 +59,19 @@ test_that("count preserves grouping", {
   df <- tibble(g = c(1, 2, 2, 2))
   exp <- tibble(g = c(1, 2), n = c(1, 3))
 
-  expect_equal(df %>% count(g), exp)
-  expect_equal(df %>% group_by(g) %>% count(), exp %>% group_by(g))
+  expect_equal(df |> count(g), exp)
+  expect_equal(df |> group_by(g) |> count(), exp |> group_by(g))
 })
 
 test_that("output preserves class & attributes where possible", {
   df <- data.frame(g = c(1, 2, 2, 2))
   attr(df, "my_attr") <- 1
 
-  out <- df %>% count(g)
+  out <- df |> count(g)
   expect_s3_class(out, "data.frame", exact = TRUE)
   expect_equal(attr(out, "my_attr"), 1)
 
-  out <- df %>% group_by(g) %>% count()
+  out <- df |> group_by(g) |> count()
   expect_s3_class(out, "grouped_df")
   expect_equal(group_vars(out), "g")
   # summarise() currently drops attributes
@@ -83,10 +83,10 @@ test_that("works with dbplyr", {
   skip_if_not_installed("RSQLite")
 
   db <- dbplyr::memdb_frame(x = c(1, 1, 1, 2, 2))
-  df1 <- db %>% count(x) %>% as_tibble()
+  df1 <- db |> count(x) |> as_tibble()
   expect_equal(df1, tibble(x = c(1, 2), n = c(3, 2)))
 
-  df2 <- db %>% add_count(x) %>% as_tibble()
+  df2 <- db |> add_count(x) |> as_tibble()
   expect_equal(df2, tibble(x = c(1, 1, 1, 2, 2), n = c(3, 3, 3, 2, 2)))
 })
 
@@ -99,8 +99,8 @@ test_that("dbplyr `count()` method has transient internal grouping (#6338, tidyv
     y = c("a", "a", "b", "c", "c")
   )
 
-  df <- db %>%
-    count(x, y) %>%
+  df <- db |>
+    count(x, y) |>
     collect()
 
   expect <- tibble(
@@ -117,21 +117,24 @@ test_that("can only explicitly chain together multiple tallies", {
   expect_snapshot({
     df <- data.frame(g = c(1, 1, 2, 2), n = 1:4)
 
-    df %>% count(g, wt = n)
-    df %>% count(g, wt = n) %>% count(wt = n)
-    df %>% count(n)
+    df |> count(g, wt = n)
+    df |> count(g, wt = n) |> count(wt = n)
+    df |> count(n)
   })
-})
-
-test_that("wt = n() is deprecated", {
-  df <- data.frame(x = 1:3)
-  expect_warning(count(df, wt = n()), "`wt = n()`", fixed = TRUE)
 })
 
 test_that("count() owns errors (#6139)", {
   expect_snapshot({
     (expect_error(count(mtcars, new = 1 + "")))
     (expect_error(count(mtcars, wt = 1 + "")))
+  })
+})
+
+test_that("count() `wt = n()` is deprecated", {
+  df <- tibble(a = 1:5)
+
+  expect_snapshot({
+    count(df, a, wt = n())
   })
 })
 
@@ -151,7 +154,7 @@ test_that("weighted tally drops NAs (#1145)", {
 test_that("tally() drops last group (#5199) ", {
   df <- data.frame(x = 1, y = 2, z = 3)
 
-  res <- expect_message(df %>% group_by(x, y) %>% tally(wt = z), NA)
+  res <- expect_message(df |> group_by(x, y) |> tally(wt = z), NA)
   expect_equal(group_vars(res), "x")
 })
 
@@ -161,21 +164,38 @@ test_that("tally() owns errors (#6139)", {
   })
 })
 
+test_that("tally() `wt = n()` is deprecated", {
+  df <- tibble(a = 1:5)
+
+  expect_snapshot({
+    tally(df, wt = n())
+  })
+})
+
 # add_count ---------------------------------------------------------------
 
 test_that("add_count preserves grouping", {
   df <- tibble(g = c(1, 2, 2, 2))
   exp <- tibble(g = c(1, 2, 2, 2), n = c(1, 3, 3, 3))
 
-  expect_equal(df %>% add_count(g), exp)
-  expect_equal(df %>% group_by(g) %>% add_count(), exp %>% group_by(g))
+  expect_equal(df |> add_count(g), exp)
+  expect_equal(df |> group_by(g) |> add_count(), exp |> group_by(g))
 })
 
-test_that(".drop is deprecated",  {
-  local_options(lifecycle_verbosity = "warning")
-
+test_that("`.drop` is defunct", {
   df <- tibble(f = factor("b", levels = c("a", "b", "c")))
-  expect_warning(out <- add_count(df, f, .drop = FALSE), "deprecated")
+
+  expect_snapshot(error = TRUE, {
+    add_count(df, f, .drop = FALSE)
+  })
+})
+
+test_that("add_count() `wt = n()` is deprecated", {
+  df <- tibble(a = 1:5)
+
+  expect_snapshot({
+    add_count(df, a, wt = n())
+  })
 })
 
 test_that("add_count() owns errors (#6139)", {
@@ -190,7 +210,7 @@ test_that("add_count() owns errors (#6139)", {
 test_that("can add tallies of a variable", {
   df <- tibble(a = c(2, 1, 1))
   expect_equal(
-    df %>% group_by(a) %>% add_tally(),
+    df |> group_by(a) |> add_tally(),
     group_by(tibble(a = c(2, 1, 1), n = c(1, 2, 2)), a)
   )
 })
@@ -198,10 +218,10 @@ test_that("can add tallies of a variable", {
 test_that("add_tally can be given a weighting variable", {
   df <- data.frame(a = c(1, 1, 2, 2, 2), w = c(1, 1, 2, 3, 4))
 
-  out <- df %>% group_by(a) %>% add_tally(wt = w)
+  out <- df |> group_by(a) |> add_tally(wt = w)
   expect_equal(out$n, c(2, 2, 9, 9, 9))
 
-  out <- df %>% group_by(a) %>% add_tally(wt = w + 1)
+  out <- df |> group_by(a) |> add_tally(wt = w + 1)
   expect_equal(out$n, c(4, 4, 12, 12, 12))
 })
 
@@ -213,5 +233,13 @@ test_that("can override output column", {
 test_that("add_tally() owns errors (#6139)", {
   expect_snapshot({
     (expect_error(add_tally(mtcars, wt = 1 + "")))
+  })
+})
+
+test_that("add_tally() `wt = n()` is deprecated", {
+  df <- tibble(a = 1:5)
+
+  expect_snapshot({
+    add_tally(df, wt = n())
   })
 })

@@ -2,10 +2,10 @@
 #'
 #' @description
 #' `count()` lets you quickly count the unique values of one or more variables:
-#' `df %>% count(a, b)` is roughly equivalent to
-#' `df %>% group_by(a, b) %>% summarise(n = n())`.
+#' `df |> count(a, b)` is roughly equivalent to
+#' `df |> group_by(a, b) |> summarise(n = n())`.
 #' `count()` is paired with `tally()`, a lower-level helper that is equivalent
-#' to `df %>% summarise(n = n())`. Supply `wt` to perform weighted counts,
+#' to `df |> summarise(n = n())`. Supply `wt` to perform weighted counts,
 #' switching the summary from `n = n()` to `n = sum(wt)`.
 #'
 #' `add_count()` and `add_tally()` are equivalents to `count()` and `tally()`
@@ -33,7 +33,7 @@
 #'   For `count()`: if `FALSE` will include counts for empty groups (i.e. for
 #'   levels of factors that don't exist in the data).
 #'
-#'  `r lifecycle::badge("deprecated")` For `add_count()`: deprecated since it
+#'  `r lifecycle::badge("defunct")` For `add_count()`: defunct since it
 #'  can't actually affect the output.
 #' @return
 #' An object of the same type as `.data`. `count()` and `add_count()`
@@ -42,10 +42,10 @@
 #' @examples
 #' # count() is a convenient way to get a sense of the distribution of
 #' # values in a dataset
-#' starwars %>% count(species)
-#' starwars %>% count(species, sort = TRUE)
-#' starwars %>% count(sex, gender, sort = TRUE)
-#' starwars %>% count(birth_decade = round(birth_year, -1))
+#' starwars |> count(species)
+#' starwars |> count(species, sort = TRUE)
+#' starwars |> count(sex, gender, sort = TRUE)
+#' starwars |> count(birth_decade = round(birth_year, -1))
 #'
 #' # use the `wt` argument to perform a weighted count. This is useful
 #' # when the data has already been aggregated once
@@ -56,9 +56,9 @@
 #'   "Susan",  "female",      4
 #' )
 #' # counts rows:
-#' df %>% count(gender)
+#' df |> count(gender)
 #' # counts runs:
-#' df %>% count(gender, wt = runs)
+#' df |> count(gender, wt = runs)
 #'
 #' # When factors are involved, `.drop = FALSE` can be used to retain factor
 #' # levels that don't appear in the data
@@ -66,27 +66,34 @@
 #'   id = 1:5,
 #'   type = factor(c("a", "c", "a", NA, "a"), levels = c("a", "b", "c"))
 #' )
-#' df2 %>% count(type)
-#' df2 %>% count(type, .drop = FALSE)
+#' df2 |> count(type)
+#' df2 |> count(type, .drop = FALSE)
 #'
 #' # Or, using `group_by()`:
-#' df2 %>% group_by(type, .drop = FALSE) %>% count()
+#' df2 |> group_by(type, .drop = FALSE) |> count()
 #'
 #' # tally() is a lower-level function that assumes you've done the grouping
-#' starwars %>% tally()
-#' starwars %>% group_by(species) %>% tally()
+#' starwars |> tally()
+#' starwars |> group_by(species) |> tally()
 #'
 #' # both count() and tally() have add_ variants that work like
 #' # mutate() instead of summarise
-#' df %>% add_count(gender, wt = runs)
-#' df %>% add_tally(wt = runs)
+#' df |> add_count(gender, wt = runs)
+#' df |> add_tally(wt = runs)
 count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL) {
   UseMethod("count")
 }
 
 #' @export
 #' @rdname count
-count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = group_by_drop_default(x)) {
+count.data.frame <- function(
+  x,
+  ...,
+  wt = NULL,
+  sort = FALSE,
+  name = NULL,
+  .drop = group_by_drop_default(x)
+) {
   dplyr_local_error_call()
 
   if (!missing(...)) {
@@ -95,7 +102,8 @@ count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop
     out <- x
   }
 
-  out <- tally(out, wt = !!enquo(wt), sort = sort, name = name)
+  wt <- compat_wt(enquo(wt))
+  out <- tally(out, wt = !!wt, sort = sort, name = name)
 
   # Ensure grouping is transient
   out <- dplyr_reconstruct(out, x)
@@ -115,7 +123,8 @@ tally.data.frame <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 
   dplyr_local_error_call()
 
-  n <- tally_n(x, {{ wt }})
+  wt <- compat_wt(enquo(wt))
+  n <- tally_n(x, wt)
 
   local_options(dplyr.summarise.inform = FALSE)
   out <- summarise(x, !!name := !!n)
@@ -129,12 +138,26 @@ tally.data.frame <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 
 #' @export
 #' @rdname count
-add_count <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+add_count <- function(
+  x,
+  ...,
+  wt = NULL,
+  sort = FALSE,
+  name = NULL,
+  .drop = deprecated()
+) {
   UseMethod("add_count")
 }
 
 #' @export
-add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+add_count.default <- function(
+  x,
+  ...,
+  wt = NULL,
+  sort = FALSE,
+  name = NULL,
+  .drop = deprecated()
+) {
   add_count_impl(
     x,
     ...,
@@ -145,9 +168,15 @@ add_count.default <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .dro
   )
 }
 
-
 #' @export
-add_count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .drop = deprecated()) {
+add_count.data.frame <- function(
+  x,
+  ...,
+  wt = NULL,
+  sort = FALSE,
+  name = NULL,
+  .drop = deprecated()
+) {
   out <- add_count_impl(
     x,
     ...,
@@ -159,15 +188,18 @@ add_count.data.frame <- function(x, ..., wt = NULL, sort = FALSE, name = NULL, .
   dplyr_reconstruct(out, x)
 }
 
-add_count_impl <- function(x,
-                           ...,
-                           wt = NULL,
-                           sort = FALSE,
-                           name = NULL,
-                           .drop = deprecated(),
-                           error_call = caller_env()) {
+add_count_impl <- function(
+  x,
+  ...,
+  wt = NULL,
+  sort = FALSE,
+  name = NULL,
+  .drop = deprecated(),
+  error_call = caller_env(),
+  user_env = caller_env(2)
+) {
   if (!is_missing(.drop)) {
-    lifecycle::deprecate_warn("1.0.0", "add_count(.drop = )", always = TRUE)
+    lifecycle::deprecate_stop("1.0.0", "add_count(.drop = )", env = error_call)
   }
 
   dplyr_local_error_call(error_call)
@@ -178,7 +210,8 @@ add_count_impl <- function(x,
     out <- x
   }
 
-  add_tally(out, wt = {{ wt }}, sort = sort, name = name)
+  wt <- compat_wt(enquo(wt), env = error_call, user_env = user_env)
+  add_tally(out, wt = !!wt, sort = sort, name = name)
 }
 
 #' @rdname count
@@ -188,7 +221,8 @@ add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 
   dplyr_local_error_call()
 
-  n <- tally_n(x, {{ wt }})
+  wt <- compat_wt(enquo(wt))
+  n <- tally_n(x, wt)
   out <- mutate(x, !!name := !!n)
 
   if (sort) {
@@ -201,17 +235,6 @@ add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 # Helpers -----------------------------------------------------------------
 
 tally_n <- function(x, wt) {
-  wt <- enquo(wt)
-
-  if (is_call(quo_get_expr(wt), "n", n = 0)) {
-    # Provided only by dplyr 1.0.0. See #5349 for discussion.
-    warn(c(
-      "`wt = n()` is deprecated",
-      i = "You can now omit the `wt` argument"
-    ))
-    wt <- quo(NULL)
-  }
-
   if (quo_is_null(wt)) {
     expr(dplyr::n())
   } else {
@@ -219,10 +242,30 @@ tally_n <- function(x, wt) {
   }
 }
 
-check_n_name <- function(name,
-                         vars,
-                         arg = caller_arg(name),
-                         call = caller_env()) {
+compat_wt <- function(wt, env = caller_env(), user_env = caller_env(2)) {
+  if (!is_call(quo_get_expr(wt), "n", n = 0)) {
+    return(wt)
+  }
+
+  # Provided only by dplyr 1.0.0. See #5349 for discussion.
+  lifecycle::deprecate_warn(
+    when = "1.0.1",
+    what = I("`wt = n()`"),
+    details = "You can now omit the `wt` argument.",
+    env = env,
+    user_env = user_env,
+    always = TRUE
+  )
+
+  quo(NULL)
+}
+
+check_n_name <- function(
+  name,
+  vars,
+  arg = caller_arg(name),
+  call = caller_env()
+) {
   if (is.null(name)) {
     name <- n_name(vars)
 

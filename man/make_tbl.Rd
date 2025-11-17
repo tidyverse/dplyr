@@ -11,11 +11,9 @@ make_tbl(subclass, ...)
 must supply this value. \code{tbl_} is automatically prepended to the
 class name}
 
-\item{...}{For \code{tbl()}, other fields used by class. For \code{as.tbl()},
-other arguments passed to methods.}
+\item{...}{For \code{tbl()}, other fields used by class.}
 }
 \description{
-\code{tbl()} is the standard constructor for tbls. \code{as.tbl()} coerces,
-and \code{is.tbl()} tests.
+\code{tbl()} is the standard constructor for tbls. \code{is.tbl()} tests.
 }
 \keyword{internal}

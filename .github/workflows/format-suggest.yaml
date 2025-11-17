@@ -1,0 +1,46 @@
+# Workflow derived from https://github.com/posit-dev/setup-air/tree/main/examples
+
+on:
+  # Using `pull_request_target` over `pull_request` for elevated `GITHUB_TOKEN`
+  # privileges, otherwise we can't set `pull-requests: write` when the pull
+  # request comes from a fork, which is our main use case (external contributors).
+  #
+  # `pull_request_target` runs in the context of the target branch (`main`, usually),
+  # rather than in the context of the pull request like `pull_request` does. Due
+  # to this, we must explicitly checkout `ref: ${{ github.event.pull_request.head.sha }}`.
+  # This is typically frowned upon by GitHub, as it exposes you to potentially running
+  # untrusted code in a context where you have elevated privileges, but they explicitly
+  # call out the use case of reformatting and committing back / commenting on the PR
+  # as a situation that should be safe (because we aren't actually running the untrusted
+  # code, we are just treating it as passive data).
+  # https://securitylab.github.com/resources/github-actions-preventing-pwn-requests/
+  pull_request_target:
+
+name: format-suggest.yaml
+
+jobs:
+  format-suggest:
+    name: format-suggest
+    runs-on: ubuntu-latest
+
+    permissions:
+      # Required to push suggestion comments to the PR
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Install
+        uses: posit-dev/setup-air@v1
+
+      - name: Format
+        run: air format .
+
+      - name: Suggest
+        uses: reviewdog/action-suggester@v1
+        with:
+          level: error
+          fail_level: error
+          tool_name: air

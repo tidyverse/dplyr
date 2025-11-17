@@ -79,8 +79,8 @@ An object of the same type as \code{x}. The output has the following properties:
 Filtering joins filter rows from \code{x} based on the presence or absence
 of matches in \code{y}:
 \itemize{
-\item \code{semi_join()} return all rows from \code{x} with a match in \code{y}.
-\item \code{anti_join()} return all rows from \code{x} with\strong{out} a match in \code{y}.
+\item \code{semi_join()} returns all rows from \code{x} with a match in \code{y}.
+\item \code{anti_join()} returns all rows from \code{x} with\strong{out} a match in \code{y}.
 }
 }
 \section{Methods}{
@@ -98,11 +98,11 @@ Methods available in currently loaded packages:
 
 \examples{
 # "Filtering" joins keep cases from the LHS
-band_members \%>\% semi_join(band_instruments)
-band_members \%>\% anti_join(band_instruments)
+band_members |> semi_join(band_instruments)
+band_members |> anti_join(band_instruments)
 
 # To suppress the message about joining variables, supply `by`
-band_members \%>\% semi_join(band_instruments, by = join_by(name))
+band_members |> semi_join(band_instruments, by = join_by(name))
 # This is good practice in production code
 }
 \seealso{

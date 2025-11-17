@@ -35,7 +35,7 @@
 #'   [vars()] selection to avoid this:
 #'
 #'   ```
-#'   data %>%
+#'   data |>
 #'     summarise_at(vars(-group_cols(), ...), myoperation)
 #'   ```
 #'
@@ -43,7 +43,7 @@
 #'
 #'   ```
 #'   nms <- setdiff(nms, group_vars(data))
-#'   data %>% summarise_at(nms, myoperation)
+#'   data |> summarise_at(nms, myoperation)
 #'   ```
 #'
 #' * Grouping variables covered by implicit selections are silently
@@ -77,50 +77,65 @@
 #'
 #' @examples
 #' # The _at() variants directly support strings:
-#' starwars %>%
+#' starwars |>
 #'   summarise_at(c("height", "mass"), mean, na.rm = TRUE)
 #' # ->
-#' starwars %>% summarise(across(c("height", "mass"), ~ mean(.x, na.rm = TRUE)))
+#' starwars |> summarise(across(c("height", "mass"), ~ mean(.x, na.rm = TRUE)))
 #'
 #' # You can also supply selection helpers to _at() functions but you have
 #' # to quote them with vars():
-#' starwars %>%
+#' starwars |>
 #'   summarise_at(vars(height:mass), mean, na.rm = TRUE)
 #' # ->
-#' starwars %>%
+#' starwars |>
 #'   summarise(across(height:mass, ~ mean(.x, na.rm = TRUE)))
 #'
 #' # The _if() variants apply a predicate function (a function that
 #' # returns TRUE or FALSE) to determine the relevant subset of
 #' # columns. Here we apply mean() to the numeric columns:
-#' starwars %>%
+#' starwars |>
 #'   summarise_if(is.numeric, mean, na.rm = TRUE)
-#' starwars %>%
+#' starwars |>
 #'   summarise(across(where(is.numeric), ~ mean(.x, na.rm = TRUE)))
 #'
-#' by_species <- iris %>%
+#' by_species <- iris |>
 #'   group_by(Species)
 #'
 #' # If you want to apply multiple transformations, pass a list of
 #' # functions. When there are multiple functions, they create new
 #' # variables instead of modifying the variables in place:
-#' by_species %>%
+#' by_species |>
 #'   summarise_all(list(min, max))
 #' # ->
-#' by_species %>%
+#' by_species |>
 #'   summarise(across(everything(), list(min = min, max = max)))
 #' @export
 #' @keywords internal
 summarise_all <- function(.tbl, .funs, ...) {
   lifecycle::signal_stage("superseded", "summarise_all()")
-  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ..., .caller = "summarise_all")
+  funs <- manip_all(
+    .tbl,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    ...,
+    .caller = "summarise_all"
+  )
   summarise(.tbl, !!!funs)
 }
 #' @rdname summarise_all
 #' @export
 summarise_if <- function(.tbl, .predicate, .funs, ...) {
   lifecycle::signal_stage("superseded", "summarise_if()")
-  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ..., .caller = "summarise_if")
+  funs <- manip_if(
+    .tbl,
+    .predicate,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    ...,
+    .caller = "summarise_if"
+  )
   summarise(.tbl, !!!funs)
 }
 #' @rdname summarise_all
@@ -128,7 +143,15 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
 summarise_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   lifecycle::signal_stage("superseded", "summarise_at()")
   .vars <- check_dot_cols(.vars, .cols)
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ..., .caller = "summarise_at")
+  funs <- manip_at(
+    .tbl,
+    .vars,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    ...,
+    .caller = "summarise_at"
+  )
   summarise(.tbl, !!!funs)
 }
 
@@ -176,14 +199,14 @@ summarize_at <- summarise_at
 #'   `-group_cols()` to the [vars()] selection to avoid this:
 #'
 #'   ```
-#'   data %>% mutate_at(vars(-group_cols(), ...), myoperation)
+#'   data |> mutate_at(vars(-group_cols(), ...), myoperation)
 #'   ```
 #'
 #'   Or remove `group_vars()` from the character vector of column names:
 #'
 #'   ```
 #'   nms <- setdiff(nms, group_vars(data))
-#'   data %>% mutate_at(vars, myoperation)
+#'   data |> mutate_at(vars, myoperation)
 #'   ```
 #'
 #' * Grouping variables covered by implicit selections are ignored by
@@ -199,58 +222,65 @@ summarize_at <- summarise_at
 #' # purrr-style. The _at() variants directly support strings. Here
 #' # we'll scale the variables `height` and `mass`:
 #' scale2 <- function(x, na.rm = FALSE) (x - mean(x, na.rm = na.rm)) / sd(x, na.rm)
-#' starwars %>% mutate_at(c("height", "mass"), scale2)
+#' starwars |> mutate_at(c("height", "mass"), scale2)
 #' # ->
-#' starwars %>% mutate(across(c("height", "mass"), scale2))
+#' starwars |> mutate(across(c("height", "mass"), scale2))
 #'
 #' # You can pass additional arguments to the function:
-#' starwars %>% mutate_at(c("height", "mass"), scale2, na.rm = TRUE)
-#' starwars %>% mutate_at(c("height", "mass"), ~scale2(., na.rm = TRUE))
+#' starwars |> mutate_at(c("height", "mass"), scale2, na.rm = TRUE)
+#' starwars |> mutate_at(c("height", "mass"), ~scale2(., na.rm = TRUE))
 #' # ->
-#' starwars %>% mutate(across(c("height", "mass"), ~ scale2(.x, na.rm = TRUE)))
+#' starwars |> mutate(across(c("height", "mass"), ~ scale2(.x, na.rm = TRUE)))
 #'
 #' # You can also supply selection helpers to _at() functions but you have
 #' # to quote them with vars():
-#' iris %>% mutate_at(vars(matches("Sepal")), log)
-#' iris %>% mutate(across(matches("Sepal"), log))
+#' iris |> mutate_at(vars(matches("Sepal")), log)
+#' iris |> mutate(across(matches("Sepal"), log))
 #'
 #' # The _if() variants apply a predicate function (a function that
 #' # returns TRUE or FALSE) to determine the relevant subset of
 #' # columns. Here we divide all the numeric columns by 100:
-#' starwars %>% mutate_if(is.numeric, scale2, na.rm = TRUE)
-#' starwars %>% mutate(across(where(is.numeric), ~ scale2(.x, na.rm = TRUE)))
+#' starwars |> mutate_if(is.numeric, scale2, na.rm = TRUE)
+#' starwars |> mutate(across(where(is.numeric), ~ scale2(.x, na.rm = TRUE)))
 #'
 #' # mutate_if() is particularly useful for transforming variables from
 #' # one type to another
-#' iris %>% mutate_if(is.factor, as.character)
-#' iris %>% mutate_if(is.double, as.integer)
+#' iris |> mutate_if(is.factor, as.character)
+#' iris |> mutate_if(is.double, as.integer)
 #' # ->
-#' iris %>% mutate(across(where(is.factor), as.character))
-#' iris %>% mutate(across(where(is.double), as.integer))
+#' iris |> mutate(across(where(is.factor), as.character))
+#' iris |> mutate(across(where(is.double), as.integer))
 #'
 #' # Multiple transformations ----------------------------------------
 #'
 #' # If you want to apply multiple transformations, pass a list of
 #' # functions. When there are multiple functions, they create new
 #' # variables instead of modifying the variables in place:
-#' iris %>% mutate_if(is.numeric, list(scale2, log))
-#' iris %>% mutate_if(is.numeric, list(~scale2(.), ~log(.)))
-#' iris %>% mutate_if(is.numeric, list(scale = scale2, log = log))
+#' iris |> mutate_if(is.numeric, list(scale2, log))
+#' iris |> mutate_if(is.numeric, list(~scale2(.), ~log(.)))
+#' iris |> mutate_if(is.numeric, list(scale = scale2, log = log))
 #' # ->
-#' iris %>%
-#'   as_tibble() %>%
+#' iris |>
+#'   as_tibble() |>
 #'   mutate(across(where(is.numeric), list(scale = scale2, log = log)))
 #'
 #' # When there's only one function in the list, it modifies existing
 #' # variables in place. Give it a name to instead create new variables:
-#' iris %>% mutate_if(is.numeric, list(scale2))
-#' iris %>% mutate_if(is.numeric, list(scale = scale2))
+#' iris |> mutate_if(is.numeric, list(scale2))
+#' iris |> mutate_if(is.numeric, list(scale = scale2))
 #' @export
 #' @keywords internal
 mutate_all <- function(.tbl, .funs, ...) {
   lifecycle::signal_stage("superseded", "mutate_all()")
   check_grouped(.tbl, "mutate", "all", alt = TRUE)
-  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ..., .caller = "mutate_all")
+  funs <- manip_all(
+    .tbl,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    ...,
+    .caller = "mutate_all"
+  )
   mutate(.tbl, !!!funs)
 }
 #' @rdname mutate_all
@@ -258,7 +288,15 @@ mutate_all <- function(.tbl, .funs, ...) {
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
   lifecycle::signal_stage("superseded", "mutate_if()")
   check_grouped(.tbl, "mutate", "if")
-  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ..., .caller = "mutate_if")
+  funs <- manip_if(
+    .tbl,
+    .predicate,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    ...,
+    .caller = "mutate_if"
+  )
   mutate(.tbl, !!!funs)
 }
 #' @rdname mutate_all
@@ -266,7 +304,16 @@ mutate_if <- function(.tbl, .predicate, .funs, ...) {
 mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   lifecycle::signal_stage("superseded", "mutate_at()")
   .vars <- check_dot_cols(.vars, .cols)
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "mutate_at")
+  funs <- manip_at(
+    .tbl,
+    .vars,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    .include_group_vars = TRUE,
+    ...,
+    .caller = "mutate_at"
+  )
   mutate(.tbl, !!!funs)
 }
 
@@ -275,7 +322,14 @@ mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
 transmute_all <- function(.tbl, .funs, ...) {
   lifecycle::signal_stage("superseded", "transmute_all()")
   check_grouped(.tbl, "transmute", "all", alt = TRUE)
-  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ..., .caller = "transmute_all")
+  funs <- manip_all(
+    .tbl,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    ...,
+    .caller = "transmute_all"
+  )
   transmute(.tbl, !!!funs)
 }
 #' @rdname mutate_all
@@ -283,7 +337,15 @@ transmute_all <- function(.tbl, .funs, ...) {
 transmute_if <- function(.tbl, .predicate, .funs, ...) {
   lifecycle::signal_stage("superseded", "transmute_if()")
   check_grouped(.tbl, "transmute", "if")
-  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ..., .caller = "transmute_if")
+  funs <- manip_if(
+    .tbl,
+    .predicate,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    ...,
+    .caller = "transmute_if"
+  )
   transmute(.tbl, !!!funs)
 }
 #' @rdname mutate_all
@@ -291,41 +353,118 @@ transmute_if <- function(.tbl, .predicate, .funs, ...) {
 transmute_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   lifecycle::signal_stage("superseded", "transmute_at()")
   .vars <- check_dot_cols(.vars, .cols)
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ..., .caller = "transmute_at")
+  funs <- manip_at(
+    .tbl,
+    .vars,
+    .funs,
+    enquo(.funs),
+    caller_env(),
+    .include_group_vars = TRUE,
+    ...,
+    .caller = "transmute_at"
+  )
   transmute(.tbl, !!!funs)
 }
 
 # Helpers -----------------------------------------------------------------
 
-manip_all <- function(.tbl, .funs, .quo, .env, ..., .include_group_vars = FALSE, .caller, error_call = caller_env()) {
+manip_all <- function(
+  .tbl,
+  .funs,
+  .quo,
+  .env,
+  ...,
+  .include_group_vars = FALSE,
+  .caller,
+  error_call = caller_env()
+) {
   if (.include_group_vars) {
     syms <- syms(tbl_vars(.tbl))
   } else {
     syms <- syms(tbl_nongroup_vars(.tbl))
   }
-  funs <- as_fun_list(.funs, .env, ..., .caller = .caller, error_call = error_call, .user_env = caller_env(2))
+  funs <- as_fun_list(
+    .funs,
+    .env,
+    ...,
+    .caller = .caller,
+    error_call = error_call,
+    .user_env = caller_env(2)
+  )
   manip_apply_syms(funs, syms, .tbl)
 }
-manip_if <- function(.tbl, .predicate, .funs, .quo, .env, ..., .include_group_vars = FALSE, .caller, error_call = caller_env()) {
-  vars <- tbl_if_syms(.tbl, .predicate, .env, .include_group_vars = .include_group_vars, error_call = error_call)
-  funs <- as_fun_list(.funs, .env, ..., .caller = .caller, error_call = error_call, .user_env = caller_env(2))
+manip_if <- function(
+  .tbl,
+  .predicate,
+  .funs,
+  .quo,
+  .env,
+  ...,
+  .include_group_vars = FALSE,
+  .caller,
+  error_call = caller_env()
+) {
+  vars <- tbl_if_syms(
+    .tbl,
+    .predicate,
+    .env,
+    .include_group_vars = .include_group_vars,
+    error_call = error_call
+  )
+  funs <- as_fun_list(
+    .funs,
+    .env,
+    ...,
+    .caller = .caller,
+    error_call = error_call,
+    .user_env = caller_env(2)
+  )
   manip_apply_syms(funs, vars, .tbl)
 }
-manip_at <- function(.tbl, .vars, .funs, .quo, .env, ..., .include_group_vars = FALSE, .caller, error_call = caller_env()) {
-  syms <- tbl_at_syms(.tbl, .vars, .include_group_vars = .include_group_vars, error_call = error_call)
-  funs <- as_fun_list(.funs, .env, ..., .caller = .caller, error_call = error_call, .user_env = caller_env(2))
+manip_at <- function(
+  .tbl,
+  .vars,
+  .funs,
+  .quo,
+  .env,
+  ...,
+  .include_group_vars = FALSE,
+  .caller,
+  error_call = caller_env()
+) {
+  syms <- tbl_at_syms(
+    .tbl,
+    .vars,
+    .include_group_vars = .include_group_vars,
+    error_call = error_call
+  )
+  funs <- as_fun_list(
+    .funs,
+    .env,
+    ...,
+    .caller = .caller,
+    error_call = error_call,
+    .user_env = caller_env(2)
+  )
   manip_apply_syms(funs, syms, .tbl)
 }
 
 check_grouped <- function(tbl, verb, suffix, alt = FALSE) {
   if (is_grouped_df(tbl)) {
     if (alt) {
-      alt_line <- sprintf("Use `%s_at(df, vars(-group_cols()), myoperation)` to silence the message.", verb)
+      alt_line <- sprintf(
+        "Use `%s_at(df, vars(-group_cols()), myoperation)` to silence the message.",
+        verb
+      )
     } else {
       alt_line <- chr()
     }
     inform(c(
-      sprintf("`%s_%s()` ignored the following grouping variables:", verb, suffix),
+      sprintf(
+        "`%s_%s()` ignored the following grouping variables:",
+        verb,
+        suffix
+      ),
       set_names(fmt_cols(group_vars(tbl)), "*"),
       "i" = alt_line
     ))
@@ -345,7 +484,6 @@ manip_apply_syms <- function(funs, syms, tbl) {
   out <- vector("list", length(syms) * length(funs))
   dim(out) <- c(length(syms), length(funs))
   syms_position <- match(as.character(syms), tbl_vars(tbl))
-
 
   for (i in seq_along(syms)) {
     pos <- syms_position[i]

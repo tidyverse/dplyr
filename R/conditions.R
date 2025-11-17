@@ -40,12 +40,15 @@ cnd_bullet_cur_group_label <- function(what = "error") {
 
 cnd_bullet_rowwise_unlist <- function() {
   if (peek_mask()$is_rowwise()) {
-    glue_data(peek_error_context(), "Did you mean: `{error_name} = list({quo_as_label(error_quo)})` ?")
+    glue_data(
+      peek_error_context(),
+      "Did you mean: `{error_name} = list({expr_as_label(error_expr)})` ?"
+    )
   }
 }
 
 or_1 <- function(x) {
-  if(x == 1L) {
+  if (x == 1L) {
     "1"
   } else {
     glue("{x} or 1")
@@ -63,11 +66,10 @@ is_data_pronoun <- function(x) {
 }
 
 # Because as_label() strips off .data$<> and .data[[<>]]
-quo_as_label <- function(quo)  {
-  expr <- quo_get_expr(quo)
+expr_as_label <- function(expr) {
   if (is_data_pronoun(expr)) {
     deparse(expr)[[1]]
-  } else{
+  } else {
     with_no_rlang_infix_labeling(as_label(expr))
   }
 }
@@ -84,15 +86,17 @@ new_error_context <- function(dots, i, mask) {
   if (!length(dots) || i == 0L) {
     env(
       error_name = "",
-      error_quo = NULL,
+      error_expr = NULL,
       mask = mask
     )
   } else {
-    # Saving the quosure rather than the result of `quo_as_label()` to avoid
-    # slow label creation unless required
+    # Saving the expression rather than the result of `expr_as_label()` to avoid
+    # slow label creation unless required. Not saving the quosure itself because
+    # carrying around its environment past the scope of a dplyr verb's lifetime
+    # can be very expensive (#7649)!
     env(
       error_name = names(dots)[[i]],
-      error_quo = dots[[i]],
+      error_expr = quo_get_expr(dots[[i]]),
       mask = mask
     )
   }
@@ -117,24 +121,24 @@ mask_type <- function(mask = peek_mask()) {
 }
 
 ctxt_error_label <- function(ctxt = peek_error_context()) {
-  error_label(ctxt$error_name, ctxt$error_quo)
+  error_label(ctxt$error_name, ctxt$error_expr)
 }
-error_label <- function(name, quo) {
+error_label <- function(name, expr) {
   if (is_null(name) || !nzchar(name)) {
-    quo_as_label(quo)
+    expr_as_label(expr)
   } else {
     name
   }
 }
 
 ctxt_error_label_named <- function(ctxt = peek_error_context()) {
-  error_label_named(ctxt$error_name, ctxt$error_quo)
+  error_label_named(ctxt$error_name, ctxt$error_expr)
 }
-error_label_named <- function(name, quo) {
+error_label_named <- function(name, expr) {
   if (is_null(name) || !nzchar(name)) {
-    quo_as_label(quo)
+    expr_as_label(expr)
   } else {
-    paste0(name, " = ", quo_as_label(quo))
+    paste0(name, " = ", expr_as_label(expr))
   }
 }
 
@@ -194,7 +198,10 @@ dplyr_internal_error <- function(class = NULL, data = list()) {
   abort(class = c(class, "dplyr:::internal_error"), dplyr_error_data = data)
 }
 dplyr_internal_signal <- function(class) {
-  signal(message = "Internal dplyr signal", class = c(class, "dplyr:::internal_signal"))
+  signal(
+    message = "Internal dplyr signal",
+    class = c(class, "dplyr:::internal_signal")
+  )
 }
 
 skip_internal_condition <- function(cnd) {
@@ -205,14 +212,16 @@ skip_internal_condition <- function(cnd) {
   }
 }
 
-dplyr_error_handler <- function(dots,
-                                mask,
-                                bullets,
-                                error_call,
-                                action = "compute",
-                                error_class = NULL,
-                                i_sym = "i",
-                                frame = caller_env()) {
+dplyr_error_handler <- function(
+  dots,
+  mask,
+  bullets,
+  error_call,
+  action = "compute",
+  error_class = NULL,
+  i_sym = "i",
+  frame = caller_env()
+) {
   force(frame)
 
   function(cnd) {
@@ -225,8 +234,9 @@ dplyr_error_handler <- function(dots,
     }
 
     # FIXME: Must be after calling `bullets()` because the
-    # `dplyr:::summarise_incompatible_size` method sets the correct
-    # group by side effect
+    # `dplyr:::summarise_incompatible_size` and
+    # `dplyr:::reframe_incompatible_size` methods set the correct group by side
+    # effect
     message <- c(
       cnd_bullet_header(action),
       "i" = if (has_active_group_context(mask)) cnd_bullet_cur_group_label()
@@ -240,7 +250,6 @@ dplyr_error_handler <- function(dots,
     )
   }
 }
-
 
 # Warnings -------------------------------------------------------------
 
@@ -346,12 +355,16 @@ signal_warnings <- function(state, error_call) {
   msg <- paste_line(
     cli::format_warning(c(
       "There {cli::qty(n)} {?was/were} {n} warning{?s} in {call}.",
-      if (n > 1) "The first warning was:"
+      if (n > 1) {
+        "The first warning was:"
+      }
     )),
     paste0(prefix, cnd_message(first)),
-    if (n > 1) cli::format_warning(c(
-      i = "Run {.run dplyr::last_dplyr_warnings()} to see the {n - 1} remaining warning{?s}."
-    ))
+    if (n > 1) {
+      cli::format_warning(c(
+        i = "Run {.run dplyr::last_dplyr_warnings()} to see the {n - 1} remaining warning{?s}."
+      ))
+    }
   )
 
   warn(msg, use_cli_format = FALSE)
@@ -368,7 +381,7 @@ new_dplyr_warning <- function(data) {
     group_label <- ""
   }
 
-  label <- error_label_named(data$name, data$quo)
+  label <- error_label_named(data$name, data$expr)
 
   msg <- c(
     "i" = glue::glue("In argument: `{label}`."),

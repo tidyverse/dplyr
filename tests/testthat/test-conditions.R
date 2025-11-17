@@ -61,8 +61,8 @@ test_that("warnings are collected for `last_dplyr_warnings()`", {
   reset_dplyr_warnings()
   expect_snapshot({
     "Ungrouped"
-    df %>%
-      mutate(x = f()) %>%
+    df |>
+      mutate(x = f()) |>
       invisible()
     last_dplyr_warnings()
   })
@@ -70,9 +70,9 @@ test_that("warnings are collected for `last_dplyr_warnings()`", {
   reset_dplyr_warnings()
   expect_snapshot({
     "Grouped"
-    df %>%
-      group_by(id) %>%
-      mutate(x = f()) %>%
+    df |>
+      group_by(id) |>
+      mutate(x = f()) |>
       invisible()
     last_dplyr_warnings()
   })
@@ -80,9 +80,9 @@ test_that("warnings are collected for `last_dplyr_warnings()`", {
   reset_dplyr_warnings()
   expect_snapshot({
     "Rowwise"
-    df %>%
-      rowwise() %>%
-      mutate(x = f()) %>%
+    df |>
+      rowwise() |>
+      mutate(x = f()) |>
       invisible()
     last_dplyr_warnings()
   })
@@ -90,12 +90,12 @@ test_that("warnings are collected for `last_dplyr_warnings()`", {
   reset_dplyr_warnings()
   expect_snapshot({
     "Multiple type of warnings within multiple verbs"
-    df %>%
-      group_by(g = f():n()) %>%
-      rowwise() %>%
-      mutate(x = f()) %>%
-      group_by(id) %>%
-      mutate(x = f()) %>%
+    df |>
+      group_by(g = f():n()) |>
+      rowwise() |>
+      mutate(x = f()) |>
+      group_by(id) |>
+      mutate(x = f()) |>
       invisible()
     last_dplyr_warnings()
   })
@@ -103,8 +103,8 @@ test_that("warnings are collected for `last_dplyr_warnings()`", {
   reset_dplyr_warnings()
   expect_snapshot({
     "Truncated (1 more)"
-    df %>%
-      rowwise() %>%
+    df |>
+      rowwise() |>
       mutate(x = f())
     last_dplyr_warnings(n = 1)
   })
@@ -113,8 +113,8 @@ test_that("warnings are collected for `last_dplyr_warnings()`", {
   expect_snapshot({
     "Truncated (several more)"
     df <- tibble(id = 1:5)
-    df %>%
-      rowwise() %>%
+    df |>
+      rowwise() |>
       mutate(x = f())
     last_dplyr_warnings(n = 1)
   })
@@ -142,8 +142,8 @@ test_that("complex backtraces with base and rlang warnings", {
 
   foo <- function() bar()
   bar <- function() {
-    df %>%
-      group_by(x = f(1):n()) %>%
+    df |>
+      group_by(x = f(1):n()) |>
       mutate(x = f(1, base = FALSE))
   }
 
@@ -163,8 +163,8 @@ test_that("`last_dplyr_warnings()` only records 5 backtraces", {
   df <- tibble(id = 1:10)
 
   expect_warning(
-    df %>%
-      group_by(id) %>%
+    df |>
+      group_by(id) |>
       mutate(x = f())
   )
 
@@ -187,16 +187,16 @@ test_that("can collect warnings in main verbs", {
 
   expect_snapshot({
     invisible(
-      mtcars %>%
-        rowwise() %>%
-        filter(f()) %>%
-        arrange(f()) %>%
-        mutate(a = f()) %>%
+      mtcars |>
+        rowwise() |>
+        filter(f()) |>
+        arrange(f()) |>
+        mutate(a = f()) |>
         summarise(b = f())
     )
 
     warnings <- last_dplyr_warnings(Inf)
-    warnings[[1]]  # filter()
+    warnings[[1]] # filter()
     warnings[[33]] # arrange()
     warnings[[65]] # mutate()
     warnings[[97]] # summarise()

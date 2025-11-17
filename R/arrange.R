@@ -41,7 +41,7 @@
 #'   grouped data frames only.
 #' @param .locale The locale to sort character vectors in.
 #'
-#'   - If `NULL`, the default, uses the `"C"` locale unless the
+#'   - If `NULL`, the default, uses the `"C"` locale unless the deprecated
 #'     `dplyr.legacy_locale` global option escape hatch is active. See the
 #'     [dplyr-locale] help page for more details.
 #'
@@ -63,32 +63,29 @@
 #' arrange(mtcars, desc(disp))
 #'
 #' # grouped arrange ignores groups
-#' by_cyl <- mtcars %>% group_by(cyl)
-#' by_cyl %>% arrange(desc(wt))
+#' by_cyl <- mtcars |> group_by(cyl)
+#' by_cyl |> arrange(desc(wt))
 #' # Unless you specifically ask:
-#' by_cyl %>% arrange(desc(wt), .by_group = TRUE)
+#' by_cyl |> arrange(desc(wt), .by_group = TRUE)
 #'
 #' # use embracing when wrapping in a function;
 #' # see ?rlang::args_data_masking for more details
 #' tidy_eval_arrange <- function(.data, var) {
-#'   .data %>%
+#'   .data |>
 #'     arrange({{ var }})
 #' }
 #' tidy_eval_arrange(mtcars, mpg)
 #'
 #' # Use `across()` or `pick()` to select columns with tidy-select
-#' iris %>% arrange(pick(starts_with("Sepal")))
-#' iris %>% arrange(across(starts_with("Sepal"), desc))
+#' iris |> arrange(pick(starts_with("Sepal")))
+#' iris |> arrange(across(starts_with("Sepal"), desc))
 arrange <- function(.data, ..., .by_group = FALSE) {
   UseMethod("arrange")
 }
 
 #' @rdname arrange
 #' @export
-arrange.data.frame <- function(.data,
-                               ...,
-                               .by_group = FALSE,
-                               .locale = NULL) {
+arrange.data.frame <- function(.data, ..., .by_group = FALSE, .locale = NULL) {
   dots <- enquos(...)
 
   if (.by_group) {
@@ -101,10 +98,7 @@ arrange.data.frame <- function(.data,
 
 # Helpers -----------------------------------------------------------------
 
-arrange_rows <- function(data,
-                         dots,
-                         locale,
-                         error_call = caller_env()) {
+arrange_rows <- function(data, dots, locale, error_call = caller_env()) {
   dplyr_local_error_call(error_call)
 
   size <- nrow(data)
@@ -123,7 +117,10 @@ arrange_rows <- function(data,
     if (is_desc_call(dot)) {
       expr <- quo_get_expr(dot)
       if (!has_length(expr, 2L)) {
-        abort("`desc()` must be called with exactly one argument.", call = error_call)
+        abort(
+          "`desc()` must be called with exactly one argument.",
+          call = error_call
+        )
       }
 
       dot <- new_quosure(expr[[2]], quo_get_env(dot))
@@ -189,10 +186,12 @@ arrange_rows <- function(data,
   )
 }
 
-locale_to_chr_proxy_collate <- function(locale,
-                                        ...,
-                                        has_stringi = has_minimum_stringi(),
-                                        error_call = caller_env()) {
+locale_to_chr_proxy_collate <- function(
+  locale,
+  ...,
+  has_stringi = has_minimum_stringi(),
+  error_call = caller_env()
+) {
   check_dots_empty0(...)
 
   if (is.null(locale) || is_string(locale, string = "C")) {
@@ -201,13 +200,22 @@ locale_to_chr_proxy_collate <- function(locale,
 
   if (is_character(locale)) {
     if (!is_string(locale)) {
-      abort("If `.locale` is a character vector, it must be a single string.", call = error_call)
+      abort(
+        "If `.locale` is a character vector, it must be a single string.",
+        call = error_call
+      )
     }
     if (!has_stringi) {
-      abort("stringi >=1.5.3 is required to arrange in a different locale.", call = error_call)
+      abort(
+        "stringi >=1.5.3 is required to arrange in a different locale.",
+        call = error_call
+      )
     }
     if (!locale %in% stringi::stri_locale_list()) {
-      abort("`.locale` must be one of the locales within `stringi::stri_locale_list()`.", call = error_call)
+      abort(
+        "`.locale` must be one of the locales within `stringi::stri_locale_list()`.",
+        call = error_call
+      )
     }
 
     return(sort_key_generator(locale))
@@ -264,7 +272,13 @@ dplyr_proxy_order_legacy <- function(x, direction) {
     return(out)
   }
 
-  if (!is_character(x) && !is_logical(x) && !is_integer(x) && !is_double(x) && !is_complex(x)) {
+  if (
+    !is_character(x) &&
+      !is_logical(x) &&
+      !is_integer(x) &&
+      !is_double(x) &&
+      !is_complex(x)
+  ) {
     abort("Invalid type returned by `vec_proxy_order()`.", .internal = TRUE)
   }
 

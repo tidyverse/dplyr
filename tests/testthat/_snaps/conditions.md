@@ -146,7 +146,7 @@
 
     Code
       # Ungrouped
-      df %>% mutate(x = f()) %>% invisible()
+      invisible(mutate(df, x = f()))
     Condition
       Warning:
       There was 1 warning in `mutate()`.
@@ -165,16 +165,15 @@
       ---
       Backtrace:
           x
-       1. +-df %>% mutate(x = f()) %>% invisible()
-       2. +-dplyr::mutate(., x = f())
-       3. \-dplyr:::mutate.data.frame(., x = f())
+       1. +-dplyr::mutate(df, x = f())
+       2. \-dplyr:::mutate.data.frame(df, x = f())
       
 
 ---
 
     Code
       # Grouped
-      df %>% group_by(id) %>% mutate(x = f()) %>% invisible()
+      invisible(mutate(group_by(df, id), x = f()))
     Condition
       Warning:
       There were 2 warnings in `mutate()`.
@@ -197,9 +196,8 @@
       ---
       Backtrace:
           x
-       1. +-df %>% group_by(id) %>% mutate(x = f()) %>% invisible()
-       2. +-dplyr::mutate(., x = f())
-       3. \-dplyr:::mutate.data.frame(., x = f())
+       1. +-dplyr::mutate(group_by(df, id), x = f())
+       2. \-dplyr:::mutate.data.frame(group_by(df, id), x = f())
       
       [[2]]
       <warning/rlang_warning>
@@ -211,16 +209,15 @@
       ---
       Backtrace:
           x
-       1. +-df %>% group_by(id) %>% mutate(x = f()) %>% invisible()
-       2. +-dplyr::mutate(., x = f())
-       3. \-dplyr:::mutate.data.frame(., x = f())
+       1. +-dplyr::mutate(group_by(df, id), x = f())
+       2. \-dplyr:::mutate.data.frame(group_by(df, id), x = f())
       
 
 ---
 
     Code
       # Rowwise
-      df %>% rowwise() %>% mutate(x = f()) %>% invisible()
+      invisible(mutate(rowwise(df), x = f()))
     Condition
       Warning:
       There were 2 warnings in `mutate()`.
@@ -243,9 +240,8 @@
       ---
       Backtrace:
           x
-       1. +-df %>% rowwise() %>% mutate(x = f()) %>% invisible()
-       2. +-dplyr::mutate(., x = f())
-       3. \-dplyr:::mutate.data.frame(., x = f())
+       1. +-dplyr::mutate(rowwise(df), x = f())
+       2. \-dplyr:::mutate.data.frame(rowwise(df), x = f())
       
       [[2]]
       <warning/rlang_warning>
@@ -257,17 +253,16 @@
       ---
       Backtrace:
           x
-       1. +-df %>% rowwise() %>% mutate(x = f()) %>% invisible()
-       2. +-dplyr::mutate(., x = f())
-       3. \-dplyr:::mutate.data.frame(., x = f())
+       1. +-dplyr::mutate(rowwise(df), x = f())
+       2. \-dplyr:::mutate.data.frame(rowwise(df), x = f())
       
 
 ---
 
     Code
       # Multiple type of warnings within multiple verbs
-      df %>% group_by(g = f():n()) %>% rowwise() %>% mutate(x = f()) %>% group_by(id) %>%
-        mutate(x = f()) %>% invisible()
+      invisible(mutate(group_by(mutate(rowwise(group_by(df, g = f():n())), x = f()),
+      id), x = f()))
     Condition
       Warning:
       There was 1 warning in `group_by()`.
@@ -302,13 +297,12 @@
       ---
       Backtrace:
           x
-       1. +-... %>% invisible()
-       2. +-dplyr::mutate(., x = f())
-       3. +-dplyr::group_by(., id)
-       4. +-dplyr::mutate(., x = f())
-       5. +-dplyr::rowwise(.)
-       6. +-dplyr::group_by(., g = f():n())
-       7. \-dplyr:::group_by.data.frame(., g = f():n())
+       1. +-dplyr::mutate(...)
+       2. +-dplyr::group_by(...)
+       3. +-dplyr::mutate(rowwise(group_by(df, g = f():n())), x = f())
+       4. +-dplyr::rowwise(group_by(df, g = f():n()))
+       5. +-dplyr::group_by(df, g = f():n())
+       6. \-dplyr:::group_by.data.frame(df, g = f():n())
       
       [[2]]
       <warning/rlang_warning>
@@ -320,11 +314,10 @@
       ---
       Backtrace:
           x
-       1. +-... %>% invisible()
-       2. +-dplyr::mutate(., x = f())
-       3. +-dplyr::group_by(., id)
-       4. +-dplyr::mutate(., x = f())
-       5. \-dplyr:::mutate.data.frame(., x = f())
+       1. +-dplyr::mutate(...)
+       2. +-dplyr::group_by(...)
+       3. +-dplyr::mutate(rowwise(group_by(df, g = f():n())), x = f())
+       4. \-dplyr:::mutate.data.frame(...)
       
       [[3]]
       <warning/rlang_warning>
@@ -336,11 +329,10 @@
       ---
       Backtrace:
           x
-       1. +-... %>% invisible()
-       2. +-dplyr::mutate(., x = f())
-       3. +-dplyr::group_by(., id)
-       4. +-dplyr::mutate(., x = f())
-       5. \-dplyr:::mutate.data.frame(., x = f())
+       1. +-dplyr::mutate(...)
+       2. +-dplyr::group_by(...)
+       3. +-dplyr::mutate(rowwise(group_by(df, g = f():n())), x = f())
+       4. \-dplyr:::mutate.data.frame(...)
       
       [[4]]
       <warning/rlang_warning>
@@ -352,9 +344,8 @@
       ---
       Backtrace:
           x
-       1. +-... %>% invisible()
-       2. +-dplyr::mutate(., x = f())
-       3. \-dplyr:::mutate.data.frame(., x = f())
+       1. +-dplyr::mutate(...)
+       2. \-dplyr:::mutate.data.frame(...)
       
       [[5]]
       <warning/rlang_warning>
@@ -366,16 +357,15 @@
       ---
       Backtrace:
           x
-       1. +-... %>% invisible()
-       2. +-dplyr::mutate(., x = f())
-       3. \-dplyr:::mutate.data.frame(., x = f())
+       1. +-dplyr::mutate(...)
+       2. \-dplyr:::mutate.data.frame(...)
       
 
 ---
 
     Code
       # Truncated (1 more)
-      df %>% rowwise() %>% mutate(x = f())
+      mutate(rowwise(df), x = f())
     Condition
       Warning:
       There were 2 warnings in `mutate()`.
@@ -405,9 +395,8 @@
       ---
       Backtrace:
           x
-       1. +-df %>% rowwise() %>% mutate(x = f())
-       2. +-dplyr::mutate(., x = f())
-       3. \-dplyr:::mutate.data.frame(., x = f())
+       1. +-dplyr::mutate(rowwise(df), x = f())
+       2. \-dplyr:::mutate.data.frame(rowwise(df), x = f())
       
     Message
       ... with 1 more warning.
@@ -418,7 +407,7 @@
     Code
       # Truncated (several more)
       df <- tibble(id = 1:5)
-      df %>% rowwise() %>% mutate(x = f())
+      mutate(rowwise(df), x = f())
     Condition
       Warning:
       There were 5 warnings in `mutate()`.
@@ -451,9 +440,8 @@
       ---
       Backtrace:
           x
-       1. +-df %>% rowwise() %>% mutate(x = f())
-       2. +-dplyr::mutate(., x = f())
-       3. \-dplyr:::mutate.data.frame(., x = f())
+       1. +-dplyr::mutate(rowwise(df), x = f())
+       2. \-dplyr:::mutate.data.frame(rowwise(df), x = f())
       
     Message
       ... with 4 more warnings.
@@ -497,12 +485,11 @@
       ---
       Backtrace:
           x
-       1. +-dplyr (local) foo()
-       2. | \-dplyr (local) bar()
-       3. |   \-df %>% group_by(x = f(1):n()) %>% mutate(x = f(1, base = FALSE))
-       4. +-dplyr::mutate(., x = f(1, base = FALSE))
-       5. +-dplyr::group_by(., x = f(1):n())
-       6. \-dplyr:::group_by.data.frame(., x = f(1):n())
+       1. \-dplyr (local) foo()
+       2.   \-dplyr (local) bar()
+       3.     +-dplyr::mutate(group_by(df, x = f(1):n()), x = f(1, base = FALSE))
+       4.     +-dplyr::group_by(df, x = f(1):n())
+       5.     \-dplyr:::group_by.data.frame(df, x = f(1):n())
       
       [[2]]
       <warning/rlang_warning>
@@ -514,11 +501,10 @@
       ---
       Backtrace:
           x
-       1. +-dplyr (local) foo()
-       2. | \-dplyr (local) bar()
-       3. |   \-df %>% group_by(x = f(1):n()) %>% mutate(x = f(1, base = FALSE))
-       4. +-dplyr::mutate(., x = f(1, base = FALSE))
-       5. \-dplyr:::mutate.data.frame(., x = f(1, base = FALSE))
+       1. \-dplyr (local) foo()
+       2.   \-dplyr (local) bar()
+       3.     +-dplyr::mutate(group_by(df, x = f(1):n()), x = f(1, base = FALSE))
+       4.     \-dplyr:::mutate.data.frame(...)
       
       [[3]]
       <warning/rlang_warning>
@@ -530,11 +516,10 @@
       ---
       Backtrace:
           x
-       1. +-dplyr (local) foo()
-       2. | \-dplyr (local) bar()
-       3. |   \-df %>% group_by(x = f(1):n()) %>% mutate(x = f(1, base = FALSE))
-       4. +-dplyr::mutate(., x = f(1, base = FALSE))
-       5. \-dplyr:::mutate.data.frame(., x = f(1, base = FALSE))
+       1. \-dplyr (local) foo()
+       2.   \-dplyr (local) bar()
+       3.     +-dplyr::mutate(group_by(df, x = f(1):n()), x = f(1, base = FALSE))
+       4.     \-dplyr:::mutate.data.frame(...)
       
       [[4]]
       <warning/rlang_warning>
@@ -546,18 +531,17 @@
       ---
       Backtrace:
           x
-       1. +-dplyr (local) foo()
-       2. | \-dplyr (local) bar()
-       3. |   \-df %>% group_by(x = f(1):n()) %>% mutate(x = f(1, base = FALSE))
-       4. +-dplyr::mutate(., x = f(1, base = FALSE))
-       5. \-dplyr:::mutate.data.frame(., x = f(1, base = FALSE))
+       1. \-dplyr (local) foo()
+       2.   \-dplyr (local) bar()
+       3.     +-dplyr::mutate(group_by(df, x = f(1):n()), x = f(1, base = FALSE))
+       4.     \-dplyr:::mutate.data.frame(...)
       
 
 # can collect warnings in main verbs
 
     Code
-      invisible(mtcars %>% rowwise() %>% filter(f()) %>% arrange(f()) %>% mutate(a = f()) %>%
-        summarise(b = f()))
+      invisible(summarise(mutate(arrange(filter(rowwise(mtcars), f()), f()), a = f()),
+      b = f()))
     Condition
       Warning:
       There were 32 warnings in `filter()`.

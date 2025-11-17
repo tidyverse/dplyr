@@ -7,7 +7,7 @@
 group_cols(vars = NULL, data = NULL)
 }
 \arguments{
-\item{vars}{Deprecated; please use data instead.}
+\item{vars}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}}
 
 \item{data}{For advanced use only. The default \code{NULL} automatically
 finds the "current" data frames.}
@@ -17,13 +17,13 @@ This selection helpers matches grouping variables. It can be used
 in \code{\link[=select]{select()}} or \code{\link[=vars]{vars()}} selections.
 }
 \examples{
-gdf <- iris \%>\% group_by(Species)
-gdf \%>\% select(group_cols())
+gdf <- iris |> group_by(Species)
+gdf |> select(group_cols())
 
 # Remove the grouping variables from mutate selections:
-gdf \%>\% mutate_at(vars(-group_cols()), `/`, 100)
+gdf |> mutate_at(vars(-group_cols()), `/`, 100)
 # -> No longer necessary with across()
-gdf \%>\% mutate(across(everything(), ~ . / 100))
+gdf |> mutate(across(everything(), ~ . / 100))
 }
 \seealso{
 \code{\link[=groups]{groups()}} and \code{\link[=group_vars]{group_vars()}} for retrieving the grouping

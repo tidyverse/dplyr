@@ -1,6 +1,9 @@
 test_that("group_by_ verbs take scoped inputs", {
   expect_identical(group_vars(group_by_all(mtcars)), names(mtcars))
-  expect_identical(group_vars(group_by_at(mtcars, vars(starts_with("d")))), c("disp", "drat"))
+  expect_identical(
+    group_vars(group_by_at(mtcars, vars(starts_with("d")))),
+    c("disp", "drat")
+  )
   expect_identical(group_vars(group_by_if(iris, is.factor)), "Species")
 })
 
@@ -14,7 +17,7 @@ test_that("group_by_ verbs accept optional operations", {
 })
 
 test_that("group_by variants can group by an already grouped by data (#3351)", {
-  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(c(1, 2), each = 4), x = 1:8) %>%
+  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(c(1, 2), each = 4), x = 1:8) |>
     group_by(gr1)
 
   expect_identical(
@@ -31,5 +34,4 @@ test_that("group_by variants can group by an already grouped by data (#3351)", {
     group_by_if(tbl, is.integer),
     group_by(tbl, gr1, x)
   )
-
 })

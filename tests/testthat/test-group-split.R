@@ -2,58 +2,74 @@ test_that("group_split() keeps the grouping variables by default", {
   tbl <- tibble(x = 1:4, g = factor(rep(c("a", "b"), each = 2)))
   res <- group_split(tbl, g)
 
-  expect_equal(res, list_of(tbl[1:2,], tbl[3:4,]))
-  expect_identical(res, list_of(tbl[1:2,], tbl[3:4,]))
+  expect_equal(res, list_of(tbl[1:2, ], tbl[3:4, ]))
+  expect_identical(res, list_of(tbl[1:2, ], tbl[3:4, ]))
   expect_s3_class(res, "vctrs_list_of")
-  expect_identical(attr(res, "ptype"), tibble(x = integer(), g = factor(levels = c("a", "b"))))
+  expect_identical(
+    attr(res, "ptype"),
+    tibble(x = integer(), g = factor(levels = c("a", "b")))
+  )
 })
 
 test_that("group_split() can discard the grouping variables with .keep = FALSE", {
   tbl <- tibble(x = 1:4, g = factor(rep(c("a", "b"), each = 2)))
   res <- group_split(tbl, g, .keep = FALSE)
 
-  expect_identical(res, list_of(tbl[1:2, 1, drop = FALSE], tbl[3:4,1, drop = FALSE]))
+  expect_identical(
+    res,
+    list_of(tbl[1:2, 1, drop = FALSE], tbl[3:4, 1, drop = FALSE])
+  )
   expect_s3_class(res, "vctrs_list_of")
   expect_identical(attr(res, "ptype"), tibble(x = integer()))
 })
 
 test_that("group_split() respects empty groups", {
-  tbl <- tibble(x = 1:4, g = factor(rep(c("a", "b"), each = 2), levels = c("a", "b", "c")))
+  tbl <- tibble(
+    x = 1:4,
+    g = factor(rep(c("a", "b"), each = 2), levels = c("a", "b", "c"))
+  )
   res <- group_split(tbl, g)
 
-  expect_identical(res, list_of(tbl[1:2,], tbl[3:4,]))
+  expect_identical(res, list_of(tbl[1:2, ], tbl[3:4, ]))
   expect_s3_class(res, "vctrs_list_of")
-  expect_identical(attr(res, "ptype"), tibble(x = integer(), g = factor(levels = c("a", "b", "c"))))
+  expect_identical(
+    attr(res, "ptype"),
+    tibble(x = integer(), g = factor(levels = c("a", "b", "c")))
+  )
 
   res <- group_split(tbl, g, .drop = FALSE)
-  expect_identical(res, list_of(tbl[1:2,], tbl[3:4,], tbl[integer(), ]))
+  expect_identical(res, list_of(tbl[1:2, ], tbl[3:4, ], tbl[integer(), ]))
 })
 
-test_that("group_split.grouped_df() warns about ...", {
-  expect_warning(group_split(group_by(mtcars, cyl), cyl))
+test_that("group_split.grouped_df() warns about `...`", {
+  expect_snapshot({
+    out <- group_split(group_by(mtcars, cyl), cyl)
+  })
 })
 
-test_that("group_split.rowwise_df() warns about ...", {
-  expect_warning(group_split(rowwise(mtcars), cyl))
+test_that("group_split.rowwise_df() warns about `...`", {
+  expect_snapshot({
+    out <- group_split(rowwise(mtcars), cyl)
+  })
 })
 
 test_that("group_split.grouped_df() works", {
   iris <- as_tibble(iris)
 
   expect_identical(
-    iris %>% group_by(Species) %>% group_split(),
-    iris %>% group_split(Species)
+    iris |> group_by(Species) |> group_split(),
+    iris |> group_split(Species)
   )
 })
 
 test_that("group_split / bind_rows round trip", {
-  setosa <- iris %>% filter(Species == "setosa") %>% as_tibble()
+  setosa <- iris |> filter(Species == "setosa") |> as_tibble()
 
-  chunks <- setosa %>% group_split(Species)
+  chunks <- setosa |> group_split(Species)
   expect_identical(length(chunks), 1L)
   expect_identical(bind_rows(chunks), setosa)
 
-  chunks <- setosa %>% group_split(Species, .drop = FALSE)
+  chunks <- setosa |> group_split(Species, .drop = FALSE)
   expect_identical(length(chunks), 3L)
   expect_identical(bind_rows(chunks), setosa)
 })
@@ -62,8 +78,8 @@ test_that("group_split() works if no grouping column", {
   expect_identical(group_split(iris), list_of(as_tibble(iris)))
 })
 
-test_that("group_split(keep=FALSE) does not try to remove virtual grouping columns (#4045)", {
-  iris3 <- as_tibble(iris[1:3,])
+test_that("group_split(.keep=FALSE) does not try to remove virtual grouping columns (#4045)", {
+  iris3 <- as_tibble(iris[1:3, ])
   rows <- list(c(1L, 3L, 2L), c(3L, 2L, 3L))
   df <- new_grouped_df(
     iris3,
@@ -73,12 +89,12 @@ test_that("group_split(keep=FALSE) does not try to remove virtual grouping colum
 
   expect_identical(
     res,
-    list_of(iris3[rows[[1L]],], iris3[rows[[2L]],])
+    list_of(iris3[rows[[1L]], ], iris3[rows[[2L]], ])
   )
 })
 
 test_that("group_split() respects .drop", {
-  chunks <- tibble(f = factor("b", levels = c("a", "b", "c"))) %>%
+  chunks <- tibble(f = factor("b", levels = c("a", "b", "c"))) |>
     group_split(f, .drop = TRUE)
   expect_identical(length(chunks), 1L)
 })
@@ -128,4 +144,20 @@ test_that("group_split() internally uses dplyr_row_slice()", {
   )
 
   expect_error(group_split(df, x), class = "dplyr_row_slice_called")
+})
+
+test_that("`keep =` is defunct", {
+  df <- tibble(x = 1)
+  gdf <- group_by(df, x)
+  rdf <- rowwise(df)
+
+  expect_snapshot(error = TRUE, {
+    group_split(df, keep = TRUE)
+  })
+  expect_snapshot(error = TRUE, {
+    group_split(gdf, keep = TRUE)
+  })
+  expect_snapshot(error = TRUE, {
+    group_split(rdf, keep = TRUE)
+  })
 })

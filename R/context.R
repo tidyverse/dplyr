@@ -34,15 +34,15 @@
 #'   x = runif(6),
 #'   y = runif(6)
 #' )
-#' gf <- df %>% group_by(g)
+#' gf <- df |> group_by(g)
 #'
-#' gf %>% summarise(n = n())
+#' gf |> summarise(n = n())
 #'
-#' gf %>% mutate(id = cur_group_id())
-#' gf %>% reframe(row = cur_group_rows())
-#' gf %>% summarise(data = list(cur_group()))
+#' gf |> mutate(id = cur_group_id())
+#' gf |> reframe(row = cur_group_rows())
+#' gf |> summarise(data = list(cur_group()))
 #'
-#' gf %>% mutate(across(everything(), ~ paste(cur_column(), round(.x, 2))))
+#' gf |> mutate(across(everything(), ~ paste(cur_column(), round(.x, 2))))
 NULL
 
 #' @rdname context
@@ -72,13 +72,15 @@ cur_group_rows <- function() {
 group_labels_details <- function(keys) {
   keys <- map_chr(keys, pillar::format_glimpse)
   labels <- vec_paste0(names(keys), " = ", keys)
-  labels <- cli_collapse(labels, last = ", ")
+  labels <- cli_collapse(labels, last = ", ", sep2 = ", ")
   cli::format_inline("{.code {labels}}")
 }
 
-cur_group_label <- function(type = mask_type(),
-                            id = cur_group_id(),
-                            group = cur_group()) {
+cur_group_label <- function(
+  type = mask_type(),
+  id = cur_group_id(),
+  group = cur_group()
+) {
   switch(
     type,
     ungrouped = "",
@@ -118,7 +120,7 @@ cnd_data <- function(cnd, ctxt, mask, call) {
   list(
     cnd = cnd,
     name = ctxt$error_name,
-    quo = ctxt$error_quo,
+    expr = ctxt$error_expr,
     type = mask_type,
     has_group_data = has_group_data,
     group_data = group_data,
@@ -167,7 +169,11 @@ local_column <- function(x, frame = caller_env()) {
 }
 
 peek_mask <- function(call = caller_env()) {
-  context_peek("mask", "data-masking verbs like `mutate()`, `filter()`, and `group_by()`", call)
+  context_peek(
+    "mask",
+    "data-masking verbs like `mutate()`, `filter()`, and `group_by()`",
+    call
+  )
 }
 local_mask <- function(x, frame = caller_env()) {
   context_local("mask", x, frame = frame)

@@ -1,5 +1,91 @@
 # dplyr (development version)
 
+* `storms` has been updated to include 2023 and 2024 data (#7111, @tomalrussell).
+
+* Empty `rowwise()` list-column elements now resolve to `logical()` rather than a random logical of length 1 (#7710).
+
+* `last_dplyr_warnings()` no longer prevents objects from being garbage collected (#7649).
+
+* Progress towards making dplyr conformant with the public C API of R (#7741).
+
+* `case_when()` now throws correctly indexed errors when `NULL`s are supplied in `...` (#7739).
+
+* `case_when()` has gained a new `.unmatched` argument. For extra safety, set `.unmatched = "error"` rather than providing a `.default` when you believe that you've handled every possible case, and it will error if a case is left unhandled. The new `recode_values()` also has this argument (#7653).
+
+* New `rbind()` method for `rowwise_df` to avoid creating corrupt rowwise data frames (r-lib/vctrs#1935).
+
+* `case_match()` is now superseded by `recode_values()` and `replace_values()`.
+
+* The superseded `recode()` now has updated documentation showing how to migrate to `recode_values()` and `replace_values()`.
+
+* `case_when()` is now part of a family of 4 related functions, 3 of which are new:
+
+  * Use `case_when()` to create a new vector based on logical conditions.
+  * Use `replace_when()` to update an existing vector based on logical conditions.
+  * Use `recode_values()` to create a new vector by mapping all old values to new values.
+  * Use `replace_values()` to update an existing vector by mapping some old values to new values.
+
+  `replace_when()` is particularly useful for conditionally mutating rows within one or more columns, and can be thought of as an enhanced version of `base::replace()`.
+
+  `recode_values()` and `replace_values()` have the familiar `case_when()`-style formula interface for easy interactive use, but also have `from` and `to` arguments as a way for you to incorporate a pre-built lookup table, making them more holistic replacements for both `case_match()` and `recode()`.
+
+  This work is a result of [Tidyup 7: Recoding and replacing values in the tidyverse](https://github.com/tidyverse/tidyups/blob/main/007-tidyverse-recoding-and-replacing.md), with a lot of great [feedback](https://github.com/tidyverse/tidyups/pull/29) from the community (#7728, #7729).
+
+* In `case_when()`, supplying all size 1 LHS inputs along with a size >1 RHS input is now soft-deprecated. This is an improper usage of `case_when()` that should instead be a series of if statements, like:
+
+  ```
+  # Scalars!
+  code <- 1L
+  flavor <- "vanilla"
+
+  # Previously
+  case_when(
+    code == 1L && flavor == "chocolate" ~ x,
+    code == 1L && flavor == "vanilla" ~ y,
+    code == 2L && flavor == "vanilla" ~ z,
+    .default = default
+  )
+
+  # Now
+  if (code == 1L && flavor == "chocolate") {
+    x
+  } else if (code == 1L && flavor == "vanilla") {
+    y
+  } else if (code == 2L && flavor == "vanilla") {
+    z
+  } else {
+    default
+  }
+  ```
+
+  The recycling behavior that allows this style of `case_when()` to work is unsafe, and can result in silent bugs that we'd like to guard against with an error in the future (#7082).
+
+* The following vector functions have gotten significantly faster and use much less memory due to a rewrite in C via vctrs (#7723, #7725, #7727):
+
+  * `if_else()`
+  * `case_when()`
+  * `coalesce()`
+
+* `if_else()` no longer allows `condition` to be a logical array. It must be a logical vector with no `dim` attribute (#7723).
+
+* Passing `size` to `if_else()` is now deprecated. The output size is always taken from the `condition` (#7722).
+
+* `bind_rows()` now replaces empty (or `NA`) element names in a list with its numeric index while preserving existing names (#7719, @Meghansaha).
+
+* New `slice_sample()` example showing how to use it to shuffle rows (#7707, @Hzanib).
+
+* Updated `across()` examples to include an example using `everything()` (#7621, @JBrandenburg02).
+
+* Clarified how `slice_min()` and `slice_max()` work in the introduction vignette (#7717, @ccani007).
+
+* `reframe()` has moved from experimental to stable (#7713, @VisruthSK).
+
+* The base pipe is now used throughout the documentation (#7711).
+
+* R >=4.1.0 is now required, in line with the [tidyverse
+  standard](https://www.tidyverse.org/blog/2019/04/r-version-support/) of
+  supporting the previous 5 minor releases of R (#7711).
+
 * `case_when()` now throws a better error if one of the conditions is an array
   (#6862, @ilovemane).
 
@@ -13,11 +99,75 @@
 * Fixed an issue where duckplyr's ALTREP data frames were being materialized
   early due to internal usage of `ncol()` (#7049).
 
-* R >=3.6.0 is now explicitly required (#7026).
-
 * `if_any()` and `if_all()` are now fully consistent with `any()` and `all()`.
   In particular, when called with empty inputs `if_any()` returns `FALSE` and
   `if_all()` returns `TRUE` (#7059, @jrwinget).
+
+## Lifecycle changes
+
+### Breaking changes
+
+* The following were already deprecated, and are now defunct:
+
+  * `combine()`. Deprecated in 1.0.0, use `c()` or `vctrs::vec_c()` instead.
+
+  * `src_mysql()`, `src_postgres()`, `src_sqlite()`, `src_local()`, and `src_df()`. Deprecated in 1.0.0, use `tbl()` instead.
+
+  * `tbl_df()` and `as.tbl()`. Deprecated in 1.0.0, use `tibble::as_tibble()` instead.
+
+  * `add_rownames()`. Deprecated in 1.0.0, use `tibble::rownames_to_column()` instead.
+
+  * The `.drop` argument of `add_count()`. Deprecated in 1.0.0, had no effect.
+
+  * The `add` argument of `group_by()` and `group_by_prepare()`. Deprecated in 1.0.0, use `.add` instead.
+
+  * The `.dots` argument of `group_by()` and `group_by_prepare()`. Deprecated in 1.0.0.
+
+  * The `...` argument of `group_keys()` and `group_indices()`. Deprecated in 1.0.0, use `group_by()` first.
+
+  * The `keep` argument of `group_map()`, `group_modify()`, and `group_split()`. Deprecated in 1.0.0, use `.keep` instead.
+
+  * Using `across()` and data frames in `filter()`. Deprecated in 1.0.8, use `if_any()` or `if_all()` instead.
+
+  * Returning more or less than 1 row per group in `summarise()`. Deprecated in 1.1.0, use `reframe()` instead.
+
+  * `multiple = NULL` in joins. Deprecated in 1.1.1, use `multiple = "all"` instead.
+
+  * `multiple = "error" / "warning"` in joins. Deprecated in 1.1.1, use `relationship = "many-to-one"` instead.
+
+  * The `vars` argument of `group_cols()`. Deprecated in 1.0.0.
+
+### Newly deprecated
+
+* The following were already deprecated, and now warn unconditionally if used:
+
+  * `all_equal()`. Deprecated in 1.1.0, use `all.equal()` instead.
+
+  * `progress_estimated()`. Deprecated in 1.0.0.
+
+  * `filter()` with a 1 column matrix. Deprecated in 1.1.0, use a vector instead.
+
+  * `slice()` with a 1 column matrix. Deprecated in 1.1.0, use a vector instead.
+
+  * Not supplying the `.cols` argument of `across()`. Deprecated in 1.1.0.
+
+  * `group_indices()` with no arguments. Deprecated in 1.0.0, use `cur_group_id()` instead.
+
+* The following were already soft-deprecated, and now warn unconditionally once per session if used:
+
+  * `cur_data()` and `cur_data_all()`. Deprecated in 1.1.0, use `pick()` instead.
+
+  * The `...` argument of `across()`. Deprecated in 1.1.0, use an anonymous function instead.
+
+  * Using `by = character()` to perform a cross join. Deprecated in 1.1.0, use `cross_join()` instead.
+
+* The following are newly deprecated:
+
+  * The `dplyr.legacy_locale` global option. If you used this to affect the ordering of `arrange()`, use `arrange(.locale =)` instead. If you used this to affect the ordering of `group_by() |> summarise()`, follow up with an additional call to `arrange(.locale =)` instead (#7760).
+
+### Newly stable
+
+* `.by` has moved from experimental to stable (#7762).
 
 # dplyr 1.1.4
 

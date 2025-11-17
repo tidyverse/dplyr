@@ -18,7 +18,8 @@ methods_generic <- function(x) {
 
   # Find package
   methods <- map2(
-    info$generic, info$class,
+    info$generic,
+    info$class,
     utils::getS3method,
     optional = TRUE,
     envir = globalenv()
@@ -33,9 +34,20 @@ methods_generic <- function(x) {
 
   # Remove spurious matches in base packages like select.list or slice.index
   base_packages <- c(
-    "base", "compiler", "datasets", "graphics", "grDevices", "grid",
-    "methods", "parallel", "splines", "stats", "stats4", "tcltk",
-    "tools", "utils"
+    "base",
+    "compiler",
+    "datasets",
+    "graphics",
+    "grDevices",
+    "grid",
+    "methods",
+    "parallel",
+    "splines",
+    "stats",
+    "stats4",
+    "tcltk",
+    "tools",
+    "utils"
   )
   info <- info[!info$package %in% base_packages, ]
 
@@ -50,16 +62,21 @@ methods_rd <- function(x) {
 
   methods <- methods[order(methods$package, methods$class), , drop = FALSE]
   topics <- unname(split(methods, methods$package))
-  by_package <- vapply(topics, function(x) {
-    links <- topic_links(x$class, x$package, x$topic)
-    paste0(x$package[[1]], " (", paste0(links, collapse = ", "), ")")
-  }, character(1))
+  by_package <- vapply(
+    topics,
+    function(x) {
+      links <- topic_links(x$class, x$package, x$topic)
+      paste0(x$package[[1]], " (", paste0(links, collapse = ", "), ")")
+    },
+    character(1)
+  )
 
   paste0(by_package, collapse = ", ")
 }
 
 topic_links <- function(class, package, topic) {
-  ifelse(is.na(topic),
+  ifelse(
+    is.na(topic),
     paste0("\\code{", class, "}"),
     paste0("\\code{\\link[", package, ":", topic, "]{", class, "}}")
   )

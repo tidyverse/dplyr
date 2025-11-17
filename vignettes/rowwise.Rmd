@@ -2,7 +2,7 @@
 title: "Row-wise operations"
 description: >
   In R, it's usually easier to do something for each column than for each row.
-  In this vignette you will learn how to use the `rowwise()` function to 
+  In this vignette you will learn how to use the `rowwise()` function to
   perform operations by row. Along the way, you'll learn about list-columns,
   and see how you might perform simulations and modelling within dplyr verbs.
 output: rmarkdown::html_vignette
@@ -36,12 +36,12 @@ library(dplyr, warn.conflicts = FALSE)
 
 ```{r include = FALSE}
 nest_by <- function(df, ...) {
-  df %>%
-    group_by(...) %>% 
-    summarise(data = list(pick(everything()))) %>% 
+  df |>
+    group_by(...) |>
+    summarise(data = list(pick(everything()))) |>
     rowwise(...)
 }
-# mtcars %>% nest_by(cyl)
+# mtcars |> nest_by(cyl)
 ```
 
 ## Creating
@@ -50,14 +50,14 @@ Row-wise operations require a special type of grouping where each group consists
 
 ```{r}
 df <- tibble(x = 1:2, y = 3:4, z = 5:6)
-df %>% rowwise()
+df |> rowwise()
 ```
 
 Like `group_by()`, `rowwise()` doesn't really do anything itself; it just changes how the other verbs work. For example, compare the results of  `mutate()` in the following code:
 
 ```{r}
-df %>% mutate(m = mean(c(x, y, z)))
-df %>% rowwise() %>% mutate(m = mean(c(x, y, z)))
+df |> mutate(m = mean(c(x, y, z)))
+df |> rowwise() |> mutate(m = mean(c(x, y, z)))
 ```
 
 If you use `mutate()` with a regular data frame, it computes the mean of `x`, `y`, and `z` across all rows. If you apply it to a row-wise data frame, it computes the mean for each row.
@@ -67,12 +67,12 @@ You can optionally supply "identifier" variables in your call to `rowwise()`. Th
 ```{r}
 df <- tibble(name = c("Mara", "Hadley"), x = 1:2, y = 3:4, z = 5:6)
 
-df %>% 
-  rowwise() %>% 
+df |>
+  rowwise() |>
   summarise(m = mean(c(x, y, z)))
 
-df %>% 
-  rowwise(name) %>% 
+df |>
+  rowwise(name) |>
   summarise(m = mean(c(x, y, z)))
 ```
 
@@ -90,29 +90,29 @@ df
 Let's say we want compute the sum of `w`, `x`, `y`, and `z` for each row. We start by making a row-wise data frame:
 
 ```{r}
-rf <- df %>% rowwise(id)
+rf <- df |> rowwise(id)
 ```
 
 We can then use `mutate()` to add a new column to each row, or `summarise()` to return just that one summary:
 
 ```{r}
-rf %>% mutate(total = sum(c(w, x, y, z)))
-rf %>% summarise(total = sum(c(w, x, y, z)))
+rf |> mutate(total = sum(c(w, x, y, z)))
+rf |> summarise(total = sum(c(w, x, y, z)))
 ```
 
 Of course, if you have a lot of variables, it's going to be tedious to type in every variable name. Instead, you can use `c_across()` which uses tidy selection syntax so you can to succinctly select many variables:
 
 ```{r}
-rf %>% mutate(total = sum(c_across(w:z)))
-rf %>% mutate(total = sum(c_across(where(is.numeric))))
+rf |> mutate(total = sum(c_across(w:z)))
+rf |> mutate(total = sum(c_across(where(is.numeric))))
 ```
 
 You could combine this with column-wise operations (see `vignette("colwise")` for more details) to compute the proportion of the total for each column:
 
 ```{r}
-rf %>% 
-  mutate(total = sum(c_across(w:z))) %>% 
-  ungroup() %>% 
+rf |>
+  mutate(total = sum(c_across(w:z))) |>
+  ungroup() |>
   mutate(across(w:z, ~ . / total))
 ```
 
@@ -121,24 +121,24 @@ rf %>%
 The `rowwise()` approach will work for any summary function. But if you need greater speed, it's worth looking for a built-in row-wise variant of your summary function. These are more efficient because they operate on the data frame as whole; they don't split it into rows, compute the summary, and then join the results back together again.
 
 ```{r}
-df %>% mutate(total = rowSums(pick(where(is.numeric), -id)))
-df %>% mutate(mean = rowMeans(pick(where(is.numeric), -id)))
+df |> mutate(total = rowSums(pick(where(is.numeric), -id)))
+df |> mutate(mean = rowMeans(pick(where(is.numeric), -id)))
 ```
 
 **NB**: I use `df` (not `rf`) and `pick()` (not `c_across()`) here because `rowMeans()` and `rowSums()` take a multi-row data frame as input. Also note that `-id` is needed to avoid selecting `id` in `pick()`. This wasn't required with the rowwise data frame because we had specified `id` as an identifier in our original call to `rowwise()`, preventing it from being selected as a grouping column.
 
 ```{r, eval = FALSE, include = FALSE}
 bench::mark(
-  df %>% mutate(m = rowSums(pick(x:z))),
-  df %>% mutate(m = apply(pick(x:z), 1, sum)),
-  df %>% rowwise() %>% mutate(m = sum(pick(x:z))),
+  df |> mutate(m = rowSums(pick(x:z))),
+  df |> mutate(m = apply(pick(x:z), 1, sum)),
+  df |> rowwise() |> mutate(m = sum(pick(x:z))),
   check = FALSE
 )
 ```
 
 ## List-columns
 
-`rowwise()` operations are a natural pairing when you have list-columns. They allow you to avoid explicit loops and/or functions from the `apply()` or `purrr::map()` families. 
+`rowwise()` operations are a natural pairing when you have list-columns. They allow you to avoid explicit loops and/or functions from the `apply()` or `purrr::map()` families.
 
 ### Motivation
 
@@ -153,27 +153,27 @@ df <- tibble(
 You might try calling `length()`:
 
 ```{r}
-df %>% mutate(l = length(x))
+df |> mutate(l = length(x))
 ```
 
 But that returns the length of the column, not the length of the individual values. If you're an R documentation aficionado, you might know there's already a base R function just for this purpose:
 
 ```{r}
-df %>% mutate(l = lengths(x))
+df |> mutate(l = lengths(x))
 ```
 
 Or if you're an experienced R programmer, you might know how to apply a function to each element of a list using `sapply()`, `vapply()`, or one of the purrr `map()` functions:
 
 ```{r}
-df %>% mutate(l = sapply(x, length))
-df %>% mutate(l = purrr::map_int(x, length))
+df |> mutate(l = sapply(x, length))
+df |> mutate(l = purrr::map_int(x, length))
 ```
 
 But wouldn't it be nice if you could just write `length(x)` and dplyr would figure out that you wanted to compute the length of the element inside of `x`? Since you're here, you might already be guessing at the answer: this is just another application of the row-wise pattern.
 
 ```{r}
-df %>% 
-  rowwise() %>% 
+df |>
+  rowwise() |>
   mutate(l = length(x))
 ```
 
@@ -185,15 +185,15 @@ There's an important difference between a grouped data frame where each group ha
 
 ```{r}
 df <- tibble(g = 1:2, y = list(1:3, "a"))
-gf <- df %>% group_by(g)
-rf <- df %>% rowwise(g)
+gf <- df |> group_by(g)
+rf <- df |> rowwise(g)
 ```
 
 If we compute some properties of `y`, you'll notice the results look different:
 
 ```{r}
-gf %>% mutate(type = typeof(y), length = length(y))
-rf %>% mutate(type = typeof(y), length = length(y))
+gf |> mutate(type = typeof(y), length = length(y))
+rf |> mutate(type = typeof(y), length = length(y))
 ```
 
 They key difference is that when `mutate()` slices up the columns to pass to `length(y)` the grouped mutate uses `[` and the row-wise mutate uses `[[`. The following code gives a flavour of the differences if you used a for loop:
@@ -217,9 +217,9 @@ out2
 Note that this magic only applies when you're referring to existing columns, not when you're creating new rows. This is potentially confusing, but we're fairly confident it's the least worst solution, particularly given the hint in the error message.
 
 ```{r, error = TRUE}
-gf %>% mutate(y2 = y)
-rf %>% mutate(y2 = y)
-rf %>% mutate(y2 = list(y))
+gf |> mutate(y2 = y)
+rf |> mutate(y2 = y)
+rf |> mutate(y2 = list(y))
 ```
 
 ### Modelling
@@ -227,7 +227,7 @@ rf %>% mutate(y2 = list(y))
 `rowwise()` data frames allow you to solve a variety of modelling problems in what I think is a particularly elegant way. We'll start by creating a nested data frame:
 
 ```{r}
-by_cyl <- mtcars %>% nest_by(cyl)
+by_cyl <- mtcars |> nest_by(cyl)
 by_cyl
 ```
 
@@ -236,34 +236,34 @@ This is a little different to the usual `group_by()` output: we have visibly cha
 Once we have one data frame per row, it's straightforward to make one model per row:
 
 ```{r}
-mods <- by_cyl %>% mutate(mod = list(lm(mpg ~ wt, data = data)))
+mods <- by_cyl |> mutate(mod = list(lm(mpg ~ wt, data = data)))
 mods
 ```
 
 And supplement that with one set of predictions per row:
 
 ```{r}
-mods <- mods %>% mutate(pred = list(predict(mod, data)))
+mods <- mods |> mutate(pred = list(predict(mod, data)))
 mods
 ```
 
 You could then summarise the model in a variety of ways:
 
 ```{r}
-mods %>% summarise(rmse = sqrt(mean((pred - data$mpg) ^ 2)))
-mods %>% summarise(rsq = summary(mod)$r.squared)
-mods %>% summarise(broom::glance(mod))
+mods |> summarise(rmse = sqrt(mean((pred - data$mpg) ^ 2)))
+mods |> summarise(rsq = summary(mod)$r.squared)
+mods |> summarise(broom::glance(mod))
 ```
 
 Or easily access the parameters of each model:
 
 ```{r}
-mods %>% reframe(broom::tidy(mod))
+mods |> reframe(broom::tidy(mod))
 ```
 
 ## Repeated function calls
 
-`rowwise()` doesn't just work with functions that return a length-1 vector (aka summary functions); it can work with any function if the result is a list. This means that `rowwise()` and `mutate()` provide an elegant way to call a function many times with varying arguments, storing the outputs alongside the inputs. 
+`rowwise()` doesn't just work with functions that return a length-1 vector (aka summary functions); it can work with any function if the result is a list. This means that `rowwise()` and `mutate()` provide an elegant way to call a function many times with varying arguments, storing the outputs alongside the inputs.
 
 ### Simulations
 
@@ -281,16 +281,16 @@ df <- tribble(
 You can supply these parameters to `runif()` by using `rowwise()` and `mutate()`:
 
 ```{r}
-df %>% 
-  rowwise() %>% 
+df |>
+  rowwise() |>
   mutate(data = list(runif(n, min, max)))
 ```
 
 Note the use of `list()` here - `runif()` returns multiple values and a `mutate()` expression has to return something of length 1. `list()` means that we'll get a list column where each row is a list containing multiple values. If you forget to use `list()`, dplyr will give you a hint:
 
 ```{r, error = TRUE}
-df %>% 
-  rowwise() %>% 
+df |>
+  rowwise() |>
   mutate(data = runif(n, min, max))
 ```
 
@@ -301,8 +301,8 @@ What if you want to call a function for every combination of inputs? You can use
 ```{r}
 df <- expand.grid(mean = c(-1, 0, 1), sd = c(1, 10, 100))
 
-df %>% 
-  rowwise() %>% 
+df |>
+  rowwise() |>
   mutate(data = list(rnorm(10, mean, sd)))
 ```
 
@@ -313,27 +313,27 @@ In more complicated problems, you might also want to vary the function being cal
 ```{r}
 df <- tribble(
    ~rng,     ~params,
-   "runif",  list(n = 10), 
+   "runif",  list(n = 10),
    "rnorm",  list(n = 20),
    "rpois",  list(n = 10, lambda = 5),
-) %>%
+) |>
   rowwise()
 
-df %>% 
+df |>
   mutate(data = list(do.call(rng, params)))
 ```
 
 ```{r, include = FALSE, eval = FALSE}
 df <- rowwise(tribble(
    ~rng,     ~params,
-   "runif",  list(min = -1, max = 1), 
+   "runif",  list(min = -1, max = 1),
    "rnorm",  list(),
    "rpois",  list(lambda = 5),
 ))
 
 # Has to happen in separate function to avoid eager unquoting
 f <- function(rng, params) purrr::exec(rng, n = 10, !!!params)
-df %>% 
+df |>
   mutate(data = list(f(rng, params)))
 ```
 
@@ -351,40 +351,40 @@ Since `rowwise()` clearly is useful it is not longer questioning, and we expect 
 
 We've questioned the need for `do()` for quite some time, because it never felt very similar to the other dplyr verbs. It had two main modes of operation:
 
-*   Without argument names: you could call functions that input and output 
+*   Without argument names: you could call functions that input and output
     data frames using `.` to refer to the "current" group. For example, the
     following code gets the first row of each group:
-  
+
     ```{r}
-    mtcars %>% 
-      group_by(cyl) %>% 
+    mtcars |>
+      group_by(cyl) |>
       do(head(., 1))
     ```
-  
+
     This has been superseded by `pick()` plus `reframe()`, a variant of
     `summarise()` that can create multiple rows and columns per group.
-  
+
     ```{r}
-    mtcars %>% 
-      group_by(cyl) %>% 
+    mtcars |>
+      group_by(cyl) |>
       reframe(head(pick(everything()), 1))
     ```
 
 *   With arguments: it worked like `mutate()` but automatically wrapped every
     element in a list:
-  
+
     ```{r}
-    mtcars %>% 
-      group_by(cyl) %>% 
+    mtcars |>
+      group_by(cyl) |>
       do(nrows = nrow(.))
     ```
 
-    I now believe that behaviour is both too magical and not very useful, and 
-    it can be replaced by `summarise()` and `pick()`. 
-  
+    I now believe that behaviour is both too magical and not very useful, and
+    it can be replaced by `summarise()` and `pick()`.
+
     ```{r}
-    mtcars %>% 
-      group_by(cyl) %>% 
+    mtcars |>
+      group_by(cyl) |>
       summarise(nrows = nrow(pick(everything())))
     ```
 

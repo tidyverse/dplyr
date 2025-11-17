@@ -5,7 +5,10 @@ test_that("`relationship` default behavior is correct", {
   expect_equal(out$y, c(1L, 2L, 1L, 2L))
 
   # "none" for rolling joins
-  expect_warning(out <- join_rows(c(1, 2), c(1, 1), condition = ">=", filter = "max"), NA)
+  expect_warning(
+    out <- join_rows(c(1, 2), c(1, 1), condition = ">=", filter = "max"),
+    NA
+  )
   expect_equal(out$x, c(1L, 1L, 2L, 2L))
   expect_equal(out$y, c(1L, 2L, 1L, 2L))
   # If rolling joins warned on many-to-many relationships, it would be a little
@@ -121,7 +124,6 @@ test_that("missing values only match with `==`, `>=`, and `<=` conditions", {
   expect_identical(out$x, integer())
   expect_identical(out$y, integer())
 
-
   x <- tibble(x = c(1, 1), y = c(2, NA))
   y <- tibble(x = c(1, 1), y = c(3, NA))
 
@@ -203,7 +205,8 @@ test_that("join_rows() gives meaningful many-to-many warnings", {
 
 test_that("join_rows() gives meaningful error message on unmatched rows", {
   # Unmatched in the RHS
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     join_rows(
       data.frame(x = c(1, 2)),
       data.frame(x = c(3, 1)),
@@ -211,7 +214,8 @@ test_that("join_rows() gives meaningful error message on unmatched rows", {
       unmatched = "error"
     )
   )
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     join_rows(
       data.frame(x = c(1, 2)),
       data.frame(x = c(3, 1)),
@@ -221,7 +225,8 @@ test_that("join_rows() gives meaningful error message on unmatched rows", {
   )
 
   # Unmatched in the LHS
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     join_rows(
       data.frame(x = c(1, 2)),
       data.frame(x = c(3, 1)),
@@ -231,7 +236,8 @@ test_that("join_rows() gives meaningful error message on unmatched rows", {
   )
 
   # Unmatched in either side
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     join_rows(
       data.frame(x = c(1, 2)),
       data.frame(x = 1),
@@ -239,7 +245,8 @@ test_that("join_rows() gives meaningful error message on unmatched rows", {
       unmatched = "error"
     )
   )
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     join_rows(
       data.frame(x = c(1, 2)),
       data.frame(x = 1),
@@ -247,7 +254,8 @@ test_that("join_rows() gives meaningful error message on unmatched rows", {
       unmatched = c("error", "drop")
     )
   )
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     join_rows(
       data.frame(x = 1),
       data.frame(x = c(1, 2)),
@@ -255,7 +263,8 @@ test_that("join_rows() gives meaningful error message on unmatched rows", {
       unmatched = "error"
     )
   )
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     join_rows(
       data.frame(x = 1),
       data.frame(x = c(1, 2)),
@@ -267,7 +276,8 @@ test_that("join_rows() gives meaningful error message on unmatched rows", {
 
 test_that("join_rows() always errors on unmatched missing values", {
   # Unmatched in the RHS
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     join_rows(
       data.frame(x = 1),
       data.frame(x = NA),
@@ -308,7 +318,8 @@ test_that("join_rows() always errors on unmatched missing values", {
   )
 
   # Unmatched in the LHS
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     join_rows(
       data.frame(x = NA),
       data.frame(x = 1),
@@ -317,7 +328,8 @@ test_that("join_rows() always errors on unmatched missing values", {
       na_matches = "na"
     )
   )
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     join_rows(
       data.frame(x = NA),
       data.frame(x = NA),
@@ -328,7 +340,8 @@ test_that("join_rows() always errors on unmatched missing values", {
   )
 
   # Unmatched in either side
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     join_rows(
       data.frame(x = 1),
       data.frame(x = c(1, NA)),
@@ -337,7 +350,8 @@ test_that("join_rows() always errors on unmatched missing values", {
       na_matches = "na"
     )
   )
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     join_rows(
       data.frame(x = 1),
       data.frame(x = c(1, NA)),
@@ -346,7 +360,8 @@ test_that("join_rows() always errors on unmatched missing values", {
       na_matches = "na"
     )
   )
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     join_rows(
       data.frame(x = c(1, NA)),
       data.frame(x = 1),
@@ -355,7 +370,8 @@ test_that("join_rows() always errors on unmatched missing values", {
       na_matches = "na"
     )
   )
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     join_rows(
       data.frame(x = c(1, NA)),
       data.frame(x = 1),
@@ -364,7 +380,8 @@ test_that("join_rows() always errors on unmatched missing values", {
       na_matches = "na"
     )
   )
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     join_rows(
       data.frame(x = NA),
       data.frame(x = NA),
@@ -420,49 +437,5 @@ test_that("join_rows() rethrows overflow error nicely (#6912)", {
 
   expect_snapshot(error = TRUE, {
     join_rows(df, df, condition = ">=")
-  })
-})
-
-# Deprecated behavior ----------------------------------------------------------
-
-test_that("`multiple = NULL` is deprecated and results in `'all'` (#6731)", {
-  df1 <- tibble(x = c(1, 2))
-  df2 <- tibble(x = c(2, 1, 2))
-
-  expect_snapshot({
-    out <- join_rows(df1, df2, multiple = NULL)
-  })
-  expect_identical(out$x, c(1L, 2L, 2L))
-  expect_identical(out$y, c(2L, 1L, 3L))
-
-  expect_snapshot({
-    left_join(df1, df2, by = join_by(x), multiple = NULL)
-  })
-})
-
-test_that("`multiple = 'error'` is deprecated (#6731)", {
-  df1 <- tibble(x = c(1, 2))
-  df2 <- tibble(x = c(2, 1, 2))
-
-  expect_snapshot(error = TRUE, {
-    join_rows(df1, df2, multiple = "error")
-  })
-  expect_snapshot(error = TRUE, {
-    left_join(df1, df2, by = join_by(x), multiple = "error")
-  })
-})
-
-test_that("`multiple = 'warning'` is deprecated (#6731)", {
-  df1 <- tibble(x = c(1, 2))
-  df2 <- tibble(x = c(2, 1, 2))
-
-  expect_snapshot({
-    out <- join_rows(df1, df2, multiple = "warning")
-  })
-  expect_identical(out$x, c(1L, 2L, 2L))
-  expect_identical(out$y, c(2L, 1L, 3L))
-
-  expect_snapshot({
-    left_join(df1, df2, by = join_by(x), multiple = "warning")
   })
 })

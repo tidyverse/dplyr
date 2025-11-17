@@ -50,13 +50,16 @@ test_that("filter handles simple symbols", {
 
 test_that("filter handlers scalar results", {
   expect_equal(filter(mtcars, min(mpg) > 0), mtcars, ignore_attr = TRUE)
-  expect_equal(filter(group_by(mtcars, cyl), min(mpg) > 0), group_by(mtcars, cyl))
+  expect_equal(
+    filter(group_by(mtcars, cyl), min(mpg) > 0),
+    group_by(mtcars, cyl)
+  )
 })
 
 test_that("filter propagates attributes", {
   date.start <- ISOdate(2010, 01, 01, 0)
   test <- data.frame(Date = ISOdate(2010, 01, 01, 1:10))
-  test2 <- test %>% filter(Date < ISOdate(2010, 01, 01, 5))
+  test2 <- test |> filter(Date < ISOdate(2010, 01, 01, 5))
   expect_equal(test$Date[1:4], test2$Date)
 })
 
@@ -74,9 +77,9 @@ test_that("date class remains on filter (#273)", {
     date = seq.Date(as.Date("2013-01-01"), by = "1 days", length.out = 2),
     var = c(5, 8)
   )
-  x1.filter <- x1 %>% filter(as.Date(date) > as.Date("2013-01-01"))
+  x1.filter <- x1 |> filter(as.Date(date) > as.Date("2013-01-01"))
   x2$date <- x2$date + 1
-  x2.filter <- x2 %>% filter(as.Date(date) > as.Date("2013-01-01"))
+  x2.filter <- x2 |> filter(as.Date(date) > as.Date("2013-01-01"))
 
   expect_equal(class(x1.filter$date), "Date")
   expect_equal(class(x2.filter$date), "Date")
@@ -89,8 +92,8 @@ test_that("filter handles $ correctly (#278)", {
   )
   d2 <- data.frame(num1 = as.character(1:3), stringsAsFactors = FALSE)
 
-  res1 <- d1 %>% filter(num1 %in% c("1", "2", "3"))
-  res2 <- d1 %>% filter(num1 %in% d2$num1)
+  res1 <- d1 |> filter(num1 %in% c("1", "2", "3"))
+  res2 <- d1 |> filter(num1 %in% d2$num1)
   expect_equal(res1, res2)
 })
 
@@ -104,14 +107,14 @@ test_that("$ does not end call traversing. #502", {
   analysis_opts <- list(min_outcome = 0.25)
 
   # Generate some dummy data
-  d <- expand.grid(Subject = 1:3, TrialNo = 1:2, Time = 1:3) %>%
-    as_tibble() %>%
-    arrange(Subject, TrialNo, Time) %>%
+  d <- expand.grid(Subject = 1:3, TrialNo = 1:2, Time = 1:3) |>
+    as_tibble() |>
+    arrange(Subject, TrialNo, Time) |>
     mutate(Outcome = (1:18 %% c(5, 7, 11)) / 10)
 
   # Do some aggregation
-  trial_outcomes <- d %>%
-    group_by(Subject, TrialNo) %>%
+  trial_outcomes <- d |>
+    group_by(Subject, TrialNo) |>
     summarise(MeanOutcome = mean(Outcome), .groups = "drop")
 
   left <- filter(trial_outcomes, MeanOutcome < analysis_opts$min_outcome)
@@ -121,13 +124,16 @@ test_that("$ does not end call traversing. #502", {
 })
 
 test_that("filter handles POSIXlt", {
-  datesDF <- read.csv(stringsAsFactors = FALSE, text = "
+  datesDF <- read.csv(
+    stringsAsFactors = FALSE,
+    text = "
 X
 2014-03-13 16:08:19
 2014-03-13 16:16:23
 2014-03-13 16:28:28
 2014-03-13 16:28:54
-")
+"
+  )
 
   datesDF$X <- as.POSIXlt(datesDF$X)
   expect_equal(
@@ -145,17 +151,17 @@ test_that("filter handles complex vectors (#436)", {
 test_that("%in% works as expected (#126)", {
   df <- tibble(a = c("a", "b", "ab"), g = c(1, 1, 2))
 
-  res <- df %>% filter(a %in% letters)
+  res <- df |> filter(a %in% letters)
   expect_equal(nrow(res), 2L)
 
-  res <- df %>% group_by(g) %>% filter(a %in% letters)
+  res <- df |> group_by(g) |> filter(a %in% letters)
   expect_equal(nrow(res), 2L)
 })
 
 test_that("row_number does not segfault with example from #781", {
   z <- data.frame(a = c(1, 2, 3))
   b <- "a"
-  res <- z %>% filter(row_number(b) == 2)
+  res <- z |> filter(row_number(b) == 2)
   expect_equal(nrow(res), 0L)
 })
 
@@ -173,12 +179,12 @@ test_that("filter does not alter expression (#971)", {
 
 test_that("hybrid evaluation handles $ correctly (#1134)", {
   df <- tibble(x = 1:10, g = rep(1:5, 2))
-  res <- df %>% group_by(g) %>% filter(x > min(df$x))
+  res <- df |> group_by(g) |> filter(x > min(df$x))
   expect_equal(nrow(res), 9L)
 })
 
 test_that("filter correctly handles empty data frames (#782)", {
-  res <- tibble() %>% filter(F)
+  res <- tibble() |> filter(F)
   expect_equal(nrow(res), 0L)
   expect_equal(length(names(res)), 0L)
 })
@@ -194,28 +200,31 @@ test_that("filter, slice and arrange preserves attributes (#1064)", {
     data.frame(x = 1:10, g1 = rep(1:2, each = 5), g2 = rep(1:5, 2)),
     meta = "this is important"
   )
-  res <- filter(df, x < 5) %>% attr("meta")
+  res <- filter(df, x < 5) |> attr("meta")
   expect_equal(res, "this is important")
 
-  res <- filter(df, x < 5, x > 4) %>% attr("meta")
+  res <- filter(df, x < 5, x > 4) |> attr("meta")
   expect_equal(res, "this is important")
 
-  res <- df %>% slice(1:50) %>% attr("meta")
+  res <- df |> slice(1:50) |> attr("meta")
   expect_equal(res, "this is important")
 
-  res <- df %>% arrange(x) %>% attr("meta")
+  res <- df |> arrange(x) |> attr("meta")
   expect_equal(res, "this is important")
 })
 
 test_that("filter works with rowwise data (#1099)", {
-  df <- tibble(First = c("string1", "string2"), Second = c("Sentence with string1", "something"))
-  res <- df %>% rowwise() %>% filter(grepl(First, Second, fixed = TRUE))
+  df <- tibble(
+    First = c("string1", "string2"),
+    Second = c("Sentence with string1", "something")
+  )
+  res <- df |> rowwise() |> filter(grepl(First, Second, fixed = TRUE))
   expect_equal(nrow(res), 1L)
   expect_equal(df[1, ], ungroup(res))
 })
 
 test_that("grouped filter handles indices (#880)", {
-  res <- iris %>% group_by(Species) %>% filter(Sepal.Length > 5)
+  res <- iris |> group_by(Species) |> filter(Sepal.Length > 5)
   res2 <- mutate(res, Petal = Petal.Width * Petal.Length)
   expect_equal(nrow(res), nrow(res2))
   expect_equal(group_rows(res), group_rows(res2))
@@ -223,15 +232,18 @@ test_that("grouped filter handles indices (#880)", {
 })
 
 test_that("filter(FALSE) handles indices", {
-  out <- mtcars %>%
-    group_by(cyl) %>%
-    filter(FALSE, .preserve = TRUE) %>%
+  out <- mtcars |>
+    group_by(cyl) |>
+    filter(FALSE, .preserve = TRUE) |>
     group_rows()
-  expect_identical(out, list_of(integer(), integer(), integer(), .ptype = integer()))
+  expect_identical(
+    out,
+    list_of(integer(), integer(), integer(), .ptype = integer())
+  )
 
-  out <- mtcars %>%
-    group_by(cyl) %>%
-    filter(FALSE, .preserve = FALSE) %>%
+  out <- mtcars |>
+    group_by(cyl) |>
+    filter(FALSE, .preserve = FALSE) |>
     group_rows()
   expect_identical(out, list_of(.ptype = integer()))
 })
@@ -240,9 +252,11 @@ test_that("filter handles S4 objects (#1366)", {
   env <- environment()
   Numbers <- suppressWarnings(setClass(
     "Numbers",
-    slots = c(foo = "numeric"), contains = "integer", where = env
+    slots = c(foo = "numeric"),
+    contains = "integer",
+    where = env
   ))
-  setMethod("[", "Numbers", function(x, i, ...){
+  setMethod("[", "Numbers", function(x, i, ...) {
     Numbers(unclass(x)[i, ...], foo = x@foo)
   })
   on.exit(removeClass("Numbers", where = env))
@@ -254,15 +268,15 @@ test_that("filter handles S4 objects (#1366)", {
 })
 
 test_that("hybrid lag and default value for string columns work (#1403)", {
-  res <- mtcars %>%
-    mutate(xx = LETTERS[gear]) %>%
+  res <- mtcars |>
+    mutate(xx = LETTERS[gear]) |>
     filter(xx == lag(xx, default = "foo"))
   xx <- LETTERS[mtcars$gear]
   ok <- xx == lag(xx, default = "foo")
   expect_equal(xx[ok], res$xx)
 
-  res <- mtcars %>%
-    mutate(xx = LETTERS[gear]) %>%
+  res <- mtcars |>
+    mutate(xx = LETTERS[gear]) |>
     filter(xx == lead(xx, default = "foo"))
   xx <- LETTERS[mtcars$gear]
   ok <- xx == lead(xx, default = "foo")
@@ -278,44 +292,48 @@ test_that("filter handles raw vectors (#1803)", {
 })
 
 test_that("`vars` attribute is not added if empty (#2772)", {
-  expect_identical(tibble(x = 1:2) %>% filter(x == 1), tibble(x = 1L))
+  expect_identical(tibble(x = 1:2) |> filter(x == 1), tibble(x = 1L))
 })
 
 test_that("filter handles list columns", {
-  res <- tibble(a=1:2, x = list(1:10, 1:5)) %>%
-    filter(a == 1) %>%
+  res <- tibble(a = 1:2, x = list(1:10, 1:5)) |>
+    filter(a == 1) |>
     pull(x)
   expect_equal(res, list(1:10))
 
-  res <- tibble(a=1:2, x = list(1:10, 1:5)) %>%
-    group_by(a) %>%
-    filter(a == 1) %>%
+  res <- tibble(a = 1:2, x = list(1:10, 1:5)) |>
+    group_by(a) |>
+    filter(a == 1) |>
     pull(x)
   expect_equal(res, list(1:10))
 })
 
 test_that("hybrid function row_number does not trigger warning in filter (#3750)", {
-  out <- tryCatch({
-    mtcars %>% filter(row_number() > 1, row_number() < 5); TRUE
-  }, warning = function(w) FALSE )
+  out <- tryCatch(
+    {
+      mtcars |> filter(row_number() > 1, row_number() < 5)
+      TRUE
+    },
+    warning = function(w) FALSE
+  )
   expect_true(out)
 })
 
 test_that("filter() preserve order across groups (#3989)", {
   df <- tibble(g = c(1, 2, 1, 2, 1), time = 5:1, x = 5:1)
-  res1 <- df %>%
-    group_by(g) %>%
-    filter(x <= 4) %>%
+  res1 <- df |>
+    group_by(g) |>
+    filter(x <= 4) |>
     arrange(time)
 
-  res2 <- df %>%
-    group_by(g) %>%
-    arrange(time) %>%
+  res2 <- df |>
+    group_by(g) |>
+    arrange(time) |>
     filter(x <= 4)
 
-  res3 <- df %>%
-    filter(x <= 4) %>%
-    arrange(time) %>%
+  res3 <- df |>
+    filter(x <= 4) |>
+    arrange(time) |>
     group_by(g)
 
   expect_equal(res1, res2)
@@ -327,8 +345,8 @@ test_that("filter() preserve order across groups (#3989)", {
 
 test_that("filter() with two conditions does not freeze (#4049)", {
   expect_identical(
-    iris %>% filter(Sepal.Length > 7, Petal.Length < 6),
-    iris %>% filter(Sepal.Length > 7 & Petal.Length < 6)
+    iris |> filter(Sepal.Length > 7, Petal.Length < 6),
+    iris |> filter(Sepal.Length > 7 & Petal.Length < 6)
   )
 })
 
@@ -339,22 +357,22 @@ test_that("filter() handles matrix and data frame columns (#3630)", {
     z = data.frame(A = 1:2, B = 3:4)
   )
   expect_equal(filter(df, x == 1), df[1, ])
-  expect_equal(filter(df, y[,1] == 1), df[1, ])
+  expect_equal(filter(df, y[, 1] == 1), df[1, ])
   expect_equal(filter(df, z$A == 1), df[1, ])
 
   gdf <- group_by(df, x)
   expect_equal(filter(gdf, x == 1), gdf[1, ])
-  expect_equal(filter(gdf, y[,1] == 1), gdf[1, ])
+  expect_equal(filter(gdf, y[, 1] == 1), gdf[1, ])
   expect_equal(filter(gdf, z$A == 1), gdf[1, ])
 
   gdf <- group_by(df, y)
   expect_equal(filter(gdf, x == 1), gdf[1, ])
-  expect_equal(filter(gdf, y[,1] == 1), gdf[1, ])
+  expect_equal(filter(gdf, y[, 1] == 1), gdf[1, ])
   expect_equal(filter(gdf, z$A == 1), gdf[1, ])
 
   gdf <- group_by(df, z)
   expect_equal(filter(gdf, x == 1), gdf[1, ])
-  expect_equal(filter(gdf, y[,1] == 1), gdf[1, ])
+  expect_equal(filter(gdf, y[, 1] == 1), gdf[1, ])
   expect_equal(filter(gdf, z$A == 1), gdf[1, ])
 })
 
@@ -364,21 +382,21 @@ test_that("filter() handles named logical (#4638)", {
 })
 
 test_that("filter() allows named constants that resolve to logical vectors (#4612)", {
-  filters <- mtcars %>%
+  filters <- mtcars |>
     transmute(
       cyl %in% 6:8,
       hp / drat > 50
     )
 
   expect_identical(
-    mtcars %>% filter(!!!filters),
-    mtcars %>% filter(!!!unname(filters))
+    mtcars |> filter(!!!filters),
+    mtcars |> filter(!!!unname(filters))
   )
 })
 
 test_that("filter() allows 1 dimension arrays", {
   df <- tibble(x = array(c(TRUE, FALSE, TRUE)))
-  expect_identical(filter(df, x), df[c(1, 3),])
+  expect_identical(filter(df, x), df[c(1, 3), ])
 })
 
 test_that("filter() allows matrices with 1 column with a deprecation warning (#6091)", {
@@ -417,75 +435,47 @@ test_that("filter() gives useful error messages", {
   expect_snapshot({
     # wrong type
     (expect_error(
-      iris %>%
-        group_by(Species) %>%
+      iris |>
+        group_by(Species) |>
         filter(1:n())
     ))
     (expect_error(
-      iris %>%
+      iris |>
         filter(1:n())
     ))
 
     # matrix with > 1 columns
     (expect_error(
-      filter(data.frame(x = 1:2), matrix(c(TRUE, FALSE, TRUE, FALSE), nrow = 2))
+      filter(
+        data.frame(x = 1:2),
+        matrix(c(TRUE, FALSE, TRUE, FALSE), nrow = 2)
+      )
     ))
 
     # wrong size
     (expect_error(
-      iris %>%
-        group_by(Species) %>%
+      iris |>
+        group_by(Species) |>
         filter(c(TRUE, FALSE))
     ))
     (expect_error(
-                    iris %>%
-                      rowwise(Species) %>%
-                      filter(c(TRUE, FALSE))
+      iris |>
+        rowwise(Species) |>
+        filter(c(TRUE, FALSE))
     ))
     (expect_error(
-                    iris %>%
-                      filter(c(TRUE, FALSE))
-    ))
-
-    # wrong size in column
-    (expect_error(
-                    iris %>%
-                      group_by(Species) %>%
-                      filter(data.frame(c(TRUE, FALSE)))
-    ))
-    (expect_error(
-                    iris %>%
-                      rowwise() %>%
-                      filter(data.frame(c(TRUE, FALSE)))
-    ))
-    (expect_error(
-                    iris %>%
-                      filter(data.frame(c(TRUE, FALSE)))
-    ))
-    (expect_error(
-                    tibble(x = 1) %>%
-                      filter(c(TRUE, TRUE))
-    ))
-
-    # wrong type in column
-    (expect_error(
-                    iris %>%
-                      group_by(Species) %>%
-                      filter(data.frame(Sepal.Length > 3, 1:n()))
-    ))
-    (expect_error(
-                    iris %>%
-                      filter(data.frame(Sepal.Length > 3, 1:n()))
+      iris |>
+        filter(c(TRUE, FALSE))
     ))
 
     # evaluation error
     (expect_error(
-      mtcars %>% filter(`_x`)
+      mtcars |> filter(`_x`)
     ))
     (expect_error(
-                    mtcars %>%
-                      group_by(cyl) %>%
-                      filter(`_x`)
+      mtcars |>
+        group_by(cyl) |>
+        filter(`_x`)
     ))
 
     # named inputs
@@ -506,22 +496,43 @@ test_that("filter() gives useful error messages", {
 
     # Error that contains {
     (expect_error(
-      tibble() %>% filter(stop("{"))
+      tibble() |> filter(stop("{"))
     ))
+  })
+})
 
-    # across() in filter() does not warn yet
-    data.frame(x = 1, y = 1) %>%
-      filter(across(everything(), ~ .x > 0))
+test_that("Using data frames in `filter()` is defunct (#7758)", {
+  df <- data.frame(x = 1, y = 1)
+  gdf <- group_by(df, x)
+  rdf <- rowwise(df, x)
 
-    data.frame(x = 1, y = 1) %>%
-      filter(data.frame(x > 0, y > 0))
+  # Use `if_any()` or `if_all()`, not `across()`
+  expect_snapshot(error = TRUE, {
+    filter(df, across(everything(), ~ .x > 0))
+  })
+  expect_snapshot(error = TRUE, {
+    filter(gdf, across(everything(), ~ .x > 0))
+  })
+  expect_snapshot(error = TRUE, {
+    filter(rdf, across(everything(), ~ .x > 0))
+  })
+
+  # Can't filter with a data frame of logicals (same as the `across()` case)
+  expect_snapshot(error = TRUE, {
+    filter(df, tibble(x > 0, y > 0))
+  })
+  expect_snapshot(error = TRUE, {
+    filter(gdf, tibble(x > 0, y > 0))
+  })
+  expect_snapshot(error = TRUE, {
+    filter(rdf, tibble(x > 0, y > 0))
   })
 })
 
 test_that("filter preserves grouping", {
   gf <- group_by(tibble(g = c(1, 1, 1, 2, 2), x = 1:5), g)
 
-  i <- count_regroups(out <- filter(gf, x %in% c(3,4)))
+  i <- count_regroups(out <- filter(gf, x %in% c(3, 4)))
   expect_equal(i, 0L)
   expect_equal(group_vars(gf), "g")
   expect_equal(group_rows(out), list_of(1L, 2L))
@@ -597,7 +608,7 @@ test_that("filter keeps zero length groups", {
   )
   df <- group_by(df, e, f, g, .drop = FALSE)
 
-  expect_equal(group_size(filter(df, f == 1)), c(2, 0, 0) )
+  expect_equal(group_size(filter(df, f == 1)), c(2, 0, 0))
 })
 
 test_that("filtering retains labels for zero length groups", {

@@ -9,9 +9,9 @@ ordering character vectors.
 \subsection{Default locale}{
 
 The default locale used by \code{arrange()} is the C locale. This is used when
-\code{.locale = NULL} unless the \code{dplyr.legacy_locale} global option is set to
-\code{TRUE}. You can also force the C locale to be used unconditionally with
-\code{.locale = "C"}.
+\code{.locale = NULL} unless the deprecated \code{dplyr.legacy_locale} global option is
+set to \code{TRUE}. You can also force the C locale to be used unconditionally
+with \code{.locale = "C"}.
 
 The C locale is not exactly the same as English locales, such as \code{"en"}. The
 main difference is that the C locale groups the English alphabet by \emph{case},
@@ -35,19 +35,21 @@ utilize this in a package, then stringi should be placed in \code{Imports}.
 
 \subsection{Legacy behavior}{
 
-Prior to dplyr 1.1.0, character columns were ordered in the system locale. If
-you need to temporarily revert to this behavior, you can set the global
-option \code{dplyr.legacy_locale} to \code{TRUE}, but this should be used sparingly and
-you should expect this option to be removed in a future version of dplyr. It
-is better to update existing code to explicitly use \code{.locale} instead. Note
-that setting \code{dplyr.legacy_locale} will also force calls to \code{\link[=group_by]{group_by()}} to
-use the system locale when internally ordering the groups.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-Setting \code{.locale} will override any usage of \code{dplyr.legacy_locale}.
+Prior to dplyr 1.1.0, character columns were ordered in the system locale.
+Setting the global option \code{dplyr.legacy_locale} to \code{TRUE} retains this legacy
+behavior, but this has been deprecated. Update existing code to explicitly
+call \code{arrange(.locale = )} instead. Run \code{Sys.getlocale("LC_COLLATE")} to
+determine your system locale, and compare that against the list in
+\code{\link[stringi:stri_locale_list]{stringi::stri_locale_list()}} to find an appropriate value for \code{.locale},
+i.e. for American English, \code{"en_US"}.
+
+Setting \code{.locale} directly will override any usage of \code{dplyr.legacy_locale}.
 }
 }
 \examples{
-\dontshow{if (dplyr:::has_minimum_stringi()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (dplyr:::has_minimum_stringi()) withAutoprint(\{ # examplesIf}
 df <- tibble(x = c("a", "b", "C", "B", "c"))
 df
 
@@ -68,14 +70,6 @@ arrange(df, x, .locale = "en")
 
 # Using `"da"` for Danish ordering gives the expected result
 arrange(df, x, .locale = "da")
-
-# If you need the legacy behavior of `arrange()`, which respected the
-# system locale, then you can set the global option `dplyr.legacy_locale`,
-# but expect this to be removed in the future. We recommend that you use
-# the `.locale` argument instead.
-rlang::with_options(dplyr.legacy_locale = TRUE, {
-  arrange(df, x)
-})
 \dontshow{\}) # examplesIf}
 }
 \keyword{internal}

@@ -1,3 +1,5 @@
+# `case_when()` ----------------------------------------------------------------
+
 test_that("matches values in order", {
   x <- 1:3
   expect_equal(
@@ -68,61 +70,63 @@ test_that("any `TRUE` overrides an `NA`", {
   )
 })
 
-test_that("atomic conditions (#2909)", {
-  expect_equal(
-    case_when(
-      TRUE ~ 1:3,
-      FALSE ~ 4:6
-    ),
-    1:3
-  )
-  expect_equal(
-    case_when(
-      NA ~ 1:3,
-      TRUE ~ 4:6
-    ),
-    4:6
-  )
-})
-
-test_that("zero-length conditions and values (#3041)", {
-  expect_equal(
-    case_when(
-      TRUE ~ integer(),
-      FALSE ~ integer()
-    ),
-    integer()
-  )
-  expect_equal(
-    case_when(
-      logical() ~ 1,
-      logical() ~ 2
-    ),
-    numeric()
-  )
-})
-
 test_that("case_when can be used in anonymous functions (#3422)", {
-  res <- tibble(a = 1:3) %>%
-    mutate(b = (function(x) case_when(x < 2 ~ TRUE, .default = FALSE))(a)) %>%
+  res <- tibble(a = 1:3) |>
+    mutate(b = (function(x) case_when(x < 2 ~ TRUE, .default = FALSE))(a)) |>
     pull()
   expect_equal(res, c(TRUE, FALSE, FALSE))
 })
 
 test_that("case_when() can be used inside mutate()", {
-  out <- mtcars[1:4, ] %>%
-    mutate(out = case_when(
-      cyl == 4 ~ 1,
-      .data[["am"]] == 1 ~ 2,
-      .default = 0
-    )) %>%
+  out <- mtcars[1:4, ] |>
+    mutate(
+      out = case_when(
+        cyl == 4 ~ 1,
+        .data[["am"]] == 1 ~ 2,
+        .default = 0
+      )
+    ) |>
     pull()
   expect_identical(out, c(2, 2, 1, 0))
 })
 
-test_that("case_when() accepts logical conditions with attributes (#6678)", {
+test_that("case_when() conditions must be logical (and aren't cast to logical!)", {
+  expect_snapshot(error = TRUE, {
+    case_when(1 ~ 2)
+  })
+  # Make sure input numbering is right in the error message!
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE ~ 2, 3.5 ~ 4)
+  })
+})
+
+test_that("case_when() accepts logical condition vectors with attributes (#6678)", {
   x <- structure(c(FALSE, TRUE), label = "foo")
   expect_identical(case_when(x ~ 1, .default = 2), c(2, 1))
+})
+
+test_that("case_when() does not accept classed logical conditions", {
+  # From a vctrs perspective, these aren't "logical condition indices"
+  x <- structure(c(FALSE, TRUE), class = "my_logical")
+  expect_snapshot(error = TRUE, {
+    case_when(x ~ 1)
+  })
+})
+
+test_that("case_when() logical conditions can't be arrays (#6862)", {
+  x <- array(TRUE, dim = c(3, 3))
+  y <- c("a", "b", "c")
+
+  expect_snapshot(error = TRUE, {
+    case_when(x ~ y)
+  })
+
+  # Not even 1D arrays
+  x <- array(TRUE, dim = 3)
+
+  expect_snapshot(error = TRUE, {
+    case_when(x ~ y)
+  })
 })
 
 test_that("can pass quosures to case_when()", {
@@ -141,7 +145,7 @@ test_that("can pass nested quosures to case_when()", {
     foo <- mtcars$cyl[1:4]
     quos(
       !!quo(foo) == 4 ~ 1,
-      TRUE            ~ 0
+      TRUE ~ 0
     )
   })
   expect_identical(case_when(!!!fs), c(0, 0, 1, 0))
@@ -165,10 +169,10 @@ test_that("can pass unevaluated formulas to case_when()", {
 test_that("unevaluated formulas can refer to data mask", {
   fs <- exprs(
     cyl == 4 ~ 1,
-    am == 1  ~ 2,
-    TRUE     ~ 0
+    am == 1 ~ 2,
+    TRUE ~ 0
   )
-  out <- mtcars[1:4, ] %>% mutate(out = case_when(!!!fs)) %>% pull()
+  out <- mtcars[1:4, ] |> mutate(out = case_when(!!!fs)) |> pull()
   expect_identical(out, c(2, 2, 1, 0))
 })
 
@@ -179,10 +183,10 @@ test_that("unevaluated formulas can contain quosures", {
   })
   fs <- exprs(
     cyl == !!quo ~ 1,
-    am == 1      ~ 2,
-    TRUE         ~ 0
+    am == 1 ~ 2,
+    TRUE ~ 0
   )
-  out <- mtcars[1:4, ] %>% mutate(out = case_when(!!!fs)) %>% pull()
+  out <- mtcars[1:4, ] |> mutate(out = case_when(!!!fs)) |> pull()
   expect_identical(out, c(2, 2, 1, 0))
 })
 
@@ -191,7 +195,7 @@ test_that("NULL inputs are compacted", {
 
   bool <- FALSE
   out <- case_when(
-    x == 2           ~ TRUE,
+    x == 2 ~ TRUE,
     if (bool) x == 3 ~ NA,
     .default = FALSE
   )
@@ -199,7 +203,7 @@ test_that("NULL inputs are compacted", {
 
   bool <- TRUE
   out <- case_when(
-    x == 2           ~ TRUE,
+    x == 2 ~ TRUE,
     if (bool) x == 3 ~ NA,
     .default = FALSE
   )
@@ -208,8 +212,10 @@ test_that("NULL inputs are compacted", {
 
 test_that("passes through `.default` correctly", {
   expect_identical(case_when(FALSE ~ 1, .default = 2), 2)
-  expect_identical(case_when(FALSE ~ 1:5, .default = 2), rep(2, 5))
-  expect_identical(case_when(FALSE ~ 1:5, .default = 2:6), 2:6)
+  expect_identical(
+    case_when(c(TRUE, FALSE, TRUE, FALSE, TRUE) ~ 1:5, .default = 2),
+    c(1, 2, 3, 2, 5)
+  )
 })
 
 test_that("`.default` isn't part of recycling", {
@@ -231,6 +237,14 @@ test_that("`.default` is part of common type computation", {
 
 test_that("passes through `.ptype` correctly", {
   expect_identical(case_when(TRUE ~ 1, .ptype = integer()), 1L)
+
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE ~ 1, FALSE ~ 1.5, .ptype = integer())
+  })
+  # Error index is right when `NULL` is involved
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE ~ 1, NULL, FALSE ~ 1.5, .ptype = integer())
+  })
 })
 
 test_that("passes through `.size` correctly", {
@@ -239,9 +253,81 @@ test_that("passes through `.size` correctly", {
   expect_snapshot(error = TRUE, {
     case_when(TRUE ~ 1:2, .size = 3)
   })
+  # Error index is right when `NULL` is involved
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE ~ 1:3, NULL, TRUE ~ 1:2, .size = 3)
+  })
 })
 
-# Errors ------------------------------------------------------------------
+test_that("can't supply `.default` and `.unmatched`", {
+  # Probably overkill to add `unmatched_arg` just to get `.unmatched` instead
+  # of `unmatched`.
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE ~ 1, .default = 1, .unmatched = "error")
+  })
+})
+
+test_that("`.unmatched` is validated", {
+  # Probably overkill to add `unmatched_arg` to `vec_case_when()` just to get
+  # `.unmatched` instead of `unmatched`
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE ~ 1, .unmatched = "foo")
+  })
+  expect_snapshot(error = TRUE, {
+    case_when(TRUE ~ 1, .unmatched = 1)
+  })
+})
+
+test_that("`.unmatched` treats `FALSE` like an unmatched location", {
+  expect_snapshot(error = TRUE, {
+    case_when(
+      c(TRUE, FALSE, TRUE) ~ 1,
+      .unmatched = "error"
+    )
+  })
+})
+
+test_that("`.unmatched` treats `NA` like an unmatched location", {
+  expect_snapshot(error = TRUE, {
+    case_when(
+      c(TRUE, NA, TRUE) ~ 1,
+      .unmatched = "error"
+    )
+  })
+})
+
+test_that("`.unmatched` errors pluralize well", {
+  # One location
+  x <- letters[1:5]
+  expect_snapshot(error = TRUE, {
+    case_when(
+      x == "a" ~ 1,
+      x == "b" ~ 2,
+      x == "c" ~ 3,
+      x == "e" ~ 4,
+      .unmatched = "error"
+    )
+  })
+
+  # Two locations
+  x <- letters[1:5]
+  expect_snapshot(error = TRUE, {
+    case_when(
+      x == "a" ~ 1,
+      x == "c" ~ 2,
+      x == "e" ~ 3,
+      .unmatched = "error"
+    )
+  })
+
+  # Many locations
+  x <- 1:100
+  expect_snapshot(error = TRUE, {
+    case_when(x == 1 ~ "a", .unmatched = "error")
+  })
+})
+
+# `case_when()` errors ---------------------------------------------------------
 
 test_that("invalid type errors are correct (#6261) (#6206)", {
   expect_snapshot(error = TRUE, {
@@ -251,7 +337,8 @@ test_that("invalid type errors are correct (#6261) (#6206)", {
 
 test_that("`NULL` formula element throws meaningful error", {
   expect_snapshot(error = TRUE, {
-    case_when(1 ~ NULL)
+    # This also triggers the scalar LHS vector RHS warning
+    case_when(TRUE ~ NULL)
   })
   expect_snapshot(error = TRUE, {
     case_when(NULL ~ 1)
@@ -285,7 +372,7 @@ test_that("case_when() give meaningful errors", {
     ))
 
     (expect_error(
-      case_when(50 ~ 1:3)
+      case_when(51:53 ~ 1:3)
     ))
     (expect_error(
       case_when(paste(50))
@@ -300,8 +387,205 @@ test_that("case_when() give meaningful errors", {
       case_when(NULL)
     ))
     (expect_error(
-      case_when(~1:2)
+      case_when(~ 1:2)
     ))
   })
+})
 
+# `case_when()` deprecated -----------------------------------------------------
+
+test_that("Using scalar LHS with vector RHS is deprecated (#7082)", {
+  # In many packages, people use `case_when()` when they should be using a
+  # series of if statements. We try to warn when we detect this.
+  expect_snapshot({
+    # Columns
+    x <- 1:5
+    y <- 6:10
+
+    # Scalars
+    code <- 1L
+    sex <- "M"
+
+    # This is really a series of if statements.
+    # This is highly inefficient because each scalar LHS is recycled to size 5.
+    expect_identical(
+      case_when(
+        code == 1L && sex == "M" ~ x,
+        code == 1L && sex == "F" ~ y,
+        code == 1L && sex == "M" ~ x + 1L,
+        .default = 0L
+      ),
+      x
+    )
+  })
+
+  # Motivating example of a silent bug that results from allowing this kind of
+  # common size determination (#7082). We ideally want this case to fail. LHS
+  # common size is 1 and RHS inputs ideally should be forced to recycle to this
+  # size. Since both the LHS and RHS inputs are consulted to compute a common
+  # size of 0, this incorrectly returns `character()`, but we at least warn the
+  # user that something is fishy here, and hopefully they take a closer look and
+  # catch their error.
+  expect_snapshot({
+    x <- 1
+    case_when(
+      x == 1 ~ "a",
+      x == 2 ~ character(),
+      .default = "other"
+    )
+  })
+
+  # Now confirm that the other 3 possible combinations don't warn!
+
+  # size 1 LHS, size 1 RHS
+  expect_identical(
+    expect_no_warning(case_when(TRUE ~ "a", FALSE ~ "b")),
+    "a"
+  )
+  # size >1 LHS, size 1 RHS
+  expect_identical(
+    expect_no_warning(case_when(c(TRUE, FALSE) ~ "a", c(FALSE, TRUE) ~ "b")),
+    c("a", "b")
+  )
+  # size >1 LHS, size >1 RHS
+  expect_identical(
+    expect_no_warning(case_when(
+      c(TRUE, FALSE) ~ c("a", "b"),
+      c(FALSE, TRUE) ~ c("c", "d")
+    )),
+    c("a", "d")
+  )
+})
+
+# `replace_when()` -------------------------------------------------------------
+
+test_that("replace_when() recycles scalar RHS", {
+  x <- c(1, 2, 3, 1, 2, 3)
+
+  expect_identical(
+    replace_when(x, x == 1 ~ 0, x == 3 ~ 4),
+    c(0, 2, 4, 0, 2, 4)
+  )
+})
+
+test_that("replace_when() allows vector RHS of the same size as `x`", {
+  x <- c(1, 2, 3, 1, 2, 3)
+  y <- seq_along(x)
+
+  expect_identical(
+    replace_when(x, x == 1 ~ 0, x == 3 ~ y),
+    c(0, 2, 3, 0, 2, 6)
+  )
+
+  expect_snapshot(error = TRUE, {
+    replace_when(x, x == 1 ~ 1:3)
+  })
+})
+
+test_that("replace_when() does not recycle LHS values", {
+  # Unlike `case_when()` we get to do this right!
+  x <- c(1, 2, 3)
+
+  expect_snapshot(error = TRUE, {
+    replace_when(x, TRUE ~ 0)
+  })
+
+  # Error index is right when `NULL` is involved
+  expect_snapshot(error = TRUE, {
+    replace_when(x, c(TRUE, TRUE, TRUE) ~ 0, NULL, TRUE ~ 0)
+  })
+})
+
+test_that("replace_when() retains the type of `x`", {
+  x <- c(1L, 2L)
+
+  # Not going towards common type of double
+  expect_identical(
+    replace_when(x, x == 1L ~ 0),
+    c(0L, 2L)
+  )
+
+  x <- factor(c("a", "b", "c"))
+
+  # Note common type would be character
+  expect_identical(
+    replace_when(x, x == "a" ~ "c"),
+    factor(c("c", "b", "c"), levels = c("a", "b", "c"))
+  )
+
+  # Can't cast to unknown level
+  expect_snapshot(error = TRUE, {
+    replace_when(x, x == "a" ~ "d")
+  })
+  # Error index is right when `NULL` is involved
+  expect_snapshot(error = TRUE, {
+    replace_when(x, x == "a" ~ "b", NULL, x == "b" ~ "d")
+  })
+})
+
+test_that("replace_when() retains names of `x`, consistent with `base::replace()`", {
+  x <- c(a = 1, b = 2, c = 3)
+
+  expect_identical(
+    replace_when(
+      x,
+      x == 1 ~ 0,
+      x == 3 ~ c(z = 4)
+    ),
+    c(a = 0, b = 2, c = 4)
+  )
+
+  # `x` does not become named if RHS inputs are named
+  x <- c(1, 2, 3)
+
+  expect_identical(
+    replace_when(
+      x,
+      x == 1 ~ c(a = 0),
+      x == 3 ~ c(b = 4)
+    ),
+    c(0, 2, 4)
+  )
+})
+
+test_that("replace_when() does not allow named `...`", {
+  # Purposefully stricter than `case_when()`
+  expect_snapshot(error = TRUE, {
+    replace_when(1, foo = TRUE ~ 2)
+  })
+})
+
+test_that("replace_when() compacts `NULL` inputs", {
+  expect_identical(
+    replace_when(1, NULL, TRUE ~ 2, NULL),
+    2
+  )
+})
+
+test_that("replace_when() is a no-op with zero conditions", {
+  # Unlike `case_when()`, where when zero conditions are supplied
+  # we don't know what kind of vector to build (and we refuse to
+  # build an `unspecified` vector, unlike `vec_case_when()`)
+  expect_identical(replace_when(1), 1)
+  expect_identical(replace_when(1, NULL), 1)
+})
+
+test_that("replace_when() works with data frames", {
+  x <- tibble(a = c(1, 2, 3, 1), b = c(2, 3, 4, 2))
+
+  expect_identical(
+    replace_when(
+      x,
+      vec_equal(x, tibble(a = 1, b = 2)) ~ NA
+    ),
+    vec_assign(x, c(1, 4), NA)
+  )
+
+  expect_identical(
+    replace_when(
+      x,
+      vec_equal(x, tibble(a = 1, b = 2)) ~ tibble(a = 0, b = -1)
+    ),
+    vec_assign(x, c(1, 4), tibble(a = 0, b = -1))
+  )
 })

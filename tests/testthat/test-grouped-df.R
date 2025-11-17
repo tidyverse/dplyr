@@ -1,7 +1,9 @@
 test_that("new_grouped_df can create alternative grouping structures (#3837)", {
   tbl <- new_grouped_df(
     tibble(x = rnorm(10)),
-    groups = tibble(".rows" := replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
+    groups = tibble(
+      ".rows" := replicate(5, sample(1:10, replace = TRUE), simplify = FALSE)
+    )
   )
   res <- summarise(tbl, x = mean(x))
   expect_equal(nrow(res), 5L)
@@ -10,7 +12,9 @@ test_that("new_grouped_df can create alternative grouping structures (#3837)", {
 test_that("new_grouped_df does not have rownames (#4173)", {
   tbl <- new_grouped_df(
     tibble(x = rnorm(10)),
-    groups = tibble(".rows" := replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
+    groups = tibble(
+      ".rows" := replicate(5, sample(1:10, replace = TRUE), simplify = FALSE)
+    )
   )
   expect_false(tibble::has_rownames(tbl))
 })
@@ -48,7 +52,14 @@ test_that("$<-, [[<-, and [<- update grouping data if needed", {
   expect_equal(group_data(`$<-`(gf, "x", value = 2))$x, 2)
   expect_equal(group_data(`$<-`(gf, "y", value = 2))$x, 1)
 
-  expect_equal(group_data({gf2 <- gf; gf2[[1]] <- 3; gf2})$x, 3)
+  expect_equal(
+    group_data({
+      gf2 <- gf
+      gf2[[1]] <- 3
+      gf2
+    })$x,
+    3
+  )
   expect_equal(group_data(`[<-`(gf, 1, "x", value = 4))$x, 4)
 })
 
@@ -88,7 +99,7 @@ test_that("names<- doesn't modify group data if not necessary", {
 test_that("group order is maintained in grouped-df methods (#5040)", {
   gdf <- group_by(mtcars, cyl, am, vs)
 
-  x <- gdf[0,]
+  x <- gdf[0, ]
   expect_identical(group_vars(x), group_vars(gdf))
 
   x <- gdf
@@ -109,7 +120,6 @@ test_that("group order is maintained in grouped-df methods (#5040)", {
   names(x) <- names
   expect_identical(group_vars(x), group_vars(group_by(x, cyl, am2, vs)))
 })
-
 
 # validate ----------------------------------------------------------------
 
@@ -151,7 +161,7 @@ test_that("validate_grouped_df() gives useful errors", {
   attr(df11, "groups") <- NULL
 
   expect_snapshot({
-     # Invalid `groups` attribute
+    # Invalid `groups` attribute
     (expect_error(validate_grouped_df(df1)))
     (expect_error(group_data(df1)))
     (expect_error(validate_grouped_df(df2)))
@@ -171,14 +181,13 @@ test_that("validate_grouped_df() gives useful errors", {
 
     # new_grouped_df()
     (expect_error(
-                    new_grouped_df(
-                      tibble(x = 1:10),
-                      tibble(other = list(1:2))
-                    )
+      new_grouped_df(
+        tibble(x = 1:10),
+        tibble(other = list(1:2))
+      )
     ))
     (expect_error(new_grouped_df(10)))
   })
-
 })
 
 # compute_group ----------------------------------------------------------
@@ -202,13 +211,25 @@ test_that("groups are ordered in the C locale", {
   expect_identical(result$x, c("A", "Z", "a", "b"))
 })
 
-test_that("using the global option `dplyr.legacy_locale` forces the system locale", {
+test_that("using the deprecated global option `dplyr.legacy_locale` forces the system locale", {
   skip_if_not(has_collate_locale("en_US"), message = "Can't use 'en_US' locale")
 
   local_options(dplyr.legacy_locale = TRUE)
   withr::local_collate("en_US")
 
   df <- tibble(x = c("a", "A", "Z", "b"))
-  result <- compute_groups(df, "x")
+
+  # Should get deprecation warning about `dplyr.legacy_locale`
+  expect_snapshot({
+    result <- compute_groups(df, "x")
+  })
+
   expect_identical(result$x, c("a", "A", "b", "Z"))
+
+  # Confirming that the deprecation warning also shows up in `group_by()` itself
+  expect_snapshot({
+    result <- group_by(df, x)
+  })
+
+  expect_identical(group_data(result)$x, c("a", "A", "b", "Z"))
 })

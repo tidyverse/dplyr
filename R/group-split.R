@@ -37,7 +37,7 @@
 #' @family grouping functions
 #' @export
 #' @examples
-#' ir <- iris %>% group_by(Species)
+#' ir <- iris |> group_by(Species)
 #'
 #' group_split(ir)
 #' group_keys(ir)
@@ -47,23 +47,43 @@ group_split <- function(.tbl, ..., .keep = TRUE) {
 }
 
 #' @export
-group_split.data.frame <- function(.tbl, ..., .keep = TRUE, keep = deprecated()) {
+group_split.data.frame <- function(
+  .tbl,
+  ...,
+  .keep = TRUE,
+  keep = deprecated()
+) {
   if (!missing(keep)) {
-    lifecycle::deprecate_warn("1.0.0", "group_split(keep = )", "group_split(.keep = )", always = TRUE)
-    .keep <- keep
+    lifecycle::deprecate_stop(
+      "1.0.0",
+      "group_split(keep = )",
+      "group_split(.keep = )"
+    )
   }
   data <- group_by(.tbl, ...)
   group_split_impl(data, .keep = .keep)
 }
 
 #' @export
-group_split.rowwise_df <- function(.tbl, ..., .keep = TRUE, keep = deprecated()) {
-  if (dots_n(...)) {
-    warn("... is ignored in group_split(<rowwise_df>), please use as_tibble() %>% group_split(...)")
-  }
+group_split.rowwise_df <- function(
+  .tbl,
+  ...,
+  .keep = TRUE,
+  keep = deprecated()
+) {
   if (!missing(keep)) {
-    lifecycle::deprecate_warn("1.0.0", "group_split(keep = )", "group_split(.keep = )", always = TRUE)
-    .keep <- keep
+    lifecycle::deprecate_stop(
+      "1.0.0",
+      "group_split(keep = )",
+      "group_split(.keep = )"
+    )
+  }
+  if (dots_n(...)) {
+    warn_ignores_dots(
+      "group_split",
+      "rowwise_df",
+      "as_tibble() |> group_split(...)"
+    )
   }
   if (!missing(.keep)) {
     warn(".keep is ignored in group_split(<rowwise_df>)")
@@ -73,13 +93,25 @@ group_split.rowwise_df <- function(.tbl, ..., .keep = TRUE, keep = deprecated())
 }
 
 #' @export
-group_split.grouped_df <- function(.tbl, ..., .keep = TRUE, keep = deprecated()) {
+group_split.grouped_df <- function(
+  .tbl,
+  ...,
+  .keep = TRUE,
+  keep = deprecated()
+) {
   if (!missing(keep)) {
-    lifecycle::deprecate_warn("1.0.0", "group_split(keep = )", "group_split(.keep = )", always = TRUE)
-    .keep <- keep
+    lifecycle::deprecate_stop(
+      "1.0.0",
+      "group_split(keep = )",
+      "group_split(.keep = )"
+    )
   }
   if (dots_n(...)) {
-    warn("... is ignored in group_split(<grouped_df>), please use group_by(..., .add = TRUE) %>% group_split()")
+    warn_ignores_dots(
+      "group_split",
+      "grouped_df",
+      "group_by(..., .add = TRUE) |> group_split()"
+    )
   }
 
   group_split_impl(.tbl, .keep = .keep)

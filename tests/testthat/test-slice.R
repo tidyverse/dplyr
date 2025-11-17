@@ -3,9 +3,9 @@ test_that("empty slice drops all rows (#6573)", {
   gdf <- group_by(df, g)
   rdf <- rowwise(df)
 
-  expect_identical(slice(df), df[integer(),])
-  expect_identical(slice(gdf), gdf[integer(),])
-  expect_identical(slice(rdf), rdf[integer(),])
+  expect_identical(slice(df), df[integer(), ])
+  expect_identical(slice(gdf), gdf[integer(), ])
+  expect_identical(slice(rdf), rdf[integer(), ])
 })
 
 test_that("slicing data.frame yields data.frame", {
@@ -113,7 +113,7 @@ test_that("slice keeps zero length groups", {
   )
   df <- group_by(df, e, f, g, .drop = FALSE)
 
-  expect_equal(group_size(slice(df, 1)), c(1, 1, 0) )
+  expect_equal(group_size(slice(df, 1)), c(1, 1, 0))
 })
 
 test_that("slicing retains labels for zero length groups", {
@@ -220,7 +220,7 @@ test_that("slice_helpers() call get_slice_size()", {
     slice_tail(df, n = "a")
     slice_min(df, x, n = "a")
     slice_max(df, x, n = "a")
-    slice_sample(df, n= "a")
+    slice_sample(df, n = "a")
   })
 })
 
@@ -356,7 +356,7 @@ test_that("slice_helpers do call slice() and benefit from dispatch (#6084)", {
     }
   )
 
-  nf <- tibble(x = 1:10, g = rep(1:2, each = 5)) %>% group_by(g)
+  nf <- tibble(x = 1:10, g = rep(1:2, each = 5)) |> group_by(g)
   class(nf) <- c("noisy", class(nf))
 
   expect_warning(slice(nf, 1:2), "noisy")
@@ -463,8 +463,8 @@ test_that("slice_min/max() can order by multiple variables (#6176)", {
 test_that("slice_min/max() work with `by`", {
   df <- tibble(g = c(2, 2, 1, 1), x = c(1, 2, 3, 1))
 
-  expect_identical(slice_min(df, x, by = g), df[c(1, 4),])
-  expect_identical(slice_max(df, x, by = g), df[c(2, 3),])
+  expect_identical(slice_min(df, x, by = g), df[c(1, 4), ])
+  expect_identical(slice_max(df, x, by = g), df[c(2, 3), ])
 })
 
 test_that("slice_min/max() inject `with_ties` and `na_rm` (#6725)", {
@@ -548,7 +548,10 @@ test_that("slice_sample() injects `replace` (#6725)", {
   # So a column named `replace` doesn't mask that argument
   df <- tibble(replace = 1)
   expect_identical(slice_sample(df, n = 2), df)
-  expect_identical(slice_sample(df, n = 2, replace = TRUE), vec_slice(df, c(1, 1)))
+  expect_identical(
+    slice_sample(df, n = 2, replace = TRUE),
+    vec_slice(df, c(1, 1))
+  )
 })
 
 test_that("slice_sample() handles positive n= and prop=", {
@@ -619,6 +622,6 @@ test_that("slice_head/slice_tail handle infinite n/prop", {
 
 test_that("slice_head/slice_tail work with `by`", {
   df <- tibble(g = c(2, 2, 2, 1), x = c(1, 2, 3, 1))
-  expect_identical(slice_head(df, n = 2, by = g), df[c(1, 2, 4),])
-  expect_identical(slice_tail(df, n = 2, by = g), df[c(2, 3, 4),])
+  expect_identical(slice_head(df, n = 2, by = g), df[c(1, 2, 4), ])
+  expect_identical(slice_tail(df, n = 2, by = g), df[c(2, 3, 4), ])
 })

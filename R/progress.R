@@ -42,13 +42,18 @@
 #' for (i in 1:10) p$pause(0.5)$tick()$print()
 #' }
 progress_estimated <- function(n, min_time = 0) {
-  # Before 1.1.0 was soft deprecated; so doesn't get always = TRUE until 1.2.0
-  lifecycle::deprecate_warn("1.0.0", "dplyr::progress_estimated()")
+  # Moved to `always = TRUE` in 1.2.0
+  lifecycle::deprecate_warn(
+    "1.0.0",
+    "dplyr::progress_estimated()",
+    always = TRUE
+  )
 
   Progress$new(n, min_time = min_time)
 }
 
-Progress <- R6::R6Class("Progress",
+Progress <- R6::R6Class(
+  "Progress",
   public = list(
     n = NULL,
     i = 0,
@@ -84,15 +89,21 @@ Progress <- R6::R6Class("Progress",
 
     tick = function() {
       "Process one element"
-      if (self$stopped) return(self)
+      if (self$stopped) {
+        return(self)
+      }
 
-      if (self$i == self$n) abort("No more ticks.")
+      if (self$i == self$n) {
+        abort("No more ticks.")
+      }
       self$i <- self$i + 1
       self
     },
 
     stop = function() {
-      if (self$stopped) return(self)
+      if (self$stopped) {
+        return(self)
+      }
 
       self$stopped <- TRUE
       self$stop_time <- now()
@@ -100,14 +111,18 @@ Progress <- R6::R6Class("Progress",
     },
 
     print = function(...) {
-      if (!isTRUE(getOption("dplyr.show_progress")) || # user specifies no progress
-        !interactive() || # not an interactive session
-        !is.null(getOption("knitr.in.progress"))) { # dplyr used within knitr document
+      if (
+        isFALSE(getOption("dplyr.show_progress", default = TRUE)) || # user specifies no progress
+          !interactive() || # not an interactive session
+          !is.null(getOption("knitr.in.progress")) # dplyr used within knitr document
+      ) {
         return(invisible(self))
       }
 
       now_ <- now()
-      if (now_ - self$init_time < self$min_time || now_ - self$last_update < 0.05) {
+      if (
+        now_ - self$init_time < self$min_time || now_ - self$last_update < 0.05
+      ) {
         return(invisible(self))
       }
       self$last_update <- now_
@@ -129,9 +144,15 @@ Progress <- R6::R6Class("Progress",
       nbars <- trunc(self$i / self$n * self$width())
 
       cat_line(
-        "|", str_rep("=", nbars), str_rep(" ", self$width() - nbars), "|",
-        format(round(self$i / self$n * 100), width = 3), "% ",
-        "~", show_time(time_left), " remaining"
+        "|",
+        str_rep("=", nbars),
+        str_rep(" ", self$width() - nbars),
+        "|",
+        format(round(self$i / self$n * 100), width = 3),
+        "% ",
+        "~",
+        show_time(time_left),
+        " remaining"
       )
 
       invisible(self)

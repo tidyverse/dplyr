@@ -20,40 +20,28 @@ summary functions. The name will be the name of the variable in the result.
 The value can be:
 \itemize{
 \item A vector of length 1, e.g. \code{min(x)}, \code{n()}, or \code{sum(is.na(y))}.
-\item A data frame, to add multiple columns from a single expression.
-}
+\item A data frame with 1 row, to add multiple columns from a single expression.
+}}
 
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Returning values with size 0 or >1 was
-deprecated as of 1.1.0. Please use \code{\link[=reframe]{reframe()}} for this instead.}
-
-\item{.by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
-<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
+\item{.by}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
 group by for just this operation, functioning as an alternative to \code{\link[=group_by]{group_by()}}. For
 details and examples, see \link[=dplyr_by]{?dplyr_by}.}
 
 \item{.groups}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} Grouping structure of the
 result.
 \itemize{
-\item "drop_last": dropping the last level of grouping. This was the
+\item \code{"drop_last"}: drops the last level of grouping. This was the
 only supported option before version 1.0.0.
-\item "drop": All levels of grouping are dropped.
-\item "keep": Same grouping structure as \code{.data}.
-\item "rowwise": Each row is its own group.
+\item \code{"drop"}: All levels of grouping are dropped.
+\item \code{"keep"}: Same grouping structure as \code{.data}.
+\item \code{"rowwise"}: Each row is its own group.
 }
 
-When \code{.groups} is not specified, it is chosen
-based on the number of rows of the results:
-\itemize{
-\item If all the results have 1 row, you get "drop_last".
-\item If the number of rows varies, you get "keep" (note that returning a
-variable number of rows was deprecated in favor of \code{\link[=reframe]{reframe()}}, which
-also unconditionally drops all levels of grouping).
-}
-
-In addition, a message informs you of that choice, unless the result is ungrouped,
-the option "dplyr.summarise.inform" is set to \code{FALSE},
-or when \code{summarise()} is called from a function in a package.}
+When \code{.groups} is not specified, it is set to \code{"drop_last"} for a grouped
+data frame, and \code{"keep"} for a rowwise data frame. In addition, a message
+informs you of how the result will be grouped unless the result is
+ungrouped, the option \code{"dplyr.summarise.inform"} is set to \code{FALSE}, or when
+\code{summarise()} is called from a function in a package.}
 }
 \value{
 An object \emph{usually} of the same type as \code{.data}.
@@ -115,41 +103,30 @@ The following methods are currently available in loaded packages:
 
 \examples{
 # A summary applied to ungrouped tbl returns a single row
-mtcars \%>\%
+mtcars |>
   summarise(mean = mean(disp), n = n())
 
 # Usually, you'll want to group first
-mtcars \%>\%
-  group_by(cyl) \%>\%
+mtcars |>
+  group_by(cyl) |>
   summarise(mean = mean(disp), n = n())
 
 # Each summary call removes one grouping level (since that group
 # is now just a single row)
-mtcars \%>\%
-  group_by(cyl, vs) \%>\%
-  summarise(cyl_n = n()) \%>\%
+mtcars |>
+  group_by(cyl, vs) |>
+  summarise(cyl_n = n()) |>
   group_vars()
 
 # BEWARE: reusing variables may lead to unexpected results
-mtcars \%>\%
-  group_by(cyl) \%>\%
+mtcars |>
+  group_by(cyl) |>
   summarise(disp = mean(disp), sd = sd(disp))
 
 # Refer to column names stored as strings with the `.data` pronoun:
 var <- "mass"
 summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
 # Learn more in ?rlang::args_data_masking
-
-# In dplyr 1.1.0, returning multiple rows per group was deprecated in favor
-# of `reframe()`, which never messages and always returns an ungrouped
-# result:
-mtcars \%>\%
-   group_by(cyl) \%>\%
-   summarise(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
-# ->
-mtcars \%>\%
-   group_by(cyl) \%>\%
-   reframe(qs = quantile(disp, c(0.25, 0.75)), prob = c(0.25, 0.75))
 }
 \seealso{
 Other single table verbs: 

@@ -19,12 +19,12 @@ Default value for .drop argument of group_by
 \examples{
 group_by_drop_default(iris)
 
-iris \%>\%
-  group_by(Species) \%>\%
+iris |>
+  group_by(Species) |>
   group_by_drop_default()
 
-iris \%>\%
-  group_by(Species, .drop = FALSE) \%>\%
+iris |>
+  group_by(Species, .drop = FALSE) |>
   group_by_drop_default()
 
 }

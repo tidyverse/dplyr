@@ -27,25 +27,25 @@
 #' @export
 #' @examples
 #' df <- tibble(a = 1, b = 1, c = 1, d = "a", e = "a", f = "a")
-#' df %>% relocate(f)
-#' df %>% relocate(a, .after = c)
-#' df %>% relocate(f, .before = b)
-#' df %>% relocate(a, .after = last_col())
+#' df |> relocate(f)
+#' df |> relocate(a, .after = c)
+#' df |> relocate(f, .before = b)
+#' df |> relocate(a, .after = last_col())
 #'
 #' # relocated columns can change name
-#' df %>% relocate(ff = f)
+#' df |> relocate(ff = f)
 #'
 #' # Can also select variables based on their type
-#' df %>% relocate(where(is.character))
-#' df %>% relocate(where(is.numeric), .after = last_col())
+#' df |> relocate(where(is.character))
+#' df |> relocate(where(is.numeric), .after = last_col())
 #' # Or with any other select helper
-#' df %>% relocate(any_of(c("a", "e", "i", "o", "u")))
+#' df |> relocate(any_of(c("a", "e", "i", "o", "u")))
 #'
 #' # When .before or .after refers to multiple variables they will be
 #' # moved to be immediately before/after the selected variables.
 #' df2 <- tibble(a = 1, b = "a", c = 1, d = "a")
-#' df2 %>% relocate(where(is.numeric), .after = where(is.character))
-#' df2 %>% relocate(where(is.numeric), .before = where(is.character))
+#' df2 |> relocate(where(is.numeric), .after = where(is.character))
+#' df2 |> relocate(where(is.numeric), .before = where(is.character))
 relocate <- function(.data, ..., .before = NULL, .after = NULL) {
   UseMethod("relocate")
 }
@@ -67,15 +67,17 @@ relocate.data.frame <- function(.data, ..., .before = NULL, .after = NULL) {
   out
 }
 
-eval_relocate <- function(expr,
-                          data,
-                          ...,
-                          before = NULL,
-                          after = NULL,
-                          before_arg = "before",
-                          after_arg = "after",
-                          env = caller_env(),
-                          error_call = caller_env()) {
+eval_relocate <- function(
+  expr,
+  data,
+  ...,
+  before = NULL,
+  after = NULL,
+  before_arg = "before",
+  after_arg = "after",
+  env = caller_env(),
+  error_call = caller_env()
+) {
   # `eval_relocate()` returns a named integer vector of size `ncol(data)`
   # describing how to rearrange `data`. Each location in the range
   # `seq2(1L, ncol(data))` is represented once. The names are the new names to
@@ -113,7 +115,12 @@ eval_relocate <- function(expr,
 
   if (has_before) {
     # TODO: Use `allow_rename = FALSE`. https://github.com/r-lib/tidyselect/issues/221
-    where <- tidyselect::eval_select(before, data, env = env, error_call = error_call)
+    where <- tidyselect::eval_select(
+      before,
+      data,
+      env = env,
+      error_call = error_call
+    )
     where <- unname(where)
 
     if (length(where) == 0L) {
@@ -124,7 +131,12 @@ eval_relocate <- function(expr,
     }
   } else if (has_after) {
     # TODO: Use `allow_rename = FALSE`. https://github.com/r-lib/tidyselect/issues/221
-    where <- tidyselect::eval_select(after, data, env = env, error_call = error_call)
+    where <- tidyselect::eval_select(
+      after,
+      data,
+      env = env,
+      error_call = error_call
+    )
     where <- unname(where)
 
     if (length(where) == 0L) {

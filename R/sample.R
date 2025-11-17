@@ -61,53 +61,95 @@
 #' slice_sample(df, prop = 0.25)
 #' slice_sample(df, prop = 2, replace = TRUE)
 #' @export
-sample_n <- function(tbl, size, replace = FALSE, weight = NULL, .env = NULL, ...) {
+sample_n <- function(
+  tbl,
+  size,
+  replace = FALSE,
+  weight = NULL,
+  .env = NULL,
+  ...
+) {
   lifecycle::signal_stage("superseded", "sample_n()")
   UseMethod("sample_n")
 }
 
 #' @export
-sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
-                             .env = parent.frame(), ...) {
+sample_n.default <- function(
+  tbl,
+  size,
+  replace = FALSE,
+  weight = NULL,
+  .env = parent.frame(),
+  ...
+) {
   msg <- glue("`tbl` must be a data frame, not {obj_type_friendly(tbl)}.")
   abort(msg)
 }
 
 #' @export
-sample_n.data.frame <- function(tbl, size, replace = FALSE,
-                                weight = NULL, .env = NULL, ...) {
+sample_n.data.frame <- function(
+  tbl,
+  size,
+  replace = FALSE,
+  weight = NULL,
+  .env = NULL,
+  ...
+) {
   if (!is_null(.env)) {
-    inform("`sample_n()` argument `.env` is deprecated and no longer has any effect.")
+    inform(
+      "`sample_n()` argument `.env` is deprecated and no longer has any effect."
+    )
   }
 
   size <- enquo(size)
   weight <- enquo(weight)
 
   dplyr_local_error_call()
-  slice(tbl, local({
-    size <- check_size(!!size, n(), replace = replace)
-    sample.int(n(), size, replace = replace, prob = !!weight)
-  }))
-
+  slice(
+    tbl,
+    local({
+      size <- check_size(!!size, n(), replace = replace)
+      sample.int(n(), size, replace = replace, prob = !!weight)
+    })
+  )
 }
 
 #' @rdname sample_n
 #' @export
-sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NULL, ...) {
+sample_frac <- function(
+  tbl,
+  size = 1,
+  replace = FALSE,
+  weight = NULL,
+  .env = NULL,
+  ...
+) {
   lifecycle::signal_stage("superseded", "sample_frac()")
   UseMethod("sample_frac")
 }
 
 #' @export
-sample_frac.default <- function(tbl, size = 1, replace = FALSE, weight = NULL,
-                                .env = parent.frame(), ...) {
+sample_frac.default <- function(
+  tbl,
+  size = 1,
+  replace = FALSE,
+  weight = NULL,
+  .env = parent.frame(),
+  ...
+) {
   msg <- glue("`tbl` must be a data frame, not {obj_type_friendly(tbl)}.")
   abort(msg)
 }
 
 #' @export
-sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
-                                   weight = NULL, .env = NULL, ...) {
+sample_frac.data.frame <- function(
+  tbl,
+  size = 1,
+  replace = FALSE,
+  weight = NULL,
+  .env = NULL,
+  ...
+) {
   if (!is_null(.env)) {
     inform("`.env` is deprecated and no longer has any effect")
   }
@@ -116,17 +158,21 @@ sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
   weight <- enquo(weight)
 
   dplyr_local_error_call()
-  slice(tbl, local({
-    size <- round(n() * check_frac(!!size, replace = replace))
-    sample.int(n(), size, replace = replace, prob = !!weight)
-  }))
+  slice(
+    tbl,
+    local({
+      size <- round(n() * check_frac(!!size, replace = replace))
+      sample.int(n(), size, replace = replace, prob = !!weight)
+    })
+  )
 }
-
 
 # Helper functions -------------------------------------------------------------
 
 check_size <- function(size, n, replace = FALSE) {
-  if (size <= n || replace) return(invisible(size))
+  if (size <= n || replace) {
+    return(invisible(size))
+  }
 
   bullets <- c(
     glue("`size` must be less than or equal to {n} (size of data)."),
@@ -136,7 +182,9 @@ check_size <- function(size, n, replace = FALSE) {
 }
 
 check_frac <- function(size, replace = FALSE) {
-  if (size <= 1 || replace) return(invisible(size))
+  if (size <= 1 || replace) {
+    return(invisible(size))
+  }
 
   bullets <- c(
     glue("`size` of sampled fraction must be less or equal to one."),

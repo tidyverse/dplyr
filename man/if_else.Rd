@@ -4,7 +4,15 @@
 \alias{if_else}
 \title{Vectorised if-else}
 \usage{
-if_else(condition, true, false, missing = NULL, ..., ptype = NULL, size = NULL)
+if_else(
+  condition,
+  true,
+  false,
+  missing = NULL,
+  ...,
+  ptype = NULL,
+  size = deprecated()
+)
 }
 \arguments{
 \item{condition}{A logical vector}
@@ -25,8 +33,9 @@ to the size of \code{condition}.
 \item{ptype}{An optional prototype declaring the desired output type. If
 supplied, this overrides the common type of \code{true}, \code{false}, and \code{missing}.}
 
-\item{size}{An optional size declaring the desired output size. If supplied,
-this overrides the size of \code{condition}.}
+\item{size}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+Output size is always taken from \code{condition}.}
 }
 \value{
 A vector with the same size as \code{condition} and the same type as the common
@@ -55,6 +64,9 @@ ifelse(x \%in\% c("a", "b", "c"), x, NA)
 if_else(x \%in\% c("a", "b", "c"), x, NA)
 
 # `if_else()` is often useful for creating new columns inside of `mutate()`
-starwars \%>\%
+starwars |>
   mutate(category = if_else(height < 100, "short", "tall"), .keep = "used")
+}
+\seealso{
+\code{\link[vctrs:vec_if_else]{vctrs::vec_if_else()}}
 }

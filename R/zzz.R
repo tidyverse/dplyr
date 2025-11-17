@@ -1,13 +1,6 @@
 .onLoad <- function(libname, pkgname) {
   ns_dplyr <- ns_env(pkgname)
 
-  op <- options()
-  op.dplyr <- list(
-    dplyr.show_progress = TRUE
-  )
-  toset <- !(names(op.dplyr) %in% names(op))
-  if (any(toset)) options(op.dplyr[toset])
-
   .Call(dplyr_init_library, ns_dplyr, ns_env("vctrs"), ns_env("rlang"))
 
   # TODO: For `arrange()`, `group_by()`, `with_order()`, and `nth()` until vctrs

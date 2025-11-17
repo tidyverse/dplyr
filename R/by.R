@@ -2,7 +2,7 @@
 #'
 #' Use `@inheritParams args_by` to consistently document `.by`.
 #'
-#' @param .by `r lifecycle::badge("experimental")`
+#' @param .by
 #'
 #'   <[`tidy-select`][dplyr_tidy_select]> Optionally, a selection of columns to
 #'   group by for just this operation, functioning as an alternative to [group_by()]. For
@@ -25,18 +25,26 @@ NULL
 #' @name dplyr_by
 NULL
 
-compute_by <- function(by,
-                       data,
-                       ...,
-                       by_arg = "by",
-                       data_arg = "data",
-                       error_call = caller_env()) {
+compute_by <- function(
+  by,
+  data,
+  ...,
+  by_arg = "by",
+  data_arg = "data",
+  error_call = caller_env()
+) {
   check_dots_empty0(...)
 
   error_call <- dplyr_error_call(error_call)
 
   by <- enquo(by)
-  check_by(by, data, by_arg = by_arg, data_arg = data_arg, error_call = error_call)
+  check_by(
+    by,
+    data,
+    by_arg = by_arg,
+    data_arg = data_arg,
+    error_call = error_call
+  )
 
   if (is_grouped_df(data)) {
     type <- "grouped"
@@ -83,12 +91,14 @@ compute_by_groups <- function(data, names, error_call = caller_env()) {
   out
 }
 
-check_by <- function(by,
-                     data,
-                     ...,
-                     by_arg = "by",
-                     data_arg = "data",
-                     error_call = caller_env()) {
+check_by <- function(
+  by,
+  data,
+  ...,
+  by_arg = "by",
+  data_arg = "data",
+  error_call = caller_env()
+) {
   check_dots_empty0(...)
 
   if (quo_is_null(by)) {
@@ -114,9 +124,7 @@ check_by <- function(by,
   invisible(NULL)
 }
 
-eval_select_by <- function(by,
-                           data,
-                           error_call = caller_env()) {
+eval_select_by <- function(by, data, error_call = caller_env()) {
   out <- tidyselect::eval_select(
     expr = by,
     data = data,
@@ -130,9 +138,7 @@ new_by <- function(type, names, data) {
   structure(list(type = type, names = names, data = data), class = "dplyr_by")
 }
 
-check_by_typo <- function(...,
-                          by = NULL,
-                          error_call = caller_env()) {
+check_by_typo <- function(..., by = NULL, error_call = caller_env()) {
   check_by_typo_impl(
     wrong = "by",
     right = ".by",
@@ -140,9 +146,7 @@ check_by_typo <- function(...,
     error_call = error_call
   )
 }
-check_dot_by_typo <- function(...,
-                              .by = NULL,
-                              error_call = caller_env()) {
+check_dot_by_typo <- function(..., .by = NULL, error_call = caller_env()) {
   check_by_typo_impl(
     wrong = ".by",
     right = "by",
@@ -150,10 +154,12 @@ check_dot_by_typo <- function(...,
     error_call = error_call
   )
 }
-check_by_typo_impl <- function(wrong,
-                               right,
-                               by = NULL,
-                               error_call = caller_env()) {
+check_by_typo_impl <- function(
+  wrong,
+  right,
+  by = NULL,
+  error_call = caller_env()
+) {
   by <- enquo(by)
 
   if (quo_is_null(by)) {

@@ -11,16 +11,14 @@ tbl <- function(src, ...) {
 
 #' Create a "tbl" object
 #'
-#' `tbl()` is the standard constructor for tbls. `as.tbl()` coerces,
-#' and `is.tbl()` tests.
+#' `tbl()` is the standard constructor for tbls. `is.tbl()` tests.
 #'
 #' @keywords internal
 #' @export
 #' @param subclass name of subclass. "tbl" is an abstract base class, so you
 #'   must supply this value. `tbl_` is automatically prepended to the
 #'   class name
-#' @param ... For `tbl()`, other fields used by class. For `as.tbl()`,
-#'   other arguments passed to methods.
+#' @param ... For `tbl()`, other fields used by class.
 make_tbl <- function(subclass, ...) {
   subclass <- paste0("tbl_", subclass)
   structure(list(...), class = c(subclass, "tbl"))
@@ -95,4 +93,3 @@ unstructure <- function(x) {
   attributes(x) <- NULL
   x
 }
-

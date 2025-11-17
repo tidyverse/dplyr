@@ -53,7 +53,7 @@ on to \code{\link[=group_by]{group_by()}}.
 For \code{count()}: if \code{FALSE} will include counts for empty groups (i.e. for
 levels of factors that don't exist in the data).
 
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} For \code{add_count()}: deprecated since it
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}} For \code{add_count()}: defunct since it
 can't actually affect the output.}
 }
 \value{
@@ -62,10 +62,10 @@ group transiently, so the output has the same groups as the input.
 }
 \description{
 \code{count()} lets you quickly count the unique values of one or more variables:
-\code{df \%>\% count(a, b)} is roughly equivalent to
-\code{df \%>\% group_by(a, b) \%>\% summarise(n = n())}.
+\code{df |> count(a, b)} is roughly equivalent to
+\code{df |> group_by(a, b) |> summarise(n = n())}.
 \code{count()} is paired with \code{tally()}, a lower-level helper that is equivalent
-to \code{df \%>\% summarise(n = n())}. Supply \code{wt} to perform weighted counts,
+to \code{df |> summarise(n = n())}. Supply \code{wt} to perform weighted counts,
 switching the summary from \code{n = n()} to \code{n = sum(wt)}.
 
 \code{add_count()} and \code{add_tally()} are equivalents to \code{count()} and \code{tally()}
@@ -75,10 +75,10 @@ with group-wise counts.
 \examples{
 # count() is a convenient way to get a sense of the distribution of
 # values in a dataset
-starwars \%>\% count(species)
-starwars \%>\% count(species, sort = TRUE)
-starwars \%>\% count(sex, gender, sort = TRUE)
-starwars \%>\% count(birth_decade = round(birth_year, -1))
+starwars |> count(species)
+starwars |> count(species, sort = TRUE)
+starwars |> count(sex, gender, sort = TRUE)
+starwars |> count(birth_decade = round(birth_year, -1))
 
 # use the `wt` argument to perform a weighted count. This is useful
 # when the data has already been aggregated once
@@ -89,9 +89,9 @@ df <- tribble(
   "Susan",  "female",      4
 )
 # counts rows:
-df \%>\% count(gender)
+df |> count(gender)
 # counts runs:
-df \%>\% count(gender, wt = runs)
+df |> count(gender, wt = runs)
 
 # When factors are involved, `.drop = FALSE` can be used to retain factor
 # levels that don't appear in the data
@@ -99,18 +99,18 @@ df2 <- tibble(
   id = 1:5,
   type = factor(c("a", "c", "a", NA, "a"), levels = c("a", "b", "c"))
 )
-df2 \%>\% count(type)
-df2 \%>\% count(type, .drop = FALSE)
+df2 |> count(type)
+df2 |> count(type, .drop = FALSE)
 
 # Or, using `group_by()`:
-df2 \%>\% group_by(type, .drop = FALSE) \%>\% count()
+df2 |> group_by(type, .drop = FALSE) |> count()
 
 # tally() is a lower-level function that assumes you've done the grouping
-starwars \%>\% tally()
-starwars \%>\% group_by(species) \%>\% tally()
+starwars |> tally()
+starwars |> group_by(species) |> tally()
 
 # both count() and tally() have add_ variants that work like
 # mutate() instead of summarise
-df \%>\% add_count(gender, wt = runs)
-df \%>\% add_tally(wt = runs)
+df |> add_count(gender, wt = runs)
+df |> add_tally(wt = runs)
 }

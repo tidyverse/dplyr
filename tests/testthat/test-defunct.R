@@ -1,21 +1,16 @@
 test_that("generate informative errors", {
   expect_snapshot(error = TRUE, {
-    id()
+    combine()
 
-    failwith()
+    src_mysql()
+    src_postgres()
+    src_sqlite()
 
-    select_vars()
-    rename_vars()
-    select_var()
-    current_vars()
+    src_local()
+    src_df()
 
-    bench_tbls()
-    compare_tbls()
-    compare_tbls2()
-    eval_tbls()
-    eval_tbls2()
-
-    location()
-    changes()
+    tbl_df()
+    as.tbl()
+    add_rownames()
   })
 })

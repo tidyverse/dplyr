@@ -11,93 +11,90 @@
 #' @name defunct
 NULL
 
-#' @usage # Deprecated in 0.5.0 -------------------------------------
-#' @name defunct
-NULL
-
-#' @export
-#' @rdname defunct
-id <- function(.variables, drop = FALSE) {
-  lifecycle::deprecate_stop("0.5.0", "id()", "vctrs::vec_group_id()")
-}
-
-#' @usage # Deprecated in 0.7.0 -------------------------------------
-#' @name defunct
-NULL
-
-#' @export
-#' @rdname defunct
-failwith <- function(default = NULL, f, quiet = FALSE) {
-  lifecycle::deprecate_stop("0.7.0", "failwith()", "purrr::possibly()")
-}
-
-#' @usage # Deprecated in 0.8.* -------------------------------------
-#' @name defunct
-NULL
-
-#' @export
-#' @rdname defunct
-select_vars <- function(vars = chr(), ..., include = chr(), exclude = chr()) {
-  lifecycle::deprecate_stop("0.8.4", "select_vars()", "tidyselect::vars_select()")
-}
-#' @export
-#' @rdname defunct
-rename_vars <- function(vars = chr(), ..., strict = TRUE) {
-  lifecycle::deprecate_stop("0.8.4", "rename_vars()", "tidyselect::vars_rename()")
-}
-#' @export
-#' @rdname defunct
-select_var <- function(vars, var = -1) {
-  lifecycle::deprecate_stop("0.8.4", "select_var()", "tidyselect::vars_pull()")
-}
-#' @export
-#' @rdname defunct
-current_vars <- function(...) {
-  lifecycle::deprecate_stop("0.8.4", "current_vars()", "tidyselect::peek_vars()")
-}
-
 #' @usage # Deprecated in 1.0.0 -------------------------------------
 #' @name defunct
 NULL
 
 #' @export
 #' @rdname defunct
-bench_tbls <- function(tbls, op, ..., times = 10) {
-  lifecycle::deprecate_stop("1.0.0", "bench_tbls()")
+combine <- function(...) {
+  lifecycle::deprecate_stop("1.0.0", "combine()", "vctrs::vec_c()")
 }
 
 #' @export
 #' @rdname defunct
-compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) {
-  lifecycle::deprecate_stop("1.0.0", "compare_tbls()")
+src_mysql <- function(
+  dbname,
+  host = NULL,
+  port = 0L,
+  username = "root",
+  password = "",
+  ...
+) {
+  lifecycle::deprecate_stop(
+    "1.0.0",
+    "src_mysql()",
+    details = "Please use `tbl()` directly with a database connection"
+  )
 }
 
 #' @export
 #' @rdname defunct
-compare_tbls2 <- function(tbls_x, tbls_y, op, ref = NULL, compare = equal_data_frame, ...) {
-  lifecycle::deprecate_stop("1.0.0", "compare_tbls2()")
+src_postgres <- function(
+  dbname = NULL,
+  host = NULL,
+  port = NULL,
+  user = NULL,
+  password = NULL,
+  ...
+) {
+  lifecycle::deprecate_stop(
+    "1.0.0",
+    "src_postgres()",
+    details = "Please use `tbl()` directly with a database connection"
+  )
 }
 
 #' @export
 #' @rdname defunct
-eval_tbls <- function(tbls, op) {
-  lifecycle::deprecate_stop("1.0.0", "eval_tbls()")
+src_sqlite <- function(path, create = FALSE) {
+  lifecycle::deprecate_stop(
+    "1.0.0",
+    "src_sqlite()",
+    details = "Please use `tbl()` directly with a database connection"
+  )
 }
 
 #' @export
 #' @rdname defunct
-eval_tbls2 <- function(tbls_x, tbls_y, op) {
-  lifecycle::deprecate_stop("1.0.0", "eval_tbls2()")
+src_local <- function(tbl, pkg = NULL, env = NULL) {
+  lifecycle::deprecate_stop("1.0.0", "src_local()")
 }
 
 #' @export
 #' @rdname defunct
-location <- function(df) {
-  lifecycle::deprecate_stop("1.0.0", "location()", "lobstr::ref()")
+src_df <- function(pkg = NULL, env = NULL) {
+  lifecycle::deprecate_stop("1.0.0", "src_df()")
 }
 
 #' @export
 #' @rdname defunct
-changes <- function(x, y) {
-  lifecycle::deprecate_stop("1.0.0", "changes()", "lobstr::ref()")
+tbl_df <- function(data) {
+  lifecycle::deprecate_stop("1.0.0", "tbl_df()", "tibble::as_tibble()")
+}
+
+#' @export
+#' @rdname defunct
+as.tbl <- function(x, ...) {
+  lifecycle::deprecate_stop("1.0.0", "as.tbl()", "tibble::as_tibble()")
+}
+
+#' @export
+#' @rdname defunct
+add_rownames <- function(df, var = "rowname") {
+  lifecycle::deprecate_stop(
+    "1.0.0",
+    "add_rownames()",
+    "tibble::rownames_to_column()"
+  )
 }

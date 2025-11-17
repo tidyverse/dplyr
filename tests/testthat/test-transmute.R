@@ -1,5 +1,5 @@
 test_that("non-syntactic grouping variable is preserved (#1138)", {
-  df <- tibble(`a b` = 1L) %>% group_by(`a b`) %>% transmute()
+  df <- tibble(`a b` = 1L) |> group_by(`a b`) |> transmute()
   expect_named(df, "a b")
 })
 
@@ -22,8 +22,8 @@ test_that("transmute with no args returns grouping vars", {
   df <- tibble(x = 1, y = 2)
   gf <- group_by(df, x)
 
-  expect_equal(df %>% transmute(), df[integer()])
-  expect_equal(gf %>% transmute(), gf[1L])
+  expect_equal(df |> transmute(), df[integer()])
+  expect_equal(gf |> transmute(), gf[1L])
 })
 
 # transmute variables -----------------------------------------------
@@ -44,9 +44,15 @@ test_that("arguments to transmute() don't match vars_transmute() arguments", {
 test_that("arguments to rename() don't match vars_rename() arguments (#2861)", {
   df <- tibble(a = 1)
   expect_identical(rename(df, var = a), tibble(var = 1))
-  expect_identical(rename(group_by(df, a), var = a), group_by(tibble(var = 1), var))
+  expect_identical(
+    rename(group_by(df, a), var = a),
+    group_by(tibble(var = 1), var)
+  )
   expect_identical(rename(df, strict = a), tibble(strict = 1))
-  expect_identical(rename(group_by(df, a), strict = a), group_by(tibble(strict = 1), strict))
+  expect_identical(
+    rename(group_by(df, a), strict = a),
+    group_by(tibble(strict = 1), strict)
+  )
 })
 
 test_that("can transmute() with .data pronoun (#2715)", {
@@ -54,14 +60,14 @@ test_that("can transmute() with .data pronoun (#2715)", {
 })
 
 test_that("transmute() does not warn when a variable is removed with = NULL (#4609)", {
-  df <- data.frame(x=1)
-  expect_warning(transmute(df, y =x+1, z=y*2, y = NULL), NA)
+  df <- data.frame(x = 1)
+  expect_warning(transmute(df, y = x + 1, z = y * 2, y = NULL), NA)
 })
 
 test_that("transmute() can handle auto splicing", {
   expect_equal(
-    iris %>% transmute(tibble(Sepal.Length, Sepal.Width)),
-    iris %>% select(Sepal.Length, Sepal.Width)
+    iris |> transmute(tibble(Sepal.Length, Sepal.Width)),
+    iris |> select(Sepal.Length, Sepal.Width)
   )
 })
 

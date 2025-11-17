@@ -2,8 +2,8 @@
 title: "Two-table verbs"
 description: >
   Most dplyr verbs work with a single data set, but most data analyses involve
-  multiple datasets. This vignette introduces you to the dplyr verbs that 
-  work with more one than data set, and introduces to the mutating joins, 
+  multiple datasets. This vignette introduces you to the dplyr verbs that
+  work with more one than data set, and introduces to the mutating joins,
   filtering joins, and the set operations.
 output: rmarkdown::html_vignette
 vignette: >
@@ -20,13 +20,13 @@ library(dplyr)
 
 It's rare that a data analysis involves only a single table of data. In practice, you'll normally have many tables that contribute to an analysis, and you need flexible tools to combine them. In dplyr, there are three families of verbs that work with two tables at a time:
 
-* Mutating joins, which add new variables to one table from matching rows in 
+* Mutating joins, which add new variables to one table from matching rows in
   another.
 
-* Filtering joins, which filter observations from one table based on whether or 
+* Filtering joins, which filter observations from one table based on whether or
   not they match an observation in the other table.
 
-* Set operations, which combine the observations in the data sets as if they 
+* Set operations, which combine the observations in the data sets as if they
   were set elements.
 
 (This discussion assumes that you have [tidy data](https://www.jstatsoft.org/v59/i10/), where the rows are observations and the columns are variables. If you're not familiar with that framework, I'd recommend reading up on it first.)
@@ -40,9 +40,9 @@ Mutating joins allow you to combine variables from multiple tables. For example,
 ```{r, warning = FALSE}
 library(nycflights13)
 # Drop unimportant variables so it's easier to understand the join results.
-flights2 <- flights %>% select(year:day, hour, origin, dest, tailnum, carrier)
+flights2 <- flights |> select(year:day, hour, origin, dest, tailnum, carrier)
 
-flights2 %>% 
+flights2 |>
   left_join(airlines)
 ```
 
@@ -50,36 +50,36 @@ flights2 %>%
 
 As well as `x` and `y`, each mutating join takes an argument `by` that controls which variables are used to match observations in the two tables. There are a few ways to specify it, as I illustrate below with various tables from nycflights13:
 
-  * `NULL`, the default. dplyr will will use all variables that appear in 
-    both tables, a __natural__ join. For example, the flights and 
-    weather tables match on their common variables: year, month, day, hour and 
+  * `NULL`, the default. dplyr will will use all variables that appear in
+    both tables, a __natural__ join. For example, the flights and
+    weather tables match on their common variables: year, month, day, hour and
     origin.
-    
+
     ```{r}
-    flights2 %>% left_join(weather)
+    flights2 |> left_join(weather)
     ```
 
-  * A character vector, `by = "x"`. Like a natural join, but uses only 
-    some of the common variables. For example, `flights` and `planes` have 
-    `year` columns, but they mean different things so we only want to join by 
+  * A character vector, `by = "x"`. Like a natural join, but uses only
+    some of the common variables. For example, `flights` and `planes` have
+    `year` columns, but they mean different things so we only want to join by
     `tailnum`.
-    
+
     ```{r}
-    flights2 %>% left_join(planes, by = "tailnum")
+    flights2 |> left_join(planes, by = "tailnum")
     ```
-    
+
     Note that the year columns in the output are disambiguated with a suffix.
 
   * A named character vector: `by = c("x" = "a")`. This will
-    match variable `x` in table `x` to variable `a` in table `y`. The 
+    match variable `x` in table `x` to variable `a` in table `y`. The
     variables from use will be used in the output.
-    
+
     Each flight has an origin and destination `airport`, so we need to specify
     which one we want to join to:
-    
+
     ```{r}
-    flights2 %>% left_join(airports, c("dest" = "faa"))
-    flights2 %>% left_join(airports, c("origin" = "faa"))
+    flights2 |> left_join(airports, c("dest" = "faa"))
+    flights2 |> left_join(airports, c("origin" = "faa"))
     ```
 
 ### Types of join
@@ -92,31 +92,31 @@ df2 <- tibble(x = c(3, 1), a = 10, b = "a")
 ```
 
   * `inner_join(x, y)` only includes observations that match in both `x` and `y`.
-    
+
     ```{r}
-    df1 %>% inner_join(df2) %>% knitr::kable()
+    df1 |> inner_join(df2) |> knitr::kable()
     ```
-    
+
   * `left_join(x, y)` includes all observations in `x`, regardless of whether
-    they match or not. This is the most commonly used join because it ensures 
+    they match or not. This is the most commonly used join because it ensures
     that you don't lose observations from your primary table.
-  
+
     ```{r}
-    df1 %>% left_join(df2)
+    df1 |> left_join(df2)
     ```
-  
-  * `right_join(x, y)` includes all observations in `y`. It's equivalent to 
+
+  * `right_join(x, y)` includes all observations in `y`. It's equivalent to
     `left_join(y, x)`, but the columns and rows will be ordered differently.
-  
+
     ```{r}
-    df1 %>% right_join(df2)
-    df2 %>% left_join(df1)
+    df1 |> right_join(df2)
+    df2 |> left_join(df1)
     ```
 
 * `full_join()` includes all observations from `x` and `y`.
 
     ```{r}
-    df1 %>% full_join(df2)
+    df1 |> full_join(df2)
     ```
 
 The left, right and full joins are collectively know as __outer joins__. When a row doesn't match in an outer join, the new variables are filled in with missing values.
@@ -129,7 +129,7 @@ While mutating joins are primarily used to add new variables, they can also gene
 df1 <- tibble(x = c(1, 1, 2), y = 1:3)
 df2 <- tibble(x = c(1, 1, 2), z = c("a", "b", "a"))
 
-df1 %>% left_join(df2)
+df1 |> left_join(df2)
 ```
 
 ## Filtering joins
@@ -143,23 +143,23 @@ These are most useful for diagnosing join mismatches. For example, there are man
 
 ```{r}
 library("nycflights13")
-flights %>% 
-  anti_join(planes, by = "tailnum") %>% 
+flights |>
+  anti_join(planes, by = "tailnum") |>
   count(tailnum, sort = TRUE)
 ```
 
-If you're worried about what observations your joins will match, start with a `semi_join()` or `anti_join()`. `semi_join()` and `anti_join()` never duplicate; they only ever remove observations. 
+If you're worried about what observations your joins will match, start with a `semi_join()` or `anti_join()`. `semi_join()` and `anti_join()` never duplicate; they only ever remove observations.
 
 ```{r}
 df1 <- tibble(x = c(1, 1, 3, 4), y = 1:4)
 df2 <- tibble(x = c(1, 1, 2), z = c("a", "b", "a"))
 
 # Four rows to start with:
-df1 %>% nrow()
+df1 |> nrow()
 # And we get four rows after the join
-df1 %>% inner_join(df2, by = "x") %>% nrow()
+df1 |> inner_join(df2, by = "x") |> nrow()
 # But only two rows actually match
-df1 %>% semi_join(df2, by = "x") %>% nrow()
+df1 |> semi_join(df2, by = "x") |> nrow()
 ```
 
 ## Set operations

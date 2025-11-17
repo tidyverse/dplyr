@@ -23,8 +23,9 @@
 #' @param ptype An optional prototype declaring the desired output type. If
 #'   supplied, this overrides the common type of `true`, `false`, and `missing`.
 #'
-#' @param size An optional size declaring the desired output size. If supplied,
-#'   this overrides the size of `condition`.
+#' @param size `r lifecycle::badge("deprecated")`
+#'
+#'   Output size is always taken from `condition`.
 #'
 #' @return
 #' A vector with the same size as `condition` and the same type as the common
@@ -33,6 +34,8 @@
 #' Where `condition` is `TRUE`, the matching values from `true`, where it is
 #' `FALSE`, the matching values from `false`, and where it is `NA`, the matching
 #' values from `missing`, if provided, otherwise a missing value will be used.
+#'
+#' @seealso [vctrs::vec_if_else()]
 #'
 #' @export
 #' @examples
@@ -48,38 +51,29 @@
 #' if_else(x %in% c("a", "b", "c"), x, NA)
 #'
 #' # `if_else()` is often useful for creating new columns inside of `mutate()`
-#' starwars %>%
+#' starwars |>
 #'   mutate(category = if_else(height < 100, "short", "tall"), .keep = "used")
-if_else <- function(condition,
-                    true,
-                    false,
-                    missing = NULL,
-                    ...,
-                    ptype = NULL,
-                    size = NULL) {
+if_else <- function(
+  condition,
+  true,
+  false,
+  missing = NULL,
+  ...,
+  ptype = NULL,
+  size = deprecated()
+) {
   check_dots_empty0(...)
 
-  # Assert early since we `!` the `condition`
-  check_logical(condition)
+  if (!is_missing(size)) {
+    lifecycle::deprecate_warn("1.2.0", "if_else(size = )")
+  }
 
-  conditions <- list(
+  vec_if_else(
     condition = condition,
-    !condition
-  )
-  values <- list(
     true = true,
-    false = false
-  )
-
-  vec_case_when(
-    conditions = conditions,
-    values = values,
-    conditions_arg = "",
-    values_arg = "",
-    default = missing,
-    default_arg = "missing",
+    false = false,
+    missing = missing,
     ptype = ptype,
-    size = size,
-    call = current_env()
+    error_call = current_env()
   )
 }

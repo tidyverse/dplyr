@@ -20,26 +20,25 @@ test_that("can sort empty data frame", {
 test_that("local arrange sorts missing values to end", {
   df <- data.frame(x = c(2, 1, NA))
 
-  expect_equal(df %>% arrange(x) %>% pull(), c(1, 2, NA))
-  expect_equal(df %>% arrange(desc(x)) %>% pull(), c(2, 1, NA))
+  expect_equal(df |> arrange(x) |> pull(), c(1, 2, NA))
+  expect_equal(df |> arrange(desc(x)) |> pull(), c(2, 1, NA))
 })
 
 test_that("arrange() gives meaningful errors", {
   expect_snapshot({
     # duplicated column name
     (expect_error(
-      tibble(x = 1, x = 1, .name_repair = "minimal") %>% arrange(x)
+      tibble(x = 1, x = 1, .name_repair = "minimal") |> arrange(x)
     ))
 
     # error in mutate() step
     (expect_error(
-      tibble(x = 1) %>% arrange(y)
+      tibble(x = 1) |> arrange(y)
     ))
     (expect_error(
-      tibble(x = 1) %>% arrange(rep(x, 2))
+      tibble(x = 1) |> arrange(rep(x, 2))
     ))
   })
-
 })
 
 # column types ----------------------------------------------------------
@@ -75,7 +74,9 @@ test_that("arrange handles complex columns", {
 
 test_that("arrange handles S4 classes (#1105)", {
   TestS4 <- suppressWarnings(setClass("TestS4", contains = "integer"))
-  setMethod('[', 'TestS4', function(x, i, ...){ TestS4(unclass(x)[i, ...])  })
+  setMethod('[', 'TestS4', function(x, i, ...) {
+    TestS4(unclass(x)[i, ...])
+  })
   on.exit(removeClass("TestS4"), add = TRUE)
 
   df <- tibble(x = 1:3, y = TestS4(3:1))
@@ -109,7 +110,7 @@ test_that("`arrange()` works with `numeric_version` (#6680)", {
   x <- numeric_version(c("1.11", "1.2.3", "1.2.2"))
   df <- tibble(x = x)
 
-  expect <- df[c(3, 2, 1),]
+  expect <- df[c(3, 2, 1), ]
 
   expect_identical(arrange(df, x), expect)
 })
@@ -184,7 +185,7 @@ test_that("arrange validates that `.locale` must be one from stringi", {
 test_that("arrange preserves input class", {
   df1 <- data.frame(x = 1:3, y = 3:1)
   df2 <- tibble(x = 1:3, y = 3:1)
-  df3 <- df1 %>% group_by(x)
+  df3 <- df1 |> group_by(x)
 
   expect_s3_class(arrange(df1, x), "data.frame", exact = TRUE)
   expect_s3_class(arrange(df2, x), "tbl_df")
@@ -195,13 +196,13 @@ test_that("grouped arrange ignores group, unless requested with .by_group", {
   df <- data.frame(g = c(2, 1, 2, 1), x = 4:1)
   gf <- group_by(df, g)
 
-  expect_equal(arrange(gf, x), gf[4:1, ,])
-  expect_equal(arrange(gf, x, .by_group = TRUE), gf[c(4, 2, 3, 1), ,])
+  expect_equal(arrange(gf, x), gf[4:1, , ])
+  expect_equal(arrange(gf, x, .by_group = TRUE), gf[c(4, 2, 3, 1), , ])
 })
 
 test_that("arrange updates the grouping structure (#605)", {
   df <- tibble(g = c(2, 2, 1, 1), x = c(1, 3, 2, 4))
-  res <- df %>% group_by(g) %>% arrange(x)
+  res <- df |> group_by(g) |> arrange(x)
   expect_s3_class(res, "grouped_df")
   expect_equal(group_rows(res), list_of(c(2L, 4L), c(1L, 3L)))
 })
@@ -210,20 +211,20 @@ test_that("arrange() supports across() and pick() (#4679)", {
   df <- tibble(x = c(1, 3, 2, 1), y = c(4, 3, 2, 1))
 
   expect_identical(
-    df %>% arrange(pick(everything())),
-    df %>% arrange(x, y)
+    df |> arrange(pick(everything())),
+    df |> arrange(x, y)
   )
   expect_identical(
-    df %>% arrange(across(everything(), .fns = desc)),
-    df %>% arrange(desc(x), desc(y))
+    df |> arrange(across(everything(), .fns = desc)),
+    df |> arrange(desc(x), desc(y))
   )
   expect_identical(
-    df %>% arrange(pick(x)),
-    df %>% arrange(x)
+    df |> arrange(pick(x)),
+    df |> arrange(x)
   )
   expect_identical(
-    df %>% arrange(across(y, .fns = identity)),
-    df %>% arrange(y)
+    df |> arrange(across(y, .fns = identity)),
+    df |> arrange(y)
   )
 })
 
@@ -236,12 +237,16 @@ test_that("arrange() works with across() and pick() cols that return multiple co
   )
 
   expect_identical(
-    arrange(df, across(c(a, b), .fns = identity), across(c(c, d), .fns = identity)),
-    df[c(3, 2, 1),]
+    arrange(
+      df,
+      across(c(a, b), .fns = identity),
+      across(c(c, d), .fns = identity)
+    ),
+    df[c(3, 2, 1), ]
   )
   expect_identical(
     arrange(df, pick(a, b), pick(c, d)),
-    df[c(3, 2, 1),]
+    df[c(3, 2, 1), ]
   )
 })
 
@@ -249,10 +254,10 @@ test_that("arrange() evaluates each pick() call on the original data (#6495)", {
   df <- tibble(x = 2:1)
 
   out <- arrange(df, TRUE, pick(everything()))
-  expect_identical(out, df[c(2, 1),])
+  expect_identical(out, df[c(2, 1), ])
 
   out <- arrange(df, NULL, pick(everything()))
-  expect_identical(out, df[c(2, 1),])
+  expect_identical(out, df[c(2, 1), ])
 })
 
 test_that("arrange() with empty dots still calls dplyr_row_slice()", {
@@ -306,7 +311,7 @@ test_that("desc() inside arrange() checks the number of arguments (#5921)", {
   })
 })
 
-test_that("arrange keeps zero length groups",{
+test_that("arrange keeps zero length groups", {
   df <- tibble(
     e = 1,
     f = factor(c(1, 1, 2, 2), levels = 1:3),
@@ -315,13 +320,13 @@ test_that("arrange keeps zero length groups",{
   )
   df <- group_by(df, e, f, g, .drop = FALSE)
 
-  expect_equal( group_size(arrange(df)), c(2, 2, 0) )
-  expect_equal( group_size(arrange(df, x)), c(2, 2, 0) )
+  expect_equal(group_size(arrange(df)), c(2, 2, 0))
+  expect_equal(group_size(arrange(df, x)), c(2, 2, 0))
 })
 
 # legacy --------------------------------------------------------------
 
-test_that("legacy - using the global option `dplyr.legacy_locale` forces the system locale", {
+test_that("legacy - using the deprecated global option `dplyr.legacy_locale` forces the system locale", {
   skip_if_not(has_collate_locale("en_US"), message = "Can't use 'en_US' locale")
 
   local_options(dplyr.legacy_locale = TRUE)
@@ -329,12 +334,18 @@ test_that("legacy - using the global option `dplyr.legacy_locale` forces the sys
 
   df <- tibble(x = c("a", "A", "Z", "b"))
 
-  expect_identical(arrange(df, x)$x, c("a", "A", "b", "Z"))
+  # Capture `dplyr.legacy_locale` deprecation warning
+  expect_snapshot({
+    out <- arrange(df, x)$x
+  })
+
+  expect_identical(out, c("a", "A", "b", "Z"))
 })
 
 test_that("legacy - usage of `.locale` overrides `dplyr.legacy_locale`", {
   skip_if_not_installed("stringi", "1.5.3")
 
+  local_options(lifecycle_verbosity = "quiet")
   local_options(dplyr.legacy_locale = TRUE)
 
   # Danish `o` with `/` through it sorts after `z` in Danish locale
@@ -350,6 +361,7 @@ test_that("legacy - usage of `.locale` overrides `dplyr.legacy_locale`", {
 })
 
 test_that("legacy - empty arrange() returns input", {
+  local_options(lifecycle_verbosity = "quiet")
   local_options(dplyr.legacy_locale = TRUE)
 
   df <- tibble(x = 1:10, y = 1:10)
@@ -363,6 +375,7 @@ test_that("legacy - empty arrange() returns input", {
 })
 
 test_that("legacy - can sort empty data frame", {
+  local_options(lifecycle_verbosity = "quiet")
   local_options(dplyr.legacy_locale = TRUE)
 
   df <- tibble(a = numeric(0))
@@ -370,15 +383,17 @@ test_that("legacy - can sort empty data frame", {
 })
 
 test_that("legacy - local arrange sorts missing values to end", {
+  local_options(lifecycle_verbosity = "quiet")
   local_options(dplyr.legacy_locale = TRUE)
 
   df <- data.frame(x = c(2, 1, NA))
 
-  expect_equal(df %>% arrange(x) %>% pull(), c(1, 2, NA))
-  expect_equal(df %>% arrange(desc(x)) %>% pull(), c(2, 1, NA))
+  expect_equal(df |> arrange(x) |> pull(), c(1, 2, NA))
+  expect_equal(df |> arrange(desc(x)) |> pull(), c(2, 1, NA))
 })
 
 test_that("legacy - arrange handles list columns (#282)", {
+  local_options(lifecycle_verbosity = "quiet")
   local_options(dplyr.legacy_locale = TRUE)
 
   # no intrinsic ordering
@@ -390,6 +405,7 @@ test_that("legacy - arrange handles list columns (#282)", {
 })
 
 test_that("legacy - arrange handles raw columns (#1803)", {
+  local_options(lifecycle_verbosity = "quiet")
   local_options(dplyr.legacy_locale = TRUE)
 
   df <- tibble(x = 1:3, y = as.raw(3:1))
@@ -397,6 +413,7 @@ test_that("legacy - arrange handles raw columns (#1803)", {
 })
 
 test_that("legacy - arrange handles matrix columns", {
+  local_options(lifecycle_verbosity = "quiet")
   local_options(dplyr.legacy_locale = TRUE)
 
   df <- tibble(x = 1:3, y = matrix(6:1, ncol = 2))
@@ -404,6 +421,7 @@ test_that("legacy - arrange handles matrix columns", {
 })
 
 test_that("legacy - arrange handles data.frame columns (#3153)", {
+  local_options(lifecycle_verbosity = "quiet")
   local_options(dplyr.legacy_locale = TRUE)
 
   df <- tibble(x = 1:3, y = data.frame(z = 3:1))
@@ -411,6 +429,7 @@ test_that("legacy - arrange handles data.frame columns (#3153)", {
 })
 
 test_that("legacy - arrange handles complex columns", {
+  local_options(lifecycle_verbosity = "quiet")
   local_options(dplyr.legacy_locale = TRUE)
 
   df <- tibble(x = 1:3, y = 3:1 + 2i)
@@ -418,10 +437,13 @@ test_that("legacy - arrange handles complex columns", {
 })
 
 test_that("legacy - arrange handles S4 classes (#1105)", {
+  local_options(lifecycle_verbosity = "quiet")
   local_options(dplyr.legacy_locale = TRUE)
 
   TestS4 <- suppressWarnings(setClass("TestS4", contains = "integer"))
-  setMethod('[', 'TestS4', function(x, i, ...){ TestS4(unclass(x)[i, ...])  })
+  setMethod('[', 'TestS4', function(x, i, ...) {
+    TestS4(unclass(x)[i, ...])
+  })
   on.exit(removeClass("TestS4"), add = TRUE)
 
   df <- tibble(x = 1:3, y = TestS4(3:1))
@@ -429,17 +451,19 @@ test_that("legacy - arrange handles S4 classes (#1105)", {
 })
 
 test_that("legacy - `arrange()` works with `numeric_version` (#6680)", {
+  local_options(lifecycle_verbosity = "quiet")
   local_options(dplyr.legacy_locale = TRUE)
 
   x <- numeric_version(c("1.11", "1.2.3", "1.2.2"))
   df <- tibble(x = x)
 
-  expect <- df[c(3, 2, 1),]
+  expect <- df[c(3, 2, 1), ]
 
   expect_identical(arrange(df, x), expect)
 })
 
 test_that("legacy - arrange works with two columns when the first has a data frame proxy (#6268)", {
+  local_options(lifecycle_verbosity = "quiet")
   local_options(dplyr.legacy_locale = TRUE)
 
   # `id1` has a data frame proxy for `vec_proxy_order()`
@@ -454,29 +478,31 @@ test_that("legacy - arrange works with two columns when the first has a data fra
 })
 
 test_that("legacy - arrange() supports across() and pick() (#4679)", {
+  local_options(lifecycle_verbosity = "quiet")
   local_options(dplyr.legacy_locale = TRUE)
 
   df <- tibble(x = c(1, 3, 2, 1), y = c(4, 3, 2, 1))
 
   expect_identical(
-    df %>% arrange(pick(everything())),
-    df %>% arrange(x, y)
+    df |> arrange(pick(everything())),
+    df |> arrange(x, y)
   )
   expect_identical(
-    df %>% arrange(across(everything(), .fns = desc)),
-    df %>% arrange(desc(x), desc(y))
+    df |> arrange(across(everything(), .fns = desc)),
+    df |> arrange(desc(x), desc(y))
   )
   expect_identical(
-    df %>% arrange(pick(x)),
-    df %>% arrange(x)
+    df |> arrange(pick(x)),
+    df |> arrange(x)
   )
   expect_identical(
-    df %>% arrange(across(y, .fns = identity)),
-    df %>% arrange(y)
+    df |> arrange(across(y, .fns = identity)),
+    df |> arrange(y)
   )
 })
 
 test_that("legacy - arrange() works with across() and pick() cols that return multiple columns (#6490)", {
+  local_options(lifecycle_verbosity = "quiet")
   local_options(dplyr.legacy_locale = TRUE)
 
   df <- tibble(
@@ -487,26 +513,32 @@ test_that("legacy - arrange() works with across() and pick() cols that return mu
   )
 
   expect_identical(
-    arrange(df, across(c(a, b), .fns = identity), across(c(c, d), .fns = identity)),
-    df[c(3, 2, 1),]
+    arrange(
+      df,
+      across(c(a, b), .fns = identity),
+      across(c(c, d), .fns = identity)
+    ),
+    df[c(3, 2, 1), ]
   )
   expect_identical(
     arrange(df, pick(a, b), pick(c, d)),
-    df[c(3, 2, 1),]
+    df[c(3, 2, 1), ]
   )
 })
 
 test_that("legacy - arrange sorts missings in df-cols correctly", {
+  local_options(lifecycle_verbosity = "quiet")
   local_options(dplyr.legacy_locale = TRUE)
 
   col <- tibble(a = c(1, 1, 1), b = c(3, NA, 1))
   df <- tibble(x = col)
 
-  expect_identical(arrange(df, x), df[c(3, 1, 2),])
-  expect_identical(arrange(df, desc(x)), df[c(1, 3, 2),])
+  expect_identical(arrange(df, x), df[c(3, 1, 2), ])
+  expect_identical(arrange(df, desc(x)), df[c(1, 3, 2), ])
 })
 
 test_that("legacy - arrange with duplicates in a df-col uses a stable sort", {
+  local_options(lifecycle_verbosity = "quiet")
   local_options(dplyr.legacy_locale = TRUE)
 
   col <- tibble(a = c(1, 1, 1, 1, 1), b = c(3, NA, 2, 3, NA))
@@ -517,6 +549,7 @@ test_that("legacy - arrange with duplicates in a df-col uses a stable sort", {
 })
 
 test_that("legacy - arrange with doubly nested df-col doesn't infloop", {
+  local_options(lifecycle_verbosity = "quiet")
   local_options(dplyr.legacy_locale = TRUE)
 
   one <- tibble(a = c(1, 1, 1, 1, 1), b = c(1, 1, 2, 2, 2))
@@ -524,5 +557,5 @@ test_that("legacy - arrange with doubly nested df-col doesn't infloop", {
   col <- tibble(one = one, two = two)
   df <- tibble(x = col, y = c(1, 1, 1, 1, 0))
 
-  expect_identical(arrange(df, x, y), df[c(2, 1, 3, 5, 4),])
+  expect_identical(arrange(df, x, y), df[c(2, 1, 3, 5, 4), ])
 })

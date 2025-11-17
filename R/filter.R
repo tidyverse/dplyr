@@ -31,13 +31,13 @@
 #' involved. Compare this ungrouped filtering:
 #'
 #' ```
-#' starwars %>% filter(mass > mean(mass, na.rm = TRUE))
+#' starwars |> filter(mass > mean(mass, na.rm = TRUE))
 #' ```
 #'
 #' With the grouped equivalent:
 #'
 #' ```
-#' starwars %>% group_by(gender) %>% filter(mass > mean(mass, na.rm = TRUE))
+#' starwars |> group_by(gender) |> filter(mass > mean(mass, na.rm = TRUE))
 #' ```
 #'
 #' In the ungrouped version, `filter()` compares the value of `mass` in each row to
@@ -91,17 +91,17 @@
 #' #
 #' # The following filters rows where `mass` is greater than the
 #' # global average:
-#' starwars %>% filter(mass > mean(mass, na.rm = TRUE))
+#' starwars |> filter(mass > mean(mass, na.rm = TRUE))
 #'
 #' # Whereas this keeps rows with `mass` greater than the gender
 #' # average:
-#' starwars %>% group_by(gender) %>% filter(mass > mean(mass, na.rm = TRUE))
+#' starwars |> group_by(gender) |> filter(mass > mean(mass, na.rm = TRUE))
 #'
 #'
 #' # To refer to column names that are stored as strings, use the `.data` pronoun:
 #' vars <- c("mass", "height")
 #' cond <- c(80, 150)
-#' starwars %>%
+#' starwars |>
 #'   filter(
 #'     .data[[vars[[1]]]] > cond[[1]],
 #'     .data[[vars[[2]]]] > cond[[2]]
@@ -135,11 +135,13 @@ filter.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
-filter_rows <- function(data,
-                        dots,
-                        by,
-                        error_call = caller_env(),
-                        user_env = caller_env(2)) {
+filter_rows <- function(
+  data,
+  dots,
+  by,
+  error_call = caller_env(),
+  user_env = caller_env(2)
+) {
   error_call <- dplyr_error_call(error_call)
 
   mask <- DataMask$new(data, by, "filter", error_call = error_call)
@@ -167,12 +169,11 @@ check_filter <- function(dots, error_call = caller_env()) {
       )
       abort(bullets, call = error_call)
     }
-
   }
 }
 
 filter_expand <- function(dots, mask, error_call = caller_env()) {
-  env_filter <-  env()
+  env_filter <- env()
   filter_expand_one <- function(dot, index) {
     env_filter$current_expression <- index
     dot <- expand_pick(dot, mask)
@@ -194,10 +195,12 @@ filter_expand <- function(dots, mask, error_call = caller_env()) {
   new_quosures(dots)
 }
 
-filter_eval <- function(dots,
-                        mask,
-                        error_call = caller_env(),
-                        user_env = caller_env(2)) {
+filter_eval <- function(
+  dots,
+  mask,
+  error_call = caller_env(),
+  user_env = caller_env(2)
+) {
   env_filter <- env()
   warnings_state <- env(warnings = list())
 
@@ -228,12 +231,6 @@ filter_eval <- function(dots,
     },
     `dplyr:::signal_filter_one_column_matrix` = function(e) {
       warn_filter_one_column_matrix(env = error_call, user_env = user_env)
-    },
-    `dplyr:::signal_filter_across` = function(e) {
-      warn_filter_across(env = error_call, user_env = user_env)
-    },
-    `dplyr:::signal_filter_data_frame` = function(e) {
-      warn_filter_data_frame(env = error_call, user_env = user_env)
     }
   )
 
@@ -247,16 +244,25 @@ filter_bullets <- function(cnd, ...) {
 
 #' @export
 `filter_bullets.dplyr:::filter_incompatible_type` <- function(cnd, ...) {
-  column_name <- cnd$dplyr_error_data$column_name
   index <- cnd$dplyr_error_data$index
   result <- cnd$dplyr_error_data$result
 
-  if (is.null(column_name)) {
-    input_name <- glue("..{index}")
-  } else {
-    input_name <- glue("..{index}${column_name}")
+  bullets <- cli::format_inline(
+    "`..{index}` must be a logical vector, not {obj_type_friendly(result)}."
+  )
+
+  if (is.data.frame(result)) {
+    # Provide some extra advice for people who try and use `across()` inside
+    # of `filter()`
+    bullets <- c(
+      bullets,
+      i = cli::format_inline(
+        "If you used {.fn across} to generate this data frame, please use {.fn if_any} or {.fn if_all} instead."
+      )
+    )
   }
-  glue("`{input_name}` must be a logical vector, not {obj_type_friendly(result)}.")
+
+  bullets
 }
 
 #' @export
@@ -274,28 +280,7 @@ warn_filter_one_column_matrix <- function(env, user_env) {
     what = I("Using one column matrices in `filter()`"),
     with = I("one dimensional logical vectors"),
     env = env,
-    user_env = user_env
-  )
-}
-
-warn_filter_across <- function(env, user_env) {
-  lifecycle::deprecate_warn(
-    when = "1.0.8",
-    what = I("Using `across()` in `filter()`"),
-    with = I("`if_any()` or `if_all()`"),
-    always = TRUE,
-    env = env,
-    user_env = user_env
-  )
-}
-
-warn_filter_data_frame <- function(env, user_env) {
-  lifecycle::deprecate_warn(
-    when = "1.0.8",
-    what = I("Returning data frames from `filter()` expressions"),
-    with = I("`if_any()` or `if_all()`"),
-    always = TRUE,
-    env = env,
-    user_env = user_env
+    user_env = user_env,
+    always = TRUE
   )
 }

@@ -27,11 +27,11 @@
 #'   frame and uploads it to the remote source.
 #' @export
 #' @examplesIf requireNamespace("dbplyr", quietly = TRUE) && requireNamespace("RSQLite", quietly = TRUE)
-#' mtcars2 <- dbplyr::src_memdb() %>%
+#' mtcars2 <- dbplyr::src_memdb() |>
 #'   copy_to(mtcars, name = "mtcars2-cc", overwrite = TRUE)
 #'
-#' remote <- mtcars2 %>%
-#'   filter(cyl == 8) %>%
+#' remote <- mtcars2 |>
+#'   filter(cyl == 8) |>
 #'   select(mpg:drat)
 #'
 #' # Compute query and save in remote table
@@ -70,4 +70,3 @@ compute.data.frame <- function(x, ...) {
 collapse.data.frame <- function(x, ...) {
   x
 }
-

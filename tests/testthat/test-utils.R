@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # quo_is_variable_reference()
 
-test_that("quo_is_variable_reference handles .data",{
+test_that("quo_is_variable_reference handles .data", {
   expect_true(quo_is_variable_reference(quo(x)))
   expect_true(quo_is_variable_reference(quo(.data$x)))
   expect_true(quo_is_variable_reference(quo(.data[["x"]])))
@@ -59,7 +59,12 @@ test_that("recursive `list_flatten()` handles names correctly", {
 test_that("`list_flatten()` accepts a predicate `fn` to selectively flatten", {
   is_flattenable <- function(x) !is_named(x)
 
-  x <- list(a = list(list(1), list(b = 2), 3), c = 4, d = list(e = 5), f = list(6))
+  x <- list(
+    a = list(list(1), list(b = 2), 3),
+    c = 4,
+    d = list(e = 5),
+    f = list(6)
+  )
 
   expect_identical(
     list_flatten(x, fn = is_flattenable),

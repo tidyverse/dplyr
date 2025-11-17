@@ -1,6 +1,9 @@
 skip_if_no_lazy_character <- function() {
   new_lazy_character <- import_vctrs("new_lazy_character", optional = TRUE)
-  lazy_character_is_materialized <- import_vctrs("lazy_character_is_materialized", optional = TRUE)
+  lazy_character_is_materialized <- import_vctrs(
+    "lazy_character_is_materialized",
+    optional = TRUE
+  )
 
   if (is.null(new_lazy_character) || is.null(lazy_character_is_materialized)) {
     skip("Lazy character helpers from vctrs are not available.")

@@ -23,9 +23,9 @@ then recalculates the grouping structure.
 to select a subset of groups.
 }
 \examples{
-iris \%>\%
-  group_by(Species) \%>\%
-  filter(Species == "setosa", .preserve = TRUE) \%>\%
+iris |>
+  group_by(Species) |>
+  filter(Species == "setosa", .preserve = TRUE) |>
   group_trim()
 }
 \seealso{

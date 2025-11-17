@@ -1,5 +1,4 @@
-
-group_nest_impl <- function(.tbl, .key, keep = FALSE){
+group_nest_impl <- function(.tbl, .key, keep = FALSE) {
   mutate(group_keys(.tbl), !!.key := group_split(.tbl, .keep = keep))
 }
 
@@ -38,21 +37,21 @@ group_nest_impl <- function(.tbl, .key, keep = FALSE){
 #' @examples
 #'
 #' #----- use case 1: a grouped data frame
-#' iris %>%
-#'   group_by(Species) %>%
+#' iris |>
+#'   group_by(Species) |>
 #'   group_nest()
 #'
 #' # this can be useful if the grouped data has been altered before nesting
-#' iris %>%
-#'   group_by(Species) %>%
-#'   filter(Sepal.Length > mean(Sepal.Length)) %>%
+#' iris |>
+#'   group_by(Species) |>
+#'   filter(Sepal.Length > mean(Sepal.Length)) |>
 #'   group_nest()
 #'
 #' #----- use case 2: using group_nest() on a ungrouped data frame with
 #' #                  a grouping specification that uses the data mask
-#' starwars %>%
+#' starwars |>
 #'   group_nest(species, homeworld)
-group_nest <- function(.tbl, ..., .key = "data", keep = FALSE){
+group_nest <- function(.tbl, ..., .key = "data", keep = FALSE) {
   lifecycle::signal_stage("experimental", "group_nest()")
   UseMethod("group_nest")
 }
@@ -69,7 +68,18 @@ group_nest.data.frame <- function(.tbl, ..., .key = "data", keep = FALSE) {
 #' @export
 group_nest.grouped_df <- function(.tbl, ..., .key = "data", keep = FALSE) {
   if (dots_n(...)) {
-    warn("... is ignored in group_nest(<grouped_df>), please use group_by(..., .add = TRUE) %>% group_nest()")
+    warn_ignores_dots(
+      "group_nest",
+      "grouped_df",
+      "group_by(..., .add = TRUE) |> group_nest()"
+    )
   }
   group_nest_impl(.tbl, .key = .key, keep = keep)
+}
+
+# This is not a deprecation warning, just giving advice
+warn_ignores_dots <- function(fn, class, with) {
+  cli::cli_warn(
+    "Calling {.fn {fn}} on a {.cls {class}} ignores `...`. Please use {.code {with}}."
+  )
 }

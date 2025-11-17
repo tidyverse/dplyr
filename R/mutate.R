@@ -27,17 +27,17 @@
 #' involved. Compare this ungrouped mutate:
 #'
 #' ```
-#' starwars %>%
-#'   select(name, mass, species) %>%
+#' starwars |>
+#'   select(name, mass, species) |>
 #'   mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 #' ```
 #'
 #' With the grouped equivalent:
 #'
 #' ```
-#' starwars %>%
-#'   select(name, mass, species) %>%
-#'   group_by(species) %>%
+#' starwars |>
+#'   select(name, mass, species) |>
+#'   group_by(species) |>
 #'   mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 #' ```
 #'
@@ -79,8 +79,8 @@
 #' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("mutate")}.
 #' @examples
 #' # Newly created variables are available immediately
-#' starwars %>%
-#'   select(name, mass) %>%
+#' starwars |>
+#'   select(name, mass) |>
 #'   mutate(
 #'     mass2 = mass * 2,
 #'     mass2_squared = mass2 * mass2
@@ -88,8 +88,8 @@
 #'
 #' # As well as adding new variables, you can use mutate() to
 #' # remove variables and modify existing variables.
-#' starwars %>%
-#'   select(name, height, mass, homeworld) %>%
+#' starwars |>
+#'   select(name, height, mass, homeworld) |>
 #'   mutate(
 #'     mass = NULL,
 #'     height = height * 0.0328084 # convert to feet
@@ -97,44 +97,44 @@
 #'
 #' # Use across() with mutate() to apply a transformation
 #' # to multiple columns in a tibble.
-#' starwars %>%
-#'   select(name, homeworld, species) %>%
+#' starwars |>
+#'   select(name, homeworld, species) |>
 #'   mutate(across(!name, as.factor))
 #' # see more in ?across
 #'
 #' # Window functions are useful for grouped mutates:
-#' starwars %>%
-#'   select(name, mass, homeworld) %>%
-#'   group_by(homeworld) %>%
+#' starwars |>
+#'   select(name, mass, homeworld) |>
+#'   group_by(homeworld) |>
 #'   mutate(rank = min_rank(desc(mass)))
 #' # see `vignette("window-functions")` for more details
 #'
 #' # By default, new columns are placed on the far right.
 #' df <- tibble(x = 1, y = 2)
-#' df %>% mutate(z = x + y)
-#' df %>% mutate(z = x + y, .before = 1)
-#' df %>% mutate(z = x + y, .after = x)
+#' df |> mutate(z = x + y)
+#' df |> mutate(z = x + y, .before = 1)
+#' df |> mutate(z = x + y, .after = x)
 #'
 #' # By default, mutate() keeps all columns from the input data.
 #' df <- tibble(x = 1, y = 2, a = "a", b = "b")
-#' df %>% mutate(z = x + y, .keep = "all") # the default
-#' df %>% mutate(z = x + y, .keep = "used")
-#' df %>% mutate(z = x + y, .keep = "unused")
-#' df %>% mutate(z = x + y, .keep = "none")
+#' df |> mutate(z = x + y, .keep = "all") # the default
+#' df |> mutate(z = x + y, .keep = "used")
+#' df |> mutate(z = x + y, .keep = "unused")
+#' df |> mutate(z = x + y, .keep = "none")
 #'
 #' # Grouping ----------------------------------------
 #' # The mutate operation may yield different results on grouped
 #' # tibbles because the expressions are computed within groups.
 #' # The following normalises `mass` by the global average:
-#' starwars %>%
-#'   select(name, mass, species) %>%
+#' starwars |>
+#'   select(name, mass, species) |>
 #'   mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 #'
 #' # Whereas this normalises `mass` by the averages within species
 #' # levels:
-#' starwars %>%
-#'   select(name, mass, species) %>%
-#'   group_by(species) %>%
+#' starwars |>
+#'   select(name, mass, species) |>
+#'   group_by(species) |>
 #'   mutate(mass_norm = mass / mean(mass, na.rm = TRUE))
 #'
 #' # Indirection ----------------------------------------
@@ -168,12 +168,14 @@ mutate <- function(.data, ...) {
 #'   should appear (the default is to add to the right hand side). See
 #'   [relocate()] for more details.
 #' @export
-mutate.data.frame <- function(.data,
-                              ...,
-                              .by = NULL,
-                              .keep = c("all", "used", "unused", "none"),
-                              .before = NULL,
-                              .after = NULL) {
+mutate.data.frame <- function(
+  .data,
+  ...,
+  .by = NULL,
+  .keep = c("all", "used", "unused", "none"),
+  .before = NULL,
+  .after = NULL
+) {
   keep <- arg_match0(.keep, values = c("all", "used", "unused", "none"))
 
   by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
@@ -324,7 +326,7 @@ mutate_col <- function(dot, data, mask, new_columns) {
     # result after unchopping the chunks
     result <- NULL
 
-    if (quo_is_symbol(quo)){
+    if (quo_is_symbol(quo)) {
       name <- as_string(quo_get_expr(quo))
 
       if (name %in% names(new_columns)) {
@@ -346,8 +348,14 @@ mutate_col <- function(dot, data, mask, new_columns) {
           mask$set_current_group(group)
 
           abort(
-            class = c("dplyr:::mutate_incompatible_size", "dplyr:::internal_error"),
-            dplyr_error_data = list(result_size = sizes[group], expected_size = 1)
+            class = c(
+              "dplyr:::mutate_incompatible_size",
+              "dplyr:::internal_error"
+            ),
+            dplyr_error_data = list(
+              result_size = sizes[group],
+              expected_size = 1
+            )
           )
         }
         result_ptype <- attr(result, "ptype", exact = TRUE)
@@ -366,8 +374,12 @@ mutate_col <- function(dot, data, mask, new_columns) {
         vec_recycle(result, vec_size(data)),
         error = function(cnd) {
           abort(
-            class = c("dplyr:::mutate_constant_recycle_error", "dplyr:::internal_error"),
-            constant_size = vec_size(result), data_size = vec_size(data)
+            class = c(
+              "dplyr:::mutate_constant_recycle_error",
+              "dplyr:::internal_error"
+            ),
+            constant_size = vec_size(result),
+            data_size = vec_size(data)
           )
         }
       )
@@ -400,7 +412,10 @@ mutate_col <- function(dot, data, mask, new_columns) {
         result <- chunks[[1]]
       } else {
         # `name` specified lazily
-        chunks <- dplyr_vec_cast_common(chunks, name = dplyr_quosure_name(quo_data))
+        chunks <- dplyr_vec_cast_common(
+          chunks,
+          name = dplyr_quosure_name(quo_data)
+        )
         result <- list_unchop(chunks, indices = rows)
       }
     }
@@ -432,7 +447,11 @@ mutate_col <- function(dot, data, mask, new_columns) {
       chunks_extracted <- .Call(dplyr_extract_chunks, chunks, types)
 
       for (j in seq_along(types)) {
-        mask$add_one(types_names[j], chunks_extracted[[j]], result = result[[j]])
+        mask$add_one(
+          types_names[j],
+          chunks_extracted[[j]],
+          result = result[[j]]
+        )
       }
 
       new_columns[types_names] <- result
@@ -492,7 +511,9 @@ mutate_bullets <- function(cnd, ...) {
   constant_size <- cnd$constant_size
   data_size <- cnd$data_size
   c(
-    glue("Inlined constant `{label}` must be size {or_1(data_size)}, not {constant_size}.")
+    glue(
+      "Inlined constant `{label}` must be size {or_1(data_size)}, not {constant_size}."
+    )
   )
 }
 

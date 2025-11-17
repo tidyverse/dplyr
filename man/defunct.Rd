@@ -2,54 +2,50 @@
 % Please edit documentation in R/defunct.R
 \name{defunct}
 \alias{defunct}
-\alias{id}
-\alias{failwith}
-\alias{select_vars}
-\alias{rename_vars}
-\alias{select_var}
-\alias{current_vars}
-\alias{bench_tbls}
-\alias{compare_tbls}
-\alias{compare_tbls2}
-\alias{eval_tbls}
-\alias{eval_tbls2}
-\alias{location}
-\alias{changes}
+\alias{combine}
+\alias{src_mysql}
+\alias{src_postgres}
+\alias{src_sqlite}
+\alias{src_local}
+\alias{src_df}
+\alias{tbl_df}
+\alias{as.tbl}
+\alias{add_rownames}
 \title{Defunct functions}
 \usage{
-# Deprecated in 0.5.0 -------------------------------------
-
-id(.variables, drop = FALSE)
-
-# Deprecated in 0.7.0 -------------------------------------
-
-failwith(default = NULL, f, quiet = FALSE)
-
-# Deprecated in 0.8.* -------------------------------------
-
-select_vars(vars = chr(), ..., include = chr(), exclude = chr())
-
-rename_vars(vars = chr(), ..., strict = TRUE)
-
-select_var(vars, var = -1)
-
-current_vars(...)
-
 # Deprecated in 1.0.0 -------------------------------------
 
-bench_tbls(tbls, op, ..., times = 10)
+combine(...)
 
-compare_tbls(tbls, op, ref = NULL, compare = equal_data_frame, ...)
+src_mysql(
+  dbname,
+  host = NULL,
+  port = 0L,
+  username = "root",
+  password = "",
+  ...
+)
 
-compare_tbls2(tbls_x, tbls_y, op, ref = NULL, compare = equal_data_frame, ...)
+src_postgres(
+  dbname = NULL,
+  host = NULL,
+  port = NULL,
+  user = NULL,
+  password = NULL,
+  ...
+)
 
-eval_tbls(tbls, op)
+src_sqlite(path, create = FALSE)
 
-eval_tbls2(tbls_x, tbls_y, op)
+src_local(tbl, pkg = NULL, env = NULL)
 
-location(df)
+src_df(pkg = NULL, env = NULL)
 
-changes(x, y)
+tbl_df(data)
+
+as.tbl(x, ...)
+
+add_rownames(df, var = "rowname")
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}

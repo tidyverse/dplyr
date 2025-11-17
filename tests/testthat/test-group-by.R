@@ -2,7 +2,9 @@ df <- data.frame(x = rep(1:3, each = 10), y = rep(1:6, each = 5))
 
 test_that("group_by() with .add = TRUE adds groups", {
   add_groups1 <- function(tbl) group_by(tbl, x, y, .add = TRUE)
-  add_groups2 <- function(tbl) group_by(group_by(tbl, x, .add = TRUE), y, .add = TRUE)
+  add_groups2 <- function(tbl) {
+    group_by(group_by(tbl, x, .add = TRUE), y, .add = TRUE)
+  }
 
   expect_equal(group_vars(add_groups1(df)), c("x", "y"))
   expect_equal(group_vars(add_groups2(df)), c("x", "y"))
@@ -15,59 +17,88 @@ test_that("group_by(<grouped df>, <computation>) computes the expressions on the
   )
 
   count <- 0
-  out <- df %>% group_by(g) %>% group_by(big = { count <<- count + 1; x > mean(x) })
+  out <- df |>
+    group_by(g) |>
+    group_by(big = {
+      count <<- count + 1
+      x > mean(x)
+    })
   expect_equal(out$big, c(FALSE, FALSE, TRUE, TRUE))
   expect_equal(count, 1L)
   expect_equal(group_vars(out), c("big"))
 
   count <- 0
-  out <- df %>% group_by(g) %>% group_by(big = { count <<- count + 1; x > mean(x) }, .add = TRUE)
+  out <- df |>
+    group_by(g) |>
+    group_by(
+      big = {
+        count <<- count + 1
+        x > mean(x)
+      },
+      .add = TRUE
+    )
   expect_equal(out$big, c(FALSE, FALSE, TRUE, TRUE))
   expect_equal(count, 1L)
   expect_equal(group_vars(out), c("g", "big"))
 
   count <- 0
-  out <- df %>% group_by(g) %>% mutate(big = { count <<- count + 1; x > mean(x)}) %>% group_by(big)
+  out <- df |>
+    group_by(g) |>
+    mutate(big = {
+      count <<- count + 1
+      x > mean(x)
+    }) |>
+    group_by(big)
   expect_equal(out$big, c(FALSE, TRUE, FALSE, TRUE))
   expect_equal(count, 2L)
   expect_equal(group_vars(out), c("big"))
 
   count <- 0
-  out <- df %>% group_by(g) %>% mutate(big = { count <<- count + 1; x > mean(x)}) %>% group_by(big, .add = TRUE)
+  out <- df |>
+    group_by(g) |>
+    mutate(big = {
+      count <<- count + 1
+      x > mean(x)
+    }) |>
+    group_by(big, .add = TRUE)
   expect_equal(out$big, c(FALSE, TRUE, FALSE, TRUE))
   expect_equal(count, 2L)
   expect_equal(group_vars(out), c("g", "big"))
-})
-
-test_that("add = TRUE is deprecated", {
-  rlang::local_options(lifecycle_verbosity = "warning")
-
-  df <- tibble(x = 1, y = 2)
-
-  expect_warning(
-    out <- df %>% group_by(x) %>% group_by(y, add = TRUE),
-    "deprecated"
-  )
-  expect_equal(group_vars(out), c("x", "y"))
 })
 
 test_that("joins preserve grouping", {
   df <- data.frame(x = rep(1:2, each = 4), y = rep(1:4, each = 2))
   g <- group_by(df, x)
 
-  expect_equal(group_vars(inner_join(g, g, by = c("x", "y"), relationship = "many-to-many")), "x")
-  expect_equal(group_vars(left_join(g, g, by = c("x", "y"), relationship = "many-to-many")), "x")
+  expect_equal(
+    group_vars(inner_join(
+      g,
+      g,
+      by = c("x", "y"),
+      relationship = "many-to-many"
+    )),
+    "x"
+  )
+  expect_equal(
+    group_vars(left_join(
+      g,
+      g,
+      by = c("x", "y"),
+      relationship = "many-to-many"
+    )),
+    "x"
+  )
   expect_equal(group_vars(semi_join(g, g, by = c("x", "y"))), "x")
   expect_equal(group_vars(anti_join(g, g, by = c("x", "y"))), "x")
 })
 
 test_that("constructors drops groups", {
-  df <- data.frame(x = 1:3) %>% group_by(x)
+  df <- data.frame(x = 1:3) |> group_by(x)
   expect_equal(group_vars(as_tibble(df)), character())
 })
 
 test_that("grouping by constant adds column (#410)", {
-  grouped <- group_by(mtcars, "cyl") %>% summarise(foo = n())
+  grouped <- group_by(mtcars, "cyl") |> summarise(foo = n())
   expect_equal(names(grouped), c('"cyl"', "foo"))
   expect_equal(nrow(grouped), 1L)
 })
@@ -89,15 +120,7 @@ test_that("can't rename while partially `ungroup()`-ing (#6606)", {
   })
 })
 
-test_that(".dots is soft deprecated", {
-  rlang::local_options(lifecycle_verbosity = "warning")
-
-  df <- tibble(x = 1, y = 1)
-  expect_warning(gf <- group_by(df, .dots = "x"), "deprecated")
-})
-
 # Test full range of variable types --------------------------------------------
-
 
 test_that("local group_by preserves variable types", {
   df_var <- tibble(
@@ -114,7 +137,7 @@ test_that("local group_by preserves variable types", {
   for (var in names(df_var)) {
     expected <- tibble(!!var := sort(unique(df_var[[var]])), n = 1L)
 
-    summarised <- df_var %>% group_by(!!sym(var)) %>% summarise(n = n())
+    summarised <- df_var |> group_by(!!sym(var)) |> summarise(n = n())
     expect_equal(summarised, expected)
   }
 })
@@ -140,19 +163,26 @@ test_that("group_by uses shallow copy", {
 })
 
 test_that("group_by orders by groups. #242", {
-  df <- data.frame(a = sample(1:10, 3000, replace = TRUE)) %>% group_by(a)
+  df <- data.frame(a = sample(1:10, 3000, replace = TRUE)) |> group_by(a)
   expect_equal(group_data(df)$a, 1:10)
 
-  df <- data.frame(a = sample(letters[1:10], 3000, replace = TRUE), stringsAsFactors = FALSE) %>% group_by(a)
+  df <- data.frame(
+    a = sample(letters[1:10], 3000, replace = TRUE),
+    stringsAsFactors = FALSE
+  ) |>
+    group_by(a)
   expect_equal(group_data(df)$a, letters[1:10])
 
-  df <- data.frame(a = sample(sqrt(1:10), 3000, replace = TRUE)) %>% group_by(a)
+  df <- data.frame(a = sample(sqrt(1:10), 3000, replace = TRUE)) |> group_by(a)
   expect_equal(group_data(df)$a, sqrt(1:10))
 })
 
 test_that("Can group_by() a POSIXlt", {
   skip_if_not_installed("tibble", "2.99.99")
-  df <- tibble(x = 1:5, times = as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day")))
+  df <- tibble(
+    x = 1:5,
+    times = as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
+  )
   g <- group_by(df, times)
   expect_equal(nrow(group_data(g)), 5L)
 })
@@ -167,7 +197,7 @@ test_that("group_by() handles list as grouping variables", {
 
 test_that("select(group_by(.)) implicitly adds grouping variables (#170)", {
   expect_snapshot(
-    res <- mtcars %>% group_by(vs) %>% select(mpg)
+    res <- mtcars |> group_by(vs) |> select(mpg)
   )
   expect_equal(names(res), c("vs", "mpg"))
 })
@@ -177,12 +207,12 @@ test_that("group_by only creates one group for NA (#401)", {
   w <- c(20, 30, 40, 1:10, 1:10) * 10
 
   n_distinct(x) # 11 OK
-  res <- data.frame(x = x, w = w) %>% group_by(x) %>% summarise(n = n())
+  res <- data.frame(x = x, w = w) |> group_by(x) |> summarise(n = n())
   expect_equal(nrow(res), 11L)
 })
 
 test_that("there can be 0 groups (#486)", {
-  data <- tibble(a = numeric(0), g = character(0)) %>% group_by(g)
+  data <- tibble(a = numeric(0), g = character(0)) |> group_by(g)
   expect_equal(length(data$a), 0L)
   expect_equal(length(data$g), 0L)
   expect_equal(map_int(group_rows(data), length), integer(0))
@@ -224,17 +254,17 @@ test_that("group_by works with zero-row data frames (#486)", {
 
 test_that("[ on grouped_df preserves grouping if subset includes grouping vars", {
   df <- tibble(x = 1:5, ` ` = 6:10)
-  by_x <- df %>% group_by(x)
-  expect_equal(by_x %>% groups(), by_x %>% `[`(1:2) %>% groups())
+  by_x <- df |> group_by(x)
+  expect_equal(by_x |> groups(), by_x |> (\(.) .[1:2])() |> groups())
 
   # non-syntactic name
-  by_ns <- df %>% group_by(` `)
-  expect_equal(by_ns %>% groups(), by_ns %>% `[`(1:2) %>% groups())
+  by_ns <- df |> group_by(` `)
+  expect_equal(by_ns |> groups(), by_ns |> (\(.) .[1:2])() |> groups())
 })
 
 test_that("[ on grouped_df drops grouping if subset doesn't include grouping vars", {
-  by_cyl <- mtcars %>% group_by(cyl)
-  no_cyl <- by_cyl %>% `[`(c(1, 3))
+  by_cyl <- mtcars |> group_by(cyl)
+  no_cyl <- by_cyl |> (\(.) .[c(1, 3)])()
 
   expect_equal(group_vars(no_cyl), character())
   expect_s3_class(no_cyl, "tbl_df")
@@ -242,9 +272,9 @@ test_that("[ on grouped_df drops grouping if subset doesn't include grouping var
 
 test_that("group_by works after arrange (#959)", {
   df <- tibble(Log = c(1, 2, 1, 2, 1, 2), Time = c(10, 1, 3, 0, 15, 11))
-  res <- df %>%
-    arrange(Time) %>%
-    group_by(Log) %>%
+  res <- df |>
+    arrange(Time) |>
+    group_by(Log) |>
     mutate(Diff = Time - lag(Time))
   expect_true(all(is.na(res$Diff[c(1, 3)])))
   expect_equal(res$Diff[c(2, 4, 5, 6)], c(1, 7, 10, 5))
@@ -257,7 +287,7 @@ test_that("group_by keeps attributes", {
 })
 
 test_that("ungroup.rowwise_df gives a tbl_df (#936)", {
-  res <- mtcars %>% rowwise() %>% ungroup() %>% class()
+  res <- mtcars |> rowwise() |> ungroup() |> class()
   expect_equal(res, c("tbl_df", "tbl", "data.frame"))
 })
 
@@ -304,11 +334,11 @@ test_that("group_by() names pronouns correctly (#2686)", {
 
 test_that("group_by() does not affect input data (#3028)", {
   x <-
-    data.frame(old1 = c(1, 2, 3), old2 = c(4, 5, 6)) %>%
+    data.frame(old1 = c(1, 2, 3), old2 = c(4, 5, 6)) |>
     group_by(old1)
 
   y <-
-    x %>%
+    x |>
     select(new1 = old1, new2 = old2)
 
   expect_identical(groups(x), syms(quote(old1)))
@@ -316,23 +346,23 @@ test_that("group_by() does not affect input data (#3028)", {
 
 test_that("group_by() does not mutate for nothing when using the .data pronoun (#2752, #3533)", {
   expect_identical(
-    iris %>% group_by(Species) %>% group_by(.data$Species),
-    iris %>% group_by(Species)
+    iris |> group_by(Species) |> group_by(.data$Species),
+    iris |> group_by(Species)
   )
   expect_identical(
-    iris %>% group_by(Species) %>% group_by(.data[["Species"]]),
-    iris %>% group_by(Species)
+    iris |> group_by(Species) |> group_by(.data[["Species"]]),
+    iris |> group_by(Species)
   )
 
   df <- tibble(x = 1:5)
   attr(df, "y") <- 1
 
-  expect_equal( df %>% group_by(.data$x) %>% attr("y"), 1 )
-  expect_equal( df %>% group_by(.data[["x"]]) %>% attr("y"), 1 )
+  expect_equal(df |> group_by(.data$x) |> attr("y"), 1)
+  expect_equal(df |> group_by(.data[["x"]]) |> attr("y"), 1)
 })
 
 test_that("tbl_sum gets the right number of groups", {
-  res <- data.frame(x=c(1,1,2,2)) %>% group_by(x) %>% pillar::tbl_sum()
+  res <- data.frame(x = c(1, 1, 2, 2)) |> group_by(x) |> pillar::tbl_sum()
   expect_equal(res, c("A tibble" = "4 x 1", "Groups" = "x [2]"))
 })
 
@@ -344,7 +374,7 @@ test_that("group_by ignores empty quosures (3780)", {
 # Zero groups ---------------------------------------------------
 
 test_that("mutate handles grouped tibble with 0 groups (#3935)", {
-  df <- tibble(x=integer()) %>% group_by(x)
+  df <- tibble(x = integer()) |> group_by(x)
   res <- mutate(df, y = mean(x), z = +mean(x), n = n())
   expect_equal(names(res), c("x", "y", "z", "n"))
   expect_equal(nrow(res), 0L)
@@ -354,7 +384,7 @@ test_that("mutate handles grouped tibble with 0 groups (#3935)", {
 })
 
 test_that("summarise handles grouped tibble with 0 groups (#3935)", {
-  df <- tibble(x=integer()) %>% group_by(x)
+  df <- tibble(x = integer()) |> group_by(x)
   res <- summarise(df, y = mean(x), z = +mean(x), n = n())
   expect_equal(names(res), c("x", "y", "z", "n"))
   expect_equal(nrow(res), 0L)
@@ -364,19 +394,19 @@ test_that("summarise handles grouped tibble with 0 groups (#3935)", {
 })
 
 test_that("filter handles grouped tibble with 0 groups (#3935)", {
-  df <- tibble(x=integer()) %>% group_by(x)
+  df <- tibble(x = integer()) |> group_by(x)
   res <- filter(df, x > 3L)
   expect_identical(df, res)
 })
 
 test_that("select handles grouped tibble with 0 groups (#3935)", {
-  df <- tibble(x=integer()) %>% group_by(x)
+  df <- tibble(x = integer()) |> group_by(x)
   res <- select(df, x)
   expect_identical(df, res)
 })
 
 test_that("arrange handles grouped tibble with 0 groups (#3935)", {
-  df <- tibble(x=integer()) %>% group_by(x)
+  df <- tibble(x = integer()) |> group_by(x)
   res <- arrange(df, x)
   expect_identical(df, res)
 })
@@ -394,14 +424,17 @@ test_that("group_by() with empty spec produces a grouped data frame with 0 group
 # .drop = TRUE ---------------------------------------------------
 
 test_that("group_by(.drop = TRUE) drops empty groups (4061)", {
-  res <- iris %>%
-    filter(Species == "setosa") %>%
+  res <- iris |>
+    filter(Species == "setosa") |>
     group_by(Species, .drop = TRUE)
 
   expect_identical(
     group_data(res),
     structure(
-      tibble(Species = factor("setosa", levels = levels(iris$Species)), .rows := list_of(1:50)),
+      tibble(
+        Species = factor("setosa", levels = levels(iris$Species)),
+        .rows := list_of(1:50)
+      ),
       .drop = TRUE
     )
   )
@@ -410,39 +443,39 @@ test_that("group_by(.drop = TRUE) drops empty groups (4061)", {
 })
 
 test_that("grouped data frames remember their .drop (#4061)", {
-  res <- iris %>%
-    filter(Species == "setosa") %>%
+  res <- iris |>
+    filter(Species == "setosa") |>
     group_by(Species, .drop = TRUE)
 
-  res2 <- res %>%
+  res2 <- res |>
     filter(Sepal.Length > 5)
   expect_true(group_by_drop_default(res2))
 
-  res3 <- res %>%
+  res3 <- res |>
     filter(Sepal.Length > 5, .preserve = FALSE)
   expect_true(group_by_drop_default(res3))
 
-  res4 <- res3 %>%
+  res4 <- res3 |>
     group_by(Species)
   expect_true(group_by_drop_default(res4))
   expect_equal(nrow(group_data(res4)), 1L)
 })
 
 test_that("grouped data frames remember their .drop = FALSE (#4337)", {
-  res <- iris %>%
-    filter(Species == "setosa") %>%
+  res <- iris |>
+    filter(Species == "setosa") |>
     group_by(Species, .drop = FALSE)
   expect_false(group_by_drop_default(res))
 
-  res2 <- res %>%
+  res2 <- res |>
     group_by(Species)
   expect_false(group_by_drop_default(res2))
 })
 
 test_that("group_by(.drop = FALSE) preserve ordered factors (#5455)", {
   df <- tibble(x = ordered("x"))
-  drop <- df %>% group_by(x) %>% group_data()
-  nodrop <- df %>% group_by(x, .drop = FALSE) %>% group_data()
+  drop <- df |> group_by(x) |> group_data()
+  nodrop <- df |> group_by(x, .drop = FALSE) |> group_data()
 
   expect_equal(is.ordered(drop$x), is.ordered(nodrop$x))
   expect_true(is.ordered(nodrop$x))
@@ -452,10 +485,10 @@ test_that("summarise maintains the .drop attribute (#4061)", {
   df <- tibble(
     f1 = factor("a", levels = c("a", "b", "c")),
     f2 = factor("d", levels = c("d", "e", "f", "g")),
-    x  = 42
+    x = 42
   )
 
-  res <- df %>%
+  res <- df |>
     group_by(f1, f2, .drop = TRUE)
   expect_equal(n_groups(res), 1L)
 
@@ -465,23 +498,35 @@ test_that("summarise maintains the .drop attribute (#4061)", {
 })
 
 test_that("joins maintain the .drop attribute (#4061)", {
-  df1 <- group_by(tibble(
-    f1 = factor(c("a", "b"), levels = c("a", "b", "c")),
-    x  = 42:43
-  ), f1, .drop = TRUE)
+  df1 <- group_by(
+    tibble(
+      f1 = factor(c("a", "b"), levels = c("a", "b", "c")),
+      x = 42:43
+    ),
+    f1,
+    .drop = TRUE
+  )
 
-  df2 <- group_by(tibble(
-    f1 = factor(c("a"), levels = c("a", "b", "c")),
-    y = 1
-  ), f1, .drop = TRUE)
+  df2 <- group_by(
+    tibble(
+      f1 = factor(c("a"), levels = c("a", "b", "c")),
+      y = 1
+    ),
+    f1,
+    .drop = TRUE
+  )
 
   res <- left_join(df1, df2, by = "f1")
   expect_equal(n_groups(res), 2L)
 
-  df2 <- group_by(tibble(
-    f1 = factor(c("a", "c"), levels = c("a", "b", "c")),
-    y = 1:2
-  ), f1, .drop = TRUE)
+  df2 <- group_by(
+    tibble(
+      f1 = factor(c("a", "c"), levels = c("a", "b", "c")),
+      y = 1:2
+    ),
+    f1,
+    .drop = TRUE
+  )
   res <- full_join(df1, df2, by = "f1")
   expect_equal(n_groups(res), 3L)
 })
@@ -490,7 +535,7 @@ test_that("group_by(add = TRUE) sets .drop if the origonal data was .drop", {
   d <- tibble(
     f1 = factor("b", levels = c("a", "b", "c")),
     f2 = factor("g", levels = c("e", "f", "g")),
-    x  = 48
+    x = 48
   )
 
   res <- group_by(group_by(d, f1, .drop = TRUE), f2, .add = TRUE)
@@ -498,16 +543,16 @@ test_that("group_by(add = TRUE) sets .drop if the origonal data was .drop", {
   expect_true(group_by_drop_default(res))
 })
 
-test_that("group_by_drop_default() is forgiving about corrupt grouped df (#4306)",{
-  df <- tibble(x = 1:2, y = 1:2) %>%
+test_that("group_by_drop_default() is forgiving about corrupt grouped df (#4306)", {
+  df <- tibble(x = 1:2, y = 1:2) |>
     structure(class = c("grouped_df", "tbl_df", "tbl", "data.frame"))
 
   expect_true(group_by_drop_default(df))
 })
 
 test_that("group_by() puts NA groups last in STRSXP (#4227)", {
-  res <- tibble(x = c("apple", NA, "banana"), y = 1:3) %>%
-    group_by(x) %>%
+  res <- tibble(x = c("apple", NA, "banana"), y = 1:3) |>
+    group_by(x) |>
     group_data()
   expect_identical(res$x, c("apple", "banana", NA_character_))
   expect_identical(res$.rows, list_of(1L, 3L, 2L))
@@ -523,30 +568,36 @@ test_that("group_by() does not create arbitrary NA groups for factors when drop 
 
 test_that("group_by() can handle auto splicing in the mutate() step", {
   expect_identical(
-    iris %>% group_by(Species),
-    iris %>% group_by(data.frame(Species = Species))
+    iris |> group_by(Species),
+    iris |> group_by(data.frame(Species = Species))
   )
 
   expect_identical(
-    iris %>% group_by(Species),
-    iris %>% group_by(pick(Species))
+    iris |> group_by(Species),
+    iris |> group_by(pick(Species))
   )
 
   expect_identical(
-    iris %>% mutate(across(starts_with("Sepal"), round)) %>% group_by(Sepal.Length, Sepal.Width),
-    iris %>% group_by(across(starts_with("Sepal"), round))
+    iris |>
+      mutate(across(starts_with("Sepal"), round)) |>
+      group_by(Sepal.Length, Sepal.Width),
+    iris |> group_by(across(starts_with("Sepal"), round))
   )
 })
 
 test_that("group_by() can combine usual spec and auto-splicing-mutate() step", {
   expect_identical(
-    iris %>% mutate(across(starts_with("Sepal"), round)) %>% group_by(Sepal.Length, Sepal.Width, Species),
-    iris %>% group_by(across(starts_with("Sepal"), round), Species)
+    iris |>
+      mutate(across(starts_with("Sepal"), round)) |>
+      group_by(Sepal.Length, Sepal.Width, Species),
+    iris |> group_by(across(starts_with("Sepal"), round), Species)
   )
 
   expect_identical(
-    iris %>% mutate(across(starts_with("Sepal"), round)) %>% group_by(Species, Sepal.Length, Sepal.Width),
-    iris %>% group_by(Species, across(starts_with("Sepal"), round))
+    iris |>
+      mutate(across(starts_with("Sepal"), round)) |>
+      group_by(Species, Sepal.Length, Sepal.Width),
+    iris |> group_by(Species, across(starts_with("Sepal"), round))
   )
 })
 
@@ -554,15 +605,15 @@ test_that("group_by() can combine usual spec and auto-splicing-mutate() step", {
 
 test_that("group_by() has mutate() semantics (#4984)", {
   expect_equal(
-    tibble(a = 1, b = 2) %>% group_by(c = a * b, d = c + 1),
-    tibble(a = 1, b = 2) %>% mutate(c = a * b, d = c + 1) %>% group_by(c, d)
+    tibble(a = 1, b = 2) |> group_by(c = a * b, d = c + 1),
+    tibble(a = 1, b = 2) |> mutate(c = a * b, d = c + 1) |> group_by(c, d)
   )
 })
 
 test_that("implicit mutate() operates on ungrouped data (#5598)", {
-  vars <- tibble(x = c(1,2), y = c(3,4), z = c(5,6)) %>%
-    dplyr::group_by(y) %>%
-    dplyr::group_by(pick(any_of(c('y','z')))) %>%
+  vars <- tibble(x = c(1, 2), y = c(3, 4), z = c(5, 6)) |>
+    dplyr::group_by(y) |>
+    dplyr::group_by(pick(any_of(c('y', 'z')))) |>
     dplyr::group_vars()
   expect_equal(vars, c("y", "z"))
 })
@@ -589,16 +640,15 @@ test_that("group_by() keeps attributes unrelated to the grouping (#5760)", {
 test_that("group_by() works with quosures (tidyverse/lubridate#959)", {
   ignore <- function(...) NA
   f <- function(var) {
-    tibble(x = 1) %>% group_by(g = ignore({{ var }}))
+    tibble(x = 1) |> group_by(g = ignore({{ var }}))
   }
   g <- function(var) {
     # This used to fail with the extra argument
-    tibble(x = 1) %>% group_by(g = ignore({{ var }}, 1))
+    tibble(x = 1) |> group_by(g = ignore({{ var }}, 1))
   }
-  expect_equal(f(), tibble(x = 1, g = NA) %>% group_by(g))
-  expect_equal(g(), tibble(x = 1, g = NA) %>% group_by(g))
+  expect_equal(f(), tibble(x = 1, g = NA) |> group_by(g))
+  expect_equal(g(), tibble(x = 1, g = NA) |> group_by(g))
 })
-
 
 # Errors ------------------------------------------------------------------
 
@@ -606,11 +656,52 @@ test_that("group_by() and ungroup() give meaningful error messages", {
   expect_snapshot({
     df <- tibble(x = 1, y = 2)
 
-    (expect_error(df %>% group_by(unknown)))
-    (expect_error(df %>% ungroup(x)))
-    (expect_error(df %>% group_by(x, y) %>% ungroup(z)))
+    (expect_error(df |> group_by(unknown)))
+    (expect_error(df |> ungroup(x)))
+    (expect_error(df |> group_by(x, y) |> ungroup(z)))
 
-    (expect_error(df %>% group_by(z = a + 1)))
+    (expect_error(df |> group_by(z = a + 1)))
   })
+})
 
+# Deprecation -------------------------------------------------------------
+
+test_that("group_by(add =) is defunct", {
+  # While it was being deprecated, it was getting passed through the `...`
+  # down to `group_by_prepare()`.
+  df <- tibble(x = 1, y = 2)
+
+  expect_snapshot(error = TRUE, {
+    group_by(df, x, add = TRUE)
+  })
+})
+
+test_that("group_by_prepare(add =) is defunct", {
+  df <- tibble(x = 1, y = 2)
+
+  # We let this say `group_by()` in the error because it is more likely that
+  # that is where it came from
+  expect_snapshot(error = TRUE, {
+    group_by_prepare(df, x, add = TRUE)
+  })
+})
+
+test_that("group_by(.dots =) is defunct", {
+  # While it was being deprecated, it was getting passed through the `...`
+  # down to `group_by_prepare()`.
+  df <- tibble(x = 1, y = 1)
+
+  expect_snapshot(error = TRUE, {
+    group_by(df, .dots = "x")
+  })
+})
+
+test_that("group_by_prepare(.dots =) is defunct", {
+  df <- tibble(x = 1, y = 1)
+
+  # We let this say `group_by()` in the error because it is more likely that
+  # that is where it came from
+  expect_snapshot(error = TRUE, {
+    group_by_prepare(df, .dots = "x")
+  })
 })

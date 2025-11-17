@@ -1,6 +1,6 @@
 ---
 output: html_document
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
@@ -71,30 +71,30 @@ Imagine that you wanted to compute the average cost per region.
 You'd probably write something like this:
 
 ```{r}
-expenses %>%
-  group_by(region) %>%
+expenses |>
+  group_by(region) |>
   summarise(cost = mean(cost))
 ```
 
 Instead, you can now specify the grouping *inline* within the verb:
 
 ```{r}
-expenses %>%
+expenses |>
   summarise(cost = mean(cost), .by = region)
 ```
 
 `.by` applies to a single operation, meaning that since `expenses` was an ungrouped data frame, the result after applying `.by` will also always be an ungrouped data frame, regardless of the number of grouping columns.
 
 ```{r}
-expenses %>%
+expenses |>
   summarise(cost = mean(cost), .by = c(id, region))
 ```
 
-Compare that with `group_by() %>% summarise()`, where `summarise()` generally peels off 1 layer of grouping by default, typically with a message that it is doing so:
+Compare that with `group_by() |> summarise()`, where `summarise()` generally peels off 1 layer of grouping by default, typically with a message that it is doing so:
 
 ```{r}
-expenses %>%
-  group_by(id, region) %>%
+expenses |>
+  group_by(id, region) |>
   summarise(cost = mean(cost))
 ```
 
@@ -107,8 +107,8 @@ It will group by the columns in the order they were provided.
 To prevent surprising results, you can't use `.by` on an existing grouped data frame:
 
 ```{r, error=TRUE}
-expenses %>% 
-  group_by(id) %>%
+expenses |>
+  group_by(id) |>
   summarise(cost = mean(cost), .by = c(id, region))
 ```
 
@@ -116,7 +116,7 @@ So far we've focused on the usage of `.by` with `summarise()`, but `.by` works w
 For example, you could append the mean cost per region onto the original data frame as a new column rather than computing a summary:
 
 ```{r}
-expenses %>%
+expenses |>
   mutate(cost_by_region = mean(cost), .by = region)
 ```
 
@@ -124,7 +124,7 @@ Or you could slice out the maximum cost per combination of id and region:
 
 ```{r}
 # Note that the argument is named `by` in `slice_max()`
-expenses %>%
+expenses |>
   slice_max(cost, n = 1, by = c(id, region))
 ```
 
@@ -140,12 +140,12 @@ df <- tibble(
 )
 
 # Uses ordering by "first appearance" in the original data
-df %>%
+df |>
   summarise(average_temp = mean(temp), .by = month)
 
 # Sorts in ascending order
-df %>%
-  group_by(month) %>%
+df |>
+  group_by(month) |>
   summarise(average_temp = mean(temp))
 ```
 

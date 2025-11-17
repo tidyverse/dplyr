@@ -25,10 +25,12 @@
 #' @keywords internal
 NULL
 
-lazy_deprec <- function(fun,
-                        hint = TRUE,
-                        env = caller_env(),
-                        user_env = caller_env(2)) {
+lazy_deprec <- function(
+  fun,
+  hint = TRUE,
+  env = caller_env(),
+  user_env = caller_env(2)
+) {
   lifecycle::deprecate_warn(
     when = "0.7.0",
     what = paste0(fun, "_()"),
@@ -77,10 +79,15 @@ arrange_.tbl_df <- function(.data, ..., .dots = list(), .by_group = FALSE) {
   arrange(.data, !!!dots, .by_group = .by_group)
 }
 
-
 #' @export
 #' @rdname se-deprecated
-count_ <- function(x, vars, wt = NULL, sort = FALSE, .drop = group_by_drop_default(x)) {
+count_ <- function(
+  x,
+  vars,
+  wt = NULL,
+  sort = FALSE,
+  .drop = group_by_drop_default(x)
+) {
   lazy_deprec("count")
 
   vars <- compat_lazy_dots(vars, caller_env())
@@ -97,7 +104,12 @@ distinct_ <- function(.data, ..., .dots, .keep_all = FALSE) {
   UseMethod("distinct_")
 }
 #' @export
-distinct_.data.frame <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
+distinct_.data.frame <- function(
+  .data,
+  ...,
+  .dots = list(),
+  .keep_all = FALSE
+) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   distinct(.data, !!!dots, .keep_all = .keep_all)
 }
@@ -107,11 +119,15 @@ distinct_.data.frame <- function(.data, ..., .dots = list(), .keep_all = FALSE) 
 distinct_.tbl_df <- distinct_.data.frame
 
 #' @export
-distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
+distinct_.grouped_df <- function(
+  .data,
+  ...,
+  .dots = list(),
+  .keep_all = FALSE
+) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   distinct(.data, !!!dots, .keep_all = .keep_all)
 }
-
 
 #' @export
 #' @rdname se-deprecated
@@ -138,7 +154,6 @@ do_.rowwise_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   do(.data, !!!dots)
 }
-
 
 #' @export
 #' @rdname se-deprecated
@@ -175,16 +190,27 @@ group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
   UseMethod("group_by_")
 }
 #' @export
-group_by_.data.frame <- function(.data, ..., .dots = list(), add = FALSE, .drop = group_by_drop_default(.data)) {
+group_by_.data.frame <- function(
+  .data,
+  ...,
+  .dots = list(),
+  add = FALSE,
+  .drop = group_by_drop_default(.data)
+) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   group_by(.data, !!!dots, .add = add, .drop = .drop)
 }
 #' @export
-group_by_.rowwise_df <- function(.data, ..., .dots = list(), add = FALSE, .drop = group_by_drop_default(.data)) {
+group_by_.rowwise_df <- function(
+  .data,
+  ...,
+  .dots = list(),
+  add = FALSE,
+  .drop = group_by_drop_default(.data)
+) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   group_by(.data, !!!dots, .add = add, .drop = .drop)
 }
-
 
 #' @export
 #' @rdname se-deprecated
@@ -243,7 +269,6 @@ tally_ <- function(x, wt, sort = FALSE) {
   tally(x, wt = !!wt, sort = sort)
 }
 
-
 #' @rdname se-deprecated
 #' @export
 transmute_ <- function(.data, ..., .dots = list()) {
@@ -273,11 +298,15 @@ rename_.grouped_df <- function(.data, ..., .dots = list()) {
   rename(.data, !!!dots)
 }
 
-
 #' @export
 #' @rdname se-deprecated
 rename_vars_ <- function(vars, args) {
-  lifecycle::deprecate_warn("0.7.0", "rename_vars_()", "tidyselect::vars_rename()", always = TRUE)
+  lifecycle::deprecate_warn(
+    "0.7.0",
+    "rename_vars_()",
+    "tidyselect::vars_rename()",
+    always = TRUE
+  )
   args <- compat_lazy_dots(args, caller_env())
   tidyselect::vars_rename(vars, !!!args)
 }
@@ -299,13 +328,17 @@ select_.grouped_df <- function(.data, ..., .dots = list()) {
   select(.data, !!!dots)
 }
 
-
 #' @rdname se-deprecated
 #' @param include,exclude Character vector of column names to always
 #'   include/exclude.
 #' @export
 select_vars_ <- function(vars, args, include = chr(), exclude = chr()) {
-  lifecycle::deprecate_warn("0.7.0", "select_vars_()", "tidyselect::vars_select()", always = TRUE)
+  lifecycle::deprecate_warn(
+    "0.7.0",
+    "select_vars_()",
+    "tidyselect::vars_select()",
+    always = TRUE
+  )
   args <- compat_lazy_dots(args, caller_env())
   tidyselect::vars_select(vars, !!!args, .include = include, .exclude = exclude)
 }
@@ -347,7 +380,6 @@ summarise_.tbl_df <- function(.data, ..., .dots = list()) {
 #' @export
 summarize_ <- summarise_
 
-
 #' Summarise and mutate multiple columns.
 #'
 #' @description
@@ -366,12 +398,14 @@ summarise_each <- function(tbl, funs, ...) {
 summarise_each_ <- function(tbl, funs, vars) {
   summarise_each_impl(tbl, funs, vars, "summarise_each_")
 }
-summarise_each_impl <- function(tbl,
-                                funs,
-                                vars,
-                                name,
-                                env = caller_env(),
-                                user_env = caller_env(2)) {
+summarise_each_impl <- function(
+  tbl,
+  funs,
+  vars,
+  name,
+  env = caller_env(),
+  user_env = caller_env(2)
+) {
   what <- paste0(name, "()")
 
   lifecycle::deprecate_warn(
@@ -412,12 +446,14 @@ mutate_each <- function(tbl, funs, ...) {
 mutate_each_ <- function(tbl, funs, vars) {
   mutate_each_impl(tbl, funs, vars, "mutate_each_")
 }
-mutate_each_impl <- function(tbl,
-                             funs,
-                             vars,
-                             name,
-                             env = caller_env(),
-                             user_env = caller_env(2)) {
+mutate_each_impl <- function(
+  tbl,
+  funs,
+  vars,
+  name,
+  env = caller_env(),
+  user_env = caller_env(2)
+) {
   what <- paste0(name, "()")
 
   lifecycle::deprecate_warn(

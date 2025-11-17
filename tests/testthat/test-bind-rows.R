@@ -68,7 +68,7 @@ test_that("bind_rows deduplicates row names", {
   expect_equal(rownames(out), c("a...1", "b", "a...3", "c"))
 })
 
-test_that("bind_rows respects the drop attribute of grouped df",{
+test_that("bind_rows respects the drop attribute of grouped df", {
   df <- tibble(
     e = 1,
     f = factor(c(1, 1, 2, 2), levels = 1:3),
@@ -78,7 +78,7 @@ test_that("bind_rows respects the drop attribute of grouped df",{
   df <- group_by(df, e, f, g, .drop = FALSE)
 
   gg <- bind_rows(df, df)
-  expect_equal(group_size(gg), c(4L,4L,0L))
+  expect_equal(group_size(gg), c(4L, 4L, 0L))
 })
 
 # bind_rows() magic ---------------------------------------------------
@@ -137,12 +137,22 @@ test_that("bind_rows() only flattens S3 lists that inherit from list (#3924)", {
   expect_snapshot(bind_rows(lst1), error = TRUE)
 
   lst2 <- structure(list(df, df, df), class = c("special_lst", "list"))
-  expect_equal(bind_rows(lst2), bind_rows(df,df,df))
+  expect_equal(bind_rows(lst2), bind_rows(df, df, df))
 })
 
 test_that("bind_rows() handles named list", {
   x <- list(x = 1, y = 2, z = 3)
   expect_equal(bind_rows(x), tibble(x = 1, y = 2, z = 3))
+})
+
+test_that("bind_rows() handles empty names in a list (#7100)", {
+  x <- rep(list(data.frame(x = 1)), times = 5)
+  names(x) <- paste0("id_", 1:5)
+  names(x)[c(3, 5)] <- NA_character_
+  x <- bind_rows(x, .id = "id")
+
+  # If names are missing, bind_rows will replace with index
+  expect_identical(x$id, c("id_1", "id_2", "3", "id_4", "5"))
 })
 
 test_that("bind_rows() validates lists (#5417)", {

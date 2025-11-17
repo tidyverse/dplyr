@@ -92,12 +92,12 @@ test_that("count_() works", {
   withr::local_options(lifecycle_verbosity = "quiet")
 
   expect_equal(
-    count_(df, ~ b),
+    count_(df, ~b),
     count(df, b)
   )
 
   expect_equal(
-    count_(df, ~ b, wt = quote(a)),
+    count_(df, ~b, wt = quote(a)),
     count(df, b, wt = a)
   )
 
@@ -109,7 +109,7 @@ test_that("count_() works", {
 
   expect_identical(
     add_count(df, b),
-    add_count_(df, ~ b)
+    add_count_(df, ~b)
   )
 })
 
@@ -117,7 +117,7 @@ test_that("distinct_() works", {
   withr::local_options(lifecycle_verbosity = "quiet")
 
   expect_equal(
-    distinct_(df, ~ a),
+    distinct_(df, ~a),
     distinct(df, a)
   )
 
@@ -127,23 +127,23 @@ test_that("distinct_() works", {
   )
 
   expect_equal(
-    distinct_(df, .dots = list(~ a)),
+    distinct_(df, .dots = list(~a)),
     distinct(df, a)
   )
 
   expect_equal(
-    distinct_(df %>% group_by(b), ~ a, .dots = NULL),
-    distinct(df %>% group_by(b), a)
+    distinct_(df |> group_by(b), ~a, .dots = NULL),
+    distinct(df |> group_by(b), a)
   )
 
   expect_equal(
-    distinct_(df %>% group_by(b), .dots = list(quote(a))),
-    distinct(df %>% group_by(b), a)
+    distinct_(df |> group_by(b), .dots = list(quote(a))),
+    distinct(df |> group_by(b), a)
   )
 
   expect_equal(
-    distinct_(df %>% group_by(b), .dots = list(~ a)),
-    distinct(df %>% group_by(b), a)
+    distinct_(df |> group_by(b), .dots = list(~a)),
+    distinct(df |> group_by(b), a)
   )
 })
 
@@ -172,18 +172,18 @@ test_that("do_() works", {
   )
 
   expect_equal(
-    do_(df %>% group_by(b), ~ tibble(-.$a)),
-    do(df %>% group_by(b), tibble(-.$a))
+    do_(df |> group_by(b), ~ tibble(-.$a)),
+    do(df |> group_by(b), tibble(-.$a))
   )
 
   expect_equal(
-    do_(df %>% group_by(b), .dots = list(quote(dplyr::tibble(-.$a)))),
-    do(df %>% group_by(b), tibble(-.$a))
+    do_(df |> group_by(b), .dots = list(quote(dplyr::tibble(-.$a)))),
+    do(df |> group_by(b), tibble(-.$a))
   )
 
   expect_equal(
-    do_(df %>% group_by(b), .dots = list(~ dplyr::tibble(-.$a))),
-    do(df %>% group_by(b), tibble(-.$a))
+    do_(df |> group_by(b), .dots = list(~ dplyr::tibble(-.$a))),
+    do(df |> group_by(b), tibble(-.$a))
   )
 })
 
@@ -211,7 +211,7 @@ test_that("group_by_() works", {
   withr::local_options(lifecycle_verbosity = "quiet")
 
   expect_equal(
-    group_by_(df, ~ a),
+    group_by_(df, ~a),
     group_by(df, a)
   )
 
@@ -270,7 +270,7 @@ test_that("rename_() works", {
   withr::local_options(lifecycle_verbosity = "quiet")
 
   expect_equal(
-    rename_(df, c = ~ a),
+    rename_(df, c = ~a),
     rename(df, c = a)
   )
 
@@ -280,7 +280,7 @@ test_that("rename_() works", {
   )
 
   expect_equal(
-    rename_(df, .dots = list(c = ~ a)),
+    rename_(df, .dots = list(c = ~a)),
     rename(df, c = a)
   )
 })
@@ -289,7 +289,7 @@ test_that("select_() works", {
   withr::local_options(lifecycle_verbosity = "quiet")
 
   expect_equal(
-    select_(df, ~ a),
+    select_(df, ~a),
     select(df, a)
   )
 
@@ -364,18 +364,18 @@ test_that("summarise_() works", {
   )
 
   expect_equal(
-    summarise_(df %>% group_by(b), a = ~ mean(a)),
-    summarise(df %>% group_by(b), a = mean(a))
+    summarise_(df |> group_by(b), a = ~ mean(a)),
+    summarise(df |> group_by(b), a = mean(a))
   )
 
   expect_equal(
-    summarise_(df %>% group_by(b), .dots = list(a = quote(mean(a)))),
-    summarise(df %>% group_by(b), a = mean(a))
+    summarise_(df |> group_by(b), .dots = list(a = quote(mean(a)))),
+    summarise(df |> group_by(b), a = mean(a))
   )
 
   expect_equal(
-    summarise_(df %>% group_by(b), .dots = list(a = ~ mean(a))),
-    summarise(df %>% group_by(b), a = mean(a))
+    summarise_(df |> group_by(b), .dots = list(a = ~ mean(a))),
+    summarise(df |> group_by(b), a = mean(a))
   )
 })
 
@@ -398,18 +398,18 @@ test_that("summarize_() works", {
   )
 
   expect_equal(
-    summarize_(df %>% group_by(b), a = ~ mean(a)),
-    summarize(df %>% group_by(b), a = mean(a))
+    summarize_(df |> group_by(b), a = ~ mean(a)),
+    summarize(df |> group_by(b), a = mean(a))
   )
 
   expect_equal(
-    summarize_(df %>% group_by(b), .dots = list(a = quote(mean(a)))),
-    summarize(df %>% group_by(b), a = mean(a))
+    summarize_(df |> group_by(b), .dots = list(a = quote(mean(a)))),
+    summarize(df |> group_by(b), a = mean(a))
   )
 
   expect_equal(
-    summarize_(df %>% group_by(b), .dots = list(a = ~ mean(a))),
-    summarize(df %>% group_by(b), a = mean(a))
+    summarize_(df |> group_by(b), .dots = list(a = ~ mean(a))),
+    summarize(df |> group_by(b), a = mean(a))
   )
 })
 
@@ -444,16 +444,40 @@ test_that("_each() and _all() families agree", {
   df <- data.frame(x = 1:3, y = 1:3)
 
   expect_equal(summarise_each(df, list(mean)), summarise_all(df, mean))
-  expect_equal(summarise_each(df, list(mean), x), summarise_at(df, vars(x), mean))
-  expect_equal(summarise_each(df, list(mean = mean), x), summarise_at(df, vars(x), list(mean = mean)))
-  expect_equal(summarise_each(df, list(mean = mean), x:y), summarise_at(df, vars(x:y), list(mean = mean)))
-  expect_equal(summarise_each(df, list(mean), x:y), summarise_at(df, vars(x:y), mean))
-  expect_equal(summarise_each(df, list(mean), z = y), summarise_at(df, vars(z = y), mean))
+  expect_equal(
+    summarise_each(df, list(mean), x),
+    summarise_at(df, vars(x), mean)
+  )
+  expect_equal(
+    summarise_each(df, list(mean = mean), x),
+    summarise_at(df, vars(x), list(mean = mean))
+  )
+  expect_equal(
+    summarise_each(df, list(mean = mean), x:y),
+    summarise_at(df, vars(x:y), list(mean = mean))
+  )
+  expect_equal(
+    summarise_each(df, list(mean), x:y),
+    summarise_at(df, vars(x:y), mean)
+  )
+  expect_equal(
+    summarise_each(df, list(mean), z = y),
+    summarise_at(df, vars(z = y), mean)
+  )
 
   expect_equal(mutate_each(df, list(mean)), mutate_all(df, mean))
   expect_equal(mutate_each(df, list(mean), x), mutate_at(df, vars(x), mean))
-  expect_equal(mutate_each(df, list(mean = mean), x), mutate_at(df, vars(x), list(mean = mean)))
-  expect_equal(mutate_each(df, list(mean = mean), x:y), mutate_at(df, vars(x:y), list(mean = mean)))
+  expect_equal(
+    mutate_each(df, list(mean = mean), x),
+    mutate_at(df, vars(x), list(mean = mean))
+  )
+  expect_equal(
+    mutate_each(df, list(mean = mean), x:y),
+    mutate_at(df, vars(x:y), list(mean = mean))
+  )
   expect_equal(mutate_each(df, list(mean), x:y), mutate_at(df, vars(x:y), mean))
-  expect_equal(mutate_each(df, list(mean), z = y), mutate_at(df, vars(z = y), mean))
+  expect_equal(
+    mutate_each(df, list(mean), z = y),
+    mutate_at(df, vars(z = y), mean)
+  )
 })

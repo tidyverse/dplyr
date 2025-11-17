@@ -41,7 +41,7 @@
 # filter() gives useful error messages
 
     Code
-      (expect_error(iris %>% group_by(Species) %>% filter(1:n())))
+      (expect_error(filter(group_by(iris, Species), 1:n())))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -50,7 +50,7 @@
       Caused by error:
       ! `..1` must be a logical vector, not an integer vector.
     Code
-      (expect_error(iris %>% filter(1:n())))
+      (expect_error(filter(iris, 1:n())))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -67,7 +67,7 @@
       Caused by error:
       ! `..1` must be a logical vector, not a logical matrix.
     Code
-      (expect_error(iris %>% group_by(Species) %>% filter(c(TRUE, FALSE))))
+      (expect_error(filter(group_by(iris, Species), c(TRUE, FALSE))))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -76,7 +76,7 @@
       Caused by error:
       ! `..1` must be of size 50 or 1, not size 2.
     Code
-      (expect_error(iris %>% rowwise(Species) %>% filter(c(TRUE, FALSE))))
+      (expect_error(filter(rowwise(iris, Species), c(TRUE, FALSE))))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -85,7 +85,7 @@
       Caused by error:
       ! `..1` must be of size 1, not size 2.
     Code
-      (expect_error(iris %>% filter(c(TRUE, FALSE))))
+      (expect_error(filter(iris, c(TRUE, FALSE))))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -93,68 +93,7 @@
       Caused by error:
       ! `..1` must be of size 150 or 1, not size 2.
     Code
-      (expect_error(iris %>% group_by(Species) %>% filter(data.frame(c(TRUE, FALSE))))
-      )
-    Output
-      <error/rlang_error>
-      Error in `filter()`:
-      i In argument: `data.frame(c(TRUE, FALSE))`.
-      i In group 1: `Species = setosa`.
-      Caused by error:
-      ! `..1` must be of size 50 or 1, not size 2.
-    Code
-      (expect_error(iris %>% rowwise() %>% filter(data.frame(c(TRUE, FALSE)))))
-    Output
-      <error/rlang_error>
-      Error in `filter()`:
-      i In argument: `data.frame(c(TRUE, FALSE))`.
-      i In row 1.
-      Caused by error:
-      ! `..1` must be of size 1, not size 2.
-    Code
-      (expect_error(iris %>% filter(data.frame(c(TRUE, FALSE)))))
-    Output
-      <error/rlang_error>
-      Error in `filter()`:
-      i In argument: `data.frame(c(TRUE, FALSE))`.
-      Caused by error:
-      ! `..1` must be of size 150 or 1, not size 2.
-    Code
-      (expect_error(tibble(x = 1) %>% filter(c(TRUE, TRUE))))
-    Output
-      <error/rlang_error>
-      Error in `filter()`:
-      i In argument: `c(TRUE, TRUE)`.
-      Caused by error:
-      ! `..1` must be of size 1, not size 2.
-    Code
-      (expect_error(iris %>% group_by(Species) %>% filter(data.frame(Sepal.Length > 3,
-      1:n()))))
-    Condition
-      Warning:
-      Returning data frames from `filter()` expressions was deprecated in dplyr 1.0.8.
-      i Please use `if_any()` or `if_all()` instead.
-    Output
-      <error/rlang_error>
-      Error in `filter()`:
-      i In argument: `data.frame(Sepal.Length > 3, 1:n())`.
-      i In group 1: `Species = setosa`.
-      Caused by error:
-      ! `..1$X1.n..` must be a logical vector, not an integer vector.
-    Code
-      (expect_error(iris %>% filter(data.frame(Sepal.Length > 3, 1:n()))))
-    Condition
-      Warning:
-      Returning data frames from `filter()` expressions was deprecated in dplyr 1.0.8.
-      i Please use `if_any()` or `if_all()` instead.
-    Output
-      <error/rlang_error>
-      Error in `filter()`:
-      i In argument: `data.frame(Sepal.Length > 3, 1:n())`.
-      Caused by error:
-      ! `..1$X1.n..` must be a logical vector, not an integer vector.
-    Code
-      (expect_error(mtcars %>% filter(`_x`)))
+      (expect_error(filter(mtcars, `_x`)))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -162,7 +101,7 @@
       Caused by error:
       ! object '_x' not found
     Code
-      (expect_error(mtcars %>% group_by(cyl) %>% filter(`_x`)))
+      (expect_error(filter(group_by(mtcars, cyl), `_x`)))
     Output
       <error/rlang_error>
       Error in `filter()`:
@@ -203,31 +142,83 @@
       x `.data` is a <ts> object, not a data source.
       i Did you want to use `stats::filter()`?
     Code
-      (expect_error(tibble() %>% filter(stop("{"))))
+      (expect_error(filter(tibble(), stop("{"))))
     Output
       <error/rlang_error>
       Error in `filter()`:
       i In argument: `stop("{")`.
       Caused by error:
       ! {
+
+# Using data frames in `filter()` is defunct (#7758)
+
     Code
-      data.frame(x = 1, y = 1) %>% filter(across(everything(), ~ .x > 0))
+      filter(df, across(everything(), ~ .x > 0))
     Condition
-      Warning:
-      Using `across()` in `filter()` was deprecated in dplyr 1.0.8.
-      i Please use `if_any()` or `if_all()` instead.
-    Output
-        x y
-      1 1 1
+      Error in `filter()`:
+      i In argument: `across(everything(), ~.x > 0)`.
+      Caused by error:
+      ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
+      i If you used `across()` to generate this data frame, please use `if_any()` or `if_all()` instead.
+
+---
+
     Code
-      data.frame(x = 1, y = 1) %>% filter(data.frame(x > 0, y > 0))
+      filter(gdf, across(everything(), ~ .x > 0))
     Condition
-      Warning:
-      Returning data frames from `filter()` expressions was deprecated in dplyr 1.0.8.
-      i Please use `if_any()` or `if_all()` instead.
-    Output
-        x y
-      1 1 1
+      Error in `filter()`:
+      i In argument: `across(everything(), ~.x > 0)`.
+      i In group 1: `x = 1`.
+      Caused by error:
+      ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
+      i If you used `across()` to generate this data frame, please use `if_any()` or `if_all()` instead.
+
+---
+
+    Code
+      filter(rdf, across(everything(), ~ .x > 0))
+    Condition
+      Error in `filter()`:
+      i In argument: `across(everything(), ~.x > 0)`.
+      i In row 1.
+      Caused by error:
+      ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
+      i If you used `across()` to generate this data frame, please use `if_any()` or `if_all()` instead.
+
+---
+
+    Code
+      filter(df, tibble(x > 0, y > 0))
+    Condition
+      Error in `filter()`:
+      i In argument: `tibble(x > 0, y > 0)`.
+      Caused by error:
+      ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
+      i If you used `across()` to generate this data frame, please use `if_any()` or `if_all()` instead.
+
+---
+
+    Code
+      filter(gdf, tibble(x > 0, y > 0))
+    Condition
+      Error in `filter()`:
+      i In argument: `tibble(x > 0, y > 0)`.
+      i In group 1: `x = 1`.
+      Caused by error:
+      ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
+      i If you used `across()` to generate this data frame, please use `if_any()` or `if_all()` instead.
+
+---
+
+    Code
+      filter(rdf, tibble(x > 0, y > 0))
+    Condition
+      Error in `filter()`:
+      i In argument: `tibble(x > 0, y > 0)`.
+      i In row 1.
+      Caused by error:
+      ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
+      i If you used `across()` to generate this data frame, please use `if_any()` or `if_all()` instead.
 
 # `filter()` doesn't allow data frames with missing or empty names (#6758)
 

@@ -196,42 +196,42 @@
 #'   see `unmatched`.
 #' @family joins
 #' @examples
-#' band_members %>% inner_join(band_instruments)
-#' band_members %>% left_join(band_instruments)
-#' band_members %>% right_join(band_instruments)
-#' band_members %>% full_join(band_instruments)
+#' band_members |> inner_join(band_instruments)
+#' band_members |> left_join(band_instruments)
+#' band_members |> right_join(band_instruments)
+#' band_members |> full_join(band_instruments)
 #'
 #' # To suppress the message about joining variables, supply `by`
-#' band_members %>% inner_join(band_instruments, by = join_by(name))
+#' band_members |> inner_join(band_instruments, by = join_by(name))
 #' # This is good practice in production code
 #'
 #' # Use an equality expression if the join variables have different names
-#' band_members %>% full_join(band_instruments2, by = join_by(name == artist))
+#' band_members |> full_join(band_instruments2, by = join_by(name == artist))
 #' # By default, the join keys from `x` and `y` are coalesced in the output; use
 #' # `keep = TRUE` to keep the join keys from both `x` and `y`
-#' band_members %>%
+#' band_members |>
 #'   full_join(band_instruments2, by = join_by(name == artist), keep = TRUE)
 #'
 #' # If a row in `x` matches multiple rows in `y`, all the rows in `y` will be
 #' # returned once for each matching row in `x`.
 #' df1 <- tibble(x = 1:3)
 #' df2 <- tibble(x = c(1, 1, 2), y = c("first", "second", "third"))
-#' df1 %>% left_join(df2)
+#' df1 |> left_join(df2)
 #'
 #' # If a row in `y` also matches multiple rows in `x`, this is known as a
 #' # many-to-many relationship, which is typically a result of an improperly
 #' # specified join or some kind of messy data. In this case, a warning is
 #' # thrown by default:
 #' df3 <- tibble(x = c(1, 1, 1, 3))
-#' df3 %>% left_join(df2)
+#' df3 |> left_join(df2)
 #'
 #' # In the rare case where a many-to-many relationship is expected, set
 #' # `relationship = "many-to-many"` to silence this warning
-#' df3 %>% left_join(df2, relationship = "many-to-many")
+#' df3 |> left_join(df2, relationship = "many-to-many")
 #'
 #' # Use `join_by()` with a condition other than `==` to perform an inequality
 #' # join. Here we match on every instance where `df1$x > df2$x`.
-#' df1 %>% left_join(df2, join_by(x > x))
+#' df1 |> left_join(df2, join_by(x > x))
 #'
 #' # By default, NAs match other NAs so that there are two
 #' # rows in the output of this join:
@@ -248,29 +248,33 @@ NULL
 
 #' @export
 #' @rdname mutate-joins
-inner_join <- function(x,
-                       y,
-                       by = NULL,
-                       copy = FALSE,
-                       suffix = c(".x", ".y"),
-                       ...,
-                       keep = NULL) {
+inner_join <- function(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  keep = NULL
+) {
   UseMethod("inner_join")
 }
 
 #' @export
 #' @rdname mutate-joins
-inner_join.data.frame <- function(x,
-                                  y,
-                                  by = NULL,
-                                  copy = FALSE,
-                                  suffix = c(".x", ".y"),
-                                  ...,
-                                  keep = NULL,
-                                  na_matches = c("na", "never"),
-                                  multiple = "all",
-                                  unmatched = "drop",
-                                  relationship = NULL) {
+inner_join.data.frame <- function(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  keep = NULL,
+  na_matches = c("na", "never"),
+  multiple = "all",
+  unmatched = "drop",
+  relationship = NULL
+) {
   check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
@@ -290,29 +294,33 @@ inner_join.data.frame <- function(x,
 
 #' @export
 #' @rdname mutate-joins
-left_join <- function(x,
-                      y,
-                      by = NULL,
-                      copy = FALSE,
-                      suffix = c(".x", ".y"),
-                      ...,
-                      keep = NULL) {
+left_join <- function(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  keep = NULL
+) {
   UseMethod("left_join")
 }
 
 #' @export
 #' @rdname mutate-joins
-left_join.data.frame <- function(x,
-                                 y,
-                                 by = NULL,
-                                 copy = FALSE,
-                                 suffix = c(".x", ".y"),
-                                 ...,
-                                 keep = NULL,
-                                 na_matches = c("na", "never"),
-                                 multiple = "all",
-                                 unmatched = "drop",
-                                 relationship = NULL) {
+left_join.data.frame <- function(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  keep = NULL,
+  na_matches = c("na", "never"),
+  multiple = "all",
+  unmatched = "drop",
+  relationship = NULL
+) {
   check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
@@ -332,29 +340,33 @@ left_join.data.frame <- function(x,
 
 #' @export
 #' @rdname mutate-joins
-right_join <- function(x,
-                       y,
-                       by = NULL,
-                       copy = FALSE,
-                       suffix = c(".x", ".y"),
-                       ...,
-                       keep = NULL) {
+right_join <- function(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  keep = NULL
+) {
   UseMethod("right_join")
 }
 
 #' @export
 #' @rdname mutate-joins
-right_join.data.frame <- function(x,
-                                  y,
-                                  by = NULL,
-                                  copy = FALSE,
-                                  suffix = c(".x", ".y"),
-                                  ...,
-                                  keep = NULL,
-                                  na_matches = c("na", "never"),
-                                  multiple = "all",
-                                  unmatched = "drop",
-                                  relationship = NULL) {
+right_join.data.frame <- function(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  keep = NULL,
+  na_matches = c("na", "never"),
+  multiple = "all",
+  unmatched = "drop",
+  relationship = NULL
+) {
   check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
@@ -374,28 +386,32 @@ right_join.data.frame <- function(x,
 
 #' @export
 #' @rdname mutate-joins
-full_join <- function(x,
-                      y,
-                      by = NULL,
-                      copy = FALSE,
-                      suffix = c(".x", ".y"),
-                      ...,
-                      keep = NULL) {
+full_join <- function(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  keep = NULL
+) {
   UseMethod("full_join")
 }
 
 #' @export
 #' @rdname mutate-joins
-full_join.data.frame <- function(x,
-                                 y,
-                                 by = NULL,
-                                 copy = FALSE,
-                                 suffix = c(".x", ".y"),
-                                 ...,
-                                 keep = NULL,
-                                 na_matches = c("na", "never"),
-                                 multiple = "all",
-                                 relationship = NULL) {
+full_join.data.frame <- function(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  suffix = c(".x", ".y"),
+  ...,
+  keep = NULL,
+  na_matches = c("na", "never"),
+  multiple = "all",
+  relationship = NULL
+) {
   check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
   join_mutate(
@@ -420,8 +436,8 @@ full_join.data.frame <- function(x,
 #' Filtering joins filter rows from `x` based on the presence or absence
 #' of matches in `y`:
 #'
-#' * `semi_join()` return all rows from `x` with a match in `y`.
-#' * `anti_join()` return all rows from `x` with**out** a match in `y`.
+#' * `semi_join()` returns all rows from `x` with a match in `y`.
+#' * `anti_join()` returns all rows from `x` with**out** a match in `y`.
 #'
 #' @param x,y A pair of data frames, data frame extensions (e.g. a tibble), or
 #'   lazy data frames (e.g. from dbplyr or dtplyr). See *Methods*, below, for
@@ -446,11 +462,11 @@ full_join.data.frame <- function(x,
 #' @family joins
 #' @examples
 #' # "Filtering" joins keep cases from the LHS
-#' band_members %>% semi_join(band_instruments)
-#' band_members %>% anti_join(band_instruments)
+#' band_members |> semi_join(band_instruments)
+#' band_members |> anti_join(band_instruments)
 #'
 #' # To suppress the message about joining variables, supply `by`
-#' band_members %>% semi_join(band_instruments, by = join_by(name))
+#' band_members |> semi_join(band_instruments, by = join_by(name))
 #' # This is good practice in production code
 #' @name filter-joins
 NULL
@@ -463,10 +479,24 @@ semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @export
 #' @rdname filter-joins
-semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never")) {
+semi_join.data.frame <- function(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  ...,
+  na_matches = c("na", "never")
+) {
   check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
-  join_filter(x, y, by = by, type = "semi", na_matches = na_matches, user_env = caller_env())
+  join_filter(
+    x,
+    y,
+    by = by,
+    type = "semi",
+    na_matches = na_matches,
+    user_env = caller_env()
+  )
 }
 
 #' @export
@@ -477,10 +507,24 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @export
 #' @rdname filter-joins
-anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches = c("na", "never")) {
+anti_join.data.frame <- function(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  ...,
+  na_matches = c("na", "never")
+) {
   check_dots_empty0(...)
   y <- auto_copy(x, y, copy = copy)
-  join_filter(x, y, by = by, type = "anti", na_matches = na_matches, user_env = caller_env())
+  join_filter(
+    x,
+    y,
+    by = by,
+    type = "anti",
+    na_matches = na_matches,
+    user_env = caller_env()
+  )
 }
 
 #' Nest join
@@ -530,27 +574,31 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ..., na_matches 
 #' out <- nest_join(df1, df2)
 #' out
 #' out$df2
-nest_join <- function(x,
-                      y,
-                      by = NULL,
-                      copy = FALSE,
-                      keep = NULL,
-                      name = NULL,
-                      ...) {
+nest_join <- function(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  keep = NULL,
+  name = NULL,
+  ...
+) {
   UseMethod("nest_join")
 }
 
 #' @export
 #' @rdname nest_join
-nest_join.data.frame <- function(x,
-                                 y,
-                                 by = NULL,
-                                 copy = FALSE,
-                                 keep = NULL,
-                                 name = NULL,
-                                 ...,
-                                 na_matches = c("na", "never"),
-                                 unmatched = "drop") {
+nest_join.data.frame <- function(
+  x,
+  y,
+  by = NULL,
+  copy = FALSE,
+  keep = NULL,
+  name = NULL,
+  ...,
+  na_matches = c("na", "never"),
+  unmatched = "drop"
+) {
   check_dots_empty0(...)
   check_keep(keep)
   na_matches <- check_na_matches(na_matches)
@@ -636,22 +684,28 @@ nest_join.data.frame <- function(x,
 
 # helpers -----------------------------------------------------------------
 
-join_mutate <- function(x,
-                        y,
-                        by,
-                        type,
-                        ...,
-                        suffix = c(".x", ".y"),
-                        na_matches = "na",
-                        keep = NULL,
-                        multiple = "all",
-                        unmatched = "drop",
-                        relationship = NULL,
-                        error_call = caller_env(),
-                        user_env = caller_env()) {
+join_mutate <- function(
+  x,
+  y,
+  by,
+  type,
+  ...,
+  suffix = c(".x", ".y"),
+  na_matches = "na",
+  keep = NULL,
+  multiple = "all",
+  unmatched = "drop",
+  relationship = NULL,
+  error_call = caller_env(),
+  user_env = caller_env()
+) {
   check_dots_empty0(...)
 
-  na_matches <- check_na_matches(na_matches, error_call = error_call)
+  na_matches <- check_na_matches(
+    na_matches,
+    error_call = error_call
+  )
+
   check_keep(keep, error_call = error_call)
 
   x_names <- tbl_vars(x)
@@ -747,17 +801,22 @@ join_mutate <- function(x,
   dplyr_reconstruct(out, x)
 }
 
-join_filter <- function(x,
-                        y,
-                        by,
-                        type,
-                        ...,
-                        na_matches = c("na", "never"),
-                        error_call = caller_env(),
-                        user_env = caller_env()) {
+join_filter <- function(
+  x,
+  y,
+  by,
+  type,
+  ...,
+  na_matches = c("na", "never"),
+  error_call = caller_env(),
+  user_env = caller_env()
+) {
   check_dots_empty0(...)
 
-  na_matches <- check_na_matches(na_matches, error_call = error_call)
+  na_matches <- check_na_matches(
+    na_matches,
+    error_call = error_call
+  )
 
   x_names <- tbl_vars(x)
   y_names <- tbl_vars(y)
@@ -829,19 +888,7 @@ join_filter <- function(x,
   dplyr_row_slice(x, idx)
 }
 
-check_na_matches <- function(na_matches,
-                             ...,
-                             error_call = caller_env()) {
-  if (isNamespaceLoaded("pkgconfig")) {
-    conf <- asNamespace("pkgconfig")$get_config("dplyr::na_matches")
-    if (!is.null(conf)) {
-      warn(c(
-        "`dplyr::na_matches` pkgconfig options is now ignored.",
-        "Please set `na_matches` directly."
-      ))
-    }
-  }
-
+check_na_matches <- function(na_matches, ..., error_call = caller_env()) {
   arg_match0(
     arg = na_matches,
     values = c("na", "never"),
@@ -852,8 +899,11 @@ check_na_matches <- function(na_matches,
 check_keep <- function(keep, error_call = caller_env()) {
   if (!is_bool(keep) && !is.null(keep)) {
     abort(
-      glue("`keep` must be `TRUE`, `FALSE`, or `NULL`, not {obj_type_friendly(keep)}."),
-      call = error_call)
+      glue(
+        "`keep` must be `TRUE`, `FALSE`, or `NULL`, not {obj_type_friendly(keep)}."
+      ),
+      call = error_call
+    )
   }
 }
 
@@ -863,9 +913,11 @@ is_cross_by <- function(x) {
     return(TRUE)
   }
 
-  if (is_list(x, n = 2L) &&
+  if (
+    is_list(x, n = 2L) &&
       is_character(x[["x"]], n = 0L) &&
-      is_character(x[["y"]], n = 0L)) {
+      is_character(x[["y"]], n = 0L)
+  ) {
     # `list(x = character(), y = character())`
     # (possibly with named empty character elements)
     return(TRUE)
@@ -874,9 +926,10 @@ is_cross_by <- function(x) {
   FALSE
 }
 
-warn_join_cross_by <- function(env = caller_env(),
-                               user_env = caller_env(2)) {
-  lifecycle::deprecate_soft(
+warn_join_cross_by <- function(env = caller_env(), user_env = caller_env(2)) {
+  # Also remove `join_rows(cross =)` and `is_cross_by()` once we remove support
+  # for this
+  lifecycle::deprecate_warn(
     when = "1.1.0",
     what = I("Using `by = character()` to perform a cross join"),
     with = "cross_join()",

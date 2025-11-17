@@ -7,9 +7,9 @@
 #' ## Default locale
 #'
 #' The default locale used by `arrange()` is the C locale. This is used when
-#' `.locale = NULL` unless the `dplyr.legacy_locale` global option is set to
-#' `TRUE`. You can also force the C locale to be used unconditionally with
-#' `.locale = "C"`.
+#' `.locale = NULL` unless the deprecated `dplyr.legacy_locale` global option is
+#' set to `TRUE`. You can also force the C locale to be used unconditionally
+#' with `.locale = "C"`.
 #'
 #' The C locale is not exactly the same as English locales, such as `"en"`. The
 #' main difference is that the C locale groups the English alphabet by _case_,
@@ -31,15 +31,17 @@
 #'
 #' ## Legacy behavior
 #'
-#' Prior to dplyr 1.1.0, character columns were ordered in the system locale. If
-#' you need to temporarily revert to this behavior, you can set the global
-#' option `dplyr.legacy_locale` to `TRUE`, but this should be used sparingly and
-#' you should expect this option to be removed in a future version of dplyr. It
-#' is better to update existing code to explicitly use `.locale` instead. Note
-#' that setting `dplyr.legacy_locale` will also force calls to [group_by()] to
-#' use the system locale when internally ordering the groups.
+#' `r lifecycle::badge("deprecated")`
 #'
-#' Setting `.locale` will override any usage of `dplyr.legacy_locale`.
+#' Prior to dplyr 1.1.0, character columns were ordered in the system locale.
+#' Setting the global option `dplyr.legacy_locale` to `TRUE` retains this legacy
+#' behavior, but this has been deprecated. Update existing code to explicitly
+#' call `arrange(.locale = )` instead. Run `Sys.getlocale("LC_COLLATE")` to
+#' determine your system locale, and compare that against the list in
+#' [stringi::stri_locale_list()] to find an appropriate value for `.locale`,
+#' i.e. for American English, `"en_US"`.
+#'
+#' Setting `.locale` directly will override any usage of `dplyr.legacy_locale`.
 #'
 #' @name dplyr-locale
 #' @keywords internal
@@ -64,30 +66,48 @@
 #'
 #' # Using `"da"` for Danish ordering gives the expected result
 #' arrange(df, x, .locale = "da")
-#'
-#' # If you need the legacy behavior of `arrange()`, which respected the
-#' # system locale, then you can set the global option `dplyr.legacy_locale`,
-#' # but expect this to be removed in the future. We recommend that you use
-#' # the `.locale` argument instead.
-#' rlang::with_options(dplyr.legacy_locale = TRUE, {
-#'   arrange(df, x)
-#' })
 NULL
 
 dplyr_legacy_locale <- function() {
   # Used to determine if `group_by()` and `arrange()` should use
   # base R's `order()` for sorting, which respects the system locale and was
   # our sorting engine pre-1.1.0.
-  out <- peek_option("dplyr.legacy_locale") %||% FALSE
+  option <- peek_option("dplyr.legacy_locale")
 
-  if (!is_bool(out)) {
+  if (is_null(option)) {
+    # Default behavior uses C locale
+    return(FALSE)
+  }
+
+  # This deprecation is a bit special. Since it is a global option that only the
+  # end user would ever set, we set `user_env = globalenv()` so that it always
+  # looks like a "direct" usage to lifecycle. This also makes our lives easier,
+  # because `user_env` would have to be threaded all the way up through the
+  # exported `grouped_df()` function, which is then used in many places
+  # throughout dplyr. Additionally, we've bypassed `deprecate_soft()` and gone
+  # straight to `deprecate_warn()` since this is only an end user facing option.
+  lifecycle::deprecate_warn(
+    when = "1.2.0",
+    what = I("`options(dplyr.legacy_locale =)`"),
+    details = c(
+      i = "If needed for `arrange()`, use `arrange(.locale =)` instead.",
+      i = "If needed for `group_by() |> summarise()`, follow up with an additional `arrange(.locale =)` call.",
+      i = cli::format_inline(paste0(
+        "Use {.run Sys.getlocale(\"LC_COLLATE\")} to determine your system locale, ",
+        "and compare against {.run stringi::stri_locale_list()} to determine the `.locale` value to use."
+      ))
+    ),
+    user_env = globalenv()
+  )
+
+  if (!is_bool(option)) {
     abort(
       "Global option `dplyr.legacy_locale` must be a single `TRUE` or `FALSE`.",
       call = NULL
     )
   }
 
-  out
+  option
 }
 
 has_minimum_stringi <- function() {

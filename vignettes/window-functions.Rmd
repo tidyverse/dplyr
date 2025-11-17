@@ -22,20 +22,20 @@ if (!rlang::is_installed("Lahman")) {
 }
 ```
 
-A __window function__ is a variation on an aggregation function. Where an aggregation function, like `sum()` and `mean()`, takes n inputs and return a single value, a window function returns n values. The output of a window function depends on all its input values, so window functions don't include functions that work element-wise, like `+` or `round()`. Window functions include variations on aggregate functions, like `cumsum()` and `cummean()`, functions for ranking and ordering, like `rank()`, and functions for taking offsets, like `lead()` and `lag()`. 
+A __window function__ is a variation on an aggregation function. Where an aggregation function, like `sum()` and `mean()`, takes n inputs and return a single value, a window function returns n values. The output of a window function depends on all its input values, so window functions don't include functions that work element-wise, like `+` or `round()`. Window functions include variations on aggregate functions, like `cumsum()` and `cummean()`, functions for ranking and ordering, like `rank()`, and functions for taking offsets, like `lead()` and `lag()`.
 
 In this vignette, we'll use a small sample of the Lahman batting dataset, including the players that have won an award.
 
 ```{r}
 library(Lahman)
 
-batting <- Lahman::Batting %>%
-  as_tibble() %>%
-  select(playerID, yearID, teamID, G, AB:H) %>%
-  arrange(playerID, yearID, teamID) %>%
+batting <- Lahman::Batting |>
+  as_tibble() |>
+  select(playerID, yearID, teamID, G, AB:H) |>
+  arrange(playerID, yearID, teamID) |>
   semi_join(Lahman::AwardsPlayers, by = "playerID")
 
-players <- batting %>% group_by(playerID)
+players <- batting |> group_by(playerID)
 ```
 
 Window functions are used in conjunction with `mutate()` and `filter()` to solve a wide range of problems. Here's a selection:
@@ -57,14 +57,14 @@ filter(players, G > mean(G))
 mutate(players, G_z = (G - mean(G)) / sd(G))
 ```
 
-Before reading this vignette, you should be familiar with `mutate()` and `filter()`. 
+Before reading this vignette, you should be familiar with `mutate()` and `filter()`.
 
 ## Types of window functions
 
 There are five main families of window functions. Two families are unrelated to aggregation functions:
 
 * Ranking and ordering functions: `row_number()`, `min_rank()`,
-  `dense_rank()`, `cume_dist()`, `percent_rank()`, and `ntile()`. These 
+  `dense_rank()`, `cume_dist()`, `percent_rank()`, and `ntile()`. These
   functions all take a vector to order by, and return various types of ranks.
 
 * Offsets `lead()` and `lag()` allow you to access the previous and next
@@ -72,18 +72,18 @@ There are five main families of window functions. Two families are unrelated to 
 
 The other three families are variations on familiar aggregate functions:
 
-* Cumulative aggregates: `cumsum()`, `cummin()`, `cummax()` (from base R), 
+* Cumulative aggregates: `cumsum()`, `cummin()`, `cummax()` (from base R),
   and `cumall()`, `cumany()`, and `cummean()` (from dplyr).
 
-* Rolling aggregates operate in a fixed width window. You won't find them in 
-  base R or in dplyr, but there are many implementations in 
-  other packages, such as 
+* Rolling aggregates operate in a fixed width window. You won't find them in
+  base R or in dplyr, but there are many implementations in
+  other packages, such as
   [RcppRoll](https://cran.r-project.org/package=RcppRoll).
 
 * Recycled aggregates, where an aggregate is repeated to match the length
-  of the input. These are not needed in R because vector recycling 
-  automatically recycles aggregates where needed. They are important in SQL, 
-  because the presence of an aggregation function usually tells the database 
+  of the input. These are not needed in R because vector recycling
+  automatically recycles aggregates where needed. They are important in SQL,
+  because the presence of an aggregation function usually tells the database
   to return only one row per group.
 
 Each family is described in more detail below, focussing on the general goals and how to use them with dplyr. For more details, refer to the individual function documentation.
@@ -102,7 +102,7 @@ dense_rank(x)
 
 If you're familiar with R, you may recognise that `row_number()` and `min_rank()` can be computed with the base `rank()` function and various values of the `ties.method` argument. These functions are provided to save a little typing, and to make it easier to convert between R and SQL.
 
-Two other ranking functions return numbers between 0 and 1. `percent_rank()` gives the percentage of the rank; `cume_dist()` gives the proportion of values less than or equal to the current value. 
+Two other ranking functions return numbers between 0 and 1. `percent_rank()` gives the percentage of the rank; `cume_dist()` gives the proportion of values less than or equal to the current value.
 
 ```{r}
 cume_dist(x)
@@ -128,7 +128,7 @@ All ranking functions rank from lowest to highest so that small input values get
 
 ## Lead and lag
 
-`lead()` and `lag()` produce offset versions of a input vector that is either ahead of or behind the original vector. 
+`lead()` and `lag()` produce offset versions of a input vector that is either ahead of or behind the original vector.
 
 ```{r}
 x <- 1:5
@@ -144,18 +144,18 @@ You can use them to:
     # Compute the relative change in games played
     mutate(players, G_delta = G - lag(G))
     ```
-    
-    Using `lag()` is more convenient than `diff()` because for `n` inputs 
+
+    Using `lag()` is more convenient than `diff()` because for `n` inputs
     `diff()` returns `n - 1` outputs.
 
 * Find out when a value changes.
-  
+
     ```{r, results = "hide"}
     # Find when a player changed teams
     filter(players, teamID != lag(teamID))
     ```
 
-`lead()` and `lag()` have an optional argument `order_by`. If set, instead of using the row order to determine which value comes before another, they will use another variable. This is important if you have not already sorted the data, or you want to sort one way and lag another. 
+`lead()` and `lag()` have an optional argument `order_by`. If set, instead of using the row order to determine which value comes before another, they will use another variable. This is important if you have not already sorted the data, or you want to sort one way and lag another.
 
 Here's a simple example of what happens if you don't specify `order_by` when you need it:
 
@@ -172,7 +172,7 @@ arrange(right, year)
 
 ## Cumulative aggregates
 
-Base R provides cumulative sum (`cumsum()`), cumulative min (`cummin()`), and cumulative max (`cummax()`). (It also provides `cumprod()` but that is rarely useful). Other common accumulating functions are `cumany()` and `cumall()`, cumulative versions of `||` and `&&`, and `cummean()`, a cumulative mean. These are not included in base R, but efficient versions are provided by `dplyr`. 
+Base R provides cumulative sum (`cumsum()`), cumulative min (`cummin()`), and cumulative max (`cummax()`). (It also provides `cumprod()` but that is rarely useful). Other common accumulating functions are `cumany()` and `cumall()`, cumulative versions of `||` and `&&`, and `cummean()`, a cumulative mean. These are not included in base R, but efficient versions are provided by `dplyr`.
 
 `cumany()` and `cumall()` are useful for selecting all rows up to, or all rows after, a condition is true for the first (or last) time. For example, we can use `cumany()` to find all records for a player after they played a year with 150 games:
 

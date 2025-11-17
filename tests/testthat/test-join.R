@@ -183,7 +183,10 @@ test_that("joins don't match NA when na_matches = 'never' (#2033)", {
   expect_equal(out, tibble(a = NA_integer_))
 
   out <- nest_join(df1, df2, by = "a", na_matches = "never")
-  expect <- tibble(a = c(1, NA), df2 = list(tibble(b = 1L), tibble(b = integer())))
+  expect <- tibble(
+    a = c(1, NA),
+    df2 = list(tibble(b = 1L), tibble(b = integer()))
+  )
   expect_equal(out, expect)
 
   dat1 <- tibble(
@@ -288,19 +291,35 @@ test_that("joins using `between(bounds =)` work as expected (#6488)", {
   df1 <- tibble(x = 1:5)
   df2 <- tibble(lower = 2, upper = 4)
 
-  out <- full_join(df1, df2, by = join_by(between(x, lower, upper, bounds = "[]")))
+  out <- full_join(
+    df1,
+    df2,
+    by = join_by(between(x, lower, upper, bounds = "[]"))
+  )
   expect_identical(out$lower, c(NA, 2, 2, 2, NA))
   expect_identical(out$upper, c(NA, 4, 4, 4, NA))
 
-  out <- full_join(df1, df2, by = join_by(between(x, lower, upper, bounds = "[)")))
+  out <- full_join(
+    df1,
+    df2,
+    by = join_by(between(x, lower, upper, bounds = "[)"))
+  )
   expect_identical(out$lower, c(NA, 2, 2, NA, NA))
   expect_identical(out$upper, c(NA, 4, 4, NA, NA))
 
-  out <- full_join(df1, df2, by = join_by(between(x, lower, upper, bounds = "(]")))
+  out <- full_join(
+    df1,
+    df2,
+    by = join_by(between(x, lower, upper, bounds = "(]"))
+  )
   expect_identical(out$lower, c(NA, NA, 2, 2, NA))
   expect_identical(out$upper, c(NA, NA, 4, 4, NA))
 
-  out <- full_join(df1, df2, by = join_by(between(x, lower, upper, bounds = "()")))
+  out <- full_join(
+    df1,
+    df2,
+    by = join_by(between(x, lower, upper, bounds = "()"))
+  )
   expect_identical(out$lower, c(NA, NA, 2, NA, NA))
   expect_identical(out$upper, c(NA, NA, 4, NA, NA))
 })
@@ -311,18 +330,34 @@ test_that("joins using `overlaps(bounds =)` work as expected (#6488)", {
 
   expect_closed <- vec_cbind(df1, vec_c(df2, df2, df2, df2))
 
-  out <- full_join(df1, df2, by = join_by(overlaps(x_lower, x_upper, y_lower, y_upper, bounds = "[]")))
+  out <- full_join(
+    df1,
+    df2,
+    by = join_by(overlaps(x_lower, x_upper, y_lower, y_upper, bounds = "[]"))
+  )
   expect_identical(out, expect_closed)
 
   # `[)`, `(]`, and `()` all generate the same binary conditions but are useful
   # for consistency with `between(bounds =)`
   expect_open <- vec_cbind(df1, vec_c(NA, df2, df2, NA))
 
-  out <- full_join(df1, df2, by = join_by(overlaps(x_lower, x_upper, y_lower, y_upper, bounds = "[)")))
+  out <- full_join(
+    df1,
+    df2,
+    by = join_by(overlaps(x_lower, x_upper, y_lower, y_upper, bounds = "[)"))
+  )
   expect_identical(out, expect_open)
-  out <- full_join(df1, df2, by = join_by(overlaps(x_lower, x_upper, y_lower, y_upper, bounds = "(]")))
+  out <- full_join(
+    df1,
+    df2,
+    by = join_by(overlaps(x_lower, x_upper, y_lower, y_upper, bounds = "(]"))
+  )
   expect_identical(out, expect_open)
-  out <- full_join(df1, df2, by = join_by(overlaps(x_lower, x_upper, y_lower, y_upper, bounds = "()")))
+  out <- full_join(
+    df1,
+    df2,
+    by = join_by(overlaps(x_lower, x_upper, y_lower, y_upper, bounds = "()"))
+  )
   expect_identical(out, expect_open)
 })
 
@@ -361,14 +396,20 @@ test_that("mutating joins don't trigger many-to-many warning when called indirec
   }
 
   # Directly calling `left_join()` from a function you control results in a warning
-  expect_warning(fn(df, df), class = "dplyr_warning_join_relationship_many_to_many")
+  expect_warning(
+    fn(df, df),
+    class = "dplyr_warning_join_relationship_many_to_many"
+  )
 
   # Now mimic calling an "rlang function" which you don't control that calls `left_join()`
   fn_env(fn) <- ns_env("rlang")
 
   # Indirectly calling `left_join()` through a function you don't control
   # doesn't warn
-  expect_no_warning(fn(df, df), class = "dplyr_warning_join_relationship_many_to_many")
+  expect_no_warning(
+    fn(df, df),
+    class = "dplyr_warning_join_relationship_many_to_many"
+  )
 })
 
 test_that("mutating joins compute common columns", {
@@ -467,7 +508,7 @@ test_that("error if passed additional arguments", {
 
 # nest_join ---------------------------------------------------------------
 
-test_that("nest_join returns list of tibbles (#3570)",{
+test_that("nest_join returns list of tibbles (#3570)", {
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- tibble(x = c(1, 1), z = c(2, 3))
   out <- nest_join(df1, df2, by = "x")
@@ -477,7 +518,7 @@ test_that("nest_join returns list of tibbles (#3570)",{
   expect_s3_class(out$df2[[1]], "tbl_df")
 })
 
-test_that("nest_join respects types of y (#6295)",{
+test_that("nest_join respects types of y (#6295)", {
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- rowwise(tibble(x = c(1, 1), z = c(2, 3)))
   out <- nest_join(df1, df2, by = "x")
@@ -585,7 +626,6 @@ test_that("validates inputs", {
     nest_join(df1, df2, name = 1)
     nest_join(df1, df2, na_matches = 1)
   })
-
 })
 
 # output type ---------------------------------------------------------------
@@ -599,8 +639,8 @@ test_that("joins x preserve type of x", {
 })
 
 test_that("joins preserve groups", {
-  gf1 <- tibble(a = 1:3) %>% group_by(a)
-  gf2 <- tibble(a = rep(1:4, 2), b = 1) %>% group_by(b)
+  gf1 <- tibble(a = 1:3) |> group_by(a)
+  gf2 <- tibble(a = rep(1:4, 2), b = 1) |> group_by(b)
 
   i <- count_regroups(out <- inner_join(gf1, gf2, by = "a"))
   expect_equal(i, 1L)
@@ -618,33 +658,56 @@ test_that("joins preserve groups", {
 })
 
 test_that("joins respect zero length groups", {
-  df1 <- tibble(f = factor( c(1,1,2,2), levels = 1:3), x = c(1,2,1,4)) %>%
+  df1 <- tibble(f = factor(c(1, 1, 2, 2), levels = 1:3), x = c(1, 2, 1, 4)) |>
     group_by(f)
 
-  df2 <- tibble(f = factor( c(2,2,3,3), levels = 1:3), y = c(1,2,3,4)) %>%
+  df2 <- tibble(f = factor(c(2, 2, 3, 3), levels = 1:3), y = c(1, 2, 3, 4)) |>
     group_by(f)
 
-  expect_equal(group_size(left_join( df1, df2, by = "f", relationship = "many-to-many")),  c(2,4))
-  expect_equal(group_size(right_join( df1, df2, by = "f", relationship = "many-to-many")),  c(4,2))
-  expect_equal(group_size(full_join( df1, df2, by = "f", relationship = "many-to-many")),  c(2,4,2))
-  expect_equal(group_size(anti_join( df1, df2, by = "f")),  c(2))
-  expect_equal(group_size(inner_join( df1, df2, by = "f", relationship = "many-to-many")),  c(4))
+  expect_equal(
+    group_size(left_join(df1, df2, by = "f", relationship = "many-to-many")),
+    c(2, 4)
+  )
+  expect_equal(
+    group_size(right_join(df1, df2, by = "f", relationship = "many-to-many")),
+    c(4, 2)
+  )
+  expect_equal(
+    group_size(full_join(df1, df2, by = "f", relationship = "many-to-many")),
+    c(2, 4, 2)
+  )
+  expect_equal(group_size(anti_join(df1, df2, by = "f")), c(2))
+  expect_equal(
+    group_size(inner_join(df1, df2, by = "f", relationship = "many-to-many")),
+    c(4)
+  )
 
-
-  df1 <- tibble(f = factor( c(1,1,2,2), levels = 1:3), x = c(1,2,1,4)) %>%
+  df1 <- tibble(f = factor(c(1, 1, 2, 2), levels = 1:3), x = c(1, 2, 1, 4)) |>
     group_by(f, .drop = FALSE)
-  df2 <- tibble(f = factor( c(2,2,3,3), levels = 1:3), y = c(1,2,3,4)) %>%
+  df2 <- tibble(f = factor(c(2, 2, 3, 3), levels = 1:3), y = c(1, 2, 3, 4)) |>
     group_by(f, .drop = FALSE)
 
-  expect_equal(group_size(left_join( df1, df2, by = "f", relationship = "many-to-many")),  c(2,4,0))
-  expect_equal(group_size(right_join( df1, df2, by = "f", relationship = "many-to-many")),  c(0,4,2))
-  expect_equal(group_size(full_join( df1, df2, by = "f", relationship = "many-to-many")),  c(2,4,2))
-  expect_equal(group_size(anti_join( df1, df2, by = "f")),  c(2,0,0))
-  expect_equal(group_size(inner_join( df1, df2, by = "f", relationship = "many-to-many")),  c(0,4,0))
+  expect_equal(
+    group_size(left_join(df1, df2, by = "f", relationship = "many-to-many")),
+    c(2, 4, 0)
+  )
+  expect_equal(
+    group_size(right_join(df1, df2, by = "f", relationship = "many-to-many")),
+    c(0, 4, 2)
+  )
+  expect_equal(
+    group_size(full_join(df1, df2, by = "f", relationship = "many-to-many")),
+    c(2, 4, 2)
+  )
+  expect_equal(group_size(anti_join(df1, df2, by = "f")), c(2, 0, 0))
+  expect_equal(
+    group_size(inner_join(df1, df2, by = "f", relationship = "many-to-many")),
+    c(0, 4, 0)
+  )
 })
 
 test_that("group column names reflect renamed duplicate columns (#2330)", {
-  df1 <- tibble(x = 1:5, y = 1:5) %>% group_by(x, y)
+  df1 <- tibble(x = 1:5, y = 1:5) |> group_by(x, y)
   df2 <- tibble(x = 1:5, y = 1:5)
 
   out <- inner_join(df1, df2, by = "x")

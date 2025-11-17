@@ -19,35 +19,35 @@
 #' @examples
 #' mtcars <- as_tibble(mtcars) # for nicer printing
 #'
-#' mtcars %>% rename_all(toupper)
+#' mtcars |> rename_all(toupper)
 #' # ->
-#' mtcars %>% rename_with(toupper)
+#' mtcars |> rename_with(toupper)
 #'
 #' # NB: the transformation comes first in rename_with
 #' is_whole <- function(x) all(floor(x) == x)
-#' mtcars %>% rename_if(is_whole, toupper)
+#' mtcars |> rename_if(is_whole, toupper)
 #' # ->
-#' mtcars %>% rename_with(toupper, where(is_whole))
+#' mtcars |> rename_with(toupper, where(is_whole))
 #'
-#' mtcars %>% rename_at(vars(mpg:hp), toupper)
+#' mtcars |> rename_at(vars(mpg:hp), toupper)
 #' # ->
-#' mtcars %>% rename_with(toupper, mpg:hp)
+#' mtcars |> rename_with(toupper, mpg:hp)
 #'
 #' # You now must select() and then rename
 #'
-#' mtcars %>% select_all(toupper)
+#' mtcars |> select_all(toupper)
 #' # ->
-#' mtcars %>% rename_with(toupper)
+#' mtcars |> rename_with(toupper)
 #'
 #' # Selection drops unselected variables:
-#' mtcars %>% select_if(is_whole, toupper)
+#' mtcars |> select_if(is_whole, toupper)
 #' # ->
-#' mtcars %>% select(where(is_whole)) %>% rename_with(toupper)
+#' mtcars |> select(where(is_whole)) |> rename_with(toupper)
 #'
-#' mtcars %>% select_at(vars(-contains("ar"), starts_with("c")), toupper)
+#' mtcars |> select_at(vars(-contains("ar"), starts_with("c")), toupper)
 #' # ->
-#' mtcars %>%
-#'   select(!contains("ar") | starts_with("c")) %>%
+#' mtcars |>
+#'   select(!contains("ar") | starts_with("c")) |>
 #'   rename_with(toupper)
 #' @export
 select_all <- function(.tbl, .funs = list(), ...) {
@@ -72,9 +72,19 @@ rename_all <- function(.tbl, .funs = list(), ...) {
 select_if <- function(.tbl, .predicate, .funs = list(), ...) {
   funs <- as_fun_list(.funs, caller_env(), ..., .caller = "select_if")
   if (!is_logical(.predicate)) {
-    .predicate <- as_fun_list(.predicate, caller_env(), .caller = "select_if", .caller_arg = ".predicate")
+    .predicate <- as_fun_list(
+      .predicate,
+      caller_env(),
+      .caller = "select_if",
+      .caller_arg = ".predicate"
+    )
   }
-  vars <- tbl_if_vars(.tbl, .predicate, caller_env(), .include_group_vars = TRUE)
+  vars <- tbl_if_vars(
+    .tbl,
+    .predicate,
+    caller_env(),
+    .include_group_vars = TRUE
+  )
   syms <- vars_select_syms(vars, funs, .tbl)
   select(.tbl, !!!syms)
 }
@@ -83,9 +93,19 @@ select_if <- function(.tbl, .predicate, .funs = list(), ...) {
 rename_if <- function(.tbl, .predicate, .funs = list(), ...) {
   funs <- as_fun_list(.funs, caller_env(), ..., .caller = "rename_if")
   if (!is_logical(.predicate)) {
-    .predicate <- as_fun_list(.predicate, caller_env(), .caller = "rename_if", .caller_arg = ".predicate")
+    .predicate <- as_fun_list(
+      .predicate,
+      caller_env(),
+      .caller = "rename_if",
+      .caller_arg = ".predicate"
+    )
   }
-  vars <- tbl_if_vars(.tbl, .predicate, caller_env(), .include_group_vars = TRUE)
+  vars <- tbl_if_vars(
+    .tbl,
+    .predicate,
+    caller_env(),
+    .include_group_vars = TRUE
+  )
   syms <- vars_select_syms(vars, funs, .tbl, strict = TRUE)
   rename(.tbl, !!!syms)
 }
@@ -107,9 +127,17 @@ rename_at <- function(.tbl, .vars, .funs = list(), ...) {
   rename(.tbl, !!!syms)
 }
 
-vars_select_syms <- function(vars, funs, tbl, strict = FALSE, error_call = caller_env()) {
+vars_select_syms <- function(
+  vars,
+  funs,
+  tbl,
+  strict = FALSE,
+  error_call = caller_env()
+) {
   if (length(funs) > 1) {
-    msg <- glue("`.funs` must contain one renaming function, not {length(funs)}.")
+    msg <- glue(
+      "`.funs` must contain one renaming function, not {length(funs)}."
+    )
     abort(msg, call = error_call)
   } else if (length(funs) == 1) {
     fun <- funs[[1]]
@@ -131,6 +159,9 @@ vars_select_syms <- function(vars, funs, tbl, strict = FALSE, error_call = calle
   group_vars <- group_vars(tbl)
   group_syms <- syms(group_vars)
   has_group_sym <- group_syms %in% syms
-  new_group_syms <- set_names(group_syms[!has_group_sym], group_vars[!has_group_sym])
+  new_group_syms <- set_names(
+    group_syms[!has_group_sym],
+    group_vars[!has_group_sym]
+  )
   c(new_group_syms, syms)
 }

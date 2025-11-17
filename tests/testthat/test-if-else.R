@@ -74,6 +74,12 @@ test_that("`condition` must be logical (and isn't cast to logical!)", {
   })
 })
 
+test_that("`condition` can't be an array (#7723)", {
+  expect_snapshot(error = TRUE, {
+    if_else(array(TRUE), 1, 2)
+  })
+})
+
 test_that("`true`, `false`, and `missing` must recycle to the size of `condition`", {
   x <- 1:3
   bad <- 1:2
@@ -103,11 +109,9 @@ test_that("`ptype` overrides the common type", {
   })
 })
 
-test_that("`size` overrides the `condition` size", {
-  expect_identical(if_else(c(TRUE, FALSE), 1, 2, size = 2), c(1, 2))
-
-  # Note that `condition` is used as the name in the error message
-  expect_snapshot(error = TRUE, {
-    if_else(TRUE, 1, 2, size = 2)
+test_that("`size` is deprecated", {
+  expect_snapshot({
+    x <- if_else(c(TRUE, FALSE), 1, 2, size = 2)
   })
+  expect_identical(x, c(1, 2))
 })

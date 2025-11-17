@@ -31,8 +31,7 @@ n_groups(x)
 \item{.data, .tbl, x}{A data frame or extension (like a tibble or grouped
 tibble).}
 
-\item{...}{Use of \code{...} is now deprecated; please use \code{group_by()} first
-instead.}
+\item{...}{Unused.}
 }
 \description{
 This collection of functions accesses data about grouped data frames in

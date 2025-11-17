@@ -9,7 +9,7 @@
 status](https://www.r-pkg.org/badges/version/dplyr)](https://cran.r-project.org/package=dplyr)
 [![R-CMD-check](https://github.com/tidyverse/dplyr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidyverse/dplyr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/tidyverse/dplyr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidyverse/dplyr?branch=main)
+coverage](https://codecov.io/gh/tidyverse/dplyr/graph/badge.svg)](https://app.codecov.io/gh/tidyverse/dplyr)
 <!-- badges: end -->
 
 ## Overview
@@ -44,20 +44,17 @@ alternative backends:
   Apache Arrow C++ engine,
   [Acero](https://arrow.apache.org/docs/cpp/streaming_execution.html).
 
+- [dbplyr](https://dbplyr.tidyverse.org/) for data stored in a
+  relational database. Translates your dplyr code to SQL.
+
 - [dtplyr](https://dtplyr.tidyverse.org/) for large, in-memory datasets.
   Translates your dplyr code to high performance
   [data.table](https://rdatatable.gitlab.io/data.table/) code.
 
-- [dbplyr](https://dbplyr.tidyverse.org/) for data stored in a
-  relational database. Translates your dplyr code to SQL.
-
-- [duckplyr](https://duckdblabs.github.io/duckplyr/) for using
-  [duckdb](https://duckdb.org) on large, in-memory datasets with zero
-  extra copies. Translates your dplyr code to high performance duckdb
-  queries with an automatic R fallback when translation isn’t possible.
-
-- [duckdb](https://duckdb.org/docs/api/r) for large datasets that are
-  still small enough to fit on your computer.
+- [duckplyr](https://duckplyr.tidyverse.org/) for large, in-memory
+  datasets. Translates your dplyr code to high performance
+  [duckdb](https://duckdb.org) queries with zero extra copies and an
+  automatic R fallback when translation isn’t possible.
 
 - [sparklyr](https://spark.rstudio.com) for very large datasets stored
   in [Apache Spark](https://spark.apache.org).
@@ -91,7 +88,7 @@ pak::pak("tidyverse/dplyr")
 ``` r
 library(dplyr)
 
-starwars %>% 
+starwars |>
   filter(species == "Droid")
 #> # A tibble: 6 × 14
 #>   name   height  mass hair_color skin_color  eye_color birth_year sex   gender  
@@ -105,7 +102,7 @@ starwars %>%
 #> # ℹ 5 more variables: homeworld <chr>, species <chr>, films <list>,
 #> #   vehicles <list>, starships <list>
 
-starwars %>% 
+starwars |>
   select(name, ends_with("color"))
 #> # A tibble: 87 × 4
 #>   name           hair_color skin_color  eye_color
@@ -117,8 +114,8 @@ starwars %>%
 #> 5 Leia Organa    brown      light       brown    
 #> # ℹ 82 more rows
 
-starwars %>% 
-  mutate(name, bmi = mass / ((height / 100)  ^ 2)) %>%
+starwars |>
+  mutate(name, bmi = mass / ((height / 100)^2)) |>
   select(name:mass, bmi)
 #> # A tibble: 87 × 4
 #>   name           height  mass   bmi
@@ -130,7 +127,7 @@ starwars %>%
 #> 5 Leia Organa       150    49  21.8
 #> # ℹ 82 more rows
 
-starwars %>% 
+starwars |>
   arrange(desc(mass))
 #> # A tibble: 87 × 14
 #>   name      height  mass hair_color skin_color eye_color birth_year sex   gender
@@ -144,12 +141,12 @@ starwars %>%
 #> # ℹ 5 more variables: homeworld <chr>, species <chr>, films <list>,
 #> #   vehicles <list>, starships <list>
 
-starwars %>%
-  group_by(species) %>%
+starwars |>
+  group_by(species) |>
   summarise(
     n = n(),
     mass = mean(mass, na.rm = TRUE)
-  ) %>%
+  ) |>
   filter(
     n > 1,
     mass > 50

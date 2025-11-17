@@ -40,20 +40,18 @@
 #' # Control the suffix added to variables duplicated in
 #' # `x` and `y` with `suffix`.
 #' cross_join(band_instruments, band_members, suffix = c("", "_y"))
-cross_join <- function(x,
-                       y,
-                       ...,
-                       copy = FALSE,
-                       suffix = c(".x", ".y")) {
+cross_join <- function(x, y, ..., copy = FALSE, suffix = c(".x", ".y")) {
   UseMethod("cross_join")
 }
 
 #' @export
-cross_join.data.frame <- function(x,
-                                  y,
-                                  ...,
-                                  copy = FALSE,
-                                  suffix = c(".x", ".y")) {
+cross_join.data.frame <- function(
+  x,
+  y,
+  ...,
+  copy = FALSE,
+  suffix = c(".x", ".y")
+) {
   check_dots_empty0(...)
 
   y <- auto_copy(x, y, copy = copy)

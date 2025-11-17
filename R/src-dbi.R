@@ -5,8 +5,13 @@ tbl.DBIConnection <- function(src, from, ...) {
 }
 
 #' @export
-copy_to.DBIConnection <- function(dest, df, name = deparse(substitute(df)),
-                                  overwrite = FALSE, ...) {
+copy_to.DBIConnection <- function(
+  dest,
+  df,
+  name = deparse(substitute(df)),
+  overwrite = FALSE,
+  ...
+) {
   check_dbplyr()
   copy_to(
     dbplyr::src_dbi(dest, auto_disconnect = FALSE),

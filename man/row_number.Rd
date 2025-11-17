@@ -56,19 +56,19 @@ df <- data.frame(
   id = 1:9
 )
 # Always gives exactly 1 row per group
-df \%>\% group_by(grp) \%>\% filter(row_number(x) == 1)
+df |> group_by(grp) |> filter(row_number(x) == 1)
 # May give more than 1 row if ties
-df \%>\% group_by(grp) \%>\% filter(min_rank(x) == 1)
+df |> group_by(grp) |> filter(min_rank(x) == 1)
 # Rank by multiple columns (to break ties) by selecting them with `pick()`
-df \%>\% group_by(grp) \%>\% filter(min_rank(pick(x, y)) == 1)
+df |> group_by(grp) |> filter(min_rank(pick(x, y)) == 1)
 # See slice_min() and slice_max() for another way to tackle the same problem
 
 # You can use row_number() without an argument to refer to the "current"
 # row number.
-df \%>\% group_by(grp) \%>\% filter(row_number() == 1)
+df |> group_by(grp) |> filter(row_number() == 1)
 
 # It's easiest to see what this does with mutate():
-df \%>\% group_by(grp) \%>\% mutate(grp_id = row_number())
+df |> group_by(grp) |> mutate(grp_id = row_number())
 }
 \seealso{
 Other ranking functions: 

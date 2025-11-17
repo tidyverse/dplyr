@@ -10,11 +10,14 @@ test_that("filter_at()", {
 })
 
 test_that("filter_all()", {
-  expect_identical(filter_all(mtcars, any_vars(. > 200))$disp, mtcars$disp[mtcars$disp > 200])
+  expect_identical(
+    filter_all(mtcars, any_vars(. > 200))$disp,
+    mtcars$disp[mtcars$disp > 200]
+  )
 })
 
 test_that("filter_at can filter by grouping variables (#3351, #3480)", {
-  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) |>
     group_by(gr1)
 
   expect_identical(
@@ -24,7 +27,7 @@ test_that("filter_at can filter by grouping variables (#3351, #3480)", {
 })
 
 test_that("filter_if and filter_all includes grouping variables (#3351, #3480)", {
-  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) |>
     group_by(gr1)
 
   res <- filter_all(tbl, all_vars(. > 1))
@@ -37,18 +40,18 @@ test_that("filter_if and filter_all includes grouping variables (#3351, #3480)",
 test_that("can supply functions to scoped filters", {
   exp <- as.list(mtcars[c(8, 9, 21), ])
 
-  out <- mtcars %>% filter_at(c("cyl", "am"), ~ .x == 4 | .x == 0)
+  out <- mtcars |> filter_at(c("cyl", "am"), ~ .x == 4 | .x == 0)
   expect_identical(as.list(out), exp)
 
-  out <- mtcars %>% filter_at(c("cyl", "am"), function(.x) .x == 4 | .x == 0)
+  out <- mtcars |> filter_at(c("cyl", "am"), function(.x) .x == 4 | .x == 0)
   expect_identical(as.list(out), exp)
 })
 
 test_that("colwise filter support .data$. in the quosure versions", {
-   expect_identical(
-     filter_if(iris, is.numeric, any_vars(.data$. > 4)),
-     filter_if(iris, is.numeric, any_vars(. > 4))
-   )
+  expect_identical(
+    filter_if(iris, is.numeric, any_vars(.data$. > 4)),
+    filter_if(iris, is.numeric, any_vars(. > 4))
+  )
 
   expect_identical(
     filter_all(select(iris, -Species), any_vars(.data$. > 4)),
@@ -60,7 +63,6 @@ test_that("colwise filter support .data$. in the quosure versions", {
     filter_at(iris, vars(contains(".")), any_vars(. > 4))
   )
 })
-
 
 test_that("all_exprs() creates intersection", {
   expect_identical(all_exprs(am == 1), quo(am == 1))

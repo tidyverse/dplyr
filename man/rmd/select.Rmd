@@ -7,7 +7,7 @@ Here we show the usage for the basic selection operators. See the
 specific help pages to learn about helpers like [starts_with()].
 
 The selection language can be used in functions like
-`dplyr::select()` or `tidyr::pivot_longer()`. Let's first attach
+`dplyr::select()`. Let's first attach
 the tidyverse:
 
 ```{r}
@@ -20,23 +20,30 @@ iris <- as_tibble(iris)
 Select variables by name:
 
 ```{r}
-starwars %>% select(height)
+starwars |> select(height)
 
-iris %>% pivot_longer(Sepal.Length)
+iris |> select(Sepal.Length)
 ```
 
 Select multiple variables by separating them with commas. Note how
 the order of columns is determined by the order of inputs:
 
 ```{r}
-starwars %>% select(homeworld, height, mass)
+starwars |> select(homeworld, height, mass)
+
+iris |> select(Sepal.Length, Petal.Length)
 ```
 
-Functions like `tidyr::pivot_longer()` don't take variables with
-dots. In this case use `c()` to select multiple variables:
+If you use a named vector to select columns, the output will have
+its columns renamed:
 
 ```{r}
-iris %>% pivot_longer(c(Sepal.Length, Petal.Length))
+selection <- c(
+  new_homeworld = "homeworld",
+  new_height = "height",
+  new_mass = "mass"
+)
+starwars |> select(all_of(selection))
 ```
 
 ## Operators:
@@ -44,30 +51,30 @@ iris %>% pivot_longer(c(Sepal.Length, Petal.Length))
 The `:` operator selects a range of consecutive variables:
 
 ```{r}
-starwars %>% select(name:mass)
+starwars |> select(name:mass)
 ```
 
 The `!` operator negates a selection:
 
 ```{r}
-starwars %>% select(!(name:mass))
+starwars |> select(!(name:mass))
 
-iris %>% select(!c(Sepal.Length, Petal.Length))
+iris |> select(!c(Sepal.Length, Petal.Length))
 
-iris %>% select(!ends_with("Width"))
+iris |> select(!ends_with("Width"))
 ```
 
 `&` and `|` take the intersection or the union of two selections:
 
 ```{r}
-iris %>% select(starts_with("Petal") & ends_with("Width"))
+iris |> select(starts_with("Petal") & ends_with("Width"))
 
-iris %>% select(starts_with("Petal") | ends_with("Width"))
+iris |> select(starts_with("Petal") | ends_with("Width"))
 ```
 
 To take the difference between two selections, combine the `&` and
 `!` operators:
 
 ```{r}
-iris %>% select(starts_with("Petal") & !ends_with("Width"))
+iris |> select(starts_with("Petal") & !ends_with("Width"))
 ```

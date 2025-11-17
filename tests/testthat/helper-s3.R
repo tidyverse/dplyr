@@ -3,7 +3,8 @@ local_methods <- function(..., .frame = caller_env()) {
 }
 
 local_foo_df <- function(frame = caller_env()) {
-  local_methods(.frame = frame,
+  local_methods(
+    .frame = frame,
     group_by.foo_df = function(.data, ...) {
       out <- NextMethod()
       if (missing(...)) {

@@ -23,14 +23,14 @@ test_that("rownames preserved", {
 
 test_that("mutations applied progressively", {
   df <- tibble(x = 1)
-  expect_equal(df %>% mutate(y = x + 1, z = y + 1), tibble(x = 1, y = 2, z = 3))
-  expect_equal(df %>% mutate(x = x + 1, x = x + 1), tibble(x = 3))
-  expect_equal(df %>% mutate(x = 2, y = x), tibble(x = 2, y = 2))
+  expect_equal(df |> mutate(y = x + 1, z = y + 1), tibble(x = 1, y = 2, z = 3))
+  expect_equal(df |> mutate(x = x + 1, x = x + 1), tibble(x = 3))
+  expect_equal(df |> mutate(x = 2, y = x), tibble(x = 2, y = 2))
 
   df <- data.frame(x = 1, y = 2)
   expect_equal(
-    df %>% mutate(x2 = x, x3 = x2 + 1),
-    df %>% mutate(x2 = x + 0, x3 = x2 + 1)
+    df |> mutate(x2 = x, x3 = x2 + 1),
+    df |> mutate(x2 = x + 0, x3 = x2 + 1)
   )
 })
 
@@ -44,13 +44,13 @@ test_that("can remove variables with NULL (#462)", {
   df <- tibble(x = 1:3, y = 1:3)
   gf <- group_by(df, x)
 
-  expect_equal(df %>% mutate(y = NULL), df[1])
-  expect_equal(gf %>% mutate(y = NULL), gf[1])
+  expect_equal(df |> mutate(y = NULL), df[1])
+  expect_equal(gf |> mutate(y = NULL), gf[1])
 
   # even if it doesn't exist
-  expect_equal(df %>% mutate(z = NULL), df)
+  expect_equal(df |> mutate(z = NULL), df)
   # or was just created
-  expect_equal(df %>% mutate(z = 1, z = NULL), df)
+  expect_equal(df |> mutate(z = 1, z = NULL), df)
 
   # regression test for https://github.com/tidyverse/dplyr/issues/4974
   expect_equal(
@@ -76,7 +76,11 @@ test_that("mutate() supports unquoted values", {
 
 test_that("assignments don't overwrite variables (#315)", {
   df <- tibble(x = 1, y = 2)
-  out <- df %>% mutate(z = {x <- 10; x})
+  out <- df |>
+    mutate(z = {
+      x <- 10
+      x
+    })
   expect_equal(out, tibble(x = 1, y = 2, z = 10))
 })
 
@@ -100,23 +104,26 @@ test_that("mutate() supports constants (#6056, #6305)", {
   y <- 1:10
   z <- 1:5
 
-  expect_identical(df %>% mutate(y = !!y) %>% pull(y), y)
-  expect_identical(df %>% group_by(g) %>% mutate(y = !!y) %>% pull(y), y)
-  expect_identical(df %>% rowwise() %>% mutate(y = !!y) %>% pull(y), y)
+  expect_identical(df |> mutate(y = !!y) |> pull(y), y)
+  expect_identical(df |> group_by(g) |> mutate(y = !!y) |> pull(y), y)
+  expect_identical(df |> rowwise() |> mutate(y = !!y) |> pull(y), y)
 
   expect_snapshot({
-    (expect_error(df %>% mutate(z = !!z)))
-    (expect_error(df %>% group_by(g) %>% mutate(z = !!z)))
-    (expect_error(df %>% rowwise() %>% mutate(z = !!z)))
+    (expect_error(df |> mutate(z = !!z)))
+    (expect_error(df |> group_by(g) |> mutate(z = !!z)))
+    (expect_error(df |> rowwise() |> mutate(z = !!z)))
   })
 
   # `.env$` is used for per group evaluation
-  expect_identical(df %>% mutate(y = .env$y) %>% pull(y), y)
-  expect_identical(df %>% group_by(g) %>% mutate(z = .env$z) %>% pull(z), c(z, z))
+  expect_identical(df |> mutate(y = .env$y) |> pull(y), y)
+  expect_identical(
+    df |> group_by(g) |> mutate(z = .env$z) |> pull(z),
+    c(z, z)
+  )
 
   expect_snapshot({
-    (expect_error(df %>% group_by(g) %>% mutate(y = .env$y)))
-    (expect_error(df %>% rowwise() %>% mutate(y = .env$y)))
+    (expect_error(df |> group_by(g) |> mutate(y = .env$y)))
+    (expect_error(df |> rowwise() |> mutate(y = .env$y)))
   })
 })
 
@@ -170,7 +177,7 @@ test_that("assigning with `<-` doesn't affect the mask (#6666)", {
 test_that("`across()` inline expansions that use `<-` don't affect the mask (#6666)", {
   df <- tibble(g = 1:2, x = 3:4)
 
-  out <- df %>%
+  out <- df |>
     mutate(
       across(x, function(col) {
         col <- col + 2L
@@ -203,7 +210,7 @@ test_that("can't share local variables across expressions (#6666)", {
 
 test_that("glue() is supported", {
   expect_equal(
-    tibble(x = 1) %>% mutate(y = glue("")),
+    tibble(x = 1) |> mutate(y = glue("")),
     tibble(x = 1, y = glue(""))
   )
 })
@@ -216,8 +223,8 @@ test_that("mutate disambiguates NA and NaN (#1448)", {
 
 test_that("mutate preserves names (#1689, #2675)", {
   df <- tibble(a = 1:3)
-  out1 <- df %>% mutate(b = setNames(1:3, letters[1:3]))
-  out2 <- df %>% mutate(b = setNames(as.list(1:3), letters[1:3]))
+  out1 <- df |> mutate(b = setNames(1:3, letters[1:3]))
+  out2 <- df |> mutate(b = setNames(as.list(1:3), letters[1:3]))
 
   expect_named(out1$b, letters[1:3])
   expect_named(out2$b, letters[1:3])
@@ -249,22 +256,22 @@ test_that("mutate handles data frame columns", {
 
 test_that("unnamed data frames are automatically unspliced  (#2326, #3630)", {
   expect_identical(
-    tibble(a = 1) %>% mutate(tibble(b = 2)),
+    tibble(a = 1) |> mutate(tibble(b = 2)),
     tibble(a = 1, b = 2)
   )
   expect_identical(
-    tibble(a = 1) %>% mutate(tibble(b = 2), tibble(b = 3)),
+    tibble(a = 1) |> mutate(tibble(b = 2), tibble(b = 3)),
     tibble(a = 1, b = 3)
   )
   expect_identical(
-    tibble(a = 1) %>% mutate(tibble(b = 2), c = b),
+    tibble(a = 1) |> mutate(tibble(b = 2), c = b),
     tibble(a = 1, b = 2, c = 2)
   )
 })
 
 test_that("named data frames are packed (#2326, #3630)", {
   df <- tibble(x = 1)
-  out <- df %>% mutate(y = tibble(a = x))
+  out <- df |> mutate(y = tibble(a = x))
   expect_equal(out, tibble(x = 1, y = tibble(a = 1)))
 })
 
@@ -295,7 +302,7 @@ test_that("mutate preserves grouping", {
 
 test_that("mutate works on zero-row grouped data frame (#596)", {
   dat <- data.frame(a = numeric(0), b = character(0), stringsAsFactors = TRUE)
-  res <- dat %>% group_by(b, .drop = FALSE) %>% mutate(a2 = a * 2)
+  res <- dat |> group_by(b, .drop = FALSE) |> mutate(a2 = a * 2)
   expect_type(res$a2, "double")
   expect_s3_class(res, "grouped_df")
   expect_equal(res$a2, numeric(0))
@@ -325,28 +332,36 @@ test_that("mutate preserves class of zero-row rowwise (#4224, #6303)", {
   out <- mutate(rf, x2 = identity(x), x3 = x)
   expect_equal(out$x2, logical())
   expect_equal(out$x3, logical())
+
+  # with the empty list case, `x` is `logical()`, not a random logical of length
+  # 1 that happens to get recycled to length 0 (#7710)
+  rf <- rowwise(tibble(x = list()))
+  out <- mutate(rf, x2 = {
+    expect_identical(x, logical())
+    x
+  })
 })
 
 test_that("mutate works on empty data frames (#1142)", {
   df <- data.frame()
-  res <- df %>% mutate()
+  res <- df |> mutate()
   expect_equal(nrow(res), 0L)
   expect_equal(length(res), 0L)
 
-  res <- df %>% mutate(x = numeric())
+  res <- df |> mutate(x = numeric())
   expect_equal(names(res), "x")
   expect_equal(nrow(res), 0L)
   expect_equal(length(res), 1L)
 })
 
 test_that("mutate handles 0 rows rowwise (#1300)", {
-  res <- tibble(y = character()) %>% rowwise() %>% mutate(z = 1)
+  res <- tibble(y = character()) |> rowwise() |> mutate(z = 1)
   expect_equal(nrow(res), 0L)
 })
 
 test_that("rowwise mutate gives expected results (#1381)", {
   f <- function(x) ifelse(x < 2, NA_real_, x)
-  res <- tibble(x = 1:3) %>% rowwise() %>% mutate(y = f(x))
+  res <- tibble(x = 1:3) |> rowwise() |> mutate(y = f(x))
   expect_equal(res$y, c(NA, 2, 3))
 })
 
@@ -376,11 +391,11 @@ test_that("rowwise mutate un-lists existing size-1 list-columns (#6302)", {
   expect_snapshot(mutate(df, y = x), error = TRUE)
 })
 
-
 test_that("grouped mutate does not drop grouping attributes (#1020)", {
-  d <- data.frame(subject = c("Jack", "Jill"), id = c(2, 1)) %>% group_by(subject)
+  d <- data.frame(subject = c("Jack", "Jill"), id = c(2, 1)) |>
+    group_by(subject)
   a1 <- names(attributes(d))
-  a2 <- names(attributes(d %>% mutate(foo = 1)))
+  a2 <- names(attributes(d |> mutate(foo = 1)))
   expect_equal(setdiff(a1, a2), character(0))
 })
 
@@ -388,10 +403,10 @@ test_that("mutate() hands list columns with rowwise magic to follow up expressio
   test <- rowwise(tibble(x = 1:2))
 
   expect_identical(
-    test %>%
-      mutate(a = list(1)) %>%
+    test |>
+      mutate(a = list(1)) |>
       mutate(b = list(a + 1)),
-    test %>%
+    test |>
       mutate(a = list(1), b = list(a + 1))
   )
 })
@@ -405,7 +420,7 @@ test_that("mutate keeps zero length groups", {
   )
   df <- group_by(df, e, f, g, .drop = FALSE)
 
-  expect_equal( group_size(mutate(df, z = 2)), c(2, 2, 0) )
+  expect_equal(group_size(mutate(df, z = 2)), c(2, 2, 0))
 })
 
 # other -------------------------------------------------------------------
@@ -417,7 +432,7 @@ test_that("no utf8 invasion (#722)", {
 })
 
 test_that("mutate() to UTF-8 column names", {
-  df <- tibble(a = 1) %>% mutate("\u5e78" := a)
+  df <- tibble(a = 1) |> mutate("\u5e78" := a)
 
   expect_equal(colnames(df), c("a", "\u5e78"))
 })
@@ -428,13 +443,13 @@ test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
   df <- tibble(a = "1", b = "2")
   names(df) <- c("a", enc2native("\u4e2d"))
 
-  res <- df %>% mutate_all(as.numeric)
+  res <- df |> mutate_all(as.numeric)
   expect_equal(names(res), as_utf8_character(names(df)))
 })
 
 test_that("mutate coerces results from one group with all NA values (#1463) ", {
   df <- tibble(x = c(1, 2), y = c(1, NA))
-  res <- df %>% group_by(x) %>% mutate(z = ifelse(y > 1, 1, 2))
+  res <- df |> group_by(x) |> mutate(z = ifelse(y > 1, 1, 2))
   expect_true(is.na(res$z[2]))
   expect_type(res$z, "double")
 })
@@ -444,16 +459,16 @@ test_that("grouped subsets are not lazy (#3360)", {
     quo(!!x)
   }
 
-  res <- tibble(name = 1:2, value = letters[1:2]) %>%
-    rowwise() %>%
-    mutate(call = list(make_call(value))) %>%
+  res <- tibble(name = 1:2, value = letters[1:2]) |>
+    rowwise() |>
+    mutate(call = list(make_call(value))) |>
     pull()
 
   expect_identical(res, list(make_call("a"), make_call("b")))
 
-  res <- tibble(name = 1:2, value = letters[1:2]) %>%
-    group_by(name) %>%
-    mutate(call = list(make_call(value))) %>%
+  res <- tibble(name = 1:2, value = letters[1:2]) |>
+    group_by(name) |>
+    mutate(call = list(make_call(value))) |>
     pull()
 
   expect_identical(res, list(make_call("a"), make_call("b")))
@@ -464,12 +479,14 @@ test_that("mutate() evaluates expression for empty groups", {
   gf <- group_by(df, f, .drop = FALSE)
 
   count <- 0
-  mutate(gf, x = {count <<- count + 1})
+  mutate(gf, x = {
+    count <<- count + 1
+  })
   expect_equal(count, 3L)
 })
 
 test_that("DataMask$add() forces chunks (#4677)", {
-  df <- tibble(bf10 = 0.244) %>%
+  df <- tibble(bf10 = 0.244) |>
     mutate(
       bf01 = 1 / bf10,
       log_e_bf10 = log(bf10),
@@ -488,7 +505,10 @@ test_that("DataMask uses fresh copies of group id / size variables (#6762)", {
     mutate(df, b = a + 1)
   }
 
-  out <- mutate(df, y = {fn(); x})
+  out <- mutate(df, y = {
+    fn()
+    x
+  })
 
   expect_identical(out$x, 1:2)
   expect_identical(out$y, 1:2)
@@ -607,11 +627,11 @@ test_that(".keep = 'none' only keeps grouping variables", {
 
 test_that(".keep = 'none' retains original ordering (#5967)", {
   df <- tibble(x = 1, y = 2)
-  expect_named(df %>% mutate(y = 1, x = 2, .keep = "none"), c("x", "y"))
+  expect_named(df |> mutate(y = 1, x = 2, .keep = "none"), c("x", "y"))
 
   # even when grouped
   gf <- group_by(df, x)
-  expect_named(gf %>% mutate(y = 1, x = 2, .keep = "none"), c("x", "y"))
+  expect_named(gf |> mutate(y = 1, x = 2, .keep = "none"), c("x", "y"))
 })
 
 test_that("can use .before and .after to control column position", {
@@ -637,24 +657,42 @@ test_that("attributes of bare data frames are retained when `.before` and `.afte
 })
 
 test_that(".keep and .before/.after interact correctly", {
-  df <- tibble(x = 1, y = 1, z = 1, a = 1, b = 2, c = 3) %>%
+  df <- tibble(x = 1, y = 1, z = 1, a = 1, b = 2, c = 3) |>
     group_by(a, b)
 
   expect_named(mutate(df, d = 1, x = 2, .keep = "none"), c("x", "a", "b", "d"))
-  expect_named(mutate(df, d = 1, x = 2, .keep = "none", .before = "a"), c("x", "d", "a", "b"))
-  expect_named(mutate(df, d = 1, x = 2, .keep = "none", .after = "a"), c("x", "a", "d", "b"))
+  expect_named(
+    mutate(df, d = 1, x = 2, .keep = "none", .before = "a"),
+    c("x", "d", "a", "b")
+  )
+  expect_named(
+    mutate(df, d = 1, x = 2, .keep = "none", .after = "a"),
+    c("x", "a", "d", "b")
+  )
 })
 
 test_that("dropping column with `NULL` then readding it retains original location", {
   df <- tibble(x = 1, y = 2, z = 3, a = 4)
   df <- group_by(df, z)
 
-  expect_named(mutate(df, y = NULL, y = 3, .keep = "all"), c("x", "y", "z", "a"))
-  expect_named(mutate(df, b = a, y = NULL, y = 3, .keep = "used"), c("y", "z", "a", "b"))
-  expect_named(mutate(df, b = a, y = NULL, y = 3, .keep = "unused"), c("x", "y", "z", "b"))
+  expect_named(
+    mutate(df, y = NULL, y = 3, .keep = "all"),
+    c("x", "y", "z", "a")
+  )
+  expect_named(
+    mutate(df, b = a, y = NULL, y = 3, .keep = "used"),
+    c("y", "z", "a", "b")
+  )
+  expect_named(
+    mutate(df, b = a, y = NULL, y = 3, .keep = "unused"),
+    c("x", "y", "z", "b")
+  )
 
   # It isn't treated as a "new" column
-  expect_named(mutate(df, y = NULL, y = 3, .keep = "all", .before = x), c("x", "y", "z", "a"))
+  expect_named(
+    mutate(df, y = NULL, y = 3, .keep = "all", .before = x),
+    c("x", "y", "z", "a")
+  )
 })
 
 test_that("setting a new column to `NULL` works with `.before` and `.after` (#6563)", {
@@ -662,28 +700,34 @@ test_that("setting a new column to `NULL` works with `.before` and `.after` (#65
 
   expect_named(mutate(df, b = NULL, .before = 1), names(df))
   expect_named(mutate(df, b = 1, b = NULL, .before = 1), names(df))
-  expect_named(mutate(df, b = NULL, b = 1, .before = 1), c("b", "x", "y", "z", "a"))
+  expect_named(
+    mutate(df, b = NULL, b = 1, .before = 1),
+    c("b", "x", "y", "z", "a")
+  )
 
-  expect_named(mutate(df, b = NULL, c = 1, .after = 2), c("x", "y", "c", "z", "a"))
+  expect_named(
+    mutate(df, b = NULL, c = 1, .after = 2),
+    c("x", "y", "c", "z", "a")
+  )
 })
 
 test_that(".keep= always retains grouping variables (#5582)", {
-  df <- tibble(x = 1, y = 2, z = 3) %>% group_by(z)
+  df <- tibble(x = 1, y = 2, z = 3) |> group_by(z)
   expect_equal(
-    df %>% mutate(a = x + 1, .keep = "none"),
-    tibble(z = 3, a = 2) %>% group_by(z)
+    df |> mutate(a = x + 1, .keep = "none"),
+    tibble(z = 3, a = 2) |> group_by(z)
   )
   expect_equal(
-    df %>% mutate(a = x + 1, .keep = "all"),
-    tibble(x = 1, y = 2, z = 3, a = 2) %>% group_by(z)
+    df |> mutate(a = x + 1, .keep = "all"),
+    tibble(x = 1, y = 2, z = 3, a = 2) |> group_by(z)
   )
   expect_equal(
-    df %>% mutate(a = x + 1, .keep = "used"),
-    tibble(x = 1, z = 3, a = 2) %>% group_by(z)
+    df |> mutate(a = x + 1, .keep = "used"),
+    tibble(x = 1, z = 3, a = 2) |> group_by(z)
   )
   expect_equal(
-    df %>% mutate(a = x + 1, .keep = "unused"),
-    tibble(y = 2, z = 3, a = 2) %>% group_by(z)
+    df |> mutate(a = x + 1, .keep = "unused"),
+    tibble(y = 2, z = 3, a = 2) |> group_by(z)
   )
 })
 
@@ -709,20 +753,20 @@ test_that("dplyr data mask can become obsolete", {
     x = 1:2
   )
 
-  res <- df %>%
-    rowwise() %>%
+  res <- df |>
+    rowwise() |>
     mutate(y = lazy(x), .keep = "unused")
   expect_equal(names(res), c("x", "y"))
   expect_error(eval_tidy(res$y[[1]]))
 })
 
 test_that("mutate() deals with 0 groups (#5534)", {
-  df <- data.frame(x = numeric()) %>%
+  df <- data.frame(x = numeric()) |>
     group_by(x)
 
   expect_equal(
     mutate(df, y = x + 1),
-    data.frame(x = numeric(), y = numeric()) %>% group_by(x)
+    data.frame(x = numeric(), y = numeric()) |> group_by(x)
   )
 
   expect_snapshot({
@@ -734,25 +778,25 @@ test_that("functions are not skipped in data pronoun (#5608)", {
   f <- function(i) i + 1
   df <- tibble(a = list(f), b = 1)
 
-  two <- df %>%
-    rowwise() %>%
-    mutate(res = .data$a(.data$b)) %>%
+  two <- df |>
+    rowwise() |>
+    mutate(res = .data$a(.data$b)) |>
     pull(res)
 
   expect_equal(two, 2)
 })
 
 test_that("mutate() casts data frame results to common type (#5646)", {
-  df <- data.frame(x = 1:2, g = 1:2) %>% group_by(g)
+  df <- data.frame(x = 1:2, g = 1:2) |> group_by(g)
 
-  res <- df %>%
+  res <- df |>
     mutate(if (g == 1) data.frame(y = 1) else data.frame(y = 1, z = 2))
   expect_equal(res$z, c(NA, 2))
 })
 
 test_that("mutate() supports empty list columns in rowwise data frames (#5804", {
-  res <- tibble(a = list()) %>%
-    rowwise() %>%
+  res <- tibble(a = list()) |>
+    rowwise() |>
     mutate(n = lengths(a))
   expect_equal(res$n, integer())
 })
@@ -770,97 +814,99 @@ test_that("mutate() give meaningful errors", {
     tbl <- tibble(x = 1:2, y = 1:2)
 
     # setting column to NULL makes it unavailable
-    (expect_error(tbl %>% mutate(y = NULL, a = sum(y))))
-    (expect_error(tbl %>%
-                      group_by(x) %>%
-                      mutate(y = NULL, a = sum(y))
+    (expect_error(tbl |> mutate(y = NULL, a = sum(y))))
+    (expect_error(
+      tbl |>
+        group_by(x) |>
+        mutate(y = NULL, a = sum(y))
     ))
 
     # incompatible column type
-    (expect_error(tibble(x = 1) %>% mutate(y = mean)))
+    (expect_error(tibble(x = 1) |> mutate(y = mean)))
 
     # Unsupported type"
     df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
-    (expect_error(df %>% mutate(out = env(a = 1))))
-    (expect_error(df %>%
-                      group_by(g) %>%
-                      mutate(out = env(a = 1))
+    (expect_error(df |> mutate(out = env(a = 1))))
+    (expect_error(
+      df |>
+        group_by(g) |>
+        mutate(out = env(a = 1))
     ))
-    (expect_error(df %>%
-                      rowwise() %>%
-                      mutate(out = rnorm)
+    (expect_error(
+      df |>
+        rowwise() |>
+        mutate(out = rnorm)
     ))
 
     # incompatible types across groups
     (expect_error(
-                    data.frame(x = rep(1:5, each = 3)) %>%
-                      group_by(x) %>%
-                      mutate(val = ifelse(x < 3, "foo", 2))
+      data.frame(x = rep(1:5, each = 3)) |>
+        group_by(x) |>
+        mutate(val = ifelse(x < 3, "foo", 2))
     ))
 
     # mixed nulls
     (expect_error(
-                    tibble(a = 1:3, b=4:6) %>%
-                      group_by(a) %>%
-                      mutate(if(a==1) NULL else "foo")
+      tibble(a = 1:3, b = 4:6) |>
+        group_by(a) |>
+        mutate(if (a == 1) NULL else "foo")
     ))
     (expect_error(
-                    tibble(a = 1:3, b=4:6) %>%
-                      group_by(a) %>%
-                      mutate(if(a==2) NULL else "foo")
+      tibble(a = 1:3, b = 4:6) |>
+        group_by(a) |>
+        mutate(if (a == 2) NULL else "foo")
     ))
 
     # incompatible size
     (expect_error(
-                    data.frame(x = c(2, 2, 3, 3)) %>% mutate(int = 1:5)
+      data.frame(x = c(2, 2, 3, 3)) |> mutate(int = 1:5)
     ))
     (expect_error(
-                    data.frame(x = c(2, 2, 3, 3)) %>%
-                      group_by(x) %>%
-                      mutate(int = 1:5)
+      data.frame(x = c(2, 2, 3, 3)) |>
+        group_by(x) |>
+        mutate(int = 1:5)
     ))
     (expect_error(
-                    data.frame(x = c(2, 3, 3)) %>%
-                      group_by(x) %>%
-                      mutate(int = 1:5)
+      data.frame(x = c(2, 3, 3)) |>
+        group_by(x) |>
+        mutate(int = 1:5)
     ))
     (expect_error(
-                    data.frame(x = c(2, 2, 3, 3)) %>%
-                      rowwise() %>%
-                      mutate(int = 1:5)
+      data.frame(x = c(2, 2, 3, 3)) |>
+        rowwise() |>
+        mutate(int = 1:5)
     ))
     (expect_error(
-                    tibble(y = list(1:3, "a")) %>%
-                      rowwise() %>%
-                      mutate(y2 = y)
+      tibble(y = list(1:3, "a")) |>
+        rowwise() |>
+        mutate(y2 = y)
     ))
     (expect_error(
-                    data.frame(x = 1:10) %>% mutate(y = 11:20, y = 1:2)
+      data.frame(x = 1:10) |> mutate(y = 11:20, y = 1:2)
     ))
 
     # .data pronoun
     (expect_error(
-                    tibble(a = 1) %>% mutate(c = .data$b)
+      tibble(a = 1) |> mutate(c = .data$b)
     ))
     (expect_error(
-                    tibble(a = 1:3) %>%
-                      group_by(a) %>%
-                      mutate(c = .data$b)
+      tibble(a = 1:3) |>
+        group_by(a) |>
+        mutate(c = .data$b)
     ))
 
     # obsolete data mask
     lazy <- function(x) list(enquo(x))
-    res <- tbl %>%
-      rowwise() %>%
+    res <- tbl |>
+      rowwise() |>
       mutate(z = lazy(x), .keep = "unused")
     (expect_error(
       eval_tidy(res$z[[1]])
     ))
 
-
     # Error that contains {
     (expect_error(
-      tibble() %>% mutate(stop("{"))
+      tibble() |> mutate(stop("{"))
     ))
   })
 })

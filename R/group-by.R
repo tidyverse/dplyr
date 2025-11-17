@@ -16,10 +16,6 @@
 #' @param .add When `FALSE`, the default, `group_by()` will
 #'   override existing groups. To add to the existing groups, use
 #'   `.add = TRUE`.
-#'
-#'   This argument was previously called `add`, but that prevented
-#'   creating a new grouping variable called `add`, and conflicts with
-#'   our naming conventions.
 #' @param .drop Drop groups formed by factor levels that don't appear in the
 #'   data? The default is `TRUE` except when `.data` has been previously
 #'   grouped with `.drop = FALSE`. See [group_by_drop_default()] for details.
@@ -48,9 +44,9 @@
 #' [arrange()] and set the `.locale` argument. For example:
 #'
 #' ```
-#' data %>%
-#'   group_by(chr) %>%
-#'   summarise(avg = mean(x)) %>%
+#' data |>
+#'   group_by(chr) |>
+#'   summarise(avg = mean(x)) |>
 #'   arrange(chr, .locale = "en")
 #' ```
 #'
@@ -59,67 +55,69 @@
 #'
 #' ## Legacy behavior
 #'
+#' `r lifecycle::badge("deprecated")`
+#'
 #' Prior to dplyr 1.1.0, character vector grouping columns were ordered in the
-#' system locale. If you need to temporarily revert to this behavior, you can
-#' set the global option `dplyr.legacy_locale` to `TRUE`, but this should be
-#' used sparingly and you should expect this option to be removed in a future
-#' version of dplyr. It is better to update existing code to explicitly call
-#' `arrange(.locale = )` instead. Note that setting `dplyr.legacy_locale` will
-#' also force calls to [arrange()] to use the system locale.
+#' system locale. Setting the global option `dplyr.legacy_locale` to `TRUE`
+#' retains this legacy behavior, but this has been deprecated. Update existing
+#' code to explicitly call `arrange(.locale = )` instead. Run
+#' `Sys.getlocale("LC_COLLATE")` to determine your system locale, and compare
+#' that against the list in [stringi::stri_locale_list()] to find an appropriate
+#' value for `.locale`, i.e. for American English, `"en_US"`.
 #'
 #' @export
 #' @examples
-#' by_cyl <- mtcars %>% group_by(cyl)
+#' by_cyl <- mtcars |> group_by(cyl)
 #'
 #' # grouping doesn't change how the data looks (apart from listing
 #' # how it's grouped):
 #' by_cyl
 #'
 #' # It changes how it acts with the other dplyr verbs:
-#' by_cyl %>% summarise(
+#' by_cyl |> summarise(
 #'   disp = mean(disp),
 #'   hp = mean(hp)
 #' )
-#' by_cyl %>% filter(disp == max(disp))
+#' by_cyl |> filter(disp == max(disp))
 #'
 #' # Each call to summarise() removes a layer of grouping
-#' by_vs_am <- mtcars %>% group_by(vs, am)
-#' by_vs <- by_vs_am %>% summarise(n = n())
+#' by_vs_am <- mtcars |> group_by(vs, am)
+#' by_vs <- by_vs_am |> summarise(n = n())
 #' by_vs
-#' by_vs %>% summarise(n = sum(n))
+#' by_vs |> summarise(n = sum(n))
 #'
 #' # To removing grouping, use ungroup
-#' by_vs %>%
-#'   ungroup() %>%
+#' by_vs |>
+#'   ungroup() |>
 #'   summarise(n = sum(n))
 #'
 #' # By default, group_by() overrides existing grouping
-#' by_cyl %>%
-#'   group_by(vs, am) %>%
+#' by_cyl |>
+#'   group_by(vs, am) |>
 #'   group_vars()
 #'
 #' # Use add = TRUE to instead append
-#' by_cyl %>%
-#'   group_by(vs, am, .add = TRUE) %>%
+#' by_cyl |>
+#'   group_by(vs, am, .add = TRUE) |>
 #'   group_vars()
 #'
 #' # You can group by expressions: this is a short-hand
 #' # for a mutate() followed by a group_by()
-#' mtcars %>%
+#' mtcars |>
 #'   group_by(vsam = vs + am)
 #'
 #' # The implicit mutate() step is always performed on the
 #' # ungrouped data. Here we get 3 groups:
-#' mtcars %>%
-#'   group_by(vs) %>%
+#' mtcars |>
+#'   group_by(vs) |>
 #'   group_by(hp_cut = cut(hp, 3))
 #'
 #' # If you want it to be performed by groups,
 #' # you have to use an explicit mutate() call.
 #' # Here we get 3 groups per value of vs
-#' mtcars %>%
-#'   group_by(vs) %>%
-#'   mutate(hp_cut = cut(hp, 3)) %>%
+#' mtcars |>
+#'   group_by(vs) |>
+#'   mutate(hp_cut = cut(hp, 3)) |>
 #'   group_by(hp_cut)
 #'
 #' # when factors are involved and .drop = FALSE, groups can be empty
@@ -127,16 +125,26 @@
 #'   x = 1:10,
 #'   y = factor(rep(c("a", "c"), each  = 5), levels = c("a", "b", "c"))
 #' )
-#' tbl %>%
-#'   group_by(y, .drop = FALSE) %>%
+#' tbl |>
+#'   group_by(y, .drop = FALSE) |>
 #'   group_rows()
 #'
-group_by <- function(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data)) {
+group_by <- function(
+  .data,
+  ...,
+  .add = FALSE,
+  .drop = group_by_drop_default(.data)
+) {
   UseMethod("group_by")
 }
 
 #' @export
-group_by.data.frame <- function(.data, ..., .add = FALSE, .drop = group_by_drop_default(.data)) {
+group_by.data.frame <- function(
+  .data,
+  ...,
+  .add = FALSE,
+  .drop = group_by_drop_default(.data)
+) {
   groups <- group_by_prepare(
     .data,
     ...,
@@ -194,28 +202,31 @@ ungroup.data.frame <- function(x, ...) {
 #'   \item{groups}{Modified groups}
 #' @export
 #' @keywords internal
-group_by_prepare <- function(.data,
-                             ...,
-                             .add = FALSE,
-                             .dots = deprecated(),
-                             add = deprecated(),
-                             error_call = caller_env()) {
+group_by_prepare <- function(
+  .data,
+  ...,
+  .add = FALSE,
+  .dots = deprecated(),
+  add = deprecated(),
+  error_call = caller_env()
+) {
   error_call <- dplyr_error_call(error_call)
 
   if (!missing(add)) {
-    lifecycle::deprecate_warn("1.0.0", "group_by(add = )", "group_by(.add = )", always = TRUE)
-    .add <- add
+    lifecycle::deprecate_stop("1.0.0", "group_by(add = )", "group_by(.add = )")
+  }
+  if (!missing(.dots)) {
+    lifecycle::deprecate_stop("1.0.0", "group_by(.dots = )")
   }
 
   new_groups <- enquos(..., .ignore_empty = "all")
-  if (!missing(.dots)) {
-    # Used by dbplyr 1.4.2 so can't aggressively deprecate
-    lifecycle::deprecate_warn("1.0.0", "group_by(.dots = )", always = TRUE)
-    new_groups <- c(new_groups, compat_lazy_dots(.dots, env = caller_env(2)))
-  }
 
   # If any calls, use mutate to add new columns, then group by those
-  computed_columns <- add_computed_columns(.data, new_groups, error_call = error_call)
+  computed_columns <- add_computed_columns(
+    .data,
+    new_groups,
+    error_call = error_call
+  )
 
   out <- computed_columns$data
   group_names <- computed_columns$added_names
@@ -240,9 +251,7 @@ group_by_prepare <- function(.data,
   )
 }
 
-add_computed_columns <- function(.data,
-                                 vars,
-                                 error_call = caller_env()) {
+add_computed_columns <- function(.data, vars, error_call = caller_env()) {
   is_symbol <- map_lgl(vars, quo_is_variable_reference)
   needs_mutate <- have_name(vars) | !is_symbol
 
@@ -306,12 +315,12 @@ quo_is_variable_reference <- function(quo) {
 #' @examples
 #' group_by_drop_default(iris)
 #'
-#' iris %>%
-#'   group_by(Species) %>%
+#' iris |>
+#'   group_by(Species) |>
 #'   group_by_drop_default()
 #'
-#' iris %>%
-#'   group_by(Species, .drop = FALSE) %>%
+#' iris |>
+#'   group_by(Species, .drop = FALSE) |>
 #'   group_by_drop_default()
 #'
 #' @keywords internal
@@ -327,9 +336,12 @@ group_by_drop_default.default <- function(.tbl) {
 
 #' @export
 group_by_drop_default.grouped_df <- function(.tbl) {
-  tryCatch({
-    !identical(attr(group_data(.tbl), ".drop"), FALSE)
-  }, error = function(e){
-    TRUE
-  })
+  tryCatch(
+    {
+      !identical(attr(group_data(.tbl), ".drop"), FALSE)
+    },
+    error = function(e) {
+      TRUE
+    }
+  )
 }

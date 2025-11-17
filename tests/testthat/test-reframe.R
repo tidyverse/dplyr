@@ -261,6 +261,33 @@ test_that("`reframe()` with `rowwise()` always returns an ungrouped tibble", {
   expect_s3_class(reframe(rdf, x), class(df), exact = TRUE)
 })
 
+test_that("named data frame results with 0 columns participate in recycling (#6509)", {
+  df <- tibble(x = 1:3)
+  gdf <- group_by(df, x)
+
+  empty <- tibble()
+  expect_identical(reframe(df, empty = empty), tibble(empty = empty))
+  expect_identical(
+    reframe(df, x = sum(x), empty = empty),
+    tibble(x = integer(), empty = empty)
+  )
+  expect_identical(
+    reframe(df, empty = empty, x = sum(x)),
+    tibble(empty = empty, x = integer())
+  )
+
+  empty3 <- new_tibble(list(), nrow = 3L)
+  expect_identical(reframe(df, empty = empty3), tibble(empty = empty3))
+  expect_identical(
+    reframe(df, x = sum(x), empty = empty3),
+    tibble(x = c(6L, 6L, 6L), empty = empty3)
+  )
+  expect_identical(
+    reframe(df, empty = empty3, x = sum(x)),
+    tibble(empty = empty3, x = c(6L, 6L, 6L))
+  )
+})
+
 # .by ----------------------------------------------------------------------
 
 test_that("can group transiently using `.by`", {

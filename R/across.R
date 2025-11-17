@@ -84,20 +84,20 @@
 #'
 #' ```{r}
 #' gdf <-
-#'   tibble(g = c(1, 1, 2, 3), v1 = 10:13, v2 = 20:23) %>%
+#'   tibble(g = c(1, 1, 2, 3), v1 = 10:13, v2 = 20:23) |>
 #'   group_by(g)
 #'
 #' set.seed(1)
 #'
 #' # Outside: 1 normal variate
 #' n <- rnorm(1)
-#' gdf %>% mutate(across(v1:v2, ~ .x + n))
+#' gdf |> mutate(across(v1:v2, ~ .x + n))
 #'
 #' # Inside a verb: 3 normal variates (ngroup)
-#' gdf %>% mutate(n = rnorm(1), across(v1:v2, ~ .x + n))
+#' gdf |> mutate(n = rnorm(1), across(v1:v2, ~ .x + n))
 #'
 #' # Inside `across()`: 6 normal variates (ncol * ngroup)
-#' gdf %>% mutate(across(v1:v2, ~ .x + rnorm(1)))
+#' gdf |> mutate(across(v1:v2, ~ .x + rnorm(1)))
 #' ```
 #'
 #' @examples
@@ -105,45 +105,49 @@
 #' iris <- as_tibble(iris)
 #'
 #' # across() -----------------------------------------------------------------
+#' # Using everything() to apply the same function to all columns
+#' iris |>
+#'   mutate(across(everything(), as.character))
+#'
 #' # Different ways to select the same set of columns
 #' # See <https://tidyselect.r-lib.org/articles/syntax.html> for details
-#' iris %>%
+#' iris |>
 #'   mutate(across(c(Sepal.Length, Sepal.Width), round))
-#' iris %>%
+#' iris |>
 #'   mutate(across(c(1, 2), round))
-#' iris %>%
+#' iris |>
 #'   mutate(across(1:Sepal.Width, round))
-#' iris %>%
+#' iris |>
 #'   mutate(across(where(is.double) & !c(Petal.Length, Petal.Width), round))
 #'
 #' # Using an external vector of names
 #' cols <- c("Sepal.Length", "Petal.Width")
-#' iris %>%
+#' iris |>
 #'   mutate(across(all_of(cols), round))
 #'
 #' # If the external vector is named, the output columns will be named according
 #' # to those names
 #' names(cols) <- tolower(cols)
-#' iris %>%
+#' iris |>
 #'   mutate(across(all_of(cols), round))
 #'
 #' # A purrr-style formula
-#' iris %>%
-#'   group_by(Species) %>%
+#' iris |>
+#'   group_by(Species) |>
 #'   summarise(across(starts_with("Sepal"), ~ mean(.x, na.rm = TRUE)))
 #'
 #' # A named list of functions
-#' iris %>%
-#'   group_by(Species) %>%
+#' iris |>
+#'   group_by(Species) |>
 #'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd)))
 #'
 #' # Use the .names argument to control the output names
-#' iris %>%
-#'   group_by(Species) %>%
+#' iris |>
+#'   group_by(Species) |>
 #'   summarise(across(starts_with("Sepal"), mean, .names = "mean_{.col}"))
 #'
-#' iris %>%
-#'   group_by(Species) %>%
+#' iris |>
+#'   group_by(Species) |>
 #'   summarise(
 #'     across(
 #'       starts_with("Sepal"),
@@ -154,13 +158,13 @@
 #'
 #' # If a named external vector is used for column selection, .names will use
 #' # those names when constructing the output names
-#' iris %>%
-#'   group_by(Species) %>%
+#' iris |>
+#'   group_by(Species) |>
 #'   summarise(across(all_of(cols), mean, .names = "mean_{.col}"))
 #'
 #' # When the list is not named, .fn is replaced by the function's position
-#' iris %>%
-#'   group_by(Species) %>%
+#' iris |>
+#'   group_by(Species) |>
 #'   summarise(
 #'     across(starts_with("Sepal"), list(mean, sd), .names = "{.col}.fn{.fn}")
 #'   )
@@ -171,16 +175,16 @@
 #'   tibble(quantile = probs, value = quantile(x, probs))
 #' }
 #'
-#' iris %>%
+#' iris |>
 #'   reframe(across(starts_with("Sepal"), quantile_df))
 #'
 #' # Use .unpack to automatically expand these packed data frames into their
 #' # individual columns
-#' iris %>%
+#' iris |>
 #'   reframe(across(starts_with("Sepal"), quantile_df, .unpack = TRUE))
 #'
 #' # .unpack can utilize a glue specification if you don't like the defaults
-#' iris %>%
+#' iris |>
 #'   reframe(
 #'     across(starts_with("Sepal"), quantile_df, .unpack = "{outer}.{inner}")
 #'   )
@@ -191,24 +195,20 @@
 #'   purrr::map_dfr(lags, lag, x = x)
 #' }
 #'
-#' iris %>%
-#'   group_by(Species) %>%
-#'   mutate(across(starts_with("Sepal"), multilag, .unpack = TRUE)) %>%
+#' iris |>
+#'   group_by(Species) |>
+#'   mutate(across(starts_with("Sepal"), multilag, .unpack = TRUE)) |>
 #'   select(Species, starts_with("Sepal"))
 #'
 #' # if_any() and if_all() ----------------------------------------------------
-#' iris %>%
+#' iris |>
 #'   filter(if_any(ends_with("Width"), ~ . > 4))
-#' iris %>%
+#' iris |>
 #'   filter(if_all(ends_with("Width"), ~ . > 2))
 #'
 #' @export
 #' @seealso [c_across()] for a function that returns a vector
-across <- function(.cols,
-                   .fns,
-                   ...,
-                   .names = NULL,
-                   .unpack = FALSE) {
+across <- function(.cols, .fns, ..., .names = NULL, .unpack = FALSE) {
   mask <- peek_mask()
   caller_env <- caller_env()
 
@@ -267,7 +267,7 @@ across <- function(.cols,
       " " = "# Now",
       " " = "across(a:b, \\(x) mean(x, na.rm = TRUE))"
     )
-    lifecycle::deprecate_soft(
+    lifecycle::deprecate_warn(
       when = "1.1.0",
       what = "across(...)",
       details = details
@@ -323,7 +323,8 @@ across <- function(.cols,
         out[[k]] <- fn(col, ...)
         k <- k + 1L
       }
-    }, error = function(cnd) {
+    },
+    error = function(cnd) {
       bullets <- c(
         glue("Can't compute column `{names[k]}`.")
       )
@@ -391,8 +392,8 @@ if_across <- function(op, df) {
 #' @export
 #' @examples
 #' df <- tibble(id = 1:4, w = runif(4), x = runif(4), y = runif(4), z = runif(4))
-#' df %>%
-#'   rowwise() %>%
+#' df |>
+#'   rowwise() |>
 #'   mutate(
 #'     sum = sum(c_across(w:z)),
 #'     sd = sd(c_across(w:z))
@@ -416,18 +417,22 @@ across_glue_mask <- function(.col, .fn, .caller_env) {
   glue_mask <- env(.caller_env, .col = .col, .fn = .fn)
   # TODO: we can make these bindings louder later
   env_bind_active(
-    glue_mask, col = function() glue_mask$.col, fn = function() glue_mask$.fn
+    glue_mask,
+    col = function() glue_mask$.col,
+    fn = function() glue_mask$.fn
   )
   glue_mask
 }
 
-across_setup <- function(cols,
-                         fns,
-                         names,
-                         .caller_env,
-                         mask,
-                         error_call = caller_env(),
-                         across_if_fn = "across") {
+across_setup <- function(
+  cols,
+  fns,
+  names,
+  .caller_env,
+  mask,
+  error_call = caller_env(),
+  across_if_fn = "across"
+) {
   cols <- enquo(cols)
 
   # `across()` is evaluated in a data mask so we need to remove the
@@ -439,7 +444,9 @@ across_setup <- function(cols,
   if (is.null(fns) && quo_is_call(cols, "~")) {
     bullets <- c(
       "Must supply a column selection.",
-      i = glue("You most likely meant: `{across_if_fn}(everything(), {as_label(cols)})`."),
+      i = glue(
+        "You most likely meant: `{across_if_fn}(everything(), {as_label(cols)})`."
+      ),
       i = "The first argument `.cols` selects a set of columns.",
       i = "The second argument `.fns` operates on each selected columns."
     )
@@ -495,9 +502,10 @@ across_setup <- function(cols,
     }
   }
 
-  glue_mask <- across_glue_mask(.caller_env,
+  glue_mask <- across_glue_mask(
+    .caller_env,
     .col = rep(names_vars, each = length(fns)),
-    .fn  = rep(names_fns , length(vars))
+    .fn = rep(names_fns, length(vars))
   )
   names <- vec_as_names(
     glue(names, .envir = glue_mask),
@@ -785,7 +793,7 @@ expand_across <- function(quo) {
   n_fns <- length(fns)
 
   seq_vars <- seq_len(n_vars)
-  seq_fns  <- seq_len(n_fns)
+  seq_fns <- seq_len(n_fns)
 
   exprs <- new_list(n_vars * n_fns, names = names)
 
@@ -852,7 +860,8 @@ across_missing_cols_deprecate_warn <- function() {
     when = "1.1.0",
     what = I(glue("Using `{across_if_fn}()` without supplying `.cols`")),
     details = "Please supply `.cols` instead.",
-    user_env = user_env
+    user_env = user_env,
+    always = TRUE
   )
 }
 
@@ -861,7 +870,8 @@ c_across_missing_cols_deprecate_warn <- function(user_env = caller_env(2)) {
     when = "1.1.0",
     what = I("Using `c_across()` without supplying `cols`"),
     details = "Please supply `cols` instead.",
-    user_env = user_env
+    user_env = user_env,
+    always = TRUE
   )
 }
 
