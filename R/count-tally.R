@@ -213,9 +213,9 @@ tally_n <- function(x, wt) {
   }
 
   if (quo_is_null(wt)) {
-    new_quosure(expr(n()), asNamespace("dplyr"))
+    expr(dplyr::n())
   } else {
-    new_quosure(expr(sum(!!wt, na.rm = TRUE)), baseenv())
+    expr(base::sum(!!wt, na.rm = TRUE))
   }
 }
 
