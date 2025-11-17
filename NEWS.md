@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `storms` has been updated to include 2023 and 2024 data (#7111, @tomalrussell).
+
 * Empty `rowwise()` list-column elements now resolve to `logical()` rather than a random logical of length 1 (#7710).
 
 * `last_dplyr_warnings()` no longer prevents objects from being garbage collected (#7649).
