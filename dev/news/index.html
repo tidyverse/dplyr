@@ -60,7 +60,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
-<ul><li><p>Empty <code><a href="../reference/rowwise.html">rowwise()</a></code> list-column elements now resolve to <code><a href="https://rdrr.io/r/base/logical.html" class="external-link">logical()</a></code> rather than a random logical of length 1 (<a href="https://github.com/tidyverse/dplyr/issues/7710" class="external-link">#7710</a>).</p></li>
+<ul><li><p><code>storms</code> has been updated to include 2023 and 2024 data (<a href="https://github.com/tidyverse/dplyr/issues/7111" class="external-link">#7111</a>, <a href="https://github.com/tomalrussell" class="external-link">@tomalrussell</a>).</p></li>
+<li><p>Empty <code><a href="../reference/rowwise.html">rowwise()</a></code> list-column elements now resolve to <code><a href="https://rdrr.io/r/base/logical.html" class="external-link">logical()</a></code> rather than a random logical of length 1 (<a href="https://github.com/tidyverse/dplyr/issues/7710" class="external-link">#7710</a>).</p></li>
 <li><p><code><a href="../reference/last_dplyr_warnings.html">last_dplyr_warnings()</a></code> no longer prevents objects from being garbage collected (<a href="https://github.com/tidyverse/dplyr/issues/7649" class="external-link">#7649</a>).</p></li>
 <li><p>Progress towards making dplyr conformant with the public C API of R (<a href="https://github.com/tidyverse/dplyr/issues/7741" class="external-link">#7741</a>).</p></li>
 <li><p><code><a href="../reference/case-and-replace-when.html">case_when()</a></code> now throws correctly indexed errors when <code>NULL</code>s are supplied in <code>...</code> (<a href="https://github.com/tidyverse/dplyr/issues/7739" class="external-link">#7739</a>).</p></li>

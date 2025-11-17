@@ -80,7 +80,7 @@ The script to create the storms data set:
 
 ``` r
 storms
-#> # A tibble: 19,537 × 13
+#> # A tibble: 20,778 × 13
 #>    name   year month   day  hour   lat  long status      category  wind
 #>    <chr> <dbl> <dbl> <int> <dbl> <dbl> <dbl> <fct>          <dbl> <int>
 #>  1 Amy    1975     6    27     0  27.5 -79   tropical d…       NA    25
@@ -93,7 +93,7 @@ storms
 #>  8 Amy    1975     6    28    18  34   -77   tropical d…       NA    30
 #>  9 Amy    1975     6    29     0  34.4 -75.8 tropical s…       NA    35
 #> 10 Amy    1975     6    29     6  34   -74.8 tropical s…       NA    40
-#> # ℹ 19,527 more rows
+#> # ℹ 20,768 more rows
 #> # ℹ 3 more variables: pressure <int>,
 #> #   tropicalstorm_force_diameter <int>, hurricane_force_diameter <int>
 
@@ -109,7 +109,7 @@ if (requireNamespace("ggplot2", quietly = TRUE)) {
 
 
 storms
-#> # A tibble: 19,537 × 13
+#> # A tibble: 20,778 × 13
 #>    name   year month   day  hour   lat  long status      category  wind
 #>    <chr> <dbl> <dbl> <int> <dbl> <dbl> <dbl> <fct>          <dbl> <int>
 #>  1 Amy    1975     6    27     0  27.5 -79   tropical d…       NA    25
@@ -122,7 +122,7 @@ storms
 #>  8 Amy    1975     6    28    18  34   -77   tropical d…       NA    30
 #>  9 Amy    1975     6    29     0  34.4 -75.8 tropical s…       NA    35
 #> 10 Amy    1975     6    29     6  34   -74.8 tropical s…       NA    40
-#> # ℹ 19,527 more rows
+#> # ℹ 20,768 more rows
 #> # ℹ 3 more variables: pressure <int>,
 #> #   tropicalstorm_force_diameter <int>, hurricane_force_diameter <int>
 ```

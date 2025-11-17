@@ -2,6 +2,10 @@
 
 ## dplyr (development version)
 
+- `storms` has been updated to include 2023 and 2024 data
+  ([\#7111](https://github.com/tidyverse/dplyr/issues/7111),
+  [@tomalrussell](https://github.com/tomalrussell)).
+
 - Empty
   [`rowwise()`](https://dplyr.tidyverse.org/dev/reference/rowwise.md)
   list-column elements now resolve to
