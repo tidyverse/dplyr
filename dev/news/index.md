@@ -2,6 +2,10 @@
 
 ## dplyr (development version)
 
+- `tally_n()` creates fully qualified funciton calls for duckplyr
+  compatibility
+  ([\#7046](https://github.com/tidyverse/dplyr/issues/7046))
+
 - `storms` has been updated to include 2023 and 2024 data
   ([\#7111](https://github.com/tidyverse/dplyr/issues/7111),
   [@tomalrussell](https://github.com/tomalrussell)).
