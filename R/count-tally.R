@@ -236,9 +236,9 @@ add_tally <- function(x, wt = NULL, sort = FALSE, name = NULL) {
 
 tally_n <- function(x, wt) {
   if (quo_is_null(wt)) {
-    expr(n())
+    expr(dplyr::n())
   } else {
-    expr(sum(!!wt, na.rm = TRUE))
+    expr(base::sum(!!wt, na.rm = TRUE))
   }
 }
 

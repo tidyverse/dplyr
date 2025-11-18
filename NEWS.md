@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `tally_n()` creates fully qualified funciton calls for duckplyr compatibility (#7046)
+
 * `storms` has been updated to include 2023 and 2024 data (#7111, @tomalrussell).
 
 * Empty `rowwise()` list-column elements now resolve to `logical()` rather than a random logical of length 1 (#7710).

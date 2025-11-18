@@ -55,7 +55,7 @@
     Output
       <error/rlang_error>
       Error in `count()`:
-      i In argument: `n = sum(1 + "", na.rm = TRUE)`.
+      i In argument: `n = base::sum(1 + "", na.rm = TRUE)`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
 
@@ -84,7 +84,7 @@
     Output
       <error/rlang_error>
       Error in `tally()`:
-      i In argument: `n = sum(1 + "", na.rm = TRUE)`.
+      i In argument: `n = base::sum(1 + "", na.rm = TRUE)`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
 
@@ -143,7 +143,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `add_count()`:
-      i In argument: `n = sum(1 + "", na.rm = TRUE)`.
+      i In argument: `n = base::sum(1 + "", na.rm = TRUE)`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
 
@@ -154,7 +154,7 @@
     Output
       <error/dplyr:::mutate_error>
       Error in `add_tally()`:
-      i In argument: `n = sum(1 + "", na.rm = TRUE)`.
+      i In argument: `n = base::sum(1 + "", na.rm = TRUE)`.
       Caused by error in `1 + ""`:
       ! non-numeric argument to binary operator
 
