@@ -2,9 +2,12 @@
 % Please edit documentation in R/filter.R
 \name{filter}
 \alias{filter}
+\alias{filter_out}
 \title{Keep rows that match a condition}
 \usage{
 filter(.data, ..., .by = NULL, .preserve = FALSE)
+
+filter_out(.data, ..., .by = NULL, .preserve = FALSE)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a

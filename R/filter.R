@@ -72,7 +72,9 @@
 #'
 #' The following methods are currently available in loaded packages:
 #' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("filter")}.
-#' @export
+#'
+#' @name filter
+#'
 #' @examples
 #' # Filtering by one criterion
 #' filter(starwars, species == "Human")
@@ -107,31 +109,76 @@
 #'     .data[[vars[[2]]]] > cond[[2]]
 #'   )
 #' # Learn more in ?rlang::args_data_masking
+NULL
+
+#' @rdname filter
+#' @export
 filter <- function(.data, ..., .by = NULL, .preserve = FALSE) {
   check_by_typo(...)
-
-  by <- enquo(.by)
-
-  if (!quo_is_null(by) && !is_false(.preserve)) {
-    abort("Can't supply both `.by` and `.preserve`.")
-  }
-
+  check_not_both_by_and_preserve({{ .by }}, .preserve)
   UseMethod("filter")
+}
+
+#' @rdname filter
+#' @export
+filter_out <- function(.data, ..., .by = NULL, .preserve = FALSE) {
+  check_by_typo(...)
+  check_not_both_by_and_preserve({{ .by }}, .preserve)
+  UseMethod("filter_out")
 }
 
 #' @export
 filter.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
+  filter_impl(
+    .data = .data,
+    ...,
+    .by = {{ .by }},
+    .preserve = .preserve,
+    .verb = "filter"
+  )
+}
+
+#' @export
+filter_out.data.frame <- function(.data, ..., .by = NULL, .preserve = FALSE) {
+  filter_impl(
+    .data = .data,
+    ...,
+    .by = {{ .by }},
+    .preserve = .preserve,
+    .verb = "filter_out"
+  )
+}
+
+filter_impl <- function(
+  .data,
+  ...,
+  .by,
+  .preserve,
+  .invert,
+  .verb,
+  .error_call = caller_env(),
+  .user_env = caller_env(2)
+) {
   dots <- dplyr_quosures(...)
-  check_filter(dots)
+  check_filter(dots, error_call = .error_call)
 
   by <- compute_by(
     by = {{ .by }},
     data = .data,
     by_arg = ".by",
-    data_arg = ".data"
+    data_arg = ".data",
+    error_call = .error_call
   )
 
-  loc <- filter_rows(.data, dots, by)
+  loc <- filter_rows(
+    data = .data,
+    dots = dots,
+    by = by,
+    verb = .verb,
+    error_call = .error_call,
+    user_env = .user_env
+  )
+
   dplyr_row_slice(.data, loc, preserve = .preserve)
 }
 
@@ -139,20 +186,24 @@ filter_rows <- function(
   data,
   dots,
   by,
+  verb,
   error_call = caller_env(),
   user_env = caller_env(2)
 ) {
   error_call <- dplyr_error_call(error_call)
 
-  mask <- DataMask$new(data, by, "filter", error_call = error_call)
+  mask <- DataMask$new(data, by, verb, error_call = error_call)
   on.exit(mask$forget(), add = TRUE)
 
   # 1:1 mapping between `dots` and `dots_expanded`
   dots_expanded <- filter_expand(dots, mask = mask, error_call = error_call)
 
+  invert <- verb == "filter_out"
+
   filter_eval(
     dots = dots,
     dots_expanded = dots_expanded,
+    invert = invert,
     mask = mask,
     error_call = error_call,
     user_env = user_env
@@ -208,6 +259,7 @@ filter_expand <- function(dots, mask, error_call = caller_env()) {
 filter_eval <- function(
   dots,
   dots_expanded,
+  invert,
   mask,
   error_call = caller_env(),
   user_env = caller_env(2)
@@ -229,7 +281,7 @@ filter_eval <- function(
   )
 
   out <- withCallingHandlers(
-    mask$eval_all_filter(dots_expanded, env_filter),
+    mask$eval_all_filter(dots_expanded, invert, env_filter),
     error = dplyr_error_handler(
       dots = dots,
       mask = mask,
@@ -288,10 +340,21 @@ filter_bullets <- function(cnd, ...) {
 warn_filter_one_column_matrix <- function(env, user_env) {
   lifecycle::deprecate_warn(
     when = "1.1.0",
-    what = I("Using one column matrices in `filter()`"),
+    what = I("Using one column matrices in `filter()` or `filter_out()`"),
     with = I("one dimensional logical vectors"),
     env = env,
     user_env = user_env,
     always = TRUE
   )
+}
+
+check_not_both_by_and_preserve <- function(
+  .by,
+  .preserve,
+  error_call = caller_env()
+) {
+  if (!quo_is_null(enquo(.by)) && !is_false(.preserve)) {
+    abort("Can't supply both `.by` and `.preserve`.", call = error_call)
+  }
+  invisible(NULL)
 }
