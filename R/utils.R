@@ -134,6 +134,24 @@ cli_collapse <- function(x, last = " and ", sep2 = " and ") {
   cli::cli_vec(x, style = list("vec-last" = last, "vec-sep2" = sep2))
 }
 
+# A version of `cli::format_inline()` that formats each string individually.
+# Useful for constructing error bullets ahead of time.
+cli_format_each_inline <- function(
+  ...,
+  .envir = parent.frame(),
+  collapse = TRUE,
+  keep_whitespace = TRUE
+) {
+  map_chr(c(...), function(x) {
+    cli::format_inline(
+      x,
+      .envir = .envir,
+      collapse = collapse,
+      keep_whitespace = keep_whitespace
+    )
+  })
+}
+
 with_no_rlang_infix_labeling <- function(expr) {
   # TODO: Temporary patch for a slowdown seen with `rlang::as_label()` and infix
   # operators. A real solution likely involves lazy ALTREP vectors (#6681).
