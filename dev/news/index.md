@@ -2,6 +2,25 @@
 
 ## dplyr (development version)
 
+- [`if_any()`](https://dplyr.tidyverse.org/dev/reference/across.md) and
+  [`if_all()`](https://dplyr.tidyverse.org/dev/reference/across.md) are
+  now more consistent in all use cases
+  ([\#7059](https://github.com/tidyverse/dplyr/issues/7059),
+  [\#7077](https://github.com/tidyverse/dplyr/issues/7077),
+  [\#7746](https://github.com/tidyverse/dplyr/issues/7746),
+  [@jrwinget](https://github.com/jrwinget)). In particular:
+
+  - When called with zero inputs,
+    [`if_any()`](https://dplyr.tidyverse.org/dev/reference/across.md)
+    returns `FALSE` and
+    [`if_all()`](https://dplyr.tidyverse.org/dev/reference/across.md)
+    returns `TRUE`.
+
+  - When called with one input, both now return logical vectors rather
+    than the original column.
+
+  - The result of applying `.fns` now must be a logical vector.
+
 - `tally_n()` creates fully qualified funciton calls for duckplyr
   compatibility
   ([\#7046](https://github.com/tidyverse/dplyr/issues/7046))
@@ -210,18 +229,6 @@
   materialized early due to internal usage of
   [`ncol()`](https://rdrr.io/r/base/nrow.html)
   ([\#7049](https://github.com/tidyverse/dplyr/issues/7049)).
-
-- [`if_any()`](https://dplyr.tidyverse.org/dev/reference/across.md) and
-  [`if_all()`](https://dplyr.tidyverse.org/dev/reference/across.md) are
-  now fully consistent with [`any()`](https://rdrr.io/r/base/any.html)
-  and [`all()`](https://rdrr.io/r/base/all.html). In particular, when
-  called with empty inputs
-  [`if_any()`](https://dplyr.tidyverse.org/dev/reference/across.md)
-  returns `FALSE` and
-  [`if_all()`](https://dplyr.tidyverse.org/dev/reference/across.md)
-  returns `TRUE`
-  ([\#7059](https://github.com/tidyverse/dplyr/issues/7059),
-  [@jrwinget](https://github.com/jrwinget)).
 
 ### Lifecycle changes
 

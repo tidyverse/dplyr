@@ -60,7 +60,13 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
-<ul><li><p><code>tally_n()</code> creates fully qualified funciton calls for duckplyr compatibility (<a href="https://github.com/tidyverse/dplyr/issues/7046" class="external-link">#7046</a>)</p></li>
+<ul><li>
+<p><code><a href="../reference/across.html">if_any()</a></code> and <code><a href="../reference/across.html">if_all()</a></code> are now more consistent in all use cases (<a href="https://github.com/tidyverse/dplyr/issues/7059" class="external-link">#7059</a>, <a href="https://github.com/tidyverse/dplyr/issues/7077" class="external-link">#7077</a>, <a href="https://github.com/tidyverse/dplyr/issues/7746" class="external-link">#7746</a>, <a href="https://github.com/jrwinget" class="external-link">@jrwinget</a>). In particular:</p>
+<ul><li><p>When called with zero inputs, <code><a href="../reference/across.html">if_any()</a></code> returns <code>FALSE</code> and <code><a href="../reference/across.html">if_all()</a></code> returns <code>TRUE</code>.</p></li>
+<li><p>When called with one input, both now return logical vectors rather than the original column.</p></li>
+<li><p>The result of applying <code>.fns</code> now must be a logical vector.</p></li>
+</ul></li>
+<li><p><code>tally_n()</code> creates fully qualified funciton calls for duckplyr compatibility (<a href="https://github.com/tidyverse/dplyr/issues/7046" class="external-link">#7046</a>)</p></li>
 <li><p><code>storms</code> has been updated to include 2023 and 2024 data (<a href="https://github.com/tidyverse/dplyr/issues/7111" class="external-link">#7111</a>, <a href="https://github.com/tomalrussell" class="external-link">@tomalrussell</a>).</p></li>
 <li><p>Empty <code><a href="../reference/rowwise.html">rowwise()</a></code> list-column elements now resolve to <code><a href="https://rdrr.io/r/base/logical.html" class="external-link">logical()</a></code> rather than a random logical of length 1 (<a href="https://github.com/tidyverse/dplyr/issues/7710" class="external-link">#7710</a>).</p></li>
 <li><p><code><a href="../reference/last_dplyr_warnings.html">last_dplyr_warnings()</a></code> no longer prevents objects from being garbage collected (<a href="https://github.com/tidyverse/dplyr/issues/7649" class="external-link">#7649</a>).</p></li>
@@ -125,7 +131,6 @@
 <li><p><code><a href="../reference/between.html">between()</a></code> gains a new <code>ptype</code> argument, allowing users to specify the desired output type. This is particularly useful for ordered factors and other complex types where the default common type behavior might not be ideal (<a href="https://github.com/tidyverse/dplyr/issues/6906" class="external-link">#6906</a>, <a href="https://github.com/JamesHWade" class="external-link">@JamesHWade</a>).</p></li>
 <li><p>Fixed an edge case when coercing data frames to matrices (<a href="https://github.com/tidyverse/dplyr/issues/7004" class="external-link">#7004</a>).</p></li>
 <li><p>Fixed an issue where duckplyr’s ALTREP data frames were being materialized early due to internal usage of <code><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol()</a></code> (<a href="https://github.com/tidyverse/dplyr/issues/7049" class="external-link">#7049</a>).</p></li>
-<li><p><code><a href="../reference/across.html">if_any()</a></code> and <code><a href="../reference/across.html">if_all()</a></code> are now fully consistent with <code><a href="https://rdrr.io/r/base/any.html" class="external-link">any()</a></code> and <code><a href="https://rdrr.io/r/base/all.html" class="external-link">all()</a></code>. In particular, when called with empty inputs <code><a href="../reference/across.html">if_any()</a></code> returns <code>FALSE</code> and <code><a href="../reference/across.html">if_all()</a></code> returns <code>TRUE</code> (<a href="https://github.com/tidyverse/dplyr/issues/7059" class="external-link">#7059</a>, <a href="https://github.com/jrwinget" class="external-link">@jrwinget</a>).</p></li>
 </ul><div class="section level3">
 <h3 id="lifecycle-changes-development-version">Lifecycle changes<a class="anchor" aria-label="anchor" href="#lifecycle-changes-development-version"></a></h3>
 <div class="section level4">
