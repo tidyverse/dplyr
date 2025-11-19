@@ -492,7 +492,6 @@ test_that("`filter()` with `pick()` that uses invalid tidy-selection errors", {
 test_that("`filter()` that doesn't use `pick()` result correctly errors", {
   df <- tibble(x = c(1, 2, NA, 3), y = c(2, NA, 5, 3))
 
-  # TODO: Can we improve on the `In argument:` expression in the expansion case?
   expect_snapshot(error = TRUE, {
     filter(df, pick(x, y)$x)
   })

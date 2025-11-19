@@ -349,31 +349,21 @@ across <- function(.cols, .fns, ..., .names = NULL, .unpack = FALSE) {
 if_any <- function(.cols, .fns, ..., .names = NULL) {
   context_local("across_if_fn", "if_any")
   context_local("across_frame", current_env())
-  if_across(`|`, across({{ .cols }}, .fns, ..., .names = .names))
+  df <- across({{ .cols }}, .fns, ..., .names = .names)
+  x <- dplyr_new_list(df)
+  size <- vec_size(df)
+  dplyr_list_pany(x, size = size)
 }
+
 #' @rdname across
 #' @export
 if_all <- function(.cols, .fns, ..., .names = NULL) {
   context_local("across_if_fn", "if_all")
   context_local("across_frame", current_env())
-  if_across(`&`, across({{ .cols }}, .fns, ..., .names = .names))
-}
-
-if_across <- function(op, df) {
-  n <- nrow(df)
-
-  if (!length(df)) {
-    return(TRUE)
-  }
-
-  combine <- function(x, y) {
-    if (is_null(x)) {
-      y
-    } else {
-      op(x, y)
-    }
-  }
-  reduce(df, combine, .init = NULL)
+  df <- across({{ .cols }}, .fns, ..., .names = .names)
+  x <- dplyr_new_list(df)
+  size <- vec_size(df)
+  dplyr_list_pall(x, size = size)
 }
 
 #' Combine values from multiple columns
@@ -608,79 +598,82 @@ dplyr_quosures <- function(...) {
   quosures
 }
 
-# When mutate() or summarise() have an unnamed call to across() at the top level, e.g.
-# summarise(across(<...>)) or mutate(across(<...>))
+# Expand an `if_any()` or `if_all()` call
 #
-# a call to top_across(<...>) is evaluated instead.
-# top_across() returns a flattened list of expressions along with some
-# information about the "current column" for each expression
-# in the "columns" attribute:
+# Always guaranteed to be 1 quosure in, 1 quosure out, unlike `expand_across()`.
 #
-# For example with: summarise(across(c(x, y), mean, .names = "mean_{.col}")) top_across() will return
-# something like:
+# For the dplyr backend, the main reason we expand at all is to evaluate
+# tidyselection exactly once (rather than once per group), because tidyselection
+# is rather slow.
 #
-# structure(
-#   list(mean_x = expr(mean(x)), mean_y = expr(mean(y)))
-#   columns = c("x", "y")
-# )
-
-# Technically this always returns a single quosure but we wrap it in a
-# list to follow the pattern in `expand_across()`
+# At one point we believed `if_any()` and `if_all()` could be implemented as
+# "pure expansion" that would run before dispatching to other backends, like
+# dbplyr. In theory this could expand to a chain of `&` and `|` operations that
+# dbplyr would already know how to translate (so dbplyr itself would not have to
+# know how to implement `if_any()` and `if_all()`), but in practice we need more
+# error checking than what `x & y & z` gets us, so we actually expand to a
+# vctrs-backed implementation since the "pure expansion" ideas have never played
+# out.
 expand_if_across <- function(quo) {
-  quo_data <- attr(quo, "dplyr:::data")
-  if (!quo_is_call(quo, c("if_any", "if_all"), ns = c("", "dplyr"))) {
-    return(list(quo))
+  if (quo_is_call(quo, "if_any", ns = c("", "dplyr"))) {
+    variant <- "any"
+  } else if (quo_is_call(quo, "if_all", ns = c("", "dplyr"))) {
+    variant <- "all"
+  } else {
+    # Refuse to expand
+    return(quo)
   }
 
+  # `definition` is the same between the two for the purposes of `match.call()`
+  definition <- if_any
+
   call <- match.call(
-    definition = if_any,
+    definition = definition,
     call = quo_get_expr(quo),
     expand.dots = FALSE,
     envir = quo_get_env(quo)
   )
+
   if (!is_null(call$...)) {
-    return(list(quo))
+    # Refuse to expand
+    return(quo)
   }
 
-  if (is_call(call, "if_any")) {
-    op <- "|"
+  if (variant == "any") {
     if_fn <- "if_any"
-    empty <- FALSE
+    dplyr_fn <- "dplyr_list_pany"
   } else {
-    op <- "&"
     if_fn <- "if_all"
-    empty <- TRUE
+    dplyr_fn <- "dplyr_list_pall"
   }
 
+  # `expand_across()` will always expand at this point given that we bailed on
+  # `...` usage early on, which is the only case that would stop expansion.
+  #
+  # Set frame here for backtrace truncation. But override error call via
+  # `local_error_call()` so it refers to the function we're expanding, e.g.
+  # `if_any()` and not `expand_if_across()`.
   context_local("across_if_fn", if_fn)
-
-  # Set frame here for backtrace truncation. But override error call
-  # via `local_error_call()` so it refers to the function we're
-  # expanding, e.g. `if_any()` and not `expand_if_across()`.
   context_local("across_frame", current_env())
   local_error_call(call(if_fn))
-
   call[[1]] <- quote(across)
   quos <- expand_across(quo_set_expr(quo, call))
 
-  # Select all rows if there are no inputs for if_all(),
-  # but select no rows if there are no inputs for if_any().
-  if (!length(quos)) {
-    return(list(quo(!!empty)))
-  }
+  expr <- expr({
+    x <- list(!!!quos)
+    ns <- asNamespace("dplyr")
 
-  combine <- function(x, y) {
-    if (is_null(x)) {
-      y
-    } else {
-      call(op, x, y)
-    }
-  }
-  expr <- reduce(quos, combine, .init = NULL)
+    # In the evaluation path, `across()` automatically recycles to common size,
+    # so we must here as well for compatibility. `across()` also returns a 0
+    # col, 1 row data frame in the case of no inputs so that it will recycle to
+    # the group size, which we also do here.
+    size <- ns[["dplyr_list_size_common"]](x, absent = 1L, call = call(!!if_fn))
+    x <- ns[["dplyr_list_recycle_common"]](x, size = size, call = call(!!if_fn))
 
-  # Use `as_quosure()` instead of `new_quosure()` to avoid rewrapping
-  # quosure in case of single input
-  list(as_quosure(expr, env = baseenv()))
+    ns[[!!dplyr_fn]](x, size = size, error_call = call(!!if_fn))
+  })
+
+  new_quosure(expr, env = baseenv())
 }
 
 expand_across <- function(quo) {
