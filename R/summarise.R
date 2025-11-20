@@ -477,7 +477,7 @@ inform_implicit_drop_last_for_grouped_df <- function(old, new) {
     i = "Summaries were computed grouped by {cli::col_blue(old)}.",
     i = "Output is grouped by {cli::col_blue(new)}.",
     i = "Use {.code summarise(.groups = \"drop_last\")} to silence this message.",
-    i = "Use {.code summarise(.by = {by})} for per-operation grouping instead."
+    i = "Use {.code summarise(.by = {by})} for {.topic [per-operation grouping](dplyr::dplyr_by)} instead."
   ))
 }
 
