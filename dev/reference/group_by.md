@@ -162,8 +162,12 @@ by_cyl |> filter(disp == max(disp))
 # Each call to summarise() removes a layer of grouping
 by_vs_am <- mtcars |> group_by(vs, am)
 by_vs <- by_vs_am |> summarise(n = n())
-#> `summarise()` has grouped output by 'vs'. You can override using the
-#> `.groups` argument.
+#> `summarise()` has regrouped the output.
+#> ℹ Summaries were computed grouped by vs and am.
+#> ℹ Output is grouped by vs.
+#> ℹ Use `summarise(.groups = "drop_last")` to silence this message.
+#> ℹ Use `summarise(.by = c(vs, am))` for per-operation grouping
+#>   (`?dplyr::dplyr_by`) instead.
 by_vs
 #> # A tibble: 4 × 3
 #> # Groups:   vs [2]

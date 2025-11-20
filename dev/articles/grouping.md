@@ -289,8 +289,12 @@ variable corresponds to `.groups = "drop_last"` without a message or
 by_sex_gender |>
   summarise(n = n()) |>
   group_vars()
-#> `summarise()` has grouped output by 'sex'. You can override using the
-#> `.groups` argument.
+#> `summarise()` has regrouped the output.
+#> ℹ Summaries were computed grouped by sex and gender.
+#> ℹ Output is grouped by sex.
+#> ℹ Use `summarise(.groups = "drop_last")` to silence this message.
+#> ℹ Use `summarise(.by = c(sex, gender))` for per-operation grouping
+#>   (`?dplyr::dplyr_by`) instead.
 #> [1] "sex"
 
 by_sex_gender |>

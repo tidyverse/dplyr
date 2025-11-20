@@ -2,6 +2,11 @@
 
 ## dplyr (development version)
 
+- The `.groups` message emitted by
+  [`summarise()`](https://dplyr.tidyverse.org/dev/reference/summarise.md)
+  is hopefully more clear now
+  ([\#6986](https://github.com/tidyverse/dplyr/issues/6986)).
+
 - [`if_any()`](https://dplyr.tidyverse.org/dev/reference/across.md) and
   [`if_all()`](https://dplyr.tidyverse.org/dev/reference/across.md) are
   now more consistent in all use cases

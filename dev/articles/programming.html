@@ -434,8 +434,12 @@ the user full control over a single part of the pipeline, like a
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Bestine IV    110   180 </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 45 more rows</span></span></span>
 <span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu">my_summarise</span><span class="op">(</span><span class="va">sex</span>, <span class="va">gender</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `summarise()` has grouped output by 'sex'. You can override using the</span></span>
-<span><span class="co">#&gt; `.groups` argument.</span></span>
+<span><span class="co">#&gt; `summarise()` has regrouped the output.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Summaries were computed grouped by <span style="color: #0000BB;">sex</span> and <span style="color: #0000BB;">gender</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Output is grouped by <span style="color: #0000BB;">sex</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `summarise(.groups = "drop_last")` to silence this message.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `summarise(.by = c(sex, gender))` for per-operation grouping</span></span>
+<span><span class="co">#&gt;   (`?dplyr::dplyr_by`) instead.</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   sex [5]</span></span></span>
 <span><span class="co">#&gt;   sex            gender      mass height</span></span>

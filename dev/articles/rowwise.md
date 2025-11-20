@@ -91,8 +91,11 @@ df |>
 df |>
   rowwise(name) |>
   summarise(m = mean(c(x, y, z)))
-#> `summarise()` has grouped output by 'name'. You can override using the
-#> `.groups` argument.
+#> `summarise()` has converted the output from a rowwise data frame to a
+#> grouped data frame.
+#> ℹ Summaries were computed rowwise.
+#> ℹ Output is grouped by name.
+#> ℹ Use `summarise(.groups = "keep")` to silence this message.
 #> # A tibble: 2 × 2
 #> # Groups:   name [2]
 #>   name       m
@@ -153,8 +156,11 @@ rf |> mutate(total = sum(c(w, x, y, z)))
 #> 4     4    13    23    33    43   112
 #> # ℹ 2 more rows
 rf |> summarise(total = sum(c(w, x, y, z)))
-#> `summarise()` has grouped output by 'id'. You can override using the
-#> `.groups` argument.
+#> `summarise()` has converted the output from a rowwise data frame to a
+#> grouped data frame.
+#> ℹ Summaries were computed rowwise.
+#> ℹ Output is grouped by id.
+#> ℹ Use `summarise(.groups = "keep")` to silence this message.
 #> # A tibble: 6 × 2
 #> # Groups:   id [6]
 #>      id total
@@ -495,8 +501,11 @@ You could then summarise the model in a variety of ways:
 
 ``` r
 mods |> summarise(rmse = sqrt(mean((pred - data$mpg) ^ 2)))
-#> `summarise()` has grouped output by 'cyl'. You can override using the
-#> `.groups` argument.
+#> `summarise()` has converted the output from a rowwise data frame to a
+#> grouped data frame.
+#> ℹ Summaries were computed rowwise.
+#> ℹ Output is grouped by cyl.
+#> ℹ Use `summarise(.groups = "keep")` to silence this message.
 #> # A tibble: 3 × 2
 #> # Groups:   cyl [3]
 #>     cyl  rmse
@@ -505,8 +514,11 @@ mods |> summarise(rmse = sqrt(mean((pred - data$mpg) ^ 2)))
 #> 2     6 0.985
 #> 3     8 1.87
 mods |> summarise(rsq = summary(mod)$r.squared)
-#> `summarise()` has grouped output by 'cyl'. You can override using the
-#> `.groups` argument.
+#> `summarise()` has converted the output from a rowwise data frame to a
+#> grouped data frame.
+#> ℹ Summaries were computed rowwise.
+#> ℹ Output is grouped by cyl.
+#> ℹ Use `summarise(.groups = "keep")` to silence this message.
 #> # A tibble: 3 × 2
 #> # Groups:   cyl [3]
 #>     cyl   rsq
@@ -515,8 +527,11 @@ mods |> summarise(rsq = summary(mod)$r.squared)
 #> 2     6 0.465
 #> 3     8 0.423
 mods |> summarise(broom::glance(mod))
-#> `summarise()` has grouped output by 'cyl'. You can override using the
-#> `.groups` argument.
+#> `summarise()` has converted the output from a rowwise data frame to a
+#> grouped data frame.
+#> ℹ Summaries were computed rowwise.
+#> ℹ Output is grouped by cyl.
+#> ℹ Use `summarise(.groups = "keep")` to silence this message.
 #> # A tibble: 3 × 13
 #> # Groups:   cyl [3]
 #>     cyl r.squared adj.r.squared sigma statistic p.value    df logLik

@@ -60,7 +60,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
-<ul><li>
+<ul><li><p>The <code>.groups</code> message emitted by <code><a href="../reference/summarise.html">summarise()</a></code> is hopefully more clear now (<a href="https://github.com/tidyverse/dplyr/issues/6986" class="external-link">#6986</a>).</p></li>
+<li>
 <p><code><a href="../reference/across.html">if_any()</a></code> and <code><a href="../reference/across.html">if_all()</a></code> are now more consistent in all use cases (<a href="https://github.com/tidyverse/dplyr/issues/7059" class="external-link">#7059</a>, <a href="https://github.com/tidyverse/dplyr/issues/7077" class="external-link">#7077</a>, <a href="https://github.com/tidyverse/dplyr/issues/7746" class="external-link">#7746</a>, <a href="https://github.com/jrwinget" class="external-link">@jrwinget</a>). In particular:</p>
 <ul><li><p>When called with zero inputs, <code><a href="../reference/across.html">if_any()</a></code> returns <code>FALSE</code> and <code><a href="../reference/across.html">if_all()</a></code> returns <code>TRUE</code>.</p></li>
 <li><p>When called with one input, both now return logical vectors rather than the original column.</p></li>

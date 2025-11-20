@@ -534,8 +534,7 @@ summarise(
   mass = mean(mass, na.rm = TRUE)
 )
 #> Adding missing grouping variables: `species`, `sex`
-#> `summarise()` has grouped output by 'species'. You can override using
-#> the `.groups` argument.
+#> `summarise()` has regrouped the output.
 #> # A tibble: 41 × 4
 #> # Groups:   species [38]
 #>   species  sex   height  mass

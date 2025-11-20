@@ -352,8 +352,12 @@ starwars |> my_summarise(homeworld)
 #> 4 Bestine IV    110   180 
 #> # ℹ 45 more rows
 starwars |> my_summarise(sex, gender)
-#> `summarise()` has grouped output by 'sex'. You can override using the
-#> `.groups` argument.
+#> `summarise()` has regrouped the output.
+#> ℹ Summaries were computed grouped by sex and gender.
+#> ℹ Output is grouped by sex.
+#> ℹ Use `summarise(.groups = "drop_last")` to silence this message.
+#> ℹ Use `summarise(.by = c(sex, gender))` for per-operation grouping
+#>   (`?dplyr::dplyr_by`) instead.
 #> # A tibble: 6 × 4
 #> # Groups:   sex [5]
 #>   sex            gender      mass height

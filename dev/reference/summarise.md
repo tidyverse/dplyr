@@ -172,8 +172,12 @@ mtcars |>
   group_by(cyl, vs) |>
   summarise(cyl_n = n()) |>
   group_vars()
-#> `summarise()` has grouped output by 'cyl'. You can override using the
-#> `.groups` argument.
+#> `summarise()` has regrouped the output.
+#> ℹ Summaries were computed grouped by cyl and vs.
+#> ℹ Output is grouped by cyl.
+#> ℹ Use `summarise(.groups = "drop_last")` to silence this message.
+#> ℹ Use `summarise(.by = c(cyl, vs))` for per-operation grouping
+#>   (`?dplyr::dplyr_by`) instead.
 #> [1] "cyl"
 
 # BEWARE: reusing variables may lead to unexpected results

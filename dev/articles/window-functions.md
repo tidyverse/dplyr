@@ -170,8 +170,12 @@ the average number of games within each group.
 ``` r
 by_team_player <- group_by(batting, teamID, playerID)
 by_team <- summarise(by_team_player, G = sum(G))
-#> `summarise()` has grouped output by 'teamID'. You can override using
-#> the `.groups` argument.
+#> `summarise()` has regrouped the output.
+#> ℹ Summaries were computed grouped by teamID and playerID.
+#> ℹ Output is grouped by teamID.
+#> ℹ Use `summarise(.groups = "drop_last")` to silence this message.
+#> ℹ Use `summarise(.by = c(teamID, playerID))` for per-operation
+#>   grouping (`?dplyr::dplyr_by`) instead.
 by_team_quartile <- group_by(by_team, quartile = ntile(G, 4))
 summarise(by_team_quartile, mean(G))
 #> # A tibble: 4 × 2

@@ -145,8 +145,11 @@ models
 #> 3     8           [14 × 10] <lm>  
 
 models |> summarise(rsq = summary(model)$r.squared)
-#> `summarise()` has grouped output by 'cyl'. You can override using the
-#> `.groups` argument.
+#> `summarise()` has converted the output from a rowwise data frame to a
+#> grouped data frame.
+#> ℹ Summaries were computed rowwise.
+#> ℹ Output is grouped by cyl.
+#> ℹ Use `summarise(.groups = "keep")` to silence this message.
 #> # A tibble: 3 × 2
 #> # Groups:   cyl [3]
 #>     cyl   rsq
@@ -157,8 +160,11 @@ models |> summarise(rsq = summary(model)$r.squared)
 
 # This is particularly elegant with the broom functions
 models |> summarise(broom::glance(model))
-#> `summarise()` has grouped output by 'cyl'. You can override using the
-#> `.groups` argument.
+#> `summarise()` has converted the output from a rowwise data frame to a
+#> grouped data frame.
+#> ℹ Summaries were computed rowwise.
+#> ℹ Output is grouped by cyl.
+#> ℹ Use `summarise(.groups = "keep")` to silence this message.
 #> # A tibble: 3 × 13
 #> # Groups:   cyl [3]
 #>     cyl r.squared adj.r.squared sigma statistic p.value    df logLik

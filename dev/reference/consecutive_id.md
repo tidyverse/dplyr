@@ -31,8 +31,12 @@ consecutive_id(c(1, 1, 1, 2, 1, 1, 2, 2))
 
 df <- data.frame(x = c(0, 0, 1, 0), y = c(2, 2, 2, 2))
 df |> group_by(x, y) |> summarise(n = n())
-#> `summarise()` has grouped output by 'x'. You can override using the
-#> `.groups` argument.
+#> `summarise()` has regrouped the output.
+#> ℹ Summaries were computed grouped by x and y.
+#> ℹ Output is grouped by x.
+#> ℹ Use `summarise(.groups = "drop_last")` to silence this message.
+#> ℹ Use `summarise(.by = c(x, y))` for per-operation grouping
+#>   (`?dplyr::dplyr_by`) instead.
 #> # A tibble: 2 × 3
 #> # Groups:   x [2]
 #>       x     y     n
@@ -40,8 +44,12 @@ df |> group_by(x, y) |> summarise(n = n())
 #> 1     0     2     3
 #> 2     1     2     1
 df |> group_by(id = consecutive_id(x, y), x, y) |> summarise(n = n())
-#> `summarise()` has grouped output by 'id', 'x'. You can override using
-#> the `.groups` argument.
+#> `summarise()` has regrouped the output.
+#> ℹ Summaries were computed grouped by id, x, and y.
+#> ℹ Output is grouped by id and x.
+#> ℹ Use `summarise(.groups = "drop_last")` to silence this message.
+#> ℹ Use `summarise(.by = c(id, x, y))` for per-operation grouping
+#>   (`?dplyr::dplyr_by`) instead.
 #> # A tibble: 3 × 4
 #> # Groups:   id, x [3]
 #>      id     x     y     n
