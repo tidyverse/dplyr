@@ -1,17 +1,107 @@
-#' Keep rows that match a condition
+#' Keep or drop rows that match a condition
 #'
-#' The `filter()` function is used to subset a data frame,
-#' retaining all rows that satisfy your conditions.
-#' To be retained, the row must produce a value of `TRUE` for all conditions.
-#' Note that when a condition evaluates to `NA`
-#' the row will be dropped, unlike base subsetting with `[`.
+#' @description
+#' These functions are used to subset a data frame, applying the expressions in
+#' `...` to determine which rows should be kept or dropped.
 #'
-#' The `filter()` function is used to subset the rows of
-#' `.data`, applying the expressions in `...` to the column values to determine which
-#' rows should be retained. It can be applied to both grouped and ungrouped data (see [group_by()] and
-#' [ungroup()]). However, dplyr is not yet smart enough to optimise the filtering
-#' operation on grouped datasets that do not need grouped calculations. For this
-#' reason, filtering is often considerably faster on ungrouped data.
+#' - `filter()` _keeps_ rows where the conditions evaluate to `TRUE`.
+#'
+#' - `filter_out()` _drops_ rows where the conditions evaluate to `TRUE`.
+#'
+#' Multiple conditions can be supplied separated by a comma. These will be
+#' combined with the `&` operator.
+#'
+#' Both `filter()` and `filter_out()` treat `NA` like `FALSE`. This subtle
+#' behavior can impact how you write your conditions when missing values are
+#' involved. See the section on `Missing values` for important details and
+#' examples.
+#'
+#' @inheritParams arrange
+#' @inheritParams args_by
+#'
+#' @param ... <[`data-masking`][rlang::args_data_masking]> Expressions that
+#'   return a logical value, and are defined in terms of the variables in
+#'   `.data`. If multiple expressions are included, they are combined with the
+#'   `&` operator. Only rows for which all conditions evaluate to `TRUE` are
+#'   kept (for `filter()`) or dropped (for `filter_out()`).
+#'
+#' @param .preserve Relevant when the `.data` input is grouped. If `.preserve =
+#'   FALSE` (the default), the grouping structure is recalculated based on the
+#'   resulting data, otherwise the grouping is kept as is.
+#'
+#' @returns
+#' An object of the same type as `.data`. The output has the following
+#' properties:
+#'
+#' * Rows are a subset of the input, but appear in the same order.
+#' * Columns are not modified.
+#' * The number of groups may be reduced (if `.preserve` is not `TRUE`).
+#' * Data frame attributes are preserved.
+#'
+#' @section Missing values:
+#'
+#' Both `filter()` and `filter_out()` treat `NA` like `FALSE`. This results in
+#' the following behavior:
+#'
+#' - `filter()` _drops_ both `NA` and `FALSE`.
+#'
+#' - `filter_out()` _keeps_ both `NA` and `FALSE`.
+#'
+#' The `NA` handling of these functions has been designed to match your
+#' _intent_. When your intent is to keep rows, use `filter()`. When your intent
+#' is to drop rows, use `filter_out()`.
+#'
+#' For example, if your goal with this `cars` data is to "drop rows where the
+#' `class` is suv", then you might write this in one of two ways:
+#'
+#' ```{r}
+#' cars <- tibble(class = c("suv", NA, "coupe"))
+#' cars
+#' ```
+#'
+#' ```{r}
+#' cars |> filter(class != "suv")
+#' ```
+#'
+#' ```{r}
+#' cars |> filter_out(class == "suv")
+#' ```
+#'
+#' Note how `filter()` drops the `NA` rows even though our goal was only to drop
+#' `"suv"` rows, but `filter_out()` matches our intuition.
+#'
+#' To generate the correct result with `filter()`, you'd need to use:
+#'
+#' ```{r}
+#' cars |> filter(class != "suv" | is.na(class))
+#' ```
+#'
+#' This quickly gets unwieldy when multiple conditions are involved.
+#'
+#' In general, if you find yourself:
+#'
+#' - Using "negative" operators like `!=` or `!`
+#' - Adding in `NA` handling like `| is.na(col)` or `& !is.na(col)`
+#'
+#' then you should consider if swapping to the other filtering variant would
+#' make your conditions simpler.
+#'
+#' ## Comparison to base subsetting
+#'
+#' Base subsetting with `[` doesn't treat `NA` like `TRUE` or `FALSE`. Instead,
+#' it generates a fully missing row, which is different from how both `filter()`
+#' and `filter_out()` work.
+#'
+#' ```{r}
+#' cars <- tibble(class = c("suv", NA, "coupe"), mpg = c(10, 12, 14))
+#' cars
+#' ```
+#'
+#' ```{r}
+#' cars[cars$class == "suv",]
+#'
+#' cars |> filter(class == "suv")
+#' ```
 #'
 #' @section Useful filter functions:
 #'
@@ -25,10 +115,10 @@
 #'
 #' @section Grouped tibbles:
 #'
-#' Because filtering expressions are computed within groups, they may
-#' yield different results on grouped tibbles. This will be the case
-#' as soon as an aggregating, lagging, or ranking function is
-#' involved. Compare this ungrouped filtering:
+#' Because filtering expressions are computed within groups, they may yield
+#' different results on grouped tibbles. This will be the case as soon as an
+#' aggregating, lagging, or ranking function is involved. Compare this ungrouped
+#' filtering:
 #'
 #' ```
 #' starwars |> filter(mass > mean(mass, na.rm = TRUE))
@@ -37,35 +127,17 @@
 #' With the grouped equivalent:
 #'
 #' ```
-#' starwars |> group_by(gender) |> filter(mass > mean(mass, na.rm = TRUE))
+#' starwars |> filter(mass > mean(mass, na.rm = TRUE), .by = gender)
 #' ```
 #'
-#' In the ungrouped version, `filter()` compares the value of `mass` in each row to
-#' the global average (taken over the whole data set), keeping only the rows with
-#' `mass` greater than this global average. In contrast, the grouped version calculates
-#' the average mass separately for each `gender` group, and keeps rows with `mass` greater
-#' than the relevant within-gender average.
-#'
-#' @family single table verbs
-#' @inheritParams arrange
-#' @inheritParams args_by
-#' @param ... <[`data-masking`][rlang::args_data_masking]> Expressions that
-#'   return a logical value, and are defined in terms of the variables in
-#'   `.data`. If multiple expressions are included, they are combined with the
-#'   `&` operator. Only rows for which all conditions evaluate to `TRUE` are
-#'   kept.
-#' @param .preserve Relevant when the `.data` input is grouped.
-#'   If `.preserve = FALSE` (the default), the grouping structure
-#'   is recalculated based on the resulting data, otherwise the grouping is kept as is.
-#' @return
-#' An object of the same type as `.data`. The output has the following properties:
-#'
-#' * Rows are a subset of the input, but appear in the same order.
-#' * Columns are not modified.
-#' * The number of groups may be reduced (if `.preserve` is not `TRUE`).
-#' * Data frame attributes are preserved.
+#' In the ungrouped version, `filter()` compares the value of `mass` in each row
+#' to the global average (taken over the whole data set), keeping only the rows
+#' with `mass` greater than this global average. In contrast, the grouped
+#' version calculates the average mass separately for each `gender` group, and
+#' keeps rows with `mass` greater than the relevant within-gender average.
 #'
 #' @section Methods:
+#'
 #' This function is a **generic**, which means that packages can provide
 #' implementations (methods) for other classes. See the documentation of
 #' individual methods for extra arguments and differences in behaviour.
@@ -73,6 +145,7 @@
 #' The following methods are currently available in loaded packages:
 #' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("filter")}.
 #'
+#' @family single table verbs
 #' @name filter
 #'
 #' @examples
@@ -91,16 +164,30 @@
 #' # The filtering operation may yield different results on grouped
 #' # tibbles because the expressions are computed within groups.
 #' #
-#' # The following filters rows where `mass` is greater than the
+#' # The following keeps rows where `mass` is greater than the
 #' # global average:
 #' starwars |> filter(mass > mean(mass, na.rm = TRUE))
 #'
-#' # Whereas this keeps rows with `mass` greater than the gender
+#' # Whereas this keeps rows with `mass` greater than the per `gender`
 #' # average:
-#' starwars |> group_by(gender) |> filter(mass > mean(mass, na.rm = TRUE))
+#' starwars |> filter(mass > mean(mass, na.rm = TRUE), .by = gender)
 #'
+#' # If your intent is to drop rows, use `filter_out()`.
+#' # To remove blond individuals:
+#' starwars |> filter_out(hair_color == "blond")
 #'
-#' # To refer to column names that are stored as strings, use the `.data` pronoun:
+#' # Notice how this is different from using `filter()` and `!= "blond"`.
+#' # With `filter()`, rows with a `hair_color` of `NA` are also unintentionally
+#' # dropped.
+#' starwars |> filter(hair_color != "blond")
+#'
+#' # To retain `NA`s with `filter()`, you'd need `| is.na()`.
+#' # If you find yourself using `is.na()` in this way, consider switching to
+#' # `filter_out()` instead.
+#' starwars |> filter(hair_color != "blond" | is.na(hair_color))
+#'
+#' # To refer to column names that are stored as strings, use the `.data`
+#' # pronoun:
 #' vars <- c("mass", "height")
 #' cond <- c(80, 150)
 #' starwars |>

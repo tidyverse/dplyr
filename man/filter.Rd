@@ -3,7 +3,7 @@
 \name{filter}
 \alias{filter}
 \alias{filter_out}
-\title{Keep rows that match a condition}
+\title{Keep or drop rows that match a condition}
 \usage{
 filter(.data, ..., .by = NULL, .preserve = FALSE)
 
@@ -18,18 +18,18 @@ more details.}
 return a logical value, and are defined in terms of the variables in
 \code{.data}. If multiple expressions are included, they are combined with the
 \code{&} operator. Only rows for which all conditions evaluate to \code{TRUE} are
-kept.}
+kept (for \code{filter()}) or dropped (for \code{filter_out()}).}
 
 \item{.by}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
 group by for just this operation, functioning as an alternative to \code{\link[=group_by]{group_by()}}. For
 details and examples, see \link[=dplyr_by]{?dplyr_by}.}
 
-\item{.preserve}{Relevant when the \code{.data} input is grouped.
-If \code{.preserve = FALSE} (the default), the grouping structure
-is recalculated based on the resulting data, otherwise the grouping is kept as is.}
+\item{.preserve}{Relevant when the \code{.data} input is grouped. If \code{.preserve = FALSE} (the default), the grouping structure is recalculated based on the
+resulting data, otherwise the grouping is kept as is.}
 }
 \value{
-An object of the same type as \code{.data}. The output has the following properties:
+An object of the same type as \code{.data}. The output has the following
+properties:
 \itemize{
 \item Rows are a subset of the input, but appear in the same order.
 \item Columns are not modified.
@@ -38,20 +38,118 @@ An object of the same type as \code{.data}. The output has the following propert
 }
 }
 \description{
-The \code{filter()} function is used to subset a data frame,
-retaining all rows that satisfy your conditions.
-To be retained, the row must produce a value of \code{TRUE} for all conditions.
-Note that when a condition evaluates to \code{NA}
-the row will be dropped, unlike base subsetting with \code{[}.
+These functions are used to subset a data frame, applying the expressions in
+\code{...} to determine which rows should be kept or dropped.
+\itemize{
+\item \code{filter()} \emph{keeps} rows where the conditions evaluate to \code{TRUE}.
+\item \code{filter_out()} \emph{drops} rows where the conditions evaluate to \code{TRUE}.
 }
-\details{
-The \code{filter()} function is used to subset the rows of
-\code{.data}, applying the expressions in \code{...} to the column values to determine which
-rows should be retained. It can be applied to both grouped and ungrouped data (see \code{\link[=group_by]{group_by()}} and
-\code{\link[=ungroup]{ungroup()}}). However, dplyr is not yet smart enough to optimise the filtering
-operation on grouped datasets that do not need grouped calculations. For this
-reason, filtering is often considerably faster on ungrouped data.
+
+Multiple conditions can be supplied separated by a comma. These will be
+combined with the \code{&} operator.
+
+Both \code{filter()} and \code{filter_out()} treat \code{NA} like \code{FALSE}. This subtle
+behavior can impact how you write your conditions when missing values are
+involved. See the section on \verb{Missing values} for important details and
+examples.
 }
+\section{Missing values}{
+
+
+Both \code{filter()} and \code{filter_out()} treat \code{NA} like \code{FALSE}. This results in
+the following behavior:
+\itemize{
+\item \code{filter()} \emph{drops} both \code{NA} and \code{FALSE}.
+\item \code{filter_out()} \emph{keeps} both \code{NA} and \code{FALSE}.
+}
+
+The \code{NA} handling of these functions has been designed to match your
+\emph{intent}. When your intent is to keep rows, use \code{filter()}. When your intent
+is to drop rows, use \code{filter_out()}.
+
+For example, if your goal with this \code{cars} data is to "drop rows where the
+\code{class} is suv", then you might write this in one of two ways:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{cars <- tibble(class = c("suv", NA, "coupe"))
+cars
+#> # A tibble: 3 x 1
+#>   class
+#>   <chr>
+#> 1 suv  
+#> 2 <NA> 
+#> 3 coupe
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{cars |> filter(class != "suv")
+#> # A tibble: 1 x 1
+#>   class
+#>   <chr>
+#> 1 coupe
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{cars |> filter_out(class == "suv")
+#> # A tibble: 2 x 1
+#>   class
+#>   <chr>
+#> 1 <NA> 
+#> 2 coupe
+}\if{html}{\out{</div>}}
+
+Note how \code{filter()} drops the \code{NA} rows even though our goal was only to drop
+\code{"suv"} rows, but \code{filter_out()} matches our intuition.
+
+To generate the correct result with \code{filter()}, you'd need to use:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{cars |> filter(class != "suv" | is.na(class))
+#> # A tibble: 2 x 1
+#>   class
+#>   <chr>
+#> 1 <NA> 
+#> 2 coupe
+}\if{html}{\out{</div>}}
+
+This quickly gets unwieldy when multiple conditions are involved.
+
+In general, if you find yourself:
+\itemize{
+\item Using "negative" operators like \code{!=} or \code{!}
+\item Adding in \code{NA} handling like \verb{| is.na(col)} or \verb{& !is.na(col)}
+}
+
+then you should consider if swapping to the other filtering variant would
+make your conditions simpler.
+\subsection{Comparison to base subsetting}{
+
+Base subsetting with \code{[} doesn't treat \code{NA} like \code{TRUE} or \code{FALSE}. Instead,
+it generates a fully missing row, which is different from how both \code{filter()}
+and \code{filter_out()} work.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{cars <- tibble(class = c("suv", NA, "coupe"), mpg = c(10, 12, 14))
+cars
+#> # A tibble: 3 x 2
+#>   class   mpg
+#>   <chr> <dbl>
+#> 1 suv      10
+#> 2 <NA>     12
+#> 3 coupe    14
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{cars[cars$class == "suv",]
+#> # A tibble: 2 x 2
+#>   class   mpg
+#>   <chr> <dbl>
+#> 1 suv      10
+#> 2 <NA>     NA
+
+cars |> filter(class == "suv")
+#> # A tibble: 1 x 2
+#>   class   mpg
+#>   <chr> <dbl>
+#> 1 suv      10
+}\if{html}{\out{</div>}}
+}
+}
+
 \section{Useful filter functions}{
 
 
@@ -68,27 +166,28 @@ expressions used to filter the data:
 \section{Grouped tibbles}{
 
 
-Because filtering expressions are computed within groups, they may
-yield different results on grouped tibbles. This will be the case
-as soon as an aggregating, lagging, or ranking function is
-involved. Compare this ungrouped filtering:
+Because filtering expressions are computed within groups, they may yield
+different results on grouped tibbles. This will be the case as soon as an
+aggregating, lagging, or ranking function is involved. Compare this ungrouped
+filtering:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{starwars |> filter(mass > mean(mass, na.rm = TRUE))
 }\if{html}{\out{</div>}}
 
 With the grouped equivalent:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{starwars |> group_by(gender) |> filter(mass > mean(mass, na.rm = TRUE))
+\if{html}{\out{<div class="sourceCode">}}\preformatted{starwars |> filter(mass > mean(mass, na.rm = TRUE), .by = gender)
 }\if{html}{\out{</div>}}
 
-In the ungrouped version, \code{filter()} compares the value of \code{mass} in each row to
-the global average (taken over the whole data set), keeping only the rows with
-\code{mass} greater than this global average. In contrast, the grouped version calculates
-the average mass separately for each \code{gender} group, and keeps rows with \code{mass} greater
-than the relevant within-gender average.
+In the ungrouped version, \code{filter()} compares the value of \code{mass} in each row
+to the global average (taken over the whole data set), keeping only the rows
+with \code{mass} greater than this global average. In contrast, the grouped
+version calculates the average mass separately for each \code{gender} group, and
+keeps rows with \code{mass} greater than the relevant within-gender average.
 }
 
 \section{Methods}{
+
 
 This function is a \strong{generic}, which means that packages can provide
 implementations (methods) for other classes. See the documentation of
@@ -114,16 +213,30 @@ filter(starwars, hair_color == "none", eye_color == "black")
 # The filtering operation may yield different results on grouped
 # tibbles because the expressions are computed within groups.
 #
-# The following filters rows where `mass` is greater than the
+# The following keeps rows where `mass` is greater than the
 # global average:
 starwars |> filter(mass > mean(mass, na.rm = TRUE))
 
-# Whereas this keeps rows with `mass` greater than the gender
+# Whereas this keeps rows with `mass` greater than the per `gender`
 # average:
-starwars |> group_by(gender) |> filter(mass > mean(mass, na.rm = TRUE))
+starwars |> filter(mass > mean(mass, na.rm = TRUE), .by = gender)
 
+# If your intent is to drop rows, use `filter_out()`.
+# To remove blond individuals:
+starwars |> filter_out(hair_color == "blond")
 
-# To refer to column names that are stored as strings, use the `.data` pronoun:
+# Notice how this is different from using `filter()` and `!= "blond"`.
+# With `filter()`, rows with a `hair_color` of `NA` are also unintentionally
+# dropped.
+starwars |> filter(hair_color != "blond")
+
+# To retain `NA`s with `filter()`, you'd need `| is.na()`.
+# If you find yourself using `is.na()` in this way, consider switching to
+# `filter_out()` instead.
+starwars |> filter(hair_color != "blond" | is.na(hair_color))
+
+# To refer to column names that are stored as strings, use the `.data`
+# pronoun:
 vars <- c("mass", "height")
 cond <- c(80, 150)
 starwars |>

@@ -57,9 +57,8 @@ For \verb{slice_*()}, these arguments are passed on to methods.}
 group by for just this operation, functioning as an alternative to \code{\link[=group_by]{group_by()}}. For
 details and examples, see \link[=dplyr_by]{?dplyr_by}.}
 
-\item{.preserve}{Relevant when the \code{.data} input is grouped.
-If \code{.preserve = FALSE} (the default), the grouping structure
-is recalculated based on the resulting data, otherwise the grouping is kept as is.}
+\item{.preserve}{Relevant when the \code{.data} input is grouped. If \code{.preserve = FALSE} (the default), the grouping structure is recalculated based on the
+resulting data, otherwise the grouping is kept as is.}
 
 \item{n, prop}{Provide either \code{n}, the number of rows, or \code{prop}, the
 proportion of rows to select. If neither are supplied, \code{n = 1} will be
