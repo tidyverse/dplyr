@@ -101,7 +101,7 @@
     Code
       summarise(group_by(df, x, y))
     Message
-      `summarise()` has regrouped the output by dropping the last grouping column.
+      `summarise()` has dropped the last grouping column while regrouping the output.
       i Summaries were computed grouped by x and y.
       i Output is grouped by x.
       i Use `summarise(.groups = "drop_last")` to silence this message.
