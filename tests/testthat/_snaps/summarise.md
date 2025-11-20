@@ -79,34 +79,79 @@
       Error in `summarise()`:
       ! Can't transform a data frame with missing names.
 
-# summarise() gives meaningful errors
+# summarise() messages about implicit `.groups` default
 
     Code
-      summarise(group_by(tibble(x = 1, y = 2), x, y))
+      summarise(group_by(df, x))
+    Output
+      # A tibble: 1 x 1
+            x
+        <dbl>
+      1     1
+
+---
+
+    Code
+      summarise(rowwise(df))
+    Output
+      # A tibble: 1 x 0
+
+---
+
+    Code
+      summarise(group_by(df, x, y))
     Message
-      `summarise()` has grouped output by 'x'. You can override using the `.groups` argument.
+      `summarise()` has regrouped the output.
+      i Summaries were computed grouped by x and y.
+      i Output is grouped by x.
+      i Use `summarise(.groups = "drop_last")` to silence this message.
+      i Use `summarise(.by = c(x, y))` for per-operation grouping (`?dplyr::dplyr_by`) instead.
     Output
       # A tibble: 1 x 2
       # Groups:   x [1]
             x     y
         <dbl> <dbl>
       1     1     2
+
+---
+
     Code
-      summarise(rowwise(tibble(x = 1, y = 2), x, y))
+      summarise(rowwise(df, x, y))
     Message
-      `summarise()` has grouped output by 'x', 'y'. You can override using the `.groups` argument.
+      `summarise()` has converted the output from a rowwise data frame to a grouped data frame.
+      i Summaries were computed rowwise.
+      i Output is grouped by x and y.
+      i Use `summarise(.groups = "keep")` to silence this message.
     Output
       # A tibble: 1 x 2
       # Groups:   x, y [1]
             x     y
         <dbl> <dbl>
       1     1     2
+
+# summarise() respects `dplyr.summarise.inform = FALSE`
+
     Code
-      summarise(rowwise(tibble(x = 1, y = 2)))
+      eval_global(summarise(group_by(tibble(x = 1, y = 2), x, y)))
     Output
-      # A tibble: 1 x 0
+      # A tibble: 1 x 2
+      # Groups:   x [1]
+            x     y
+        <dbl> <dbl>
+      1     1     2
 
 ---
+
+    Code
+      eval_global(summarise(rowwise(tibble(x = 1, y = 2), x, y)))
+    Output
+      # A tibble: 1 x 2
+      # Groups:   x, y [1]
+            x     y
+        <dbl> <dbl>
+      1     1     2
+
+# summarise() gives meaningful errors
 
     Code
       (expect_error(summarise(tibble(x = 1, y = c(1, 2, 2), z = runif(3)), a = rlang::env(

@@ -149,27 +149,20 @@ summarise.grouped_df <- function(.data, ..., .by = NULL, .groups = NULL) {
     .groups <- "drop_last"
   }
 
-  group_vars <- by$names
+  old_groups <- by$names
   if (identical(.groups, "drop_last")) {
-    n <- length(group_vars)
+    n <- length(old_groups)
     if (n > 1) {
+      new_groups <- old_groups[-n]
       if (verbose) {
-        new_groups <- glue_collapse(
-          paste0("'", group_vars[-n], "'"),
-          sep = ", "
-        )
-        summarise_inform("has grouped output by {new_groups}")
+        inform_implicit_drop_last_for_grouped_df(old_groups, new_groups)
       }
-      out <- grouped_df(out, group_vars[-n], group_by_drop_default(.data))
+      out <- grouped_df(out, new_groups, group_by_drop_default(.data))
     }
   } else if (identical(.groups, "keep")) {
-    if (verbose) {
-      new_groups <- glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
-      summarise_inform("has grouped output by {new_groups}")
-    }
-    out <- grouped_df(out, group_vars, group_by_drop_default(.data))
+    out <- grouped_df(out, old_groups, group_by_drop_default(.data))
   } else if (identical(.groups, "rowwise")) {
-    out <- rowwise_df(out, group_vars)
+    out <- rowwise_df(out, old_groups)
   } else if (!identical(.groups, "drop")) {
     bullets <- c(
       paste0("`.groups` can't be ", as_label(.groups)),
@@ -194,15 +187,14 @@ summarise.rowwise_df <- function(.data, ..., .by = NULL, .groups = NULL) {
     .groups <- "keep"
   }
 
-  group_vars <- by$names
+  old_groups <- by$names
   if (identical(.groups, "keep")) {
-    if (verbose && length(group_vars)) {
-      new_groups <- glue_collapse(paste0("'", group_vars, "'"), sep = ", ")
-      summarise_inform("has grouped output by {new_groups}")
+    if (verbose && length(old_groups) > 0L) {
+      inform_implicit_keep_for_rowwise_df(old_groups)
     }
-    out <- grouped_df(out, group_vars)
+    out <- grouped_df(out, old_groups)
   } else if (identical(.groups, "rowwise")) {
-    out <- rowwise_df(out, group_vars)
+    out <- rowwise_df(out, old_groups)
   } else if (!identical(.groups, "drop")) {
     bullets <- c(
       paste0("`.groups` can't be ", as_label(.groups)),
@@ -475,10 +467,25 @@ summarise_verbose <- function(.groups, .env) {
   is_reference(topenv(.env), global_env())
 }
 
-summarise_inform <- function(..., .env = parent.frame()) {
-  inform(paste0(
-    "`summarise()` ",
-    glue(..., .envir = .env),
-    '. You can override using the `.groups` argument.'
+inform_implicit_drop_last_for_grouped_df <- function(old, new) {
+  # Only going to show this message if `length(old) > 1`, so don't need to
+  # worry about the length 0 or length 1 cases.
+  by <- paste0("c(", paste0(old, collapse = ", "), ")")
+
+  inform(cli_format_each_inline(
+    "{.fn summarise} has regrouped the output.",
+    i = "Summaries were computed grouped by {cli::col_blue(old)}.",
+    i = "Output is grouped by {cli::col_blue(new)}.",
+    i = "Use {.code summarise(.groups = \"drop_last\")} to silence this message.",
+    i = "Use {.code summarise(.by = {by})} for {.topic [per-operation grouping](dplyr::dplyr_by)} instead."
+  ))
+}
+
+inform_implicit_keep_for_rowwise_df <- function(groups) {
+  inform(cli_format_each_inline(
+    "{.fn summarise} has converted the output from a rowwise data frame to a grouped data frame.",
+    i = "Summaries were computed rowwise.",
+    i = "Output is grouped by {cli::col_blue(groups)}.",
+    i = "Use {.code summarise(.groups = \"keep\")} to silence this message."
   ))
 }

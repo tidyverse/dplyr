@@ -429,19 +429,50 @@ test_that("`summarise()` doesn't allow data frames with missing or empty names (
   })
 })
 
-test_that("summarise() gives meaningful errors", {
-  eval(
-    envir = global_env(),
-    expr({
-      expect_snapshot({
-        # Messages about .groups=
-        tibble(x = 1, y = 2) |> group_by(x, y) |> summarise()
-        tibble(x = 1, y = 2) |> rowwise(x, y) |> summarise()
-        tibble(x = 1, y = 2) |> rowwise() |> summarise()
-      })
-    })
-  )
+test_that("summarise() messages about implicit `.groups` default", {
+  # Otherwise it only informs when called from the global env
+  local_options(dplyr.summarise.inform = TRUE)
 
+  df <- tibble(x = 1, y = 2)
+
+  # Nothing
+  expect_snapshot({
+    df |> group_by(x) |> summarise()
+  })
+  expect_snapshot({
+    df |> rowwise() |> summarise()
+  })
+
+  # Implicit `"drop_last"`
+  expect_snapshot({
+    df |> group_by(x, y) |> summarise()
+  })
+
+  # Implicit `"keep"`
+  expect_snapshot({
+    df |> rowwise(x, y) |> summarise()
+  })
+})
+
+test_that("summarise() respects `dplyr.summarise.inform = FALSE`", {
+  local_options(dplyr.summarise.inform = FALSE)
+
+  # Force evaluation in the global env so we can be very sure we are
+  # silencing the message. It only ever triggers in the global env.
+  eval_global <- function(expr) eval(expr, envir = globalenv())
+
+  # Implicit `"drop_last"`
+  expect_snapshot({
+    eval_global(tibble(x = 1, y = 2) |> group_by(x, y) |> summarise())
+  })
+
+  # Implicit `"keep"`
+  expect_snapshot({
+    eval_global(tibble(x = 1, y = 2) |> rowwise(x, y) |> summarise())
+  })
+})
+
+test_that("summarise() gives meaningful errors", {
   eval(
     envir = global_env(),
     expr({
