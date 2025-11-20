@@ -105,6 +105,7 @@
       i Summaries were computed grouped by x and y.
       i Output is grouped by x.
       i Use `summarise(.groups = "drop_last")` to silence this message.
+      i Use `summarise(.by = c(x, y))` for per-operation grouping instead.
     Output
       # A tibble: 1 x 2
       # Groups:   x [1]

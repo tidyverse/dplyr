@@ -468,11 +468,16 @@ summarise_verbose <- function(.groups, .env) {
 }
 
 inform_implicit_drop_last_for_grouped_df <- function(old, new) {
+  # Only going to show this message if `length(old) > 1`, so don't need to
+  # worry about the length 0 or length 1 cases.
+  by <- paste0("c(", paste0(old, collapse = ", "), ")")
+
   inform(cli_format_each_inline(
     "{.fn summarise} has regrouped the output.",
     i = "Summaries were computed grouped by {cli::col_blue(old)}.",
     i = "Output is grouped by {cli::col_blue(new)}.",
-    i = "Use {.code summarise(.groups = \"drop_last\")} to silence this message."
+    i = "Use {.code summarise(.groups = \"drop_last\")} to silence this message.",
+    i = "Use {.code summarise(.by = {by})} for per-operation grouping instead."
   ))
 }
 
