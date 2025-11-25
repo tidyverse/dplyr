@@ -6,7 +6,8 @@
 #'
 #' - `filter()` _keeps_ rows where the conditions evaluate to `TRUE`.
 #'
-#' - `filter_out()` _drops_ rows where the conditions evaluate to `TRUE`.
+#' - `r lifecycle::badge("experimental")` `filter_out()` _drops_ rows where the
+#'   conditions evaluate to `TRUE`.
 #'
 #' Multiple conditions can be supplied separated by a comma. These will be
 #' combined with the `&` operator.

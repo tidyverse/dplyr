@@ -42,7 +42,8 @@ These functions are used to subset a data frame, applying the expressions in
 \code{...} to determine which rows should be kept or dropped.
 \itemize{
 \item \code{filter()} \emph{keeps} rows where the conditions evaluate to \code{TRUE}.
-\item \code{filter_out()} \emph{drops} rows where the conditions evaluate to \code{TRUE}.
+\item \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} \code{filter_out()} \emph{drops} rows where the
+conditions evaluate to \code{TRUE}.
 }
 
 Multiple conditions can be supplied separated by a comma. These will be
