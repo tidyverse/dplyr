@@ -9,6 +9,10 @@ test_that("rowwise status preserved by major verbs", {
   expect_s3_class(out, "rowwise_df")
   expect_equal(group_vars(out), "x")
 
+  out <- filter_out(rf, x < 3)
+  expect_s3_class(out, "rowwise_df")
+  expect_equal(group_vars(out), "x")
+
   out <- mutate(rf, x = x + 1)
   expect_s3_class(out, "rowwise_df")
   expect_equal(group_vars(out), "x")
