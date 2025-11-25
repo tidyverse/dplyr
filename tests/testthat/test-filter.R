@@ -780,6 +780,20 @@ test_that("`filter()` doesn't allow data frames with missing or empty names (#67
   })
 })
 
+test_that("`filter()` and `filter_out()` are complements", {
+  df <- tibble(
+    x = c(TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, NA, NA, NA),
+    y = c(TRUE, FALSE, NA, TRUE, FALSE, NA, TRUE, FALSE, NA)
+  )
+
+  # Important invariant is that these are equivalent up to row ordering
+  # `union(filter(df, ...), filter_out(df, ...)) ~= df`
+  expect_identical(
+    union(filter(df, x, y), filter_out(df, x, y)) |> arrange(x, y),
+    df |> arrange(x, y)
+  )
+})
+
 # .by -------------------------------------------------------------------------
 
 test_that("can group transiently using `.by`", {
