@@ -211,24 +211,24 @@ For some verbs, like `group_by()`, `count()` and `distinct()`, you don't need to
 
 `across()` doesn't work with `select()` or `rename()` because they already use tidy select syntax; if you want to transform column names with a function, you can use  `rename_with()`.
 
-### filter()
+### filter() and filter_out()
 
-We cannot directly use `across()` in `filter()` because we need an extra step to combine
-the results. To that end, `filter()` has two special purpose companion functions:
+We cannot directly use `across()` in `filter()` or `filter_out()` because we need an extra step to combine
+the results into a single logical vector. To that end, `filter()` and `filter_out()` have two special purpose companion functions:
 
 * `if_any()` keeps the rows where the predicate is true for *at least one* selected
   column:
 
 ```{r}
 starwars |>
-  filter(if_any(everything(), ~ !is.na(.x)))
+  filter_out(if_any(everything(), is.na))
 ```
 
 * `if_all()` keeps the rows where the predicate is true for *all* selected columns:
 
 ```{r}
 starwars |>
-  filter(if_all(everything(), ~ !is.na(.x)))
+  filter_out(if_all(everything(), is.na))
 ```
 
 ## `_if`, `_at`, `_all`
