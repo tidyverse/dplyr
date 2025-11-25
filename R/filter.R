@@ -149,17 +149,24 @@
 #' @name filter
 #'
 #' @examples
-#' # Filtering by one criterion
+#' # Filtering for one criterion
 #' filter(starwars, species == "Human")
-#' filter(starwars, mass > 1000)
 #'
-#' # Filtering by multiple criteria within a single logical expression
+#' # Filtering for multiple criteria within a single logical expression
 #' filter(starwars, hair_color == "none" & eye_color == "black")
 #' filter(starwars, hair_color == "none" | eye_color == "black")
 #'
 #' # When multiple expressions are used, they are combined using &
 #' filter(starwars, hair_color == "none", eye_color == "black")
 #'
+#' # Filtering out to drop rows
+#' filter_out(starwars, hair_color == "none")
+#'
+#' # When filtering out, it can be useful to first interactively filter for the
+#' # rows you want to drop, just to double check that you've written the
+#' # conditions correctly. Then, just change `filter()` to `filter_out()`.
+#' filter(starwars, mass > 1000, eye_color == "orange")
+#' filter_out(starwars, mass > 1000, eye_color == "orange")
 #'
 #' # The filtering operation may yield different results on grouped
 #' # tibbles because the expressions are computed within groups.
@@ -172,19 +179,19 @@
 #' # average:
 #' starwars |> filter(mass > mean(mass, na.rm = TRUE), .by = gender)
 #'
-#' # If your intent is to drop rows, use `filter_out()`.
-#' # To remove blond individuals:
-#' starwars |> filter_out(hair_color == "blond")
-#'
-#' # Notice how this is different from using `filter()` and `!= "blond"`.
-#' # With `filter()`, rows with a `hair_color` of `NA` are also unintentionally
-#' # dropped.
+#' # If you find yourself trying to use a `filter()` to drop rows, then
+#' # you should consider if switching to `filter_out()` can simplify your
+#' # conditions. For example, to drop blond individuals, you might try:
 #' starwars |> filter(hair_color != "blond")
 #'
-#' # To retain `NA`s with `filter()`, you'd need `| is.na()`.
-#' # If you find yourself using `is.na()` in this way, consider switching to
-#' # `filter_out()` instead.
+#' # But this also drops rows with an `NA` hair color! To retain those:
 #' starwars |> filter(hair_color != "blond" | is.na(hair_color))
+#'
+#' # But explicit `NA` handling like this can quickly get unwieldy, especially
+#' # with multiple conditions. Since your intent was to specify rows to drop
+#' # rather than rows to keep, use `filter_out()`. This also removes the need
+#' # for any explicit `NA` handling.
+#' starwars |> filter_out(hair_color == "blond")
 #'
 #' # To refer to column names that are stored as strings, use the `.data`
 #' # pronoun:
