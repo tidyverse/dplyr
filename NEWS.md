@@ -1,5 +1,23 @@
 # dplyr (development version)
 
+* New experimental `filter_out()` companion to `filter()`.
+
+  * Use `filter()` when specifying rows to _keep_.
+
+  * Use `filter_out()` when specifying rows to _drop_.
+
+  `filter_out()` simplifies cases where you would have previously used a `filter()` to drop rows. It is particularly useful when missing values are involved. For example, to drop rows where the `count` is zero:
+
+  ```r
+  df |> filter(count != 0 | !is.na(count))
+
+  df |> filter_out(count == 0)
+  ```
+
+  With `filter()`, you must provide a "negative" condition of `!= 0` and must explicitly guard against accidentally dropping rows with `NA`. With `filter_out()`, you directly specify rows to drop and you don't have to guard against dropping rows with `NA`, which tends to result in much clearer code.
+
+  This work is a result of [Tidyup 8: Expanding the `filter()` family](https://github.com/tidyverse/tidyups/pull/30), with a lot of great feedback from the community (#6560, #6891).
+
 * The `.groups` message emitted by `summarise()` is hopefully more clear now (#6986).
 
 * `if_any()` and `if_all()` are now more consistent in all use cases (#7059, #7077, #7746, @jrwinget). In particular:
