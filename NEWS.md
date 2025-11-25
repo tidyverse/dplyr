@@ -9,7 +9,7 @@
   `filter_out()` simplifies cases where you would have previously used a `filter()` to drop rows. It is particularly useful when missing values are involved. For example, to drop rows where the `count` is zero:
 
   ```r
-  df |> filter(count != 0 | !is.na(count))
+  df |> filter(count != 0 | is.na(count))
 
   df |> filter_out(count == 0)
   ```
