@@ -106,6 +106,7 @@ reference:
   - order_by
   - percent_rank
   - row_number
+  - when_any
 
 - title: Built in datasets
   contents:
