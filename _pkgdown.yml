@@ -106,6 +106,7 @@ reference:
   - percent_rank
   - recode_values
   - row_number
+  - when_any
 
 - title: Built in datasets
   contents:

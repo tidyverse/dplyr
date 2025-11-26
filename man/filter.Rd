@@ -43,7 +43,8 @@ These functions are used to subset a data frame, applying the expressions in
 for \code{filter_out()}).
 
 Multiple conditions can be supplied separated by a comma. These will be
-combined with the \code{&} operator.
+combined with the \code{&} operator. To combine comma separated conditions using
+\code{|} instead, wrap them in \code{\link[=when_any]{when_any()}}.
 
 Both \code{filter()} and \code{filter_out()} treat \code{NA} like \code{FALSE}. This subtle
 behavior can impact how you write your conditions when missing values are
@@ -160,6 +161,7 @@ expressions used to filter the data:
 \item \code{\link{&}}, \code{\link{|}}, \code{\link{!}}, \code{\link[=xor]{xor()}}
 \item \code{\link[=is.na]{is.na()}}
 \item \code{\link[=between]{between()}}, \code{\link[=near]{near()}}
+\item \code{\link[=when_any]{when_any()}}, \code{\link[=when_all]{when_all()}}
 }
 }
 
@@ -205,8 +207,11 @@ filter(starwars, species == "Human")
 filter(starwars, hair_color == "none" & eye_color == "black")
 filter(starwars, hair_color == "none" | eye_color == "black")
 
-# When multiple expressions are used, they are combined using &
-filter(starwars, hair_color == "none", eye_color == "black")
+# Multiple comma separated expressions are combined using `&`
+starwars |> filter(hair_color == "none", eye_color == "black")
+
+# To combine comma separated expressions using `|` instead, use `when_any()`
+starwars |> filter(when_any(hair_color == "none", eye_color == "black"))
 
 # Filtering out to drop rows
 filter_out(starwars, hair_color == "none")

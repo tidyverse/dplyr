@@ -1,5 +1,15 @@
 # dplyr (development version)
 
+* New `when_any()` and `when_all()`, which are elementwise versions of `any()` and `all()`. Alternatively, you can think of them as performing repeated `|` and `&` on any number of inputs, for example:
+
+  * `when_any(x, y, z)` is equivalent to `x | y | z`.
+
+  * `when_all(x, y, z)` is equivalent to `x & y & z`.
+
+  `when_any()` is particularly useful within `filter()` and `filter_out()` to specify comma separated conditions combined with `|` rather than `&`.
+
+  This work is a result of [Tidyup 8: Expanding the `filter()` family](https://github.com/tidyverse/tidyups/pull/30).
+
 * New `filter_out()` companion to `filter()`.
 
   * Use `filter()` when specifying rows to _keep_.
