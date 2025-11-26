@@ -42,7 +42,7 @@ alternative backends:
 - [arrow](https://arrow.apache.org/docs/r/) for larger-than-memory
   datasets, including on remote cloud storage like AWS S3, using the
   Apache Arrow C++ engine,
-  [Acero](https://arrow.apache.org/docs/cpp/streaming_execution.html).
+  [Acero](https://arrow.apache.org/docs/cpp/acero/overview.html).
 
 - [dbplyr](https://dbplyr.tidyverse.org/) for data stored in a
   relational database. Translates your dplyr code to SQL.
