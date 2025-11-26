@@ -52,9 +52,10 @@
 #'
 #' # Current usage
 #'
-#' * `arrange()`, `filter()`, `slice()` (and the rest of the `slice_*()`
-#'   family), `semi_join()`, and `anti_join()` work by generating a vector of
-#'   row indices, and then subsetting with `dplyr_row_slice()`.
+#' * `arrange()`, `filter()` (and `filter_out()`), `slice()` (and the rest of
+#'   the `slice_*()` family), `semi_join()`, and `anti_join()` work by
+#'   generating a vector of row indices, and then subsetting with
+#'   `dplyr_row_slice()`.
 #'
 #' * `mutate()` generates a list of new column value (using `NULL` to indicate
 #'   when columns should be deleted), then passes that to `dplyr_col_modify()`.

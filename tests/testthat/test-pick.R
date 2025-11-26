@@ -466,19 +466,25 @@ test_that("`pick()` errors in `arrange()` are useful", {
 })
 
 # ------------------------------------------------------------------------------
-# pick() + filter()
+# pick() + filter() / filter_out()
 
-test_that("can `pick()` inside `filter()`", {
+test_that("can `pick()` inside `filter()` / `filter_out()`", {
   df <- tibble(x = c(1, 2, NA, 3), y = c(2, NA, 5, 3))
 
+  expect <- df[c(1, 4), ]
   out <- filter(df, vec_detect_complete(pick(x, y)))
-  expect_identical(out, df[c(1, 4), ])
-
+  expect_identical(out, expect)
   out <- filter(df, vec_detect_complete(pick_wrapper(x, y)))
-  expect_identical(out, df[c(1, 4), ])
+  expect_identical(out, expect)
+
+  expect <- df[c(2, 3), ]
+  out <- filter_out(df, vec_detect_complete(pick(x, y)))
+  expect_identical(out, expect)
+  out <- filter_out(df, vec_detect_complete(pick_wrapper(x, y)))
+  expect_identical(out, expect)
 })
 
-test_that("`filter()` with `pick()` that uses invalid tidy-selection errors", {
+test_that("`filter()` / `filter_out()` with `pick()` that uses invalid tidy-selection errors", {
   df <- tibble(x = c(1, 2, NA, 3), y = c(2, NA, 5, 3))
 
   expect_snapshot(error = TRUE, {
@@ -487,9 +493,16 @@ test_that("`filter()` with `pick()` that uses invalid tidy-selection errors", {
   expect_snapshot(error = TRUE, {
     filter(df, pick_wrapper(x, a))
   })
+
+  expect_snapshot(error = TRUE, {
+    filter_out(df, pick(x, a))
+  })
+  expect_snapshot(error = TRUE, {
+    filter_out(df, pick_wrapper(x, a))
+  })
 })
 
-test_that("`filter()` that doesn't use `pick()` result correctly errors", {
+test_that("`filter()` / `filter_out()` that doesn't use `pick()` result correctly errors", {
   df <- tibble(x = c(1, 2, NA, 3), y = c(2, NA, 5, 3))
 
   expect_snapshot(error = TRUE, {
@@ -497,6 +510,13 @@ test_that("`filter()` that doesn't use `pick()` result correctly errors", {
   })
   expect_snapshot(error = TRUE, {
     filter(df, pick_wrapper(x, y)$x)
+  })
+
+  expect_snapshot(error = TRUE, {
+    filter_out(df, pick(x, y)$x)
+  })
+  expect_snapshot(error = TRUE, {
+    filter_out(df, pick_wrapper(x, y)$x)
   })
 })
 

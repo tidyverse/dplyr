@@ -35,6 +35,8 @@ This idea comes from [data.table](https://CRAN.R-project.org/package=data.table)
 
 -   [`filter(.by = )`][filter()]
 
+-   [`filter_out(.by = )`][filter_out()]
+
 -   [`slice(.by = )`][slice()]
 
 -   [`slice_head(by = )`][slice_head()] and [`slice_tail(by = )`][slice_tail()]

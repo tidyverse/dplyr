@@ -204,7 +204,12 @@
 #' iris |>
 #'   filter(if_any(ends_with("Width"), ~ . > 4))
 #' iris |>
+#'   filter_out(if_any(ends_with("Width"), ~ . > 4))
+#'
+#' iris |>
 #'   filter(if_all(ends_with("Width"), ~ . > 2))
+#' iris |>
+#'   filter_out(if_all(ends_with("Width"), ~ . > 2))
 #'
 #' @export
 #' @seealso [c_across()] for a function that returns a vector

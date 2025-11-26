@@ -109,7 +109,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_mask_eval_all", (DL_FUNC)& dplyr_mask_eval_all, 2},
   {"dplyr_mask_eval_all_summarise", (DL_FUNC)& dplyr_mask_eval_all_summarise, 2},
   {"dplyr_mask_eval_all_mutate", (DL_FUNC)& dplyr_mask_eval_all_mutate, 2},
-  {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 4},
+  {"dplyr_mask_eval_all_filter", (DL_FUNC)& dplyr_mask_eval_all_filter, 5},
 
   {"dplyr_summarise_check_all_size_one", (DL_FUNC)& dplyr_summarise_check_all_size_one, 1},
   {"dplyr_reframe_recycle_horizontally_in_place", (DL_FUNC)& dplyr_reframe_recycle_horizontally_in_place, 2},

@@ -73,9 +73,10 @@ methods as needed.
 
 \section{Current usage}{
 \itemize{
-\item \code{arrange()}, \code{filter()}, \code{slice()} (and the rest of the \verb{slice_*()}
-family), \code{semi_join()}, and \code{anti_join()} work by generating a vector of
-row indices, and then subsetting with \code{dplyr_row_slice()}.
+\item \code{arrange()}, \code{filter()} (and \code{filter_out()}), \code{slice()} (and the rest of
+the \verb{slice_*()} family), \code{semi_join()}, and \code{anti_join()} work by
+generating a vector of row indices, and then subsetting with
+\code{dplyr_row_slice()}.
 \item \code{mutate()} generates a list of new column value (using \code{NULL} to indicate
 when columns should be deleted), then passes that to \code{dplyr_col_modify()}.
 It also uses 1d \code{[} to implement \code{.keep}, and will call \code{relocate()} if
