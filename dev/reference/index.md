@@ -140,10 +140,6 @@ vectors, not data frames.
   [`replace_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md)
   : A general vectorised if-else
 
-- [`recode_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md)
-  [`replace_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md)
-  : Recode and replace values
-
 - [`coalesce()`](https://dplyr.tidyverse.org/dev/reference/coalesce.md)
   : Find the first non-missing element
 
@@ -190,6 +186,10 @@ vectors, not data frames.
 - [`percent_rank()`](https://dplyr.tidyverse.org/dev/reference/percent_rank.md)
   [`cume_dist()`](https://dplyr.tidyverse.org/dev/reference/percent_rank.md)
   : Proportional ranking functions
+
+- [`recode_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md)
+  [`replace_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md)
+  : Recode and replace values
 
 - [`row_number()`](https://dplyr.tidyverse.org/dev/reference/row_number.md)
   [`min_rank()`](https://dplyr.tidyverse.org/dev/reference/row_number.md)
