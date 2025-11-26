@@ -91,7 +91,6 @@ reference:
   contents:
   - between
   - case_when
-  - recode_values
   - coalesce
   - consecutive_id
   - cumany
@@ -105,6 +104,7 @@ reference:
   - ntile
   - order_by
   - percent_rank
+  - recode_values
   - row_number
 
 - title: Built in datasets
