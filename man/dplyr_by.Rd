@@ -110,8 +110,12 @@ Compare that with \code{group_by() |> summarise()}, where \code{summarise()} gen
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{expenses |>
   group_by(id, region) |>
   summarise(cost = mean(cost))
-#> `summarise()` has grouped output by 'id'. You can override using the `.groups`
-#> argument.
+#> `summarise()` has regrouped the output.
+#> i Summaries were computed grouped by id and region.
+#> i Output is grouped by id.
+#> i Use `summarise(.groups = "drop_last")` to silence this message.
+#> i Use `summarise(.by = c(id, region))` for per-operation grouping
+#>   (`?dplyr::dplyr_by`) instead.
 #> # A tibble: 5 x 3
 #> # Groups:   id [3]
 #>      id region  cost
