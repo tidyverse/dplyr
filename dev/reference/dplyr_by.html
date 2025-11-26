@@ -99,8 +99,12 @@ Compare that with group_by() |&amp;gt; summarise(), where summarise() generally 
 expenses |&amp;gt;
   group_by(id, region) |&amp;gt;
   summarise(cost = mean(cost))
-#&amp;gt; `summarise()` has grouped output by 'id'. You can override using the `.groups`
-#&amp;gt; argument.
+#&amp;gt; `summarise()` has regrouped the output.
+#&amp;gt; i Summaries were computed grouped by id and region.
+#&amp;gt; i Output is grouped by id.
+#&amp;gt; i Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+#&amp;gt; i Use `summarise(.by = c(id, region))` for per-operation grouping
+#&amp;gt;   (`?dplyr::dplyr_by`) instead.
 #&amp;gt; # A tibble: 5 x 3
 #&amp;gt; # Groups:   id [3]
 #&amp;gt;      id region  cost
@@ -303,8 +307,12 @@ Compare that with group_by() |&amp;gt; summarise(), where summarise() generally 
 expenses |&amp;gt;
   group_by(id, region) |&amp;gt;
   summarise(cost = mean(cost))
-#&amp;gt; `summarise()` has grouped output by 'id'. You can override using the `.groups`
-#&amp;gt; argument.
+#&amp;gt; `summarise()` has regrouped the output.
+#&amp;gt; i Summaries were computed grouped by id and region.
+#&amp;gt; i Output is grouped by id.
+#&amp;gt; i Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+#&amp;gt; i Use `summarise(.by = c(id, region))` for per-operation grouping
+#&amp;gt;   (`?dplyr::dplyr_by`) instead.
 #&amp;gt; # A tibble: 5 x 3
 #&amp;gt; # Groups:   id [3]
 #&amp;gt;      id region  cost
@@ -549,8 +557,12 @@ You'd probably write something like this:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="va">expenses</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">region</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>cost <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">cost</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `summarise()` has grouped output by 'id'. You can override using the `.groups`</span></span>
-<span><span class="co">#&gt; argument.</span></span>
+<span><span class="co">#&gt; `summarise()` has regrouped the output.</span></span>
+<span><span class="co">#&gt; i Summaries were computed grouped by id and region.</span></span>
+<span><span class="co">#&gt; i Output is grouped by id.</span></span>
+<span><span class="co">#&gt; i Use `summarise(.groups = "drop_last")` to silence this message.</span></span>
+<span><span class="co">#&gt; i Use `summarise(.by = c(id, region))` for per-operation grouping</span></span>
+<span><span class="co">#&gt;   (`?dplyr::dplyr_by`) instead.</span></span>
 <span><span class="co">#&gt; # A tibble: 5 x 3</span></span>
 <span><span class="co">#&gt; # Groups:   id [3]</span></span>
 <span><span class="co">#&gt;      id region  cost</span></span>
