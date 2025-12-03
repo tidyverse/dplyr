@@ -329,6 +329,28 @@ test_that("`bind_rows()` S3 methods cannot add extra arguments", {
   )
 })
 
+test_that("`bind_rows()` S3 methods can call `NextMethod()`", {
+  dispatched <- FALSE
+
+  local_methods(bind_rows.df_subclass = function(..., .id = NULL) {
+    dispatched <<- TRUE
+    NextMethod()
+  })
+
+  x <- df_subclass(a = 1)
+  y <- data.frame(a = 1)
+
+  # Due to the fact that default `bind_rows()` calls `dplyr_reconstruct()`,
+  # we still retain the class of the first input here
+  expect_identical(
+    bind_rows(x, y),
+    df_subclass(a = c(1, 1))
+  )
+
+  # But we can confirm that we went through our method to get there
+  expect_true(dispatched)
+})
+
 test_that("`bind_rows()` drops `NULL`s before dispatching", {
   local_df_subclass_bind_rows_method()
 
