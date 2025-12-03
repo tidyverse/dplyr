@@ -24,38 +24,47 @@
 #' Methods available in currently loaded packages:
 #' \Sexpr[stage=render,results=rd]{dplyr:::methods_rd("bind_rows")}.
 #'
-#' `bind_rows()` is a special S3 generic due to the fact that its first
-#' argument is `...`. S3 methods for `bind_rows()` are written as:
+#' `bind_rows()` is a special S3 generic due to the fact that it dispatches on
+#' `...`. S3 methods for `bind_rows()` are written as:
 #'
 #' ```r
 #' #' @importFrom dplyr bind_rows
 #' #' @export
 #' bind_rows.my_subclass <- function(..., .id = NULL) {
+#'   dots <- dplyr::bind_rows_dots(...)
+#'   # Implementation
 #' }
 #' ```
 #'
 #' Dispatch is performed on the _first_ argument, so order matters when data
 #' frames of different types are being combined.
 #'
-#' For S3 methods authors:
+#' The very first thing you must do in your S3 method is call
+#' `dplyr::bind_rows_dots()`. This does the following:
 #'
-#' - `...` will always contain at least 1 input. The first input will have the
-#'   S3 class that dispatch was performed on, but no other inputs are validated.
+#' - Applies all legacy flattening behavior.
 #'
-#' - `...` must be captured by [rlang::list2()].
+#' - Removes all `NULL` values.
 #'
-#' - `bind_rows()`'s S3 generic will preprocess `...` by applying all legacy
-#'   flattening behavior and removing any `NULL` values. Dispatch occurs on the
-#'   first argument remaining after this preprocessing, and S3 methods should
-#'   expect that `...` contains a flat list of objects to bind.
+#' - Removes all named arguments with a name that begins with a `.`, which are
+#'   seen as unknown optional arguments rather than as named inputs to bind.
 #'
-#' - `bind_rows()` S3 method signatures must exactly match the signature of the
-#'   `bind_rows()` generic. Due to how this S3 generic works, additional method
-#'   specific arguments are not allowed.
+#' If you add additional optional arguments to your S3 method, then they _must_
+#' begin with a `.` prefix, otherwise the dispatch done in the generic will be
+#' incorrect. For example, a dbplyr implementation might look like:
 #'
-#' - If you call `rlang::abort()` from your S3 method, you will likely need to
-#'   provide `abort(call = call("bind_rows"))`, otherwise an intermediate
-#'   function may be reported as the error call site.
+#' ```r
+#' #' @importFrom dplyr bind_rows
+#' #' @export
+#' bind_rows.tbl_lazy <- function(..., .copy = FALSE) {
+#'   dots <- dplyr::bind_rows_dots(...)
+#'   # Implementation
+#' }
+#' ```
+#'
+#' Notice how this implementation both adds a new argument, `.copy`, and
+#' refuses to implement the `.id` argument from the data frame method. Both of
+#' these are allowed as long as `bind_rows_dots()` is called.
 #'
 #' @export
 #' @examples
@@ -72,22 +81,119 @@
 #' # column is created to link each row to its original data frame
 #' bind_rows(list(df1, df2), .id = "id")
 #' bind_rows(list(a = df1, b = df2), .id = "id")
-bind_rows <- function(..., .id = NULL) {
-  # `bind_rows_dots()` will massage the `...` into the right form. Any
-  # `bind_rows()` method will receive the massaged form of `...`, so it should
-  # not have to rework them.
+bind_rows <- function(...) {
+  # Let `bind_rows_dots()` perform all legacy flattening along with discarding
+  # of `NULL` so we know what to dispatch on. But most importantly it also
+  # discards any named inputs that are named with a `.` prefix. We consider
+  # these to be optional arguments rather than inputs to bind, and are not
+  # part of determining what to dispatch on.
   dots <- bind_rows_dots(...)
-  return(bind_rows_dispatch(!!!dots, .id = .id))
 
-  # Having `UseMethod("bind_rows")` here has no runtime effect, but tells
-  # roxygen2 that `bind_rows()` is an S3 generic, so it can recognize that
-  # `bind_rows.default()` is an S3 method (and S3 methods that other packages
-  # will write).
-  UseMethod("bind_rows")
+  if (length(dots) == 0L) {
+    # If we have nothing to dispatch on, we return an empty tibble for lack of
+    # anything better to return.
+    return(new_tibble(x = list(), nrow = 0L))
+  }
+
+  UseMethod("bind_rows", dots[[1L]])
 }
 
+#' @rdname bind_rows
+#' @export
+bind_rows.data.frame <- function(..., .id = NULL) {
+  bind_rows_impl(..., .id = .id)
+}
+
+#' @export
+bind_rows.default <- function(..., .id = NULL) {
+  # We register `bind_rows.data.frame()` like we do for all other dplyr verbs,
+  # like `mutate.data.frame()`. We also register `bind_rows.default()` because
+  # legacy behavior of `bind_rows()` allows it to work directly on atomic
+  # vectors, so we need a default fallthrough. We could just register
+  # `bind_rows.default()` and not register `bind_rows.data.frame()`, but we felt
+  # it was correct to "own" the data.frame method as well.
+  bind_rows_impl(..., .id = .id)
+}
+
+bind_rows_impl <- function(..., .id = NULL, .error_call = caller_env()) {
+  dots <- bind_rows_dots(...)
+
+  if (length(dots) == 0L) {
+    abort("Should have at least 1 input from dispatch.", .internal = TRUE)
+  }
+
+  # Used to restore type
+  first <- dots[[1L]]
+
+  dataframe_ish <- function(.x) {
+    is.data.frame(.x) || (vec_is(.x) && is_named(.x))
+  }
+
+  if (is_named(dots) && !all(map_lgl(dots, dataframe_ish))) {
+    # This is hit by map_dfr() so we can't easily deprecate
+    return(as_tibble(dots))
+  }
+
+  for (i in seq_along(dots)) {
+    .x <- dots[[i]]
+    if (!dataframe_ish(.x)) {
+      abort(
+        glue("Argument {i} must be a data frame or a named atomic vector."),
+        call = .error_call
+      )
+    }
+
+    if (obj_is_list(.x)) {
+      dots[[i]] <- vctrs::data_frame(!!!.x, .name_repair = "minimal")
+    }
+  }
+
+  if (!is_null(.id)) {
+    check_string(.id, call = .error_call)
+
+    if (!is_named(dots)) {
+      # Replace `NA` or `""` names with their index,
+      # but leave existing names in place (#7100)
+      dots_with_names <- have_name(dots)
+      dots_without_names <- which(!dots_with_names)
+      names(dots)[dots_without_names] <- as.character(dots_without_names)
+    }
+  } else {
+    # Don't let `vec_rbind(.id = NULL)` promote input names to row names
+    names(dots) <- NULL
+  }
+
+  out <- vec_rbind(!!!dots, .names_to = .id, .error_call = .error_call)
+
+  # Override vctrs coercion rules and instead derive class from first input
+  if (is.data.frame(first)) {
+    out <- dplyr_reconstruct(out, first)
+  } else {
+    out <- as_tibble(out)
+  }
+
+  out
+}
+
+# TODO: Export this
 bind_rows_dots <- function(...) {
   dots <- list2(...)
+
+  # Discard any part of `...` that is named where the name starts with `.`,
+  # we deem this to be an argument rather than a named data frame to bind
+  names <- names2(dots)
+  dot_prefixed <- startsWith(names, ".")
+
+  if (any(dot_prefixed)) {
+    dots <- dots[!dot_prefixed]
+
+    # If no other arguments are named after removing the `.` arguments,
+    # then also clear the `""` names because they would not have been there
+    # to begin with
+    if (all(names[!dot_prefixed] == "")) {
+      names(dots) <- NULL
+    }
+  }
 
   # Legacy behavior allows you to supply a list of data frames directly,
   # which we flatten by unwrapping. We now prefer you `!!!` them in.
@@ -105,98 +211,4 @@ bind_rows_dots <- function(...) {
   dots <- discard(dots, is.null)
 
   dots
-}
-
-bind_rows_dispatch <- function(..., .id = NULL) {
-  dots <- list2(...)
-
-  if (length(dots) == 0L) {
-    # If we have nothing to dispatch on, we call our data frame method.
-    # This returns an empty tibble for lack of anything better to return.
-    # If `.id` is specified, it should add an empty character `.id` column,
-    # but currently doesn't due to https://github.com/r-lib/vctrs/issues/1627.
-    return(bind_rows.data.frame(..., .id = .id))
-  }
-
-  # Otherwise, actually dispatch on the first object. This means that all
-  # `bind_rows()` methods can expect at least 1 input, even though their
-  # signature takes `...`. A `bind_rows()` method must capture dots with
-  # `rlang::list2()` because we splice them into `bind_rows_dispatch()`,
-  # which is seen as the generic.
-  UseMethod("bind_rows", dots[[1L]])
-}
-
-#' @export
-bind_rows.data.frame <- function(..., .id = NULL) {
-  # Otherwise `bind_rows_dispatch()` is reported by `abort()`
-  call <- call("bind_rows")
-
-  dots <- list2(...)
-
-  # Used to restore type
-  if (length(dots) == 0L) {
-    first <- NULL
-  } else {
-    first <- dots[[1L]]
-  }
-
-  dataframe_ish <- function(.x) {
-    is.data.frame(.x) || (vec_is(.x) && is_named(.x))
-  }
-
-  if (is_named(dots) && !all(map_lgl(dots, dataframe_ish))) {
-    # This is hit by map_dfr() so we can't easily deprecate
-    return(as_tibble(dots))
-  }
-
-  for (i in seq_along(dots)) {
-    .x <- dots[[i]]
-    if (!dataframe_ish(.x)) {
-      abort(
-        glue("Argument {i} must be a data frame or a named atomic vector."),
-        call = call
-      )
-    }
-
-    if (obj_is_list(.x)) {
-      dots[[i]] <- vctrs::data_frame(!!!.x, .name_repair = "minimal")
-    }
-  }
-
-  if (!is_null(.id)) {
-    check_string(.id, call = call)
-
-    if (!is_named(dots)) {
-      # Replace `NA` or `""` names with their index,
-      # but leave existing names in place (#7100)
-      dots_with_names <- have_name(dots)
-      dots_without_names <- which(!dots_with_names)
-      names(dots)[dots_without_names] <- as.character(dots_without_names)
-    }
-  } else {
-    # Don't let `vec_rbind(.id = NULL)` promote input names to row names
-    names(dots) <- NULL
-  }
-
-  out <- vec_rbind(!!!dots, .names_to = .id, .error_call = call)
-
-  # Override vctrs coercion rules and instead derive class from first input
-  if (is.data.frame(first)) {
-    out <- dplyr_reconstruct(out, first)
-  } else {
-    out <- as_tibble(out)
-  }
-
-  out
-}
-
-# We register `bind_rows.data.frame()` like we do for all other dplyr verbs,
-# like `mutate.data.frame()`. We also register `bind_rows.default()` because
-# legacy behavior of `bind_rows()` allows it to work directly on atomic vectors,
-# so we need a default fallthrough. We could just register
-# `bind_rows.default()` and not register `bind_rows.data.frame()`, but we felt
-# it was correct to "own" the data.frame method as well.
-#' @export
-bind_rows.default <- function(..., .id = NULL) {
-  bind_rows.data.frame(..., .id = .id)
 }
