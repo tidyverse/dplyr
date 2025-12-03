@@ -267,3 +267,104 @@ test_that("bind_rows() give informative errors", {
     (expect_error(bind_rows(1:2)))
   })
 })
+
+# S3 ---------------------------------------------------------------------------
+
+test_that("S3 method for `bind_rows()` dispatches on first argument (#6905)", {
+  local_df_subclass_bind_rows_method()
+
+  x <- df_subclass(a = 1)
+  y <- tibble(a = 2)
+
+  # The fact that this depends on the ordering is not ideal, but we are happy
+  # that it works at all so that we can write database methods for `bind_rows()`.
+
+  # Dispatches to custom method
+  expect_identical(bind_rows(x, y), dispatched(x, y))
+
+  # Dispatches to data frame method
+  expect_identical(bind_rows(y, x), tibble(a = c(2, 1)))
+})
+
+test_that("`bind_rows()` S3 methods are provided the `...` names", {
+  local_df_subclass_bind_rows_method()
+
+  x <- df_subclass(a = 1)
+  y <- tibble(a = 2)
+
+  # These are relevant for handling `.id`
+  expect_named(bind_rows(a = x, b = y), c("a", "b"))
+})
+
+test_that("`bind_rows()` S3 methods are provided `.id`", {
+  local_methods(bind_rows.df_subclass = function(..., .id = NULL) {
+    .id
+  })
+
+  x <- df_subclass(a = 1)
+  y <- tibble(a = 2)
+
+  expect_identical(bind_rows(x, y, .id = "foo"), "foo")
+})
+
+test_that("`bind_rows()` S3 methods cannot add extra arguments", {
+  local_methods(bind_rows.df_subclass = function(
+    ...,
+    .id = NULL,
+    .my_arg = NULL
+  ) {
+    list(dots = list2(...), my_arg = .my_arg)
+  })
+
+  x <- df_subclass(a = 1)
+
+  # Due to how the generic works, the extra argument is captured as part of
+  # `...`, and is not recognized as a separate argument specific to that method
+  expect_identical(
+    bind_rows(x, .my_arg = "foo"),
+    list(
+      dots = list(x, .my_arg = "foo"),
+      my_arg = NULL
+    )
+  )
+})
+
+test_that("`bind_rows()` drops `NULL`s before dispatching", {
+  local_df_subclass_bind_rows_method()
+
+  x <- df_subclass(a = 1)
+  y <- tibble(a = 2)
+
+  # Dispatches to custom method
+  expect_identical(bind_rows(NULL, x, NULL, y), dispatched(x, y))
+
+  # Dispatches to data frame method
+  expect_identical(bind_rows(NULL, y, NULL, x), tibble(a = c(2, 1)))
+})
+
+test_that("`bind_rows()` does legacy list flattening before dispatching", {
+  local_df_subclass_bind_rows_method()
+
+  x <- df_subclass(a = 1)
+  y <- tibble(a = 2)
+
+  # Flattens when exactly 1 list is provided
+  expect_identical(bind_rows(list(x, y)), dispatched(x, y))
+
+  # When exactly 1 list is provided, we technically flatten twice
+  expect_identical(
+    bind_rows(list(list(x, y), list(x, y))),
+    dispatched(x, y, x, y)
+  )
+
+  # Flattens when multiple lists are provided
+  expect_identical(
+    bind_rows(list(x, y), list(x, y)),
+    dispatched(x, y, x, y)
+  )
+})
+
+test_that("`bind_rows()` returns an empty tibble when there are no inputs to dispatch on", {
+  local_df_subclass_bind_rows_method()
+  expect_identical(bind_rows(), tibble())
+})

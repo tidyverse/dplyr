@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `bind_rows()` is now a special S3 generic. If you are a package author and would like to write an S3 method for `bind_rows()` for your data frame subclass, read the Methods section of `?bind_rows` (#6905).
+
 * The `.groups` message emitted by `summarise()` is hopefully more clear now (#6986).
 
 * `if_any()` and `if_all()` are now more consistent in all use cases (#7059, #7077, #7746, @jrwinget). In particular:

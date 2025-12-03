@@ -24,6 +24,45 @@ Bind any number of data frames by row, making a longer result. This is
 similar to \code{do.call(rbind, dfs)}, but the output will contain all columns
 that appear in any of the inputs.
 }
+\section{Methods}{
+
+This function is a \strong{generic}, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+Methods available in currently loaded packages:
+\Sexpr[stage=render,results=rd]{dplyr:::methods_rd("bind_rows")}.
+
+\code{bind_rows()} is a special S3 generic due to the fact that its first
+argument is \code{...}. S3 methods for \code{bind_rows()} are written as:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{#' @importFrom dplyr bind_rows
+#' @export
+bind_rows.my_subclass <- function(..., .id = NULL) \{
+\}
+}\if{html}{\out{</div>}}
+
+Dispatch is performed on the \emph{first} argument, so order matters when data
+frames of different types are being combined.
+
+For S3 methods authors:
+\itemize{
+\item \code{...} will always contain at least 1 input. The first input will have the
+S3 class that dispatch was performed on, but no other inputs are validated.
+\item \code{...} must be captured by \code{\link[rlang:list2]{rlang::list2()}}.
+\item \code{bind_rows()}'s S3 generic will preprocess \code{...} by applying all legacy
+flattening behavior and removing any \code{NULL} values. Dispatch occurs on the
+first argument remaining after this preprocessing, and S3 methods should
+expect that \code{...} contains a flat list of objects to bind.
+\item \code{bind_rows()} S3 method signatures must exactly match the signature of the
+\code{bind_rows()} generic. Due to how this S3 generic works, additional method
+specific arguments are not allowed.
+\item If you call \code{rlang::abort()} from your S3 method, you will likely need to
+provide \code{abort(call = call("bind_rows"))}, otherwise an intermediate
+function may be reported as the error call site.
+}
+}
+
 \examples{
 df1 <- tibble(x = 1:2, y = letters[1:2])
 df2 <- tibble(x = 4:5, z = 1:2)
