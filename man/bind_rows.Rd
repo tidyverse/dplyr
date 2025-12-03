@@ -3,9 +3,12 @@
 \name{bind_rows}
 \alias{bind_rows}
 \alias{bind}
+\alias{bind_rows.data.frame}
 \title{Bind multiple data frames by row}
 \usage{
-bind_rows(..., .id = NULL)
+bind_rows(...)
+
+\method{bind_rows}{data.frame}(..., .id = NULL)
 }
 \arguments{
 \item{...}{Data frames to combine. Each argument can either be a data frame,
@@ -24,6 +27,55 @@ Bind any number of data frames by row, making a longer result. This is
 similar to \code{do.call(rbind, dfs)}, but the output will contain all columns
 that appear in any of the inputs.
 }
+\section{Methods}{
+
+This function is a \strong{generic}, which means that packages can provide
+implementations (methods) for other classes. See the documentation of
+individual methods for extra arguments and differences in behaviour.
+
+Methods available in currently loaded packages:
+\Sexpr[stage=render,results=rd]{dplyr:::methods_rd("bind_rows")}.
+
+\code{bind_rows()} is a special S3 generic due to the fact that it dispatches on
+\code{...}. S3 methods for \code{bind_rows()} are written as:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{#' @importFrom dplyr bind_rows
+#' @export
+bind_rows.my_subclass <- function(..., .id = NULL) \{
+  dots <- dplyr::bind_rows_dots(...)
+  # Implementation
+\}
+}\if{html}{\out{</div>}}
+
+Dispatch is performed on the \emph{first} argument, so order matters when data
+frames of different types are being combined.
+
+The very first thing you must do in your S3 method is call
+\code{dplyr::bind_rows_dots()}. This does the following:
+\itemize{
+\item Applies all legacy flattening behavior.
+\item Removes all \code{NULL} values.
+\item Removes all named arguments with a name that begins with a \code{.}, which are
+seen as unknown optional arguments rather than as named inputs to bind.
+}
+
+If you add additional optional arguments to your S3 method, then they \emph{must}
+begin with a \code{.} prefix, otherwise the dispatch done in the generic will be
+incorrect. For example, a dbplyr implementation might look like:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{#' @importFrom dplyr bind_rows
+#' @export
+bind_rows.tbl_lazy <- function(..., .copy = FALSE) \{
+  dots <- dplyr::bind_rows_dots(...)
+  # Implementation
+\}
+}\if{html}{\out{</div>}}
+
+Notice how this implementation both adds a new argument, \code{.copy}, and
+refuses to implement the \code{.id} argument from the data frame method. Both of
+these are allowed as long as \code{bind_rows_dots()} is called.
+}
+
 \examples{
 df1 <- tibble(x = 1:2, y = letters[1:2])
 df2 <- tibble(x = 4:5, z = 1:2)
