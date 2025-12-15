@@ -186,7 +186,7 @@
       Caused by error:
       ! {
 
-# Using data frames in `filter()` and `filter_out()` is defunct (#7758)
+# Using data frames in `filter()` is defunct (#7758)
 
     Code
       filter(df, across(everything(), ~ .x > 0))
@@ -200,32 +200,9 @@
 ---
 
     Code
-      filter_out(df, across(everything(), ~ .x > 0))
-    Condition
-      Error in `filter_out()`:
-      i In argument: `across(everything(), ~.x > 0)`.
-      Caused by error:
-      ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
-      i If you used `across()` to generate this data frame, please use `if_any()` or `if_all()` instead.
-
----
-
-    Code
       filter(gdf, across(everything(), ~ .x > 0))
     Condition
       Error in `filter()`:
-      i In argument: `across(everything(), ~.x > 0)`.
-      i In group 1: `x = 1`.
-      Caused by error:
-      ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
-      i If you used `across()` to generate this data frame, please use `if_any()` or `if_all()` instead.
-
----
-
-    Code
-      filter_out(gdf, across(everything(), ~ .x > 0))
-    Condition
-      Error in `filter_out()`:
       i In argument: `across(everything(), ~.x > 0)`.
       i In group 1: `x = 1`.
       Caused by error:
@@ -247,32 +224,9 @@
 ---
 
     Code
-      filter_out(rdf, across(everything(), ~ .x > 0))
-    Condition
-      Error in `filter_out()`:
-      i In argument: `across(everything(), ~.x > 0)`.
-      i In row 1.
-      Caused by error:
-      ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
-      i If you used `across()` to generate this data frame, please use `if_any()` or `if_all()` instead.
-
----
-
-    Code
       filter(df, tibble(x > 0, y > 0))
     Condition
       Error in `filter()`:
-      i In argument: `tibble(x > 0, y > 0)`.
-      Caused by error:
-      ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
-      i If you used `across()` to generate this data frame, please use `if_any()` or `if_all()` instead.
-
----
-
-    Code
-      filter_out(df, tibble(x > 0, y > 0))
-    Condition
-      Error in `filter_out()`:
       i In argument: `tibble(x > 0, y > 0)`.
       Caused by error:
       ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
@@ -293,33 +247,9 @@
 ---
 
     Code
-      filter_out(gdf, tibble(x > 0, y > 0))
-    Condition
-      Error in `filter_out()`:
-      i In argument: `tibble(x > 0, y > 0)`.
-      i In group 1: `x = 1`.
-      Caused by error:
-      ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
-      i If you used `across()` to generate this data frame, please use `if_any()` or `if_all()` instead.
-
----
-
-    Code
       filter(rdf, tibble(x > 0, y > 0))
     Condition
       Error in `filter()`:
-      i In argument: `tibble(x > 0, y > 0)`.
-      i In row 1.
-      Caused by error:
-      ! `..1` must be a logical vector, not a <tbl_df/tbl/data.frame> object.
-      i If you used `across()` to generate this data frame, please use `if_any()` or `if_all()` instead.
-
----
-
-    Code
-      filter_out(rdf, tibble(x > 0, y > 0))
-    Condition
-      Error in `filter_out()`:
       i In argument: `tibble(x > 0, y > 0)`.
       i In row 1.
       Caused by error:

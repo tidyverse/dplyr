@@ -581,7 +581,7 @@ test_that("filter() gives useful error messages", {
   })
 })
 
-test_that("Using data frames in `filter()` and `filter_out()` is defunct (#7758)", {
+test_that("Using data frames in `filter()` is defunct (#7758)", {
   df <- data.frame(x = 1, y = 1)
   gdf <- group_by(df, x)
   rdf <- rowwise(df, x)
@@ -591,19 +591,10 @@ test_that("Using data frames in `filter()` and `filter_out()` is defunct (#7758)
     filter(df, across(everything(), ~ .x > 0))
   })
   expect_snapshot(error = TRUE, {
-    filter_out(df, across(everything(), ~ .x > 0))
-  })
-  expect_snapshot(error = TRUE, {
     filter(gdf, across(everything(), ~ .x > 0))
   })
   expect_snapshot(error = TRUE, {
-    filter_out(gdf, across(everything(), ~ .x > 0))
-  })
-  expect_snapshot(error = TRUE, {
     filter(rdf, across(everything(), ~ .x > 0))
-  })
-  expect_snapshot(error = TRUE, {
-    filter_out(rdf, across(everything(), ~ .x > 0))
   })
 
   # Can't filter with a data frame of logicals (same as the `across()` case)
@@ -611,19 +602,10 @@ test_that("Using data frames in `filter()` and `filter_out()` is defunct (#7758)
     filter(df, tibble(x > 0, y > 0))
   })
   expect_snapshot(error = TRUE, {
-    filter_out(df, tibble(x > 0, y > 0))
-  })
-  expect_snapshot(error = TRUE, {
     filter(gdf, tibble(x > 0, y > 0))
   })
   expect_snapshot(error = TRUE, {
-    filter_out(gdf, tibble(x > 0, y > 0))
-  })
-  expect_snapshot(error = TRUE, {
     filter(rdf, tibble(x > 0, y > 0))
-  })
-  expect_snapshot(error = TRUE, {
-    filter_out(rdf, tibble(x > 0, y > 0))
   })
 })
 
