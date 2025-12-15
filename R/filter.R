@@ -20,8 +20,9 @@
 #' @param ... <[`data-masking`][rlang::args_data_masking]> Expressions that
 #'   return a logical vector, defined in terms of the variables in `.data`. If
 #'   multiple expressions are included, they are combined with the `&` operator.
-#'   Only rows for which all conditions evaluate to `TRUE` are kept (for
-#'   `filter()`) or dropped (for `filter_out()`).
+#'   To combine expressions using `|` instead, wrap them in [when_any()]. Only
+#'   rows for which all expressions evaluate to `TRUE` are kept (for `filter()`)
+#'   or dropped (for `filter_out()`).
 #'
 #' @param .preserve Relevant when the `.data` input is grouped. If `.preserve =
 #'   FALSE` (the default), the grouping structure is recalculated based on the
