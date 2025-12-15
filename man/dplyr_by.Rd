@@ -26,6 +26,7 @@ This idea comes from \href{https://CRAN.R-project.org/package=data.table}{data.t
 \item \code{\link[=summarise]{summarise(.by = )}}
 \item \code{\link[=reframe]{reframe(.by = )}}
 \item \code{\link[=filter]{filter(.by = )}}
+\item \code{\link[=filter_out]{filter_out(.by = )}}
 \item \code{\link[=slice]{slice(.by = )}}
 \item \code{\link[=slice_head]{slice_head(by = )}} and \code{\link[=slice_tail]{slice_tail(by = )}}
 \item \code{\link[=slice_min]{slice_min(by = )}} and \code{\link[=slice_max]{slice_max(by = )}}

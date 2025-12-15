@@ -1,10 +1,19 @@
-# filter() allows matrices with 1 column with a deprecation warning (#6091)
+# filter() and filter_out() allow matrices with 1 column with a deprecation warning (#6091)
 
     Code
       out <- filter(df, matrix(c(TRUE, FALSE), nrow = 2))
     Condition
       Warning:
-      Using one column matrices in `filter()` was deprecated in dplyr 1.1.0.
+      Using one column matrices in `filter()` or `filter_out()` was deprecated in dplyr 1.1.0.
+      i Please use one dimensional logical vectors instead.
+
+---
+
+    Code
+      out <- filter_out(df, matrix(c(TRUE, FALSE), nrow = 2))
+    Condition
+      Warning:
+      Using one column matrices in `filter()` or `filter_out()` was deprecated in dplyr 1.1.0.
       i Please use one dimensional logical vectors instead.
 
 ---
@@ -13,27 +22,54 @@
       out <- filter(gdf, matrix(c(TRUE, FALSE), nrow = 2))
     Condition
       Warning:
-      Using one column matrices in `filter()` was deprecated in dplyr 1.1.0.
+      Using one column matrices in `filter()` or `filter_out()` was deprecated in dplyr 1.1.0.
       i Please use one dimensional logical vectors instead.
 
-# filter() disallows matrices with >1 column
+---
 
     Code
-      (expect_error(filter(df, matrix(TRUE, nrow = 3, ncol = 2))))
-    Output
-      <error/rlang_error>
+      out <- filter_out(gdf, matrix(c(TRUE, FALSE), nrow = 2))
+    Condition
+      Warning:
+      Using one column matrices in `filter()` or `filter_out()` was deprecated in dplyr 1.1.0.
+      i Please use one dimensional logical vectors instead.
+
+# filter() and filter_out() disallow matrices with >1 column
+
+    Code
+      filter(df, matrix(TRUE, nrow = 3, ncol = 2))
+    Condition
       Error in `filter()`:
       i In argument: `matrix(TRUE, nrow = 3, ncol = 2)`.
       Caused by error:
       ! `..1` must be a logical vector, not a logical matrix.
 
-# filter() disallows arrays with >2 dimensions
+---
 
     Code
-      (expect_error(filter(df, array(TRUE, dim = c(3, 1, 1)))))
-    Output
-      <error/rlang_error>
+      filter_out(df, matrix(TRUE, nrow = 3, ncol = 2))
+    Condition
+      Error in `filter_out()`:
+      i In argument: `matrix(TRUE, nrow = 3, ncol = 2)`.
+      Caused by error:
+      ! `..1` must be a logical vector, not a logical matrix.
+
+# filter() and filter_out() disallow arrays with >2 dimensions
+
+    Code
+      filter(df, array(TRUE, dim = c(3, 1, 1)))
+    Condition
       Error in `filter()`:
+      i In argument: `array(TRUE, dim = c(3, 1, 1))`.
+      Caused by error:
+      ! `..1` must be a logical vector, not a logical array.
+
+---
+
+    Code
+      filter_out(df, array(TRUE, dim = c(3, 1, 1)))
+    Condition
+      Error in `filter_out()`:
       i In argument: `array(TRUE, dim = c(3, 1, 1))`.
       Caused by error:
       ! `..1` must be a logical vector, not a logical array.
@@ -231,9 +267,25 @@
 ---
 
     Code
+      filter_out(df1)
+    Condition
+      Error in `filter_out()`:
+      ! Can't transform a data frame with `NA` or `""` names.
+
+---
+
+    Code
       filter(df2)
     Condition
       Error in `filter()`:
+      ! Can't transform a data frame with missing names.
+
+---
+
+    Code
+      filter_out(df2)
+    Condition
+      Error in `filter_out()`:
       ! Can't transform a data frame with missing names.
 
 # can't use `.by` with `.preserve`
@@ -244,12 +296,28 @@
       Error in `filter()`:
       ! Can't supply both `.by` and `.preserve`.
 
+---
+
+    Code
+      filter_out(df, .by = x, .preserve = TRUE)
+    Condition
+      Error in `filter_out()`:
+      ! Can't supply both `.by` and `.preserve`.
+
 # catches `.by` with grouped-df
 
     Code
       filter(gdf, .by = x)
     Condition
       Error in `filter()`:
+      ! Can't supply `.by` when `.data` is a grouped data frame.
+
+---
+
+    Code
+      filter_out(gdf, .by = x)
+    Condition
+      Error in `filter_out()`:
       ! Can't supply `.by` when `.data` is a grouped data frame.
 
 # catches `.by` with rowwise-df
@@ -260,12 +328,29 @@
       Error in `filter()`:
       ! Can't supply `.by` when `.data` is a rowwise data frame.
 
+---
+
+    Code
+      filter_out(rdf, .by = x)
+    Condition
+      Error in `filter_out()`:
+      ! Can't supply `.by` when `.data` is a rowwise data frame.
+
 # catches `by` typo (#6647)
 
     Code
       filter(df, by = x)
     Condition
       Error in `filter()`:
+      ! Can't specify an argument named `by` in this verb.
+      i Did you mean to use `.by` instead?
+
+---
+
+    Code
+      filter_out(df, by = x)
+    Condition
+      Error in `filter_out()`:
       ! Can't specify an argument named `by` in this verb.
       i Did you mean to use `.by` instead?
 

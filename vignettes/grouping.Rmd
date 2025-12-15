@@ -245,11 +245,11 @@ by_species |>
   filter(height == max(height))
 ```
 
-You can also use `filter()` to remove entire groups. For example, the following code eliminates all groups that only have a single member:
+You can also use `filter_out()` to remove entire groups. For example, the following code eliminates all groups that only have a single member:
 
 ```{r filter_group}
 by_species |>
-  filter(n() != 1) |>
+  filter_out(n() == 1) |>
   tally()
 ```
 
@@ -267,6 +267,6 @@ Similarly, we can use `slice_min()` to select the smallest `n` values of a varia
 
 ```{r slice_min}
 by_species |>
-  filter(!is.na(height)) |>
+  filter_out(is.na(height)) |>
   slice_min(height, n = 2)
 ```

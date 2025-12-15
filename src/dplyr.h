@@ -94,7 +94,7 @@ SEXP dplyr_validate_rowwise_df(SEXP df);
 SEXP dplyr_mask_eval_all(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private);
 SEXP dplyr_mask_eval_all_mutate(SEXP quo, SEXP env_private);
-SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP env_private, SEXP s_n, SEXP env_filter);
+SEXP dplyr_mask_eval_all_filter(SEXP quos, SEXP invert, SEXP env_private, SEXP s_n, SEXP env_filter);
 SEXP dplyr_summarise_check_all_size_one(SEXP list_of_chunks);
 SEXP dplyr_reframe_recycle_horizontally_in_place(SEXP list_of_chunks, SEXP list_of_result);
 SEXP dplyr_group_indices(SEXP data, SEXP rows);

@@ -141,6 +141,7 @@ SEXP eval_filter_one(SEXP quos,
 }
 
 SEXP dplyr_mask_eval_all_filter(SEXP quos,
+                                SEXP invert,
                                 SEXP env_private,
                                 SEXP s_n,
                                 SEXP env_filter) {
@@ -179,6 +180,12 @@ SEXP dplyr_mask_eval_all_filter(SEXP quos,
 
     UNPROTECT(1);
     DPLYR_MASK_ITERATION_FINALISE();
+  }
+
+  if (LOGICAL_ELT(invert, 0)) {
+    for (R_xlen_t i = 0; i < n; ++i) {
+      p_keep[i] = !p_keep[i];
+    }
   }
 
   UNPROTECT(1);

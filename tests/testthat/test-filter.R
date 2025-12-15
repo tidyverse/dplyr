@@ -56,20 +56,32 @@ test_that("filter handlers scalar results", {
   )
 })
 
-test_that("filter propagates attributes", {
+test_that("filter and filter_out propagate attributes", {
   date.start <- ISOdate(2010, 01, 01, 0)
   test <- data.frame(Date = ISOdate(2010, 01, 01, 1:10))
   test2 <- test |> filter(Date < ISOdate(2010, 01, 01, 5))
   expect_equal(test$Date[1:4], test2$Date)
+  test2 <- test |> filter_out(Date < ISOdate(2010, 01, 01, 5))
+  expect_equal(test$Date[5:10], test2$Date)
 })
 
-test_that("filter discards NA", {
+test_that("filter and filter_out discards NA", {
   temp <- data.frame(
     i = 1:5,
     x = c(NA, 1L, 1L, 0L, 0L)
   )
+
   res <- filter(temp, x == 1)
-  expect_equal(nrow(res), 2L)
+  expect_identical(
+    res,
+    data.frame(i = c(2L, 3L), x = c(1L, 1L))
+  )
+
+  res <- filter_out(temp, x == 1)
+  expect_identical(
+    res,
+    data.frame(i = c(1L, 4L, 5L), x = c(NA, 0L, 0L))
+  )
 })
 
 test_that("date class remains on filter (#273)", {
@@ -97,9 +109,16 @@ test_that("filter handles $ correctly (#278)", {
   expect_equal(res1, res2)
 })
 
-test_that("filter() returns the input data if no parameters are given", {
+test_that("filter() and filter_out() are still a union if no parameters are given", {
+  # Justification is that `filter(df, ...)` performs a `pall(...)` style
+  # operation over the `...` to determine which rows to keep. This defaults to
+  # `TRUE` for each row when no inputs are provided, so in `filter()` all rows
+  # are retained. Which implies that `filter_out()` retains no rows.
   expect_identical(filter(mtcars), mtcars)
+  expect_identical(filter_out(mtcars), mtcars[0, ])
+
   expect_identical(filter(mtcars, !!!list()), mtcars)
+  expect_identical(filter_out(mtcars, !!!list()), mtcars[0, ])
 })
 
 test_that("$ does not end call traversing. #502", {
@@ -183,19 +202,21 @@ test_that("hybrid evaluation handles $ correctly (#1134)", {
   expect_equal(nrow(res), 9L)
 })
 
-test_that("filter correctly handles empty data frames (#782)", {
-  res <- tibble() |> filter(F)
-  expect_equal(nrow(res), 0L)
-  expect_equal(length(names(res)), 0L)
+test_that("filter and filter_out correctly handle empty data frames (#782)", {
+  expect_identical(filter(tibble(), TRUE), tibble())
+  expect_identical(filter(tibble(), FALSE), tibble())
+
+  expect_identical(filter_out(tibble(), TRUE), tibble())
+  expect_identical(filter_out(tibble(), FALSE), tibble())
 })
 
 test_that("filter(.,TRUE,TRUE) works (#1210)", {
   df <- data.frame(x = 1:5)
-  res <- filter(df, TRUE, TRUE)
-  expect_equal(res, df)
+  expect_identical(filter(df, TRUE, TRUE), df)
+  expect_identical(filter_out(df, TRUE, TRUE), df[0, , drop = FALSE])
 })
 
-test_that("filter, slice and arrange preserves attributes (#1064)", {
+test_that("filter, slice, and arrange preserves attributes (#1064)", {
   df <- structure(
     data.frame(x = 1:10, g1 = rep(1:2, each = 5), g2 = rep(1:5, 2)),
     meta = "this is important"
@@ -203,7 +224,13 @@ test_that("filter, slice and arrange preserves attributes (#1064)", {
   res <- filter(df, x < 5) |> attr("meta")
   expect_equal(res, "this is important")
 
+  res <- filter_out(df, x < 5) |> attr("meta")
+  expect_equal(res, "this is important")
+
   res <- filter(df, x < 5, x > 4) |> attr("meta")
+  expect_equal(res, "this is important")
+
+  res <- filter_out(df, x < 5, x > 4) |> attr("meta")
   expect_equal(res, "this is important")
 
   res <- df |> slice(1:50) |> attr("meta")
@@ -231,21 +258,34 @@ test_that("grouped filter handles indices (#880)", {
   expect_equal(group_keys(res), group_keys(res2))
 })
 
-test_that("filter(FALSE) handles indices", {
+test_that("filter(FALSE) and filter_out(TRUE) handle indices", {
+  indices <- list_of(integer(), integer(), integer(), .ptype = integer())
+
   out <- mtcars |>
     group_by(cyl) |>
     filter(FALSE, .preserve = TRUE) |>
     group_rows()
-  expect_identical(
-    out,
-    list_of(integer(), integer(), integer(), .ptype = integer())
-  )
+  expect_identical(out, indices)
+
+  out <- mtcars |>
+    group_by(cyl) |>
+    filter_out(TRUE, .preserve = TRUE) |>
+    group_rows()
+  expect_identical(out, indices)
+
+  indices <- list_of(.ptype = integer())
 
   out <- mtcars |>
     group_by(cyl) |>
     filter(FALSE, .preserve = FALSE) |>
     group_rows()
-  expect_identical(out, list_of(.ptype = integer()))
+  expect_identical(out, indices)
+
+  out <- mtcars |>
+    group_by(cyl) |>
+    filter_out(TRUE, .preserve = FALSE) |>
+    group_rows()
+  expect_identical(out, indices)
 })
 
 test_that("filter handles S4 objects (#1366)", {
@@ -319,8 +359,13 @@ test_that("hybrid function row_number does not trigger warning in filter (#3750)
   expect_true(out)
 })
 
-test_that("filter() preserve order across groups (#3989)", {
-  df <- tibble(g = c(1, 2, 1, 2, 1), time = 5:1, x = 5:1)
+test_that("filter() and filter_out() preserve order across groups (#3989)", {
+  df <- tibble(
+    g = c(1, 2, 1, 2, 1),
+    time = 5:1,
+    x = 5:1
+  )
+
   res1 <- df |>
     group_by(g) |>
     filter(x <= 4) |>
@@ -336,11 +381,28 @@ test_that("filter() preserve order across groups (#3989)", {
     arrange(time) |>
     group_by(g)
 
+  expect_identical(res1$time, 1:4)
   expect_equal(res1, res2)
   expect_equal(res1, res3)
-  expect_false(is.unsorted(res1$time))
-  expect_false(is.unsorted(res2$time))
-  expect_false(is.unsorted(res3$time))
+
+  res1 <- df |>
+    group_by(g) |>
+    filter_out(x <= 2) |>
+    arrange(time)
+
+  res2 <- df |>
+    group_by(g) |>
+    arrange(time) |>
+    filter_out(x <= 2)
+
+  res3 <- df |>
+    filter_out(x <= 2) |>
+    arrange(time) |>
+    group_by(g)
+
+  expect_identical(res1$time, 3:5)
+  expect_equal(res1, res2)
+  expect_equal(res1, res3)
 })
 
 test_that("filter() with two conditions does not freeze (#4049)", {
@@ -376,9 +438,12 @@ test_that("filter() handles matrix and data frame columns (#3630)", {
   expect_equal(filter(gdf, z$A == 1), gdf[1, ])
 })
 
-test_that("filter() handles named logical (#4638)", {
+test_that("filter() and filter_out() handle named logical (#4638)", {
   tbl <- tibble(a = c(a = TRUE))
-  expect_equal(filter(tbl, a), tbl)
+  expect_identical(filter(tbl, a), tbl)
+
+  tbl <- tibble(a = c(a = FALSE))
+  expect_identical(filter_out(tbl, a), tbl)
 })
 
 test_that("filter() allows named constants that resolve to logical vectors (#4612)", {
@@ -394,40 +459,55 @@ test_that("filter() allows named constants that resolve to logical vectors (#461
   )
 })
 
-test_that("filter() allows 1 dimension arrays", {
+test_that("filter() and filter_out() allow 1 dimension arrays", {
   df <- tibble(x = array(c(TRUE, FALSE, TRUE)))
   expect_identical(filter(df, x), df[c(1, 3), ])
+  expect_identical(filter_out(df, x), df[2, ])
 })
 
-test_that("filter() allows matrices with 1 column with a deprecation warning (#6091)", {
+test_that("filter() and filter_out() allow matrices with 1 column with a deprecation warning (#6091)", {
   df <- tibble(x = 1:2)
   expect_snapshot({
     out <- filter(df, matrix(c(TRUE, FALSE), nrow = 2))
   })
   expect_identical(out, tibble(x = 1L))
+  expect_snapshot({
+    out <- filter_out(df, matrix(c(TRUE, FALSE), nrow = 2))
+  })
+  expect_identical(out, tibble(x = 2L))
 
   # Only warns once when grouped
-  df <- tibble(x = c(1, 1, 2, 2))
+  df <- tibble(x = c(1, 1, 2, 2), y = c(1, 2, 3, 4))
   gdf <- group_by(df, x)
   expect_snapshot({
     out <- filter(gdf, matrix(c(TRUE, FALSE), nrow = 2))
   })
-  expect_identical(out, group_by(tibble(x = c(1, 2)), x))
+  expect_identical(out, group_by(tibble(x = c(1, 2), y = c(1, 3)), x))
+  expect_snapshot({
+    out <- filter_out(gdf, matrix(c(TRUE, FALSE), nrow = 2))
+  })
+  expect_identical(out, group_by(tibble(x = c(1, 2), y = c(2, 4)), x))
 })
 
-test_that("filter() disallows matrices with >1 column", {
+test_that("filter() and filter_out() disallow matrices with >1 column", {
   df <- tibble(x = 1:3)
 
-  expect_snapshot({
-    (expect_error(filter(df, matrix(TRUE, nrow = 3, ncol = 2))))
+  expect_snapshot(error = TRUE, {
+    filter(df, matrix(TRUE, nrow = 3, ncol = 2))
+  })
+  expect_snapshot(error = TRUE, {
+    filter_out(df, matrix(TRUE, nrow = 3, ncol = 2))
   })
 })
 
-test_that("filter() disallows arrays with >2 dimensions", {
+test_that("filter() and filter_out() disallow arrays with >2 dimensions", {
   df <- tibble(x = 1:3)
 
-  expect_snapshot({
-    (expect_error(filter(df, array(TRUE, dim = c(3, 1, 1)))))
+  expect_snapshot(error = TRUE, {
+    filter(df, array(TRUE, dim = c(3, 1, 1)))
+  })
+  expect_snapshot(error = TRUE, {
+    filter_out(df, array(TRUE, dim = c(3, 1, 1)))
   })
 })
 
@@ -529,7 +609,7 @@ test_that("Using data frames in `filter()` is defunct (#7758)", {
   })
 })
 
-test_that("filter preserves grouping", {
+test_that("filter and filter_out preserve grouping", {
   gf <- group_by(tibble(g = c(1, 1, 1, 2, 2), x = 1:5), g)
 
   i <- count_regroups(out <- filter(gf, x %in% c(3, 4)))
@@ -537,13 +617,23 @@ test_that("filter preserves grouping", {
   expect_equal(group_vars(gf), "g")
   expect_equal(group_rows(out), list_of(1L, 2L))
 
+  i <- count_regroups(out <- filter_out(gf, x %in% c(3, 4)))
+  expect_equal(i, 0L)
+  expect_equal(group_vars(gf), "g")
+  expect_equal(group_rows(out), list_of(1:2, 3L))
+
   i <- count_regroups(out <- filter(gf, x < 3))
   expect_equal(i, 0L)
   expect_equal(group_vars(gf), "g")
   expect_equal(group_rows(out), list_of(c(1L, 2L)))
+
+  i <- count_regroups(out <- filter_out(gf, x < 3))
+  expect_equal(i, 0L)
+  expect_equal(group_vars(gf), "g")
+  expect_equal(group_rows(out), list_of(1L, 2:3))
 })
 
-test_that("filter() with empty dots still calls dplyr_row_slice()", {
+test_that("filter() and filter_out() with empty dots still calls dplyr_row_slice()", {
   tbl <- new_tibble(list(x = 1), nrow = 1L)
   foo <- structure(tbl, class = c("foo_df", class(tbl)))
 
@@ -556,7 +646,10 @@ test_that("filter() with empty dots still calls dplyr_row_slice()", {
   )
 
   expect_s3_class(filter(foo), class(tbl), exact = TRUE)
+  expect_s3_class(filter_out(foo), class(tbl), exact = TRUE)
+
   expect_s3_class(filter(foo, x == 1), class(tbl), exact = TRUE)
+  expect_s3_class(filter_out(foo, x == 1), class(tbl), exact = TRUE)
 })
 
 test_that("can filter() with unruly class", {
@@ -588,18 +681,27 @@ test_that("filter() preserves the call stack on error (#5308)", {
 
 test_that("if_any() and if_all() work", {
   df <- tibble(x1 = 1:10, x2 = c(1:5, 10:6))
+
   expect_equal(
     filter(df, if_all(starts_with("x"), ~ . > 6)),
     filter(df, x1 > 6 & x2 > 6)
+  )
+  expect_equal(
+    filter_out(df, if_all(starts_with("x"), ~ . > 6)),
+    filter_out(df, x1 > 6 & x2 > 6)
   )
 
   expect_equal(
     filter(df, if_any(starts_with("x"), ~ . > 6)),
     filter(df, x1 > 6 | x2 > 6)
   )
+  expect_equal(
+    filter_out(df, if_any(starts_with("x"), ~ . > 6)),
+    filter_out(df, x1 > 6 | x2 > 6)
+  )
 })
 
-test_that("filter keeps zero length groups", {
+test_that("filter and filter_out keep zero length groups", {
   df <- tibble(
     e = 1,
     f = factor(c(1, 1, 2, 2), levels = 1:3),
@@ -608,7 +710,8 @@ test_that("filter keeps zero length groups", {
   )
   df <- group_by(df, e, f, g, .drop = FALSE)
 
-  expect_equal(group_size(filter(df, f == 1)), c(2, 0, 0))
+  expect_identical(group_size(filter(df, f == 1)), c(2L, 0L, 0L))
+  expect_identical(group_size(filter_out(df, f == 1)), c(0L, 2L, 0L))
 })
 
 test_that("filtering retains labels for zero length groups", {
@@ -629,6 +732,15 @@ test_that("filtering retains labels for zero length groups", {
       n = c(2L, 0L, 0L)
     )
   )
+  expect_equal(
+    ungroup(count(filter_out(df, f == 1))),
+    tibble(
+      e = 1,
+      f = factor(1:3),
+      g = c(1, 2, NA),
+      n = c(0L, 2L, 0L)
+    )
+  )
 })
 
 test_that("`filter()` doesn't allow data frames with missing or empty names (#6758)", {
@@ -639,8 +751,29 @@ test_that("`filter()` doesn't allow data frames with missing or empty names (#67
     filter(df1)
   })
   expect_snapshot(error = TRUE, {
+    filter_out(df1)
+  })
+
+  expect_snapshot(error = TRUE, {
     filter(df2)
   })
+  expect_snapshot(error = TRUE, {
+    filter_out(df2)
+  })
+})
+
+test_that("`filter()` and `filter_out()` are complements", {
+  df <- tibble(
+    x = c(TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, NA, NA, NA),
+    y = c(TRUE, FALSE, NA, TRUE, FALSE, NA, TRUE, FALSE, NA)
+  )
+
+  # Important invariant is that these are equivalent up to row ordering
+  # `union(filter(df, ...), filter_out(df, ...)) ~= df`
+  expect_identical(
+    union(filter(df, x, y), filter_out(df, x, y)) |> arrange(x, y),
+    df |> arrange(x, y)
+  )
 })
 
 # .by -------------------------------------------------------------------------
@@ -649,15 +782,23 @@ test_that("can group transiently using `.by`", {
   df <- tibble(g = c(1, 1, 2, 1, 2), x = c(5, 10, 1, 2, 3))
 
   out <- filter(df, x > mean(x), .by = g)
-
   expect_identical(out$g, c(1, 2))
   expect_identical(out$x, c(10, 3))
+  expect_s3_class(out, class(df), exact = TRUE)
+
+  out <- filter_out(df, x > mean(x), .by = g)
+  expect_identical(out$g, c(1, 2, 1))
+  expect_identical(out$x, c(5, 1, 2))
   expect_s3_class(out, class(df), exact = TRUE)
 })
 
 test_that("transient grouping retains bare data.frame class", {
   df <- tibble(g = c(1, 1, 2, 1, 2), x = c(5, 10, 1, 2, 3))
+
   out <- filter(df, x > mean(x), .by = g)
+  expect_s3_class(out, class(df), exact = TRUE)
+
+  out <- filter_out(df, x > mean(x), .by = g)
   expect_s3_class(out, class(df), exact = TRUE)
 })
 
@@ -672,7 +813,13 @@ test_that("transient grouping retains data frame attributes", {
   out <- filter(df, x > mean(x), .by = g)
   expect_identical(attr(out, "foo"), "bar")
 
+  out <- filter_out(df, x > mean(x), .by = g)
+  expect_identical(attr(out, "foo"), "bar")
+
   out <- filter(tbl, x > mean(x), .by = g)
+  expect_identical(attr(out, "foo"), "bar")
+
+  out <- filter_out(tbl, x > mean(x), .by = g)
   expect_identical(attr(out, "foo"), "bar")
 })
 
@@ -681,6 +828,9 @@ test_that("can't use `.by` with `.preserve`", {
 
   expect_snapshot(error = TRUE, {
     filter(df, .by = x, .preserve = TRUE)
+  })
+  expect_snapshot(error = TRUE, {
+    filter_out(df, .by = x, .preserve = TRUE)
   })
 })
 
@@ -691,6 +841,9 @@ test_that("catches `.by` with grouped-df", {
   expect_snapshot(error = TRUE, {
     filter(gdf, .by = x)
   })
+  expect_snapshot(error = TRUE, {
+    filter_out(gdf, .by = x)
+  })
 })
 
 test_that("catches `.by` with rowwise-df", {
@@ -700,6 +853,9 @@ test_that("catches `.by` with rowwise-df", {
   expect_snapshot(error = TRUE, {
     filter(rdf, .by = x)
   })
+  expect_snapshot(error = TRUE, {
+    filter_out(rdf, .by = x)
+  })
 })
 
 test_that("catches `by` typo (#6647)", {
@@ -707,5 +863,8 @@ test_that("catches `by` typo (#6647)", {
 
   expect_snapshot(error = TRUE, {
     filter(df, by = x)
+  })
+  expect_snapshot(error = TRUE, {
+    filter_out(df, by = x)
   })
 })
