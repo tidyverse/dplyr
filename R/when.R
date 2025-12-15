@@ -102,14 +102,6 @@
 #' # ---------------------------------------------------------------------------
 #' # Programming with `when_any()` and `when_all()`
 #'
-#' # When no inputs are provided, these functions are consistent with `any()`
-#' # and `all()`
-#' any()
-#' when_any(size = 1)
-#'
-#' all()
-#' when_all(size = 1)
-#'
 #' # The `size` argument is useful for making these functions size stable when
 #' # you aren't sure how many inputs you're going to receive
 #' size <- length(x)
@@ -125,6 +117,14 @@
 #' # Zero inputs (without `size`, this would return `logical()`)
 #' inputs <- list()
 #' when_all(!!!inputs, size = size)
+#'
+#' # When no inputs are provided, these functions are consistent with `any()`
+#' # and `all()`
+#' any()
+#' when_any(size = 1)
+#'
+#' all()
+#' when_all(size = 1)
 NULL
 
 #' @rdname when-any-all
