@@ -152,9 +152,10 @@ methods as needed.</p></li>
     <div class="section level2">
     <h2 id="current-usage">Current usage<a class="anchor" aria-label="anchor" href="#current-usage"></a></h2>
 
-<ul><li><p><code><a href="arrange.html">arrange()</a></code>, <code><a href="filter.html">filter()</a></code>, <code><a href="slice.html">slice()</a></code> (and the rest of the <code>slice_*()</code>
-family), <code><a href="filter-joins.html">semi_join()</a></code>, and <code><a href="filter-joins.html">anti_join()</a></code> work by generating a vector of
-row indices, and then subsetting with <code>dplyr_row_slice()</code>.</p></li>
+<ul><li><p><code><a href="arrange.html">arrange()</a></code>, <code><a href="filter.html">filter()</a></code> (and <code><a href="filter.html">filter_out()</a></code>), <code><a href="slice.html">slice()</a></code> (and the rest of
+the <code>slice_*()</code> family), <code><a href="filter-joins.html">semi_join()</a></code>, and <code><a href="filter-joins.html">anti_join()</a></code> work by
+generating a vector of row indices, and then subsetting with
+<code>dplyr_row_slice()</code>.</p></li>
 <li><p><code><a href="mutate.html">mutate()</a></code> generates a list of new column value (using <code>NULL</code> to indicate
 when columns should be deleted), then passes that to <code>dplyr_col_modify()</code>.
 It also uses 1d <code>[</code> to implement <code>.keep</code>, and will call <code><a href="relocate.html">relocate()</a></code> if

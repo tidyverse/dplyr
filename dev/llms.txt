@@ -183,8 +183,9 @@ Verbs that principally operate on rows.
   Order rows using column values
 - [`distinct()`](https://dplyr.tidyverse.org/dev/reference/distinct.md)
   : Keep distinct/unique rows
-- [`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md) :
-  Keep rows that match a condition
+- [`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md)
+  [`filter_out()`](https://dplyr.tidyverse.org/dev/reference/filter.md)
+  : Keep or drop rows that match a condition
 - [`slice()`](https://dplyr.tidyverse.org/dev/reference/slice.md)
   [`slice_head()`](https://dplyr.tidyverse.org/dev/reference/slice.md)
   [`slice_tail()`](https://dplyr.tidyverse.org/dev/reference/slice.md)

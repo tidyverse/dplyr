@@ -356,14 +356,17 @@ because they already use tidy select syntax; if you want to transform
 column names with a function, you can use
 [`rename_with()`](https://dplyr.tidyverse.org/dev/reference/rename.md).
 
-### filter()
+### filter() and filter_out()
 
 We cannot directly use
 [`across()`](https://dplyr.tidyverse.org/dev/reference/across.md) in
-[`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md)
-because we need an extra step to combine the results. To that end,
-[`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md) has
-two special purpose companion functions:
+[`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md) or
+[`filter_out()`](https://dplyr.tidyverse.org/dev/reference/filter.md)
+because we need an extra step to combine the results into a single
+logical vector. To that end,
+[`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md) and
+[`filter_out()`](https://dplyr.tidyverse.org/dev/reference/filter.md)
+have two special purpose companion functions:
 
 - [`if_any()`](https://dplyr.tidyverse.org/dev/reference/across.md)
   keeps the rows where the predicate is true for *at least one* selected
@@ -371,15 +374,15 @@ two special purpose companion functions:
 
 ``` r
 starwars |>
-  filter(if_any(everything(), ~ !is.na(.x)))
-#> # A tibble: 87 × 14
+  filter_out(if_any(everything(), is.na))
+#> # A tibble: 29 × 14
 #>   name    height  mass hair_color skin_color eye_color birth_year sex  
 #>   <chr>    <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr>
 #> 1 Luke S…    172    77 blond      fair       blue            19   male 
-#> 2 C-3PO      167    75 NA         gold       yellow         112   none 
-#> 3 R2-D2       96    32 NA         white, bl… red             33   none 
-#> 4 Darth …    202   136 none       white      yellow          41.9 male 
-#> # ℹ 83 more rows
+#> 2 Darth …    202   136 none       white      yellow          41.9 male 
+#> 3 Leia O…    150    49 brown      light      brown           19   fema…
+#> 4 Owen L…    178   120 brown, gr… light      blue            52   male 
+#> # ℹ 25 more rows
 #> # ℹ 6 more variables: gender <chr>, homeworld <chr>, species <chr>,
 #> #   films <list>, vehicles <list>, starships <list>
 ```
@@ -389,15 +392,15 @@ starwars |>
 
 ``` r
 starwars |>
-  filter(if_all(everything(), ~ !is.na(.x)))
-#> # A tibble: 29 × 14
+  filter_out(if_all(everything(), is.na))
+#> # A tibble: 87 × 14
 #>   name    height  mass hair_color skin_color eye_color birth_year sex  
 #>   <chr>    <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr>
 #> 1 Luke S…    172    77 blond      fair       blue            19   male 
-#> 2 Darth …    202   136 none       white      yellow          41.9 male 
-#> 3 Leia O…    150    49 brown      light      brown           19   fema…
-#> 4 Owen L…    178   120 brown, gr… light      blue            52   male 
-#> # ℹ 25 more rows
+#> 2 C-3PO      167    75 NA         gold       yellow         112   none 
+#> 3 R2-D2       96    32 NA         white, bl… red             33   none 
+#> 4 Darth …    202   136 none       white      yellow          41.9 male 
+#> # ℹ 83 more rows
 #> # ℹ 6 more variables: gender <chr>, homeworld <chr>, species <chr>,
 #> #   films <list>, vehicles <list>, starships <list>
 ```

@@ -538,12 +538,12 @@ find the tallest character of each species:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Yoda                  Yoda's species     66</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Bossk                 Trandoshan        190</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 32 more rows</span></span></span></code></pre></div>
-<p>You can also use <code><a href="../reference/filter.html">filter()</a></code> to remove entire groups. For
-example, the following code eliminates all groups that only have a
+<p>You can also use <code><a href="../reference/filter.html">filter_out()</a></code> to remove entire groups.
+For example, the following code eliminates all groups that only have a
 single member:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span> <span class="op">!=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/filter.html">filter_out</a></span><span class="op">(</span><span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 2</span></span></span>
 <span><span class="co">#&gt;   species      n</span></span>
@@ -582,7 +582,7 @@ each species:</p>
 <code>n</code> values of a variable:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/filter.html">filter_out</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/slice.html">slice_min</a></span><span class="op">(</span><span class="va">height</span>, n <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 47 × 14</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   species [38]</span></span></span>

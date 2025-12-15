@@ -490,13 +490,13 @@ by_species |>
 ```
 
 You can also use
-[`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md) to
+[`filter_out()`](https://dplyr.tidyverse.org/dev/reference/filter.md) to
 remove entire groups. For example, the following code eliminates all
 groups that only have a single member:
 
 ``` r
 by_species |>
-  filter(n() != 1) |>
+  filter_out(n() == 1) |>
   tally()
 #> # A tibble: 9 × 2
 #>   species      n
@@ -543,7 +543,7 @@ select the smallest `n` values of a variable:
 
 ``` r
 by_species |>
-  filter(!is.na(height)) |>
+  filter_out(is.na(height)) |>
   slice_min(height, n = 2)
 #> # A tibble: 47 × 14
 #> # Groups:   species [38]

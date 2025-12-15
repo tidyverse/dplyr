@@ -41,6 +41,8 @@ allows you to specify `by` alongside modifications in `j`, like:
 
 - [`filter(.by = )`](https://dplyr.tidyverse.org/dev/reference/filter.md)
 
+- [`filter_out(.by = )`](https://dplyr.tidyverse.org/dev/reference/filter.md)
+
 - [`slice(.by = )`](https://dplyr.tidyverse.org/dev/reference/slice.md)
 
 - [`slice_head(by = )`](https://dplyr.tidyverse.org/dev/reference/slice.md)

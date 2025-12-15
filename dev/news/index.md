@@ -2,6 +2,45 @@
 
 ## dplyr (development version)
 
+- New
+  [`filter_out()`](https://dplyr.tidyverse.org/dev/reference/filter.md)
+  companion to
+  [`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md).
+
+  - Use
+    [`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md)
+    when specifying rows to *keep*.
+
+  - Use
+    [`filter_out()`](https://dplyr.tidyverse.org/dev/reference/filter.md)
+    when specifying rows to *drop*.
+
+  [`filter_out()`](https://dplyr.tidyverse.org/dev/reference/filter.md)
+  simplifies cases where you would have previously used a
+  [`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md) to
+  drop rows. It is particularly useful when missing values are involved.
+  For example, to drop rows where the `count` is zero:
+
+  ``` r
+  df |> filter(count != 0 | is.na(count))
+
+  df |> filter_out(count == 0)
+  ```
+
+  With
+  [`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md), you
+  must provide a “negative” condition of `!= 0` and must explicitly
+  guard against accidentally dropping rows with `NA`. With
+  [`filter_out()`](https://dplyr.tidyverse.org/dev/reference/filter.md),
+  you directly specify rows to drop and you don’t have to guard against
+  dropping rows with `NA`, which tends to result in much clearer code.
+
+  This work is a result of [Tidyup 8: Expanding the `filter()`
+  family](https://github.com/tidyverse/tidyups/pull/30), with a lot of
+  great feedback from the community
+  ([\#6560](https://github.com/tidyverse/dplyr/issues/6560),
+  [\#6891](https://github.com/tidyverse/dplyr/issues/6891)).
+
 - The `.groups` message emitted by
   [`summarise()`](https://dplyr.tidyverse.org/dev/reference/summarise.md)
   is hopefully more clear now

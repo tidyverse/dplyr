@@ -84,7 +84,8 @@ behave in basically the same way.
 ## Current usage
 
 - [`arrange()`](https://dplyr.tidyverse.org/dev/reference/arrange.md),
-  [`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md),
+  [`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md) (and
+  [`filter_out()`](https://dplyr.tidyverse.org/dev/reference/filter.md)),
   [`slice()`](https://dplyr.tidyverse.org/dev/reference/slice.md) (and
   the rest of the `slice_*()` family),
   [`semi_join()`](https://dplyr.tidyverse.org/dev/reference/filter-joins.md),
