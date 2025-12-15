@@ -15,10 +15,10 @@ lazy data frame (e.g. from dbplyr or dtplyr). See \emph{Methods}, below, for
 more details.}
 
 \item{...}{<\code{\link[rlang:args_data_masking]{data-masking}}> Expressions that
-return a logical value, and are defined in terms of the variables in
-\code{.data}. If multiple expressions are included, they are combined with the
-\code{&} operator. Only rows for which all conditions evaluate to \code{TRUE} are
-kept (for \code{filter()}) or dropped (for \code{filter_out()}).}
+return a logical vector, defined in terms of the variables in \code{.data}. If
+multiple expressions are included, they are combined with the \code{&} operator.
+Only rows for which all conditions evaluate to \code{TRUE} are kept (for
+\code{filter()}) or dropped (for \code{filter_out()}).}
 
 \item{.by}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
 group by for just this operation, functioning as an alternative to \code{\link[=group_by]{group_by()}}. For
@@ -39,12 +39,8 @@ properties:
 }
 \description{
 These functions are used to subset a data frame, applying the expressions in
-\code{...} to determine which rows should be kept or dropped.
-\itemize{
-\item \code{filter()} \emph{keeps} rows where the conditions evaluate to \code{TRUE}.
-\item \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} \code{filter_out()} \emph{drops} rows where the
-conditions evaluate to \code{TRUE}.
-}
+\code{...} to determine which rows should be kept (for \code{filter()}) or dropped (
+for \code{filter_out()}).
 
 Multiple conditions can be supplied separated by a comma. These will be
 combined with the \code{&} operator.
@@ -63,6 +59,9 @@ the following behavior:
 \item \code{filter()} \emph{drops} both \code{NA} and \code{FALSE}.
 \item \code{filter_out()} \emph{keeps} both \code{NA} and \code{FALSE}.
 }
+
+This means that \verb{filter(data, <conditions>) + filter_out(data, <conditions>)}
+captures every row within \code{data} exactly once.
 
 The \code{NA} handling of these functions has been designed to match your
 \emph{intent}. When your intent is to keep rows, use \code{filter()}. When your intent

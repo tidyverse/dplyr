@@ -1,6 +1,6 @@
 # dplyr (development version)
 
-* New experimental `filter_out()` companion to `filter()`.
+* New `filter_out()` companion to `filter()`.
 
   * Use `filter()` when specifying rows to _keep_.
 

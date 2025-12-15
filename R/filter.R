@@ -2,12 +2,8 @@
 #'
 #' @description
 #' These functions are used to subset a data frame, applying the expressions in
-#' `...` to determine which rows should be kept or dropped.
-#'
-#' - `filter()` _keeps_ rows where the conditions evaluate to `TRUE`.
-#'
-#' - `r lifecycle::badge("experimental")` `filter_out()` _drops_ rows where the
-#'   conditions evaluate to `TRUE`.
+#' `...` to determine which rows should be kept (for `filter()`) or dropped (
+#' for `filter_out()`).
 #'
 #' Multiple conditions can be supplied separated by a comma. These will be
 #' combined with the `&` operator.
@@ -21,10 +17,10 @@
 #' @inheritParams args_by
 #'
 #' @param ... <[`data-masking`][rlang::args_data_masking]> Expressions that
-#'   return a logical value, and are defined in terms of the variables in
-#'   `.data`. If multiple expressions are included, they are combined with the
-#'   `&` operator. Only rows for which all conditions evaluate to `TRUE` are
-#'   kept (for `filter()`) or dropped (for `filter_out()`).
+#'   return a logical vector, defined in terms of the variables in `.data`. If
+#'   multiple expressions are included, they are combined with the `&` operator.
+#'   Only rows for which all conditions evaluate to `TRUE` are kept (for
+#'   `filter()`) or dropped (for `filter_out()`).
 #'
 #' @param .preserve Relevant when the `.data` input is grouped. If `.preserve =
 #'   FALSE` (the default), the grouping structure is recalculated based on the
@@ -47,6 +43,9 @@
 #' - `filter()` _drops_ both `NA` and `FALSE`.
 #'
 #' - `filter_out()` _keeps_ both `NA` and `FALSE`.
+#'
+#' This means that `filter(data, <conditions>) + filter_out(data, <conditions>)`
+#' captures every row within `data` exactly once.
 #'
 #' The `NA` handling of these functions has been designed to match your
 #' _intent_. When your intent is to keep rows, use `filter()`. When your intent
