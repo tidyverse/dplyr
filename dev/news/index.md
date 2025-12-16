@@ -3,6 +3,30 @@
 ## dplyr (development version)
 
 - New
+  [`when_any()`](https://dplyr.tidyverse.org/dev/reference/when-any-all.md)
+  and
+  [`when_all()`](https://dplyr.tidyverse.org/dev/reference/when-any-all.md),
+  which are elementwise versions of
+  [`any()`](https://rdrr.io/r/base/any.html) and
+  [`all()`](https://rdrr.io/r/base/all.html). Alternatively, you can
+  think of them as performing repeated `|` and `&` on any number of
+  inputs, for example:
+
+  - `when_any(x, y, z)` is equivalent to `x | y | z`.
+
+  - `when_all(x, y, z)` is equivalent to `x & y & z`.
+
+  [`when_any()`](https://dplyr.tidyverse.org/dev/reference/when-any-all.md)
+  is particularly useful within
+  [`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md) and
+  [`filter_out()`](https://dplyr.tidyverse.org/dev/reference/filter.md)
+  to specify comma separated conditions combined with `|` rather than
+  `&`.
+
+  This work is a result of [Tidyup 8: Expanding the `filter()`
+  family](https://github.com/tidyverse/tidyups/pull/30).
+
+- New
   [`filter_out()`](https://dplyr.tidyverse.org/dev/reference/filter.md)
   companion to
   [`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md).

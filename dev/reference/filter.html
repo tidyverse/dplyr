@@ -3,7 +3,8 @@
 ... to determine which rows should be kept (for filter()) or dropped (
 for filter_out()).
 Multiple conditions can be supplied separated by a comma. These will be
-combined with the &amp;amp; operator.
+combined with the &amp;amp; operator. To combine comma separated conditions using
+| instead, wrap them in when_any().
 Both filter() and filter_out() treat NA like FALSE. This subtle
 behavior can impact how you write your conditions when missing values are
 involved. See the section on Missing values for important details and
@@ -11,7 +12,8 @@ examples."><meta property="og:description" content="These functions are used to 
 ... to determine which rows should be kept (for filter()) or dropped (
 for filter_out()).
 Multiple conditions can be supplied separated by a comma. These will be
-combined with the &amp;amp; operator.
+combined with the &amp;amp; operator. To combine comma separated conditions using
+| instead, wrap them in when_any().
 Both filter() and filter_out() treat NA like FALSE. This subtle
 behavior can impact how you write your conditions when missing values are
 involved. See the section on Missing values for important details and
@@ -80,7 +82,8 @@ examples."><meta property="og:image" content="https://dplyr.tidyverse.org/logo.p
 <code>...</code> to determine which rows should be kept (for <code>filter()</code>) or dropped (
 for <code>filter_out()</code>).</p>
 <p>Multiple conditions can be supplied separated by a comma. These will be
-combined with the <code>&amp;</code> operator.</p>
+combined with the <code>&amp;</code> operator. To combine comma separated conditions using
+<code>|</code> instead, wrap them in <code><a href="when-any-all.html">when_any()</a></code>.</p>
 <p>Both <code>filter()</code> and <code>filter_out()</code> treat <code>NA</code> like <code>FALSE</code>. This subtle
 behavior can impact how you write your conditions when missing values are
 involved. See the section on <code>Missing values</code> for important details and
@@ -108,8 +111,9 @@ more details.</p></dd>
 <dd><p>&lt;<code><a href="https://rlang.r-lib.org/reference/args_data_masking.html" class="external-link">data-masking</a></code>&gt; Expressions that
 return a logical vector, defined in terms of the variables in <code>.data</code>. If
 multiple expressions are included, they are combined with the <code>&amp;</code> operator.
-Only rows for which all conditions evaluate to <code>TRUE</code> are kept (for
-<code>filter()</code>) or dropped (for <code>filter_out()</code>).</p></dd>
+To combine expressions using <code>|</code> instead, wrap them in <code><a href="when-any-all.html">when_any()</a></code>. Only
+rows for which all expressions evaluate to <code>TRUE</code> are kept (for <code>filter()</code>)
+or dropped (for <code>filter_out()</code>).</p></dd>
 
 
 <dt id="arg--by">.by<a class="anchor" aria-label="anchor" href="#arg--by"></a></dt>
@@ -218,6 +222,7 @@ expressions used to filter the data:</p><ul><li><p><code><a href="https://rdrr.i
 <li><p><code>&amp;</code>, <code><a href="https://rdrr.io/r/base/Logic.html" class="external-link">|</a></code>, <code><a href="https://rdrr.io/r/base/Logic.html" class="external-link">!</a></code>, <code><a href="https://rdrr.io/r/base/Logic.html" class="external-link">xor()</a></code></p></li>
 <li><p><code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code></p></li>
 <li><p><code><a href="between.html">between()</a></code>, <code><a href="near.html">near()</a></code></p></li>
+<li><p><code><a href="when-any-all.html">when_any()</a></code>, <code><a href="when-any-all.html">when_all()</a></code></p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="grouped-tibbles">Grouped tibbles<a class="anchor" aria-label="anchor" href="#grouped-tibbles"></a></h2>
@@ -316,8 +321,8 @@ dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/filter.tbl_lazy.ht
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># When multiple expressions are used, they are combined using &amp;</span></span></span>
-<span class="r-in"><span><span class="fu">filter</span><span class="op">(</span><span class="va">starwars</span>, <span class="va">hair_color</span> <span class="op">==</span> <span class="st">"none"</span>, <span class="va">eye_color</span> <span class="op">==</span> <span class="st">"black"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Multiple comma separated expressions are combined using `&amp;`</span></span></span>
+<span class="r-in"><span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu">filter</span><span class="op">(</span><span class="va">hair_color</span> <span class="op">==</span> <span class="st">"none"</span>, <span class="va">eye_color</span> <span class="op">==</span> <span class="st">"black"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 14</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name    height  mass hair_color skin_color eye_color birth_year sex  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
@@ -330,6 +335,25 @@ dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/filter.tbl_lazy.ht
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Shaak …    178    57 none       red, blue… black             <span style="color: #BB0000;">NA</span> fema…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> Tion M…    206    80 none       grey       black             <span style="color: #BB0000;">NA</span> male </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> BB8         <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> none       none       black             <span style="color: #BB0000;">NA</span> none </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># To combine comma separated expressions using `|` instead, use `when_any()`</span></span></span>
+<span class="r-in"><span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu">filter</span><span class="op">(</span><span class="fu"><a href="when-any-all.html">when_any</a></span><span class="op">(</span><span class="va">hair_color</span> <span class="op">==</span> <span class="st">"none"</span>, <span class="va">eye_color</span> <span class="op">==</span> <span class="st">"black"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 39 × 14</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    name   height  mass hair_color skin_color eye_color birth_year sex  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Darth…    202   136 none       white      yellow          41.9 male </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Greedo    173    74 <span style="color: #BB0000;">NA</span>         green      black           44   male </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> IG-88     200   140 none       metal      red             15   none </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Bossk     190   113 none       green      red             53   male </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Lobot     175    79 none       light      blue            37   male </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Ackbar    180    83 none       brown mot… orange          41   male </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Nien …    160    68 none       grey       black           <span style="color: #BB0000;">NA</span>   male </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Nute …    191    90 none       mottled g… red             <span style="color: #BB0000;">NA</span>   male </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Jar J…    196    66 none       orange     orange          52   male </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Roos …    224    82 none       grey       orange          <span style="color: #BB0000;">NA</span>   male </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 29 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span>
 <span class="r-in"><span></span></span>

@@ -370,6 +370,13 @@ vectors, not data frames.
   [`dense_rank()`](https://dplyr.tidyverse.org/dev/reference/row_number.md)
   : Integer ranking functions
 
+- [`when_any()`](https://dplyr.tidyverse.org/dev/reference/when-any-all.md)
+  [`when_all()`](https://dplyr.tidyverse.org/dev/reference/when-any-all.md)
+  :
+
+  Elementwise [`any()`](https://rdrr.io/r/base/any.html) and
+  [`all()`](https://rdrr.io/r/base/all.html)
+
 ## Built in datasets
 
 - [`band_members`](https://dplyr.tidyverse.org/dev/reference/band_members.md)

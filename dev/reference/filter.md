@@ -5,7 +5,9 @@ expressions in `...` to determine which rows should be kept (for
 `filter()`) or dropped ( for `filter_out()`).
 
 Multiple conditions can be supplied separated by a comma. These will be
-combined with the `&` operator.
+combined with the `&` operator. To combine comma separated conditions
+using `|` instead, wrap them in
+[`when_any()`](https://dplyr.tidyverse.org/dev/reference/when-any-all.md).
 
 Both `filter()` and `filter_out()` treat `NA` like `FALSE`. This subtle
 behavior can impact how you write your conditions when missing values
@@ -33,9 +35,11 @@ filter_out(.data, ..., .by = NULL, .preserve = FALSE)
   \<[`data-masking`](https://rlang.r-lib.org/reference/args_data_masking.html)\>
   Expressions that return a logical vector, defined in terms of the
   variables in `.data`. If multiple expressions are included, they are
-  combined with the `&` operator. Only rows for which all conditions
-  evaluate to `TRUE` are kept (for `filter()`) or dropped (for
-  `filter_out()`).
+  combined with the `&` operator. To combine expressions using `|`
+  instead, wrap them in
+  [`when_any()`](https://dplyr.tidyverse.org/dev/reference/when-any-all.md).
+  Only rows for which all expressions evaluate to `TRUE` are kept (for
+  `filter()`) or dropped (for `filter_out()`).
 
 - .by:
 
@@ -174,6 +178,9 @@ the expressions used to filter the data:
 - [`between()`](https://dplyr.tidyverse.org/dev/reference/between.md),
   [`near()`](https://dplyr.tidyverse.org/dev/reference/near.md)
 
+- [`when_any()`](https://dplyr.tidyverse.org/dev/reference/when-any-all.md),
+  [`when_all()`](https://dplyr.tidyverse.org/dev/reference/when-any-all.md)
+
 ## Grouped tibbles
 
 Because filtering expressions are computed within groups, they may yield
@@ -271,8 +278,8 @@ filter(starwars, hair_color == "none" | eye_color == "black")
 #> # ℹ 6 more variables: gender <chr>, homeworld <chr>, species <chr>,
 #> #   films <list>, vehicles <list>, starships <list>
 
-# When multiple expressions are used, they are combined using &
-filter(starwars, hair_color == "none", eye_color == "black")
+# Multiple comma separated expressions are combined using `&`
+starwars |> filter(hair_color == "none", eye_color == "black")
 #> # A tibble: 9 × 14
 #>   name    height  mass hair_color skin_color eye_color birth_year sex  
 #>   <chr>    <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr>
@@ -285,6 +292,25 @@ filter(starwars, hair_color == "none", eye_color == "black")
 #> 7 Shaak …    178    57 none       red, blue… black             NA fema…
 #> 8 Tion M…    206    80 none       grey       black             NA male 
 #> 9 BB8         NA    NA none       none       black             NA none 
+#> # ℹ 6 more variables: gender <chr>, homeworld <chr>, species <chr>,
+#> #   films <list>, vehicles <list>, starships <list>
+
+# To combine comma separated expressions using `|` instead, use `when_any()`
+starwars |> filter(when_any(hair_color == "none", eye_color == "black"))
+#> # A tibble: 39 × 14
+#>    name   height  mass hair_color skin_color eye_color birth_year sex  
+#>    <chr>   <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr>
+#>  1 Darth…    202   136 none       white      yellow          41.9 male 
+#>  2 Greedo    173    74 NA         green      black           44   male 
+#>  3 IG-88     200   140 none       metal      red             15   none 
+#>  4 Bossk     190   113 none       green      red             53   male 
+#>  5 Lobot     175    79 none       light      blue            37   male 
+#>  6 Ackbar    180    83 none       brown mot… orange          41   male 
+#>  7 Nien …    160    68 none       grey       black           NA   male 
+#>  8 Nute …    191    90 none       mottled g… red             NA   male 
+#>  9 Jar J…    196    66 none       orange     orange          52   male 
+#> 10 Roos …    224    82 none       grey       orange          NA   male 
+#> # ℹ 29 more rows
 #> # ℹ 6 more variables: gender <chr>, homeworld <chr>, species <chr>,
 #> #   films <list>, vehicles <list>, starships <list>
 
