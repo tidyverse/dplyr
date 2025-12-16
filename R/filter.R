@@ -6,7 +6,8 @@
 #' for `filter_out()`).
 #'
 #' Multiple conditions can be supplied separated by a comma. These will be
-#' combined with the `&` operator.
+#' combined with the `&` operator. To combine comma separated conditions using
+#' `|` instead, wrap them in [when_any()].
 #'
 #' Both `filter()` and `filter_out()` treat `NA` like `FALSE`. This subtle
 #' behavior can impact how you write your conditions when missing values are
@@ -19,8 +20,9 @@
 #' @param ... <[`data-masking`][rlang::args_data_masking]> Expressions that
 #'   return a logical vector, defined in terms of the variables in `.data`. If
 #'   multiple expressions are included, they are combined with the `&` operator.
-#'   Only rows for which all conditions evaluate to `TRUE` are kept (for
-#'   `filter()`) or dropped (for `filter_out()`).
+#'   To combine expressions using `|` instead, wrap them in [when_any()]. Only
+#'   rows for which all expressions evaluate to `TRUE` are kept (for `filter()`)
+#'   or dropped (for `filter_out()`).
 #'
 #' @param .preserve Relevant when the `.data` input is grouped. If `.preserve =
 #'   FALSE` (the default), the grouping structure is recalculated based on the
@@ -112,6 +114,7 @@
 #' * [`&`], [`|`], [`!`], [xor()]
 #' * [is.na()]
 #' * [between()], [near()]
+#' * [when_any()], [when_all()]
 #'
 #' @section Grouped tibbles:
 #'
@@ -156,8 +159,11 @@
 #' filter(starwars, hair_color == "none" & eye_color == "black")
 #' filter(starwars, hair_color == "none" | eye_color == "black")
 #'
-#' # When multiple expressions are used, they are combined using &
-#' filter(starwars, hair_color == "none", eye_color == "black")
+#' # Multiple comma separated expressions are combined using `&`
+#' starwars |> filter(hair_color == "none", eye_color == "black")
+#'
+#' # To combine comma separated expressions using `|` instead, use `when_any()`
+#' starwars |> filter(when_any(hair_color == "none", eye_color == "black"))
 #'
 #' # Filtering out to drop rows
 #' filter_out(starwars, hair_color == "none")
