@@ -145,6 +145,29 @@
 
 * The following were already deprecated, and are now defunct:
 
+  * All underscored standard evaluation versions of major dplyr verbs. Deprecated in 0.7.0, use the non-underscored version of the verb with unquoting instead, see `vignette("programming")`. This includes:
+
+    * `add_count_()`
+    * `add_tally_()`
+    * `arrange_()`
+    * `count_()`
+    * `distinct_()`
+    * `do_()`
+    * `filter_()`
+    * `funs_()`
+    * `group_by_()`
+    * `group_indices_()`
+    * `mutate_()`
+    * `tally_()`
+    * `transmute_()`
+    * `rename_()`
+    * `select_()`
+    * `slice_()`
+    * `summarise_()`
+    * `summarize_()`
+
+  * `mutate_each()`, `mutate_each_()`, `summarise_each()`, and `summarise_each_()`. Deprecated in 0.7.0, use `across()` instead.
+
   * `combine()`. Deprecated in 1.0.0, use `c()` or `vctrs::vec_c()` instead.
 
   * `src_mysql()`, `src_postgres()`, `src_sqlite()`, `src_local()`, and `src_df()`. Deprecated in 1.0.0, use `tbl()` instead.
@@ -172,6 +195,24 @@
   * `multiple = "error" / "warning"` in joins. Deprecated in 1.1.1, use `relationship = "many-to-one"` instead.
 
   * The `vars` argument of `group_cols()`. Deprecated in 1.0.0.
+
+* The following were already defunct, and have been removed:
+
+  * `id()`. Deprecated in 0.5.0, use `vctrs::vec_group_id()` instead. If your package uses NSE and implicitly relied on the variable `id` being available, you now need to put `utils::globalVariables("id")` inside one of your package files to tell R that `id` is a column name.
+
+  * `failwith()`. Deprecated in 0.7.0, use `purrr::possibly()` instead.
+
+  * `select_vars()` and `select_vars_()`. Deprecated in 0.8.4, use `tidyselect::vars_select()` instead.
+
+  * `rename_vars()` and `rename_vars_()`. Deprecated in 0.8.4, use `tidyselect::vars_rename()` instead.
+
+  * `select_var()`. Deprecated in 0.8.4, use `tidyselect::vars_pull()` instead.
+
+  * `current_vars()`. Deprecated in 0.8.4, use `tidyselect::peek_vars()` instead.
+
+  * `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()`, and `eval_tbls2()`. Deprecated in 1.0.0.
+
+  * `location()` and `changes()`. Deprecated in 1.0.0, use `lobstr::ref()` instead.
 
 ### Newly deprecated
 
