@@ -305,8 +305,8 @@
 - The following were already deprecated, and are now defunct:
 
   - All underscored standard evaluation versions of major dplyr verbs.
-    Deprecated in 0.7.0, use the non-underscored version of the verb
-    with unquoting instead, see
+    Deprecated in 0.7.0 (Jun 2017), use the non-underscored version of
+    the verb with unquoting instead, see
     [`vignette("programming")`](https://dplyr.tidyverse.org/dev/articles/programming.md).
     This includes:
 
@@ -334,12 +334,13 @@
     [`summarise_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md),
     and
     [`summarise_each_()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md).
-    Deprecated in 0.7.0, use
+    Deprecated in 0.7.0 (Jun 2017), use
     [`across()`](https://dplyr.tidyverse.org/dev/reference/across.md)
     instead.
 
   - [`combine()`](https://dplyr.tidyverse.org/dev/reference/defunct.md).
-    Deprecated in 1.0.0, use [`c()`](https://rdrr.io/r/base/c.html) or
+    Deprecated in 1.0.0 (May 2020), use
+    [`c()`](https://rdrr.io/r/base/c.html) or
     [`vctrs::vec_c()`](https://vctrs.r-lib.org/reference/vec_c.html)
     instead.
 
@@ -349,42 +350,42 @@
     [`src_local()`](https://dplyr.tidyverse.org/dev/reference/defunct.md),
     and
     [`src_df()`](https://dplyr.tidyverse.org/dev/reference/defunct.md).
-    Deprecated in 1.0.0, use
+    Deprecated in 1.0.0 (May 2020), use
     [`tbl()`](https://dplyr.tidyverse.org/dev/reference/tbl.md) instead.
 
   - [`tbl_df()`](https://dplyr.tidyverse.org/dev/reference/defunct.md)
     and
     [`as.tbl()`](https://dplyr.tidyverse.org/dev/reference/defunct.md).
-    Deprecated in 1.0.0, use
+    Deprecated in 1.0.0 (May 2020), use
     [`tibble::as_tibble()`](https://tibble.tidyverse.org/reference/as_tibble.html)
     instead.
 
   - [`add_rownames()`](https://dplyr.tidyverse.org/dev/reference/defunct.md).
-    Deprecated in 1.0.0, use
+    Deprecated in 1.0.0 (May 2020), use
     [`tibble::rownames_to_column()`](https://tibble.tidyverse.org/reference/rownames.html)
     instead.
 
   - The `.drop` argument of
     [`add_count()`](https://dplyr.tidyverse.org/dev/reference/count.md).
-    Deprecated in 1.0.0, had no effect.
+    Deprecated in 1.0.0 (May 2020), had no effect.
 
   - The `add` argument of
     [`group_by()`](https://dplyr.tidyverse.org/dev/reference/group_by.md)
     and
     [`group_by_prepare()`](https://dplyr.tidyverse.org/dev/reference/group_by_prepare.md).
-    Deprecated in 1.0.0, use `.add` instead.
+    Deprecated in 1.0.0 (May 2020), use `.add` instead.
 
   - The `.dots` argument of
     [`group_by()`](https://dplyr.tidyverse.org/dev/reference/group_by.md)
     and
     [`group_by_prepare()`](https://dplyr.tidyverse.org/dev/reference/group_by_prepare.md).
-    Deprecated in 1.0.0.
+    Deprecated in 1.0.0 (May 2020).
 
   - The `...` argument of
     [`group_keys()`](https://dplyr.tidyverse.org/dev/reference/group_data.md)
     and
     [`group_indices()`](https://dplyr.tidyverse.org/dev/reference/group_data.md).
-    Deprecated in 1.0.0, use
+    Deprecated in 1.0.0 (May 2020), use
     [`group_by()`](https://dplyr.tidyverse.org/dev/reference/group_by.md)
     first.
 
@@ -393,66 +394,68 @@
     [`group_modify()`](https://dplyr.tidyverse.org/dev/reference/group_map.md),
     and
     [`group_split()`](https://dplyr.tidyverse.org/dev/reference/group_split.md).
-    Deprecated in 1.0.0, use `.keep` instead.
+    Deprecated in 1.0.0 (May 2020), use `.keep` instead.
 
   - Using
     [`across()`](https://dplyr.tidyverse.org/dev/reference/across.md)
     and data frames in
     [`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md).
-    Deprecated in 1.0.8, use
+    Deprecated in 1.0.8 (Feb 2022), use
     [`if_any()`](https://dplyr.tidyverse.org/dev/reference/across.md) or
     [`if_all()`](https://dplyr.tidyverse.org/dev/reference/across.md)
     instead.
 
   - Returning more or less than 1 row per group in
     [`summarise()`](https://dplyr.tidyverse.org/dev/reference/summarise.md).
-    Deprecated in 1.1.0, use
+    Deprecated in 1.1.0 (Jan 2023), use
     [`reframe()`](https://dplyr.tidyverse.org/dev/reference/reframe.md)
     instead.
 
-  - `multiple = NULL` in joins. Deprecated in 1.1.1, use
+  - `multiple = NULL` in joins. Deprecated in 1.1.1 (Mar 2023), use
     `multiple = "all"` instead.
 
-  - `multiple = "error" / "warning"` in joins. Deprecated in 1.1.1, use
-    `relationship = "many-to-one"` instead.
+  - `multiple = "error" / "warning"` in joins. Deprecated in 1.1.1 (Mar
+    2023), use `relationship = "many-to-one"` instead.
 
   - The `vars` argument of
     [`group_cols()`](https://dplyr.tidyverse.org/dev/reference/group_cols.md).
-    Deprecated in 1.0.0.
+    Deprecated in 1.0.0 (Jan 2023).
 
 - The following were already defunct, and have been removed:
 
-  - `id()`. Deprecated in 0.5.0, use
+  - `id()`. Deprecated in 0.5.0 (Jun 2016), use
     [`vctrs::vec_group_id()`](https://vctrs.r-lib.org/reference/vec_group.html)
     instead. If your package uses NSE and implicitly relied on the
     variable `id` being available, you now need to put
     `utils::globalVariables("id")` inside one of your package files to
     tell R that `id` is a column name.
 
-  - `failwith()`. Deprecated in 0.7.0, use
+  - `failwith()`. Deprecated in 0.7.0 (Jun 2017), use
     [`purrr::possibly()`](https://purrr.tidyverse.org/reference/possibly.html)
     instead.
 
-  - `select_vars()` and `select_vars_()`. Deprecated in 0.8.4, use
+  - `select_vars()` and `select_vars_()`. Deprecated in 0.8.4 (Jan
+    2020), use
     [`tidyselect::vars_select()`](https://tidyselect.r-lib.org/reference/vars_select.html)
     instead.
 
-  - `rename_vars()` and `rename_vars_()`. Deprecated in 0.8.4, use
+  - `rename_vars()` and `rename_vars_()`. Deprecated in 0.8.4 (Jan
+    2020), use
     [`tidyselect::vars_rename()`](https://tidyselect.r-lib.org/reference/vars_select.html)
     instead.
 
-  - `select_var()`. Deprecated in 0.8.4, use
+  - `select_var()`. Deprecated in 0.8.4 (Jan 2020), use
     [`tidyselect::vars_pull()`](https://tidyselect.r-lib.org/reference/vars_pull.html)
     instead.
 
-  - `current_vars()`. Deprecated in 0.8.4, use
+  - `current_vars()`. Deprecated in 0.8.4 (Jan 2020), use
     [`tidyselect::peek_vars()`](https://tidyselect.r-lib.org/reference/peek_vars.html)
     instead.
 
   - `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()`,
-    and `eval_tbls2()`. Deprecated in 1.0.0.
+    and `eval_tbls2()`. Deprecated in 1.0.0 (May 2020).
 
-  - `location()` and `changes()`. Deprecated in 1.0.0, use
+  - `location()` and `changes()`. Deprecated in 1.0.0 (May 2020), use
     [`lobstr::ref()`](https://lobstr.r-lib.org/reference/ref.html)
     instead.
 
@@ -462,24 +465,26 @@
   used:
 
   - [`all_equal()`](https://dplyr.tidyverse.org/dev/reference/all_equal.md).
-    Deprecated in 1.1.0, use
+    Deprecated in 1.1.0 (Jan 2023), use
     [`all.equal()`](https://rdrr.io/r/base/all.equal.html) instead.
 
   - [`progress_estimated()`](https://dplyr.tidyverse.org/dev/reference/progress_estimated.md).
-    Deprecated in 1.0.0.
+    Deprecated in 1.0.0 (May 2020).
 
   - [`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md)
-    with a 1 column matrix. Deprecated in 1.1.0, use a vector instead.
+    with a 1 column matrix. Deprecated in 1.1.0 (Jan 2023), use a vector
+    instead.
 
   - [`slice()`](https://dplyr.tidyverse.org/dev/reference/slice.md) with
-    a 1 column matrix. Deprecated in 1.1.0, use a vector instead.
+    a 1 column matrix. Deprecated in 1.1.0 (Jan 2023), use a vector
+    instead.
 
   - Not supplying the `.cols` argument of
     [`across()`](https://dplyr.tidyverse.org/dev/reference/across.md).
-    Deprecated in 1.1.0.
+    Deprecated in 1.1.0 (Jan 2023).
 
   - [`group_indices()`](https://dplyr.tidyverse.org/dev/reference/group_data.md)
-    with no arguments. Deprecated in 1.0.0, use
+    with no arguments. Deprecated in 1.0.0 (May 2020), use
     [`cur_group_id()`](https://dplyr.tidyverse.org/dev/reference/context.md)
     instead.
 
@@ -489,16 +494,16 @@
   - [`cur_data()`](https://dplyr.tidyverse.org/dev/reference/deprec-context.md)
     and
     [`cur_data_all()`](https://dplyr.tidyverse.org/dev/reference/deprec-context.md).
-    Deprecated in 1.1.0, use
+    Deprecated in 1.1.0 (Jan 2023), use
     [`pick()`](https://dplyr.tidyverse.org/dev/reference/pick.md)
     instead.
 
   - The `...` argument of
     [`across()`](https://dplyr.tidyverse.org/dev/reference/across.md).
-    Deprecated in 1.1.0, use an anonymous function instead.
+    Deprecated in 1.1.0 (Jan 2023), use an anonymous function instead.
 
   - Using `by = character()` to perform a cross join. Deprecated in
-    1.1.0, use
+    1.1.0 (Jan 2023), use
     [`cross_join()`](https://dplyr.tidyverse.org/dev/reference/cross_join.md)
     instead.
 
@@ -953,8 +958,8 @@ CRAN release: 2023-01-29
   tidyups.
 
 - `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()`,
-  `eval_tbls2()`, `location()` and `changes()`, deprecated in 1.0.0, are
-  now defunct
+  `eval_tbls2()`, `location()` and `changes()`, Deprecated in 1.0.0 (May
+  2020), are now defunct
   ([\#6387](https://github.com/tidyverse/dplyr/issues/6387)).
 
 - [`frame_data()`](https://tibble.tidyverse.org/reference/deprecated.html),

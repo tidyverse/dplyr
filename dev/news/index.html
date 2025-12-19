@@ -158,7 +158,7 @@
 <ul><li>
 <p>The following were already deprecated, and are now defunct:</p>
 <ul><li>
-<p>All underscored standard evaluation versions of major dplyr verbs. Deprecated in 0.7.0, use the non-underscored version of the verb with unquoting instead, see <code><a href="../articles/programming.html">vignette("programming")</a></code>. This includes:</p>
+<p>All underscored standard evaluation versions of major dplyr verbs. Deprecated in 0.7.0 (Jun 2017), use the non-underscored version of the verb with unquoting instead, see <code><a href="../articles/programming.html">vignette("programming")</a></code>. This includes:</p>
 <ul><li><code><a href="../reference/defunct-lazyeval.html">add_count_()</a></code></li>
 <li><code><a href="../reference/defunct-lazyeval.html">add_tally_()</a></code></li>
 <li><code><a href="../reference/defunct-lazyeval.html">arrange_()</a></code></li>
@@ -178,50 +178,50 @@
 <li><code><a href="../reference/defunct-lazyeval.html">summarise_()</a></code></li>
 <li><code><a href="../reference/defunct-lazyeval.html">summarize_()</a></code></li>
 </ul></li>
-<li><p><code><a href="../reference/defunct-each.html">mutate_each()</a></code>, <code><a href="../reference/defunct-each.html">mutate_each_()</a></code>, <code><a href="../reference/defunct-each.html">summarise_each()</a></code>, and <code><a href="../reference/defunct-each.html">summarise_each_()</a></code>. Deprecated in 0.7.0, use <code><a href="../reference/across.html">across()</a></code> instead.</p></li>
-<li><p><code><a href="../reference/defunct.html">combine()</a></code>. Deprecated in 1.0.0, use <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> or <code><a href="https://vctrs.r-lib.org/reference/vec_c.html" class="external-link">vctrs::vec_c()</a></code> instead.</p></li>
-<li><p><code><a href="../reference/defunct.html">src_mysql()</a></code>, <code><a href="../reference/defunct.html">src_postgres()</a></code>, <code><a href="../reference/defunct.html">src_sqlite()</a></code>, <code><a href="../reference/defunct.html">src_local()</a></code>, and <code><a href="../reference/defunct.html">src_df()</a></code>. Deprecated in 1.0.0, use <code><a href="../reference/tbl.html">tbl()</a></code> instead.</p></li>
-<li><p><code><a href="../reference/defunct.html">tbl_df()</a></code> and <code><a href="../reference/defunct.html">as.tbl()</a></code>. Deprecated in 1.0.0, use <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">tibble::as_tibble()</a></code> instead.</p></li>
-<li><p><code><a href="../reference/defunct.html">add_rownames()</a></code>. Deprecated in 1.0.0, use <code><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">tibble::rownames_to_column()</a></code> instead.</p></li>
-<li><p>The <code>.drop</code> argument of <code><a href="../reference/count.html">add_count()</a></code>. Deprecated in 1.0.0, had no effect.</p></li>
-<li><p>The <code>add</code> argument of <code><a href="../reference/group_by.html">group_by()</a></code> and <code><a href="../reference/group_by_prepare.html">group_by_prepare()</a></code>. Deprecated in 1.0.0, use <code>.add</code> instead.</p></li>
-<li><p>The <code>.dots</code> argument of <code><a href="../reference/group_by.html">group_by()</a></code> and <code><a href="../reference/group_by_prepare.html">group_by_prepare()</a></code>. Deprecated in 1.0.0.</p></li>
-<li><p>The <code>...</code> argument of <code><a href="../reference/group_data.html">group_keys()</a></code> and <code><a href="../reference/group_data.html">group_indices()</a></code>. Deprecated in 1.0.0, use <code><a href="../reference/group_by.html">group_by()</a></code> first.</p></li>
-<li><p>The <code>keep</code> argument of <code><a href="../reference/group_map.html">group_map()</a></code>, <code><a href="../reference/group_map.html">group_modify()</a></code>, and <code><a href="../reference/group_split.html">group_split()</a></code>. Deprecated in 1.0.0, use <code>.keep</code> instead.</p></li>
-<li><p>Using <code><a href="../reference/across.html">across()</a></code> and data frames in <code><a href="../reference/filter.html">filter()</a></code>. Deprecated in 1.0.8, use <code><a href="../reference/across.html">if_any()</a></code> or <code><a href="../reference/across.html">if_all()</a></code> instead.</p></li>
-<li><p>Returning more or less than 1 row per group in <code><a href="../reference/summarise.html">summarise()</a></code>. Deprecated in 1.1.0, use <code><a href="../reference/reframe.html">reframe()</a></code> instead.</p></li>
-<li><p><code>multiple = NULL</code> in joins. Deprecated in 1.1.1, use <code>multiple = "all"</code> instead.</p></li>
-<li><p><code>multiple = "error" / "warning"</code> in joins. Deprecated in 1.1.1, use <code>relationship = "many-to-one"</code> instead.</p></li>
-<li><p>The <code>vars</code> argument of <code><a href="../reference/group_cols.html">group_cols()</a></code>. Deprecated in 1.0.0.</p></li>
+<li><p><code><a href="../reference/defunct-each.html">mutate_each()</a></code>, <code><a href="../reference/defunct-each.html">mutate_each_()</a></code>, <code><a href="../reference/defunct-each.html">summarise_each()</a></code>, and <code><a href="../reference/defunct-each.html">summarise_each_()</a></code>. Deprecated in 0.7.0 (Jun 2017), use <code><a href="../reference/across.html">across()</a></code> instead.</p></li>
+<li><p><code><a href="../reference/defunct.html">combine()</a></code>. Deprecated in 1.0.0 (May 2020), use <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> or <code><a href="https://vctrs.r-lib.org/reference/vec_c.html" class="external-link">vctrs::vec_c()</a></code> instead.</p></li>
+<li><p><code><a href="../reference/defunct.html">src_mysql()</a></code>, <code><a href="../reference/defunct.html">src_postgres()</a></code>, <code><a href="../reference/defunct.html">src_sqlite()</a></code>, <code><a href="../reference/defunct.html">src_local()</a></code>, and <code><a href="../reference/defunct.html">src_df()</a></code>. Deprecated in 1.0.0 (May 2020), use <code><a href="../reference/tbl.html">tbl()</a></code> instead.</p></li>
+<li><p><code><a href="../reference/defunct.html">tbl_df()</a></code> and <code><a href="../reference/defunct.html">as.tbl()</a></code>. Deprecated in 1.0.0 (May 2020), use <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">tibble::as_tibble()</a></code> instead.</p></li>
+<li><p><code><a href="../reference/defunct.html">add_rownames()</a></code>. Deprecated in 1.0.0 (May 2020), use <code><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">tibble::rownames_to_column()</a></code> instead.</p></li>
+<li><p>The <code>.drop</code> argument of <code><a href="../reference/count.html">add_count()</a></code>. Deprecated in 1.0.0 (May 2020), had no effect.</p></li>
+<li><p>The <code>add</code> argument of <code><a href="../reference/group_by.html">group_by()</a></code> and <code><a href="../reference/group_by_prepare.html">group_by_prepare()</a></code>. Deprecated in 1.0.0 (May 2020), use <code>.add</code> instead.</p></li>
+<li><p>The <code>.dots</code> argument of <code><a href="../reference/group_by.html">group_by()</a></code> and <code><a href="../reference/group_by_prepare.html">group_by_prepare()</a></code>. Deprecated in 1.0.0 (May 2020).</p></li>
+<li><p>The <code>...</code> argument of <code><a href="../reference/group_data.html">group_keys()</a></code> and <code><a href="../reference/group_data.html">group_indices()</a></code>. Deprecated in 1.0.0 (May 2020), use <code><a href="../reference/group_by.html">group_by()</a></code> first.</p></li>
+<li><p>The <code>keep</code> argument of <code><a href="../reference/group_map.html">group_map()</a></code>, <code><a href="../reference/group_map.html">group_modify()</a></code>, and <code><a href="../reference/group_split.html">group_split()</a></code>. Deprecated in 1.0.0 (May 2020), use <code>.keep</code> instead.</p></li>
+<li><p>Using <code><a href="../reference/across.html">across()</a></code> and data frames in <code><a href="../reference/filter.html">filter()</a></code>. Deprecated in 1.0.8 (Feb 2022), use <code><a href="../reference/across.html">if_any()</a></code> or <code><a href="../reference/across.html">if_all()</a></code> instead.</p></li>
+<li><p>Returning more or less than 1 row per group in <code><a href="../reference/summarise.html">summarise()</a></code>. Deprecated in 1.1.0 (Jan 2023), use <code><a href="../reference/reframe.html">reframe()</a></code> instead.</p></li>
+<li><p><code>multiple = NULL</code> in joins. Deprecated in 1.1.1 (Mar 2023), use <code>multiple = "all"</code> instead.</p></li>
+<li><p><code>multiple = "error" / "warning"</code> in joins. Deprecated in 1.1.1 (Mar 2023), use <code>relationship = "many-to-one"</code> instead.</p></li>
+<li><p>The <code>vars</code> argument of <code><a href="../reference/group_cols.html">group_cols()</a></code>. Deprecated in 1.0.0 (Jan 2023).</p></li>
 </ul></li>
 <li>
 <p>The following were already defunct, and have been removed:</p>
-<ul><li><p><code>id()</code>. Deprecated in 0.5.0, use <code><a href="https://vctrs.r-lib.org/reference/vec_group.html" class="external-link">vctrs::vec_group_id()</a></code> instead. If your package uses NSE and implicitly relied on the variable <code>id</code> being available, you now need to put <code>utils::globalVariables("id")</code> inside one of your package files to tell R that <code>id</code> is a column name.</p></li>
-<li><p><code>failwith()</code>. Deprecated in 0.7.0, use <code><a href="https://purrr.tidyverse.org/reference/possibly.html" class="external-link">purrr::possibly()</a></code> instead.</p></li>
-<li><p><code>select_vars()</code> and <code>select_vars_()</code>. Deprecated in 0.8.4, use <code><a href="https://tidyselect.r-lib.org/reference/vars_select.html" class="external-link">tidyselect::vars_select()</a></code> instead.</p></li>
-<li><p><code>rename_vars()</code> and <code>rename_vars_()</code>. Deprecated in 0.8.4, use <code><a href="https://tidyselect.r-lib.org/reference/vars_select.html" class="external-link">tidyselect::vars_rename()</a></code> instead.</p></li>
-<li><p><code>select_var()</code>. Deprecated in 0.8.4, use <code><a href="https://tidyselect.r-lib.org/reference/vars_pull.html" class="external-link">tidyselect::vars_pull()</a></code> instead.</p></li>
-<li><p><code>current_vars()</code>. Deprecated in 0.8.4, use <code><a href="https://tidyselect.r-lib.org/reference/peek_vars.html" class="external-link">tidyselect::peek_vars()</a></code> instead.</p></li>
-<li><p><code>bench_tbls()</code>, <code>compare_tbls()</code>, <code>compare_tbls2()</code>, <code>eval_tbls()</code>, and <code>eval_tbls2()</code>. Deprecated in 1.0.0.</p></li>
-<li><p><code>location()</code> and <code>changes()</code>. Deprecated in 1.0.0, use <code><a href="https://lobstr.r-lib.org/reference/ref.html" class="external-link">lobstr::ref()</a></code> instead.</p></li>
+<ul><li><p><code>id()</code>. Deprecated in 0.5.0 (Jun 2016), use <code><a href="https://vctrs.r-lib.org/reference/vec_group.html" class="external-link">vctrs::vec_group_id()</a></code> instead. If your package uses NSE and implicitly relied on the variable <code>id</code> being available, you now need to put <code>utils::globalVariables("id")</code> inside one of your package files to tell R that <code>id</code> is a column name.</p></li>
+<li><p><code>failwith()</code>. Deprecated in 0.7.0 (Jun 2017), use <code><a href="https://purrr.tidyverse.org/reference/possibly.html" class="external-link">purrr::possibly()</a></code> instead.</p></li>
+<li><p><code>select_vars()</code> and <code>select_vars_()</code>. Deprecated in 0.8.4 (Jan 2020), use <code><a href="https://tidyselect.r-lib.org/reference/vars_select.html" class="external-link">tidyselect::vars_select()</a></code> instead.</p></li>
+<li><p><code>rename_vars()</code> and <code>rename_vars_()</code>. Deprecated in 0.8.4 (Jan 2020), use <code><a href="https://tidyselect.r-lib.org/reference/vars_select.html" class="external-link">tidyselect::vars_rename()</a></code> instead.</p></li>
+<li><p><code>select_var()</code>. Deprecated in 0.8.4 (Jan 2020), use <code><a href="https://tidyselect.r-lib.org/reference/vars_pull.html" class="external-link">tidyselect::vars_pull()</a></code> instead.</p></li>
+<li><p><code>current_vars()</code>. Deprecated in 0.8.4 (Jan 2020), use <code><a href="https://tidyselect.r-lib.org/reference/peek_vars.html" class="external-link">tidyselect::peek_vars()</a></code> instead.</p></li>
+<li><p><code>bench_tbls()</code>, <code>compare_tbls()</code>, <code>compare_tbls2()</code>, <code>eval_tbls()</code>, and <code>eval_tbls2()</code>. Deprecated in 1.0.0 (May 2020).</p></li>
+<li><p><code>location()</code> and <code>changes()</code>. Deprecated in 1.0.0 (May 2020), use <code><a href="https://lobstr.r-lib.org/reference/ref.html" class="external-link">lobstr::ref()</a></code> instead.</p></li>
 </ul></li>
 </ul></div>
 <div class="section level4">
 <h4 id="newly-deprecated-development-version">Newly deprecated<a class="anchor" aria-label="anchor" href="#newly-deprecated-development-version"></a></h4>
 <ul><li>
 <p>The following were already deprecated, and now warn unconditionally if used:</p>
-<ul><li><p><code><a href="../reference/all_equal.html">all_equal()</a></code>. Deprecated in 1.1.0, use <code><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal()</a></code> instead.</p></li>
-<li><p><code><a href="../reference/progress_estimated.html">progress_estimated()</a></code>. Deprecated in 1.0.0.</p></li>
-<li><p><code><a href="../reference/filter.html">filter()</a></code> with a 1 column matrix. Deprecated in 1.1.0, use a vector instead.</p></li>
-<li><p><code><a href="../reference/slice.html">slice()</a></code> with a 1 column matrix. Deprecated in 1.1.0, use a vector instead.</p></li>
-<li><p>Not supplying the <code>.cols</code> argument of <code><a href="../reference/across.html">across()</a></code>. Deprecated in 1.1.0.</p></li>
-<li><p><code><a href="../reference/group_data.html">group_indices()</a></code> with no arguments. Deprecated in 1.0.0, use <code><a href="../reference/context.html">cur_group_id()</a></code> instead.</p></li>
+<ul><li><p><code><a href="../reference/all_equal.html">all_equal()</a></code>. Deprecated in 1.1.0 (Jan 2023), use <code><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal()</a></code> instead.</p></li>
+<li><p><code><a href="../reference/progress_estimated.html">progress_estimated()</a></code>. Deprecated in 1.0.0 (May 2020).</p></li>
+<li><p><code><a href="../reference/filter.html">filter()</a></code> with a 1 column matrix. Deprecated in 1.1.0 (Jan 2023), use a vector instead.</p></li>
+<li><p><code><a href="../reference/slice.html">slice()</a></code> with a 1 column matrix. Deprecated in 1.1.0 (Jan 2023), use a vector instead.</p></li>
+<li><p>Not supplying the <code>.cols</code> argument of <code><a href="../reference/across.html">across()</a></code>. Deprecated in 1.1.0 (Jan 2023).</p></li>
+<li><p><code><a href="../reference/group_data.html">group_indices()</a></code> with no arguments. Deprecated in 1.0.0 (May 2020), use <code><a href="../reference/context.html">cur_group_id()</a></code> instead.</p></li>
 </ul></li>
 <li>
 <p>The following were already soft-deprecated, and now warn unconditionally once per session if used:</p>
-<ul><li><p><code><a href="../reference/deprec-context.html">cur_data()</a></code> and <code><a href="../reference/deprec-context.html">cur_data_all()</a></code>. Deprecated in 1.1.0, use <code><a href="../reference/pick.html">pick()</a></code> instead.</p></li>
-<li><p>The <code>...</code> argument of <code><a href="../reference/across.html">across()</a></code>. Deprecated in 1.1.0, use an anonymous function instead.</p></li>
-<li><p>Using <code>by = character()</code> to perform a cross join. Deprecated in 1.1.0, use <code><a href="../reference/cross_join.html">cross_join()</a></code> instead.</p></li>
+<ul><li><p><code><a href="../reference/deprec-context.html">cur_data()</a></code> and <code><a href="../reference/deprec-context.html">cur_data_all()</a></code>. Deprecated in 1.1.0 (Jan 2023), use <code><a href="../reference/pick.html">pick()</a></code> instead.</p></li>
+<li><p>The <code>...</code> argument of <code><a href="../reference/across.html">across()</a></code>. Deprecated in 1.1.0 (Jan 2023), use an anonymous function instead.</p></li>
+<li><p>Using <code>by = character()</code> to perform a cross join. Deprecated in 1.1.0 (Jan 2023), use <code><a href="../reference/cross_join.html">cross_join()</a></code> instead.</p></li>
 </ul></li>
 <li>
 <p>The following are newly deprecated:</p>
@@ -344,7 +344,7 @@
 <div class="section level4">
 <h4 id="breaking-changes-1-1-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-1-0"></a></h4>
 <ul><li><p><code><a href="../reference/arrange.html">arrange()</a></code> and <code><a href="../reference/group_by.html">group_by()</a></code> now use the C locale, not the system locale, when ordering or grouping character vectors. This brings <em>substantial</em> performance improvements, increases reproducibility across R sessions, makes dplyr more consistent with data.table, and we believe it should affect little existing code. If it does affect your code, you can use <code>options(dplyr.legacy_locale = TRUE)</code> to quickly revert to the previous behavior. However, in general, we instead recommend that you use the new <code>.locale</code> argument to precisely specify the desired locale. For a full explanation please read the associated <a href="https://github.com/tidyverse/tidyups/blob/main/006-dplyr-group-by-ordering.md" class="external-link">grouping</a> and <a href="https://github.com/tidyverse/tidyups/blob/main/003-dplyr-radix-ordering.md" class="external-link">ordering</a> tidyups.</p></li>
-<li><p><code>bench_tbls()</code>, <code>compare_tbls()</code>, <code>compare_tbls2()</code>, <code>eval_tbls()</code>, <code>eval_tbls2()</code>, <code>location()</code> and <code>changes()</code>, deprecated in 1.0.0, are now defunct (<a href="https://github.com/tidyverse/dplyr/issues/6387" class="external-link">#6387</a>).</p></li>
+<li><p><code>bench_tbls()</code>, <code>compare_tbls()</code>, <code>compare_tbls2()</code>, <code>eval_tbls()</code>, <code>eval_tbls2()</code>, <code>location()</code> and <code>changes()</code>, Deprecated in 1.0.0 (May 2020), are now defunct (<a href="https://github.com/tidyverse/dplyr/issues/6387" class="external-link">#6387</a>).</p></li>
 <li><p><code><a href="https://tibble.tidyverse.org/reference/deprecated.html" class="external-link">frame_data()</a></code>, <code><a href="https://tibble.tidyverse.org/reference/deprecated.html" class="external-link">data_frame_()</a></code>, <code><a href="https://tibble.tidyverse.org/reference/deprecated.html" class="external-link">lst_()</a></code> and <code><a href="https://pillar.r-lib.org/reference/tbl_sum.html" class="external-link">tbl_sum()</a></code> are no longer re-exported from tibble (<a href="https://github.com/tidyverse/dplyr/issues/6276" class="external-link">#6276</a>, <a href="https://github.com/tidyverse/dplyr/issues/6277" class="external-link">#6277</a>, <a href="https://github.com/tidyverse/dplyr/issues/6278" class="external-link">#6278</a>, <a href="https://github.com/tidyverse/dplyr/issues/6284" class="external-link">#6284</a>).</p></li>
 <li><p><code>select_vars()</code>, <code>rename_vars()</code>, <code>select_var()</code> and <code>current_vars()</code>, deprecated in 0.8.4, are now defunct (<a href="https://github.com/tidyverse/dplyr/issues/6387" class="external-link">#6387</a>).</p></li>
 </ul></div>
