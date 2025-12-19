@@ -178,15 +178,15 @@ news:
   - text: "Version 1.0.0"
     href: https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/
   - text: "Version 0.8.3"
-    href: https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/
+    href: https://www.tidyverse.org/blog/2019/07/dplyr-0-8-3/
   - text: "Version 0.8.2"
-    href: https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/
+    href: https://www.tidyverse.org/blog/2019/06/dplyr-0-8-2/
   - text: "Version 0.8.1"
-    href: https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/
+    href: https://www.tidyverse.org/blog/2019/05/dplyr-0-8-1/
   - text: "Version 0.8.0"
-    href: https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/
+    href: https://www.tidyverse.org/blog/2019/02/dplyr-0-8-0/
   - text: "Version 0.7.5"
-    href: https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/
+    href: https://www.tidyverse.org/blog/2018/06/dplyr-0.7.5/
 
 development:
   mode: auto
