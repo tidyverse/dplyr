@@ -145,7 +145,7 @@
 
 * The following were already deprecated, and are now defunct:
 
-  * All underscored standard evaluation versions of major dplyr verbs. Deprecated in 0.7.0, use the non-underscored version of the verb with unquoting instead, see `vignette("programming")`. This includes:
+  * All underscored standard evaluation versions of major dplyr verbs. Deprecated in 0.7.0 (Jun 2017), use the non-underscored version of the verb with unquoting instead, see `vignette("programming")`. This includes:
 
     * `add_count_()`
     * `add_tally_()`
@@ -166,77 +166,77 @@
     * `summarise_()`
     * `summarize_()`
 
-  * `mutate_each()`, `mutate_each_()`, `summarise_each()`, and `summarise_each_()`. Deprecated in 0.7.0, use `across()` instead.
+  * `mutate_each()`, `mutate_each_()`, `summarise_each()`, and `summarise_each_()`. Deprecated in 0.7.0 (Jun 2017), use `across()` instead.
 
-  * `combine()`. Deprecated in 1.0.0, use `c()` or `vctrs::vec_c()` instead.
+  * `combine()`. Deprecated in 1.0.0 (May 2020), use `c()` or `vctrs::vec_c()` instead.
 
-  * `src_mysql()`, `src_postgres()`, `src_sqlite()`, `src_local()`, and `src_df()`. Deprecated in 1.0.0, use `tbl()` instead.
+  * `src_mysql()`, `src_postgres()`, `src_sqlite()`, `src_local()`, and `src_df()`. Deprecated in 1.0.0 (May 2020), use `tbl()` instead.
 
-  * `tbl_df()` and `as.tbl()`. Deprecated in 1.0.0, use `tibble::as_tibble()` instead.
+  * `tbl_df()` and `as.tbl()`. Deprecated in 1.0.0 (May 2020), use `tibble::as_tibble()` instead.
 
-  * `add_rownames()`. Deprecated in 1.0.0, use `tibble::rownames_to_column()` instead.
+  * `add_rownames()`. Deprecated in 1.0.0 (May 2020), use `tibble::rownames_to_column()` instead.
 
-  * The `.drop` argument of `add_count()`. Deprecated in 1.0.0, had no effect.
+  * The `.drop` argument of `add_count()`. Deprecated in 1.0.0 (May 2020), had no effect.
 
-  * The `add` argument of `group_by()` and `group_by_prepare()`. Deprecated in 1.0.0, use `.add` instead.
+  * The `add` argument of `group_by()` and `group_by_prepare()`. Deprecated in 1.0.0 (May 2020), use `.add` instead.
 
-  * The `.dots` argument of `group_by()` and `group_by_prepare()`. Deprecated in 1.0.0.
+  * The `.dots` argument of `group_by()` and `group_by_prepare()`. Deprecated in 1.0.0 (May 2020).
 
-  * The `...` argument of `group_keys()` and `group_indices()`. Deprecated in 1.0.0, use `group_by()` first.
+  * The `...` argument of `group_keys()` and `group_indices()`. Deprecated in 1.0.0 (May 2020), use `group_by()` first.
 
-  * The `keep` argument of `group_map()`, `group_modify()`, and `group_split()`. Deprecated in 1.0.0, use `.keep` instead.
+  * The `keep` argument of `group_map()`, `group_modify()`, and `group_split()`. Deprecated in 1.0.0 (May 2020), use `.keep` instead.
 
-  * Using `across()` and data frames in `filter()`. Deprecated in 1.0.8, use `if_any()` or `if_all()` instead.
+  * Using `across()` and data frames in `filter()`. Deprecated in 1.0.8 (Feb 2022), use `if_any()` or `if_all()` instead.
 
-  * Returning more or less than 1 row per group in `summarise()`. Deprecated in 1.1.0, use `reframe()` instead.
+  * Returning more or less than 1 row per group in `summarise()`. Deprecated in 1.1.0 (Jan 2023), use `reframe()` instead.
 
-  * `multiple = NULL` in joins. Deprecated in 1.1.1, use `multiple = "all"` instead.
+  * `multiple = NULL` in joins. Deprecated in 1.1.1 (Mar 2023), use `multiple = "all"` instead.
 
-  * `multiple = "error" / "warning"` in joins. Deprecated in 1.1.1, use `relationship = "many-to-one"` instead.
+  * `multiple = "error" / "warning"` in joins. Deprecated in 1.1.1 (Mar 2023), use `relationship = "many-to-one"` instead.
 
-  * The `vars` argument of `group_cols()`. Deprecated in 1.0.0.
+  * The `vars` argument of `group_cols()`. Deprecated in 1.0.0 (Jan 2023).
 
 * The following were already defunct, and have been removed:
 
-  * `id()`. Deprecated in 0.5.0, use `vctrs::vec_group_id()` instead. If your package uses NSE and implicitly relied on the variable `id` being available, you now need to put `utils::globalVariables("id")` inside one of your package files to tell R that `id` is a column name.
+  * `id()`. Deprecated in 0.5.0 (Jun 2016), use `vctrs::vec_group_id()` instead. If your package uses NSE and implicitly relied on the variable `id` being available, you now need to put `utils::globalVariables("id")` inside one of your package files to tell R that `id` is a column name.
 
-  * `failwith()`. Deprecated in 0.7.0, use `purrr::possibly()` instead.
+  * `failwith()`. Deprecated in 0.7.0 (Jun 2017), use `purrr::possibly()` instead.
 
-  * `select_vars()` and `select_vars_()`. Deprecated in 0.8.4, use `tidyselect::vars_select()` instead.
+  * `select_vars()` and `select_vars_()`. Deprecated in 0.8.4 (Jan 2020), use `tidyselect::vars_select()` instead.
 
-  * `rename_vars()` and `rename_vars_()`. Deprecated in 0.8.4, use `tidyselect::vars_rename()` instead.
+  * `rename_vars()` and `rename_vars_()`. Deprecated in 0.8.4 (Jan 2020), use `tidyselect::vars_rename()` instead.
 
-  * `select_var()`. Deprecated in 0.8.4, use `tidyselect::vars_pull()` instead.
+  * `select_var()`. Deprecated in 0.8.4 (Jan 2020), use `tidyselect::vars_pull()` instead.
 
-  * `current_vars()`. Deprecated in 0.8.4, use `tidyselect::peek_vars()` instead.
+  * `current_vars()`. Deprecated in 0.8.4 (Jan 2020), use `tidyselect::peek_vars()` instead.
 
-  * `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()`, and `eval_tbls2()`. Deprecated in 1.0.0.
+  * `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()`, and `eval_tbls2()`. Deprecated in 1.0.0 (May 2020).
 
-  * `location()` and `changes()`. Deprecated in 1.0.0, use `lobstr::ref()` instead.
+  * `location()` and `changes()`. Deprecated in 1.0.0 (May 2020), use `lobstr::ref()` instead.
 
 ### Newly deprecated
 
 * The following were already deprecated, and now warn unconditionally if used:
 
-  * `all_equal()`. Deprecated in 1.1.0, use `all.equal()` instead.
+  * `all_equal()`. Deprecated in 1.1.0 (Jan 2023), use `all.equal()` instead.
 
-  * `progress_estimated()`. Deprecated in 1.0.0.
+  * `progress_estimated()`. Deprecated in 1.0.0 (May 2020).
 
-  * `filter()` with a 1 column matrix. Deprecated in 1.1.0, use a vector instead.
+  * `filter()` with a 1 column matrix. Deprecated in 1.1.0 (Jan 2023), use a vector instead.
 
-  * `slice()` with a 1 column matrix. Deprecated in 1.1.0, use a vector instead.
+  * `slice()` with a 1 column matrix. Deprecated in 1.1.0 (Jan 2023), use a vector instead.
 
-  * Not supplying the `.cols` argument of `across()`. Deprecated in 1.1.0.
+  * Not supplying the `.cols` argument of `across()`. Deprecated in 1.1.0 (Jan 2023).
 
-  * `group_indices()` with no arguments. Deprecated in 1.0.0, use `cur_group_id()` instead.
+  * `group_indices()` with no arguments. Deprecated in 1.0.0 (May 2020), use `cur_group_id()` instead.
 
 * The following were already soft-deprecated, and now warn unconditionally once per session if used:
 
-  * `cur_data()` and `cur_data_all()`. Deprecated in 1.1.0, use `pick()` instead.
+  * `cur_data()` and `cur_data_all()`. Deprecated in 1.1.0 (Jan 2023), use `pick()` instead.
 
-  * The `...` argument of `across()`. Deprecated in 1.1.0, use an anonymous function instead.
+  * The `...` argument of `across()`. Deprecated in 1.1.0 (Jan 2023), use an anonymous function instead.
 
-  * Using `by = character()` to perform a cross join. Deprecated in 1.1.0, use `cross_join()` instead.
+  * Using `by = character()` to perform a cross join. Deprecated in 1.1.0 (Jan 2023), use `cross_join()` instead.
 
 * The following are newly deprecated:
 
@@ -543,7 +543,7 @@
   tidyups.
 
 * `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()`,
-  `eval_tbls2()`, `location()` and `changes()`, deprecated in 1.0.0, are now
+  `eval_tbls2()`, `location()` and `changes()`, Deprecated in 1.0.0 (May 2020), are now
   defunct (#6387).
 
 * `frame_data()`, `data_frame_()`, `lst_()` and `tbl_sum()` are no longer
