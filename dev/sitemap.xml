@@ -43,6 +43,8 @@
 <url><loc>https://dplyr.tidyverse.org/dev/reference/count.html</loc></url>
 <url><loc>https://dplyr.tidyverse.org/dev/reference/cross_join.html</loc></url>
 <url><loc>https://dplyr.tidyverse.org/dev/reference/cumall.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/dev/reference/defunct-each.html</loc></url>
+<url><loc>https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.html</loc></url>
 <url><loc>https://dplyr.tidyverse.org/dev/reference/defunct.html</loc></url>
 <url><loc>https://dplyr.tidyverse.org/dev/reference/deprec-context.html</loc></url>
 <url><loc>https://dplyr.tidyverse.org/dev/reference/desc.html</loc></url>
@@ -108,7 +110,6 @@
 <url><loc>https://dplyr.tidyverse.org/dev/reference/same_src.html</loc></url>
 <url><loc>https://dplyr.tidyverse.org/dev/reference/sample_n.html</loc></url>
 <url><loc>https://dplyr.tidyverse.org/dev/reference/scoped.html</loc></url>
-<url><loc>https://dplyr.tidyverse.org/dev/reference/se-deprecated.html</loc></url>
 <url><loc>https://dplyr.tidyverse.org/dev/reference/select.html</loc></url>
 <url><loc>https://dplyr.tidyverse.org/dev/reference/select_all.html</loc></url>
 <url><loc>https://dplyr.tidyverse.org/dev/reference/setops.html</loc></url>
@@ -120,7 +121,6 @@
 <url><loc>https://dplyr.tidyverse.org/dev/reference/storms.html</loc></url>
 <url><loc>https://dplyr.tidyverse.org/dev/reference/summarise.html</loc></url>
 <url><loc>https://dplyr.tidyverse.org/dev/reference/summarise_all.html</loc></url>
-<url><loc>https://dplyr.tidyverse.org/dev/reference/summarise_each.html</loc></url>
 <url><loc>https://dplyr.tidyverse.org/dev/reference/tbl.html</loc></url>
 <url><loc>https://dplyr.tidyverse.org/dev/reference/tbl_ptype.html</loc></url>
 <url><loc>https://dplyr.tidyverse.org/dev/reference/tbl_vars.html</loc></url>

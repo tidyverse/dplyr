@@ -200,8 +200,8 @@ The following
 [`summarise()`](https://dplyr.tidyverse.org/dev/reference/summarise.md)
 variants were deprecated in dplyr 0.7.0:
 
-- [`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md),
-  [`summarise_each()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md)
+- [`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md),
+  [`summarise_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md)
 
 and the following variants were superseded in dplyr 1.0.0:
 
@@ -224,7 +224,7 @@ was introduced in dplyr 1.0.0.
 If you used
 [`mutate_all()`](https://dplyr.tidyverse.org/dev/reference/mutate_all.md)
 or
-[`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md)
+[`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md)
 without supplying a selection, you should update to use
 `across(everything())`:
 
@@ -237,7 +237,7 @@ starwars |> mutate(across(everything(), as.character))
 If you provided a selection through
 [`mutate_at()`](https://dplyr.tidyverse.org/dev/reference/mutate_all.md)
 or
-[`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md),
+[`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md),
 then you can switch to
 [`across()`](https://dplyr.tidyverse.org/dev/reference/across.md) with a
 selection:

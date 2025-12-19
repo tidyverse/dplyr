@@ -270,7 +270,7 @@ feature in the <code>NAMESPACE</code> file: you can include raw
 variants were deprecated in dplyr 0.7.0:</p>
 <ul>
 <li>
-<code><a href="../reference/summarise_each.html">mutate_each()</a></code>, <code><a href="../reference/summarise_each.html">summarise_each()</a></code>
+<code><a href="../reference/defunct-each.html">mutate_each()</a></code>, <code><a href="../reference/defunct-each.html">summarise_each()</a></code>
 </li>
 </ul>
 <p>and the following variants were superseded in dplyr 1.0.0:</p>
@@ -282,18 +282,18 @@ variants were deprecated in dplyr 0.7.0:</p>
 <p>These have all been replaced by using <code><a href="../reference/mutate.html">mutate()</a></code> or
 <code><a href="../reference/summarise.html">summarise()</a></code> in combination with <code><a href="../reference/across.html">across()</a></code>,
 which was introduced in dplyr 1.0.0.</p>
-<p>If you used <code><a href="../reference/mutate_all.html">mutate_all()</a></code> or <code><a href="../reference/summarise_each.html">mutate_each()</a></code>
+<p>If you used <code><a href="../reference/mutate_all.html">mutate_all()</a></code> or <code><a href="../reference/defunct-each.html">mutate_each()</a></code>
 without supplying a selection, you should update to use
 <code>across(everything())</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/summarise_each.html">mutate_each</a></span><span class="op">(</span><span class="fu"><a href="../reference/funs.html">funs</a></span><span class="op">(</span><span class="va">as.character</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/defunct-each.html">mutate_each</a></span><span class="op">(</span><span class="fu"><a href="../reference/funs.html">funs</a></span><span class="op">(</span><span class="va">as.character</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/mutate_all.html">mutate_all</a></span><span class="op">(</span><span class="fu"><a href="../reference/funs.html">funs</a></span><span class="op">(</span><span class="va">as.character</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">as.character</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>If you provided a selection through <code><a href="../reference/mutate_all.html">mutate_at()</a></code> or
-<code><a href="../reference/summarise_each.html">mutate_each()</a></code>, then you can switch to <code><a href="../reference/across.html">across()</a></code>
+<code><a href="../reference/defunct-each.html">mutate_each()</a></code>, then you can switch to <code><a href="../reference/across.html">across()</a></code>
 with a selection:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/summarise_each.html">mutate_each</a></span><span class="op">(</span><span class="fu"><a href="../reference/funs.html">funs</a></span><span class="op">(</span><span class="va">as.character</span><span class="op">)</span>, <span class="va">height</span>, <span class="va">mass</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/defunct-each.html">mutate_each</a></span><span class="op">(</span><span class="fu"><a href="../reference/funs.html">funs</a></span><span class="op">(</span><span class="va">as.character</span><span class="op">)</span>, <span class="va">height</span>, <span class="va">mass</span><span class="op">)</span></span>
 <span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/mutate_all.html">mutate_at</a></span><span class="op">(</span><span class="fu"><a href="../reference/vars.html">vars</a></span><span class="op">(</span><span class="va">height</span>, <span class="va">mass</span><span class="op">)</span>, <span class="va">as.character</span><span class="op">)</span></span>
 <span><span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span><span class="fu"><a href="../reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">height</span>, <span class="va">mass</span><span class="op">)</span>, <span class="va">as.character</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>If you used predicates with <code><a href="../reference/mutate_all.html">mutate_if()</a></code>, you can switch

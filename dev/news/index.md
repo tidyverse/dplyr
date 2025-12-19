@@ -304,6 +304,40 @@
 
 - The following were already deprecated, and are now defunct:
 
+  - All underscored standard evaluation versions of major dplyr verbs.
+    Deprecated in 0.7.0, use the non-underscored version of the verb
+    with unquoting instead, see
+    [`vignette("programming")`](https://dplyr.tidyverse.org/dev/articles/programming.md).
+    This includes:
+
+    - [`add_count_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
+    - [`add_tally_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
+    - [`arrange_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
+    - [`count_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
+    - [`distinct_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
+    - [`do_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
+    - [`filter_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
+    - [`funs_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
+    - [`group_by_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
+    - [`group_indices_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
+    - [`mutate_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
+    - [`tally_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
+    - [`transmute_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
+    - [`rename_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
+    - [`select_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
+    - [`slice_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
+    - [`summarise_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
+    - [`summarize_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
+
+  - [`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md),
+    [`mutate_each_()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md),
+    [`summarise_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md),
+    and
+    [`summarise_each_()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md).
+    Deprecated in 0.7.0, use
+    [`across()`](https://dplyr.tidyverse.org/dev/reference/across.md)
+    instead.
+
   - [`combine()`](https://dplyr.tidyverse.org/dev/reference/defunct.md).
     Deprecated in 1.0.0, use [`c()`](https://rdrr.io/r/base/c.html) or
     [`vctrs::vec_c()`](https://vctrs.r-lib.org/reference/vec_c.html)
@@ -385,6 +419,42 @@
   - The `vars` argument of
     [`group_cols()`](https://dplyr.tidyverse.org/dev/reference/group_cols.md).
     Deprecated in 1.0.0.
+
+- The following were already defunct, and have been removed:
+
+  - `id()`. Deprecated in 0.5.0, use
+    [`vctrs::vec_group_id()`](https://vctrs.r-lib.org/reference/vec_group.html)
+    instead. If your package uses NSE and implicitly relied on the
+    variable `id` being available, you now need to put
+    `utils::globalVariables("id")` inside one of your package files to
+    tell R that `id` is a column name.
+
+  - `failwith()`. Deprecated in 0.7.0, use
+    [`purrr::possibly()`](https://purrr.tidyverse.org/reference/possibly.html)
+    instead.
+
+  - `select_vars()` and `select_vars_()`. Deprecated in 0.8.4, use
+    [`tidyselect::vars_select()`](https://tidyselect.r-lib.org/reference/vars_select.html)
+    instead.
+
+  - `rename_vars()` and `rename_vars_()`. Deprecated in 0.8.4, use
+    [`tidyselect::vars_rename()`](https://tidyselect.r-lib.org/reference/vars_select.html)
+    instead.
+
+  - `select_var()`. Deprecated in 0.8.4, use
+    [`tidyselect::vars_pull()`](https://tidyselect.r-lib.org/reference/vars_pull.html)
+    instead.
+
+  - `current_vars()`. Deprecated in 0.8.4, use
+    [`tidyselect::peek_vars()`](https://tidyselect.r-lib.org/reference/peek_vars.html)
+    instead.
+
+  - `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()`,
+    and `eval_tbls2()`. Deprecated in 1.0.0.
+
+  - `location()` and `changes()`. Deprecated in 1.0.0, use
+    [`lobstr::ref()`](https://lobstr.r-lib.org/reference/ref.html)
+    instead.
 
 #### Newly deprecated
 
@@ -483,9 +553,9 @@ CRAN release: 2023-11-17
 
 CRAN release: 2023-09-03
 
-- [`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md)
+- [`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md)
   and
-  [`summarise_each()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md)
+  [`summarise_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md)
   now throw correct deprecation messages
   ([\#6869](https://github.com/tidyverse/dplyr/issues/6869)).
 
@@ -978,10 +1048,9 @@ CRAN release: 2023-01-29
   [`src_mysql()`](https://dplyr.tidyverse.org/dev/reference/defunct.md),
   [`src_postgres()`](https://dplyr.tidyverse.org/dev/reference/defunct.md),
   [`src_sqlite()`](https://dplyr.tidyverse.org/dev/reference/defunct.md),
-  [`rename_vars_()`](https://dplyr.tidyverse.org/dev/reference/se-deprecated.md),
-  [`select_vars_()`](https://dplyr.tidyverse.org/dev/reference/se-deprecated.md),
-  [`summarise_each_()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md),
-  [`mutate_each_()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md),
+  `rename_vars_()`, `select_vars_()`,
+  [`summarise_each_()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md),
+  [`mutate_each_()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md),
   [`as.tbl()`](https://dplyr.tidyverse.org/dev/reference/defunct.md),
   [`tbl_df()`](https://dplyr.tidyverse.org/dev/reference/defunct.md),
   and a handful of older arguments. They are likely to be made defunct
@@ -2982,9 +3051,9 @@ CRAN release: 2019-02-14
 
 #### Deprecated and defunct functions
 
-- [`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md)
+- [`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md)
   and
-  [`summarise_each()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md)
+  [`summarise_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md)
   are deprecated.
 
 ## dplyr 0.7.6
@@ -3443,9 +3512,9 @@ CRAN release: 2017-06-09
 - Deprecated `failwith()`. I’m not even sure why it was here.
 
 - Soft-deprecated
-  [`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md)
+  [`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md)
   and
-  [`summarise_each()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md),
+  [`summarise_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md),
   these functions print a message which will be changed to a warning in
   the next release.
 
@@ -3585,7 +3654,7 @@ for helpers.
 - The performance of colwise verbs like
   [`mutate_all()`](https://dplyr.tidyverse.org/dev/reference/mutate_all.md)
   is now back to where it was in
-  [`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md).
+  [`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md).
 
 - [`funs()`](https://dplyr.tidyverse.org/dev/reference/funs.md) has
   better handling of namespaced functions
@@ -4120,9 +4189,9 @@ CRAN release: 2016-06-24
   ([\#1045](https://github.com/tidyverse/dplyr/issues/1045)).
 
 - A new family of functions replace
-  [`summarise_each()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md)
+  [`summarise_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md)
   and
-  [`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md)
+  [`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md)
   (which will thus be deprecated in a future release).
   [`summarise_all()`](https://dplyr.tidyverse.org/dev/reference/summarise_all.md)
   and
@@ -4482,9 +4551,9 @@ likely to affect anyone.
   ([\#1407](https://github.com/tidyverse/dplyr/issues/1407)).
 
 - The naming behaviour of
-  [`summarise_each()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md)
+  [`summarise_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md)
   and
-  [`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md)
+  [`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md)
   has been tweaked so that you can force inclusion of both the function
   and the variable name:
   `summarise_each(mtcars, funs(mean = mean), everything())`
@@ -5013,7 +5082,7 @@ CRAN release: 2015-01-08
   lazyeval to correctly evaluate its arguments in the correct
   environment ([\#744](https://github.com/tidyverse/dplyr/issues/744)),
   and new
-  [`do_()`](https://dplyr.tidyverse.org/dev/reference/se-deprecated.md)
+  [`do_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
   is the SE equivalent of
   [`do()`](https://dplyr.tidyverse.org/dev/reference/do.md)
   ([\#718](https://github.com/tidyverse/dplyr/issues/718)). You can
@@ -5222,7 +5291,7 @@ CRAN release: 2015-01-08
 - `min(.,na.rm = TRUE)` works with `Date`s built on numeric vectors
   ([\#755](https://github.com/tidyverse/dplyr/issues/755)).
 
-- [`rename_()`](https://dplyr.tidyverse.org/dev/reference/se-deprecated.md)
+- [`rename_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
   generic gets missing `.dots` argument
   ([\#708](https://github.com/tidyverse/dplyr/issues/708)).
 
@@ -5331,13 +5400,13 @@ CRAN release: 2014-10-04
 - See `vignette("nse")` for full details.
 
 - `regroup()` is deprecated. Please use the more flexible
-  [`group_by_()`](https://dplyr.tidyverse.org/dev/reference/se-deprecated.md)
+  [`group_by_()`](https://dplyr.tidyverse.org/dev/reference/defunct-lazyeval.md)
   instead.
 
 - `summarise_each_q()` and `mutate_each_q()` are deprecated. Please use
-  [`summarise_each_()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md)
+  [`summarise_each_()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md)
   and
-  [`mutate_each_()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md)
+  [`mutate_each_()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md)
   instead.
 
 - `funs_q` has been replaced with `funs_`.
@@ -5696,9 +5765,9 @@ dplyr 0.2 adds three new verbs:
   frames and data tables
   ([\#202](https://github.com/tidyverse/dplyr/issues/202)).
 
-- [`summarise_each()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md)
+- [`summarise_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md)
   and
-  [`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/summarise_each.md)
+  [`mutate_each()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md)
   make it easy to apply one or more functions to multiple columns in a
   tbl ([\#178](https://github.com/tidyverse/dplyr/issues/178)).
 
