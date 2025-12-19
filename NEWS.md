@@ -123,7 +123,7 @@
 * The base pipe is now used throughout the documentation (#7711).
 
 * R >=4.1.0 is now required, in line with the [tidyverse
-  standard](https://www.tidyverse.org/blog/2019/04/r-version-support/) of
+  standard](https://tidyverse.org/blog/2019/04/r-version-support/) of
   supporting the previous 5 minor releases of R (#7711).
 
 * `case_when()` now throws a better error if one of the conditions is an array
@@ -372,7 +372,7 @@
 
 * R >=3.5.0 is now explicitly required. This is in line with the tidyverse
   policy of supporting the [5 most recent versions of
-  R](https://www.tidyverse.org/blog/2019/04/r-version-support/).
+  R](https://tidyverse.org/blog/2019/04/r-version-support/).
 
 # dplyr 1.1.0
 

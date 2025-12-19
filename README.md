@@ -56,8 +56,8 @@ alternative backends:
   [duckdb](https://duckdb.org) queries with zero extra copies and an
   automatic R fallback when translation isn’t possible.
 
-- [sparklyr](https://spark.rstudio.com) for very large datasets stored
-  in [Apache Spark](https://spark.apache.org).
+- [sparklyr](https://spark.posit.co/) for very large datasets stored in
+  [Apache Spark](https://spark.apache.org).
 
 ## Installation
 
