@@ -80,12 +80,12 @@ all_vars(is.na(.))
 #> <predicate intersection>
 #> <quosure>
 #> expr: ^is.na(.)
-#> env:  0x5568f55ea120
+#> env:  0x55cc79963918
 any_vars(is.na(.))
 #> <predicate union>
 #> <quosure>
 #> expr: ^is.na(.)
-#> env:  0x5568f55ea120
+#> env:  0x55cc79963918
 
 
 # You can take the intersection of the replicated expressions:

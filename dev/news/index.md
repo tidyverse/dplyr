@@ -274,8 +274,8 @@
   ([\#7711](https://github.com/tidyverse/dplyr/issues/7711)).
 
 - R \>=4.1.0 is now required, in line with the [tidyverse
-  standard](https://www.tidyverse.org/blog/2019/04/r-version-support/)
-  of supporting the previous 5 minor releases of R
+  standard](https://tidyverse.org/blog/2019/04/r-version-support/) of
+  supporting the previous 5 minor releases of R
   ([\#7711](https://github.com/tidyverse/dplyr/issues/7711)).
 
 - [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md)
@@ -717,7 +717,7 @@ CRAN release: 2023-03-22
 
 - R \>=3.5.0 is now explicitly required. This is in line with the
   tidyverse policy of supporting the [5 most recent versions of
-  R](https://www.tidyverse.org/blog/2019/04/r-version-support/).
+  R](https://tidyverse.org/blog/2019/04/r-version-support/).
 
 ## dplyr 1.1.0
 

@@ -29,7 +29,7 @@ learn more.
 
 To explore the basic data manipulation verbs of dplyr, we’ll use the
 dataset `starwars`. This dataset contains 87 characters and comes from
-the [Star Wars API](https://swapi.dev), and is documented in
+the [Star Wars API](https://swapi.py4e.com/), and is documented in
 [`?starwars`](https://dplyr.tidyverse.org/dev/reference/starwars.md)
 
 ``` r
