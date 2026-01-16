@@ -20,7 +20,8 @@ cur_data <- function() {
   lifecycle::deprecate_warn(
     when = "1.1.0",
     what = "cur_data()",
-    with = "pick()"
+    with = "pick()",
+    id = "dplyr-cur-data"
   )
   mask <- peek_mask()
   vars <- mask$current_non_group_vars()
@@ -33,7 +34,8 @@ cur_data_all <- function() {
   lifecycle::deprecate_warn(
     when = "1.1.0",
     what = "cur_data_all()",
-    with = "pick()"
+    with = "pick()",
+    id = "dplyr-cur-data-all"
   )
   mask <- peek_mask()
   vars <- mask$current_vars()

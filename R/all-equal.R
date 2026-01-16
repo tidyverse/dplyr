@@ -44,7 +44,8 @@ all_equal <- function(
     "all_equal()",
     "all.equal()",
     details = "And manually order the rows/cols as needed",
-    always = TRUE
+    always = TRUE,
+    id = "dplyr-all-equal"
   )
 
   equal_data_frame(

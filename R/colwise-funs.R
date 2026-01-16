@@ -49,7 +49,8 @@ as_fun_list <- function(
           details = "Please use a one-sided formula, a function, or a function name.",
           always = TRUE,
           env = .env,
-          user_env = .user_env
+          user_env = .user_env,
+          id = "dplyr-funs-quosures"
         )
         .x <- new_formula(NULL, quo_squash(.x), quo_get_env(.x))
       }

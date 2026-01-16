@@ -46,7 +46,8 @@ progress_estimated <- function(n, min_time = 0) {
   lifecycle::deprecate_warn(
     "1.0.0",
     "dplyr::progress_estimated()",
-    always = TRUE
+    always = TRUE,
+    id = "dplyr-progress-estimated"
   )
 
   Progress$new(n, min_time = min_time)

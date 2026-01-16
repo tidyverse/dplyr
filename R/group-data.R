@@ -122,7 +122,8 @@ group_indices <- function(.data, ...) {
       "1.0.0",
       I("`group_indices()` with no arguments"),
       "cur_group_id()",
-      always = TRUE
+      always = TRUE,
+      id = "dplyr-group-indices-no-arguments"
     )
     return(cur_group_id())
   }

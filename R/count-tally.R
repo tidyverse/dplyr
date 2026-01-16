@@ -254,7 +254,8 @@ compat_wt <- function(wt, env = caller_env(), user_env = caller_env(2)) {
     details = "You can now omit the `wt` argument.",
     env = env,
     user_env = user_env,
-    always = TRUE
+    always = TRUE,
+    id = "dplyr-count-wt"
   )
 
   quo(NULL)

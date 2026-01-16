@@ -275,7 +275,8 @@ across <- function(.cols, .fns, ..., .names = NULL, .unpack = FALSE) {
     lifecycle::deprecate_warn(
       when = "1.1.0",
       what = "across(...)",
-      details = details
+      details = details,
+      id = "dplyr-across-fns-dots"
     )
   }
 
@@ -859,7 +860,8 @@ across_missing_cols_deprecate_warn <- function() {
     what = I(glue("Using `{across_if_fn}()` without supplying `.cols`")),
     details = "Please supply `.cols` instead.",
     user_env = user_env,
-    always = TRUE
+    always = TRUE,
+    id = "dplyr-across-missing-cols"
   )
 }
 
@@ -869,7 +871,8 @@ c_across_missing_cols_deprecate_warn <- function(user_env = caller_env(2)) {
     what = I("Using `c_across()` without supplying `cols`"),
     details = "Please supply `cols` instead.",
     user_env = user_env,
-    always = TRUE
+    always = TRUE,
+    id = "dplyr-c-across-missing-cols"
   )
 }
 
