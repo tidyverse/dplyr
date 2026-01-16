@@ -37,13 +37,13 @@ A vector with the same size as \code{.x} and the same type as the common type of
 the RHS inputs and \code{.default} (if not overridden by \code{.ptype}).
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-\code{case_match()} is superseded by \code{\link[=recode_values]{recode_values()}} and \code{\link[=replace_values]{replace_values()}},
-which are more powerful, have more intuitive names, and have better safety.
-In addition to the familiar two-sided formula interface, these functions also
-have \code{from} and \code{to} arguments which allow you to incorporate a lookup table
-into the recoding process.
+\code{case_match()} is deprecated. Please use \code{\link[=recode_values]{recode_values()}} and
+\code{\link[=replace_values]{replace_values()}} instead, which are more powerful, have more intuitive
+names, and have better safety. In addition to the familiar two-sided formula
+interface, these functions also have \code{from} and \code{to} arguments which allow
+you to incorporate a lookup table into the recoding process.
 
 This function allows you to vectorise multiple \code{\link[=switch]{switch()}} statements. Each
 case is evaluated sequentially and the first match for each element
@@ -51,7 +51,7 @@ determines the corresponding value in the output vector. If no cases match,
 the \code{.default} is used.
 }
 \examples{
-# `case_match()` has been superseded by `recode_values()` and
+# `case_match()` is deprecated and has been replaced by `recode_values()` and
 # `replace_values()`
 
 x <- c("a", "b", "a", "d", "b", NA, "c", "e")
@@ -165,3 +165,4 @@ starwars |>
     .keep = "used"
   )
 }
+\keyword{internal}

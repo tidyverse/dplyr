@@ -131,7 +131,6 @@ reference:
     ready, so the existing functions will stay around for several years.
   contents:
   - all_vars
-  - case_match
   - recode
   - sample_frac
   - scoped

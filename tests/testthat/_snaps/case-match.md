@@ -1,3 +1,14 @@
+# `case_match()` is soft deprecated
+
+    Code
+      case_match(1, 1 ~ "x")
+    Condition
+      Warning:
+      `case_match()` was deprecated in dplyr 1.2.0.
+      i Please use `recode_values()` instead.
+    Output
+      [1] "x"
+
 # requires at least one condition
 
     Code
