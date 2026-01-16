@@ -1,14 +1,14 @@
 # A general vectorised `switch()`
 
-**\[superseded\]**
+**\[deprecated\]**
 
-`case_match()` is superseded by
+`case_match()` is deprecated. Please use
 [`recode_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md)
 and
-[`replace_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md),
-which are more powerful, have more intuitive names, and have better
-safety. In addition to the familiar two-sided formula interface, these
-functions also have `from` and `to` arguments which allow you to
+[`replace_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md)
+instead, which are more powerful, have more intuitive names, and have
+better safety. In addition to the familiar two-sided formula interface,
+these functions also have `from` and `to` arguments which allow you to
 incorporate a lookup table into the recoding process.
 
 This function allows you to vectorise multiple
@@ -69,7 +69,7 @@ of the RHS inputs and `.default` (if not overridden by `.ptype`).
 ## Examples
 
 ``` r
-# `case_match()` has been superseded by `recode_values()` and
+# `case_match()` is deprecated and has been replaced by `recode_values()` and
 # `replace_values()`
 
 x <- c("a", "b", "a", "d", "b", NA, "c", "e")
@@ -82,6 +82,8 @@ case_match(
   "c" ~ 3,
   "d" ~ 4
 )
+#> Warning: `case_match()` was deprecated in dplyr 1.2.0.
+#> ℹ Please use `recode_values()` instead.
 #> [1]  1  2  1  4  2 NA  3 NA
 recode_values(
   x,

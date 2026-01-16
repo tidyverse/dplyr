@@ -129,10 +129,11 @@
   (r-lib/vctrs#1935).
 
 - [`case_match()`](https://dplyr.tidyverse.org/dev/reference/case_match.md)
-  is now superseded by
+  is soft-deprecated, and is fully replaced by
   [`recode_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md)
   and
-  [`replace_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md).
+  [`replace_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md),
+  which are more flexible, more powerful, and have much better names.
 
 - The superseded
   [`recode()`](https://dplyr.tidyverse.org/dev/reference/recode.md) now

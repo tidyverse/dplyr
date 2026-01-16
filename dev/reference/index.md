@@ -239,30 +239,19 @@ years.
 - [`all_vars()`](https://dplyr.tidyverse.org/dev/reference/all_vars.md)
   [`any_vars()`](https://dplyr.tidyverse.org/dev/reference/all_vars.md)
   **\[superseded\]** : Apply predicate to all variables
-
-- [`case_match()`](https://dplyr.tidyverse.org/dev/reference/case_match.md)
-  **\[superseded\]** :
-
-  A general vectorised [`switch()`](https://rdrr.io/r/base/switch.html)
-
 - [`recode()`](https://dplyr.tidyverse.org/dev/reference/recode.md)
   [`recode_factor()`](https://dplyr.tidyverse.org/dev/reference/recode.md)
   **\[superseded\]** : Recode values
-
 - [`sample_n()`](https://dplyr.tidyverse.org/dev/reference/sample_n.md)
   [`sample_frac()`](https://dplyr.tidyverse.org/dev/reference/sample_n.md)
   **\[superseded\]** : Sample n rows from a table
-
 - [`scoped`](https://dplyr.tidyverse.org/dev/reference/scoped.md)
   **\[superseded\]** : Operate on a selection of variables
-
 - [`top_n()`](https://dplyr.tidyverse.org/dev/reference/top_n.md)
   [`top_frac()`](https://dplyr.tidyverse.org/dev/reference/top_n.md)
   **\[superseded\]** : Select top (or bottom) n rows (by value)
-
 - [`vars()`](https://dplyr.tidyverse.org/dev/reference/vars.md)
   **\[superseded\]** : Select variables
-
 - [`with_groups()`](https://dplyr.tidyverse.org/dev/reference/with_groups.md)
   **\[superseded\]** : Perform an operation with temporary groups
 
