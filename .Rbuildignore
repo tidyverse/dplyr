@@ -17,3 +17,4 @@
 ^\.cache$
 ^\.vscode$
 ^[.]?air[.]toml$
+^\.claude$
