@@ -116,7 +116,7 @@ lookup <- c(lookup, new = "unknown")
 try(rename(iris, all_of(lookup)))
 #> Error in rename(iris, all_of(lookup)) : 
 #>   ℹ In argument: `all_of(lookup)`.
-#> Caused by error in `all_of()` at rlang/R/eval-tidy.R:121:3:
+#> Caused by error in `all_of()`:
 #> ! Can't subset elements that don't exist.
 #> ✖ Element `unknown` doesn't exist.
 rename(iris, any_of(lookup))
