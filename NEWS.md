@@ -54,7 +54,7 @@
 
 * New `rbind()` method for `rowwise_df` to avoid creating corrupt rowwise data frames (r-lib/vctrs#1935).
 
-* `case_match()` is now superseded by `recode_values()` and `replace_values()`.
+* `case_match()` is soft-deprecated, and is fully replaced by `recode_values()` and `replace_values()`, which are more flexible, more powerful, and have much better names.
 
 * The superseded `recode()` now has updated documentation showing how to migrate to `recode_values()` and `replace_values()`.
 

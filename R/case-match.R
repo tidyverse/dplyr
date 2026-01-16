@@ -1,13 +1,13 @@
 #' A general vectorised `switch()`
 #'
 #' @description
-#' `r lifecycle::badge("superseded")`
+#' `r lifecycle::badge("deprecated")`
 #'
-#' `case_match()` is superseded by [recode_values()] and [replace_values()],
-#' which are more powerful, have more intuitive names, and have better safety.
-#' In addition to the familiar two-sided formula interface, these functions also
-#' have `from` and `to` arguments which allow you to incorporate a lookup table
-#' into the recoding process.
+#' `case_match()` is deprecated. Please use [recode_values()] and
+#' [replace_values()] instead, which are more powerful, have more intuitive
+#' names, and have better safety. In addition to the familiar two-sided formula
+#' interface, these functions also have `from` and `to` arguments which allow
+#' you to incorporate a lookup table into the recoding process.
 #'
 #' This function allows you to vectorise multiple [switch()] statements. Each
 #' case is evaluated sequentially and the first match for each element
@@ -43,9 +43,11 @@
 #' A vector with the same size as `.x` and the same type as the common type of
 #' the RHS inputs and `.default` (if not overridden by `.ptype`).
 #'
+#' @keywords internal
+#'
 #' @export
 #' @examples
-#' # `case_match()` has been superseded by `recode_values()` and
+#' # `case_match()` is deprecated and has been replaced by `recode_values()` and
 #' # `replace_values()`
 #'
 #' x <- c("a", "b", "a", "d", "b", NA, "c", "e")
@@ -159,12 +161,16 @@
 #'     .keep = "used"
 #'   )
 case_match <- function(.x, ..., .default = NULL, .ptype = NULL) {
-  # Superseded in dplyr 1.2.0
-  lifecycle::signal_stage("superseded", "case_match()", "recode_values()")
+  lifecycle::deprecate_soft(
+    when = "1.2.0",
+    what = "case_match()",
+    with = "recode_values()",
+    id = "dplyr-case-match"
+  )
 
   # Matching historical behavior of `case_match()`, which was to work like
   # `case_when()` and not allow empty `...`. Newer `replace_when()` and
-  # `replace_values()` are a no-op for this case, but we superseded
+  # `replace_values()` are a no-op for this case, but we deprecated
   # `case_match()` at that time so it never moved to the new behavior.
   allow_empty_dots <- FALSE
 
