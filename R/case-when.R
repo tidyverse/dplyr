@@ -470,7 +470,8 @@ warn_case_when_scalar_lhs_vector_rhs <- function(
     what = what,
     details = details,
     env = env,
-    user_env = user_env
+    user_env = user_env,
+    id = "dplyr-case-when-scalar-lhs-vector-rhs"
   )
 }
 

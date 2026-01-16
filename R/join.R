@@ -934,6 +934,7 @@ warn_join_cross_by <- function(env = caller_env(), user_env = caller_env(2)) {
     what = I("Using `by = character()` to perform a cross join"),
     with = "cross_join()",
     env = env,
-    user_env = user_env
+    user_env = user_env,
+    id = "dplyr-by-for-cross-join"
   )
 }

@@ -65,7 +65,11 @@ if_else <- function(
   check_dots_empty0(...)
 
   if (!is_missing(size)) {
-    lifecycle::deprecate_warn("1.2.0", "if_else(size = )")
+    lifecycle::deprecate_warn(
+      when = "1.2.0",
+      what = "if_else(size = )",
+      id = "dplyr-if-else-size"
+    )
   }
 
   vec_if_else(

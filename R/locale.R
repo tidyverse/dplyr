@@ -97,7 +97,8 @@ dplyr_legacy_locale <- function() {
         "and compare against {.run stringi::stri_locale_list()} to determine the `.locale` value to use."
       ))
     ),
-    user_env = globalenv()
+    user_env = globalenv(),
+    id = "dplyr-legacy-locale-option"
   )
 
   if (!is_bool(option)) {
