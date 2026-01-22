@@ -1,8 +1,8 @@
 ---
-title: "Recoding and replacing values"
+title: "Recoding columns and replacing values"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Recoding and replacing values}
+  %\VignetteIndexEntry{Recoding columns and replacing values}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 editor:
