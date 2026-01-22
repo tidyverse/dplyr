@@ -31,6 +31,8 @@
 #'   which is useful when you have a pre-built lookup table (which may come
 #'   from an external source, like a CSV file).
 #'
+#' See `vignette("recoding-replacing")` for more examples.
+#'
 #' @param x A vector.
 #'
 #' @param ... <[`dynamic-dots`][rlang::dyn-dots]> A sequence of two-sided
