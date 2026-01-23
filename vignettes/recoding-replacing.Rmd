@@ -438,7 +438,11 @@ In fact, it's closely tied to `case_when()`:
 ```{r, eval = FALSE}
 if_else(condition, true, false, missing)
 
-case_when(condition ~ true, !condition ~ false, .default = missing)
+case_when(
+  condition ~ true,
+  !condition ~ false,
+  is.na(condition) ~ missing
+)
 ```
 
 Similar to `case_when()`, `if_else()` doesn't offer type stability on any particular input.
