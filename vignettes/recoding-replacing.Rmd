@@ -220,7 +220,7 @@ tiers <- racers |>
 tiers
 ```
 
-Note how a `case_when()` solution results in `tier` becoming a *character* column, losing its factor class.
+Note that the following `case_when()` solution results in `tier` becoming a *character* column, losing its factor class.
 This is due to the fact that `case_when()` is a *recoding* function, it creates an entirely new column and doesn't know that you're trying to retain existing type information.
 
 ```{r}
