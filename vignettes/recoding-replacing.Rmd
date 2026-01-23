@@ -25,21 +25,22 @@ library(dplyr)
 ## Introduction
 
 dplyr provides a family of functions for *recoding* columns and *replacing* values within a column.
-These are extremely common operations, so mastering these functions can be a big productivity boost!
-This family can be summarized by the following table:
+These are extremely common operations, so mastering this family can be a big productivity boost!
 
-|                           | **Recoding**      | **Replacing**      |
-|---------------------------|-------------------|--------------------|
-| **Match with conditions** | `case_when()`     | `replace_when()`   |
-| **Match with values**     | `recode_values()` | `replace_values()` |
-
-It's also helpful to define exactly what we mean by recoding vs replacing:
+Before we begin, it'll be helpful to define exactly what we mean by recoding vs replacing:
 
 -   *Recoding* a column creates an entirely new column using values from an existing column.
     The new column may have a different type from the original column.
 
 -   *Replacing* values within a column partially updates an existing column with new values.
     The result has the same type as the original column.
+
+The family of functions can be summarized by the following table:
+
+|                           | **Recoding**      | **Replacing**      |
+|---------------------------|-------------------|--------------------|
+| **Match with conditions** | `case_when()`     | `replace_when()`   |
+| **Match with values**     | `recode_values()` | `replace_values()` |
 
 This vignette walks through use cases for each of these functions, which should help you build some intuition about when to use them.
 
