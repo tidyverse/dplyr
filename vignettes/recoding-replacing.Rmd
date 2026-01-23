@@ -118,26 +118,23 @@ Note that missing values must be explicitly handled when setting `.unmatched = "
 
 ## `replace_when()`
 
-Let's assume that some of our racers had a false start, and need to be assigned a penalty of 20 seconds (1/3 of a minute).
-Additionally, some other racers used banned running shoes, and should incur a penalty of 1 minute.
+Let's assume that some of our racers used banned running shoes and are disqualified.
+Also, some racers had a false start and need to incur a 20 second (1/3 minute) penalty.
 
 ```{r}
-id_false_start <- sample(racers$id, size = 10)
-id_false_start
-
-id_banned_shoes <- sample(racers$id, size = 5)
-id_banned_shoes
+id_banned_shoes <- c(2, 10, 15, 32, 65)
+id_false_start <- c(1, 2, 5, 20, 55, 74, 91)
 ```
 
-We could add penalties a few ways.
+We could add this information in a few ways.
 With `case_when()`:
 
 ```{r}
 racers |>
   mutate(
     time = case_when(
+      id %in% id_banned_shoes ~ NA,
       id %in% id_false_start ~ time + 1 / 3,
-      id %in% id_banned_shoes ~ time + 1,
       .default = time
     )
   )
@@ -147,24 +144,24 @@ Or in two steps with `if_else()`:
 
 ```{r}
 racers |>
-  mutate(time = if_else(id %in% id_false_start, time + 1 / 3, time)) |>
-  mutate(time = if_else(id %in% id_banned_shoes, time + 1, time))
+  mutate(time = if_else(id %in% id_banned_shoes, NA, time)) |>
+  mutate(time = if_else(id %in% id_false_start, time + 1 / 3, time))
 ```
 
 Neither of these feel particularly elegant at expressing the *intent* of this operation.
 All you're trying to do is replace a few values of `time`!
 We like to think of `time` as the *primary* input: `time` goes in, and `time` comes out (slightly adjusted).
-But both `case_when()` and `if_else()` have `time` as their last column, making the intent a bit hard to understand at first glance.
+But both `case_when()` and `if_else()` have `time` as their last input, making the intent a bit hard to understand at first glance.
 
-`replace_when()` lets you pull the primary column to the front (which also makes it compatible with the pipe!) and is vastly more readable:
+`replace_when()` lets you pull the primary input to the front (which also makes it compatible with the pipe!), making the intent more clear:
 
 ```{r}
 racers |>
   mutate(
     time = time |>
       replace_when(
-        id %in% id_false_start ~ time + 1 / 3,
-        id %in% id_banned_shoes ~ time + 1
+        id %in% id_banned_shoes ~ NA,
+        id %in% id_false_start ~ time + 1 / 3
       )
   )
 ```
@@ -173,25 +170,20 @@ As a side note, you might have been tempted to reach for `base::replace()` here,
 
 ```{r, eval = FALSE}
 racers |>
-  mutate(time = base::replace(time, id %in% id_false_start, time + 1 / 3)) |>
-  mutate(time = base::replace(time, id %in% id_banned_shoes, time + 1))
+  mutate(time = base::replace(time, id %in% id_banned_shoes, NA)) |>
+  mutate(time = base::replace(time, id %in% id_false_start, time + 1 / 3))
 ```
 
 This actually doesn't work!
-`replace()` requires that the results of `time + 1 / 3` and `time + 1` must also be preemptively subset to the places where the condition is true.
-You'd have to do something much more complicated to mimic `replace_when()`:
+Replacing with `NA` does work, but `replace()` requires that the result of `time + 1 / 3` must be preemptively subset to the places where the condition is true.
+You'd have to do something more complicated to mimic `replace_when()`:
 
 ```{r}
 racers |>
+  mutate(time = base::replace(time, id %in% id_banned_shoes, NA)) |>
   mutate(time = {
     loc <- id %in% id_false_start
-    value <- time + 1 / 3
-    base::replace(time, loc, value[loc])
-  }) |>
-  mutate(time = {
-    loc <- id %in% id_banned_shoes
-    value <- time + 1
-    base::replace(time, loc, value[loc])
+    base::replace(time, loc, time[loc] + 1 / 3)
   })
 ```
 
