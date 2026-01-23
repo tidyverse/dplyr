@@ -26,6 +26,9 @@
   verbs that work with more one than data set, and introduces to the
   mutating joins, filtering joins, and the set operations.
 
+- [Recoding columns and replacing
+  values](https://dplyr.tidyverse.org/dev/articles/recoding-replacing.md):
+
 - [dplyr \<-\> base
   R](https://dplyr.tidyverse.org/dev/articles/base.md):
 

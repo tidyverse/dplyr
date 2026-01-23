@@ -22,6 +22,10 @@ cases match:
 
 - `replace_when()` retains the original values from `x`.
 
+See
+[`vignette("recoding-replacing")`](https://dplyr.tidyverse.org/dev/articles/recoding-replacing.md)
+for more examples.
+
 ## Usage
 
 ``` r

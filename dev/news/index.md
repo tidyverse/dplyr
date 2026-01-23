@@ -159,6 +159,9 @@
     to update an existing vector by mapping some old values to new
     values.
 
+  Learn all about these in a new vignette,
+  [`vignette("recoding-replacing")`](https://dplyr.tidyverse.org/dev/articles/recoding-replacing.md).
+
   [`replace_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md)
   is particularly useful for conditionally mutating rows within one or
   more columns, and can be thought of as an enhanced version of

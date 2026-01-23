@@ -21,6 +21,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/grouping.html">Grouped data</a></li>
     <li><a class="dropdown-item" href="../articles/two-table.html">Two-table verbs</a></li>
+    <li><a class="dropdown-item" href="../articles/recoding-replacing.html">Recoding columns and replacing values</a></li>
     <li><a class="dropdown-item" href="../articles/base.html">dplyr &lt;-&gt; base R</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Automation</h6></li>
@@ -102,7 +103,8 @@
 <li>Use <code><a href="../reference/case-and-replace-when.html">replace_when()</a></code> to update an existing vector based on logical conditions.</li>
 <li>Use <code><a href="../reference/recode-and-replace-values.html">recode_values()</a></code> to create a new vector by mapping all old values to new values.</li>
 <li>Use <code><a href="../reference/recode-and-replace-values.html">replace_values()</a></code> to update an existing vector by mapping some old values to new values.</li>
-</ul><p><code><a href="../reference/case-and-replace-when.html">replace_when()</a></code> is particularly useful for conditionally mutating rows within one or more columns, and can be thought of as an enhanced version of <code><a href="https://rdrr.io/r/base/replace.html" class="external-link">base::replace()</a></code>.</p>
+</ul><p>Learn all about these in a new vignette, <code><a href="../articles/recoding-replacing.html">vignette("recoding-replacing")</a></code>.</p>
+<p><code><a href="../reference/case-and-replace-when.html">replace_when()</a></code> is particularly useful for conditionally mutating rows within one or more columns, and can be thought of as an enhanced version of <code><a href="https://rdrr.io/r/base/replace.html" class="external-link">base::replace()</a></code>.</p>
 <p><code><a href="../reference/recode-and-replace-values.html">recode_values()</a></code> and <code><a href="../reference/recode-and-replace-values.html">replace_values()</a></code> have the familiar <code><a href="../reference/case-and-replace-when.html">case_when()</a></code>-style formula interface for easy interactive use, but also have <code>from</code> and <code>to</code> arguments as a way for you to incorporate a pre-built lookup table, making them more holistic replacements for both <code><a href="../reference/case_match.html">case_match()</a></code> and <code><a href="../reference/recode.html">recode()</a></code>.</p>
 <p>This work is a result of <a href="https://github.com/tidyverse/tidyups/blob/main/007-tidyverse-recoding-and-replacing.md" class="external-link">Tidyup 7: Recoding and replacing values in the tidyverse</a>, with a lot of great <a href="https://github.com/tidyverse/tidyups/pull/29" class="external-link">feedback</a> from the community (<a href="https://github.com/tidyverse/dplyr/issues/7728" class="external-link">#7728</a>, <a href="https://github.com/tidyverse/dplyr/issues/7729" class="external-link">#7729</a>).</p>
 </li>

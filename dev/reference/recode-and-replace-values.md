@@ -33,6 +33,10 @@ These functions have two mutually exclusive ways to use them:
   have a pre-built lookup table (which may come from an external source,
   like a CSV file).
 
+See
+[`vignette("recoding-replacing")`](https://dplyr.tidyverse.org/dev/articles/recoding-replacing.md)
+for more examples.
+
 ## Usage
 
 ``` r
