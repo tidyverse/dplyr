@@ -98,6 +98,8 @@ match:
 \item \code{case_when()} falls through to a \code{.default} as a final "else" statement.
 \item \code{replace_when()} retains the original values from \code{x}.
 }
+
+See \code{vignette("recoding-replacing")} for more examples.
 }
 \examples{
 x <- 1:70

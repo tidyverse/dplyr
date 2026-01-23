@@ -20,6 +20,8 @@
 #'
 #' - `replace_when()` retains the original values from `x`.
 #'
+#' See `vignette("recoding-replacing")` for more examples.
+#'
 #' @param x A vector.
 #'
 #' @param ... <[`dynamic-dots`][rlang::dyn-dots]> A sequence of two-sided

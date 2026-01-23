@@ -65,6 +65,8 @@
   * Use `recode_values()` to create a new vector by mapping all old values to new values.
   * Use `replace_values()` to update an existing vector by mapping some old values to new values.
 
+  Learn all about these in a new vignette, `vignette("recoding-replacing")`.
+
   `replace_when()` is particularly useful for conditionally mutating rows within one or more columns, and can be thought of as an enhanced version of `base::replace()`.
 
   `recode_values()` and `replace_values()` have the familiar `case_when()`-style formula interface for easy interactive use, but also have `from` and `to` arguments as a way for you to incorporate a pre-built lookup table, making them more holistic replacements for both `case_match()` and `recode()`.

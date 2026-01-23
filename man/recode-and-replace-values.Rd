@@ -116,6 +116,8 @@ number of cases.
 which is useful when you have a pre-built lookup table (which may come
 from an external source, like a CSV file).
 }
+
+See \code{vignette("recoding-replacing")} for more examples.
 }
 \examples{
 x <- c("NC", "NYC", "CA", NA, "NYC", "Unknown")
