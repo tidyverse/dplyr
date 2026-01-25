@@ -335,13 +335,25 @@ test_that("invalid type errors are correct (#6261) (#6206)", {
   })
 })
 
-test_that("`NULL` formula element throws meaningful error", {
+test_that("`NULL` formula element throws meaningful error (#7794)", {
+  # "Must be a vector" errors
   expect_snapshot(error = TRUE, {
-    # This also triggers the scalar LHS vector RHS warning
+    case_when(NULL ~ NULL)
+
     case_when(TRUE ~ NULL)
+    case_when(NULL ~ TRUE)
+
+    case_when(c(TRUE, TRUE) ~ NULL)
+    case_when(NULL ~ c(TRUE, TRUE))
+
+    case_when(TRUE ~ NULL, c(TRUE, TRUE) ~ NULL)
+    case_when(NULL ~ TRUE, NULL ~ c(TRUE, TRUE))
   })
+
+  # Recycling errors come first
   expect_snapshot(error = TRUE, {
-    case_when(NULL ~ 1)
+    case_when(c(TRUE, TRUE) ~ NULL, c(TRUE, TRUE, TRUE) ~ NULL)
+    case_when(NULL ~ c(TRUE, TRUE), NULL ~ c(TRUE, TRUE, TRUE))
   })
 })
 

@@ -395,13 +395,31 @@ case_when_size_common <- function(
   size_conditions <- vec_size_common(
     !!!conditions,
     .size = size,
+    .absent = -1L,
     .call = error_call
   )
   size_values <- vec_size_common(
     !!!values,
     .size = size,
+    .absent = -1L,
     .call = error_call
   )
+
+  # Annoying handling of the edge case of all `NULL` elements in the formulas.
+  # `vec_case_when()` will error on these and require vector inputs, but we have
+  # to get to it first (#7794).
+  if (size_conditions == -1L || size_values == -1L) {
+    if (size_conditions != -1L) {
+      # All `values` are `NULL`, but at least 1 `conditions` is non-`NULL`
+      return(size_conditions)
+    } else if (size_values != -1L) {
+      # All `conditions` are `NULL`, but at least 1 `values` is non-`NULL`
+      return(size_values)
+    } else {
+      # All `conditions` and `values` are `NULL`
+      return(0L)
+    }
+  }
 
   if (size_conditions == 1L && size_values == 1L) {
     return(1L)

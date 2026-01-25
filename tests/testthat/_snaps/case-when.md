@@ -165,41 +165,59 @@
       Error in `case_when()`:
       ! Can't combine `..1 (right)` <double> and `..2 (right)` <character>.
 
-# `NULL` formula element throws meaningful error
+# `NULL` formula element throws meaningful error (#7794)
 
+    Code
+      case_when(NULL ~ NULL)
+    Condition
+      Error in `case_when()`:
+      ! `..1 (left)` must be a logical vector, not `NULL`.
     Code
       case_when(TRUE ~ NULL)
     Condition
-      Warning:
-      Calling `case_when()` with size 1 LHS inputs and size >1 RHS inputs was deprecated in dplyr 1.2.0.
-      i This `case_when()` statement can result in subtle silent bugs and is very inefficient.
-      
-        Please use a series of if statements instead:
-      
-        ```
-        # Previously
-        case_when(scalar_lhs1 ~ rhs1, scalar_lhs2 ~ rhs2, .default = default)
-      
-        # Now
-        if (scalar_lhs1) {
-          rhs1
-        } else if (scalar_lhs2) {
-          rhs2
-        } else {
-          default
-        }
-        ```
       Error in `case_when()`:
       ! `..1 (right)` must be a vector, not `NULL`.
       i Read our FAQ about scalar types (`?vctrs::faq_error_scalar_type`) to learn more.
+    Code
+      case_when(NULL ~ TRUE)
+    Condition
+      Error in `case_when()`:
+      ! `..1 (left)` must be a logical vector, not `NULL`.
+    Code
+      case_when(c(TRUE, TRUE) ~ NULL)
+    Condition
+      Error in `case_when()`:
+      ! `..1 (right)` must be a vector, not `NULL`.
+      i Read our FAQ about scalar types (`?vctrs::faq_error_scalar_type`) to learn more.
+    Code
+      case_when(NULL ~ c(TRUE, TRUE))
+    Condition
+      Error in `case_when()`:
+      ! `..1 (left)` must be a logical vector, not `NULL`.
+    Code
+      case_when(TRUE ~ NULL, c(TRUE, TRUE) ~ NULL)
+    Condition
+      Error in `case_when()`:
+      ! `..1 (right)` must be a vector, not `NULL`.
+      i Read our FAQ about scalar types (`?vctrs::faq_error_scalar_type`) to learn more.
+    Code
+      case_when(NULL ~ TRUE, NULL ~ c(TRUE, TRUE))
+    Condition
+      Error in `case_when()`:
+      ! `..1 (left)` must be a logical vector, not `NULL`.
 
 ---
 
     Code
-      case_when(NULL ~ 1)
+      case_when(c(TRUE, TRUE) ~ NULL, c(TRUE, TRUE, TRUE) ~ NULL)
     Condition
       Error in `case_when()`:
-      ! `..1 (left)` must be a logical vector, not `NULL`.
+      ! Can't recycle `..1 (left)` (size 2) to match `..2 (left)` (size 3).
+    Code
+      case_when(NULL ~ c(TRUE, TRUE), NULL ~ c(TRUE, TRUE, TRUE))
+    Condition
+      Error in `case_when()`:
+      ! Can't recycle `..1 (right)` (size 2) to match `..2 (right)` (size 3).
 
 # throws chained errors when formula evaluation fails
 
