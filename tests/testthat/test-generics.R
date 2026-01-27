@@ -142,7 +142,8 @@ test_that("dplyr_reconstruct() strips attributes before dispatch", {
 
 test_that("`dplyr_reconstruct()` can't guarantee attribute ordering of `template`", {
   # This used to be `expect_identical()`, but attribute ordering may change
-  # during reconstruction. Attributes should be viewed as a map, so this is fine.
+  # during reconstruction. Attributes should be viewed as a map, so this is fine
+  # (#7797).
   df <- vctrs::data_frame(x = 1)
   expect_mapequal(
     attributes(dplyr_reconstruct(df, df)),
