@@ -138,11 +138,17 @@ SEXP ffi_dplyr_reconstruct(SEXP data, SEXP template_) {
 
 // Very unsafe wrappers needed for testing.
 // Bypass `Rf_getAttrib()` and `Rf_setAttrib()` calls to avoid forcing ALTREP
-// `row.names`.
+// `row.names`. Can't use on R >=4.6.0, but there is currently no way to install
+// row names without materializing them without using `SET_ATTRIB()`.
 SEXP ffi_test_dplyr_attributes(SEXP x) {
+#if (R_VERSION < R_Version(4, 6, 0))
   return ATTRIB(x);
+#else
+  Rf_errorcall(R_NilValue, "Internal error: Can't call this on R >=4.6.0");
+#endif
 }
 SEXP ffi_test_dplyr_set_attributes(SEXP x, SEXP attributes) {
+#if (R_VERSION < R_Version(4, 6, 0))
   if (TYPEOF(attributes) != LISTSXP) {
     Rf_errorcall(R_NilValue, "`attributes` must be a pairlist.");
   }
@@ -150,4 +156,7 @@ SEXP ffi_test_dplyr_set_attributes(SEXP x, SEXP attributes) {
   SET_ATTRIB(x, attributes);
   UNPROTECT(1);
   return x;
+#else
+  Rf_errorcall(R_NilValue, "Internal error: Can't call this on R >=4.6.0");
+#endif
 }

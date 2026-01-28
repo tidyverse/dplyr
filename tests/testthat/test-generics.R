@@ -162,6 +162,11 @@ test_that("`dplyr_reconstruct()` doesn't modify the original `data` in place", {
 })
 
 test_that("`dplyr_reconstruct()`, which gets and sets attributes, doesn't touch `row.names` (#6525)", {
+  skip_if(
+    getRversion() >= "4.6.0",
+    "Can't call `ATTRIB()` or `SET_ATTRIB()` anymore."
+  )
+
   skip_if_no_lazy_character()
 
   dplyr_attributes <- function(x) {
