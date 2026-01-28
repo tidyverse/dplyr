@@ -208,6 +208,19 @@ likert <- tribble(
 data |>
   mutate(score = recode_values(score, from = likert$from, to = likert$to))
 
+# You can utilize the same lookup table across multiple columns by using
+# `across()`
+data_months <- tibble(
+  score_january = c(1, 2, 3, 4, 5, 2, 3, 1, 4),
+  score_february = c(4, 2, 1, 2, 1, 5, 2, 4, 4)
+)
+
+data_months |>
+  mutate(across(
+    starts_with("score"),
+    ~ recode_values(.x, from = likert$from, to = likert$to)
+  ))
+
 # The `unmatched` argument allows you to assert that you believe that you've
 # recoded all of the cases and will error if you've missed one, adding an
 # extra layer of safety
