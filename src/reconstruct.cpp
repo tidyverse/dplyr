@@ -15,10 +15,14 @@
 //   Unfortunately this materializes lazy ALTREP `row.names`, like those used
 //   by duckplyr.
 // - `attributes<-()` ends up calling `Rf_setAttrib()`, which tries to check
-//   if it can make efficient internal `row.names`.  Again, this materializes
+//   if it can make efficient internal `row.names`. Again, this materializes
 //   lazy ALTREP `row.names`, like those used by duckplyr.
 //
-// So we bypass that here by carefully manipulating the attribute pairlists.
+// We avoid this by:
+// - Using `R_mapAttrib()`, which iterates over the `ATTRIB()` pairlist rather
+//   than using `Rf_getAttrib()`.
+// - Using `Rf_setAttrib()` for all attributes except `names` and `row.names`,
+//   because we retain `data`'s version of these.
 //
 // We expect that at this point, both `data` and `template_` are S3 data
 // frames, both of which have `names` and `row.names` attributes. If this isn't
@@ -33,6 +37,51 @@
 // https://github.com/tidyverse/dplyr/issues/6525#issuecomment-1303619152
 // https://github.com/wch/r-source/blob/69b94f0c8ce9b2497f6d7a81922575f6c585b713/src/main/attrib.c#L176-L177
 // https://github.com/wch/r-source/blob/69b94f0c8ce9b2497f6d7a81922575f6c585b713/src/main/attrib.c#L57
+
+struct cb_data {
+  SEXP out;
+  bool seen_names;
+  bool seen_row_names;
+};
+
+SEXP cb_clear(SEXP tag, SEXP value, void* data) {
+  struct cb_data* p_data = (struct cb_data*) data;
+
+  // Retain `data`'s `names` and `row.names`
+  if (tag == R_NamesSymbol) {
+    p_data->seen_names = true;
+    return NULL;
+  }
+  if (tag == R_RowNamesSymbol) {
+    p_data->seen_row_names = true;
+    return NULL;
+  }
+
+  // Clear all other `data` attributes
+  Rf_setAttrib(p_data->out, tag, R_NilValue);
+
+  return NULL;
+}
+
+SEXP cb_restore(SEXP tag, SEXP value, void* data) {
+  struct cb_data* p_data = (struct cb_data*) data;
+
+  // Skip `template_`'s `names` and `row.names`
+  if (tag == R_NamesSymbol) {
+    p_data->seen_names = true;
+    return NULL;
+  }
+  if (tag == R_RowNamesSymbol) {
+    p_data->seen_row_names = true;
+    return NULL;
+  }
+
+  // Install all other `template_` attributes
+  Rf_setAttrib(p_data->out, tag, value);
+
+  return NULL;
+}
+
 SEXP ffi_dplyr_reconstruct(SEXP data, SEXP template_) {
   if (TYPEOF(data) != VECSXP) {
     Rf_errorcall(R_NilValue, "Internal error: `data` must be a list.");
@@ -47,80 +96,59 @@ SEXP ffi_dplyr_reconstruct(SEXP data, SEXP template_) {
     Rf_errorcall(R_NilValue, "Internal error: `template` must be an object.");
   }
 
-  bool seen_names = false;
-  bool seen_row_names = false;
+  // Shallow duplicates attributes as well
+  SEXP out = PROTECT(Rf_shallow_duplicate(data));
 
-  // Pull the `names` and `row.names` off `data`.
-  // These are the only 2 attributes from `data` that persist.
-  SEXP names = R_NilValue;
-  SEXP row_names = R_NilValue;
+  // Clear all `data` attributes except `names` and `row.names`.
+  // Iterate over `data` attributes so we can modify `out`'s in place.
+  struct cb_data clear_data = {
+    .out = out,
+    .seen_names = false,
+    .seen_row_names = false
+  };
+  struct cb_data* p_clear_data = &clear_data;
+  R_mapAttrib(data, cb_clear, (void*) p_clear_data);
 
-  for (SEXP node = ATTRIB(data); node != R_NilValue; node = CDR(node)) {
-    SEXP tag = TAG(node);
+  // Restore all `template_` attributes except `names` and `row.names`
+  struct cb_data restore_data = {
+    .out = out,
+    .seen_names = false,
+    .seen_row_names = false
+  };
+  struct cb_data* p_restore_data = &restore_data;
+  R_mapAttrib(template_, cb_restore, (void*) p_restore_data);
 
-    if (tag == R_NamesSymbol) {
-      names = CAR(node);
-      MARK_NOT_MUTABLE(names);
-      seen_names = true;
-    }
-    if (tag == R_RowNamesSymbol) {
-      row_names = CAR(node);
-      MARK_NOT_MUTABLE(row_names);
-      seen_row_names = true;
-    }
-  }
-
-  if (!seen_names) {
+  // Sanity checks
+  if (!p_clear_data->seen_names) {
     Rf_errorcall(R_NilValue, "Internal error: `data` must have a `names` attribute.");
   }
-  if (!seen_row_names) {
+  if (!p_clear_data->seen_row_names) {
     Rf_errorcall(R_NilValue, "Internal error: `data` must have a `row.names` attribute.");
   }
-
-  seen_names = false;
-  seen_row_names = false;
-
-  // Now replace the `names` and `row.names` attributes in the `template_`
-  // attributes with the ones from `data`. This attribute set becomes the final
-  // one we set on `data`.
-  SEXP attributes = ATTRIB(template_);
-  attributes = PROTECT(Rf_shallow_duplicate(attributes));
-
-  for (SEXP node = attributes; node != R_NilValue; node = CDR(node)) {
-    SEXP tag = TAG(node);
-
-    if (tag == R_NamesSymbol) {
-      SETCAR(node, names);
-      seen_names = true;
-    }
-    if (tag == R_RowNamesSymbol) {
-      SETCAR(node, row_names);
-      seen_row_names = true;
-    }
-  }
-
-  if (!seen_names) {
+  if (!p_restore_data->seen_names) {
     Rf_errorcall(R_NilValue, "Internal error: `template` must have a `names` attribute.");
   }
-  if (!seen_row_names) {
+  if (!p_restore_data->seen_row_names) {
     Rf_errorcall(R_NilValue, "Internal error: `template` must have a `row.names` attribute.");
   }
 
-  data = PROTECT(Rf_shallow_duplicate(data));
-
-  SET_ATTRIB(data, attributes);
-
-  UNPROTECT(2);
-  return data;
+  UNPROTECT(1);
+  return out;
 }
 
 // Very unsafe wrappers needed for testing.
 // Bypass `Rf_getAttrib()` and `Rf_setAttrib()` calls to avoid forcing ALTREP
-// `row.names`.
+// `row.names`. Can't use on R >=4.6.0, but there is currently no way to install
+// row names without materializing them without using `SET_ATTRIB()`.
 SEXP ffi_test_dplyr_attributes(SEXP x) {
+#if (R_VERSION < R_Version(4, 6, 0))
   return ATTRIB(x);
+#else
+  Rf_errorcall(R_NilValue, "Internal error: Can't call this on R >=4.6.0");
+#endif
 }
 SEXP ffi_test_dplyr_set_attributes(SEXP x, SEXP attributes) {
+#if (R_VERSION < R_Version(4, 6, 0))
   if (TYPEOF(attributes) != LISTSXP) {
     Rf_errorcall(R_NilValue, "`attributes` must be a pairlist.");
   }
@@ -128,4 +156,7 @@ SEXP ffi_test_dplyr_set_attributes(SEXP x, SEXP attributes) {
   SET_ATTRIB(x, attributes);
   UNPROTECT(1);
   return x;
+#else
+  Rf_errorcall(R_NilValue, "Internal error: Can't call this on R >=4.6.0");
+#endif
 }
