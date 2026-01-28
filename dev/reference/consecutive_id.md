@@ -2,7 +2,7 @@
 
 `consecutive_id()` generates a unique identifier that increments every
 time a variable (or combination of variables) changes. Inspired by
-[`data.table::rleid()`](https://rdatatable.gitlab.io/data.table/reference/rleid.html).
+[`data.table::rleid()`](https://rdrr.io/pkg/data.table/man/rleid.html).
 
 ## Usage
 

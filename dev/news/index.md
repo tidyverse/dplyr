@@ -906,7 +906,7 @@ CRAN release: 2023-01-29
 
 - [`consecutive_id()`](https://dplyr.tidyverse.org/dev/reference/consecutive_id.md)
   for creating groups based on contiguous runs of the same values, like
-  [`data.table::rleid()`](https://rdatatable.gitlab.io/data.table/reference/rleid.html)
+  [`data.table::rleid()`](https://rdrr.io/pkg/data.table/man/rleid.html)
   ([\#1534](https://github.com/tidyverse/dplyr/issues/1534)).
 
 - [`case_match()`](https://dplyr.tidyverse.org/dev/reference/case_match.md)
