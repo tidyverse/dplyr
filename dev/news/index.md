@@ -2,29 +2,7 @@
 
 ## dplyr (development version)
 
-- New
-  [`when_any()`](https://dplyr.tidyverse.org/dev/reference/when-any-all.md)
-  and
-  [`when_all()`](https://dplyr.tidyverse.org/dev/reference/when-any-all.md),
-  which are elementwise versions of
-  [`any()`](https://rdrr.io/r/base/any.html) and
-  [`all()`](https://rdrr.io/r/base/all.html). Alternatively, you can
-  think of them as performing repeated `|` and `&` on any number of
-  inputs, for example:
-
-  - `when_any(x, y, z)` is equivalent to `x | y | z`.
-
-  - `when_all(x, y, z)` is equivalent to `x & y & z`.
-
-  [`when_any()`](https://dplyr.tidyverse.org/dev/reference/when-any-all.md)
-  is particularly useful within
-  [`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md) and
-  [`filter_out()`](https://dplyr.tidyverse.org/dev/reference/filter.md)
-  to specify comma separated conditions combined with `|` rather than
-  `&`.
-
-  This work is a result of [Tidyup 8: Expanding the `filter()`
-  family](https://github.com/tidyverse/tidyups/pull/30).
+### New features
 
 - New
   [`filter_out()`](https://dplyr.tidyverse.org/dev/reference/filter.md)
@@ -65,83 +43,53 @@
   ([\#6560](https://github.com/tidyverse/dplyr/issues/6560),
   [\#6891](https://github.com/tidyverse/dplyr/issues/6891)).
 
-- The `.groups` message emitted by
-  [`summarise()`](https://dplyr.tidyverse.org/dev/reference/summarise.md)
-  is hopefully more clear now
-  ([\#6986](https://github.com/tidyverse/dplyr/issues/6986)).
-
-- [`if_any()`](https://dplyr.tidyverse.org/dev/reference/across.md) and
-  [`if_all()`](https://dplyr.tidyverse.org/dev/reference/across.md) are
-  now more consistent in all use cases
-  ([\#7059](https://github.com/tidyverse/dplyr/issues/7059),
-  [\#7077](https://github.com/tidyverse/dplyr/issues/7077),
-  [\#7746](https://github.com/tidyverse/dplyr/issues/7746),
-  [@jrwinget](https://github.com/jrwinget)). In particular:
-
-  - When called with zero inputs,
-    [`if_any()`](https://dplyr.tidyverse.org/dev/reference/across.md)
-    returns `FALSE` and
-    [`if_all()`](https://dplyr.tidyverse.org/dev/reference/across.md)
-    returns `TRUE`.
-
-  - When called with one input, both now return logical vectors rather
-    than the original column.
-
-  - The result of applying `.fns` now must be a logical vector.
-
-- `tally_n()` creates fully qualified funciton calls for duckplyr
-  compatibility
-  ([\#7046](https://github.com/tidyverse/dplyr/issues/7046))
-
-- `storms` has been updated to include 2023 and 2024 data
-  ([\#7111](https://github.com/tidyverse/dplyr/issues/7111),
-  [@tomalrussell](https://github.com/tomalrussell)).
-
-- Empty
-  [`rowwise()`](https://dplyr.tidyverse.org/dev/reference/rowwise.md)
-  list-column elements now resolve to
-  [`logical()`](https://rdrr.io/r/base/logical.html) rather than a
-  random logical of length 1
-  ([\#7710](https://github.com/tidyverse/dplyr/issues/7710)).
-
-- [`last_dplyr_warnings()`](https://dplyr.tidyverse.org/dev/reference/last_dplyr_warnings.md)
-  no longer prevents objects from being garbage collected
-  ([\#7649](https://github.com/tidyverse/dplyr/issues/7649)).
-
-- Progress towards making dplyr conformant with the public C API of R
-  ([\#7741](https://github.com/tidyverse/dplyr/issues/7741),
-  [\#7797](https://github.com/tidyverse/dplyr/issues/7797)).
-
-- [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md)
-  now throws correctly indexed errors when `NULL`s are supplied in `...`
-  ([\#7739](https://github.com/tidyverse/dplyr/issues/7739)).
-
-- [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md)
-  has gained a new `.unmatched` argument. For extra safety, set
-  `.unmatched = "error"` rather than providing a `.default` when you
-  believe that you’ve handled every possible case, and it will error if
-  a case is left unhandled. The new
-  [`recode_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md)
-  also has this argument
-  ([\#7653](https://github.com/tidyverse/dplyr/issues/7653)).
-
-- New [`rbind()`](https://rdrr.io/r/base/cbind.html) method for
-  `rowwise_df` to avoid creating corrupt rowwise data frames
-  (r-lib/vctrs#1935).
-
-- [`case_match()`](https://dplyr.tidyverse.org/dev/reference/case_match.md)
-  is soft-deprecated, and is fully replaced by
-  [`recode_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md)
+- New
+  [`when_any()`](https://dplyr.tidyverse.org/dev/reference/when-any-all.md)
   and
-  [`replace_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md),
-  which are more flexible, more powerful, and have much better names.
+  [`when_all()`](https://dplyr.tidyverse.org/dev/reference/when-any-all.md),
+  which are elementwise versions of
+  [`any()`](https://rdrr.io/r/base/any.html) and
+  [`all()`](https://rdrr.io/r/base/all.html). Alternatively, you can
+  think of them as performing repeated `|` and `&` on any number of
+  inputs, for example:
 
-- The superseded
-  [`recode()`](https://dplyr.tidyverse.org/dev/reference/recode.md) now
-  has updated documentation showing how to migrate to
-  [`recode_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md)
-  and
-  [`replace_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md).
+  - `when_any(x, y, z)` is equivalent to `x | y | z`.
+
+  - `when_all(x, y, z)` is equivalent to `x & y & z`.
+
+  [`when_any()`](https://dplyr.tidyverse.org/dev/reference/when-any-all.md)
+  is particularly useful within
+  [`filter()`](https://dplyr.tidyverse.org/dev/reference/filter.md) and
+  [`filter_out()`](https://dplyr.tidyverse.org/dev/reference/filter.md)
+  to specify comma separated conditions combined with `|` rather than
+  `&`, like:
+
+  ``` r
+  # With `|`
+  countries |>
+    filter(
+      (name %in% c("US", "CA") & between(score, 200, 300)) |
+        (name %in% c("PR", "RU") & between(score, 100, 200))
+    )
+
+  # With `when_any()`, you drop the explicit `|`, the extra `()`, and your
+  # conditions are all indented to the same level
+  countries |>
+    filter(when_any(
+      name %in% c("US", "CA") & between(score, 200, 300),
+      name %in% c("PR", "RU") & between(score, 100, 200)
+    ))
+
+  # To drop these rows instead, use `filter_out()`
+  countries |>
+    filter_out(when_any(
+      name %in% c("US", "CA") & between(score, 200, 300),
+      name %in% c("PR", "RU") & between(score, 100, 200)
+    ))
+  ```
+
+  This work is a result of [Tidyup 8: Expanding the `filter()`
+  family](https://github.com/tidyverse/tidyups/pull/30).
 
 - [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md)
   is now part of a family of 4 related functions, 3 of which are new:
@@ -187,6 +135,65 @@
   community ([\#7728](https://github.com/tidyverse/dplyr/issues/7728),
   [\#7729](https://github.com/tidyverse/dplyr/issues/7729)).
 
+- [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md)
+  has gained a new `.unmatched` argument. For extra safety, set
+  `.unmatched = "error"` rather than providing a `.default` when you
+  believe that you’ve handled every possible case, and it will error if
+  a case is left unhandled. The new
+  [`recode_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md)
+  also has this argument
+  ([\#7653](https://github.com/tidyverse/dplyr/issues/7653)).
+
+- [`if_else()`](https://dplyr.tidyverse.org/dev/reference/if_else.md),
+  [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md),
+  and
+  [`coalesce()`](https://dplyr.tidyverse.org/dev/reference/coalesce.md)
+  have gotten significantly faster and use much less memory due to a
+  rewrite in C via vctrs
+  ([\#7723](https://github.com/tidyverse/dplyr/issues/7723),
+  [\#7725](https://github.com/tidyverse/dplyr/issues/7725),
+  [\#7727](https://github.com/tidyverse/dplyr/issues/7727)).
+
+- New `ptype` argument for
+  [`between()`](https://dplyr.tidyverse.org/dev/reference/between.md),
+  allowing users to specify the desired output type. This is
+  particularly useful for ordered factors and other complex types where
+  the default common type behavior might not be ideal
+  ([\#6906](https://github.com/tidyverse/dplyr/issues/6906),
+  [@JamesHWade](https://github.com/JamesHWade)).
+
+- New [`rbind()`](https://rdrr.io/r/base/cbind.html) method for
+  `rowwise_df` to avoid creating corrupt rowwise data frames
+  (r-lib/vctrs#1935).
+
+### Lifecycle changes
+
+#### Newly stable
+
+- `.by` has moved from experimental to stable
+  ([\#7762](https://github.com/tidyverse/dplyr/issues/7762)).
+
+- [`reframe()`](https://dplyr.tidyverse.org/dev/reference/reframe.md)
+  has moved from experimental to stable
+  ([\#7713](https://github.com/tidyverse/dplyr/issues/7713),
+  [@VisruthSK](https://github.com/VisruthSK)).
+
+#### Newly breaking
+
+- [`if_else()`](https://dplyr.tidyverse.org/dev/reference/if_else.md) no
+  longer allows `condition` to be a logical array. It must be a logical
+  vector with no `dim` attribute
+  ([\#7723](https://github.com/tidyverse/dplyr/issues/7723)).
+
+#### Newly deprecated
+
+- [`case_match()`](https://dplyr.tidyverse.org/dev/reference/case_match.md)
+  is soft-deprecated, and is fully replaced by
+  [`recode_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md)
+  and
+  [`replace_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md),
+  which are more flexible, more powerful, and have much better names.
+
 - In
   [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md),
   supplying all size 1 LHS inputs along with a size \>1 RHS input is now
@@ -194,28 +201,30 @@
   [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md)
   that should instead be a series of if statements, like:
 
-      # Scalars!
-      code <- 1L
-      flavor <- "vanilla"
+  ``` r
+  # Scalars!
+  code <- 1L
+  flavor <- "vanilla"
 
-      # Previously
-      case_when(
-        code == 1L && flavor == "chocolate" ~ x,
-        code == 1L && flavor == "vanilla" ~ y,
-        code == 2L && flavor == "vanilla" ~ z,
-        .default = default
-      )
+  # Improper usage:
+  case_when(
+    code == 1L && flavor == "chocolate" ~ x,
+    code == 1L && flavor == "vanilla" ~ y,
+    code == 2L && flavor == "vanilla" ~ z,
+    .default = default
+  )
 
-      # Now
-      if (code == 1L && flavor == "chocolate") {
-        x
-      } else if (code == 1L && flavor == "vanilla") {
-        y
-      } else if (code == 2L && flavor == "vanilla") {
-        z
-      } else {
-        default
-      }
+  # Recommended:
+  if (code == 1L && flavor == "chocolate") {
+    x
+  } else if (code == 1L && flavor == "vanilla") {
+    y
+  } else if (code == 2L && flavor == "vanilla") {
+    z
+  } else {
+    default
+  }
+  ```
 
   The recycling behavior that allows this style of
   [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md)
@@ -223,91 +232,23 @@
   guard against with an error in the future
   ([\#7082](https://github.com/tidyverse/dplyr/issues/7082)).
 
-- The following vector functions have gotten significantly faster and
-  use much less memory due to a rewrite in C via vctrs
-  ([\#7723](https://github.com/tidyverse/dplyr/issues/7723),
-  [\#7725](https://github.com/tidyverse/dplyr/issues/7725),
-  [\#7727](https://github.com/tidyverse/dplyr/issues/7727)):
-
-  - [`if_else()`](https://dplyr.tidyverse.org/dev/reference/if_else.md)
-  - [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md)
-  - [`coalesce()`](https://dplyr.tidyverse.org/dev/reference/coalesce.md)
-
-- [`if_else()`](https://dplyr.tidyverse.org/dev/reference/if_else.md) no
-  longer allows `condition` to be a logical array. It must be a logical
-  vector with no `dim` attribute
-  ([\#7723](https://github.com/tidyverse/dplyr/issues/7723)).
+- The `dplyr.legacy_locale` global option is soft-deprecated. If you
+  used this to affect the ordering of
+  [`arrange()`](https://dplyr.tidyverse.org/dev/reference/arrange.md),
+  use `arrange(.locale =)` instead. If you used this to affect the
+  ordering of `group_by() |> summarise()`, follow up with an additional
+  call to `arrange(.locale =)` instead
+  ([\#7760](https://github.com/tidyverse/dplyr/issues/7760)).
 
 - Passing `size` to
   [`if_else()`](https://dplyr.tidyverse.org/dev/reference/if_else.md) is
   now deprecated. The output size is always taken from the `condition`
   ([\#7722](https://github.com/tidyverse/dplyr/issues/7722)).
 
-- [`bind_rows()`](https://dplyr.tidyverse.org/dev/reference/bind_rows.md)
-  now replaces empty (or `NA`) element names in a list with its numeric
-  index while preserving existing names
-  ([\#7719](https://github.com/tidyverse/dplyr/issues/7719),
-  [@Meghansaha](https://github.com/Meghansaha)).
+#### Other deprecation advancements
 
-- New
-  [`slice_sample()`](https://dplyr.tidyverse.org/dev/reference/slice.md)
-  example showing how to use it to shuffle rows
-  ([\#7707](https://github.com/tidyverse/dplyr/issues/7707),
-  [@Hzanib](https://github.com/Hzanib)).
-
-- Updated
-  [`across()`](https://dplyr.tidyverse.org/dev/reference/across.md)
-  examples to include an example using
-  [`everything()`](https://tidyselect.r-lib.org/reference/everything.html)
-  ([\#7621](https://github.com/tidyverse/dplyr/issues/7621),
-  [@JBrandenburg02](https://github.com/JBrandenburg02)).
-
-- Clarified how
-  [`slice_min()`](https://dplyr.tidyverse.org/dev/reference/slice.md)
-  and
-  [`slice_max()`](https://dplyr.tidyverse.org/dev/reference/slice.md)
-  work in the introduction vignette
-  ([\#7717](https://github.com/tidyverse/dplyr/issues/7717),
-  [@ccani007](https://github.com/ccani007)).
-
-- [`reframe()`](https://dplyr.tidyverse.org/dev/reference/reframe.md)
-  has moved from experimental to stable
-  ([\#7713](https://github.com/tidyverse/dplyr/issues/7713),
-  [@VisruthSK](https://github.com/VisruthSK)).
-
-- The base pipe is now used throughout the documentation
-  ([\#7711](https://github.com/tidyverse/dplyr/issues/7711)).
-
-- R \>=4.1.0 is now required, in line with the [tidyverse
-  standard](https://tidyverse.org/blog/2019/04/r-version-support/) of
-  supporting the previous 5 minor releases of R
-  ([\#7711](https://github.com/tidyverse/dplyr/issues/7711)).
-
-- [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md)
-  now throws a better error if one of the conditions is an array
-  ([\#6862](https://github.com/tidyverse/dplyr/issues/6862),
-  [@ilovemane](https://github.com/ilovemane)).
-
-- [`between()`](https://dplyr.tidyverse.org/dev/reference/between.md)
-  gains a new `ptype` argument, allowing users to specify the desired
-  output type. This is particularly useful for ordered factors and other
-  complex types where the default common type behavior might not be
-  ideal ([\#6906](https://github.com/tidyverse/dplyr/issues/6906),
-  [@JamesHWade](https://github.com/JamesHWade)).
-
-- Fixed an edge case when coercing data frames to matrices
-  ([\#7004](https://github.com/tidyverse/dplyr/issues/7004)).
-
-- Fixed an issue where duckplyr’s ALTREP data frames were being
-  materialized early due to internal usage of
-  [`ncol()`](https://rdrr.io/r/base/nrow.html)
-  ([\#7049](https://github.com/tidyverse/dplyr/issues/7049)).
-
-### Lifecycle changes
-
-#### Breaking changes
-
-- The following were already deprecated, and are now defunct:
+- The following were already deprecated, and are now defunct and throw
+  an error:
 
   - All underscored standard evaluation versions of major dplyr verbs.
     Deprecated in 0.7.0 (Jun 2017), use the non-underscored version of
@@ -341,6 +282,12 @@
     [`summarise_each_()`](https://dplyr.tidyverse.org/dev/reference/defunct-each.md).
     Deprecated in 0.7.0 (Jun 2017), use
     [`across()`](https://dplyr.tidyverse.org/dev/reference/across.md)
+    instead.
+
+  - Returning more or less than 1 row per group in
+    [`summarise()`](https://dplyr.tidyverse.org/dev/reference/summarise.md).
+    Deprecated in 1.1.0 (Jan 2023), use
+    [`reframe()`](https://dplyr.tidyverse.org/dev/reference/reframe.md)
     instead.
 
   - [`combine()`](https://dplyr.tidyverse.org/dev/reference/defunct.md).
@@ -410,12 +357,6 @@
     [`if_all()`](https://dplyr.tidyverse.org/dev/reference/across.md)
     instead.
 
-  - Returning more or less than 1 row per group in
-    [`summarise()`](https://dplyr.tidyverse.org/dev/reference/summarise.md).
-    Deprecated in 1.1.0 (Jan 2023), use
-    [`reframe()`](https://dplyr.tidyverse.org/dev/reference/reframe.md)
-    instead.
-
   - `multiple = NULL` in joins. Deprecated in 1.1.1 (Mar 2023), use
     `multiple = "all"` instead.
 
@@ -425,46 +366,6 @@
   - The `vars` argument of
     [`group_cols()`](https://dplyr.tidyverse.org/dev/reference/group_cols.md).
     Deprecated in 1.0.0 (Jan 2023).
-
-- The following were already defunct, and have been removed:
-
-  - `id()`. Deprecated in 0.5.0 (Jun 2016), use
-    [`vctrs::vec_group_id()`](https://vctrs.r-lib.org/reference/vec_group.html)
-    instead. If your package uses NSE and implicitly relied on the
-    variable `id` being available, you now need to put
-    `utils::globalVariables("id")` inside one of your package files to
-    tell R that `id` is a column name.
-
-  - `failwith()`. Deprecated in 0.7.0 (Jun 2017), use
-    [`purrr::possibly()`](https://purrr.tidyverse.org/reference/possibly.html)
-    instead.
-
-  - `select_vars()` and `select_vars_()`. Deprecated in 0.8.4 (Jan
-    2020), use
-    [`tidyselect::vars_select()`](https://tidyselect.r-lib.org/reference/vars_select.html)
-    instead.
-
-  - `rename_vars()` and `rename_vars_()`. Deprecated in 0.8.4 (Jan
-    2020), use
-    [`tidyselect::vars_rename()`](https://tidyselect.r-lib.org/reference/vars_select.html)
-    instead.
-
-  - `select_var()`. Deprecated in 0.8.4 (Jan 2020), use
-    [`tidyselect::vars_pull()`](https://tidyselect.r-lib.org/reference/vars_pull.html)
-    instead.
-
-  - `current_vars()`. Deprecated in 0.8.4 (Jan 2020), use
-    [`tidyselect::peek_vars()`](https://tidyselect.r-lib.org/reference/peek_vars.html)
-    instead.
-
-  - `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()`,
-    and `eval_tbls2()`. Deprecated in 1.0.0 (May 2020).
-
-  - `location()` and `changes()`. Deprecated in 1.0.0 (May 2020), use
-    [`lobstr::ref()`](https://lobstr.r-lib.org/reference/ref.html)
-    instead.
-
-#### Newly deprecated
 
 - The following were already deprecated, and now warn unconditionally if
   used:
@@ -493,8 +394,8 @@
     [`cur_group_id()`](https://dplyr.tidyverse.org/dev/reference/context.md)
     instead.
 
-- The following were already soft-deprecated, and now warn
-  unconditionally once per session if used:
+- The following were already soft-deprecated, and now warn once per
+  session if used:
 
   - [`cur_data()`](https://dplyr.tidyverse.org/dev/reference/deprec-context.md)
     and
@@ -512,20 +413,153 @@
     [`cross_join()`](https://dplyr.tidyverse.org/dev/reference/cross_join.md)
     instead.
 
-- The following are newly deprecated:
+#### Removed
 
-  - The `dplyr.legacy_locale` global option. If you used this to affect
-    the ordering of
-    [`arrange()`](https://dplyr.tidyverse.org/dev/reference/arrange.md),
-    use `arrange(.locale =)` instead. If you used this to affect the
-    ordering of `group_by() |> summarise()`, follow up with an
-    additional call to `arrange(.locale =)` instead
-    ([\#7760](https://github.com/tidyverse/dplyr/issues/7760)).
+The following were already defunct, and have been removed:
 
-#### Newly stable
+- `id()`. Deprecated in 0.5.0 (Jun 2016), use
+  [`vctrs::vec_group_id()`](https://vctrs.r-lib.org/reference/vec_group.html)
+  instead. If your package uses NSE and implicitly relied on the
+  variable `id` being available, you now need to put
+  `utils::globalVariables("id")` inside one of your package files to
+  tell R that `id` is a column name.
 
-- `.by` has moved from experimental to stable
-  ([\#7762](https://github.com/tidyverse/dplyr/issues/7762)).
+- `failwith()`. Deprecated in 0.7.0 (Jun 2017), use
+  [`purrr::possibly()`](https://purrr.tidyverse.org/reference/possibly.html)
+  instead.
+
+- `select_vars()` and `select_vars_()`. Deprecated in 0.8.4 (Jan 2020),
+  use
+  [`tidyselect::vars_select()`](https://tidyselect.r-lib.org/reference/vars_select.html)
+  instead.
+
+- `rename_vars()` and `rename_vars_()`. Deprecated in 0.8.4 (Jan 2020),
+  use
+  [`tidyselect::vars_rename()`](https://tidyselect.r-lib.org/reference/vars_select.html)
+  instead.
+
+- `select_var()`. Deprecated in 0.8.4 (Jan 2020), use
+  [`tidyselect::vars_pull()`](https://tidyselect.r-lib.org/reference/vars_pull.html)
+  instead.
+
+- `current_vars()`. Deprecated in 0.8.4 (Jan 2020), use
+  [`tidyselect::peek_vars()`](https://tidyselect.r-lib.org/reference/peek_vars.html)
+  instead.
+
+- `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()`,
+  and `eval_tbls2()`. Deprecated in 1.0.0 (May 2020).
+
+- `location()` and `changes()`. Deprecated in 1.0.0 (May 2020), use
+  [`lobstr::ref()`](https://lobstr.r-lib.org/reference/ref.html)
+  instead.
+
+### Minor improvements and bug fixes
+
+- The base pipe is now used throughout the documentation
+  ([\#7711](https://github.com/tidyverse/dplyr/issues/7711)).
+
+- The superseded
+  [`recode()`](https://dplyr.tidyverse.org/dev/reference/recode.md) now
+  has updated documentation showing how to migrate to
+  [`recode_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md)
+  and
+  [`replace_values()`](https://dplyr.tidyverse.org/dev/reference/recode-and-replace-values.md).
+
+- The `.groups` message emitted by
+  [`summarise()`](https://dplyr.tidyverse.org/dev/reference/summarise.md)
+  is hopefully more clear now
+  ([\#6986](https://github.com/tidyverse/dplyr/issues/6986)).
+
+- `storms` has been updated to include 2023 and 2024 data
+  ([\#7111](https://github.com/tidyverse/dplyr/issues/7111),
+  [@tomalrussell](https://github.com/tomalrussell)).
+
+- [`if_any()`](https://dplyr.tidyverse.org/dev/reference/across.md) and
+  [`if_all()`](https://dplyr.tidyverse.org/dev/reference/across.md) are
+  now more consistent in all use cases
+  ([\#7059](https://github.com/tidyverse/dplyr/issues/7059),
+  [\#7077](https://github.com/tidyverse/dplyr/issues/7077),
+  [\#7746](https://github.com/tidyverse/dplyr/issues/7746),
+  [@jrwinget](https://github.com/jrwinget)). In particular:
+
+  - When called with zero inputs,
+    [`if_any()`](https://dplyr.tidyverse.org/dev/reference/across.md)
+    returns `FALSE` and
+    [`if_all()`](https://dplyr.tidyverse.org/dev/reference/across.md)
+    returns `TRUE`.
+
+  - When called with one input, both now return logical vectors rather
+    than the original column.
+
+  - The result of applying `.fns` now must be a logical vector.
+
+- `tally_n()` creates fully qualified funciton calls for duckplyr
+  compatibility
+  ([\#7046](https://github.com/tidyverse/dplyr/issues/7046))
+
+- Empty
+  [`rowwise()`](https://dplyr.tidyverse.org/dev/reference/rowwise.md)
+  list-column elements now resolve to
+  [`logical()`](https://rdrr.io/r/base/logical.html) rather than a
+  random logical of length 1
+  ([\#7710](https://github.com/tidyverse/dplyr/issues/7710)).
+
+- [`last_dplyr_warnings()`](https://dplyr.tidyverse.org/dev/reference/last_dplyr_warnings.md)
+  no longer prevents objects from being garbage collected
+  ([\#7649](https://github.com/tidyverse/dplyr/issues/7649)).
+
+- [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md)
+  now throws correctly indexed errors when `NULL`s are supplied in `...`
+  ([\#7739](https://github.com/tidyverse/dplyr/issues/7739)).
+
+- [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md)
+  now throws a better error if one of the conditions is an array
+  ([\#6862](https://github.com/tidyverse/dplyr/issues/6862),
+  [@ilovemane](https://github.com/ilovemane)).
+
+- [`bind_rows()`](https://dplyr.tidyverse.org/dev/reference/bind_rows.md)
+  now replaces empty (or `NA`) element names in a list with its numeric
+  index while preserving existing names
+  ([\#7719](https://github.com/tidyverse/dplyr/issues/7719),
+  [@Meghansaha](https://github.com/Meghansaha)).
+
+- New
+  [`slice_sample()`](https://dplyr.tidyverse.org/dev/reference/slice.md)
+  example showing how to use it to shuffle rows
+  ([\#7707](https://github.com/tidyverse/dplyr/issues/7707),
+  [@Hzanib](https://github.com/Hzanib)).
+
+- Updated
+  [`across()`](https://dplyr.tidyverse.org/dev/reference/across.md)
+  examples to include an example using
+  [`everything()`](https://tidyselect.r-lib.org/reference/everything.html)
+  ([\#7621](https://github.com/tidyverse/dplyr/issues/7621),
+  [@JBrandenburg02](https://github.com/JBrandenburg02)).
+
+- Clarified how
+  [`slice_min()`](https://dplyr.tidyverse.org/dev/reference/slice.md)
+  and
+  [`slice_max()`](https://dplyr.tidyverse.org/dev/reference/slice.md)
+  work in the introduction vignette
+  ([\#7717](https://github.com/tidyverse/dplyr/issues/7717),
+  [@ccani007](https://github.com/ccani007)).
+
+- Fixed an edge case when coercing data frames to matrices
+  ([\#7004](https://github.com/tidyverse/dplyr/issues/7004)).
+
+- Fixed an issue where duckplyr’s ALTREP data frames were being
+  materialized early due to internal usage of
+  [`ncol()`](https://rdrr.io/r/base/nrow.html)
+  ([\#7049](https://github.com/tidyverse/dplyr/issues/7049)).
+
+- Progress towards making dplyr conformant with the public C API of R
+  ([\#7741](https://github.com/tidyverse/dplyr/issues/7741),
+  [\#7797](https://github.com/tidyverse/dplyr/issues/7797)).
+
+- R \>=4.1.0 is now required, in line with the [tidyverse
+  standard](https://tidyverse.org/blog/2019/04/r-version-support/) of
+  supporting the previous 5 minor releases of R
+  ([\#7711](https://github.com/tidyverse/dplyr/issues/7711)).
 
 ## dplyr 1.1.4
 
@@ -3687,10 +3721,13 @@ tidyeval. It is described in detail in
 but, in brief, gives you the ability to interpolate values in contexts
 where dplyr usually works with expressions:
 
-\`\`\`{r} my_var \<- quo(homeworld)
+``` r
+my_var <- quo(homeworld)
 
-starwars %\>% group_by(!!my_var) %\>% summarise_at(vars(height:mass),
-mean, na.rm = TRUE) \`\`\`
+starwars %>%
+  group_by(!!my_var) %>%
+  summarise_at(vars(height:mass), mean, na.rm = TRUE)
+```
 
 This means that the underscored version of each main verb is no longer
 needed, and so these functions have been deprecated (but remain around

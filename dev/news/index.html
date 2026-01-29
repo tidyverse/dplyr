@@ -61,14 +61,9 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
+<div class="section level3">
+<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
 <ul><li>
-<p>New <code><a href="../reference/when-any-all.html">when_any()</a></code> and <code><a href="../reference/when-any-all.html">when_all()</a></code>, which are elementwise versions of <code><a href="https://rdrr.io/r/base/any.html" class="external-link">any()</a></code> and <code><a href="https://rdrr.io/r/base/all.html" class="external-link">all()</a></code>. Alternatively, you can think of them as performing repeated <code>|</code> and <code>&amp;</code> on any number of inputs, for example:</p>
-<ul><li><p><code>when_any(x, y, z)</code> is equivalent to <code>x | y | z</code>.</p></li>
-<li><p><code>when_all(x, y, z)</code> is equivalent to <code>x &amp; y &amp; z</code>.</p></li>
-</ul><p><code><a href="../reference/when-any-all.html">when_any()</a></code> is particularly useful within <code><a href="../reference/filter.html">filter()</a></code> and <code><a href="../reference/filter.html">filter_out()</a></code> to specify comma separated conditions combined with <code>|</code> rather than <code>&amp;</code>.</p>
-<p>This work is a result of <a href="https://github.com/tidyverse/tidyups/pull/30" class="external-link">Tidyup 8: Expanding the <code>filter()</code> family</a>.</p>
-</li>
-<li>
 <p>New <code><a href="../reference/filter.html">filter_out()</a></code> companion to <code><a href="../reference/filter.html">filter()</a></code>.</p>
 <ul><li><p>Use <code><a href="../reference/filter.html">filter()</a></code> when specifying rows to <em>keep</em>.</p></li>
 <li><p>Use <code><a href="../reference/filter.html">filter_out()</a></code> when specifying rows to <em>drop</em>.</p></li>
@@ -80,23 +75,35 @@
 <p>With <code><a href="../reference/filter.html">filter()</a></code>, you must provide a “negative” condition of <code>!= 0</code> and must explicitly guard against accidentally dropping rows with <code>NA</code>. With <code><a href="../reference/filter.html">filter_out()</a></code>, you directly specify rows to drop and you don’t have to guard against dropping rows with <code>NA</code>, which tends to result in much clearer code.</p>
 <p>This work is a result of <a href="https://github.com/tidyverse/tidyups/pull/30" class="external-link">Tidyup 8: Expanding the <code>filter()</code> family</a>, with a lot of great feedback from the community (<a href="https://github.com/tidyverse/dplyr/issues/6560" class="external-link">#6560</a>, <a href="https://github.com/tidyverse/dplyr/issues/6891" class="external-link">#6891</a>).</p>
 </li>
-<li><p>The <code>.groups</code> message emitted by <code><a href="../reference/summarise.html">summarise()</a></code> is hopefully more clear now (<a href="https://github.com/tidyverse/dplyr/issues/6986" class="external-link">#6986</a>).</p></li>
 <li>
-<p><code><a href="../reference/across.html">if_any()</a></code> and <code><a href="../reference/across.html">if_all()</a></code> are now more consistent in all use cases (<a href="https://github.com/tidyverse/dplyr/issues/7059" class="external-link">#7059</a>, <a href="https://github.com/tidyverse/dplyr/issues/7077" class="external-link">#7077</a>, <a href="https://github.com/tidyverse/dplyr/issues/7746" class="external-link">#7746</a>, <a href="https://github.com/jrwinget" class="external-link">@jrwinget</a>). In particular:</p>
-<ul><li><p>When called with zero inputs, <code><a href="../reference/across.html">if_any()</a></code> returns <code>FALSE</code> and <code><a href="../reference/across.html">if_all()</a></code> returns <code>TRUE</code>.</p></li>
-<li><p>When called with one input, both now return logical vectors rather than the original column.</p></li>
-<li><p>The result of applying <code>.fns</code> now must be a logical vector.</p></li>
-</ul></li>
-<li><p><code>tally_n()</code> creates fully qualified funciton calls for duckplyr compatibility (<a href="https://github.com/tidyverse/dplyr/issues/7046" class="external-link">#7046</a>)</p></li>
-<li><p><code>storms</code> has been updated to include 2023 and 2024 data (<a href="https://github.com/tidyverse/dplyr/issues/7111" class="external-link">#7111</a>, <a href="https://github.com/tomalrussell" class="external-link">@tomalrussell</a>).</p></li>
-<li><p>Empty <code><a href="../reference/rowwise.html">rowwise()</a></code> list-column elements now resolve to <code><a href="https://rdrr.io/r/base/logical.html" class="external-link">logical()</a></code> rather than a random logical of length 1 (<a href="https://github.com/tidyverse/dplyr/issues/7710" class="external-link">#7710</a>).</p></li>
-<li><p><code><a href="../reference/last_dplyr_warnings.html">last_dplyr_warnings()</a></code> no longer prevents objects from being garbage collected (<a href="https://github.com/tidyverse/dplyr/issues/7649" class="external-link">#7649</a>).</p></li>
-<li><p>Progress towards making dplyr conformant with the public C API of R (<a href="https://github.com/tidyverse/dplyr/issues/7741" class="external-link">#7741</a>, <a href="https://github.com/tidyverse/dplyr/issues/7797" class="external-link">#7797</a>).</p></li>
-<li><p><code><a href="../reference/case-and-replace-when.html">case_when()</a></code> now throws correctly indexed errors when <code>NULL</code>s are supplied in <code>...</code> (<a href="https://github.com/tidyverse/dplyr/issues/7739" class="external-link">#7739</a>).</p></li>
-<li><p><code><a href="../reference/case-and-replace-when.html">case_when()</a></code> has gained a new <code>.unmatched</code> argument. For extra safety, set <code>.unmatched = "error"</code> rather than providing a <code>.default</code> when you believe that you’ve handled every possible case, and it will error if a case is left unhandled. The new <code><a href="../reference/recode-and-replace-values.html">recode_values()</a></code> also has this argument (<a href="https://github.com/tidyverse/dplyr/issues/7653" class="external-link">#7653</a>).</p></li>
-<li><p>New <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code> method for <code>rowwise_df</code> to avoid creating corrupt rowwise data frames (r-lib/vctrs#1935).</p></li>
-<li><p><code><a href="../reference/case_match.html">case_match()</a></code> is soft-deprecated, and is fully replaced by <code><a href="../reference/recode-and-replace-values.html">recode_values()</a></code> and <code><a href="../reference/recode-and-replace-values.html">replace_values()</a></code>, which are more flexible, more powerful, and have much better names.</p></li>
-<li><p>The superseded <code><a href="../reference/recode.html">recode()</a></code> now has updated documentation showing how to migrate to <code><a href="../reference/recode-and-replace-values.html">recode_values()</a></code> and <code><a href="../reference/recode-and-replace-values.html">replace_values()</a></code>.</p></li>
+<p>New <code><a href="../reference/when-any-all.html">when_any()</a></code> and <code><a href="../reference/when-any-all.html">when_all()</a></code>, which are elementwise versions of <code><a href="https://rdrr.io/r/base/any.html" class="external-link">any()</a></code> and <code><a href="https://rdrr.io/r/base/all.html" class="external-link">all()</a></code>. Alternatively, you can think of them as performing repeated <code>|</code> and <code>&amp;</code> on any number of inputs, for example:</p>
+<ul><li><p><code>when_any(x, y, z)</code> is equivalent to <code>x | y | z</code>.</p></li>
+<li><p><code>when_all(x, y, z)</code> is equivalent to <code>x &amp; y &amp; z</code>.</p></li>
+</ul><p><code><a href="../reference/when-any-all.html">when_any()</a></code> is particularly useful within <code><a href="../reference/filter.html">filter()</a></code> and <code><a href="../reference/filter.html">filter_out()</a></code> to specify comma separated conditions combined with <code>|</code> rather than <code>&amp;</code>, like:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># With `|`</span></span>
+<span><span class="va">countries</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span></span>
+<span>    <span class="op">(</span><span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"US"</span>, <span class="st">"CA"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="../reference/between.html">between</a></span><span class="op">(</span><span class="va">score</span>, <span class="fl">200</span>, <span class="fl">300</span><span class="op">)</span><span class="op">)</span> <span class="op">|</span></span>
+<span>      <span class="op">(</span><span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PR"</span>, <span class="st">"RU"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="../reference/between.html">between</a></span><span class="op">(</span><span class="va">score</span>, <span class="fl">100</span>, <span class="fl">200</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># With `when_any()`, you drop the explicit `|`, the extra `()`, and your</span></span>
+<span><span class="co"># conditions are all indented to the same level</span></span>
+<span><span class="va">countries</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="../reference/when-any-all.html">when_any</a></span><span class="op">(</span></span>
+<span>    <span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"US"</span>, <span class="st">"CA"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="../reference/between.html">between</a></span><span class="op">(</span><span class="va">score</span>, <span class="fl">200</span>, <span class="fl">300</span><span class="op">)</span>,</span>
+<span>    <span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PR"</span>, <span class="st">"RU"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="../reference/between.html">between</a></span><span class="op">(</span><span class="va">score</span>, <span class="fl">100</span>, <span class="fl">200</span><span class="op">)</span></span>
+<span>  <span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># To drop these rows instead, use `filter_out()`</span></span>
+<span><span class="va">countries</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/filter.html">filter_out</a></span><span class="op">(</span><span class="fu"><a href="../reference/when-any-all.html">when_any</a></span><span class="op">(</span></span>
+<span>    <span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"US"</span>, <span class="st">"CA"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="../reference/between.html">between</a></span><span class="op">(</span><span class="va">score</span>, <span class="fl">200</span>, <span class="fl">300</span><span class="op">)</span>,</span>
+<span>    <span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PR"</span>, <span class="st">"RU"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="../reference/between.html">between</a></span><span class="op">(</span><span class="va">score</span>, <span class="fl">100</span>, <span class="fl">200</span><span class="op">)</span></span>
+<span>  <span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>This work is a result of <a href="https://github.com/tidyverse/tidyups/pull/30" class="external-link">Tidyup 8: Expanding the <code>filter()</code> family</a>.</p>
+</li>
 <li>
 <p><code><a href="../reference/case-and-replace-when.html">case_when()</a></code> is now part of a family of 4 related functions, 3 of which are new:</p>
 <ul><li>Use <code><a href="../reference/case-and-replace-when.html">case_when()</a></code> to create a new vector based on logical conditions.</li>
@@ -108,13 +115,34 @@
 <p><code><a href="../reference/recode-and-replace-values.html">recode_values()</a></code> and <code><a href="../reference/recode-and-replace-values.html">replace_values()</a></code> have the familiar <code><a href="../reference/case-and-replace-when.html">case_when()</a></code>-style formula interface for easy interactive use, but also have <code>from</code> and <code>to</code> arguments as a way for you to incorporate a pre-built lookup table, making them more holistic replacements for both <code><a href="../reference/case_match.html">case_match()</a></code> and <code><a href="../reference/recode.html">recode()</a></code>.</p>
 <p>This work is a result of <a href="https://github.com/tidyverse/tidyups/blob/main/007-tidyverse-recoding-and-replacing.md" class="external-link">Tidyup 7: Recoding and replacing values in the tidyverse</a>, with a lot of great <a href="https://github.com/tidyverse/tidyups/pull/29" class="external-link">feedback</a> from the community (<a href="https://github.com/tidyverse/dplyr/issues/7728" class="external-link">#7728</a>, <a href="https://github.com/tidyverse/dplyr/issues/7729" class="external-link">#7729</a>).</p>
 </li>
+<li><p><code><a href="../reference/case-and-replace-when.html">case_when()</a></code> has gained a new <code>.unmatched</code> argument. For extra safety, set <code>.unmatched = "error"</code> rather than providing a <code>.default</code> when you believe that you’ve handled every possible case, and it will error if a case is left unhandled. The new <code><a href="../reference/recode-and-replace-values.html">recode_values()</a></code> also has this argument (<a href="https://github.com/tidyverse/dplyr/issues/7653" class="external-link">#7653</a>).</p></li>
+<li><p><code><a href="../reference/if_else.html">if_else()</a></code>, <code><a href="../reference/case-and-replace-when.html">case_when()</a></code>, and <code><a href="../reference/coalesce.html">coalesce()</a></code> have gotten significantly faster and use much less memory due to a rewrite in C via vctrs (<a href="https://github.com/tidyverse/dplyr/issues/7723" class="external-link">#7723</a>, <a href="https://github.com/tidyverse/dplyr/issues/7725" class="external-link">#7725</a>, <a href="https://github.com/tidyverse/dplyr/issues/7727" class="external-link">#7727</a>).</p></li>
+<li><p>New <code>ptype</code> argument for <code><a href="../reference/between.html">between()</a></code>, allowing users to specify the desired output type. This is particularly useful for ordered factors and other complex types where the default common type behavior might not be ideal (<a href="https://github.com/tidyverse/dplyr/issues/6906" class="external-link">#6906</a>, <a href="https://github.com/JamesHWade" class="external-link">@JamesHWade</a>).</p></li>
+<li><p>New <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code> method for <code>rowwise_df</code> to avoid creating corrupt rowwise data frames (r-lib/vctrs#1935).</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="lifecycle-changes-development-version">Lifecycle changes<a class="anchor" aria-label="anchor" href="#lifecycle-changes-development-version"></a></h3>
+<div class="section level4">
+<h4 id="newly-stable-development-version">Newly stable<a class="anchor" aria-label="anchor" href="#newly-stable-development-version"></a></h4>
+<ul><li><p><code>.by</code> has moved from experimental to stable (<a href="https://github.com/tidyverse/dplyr/issues/7762" class="external-link">#7762</a>).</p></li>
+<li><p><code><a href="../reference/reframe.html">reframe()</a></code> has moved from experimental to stable (<a href="https://github.com/tidyverse/dplyr/issues/7713" class="external-link">#7713</a>, <a href="https://github.com/VisruthSK" class="external-link">@VisruthSK</a>).</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="newly-breaking-development-version">Newly breaking<a class="anchor" aria-label="anchor" href="#newly-breaking-development-version"></a></h4>
+<ul><li>
+<code><a href="../reference/if_else.html">if_else()</a></code> no longer allows <code>condition</code> to be a logical array. It must be a logical vector with no <code>dim</code> attribute (<a href="https://github.com/tidyverse/dplyr/issues/7723" class="external-link">#7723</a>).</li>
+</ul></div>
+<div class="section level4">
+<h4 id="newly-deprecated-development-version">Newly deprecated<a class="anchor" aria-label="anchor" href="#newly-deprecated-development-version"></a></h4>
+<ul><li><p><code><a href="../reference/case_match.html">case_match()</a></code> is soft-deprecated, and is fully replaced by <code><a href="../reference/recode-and-replace-values.html">recode_values()</a></code> and <code><a href="../reference/recode-and-replace-values.html">replace_values()</a></code>, which are more flexible, more powerful, and have much better names.</p></li>
 <li>
 <p>In <code><a href="../reference/case-and-replace-when.html">case_when()</a></code>, supplying all size 1 LHS inputs along with a size &gt;1 RHS input is now soft-deprecated. This is an improper usage of <code><a href="../reference/case-and-replace-when.html">case_when()</a></code> that should instead be a series of if statements, like:</p>
-<pre><code><span><span class="co"># Scalars!</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Scalars!</span></span>
 <span><span class="va">code</span> <span class="op">&lt;-</span> <span class="fl">1L</span></span>
 <span><span class="va">flavor</span> <span class="op">&lt;-</span> <span class="st">"vanilla"</span></span>
 <span></span>
-<span><span class="co"># Previously</span></span>
+<span><span class="co"># Improper usage:</span></span>
 <span><span class="fu"><a href="../reference/case-and-replace-when.html">case_when</a></span><span class="op">(</span></span>
 <span>  <span class="va">code</span> <span class="op">==</span> <span class="fl">1L</span> <span class="op">&amp;&amp;</span> <span class="va">flavor</span> <span class="op">==</span> <span class="st">"chocolate"</span> <span class="op">~</span> <span class="va">x</span>,</span>
 <span>  <span class="va">code</span> <span class="op">==</span> <span class="fl">1L</span> <span class="op">&amp;&amp;</span> <span class="va">flavor</span> <span class="op">==</span> <span class="st">"vanilla"</span> <span class="op">~</span> <span class="va">y</span>,</span>
@@ -122,7 +150,7 @@
 <span>  .default <span class="op">=</span> <span class="va">default</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Now</span></span>
+<span><span class="co"># Recommended:</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="va">code</span> <span class="op">==</span> <span class="fl">1L</span> <span class="op">&amp;&amp;</span> <span class="va">flavor</span> <span class="op">==</span> <span class="st">"chocolate"</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">x</span></span>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="kw">if</span> <span class="op">(</span><span class="va">code</span> <span class="op">==</span> <span class="fl">1L</span> <span class="op">&amp;&amp;</span> <span class="va">flavor</span> <span class="op">==</span> <span class="st">"vanilla"</span><span class="op">)</span> <span class="op">{</span></span>
@@ -131,34 +159,16 @@
 <span>  <span class="va">z</span></span>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
 <span>  <span class="va">default</span></span>
-<span><span class="op">}</span></span></code></pre>
+<span><span class="op">}</span></span></code></pre></div>
 <p>The recycling behavior that allows this style of <code><a href="../reference/case-and-replace-when.html">case_when()</a></code> to work is unsafe, and can result in silent bugs that we’d like to guard against with an error in the future (<a href="https://github.com/tidyverse/dplyr/issues/7082" class="external-link">#7082</a>).</p>
 </li>
-<li>
-<p>The following vector functions have gotten significantly faster and use much less memory due to a rewrite in C via vctrs (<a href="https://github.com/tidyverse/dplyr/issues/7723" class="external-link">#7723</a>, <a href="https://github.com/tidyverse/dplyr/issues/7725" class="external-link">#7725</a>, <a href="https://github.com/tidyverse/dplyr/issues/7727" class="external-link">#7727</a>):</p>
-<ul><li><code><a href="../reference/if_else.html">if_else()</a></code></li>
-<li><code><a href="../reference/case-and-replace-when.html">case_when()</a></code></li>
-<li><code><a href="../reference/coalesce.html">coalesce()</a></code></li>
-</ul></li>
-<li><p><code><a href="../reference/if_else.html">if_else()</a></code> no longer allows <code>condition</code> to be a logical array. It must be a logical vector with no <code>dim</code> attribute (<a href="https://github.com/tidyverse/dplyr/issues/7723" class="external-link">#7723</a>).</p></li>
+<li><p>The <code>dplyr.legacy_locale</code> global option is soft-deprecated. If you used this to affect the ordering of <code><a href="../reference/arrange.html">arrange()</a></code>, use <code>arrange(.locale =)</code> instead. If you used this to affect the ordering of <code>group_by() |&gt; summarise()</code>, follow up with an additional call to <code>arrange(.locale =)</code> instead (<a href="https://github.com/tidyverse/dplyr/issues/7760" class="external-link">#7760</a>).</p></li>
 <li><p>Passing <code>size</code> to <code><a href="../reference/if_else.html">if_else()</a></code> is now deprecated. The output size is always taken from the <code>condition</code> (<a href="https://github.com/tidyverse/dplyr/issues/7722" class="external-link">#7722</a>).</p></li>
-<li><p><code><a href="../reference/bind_rows.html">bind_rows()</a></code> now replaces empty (or <code>NA</code>) element names in a list with its numeric index while preserving existing names (<a href="https://github.com/tidyverse/dplyr/issues/7719" class="external-link">#7719</a>, <a href="https://github.com/Meghansaha" class="external-link">@Meghansaha</a>).</p></li>
-<li><p>New <code><a href="../reference/slice.html">slice_sample()</a></code> example showing how to use it to shuffle rows (<a href="https://github.com/tidyverse/dplyr/issues/7707" class="external-link">#7707</a>, <a href="https://github.com/Hzanib" class="external-link">@Hzanib</a>).</p></li>
-<li><p>Updated <code><a href="../reference/across.html">across()</a></code> examples to include an example using <code><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything()</a></code> (<a href="https://github.com/tidyverse/dplyr/issues/7621" class="external-link">#7621</a>, <a href="https://github.com/JBrandenburg02" class="external-link">@JBrandenburg02</a>).</p></li>
-<li><p>Clarified how <code><a href="../reference/slice.html">slice_min()</a></code> and <code><a href="../reference/slice.html">slice_max()</a></code> work in the introduction vignette (<a href="https://github.com/tidyverse/dplyr/issues/7717" class="external-link">#7717</a>, <a href="https://github.com/ccani007" class="external-link">@ccani007</a>).</p></li>
-<li><p><code><a href="../reference/reframe.html">reframe()</a></code> has moved from experimental to stable (<a href="https://github.com/tidyverse/dplyr/issues/7713" class="external-link">#7713</a>, <a href="https://github.com/VisruthSK" class="external-link">@VisruthSK</a>).</p></li>
-<li><p>The base pipe is now used throughout the documentation (<a href="https://github.com/tidyverse/dplyr/issues/7711" class="external-link">#7711</a>).</p></li>
-<li><p>R &gt;=4.1.0 is now required, in line with the <a href="https://tidyverse.org/blog/2019/04/r-version-support/" class="external-link">tidyverse standard</a> of supporting the previous 5 minor releases of R (<a href="https://github.com/tidyverse/dplyr/issues/7711" class="external-link">#7711</a>).</p></li>
-<li><p><code><a href="../reference/case-and-replace-when.html">case_when()</a></code> now throws a better error if one of the conditions is an array (<a href="https://github.com/tidyverse/dplyr/issues/6862" class="external-link">#6862</a>, <a href="https://github.com/ilovemane" class="external-link">@ilovemane</a>).</p></li>
-<li><p><code><a href="../reference/between.html">between()</a></code> gains a new <code>ptype</code> argument, allowing users to specify the desired output type. This is particularly useful for ordered factors and other complex types where the default common type behavior might not be ideal (<a href="https://github.com/tidyverse/dplyr/issues/6906" class="external-link">#6906</a>, <a href="https://github.com/JamesHWade" class="external-link">@JamesHWade</a>).</p></li>
-<li><p>Fixed an edge case when coercing data frames to matrices (<a href="https://github.com/tidyverse/dplyr/issues/7004" class="external-link">#7004</a>).</p></li>
-<li><p>Fixed an issue where duckplyr’s ALTREP data frames were being materialized early due to internal usage of <code><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol()</a></code> (<a href="https://github.com/tidyverse/dplyr/issues/7049" class="external-link">#7049</a>).</p></li>
-</ul><div class="section level3">
-<h3 id="lifecycle-changes-development-version">Lifecycle changes<a class="anchor" aria-label="anchor" href="#lifecycle-changes-development-version"></a></h3>
+</ul></div>
 <div class="section level4">
-<h4 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h4>
+<h4 id="other-deprecation-advancements-development-version">Other deprecation advancements<a class="anchor" aria-label="anchor" href="#other-deprecation-advancements-development-version"></a></h4>
 <ul><li>
-<p>The following were already deprecated, and are now defunct:</p>
+<p>The following were already deprecated, and are now defunct and throw an error:</p>
 <ul><li>
 <p>All underscored standard evaluation versions of major dplyr verbs. Deprecated in 0.7.0 (Jun 2017), use the non-underscored version of the verb with unquoting instead, see <code><a href="../articles/programming.html">vignette("programming")</a></code>. This includes:</p>
 <ul><li><code><a href="../reference/defunct-lazyeval.html">add_count_()</a></code></li>
@@ -181,6 +191,7 @@
 <li><code><a href="../reference/defunct-lazyeval.html">summarize_()</a></code></li>
 </ul></li>
 <li><p><code><a href="../reference/defunct-each.html">mutate_each()</a></code>, <code><a href="../reference/defunct-each.html">mutate_each_()</a></code>, <code><a href="../reference/defunct-each.html">summarise_each()</a></code>, and <code><a href="../reference/defunct-each.html">summarise_each_()</a></code>. Deprecated in 0.7.0 (Jun 2017), use <code><a href="../reference/across.html">across()</a></code> instead.</p></li>
+<li><p>Returning more or less than 1 row per group in <code><a href="../reference/summarise.html">summarise()</a></code>. Deprecated in 1.1.0 (Jan 2023), use <code><a href="../reference/reframe.html">reframe()</a></code> instead.</p></li>
 <li><p><code><a href="../reference/defunct.html">combine()</a></code>. Deprecated in 1.0.0 (May 2020), use <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> or <code><a href="https://vctrs.r-lib.org/reference/vec_c.html" class="external-link">vctrs::vec_c()</a></code> instead.</p></li>
 <li><p><code><a href="../reference/defunct.html">src_mysql()</a></code>, <code><a href="../reference/defunct.html">src_postgres()</a></code>, <code><a href="../reference/defunct.html">src_sqlite()</a></code>, <code><a href="../reference/defunct.html">src_local()</a></code>, and <code><a href="../reference/defunct.html">src_df()</a></code>. Deprecated in 1.0.0 (May 2020), use <code><a href="../reference/tbl.html">tbl()</a></code> instead.</p></li>
 <li><p><code><a href="../reference/defunct.html">tbl_df()</a></code> and <code><a href="../reference/defunct.html">as.tbl()</a></code>. Deprecated in 1.0.0 (May 2020), use <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">tibble::as_tibble()</a></code> instead.</p></li>
@@ -191,26 +202,11 @@
 <li><p>The <code>...</code> argument of <code><a href="../reference/group_data.html">group_keys()</a></code> and <code><a href="../reference/group_data.html">group_indices()</a></code>. Deprecated in 1.0.0 (May 2020), use <code><a href="../reference/group_by.html">group_by()</a></code> first.</p></li>
 <li><p>The <code>keep</code> argument of <code><a href="../reference/group_map.html">group_map()</a></code>, <code><a href="../reference/group_map.html">group_modify()</a></code>, and <code><a href="../reference/group_split.html">group_split()</a></code>. Deprecated in 1.0.0 (May 2020), use <code>.keep</code> instead.</p></li>
 <li><p>Using <code><a href="../reference/across.html">across()</a></code> and data frames in <code><a href="../reference/filter.html">filter()</a></code>. Deprecated in 1.0.8 (Feb 2022), use <code><a href="../reference/across.html">if_any()</a></code> or <code><a href="../reference/across.html">if_all()</a></code> instead.</p></li>
-<li><p>Returning more or less than 1 row per group in <code><a href="../reference/summarise.html">summarise()</a></code>. Deprecated in 1.1.0 (Jan 2023), use <code><a href="../reference/reframe.html">reframe()</a></code> instead.</p></li>
 <li><p><code>multiple = NULL</code> in joins. Deprecated in 1.1.1 (Mar 2023), use <code>multiple = "all"</code> instead.</p></li>
 <li><p><code>multiple = "error" / "warning"</code> in joins. Deprecated in 1.1.1 (Mar 2023), use <code>relationship = "many-to-one"</code> instead.</p></li>
 <li><p>The <code>vars</code> argument of <code><a href="../reference/group_cols.html">group_cols()</a></code>. Deprecated in 1.0.0 (Jan 2023).</p></li>
 </ul></li>
 <li>
-<p>The following were already defunct, and have been removed:</p>
-<ul><li><p><code>id()</code>. Deprecated in 0.5.0 (Jun 2016), use <code><a href="https://vctrs.r-lib.org/reference/vec_group.html" class="external-link">vctrs::vec_group_id()</a></code> instead. If your package uses NSE and implicitly relied on the variable <code>id</code> being available, you now need to put <code>utils::globalVariables("id")</code> inside one of your package files to tell R that <code>id</code> is a column name.</p></li>
-<li><p><code>failwith()</code>. Deprecated in 0.7.0 (Jun 2017), use <code><a href="https://purrr.tidyverse.org/reference/possibly.html" class="external-link">purrr::possibly()</a></code> instead.</p></li>
-<li><p><code>select_vars()</code> and <code>select_vars_()</code>. Deprecated in 0.8.4 (Jan 2020), use <code><a href="https://tidyselect.r-lib.org/reference/vars_select.html" class="external-link">tidyselect::vars_select()</a></code> instead.</p></li>
-<li><p><code>rename_vars()</code> and <code>rename_vars_()</code>. Deprecated in 0.8.4 (Jan 2020), use <code><a href="https://tidyselect.r-lib.org/reference/vars_select.html" class="external-link">tidyselect::vars_rename()</a></code> instead.</p></li>
-<li><p><code>select_var()</code>. Deprecated in 0.8.4 (Jan 2020), use <code><a href="https://tidyselect.r-lib.org/reference/vars_pull.html" class="external-link">tidyselect::vars_pull()</a></code> instead.</p></li>
-<li><p><code>current_vars()</code>. Deprecated in 0.8.4 (Jan 2020), use <code><a href="https://tidyselect.r-lib.org/reference/peek_vars.html" class="external-link">tidyselect::peek_vars()</a></code> instead.</p></li>
-<li><p><code>bench_tbls()</code>, <code>compare_tbls()</code>, <code>compare_tbls2()</code>, <code>eval_tbls()</code>, and <code>eval_tbls2()</code>. Deprecated in 1.0.0 (May 2020).</p></li>
-<li><p><code>location()</code> and <code>changes()</code>. Deprecated in 1.0.0 (May 2020), use <code><a href="https://lobstr.r-lib.org/reference/ref.html" class="external-link">lobstr::ref()</a></code> instead.</p></li>
-</ul></li>
-</ul></div>
-<div class="section level4">
-<h4 id="newly-deprecated-development-version">Newly deprecated<a class="anchor" aria-label="anchor" href="#newly-deprecated-development-version"></a></h4>
-<ul><li>
 <p>The following were already deprecated, and now warn unconditionally if used:</p>
 <ul><li><p><code><a href="../reference/all_equal.html">all_equal()</a></code>. Deprecated in 1.1.0 (Jan 2023), use <code><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal()</a></code> instead.</p></li>
 <li><p><code><a href="../reference/progress_estimated.html">progress_estimated()</a></code>. Deprecated in 1.0.0 (May 2020).</p></li>
@@ -220,22 +216,51 @@
 <li><p><code><a href="../reference/group_data.html">group_indices()</a></code> with no arguments. Deprecated in 1.0.0 (May 2020), use <code><a href="../reference/context.html">cur_group_id()</a></code> instead.</p></li>
 </ul></li>
 <li>
-<p>The following were already soft-deprecated, and now warn unconditionally once per session if used:</p>
+<p>The following were already soft-deprecated, and now warn once per session if used:</p>
 <ul><li><p><code><a href="../reference/deprec-context.html">cur_data()</a></code> and <code><a href="../reference/deprec-context.html">cur_data_all()</a></code>. Deprecated in 1.1.0 (Jan 2023), use <code><a href="../reference/pick.html">pick()</a></code> instead.</p></li>
 <li><p>The <code>...</code> argument of <code><a href="../reference/across.html">across()</a></code>. Deprecated in 1.1.0 (Jan 2023), use an anonymous function instead.</p></li>
 <li><p>Using <code>by = character()</code> to perform a cross join. Deprecated in 1.1.0 (Jan 2023), use <code><a href="../reference/cross_join.html">cross_join()</a></code> instead.</p></li>
 </ul></li>
-<li>
-<p>The following are newly deprecated:</p>
-<ul><li>The <code>dplyr.legacy_locale</code> global option. If you used this to affect the ordering of <code><a href="../reference/arrange.html">arrange()</a></code>, use <code>arrange(.locale =)</code> instead. If you used this to affect the ordering of <code>group_by() |&gt; summarise()</code>, follow up with an additional call to <code>arrange(.locale =)</code> instead (<a href="https://github.com/tidyverse/dplyr/issues/7760" class="external-link">#7760</a>).</li>
-</ul></li>
 </ul></div>
 <div class="section level4">
-<h4 id="newly-stable-development-version">Newly stable<a class="anchor" aria-label="anchor" href="#newly-stable-development-version"></a></h4>
-<ul><li>
-<code>.by</code> has moved from experimental to stable (<a href="https://github.com/tidyverse/dplyr/issues/7762" class="external-link">#7762</a>).</li>
+<h4 id="removed-development-version">Removed<a class="anchor" aria-label="anchor" href="#removed-development-version"></a></h4>
+<p>The following were already defunct, and have been removed:</p>
+<ul><li><p><code>id()</code>. Deprecated in 0.5.0 (Jun 2016), use <code><a href="https://vctrs.r-lib.org/reference/vec_group.html" class="external-link">vctrs::vec_group_id()</a></code> instead. If your package uses NSE and implicitly relied on the variable <code>id</code> being available, you now need to put <code>utils::globalVariables("id")</code> inside one of your package files to tell R that <code>id</code> is a column name.</p></li>
+<li><p><code>failwith()</code>. Deprecated in 0.7.0 (Jun 2017), use <code><a href="https://purrr.tidyverse.org/reference/possibly.html" class="external-link">purrr::possibly()</a></code> instead.</p></li>
+<li><p><code>select_vars()</code> and <code>select_vars_()</code>. Deprecated in 0.8.4 (Jan 2020), use <code><a href="https://tidyselect.r-lib.org/reference/vars_select.html" class="external-link">tidyselect::vars_select()</a></code> instead.</p></li>
+<li><p><code>rename_vars()</code> and <code>rename_vars_()</code>. Deprecated in 0.8.4 (Jan 2020), use <code><a href="https://tidyselect.r-lib.org/reference/vars_select.html" class="external-link">tidyselect::vars_rename()</a></code> instead.</p></li>
+<li><p><code>select_var()</code>. Deprecated in 0.8.4 (Jan 2020), use <code><a href="https://tidyselect.r-lib.org/reference/vars_pull.html" class="external-link">tidyselect::vars_pull()</a></code> instead.</p></li>
+<li><p><code>current_vars()</code>. Deprecated in 0.8.4 (Jan 2020), use <code><a href="https://tidyselect.r-lib.org/reference/peek_vars.html" class="external-link">tidyselect::peek_vars()</a></code> instead.</p></li>
+<li><p><code>bench_tbls()</code>, <code>compare_tbls()</code>, <code>compare_tbls2()</code>, <code>eval_tbls()</code>, and <code>eval_tbls2()</code>. Deprecated in 1.0.0 (May 2020).</p></li>
+<li><p><code>location()</code> and <code>changes()</code>. Deprecated in 1.0.0 (May 2020), use <code><a href="https://lobstr.r-lib.org/reference/ref.html" class="external-link">lobstr::ref()</a></code> instead.</p></li>
 </ul></div>
 </div>
+<div class="section level3">
+<h3 id="minor-improvements-and-bug-fixes-development-version">Minor improvements and bug fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-bug-fixes-development-version"></a></h3>
+<ul><li><p>The base pipe is now used throughout the documentation (<a href="https://github.com/tidyverse/dplyr/issues/7711" class="external-link">#7711</a>).</p></li>
+<li><p>The superseded <code><a href="../reference/recode.html">recode()</a></code> now has updated documentation showing how to migrate to <code><a href="../reference/recode-and-replace-values.html">recode_values()</a></code> and <code><a href="../reference/recode-and-replace-values.html">replace_values()</a></code>.</p></li>
+<li><p>The <code>.groups</code> message emitted by <code><a href="../reference/summarise.html">summarise()</a></code> is hopefully more clear now (<a href="https://github.com/tidyverse/dplyr/issues/6986" class="external-link">#6986</a>).</p></li>
+<li><p><code>storms</code> has been updated to include 2023 and 2024 data (<a href="https://github.com/tidyverse/dplyr/issues/7111" class="external-link">#7111</a>, <a href="https://github.com/tomalrussell" class="external-link">@tomalrussell</a>).</p></li>
+<li>
+<p><code><a href="../reference/across.html">if_any()</a></code> and <code><a href="../reference/across.html">if_all()</a></code> are now more consistent in all use cases (<a href="https://github.com/tidyverse/dplyr/issues/7059" class="external-link">#7059</a>, <a href="https://github.com/tidyverse/dplyr/issues/7077" class="external-link">#7077</a>, <a href="https://github.com/tidyverse/dplyr/issues/7746" class="external-link">#7746</a>, <a href="https://github.com/jrwinget" class="external-link">@jrwinget</a>). In particular:</p>
+<ul><li><p>When called with zero inputs, <code><a href="../reference/across.html">if_any()</a></code> returns <code>FALSE</code> and <code><a href="../reference/across.html">if_all()</a></code> returns <code>TRUE</code>.</p></li>
+<li><p>When called with one input, both now return logical vectors rather than the original column.</p></li>
+<li><p>The result of applying <code>.fns</code> now must be a logical vector.</p></li>
+</ul></li>
+<li><p><code>tally_n()</code> creates fully qualified funciton calls for duckplyr compatibility (<a href="https://github.com/tidyverse/dplyr/issues/7046" class="external-link">#7046</a>)</p></li>
+<li><p>Empty <code><a href="../reference/rowwise.html">rowwise()</a></code> list-column elements now resolve to <code><a href="https://rdrr.io/r/base/logical.html" class="external-link">logical()</a></code> rather than a random logical of length 1 (<a href="https://github.com/tidyverse/dplyr/issues/7710" class="external-link">#7710</a>).</p></li>
+<li><p><code><a href="../reference/last_dplyr_warnings.html">last_dplyr_warnings()</a></code> no longer prevents objects from being garbage collected (<a href="https://github.com/tidyverse/dplyr/issues/7649" class="external-link">#7649</a>).</p></li>
+<li><p><code><a href="../reference/case-and-replace-when.html">case_when()</a></code> now throws correctly indexed errors when <code>NULL</code>s are supplied in <code>...</code> (<a href="https://github.com/tidyverse/dplyr/issues/7739" class="external-link">#7739</a>).</p></li>
+<li><p><code><a href="../reference/case-and-replace-when.html">case_when()</a></code> now throws a better error if one of the conditions is an array (<a href="https://github.com/tidyverse/dplyr/issues/6862" class="external-link">#6862</a>, <a href="https://github.com/ilovemane" class="external-link">@ilovemane</a>).</p></li>
+<li><p><code><a href="../reference/bind_rows.html">bind_rows()</a></code> now replaces empty (or <code>NA</code>) element names in a list with its numeric index while preserving existing names (<a href="https://github.com/tidyverse/dplyr/issues/7719" class="external-link">#7719</a>, <a href="https://github.com/Meghansaha" class="external-link">@Meghansaha</a>).</p></li>
+<li><p>New <code><a href="../reference/slice.html">slice_sample()</a></code> example showing how to use it to shuffle rows (<a href="https://github.com/tidyverse/dplyr/issues/7707" class="external-link">#7707</a>, <a href="https://github.com/Hzanib" class="external-link">@Hzanib</a>).</p></li>
+<li><p>Updated <code><a href="../reference/across.html">across()</a></code> examples to include an example using <code><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything()</a></code> (<a href="https://github.com/tidyverse/dplyr/issues/7621" class="external-link">#7621</a>, <a href="https://github.com/JBrandenburg02" class="external-link">@JBrandenburg02</a>).</p></li>
+<li><p>Clarified how <code><a href="../reference/slice.html">slice_min()</a></code> and <code><a href="../reference/slice.html">slice_max()</a></code> work in the introduction vignette (<a href="https://github.com/tidyverse/dplyr/issues/7717" class="external-link">#7717</a>, <a href="https://github.com/ccani007" class="external-link">@ccani007</a>).</p></li>
+<li><p>Fixed an edge case when coercing data frames to matrices (<a href="https://github.com/tidyverse/dplyr/issues/7004" class="external-link">#7004</a>).</p></li>
+<li><p>Fixed an issue where duckplyr’s ALTREP data frames were being materialized early due to internal usage of <code><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol()</a></code> (<a href="https://github.com/tidyverse/dplyr/issues/7049" class="external-link">#7049</a>).</p></li>
+<li><p>Progress towards making dplyr conformant with the public C API of R (<a href="https://github.com/tidyverse/dplyr/issues/7741" class="external-link">#7741</a>, <a href="https://github.com/tidyverse/dplyr/issues/7797" class="external-link">#7797</a>).</p></li>
+<li><p>R &gt;=4.1.0 is now required, in line with the <a href="https://tidyverse.org/blog/2019/04/r-version-support/" class="external-link">tidyverse standard</a> of supporting the previous 5 minor releases of R (<a href="https://github.com/tidyverse/dplyr/issues/7711" class="external-link">#7711</a>).</p></li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.4" id="dplyr-114">dplyr 1.1.4<a class="anchor" aria-label="anchor" href="#dplyr-114"></a></h2><p class="text-muted">CRAN release: 2023-11-17</p>
@@ -861,13 +886,13 @@
 <li><p><code><a href="../reference/group_trim.html">group_trim()</a></code> drops unused levels of factors that are used as grouping variables.</p></li>
 <li>
 <p><code><a href="../reference/nest_join.html">nest_join()</a></code> creates a list column of the matching rows. <code><a href="../reference/nest_join.html">nest_join()</a></code> + <code><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">tidyr::unnest()</a></code> is equivalent to <code>inner_join</code> (<a href="https://github.com/tidyverse/dplyr/issues/3570" class="external-link">#3570</a>).</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">band_members</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/nest_join.html">nest_join</a></span><span class="op">(</span><span class="va">band_instruments</span><span class="op">)</span></span></code></pre></div>
 </li>
 <li>
 <p><code><a href="../reference/group_nest.html">group_nest()</a></code> is similar to <code><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">tidyr::nest()</a></code> but focusing on the variables to nest by instead of the nested columns.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/group_nest.html">group_nest</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -877,7 +902,7 @@
 </li>
 <li>
 <p><code><a href="../reference/group_split.html">group_split()</a></code> is similar to <code><a href="https://rdrr.io/r/base/split.html" class="external-link">base::split()</a></code> but operating on existing groups when applied to a grouped data frame, or subject to the data mask on ungrouped data frames</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/group_split.html">group_split</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -887,7 +912,7 @@
 </li>
 <li>
 <p><code><a href="../reference/group_map.html">group_map()</a></code> and <code><a href="../reference/group_map.html">group_walk()</a></code> are purrr-like functions to iterate on groups of a grouped data frame, jointly identified by the data subset (exposed as <code>.x</code>) and the data key (a one row tibble, exposed as <code>.y</code>). <code><a href="../reference/group_map.html">group_map()</a></code> returns a grouped data frame that combines the results of the function, <code><a href="../reference/group_map.html">group_walk()</a></code> is only used for side effects and returns its input invisibly.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/group_map.html">group_map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fl">2L</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -898,7 +923,7 @@
 <h3 id="major-changes-0-8-0">Major changes<a class="anchor" aria-label="anchor" href="#major-changes-0-8-0"></a></h3>
 <ul><li>
 <p><code><a href="../reference/group_by.html">group_by()</a></code> gains the <code>.drop</code> argument. When set to <code>FALSE</code> the groups are generated based on factor levels, hence some groups may be empty (<a href="https://github.com/tidyverse/dplyr/issues/341" class="external-link">#341</a>).</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># 3 groups</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span>
@@ -914,7 +939,7 @@
 <span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">f</span>, <span class="va">x</span>, .drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">f</span>, .drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>The default behaviour drops the empty groups as in the previous versions.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span>
 <span>    f <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></span>
@@ -923,7 +948,7 @@
 </li>
 <li>
 <p><code><a href="../reference/filter.html">filter()</a></code> and <code><a href="../reference/slice.html">slice()</a></code> gain a <code>.preserve</code> argument to control which groups it should keep. The default <code>filter(.preserve = FALSE)</code> recalculates the grouping structure based on the resulting data, otherwise it is kept as is.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,</span>
 <span>  f <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></span>
@@ -953,7 +978,7 @@
 <li><p><code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> gain <code>...</code> (<a href="https://github.com/tidyverse/dplyr/issues/2888" class="external-link">#2888</a>).</p></li>
 <li>
 <p>Scoped filter variants now support functions and purrr-like lambdas:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/filter_all.html">filter_at</a></span><span class="op">(</span><span class="fu"><a href="../reference/vars.html">vars</a></span><span class="op">(</span><span class="va">hp</span>, <span class="va">vs</span><span class="op">)</span>, <span class="op">~</span> <span class="va">.</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html" class="external-link">%%</a></span> <span class="fl">2</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
 </li>
 </ul></div>
@@ -984,7 +1009,7 @@
 <h3 id="internal-0-8-0">Internal<a class="anchor" aria-label="anchor" href="#internal-0-8-0"></a></h3>
 <ul><li>
 <p>The grouping metadata of grouped data frame has been reorganized in a single tidy tibble, that can be accessed with the new <code><a href="../reference/group_data.html">group_data()</a></code> function. The grouping tibble consists of one column per grouping variable, followed by a list column of the (1-based) indices of the groups. The new <code><a href="../reference/group_data.html">group_rows()</a></code> function retrieves that list of indices (<a href="https://github.com/tidyverse/dplyr/issues/3489" class="external-link">#3489</a>).</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># the grouping metadata, as a tibble</span></span>
 <span><span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/group_data.html">group_data</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -1158,7 +1183,7 @@
 <ul><li><p>Almost all database related code has been moved out of dplyr and into a new package, <a href="https://github.com/tidyverse/dbplyr/" class="external-link">dbplyr</a>. This makes dplyr simpler, and will make it easier to release fixes for bugs that only affect databases. <code><a href="../reference/defunct.html">src_mysql()</a></code>, <code><a href="../reference/defunct.html">src_postgres()</a></code>, and <code><a href="../reference/defunct.html">src_sqlite()</a></code> will still live dplyr so your existing code continues to work.</p></li>
 <li><p>It is no longer necessary to create a remote “src”. Instead you can work directly with the database connection returned by DBI. This reflects the maturity of the DBI ecosystem. Thanks largely to the work of Kirill Muller (funded by the R Consortium) DBI backends are now much more consistent, comprehensive, and easier to use. That means that there’s no longer a need for a layer in between you and DBI.</p></li>
 </ul><p>You can continue to use <code><a href="../reference/defunct.html">src_mysql()</a></code>, <code><a href="../reference/defunct.html">src_postgres()</a></code>, and <code><a href="../reference/defunct.html">src_sqlite()</a></code>, but I recommend a new style that makes the connection to DBI more clear:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html" class="external-link">SQLite</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">":memory:"</span><span class="op">)</span></span>
@@ -1190,8 +1215,12 @@
 <div class="section level3">
 <h3 id="tidyeval-0-7-0">Tidyeval<a class="anchor" aria-label="anchor" href="#tidyeval-0-7-0"></a></h3>
 <p>dplyr has a new approach to non-standard evaluation (NSE) called tidyeval. It is described in detail in <code><a href="../articles/programming.html">vignette("programming")</a></code> but, in brief, gives you the ability to interpolate values in contexts where dplyr usually works with expressions:</p>
-<p>```{r} my_var &lt;- quo(homeworld)</p>
-<p>starwars %&gt;% group_by(!!my_var) %&gt;% summarise_at(vars(height:mass), mean, na.rm = TRUE) ```</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">my_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tidyeval-compat.html">quo</a></span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="op">!</span><span class="op">!</span><span class="va">my_var</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/summarise_all.html">summarise_at</a></span><span class="op">(</span><span class="fu"><a href="../reference/vars.html">vars</a></span><span class="op">(</span><span class="va">height</span><span class="op">:</span><span class="va">mass</span><span class="op">)</span>, <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>This means that the underscored version of each main verb is no longer needed, and so these functions have been deprecated (but remain around for backward compatibility).</p>
 <ul><li><p><code><a href="../reference/order_by.html">order_by()</a></code>, <code><a href="../reference/top_n.html">top_n()</a></code>, <code><a href="../reference/sample_n.html">sample_n()</a></code> and <code><a href="../reference/sample_n.html">sample_frac()</a></code> now use tidyeval to capture their arguments by expression. This makes it possible to use unquoting idioms (see <code><a href="../articles/programming.html">vignette("programming")</a></code>) and fixes scoping issues (<a href="https://github.com/tidyverse/dplyr/issues/2297" class="external-link">#2297</a>).</p></li>
 <li><p>Most verbs taking dots now ignore the last argument if empty. This makes it easier to copy lines of code without having to worry about deleting trailing commas (<a href="https://github.com/tidyverse/dplyr/issues/1039" class="external-link">#1039</a>).</p></li>
@@ -1685,7 +1714,7 @@
 <div class="section level3">
 <h3 id="piping-0-2">Piping<a class="anchor" aria-label="anchor" href="#piping-0-2"></a></h3>
 <p>dplyr now imports <code>%&gt;%</code> from magrittr (<a href="https://github.com/tidyverse/dplyr/issues/330" class="external-link">#330</a>). I recommend that you use this instead of <code>%.%</code> because it is easier to type (since you can hold down the shift key) and is more flexible. With you <code>%&gt;%</code>, you can control which argument on the RHS receives the LHS by using the pronoun <code>.</code>. This makes <code>%&gt;%</code> more useful with base R functions because they don’t always take the data frame as the first argument. For example you could pipe <code>mtcars</code> to <code><a href="https://rdrr.io/r/stats/xtabs.html" class="external-link">xtabs()</a></code> with:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>mtcars <span class="sc">%&gt;%</span> <span class="fu">xtabs</span>( <span class="sc">~</span> cyl <span class="sc">+</span> vs, <span class="at">data =</span> .)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>mtcars <span class="sc">%&gt;%</span> <span class="fu">xtabs</span>( <span class="sc">~</span> cyl <span class="sc">+</span> vs, <span class="at">data =</span> .)</span></code></pre></div>
 <p>Thanks to <a href="https://github.com/smbache" class="external-link">@smbache</a> for the excellent magrittr package. dplyr only provides <code>%&gt;%</code> from magrittr, but it contains many other useful functions. To use them, load <code>magrittr</code> explicitly: <code><a href="https://magrittr.tidyverse.org" class="external-link">library(magrittr)</a></code>. For more details, see <code>vignette("magrittr")</code>.</p>
 <p><code>%.%</code> will be deprecated in a future version of dplyr, but it won’t happen for a while. I’ve also deprecated <code>chain()</code> to encourage a single style of dplyr usage: please use <code>%&gt;%</code> instead.</p>
 </div>
@@ -1693,11 +1722,11 @@
 <h3 id="do-0-2">Do<a class="anchor" aria-label="anchor" href="#do-0-2"></a></h3>
 <p><code><a href="../reference/do.html">do()</a></code> has been completely overhauled. There are now two ways to use it, either with multiple named arguments or a single unnamed arguments. <code><a href="../reference/group_by.html">group_by()</a></code> + <code><a href="../reference/do.html">do()</a></code> is equivalent to <code>plyr::dlply</code>, except it always returns a data frame.</p>
 <p>If you use named arguments, each argument becomes a list-variable in the output. A list-variable can contain any arbitrary R object so it’s particularly well suited for storing models.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>models <span class="ot">&lt;-</span> mtcars <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(cyl) <span class="sc">%&gt;%</span> <span class="fu">do</span>(<span class="at">lm =</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt, <span class="at">data =</span> .))</span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>models <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">rsq =</span> <span class="fu">summary</span>(lm)<span class="sc">$</span>r.squared)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>models <span class="ot">&lt;-</span> mtcars <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(cyl) <span class="sc">%&gt;%</span> <span class="fu">do</span>(<span class="at">lm =</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt, <span class="at">data =</span> .))</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>models <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">rsq =</span> <span class="fu">summary</span>(lm)<span class="sc">$</span>r.squared)</span></code></pre></div>
 <p>If you use an unnamed argument, the result should be a data frame. This allows you to apply arbitrary functions to each group.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>mtcars <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(cyl) <span class="sc">%&gt;%</span> <span class="fu">do</span>(<span class="fu">head</span>(., <span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>mtcars <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(cyl) <span class="sc">%&gt;%</span> <span class="fu">do</span>(<span class="fu">head</span>(., <span class="dv">1</span>))</span></code></pre></div>
 <p>Note the use of the <code>.</code> pronoun to refer to the data in the current group.</p>
 <p><code><a href="../reference/do.html">do()</a></code> also has an automatic progress bar. It appears if the computation takes longer than 5 seconds and lets you know (approximately) how much longer the job will take to complete.</p>
 </div>
