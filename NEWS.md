@@ -46,7 +46,7 @@
 
 * `last_dplyr_warnings()` no longer prevents objects from being garbage collected (#7649).
 
-* Progress towards making dplyr conformant with the public C API of R (#7741).
+* Progress towards making dplyr conformant with the public C API of R (#7741, #7797).
 
 * `case_when()` now throws correctly indexed errors when `NULL`s are supplied in `...` (#7739).
 
