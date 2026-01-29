@@ -36,9 +36,7 @@ Imports:
     utils,
     vctrs (>= 0.7.1)
 Suggests:
-    bench,
     broom,
-    callr,
     covr,
     DBI,
     dbplyr (>= 2.2.1),
@@ -46,12 +44,9 @@ Suggests:
     knitr,
     Lahman,
     lobstr,
-    microbenchmark,
     nycflights13,
     purrr,
     rmarkdown,
-    RMySQL,
-    RPostgreSQL,
     RSQLite,
     stringi (>= 1.7.6),
     testthat (>= 3.1.5),
@@ -60,7 +55,7 @@ Suggests:
 VignetteBuilder:
     knitr
 Config/build/compilation-database: true
-Config/Needs/website: tidyverse, shiny, pkgdown, tidyverse/tidytemplate
+Config/Needs/website: tidyverse/tidytemplate
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true

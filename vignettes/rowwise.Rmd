@@ -127,15 +127,6 @@ df |> mutate(mean = rowMeans(pick(where(is.numeric), -id)))
 
 **NB**: I use `df` (not `rf`) and `pick()` (not `c_across()`) here because `rowMeans()` and `rowSums()` take a multi-row data frame as input. Also note that `-id` is needed to avoid selecting `id` in `pick()`. This wasn't required with the rowwise data frame because we had specified `id` as an identifier in our original call to `rowwise()`, preventing it from being selected as a grouping column.
 
-```{r, eval = FALSE, include = FALSE}
-bench::mark(
-  df |> mutate(m = rowSums(pick(x:z))),
-  df |> mutate(m = apply(pick(x:z), 1, sum)),
-  df |> rowwise() |> mutate(m = sum(pick(x:z))),
-  check = FALSE
-)
-```
-
 ## List-columns
 
 `rowwise()` operations are a natural pairing when you have list-columns. They allow you to avoid explicit loops and/or functions from the `apply()` or `purrr::map()` families.
