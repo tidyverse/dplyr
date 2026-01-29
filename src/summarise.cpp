@@ -140,14 +140,14 @@ SEXP dplyr_reframe_recycle_horizontally_in_place(
 
   const R_xlen_t n_groups = (R_xlen_t) INTEGER_ELT(s_n_groups, 0);
 
-  SEXP sizes = PROTECT(Rf_allocVector(INTSXP, n_groups));
-  int* v_sizes = INTEGER(sizes);
+  SEXP group_sizes = PROTECT(Rf_allocVector(INTSXP, n_groups));
+  int* v_group_sizes = INTEGER(group_sizes);
 
-  // Initialize `sizes` with 1. Recyclable to any other size, and needed as the
+  // Initialize `group_sizes` with 1. Recyclable to any other size, and needed as the
   // default when there are no expressions to evaluate, or all expressions
   // evaluate to data frames with zero columns.
   for (R_xlen_t i = 0; i < n_groups; ++i) {
-    v_sizes[i] = 1;
+    v_group_sizes[i] = 1;
   }
 
   const R_xlen_t n_expressions = Rf_xlength(result_per_group_per_expression);
@@ -161,15 +161,15 @@ SEXP dplyr_reframe_recycle_horizontally_in_place(
     for (R_xlen_t j = 0; j < n_groups; ++j) {
       SEXP result = v_result_per_group[j];
 
-      const R_xlen_t out_size = v_sizes[j];
+      const R_xlen_t out_size = v_group_sizes[j];
       const R_xlen_t result_size = vctrs::short_vec_size(result);
 
       if (out_size == result_size) {
-        // v_sizes[j] is correct
+        // v_group_sizes[j] is correct
       } else if (out_size == 1) {
-        v_sizes[j] = result_size;
+        v_group_sizes[j] = result_size;
       } else if (result_size == 1) {
-        // v_sizes[j] is correct
+        // v_group_sizes[j] is correct
       } else {
         dplyr::stop_reframe_incompatible_size(i, j, result_size, out_size);
       }
@@ -186,7 +186,7 @@ SEXP dplyr_reframe_recycle_horizontally_in_place(
     for (R_xlen_t j = 0; j < n_groups; ++j) {
       SEXP result = v_result_per_group[j];
 
-      const R_xlen_t out_size = v_sizes[j];
+      const R_xlen_t out_size = v_group_sizes[j];
       const R_xlen_t result_size = vctrs::short_vec_size(result);
 
       if (out_size != result_size) {
@@ -208,7 +208,7 @@ SEXP dplyr_reframe_recycle_horizontally_in_place(
   }
 
   UNPROTECT(1);
-  return sizes;
+  return group_sizes;
 }
 
 SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype) {
