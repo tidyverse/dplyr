@@ -96,6 +96,104 @@ test_that("`reframe()` throws intelligent recycling errors", {
   })
 })
 
+test_that("`reframe()` and `summarise()` are consistent with zero expressions", {
+  df <- tibble(x = c("a", "a", "b"), y = 1:3)
+  gdf <- group_by(df, x)
+
+  expect_identical(reframe(df), tibble(.rows = 1L))
+  expect_identical(reframe(df), summarise(df))
+
+  expect_identical(reframe(df, .by = x), tibble(x = c("a", "b")))
+  expect_identical(reframe(df, .by = x), summarise(df, .by = x))
+
+  expect_identical(reframe(gdf), tibble(x = c("a", "b")))
+  expect_identical(reframe(gdf), summarise(gdf))
+})
+
+test_that("`reframe()` and `summarise()` are consistent with zero expressions and zero rows", {
+  # The grouped cases here are special. There are "zero groups" to evaluate on,
+  # but we still always evaluate 1 time, and then effectively recycle the
+  # results to size 0.
+  df <- tibble(x = character(), y = integer())
+  gdf <- group_by(df, x)
+
+  expect_identical(reframe(df), tibble(.rows = 1L))
+  expect_identical(reframe(df), summarise(df))
+
+  expect_identical(reframe(df, .by = x), tibble(x = character()))
+  expect_identical(reframe(df, .by = x), summarise(df, .by = x))
+
+  expect_identical(reframe(gdf), tibble(x = character()))
+  expect_identical(reframe(gdf), summarise(gdf))
+})
+
+test_that("`reframe()` and `summarise()` are consistent with data frame that flattens into zero expressions", {
+  df <- tibble(x = c("a", "a", "b"), y = 1:3)
+  gdf <- group_by(df, x)
+
+  expect_identical(
+    reframe(df, tibble(.rows = 1L)),
+    tibble(.rows = 1L)
+  )
+  expect_identical(
+    reframe(df, tibble(.rows = 1L)),
+    summarise(df, tibble(.rows = 1L))
+  )
+
+  expect_identical(
+    reframe(df, tibble(.rows = 1L), .by = x),
+    tibble(x = c("a", "b"))
+  )
+  expect_identical(
+    reframe(df, tibble(.rows = 1L), .by = x),
+    summarise(df, tibble(.rows = 1L), .by = x)
+  )
+
+  expect_identical(
+    reframe(gdf, tibble(.rows = 1L)),
+    tibble(x = c("a", "b"))
+  )
+  expect_identical(
+    reframe(gdf, tibble(.rows = 1L)),
+    summarise(gdf, tibble(.rows = 1L))
+  )
+})
+
+test_that("`reframe()` and `summarise()` are consistent with data frame that flattens into zero expressions and zero rows", {
+  # The grouped cases here are special. There are "zero groups" to evaluate on,
+  # but we still always evaluate 1 time, and then effectively recycle the
+  # results to size 0.
+  df <- tibble(x = character(), y = integer())
+  gdf <- group_by(df, x)
+
+  expect_identical(
+    reframe(df, tibble(.rows = 1L)),
+    tibble(.rows = 1L)
+  )
+  expect_identical(
+    reframe(df, tibble(.rows = 1L)),
+    summarise(df, tibble(.rows = 1L))
+  )
+
+  expect_identical(
+    reframe(df, tibble(.rows = 1L), .by = x),
+    tibble(x = character())
+  )
+  expect_identical(
+    reframe(df, tibble(.rows = 1L), .by = x),
+    summarise(df, tibble(.rows = 1L), .by = x)
+  )
+
+  expect_identical(
+    reframe(gdf, tibble(.rows = 1L)),
+    tibble(x = character())
+  )
+  expect_identical(
+    reframe(gdf, tibble(.rows = 1L)),
+    summarise(gdf, tibble(.rows = 1L))
+  )
+})
+
 test_that("`reframe()` can return more rows than the original data frame", {
   df <- tibble(x = 1:2)
 

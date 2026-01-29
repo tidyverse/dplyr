@@ -74,6 +74,7 @@ DataMask <- R6Class(
       )
 
       private$keys <- group_keys0(by$data)
+      private$n_groups <- nrow(private$keys)
       private$by_names <- by$names
       private$verb <- verb
     },
@@ -287,6 +288,10 @@ DataMask <- R6Class(
       private$keys
     },
 
+    get_n_groups = function() {
+      private$n_groups
+    },
+
     get_size = function() {
       private$size
     },
@@ -331,6 +336,9 @@ DataMask <- R6Class(
 
     # data frame of keys, one row per group
     keys = NULL,
+
+    # number of groups, computed as number of rows in `keys`
+    n_groups = NULL,
 
     # number of rows in `data`
     size = NULL,

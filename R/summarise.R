@@ -121,7 +121,7 @@ summarise.data.frame <- function(.data, ..., .by = NULL, .groups = NULL) {
   by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
 
   cols <- summarise_cols(.data, dplyr_quosures(...), by, "summarise")
-  out <- summarise_build(by, cols)
+  out <- summarise_build(by, cols, "summarise")
 
   if (!is_tibble(.data)) {
     # The `by` group data we build from is always a tibble,
@@ -142,7 +142,7 @@ summarise.grouped_df <- function(.data, ..., .by = NULL, .groups = NULL) {
   by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
 
   cols <- summarise_cols(.data, dplyr_quosures(...), by, "summarise")
-  out <- summarise_build(by, cols)
+  out <- summarise_build(by, cols, "summarise")
   verbose <- summarise_verbose(.groups, caller_env())
 
   if (is.null(.groups)) {
@@ -180,7 +180,7 @@ summarise.rowwise_df <- function(.data, ..., .by = NULL, .groups = NULL) {
   by <- compute_by({{ .by }}, .data, by_arg = ".by", data_arg = ".data")
 
   cols <- summarise_cols(.data, dplyr_quosures(...), by, "summarise")
-  out <- summarise_build(by, cols)
+  out <- summarise_build(by, cols, "summarise")
   verbose <- summarise_verbose(.groups, caller_env())
 
   if (is.null(.groups)) {
@@ -211,6 +211,8 @@ summarise_cols <- function(data, dots, by, verb, error_call = caller_env()) {
 
   mask <- DataMask$new(data, by, verb, error_call = error_call)
   on.exit(mask$forget(), add = TRUE)
+
+  n_groups <- mask$get_n_groups()
 
   old_current_column <- context_peek_bare("column")
   on.exit(context_poke("column", old_current_column), add = TRUE)
@@ -279,16 +281,17 @@ summarise_cols <- function(data, dots, by, verb, error_call = caller_env()) {
       }
 
       if (verb == "summarise") {
-        # For `summarise()`, check that all chunks are size 1.
-        .Call(`dplyr_summarise_check_all_size_one`, chunks)
-        sizes <- NULL
+        # For `summarise()`, check that all results are size 1.
+        .Call(`dplyr_summarise_check_all_size_one`, chunks, n_groups)
+        group_sizes <- NULL
       } else {
-        # For `reframe()`, recycle horizontally across sets of chunks.
-        # Modifies `chunks` and `results` in place for efficiency!
-        sizes <- .Call(
+        # For `reframe()`, recycle horizontally across expressions within a
+        # single group. Modifies `chunks` and `results` in place for efficiency!
+        group_sizes <- .Call(
           `dplyr_reframe_recycle_horizontally_in_place`,
           chunks,
-          results
+          results,
+          n_groups
         )
 
         # Regenerate any `results` that were `NULL`ed in place during the
@@ -336,7 +339,7 @@ summarise_cols <- function(data, dots, by, verb, error_call = caller_env()) {
 
   signal_warnings(warnings_state, error_call)
 
-  list(new = cols, sizes = sizes)
+  list(new = cols, group_sizes = group_sizes)
 }
 
 summarise_eval_one <- function(quo, mask) {
@@ -372,11 +375,11 @@ summarise_eval_one <- function(quo, mask) {
   list(chunks = chunks_k, types = types_k, results = result_k)
 }
 
-summarise_build <- function(by, cols) {
+summarise_build <- function(by, cols, verb) {
   out <- group_keys0(by$data)
-  if (!is_null(cols$sizes)) {
+  if (verb == "reframe") {
     # Repeat keys for `reframe()`
-    out <- vec_rep_each(out, cols$sizes)
+    out <- vec_rep_each(out, cols$group_sizes)
   }
   dplyr_col_modify(out, cols$new)
 }
