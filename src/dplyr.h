@@ -11,6 +11,31 @@
 # define VECTOR_PTR_RO(x) ((const SEXP*) DATAPTR_RO(x))
 #endif
 
+#if (R_VERSION < R_Version(4, 6, 0))
+// Pulled exactly as is from R
+// https://github.com/r-devel/r-svn/blob/a39f4a28848fd02a1310b455353a871f2bb1965b/src/main/attrib.c#L2014
+// https://github.com/r-devel/r-svn/blob/a39f4a28848fd02a1310b455353a871f2bb1965b/doc/manual/R-exts.texi#L17920
+static inline
+SEXP R_mapAttrib(SEXP x, SEXP (*FUN)(SEXP, SEXP, void *), void *data) {
+  PROTECT_INDEX api;
+  SEXP a = ATTRIB(x);
+  SEXP val = NULL;
+
+  PROTECT_WITH_INDEX(a, &api);
+  while (a != R_NilValue) {
+    SEXP tag = PROTECT(TAG(a));
+    SEXP attr = PROTECT(CAR(a));
+    val = FUN(tag, attr, data);
+    UNPROTECT(2);
+    if (val != NULL)
+      break;
+    REPROTECT(a = CDR(a), api);
+  }
+  UNPROTECT(1);
+  return val;
+}
+#endif
+
 namespace dplyr {
 
 struct envs {
