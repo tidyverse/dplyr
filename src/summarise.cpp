@@ -84,27 +84,31 @@ SEXP dplyr_mask_eval_all_summarise(SEXP quo, SEXP env_private) {
   return chunks;
 }
 
-SEXP dplyr_summarise_check_all_size_one(SEXP list_of_chunks) {
-  if (TYPEOF(list_of_chunks) != VECSXP) {
-    Rf_errorcall(R_NilValue, "Internal error: `list_of_chunks` must be a list.");
+SEXP dplyr_summarise_check_all_size_one(
+  SEXP result_per_group_per_expression,
+  SEXP s_n_groups
+) {
+  if (TYPEOF(result_per_group_per_expression) != VECSXP) {
+    Rf_errorcall(R_NilValue, "Internal error: `result_per_group_per_expression` must be a list.");
   }
 
-  const R_xlen_t n_list_of_chunks = Rf_xlength(list_of_chunks);
-  const SEXP* v_list_of_chunks = VECTOR_PTR_RO(list_of_chunks);
+  const R_xlen_t n_groups = (R_xlen_t) INTEGER_ELT(s_n_groups, 0);
 
-  for (R_xlen_t i = 0; i < n_list_of_chunks; ++i) {
+  const R_xlen_t n_expressions = Rf_xlength(result_per_group_per_expression);
+  const SEXP* v_result_per_group_per_expression = VECTOR_PTR_RO(result_per_group_per_expression);
+
+  for (R_xlen_t i = 0; i < n_expressions; ++i) {
     // This expression's results across all groups
-    SEXP chunks = v_list_of_chunks[i];
-    const SEXP* v_chunks = VECTOR_PTR_RO(chunks);
-    const R_xlen_t n_chunks = Rf_xlength(chunks);
+    SEXP result_per_group = v_result_per_group_per_expression[i];
+    const SEXP* v_result_per_group = VECTOR_PTR_RO(result_per_group);
 
-    for (R_xlen_t j = 0; j < n_chunks; ++j) {
+    for (R_xlen_t j = 0; j < n_groups; ++j) {
       // This group's result for this expression
-      SEXP chunk = v_chunks[j];
-      const R_xlen_t chunk_size = vctrs::short_vec_size(chunk);
+      SEXP result = v_result_per_group[j];
+      const R_xlen_t result_size = vctrs::short_vec_size(result);
 
-      if (chunk_size != 1) {
-        dplyr::stop_summarise_incompatible_size(i, j, chunk_size);
+      if (result_size != 1) {
+        dplyr::stop_summarise_incompatible_size(i, j, result_size);
       }
     }
   }
@@ -112,104 +116,99 @@ SEXP dplyr_summarise_check_all_size_one(SEXP list_of_chunks) {
   return R_NilValue;
 }
 
-SEXP dplyr_reframe_recycle_horizontally_in_place(SEXP list_of_chunks, SEXP list_of_result) {
-  // - `list_of_chunks` will be modified in place by recycling each chunk
-  //   to its common size as necessary.
-  // - `list_of_result` will be modified in place if any chunks that originally
-  //   created the result element were recycled, because the result won't be
-  //   the right size anymore.
-  // - Returns an integer vector of the common sizes.
+SEXP dplyr_reframe_recycle_horizontally_in_place(
+  SEXP result_per_group_per_expression,
+  SEXP result_per_expression,
+  SEXP s_n_groups
+) {
+  // - `result_per_group_per_expression` will be modified in place by recycling
+  //   each result to its common size for that group across expressions as
+  //   necessary.
+  // - `result_per_expression` will be modified in place if any pieces of
+  //   `result_per_group_per_expression` that originally created the result
+  //   element were recycled, because the result won't be the right size
+  //   anymore.
+  // - Returns an integer vector of the common size of each group, which we
+  //   use to `vec_rep_each()` the group keys later on.
 
-  if (TYPEOF(list_of_chunks) != VECSXP) {
-    Rf_errorcall(R_NilValue, "Internal error: `list_of_chunks` must be a list.");
+  if (TYPEOF(result_per_group_per_expression) != VECSXP) {
+    Rf_errorcall(R_NilValue, "Internal error: `result_per_group_per_expression` must be a list.");
   }
-  if (TYPEOF(list_of_result) != VECSXP) {
-    Rf_errorcall(R_NilValue, "Internal error: `list_of_result` must be a list.");
-  }
-
-  const R_xlen_t n_list_of_chunks = Rf_xlength(list_of_chunks);
-  const SEXP* v_list_of_chunks = VECTOR_PTR_RO(list_of_chunks);
-
-  if (n_list_of_chunks == 0) {
-    // At least one set of chunks is required to proceed
-    return dplyr::vectors::empty_int_vector;
-  }
-
-  SEXP first_chunks = v_list_of_chunks[0];
-  const SEXP* v_first_chunks = VECTOR_PTR_RO(first_chunks);
-  const R_xlen_t n_chunks = Rf_xlength(first_chunks);
-
-  SEXP sizes = PROTECT(Rf_allocVector(INTSXP, n_chunks));
-  int* v_sizes = INTEGER(sizes);
-
-  // Initialize `sizes` with first set of chunks
-  for (R_xlen_t i = 0; i < n_chunks; ++i) {
-    v_sizes[i] = vctrs::short_vec_size(v_first_chunks[i]);
+  if (TYPEOF(result_per_expression) != VECSXP) {
+    Rf_errorcall(R_NilValue, "Internal error: `result_per_expression` must be a list.");
   }
 
-  bool any_need_recycling = false;
+  const R_xlen_t n_groups = (R_xlen_t) INTEGER_ELT(s_n_groups, 0);
 
-  // Find common size across sets of chunks
-  for (R_xlen_t i = 1; i < n_list_of_chunks; ++i) {
-    SEXP chunks = v_list_of_chunks[i];
-    const SEXP* v_chunks = VECTOR_PTR_RO(chunks);
+  SEXP group_sizes = PROTECT(Rf_allocVector(INTSXP, n_groups));
+  int* v_group_sizes = INTEGER(group_sizes);
 
-    for (R_xlen_t j = 0; j < n_chunks; ++j) {
-      SEXP chunk = v_chunks[j];
+  // Initialize `group_sizes` with 1. Recyclable to any other size, and needed as the
+  // default when there are no expressions to evaluate, or all expressions
+  // evaluate to data frames with zero columns.
+  for (R_xlen_t i = 0; i < n_groups; ++i) {
+    v_group_sizes[i] = 1;
+  }
 
-      const R_xlen_t out_size = v_sizes[j];
-      const R_xlen_t elt_size = vctrs::short_vec_size(chunk);
+  const R_xlen_t n_expressions = Rf_xlength(result_per_group_per_expression);
+  const SEXP* v_result_per_group_per_expression = VECTOR_PTR_RO(result_per_group_per_expression);
 
-      if (out_size == elt_size) {
-        // v_sizes[j] is correct
+  // Find common size of each group
+  for (R_xlen_t i = 0; i < n_expressions; ++i) {
+    SEXP result_per_group = v_result_per_group_per_expression[i];
+    const SEXP* v_result_per_group = VECTOR_PTR_RO(result_per_group);
+
+    for (R_xlen_t j = 0; j < n_groups; ++j) {
+      SEXP result = v_result_per_group[j];
+
+      const R_xlen_t out_size = v_group_sizes[j];
+      const R_xlen_t result_size = vctrs::short_vec_size(result);
+
+      if (out_size == result_size) {
+        // v_group_sizes[j] is correct
       } else if (out_size == 1) {
-        v_sizes[j] = elt_size;
-        any_need_recycling = true;
-      } else if (elt_size == 1) {
-        // v_sizes[j] is correct
-        any_need_recycling = true;
+        v_group_sizes[j] = result_size;
+      } else if (result_size == 1) {
+        // v_group_sizes[j] is correct
       } else {
-        dplyr::stop_reframe_incompatible_size(i, j, elt_size, out_size);
+        dplyr::stop_reframe_incompatible_size(i, j, result_size, out_size);
       }
     }
   }
 
-  if (!any_need_recycling) {
-    UNPROTECT(1);
-    return sizes;
-  }
+  // Actually recycle each result to its group's common size
+  for (R_xlen_t i = 0; i < n_expressions; ++i) {
+    SEXP result_per_group = v_result_per_group_per_expression[i];
+    const SEXP* v_result_per_group = VECTOR_PTR_RO(result_per_group);
 
-  // Actually recycle across chunks
-  for (R_xlen_t i = 0; i < n_list_of_chunks; ++i) {
-    SEXP chunks = v_list_of_chunks[i];
-    const SEXP* v_chunks = VECTOR_PTR_RO(chunks);
+    bool reset_result_for_this_expression = false;
 
-    bool reset_result = false;
+    for (R_xlen_t j = 0; j < n_groups; ++j) {
+      SEXP result = v_result_per_group[j];
 
-    for (R_xlen_t j = 0; j < n_chunks; ++j) {
-      SEXP chunk = v_chunks[j];
+      const R_xlen_t out_size = v_group_sizes[j];
+      const R_xlen_t result_size = vctrs::short_vec_size(result);
 
-      const R_xlen_t out_size = v_sizes[j];
-      const R_xlen_t elt_size = vctrs::short_vec_size(chunk);
-
-      if (out_size != elt_size) {
-        // Recycle and modify `chunks` in place!
-        chunk = vctrs::short_vec_recycle(chunk, out_size);
-        SET_VECTOR_ELT(chunks, j, chunk);
-        reset_result = true;
+      if (out_size != result_size) {
+        // Recycle and modify in place!
+        result = vctrs::short_vec_recycle(result, out_size);
+        SET_VECTOR_ELT(result_per_group, j, result);
+        reset_result_for_this_expression = true;
       }
     }
 
-    if (reset_result) {
-      // `list_of_result[[i]]` was created from `list_of_chunks[[i]]`,
-      // but the chunks have been recycled so now the result is out of date.
-      // It will be regenerated on the R side from the new chunks.
-      SET_VECTOR_ELT(list_of_result, i, R_NilValue);
+    if (reset_result_for_this_expression) {
+      // `result_per_expression[[i]]` was created from
+      // `result_per_group_per_expression`, but an individual `result` has been
+      // recycled so now `result_per_expression[[i]]` is out of date. It will be
+      // regenerated on the R side from the new
+      // `result_per_group_per_expression` values.
+      SET_VECTOR_ELT(result_per_expression, i, R_NilValue);
     }
   }
 
   UNPROTECT(1);
-  return sizes;
+  return group_sizes;
 }
 
 SEXP dplyr_extract_chunks(SEXP df_list, SEXP df_ptype) {
