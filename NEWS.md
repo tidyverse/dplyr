@@ -1,14 +1,6 @@
 # dplyr (development version)
 
-* New `when_any()` and `when_all()`, which are elementwise versions of `any()` and `all()`. Alternatively, you can think of them as performing repeated `|` and `&` on any number of inputs, for example:
-
-  * `when_any(x, y, z)` is equivalent to `x | y | z`.
-
-  * `when_all(x, y, z)` is equivalent to `x & y & z`.
-
-  `when_any()` is particularly useful within `filter()` and `filter_out()` to specify comma separated conditions combined with `|` rather than `&`.
-
-  This work is a result of [Tidyup 8: Expanding the `filter()` family](https://github.com/tidyverse/tidyups/pull/30).
+## New features
 
 * New `filter_out()` companion to `filter()`.
 
@@ -28,35 +20,39 @@
 
   This work is a result of [Tidyup 8: Expanding the `filter()` family](https://github.com/tidyverse/tidyups/pull/30), with a lot of great feedback from the community (#6560, #6891).
 
-* The `.groups` message emitted by `summarise()` is hopefully more clear now (#6986).
+* New `when_any()` and `when_all()`, which are elementwise versions of `any()` and `all()`. Alternatively, you can think of them as performing repeated `|` and `&` on any number of inputs, for example:
 
-* `if_any()` and `if_all()` are now more consistent in all use cases (#7059, #7077, #7746, @jrwinget). In particular:
+  * `when_any(x, y, z)` is equivalent to `x | y | z`.
 
-  * When called with zero inputs, `if_any()` returns `FALSE` and `if_all()` returns `TRUE`.
+  * `when_all(x, y, z)` is equivalent to `x & y & z`.
 
-  * When called with one input, both now return logical vectors rather than the original column.
+  `when_any()` is particularly useful within `filter()` and `filter_out()` to specify comma separated conditions combined with `|` rather than `&`, like:
 
-  * The result of applying `.fns` now must be a logical vector.
+  ```r
+  # With `|`
+  countries |>
+    filter(
+      (name %in% c("US", "CA") & between(score, 200, 300)) |
+        (name %in% c("PR", "RU") & between(score, 100, 200))
+    )
 
-* `tally_n()` creates fully qualified funciton calls for duckplyr compatibility (#7046)
+  # With `when_any()`, you drop the explicit `|`, the extra `()`, and your
+  # conditions are all indented to the same level
+  countries |>
+    filter(when_any(
+      name %in% c("US", "CA") & between(score, 200, 300),
+      name %in% c("PR", "RU") & between(score, 100, 200)
+    ))
 
-* `storms` has been updated to include 2023 and 2024 data (#7111, @tomalrussell).
+  # To drop these rows instead, use `filter_out()`
+  countries |>
+    filter_out(when_any(
+      name %in% c("US", "CA") & between(score, 200, 300),
+      name %in% c("PR", "RU") & between(score, 100, 200)
+    ))
+  ```
 
-* Empty `rowwise()` list-column elements now resolve to `logical()` rather than a random logical of length 1 (#7710).
-
-* `last_dplyr_warnings()` no longer prevents objects from being garbage collected (#7649).
-
-* Progress towards making dplyr conformant with the public C API of R (#7741, #7797).
-
-* `case_when()` now throws correctly indexed errors when `NULL`s are supplied in `...` (#7739).
-
-* `case_when()` has gained a new `.unmatched` argument. For extra safety, set `.unmatched = "error"` rather than providing a `.default` when you believe that you've handled every possible case, and it will error if a case is left unhandled. The new `recode_values()` also has this argument (#7653).
-
-* New `rbind()` method for `rowwise_df` to avoid creating corrupt rowwise data frames (r-lib/vctrs#1935).
-
-* `case_match()` is soft-deprecated, and is fully replaced by `recode_values()` and `replace_values()`, which are more flexible, more powerful, and have much better names.
-
-* The superseded `recode()` now has updated documentation showing how to migrate to `recode_values()` and `replace_values()`.
+  This work is a result of [Tidyup 8: Expanding the `filter()` family](https://github.com/tidyverse/tidyups/pull/30).
 
 * `case_when()` is now part of a family of 4 related functions, 3 of which are new:
 
@@ -73,14 +69,38 @@
 
   This work is a result of [Tidyup 7: Recoding and replacing values in the tidyverse](https://github.com/tidyverse/tidyups/blob/main/007-tidyverse-recoding-and-replacing.md), with a lot of great [feedback](https://github.com/tidyverse/tidyups/pull/29) from the community (#7728, #7729).
 
+* `case_when()` has gained a new `.unmatched` argument. For extra safety, set `.unmatched = "error"` rather than providing a `.default` when you believe that you've handled every possible case, and it will error if a case is left unhandled. The new `recode_values()` also has this argument (#7653).
+
+* `if_else()`, `case_when()`, and `coalesce()` have gotten significantly faster and use much less memory due to a rewrite in C via vctrs (#7723, #7725, #7727).
+
+* New `ptype` argument for `between()`, allowing users to specify the desired output type. This is particularly useful for ordered factors and other complex types where the default common type behavior might not be ideal (#6906, @JamesHWade).
+
+* New `rbind()` method for `rowwise_df` to avoid creating corrupt rowwise data frames (r-lib/vctrs#1935).
+
+## Lifecycle changes
+
+### Newly stable
+
+* `.by` has moved from experimental to stable (#7762).
+
+* `reframe()` has moved from experimental to stable (#7713, @VisruthSK).
+
+### Newly breaking
+
+* `if_else()` no longer allows `condition` to be a logical array. It must be a logical vector with no `dim` attribute (#7723).
+
+### Newly deprecated
+
+* `case_match()` is soft-deprecated, and is fully replaced by `recode_values()` and `replace_values()`, which are more flexible, more powerful, and have much better names.
+
 * In `case_when()`, supplying all size 1 LHS inputs along with a size >1 RHS input is now soft-deprecated. This is an improper usage of `case_when()` that should instead be a series of if statements, like:
 
-  ```
+  ```r
   # Scalars!
   code <- 1L
   flavor <- "vanilla"
 
-  # Previously
+  # Improper usage:
   case_when(
     code == 1L && flavor == "chocolate" ~ x,
     code == 1L && flavor == "vanilla" ~ y,
@@ -88,7 +108,7 @@
     .default = default
   )
 
-  # Now
+  # Recommended:
   if (code == 1L && flavor == "chocolate") {
     x
   } else if (code == 1L && flavor == "vanilla") {
@@ -102,50 +122,13 @@
 
   The recycling behavior that allows this style of `case_when()` to work is unsafe, and can result in silent bugs that we'd like to guard against with an error in the future (#7082).
 
-* The following vector functions have gotten significantly faster and use much less memory due to a rewrite in C via vctrs (#7723, #7725, #7727):
-
-  * `if_else()`
-  * `case_when()`
-  * `coalesce()`
-
-* `if_else()` no longer allows `condition` to be a logical array. It must be a logical vector with no `dim` attribute (#7723).
+* The `dplyr.legacy_locale` global option is soft-deprecated. If you used this to affect the ordering of `arrange()`, use `arrange(.locale =)` instead. If you used this to affect the ordering of `group_by() |> summarise()`, follow up with an additional call to `arrange(.locale =)` instead (#7760).
 
 * Passing `size` to `if_else()` is now deprecated. The output size is always taken from the `condition` (#7722).
 
-* `bind_rows()` now replaces empty (or `NA`) element names in a list with its numeric index while preserving existing names (#7719, @Meghansaha).
+### Other deprecation advancements
 
-* New `slice_sample()` example showing how to use it to shuffle rows (#7707, @Hzanib).
-
-* Updated `across()` examples to include an example using `everything()` (#7621, @JBrandenburg02).
-
-* Clarified how `slice_min()` and `slice_max()` work in the introduction vignette (#7717, @ccani007).
-
-* `reframe()` has moved from experimental to stable (#7713, @VisruthSK).
-
-* The base pipe is now used throughout the documentation (#7711).
-
-* R >=4.1.0 is now required, in line with the [tidyverse
-  standard](https://tidyverse.org/blog/2019/04/r-version-support/) of
-  supporting the previous 5 minor releases of R (#7711).
-
-* `case_when()` now throws a better error if one of the conditions is an array
-  (#6862, @ilovemane).
-
-* `between()` gains a new `ptype` argument, allowing users to specify the
-  desired output type. This is particularly useful for ordered factors and other
-  complex types where the default common type behavior might not be ideal
-  (#6906, @JamesHWade).
-
-* Fixed an edge case when coercing data frames to matrices (#7004).
-
-* Fixed an issue where duckplyr's ALTREP data frames were being materialized
-  early due to internal usage of `ncol()` (#7049).
-
-## Lifecycle changes
-
-### Breaking changes
-
-* The following were already deprecated, and are now defunct:
+* The following were already deprecated, and are now defunct and throw an error:
 
   * All underscored standard evaluation versions of major dplyr verbs. Deprecated in 0.7.0 (Jun 2017), use the non-underscored version of the verb with unquoting instead, see `vignette("programming")`. This includes:
 
@@ -170,6 +153,8 @@
 
   * `mutate_each()`, `mutate_each_()`, `summarise_each()`, and `summarise_each_()`. Deprecated in 0.7.0 (Jun 2017), use `across()` instead.
 
+  * Returning more or less than 1 row per group in `summarise()`. Deprecated in 1.1.0 (Jan 2023), use `reframe()` instead.
+
   * `combine()`. Deprecated in 1.0.0 (May 2020), use `c()` or `vctrs::vec_c()` instead.
 
   * `src_mysql()`, `src_postgres()`, `src_sqlite()`, `src_local()`, and `src_df()`. Deprecated in 1.0.0 (May 2020), use `tbl()` instead.
@@ -190,33 +175,11 @@
 
   * Using `across()` and data frames in `filter()`. Deprecated in 1.0.8 (Feb 2022), use `if_any()` or `if_all()` instead.
 
-  * Returning more or less than 1 row per group in `summarise()`. Deprecated in 1.1.0 (Jan 2023), use `reframe()` instead.
-
   * `multiple = NULL` in joins. Deprecated in 1.1.1 (Mar 2023), use `multiple = "all"` instead.
 
   * `multiple = "error" / "warning"` in joins. Deprecated in 1.1.1 (Mar 2023), use `relationship = "many-to-one"` instead.
 
   * The `vars` argument of `group_cols()`. Deprecated in 1.0.0 (Jan 2023).
-
-* The following were already defunct, and have been removed:
-
-  * `id()`. Deprecated in 0.5.0 (Jun 2016), use `vctrs::vec_group_id()` instead. If your package uses NSE and implicitly relied on the variable `id` being available, you now need to put `utils::globalVariables("id")` inside one of your package files to tell R that `id` is a column name.
-
-  * `failwith()`. Deprecated in 0.7.0 (Jun 2017), use `purrr::possibly()` instead.
-
-  * `select_vars()` and `select_vars_()`. Deprecated in 0.8.4 (Jan 2020), use `tidyselect::vars_select()` instead.
-
-  * `rename_vars()` and `rename_vars_()`. Deprecated in 0.8.4 (Jan 2020), use `tidyselect::vars_rename()` instead.
-
-  * `select_var()`. Deprecated in 0.8.4 (Jan 2020), use `tidyselect::vars_pull()` instead.
-
-  * `current_vars()`. Deprecated in 0.8.4 (Jan 2020), use `tidyselect::peek_vars()` instead.
-
-  * `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()`, and `eval_tbls2()`. Deprecated in 1.0.0 (May 2020).
-
-  * `location()` and `changes()`. Deprecated in 1.0.0 (May 2020), use `lobstr::ref()` instead.
-
-### Newly deprecated
 
 * The following were already deprecated, and now warn unconditionally if used:
 
@@ -232,7 +195,7 @@
 
   * `group_indices()` with no arguments. Deprecated in 1.0.0 (May 2020), use `cur_group_id()` instead.
 
-* The following were already soft-deprecated, and now warn unconditionally once per session if used:
+* The following were already soft-deprecated, and now warn once per session if used:
 
   * `cur_data()` and `cur_data_all()`. Deprecated in 1.1.0 (Jan 2023), use `pick()` instead.
 
@@ -240,13 +203,69 @@
 
   * Using `by = character()` to perform a cross join. Deprecated in 1.1.0 (Jan 2023), use `cross_join()` instead.
 
-* The following are newly deprecated:
+### Removed
 
-  * The `dplyr.legacy_locale` global option. If you used this to affect the ordering of `arrange()`, use `arrange(.locale =)` instead. If you used this to affect the ordering of `group_by() |> summarise()`, follow up with an additional call to `arrange(.locale =)` instead (#7760).
+The following were already defunct, and have been removed:
 
-### Newly stable
+* `id()`. Deprecated in 0.5.0 (Jun 2016), use `vctrs::vec_group_id()` instead. If your package uses NSE and implicitly relied on the variable `id` being available, you now need to put `utils::globalVariables("id")` inside one of your package files to tell R that `id` is a column name.
 
-* `.by` has moved from experimental to stable (#7762).
+* `failwith()`. Deprecated in 0.7.0 (Jun 2017), use `purrr::possibly()` instead.
+
+* `select_vars()` and `select_vars_()`. Deprecated in 0.8.4 (Jan 2020), use `tidyselect::vars_select()` instead.
+
+* `rename_vars()` and `rename_vars_()`. Deprecated in 0.8.4 (Jan 2020), use `tidyselect::vars_rename()` instead.
+
+* `select_var()`. Deprecated in 0.8.4 (Jan 2020), use `tidyselect::vars_pull()` instead.
+
+* `current_vars()`. Deprecated in 0.8.4 (Jan 2020), use `tidyselect::peek_vars()` instead.
+
+* `bench_tbls()`, `compare_tbls()`, `compare_tbls2()`, `eval_tbls()`, and `eval_tbls2()`. Deprecated in 1.0.0 (May 2020).
+
+* `location()` and `changes()`. Deprecated in 1.0.0 (May 2020), use `lobstr::ref()` instead.
+
+## Minor improvements and bug fixes
+
+* The base pipe is now used throughout the documentation (#7711).
+
+* The superseded `recode()` now has updated documentation showing how to migrate to `recode_values()` and `replace_values()`.
+
+* The `.groups` message emitted by `summarise()` is hopefully more clear now (#6986).
+
+* `storms` has been updated to include 2023 and 2024 data (#7111, @tomalrussell).
+
+* `if_any()` and `if_all()` are now more consistent in all use cases (#7059, #7077, #7746, @jrwinget). In particular:
+
+  * When called with zero inputs, `if_any()` returns `FALSE` and `if_all()` returns `TRUE`.
+
+  * When called with one input, both now return logical vectors rather than the original column.
+
+  * The result of applying `.fns` now must be a logical vector.
+
+* `tally_n()` creates fully qualified funciton calls for duckplyr compatibility (#7046)
+
+* Empty `rowwise()` list-column elements now resolve to `logical()` rather than a random logical of length 1 (#7710).
+
+* `last_dplyr_warnings()` no longer prevents objects from being garbage collected (#7649).
+
+* `case_when()` now throws correctly indexed errors when `NULL`s are supplied in `...` (#7739).
+
+* `case_when()` now throws a better error if one of the conditions is an array (#6862, @ilovemane).
+
+* `bind_rows()` now replaces empty (or `NA`) element names in a list with its numeric index while preserving existing names (#7719, @Meghansaha).
+
+* New `slice_sample()` example showing how to use it to shuffle rows (#7707, @Hzanib).
+
+* Updated `across()` examples to include an example using `everything()` (#7621, @JBrandenburg02).
+
+* Clarified how `slice_min()` and `slice_max()` work in the introduction vignette (#7717, @ccani007).
+
+* Fixed an edge case when coercing data frames to matrices (#7004).
+
+* Fixed an issue where duckplyr's ALTREP data frames were being materialized early due to internal usage of `ncol()` (#7049).
+
+* Progress towards making dplyr conformant with the public C API of R (#7741, #7797).
+
+* R >=4.1.0 is now required, in line with the [tidyverse standard](https://tidyverse.org/blog/2019/04/r-version-support/) of supporting the previous 5 minor releases of R (#7711).
 
 # dplyr 1.1.4
 
@@ -2170,7 +2189,7 @@ dplyr has a new approach to non-standard evaluation (NSE) called tidyeval.
 It is described in detail in `vignette("programming")` but, in brief, gives you
 the ability to interpolate values in contexts where dplyr usually works with expressions:
 
-```{r}
+```r
 my_var <- quo(homeworld)
 
 starwars %>%
