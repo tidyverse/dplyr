@@ -109,7 +109,8 @@
   ([\#7649](https://github.com/tidyverse/dplyr/issues/7649)).
 
 - Progress towards making dplyr conformant with the public C API of R
-  ([\#7741](https://github.com/tidyverse/dplyr/issues/7741)).
+  ([\#7741](https://github.com/tidyverse/dplyr/issues/7741),
+  [\#7797](https://github.com/tidyverse/dplyr/issues/7797)).
 
 - [`case_when()`](https://dplyr.tidyverse.org/dev/reference/case-and-replace-when.md)
   now throws correctly indexed errors when `NULL`s are supplied in `...`
