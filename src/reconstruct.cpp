@@ -101,19 +101,21 @@ SEXP ffi_dplyr_reconstruct(SEXP data, SEXP template_) {
 
   // Clear all `data` attributes except `names` and `row.names`.
   // Iterate over `data` attributes so we can modify `out`'s in place.
+  // (Can't use nice named `.seen_names = false` syntax because that's
+  // apparently a C++20 feature even though C99 supports it)
   struct cb_data clear_data = {
-    .out = out,
-    .seen_names = false,
-    .seen_row_names = false
+    out,
+    false,
+    false
   };
   struct cb_data* p_clear_data = &clear_data;
   R_mapAttrib(data, cb_clear, (void*) p_clear_data);
 
   // Restore all `template_` attributes except `names` and `row.names`
   struct cb_data restore_data = {
-    .out = out,
-    .seen_names = false,
-    .seen_row_names = false
+    out,
+    false,
+    false
   };
   struct cb_data* p_restore_data = &restore_data;
   R_mapAttrib(template_, cb_restore, (void*) p_restore_data);
