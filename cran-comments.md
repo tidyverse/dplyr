@@ -1,6 +1,6 @@
 This is a large release of dplyr.
 
-We have advanced the deprecation stage of many old functions, which has caused a fairly large amount of breakage. We have been very diligent to reach out to all maintainers over the last month and have provided resolutions, but breakages are still to be expected. This work is tracked here https://github.com/tidyverse/dplyr/issues/7763.
+We have advanced the deprecation stage of many old functions, which has caused a fairly large amount of breakage. We have been very diligent to reach out to all maintainers over the last month and have provided patch, but unforunately we still see breakages, since as you are well aware, many developers don't do anything until they get the official warning from CRAN. This work is tracked here https://github.com/tidyverse/dplyr/issues/7763.
 
 We have reduced the amount of non-API calls from:
 
