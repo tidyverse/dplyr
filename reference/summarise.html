@@ -17,7 +17,7 @@ summarise() and summarize() are synonyms."><meta property="og:image" content="ht
 
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +31,7 @@ summarise() and summarize() are synonyms."><meta property="og:image" content="ht
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/grouping.html">Grouped data</a></li>
     <li><a class="dropdown-item" href="../articles/two-table.html">Two-table verbs</a></li>
+    <li><a class="dropdown-item" href="../articles/recoding-replacing.html">Recoding columns and replacing values</a></li>
     <li><a class="dropdown-item" href="../articles/base.html">dplyr &lt;-&gt; base R</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Automation</h6></li>
@@ -45,11 +46,11 @@ summarise() and summarize() are synonyms."><meta property="og:image" content="ht
   <ul class="dropdown-menu" aria-labelledby="dropdown-news"><li><h6 class="dropdown-header" data-toc-skip>Releases</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/tags/dplyr-1-1-0/">Version 1.1.0</a></li>
     <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/">Version 0.8.2</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/">Version 0.8.1</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/07/dplyr-0-8-3/">Version 0.8.3</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/06/dplyr-0-8-2/">Version 0.8.2</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/05/dplyr-0-8-1/">Version 0.8.1</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/02/dplyr-0-8-0/">Version 0.8.0</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2018/06/dplyr-0.7.5/">Version 0.7.5</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../news/index.html">Changelog</a></li>
   </ul></li>
@@ -65,7 +66,7 @@ summarise() and summarize() are synonyms."><meta property="og:image" content="ht
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Summarise each group down to one row</h1>
-      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/pkgdown-v1.1.4/R/summarise.R" class="external-link"><code>R/summarise.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/main/R/summarise.R" class="external-link"><code>R/summarise.R</code></a></small>
       <div class="d-none name"><code>summarise.Rd</code></div>
     </div>
 
@@ -99,33 +100,28 @@ more details.</p></dd>
 <dd><p>&lt;<code><a href="https://rlang.r-lib.org/reference/args_data_masking.html" class="external-link">data-masking</a></code>&gt; Name-value pairs of
 summary functions. The name will be the name of the variable in the result.</p>
 <p>The value can be:</p><ul><li><p>A vector of length 1, e.g. <code>min(x)</code>, <code><a href="context.html">n()</a></code>, or <code>sum(is.na(y))</code>.</p></li>
-<li><p>A data frame, to add multiple columns from a single expression.</p></li>
-</ul><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Returning values with size 0 or &gt;1 was
-deprecated as of 1.1.0. Please use <code><a href="reframe.html">reframe()</a></code> for this instead.</p></dd>
+<li><p>A data frame with 1 row, to add multiple columns from a single expression.</p></li>
+</ul></dd>
 
 
 <dt id="arg--by">.by<a class="anchor" aria-label="anchor" href="#arg--by"></a></dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></p>
-<p>&lt;<code><a href="dplyr_tidy_select.html">tidy-select</a></code>&gt; Optionally, a selection of columns to
+<dd><p>&lt;<code><a href="dplyr_tidy_select.html">tidy-select</a></code>&gt; Optionally, a selection of columns to
 group by for just this operation, functioning as an alternative to <code><a href="group_by.html">group_by()</a></code>. For
 details and examples, see <a href="dplyr_by.html">?dplyr_by</a>.</p></dd>
 
 
 <dt id="arg--groups">.groups<a class="anchor" aria-label="anchor" href="#arg--groups"></a></dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a> Grouping structure of the
-result.</p><ul><li><p>"drop_last": dropping the last level of grouping. This was the
+result.</p><ul><li><p><code>"drop_last"</code>: drops the last level of grouping. This was the
 only supported option before version 1.0.0.</p></li>
-<li><p>"drop": All levels of grouping are dropped.</p></li>
-<li><p>"keep": Same grouping structure as <code>.data</code>.</p></li>
-<li><p>"rowwise": Each row is its own group.</p></li>
-</ul><p>When <code>.groups</code> is not specified, it is chosen
-based on the number of rows of the results:</p><ul><li><p>If all the results have 1 row, you get "drop_last".</p></li>
-<li><p>If the number of rows varies, you get "keep" (note that returning a
-variable number of rows was deprecated in favor of <code><a href="reframe.html">reframe()</a></code>, which
-also unconditionally drops all levels of grouping).</p></li>
-</ul><p>In addition, a message informs you of that choice, unless the result is ungrouped,
-the option "dplyr.summarise.inform" is set to <code>FALSE</code>,
-or when <code>summarise()</code> is called from a function in a package.</p></dd>
+<li><p><code>"drop"</code>: All levels of grouping are dropped.</p></li>
+<li><p><code>"keep"</code>: Same grouping structure as <code>.data</code>.</p></li>
+<li><p><code>"rowwise"</code>: Each row is its own group.</p></li>
+</ul><p>When <code>.groups</code> is not specified, it is set to <code>"drop_last"</code> for a grouped
+data frame, and <code>"keep"</code> for a rowwise data frame. In addition, a message
+informs you of how the result will be grouped unless the result is
+ungrouped, the option <code>"dplyr.summarise.inform"</code> is set to <code>FALSE</code>, or when
+<code>summarise()</code> is called from a function in a package.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -178,26 +174,26 @@ dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/summarise.tbl_lazy
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other single table verbs:
-<code><a href="arrange.html">arrange</a>()</code>,
-<code><a href="filter.html">filter</a>()</code>,
-<code><a href="mutate.html">mutate</a>()</code>,
-<code><a href="reframe.html">reframe</a>()</code>,
-<code><a href="rename.html">rename</a>()</code>,
-<code><a href="select.html">select</a>()</code>,
-<code><a href="slice.html">slice</a>()</code></p></div>
+<code><a href="arrange.html">arrange()</a></code>,
+<code><a href="filter.html">filter()</a></code>,
+<code><a href="mutate.html">mutate()</a></code>,
+<code><a href="reframe.html">reframe()</a></code>,
+<code><a href="rename.html">rename()</a></code>,
+<code><a href="select.html">select()</a></code>,
+<code><a href="slice.html">slice()</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># A summary applied to ungrouped tbl returns a single row</span></span></span>
-<span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">mtcars</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">summarise</span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">disp</span><span class="op">)</span>, n <span class="op">=</span> <span class="fu"><a href="context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       mean  n</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 230.7219 32</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Usually, you'll want to group first</span></span></span>
-<span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">mtcars</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">summarise</span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">disp</span><span class="op">)</span>, n <span class="op">=</span> <span class="fu"><a href="context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     cyl  mean     n</span>
@@ -208,17 +204,21 @@ dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/summarise.tbl_lazy
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Each summary call removes one grouping level (since that group</span></span></span>
 <span class="r-in"><span><span class="co"># is now just a single row)</span></span></span>
-<span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span>, <span class="va">vs</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu">summarise</span><span class="op">(</span>cyl_n <span class="op">=</span> <span class="fu"><a href="context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">mtcars</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span>, <span class="va">vs</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">summarise</span><span class="op">(</span>cyl_n <span class="op">=</span> <span class="fu"><a href="context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `summarise()` has grouped output by 'cyl'. You can override using the</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `.groups` argument.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> `summarise()` has regrouped the output.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Summaries were computed grouped by <span style="color: #0000BB;">cyl</span> and <span style="color: #0000BB;">vs</span>.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Output is grouped by <span style="color: #0000BB;">cyl</span>.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Use `summarise(.groups = "drop_last")` to silence this message.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Use `summarise(.by = c(cyl, vs))` for per-operation grouping</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   (`?dplyr::dplyr_by`) instead.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cyl"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># BEWARE: reusing variables may lead to unexpected results</span></span></span>
-<span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">mtcars</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">summarise</span><span class="op">(</span>disp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">disp</span><span class="op">)</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">disp</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     cyl  disp    sd</span>
@@ -235,44 +235,6 @@ dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/summarise.tbl_lazy
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  97.3</span>
 <span class="r-in"><span><span class="co"># Learn more in ?rlang::args_data_masking</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># In dplyr 1.1.0, returning multiple rows per group was deprecated in favor</span></span></span>
-<span class="r-in"><span><span class="co"># of `reframe()`, which never messages and always returns an ungrouped</span></span></span>
-<span class="r-in"><span><span class="co"># result:</span></span></span>
-<span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>   <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>   <span class="fu">summarise</span><span class="op">(</span>qs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">disp</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Returning more (or less) than 1 row per `summarise()` group was</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> deprecated in dplyr 1.1.0.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `reframe()` instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> When switching from `summarise()` to `reframe()`, remember that</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>   `reframe()` always returns an ungrouped data frame and adjust</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>   accordingly.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `summarise()` has grouped output by 'cyl'. You can override using the</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `.groups` argument.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   cyl [3]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     cyl    qs  prob</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     4  78.8  0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     4 121.   0.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     6 160    0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     6 196.   0.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     8 302.   0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>     8 390    0.75</span>
-<span class="r-in"><span><span class="co"># -&gt;</span></span></span>
-<span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>   <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>   <span class="fu"><a href="reframe.html">reframe</a></span><span class="op">(</span>qs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">disp</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     cyl    qs  prob</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     4  78.8  0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     4 121.   0.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     6 160    0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     6 196.   0.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     8 302.   0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>     8 390    0.75</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -286,7 +248,7 @@ dbplyr (<code><a href="https://dbplyr.tidyverse.org/reference/summarise.tbl_lazy
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
   </div></footer></body></html>

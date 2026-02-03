@@ -9,7 +9,7 @@ vectors and translated to the appropriate SQL for remote tables."><meta property
 
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,6 +23,7 @@ vectors and translated to the appropriate SQL for remote tables."><meta property
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/grouping.html">Grouped data</a></li>
     <li><a class="dropdown-item" href="../articles/two-table.html">Two-table verbs</a></li>
+    <li><a class="dropdown-item" href="../articles/recoding-replacing.html">Recoding columns and replacing values</a></li>
     <li><a class="dropdown-item" href="../articles/base.html">dplyr &lt;-&gt; base R</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Automation</h6></li>
@@ -37,11 +38,11 @@ vectors and translated to the appropriate SQL for remote tables."><meta property
   <ul class="dropdown-menu" aria-labelledby="dropdown-news"><li><h6 class="dropdown-header" data-toc-skip>Releases</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/tags/dplyr-1-1-0/">Version 1.1.0</a></li>
     <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/">Version 0.8.2</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/">Version 0.8.1</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/07/dplyr-0-8-3/">Version 0.8.3</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/06/dplyr-0-8-2/">Version 0.8.2</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/05/dplyr-0-8-1/">Version 0.8.1</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/02/dplyr-0-8-0/">Version 0.8.0</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2018/06/dplyr-0.7.5/">Version 0.7.5</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../news/index.html">Changelog</a></li>
   </ul></li>
@@ -57,7 +58,7 @@ vectors and translated to the appropriate SQL for remote tables."><meta property
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Detect where values fall in a specified range</h1>
-      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/pkgdown-v1.1.4/R/funs.R" class="external-link"><code>R/funs.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/main/R/funs.R" class="external-link"><code>R/funs.R</code></a></small>
       <div class="d-none name"><code>between.Rd</code></div>
     </div>
 
@@ -68,7 +69,7 @@ vectors and translated to the appropriate SQL for remote tables.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">between</span><span class="op">(</span><span class="va">x</span>, <span class="va">left</span>, <span class="va">right</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">between</span><span class="op">(</span><span class="va">x</span>, <span class="va">left</span>, <span class="va">right</span>, <span class="va">...</span>, ptype <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -83,15 +84,25 @@ vectors and translated to the appropriate SQL for remote tables.</p>
 <dd><p>Boundary values. Both <code>left</code> and <code>right</code> are recycled to
 the size of <code>x</code>.</p></dd>
 
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>These dots are for future extensions and must be empty.</p></dd>
+
+
+<dt id="arg-ptype">ptype<a class="anchor" aria-label="anchor" href="#arg-ptype"></a></dt>
+<dd><p>An optional prototype giving the desired output type. The
+default is to compute the common type of <code>x</code>, <code>left</code>, and <code>right</code> using
+<code><a href="https://vctrs.r-lib.org/reference/vec_cast.html" class="external-link">vctrs::vec_cast_common()</a></code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A logical vector the same size as <code>x</code>.</p>
+    <p>A logical vector the same size as <code>x</code> with a type determined by <code>ptype</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><code>x</code>, <code>left</code>, and <code>right</code> are all cast to their common type before the
-comparison is made.</p>
+comparison is made. Use the <code>ptype</code> argument to specify the type manually.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -134,6 +145,17 @@ join helper.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Gasgano    122    <span style="color: #BB0000;">NA</span> none       white, bl… black             <span style="color: #BB0000;">NA</span> male </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Using the `ptype` argument with ordered factors, where otherwise everything</span></span></span>
+<span class="r-in"><span><span class="co"># is cast to the common type of character before the comparison</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>, <span class="st">"medium"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">between</span><span class="op">(</span><span class="va">x</span>, <span class="st">"medium"</span>, <span class="st">"high"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE FALSE FALSE FALSE</span>
+<span class="r-in"><span><span class="fu">between</span><span class="op">(</span><span class="va">x</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>, ptype <span class="op">=</span> <span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE  TRUE  TRUE  TRUE</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -147,7 +169,7 @@ join helper.</p></div>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
   </div></footer></body></html>

@@ -18,9 +18,9 @@
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Grouped data">
-<meta name="description" content='To unlock the full potential of dplyr, you need to understand how each verb interacts with grouping. This vignette shows you how to manipulate grouping, how each verb changes its behaviour when working with grouped data, and  how you can access data about the "current" group from within a verb.
+<meta name="description" content='To unlock the full potential of dplyr, you need to understand how each verb interacts with grouping. This vignette shows you how to manipulate grouping, how each verb changes its behaviour when working with grouped data, and how you can access data about the "current" group from within a verb.
 '>
-<meta property="og:description" content='To unlock the full potential of dplyr, you need to understand how each verb interacts with grouping. This vignette shows you how to manipulate grouping, how each verb changes its behaviour when working with grouped data, and  how you can access data about the "current" group from within a verb.
+<meta property="og:description" content='To unlock the full potential of dplyr, you need to understand how each verb interacts with grouping. This vignette shows you how to manipulate grouping, how each verb changes its behaviour when working with grouped data, and how you can access data about the "current" group from within a verb.
 '>
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png">
 <script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-hide-below="1200" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script><script defer data-domain="dplyr.tidyverse.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script><script async src="https://widget.kapa.ai/kapa-widget.bundle.js" data-button-hide="true" data-modal-disclaimer="This is a custom LLM for answering questions about dplyr, tidyr, and ggplot2. Answers are based on the contents of the documentation. Rate the answers to let us know what you think!" data-modal-ask-ai-input-placeholder="Ask me a question about dplyr, tidyr, or ggplot2." data-modal-header-bg-color="#f9f9f9" data-modal-override-open-class="open-kapa-widget" data-project-color="#365a7a" data-project-name="dplyr" data-modal-title="tidyverse AI ✨" data-project-logo="https://avatars.githubusercontent.com/u/22032646?s=200&amp;u=235532df5cf8543246812f73db051b793f868807&amp;v=4" data-user-analytics-fingerprint-enabled="true" data-bot-protection-mechanism="hcaptcha" data-website-id="44ae76c6-2ae5-4899-ab42-de9f17f07c7b"></script>
@@ -33,7 +33,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,6 +49,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/grouping.html">Grouped data</a></li>
     <li><a class="dropdown-item" href="../articles/two-table.html">Two-table verbs</a></li>
+    <li><a class="dropdown-item" href="../articles/recoding-replacing.html">Recoding columns and replacing values</a></li>
     <li><a class="dropdown-item" href="../articles/base.html">dplyr &lt;-&gt; base R</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Automation</h6></li>
@@ -65,11 +66,11 @@
 <li><h6 class="dropdown-header" data-toc-skip>Releases</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/tags/dplyr-1-1-0/">Version 1.1.0</a></li>
     <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/">Version 0.8.2</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/">Version 0.8.1</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/07/dplyr-0-8-3/">Version 0.8.3</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/06/dplyr-0-8-2/">Version 0.8.2</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/05/dplyr-0-8-1/">Version 0.8.1</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/02/dplyr-0-8-0/">Version 0.8.0</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2018/06/dplyr-0.7.5/">Version 0.7.5</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../news/index.html">Changelog</a></li>
   </ul>
@@ -96,7 +97,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Grouped data</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/pkgdown-v1.1.4/vignettes/grouping.Rmd" class="external-link"><code>vignettes/grouping.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/main/vignettes/grouping.Rmd" class="external-link"><code>vignettes/grouping.Rmd</code></a></small>
       <div class="d-none name"><code>grouping.Rmd</code></div>
     </div>
 
@@ -123,8 +124,8 @@ verb.</p></li>
 <p>The most important grouping verb is <code><a href="../reference/group_by.html">group_by()</a></code>: it takes
 a data frame and one or more variables to group by:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span></span>
-<span><span class="va">by_sex_gender</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">sex</span>, <span class="va">gender</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span></span>
+<span><span class="va">by_sex_gender</span> <span class="op">&lt;-</span> <span class="va">starwars</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">sex</span>, <span class="va">gender</span><span class="op">)</span></span></code></pre></div>
 <p>You can see the grouping when you print the data:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">by_species</span></span>
@@ -155,7 +156,7 @@ a data frame and one or more variables to group by:</p>
 group. The <code>sort</code> argument is useful if you want to see the
 largest groups up front.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 38 × 2</span></span></span>
 <span><span class="co">#&gt;   species      n</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
@@ -165,7 +166,7 @@ largest groups up front.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Chagrian     1</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 34 more rows</span></span></span>
 <span></span>
-<span><span class="va">by_sex_gender</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span>sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">by_sex_gender</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span>sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   sex [5]</span></span></span>
 <span><span class="co">#&gt;   sex    gender        n</span></span>
@@ -182,8 +183,8 @@ function of existing variables. This is equivalent to performing a
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bmi_breaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">18.5</span>, <span class="fl">25</span>, <span class="fl">30</span>, <span class="cn">Inf</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span>bmi_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">mass</span><span class="op">/</span><span class="op">(</span><span class="va">height</span><span class="op">/</span><span class="fl">100</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span>, breaks<span class="op">=</span><span class="va">bmi_breaks</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span>bmi_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">mass</span><span class="op">/</span><span class="op">(</span><span class="va">height</span><span class="op">/</span><span class="fl">100</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span>, breaks<span class="op">=</span><span class="va">bmi_breaks</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 2</span></span></span>
 <span><span class="co">#&gt;   bmi_cat       n</span></span>
@@ -201,7 +202,7 @@ function of existing variables. This is equivalent to performing a
 has one row for each group and one column for each grouping
 variable:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_data.html">group_keys</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/group_data.html">group_keys</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 38 × 1</span></span></span>
 <span><span class="co">#&gt;   species </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
@@ -211,7 +212,7 @@ variable:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Chagrian</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 34 more rows</span></span></span>
 <span></span>
-<span><span class="va">by_sex_gender</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_data.html">group_keys</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">by_sex_gender</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/group_data.html">group_keys</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span></span>
 <span><span class="co">#&gt;   sex            gender   </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
@@ -223,7 +224,7 @@ variable:</p>
 <p>You can see which group each row belongs to with
 <code><a href="../reference/group_data.html">group_indices()</a></code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_data.html">group_indices</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/group_data.html">group_indices</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] 11  6  6 11 11 11 11  6 11 11 11 11 34 11 24 12 11 38 36 11 11  6</span></span>
 <span><span class="co">#&gt; [23] 31 11 11 18 11 11  8 26 11 21 11 11 10 10 10 11 30  7 11 11 37 32</span></span>
 <span><span class="co">#&gt; [45] 32  1 33 35 29 11  3 20 37 27 13 23 16  4 38 38 11  9 17 17 11 11</span></span>
@@ -231,7 +232,7 @@ variable:</p>
 <p>And which rows each group contains with
 <code><a href="../reference/group_data.html">group_rows()</a></code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_data.html">group_rows</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/group_data.html">group_rows</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;list_of&lt;integer&gt;[6]&gt;</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
 <span><span class="co">#&gt; [1] 46</span></span>
@@ -253,9 +254,9 @@ variable:</p>
 <p>Use <code><a href="../reference/group_data.html">group_vars()</a></code> if you just want the names of the
 grouping variables:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "species"</span></span>
-<span><span class="va">by_sex_gender</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">by_sex_gender</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "sex"    "gender"</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="changing-and-adding-to-grouping-variables">Changing and adding to grouping variables<a class="anchor" aria-label="anchor" href="#changing-and-adding-to-grouping-variables"></a>
@@ -265,8 +266,8 @@ will overwrite the existing grouping variables. For example, the
 following code groups by <code>homeworld</code> instead of
 <code>species</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 49 × 2</span></span></span>
 <span><span class="co">#&gt;   homeworld       n</span></span>
@@ -281,8 +282,8 @@ following code groups by <code>homeworld</code> instead of
 &lt;code&gt;add = TRUE&lt;/code&gt; to &lt;code&gt;.add = TRUE&lt;/code&gt; in dplyr 1.0.0.&lt;/p&gt;"><sup>1</sup></a>. For example, the following code groups by
 species and homeworld:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span>, .add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span>, .add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 57 × 3</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   species [38]</span></span></span>
@@ -299,8 +300,8 @@ species and homeworld:</p>
 </h3>
 <p>To remove all grouping variables, use <code><a href="../reference/group_by.html">ungroup()</a></code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 1</span></span></span>
 <span><span class="co">#&gt;       n</span></span>
@@ -309,8 +310,8 @@ species and homeworld:</p>
 <p>You can also choose to selectively ungroup by listing the variables
 you want to remove:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_sex_gender</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">by_sex_gender</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
 <span><span class="co">#&gt;   gender        n</span></span>
@@ -333,7 +334,7 @@ verbs.</p>
 means that it starts from <code><a href="../reference/group_data.html">group_keys()</a></code>, adding summary
 variables to the right hand side:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span></span>
 <span>    n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">height</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -352,28 +353,32 @@ grouping variable corresponds to <code>.groups = "drop_last"</code>
 without a message or <code>.groups = NULL</code> with a message (the
 default).</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_sex_gender</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">by_sex_gender</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `summarise()` has grouped output by 'sex'. You can override using the</span></span>
-<span><span class="co">#&gt; `.groups` argument.</span></span>
+<span><span class="co">#&gt; `summarise()` has regrouped the output.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Summaries were computed grouped by <span style="color: #0000BB;">sex</span> and <span style="color: #0000BB;">gender</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Output is grouped by <span style="color: #0000BB;">sex</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `summarise(.groups = "drop_last")` to silence this message.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `summarise(.by = c(sex, gender))` for per-operation grouping</span></span>
+<span><span class="co">#&gt;   (`?dplyr::dplyr_by`) instead.</span></span>
 <span><span class="co">#&gt; [1] "sex"</span></span>
 <span></span>
-<span><span class="va">by_sex_gender</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop_last"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">by_sex_gender</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop_last"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "sex"</span></span></code></pre></div>
 <p>Since version 1.0.0 the groups may also be kept
 (<code>.groups = "keep"</code>) or dropped
 (<code>.groups = "drop"</code>).</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_sex_gender</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"keep"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">by_sex_gender</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"keep"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "sex"    "gender"</span></span>
 <span></span>
-<span><span class="va">by_sex_gender</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">by_sex_gender</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; character(0)</span></span></code></pre></div>
 <p>When the output no longer have grouping variables, it becomes
@@ -390,7 +395,7 @@ position of existing columns. Grouped <code><a href="../reference/select.html">s
 identical to ungrouped select, except that it always includes the
 grouping variables:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Adding missing grouping variables: `species`</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 2</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   species [38]</span></span></span>
@@ -413,8 +418,8 @@ stuck with it for now.)</p>
 <code><a href="../reference/arrange.html">arrange()</a></code>, unless you set <code>.by_group = TRUE</code>, in
 which case it will order first by the grouping variables.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">mass</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 14</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   species [38]</span></span></span>
@@ -428,8 +433,8 @@ which case it will order first by the grouping variables.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: sex &lt;chr&gt;, gender &lt;chr&gt;, homeworld &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></span>
 <span></span>
-<span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span>, .by_group <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">by_species</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="../reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mass</span><span class="op">)</span>, .by_group <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">mass</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 14</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   species [38]</span></span></span>
@@ -455,8 +460,8 @@ species).</p>
 summary functions:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Subtract off global mean</span></span>
-<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">homeworld</span>, <span class="va">mass</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">homeworld</span>, <span class="va">mass</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>standard_mass <span class="op">=</span> <span class="va">mass</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mass</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 4</span></span></span>
 <span><span class="co">#&gt;   name           homeworld  mass standard_mass</span></span>
@@ -468,9 +473,9 @@ summary functions:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 83 more rows</span></span></span>
 <span></span>
 <span><span class="co"># Subtract off homeworld mean</span></span>
-<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">homeworld</span>, <span class="va">mass</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">homeworld</span>, <span class="va">mass</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>standard_mass <span class="op">=</span> <span class="va">mass</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mass</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 4</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   homeworld [49]</span></span></span>
@@ -484,8 +489,8 @@ summary functions:</p>
 <p>Or with window functions like <code><a href="../reference/row_number.html">min_rank()</a></code>:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Overall rank</span></span>
-<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">homeworld</span>, <span class="va">height</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">homeworld</span>, <span class="va">height</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu"><a href="../reference/row_number.html">min_rank</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 4</span></span></span>
 <span><span class="co">#&gt;   name           homeworld height  rank</span></span>
@@ -497,9 +502,9 @@ summary functions:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 83 more rows</span></span></span>
 <span></span>
 <span><span class="co"># Rank per homeworld</span></span>
-<span><span class="va">starwars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">homeworld</span>, <span class="va">height</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">starwars</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">homeworld</span>, <span class="va">height</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">homeworld</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/mutate.html">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu"><a href="../reference/row_number.html">min_rank</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 4</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   homeworld [49]</span></span></span>
@@ -521,8 +526,8 @@ keeps the rows where the variable is <code>TRUE</code>. This means that
 grouped filters can be used with summary functions. For example, we can
 find the tallest character of each species:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">species</span>, <span class="va">height</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">species</span>, <span class="va">height</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="va">height</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 36 × 3</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   species [36]</span></span></span>
@@ -533,12 +538,12 @@ find the tallest character of each species:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Yoda                  Yoda's species     66</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Bossk                 Trandoshan        190</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 32 more rows</span></span></span></code></pre></div>
-<p>You can also use <code><a href="../reference/filter.html">filter()</a></code> to remove entire groups. For
-example, the following code eliminates all groups that only have a
+<p>You can also use <code><a href="../reference/filter.html">filter_out()</a></code> to remove entire groups.
+For example, the following code eliminates all groups that only have a
 single member:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span> <span class="op">!=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/filter.html">filter_out</a></span><span class="op">(</span><span class="fu"><a href="../reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/count.html">tally</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 2</span></span></span>
 <span><span class="co">#&gt;   species      n</span></span>
@@ -559,8 +564,8 @@ single member:</p>
 within a group. For example, we can select the first observation within
 each species:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/relocate.html">relocate</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/slice.html">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 38 × 14</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   species [38]</span></span></span>
@@ -576,8 +581,8 @@ each species:</p>
 <p>Similarly, we can use <code><a href="../reference/slice.html">slice_min()</a></code> to select the smallest
 <code>n</code> values of a variable:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<code class="sourceCode R"><span><span class="va">by_species</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/filter.html">filter_out</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/slice.html">slice_min</a></span><span class="op">(</span><span class="va">height</span>, n <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 47 × 14</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   species [38]</span></span></span>
@@ -606,7 +611,7 @@ each species:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
   </div></footer>

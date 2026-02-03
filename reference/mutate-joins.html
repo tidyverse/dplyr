@@ -59,7 +59,7 @@ A full_join() keeps all observations in x and y.
 
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,6 +73,7 @@ A full_join() keeps all observations in x and y.
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/grouping.html">Grouped data</a></li>
     <li><a class="dropdown-item" href="../articles/two-table.html">Two-table verbs</a></li>
+    <li><a class="dropdown-item" href="../articles/recoding-replacing.html">Recoding columns and replacing values</a></li>
     <li><a class="dropdown-item" href="../articles/base.html">dplyr &lt;-&gt; base R</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Automation</h6></li>
@@ -87,11 +88,11 @@ A full_join() keeps all observations in x and y.
   <ul class="dropdown-menu" aria-labelledby="dropdown-news"><li><h6 class="dropdown-header" data-toc-skip>Releases</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/tags/dplyr-1-1-0/">Version 1.1.0</a></li>
     <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/">Version 0.8.2</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/">Version 0.8.1</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/07/dplyr-0-8-3/">Version 0.8.3</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/06/dplyr-0-8-2/">Version 0.8.2</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/05/dplyr-0-8-1/">Version 0.8.1</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/02/dplyr-0-8-0/">Version 0.8.0</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2018/06/dplyr-0.7.5/">Version 0.7.5</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../news/index.html">Changelog</a></li>
   </ul></li>
@@ -107,7 +108,7 @@ A full_join() keeps all observations in x and y.
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Mutating joins</h1>
-      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/pkgdown-v1.1.4/R/join.R" class="external-link"><code>R/join.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/main/R/join.R" class="external-link"><code>R/join.R</code></a></small>
       <div class="d-none name"><code>mutate-joins.Rd</code></div>
     </div>
 
@@ -429,21 +430,21 @@ individual methods for extra arguments and differences in behaviour.</p>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other joins:
-<code><a href="cross_join.html">cross_join</a>()</code>,
+<code><a href="cross_join.html">cross_join()</a></code>,
 <code><a href="filter-joins.html">filter-joins</a></code>,
-<code><a href="nest_join.html">nest_join</a>()</code></p></div>
+<code><a href="nest_join.html">nest_join()</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">band_members</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">inner_join</span><span class="op">(</span><span class="va">band_instruments</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">band_members</span> <span class="op">|&gt;</span> <span class="fu">inner_join</span><span class="op">(</span><span class="va">band_instruments</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(name)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name  band    plays </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> John  Beatles guitar</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Paul  Beatles bass  </span>
-<span class="r-in"><span><span class="va">band_members</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">left_join</span><span class="op">(</span><span class="va">band_instruments</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">band_members</span> <span class="op">|&gt;</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">band_instruments</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(name)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name  band    plays </span>
@@ -451,7 +452,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Mick  Stones  <span style="color: #BB0000;">NA</span>    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> John  Beatles guitar</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Paul  Beatles bass  </span>
-<span class="r-in"><span><span class="va">band_members</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">right_join</span><span class="op">(</span><span class="va">band_instruments</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">band_members</span> <span class="op">|&gt;</span> <span class="fu">right_join</span><span class="op">(</span><span class="va">band_instruments</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(name)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name  band    plays </span>
@@ -459,7 +460,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> John  Beatles guitar</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Paul  Beatles bass  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Keith <span style="color: #BB0000;">NA</span>      guitar</span>
-<span class="r-in"><span><span class="va">band_members</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">full_join</span><span class="op">(</span><span class="va">band_instruments</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">band_members</span> <span class="op">|&gt;</span> <span class="fu">full_join</span><span class="op">(</span><span class="va">band_instruments</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(name)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name  band    plays </span>
@@ -470,7 +471,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Keith <span style="color: #BB0000;">NA</span>      guitar</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># To suppress the message about joining variables, supply `by`</span></span></span>
-<span class="r-in"><span><span class="va">band_members</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">inner_join</span><span class="op">(</span><span class="va">band_instruments</span>, by <span class="op">=</span> <span class="fu"><a href="join_by.html">join_by</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">band_members</span> <span class="op">|&gt;</span> <span class="fu">inner_join</span><span class="op">(</span><span class="va">band_instruments</span>, by <span class="op">=</span> <span class="fu"><a href="join_by.html">join_by</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name  band    plays </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
@@ -479,7 +480,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-in"><span><span class="co"># This is good practice in production code</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use an equality expression if the join variables have different names</span></span></span>
-<span class="r-in"><span><span class="va">band_members</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">full_join</span><span class="op">(</span><span class="va">band_instruments2</span>, by <span class="op">=</span> <span class="fu"><a href="join_by.html">join_by</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="va">artist</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">band_members</span> <span class="op">|&gt;</span> <span class="fu">full_join</span><span class="op">(</span><span class="va">band_instruments2</span>, by <span class="op">=</span> <span class="fu"><a href="join_by.html">join_by</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="va">artist</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name  band    plays </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
@@ -489,7 +490,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Keith <span style="color: #BB0000;">NA</span>      guitar</span>
 <span class="r-in"><span><span class="co"># By default, the join keys from `x` and `y` are coalesced in the output; use</span></span></span>
 <span class="r-in"><span><span class="co"># `keep = TRUE` to keep the join keys from both `x` and `y`</span></span></span>
-<span class="r-in"><span><span class="va">band_members</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">band_members</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">full_join</span><span class="op">(</span><span class="va">band_instruments2</span>, by <span class="op">=</span> <span class="fu"><a href="join_by.html">join_by</a></span><span class="op">(</span><span class="va">name</span> <span class="op">==</span> <span class="va">artist</span><span class="op">)</span>, keep <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name  band    artist plays </span>
@@ -503,7 +504,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-in"><span><span class="co"># returned once for each matching row in `x`.</span></span></span>
 <span class="r-in"><span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"first"</span>, <span class="st">"second"</span>, <span class="st">"third"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">left_join</span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df1</span> <span class="op">|&gt;</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(x)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       x y     </span>
@@ -518,7 +519,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-in"><span><span class="co"># specified join or some kind of messy data. In this case, a warning is</span></span></span>
 <span class="r-in"><span><span class="co"># thrown by default:</span></span></span>
 <span class="r-in"><span><span class="va">df3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">df3</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">left_join</span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df3</span> <span class="op">|&gt;</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(x)`</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Detected an unexpected many-to-many relationship between `x` and `y`.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Row 1 of `x` matches multiple rows in `y`.</span>
@@ -538,7 +539,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># In the rare case where a many-to-many relationship is expected, set</span></span></span>
 <span class="r-in"><span><span class="co"># `relationship = "many-to-many"` to silence this warning</span></span></span>
-<span class="r-in"><span><span class="va">df3</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">left_join</span><span class="op">(</span><span class="va">df2</span>, relationship <span class="op">=</span> <span class="st">"many-to-many"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df3</span> <span class="op">|&gt;</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">df2</span>, relationship <span class="op">=</span> <span class="st">"many-to-many"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(x)`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       x y     </span>
@@ -553,7 +554,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use `join_by()` with a condition other than `==` to perform an inequality</span></span></span>
 <span class="r-in"><span><span class="co"># join. Here we match on every instance where `df1$x &gt; df2$x`.</span></span></span>
-<span class="r-in"><span><span class="va">df1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">left_join</span><span class="op">(</span><span class="va">df2</span>, <span class="fu"><a href="join_by.html">join_by</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&gt;</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df1</span> <span class="op">|&gt;</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">df2</span>, <span class="fu"><a href="join_by.html">join_by</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&gt;</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     x.x   x.y y     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
@@ -594,7 +595,7 @@ individual methods for extra arguments and differences in behaviour.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
   </div></footer></body></html>

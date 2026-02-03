@@ -11,7 +11,7 @@ where operations are performed "by group". ungroup() removes grouping.'><meta pr
 
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,6 +25,7 @@ where operations are performed "by group". ungroup() removes grouping.'><meta pr
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/grouping.html">Grouped data</a></li>
     <li><a class="dropdown-item" href="../articles/two-table.html">Two-table verbs</a></li>
+    <li><a class="dropdown-item" href="../articles/recoding-replacing.html">Recoding columns and replacing values</a></li>
     <li><a class="dropdown-item" href="../articles/base.html">dplyr &lt;-&gt; base R</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Automation</h6></li>
@@ -39,11 +40,11 @@ where operations are performed "by group". ungroup() removes grouping.'><meta pr
   <ul class="dropdown-menu" aria-labelledby="dropdown-news"><li><h6 class="dropdown-header" data-toc-skip>Releases</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/tags/dplyr-1-1-0/">Version 1.1.0</a></li>
     <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/">Version 0.8.2</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/">Version 0.8.1</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/07/dplyr-0-8-3/">Version 0.8.3</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/06/dplyr-0-8-2/">Version 0.8.2</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/05/dplyr-0-8-1/">Version 0.8.1</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/02/dplyr-0-8-0/">Version 0.8.0</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2018/06/dplyr-0.7.5/">Version 0.7.5</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../news/index.html">Changelog</a></li>
   </ul></li>
@@ -59,7 +60,7 @@ where operations are performed "by group". ungroup() removes grouping.'><meta pr
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Group by one or more variables</h1>
-      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/pkgdown-v1.1.4/R/group-by.R" class="external-link"><code>R/group-by.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/main/R/group-by.R" class="external-link"><code>R/group-by.R</code></a></small>
       <div class="d-none name"><code>group_by.Rd</code></div>
     </div>
 
@@ -87,10 +88,10 @@ more details.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>In <code>group_by()</code>, variables or computations to group by.
-Computations are always done on the ungrouped data frame.
-To perform computations on the grouped data, you need to use
-a separate <code><a href="mutate.html">mutate()</a></code> step before the <code>group_by()</code>.
+<dd><p>&lt;<code><a href="https://rlang.r-lib.org/reference/args_data_masking.html" class="external-link">data-masking</a></code>&gt; In <code>group_by()</code>,
+variables or computations to group by. Computations are always done on the
+ungrouped data frame. To perform computations on the grouped data, you need
+to use a separate <code><a href="mutate.html">mutate()</a></code> step before the <code>group_by()</code>.
 Computations are not allowed in <code><a href="nest_by.html">nest_by()</a></code>.
 In <code>ungroup()</code>, variables to remove from the grouping.</p></dd>
 
@@ -98,10 +99,7 @@ In <code>ungroup()</code>, variables to remove from the grouping.</p></dd>
 <dt id="arg--add">.add<a class="anchor" aria-label="anchor" href="#arg--add"></a></dt>
 <dd><p>When <code>FALSE</code>, the default, <code>group_by()</code> will
 override existing groups. To add to the existing groups, use
-<code>.add = TRUE</code>.</p>
-<p>This argument was previously called <code>add</code>, but that prevented
-creating a new grouping variable called <code>add</code>, and conflicts with
-our naming conventions.</p></dd>
+<code>.add = TRUE</code>.</p></dd>
 
 
 <dt id="arg--drop">.drop<a class="anchor" aria-label="anchor" href="#arg--drop"></a></dt>
@@ -144,37 +142,38 @@ for performance and reproducibility across R sessions. If the resulting
 ordering of your grouped operation matters and is dependent on the locale,
 you should follow up the grouped operation with an explicit call to
 <code><a href="arrange.html">arrange()</a></code> and set the <code>.locale</code> argument. For example:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>data <span class="sc">%&gt;%</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">group_by</span>(chr) <span class="sc">%&gt;%</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg =</span> <span class="fu">mean</span>(x)) <span class="sc">%&gt;%</span></span>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">group_by</span>(chr) <span class="sc">|&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg =</span> <span class="fu">mean</span>(x)) <span class="sc">|&gt;</span></span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="fu">arrange</span>(chr, <span class="at">.locale =</span> <span class="st">"en"</span>)</span></code></pre><p></p></div>
 <p>This is often useful as a preliminary step before generating content intended
 for humans, such as an HTML table.</p><div class="section">
 <h3 id="legacy-behavior">Legacy behavior<a class="anchor" aria-label="anchor" href="#legacy-behavior"></a></h3>
 
 
+<p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a></p>
 <p>Prior to dplyr 1.1.0, character vector grouping columns were ordered in the
-system locale. If you need to temporarily revert to this behavior, you can
-set the global option <code>dplyr.legacy_locale</code> to <code>TRUE</code>, but this should be
-used sparingly and you should expect this option to be removed in a future
-version of dplyr. It is better to update existing code to explicitly call
-<code>arrange(.locale = )</code> instead. Note that setting <code>dplyr.legacy_locale</code> will
-also force calls to <code><a href="arrange.html">arrange()</a></code> to use the system locale.</p>
+system locale. Setting the global option <code>dplyr.legacy_locale</code> to <code>TRUE</code>
+retains this legacy behavior, but this has been deprecated. Update existing
+code to explicitly call <code>arrange(.locale = )</code> instead. Run
+<code>Sys.getlocale("LC_COLLATE")</code> to determine your system locale, and compare
+that against the list in <code><a href="https://rdrr.io/pkg/stringi/man/stri_locale_list.html" class="external-link">stringi::stri_locale_list()</a></code> to find an appropriate
+value for <code>.locale</code>, i.e. for American English, <code>"en_US"</code>.</p>
 </div>
 
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other grouping functions:
-<code><a href="group_map.html">group_map</a>()</code>,
-<code><a href="group_nest.html">group_nest</a>()</code>,
-<code><a href="group_split.html">group_split</a>()</code>,
-<code><a href="group_trim.html">group_trim</a>()</code></p></div>
+<code><a href="group_map.html">group_map()</a></code>,
+<code><a href="group_nest.html">group_nest()</a></code>,
+<code><a href="group_split.html">group_split()</a></code>,
+<code><a href="group_trim.html">group_trim()</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">by_cyl</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">group_by</span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">by_cyl</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op">|&gt;</span> <span class="fu">group_by</span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># grouping doesn't change how the data looks (apart from listing</span></span></span>
 <span class="r-in"><span><span class="co"># how it's grouped):</span></span></span>
@@ -196,7 +195,7 @@ also force calls to <code><a href="arrange.html">arrange()</a></code> to use the
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 22 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># It changes how it acts with the other dplyr verbs:</span></span></span>
-<span class="r-in"><span><span class="va">by_cyl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="summarise.html">summarise</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">by_cyl</span> <span class="op">|&gt;</span> <span class="fu"><a href="summarise.html">summarise</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  disp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">disp</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  hp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">hp</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
@@ -206,7 +205,7 @@ also force calls to <code><a href="arrange.html">arrange()</a></code> to use the
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     4  105.  82.6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     6  183. 122. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     8  353. 209. </span>
-<span class="r-in"><span><span class="va">by_cyl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">disp</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">disp</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">by_cyl</span> <span class="op">|&gt;</span> <span class="fu"><a href="filter.html">filter</a></span><span class="op">(</span><span class="va">disp</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">disp</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 11</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   cyl [3]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
@@ -216,10 +215,14 @@ also force calls to <code><a href="arrange.html">arrange()</a></code> to use the
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Each call to summarise() removes a layer of grouping</span></span></span>
-<span class="r-in"><span><span class="va">by_vs_am</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">group_by</span><span class="op">(</span><span class="va">vs</span>, <span class="va">am</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">by_vs</span> <span class="op">&lt;-</span> <span class="va">by_vs_am</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `summarise()` has grouped output by 'vs'. You can override using the</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `.groups` argument.</span>
+<span class="r-in"><span><span class="va">by_vs_am</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op">|&gt;</span> <span class="fu">group_by</span><span class="op">(</span><span class="va">vs</span>, <span class="va">am</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">by_vs</span> <span class="op">&lt;-</span> <span class="va">by_vs_am</span> <span class="op">|&gt;</span> <span class="fu"><a href="summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> `summarise()` has regrouped the output.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Summaries were computed grouped by <span style="color: #0000BB;">vs</span> and <span style="color: #0000BB;">am</span>.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Output is grouped by <span style="color: #0000BB;">vs</span>.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Use `summarise(.groups = "drop_last")` to silence this message.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Use `summarise(.by = c(vs, am))` for per-operation grouping</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   (`?dplyr::dplyr_by`) instead.</span>
 <span class="r-in"><span><span class="va">by_vs</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   vs [2]</span></span>
@@ -229,7 +232,7 @@ also force calls to <code><a href="arrange.html">arrange()</a></code> to use the
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     0     1     6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     1     0     7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     1     1     7</span>
-<span class="r-in"><span><span class="va">by_vs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">by_vs</span> <span class="op">|&gt;</span> <span class="fu"><a href="summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      vs     n</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
@@ -237,8 +240,8 @@ also force calls to <code><a href="arrange.html">arrange()</a></code> to use the
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     1    14</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># To removing grouping, use ungroup</span></span></span>
-<span class="r-in"><span><span class="va">by_vs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">by_vs</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="summarise.html">summarise</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       n</span>
@@ -246,20 +249,20 @@ also force calls to <code><a href="arrange.html">arrange()</a></code> to use the
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    32</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># By default, group_by() overrides existing grouping</span></span></span>
-<span class="r-in"><span><span class="va">by_cyl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">vs</span>, <span class="va">am</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">by_cyl</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">vs</span>, <span class="va">am</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "vs" "am"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use add = TRUE to instead append</span></span></span>
-<span class="r-in"><span><span class="va">by_cyl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">vs</span>, <span class="va">am</span>, .add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">by_cyl</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">vs</span>, <span class="va">am</span>, .add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="group_data.html">group_vars</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cyl" "vs"  "am" </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># You can group by expressions: this is a short-hand</span></span></span>
 <span class="r-in"><span><span class="co"># for a mutate() followed by a group_by()</span></span></span>
-<span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">mtcars</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">group_by</span><span class="op">(</span>vsam <span class="op">=</span> <span class="va">vs</span> <span class="op">+</span> <span class="va">am</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 32 × 12</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   vsam [3]</span></span>
@@ -280,8 +283,8 @@ also force calls to <code><a href="arrange.html">arrange()</a></code> to use the
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The implicit mutate() step is always performed on the</span></span></span>
 <span class="r-in"><span><span class="co"># ungrouped data. Here we get 3 groups:</span></span></span>
-<span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">vs</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">mtcars</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">vs</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">group_by</span><span class="op">(</span>hp_cut <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">hp</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 32 × 12</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   hp_cut [3]</span></span>
@@ -303,9 +306,9 @@ also force calls to <code><a href="arrange.html">arrange()</a></code> to use the
 <span class="r-in"><span><span class="co"># If you want it to be performed by groups,</span></span></span>
 <span class="r-in"><span><span class="co"># you have to use an explicit mutate() call.</span></span></span>
 <span class="r-in"><span><span class="co"># Here we get 3 groups per value of vs</span></span></span>
-<span class="r-in"><span><span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">vs</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="mutate.html">mutate</a></span><span class="op">(</span>hp_cut <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">hp</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">mtcars</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">vs</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="mutate.html">mutate</a></span><span class="op">(</span>hp_cut <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">hp</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">hp_cut</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 32 × 12</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   hp_cut [6]</span></span>
@@ -329,8 +332,8 @@ also force calls to <code><a href="arrange.html">arrange()</a></code> to use the
 <span class="r-in"><span>  x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,</span></span>
 <span class="r-in"><span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"c"</span><span class="op">)</span>, each  <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">tbl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">y</span>, .drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="va">tbl</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">y</span>, .drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="group_data.html">group_rows</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;list_of&lt;integer&gt;[3]&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
@@ -356,7 +359,7 @@ also force calls to <code><a href="arrange.html">arrange()</a></code> to use the
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
   </div></footer></body></html>

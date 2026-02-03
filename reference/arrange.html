@@ -17,7 +17,7 @@ once per data frame, not once per group."><meta property="og:image" content="htt
 
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +31,7 @@ once per data frame, not once per group."><meta property="og:image" content="htt
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/grouping.html">Grouped data</a></li>
     <li><a class="dropdown-item" href="../articles/two-table.html">Two-table verbs</a></li>
+    <li><a class="dropdown-item" href="../articles/recoding-replacing.html">Recoding columns and replacing values</a></li>
     <li><a class="dropdown-item" href="../articles/base.html">dplyr &lt;-&gt; base R</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Automation</h6></li>
@@ -45,11 +46,11 @@ once per data frame, not once per group."><meta property="og:image" content="htt
   <ul class="dropdown-menu" aria-labelledby="dropdown-news"><li><h6 class="dropdown-header" data-toc-skip>Releases</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/tags/dplyr-1-1-0/">Version 1.1.0</a></li>
     <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/">Version 0.8.2</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/">Version 0.8.1</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/07/dplyr-0-8-3/">Version 0.8.3</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/06/dplyr-0-8-2/">Version 0.8.2</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/05/dplyr-0-8-1/">Version 0.8.1</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/02/dplyr-0-8-0/">Version 0.8.0</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2018/06/dplyr-0.7.5/">Version 0.7.5</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../news/index.html">Changelog</a></li>
   </ul></li>
@@ -65,7 +66,7 @@ once per data frame, not once per group."><meta property="og:image" content="htt
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Order rows using column values</h1>
-      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/pkgdown-v1.1.4/R/arrange.R" class="external-link"><code>R/arrange.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/main/R/arrange.R" class="external-link"><code>R/arrange.R</code></a></small>
       <div class="d-none name"><code>arrange.Rd</code></div>
     </div>
 
@@ -108,7 +109,7 @@ grouped data frames only.</p></dd>
 
 
 <dt id="arg--locale">.locale<a class="anchor" aria-label="anchor" href="#arg--locale"></a></dt>
-<dd><p>The locale to sort character vectors in.</p><ul><li><p>If <code>NULL</code>, the default, uses the <code>"C"</code> locale unless the
+<dd><p>The locale to sort character vectors in.</p><ul><li><p>If <code>NULL</code>, the default, uses the <code>"C"</code> locale unless the deprecated
 <code>dplyr.legacy_locale</code> global option escape hatch is active. See the
 <a href="dplyr-locale.html">dplyr-locale</a> help page for more details.</p></li>
 <li><p>If a single string from <code><a href="https://rdrr.io/pkg/stringi/man/stri_locale_list.html" class="external-link">stringi::stri_locale_list()</a></code> is supplied, then
@@ -157,13 +158,13 @@ dplyr (<code>data.frame</code>)
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other single table verbs:
-<code><a href="filter.html">filter</a>()</code>,
-<code><a href="mutate.html">mutate</a>()</code>,
-<code><a href="reframe.html">reframe</a>()</code>,
-<code><a href="rename.html">rename</a>()</code>,
-<code><a href="select.html">select</a>()</code>,
-<code><a href="slice.html">slice</a>()</code>,
-<code><a href="summarise.html">summarise</a>()</code></p></div>
+<code><a href="filter.html">filter()</a></code>,
+<code><a href="mutate.html">mutate()</a></code>,
+<code><a href="reframe.html">reframe()</a></code>,
+<code><a href="rename.html">rename()</a></code>,
+<code><a href="select.html">select()</a></code>,
+<code><a href="slice.html">slice()</a></code>,
+<code><a href="summarise.html">summarise()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -304,8 +305,8 @@ dplyr (<code>data.frame</code>)
 <span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla         1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># grouped arrange ignores groups</span></span></span>
-<span class="r-in"><span><span class="va">by_cyl</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">by_cyl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">arrange</span><span class="op">(</span><span class="fu"><a href="desc.html">desc</a></span><span class="op">(</span><span class="va">wt</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">by_cyl</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op">|&gt;</span> <span class="fu"><a href="group_by.html">group_by</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">by_cyl</span> <span class="op">|&gt;</span> <span class="fu">arrange</span><span class="op">(</span><span class="fu"><a href="desc.html">desc</a></span><span class="op">(</span><span class="va">wt</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 32 × 11</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   cyl [3]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
@@ -322,7 +323,7 @@ dplyr (<code>data.frame</code>)
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>  15       8  301    335  3.54  3.57  14.6     0     1     5     8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 22 more rows</span></span>
 <span class="r-in"><span><span class="co"># Unless you specifically ask:</span></span></span>
-<span class="r-in"><span><span class="va">by_cyl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">arrange</span><span class="op">(</span><span class="fu"><a href="desc.html">desc</a></span><span class="op">(</span><span class="va">wt</span><span class="op">)</span>, .by_group <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">by_cyl</span> <span class="op">|&gt;</span> <span class="fu">arrange</span><span class="op">(</span><span class="fu"><a href="desc.html">desc</a></span><span class="op">(</span><span class="va">wt</span><span class="op">)</span>, .by_group <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 32 × 11</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   cyl [3]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
@@ -342,7 +343,7 @@ dplyr (<code>data.frame</code>)
 <span class="r-in"><span><span class="co"># use embracing when wrapping in a function;</span></span></span>
 <span class="r-in"><span><span class="co"># see ?rlang::args_data_masking for more details</span></span></span>
 <span class="r-in"><span><span class="va">tidy_eval_arrange</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.data</span>, <span class="va">var</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="va">.data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="va">.data</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>    <span class="fu">arrange</span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">var</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="fu">tidy_eval_arrange</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">mpg</span><span class="op">)</span></span></span>
@@ -414,7 +415,7 @@ dplyr (<code>data.frame</code>)
 <span class="r-out co"><span class="r-pr">#&gt;</span> Toyota Corolla         1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use `across()` or `pick()` to select columns with tidy-select</span></span></span>
-<span class="r-in"><span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">arrange</span><span class="op">(</span><span class="fu"><a href="pick.html">pick</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Sepal"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">iris</span> <span class="op">|&gt;</span> <span class="fu">arrange</span><span class="op">(</span><span class="fu"><a href="pick.html">pick</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Sepal"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Sepal.Length Sepal.Width Petal.Length Petal.Width    Species</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            4.3         3.0          1.1         0.1     setosa</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2            4.4         2.9          1.4         0.2     setosa</span>
@@ -566,7 +567,7 @@ dplyr (<code>data.frame</code>)
 <span class="r-out co"><span class="r-pr">#&gt;</span> 148          7.7         3.0          6.1         2.3  virginica</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 149          7.7         3.8          6.7         2.2  virginica</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 150          7.9         3.8          6.4         2.0  virginica</span>
-<span class="r-in"><span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">arrange</span><span class="op">(</span><span class="fu"><a href="across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Sepal"</span><span class="op">)</span>, <span class="va">desc</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">iris</span> <span class="op">|&gt;</span> <span class="fu">arrange</span><span class="op">(</span><span class="fu"><a href="across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"Sepal"</span><span class="op">)</span>, <span class="va">desc</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Sepal.Length Sepal.Width Petal.Length Petal.Width    Species</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            7.9         3.8          6.4         2.0  virginica</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2            7.7         3.8          6.7         2.2  virginica</span>
@@ -731,7 +732,7 @@ dplyr (<code>data.frame</code>)
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
   </div></footer></body></html>

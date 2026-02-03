@@ -5,9 +5,9 @@ Default locale
 
 
 The default locale used by arrange() is the C locale. This is used when
-.locale = NULL unless the dplyr.legacy_locale global option is set to
-TRUE. You can also force the C locale to be used unconditionally with
-.locale = "C".
+.locale = NULL unless the deprecated dplyr.legacy_locale global option is
+set to TRUE. You can also force the C locale to be used unconditionally
+with .locale = "C".
 The C locale is not exactly the same as English locales, such as "en". The
 main difference is that the C locale groups the English alphabet by case,
 while most English locales group the alphabet by letter. For example,
@@ -33,14 +33,15 @@ utilize this in a package, then stringi should be placed in Imports.
 Legacy behavior
 
 
-Prior to dplyr 1.1.0, character columns were ordered in the system locale. If
-you need to temporarily revert to this behavior, you can set the global
-option dplyr.legacy_locale to TRUE, but this should be used sparingly and
-you should expect this option to be removed in a future version of dplyr. It
-is better to update existing code to explicitly use .locale instead. Note
-that setting dplyr.legacy_locale will also force calls to group_by() to
-use the system locale when internally ordering the groups.
-Setting .locale will override any usage of dplyr.legacy_locale.
+
+Prior to dplyr 1.1.0, character columns were ordered in the system locale.
+Setting the global option dplyr.legacy_locale to TRUE retains this legacy
+behavior, but this has been deprecated. Update existing code to explicitly
+call arrange(.locale = ) instead. Run Sys.getlocale("LC_COLLATE") to
+determine your system locale, and compare that against the list in
+stringi::stri_locale_list() to find an appropriate value for .locale,
+i.e. for American English, "en_US".
+Setting .locale directly will override any usage of dplyr.legacy_locale.
 
 '><meta property="og:description" content='This page documents details about the locale used by arrange() when
 ordering character vectors.
@@ -48,9 +49,9 @@ Default locale
 
 
 The default locale used by arrange() is the C locale. This is used when
-.locale = NULL unless the dplyr.legacy_locale global option is set to
-TRUE. You can also force the C locale to be used unconditionally with
-.locale = "C".
+.locale = NULL unless the deprecated dplyr.legacy_locale global option is
+set to TRUE. You can also force the C locale to be used unconditionally
+with .locale = "C".
 The C locale is not exactly the same as English locales, such as "en". The
 main difference is that the C locale groups the English alphabet by case,
 while most English locales group the alphabet by letter. For example,
@@ -76,14 +77,15 @@ utilize this in a package, then stringi should be placed in Imports.
 Legacy behavior
 
 
-Prior to dplyr 1.1.0, character columns were ordered in the system locale. If
-you need to temporarily revert to this behavior, you can set the global
-option dplyr.legacy_locale to TRUE, but this should be used sparingly and
-you should expect this option to be removed in a future version of dplyr. It
-is better to update existing code to explicitly use .locale instead. Note
-that setting dplyr.legacy_locale will also force calls to group_by() to
-use the system locale when internally ordering the groups.
-Setting .locale will override any usage of dplyr.legacy_locale.
+
+Prior to dplyr 1.1.0, character columns were ordered in the system locale.
+Setting the global option dplyr.legacy_locale to TRUE retains this legacy
+behavior, but this has been deprecated. Update existing code to explicitly
+call arrange(.locale = ) instead. Run Sys.getlocale("LC_COLLATE") to
+determine your system locale, and compare that against the list in
+stringi::stri_locale_list() to find an appropriate value for .locale,
+i.e. for American English, "en_US".
+Setting .locale directly will override any usage of dplyr.legacy_locale.
 
 '><meta property="og:image" content="https://dplyr.tidyverse.org/logo.png"><script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-hide-below="1200" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script><script defer data-domain="dplyr.tidyverse.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script><script async src="https://widget.kapa.ai/kapa-widget.bundle.js" data-button-hide="true" data-modal-disclaimer="This is a custom LLM for answering questions about dplyr, tidyr, and ggplot2. Answers are based on the contents of the documentation. Rate the answers to let us know what you think!" data-modal-ask-ai-input-placeholder="Ask me a question about dplyr, tidyr, or ggplot2." data-modal-header-bg-color="#f9f9f9" data-modal-override-open-class="open-kapa-widget" data-project-color="#365a7a" data-project-name="dplyr" data-modal-title="tidyverse AI ✨" data-project-logo="https://avatars.githubusercontent.com/u/22032646?s=200&amp;u=235532df5cf8543246812f73db051b793f868807&amp;v=4" data-user-analytics-fingerprint-enabled="true" data-bot-protection-mechanism="hcaptcha" data-website-id="44ae76c6-2ae5-4899-ab42-de9f17f07c7b"></script></head><body>
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
@@ -93,7 +95,7 @@ Setting .locale will override any usage of dplyr.legacy_locale.
 
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -107,6 +109,7 @@ Setting .locale will override any usage of dplyr.legacy_locale.
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/grouping.html">Grouped data</a></li>
     <li><a class="dropdown-item" href="../articles/two-table.html">Two-table verbs</a></li>
+    <li><a class="dropdown-item" href="../articles/recoding-replacing.html">Recoding columns and replacing values</a></li>
     <li><a class="dropdown-item" href="../articles/base.html">dplyr &lt;-&gt; base R</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Automation</h6></li>
@@ -121,11 +124,11 @@ Setting .locale will override any usage of dplyr.legacy_locale.
   <ul class="dropdown-menu" aria-labelledby="dropdown-news"><li><h6 class="dropdown-header" data-toc-skip>Releases</h6></li>
     <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/tags/dplyr-1-1-0/">Version 1.1.0</a></li>
     <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/07/dplyr-0-8-3/">Version 0.8.3</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/06/dplyr-0-8-2/">Version 0.8.2</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/">Version 0.8.1</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a></li>
-    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/07/dplyr-0-8-3/">Version 0.8.3</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/06/dplyr-0-8-2/">Version 0.8.2</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/05/dplyr-0-8-1/">Version 0.8.1</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/02/dplyr-0-8-0/">Version 0.8.0</a></li>
+    <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2018/06/dplyr-0.7.5/">Version 0.7.5</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../news/index.html">Changelog</a></li>
   </ul></li>
@@ -141,7 +144,7 @@ Setting .locale will override any usage of dplyr.legacy_locale.
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Locale used by <code>arrange()</code></h1>
-      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/pkgdown-v1.1.4/R/locale.R" class="external-link"><code>R/locale.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/main/R/locale.R" class="external-link"><code>R/locale.R</code></a></small>
       <div class="d-none name"><code>dplyr-locale.Rd</code></div>
     </div>
 
@@ -152,9 +155,9 @@ ordering character vectors.</p><div class="section">
 
 
 <p>The default locale used by <code><a href="arrange.html">arrange()</a></code> is the C locale. This is used when
-<code>.locale = NULL</code> unless the <code>dplyr.legacy_locale</code> global option is set to
-<code>TRUE</code>. You can also force the C locale to be used unconditionally with
-<code>.locale = "C"</code>.</p>
+<code>.locale = NULL</code> unless the deprecated <code>dplyr.legacy_locale</code> global option is
+set to <code>TRUE</code>. You can also force the C locale to be used unconditionally
+with <code>.locale = "C"</code>.</p>
 <p>The C locale is not exactly the same as English locales, such as <code>"en"</code>. The
 main difference is that the C locale groups the English alphabet by <em>case</em>,
 while most English locales group the alphabet by <em>letter</em>. For example,
@@ -180,14 +183,15 @@ utilize this in a package, then stringi should be placed in <code>Imports</code>
 <h3 id="legacy-behavior">Legacy behavior<a class="anchor" aria-label="anchor" href="#legacy-behavior"></a></h3>
 
 
-<p>Prior to dplyr 1.1.0, character columns were ordered in the system locale. If
-you need to temporarily revert to this behavior, you can set the global
-option <code>dplyr.legacy_locale</code> to <code>TRUE</code>, but this should be used sparingly and
-you should expect this option to be removed in a future version of dplyr. It
-is better to update existing code to explicitly use <code>.locale</code> instead. Note
-that setting <code>dplyr.legacy_locale</code> will also force calls to <code><a href="group_by.html">group_by()</a></code> to
-use the system locale when internally ordering the groups.</p>
-<p>Setting <code>.locale</code> will override any usage of <code>dplyr.legacy_locale</code>.</p>
+<p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a></p>
+<p>Prior to dplyr 1.1.0, character columns were ordered in the system locale.
+Setting the global option <code>dplyr.legacy_locale</code> to <code>TRUE</code> retains this legacy
+behavior, but this has been deprecated. Update existing code to explicitly
+call <code>arrange(.locale = )</code> instead. Run <code>Sys.getlocale("LC_COLLATE")</code> to
+determine your system locale, and compare that against the list in
+<code><a href="https://rdrr.io/pkg/stringi/man/stri_locale_list.html" class="external-link">stringi::stri_locale_list()</a></code> to find an appropriate value for <code>.locale</code>,
+i.e. for American English, <code>"en_US"</code>.</p>
+<p>Setting <code>.locale</code> directly will override any usage of <code>dplyr.legacy_locale</code>.</p>
 </div>
 
     </div>
@@ -261,21 +265,6 @@ use the system locale when internally ordering the groups.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> p    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> z    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> ø    </span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># If you need the legacy behavior of `arrange()`, which respected the</span></span></span>
-<span class="r-in"><span><span class="co"># system locale, then you can set the global option `dplyr.legacy_locale`,</span></span></span>
-<span class="r-in"><span><span class="co"># but expect this to be removed in the future. We recommend that you use</span></span></span>
-<span class="r-in"><span><span class="co"># the `.locale` argument instead.</span></span></span>
-<span class="r-in"><span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/local_options.html" class="external-link">with_options</a></span><span class="op">(</span>dplyr.legacy_locale <span class="op">=</span> <span class="cn">TRUE</span>, <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="arrange.html">arrange</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 1</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   x    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> o    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> p    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> z    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> ø    </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -289,7 +278,7 @@ use the system locale when internally ordering the groups.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
   </div></footer></body></html>
