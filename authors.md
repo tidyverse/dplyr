@@ -22,7 +22,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/tidyverse/dplyr/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/tidyverse/dplyr/blob/v1.2.0/DESCRIPTION)
 
 Wickham H, François R, Henry L, Müller K, Vaughan D (2026). *dplyr: A
 Grammar of Data Manipulation*. R package version 1.2.0,
