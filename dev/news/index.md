@@ -2,6 +2,10 @@
 
 ## dplyr (development version)
 
+## dplyr 1.2.0
+
+CRAN release: 2026-02-03
+
 ### New features
 
 - New

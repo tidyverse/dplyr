@@ -25,13 +25,13 @@ Source:
 [`DESCRIPTION`](https://github.com/tidyverse/dplyr/blob/main/DESCRIPTION)
 
 Wickham H, François R, Henry L, Müller K, Vaughan D (2026). *dplyr: A
-Grammar of Data Manipulation*. R package version 1.1.4.9000,
+Grammar of Data Manipulation*. R package version 1.2.0.9000,
 <https://dplyr.tidyverse.org>.
 
     @Manual{,
       title = {dplyr: A Grammar of Data Manipulation},
       author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller and Davis Vaughan},
       year = {2026},
-      note = {R package version 1.1.4.9000},
+      note = {R package version 1.2.0.9000},
       url = {https://dplyr.tidyverse.org},
     }

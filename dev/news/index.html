@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">dplyr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.4.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.2.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,6 +34,7 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-news" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">News</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-news"><li><h6 class="dropdown-header" data-toc-skip>Releases</h6></li>
+    <li><a class="external-link dropdown-item" href="https://tidyverse.org/blog/2026/02/dplyr-1-2-0/">Version 1.2.0</a></li>
     <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/tags/dplyr-1-1-0/">Version 1.1.0</a></li>
     <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">Version 1.0.0</a></li>
     <li><a class="external-link dropdown-item" href="https://www.tidyverse.org/blog/2019/07/dplyr-0-8-3/">Version 0.8.3</a></li>
@@ -61,8 +62,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="dplyr-development-version">dplyr (development version)<a class="anchor" aria-label="anchor" href="#dplyr-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.2.0" id="dplyr-120">dplyr 1.2.0<a class="anchor" aria-label="anchor" href="#dplyr-120"></a></h2><p class="text-muted">CRAN release: 2026-02-03</p>
 <div class="section level3">
-<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<h3 id="new-features-1-2-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-2-0"></a></h3>
 <ul><li>
 <p>New <code><a href="../reference/filter.html">filter_out()</a></code> companion to <code><a href="../reference/filter.html">filter()</a></code>.</p>
 <ul><li><p>Use <code><a href="../reference/filter.html">filter()</a></code> when specifying rows to <em>keep</em>.</p></li>
@@ -121,19 +125,19 @@
 <li><p>New <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code> method for <code>rowwise_df</code> to avoid creating corrupt rowwise data frames (r-lib/vctrs#1935).</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="lifecycle-changes-development-version">Lifecycle changes<a class="anchor" aria-label="anchor" href="#lifecycle-changes-development-version"></a></h3>
+<h3 id="lifecycle-changes-1-2-0">Lifecycle changes<a class="anchor" aria-label="anchor" href="#lifecycle-changes-1-2-0"></a></h3>
 <div class="section level4">
-<h4 id="newly-stable-development-version">Newly stable<a class="anchor" aria-label="anchor" href="#newly-stable-development-version"></a></h4>
+<h4 id="newly-stable-1-2-0">Newly stable<a class="anchor" aria-label="anchor" href="#newly-stable-1-2-0"></a></h4>
 <ul><li><p><code>.by</code> has moved from experimental to stable (<a href="https://github.com/tidyverse/dplyr/issues/7762" class="external-link">#7762</a>).</p></li>
 <li><p><code><a href="../reference/reframe.html">reframe()</a></code> has moved from experimental to stable (<a href="https://github.com/tidyverse/dplyr/issues/7713" class="external-link">#7713</a>, <a href="https://github.com/VisruthSK" class="external-link">@VisruthSK</a>).</p></li>
 </ul></div>
 <div class="section level4">
-<h4 id="newly-breaking-development-version">Newly breaking<a class="anchor" aria-label="anchor" href="#newly-breaking-development-version"></a></h4>
+<h4 id="newly-breaking-1-2-0">Newly breaking<a class="anchor" aria-label="anchor" href="#newly-breaking-1-2-0"></a></h4>
 <ul><li>
 <code><a href="../reference/if_else.html">if_else()</a></code> no longer allows <code>condition</code> to be a logical array. It must be a logical vector with no <code>dim</code> attribute (<a href="https://github.com/tidyverse/dplyr/issues/7723" class="external-link">#7723</a>).</li>
 </ul></div>
 <div class="section level4">
-<h4 id="newly-deprecated-development-version">Newly deprecated<a class="anchor" aria-label="anchor" href="#newly-deprecated-development-version"></a></h4>
+<h4 id="newly-deprecated-1-2-0">Newly deprecated<a class="anchor" aria-label="anchor" href="#newly-deprecated-1-2-0"></a></h4>
 <ul><li><p><code><a href="../reference/case_match.html">case_match()</a></code> is soft-deprecated, and is fully replaced by <code><a href="../reference/recode-and-replace-values.html">recode_values()</a></code> and <code><a href="../reference/recode-and-replace-values.html">replace_values()</a></code>, which are more flexible, more powerful, and have much better names.</p></li>
 <li>
 <p>In <code><a href="../reference/case-and-replace-when.html">case_when()</a></code>, supplying all size 1 LHS inputs along with a size &gt;1 RHS input is now soft-deprecated. This is an improper usage of <code><a href="../reference/case-and-replace-when.html">case_when()</a></code> that should instead be a series of if statements, like:</p>
@@ -166,7 +170,7 @@
 <li><p>Passing <code>size</code> to <code><a href="../reference/if_else.html">if_else()</a></code> is now deprecated. The output size is always taken from the <code>condition</code> (<a href="https://github.com/tidyverse/dplyr/issues/7722" class="external-link">#7722</a>).</p></li>
 </ul></div>
 <div class="section level4">
-<h4 id="other-deprecation-advancements-development-version">Other deprecation advancements<a class="anchor" aria-label="anchor" href="#other-deprecation-advancements-development-version"></a></h4>
+<h4 id="other-deprecation-advancements-1-2-0">Other deprecation advancements<a class="anchor" aria-label="anchor" href="#other-deprecation-advancements-1-2-0"></a></h4>
 <ul><li>
 <p>The following were already deprecated, and are now defunct and throw an error:</p>
 <ul><li>
@@ -223,7 +227,7 @@
 </ul></li>
 </ul></div>
 <div class="section level4">
-<h4 id="removed-development-version">Removed<a class="anchor" aria-label="anchor" href="#removed-development-version"></a></h4>
+<h4 id="removed-1-2-0">Removed<a class="anchor" aria-label="anchor" href="#removed-1-2-0"></a></h4>
 <p>The following were already defunct, and have been removed:</p>
 <ul><li><p><code>id()</code>. Deprecated in 0.5.0 (Jun 2016), use <code><a href="https://vctrs.r-lib.org/reference/vec_group.html" class="external-link">vctrs::vec_group_id()</a></code> instead. If your package uses NSE and implicitly relied on the variable <code>id</code> being available, you now need to put <code>utils::globalVariables("id")</code> inside one of your package files to tell R that <code>id</code> is a column name.</p></li>
 <li><p><code>failwith()</code>. Deprecated in 0.7.0 (Jun 2017), use <code><a href="https://purrr.tidyverse.org/reference/possibly.html" class="external-link">purrr::possibly()</a></code> instead.</p></li>
@@ -236,7 +240,7 @@
 </ul></div>
 </div>
 <div class="section level3">
-<h3 id="minor-improvements-and-bug-fixes-development-version">Minor improvements and bug fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-bug-fixes-development-version"></a></h3>
+<h3 id="minor-improvements-and-bug-fixes-1-2-0">Minor improvements and bug fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-bug-fixes-1-2-0"></a></h3>
 <ul><li><p>The base pipe is now used throughout the documentation (<a href="https://github.com/tidyverse/dplyr/issues/7711" class="external-link">#7711</a>).</p></li>
 <li><p>The superseded <code><a href="../reference/recode.html">recode()</a></code> now has updated documentation showing how to migrate to <code><a href="../reference/recode-and-replace-values.html">recode_values()</a></code> and <code><a href="../reference/recode-and-replace-values.html">replace_values()</a></code>.</p></li>
 <li><p>The <code>.groups</code> message emitted by <code><a href="../reference/summarise.html">summarise()</a></code> is hopefully more clear now (<a href="https://github.com/tidyverse/dplyr/issues/6986" class="external-link">#6986</a>).</p></li>
