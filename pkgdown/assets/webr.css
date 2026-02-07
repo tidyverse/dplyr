@@ -36,7 +36,7 @@
 }
 
 .webr-run-btn {
-  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
   padding: 0.5rem 1.5rem;
   font-size: 0.9rem;
   font-weight: 500;
@@ -59,6 +59,7 @@
 
 .webr-output {
   width: 100%;
+  margin-top: 0.75rem;
   padding: 0.75rem;
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: 0.875rem;

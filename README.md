@@ -49,16 +49,15 @@ dplyr directly in your browser with WebR.
 
 </div>
 
-<textarea class="webr-editor" style="display: none;">
-starwars |>
-  filter(species == "Human") |>
-  select(name, homeworld) |>
-  arrange(name)</textarea>
-
 <button class="webr-run-btn" style="display: none;" disabled>
 
 Run Code
 </button>
+
+<textarea class="webr-editor" style="display: none;">starwars |>
+  filter(species == "Human") |>
+  select(name, homeworld) |>
+  arrange(name)</textarea>
 
 <pre class="webr-output" style="display: none;"></pre>
 
