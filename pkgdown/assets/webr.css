@@ -19,13 +19,14 @@
 .webr-editor {
   width: 100%;
   min-height: 100px;
+  padding: 0.75rem;
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: 0.875rem;
-  padding: 0.75rem;
+  background-color: #ffffff;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
+  box-sizing: border-box;
   resize: vertical;
-  background-color: #ffffff;
 }
 
 .webr-editor:focus {
@@ -57,7 +58,7 @@
 }
 
 .webr-output {
-  margin-top: 0.75rem;
+  width: 100%;
   padding: 0.75rem;
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: 0.875rem;
@@ -65,10 +66,8 @@
   color: #212529;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
-  white-space: pre-wrap;
-  word-wrap: break-word;
+  box-sizing: border-box;
   max-height: 400px;
-  overflow-y: auto;
 }
 
 .webr-fallback {
