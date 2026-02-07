@@ -7,82 +7,8 @@ template:
     in_header: |
       <script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-hide-below="1200" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script>
       <script defer data-domain="dplyr.tidyverse.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
-      <link rel="stylesheet" href="extra.css">
-      <script type="module">
-        import { WebR } from 'https://webr.r-wasm.org/latest/webr.mjs';
-
-        document.addEventListener('DOMContentLoaded', async () => {
-          const container = document.getElementById('webr-container');
-          if (!container) return;
-
-          const statusEl = container.querySelector('.webr-status');
-          const editorEl = container.querySelector('.webr-editor');
-          const outputEl = container.querySelector('.webr-output');
-          const runBtn = container.querySelector('.webr-run-btn');
-          const fallback = container.querySelector('.webr-fallback');
-
-          if (fallback) fallback.style.display = 'none';
-          if (statusEl) statusEl.style.display = 'block';
-          if (editorEl) editorEl.style.display = 'block';
-          if (outputEl) outputEl.style.display = 'block';
-          if (runBtn) runBtn.style.display = 'inline-block';
-
-          const updateStatus = (msg, loading = true) => {
-            if (statusEl) {
-              statusEl.innerHTML = loading
-                ? '<span class="spinner-border spinner-border-sm me-2"></span>' + msg
-                : msg;
-            }
-          };
-
-          updateStatus('Initializing WebR...');
-
-          try {
-            const webR = new WebR();
-            await webR.init();
-
-            updateStatus('Installing dplyr (this may take a moment)...');
-            await webR.installPackages(['dplyr'], { quiet: true });
-
-            updateStatus('Loading dplyr...');
-            await webR.evalRVoid('library(dplyr)');
-
-            updateStatus('Ready! Edit the code and click "Run Code" to execute.', false);
-
-            runBtn.disabled = false;
-            runBtn.addEventListener('click', async () => {
-              const code = editorEl.value;
-              outputEl.textContent = 'Running...';
-              runBtn.disabled = true;
-
-              try {
-                await webR.objs.globalEnv.bind('.webr_code', code);
-                await webR.evalRVoid(`
-                  .webr_output <- capture.output({
-                    .webr_result <- tryCatch(
-                      withVisible(eval(parse(text = .webr_code))),
-                      error = function(e) list(value = paste("Error:", e$message), visible = TRUE)
-                    )
-                    if (.webr_result$visible) print(.webr_result$value)
-                  }, type = "output")
-                `);
-
-                const result = await webR.evalR('.webr_output');
-                const output = await result.toArray();
-                outputEl.textContent = output.join('\n') || '(No output)';
-              } catch (e) {
-                outputEl.textContent = 'Error: ' + e.message;
-              } finally {
-                runBtn.disabled = false;
-              }
-            });
-
-          } catch (e) {
-            updateStatus('Failed to initialize WebR: ' + e.message, false);
-            console.error('WebR initialization failed:', e);
-          }
-        });
-      </script>
+      <link rel="stylesheet" href="assets/extra.css">
+      <script type="module" src="webr-init.js"></script>
       <script async src="https://widget.kapa.ai/kapa-widget.bundle.js"
       data-button-hide="true"
       data-modal-disclaimer="This is a custom LLM for answering questions about dplyr, tidyr, and ggplot2. Answers are based on the contents of the documentation. Rate the answers to let us know what you think!"
