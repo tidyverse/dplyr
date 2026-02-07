@@ -24,7 +24,6 @@ template:
           if (fallback) fallback.style.display = 'none';
           if (statusEl) statusEl.style.display = 'block';
           if (editorEl) editorEl.style.display = 'block';
-          if (outputEl) outputEl.style.display = 'block';
           if (runBtn) runBtn.style.display = 'inline-block';
 
           const updateStatus = (msg, loading = true) => {
@@ -52,6 +51,7 @@ template:
             runBtn.disabled = false;
             runBtn.addEventListener('click', async () => {
               const code = editorEl.value;
+              outputEl.style.display = 'block';
               outputEl.textContent = 'Running...';
               runBtn.disabled = true;
 
@@ -76,7 +76,12 @@ template:
 
                 const result = await webR.evalR('.webr_output');
                 const output = await result.toArray();
-                outputEl.textContent = output.join('\n') || '(No output)';
+                const outputText = output.join('\n');
+                if (outputText) {
+                  outputEl.textContent = outputText;
+                } else {
+                  outputEl.style.display = 'none';
+                }
               } catch (e) {
                 outputEl.textContent = 'Error: ' + e.message;
               } finally {
