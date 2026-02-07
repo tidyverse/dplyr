@@ -60,10 +60,17 @@ template:
                 await webR.evalRVoid(`
                   .webr_output <- capture.output({
                     .webr_result <- tryCatch(
-                      withVisible(eval(parse(text = .webr_code))),
-                      error = function(e) list(value = paste("Error:", e$message), visible = TRUE)
+                      {
+                        res <- withVisible(eval(parse(text = .webr_code)))
+                        list(value = res, error = NULL)
+                      },
+                      error = function(e) list(value = NULL, error = e)
                     )
-                    if (.webr_result$visible) print(.webr_result$value)
+                    if (!is.null(.webr_result$error)) {
+                      cat("Error:\n", conditionMessage(.webr_result$error), "\n", sep = "")
+                    } else if (.webr_result$value$visible) {
+                      print(.webr_result$value$value)
+                    }
                   }, type = "output")
                 `);
 
