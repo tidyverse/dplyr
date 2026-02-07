@@ -56,9 +56,8 @@ template:
               runBtn.disabled = true;
 
               try {
-                const shelter = await new webR.Shelter();
                 await webR.objs.globalEnv.bind('.webr_code', code);
-                await shelter.evalRVoid(`
+                await webR.evalRVoid(`
                   .webr_output <- capture.output({
                     .webr_result <- tryCatch(
                       withVisible(eval(parse(text = .webr_code))),
@@ -68,10 +67,9 @@ template:
                   }, type = "output")
                 `);
 
-                const result = await shelter.evalR('.webr_output');
+                const result = await webR.evalR('.webr_output');
                 const output = await result.toArray();
                 outputEl.textContent = output.join('\n') || '(No output)';
-                await shelter.purge();
               } catch (e) {
                 outputEl.textContent = 'Error: ' + e.message;
               } finally {
