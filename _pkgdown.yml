@@ -9,6 +9,9 @@ template:
       <script defer data-domain="dplyr.tidyverse.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
       <link rel="stylesheet" href="webr.css">
       <script type="module">
+        // This module only runs on the pkgdown site (not GitHub) because GitHub
+        // doesn't execute JS. The HTML has fallback content visible by default,
+        // this script hides it and shows the interactive elements instead.
         import { WebR } from 'https://webr.r-wasm.org/latest/webr.mjs';
 
         document.addEventListener('DOMContentLoaded', async () => {
@@ -21,6 +24,7 @@ template:
           const runBtn = container.querySelector('.webr-run-btn');
           const fallback = container.querySelector('.webr-fallback');
 
+          // Hide fallback, show interactive elements
           if (fallback) fallback.style.display = 'none';
           if (statusEl) statusEl.style.display = 'block';
           if (editorEl) editorEl.style.display = 'block';

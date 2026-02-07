@@ -35,6 +35,13 @@ Data Science.
 
 ## Try it out
 
+<!--
+The fallback div is visible by default, while interactive elements are hidden.
+When the JS module loads (pkgdown site), it hides the fallback and shows the
+interactive elements. On GitHub, the JS never runs, so only the fallback message
+is displayed.
+-->
+
 <div id="webr-container">
 
 <div class="webr-fallback">
