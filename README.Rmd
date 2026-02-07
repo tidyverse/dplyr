@@ -44,11 +44,11 @@ If you are new to dplyr, the best place to start is the [data transformation cha
 </div>
 <div class="webr-status" style="display: none;"></div>
 <textarea class="webr-editor" style="display: none;">
-# Try dplyr! Edit this code and click "Run Code"
+# Click "Run Code"
 starwars |>
-filter(species == "Human") |>
-select(name, homeworld) |>
-arrange(name)
+  filter(species == "Human") |>
+  select(name, homeworld) |>
+  arrange(name)
 </textarea>
 <button class="webr-run-btn" style="display: none;" disabled>Run Code</button>
 <pre class="webr-output" style="display: none;"></pre>
