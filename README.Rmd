@@ -44,7 +44,6 @@ If you are new to dplyr, the best place to start is the [data transformation cha
 </div>
 <div class="webr-status" style="display: none;"></div>
 <textarea class="webr-editor" style="display: none;">
-# Click "Run Code"
 starwars |>
   filter(species == "Human") |>
   select(name, homeworld) |>

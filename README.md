@@ -50,7 +50,6 @@ dplyr directly in your browser with WebR.
 </div>
 
 <textarea class="webr-editor" style="display: none;">
-# Click "Run Code"
 starwars |>
   filter(species == "Human") |>
   select(name, homeworld) |>
