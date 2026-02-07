@@ -41,7 +41,7 @@
   font-size: 0.9rem;
   font-weight: 500;
   color: #fff;
-  background-color: #0d6efd;
+  background-color: #447099;
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
@@ -49,7 +49,7 @@
 }
 
 .webr-run-btn:hover:not(:disabled) {
-  background-color: #0b5ed7;
+  background-color: #375a7a;
 }
 
 .webr-run-btn:disabled {
