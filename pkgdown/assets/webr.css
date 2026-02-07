@@ -61,8 +61,9 @@
   padding: 0.75rem;
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: 0.875rem;
-  background-color: #1e1e1e;
-  color: #d4d4d4;
+  background-color: #ffffff;
+  color: #212529;
+  border: 1px solid #ced4da;
   border-radius: 0.25rem;
   white-space: pre-wrap;
   word-wrap: break-word;
