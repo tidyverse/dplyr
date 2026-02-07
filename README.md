@@ -53,8 +53,7 @@ dplyr directly in your browser with WebR.
 starwars |>
   filter(species == "Human") |>
   select(name, homeworld) |>
-  arrange(name)
-</textarea>
+  arrange(name)</textarea>
 
 <button class="webr-run-btn" style="display: none;" disabled>
 

@@ -47,8 +47,7 @@ If you are new to dplyr, the best place to start is the [data transformation cha
 starwars |>
   filter(species == "Human") |>
   select(name, homeworld) |>
-  arrange(name)
-</textarea>
+  arrange(name)</textarea>
 <button class="webr-run-btn" style="display: none;" disabled>Run Code</button>
 <pre class="webr-output" style="display: none;"></pre>
 </div>
