@@ -15,11 +15,13 @@ template:
         import { WebR } from 'https://webr.r-wasm.org/latest/webr.mjs';
 
         document.addEventListener('DOMContentLoaded', async () => {
+          // Show the container (hidden by default for GitHub)
+          const toggle = document.getElementById('webr-toggle');
+          if (!toggle) return;
+          toggle.style.display = 'block';
+
           const container = document.getElementById('webr-container');
           if (!container) return;
-
-          // Show the container (hidden by default for GitHub)
-          container.style.display = 'block';
 
           const statusEl = container.querySelector('.webr-status');
           const editorEl = container.querySelector('.webr-editor');

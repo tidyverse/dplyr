@@ -39,12 +39,14 @@ When the JS module loads (pkgdown site), it shows the container.
 On GitHub, the JS never runs, so nothing is displayed.
 -->
 
-<div id="webr-container" style="display: none;">
+<div id="webr-toggle" style="display: none;">
 
 <h2>
 
 Try it out
 </h2>
+
+<div id="webr-container">
 
 <div class="webr-status">
 
@@ -61,6 +63,8 @@ Run Code
   arrange(name)</textarea>
 
 <pre class="webr-output" style="display: none;"></pre>
+
+</div>
 
 </div>
 
