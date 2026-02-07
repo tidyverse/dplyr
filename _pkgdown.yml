@@ -47,7 +47,7 @@ template:
             updateStatus('Loading dplyr...');
             await webR.evalRVoid('library(dplyr)');
 
-            updateStatus('Ready! Edit the code and click "Run Code" to execute.', false);
+            if (statusEl) statusEl.style.display = 'none';
 
             runBtn.disabled = false;
             runBtn.addEventListener('click', async () => {
