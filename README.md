@@ -33,39 +33,29 @@ If you are new to dplyr, the best place to start is the [data
 transformation chapter](https://r4ds.hadley.nz/data-transform) in R for
 Data Science.
 
-## Try it out
-
 <!--
-The fallback div is visible by default, while interactive elements are hidden.
-When the JS module loads (pkgdown site), it hides the fallback and shows the
-interactive elements. On GitHub, the JS never runs, so only the fallback message
-is displayed.
+The entire section is hidden by default (`display: none` on `webr-container`).
+When the JS module loads (pkgdown site), it shows the container.
+On GitHub, the JS never runs, so nothing is displayed.
 -->
 
-<div id="webr-container">
+<div id="webr-container" style="display: none;">
 
-<!--- Fallback -->
+<h2>
 
-<div class="webr-fallback">
+Try it out
+</h2>
 
-<strong>Interactive R session:</strong> Visit
-<a href="https://dplyr.tidyverse.org">dplyr.tidyverse.org</a> to try
-dplyr directly in your browser with WebR.
-
-</div>
-
-<!--- Non-fallback -->
-
-<div class="webr-status" style="display: none;">
+<div class="webr-status">
 
 </div>
 
-<button class="webr-run-btn" style="display: none;" disabled>
+<button class="webr-run-btn" disabled>
 
 Run Code
 </button>
 
-<textarea class="webr-editor" style="display: none;">starwars |>
+<textarea class="webr-editor">starwars |>
   filter(species == "Human") |>
   select(name, homeworld) |>
   arrange(name)</textarea>

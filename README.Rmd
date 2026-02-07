@@ -36,8 +36,6 @@ These all combine naturally with `group_by()` which allows you to perform any op
 
 If you are new to dplyr, the best place to start is the [data transformation chapter](https://r4ds.hadley.nz/data-transform) in R for Data Science.
 
-## Try it out
-
 ```{r, echo=FALSE, results='asis'}
 cat(readLines("pkgdown/assets/webr-readme.html"), sep = "\n")
 ```

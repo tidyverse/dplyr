@@ -10,25 +10,21 @@ template:
       <link rel="stylesheet" href="webr.css">
       <script type="module">
         // This module only runs on the pkgdown site (not GitHub) because GitHub
-        // doesn't execute JS. The HTML has fallback content visible by default,
-        // this script hides it and shows the interactive elements instead.
+        // doesn't execute JS. The container is hidden by default, so on GitHub
+        // nothing is displayed. This script shows the container on pkgdown.
         import { WebR } from 'https://webr.r-wasm.org/latest/webr.mjs';
 
         document.addEventListener('DOMContentLoaded', async () => {
           const container = document.getElementById('webr-container');
           if (!container) return;
 
+          // Show the container (hidden by default for GitHub)
+          container.style.display = 'block';
+
           const statusEl = container.querySelector('.webr-status');
           const editorEl = container.querySelector('.webr-editor');
           const outputEl = container.querySelector('.webr-output');
           const runBtn = container.querySelector('.webr-run-btn');
-          const fallback = container.querySelector('.webr-fallback');
-
-          // Hide fallback, show interactive elements
-          if (fallback) fallback.style.display = 'none';
-          if (statusEl) statusEl.style.display = 'block';
-          if (editorEl) editorEl.style.display = 'block';
-          if (runBtn) runBtn.style.display = 'inline-block';
 
           const updateStatus = (msg, loading = true) => {
             if (statusEl) {
