@@ -33,41 +33,6 @@ If you are new to dplyr, the best place to start is the [data
 transformation chapter](https://r4ds.hadley.nz/data-transform) in R for
 Data Science.
 
-<!--
-The entire section is hidden by default (`display: none` on `webr-container`).
-When the JS module loads (pkgdown site), it shows the container.
-On GitHub, the JS never runs, so nothing is displayed.
--->
-
-<div id="webr-toggle" style="display: none;">
-
-<h2>
-
-Try it out
-</h2>
-
-<div id="webr-container">
-
-<div class="webr-status">
-
-</div>
-
-<button class="webr-run-btn" disabled>
-
-Run Code
-</button>
-
-<textarea class="webr-editor">starwars |>
-  filter(species == "Human") |>
-  select(name, homeworld) |>
-  arrange(name)</textarea>
-
-<pre class="webr-output" style="display: none;"></pre>
-
-</div>
-
-</div>
-
 ## Backends
 
 In addition to data frames/tibbles, dplyr makes working with other
@@ -113,6 +78,41 @@ can install the development version of dplyr from GitHub.
 # install.packages("pak")
 pak::pak("tidyverse/dplyr")
 ```
+
+<!--
+The entire section is hidden by default (`display: none` on `webr-toggle`).
+When the JS module loads (pkgdown site), the toggle is flipped and it shows the container.
+On GitHub, the JS never runs, so nothing is displayed.
+-->
+
+<div id="webr-toggle" style="display: none;">
+
+<h3>
+
+Try it
+</h3>
+
+<div id="webr-container">
+
+<div class="webr-status">
+
+</div>
+
+<button class="webr-run-btn" disabled>
+
+Run Code
+</button>
+
+<textarea class="webr-editor">starwars |>
+  filter(species == "Human") |>
+  select(name, homeworld) |>
+  arrange(name)</textarea>
+
+<pre class="webr-output" style="display: none;"></pre>
+
+</div>
+
+</div>
 
 ## Cheat Sheet
 
