@@ -44,6 +44,8 @@ is displayed.
 
 <div id="webr-container">
 
+<!--- Fallback -->
+
 <div class="webr-fallback">
 
 <strong>Interactive R session:</strong> Visit
@@ -51,6 +53,8 @@ is displayed.
 dplyr directly in your browser with WebR.
 
 </div>
+
+<!--- Non-fallback -->
 
 <div class="webr-status" style="display: none;">
 
