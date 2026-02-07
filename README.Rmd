@@ -36,6 +36,24 @@ These all combine naturally with `group_by()` which allows you to perform any op
 
 If you are new to dplyr, the best place to start is the [data transformation chapter](https://r4ds.hadley.nz/data-transform) in R for Data Science.
 
+## Try it out
+
+<div id="webr-container">
+<div class="webr-fallback">
+<strong>Interactive R session:</strong> Visit <a href="https://dplyr.tidyverse.org">dplyr.tidyverse.org</a> to try dplyr directly in your browser with WebR.
+</div>
+<div class="webr-status" style="display: none;"></div>
+<textarea class="webr-editor" style="display: none;">
+# Try dplyr! Edit this code and click "Run Code"
+starwars |>
+filter(species == "Human") |>
+select(name, homeworld) |>
+arrange(name)
+</textarea>
+<button class="webr-run-btn" style="display: none;" disabled>Run Code</button>
+<pre class="webr-output" style="display: none;"></pre>
+</div>
+
 ## Backends
 
 In addition to data frames/tibbles, dplyr makes working with other computational backends accessible and efficient. Below is a list of alternative backends:
